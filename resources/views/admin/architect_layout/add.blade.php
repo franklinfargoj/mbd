@@ -25,8 +25,13 @@
                     <div class="col-lg-7 form-group">
                         <label class="col-form-label">Layout Name</label>
                         <div class="@if($errors->has('layout_name')) has-error @endif">
-                            <input type="text" name="layout_name" id="layout_name" class="form-control form-control--custom"
-                                value="{{old('layout_name')}}">
+                            {{-- <input type="text" name="layout_name" id="layout_name" class="form-control form-control--custom"
+                                value="{{old('layout_name')}}"> --}}
+                            <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout_name" name="layout_name" required>
+                                @foreach($layouts as $layout)
+                                    <option {{old('layout_name')==$layout['id']?'selected':''}} value="{{ $layout['id'] }}">{{ $layout['layout_name'] }}</option>
+                                @endforeach
+                            </select>
                             <span class="text-danger">{{$errors->first('layout_name')}}</span>
                         </div>
                     </div>

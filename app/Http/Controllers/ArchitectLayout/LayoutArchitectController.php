@@ -23,6 +23,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Storage;
 use Yajra\DataTables\DataTables;
+use App\MasterLayout;
+use App\LayoutUser;
 
 class LayoutArchitectController extends Controller
 {
@@ -67,7 +69,7 @@ class LayoutArchitectController extends Controller
                     return date('d/m/Y', strtotime($listArray->added_date));
                 })
                 ->editColumn('layout_name', function ($listArray) {
-                    return $listArray->layout_name;
+                    return $listArray->master_layout!=""?$listArray->master_layout->layout_name:'';
                 })
                 ->editColumn('address', function ($listArray) {
                     return $listArray->address;
@@ -133,7 +135,7 @@ class LayoutArchitectController extends Controller
                     return date('d/m/Y', strtotime($listArray->added_date));
                 })
                 ->editColumn('layout_name', function ($listArray) {
-                    return $listArray->layout_name;
+                    return $listArray->master_layout!=""?$listArray->master_layout->layout_name:'';
                 })
                 ->editColumn('address', function ($listArray) {
                     return $listArray->address;
@@ -183,7 +185,16 @@ class LayoutArchitectController extends Controller
 
     public function add_layout()
     {
-        return view('admin.architect_layout.add', compact('header_data'));
+        $layout_user=LayoutUser::where(['user_id'=>auth()->user()->id])->first();
+        if($layout_user)
+        {
+            $layouts = MasterLayout::where(['id'=>$layout_user->layout_id])->get();
+        }else
+        {
+            $layouts = MasterLayout::all();
+        }
+        
+        return view('admin.architect_layout.add', compact('header_data','layouts'));
     }
 
     public function store_layout(AddLayout $request)
@@ -223,7 +234,8 @@ class LayoutArchitectController extends Controller
     {
         $layout_id = decrypt($layout_id);
         $check_layout_details_complete_status = count($this->architect_layouts->check_layout_details_complete_status($layout_id));
-        $ArchitectLayout = ArchitectLayout::find($layout_id);
+        $ArchitectLayout = ArchitectLayout::with(['master_layout'])->find($layout_id);
+       // dd($ArchitectLayout);
         $ArchitectLayoutDetail = ArchitectLayoutDetail::where(['architect_layout_id' => $layout_id])->orderBy('id', 'desc')->get();
         return view('admin.architect_layout_detail.view', compact('ArchitectLayout', 'ArchitectLayoutDetail', 'check_layout_details_complete_status'));
     }
@@ -281,7 +293,6 @@ class LayoutArchitectController extends Controller
         $master_log=$this->get_master_log_of_architect_layout(array($architectlogs,$Emlogs,$Emlogs,$Lmlogs,$EElogs,$Reelogs,$Cologs,$Saplogs,$Caplogs,$LAlogs,$VPlogs));
          //dd($architectlogs);
         if (session()->get('role_name') == config('commanConfig.architect')) {
-            //if (!$ArchitectLayout->land_scrutiny_checklist_and_remarks) {
             if ($ArchitectLayout->upload_layout_in_pdf_format == "" && $ArchitectLayout->upload_layout_in_excel_format == "" && $ArchitectLayout->upload_architect_note == "") {
                 if (session()->get('role_name') != config('commanConfig.LM')) {
                     $lm_role_id = Role::where('name', '=', config('commanConfig.land_manager'))->first();
@@ -289,31 +300,38 @@ class LayoutArchitectController extends Controller
                     $arrData['lm_role_name'] = strtoupper(str_replace('_', ' ', $lm_role_id->name));
                 }
             }
-            //}
 
             if (session()->get('role_name') != config('commanConfig.ree_junior')) {
                 $ree_role_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
-                $arrData['get_forward_ree'] = User::where('role_id', $ree_role_id->id)->get();
+                $arrData['get_forward_ree'] = User::with(['LayoutUser'=>function($q) use($ArchitectLayout){
+                    return $q->where('layout_id',$ArchitectLayout->layout_name);
+                }])->whereHas('LayoutUser',function($q) use($ArchitectLayout){
+                    return $q->where('layout_id',$ArchitectLayout->layout_name);
+                })->where('role_id', $ree_role_id->id)->get();
                 $arrData['ree_role_name'] = strtoupper(str_replace('_', ' ', $ree_role_id->name));
             }
-            // if (!$ArchitectLayout->ee_scrutiny_checklist_and_remarks) {
             if ($ArchitectLayout->upload_layout_in_pdf_format == "" && $ArchitectLayout->upload_layout_in_excel_format == "" && $ArchitectLayout->upload_architect_note == "") {
                 if (session()->get('role_name') != config('commanConfig.ee_junior_engineer')) {
                     $ee_role_id = Role::where('name', '=', config('commanConfig.ee_junior_engineer'))->first();
-                    $arrData['get_forward_ee'] = User::where('role_id', $ee_role_id->id)->get();
+                    $arrData['get_forward_ee'] = User::with(['LayoutUser'=>function($q) use($ArchitectLayout){
+                        return $q->where('layout_id',$ArchitectLayout->layout_name);
+                    }])->whereHas('LayoutUser',function($q) use($ArchitectLayout){
+                        return $q->where('layout_id',$ArchitectLayout->layout_name);
+                    })->where('role_id', $ee_role_id->id)->get();
                     $arrData['ee_role_name'] = strtoupper(str_replace('_', ' ', $ee_role_id->name));
                 }
             }
-            // }
-            //if (!$ArchitectLayout->em_scrutiny_checklist_and_remarks) {
             if ($ArchitectLayout->upload_layout_in_pdf_format == "" && $ArchitectLayout->upload_layout_in_excel_format == "" && $ArchitectLayout->upload_architect_note == "") {
                 if (session()->get('role_name') != config('commanConfig.estate_manager')) {
                     $em_role_id = Role::where('name', '=', config('commanConfig.estate_manager'))->first();
-                    $arrData['get_forward_em'] = User::where('role_id', $em_role_id->id)->get();
+                    $arrData['get_forward_em'] = User::with(['LayoutUser'=>function($q) use($ArchitectLayout){
+                        return $q->where('layout_id',$ArchitectLayout->layout_name);
+                    }])->whereHas('LayoutUser',function($q) use($ArchitectLayout){
+                        return $q->where('layout_id',$ArchitectLayout->layout_name);
+                    })->where('role_id', $em_role_id->id)->get();
                     $arrData['em_role_name'] = strtoupper(str_replace('_', ' ', $em_role_id->name));
                 }
             }
-            //}
 
         }
         if (session()->get('role_name') == config('commanConfig.land_manager') ||
@@ -325,7 +343,11 @@ class LayoutArchitectController extends Controller
                 if ($ArchitectLayout->upload_layout_in_pdf_format == "" && $ArchitectLayout->upload_layout_in_excel_format == "" && $ArchitectLayout->upload_architect_note == "") {
                     if (session()->get('role_name') != config('commanConfig.junior_architect')) {
                         $lm_role_id = Role::where('name', '=', config('commanConfig.junior_architect'))->first();
-                        $arrData['get_forward_lm'] = User::where('role_id', $lm_role_id->id)->get();
+                        $arrData['get_forward_lm'] = User::with(['LayoutUser'=>function($q) use($ArchitectLayout){
+                            return $q->where('layout_id',$ArchitectLayout->layout_name);
+                        }])->whereHas('LayoutUser',function($q) use($ArchitectLayout){
+                            return $q->where('layout_id',$ArchitectLayout->layout_name);
+                        })->where('role_id', $lm_role_id->id)->get();
                         $arrData['lm_role_name'] = strtoupper(str_replace('_', ' ', $lm_role_id->name));
                     }
                 } else {
@@ -339,7 +361,11 @@ class LayoutArchitectController extends Controller
             } else {
                 if (session()->get('role_name') != config('commanConfig.junior_architect')) {
                     $lm_role_id = Role::where('name', '=', config('commanConfig.junior_architect'))->first();
-                    $arrData['get_forward_lm'] = User::where('role_id', $lm_role_id->id)->get();
+                    $arrData['get_forward_lm'] = User::with(['LayoutUser'=>function($q) use($ArchitectLayout){
+                        return $q->where('layout_id',$ArchitectLayout->layout_name);
+                    }])->whereHas('LayoutUser',function($q) use($ArchitectLayout){
+                        return $q->where('layout_id',$ArchitectLayout->layout_name);
+                    })->where('role_id', $lm_role_id->id)->get();
                     $arrData['lm_role_name'] = strtoupper(str_replace('_', ' ', $lm_role_id->name));
                 }
             }
@@ -349,7 +375,6 @@ class LayoutArchitectController extends Controller
         if (session()->get('role_name') == config('commanConfig.co_engineer')) {
             if (session()->get('role_name') != config('commanConfig.senior_architect_planner')) {
                 $sap_role_id = Role::where('name', '=', config('commanConfig.senior_architect_planner'))->first();
-                //dd(config('commanConfig.senior_architect_planner'));
                 $arrData['get_forward_sap'] = User::where('role_id', $sap_role_id->id)->get();
                 $arrData['sap_role_name'] = strtoupper(str_replace('_', ' ', $sap_role_id->name));
             }
@@ -387,7 +412,11 @@ class LayoutArchitectController extends Controller
         if (session()->get('role_name') == config('commanConfig.vp_engineer')) {
             if (session()->get('role_name') != config('commanConfig.junior_architect')) {
                 $jr_architect_role_id = Role::where('name', '=', config('commanConfig.junior_architect'))->first();
-                $arrData['get_forward_lm'] = User::where('role_id', $jr_architect_role_id->id)->get();
+                $arrData['get_forward_lm'] = User::with(['LayoutUser'=>function($q) use($ArchitectLayout){
+                    return $q->where('layout_id',$ArchitectLayout->layout_name);
+                }])->whereHas('LayoutUser',function($q) use($ArchitectLayout){
+                    return $q->where('layout_id',$ArchitectLayout->layout_name);
+                })->where('role_id', $jr_architect_role_id->id)->get();
                 $arrData['lm_role_name'] = strtoupper(str_replace('_', ' ', $jr_architect_role_id->name));
             }
         }
@@ -417,8 +446,11 @@ class LayoutArchitectController extends Controller
 
     public function post_forward_layout(Request $request)
     {
+        $k=count($request->to_user_id);
         if ($request->check_status == 1) {
+            $j=0;
             foreach ($request->to_user_id as $user) {
+                $j++;
                 $user_data = User::find($user);
                 if ($user_data) {
                     $forward_application[] = [
@@ -430,6 +462,7 @@ class LayoutArchitectController extends Controller
                         'to_role_id' => $user_data->role_id,
                         'remark' => $request->remark,
                         'open' => 0,
+                        'current_status'=>($j==$k)?1:0,
                         'created_at' => Carbon::now(),
                     ];
                     $forward_application[] = [
@@ -441,12 +474,14 @@ class LayoutArchitectController extends Controller
                         'to_role_id' => null,
                         'remark' => '',
                         'open' => 1,
+                        'current_status'=>1,
                         'created_at' => Carbon::now()];
                 }
             }
         } else {
-
+            $j=0;
             foreach ($request->to_child_id as $user) {
+                $j++;
                 $user_data = User::find($user);
                 if ($user_data) {
                     // $forward_application[] = [
@@ -481,6 +516,7 @@ class LayoutArchitectController extends Controller
                     'to_role_id' => $user_data->role_id,
                     'remark' => $request->remark,
                     'open' => 0,
+                    'current_status'=>($j==$k)?1:0,
                     'created_at' => Carbon::now(),
                    ];
 
@@ -493,6 +529,7 @@ class LayoutArchitectController extends Controller
                     'to_role_id' => null,
                     'remark' => $request->remark,
                     'open' => 1,
+                    'current_status'=>1,
                     'created_at' => Carbon::now(),
                 ];
 

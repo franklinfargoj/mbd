@@ -87,7 +87,8 @@ class LayoutArchitectDetailController extends Controller
     {
         $layout_detail_id = decrypt($layout_detail_id);
         $ArchitectLayoutDetail = ArchitectLayoutDetail::with(['architect_layout', 'ee_reports', 'em_reports', 'ree_reports', 'land_reports'])->where(['id' => $layout_detail_id])->first();
-        $ArchitectLayout = ArchitectLayout::where(['id' => $ArchitectLayoutDetail->architect_layout_id])->first();
+        $ArchitectLayout = ArchitectLayout::with(['master_layout'])->where(['id' => $ArchitectLayoutDetail->architect_layout_id])->first();
+        //dd($ArchitectLayout);
         return view('admin.architect_layout_detail.add', compact('ArchitectLayoutDetail', 'ArchitectLayout'));
     }
 
