@@ -233,7 +233,7 @@ class AccountController extends Controller
     	}
     }
 
-    public function paymentDetails(Request $request,$tenant_id) {
+    public function paymentDetails(Request $request,$tenant_id, Datatables $datatables) {
     	if(!empty($tenant_id)) {
     		$data['year'] = date('Y');
     		if($request->has('selectYear') && !empty($request->selectYear)) {
@@ -241,16 +241,57 @@ class AccountController extends Controller
 	    	}
 
     		$data['tenant']    = MasterTenant::find(decrypt($tenant_id));
-    		$data['building']  = MasterBuilding::find($data['tenant']->building_id);
-	    	$data['society']   = SocietyDetail::find($data['building']->society_id);
-	    	$data['colony']    = MasterColony::find($data['society']->colony_id);
-	    	$data['ward']      = MasterWard::find($data['colony']->ward_id);
-
+    		$building  = MasterBuilding::find($data['tenant']->building_id);
+	    	$society   = SocietyDetail::find($building->society_id);
+	    	$data['colony']    = MasterColony::find($society->colony_id);
+	    	$ward      = MasterWard::find($data['colony']->ward_id);
+			$columns = [
+				['data' => 'bill_month','name' => 'bill_month','title' => 'Month'],
+				['data' => 'amount','name' => 'amount','title' => 'Amount'],
+				['data' => 'status', 'name' => 'status', 'title' => 'Status'],
+				['data' => 'payment_mode','name' => 'payment_mode','title' => 'Payment Mode'],
+				['data' => 'created_at','name' => 'created_at','title' => 'Date Of Payment'],
+				['data' => 'action','name' => 'action','title' => 'Action'],
+			];
+			$data['years'] = ArrearCalculation::selectRaw('Distinct(year)')->where('tenant_id',decrypt($tenant_id))->pluck('year');
+			
+			if ($datatables->getRequest()->ajax()) {
+				$paymentDetails = TransBillGenerate::where('tenant_id',decrypt($tenant_id))->with('trans_payment')->where('bill_year',$data['year'])->get();
+				
+				return $datatables->of($paymentDetails)
+					->editColumn('bill_month', function ($paymentDetails)  {               
+						return date("M", mktime(0, 0, 0, $paymentDetails->bill_month, 10));
+					})
+					->editColumn('amount', function ($paymentDetails)  {               
+						if(count($paymentDetails->trans_payment)){
+							return $paymentDetails->trans_payment->first()->amount_paid;
+						}
+					})
+					->editColumn('payment_mode', function ($paymentDetails)  {               
+						if(count($paymentDetails->trans_payment))
+						{
+							return $paymentDetails->trans_payment->first()->mode_of_payment;
+						}
+					})
+					->editColumn('created_at', function ($paymentDetails)  {               
+						if(count($paymentDetails->trans_payment))
+						{
+							return date('d-m-Y',strtotime($paymentDetails->trans_payment->first()->created_at));
+						}
+					})
+					->editColumn('action', function ($paymentDetails)  use($society,$tenant_id,$building){               
+						return "<div class='d-flex btn-icon-list'>
+								<a href='".route('view_bill_tenant', ['tenant_id'=>$tenant_id,'building_id'=>encrypt($building->id),'society_id'=>encrypt($society->id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-billing-details-icon.svg')."'></span>View Bill</a>
+								</div>";
+					})
+					->rawColumns(['bill_month','amount','payment_mode','action'])
+					->make(true);
+			}
     		// $data['paymentDetails'] = TransPayment::where('tenant_id',decrypt($tenant_id))->with('bill_details')->get();
-    		$data['paymentDetails'] = TransBillGenerate::where('tenant_id',decrypt($tenant_id))->with('trans_payment')->where('bill_year',$data['year'])->get();
     		
-    		$data['years'] = ArrearCalculation::selectRaw('Distinct(year)')->where('tenant_id',decrypt($tenant_id))->pluck('year');
-    		return view('admin.account_department.payment_details',$data);
+    		$html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+    		
+    		return view('admin.account_department.payment_details',compact('html','data','ward','society','building'));
     	}
     }
 
