@@ -27,6 +27,7 @@ use Carbon\Carbon;
 use Storage;
 use Auth;
 use PDF;
+use DB;
 use Mpdf\Mpdf;
 
 class DYCOController extends Controller
@@ -732,6 +733,7 @@ class DYCOController extends Controller
                 'application_master_id' => $data->sc_application_master_id,
                 'to_user_id'     => $to_user_id,
                 'to_role_id'     => $to_role_id,
+                'is_active'      => 1,
                 'created_at'     => Carbon::now(),
             ],
             [
@@ -743,12 +745,25 @@ class DYCOController extends Controller
                 'application_master_id' => $data->sc_application_master_id,
                 'to_user_id'    => null,
                 'to_role_id'    => null,
+                'is_active'     => 1,
                 'created_at'    => Carbon::now(),
             ],
             ];
-            scApplicationLog::insert($application); 
-            scApplication::where('id',$applicationId)->where('sc_application_master_id',$data->sc_application_master_id)
-                ->update(['application_status' => $data->application_status]);
+
+            DB::beginTransaction();
+            try{
+                scApplicationLog::where('application_id',$applicationId)
+                ->whereIn('user_id', [Auth::user()->id,$to_user_id ])
+                ->update(array('is_active' => 0));                
+            
+                scApplicationLog::insert($application); 
+                scApplication::where('id',$applicationId)->where('sc_application_master_id',$data->sc_application_master_id)
+                    ->update(['application_status' => $data->application_status, 'sent_to_society' => 1]);
+
+                DB::commit();    
+            }catch (\Exception $ex) {
+                DB::rollback();
+            }
             return back()->with('success','Application Send Successfully.');        
     }
 

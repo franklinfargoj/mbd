@@ -357,7 +357,7 @@ class renewalCommonController extends Controller
         $data->society_role_id = Role::where('name', config('commanConfig.society_offer_letter'))->value('id');
         $data->status = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);
         $data->parent = $this->conveyance->getForwardApplicationParentData();
-        $data->child  = $this->conveyance->getRevertApplicationChildData();
+        $data->child  = $this->conveyance->getRevertApplicationChildData($data->society_id);
        
         return $data;        
     }

@@ -22,6 +22,7 @@ use Config;
 use App\User;
 use Storage;
 use Auth;
+use DB;
 use App\conveyance\ScChecklistMaster;
 use App\conveyance\ScChecklistScrutinyStatus;
 
@@ -307,6 +308,7 @@ class conveyanceCommonController extends Controller
                 'remark'         => $request->remark,
                 'application_master_id' => $masterId,
                 'society_flag'   => '0',
+                'is_active'      => 1,
                 'created_at'     => Carbon::now(),
             ],
             [
@@ -319,14 +321,29 @@ class conveyanceCommonController extends Controller
                 'remark'        => $request->remark,
                 'application_master_id' => $masterId,
                 'society_flag'   => $request->society_flag,
+                'is_active'      => 1,
                 'created_at'    => Carbon::now(),
             ],
             ];
 
+            DB::beginTransaction();
+            try{
+            scApplicationLog::where('application_id',$request->applicationId)
+                ->whereIn('user_id', [Auth::user()->id,$request->to_user_id ])
+                ->update(array('is_active' => 0)); 
+
+            
             scApplicationLog::insert($application); 
-            if ($Scstatus != ""){
-                scApplication::where('id',$request->applicationId)->where('sc_application_master_id',$masterId)
-                ->update(['application_status' => $Tostatus]);                    
+           
+                if ($Scstatus != ""){
+                              
+                    scApplication::where('id',$request->applicationId)->where('sc_application_master_id',$masterId)
+                    ->update(['application_status' => $Tostatus, 'sent_to_society' => '0']);                     
+                }
+            DB::commit();    
+            }catch (\Exception $ex) {
+                 
+                DB::rollback();
             }
         }    
     }
@@ -907,5 +924,93 @@ class conveyanceCommonController extends Controller
         $docId = $this->getDocumentId($em_doc,$masterId);
         $em_document = $this->getDocumentStatus($applicationId,$docId);
         return $em_document;
-    }       
+    }
+
+    // Dashboard for conveyance start header_remove
+
+    public function ConveyanceDashboard(){
+
+        $role_id = session()->get('role_id');
+        $user_id = Auth::id();
+        $applicationData = $this->getApplicationData($role_id,$user_id);
+        $statusCount = $this->getApplicationStatusCount($applicationData);
+        $dycoRoles = $this->getDYCORoles();
+
+        // dd($statusCount);
+
+        return $statusCount;
+    }  
+
+    public function getApplicationData($role_id,$user_id){
+        
+        $applicationData = scApplication::with([
+            'scApplicationLog' => function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+                    ->where('is_active',1)
+                    ->orderBy('id', 'desc');
+            }])
+            ->whereHas('scApplicationLog', function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+                    ->where('is_active',1)
+                    ->orderBy('id', 'desc');
+            })->get()->toArray();
+
+        return $applicationData;
+    }
+
+    public function getDYCORoles(){
+        
+        $dycdo = Role::where('name',config('commanConfig.dycdo_engineer'))->value('id');
+        $dyco = Role::where('name',config('commanConfig.dyco_engineer'))->value('id');
+
+        $dycoRoles = ['dycdo_role' => $dycdo,
+                      'dyco_role' => $dyco];
+        
+        return $dycoRoles;
+    } 
+
+    public function getApplicationStatusCount($applicationData){
+        
+        $sendForApproval = $totalPending = $sendToSociety = 0 ;
+        
+        foreach ($applicationData as $application){
+            $status = $application['sc_application_log']['status_id'];
+            
+            $pendingArr = array(config('commanConfig.conveyance_status.in_process'),config('commanConfig.conveyance_status.Draft_sale_&_lease_deed'),config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed'),config('commanConfig.conveyance_status.Registered_sale_&_lease_deed'));
+
+            $sendForApprovalCondition = ($application['application_status'] != config('commanConfig.conveyance_status.in_process') && $status == config('commanConfig.conveyance_status.forwarded') && $application['sent_to_society'] == 0);
+
+            $sendToSocietyCondition = $status == config('commanConfig.conveyance_status.forwarded') && ($application['sent_to_society'] == 1);
+
+            $sendForStampDuty = ($status == config('commanConfig.conveyance_status.forwarded') && ($application['sent_to_society'] == 1 && $application['application_status'] == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety')));            
+
+            $sendForRegistration = ($status == config('commanConfig.conveyance_status.forwarded') && ($application['sent_to_society'] == 1 && $application['application_status'] == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease')));
+
+            $sendForRegistration = ($status == config('commanConfig.conveyance_status.forwarded') && ($application['sent_to_society'] == 1 && $application['application_status'] == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease')));
+
+
+            switch ($status)
+            {                
+                case in_array($status, $pendingArr) : $totalPending    += 1; break;
+                case $sendForApprovalCondition      : $sendForApproval += 1; break;
+                case $sendToSocietyCondition        : $sendToSociety   += 1; break;
+                default:
+                ; break;
+            }
+        }
+
+        $totalApplication = count($applicationData);
+
+        $count = ['Application Pending'                       => $totalPending,
+                  'Draft Sale & Lease Deed sent for Approval' => $sendForApproval,
+                  'Sale & Lease Deed sent to society'         => $sendToSociety,
+                  'Total No of Application'                   => $totalApplication
+        ];
+
+        return $count;
+    }                
 }
