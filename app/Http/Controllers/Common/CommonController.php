@@ -1555,6 +1555,13 @@ class CommonController extends Controller
         if(in_array($role_id ,$ee))
             $dashboardData = $this->getEEDashboardData($role_id,$ee,$statusCount);
 
+
+//        foreach ($dashboardData as $key => $dd){
+//            dd($dashboardData);
+//
+//
+//        }
+
         if(in_array($role_id ,$dyce))
             $dashboardData = $this->getDyceDashboardData($role_id,$dyce,$statusCount);
 
@@ -1656,9 +1663,13 @@ class CommonController extends Controller
     {
         switch ($role_id) {
             case ($ee['ee_jr_id']):
-                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
-                $dashboardData['Application Pending'] = $statusCount['totalPending'];
-                $dashboardData['Application Forwarded to EE Deputy'] = $statusCount['totalForwarded'];
+                $dashboardData['Total No of Application'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total No of Application'][1] = 'dsf';
+                $dashboardData['Application Pending'][0] = $statusCount['totalPending'];
+                $dashboardData['Application Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+                $dashboardData['Application Forwarded to EE Deputy'][0] = $statusCount['totalForwarded'];
+                $dashboardData['Application Forwarded to EE Deputy'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+//                $dashboardData['Application Pending'] = '?submitted_at_from=&submitted_at_to=&update_status=4';
                 break;
             case ($ee['ee_head_id']):
                 $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
@@ -1676,6 +1687,8 @@ class CommonController extends Controller
                 ;
                 break;
         }
+
+//        dd($dashboardData);
         return $dashboardData;
     }
 
