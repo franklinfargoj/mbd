@@ -306,6 +306,7 @@ class DYCOPermissions extends Seeder
             $role_id = Role::insertGetId([
                 'name' => 'dycdo_engineer',
                 'redirect_to' => '/conveyance',
+                'dashboard' => '/conveyance',
                 'parent_id' => null,
                 'display_name' => 'dycdo engineer',
                 'description' => 'Login as dycdo Engineer',
@@ -395,6 +396,7 @@ class DYCOPermissions extends Seeder
             $role_id1 = Role::insertGetId([
                 'name' => 'dyco_engineer',
                 'redirect_to' => '/conveyance',
+                'dashboard' => '/conveyance',
                 'parent_id' => null,
                 'display_name' => 'dyco engineer',
                 'description' => 'Login as dyco Engineer',

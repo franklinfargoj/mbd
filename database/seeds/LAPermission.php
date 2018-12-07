@@ -208,6 +208,7 @@ class LAPermission extends Seeder
             $role_id = Role::insertGetId([
                 'name'         => 'la_engineer',
                 'redirect_to'  => '/la',
+                'dashboard'  => '/la',
                 'parent_id'    => NULL,
                 'display_name' => 'la engineer',
                 'description'  => 'Login as la Engineer'
@@ -276,7 +277,7 @@ class LAPermission extends Seeder
         //change LA redirection
         if ($role_id){
 
-            Role::where('id',$role_id)->update(['redirect_to' => '/conveyance']);
+            Role::where('id',$role_id)->update(['redirect_to' => '/conveyance','dashboard' => '/conveyance']);
         }
     }
 }

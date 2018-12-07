@@ -31,6 +31,7 @@ class CheckPermission
         if (in_array($current_route, $permissions)) {
             session(['permission' => $permissions]);
             session(['redirect_to' => $roles->first()->redirect_to]);
+            session(['dashboard' => $roles->first()->dashboard]);
             session(['role_name' => $roles->first()->name]);
             session(['role_id' => $roles->first()->id]);
             session(['layout_id' => $layout ? $layout->layout_id : '']);
