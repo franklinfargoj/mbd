@@ -424,6 +424,7 @@ class CommonController extends Controller
 
         } else {
 
+
             if (session()->get('role_name') == config('commanConfig.cap_engineer') || session()->get('role_name') == config('commanConfig.vp_engineer')) {
 
                 $revert_application = [
@@ -457,33 +458,67 @@ class CommonController extends Controller
                 $to_user_id = $request->to_child_id;
                 //Code added by Prajakta >>end
 
-                $revert_application = [
-                    [
-                        'application_id' => $request->applicationId,
-                        'user_id' => Auth::user()->id,
-                        'role_id' => session()->get('role_id'),
-                        'status_id' => config('commanConfig.applicationStatus.reverted'),
-                        'to_user_id' => $request->to_child_id,
-                        'to_role_id' => $request->to_role_id,
-                        'remark' => $request->remark,
-                        'is_active' => 1,
-                        'created_at' => Carbon::now(),
-                    ],
+                if($request->to_role_id==28)    // revert to society
+                {
+                    $revert_application = [
+                        [
+                            'application_id' => $request->applicationId,
+                            'user_id' => Auth::user()->id,
+                            'role_id' => session()->get('role_id'),
+                            'status_id' => config('commanConfig.applicationStatus.reverted'),
+                            'to_user_id' => $request->to_child_id,
+                            'to_role_id' => $request->to_role_id,
+                            'remark' => $request->remark,
+                            'is_active' => 1,
+                            'society_flag'=>0,
+                            'created_at' => Carbon::now(),
+                        ],
 
-                    [
-                        'application_id' => $request->applicationId,
-                        'user_id' => $request->to_child_id,
-                        'role_id' => $request->to_role_id,
-                        'status_id' => config('commanConfig.applicationStatus.in_process'),
-                        'to_user_id' => null,
-                        'to_role_id' => null,
-                        'remark' => $request->remark,
-                        'is_active' => 1,
-                        'created_at' => Carbon::now(),
-                    ],
-                ];
+                        [
+
+                            'application_id' => $request->applicationId,
+                            'user_id' => $request->to_child_id,
+                            'role_id' => $request->to_role_id,
+                            'status_id' => config('commanConfig.applicationStatus.pending'),
+                            'to_user_id' => null,
+                            'to_role_id' => null,
+                            'remark' => $request->remark,
+                            'is_active' => 1,
+                            'society_flag'=>1,
+                            'created_at' => Carbon::now(),
+
+                        ],
+                    ];
+                }
+                else {
+                    $revert_application = [
+                        [
+                            'application_id' => $request->applicationId,
+                            'user_id' => Auth::user()->id,
+                            'role_id' => session()->get('role_id'),
+                            'status_id' => config('commanConfig.applicationStatus.reverted'),
+                            'to_user_id' => $request->to_child_id,
+                            'to_role_id' => $request->to_role_id,
+                            'remark' => $request->remark,
+                            'is_active' => 1,
+                            'created_at' => Carbon::now(),
+                        ],
+
+                        [
+                            'application_id' => $request->applicationId,
+                            'user_id' => $request->to_child_id,
+                            'role_id' => $request->to_role_id,
+                            'status_id' => config('commanConfig.applicationStatus.in_process'),
+                            'to_user_id' => null,
+                            'to_role_id' => null,
+                            'remark' => $request->remark,
+                            'is_active' => 1,
+                            'created_at' => Carbon::now(),
+                        ],
+                    ];
+                }
             }
-
+          //  dd($revert_application);
             //Code added by Prajakta >>start
             DB::beginTransaction();
             try {
@@ -494,9 +529,9 @@ class CommonController extends Controller
                 OlApplicationStatus::insert($revert_application);
 
                 DB::commit();
-            } catch (\Exception $ex) {
+            } catch (\Exception $ex) { echo ($ex->getMessage());exit;
                 DB::rollback();
-//                return response()->json(['error' => $ex->getMessage()], 500);
+               return response()->json(['error' => $ex->getMessage()], 500);
             }
             //Code added by Prajakta >>end
 
@@ -732,6 +767,17 @@ class CommonController extends Controller
         $status_user = OlApplicationStatus::where(['application_id' => $application_id, 'society_flag' => 0])->pluck('user_id')->toArray();
 
         $final_child = User::with('roles')->whereIn('id', array_unique($status_user))->whereIn('role_id', $result)->get();
+
+        if(session()->get('role_name') == config('commanConfig.ree_branch_head') && $final_child != "")
+        {
+            $society_id = OlApplication::where('id',$application_id)->get(['society_id']);
+            $SocietyOfferLetter = SocietyOfferLetter::find($society_id);
+            $society_user_id = $SocietyOfferLetter[0]->user_id;
+            $society_user = User::where('id',$society_user_id)->get();
+
+            $final_child = $final_child->merge($society_user);
+        }
+
 
         return $final_child;
     }
