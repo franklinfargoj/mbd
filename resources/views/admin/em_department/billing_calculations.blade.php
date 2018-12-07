@@ -194,7 +194,16 @@
                             </td>
                             <td>{{$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_intrest_amount}}</td>
                             
-                            <td>{{$total_service_charges+$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_amount+$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_intrest_amount}}</td>
+                            <td>
+                                @if($monthDiff>0)
+                                    @if(!empty($tenant))
+                                    {{($total_service_charges*$building->tenant_count()->first()->count)+($arrear_charges->old_rate * $monthDiff) + ($arreas_calculation->difference_amount* $monthDiff )+ $arreas_calculation->old_intrest_amount + $arreas_calculation->difference_intrest_amount}}
+                                    @else
+                                        {{$total_service_charges+($arrear_charges->old_rate  * $monthDiff) + ($arreas_calculation->difference_amount* $monthDiff)+$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_intrest_amount}}</td>
+                                    @endif
+                                @else
+                                    {{$total_service_charges+$arrear_charges->old_rate + $arreas_calculation->difference_amount+$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_intrest_amount}}</td>
+                                @endif
 
                             @if(!empty($amount_paid) && array_key_exists($arreas_calculation->tenant_id, $amount_paid) && !empty($tenant))
                                 <td>{{$amount_paid[$arreas_calculation->tenant_id]}}</td>
