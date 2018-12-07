@@ -22,7 +22,7 @@
         <div>
             <div style="width: 100%; margin-top: 30px;">
                 <div style="width: 100%; float: left; margin-bottom: 20px;">
-                    <div style="width: 30%; float: left;">Consumer No:BL-{{$consumer_number}}</div>
+                    <div style="width: 100%; float: left;">Consumer No: BL-{{$consumer_number}}</div>
                 </div>
                 <div style="clear:both;"></div>
                 <div style="width: 100%; float: left; margin-bottom: 20px;">
@@ -150,47 +150,47 @@
             <tbody>
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px;">Water Charges:</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px;">{{$serviceChargesRate->water_charges}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$serviceChargesRate->water_charges}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px;">Electric City Charge:</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px;">{{$serviceChargesRate->electric_city_charge}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$serviceChargesRate->electric_city_charge}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px;">Pump Man & Repair Charges:</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px;">{{$serviceChargesRate->pump_man_and_repair_charges}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$serviceChargesRate->pump_man_and_repair_charges}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px;">External Expenture Charge:</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px;">{{$serviceChargesRate->external_expender_charge}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$serviceChargesRate->external_expender_charge}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px;">Administrative Charge:</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px;">{{$serviceChargesRate->administrative_charge}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$serviceChargesRate->administrative_charge}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px;">Lease Rent:</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px;">{{$serviceChargesRate->lease_rent}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$serviceChargesRate->lease_rent}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px;">N.A.Assessment:</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px;">{{$serviceChargesRate->na_assessment}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$serviceChargesRate->na_assessment}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px;">Other:</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px;">{{$serviceChargesRate->other}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$serviceChargesRate->other}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align: right;">Total:</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold;">{{$total_service}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align: center;">{{$total_service}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align: right;">After Due date x% interest:</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold;">{{$total_after_due}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align: center;">{{$total_after_due}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align: right;">After Due date Amount payable:</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold;">{{$total_service_after_due}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align: center;">{{$total_service_after_due}}</td>
                 </tr>
             </tbody>
         </table>
@@ -219,7 +219,7 @@
                     </tr>
                 @endforeach
                 <tr>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: right; font-weight: bold;" colspan="2">Total</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;" colspan="2">Total</td>
                     <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;">{{$total}}</td>
                     <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;"></td>
                 </tr>
@@ -245,227 +245,10 @@
                     <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$total_service}}</td>
                 </tr>
                 <tr>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: right; font-weight: bold;">Grand Total</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold;">Grand Total</td>
                     <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;">{{$total + $total_service}}</td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
-        <tbody>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td valign="top" style="font-weight: bold;">Total Tenament:</td>
-                                <td valign="top" style="text-align: right;"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td valign="top" style="font-weight: bold;">Bill Period:</td>
-                                <td valign="top" style="text-align: right;"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td valign="top" style="font-weight: bold;">Society / Tenant name:</td>
-                                <td valign="top" style="text-align: right;"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td valign="top" style="font-weight: bold;">Bill Date:</td>
-                                <td valign="top" style="text-align: right;"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td valign="top" style="font-weight: bold;">Address:</td>
-                                <td valign="top" style="text-align: right;"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td valign="top" style="font-weight: bold;">Due Date:</td>
-                                <td valign="top" style="text-align: right;"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td valign="top" style="font-weight: bold;">Amount:</td>
-                                <td valign="top" style="text-align: right;"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td valign="top" style="font-weight: bold;">Late fee charge:</td>
-                                <td valign="top" style="text-align: right;"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <div style="border: 2px solid #000; padding: 5px; margin-top: 30px;">
-        <h3 style="text-align: center;">Bill Summary</h3>
-    </div>
-    <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
-        <thead>
-            <tr>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; width: 40%;">Bill Title - Dec</th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; width: 60%;">Amount in Rs.</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;">Water Charges:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">500</td>
-            </tr>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;">Electric City Charge:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
-            </tr>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;">Pump Man & Repair Charges:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
-            </tr>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;">External Expenture Charge:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
-            </tr>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;">Administrative Charge:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
-            </tr>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;">Lease Rent:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
-            </tr>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;">N.A.Assessment:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
-            </tr>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;">Insurance:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
-            </tr>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align: right;">Total:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align: center;"></td>
-            </tr>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align: right;">After
-                    Due date x% interest:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align: center;"></td>
-            </tr>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align: right;">After
-                    Due date Amount payable:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align: center;"></td>
-            </tr>
-        </tbody>
-    </table>
-    <div style="border: 2px solid #000; padding: 5px; margin-top: 160px;">
-        <h3 style="text-align: center;">Balance amount to be paid - Arrears</h3>
-    </div>
-    <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
-        <thead>
-            <tr>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; width: 25%;">Year</th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; width: 25%;">Month</th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; width: 25%;">Amount in Rs.</th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; width: 25%;">Penalty in Rs.</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">2018:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">Jan</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">500</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">7.5</td>
-            </tr>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">2018:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">Jan</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">500</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">7.5</td>
-            </tr>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">2018:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">Jan</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">500</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">7.5</td>
-            </tr>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: right; font-weight: bold;"
-                    colspan="2">Total</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;">1500</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;">22.5</td>
-            </tr>
-        </tbody>
-    </table>
-    <div style="border: 2px solid #000; padding: 5px; margin-top: 30px;">
-        <h3 style="text-align: center;">Total amount to be paid</h3>
-    </div>
-    <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
-        <thead>
-            <tr>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; width: 50%;">Particulars</th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; width: 50%;">Amount in Rs.</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;">Balance Amount</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">1522.5</td>
-            </tr>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;">Current month Bill amount before due
-                    date</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">500</td>
-            </tr>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: right; font-weight: bold;">Grand
-                    Total</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;">2022.5</td>
-            </tr>
-        </tbody>
-    </table>
 </div>
