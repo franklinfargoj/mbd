@@ -303,6 +303,16 @@ var SnippetLogin = function() {
                     messages:{
                         conf_society_password:{
                             equalTo:"Password doesn't match."
+                        },
+                        society_contact_no:{
+                            number: 'Enter only Numeric Value',
+                            minlength: 'Enter Only 10 Characters',
+                            maxlength: 'Enter Only 10 Characters'
+                        },
+                        society_architect_mobile_no:{
+                            number: 'Enter only Numeric Value',
+                            minlength: 'Enter Only 10 Characters',
+                            maxlength: 'Enter Only 10 Characters'
                         }
                     }
                 }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {

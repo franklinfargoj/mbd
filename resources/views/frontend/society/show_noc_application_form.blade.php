@@ -14,7 +14,7 @@
             </div>
             <div class="text-center">
                 <h3 class="m-subheader__title ">
-                    <label for="layouts">Layouts</label>
+                    <label for="layouts">Layout</label>
                     <p>{{ $noc_application->applicationMasterLayout[0]->layout_name }}</p>
                 </h3>
             </div>

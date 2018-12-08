@@ -108,8 +108,8 @@
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="btn-list">
-                                        <a href="{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
                                         <button type="submit"  class="btn btn-primary">Save</button>
+                                        <a href="{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
                                     </div>
                                 </div>
                             </div>

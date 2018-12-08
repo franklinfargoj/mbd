@@ -1,5 +1,10 @@
 @extends('admin.layouts.app')
 @section('content')
+    <style>
+        .help-block{
+            color: red;
+        }
+    </style>
     <div class="col-md-12">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
@@ -60,7 +65,8 @@
                         </div>
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="offer_letter_date">Offer letter date:</label>
-                            <input type="text" id="m_datepicker" name="offer_letter_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('offer_letter_date') }}" required>
+                            <input type="text" id="m_datepicker" name="offer_letter_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('offer_letter_date') }}" required
+                            readonly="readonly">
                             <span class="help-block">{{$errors->first('offer_letter_date')}}</span>
                         </div>
                     </div>
@@ -81,7 +87,7 @@
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
                             <label class="col-form-label" for="demand_draft_date">Demand Draft / Pay order date :</label>
-                            <input type="text" id="m_datepicker" name="demand_draft_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('demand_draft_date') }}" required>
+                            <input type="text" id="m_datepicker" name="demand_draft_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('demand_draft_date') }}" required readonly="readonly">
                             <span class="help-block">{{$errors->first('demand_draft_date')}}</span>
                         </div>
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
@@ -96,8 +102,8 @@
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="btn-list">
-                                        <a href="{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
                                         <button type="submit"  class="btn btn-primary">Save</button>
+                                        <a href="{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
                                     </div>
                                 </div>
                             </div>
