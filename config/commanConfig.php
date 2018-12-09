@@ -330,6 +330,14 @@ return [
         '3', '7', '14', '18'
     ],
 
+    'noc_master_ids' => [
+        '4', '8', '15', '19'
+    ],
+
+    'noc_cc_master_ids' => [
+        '10', '21'
+    ],
+
     'storage_server' => 'http://storage.mhada.php-dev.in',
 
 

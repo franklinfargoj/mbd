@@ -61,7 +61,7 @@
                             <input type="text" id="offer_letter_number" name="offer_letter_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->offer_letter_number }}" required>
                             <span class="help-block">{{$errors->first('offer_letter_number')}}</span>
                         </div>
-                        <div class="col-sm-4 form-group">
+                        <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="offer_letter_date">Offer letter date:</label>
                             <input type="text" id="m_datepicker" name="offer_letter_date" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->offer_letter_date)) }}" required>
                             <span class="help-block">{{$errors->first('offer_letter_date')}}</span>
@@ -74,7 +74,7 @@
                             <input type="text" id="demand_draft_amount" name="demand_draft_amount" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->demand_draft_amount }}" required>
                             <span class="help-block">{{$errors->first('demand_draft_amount')}}</span>
                         </div>
-                        <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
+                        <div class="col-sm-4 offset-sm-1 form-group"> <!-- offset-sm-1 -->
                             <label class="col-form-label" for="demand_draft_number">Demand draft / Pay order number :</label>
                             <input type="text" id="demand_draft_number" name="demand_draft_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->demand_draft_number }}" required>
                             <span class="help-block">{{$errors->first('demand_draft_number')}}</span>
@@ -87,7 +87,7 @@
                             <input type="text" id="m_datepicker" name="demand_draft_date" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->demand_draft_date)) }}" required>
                             <span class="help-block">{{$errors->first('demand_draft_date')}}</span>
                         </div>
-                        <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
+                        <div class="col-sm-4 offset-sm-1 form-group"> <!-- offset-sm-1 -->
                             <label class="col-form-label" for="demand_draft_bank">Bank name :</label>
                             <input type="text" id="demand_draft_bank" name="demand_draft_bank" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->demand_draft_bank }}" required>
                             <span class="help-block">{{$errors->first('demand_draft_bank')}}</span>

@@ -248,7 +248,8 @@ var SnippetLogin = function() {
                 t.validate({
                     rules:{
                         society_name:{
-                            required:true
+                            required:true,
+                            lettersonly: true,
                         },
                         society_address:{
                             required:true
@@ -285,7 +286,8 @@ var SnippetLogin = function() {
                             equalTo: "#password",
                         },
                         society_architect_name:{
-                            required:true
+                            required:true,
+                            lettersonly: true,
                         },
                         society_architect_mobile_no:{
                             required:true,

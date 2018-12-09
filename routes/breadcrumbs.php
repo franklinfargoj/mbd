@@ -238,6 +238,11 @@ Breadcrumbs::for('noc_edit', function ($trail) {
     $trail->push('Edit NOC Application', route('society_noc_edit'));
 });
 
+Breadcrumbs::for('noc_cc_edit', function ($trail) {
+    $trail->parent('society_dashboard');
+    $trail->push('Edit NOC (CC) Application', route('society_noc_cc_edit'));
+});
+
 //cap Breadcrumbs
 
 Breadcrumbs::for('cap', function ($trail) {
