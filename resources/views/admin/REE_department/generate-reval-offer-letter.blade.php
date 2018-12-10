@@ -174,7 +174,7 @@
 
                                             @if($societyData->drafted_offer_letter)
                                             <a href="{{config('commanConfig.storage_server').'/'.$societyData->drafted_offer_letter}}"
-                                                class="btn btn-primary">Download</a>
+                                               target="_blank" class="btn btn-primary">Download</a>
                                             @else
                                             <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
                                                 * Note : Offer Letter not available. </span>

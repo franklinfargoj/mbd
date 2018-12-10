@@ -980,7 +980,7 @@
                                                 <td>3.</td>
                                                 <td>
                                                     उपरोक्त ऑफ साईट इन्फ्रास्ट्रक्चर शुल्क रकमेपैकी म.न.पा.स भरवायची
-                                                    ५/७ रक्कम (५/७ X अनु.क्र.१६)
+                                                    ५/७ रक्कम (५/७ X अनु.क्र.२)
                                                 </td>
                                                 <td class="text-center">
                                                     <input class="form-control form-control--custom" readonly type="text" placeholder="0"
@@ -994,7 +994,7 @@
                                                 <td>4.</td>
                                                 <td>
                                                     म्हाडाकडे भरवायची ऑफ साईट इन्फ्रास्ट्रक्चर शुल्क रक्कम (२/७ *
-                                                    अनु.क्र.१६ )
+                                                    अनु.क्र.२ )
                                                 </td>
                                                 <td class="text-center">
                                                     <input class="total_amount_in_rs form-control form-control--custom" placeholder="0"
