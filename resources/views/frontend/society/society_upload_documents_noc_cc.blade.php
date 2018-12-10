@@ -174,7 +174,7 @@
                                 </div>
 
                                 <div class="remarks-section__data">
-                                    <form action="{{ route('resubmit_noc_application') }}" method="post" enctype='multipart/form-data'>
+                                    <form action="{{ route('resubmit_noc_application_cc') }}" method="post" enctype='multipart/form-data'>
                                         @csrf
                                         <div class="form-group">
                                             <label class="col-form-label">Remark</label>
