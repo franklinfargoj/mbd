@@ -258,6 +258,11 @@ class ArchitectUserSeeder extends Seeder
                     'name'=>'architect_layout_dashboard',
                     'display_name'=>'view architect layout dashboard',
                     'description'=>'view architect layout dashboard'
+                ],
+                [
+                    'name'=>'list_of_offer_letter_issued',
+                    'display_name'=>'list_of_offer_letter_issued',
+                    'description'=>'list_of_offer_letter_issued'
                 ]
                 
             ];
@@ -715,7 +720,13 @@ class ArchitectUserSeeder extends Seeder
                 'name'=>'renewal.view_documents',
                 'display_name'=>'view renewal society documents',
                 'description'=>'view renewal society documents'
-            ];             
+            ]; 
+            
+            $architect_permiossions[]=[
+                'name'=>'list_of_offer_letter_issued',
+                'display_name'=>'list_of_offer_letter_issued',
+                'description'=>'list_of_offer_letter_issued'
+            ];
             
             //$architect_permission_role = [];
             foreach ($architect_permissions as $ee) {

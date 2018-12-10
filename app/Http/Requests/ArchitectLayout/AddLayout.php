@@ -24,7 +24,7 @@ class AddLayout extends FormRequest
     public function rules()
     {
         return [
-            'layout_name' => 'required',
+            'layout_name' => 'required|unique:architect_layouts,layout_name',
             'layout_address' => 'required'
         ];
     }
