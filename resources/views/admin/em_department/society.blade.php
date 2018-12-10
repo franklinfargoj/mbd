@@ -37,9 +37,9 @@
                                                     <option value="" style="font-weight: normal;">Select Layout</option>
                                                     @foreach($layout_data as $key => $value)
                                                         @if(isset($layout_id) && $layout_id == $value->id)
-                                                              <option value="{{ $value->id }}" selected>{{ $value->layout_name }}</option>
+                                                              <option value="{{ encrypt($value->id) }}" selected>{{ $value->layout_name }}</option>
                                                         @else
-                                                        <option value="{{ $value->id }}">{{ $value->layout_name }}</option>
+                                                        <option value="{{ encrypt($value->id) }}">{{ $value->layout_name }}</option>
                                                         @endif 
                                                     @endforeach
                                                 </select>
