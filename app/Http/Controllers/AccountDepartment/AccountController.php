@@ -166,6 +166,7 @@ class AccountController extends Controller
     	$data['year']      = $year;
     	$data['tenant']    = MasterTenant::find(decrypt($tenant_id));
     	$data['building']  = MasterBuilding::find($data['tenant']->building_id);
+
     	$data['society']   = SocietyDetail::find($data['building']->society_id);
     	$data['colony']    = MasterColony::find($data['society']->colony_id);
     	$data['ward']      = MasterWard::find($data['colony']->ward_id);
@@ -188,6 +189,7 @@ class AccountController extends Controller
 			['data' => 'payment_status','name' => 'payment_status','title' => 'Payment Status'],
             ['data' => 'total_amount','name' => 'total_amount','title' => 'Final Rent Amount'],
 		];
+
 		$arrears_charges = ArrearsChargesRate::where('year',$data['year'])->where('society_id',$data['building']->society_id)->where('building_id',$data['tenant']->building_id)->first();
 		$data['years'] = ArrearCalculation::selectRaw('Distinct(year)')->where('tenant_id',decrypt($data['tenant_id']))->pluck('year');
 		
@@ -198,17 +200,32 @@ class AccountController extends Controller
 			if ($datatables->getRequest()->ajax()) {
 				
 				return $datatables->of($arrears_calculations)
-					->editColumn('old_rate', function ($arrears_calculations)  use($arrears_charges){               
-						return $arrears_charges->old_rate;	
+					->editColumn('old_rate', function ($arrears_calculations)  use($arrears_charges){ if($arrears_charges){     
+						  return $arrears_charges->old_rate;	
+                        } else {
+                            return '-';
+                        }
 					})
-					->editColumn('interest_on_old_rate', function ($arrears_calculations)  use($arrears_charges){               
-						return $arrears_charges->interest_on_old_rate;	
-					})
+					->editColumn('interest_on_old_rate', function ($arrears_calculations)  use($arrears_charges){   
+                        if($arrears_charges){              
+						  return $arrears_charges->interest_on_old_rate;	
+					    } else {
+                            return '-';
+                        }
+                    })
 					->editColumn('revise_rate', function ($arrears_calculations)  use($arrears_charges){               
-						return $arrears_charges->revise_rate;	
-					})
-					->editColumn('interest_on_diffrence', function ($arrears_calculations)  use($arrears_charges){               
-						return $arrears_charges->interest_on_differance;	
+						if($arrears_charges){  
+                            return $arrears_charges->revise_rate;	
+					    } else {
+                            return '-';
+                        }
+                    })
+					->editColumn('interest_on_diffrence', function ($arrears_calculations)  use($arrears_charges){ 
+                        if($arrears_charges){                
+						   return $arrears_charges->interest_on_differance;
+                        } else {
+                            return '-';
+                        }
 					})
                     ->editColumn('payment_status', function ($arrears_calculations)  use($arrears_charges){               
                         if( $this->PAYMENT_STATUS_PAID == $arrears_calculations->payment_status) {
@@ -261,10 +278,10 @@ class AccountController extends Controller
 				['data' => 'action','name' => 'action','title' => 'Action'],
 			];
 			$data['years'] = ArrearCalculation::selectRaw('Distinct(year)')->where('tenant_id',decrypt($tenant_id))->pluck('year');
-			
+
 			if ($datatables->getRequest()->ajax()) {
 				$paymentDetails = TransBillGenerate::where('tenant_id',decrypt($tenant_id))->with('trans_payment')->where('bill_year',$data['year'])->get();
-				
+				echo json_encode($paymentDetails);exit();
 				return $datatables->of($paymentDetails)
 					->editColumn('bill_month', function ($paymentDetails)  {               
 						return date("M", mktime(0, 0, 0, $paymentDetails->bill_month, 10));
