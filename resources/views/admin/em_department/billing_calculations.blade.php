@@ -49,7 +49,7 @@
             <div class="row align-items-center mb-0">
                 <div class="col-md-3">
                     <div class="form-group m-form__group">
-                        <select id="year" name="year" class="form-control form-control--custom m-input"
+                        <select id="year" name="year" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                             placeholder="Select Year">
                             <option value="">Select Year</option>
                             @if(!empty($years)) 
@@ -74,7 +74,9 @@
                     </div>
                 </div> --}}
                 <div class="col-md-3 col-sm-3">
-                    <input class="btn btn-primary Search" type="submit" value="Search" id="Search"/>
+                    <div class="form-group m-form__group">
+                        <input class="submit-button btn m-btn--pill m-btn--custom btn-primary Search" type="submit" value="Search" id="Search"/>
+                    </div>
                 </div>
             </div>
         </form>
