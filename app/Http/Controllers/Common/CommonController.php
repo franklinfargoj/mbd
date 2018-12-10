@@ -2640,11 +2640,14 @@ class CommonController extends Controller
         $eeRoleData = $this->getEERoles();
         $dyceRoleData = $this->getDyceRoles();
         $reeRoleData = $this->getREERoles();
-        $coRoleData = Role::where('name',config('commanConfig.co_engineer'))->value('id');
-        $vpRoleData = Role::where('name',config('commanConfig.vp_engineer'))->value('id');
-        $capRoleData = Role::where('name',config('commanConfig.cap_engineer'))->value('id');
+//        $coRoleData = Role::where('name',config('commanConfig.co_engineer'))->value('id');
+//        $vpRoleData = Role::where('name',config('commanConfig.vp_engineer'))->value('id');
+//        $capRoleData = Role::where('name',config('commanConfig.cap_engineer'))->value('id');
 
-//SELECT COUNT(*) FROM `ol_application_status_log` WHERE `is_active`=1 AND `role_id` IN (21) AND `status_id`= 1
+        $roles = Role::whereIn('name',[config('commanConfig.co_engineer'),config('commanConfig.vp_engineer'),config('commanConfig.cap_engineer')])->pluck('id','name');
+//        dd($roles);
+
+        //SELECT COUNT(*) FROM `ol_application_status_log` WHERE `is_active`=1 AND `role_id` IN (21) AND `status_id`= 1
 
 //        $eeTotalPendingCount = $dyceTotalPendingCount = $reeTotalPendingCount
 //        = $coTotalPendingCount = $vpTotalPendingCount = $capTotalPendingCount = 0;
@@ -2666,17 +2669,17 @@ class CommonController extends Controller
 
         $coTotalPendingCount = OlApplicationStatus::where('is_active',1)
             ->whereIn('status_id',[config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.offer_letter_generation')])
-            ->where('role_id',$coRoleData)
+            ->where('role_id',$roles['co_engineer'])
             ->get()->count();
 
         $vpTotalPendingCount = OlApplicationStatus::where('is_active',1)
             ->where('status_id',config('commanConfig.applicationStatus.in_process'))
-            ->where('role_id',$vpRoleData)
+            ->where('role_id',$roles['vp_engineer'])
             ->get()->count();
 
         $capTotalPendingCount = OlApplicationStatus::where('is_active',1)
             ->where('status_id',config('commanConfig.applicationStatus.in_process'))
-            ->where('role_id',$capRoleData)
+            ->where('role_id',$roles['cap_engineer'])
             ->get()->count();
 
         $totalPendingApplications = $eeTotalPendingCount + $dyceTotalPendingCount + $reeTotalPendingCount
@@ -2697,6 +2700,7 @@ class CommonController extends Controller
 
 
     }
+
 
     public function getToatalPendingApplicationsAtUser($roleIds,$role){
 //        dd($roleIds);
