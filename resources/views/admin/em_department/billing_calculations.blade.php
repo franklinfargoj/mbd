@@ -80,9 +80,10 @@
                 </div>
             </div>
         </form>
+    </div>
         <div class="m-portlet m-portlet--compact m-portlet--mobile">
-            <div class="m-portlet__body table-responsive" style="overflow-x:auto;" >
-                <table id="billing_calculations" class="display table table-responsive table-bordered" style="width:100%">
+            <div class="dataTables_wrapper table-responsive" style="margin-left: -30px; margin-right: -30px; overflow-x: auto;">
+                <table id="billing_calculations" class="display table" style="width:100%;">
                     <thead>
                         <tr>
                             <th>Month,Year</th>
@@ -253,7 +254,6 @@
                 </table>
             </div>
         </div>
-    </div>
 </div>
 
 <!-- END EXAMPLE TABLE PORTLET-->

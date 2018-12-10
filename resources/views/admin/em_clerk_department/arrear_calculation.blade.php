@@ -245,7 +245,7 @@
             <div class="portlet-title">
             <div class="caption">
                 <div class="tools">
-                  <h4>Monthly details of - {{$tenant->first_name}} - {{$tenant->flat_no}}</h4>
+                    <h3 class="m-subheader__title--hint" style="margin-left: 0;">Monthly details of - {{$tenant->first_name}} - {{$tenant->flat_no}}</h3>
                 </div>
             </div>
          <div class="m-portlet__body">
