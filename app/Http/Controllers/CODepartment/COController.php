@@ -24,6 +24,7 @@ use App\NocSrutinyQuestionMaster;
 use App\NocReeScrutinyAnswer;
 use App\NocApplicationStatus;
 use App\NocCCApplicationStatus;
+use App\Http\Controllers\conveyance\conveyanceCommonController;
 use App\User;
 use Config;
 use Auth;
@@ -869,8 +870,13 @@ class COController extends Controller
         $dashboardData = $this->getCODashboardData($statusCount);
 
         $dashboardData1 = $this->CommonController->getTotalCountsOfApplicationsPending();
+        
+        // conveyance dashboard
+        $conveyanceCommonController = new conveyanceCommonController();
+        $conveyanceDashboard = $conveyanceCommonController->ConveyanceDashboard();
+        $conveyanceRoles     = $conveyanceCommonController->getConveyanceRoles();        
 
-        return view('admin.co_department.dashboard',compact('dashboardData','dashboardData1'));
+        return view('admin.co_department.dashboard',compact('dashboardData','dashboardData1','conveyanceDashboard','conveyanceRoles'));
     }
 
     public function getApplicationData($role_id,$user_id){

@@ -9,6 +9,23 @@
     {{ session()->get('success') }}
 </div>
 @endif
+  
+@php
+    if(isset($data->ApprovedSaleAgreement->document_path))
+        $document = $data->ApprovedSaleAgreement->document_path;
+    else if(isset($data->SignSaleAgreement->document_path))
+        $document = $data->SignSaleAgreement->document_path;    
+    else if(isset($data->draftSaleAgreement->document_path))
+        $document = $data->draftSaleAgreement->document_path;
+@endphp
+@php
+    if(isset($data->ApprovedLeaseAgreement->document_path) )
+        $document1 = $data->ApprovedLeaseAgreement->document_path;
+    else if(isset($data->SignLeaseAgreement->document_path))
+        $document1 = $data->SignLeaseAgreement->document_path;    
+    else if(isset($data->draftLeaseAgreement->document_path))
+        $document1 = $data->draftLeaseAgreement->document_path;
+@endphp
 
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
@@ -50,8 +67,8 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->ApprovedSaleAgreement->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ApprovedSaleAgreement->document_path }}" target="_blank">
+                                                @if(isset($document))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$document }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submit">
                                                         Download </Button>
                                                 </a>
@@ -84,8 +101,8 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
-                                                @if(isset($data->ApprovedLeaseAgreement->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ApprovedLeaseAgreement->document_path }}" target="_blank">
+                                                @if(isset($document1))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$document1 }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>

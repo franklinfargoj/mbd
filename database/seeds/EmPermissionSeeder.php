@@ -23,7 +23,7 @@ class EmPermissionSeeder extends Seeder
             $em_manager_id = Role::insertGetId([
                 'name' => 'EM',
                 'redirect_to' => '/conveyance',
-                'dashboard' => '/conveyance',
+                'dashboard' => '/dashboard',
                 'display_name' => 'estate_manager',
                 'description' => 'Login as Estae Manger',
             ]);
@@ -442,7 +442,12 @@ class EmPermissionSeeder extends Seeder
                 'name' => 'downloadReceipt',
                 'display_name' => 'Download Receipt',
                 'description' => 'Download Receipt',
-            ]
+            ],
+            [
+                'name'=>'dashboard',
+                'display_name'=>'dashboard',
+                'description'=>'Dashboard'
+            ],             
         ];
 
         $permission_role = [];
@@ -573,5 +578,8 @@ class EmPermissionSeeder extends Seeder
         if(!$layout_user){
             \App\LayoutUser::insert(['user_id' => $em_cl_user_id, 'layout_id' => $layout_id]);
         }
+
+        // change redirect to for EM to dashboard
+        Role::where('id',$em_manager_id)->update(['redirect_to' => '/conveyance']);        
     }
 }

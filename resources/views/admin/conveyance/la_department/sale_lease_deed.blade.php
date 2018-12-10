@@ -21,7 +21,7 @@
                     <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                 </div>
         </div>
-    </div> 
+    </div>  
         <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
             <li class="nav-item m-tabs__item">
                 <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#sale-deed-agreement" role="tab"
@@ -38,6 +38,19 @@
         </ul>
     </div>
 
+    @php
+        if(isset($data->SignSaleAgreement->document_path))
+            $document = $data->SignSaleAgreement->document_path;
+        else if(isset($data->DraftSaleAgreement->document_path))
+            $document = $data->DraftSaleAgreement->document_path;
+    @endphp
+    @php
+        if(isset($data->SignLeaseAgreement->document_path) )
+            $document1 = $data->SignLeaseAgreement->document_path;
+        else if(isset($data->DraftLeaseAgreement->document_path))
+            $document1 = $data->DraftLeaseAgreement->document_path;
+    @endphp    
+
 <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">    
     <div class="tab-content">
         <div class="tab-pane active show" id="sale-deed-agreement" role="tabpanel">
@@ -52,9 +65,8 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->SignSaleAgreement->document_path))
-                                                <input type="hidden" name="oldSaleFile" value="{{ isset($data->SignSaleAgreement) ? $data->SignSaleAgreement->document_path : '' }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->SignSaleAgreement->document_path }}" target="_blank">
+                                                @if(isset($document))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$document }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -87,9 +99,8 @@
                                             <h5>Download </h5>
                                             <span class="hint-text">Click to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
-                                                @if(isset($data->SignLeaseAgreement->document_path))
-                                                <input type="hidden" name="oldLeaseFile" value="{{ isset($data->SignLeaseAgreement) ? $data->SignLeaseAgreement->document_path : '' }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->SignLeaseAgreement->document_path }}" target="_blank">
+                                                @if(isset($document1))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$document1 }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>

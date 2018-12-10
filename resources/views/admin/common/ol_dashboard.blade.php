@@ -64,8 +64,7 @@
             </div>
         @endif
 
-<!-- Dashboard for Convayance Module  -->
-
+<!-- Dashboard for Convayance Module  --> 
         @if($conveyanceDashboard)
             <div class="hearing-accordion-wrapper">
                 <div class="m-portlet m-portlet--compact hearing-accordion mb-0">

@@ -9,6 +9,20 @@
     {{ session()->get('success') }}
 </div>
 @endif
+ 
+@php
+    if(isset($data->StampSaleByDycdo->document_path))
+        $document = $data->StampSaleByDycdo->document_path;
+    else if(isset($data->StampSaleAgreement->document_path))
+        $document = $data->StampSaleAgreement->document_path;
+@endphp
+@php
+    if(isset($data->StampLeaseByDycdo->document_path) )
+        $document1 = $data->StampLeaseByDycdo->document_path;
+    else if(isset($data->StampLeaseAgreement->document_path))
+        $document1 = $data->StampLeaseAgreement->document_path;
+@endphp
+
 
 <div class="col-md-12"> 
     <!-- BEGIN: Subheader -->
@@ -63,8 +77,8 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->StampSaleByDycdo->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampSaleByDycdo->document_path }}" target="_blank">
+                                                @if(isset($document))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$document }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -104,8 +118,8 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
-                                                @if(isset($data->StampLeaseByDycdo->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampLeaseByDycdo->document_path }}" target="_blank">
+                                                @if(isset($document1))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$document1 }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
