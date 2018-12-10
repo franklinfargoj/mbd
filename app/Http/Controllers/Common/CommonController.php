@@ -1379,29 +1379,30 @@ class CommonController extends Controller
      * @param $name, $type, $select_arr, $select_arr_key, $value, $readonly
      * @return \Illuminate\Http\Response
      */
-    public function form_fields($name, $type, $select_arr = NULL, $select_arr_key = NULL, $value = NULL, $readonly = NULL, $required = NULL){
+    public function form_fields($name, $type, $select_arr = NULL, $selected_arr_key = NULL, $value = NULL, $readonly = NULL, $required = NULL){
+
         if($type == 'select'){
             foreach($select_arr as $select_arr_key => $select_arr_value){
-                $select_arr .= '<option value="'.$select_arr_value->id.'">'.$select_arr_value->$select_arr_key.'</option>';
+                $select_arr .= '<option value="'.$select_arr_value->id.'">'.$select_arr_value->$selected_arr_key.'</option>';
             }
             $fields = array(
                 'select' => '<select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="'.$name.'" name="'.$name.'" required>'.$select_arr.'</select>',
             );
-        }
-
-        $fields = array(
-            'text' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.' '.$required.'>',
-            'hidden' => '<input type="hidden" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.' '.$required.'>',
-            'date' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input m_datepicker" value="'.$value.'" '.$readonly.' '.$required.'>',
-            'textarea' => '<textarea id="'.$name.'" name="'.$name.'" class="form-control form-control--custom form-control--fixed-height m-input"'.$readonly.' '.$required.'>'.$value.'</textarea>',
-            'file' => '<div class="custom-file">
+        }else{
+            $fields = array(
+                'text' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.' '.$required.'>',
+                'hidden' => '<input type="hidden" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.' '.$required.'>',
+                'date' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input m_datepicker" value="'.$value.'" '.$readonly.' '.$required.'>',
+                'textarea' => '<textarea id="'.$name.'" name="'.$name.'" class="form-control form-control--custom form-control--fixed-height m-input"'.$readonly.' '.$required.'>'.$value.'</textarea>',
+                'file' => '<div class="custom-file">
                             <input class="custom-file-input pdfcheck" name="'.$name.'" type="file"
                                    id="'.$name.'" required="required">
                             <label class="custom-file-label" for="'.$name.'">Choose
                                 file...</label>
                             <span class="text-danger" id="'.$name.'"></span>
                         </div>',
-        );
+            );
+        }
 
         return $fields[$type];
     }
