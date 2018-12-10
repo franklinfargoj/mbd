@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('actions')
-    @include('admin.em_department.action',compact('ol_application'))
+@include('admin.em_department.action',compact('ol_application'))
 @endsection
 @section('content')
 
@@ -11,9 +11,9 @@
 @endif
 
 @if(session()->has('warning'))
-    <div class="alert alert-danger display_msg">
-        {{ session()->get('warning') }}
-    </div>  
+<div class="alert alert-danger display_msg">
+    {{ session()->get('warning') }}
+</div>
 @endif
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
@@ -22,7 +22,8 @@
             <h3 class="m-subheader__title m-subheader__title--separator">Arrears Calculation</h3>
             {{-- {{ Breadcrumbs::render('society_detail') }} --}}
             <div class="ml-auto btn-list">
-                <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left"
+                        style="padding-right: 8px;"></i>Back</a>
             </div>
         </div>
     </div>
@@ -30,7 +31,9 @@
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
         <div class="row align-items-center row--filter">
             <div class="col-md-12">
-                <h4 class="m-subheader__title">Calculation Of Society - {{$society->name}}| {{$building->building_no . '|' .$building->name}} | @if(!empty($tenant)) {{$tenant->first_name.' '.$tenant->last_name}} @endif</h4>
+                <h4 class="m-subheader__title--hint">Calculation Of Society - {{$society->name}}|
+                    {{$building->building_no . ' | ' .$building->name}} | @if(!empty($tenant)) {{$tenant->first_name.'
+                    '.$tenant->last_name}} @endif</h4>
             </div>
         </div>
         @if(Session::has('success'))
@@ -40,25 +43,27 @@
             </button> {{ Session::get('success') }}
         </div>
         @endif
-        <form role="form" id="Form" method="get" action="{{ route('arrears_calculations') }}">
+        <form class="mt-4" role="form" id="Form" method="get" action="{{ route('arrears_calculations') }}">
             <input type="hidden" name="society_id" value="{{encrypt($society->id)}}">
             <input type="hidden" name="building_id" value="{{encrypt($building->id)}}">
             <div class="row align-items-center mb-0">
                 <div class="col-md-2">
                     <div class="form-group m-form__group">
-                        <select id="year" name="year" class="form-control form-control--custom m-input"
-                            placeholder="Select Year" >
+                        <select id="year" name="year" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
+                            placeholder="Select Year">
                             <option value="">Select Year</option>
-                            @if(!empty($years)) 
-                                @foreach($years as $year)
-                                    <option value="{{$year}}" @if($select_year == $year) selected @endif>{{$year}}</option>
-                                @endforeach
+                            @if(!empty($years))
+                            @foreach($years as $year)
+                            <option value="{{$year}}" @if($select_year==$year) selected @endif>{{$year}}</option>
+                            @endforeach
                             @endif
                         </select>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-3 search-filter clearfix">
-                    <input class="btn btn-primary Search" type="submit" value="Search" id="Search"/>
+                <div class="col-md-3 col-sm-3 search-filter">
+                    <div class="form-group m-form__group">
+                        <input class="btn m-btn--pill m-btn--custom btn-primary Search" type="submit" value="Search" id="Search" />
+                    </div>
                 </div>
             </div>
         </form>

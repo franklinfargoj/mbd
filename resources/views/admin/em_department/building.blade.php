@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('actions')
-    @include('admin.em_department.action',compact('ol_application'))
+@include('admin.em_department.action',compact('ol_application'))
 @endsection
 @section('content')
 
@@ -11,9 +11,9 @@
 @endif
 
 @if(session()->has('warning'))
-    <div class="alert alert-danger display_msg">
-        {{ session()->get('warning') }}
-    </div>  
+<div class="alert alert-danger display_msg">
+    {{ session()->get('warning') }}
+</div>
 @endif
 
 <div class="col-md-12">
@@ -23,10 +23,11 @@
             <h3 class="m-subheader__title m-subheader__title--separator">List of Buildings</h3>
             {{ Breadcrumbs::render('building_list',encrypt($society_id)) }}
             <div class="ml-auto btn-list">
-                <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left"
+                        style="padding-right: 8px;"></i>Back</a>
             </div>
-         </div>
-         <div class="m-portlet m-portlet--compact filter-wrap">
+        </div>
+        <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
                     <form role="form" id="eeForm" method="get" action="{{route('get_buildings',[encrypt($society_id)])}}">
@@ -39,7 +40,8 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group m-form__group">
-                                    <input type="text" id="building_name" name="building_name" class="form-control form-control--custom m-input" placeholder="Building Name" value="{{$building_name}}">
+                                    <input type="text" id="building_name" name="building_name" class="form-control form-control--custom m-input"
+                                        placeholder="Building Name" value="{{$building_name}}">
                                 </div>
                             </div>
                             @php
@@ -64,12 +66,11 @@
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
-        <div class="m-portlet__head">
-            <div class='btn-icon-list'>
-                <a href="{{route('add_building', [encrypt($society_id)])}}" class='btn m-btn--pill m-btn--custom btn-primary pull-right' style="">Add Building</a>
-            </div>
- 
-           </div>
+        <div class='btn-icon-list'>
+            <a href="{{route('add_building', [encrypt($society_id)])}}" class='btn m-btn--pill m-btn--custom btn-primary pull-right'
+                style="">Add Building</a>
+        </div>
+
         <div class="m-portlet__body">
             <!--begin: Datatable -->
             {!! $html->table() !!}
@@ -80,7 +81,7 @@
 
     <!-- Modal -->
     <div id="myModal" class="modal fade" role="dialog">
-             
+
     </div>
     <!-- END EXAMPLE TABLE PORTLET-->
 </div>
@@ -96,24 +97,26 @@
     $(document).ready(function () {
         $(".display_msg").delay(5000).slideUp(300);
 
-        $("#searchId").on("keyup", function() {
+        $("#searchId").on("keyup", function () {
             var myLength = $(this).val().length;
-            if(myLength >= 0){
+            if (myLength >= 0) {
 
-            var value = $(this).val().toLowerCase();
-            if(myLength == 0) {
-                value = ' ';
-            }
-            $.ajax({
-                    url:"{{URL::route('get_buildings', [$society_id])}}",
+                var value = $(this).val().toLowerCase();
+                if (myLength == 0) {
+                    value = ' ';
+                }
+                $.ajax({
+                    url: "{{URL::route('get_buildings', [$society_id])}}",
                     type: 'get',
-                    data: {search: value},
-                        success: function(response){
+                    data: {
+                        search: value
+                    },
+                    success: function (response) {
                         console.log(response);
                         // $('.m-portlet__body').html(response);
                         //$('#colony').selectpicker('refresh');
                     }
-            });                
+                });
             }
         });
 
