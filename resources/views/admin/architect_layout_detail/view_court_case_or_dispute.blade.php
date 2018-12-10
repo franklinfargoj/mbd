@@ -6,6 +6,9 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">View Court case or Dispute on land Details -
                 {{$ArchitectLayoutDetail->architect_layout->layout_name}}</h3>
+                <div class="ml-auto btn-list">
+                    <a href="{{route('architect_layout_details.view',['layout_id'=>encrypt($ArchitectLayoutDetail->architect_layout_id)])}}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                </div>
         </div>
     </div>
     <div class="m-portlet m-portlet--mobile m_panel">
@@ -20,17 +23,12 @@
                 <p> {{ Session::get('error') }} </p>
             </div>
             @endif
-            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
+            <div class="m-portlet__body m-portlet__body--spaced m-portlet__body--table m-portlet__body--serial-no">
                 <div class="m-subheader">
                     {{-- <div class="d-flex align-items-center">
                         <h3 class="section-title section-title--small">
                         </h3>
                     </div> --}}
-                    <div class="mt-auto">
-                        
-                            <a href="{{route('architect_layout_details.view',['layout_id'=>encrypt($ArchitectLayoutDetail->architect_layout_id)])}}"
-                                class="btn btn-primary btn-custom">Back</a>
-                        </div>
                     <div class="row">
                         <div class="col-lg-12 form-group">
                             <table class="table">
