@@ -28,17 +28,17 @@ use App\LayoutUser;
 
 class LayoutArchitectController extends Controller
 {
-    protected $architect_layouts;
+    protected $comman;
     public function __construct(CommonController $CommonController)
     {
         $this->list_num_of_records_per_page = Config('commanConfig.list_num_of_records_per_page');
-        $this->architect_layouts = $CommonController;
+        $this->comman = $CommonController;
     }
 
     public function index(Request $request, Datatables $datatables)
     {
         $getData = $request->all();
-        //return $this->architect_layouts->architect_layout_data($request);
+        //return $this->comman->architect_layout_data($request);
         $columns = [
             // ['data' => 'radio', 'name' => 'radio', 'title' => '', 'searchable' => false],
             ['data' => 'rownum', 'name' => 'rownum', 'title' => 'Sr No.', 'searchable' => false],
@@ -49,10 +49,10 @@ class LayoutArchitectController extends Controller
             ['data' => 'Status', 'name' => 'Status', 'title' => 'Status'],
             ['data' => 'view', 'name' => 'view', 'title' => 'Action'],
         ];
-        $this->architect_layouts->architect_layout_request_revision($request);
+        $this->comman->architect_layout_request_revision($request);
         if ($datatables->getRequest()->ajax()) {
 
-            $architect_layout_data = $this->architect_layouts->architect_layout_request_revision($request);
+            $architect_layout_data = $this->comman->architect_layout_request_revision($request);
             $revision_requests = $architect_layout_data;
             return $datatables->of($revision_requests)
                 ->editColumn('radio', function ($listArray) {
@@ -104,7 +104,7 @@ class LayoutArchitectController extends Controller
     public function architect_layouts_layout_details(Request $request, Datatables $datatables)
     {
         $getData = $request->all();
-        //return $this->architect_layouts->architect_layout_data($request);
+        //return $this->comman->architect_layout_data($request);
         $columns = [
             // ['data' => 'radio', 'name' => 'radio', 'title' => '', 'searchable' => false],
             ['data' => 'rownum', 'name' => 'rownum', 'title' => 'Sr No.', 'searchable' => false],
@@ -115,10 +115,10 @@ class LayoutArchitectController extends Controller
             ['data' => 'Status', 'name' => 'Status', 'title' => 'Status'],
             ['data' => 'view', 'name' => 'view', 'title' => 'Action'],
         ];
-        //$this->architect_layouts->architect_layout_details($request);
+        //$this->comman->architect_layout_details($request);
         if ($datatables->getRequest()->ajax()) {
 
-            $architect_layout_data = $this->architect_layouts->architect_layout_details($request);
+            $architect_layout_data = $this->comman->architect_layout_details($request);
             $layout_details = $architect_layout_data;
             return $datatables->of($layout_details)
             // ->editColumn('radio', function ($listArray) {
@@ -224,7 +224,7 @@ class LayoutArchitectController extends Controller
                     'remark' => null,
                 ],
             ];
-            $this->architect_layouts->forward_architect_layout($ArchitectLayout->id, $forward_application);
+            $this->comman->forward_architect_layout($ArchitectLayout->id, $forward_application);
             return redirect(route('architect_layout_detail.edit', ['layout_detail_id' => encrypt($ArchitectLayoutDetail->id)]));
         }
         return back()->withError('something went wrong');
@@ -233,7 +233,7 @@ class LayoutArchitectController extends Controller
     public function view_architect_layout_details($layout_id)
     {
         $layout_id = decrypt($layout_id);
-        $check_layout_details_complete_status = count($this->architect_layouts->check_layout_details_complete_status($layout_id));
+        $check_layout_details_complete_status = count($this->comman->check_layout_details_complete_status($layout_id));
         $ArchitectLayout = ArchitectLayout::with(['master_layout'])->find($layout_id);
        // dd($ArchitectLayout);
         $ArchitectLayoutDetail = ArchitectLayoutDetail::where(['architect_layout_id' => $layout_id])->orderBy('id', 'desc')->get();
@@ -277,19 +277,19 @@ class LayoutArchitectController extends Controller
         $architectlogs = array();
         $layout_id = decrypt($layout_id);
         $ArchitectLayout = ArchitectLayout::with(['layout_details'])->find($layout_id);
-        $parentData = $this->architect_layouts->getForwardApplicationArchitectParentData();
+        $parentData = $this->comman->getForwardApplicationArchitectParentData();
         $arrData['parentData'] = $parentData['parentData'];
         $arrData['role_name'] = $parentData['role_name'];
-        $architectlogs = $this->architect_layouts->getLogOfArchitectLayoutApplication($layout_id);
-        $Emlogs = $this->architect_layouts->getLogOfEmLayoutApplication($layout_id);
-        $Lmlogs = $this->architect_layouts->getLogOfLmLayoutApplication($layout_id);
-        $EElogs = $this->architect_layouts->getLogOfEELayoutApplication($layout_id);
-        $Reelogs = $this->architect_layouts->getLogOfReeLayoutApplication($layout_id);
-        $Cologs = $this->architect_layouts->getLogOfCoLayoutApplication($layout_id);
-        $Saplogs = $this->architect_layouts->getLogOfSapLayoutApplication($layout_id);
-        $Caplogs = $this->architect_layouts->getLogOfCapLayoutApplication($layout_id);
-        $LAlogs = $this->architect_layouts->getLogOfLALayoutApplication($layout_id);
-        $VPlogs = $this->architect_layouts->getLogOfVPLayoutApplication($layout_id);
+        $architectlogs = $this->comman->getLogOfArchitectLayoutApplication($layout_id);
+        $Emlogs = $this->comman->getLogOfEmLayoutApplication($layout_id);
+        $Lmlogs = $this->comman->getLogOfLmLayoutApplication($layout_id);
+        $EElogs = $this->comman->getLogOfEELayoutApplication($layout_id);
+        $Reelogs = $this->comman->getLogOfReeLayoutApplication($layout_id);
+        $Cologs = $this->comman->getLogOfCoLayoutApplication($layout_id);
+        $Saplogs = $this->comman->getLogOfSapLayoutApplication($layout_id);
+        $Caplogs = $this->comman->getLogOfCapLayoutApplication($layout_id);
+        $LAlogs = $this->comman->getLogOfLALayoutApplication($layout_id);
+        $VPlogs = $this->comman->getLogOfVPLayoutApplication($layout_id);
         $master_log=$this->get_master_log_of_architect_layout(array($architectlogs,$Emlogs,$Emlogs,$Lmlogs,$EElogs,$Reelogs,$Cologs,$Saplogs,$Caplogs,$LAlogs,$VPlogs));
          //dd($architectlogs);
         if (session()->get('role_name') == config('commanConfig.architect')) {
@@ -536,7 +536,7 @@ class LayoutArchitectController extends Controller
                 }
             }
         }
-        $this->architect_layouts->forward_architect_layout($request->architect_layout_id, $forward_application);
+        $this->comman->forward_architect_layout($request->architect_layout_id, $forward_application);
         //ArchitectLayoutStatusLog::insert($forward_application);
         $ArchitectLayout = ArchitectLayout::find($request->architect_layout_id);
         if ($ArchitectLayout) {
@@ -568,7 +568,7 @@ class LayoutArchitectController extends Controller
         //get reports uploaded by em
         if (session()->get('role_name') == config('commanConfig.estate_manager')) {
             $scrutiny_reports['architect_layout_em_scrutiny_reports'] = ArchitectLayoutScrutinyEMReport::where(['user_id' => auth()->user()->id, 'architect_layout_id' => $layout_id, 'architect_layout_detail_id' => $latest_architect_layout_detail->id])->get();
-            $check_list_and_remarks['em_scrtiny_questions'] = $this->architect_layouts->get_em_checklist_and_remarks($layout_id, auth()->user()->id);
+            $check_list_and_remarks['em_scrtiny_questions'] = $this->comman->get_em_checklist_and_remarks($layout_id, auth()->user()->id);
             $post_route_name = route('post_em_checklist_and_remark_report');
             $upload_file_route_name = route('upload_em_checklist_and_remark_report');
             $check_list_and_remarks = $check_list_and_remarks['em_scrtiny_questions'];
@@ -587,7 +587,7 @@ class LayoutArchitectController extends Controller
 
         //get reports uploaded by lm
         if (session()->get('role_name') == config('commanConfig.land_manager')) {
-            $check_list_and_remarks['lm_scrtiny_questions'] = $this->architect_layouts->get_lm_checklist_and_remarks($layout_id, auth()->user()->id);
+            $check_list_and_remarks['lm_scrtiny_questions'] = $this->comman->get_lm_checklist_and_remarks($layout_id, auth()->user()->id);
             $scrutiny_reports['architect_layout_land_scrutiny_reports'] = ArchitectLayoutScrutinyLandReport::where(['user_id' => auth()->user()->id, 'architect_layout_id' => $layout_id, 'architect_layout_detail_id' => $latest_architect_layout_detail->id])->get();
             $post_route_name = route('post_lm_checklist_and_remark_report');
             $upload_file_route_name = route('upload_lm_checklist_and_remark_report');
@@ -611,7 +611,7 @@ class LayoutArchitectController extends Controller
             session()->get('role_name') == config('commanConfig.ee_deputy_engineer') ||
             session()->get('role_name') == config('commanConfig.ee_branch_head')) {
             //dd(session()->get('role_name'));
-            $check_list_and_remarks['ee_scrtiny_questions'] = $this->architect_layouts->get_ee_checklist_and_remarks($layout_id, auth()->user()->id);
+            $check_list_and_remarks['ee_scrtiny_questions'] = $this->comman->get_ee_checklist_and_remarks($layout_id, auth()->user()->id);
             //$scrutiny_reports['architect_layout_ee_scrutiny_reports'] = ArchitectLayoutScrutinyEEReport::where(['user_id' => auth()->user()->id, 'architect_layout_id' => $layout_id])->get();
             $scrutiny_reports['architect_layout_ee_scrutiny_reports'] = ArchitectLayoutScrutinyEEReport::where(['architect_layout_id' => $layout_id, 'architect_layout_detail_id' => $latest_architect_layout_detail->id])->get();
             $post_route_name = route('post_ee_checklist_and_remark_report');
@@ -638,7 +638,7 @@ class LayoutArchitectController extends Controller
             session()->get('role_name') == config('commanConfig.ree_deputy_engineer') ||
             session()->get('role_name') == config('commanConfig.ree_assistant_engineer') ||
             session()->get('role_name') == config('commanConfig.ree_branch_head')) {
-            $check_list_and_remarks['ree_scrtiny_questions'] = $this->architect_layouts->get_ree_checklist_and_remarks($layout_id, auth()->user()->id);
+            $check_list_and_remarks['ree_scrtiny_questions'] = $this->comman->get_ree_checklist_and_remarks($layout_id, auth()->user()->id);
             $scrutiny_reports['architect_layout_ree_scrutiny_reports'] = ArchitectLayoutScrutinyReeReport::where(['architect_layout_id' => $layout_id, 'architect_layout_detail_id' => $latest_architect_layout_detail->id])->get();
             $post_route_name = route('post_ree_checklist_and_remark_report');
             $upload_file_route_name = route('upload_ree_checklist_and_remark_report');
