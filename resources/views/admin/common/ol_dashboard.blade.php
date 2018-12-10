@@ -133,7 +133,7 @@
         var chartData = [
 
             @foreach($dashboardData as $header => $value)
-                @if($header != 'Total No of Application'){
+                @if($header != 'Total No of Applications'){
                     "status": '{{$header}}',
                     "value": '{{$value[0]}}',
                 },
