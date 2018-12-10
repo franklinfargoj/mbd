@@ -90,7 +90,11 @@ class LayoutArchitectDetailController extends Controller
                     return date(config('commanConfig.dateFormat'), strtotime($ol_applications->created_at));
                 })
                 ->editColumn('updated_at', function ($ol_applications) {
-                    return date(config('commanConfig.dateFormat'), strtotime($ol_applications->created_at));
+                    if($ol_applications->status_offer_letter==7)
+                    {
+                        return date(config('commanConfig.dateFormat'), strtotime($ol_applications->created_at));
+                    }
+                    return '-';
                 })
                 ->editColumn('status', function ($ol_applications) {
                     $certificate_link="";
