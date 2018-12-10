@@ -85,8 +85,7 @@
                             <div class="col-lg-6">
                                 <div class="btn-list">
                                     <button type="submit" class="btn btn-primary" id="uploadBtn">Save</Button>
-                                    <a href="{{url()->current()}}"
-                                        class="btn btn-default">Cancel</a>
+                                    <a href="{{url()->current()}}" class="btn btn-secondary">Cancel</a>
                                 </div>
                             </div>
                         </div>
