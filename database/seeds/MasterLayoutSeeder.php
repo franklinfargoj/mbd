@@ -21,7 +21,7 @@ class MasterLayoutSeeder extends Seeder
         
         $layouts = [
            [
-               'layout_name' => 'Samta nagar, Kandivali',
+               'layout_name' => 'Samata Nagar, Kandivali(E)',
                'division' => '',
                'board' => 1
            ],[
