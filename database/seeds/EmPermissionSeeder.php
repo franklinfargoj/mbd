@@ -429,6 +429,16 @@ class EmPermissionSeeder extends Seeder
                 'description'=>'Forwards Application'
             ],
             [
+                'name'=>'renewal.architect_scrutiny',
+                'display_name'=>'Architect Srutiny & Remark',
+                'description'=>'Architect Srutiny & Remark'
+            ],
+            [
+                'name'=>'renewal.renewal_forward_application',
+                'display_name'=>'Forward Application',
+                'description'=>'Forward Application'
+            ],
+            [
                 'name'=>'em.save_covering_letter',
                 'display_name'=>'Uploads covering letter',
                 'description'=>'Uploads covering letter'
