@@ -363,10 +363,9 @@ class EMController extends Controller
                         $sc_document_status_arr['document_path'] = $path;
 
                         $inserted_document_log = SocietyConveyanceDocumentStatus::create($sc_document_status_arr);
-                        $applicationId = decrypt($request->application_id);
+
                         if($inserted_document_log == true){
-                            // return back()->with('success',' uploaded successfully.');
-                            return redirect()->route('em.scrutiny_remark', $applicationId);
+                             return back()->with('success','Uploaded successfully.');
                         }
                         
                     }else{

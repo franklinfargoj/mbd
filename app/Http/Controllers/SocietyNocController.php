@@ -67,6 +67,15 @@ class SocietyNocController extends Controller
 
     public function save_noc_application_self(Request $request){
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+
+        $validatedData = $request->validate([
+            'demand_draft_amount' => 'required|numeric|digits_between:0,8',
+            'demand_draft_bank' => 'required|regex:/^[\pL\s\-]+$/u',
+            'offer_letter_number' => 'required|numeric|digits_between:0,10',
+            'demand_draft_number' => 'required|numeric|digits_between:6,19',
+            'demand_draft_date' => 'different:offer_letter_date'
+        ]);
+
         $input = array(
             'society_id' => $society_details->id,
             'offer_letter_date' => date('Y-m-d', strtotime($request->input('offer_letter_date'))),
@@ -103,32 +112,39 @@ class SocietyNocController extends Controller
         foreach ($layout_user_ids as $key => $value) {
             $select_user_ids[] = $value['user_id'];
         }
-        $users = User::whereIn('id', $select_user_ids)->get();
-        
-        if(count($users) > 0){
-            foreach($users as $key => $user){
-                $i = 0;
-                $insert_application_log_pending[$key]['application_id'] = $last_id->id;
-                $insert_application_log_pending[$key]['society_flag'] = 1;
-                $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
-                $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
-                $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
-                $insert_application_log_pending[$key]['to_user_id'] = $user->id;
-                $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
-                $insert_application_log_pending[$key]['remark'] = '';
-                $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
-                $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
-                $i++;
+
+        if(isset($select_user_ids))
+        {
+            $users = User::whereIn('id', $select_user_ids)->get();
+            
+            if(count($users) > 0){
+                foreach($users as $key => $user){
+                    $i = 0;
+                    $insert_application_log_pending[$key]['application_id'] = $last_id->id;
+                    $insert_application_log_pending[$key]['society_flag'] = 1;
+                    $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
+                    $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
+                    $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
+                    $insert_application_log_pending[$key]['to_user_id'] = $user->id;
+                    $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
+                    $insert_application_log_pending[$key]['remark'] = '';
+                    $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
+                    $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
+                    $i++;
+                }
             }
+            
+            NocApplicationStatus::insert($insert_application_log_pending);
+            $last_society_flag_id = NocApplicationStatus::where('society_flag', '1')->orderBy('id', 'desc')->first();
+            $id = NocApplicationStatus::find($last_society_flag_id->id);
+            NocApplication::where('user_id', Auth::user()->id)->update([
+                    'current_status_id' => $id->id
+                ]);    
+            return redirect()->route('society_noc_preview');
         }
-        
-        NocApplicationStatus::insert($insert_application_log_pending);
-        $last_society_flag_id = NocApplicationStatus::where('society_flag', '1')->orderBy('id', 'desc')->first();
-        $id = NocApplicationStatus::find($last_society_flag_id->id);
-        NocApplication::where('user_id', Auth::user()->id)->update([
-                'current_status_id' => $id->id
-            ]);    
-        return redirect()->route('society_noc_preview');
+        else{
+            return redirect()->route('show_form_self_noc',['id' => $application_master_id_spec])->with('error','No data found for this application type.Please change the same and retry.');
+        }
     }
 
     public function showNocApplication(){

@@ -1435,7 +1435,7 @@
     function mattressAreaForConstructionArea()
     {
         var dcr_b_val = (!$("input[type=radio][name=dcr_b_val]:checked").val() || isNaN($("input[type=radio][name=dcr_b_val]:checked").val())) ? 0 : $("input[type=radio][name=dcr_b_val]:checked").val();
-        var total_rehabilitation_construction_area = (!cleanNumber($("#total_rehabilitation_construction_area").val()) || isNaN(cleanNumber($("#total_rehabilitation_construction_area").val()))) ? 0 : cleanNumber($("#total_rehabilitation_construction_area").val());
+       var total_rehabilitation_construction_area = (!cleanNumber($("#total_rehabilitation_construction_area").val()) || isNaN(cleanNumber($("#total_rehabilitation_construction_area").val()))) ? 0 : cleanNumber($("#total_rehabilitation_construction_area").val());
 
         $("#mattress_area_for_construction_area").attr('value', numberWithCommas(((dcr_b_val / 100) * total_rehabilitation_construction_area).toFixed(2)));
     }

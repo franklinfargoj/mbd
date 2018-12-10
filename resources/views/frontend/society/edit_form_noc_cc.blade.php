@@ -7,7 +7,7 @@
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title m-subheader__title--separator">Redevelopment Application Form</h3>
-                {{ Breadcrumbs::render('society_offer_letter_edit') }}
+                {{ Breadcrumbs::render('noc_cc_edit') }}
 
             </div>
         </div>
@@ -61,7 +61,7 @@
                             <input type="text" id="offer_letter_number" name="offer_letter_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->offer_letter_number }}" required>
                             <span class="help-block">{{$errors->first('offer_letter_number')}}</span>
                         </div>
-                        <div class="col-sm-4 form-group">
+                        <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="offer_letter_date">Offer letter date:</label>
                             <input type="text" id="m_datepicker" name="offer_letter_date" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->offer_letter_date)) }}" required>
                             <span class="help-block">{{$errors->first('offer_letter_date')}}</span>
@@ -75,7 +75,7 @@
                             <input type="text" id="no_dues_certificate_number" name="no_dues_certificate_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->no_dues_certificate_number }}" required>
                             <span class="help-block">{{$errors->first('no_dues_certificate_number')}}</span>
                         </div>
-                        <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
+                        <div class="col-sm-4 offset-sm-1 form-group"> <!-- offset-sm-1 -->
                             <label class="col-form-label" for="no_dues_certificate_date">No dues certificate date :</label>
                             <input type="text" id="m_datepicker" name="no_dues_certificate_date" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->no_dues_certificate_date)) }}" required>
                             <span class="help-block">{{$errors->first('no_dues_certificate_date')}}</span>
@@ -88,7 +88,7 @@
                             <input type="text" id="noc_no" name="noc_no" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->noc_no }}" required>
                             <span class="help-block">{{$errors->first('noc_no')}}</span>
                         </div>
-                        <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
+                        <div class="col-sm-4 offset-sm-1 form-group"> <!-- offset-sm-1 -->
                             <label class="col-form-label" for="noc_date">NOC date :</label>
                             <input type="text" id="m_datepicker" name="noc_date" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->noc_date)) }}" required>
                             <span class="help-block">{{$errors->first('noc_date')}}</span>
@@ -100,7 +100,7 @@
                             <input type="text" id="tripartite_agreement_number" name="tripartite_agreement_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->tripartite_agreement_number }}" required>
                             <span class="help-block">{{$errors->first('tripartite_agreement_number')}}</span>
                         </div>
-                        <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
+                        <div class="col-sm-4 offset-sm-1 form-group"> <!-- offset-sm-1 -->
                             <label class="col-form-label" for="tripartite_agreement_date">Tripartite agreement date :</label>
                             <input type="text" id="m_datepicker" name="tripartite_agreement_date" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->tripartite_agreement_date)) }}" required>
                             <span class="help-block">{{$errors->first('tripartite_agreement_date')}}</span>

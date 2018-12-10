@@ -42,7 +42,7 @@ class SocietyOfferLetter extends Authenticatable
             'society_address' => 'required',
             'society_contact_no' => 'required|numeric',
             'society_building_no' => 'required',
-            'society_registration_no' => 'required',
+            'society_registration_no' => 'required|unique:ol_societies,registration_no',
             'society_architect_name' => 'required',
             'society_email' => 'required|unique:ol_societies,email|unique:users,email',
             'society_architect_mobile_no' => 'required|numeric',

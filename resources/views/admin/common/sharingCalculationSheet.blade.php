@@ -1186,7 +1186,7 @@
 
 
         });
-        $("#total_permissible_construction_area").attr('value', parseFloat($("#permissible_construction_area").val()) +
+       /* $("#total_permissible_construction_area").attr('value', parseFloat($("#permissible_construction_area").val()) +
             parseFloat($("#permissible_proratata_area").val()));
 
         $("#remaining_area").attr('value', parseFloat($("#total_permissible_construction_area").val()) -
@@ -1206,7 +1206,7 @@
             total_amount_in_rs += +$(this).val();
         });
         $("#total_amount_in_rs").attr('value', total_amount_in_rs);
-
+*/
 
 
 

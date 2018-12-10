@@ -100,7 +100,7 @@
                                 </table>
                                 <div class="" style="margin-top: 29px;">
                                     <button type="submit" class="btn btn-primary btn-custom" 
-                                    id="uploadBtn">submit</button>
+                                    id="uploadBtn">Submit</button>
                                 </div>
                             </form>
                         </div>
