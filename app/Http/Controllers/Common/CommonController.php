@@ -1699,7 +1699,8 @@ class CommonController extends Controller
         switch ($role_id) {
             case ($ee['ee_jr_id']):
                 $dashboardData['Total No of Application'][0] = $statusCount['totalApplication'];
-                $dashboardData['Total No of Application'][1] = 'dsf';
+
+                $dashboardData['Total No of Application'][1] = '';
                 $dashboardData['Application Pending'][0] = $statusCount['totalPending'];
                 $dashboardData['Application Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
                 $dashboardData['Application Forwarded to EE Deputy'][0] = $statusCount['totalForwarded'];
@@ -1707,16 +1708,24 @@ class CommonController extends Controller
 //                $dashboardData['Application Pending'] = '?submitted_at_from=&submitted_at_to=&update_status=4';
                 break;
             case ($ee['ee_head_id']):
-                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
-                $dashboardData['Application Pending'] = $statusCount['totalPending'];
-                $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
-                $dashboardData['Application Forwarded to DyCE Junior'] = $statusCount['totalForwarded'];
+                $dashboardData['Total No of Application'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total No of Application'][1] = '';
+                $dashboardData['Application Pending'][0] = $statusCount['totalPending'];
+                $dashboardData['Application Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+                $dashboardData['Application Sent for Compliance'][0] = $statusCount['totalReverted'];
+                $dashboardData['Application Sent for Compliance'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');
+                $dashboardData['Application Forwarded to DyCE Junior'][0] = $statusCount['totalForwarded'];
+                $dashboardData['Application Forwarded to DyCE Junior'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
                 break;
             case ($ee['ee_deputy_id']):
-                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
-                $dashboardData['Application Pending'] = $statusCount['totalPending'];
-                $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
-                $dashboardData['Application Forwarded to EE Head'] = $statusCount['totalForwarded'];
+                $dashboardData['Total No of Application'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total No of Application'][1] = '';
+                $dashboardData['Application Pending'][0] = $statusCount['totalPending'];
+                $dashboardData['Application Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+                $dashboardData['Application Sent for Compliance'][0] = $statusCount['totalReverted'];
+                $dashboardData['Application Sent for Compliance'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');
+                $dashboardData['Application Forwarded to EE Head'][0] = $statusCount['totalForwarded'];
+                $dashboardData['Application Forwarded to EE Head'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
                 break;
             default:
                 ;
@@ -1731,21 +1740,32 @@ class CommonController extends Controller
         switch ($role_id)
         {
             case ($dyce['dyce_jr_id']):
-                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
-                $dashboardData['Application Pending'] = $statusCount['totalPending'];
-                $dashboardData['Application Forwarded to DYCE Deputy'] = $statusCount['totalForwarded'];
+                $dashboardData['Total No of Application'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total No of Application'][1] = '';
+                $dashboardData['Application Pending'][0] = $statusCount['totalPending'];
+                $dashboardData['Application Pending'][1] = '?submitted_at_from=&office_date_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+                $dashboardData['Application Forwarded to DYCE Deputy'][0] = $statusCount['totalForwarded'];
+                $dashboardData['Application Forwarded to DYCE Deputy'][1] = '?submitted_at_from=&office_date_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
                 break;
             case ($dyce['dyce_head_id']):
-                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
-                $dashboardData['Application Pending'] = $statusCount['totalPending'];
-                $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
-                $dashboardData['Application Forwarded to REE Junior'] = $statusCount['totalForwarded'] ;
+                $dashboardData['Total No of Application'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total No of Application'][1] = '';
+                $dashboardData['Application Pending'][0] = $statusCount['totalPending'];
+                $dashboardData['Application Pending'][1] = '?submitted_at_from=&office_date_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+                $dashboardData['Application Sent for Compliance'][0] = $statusCount['totalReverted'];
+                $dashboardData['Application Sent for Compliance'][1] = '?submitted_at_from=&office_date_to=&update_status='.config('commanConfig.applicationStatus.reverted');
+                $dashboardData['Application Forwarded to REE Junior'][0] = $statusCount['totalForwarded'] ;
+                $dashboardData['Application Forwarded to REE Junior'][1] = '?submitted_at_from=&office_date_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
                 break;
             case ($dyce['dyce_deputy_id']):
-                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
-                $dashboardData['Application Pending'] = $statusCount['totalPending'];
-                $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
-                $dashboardData['Application Forwarded to DYCE Head'] = $statusCount['totalForwarded'] ;
+                $dashboardData['Total No of Application'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total No of Application'][1] = '';
+                $dashboardData['Application Pending'][0] = $statusCount['totalPending'];
+                $dashboardData['Application Pending'][1] = '?submitted_at_from=&office_date_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+                $dashboardData['Application Sent for Compliance'][0] = $statusCount['totalReverted'];
+                $dashboardData['Application Sent for Compliance'][1] = '?submitted_at_from=&office_date_to=&update_status='.config('commanConfig.applicationStatus.reverted');
+                $dashboardData['Application Forwarded to DYCE Head'][0] = $statusCount['totalForwarded'] ;
+                $dashboardData['Application Forwarded to DYCE Head'][1] = '?submitted_at_from=&office_date_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
                 break;
             default:
                 ; break;
@@ -1754,18 +1774,26 @@ class CommonController extends Controller
     }
 
     public function getCapDashboardData($statusCount){
-        $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
-        $dashboardData['Application Pending'] = $statusCount['totalPending'];
-        $dashboardData['Application Sent for Compliance To CO'] = $statusCount['totalReverted'];
-        $dashboardData['Application Forwarded to VP'] = $statusCount['totalForwarded'] ;
+        $dashboardData['Total No of Application'][0] = $statusCount['totalApplication'];
+        $dashboardData['Total No of Application'][1] = '';
+        $dashboardData['Application Pending'][0] = $statusCount['totalPending'];
+        $dashboardData['Application Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+        $dashboardData['Application Sent for Compliance To CO'][0] = $statusCount['totalReverted'];
+        $dashboardData['Application Sent for Compliance To CO'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');
+        $dashboardData['Application Forwarded to VP'][0] = $statusCount['totalForwarded'] ;
+        $dashboardData['Application Forwarded to VP'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
         return $dashboardData;
     }
 
     public function getVpDashboardData($statusCount){
-        $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
-        $dashboardData['Application Pending'] = $statusCount['totalPending'];
-        $dashboardData['Application Sent for Compliance To Cap'] = $statusCount['totalReverted'];
-        $dashboardData['Application Forwarded to REE Junior'] = $statusCount['totalForwarded'] ;
+        $dashboardData['Total No of Application'][0] = $statusCount['totalApplication'];
+        $dashboardData['Total No of Application'][1] = '';
+        $dashboardData['Application Pending'][0] = $statusCount['totalPending'];
+        $dashboardData['Application Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+        $dashboardData['Application Sent for Compliance To Cap'][0] = $statusCount['totalReverted'];
+        $dashboardData['Application Sent for Compliance To Cap'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');
+        $dashboardData['Application Forwarded to REE Junior'][0] = $statusCount['totalForwarded'] ;
+        $dashboardData['Application Forwarded to REE Junior'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
         return $dashboardData;
     }
 
