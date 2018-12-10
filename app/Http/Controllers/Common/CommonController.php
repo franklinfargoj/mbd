@@ -1562,10 +1562,10 @@ class CommonController extends Controller
         $role_id = session()->get('role_id');
         $user_id = Auth::id();
 
+        // conveyance dashboard
         $conveyanceCommonController = new conveyanceCommonController();
-
         $conveyanceDashboard = $conveyanceCommonController->ConveyanceDashboard();
-        // dd($conveyanceDashboard);
+        $conveyanceRoles     = $conveyanceCommonController->getConveyanceRoles();
 
         $applicationData = $this->getApplicationData($role_id,$user_id);
 //        dd($applicationData);
@@ -1618,7 +1618,7 @@ class CommonController extends Controller
             $dashboardData1 = $this->getToatalPendingApplicationsAtUser($dyce , $role = 'dyce');
         }
 
-        return view('admin.common.ol_dashboard',compact('dashboardData','dashboardData1','conveyanceDashboard'));
+        return view('admin.common.ol_dashboard',compact('dashboardData','dashboardData1','conveyanceDashboard','conveyanceRoles'));
 
     }
 
