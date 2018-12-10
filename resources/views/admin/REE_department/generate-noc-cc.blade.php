@@ -160,10 +160,10 @@
                                  <h5>Download Draft Noc</h5>
                                  <div class="mt-auto">
                                 @if(empty($noc_application->final_draft_noc_path))
-                                    <a target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->draft_noc_path}}"
+                                    <a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->draft_noc_path}}"
                                        class="btn btn-primary">Download</a>
                                 @else
-                                   <a target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->final_draft_noc_path}}"
+                                   <a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->final_draft_noc_path}}"
                                        class="btn btn-primary">Download</a> 
                                 @endif
                                  </div>

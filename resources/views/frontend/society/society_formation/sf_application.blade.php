@@ -12,8 +12,10 @@ $disabled=isset($disabled)?$disabled:0;
                 <a href="{{ route('society_formation.create') }}" class="btn btn-link"><i class="fa fa-long-arrow-left"
                         style="padding-right: 8px;"></i>Back</a>
                 @endif
-                <a href="#" target="_blank" id="download_application_form" class="btn print-icon" rel="noopener"
-                    onclick="PrintElem('printdiv');"><img src="{{asset('/img/print-icon.svg')}}" title="print"></a>
+                {{-- <a href="#" target="_blank" id="download_application_form" class="btn print-icon" rel="noopener"
+                    onclick="PrintElem('printdiv');"><img src="{{asset('/img/print-icon.svg')}}" title="print"></a> --}}
+                    <a href="?print=1" target="_blank" id="" class="btn print-icon" rel="noopener"
+                    ><img src="{{asset('/img/print-icon.svg')}}" title="print"></a>
             </div>
         </div>
     </div>

@@ -232,6 +232,26 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
+                                            <h5>Download</h5>
+                                            <span class="hint-text">Download demarcation Map</span>
+                                            <div class="mt-auto">
+                                                @if(isset($data->ConveyanceSalePriceCalculation->demarcation_map))
+
+                                                <input type="hidden" name="oldFileName" value="{{ $data->ConveyanceSalePriceCalculation->demarcation_map }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ConveyanceSalePriceCalculation->demarcation_map }}" target="_blank">
+
+                                                    <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                                        Download </Button>
+                                                </a>
+                                                @else
+                                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                                    *Note : Demarcation Map is not available.</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 border-left">
+                                        <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload</h5>
                                             <span class="hint-text">Click to upload Demarcation Map</span>
                                             <form action="" method="post">
@@ -248,26 +268,6 @@
                                         </div>
                                     </div> 
                                     
-                                    <div class="col-sm-6 border-left">
-                                        <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Download</h5>
-                                            <span class="hint-text">Download demarcation Map</span>
-                                            <div class="mt-auto">
-                                                @if(isset($data->ConveyanceSalePriceCalculation->demarcation_map))
-
-                                                <input type="hidden" name="oldFileName" value="{{ $data->ConveyanceSalePriceCalculation->demarcation_map }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ConveyanceSalePriceCalculation->demarcation_map }}">
-
-                                                    <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
-                                                        Download </Button>
-                                                </a>
-                                                @else
-                                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                                    *Note : Demarcation Map is not available.</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -287,7 +287,27 @@
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6 ">
+                                        <div class="d-flex flex-column h-100 two-cols">
+                                            <h5>Download</h5>
+                                            <span class="hint-text">Click to download letter.</span>
+                                            <div class="mt-auto">
+                                                @if(isset($data->ConveyanceSalePriceCalculation->ee_covering_letter))
+
+                                                <input type="hidden" name="oldFileName" value="{{ $data->ConveyanceSalePriceCalculation->ee_covering_letter }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ConveyanceSalePriceCalculation->ee_covering_letter }}" target="_blank">
+
+                                                    <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                                        Download </Button>
+                                                </a>
+                                                @else
+                                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                                    *Note : Covering Letter is not available.</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload</h5>
                                             <span class="hint-text">Click on 'Upload' to upload letter</span>
@@ -301,26 +321,6 @@
                                                     <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
                                                 </div>
                                             </form>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 border-left">
-                                        <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Download</h5>
-                                            <span class="hint-text">Click to download letter.</span>
-                                            <div class="mt-auto">
-                                                @if(isset($data->ConveyanceSalePriceCalculation->ee_covering_letter))
-
-                                                <input type="hidden" name="oldFileName" value="{{ $data->ConveyanceSalePriceCalculation->ee_covering_letter }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ConveyanceSalePriceCalculation->ee_covering_letter }}">
-
-                                                    <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
-                                                        Download </Button>
-                                                </a>
-                                                @else
-                                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                                    *Note : Covering Letter is not available.</span>
-                                                @endif
-                                            </div>
                                         </div>
                                     </div>
                                 </div>

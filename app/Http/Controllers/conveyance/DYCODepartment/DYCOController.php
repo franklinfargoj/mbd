@@ -27,6 +27,7 @@ use Carbon\Carbon;
 use Storage;
 use Auth;
 use PDF;
+use DB;
 use Mpdf\Mpdf;
 
 class DYCOController extends Controller
@@ -42,7 +43,7 @@ class DYCOController extends Controller
 
     //display checklist and office note page
     public function showChecklist(Request $request,$applicationId){
-
+        $applicationId = decrypt($applicationId);
         $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
         $type = '1';
         $language_id = '2';
@@ -126,6 +127,7 @@ class DYCOController extends Controller
     // draft sale and lease deed Agreement
     public function saleLeaseAgreement(Request $request,$applicationId){
 
+        $applicationId = decrypt($applicationId);
         $data = scApplication::with(['scApplicationLog','ConveyanceSalePriceCalculation'])
         ->where('id',$applicationId)->first();
         
@@ -235,6 +237,7 @@ class DYCOController extends Controller
 
     public function ApprovedSaleLeaseAgreement(Request $request,$applicationId){
 
+        $applicationId = decrypt($applicationId);
         $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
         $Applicationtype= $data->sc_application_master_id;
 
@@ -281,7 +284,7 @@ class DYCOController extends Controller
         }else{
             $route = 'admin.conveyance.common.view_approved_sale_lease_agreement';
         }   
-       
+      
         return view($route,compact('data'));      
     } 
 
@@ -347,6 +350,7 @@ class DYCOController extends Controller
         }
         
         if (isset($status) && $status == 'success'){
+            scApplication::where('id',$applicationId)->update(['approved_by_dycdo' => '1']);
             return back()->with('success', 'Agreements uploaded successfully.'); 
         } else{
             return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
@@ -355,6 +359,7 @@ class DYCOController extends Controller
 
     public function StampedDutySaleLeaseAgreement(Request $request,$applicationId){
         
+        $applicationId = decrypt($applicationId);
         $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
         $Applicationtype = $data->sc_application_master_id;
         $Agreementstatus = ApplicationStatusMaster::where('status_name','=','Stamped')->value('id');
@@ -412,6 +417,7 @@ class DYCOController extends Controller
 
     public function SignedSaleLeaseAgreement(Request $request,$applicationId){
         
+        $applicationId = decrypt($applicationId);
         $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
         $Applicationtype= $data->sc_application_master_id;
         $Agreementstatus = ApplicationStatusMaster::where('status_name','=','Stamped_Signed')->value('id');
@@ -507,6 +513,7 @@ class DYCOController extends Controller
         }
         
         if (isset($status) && $status == 'success'){
+            scApplication::where('id',$applicationId)->update(['stamp_by_dycdo' => '1']);
             return back()->with('success', 'Agreements uploaded successfully.'); 
         } else{
             return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
@@ -515,7 +522,8 @@ class DYCOController extends Controller
     }  
 
     public function RegisterSaleLeaseAgreement(Request $request,$applicationId){
-    
+        
+        $applicationId = decrypt($applicationId);
         $data = scApplication::with(['scApplicationLog','ConveyanceSalePriceCalculation'])
         ->where('id',$applicationId)->first();
         $Applicationtype= $data->sc_application_master_id;
@@ -561,10 +569,11 @@ class DYCOController extends Controller
         $forwardData = $this->common->forwardApplication($request); 
         return redirect('/conveyance')->with('success','Application send successfully..');
     }
-
+ 
     // NOC for conveyance
     public function conveyanceNOC(Request $request,$applicationId){
 
+        $applicationId = decrypt($applicationId);
         $data = scApplication::with(['scApplicationLog','ConveyanceSalePriceCalculation'])->where('id',$applicationId)->first();  
         $data->is_view = session()->get('role_name') == config('commanConfig.dyco_engineer'); 
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id); 
@@ -586,7 +595,8 @@ class DYCOController extends Controller
     }
 
     public function GenerateConveyanceNOC(Request $request,$applicationId){
-       
+        
+        $applicationId = decrypt($applicationId);
         $data = scApplication::with(['societyApplication'])->where('id',$applicationId)
         ->first();
         $Applicationtype= $data->sc_application_master_id;
@@ -660,8 +670,8 @@ class DYCOController extends Controller
         }else{
             $this->common->createScAgreement($id,$textId,$filePath1,NULL);
         } 
-        // dd($draftLetter);
-        return redirect('conveyance_noc/'.$request->applicationId)->with('success', 'NOC Generated Successfully..');        
+        $applicationId = encrypt($request->applicationId);
+        return redirect('conveyance_noc/'.$applicationId)->with('success', 'NOC Generated Successfully..');        
     }
 
     public function saveUploadedNOC(Request $request){
@@ -723,6 +733,7 @@ class DYCOController extends Controller
                 'application_master_id' => $data->sc_application_master_id,
                 'to_user_id'     => $to_user_id,
                 'to_role_id'     => $to_role_id,
+                'is_active'      => 1,
                 'created_at'     => Carbon::now(),
             ],
             [
@@ -734,12 +745,25 @@ class DYCOController extends Controller
                 'application_master_id' => $data->sc_application_master_id,
                 'to_user_id'    => null,
                 'to_role_id'    => null,
+                'is_active'     => 1,
                 'created_at'    => Carbon::now(),
             ],
             ];
-            scApplicationLog::insert($application); 
-            scApplication::where('id',$applicationId)->where('sc_application_master_id',$data->sc_application_master_id)
-                ->update(['application_status' => $data->application_status]);
+
+            DB::beginTransaction();
+            try{
+                scApplicationLog::where('application_id',$applicationId)
+                ->whereIn('user_id', [Auth::user()->id,$to_user_id ])
+                ->update(array('is_active' => 0));                
+            
+                scApplicationLog::insert($application); 
+                scApplication::where('id',$applicationId)->where('sc_application_master_id',$data->sc_application_master_id)
+                    ->update(['application_status' => $data->application_status, 'sent_to_society' => 1]);
+
+                DB::commit();    
+            }catch (\Exception $ex) {
+                DB::rollback();
+            }
             return back()->with('success','Application Send Successfully.');        
     }
 
@@ -950,7 +974,7 @@ class DYCOController extends Controller
 
     // generate stamp duty letter in ckeditor for Renewal Application
     public function GenerateStampDutyLetter(Request $request,$applicationId){
-
+        $applicationId = decrypt($applicationId);
         $data = RenewalApplication::with(['societyApplication'])->where('id',$applicationId)->first();
         return view('admin.renewal.dyco_department.generate_stamp_duty_letter',compact('applicationId','data'));
     }
@@ -1022,6 +1046,7 @@ class DYCOController extends Controller
     // generate stamp duty letter in ckeditor for conveyance Application
     public function GenerateConveyanceStampDuty(Request $request,$applicationId){
 
+        $applicationId = decrypt($applicationId);
         $data = scApplication::with(['societyApplication'])->where('id',$applicationId)->first();
         return view('admin.conveyance.dyco_department.generate_stamp_duty_letter',compact('applicationId','data'));
     }
@@ -1088,7 +1113,9 @@ class DYCOController extends Controller
         }else{
             $this->common->createScAgreement($id,$textId,$filePath1,NULL);
         } 
-        return redirect('approved_sale_lease_agreement/'.$request->applicationId)->with('success', 'Stamp Duty Letter generated successfully..');                      
+
+        $applicationId = encrypt($request->applicationId);
+        return redirect('approved_sale_lease_agreement/'.$applicationId)->with('success', 'Stamp Duty Letter generated successfully..');                      
     }
 
     //save renewal uploaded stamp duty 

@@ -855,4 +855,111 @@ class COController extends Controller
 
         return redirect('/co_noc_applications')->with('success','Application send successfully.');
     }
+
+    //co dashboard
+    public function dashboard(){
+        $role_id = session()->get('role_id');
+
+        $user_id = Auth::id();
+
+        $applicationData = $this->getApplicationData($role_id,$user_id);
+
+        $statusCount = $this->getApplicationStatusCount($applicationData);
+
+        $dashboardData = $this->getCODashboardData($statusCount);
+
+        $dashboardData1 = $this->CommonController->getTotalCountsOfApplicationsPending();
+
+        return view('admin.co_department.dashboard',compact('dashboardData','dashboardData1'));
+    }
+
+    public function getApplicationData($role_id,$user_id){
+        $applicationData = OlApplication::with([
+            'olApplicationStatus' => function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+                    ->where('is_active',1)
+                    ->orderBy('id', 'desc');
+            }])
+            ->whereHas('olApplicationStatus', function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+                    ->where('is_active',1)
+                    ->orderBy('id', 'desc');
+            })->get()->toArray();
+
+        return $applicationData;
+    }
+
+    public function getApplicationStatusCount($applicationData){
+
+        $totalForwarded = $totalReverted = $totalPending = $totalInProcess = 0 ;
+
+        $totalPendingForOfferLetterApproval = $approvedOfferLetterForwardedForIssueingToSociety = $totalOfferLetterApproved = 0;
+
+        foreach ($applicationData as $application){
+//            echo "<pre>";
+//            print_r($application);
+
+            $phase =  $application['ol_application_status'][0]['phase'];
+            $status = $application['ol_application_status'][0]['status_id'];
+//            print_r($status);
+//            echo '=====';
+            if($phase == 0){
+                switch ( $status )
+                {
+                    case config('commanConfig.applicationStatus.in_process'): $totalPending += 1; break;
+                    case config('commanConfig.applicationStatus.forwarded'): $totalForwarded += 1; break;
+                    case config('commanConfig.applicationStatus.reverted'): $totalReverted += 1 ; break;
+                    default:
+                        ; break;
+                }
+            }
+            if($phase == 1){
+//                dd($application);
+                switch ( $status )
+                {
+                    case config('commanConfig.applicationStatus.offer_letter_generation'): $totalPendingForOfferLetterApproval += 1; break;
+                    case config('commanConfig.applicationStatus.offer_letter_approved'): $totalOfferLetterApproved += 1; break;
+                    case config('commanConfig.applicationStatus.forwarded') /*&& $application['drafted_offer_letter']*/ : $approvedOfferLetterForwardedForIssueingToSociety += 1; break;
+                    default:
+                        ; break;
+                }
+            }
+        }
+//        dd('asdhash');
+        $totalApplication = count($applicationData);
+
+        $count = ['totalPending' => $totalPending,
+            'totalForwarded' => $totalForwarded,
+            'totalReverted' => $totalReverted,
+            'totalApplication' => $totalApplication,
+            'totalPendingForOfferLetterApproval' => $totalPendingForOfferLetterApproval,
+            'totalOfferLetterApproved' => $totalOfferLetterApproved,
+            'totalApprovedOfferLetterForwardedForIssueingToSociety' => $approvedOfferLetterForwardedForIssueingToSociety
+
+        ];
+        return $count;
+
+    }
+
+    public function getCODashboardData($statusCount)
+    {
+//        dd($statusCount);
+        $dashboardData = array();
+
+        $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+        $dashboardData['Application Pending'] = $statusCount['totalPending'];
+        $dashboardData['Application Sent for Revision'] = $statusCount['totalReverted'];
+        $dashboardData['Application Forwarded to CAP'] = $statusCount['totalForwarded'];
+//                $dashboardData['Draft Offer Letter Generated'] = $statusCount['totalDraftOfferLetterGenereated'];
+        $dashboardData['Offer Letter Pending for Approval'] = $statusCount['totalPendingForOfferLetterApproval'];
+//                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
+        $dashboardData['Offer Letter Approved'] = $statusCount['totalOfferLetterApproved'];
+        $dashboardData['Offer Letter Approved but not issued to Society'] = $statusCount['totalApprovedOfferLetterForwardedForIssueingToSociety'];
+
+        return $dashboardData;
+    }
 }

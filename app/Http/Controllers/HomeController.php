@@ -30,9 +30,9 @@ class HomeController extends Controller
         
         $role_name = $roles->name;
 
-        if(isset($roles->redirect_to))
+        if(isset($roles->dashboard))
         {
-            return redirect($roles->redirect_to);
+            return redirect($roles->dashboard);
         }
 
         abort(404);

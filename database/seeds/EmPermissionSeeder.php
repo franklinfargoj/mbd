@@ -23,6 +23,7 @@ class EmPermissionSeeder extends Seeder
             $em_manager_id = Role::insertGetId([
                 'name' => 'EM',
                 'redirect_to' => '/conveyance',
+                'dashboard' => '/conveyance',
                 'display_name' => 'estate_manager',
                 'description' => 'Login as Estae Manger',
             ]);
@@ -431,6 +432,16 @@ class EmPermissionSeeder extends Seeder
                 'name'=>'em.save_covering_letter',
                 'display_name'=>'Uploads covering letter',
                 'description'=>'Uploads covering letter'
+            ],
+            [
+                'name' => 'downloadBill',
+                'display_name' => 'Download Bill Building',
+                'description' => 'Download Bill Building',
+            ],
+            [
+                'name' => 'downloadReceipt',
+                'display_name' => 'Download Receipt',
+                'description' => 'Download Receipt',
             ]
         ];
 
@@ -472,6 +483,7 @@ class EmPermissionSeeder extends Seeder
             $em_cl_role_id = Role::insertGetId([
                 'name' => 'em_clerk',
                 'redirect_to' => '/em_clerk',
+                'dashboard' => '/em_clerk',
                 'parent_id' => $em_manager_id,
                 'display_name' => 'EM Clerk',
                 'description' => 'EM Clerk'

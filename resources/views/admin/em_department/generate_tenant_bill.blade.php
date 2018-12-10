@@ -138,7 +138,7 @@
                             <td>{{$serviceChargesRate->na_assessment}} </td>
                         </tr>
                         <tr>
-                            <td>Insurance</td>
+                            <td>Other</td>
                             <td>{{$serviceChargesRate->other}}</td>
                         </tr>
                         <tr>
@@ -175,21 +175,23 @@
                             <th>Penalty in Rs</th>
                         </tr>
                     </thead>
-                    @foreach($arreasCalculation as $calculation)
-                    <tr>
-                        <td>{{$calculation->year}} <input name='arrear_id[]' type='text' value='{{$calculation->id}}'
-                                hidden> </td>
-                        <td>{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
-                        <td>{{$calculation->total_amount - $calculation->old_intrest_amount -
-                            $calculation->difference_intrest_amount }}</td>
-                        <td>{{$calculation->old_intrest_amount +
-                            $calculation->difference_intrest_amount}}</td>
-                    </tr>
-                    @endforeach
-                    <tr>
-                        <td colspan="3" class="font-weight-bold">Total</td>
-                        <td>{{$total}}</td>
-                    </tr>
+                    <tbody>
+                        @foreach($arreasCalculation as $calculation)
+                        <tr>
+                            <td>{{$calculation->year}} <input name='arrear_id[]' type='text' value='{{$calculation->id}}'
+                                    hidden> </td>
+                            <td>{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
+                            <td>{{$calculation->total_amount - $calculation->old_intrest_amount -
+                                $calculation->difference_intrest_amount }}</td>
+                            <td>{{$calculation->old_intrest_amount +
+                                $calculation->difference_intrest_amount}}</td>
+                        </tr>
+                        @endforeach
+                        <tr>
+                            <td colspan="3" class="font-weight-bold">Total</td>
+                            <td>{{$total}}</td>
+                        </tr>
+                    </tbody>
                 </table>
                 @endif
                 <p class="text-center">Total Amount to be paid</p>

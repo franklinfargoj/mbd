@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
+        $this->call(MasterLayoutSeeder::class);
         $this->call(ResolutionTypesTableSeeder::class);
         $this->call(BoardsAndDepartmentsTableSeeder::class);
         $this->call(ApplicationTypeSeeder::class);
@@ -75,14 +76,15 @@ class DatabaseSeeder extends Seeder
         $this->call(SapPermissionSeeder::class);
         $this->call(OlCustomCalculationMaster::class);
 
-        $this->call(SfScrtinyByEmMasterSeeder::class);
+//        $this->call(SfScrtinyByEmMasterSeeder::class);
 
         $this->call(AccountPermissionSeeder::class);
         $this->call(SfScrtinyByEmMasterSeeder::class);
 
         $this->call(NocScrutinyQuestionMasterTable::class);
         $this->call(NocSocietyDocumentsMasterTableSeeder::class);
-        $this->call(MasterLayoutSeeder::class);
+
         $this->call(NocCCSocietyDocumentsMasterTableSeeder::class);
+        $this->call(ChangeSomeFieldValuesInDatabase::class);
     }
 }

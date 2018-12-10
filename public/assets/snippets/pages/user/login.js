@@ -248,7 +248,8 @@ var SnippetLogin = function() {
                 t.validate({
                     rules:{
                         society_name:{
-                            required:true
+                            required:true,
+                            lettersonly: true,
                         },
                         society_address:{
                             required:true
@@ -285,7 +286,8 @@ var SnippetLogin = function() {
                             equalTo: "#password",
                         },
                         society_architect_name:{
-                            required:true
+                            required:true,
+                            lettersonly: true,
                         },
                         society_architect_mobile_no:{
                             required:true,
@@ -303,6 +305,16 @@ var SnippetLogin = function() {
                     messages:{
                         conf_society_password:{
                             equalTo:"Password doesn't match."
+                        },
+                        society_contact_no:{
+                            number: 'Enter only Numeric Value',
+                            minlength: 'Enter Only 10 Characters',
+                            maxlength: 'Enter Only 10 Characters'
+                        },
+                        society_architect_mobile_no:{
+                            number: 'Enter only Numeric Value',
+                            minlength: 'Enter Only 10 Characters',
+                            maxlength: 'Enter Only 10 Characters'
                         }
                     }
                 }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
@@ -376,6 +388,11 @@ var SnippetLogin = function() {
                         other_remark: {
                             required:function(element) {
                                 return ($('#remark').val() == 'other');
+                            }
+                        },
+                        other_land_source: {
+                            required:function(element) {
+                                return ($('#land_source_id').val() == 4);
                             }
                         }
                     },
@@ -463,6 +480,11 @@ var SnippetLogin = function() {
                         other_remark: {
                             required:function(element) {
                                 return ($('#remark').val() == 'other');
+                            }
+                        },
+                        other_land_source: {
+                            required:function(element) {
+                                return ($('#land_source_id').val() == 4);
                             }
                         }
                     },

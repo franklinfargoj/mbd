@@ -22,6 +22,7 @@ use Config;
 use App\User;
 use Storage;
 use Auth;
+use DB;
 use App\conveyance\ScChecklistMaster;
 use App\conveyance\ScChecklistScrutinyStatus;
 
@@ -59,7 +60,7 @@ class conveyanceCommonController extends Controller
                 })
 
                 ->editColumn('radio', function ($data) {
-                    $url = route('conveyance.view_application', $data->id);
+                    $url = route('conveyance.view_application', encrypt($data->id));
                     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" name="application_id" onclick="geturl(this.value);" value="'.$url.'" ><span></span></label>';
                 })                              
                 ->editColumn('societyApplication.name', function ($data) {
@@ -138,6 +139,16 @@ class conveyanceCommonController extends Controller
                 ->orderBy('id', 'desc');
         });
 
+        if($request->submitted_at_from)
+        {
+            $applicationData=$applicationData->where(\DB::raw("(DATE_FORMAT(created_at,'%Y-%m-%d'))"),'>=',date('Y-m-d',strtotime($request->submitted_at_from)));
+        }
+
+        if($request->submitted_at_to)
+        {
+            $applicationData=$applicationData->where(\DB::raw("(DATE_FORMAT(created_at,'%Y-%m-%d'))"),'<=',date('Y-m-d',strtotime($request->submitted_at_to)));
+        }        
+
         $applicationData = $applicationData->orderBy('sc_application.id', 'desc')->get();
         $listArray = [];
         if ($request->update_status) {
@@ -156,6 +167,7 @@ class conveyanceCommonController extends Controller
 
     public function ViewApplication(Request $request,$applicationId){
         
+        $applicationId = decrypt($applicationId);
         $data = scApplication::where('id',$applicationId)->first();
         $data->folder = $this->getCurrentRoleFolderName();
         $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
@@ -216,7 +228,7 @@ class conveyanceCommonController extends Controller
 
     // forward and revert application
     public function forwardApplication($request){
-        
+       
         $Scstatus = "";
         $toUsers = "";
         $data = scApplication::where('id',$request->applicationId)->first();
@@ -234,7 +246,7 @@ class conveyanceCommonController extends Controller
             $toUsers = $request->to_child_id;
         }
         
-        if (session()->get('role_name') == config('commanConfig.ee_branch_head') && $request->to_role_id == $dycdoId) {
+        if ((session()->get('role_name') == config('commanConfig.ee_branch_head') || session()->get('role_name') == config('commanConfig.estate_manager') ) && $request->to_role_id == $dycdoId) {
             $Tostatus = config('commanConfig.conveyance_status.Draft_sale_&_lease_deed');
             $Scstatus = $Tostatus;
 
@@ -255,12 +267,12 @@ class conveyanceCommonController extends Controller
         }elseif((session()->get('role_name') == config('commanConfig.dycdo_engineer') && $request->to_role_id == $dycoId)){
             if ($applicationStatus == config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed')){
 
-                $Tostatus = config('commanConfig.conveyance_status.Sent_society_to_pay_stamp_duety');
+                $Tostatus = config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety');
                 $Scstatus = $Tostatus;
 
             }elseif($applicationStatus == config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed')){
                 
-                $Tostatus = config('commanConfig.conveyance_status.Sent_society_for_registration_of_sale_&_lease');
+                $Tostatus = config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease');
                 $Scstatus = $Tostatus; 
 
             }elseif($applicationStatus == config('commanConfig.conveyance_status.Registered_sale_&_lease_deed')){
@@ -277,6 +289,12 @@ class conveyanceCommonController extends Controller
                 $Tostatus = $applicationStatus;               
             }
 
+            // if reverted to society 
+            if ($request->society_flag == '1'){
+             $Tostatus = config('commanConfig.conveyance_status.pending'); 
+
+            }
+            
         foreach($toUsers as $to_user_id){
             $user_data = User::find($to_user_id);
 
@@ -289,6 +307,8 @@ class conveyanceCommonController extends Controller
                 'to_role_id'     => $user_data->role_id,
                 'remark'         => $request->remark,
                 'application_master_id' => $masterId,
+                'society_flag'   => '0',
+                'is_active'      => 1,
                 'created_at'     => Carbon::now(),
             ],
             [
@@ -300,14 +320,30 @@ class conveyanceCommonController extends Controller
                 'to_role_id'    => null,
                 'remark'        => $request->remark,
                 'application_master_id' => $masterId,
+                'society_flag'   => $request->society_flag,
+                'is_active'      => 1,
                 'created_at'    => Carbon::now(),
             ],
             ];
 
+            DB::beginTransaction();
+            try{
+            scApplicationLog::where('application_id',$request->applicationId)
+                ->whereIn('user_id', [Auth::user()->id,$request->to_user_id ])
+                ->update(array('is_active' => 0)); 
+
+            
             scApplicationLog::insert($application); 
-            if ($Scstatus != ""){
-                scApplication::where('id',$request->applicationId)->where('sc_application_master_id',$masterId)
-                ->update(['application_status' => $Tostatus]);                    
+           
+                if ($Scstatus != ""){
+                              
+                    scApplication::where('id',$request->applicationId)->where('sc_application_master_id',$masterId)
+                    ->update(['application_status' => $Tostatus, 'sent_to_society' => '0']);                     
+                }
+            DB::commit();    
+            }catch (\Exception $ex) {
+                 
+                DB::rollback();
             }
         }    
     }
@@ -338,6 +374,7 @@ class conveyanceCommonController extends Controller
     //view ee documents in readonly format
     public function ViewEEDocuments($applicationId){
         
+        $applicationId = decrypt($applicationId);
         $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
         $data->folder = $this->getCurrentRoleFolderName();
         $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
@@ -349,6 +386,7 @@ class conveyanceCommonController extends Controller
     //view society documents in readonly format
     public function ViewSocietyDocuments($applicationId){
         
+        $applicationId = decrypt($applicationId);
         $data = scApplication::where('id',$applicationId)->first();
         $data->folder = $this->getCurrentRoleFolderName();
         $mLanguage = LanguageMaster::where('language','=','marathi')->value('id');
@@ -475,7 +513,7 @@ class conveyanceCommonController extends Controller
                             'user_id'             => Auth::Id());   
 
         $data = SocietyConveyanceDocumentStatus::insert($ArrData); 
-        return $data;          
+        return $data;           
     }
 
     // update sc agreements
@@ -510,6 +548,7 @@ class conveyanceCommonController extends Controller
     // conveyance Architect scrutiny remark
     public function ArchitectScrutinyRemark(Request $request, $applicationId){
         
+        $applicationId = decrypt($applicationId);
         $data = scApplication::with('societyApplication')->where('id',$applicationId)->first();
         $data->status = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);
         $data->folder  = $this->getCurrentRoleFolderName();
@@ -554,7 +593,8 @@ class conveyanceCommonController extends Controller
 
     //common forward page for DYCO dept, Architect 
     public function commonForward(Request $request,$applicationId){
-
+      
+      $applicationId = decrypt($applicationId);  
       $data          = $this->getForwardApplicationData($applicationId);
       $data->folder  = $this->getCurrentRoleFolderName();
       $societyLogs   = $this->getLogsOfSociety($applicationId,$data->sc_application_master_id);
@@ -737,6 +777,7 @@ class conveyanceCommonController extends Controller
 
     public function show_checklist(Request $request,$applicationId){
 
+        $applicationId = decrypt($applicationId);
         $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
         $type = '1';
         $language_id = '2';
@@ -765,6 +806,7 @@ class conveyanceCommonController extends Controller
     // draft sale sign and lease deed Agreement view only for JTCO
     public function DraftSignsaleLeaseAgreement(Request $request,$applicationId){
 
+        $applicationId = decrypt($applicationId);
         $data = scApplication::with(['scApplicationLog','ConveyanceSalePriceCalculation'])
         ->where('id',$applicationId)->first();
         $Applicationtype= $data->sc_application_master_id;
@@ -882,5 +924,93 @@ class conveyanceCommonController extends Controller
         $docId = $this->getDocumentId($em_doc,$masterId);
         $em_document = $this->getDocumentStatus($applicationId,$docId);
         return $em_document;
-    }       
+    }
+
+    // Dashboard for conveyance start header_remove
+
+    public function ConveyanceDashboard(){
+
+        $role_id = session()->get('role_id');
+        $user_id = Auth::id();
+        $applicationData = $this->getApplicationData($role_id,$user_id);
+        $statusCount = $this->getApplicationStatusCount($applicationData);
+        $dycoRoles = $this->getDYCORoles();
+
+        // dd($statusCount);
+
+        return $statusCount;
+    }  
+
+    public function getApplicationData($role_id,$user_id){
+        
+        $applicationData = scApplication::with([
+            'scApplicationLog' => function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+                    ->where('is_active',1)
+                    ->orderBy('id', 'desc');
+            }])
+            ->whereHas('scApplicationLog', function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+                    ->where('is_active',1)
+                    ->orderBy('id', 'desc');
+            })->get()->toArray();
+
+        return $applicationData;
+    }
+
+    public function getDYCORoles(){
+        
+        $dycdo = Role::where('name',config('commanConfig.dycdo_engineer'))->value('id');
+        $dyco = Role::where('name',config('commanConfig.dyco_engineer'))->value('id');
+
+        $dycoRoles = ['dycdo_role' => $dycdo,
+                      'dyco_role' => $dyco];
+        
+        return $dycoRoles;
+    } 
+
+    public function getApplicationStatusCount($applicationData){
+        
+        $sendForApproval = $totalPending = $sendToSociety = 0 ;
+        
+        foreach ($applicationData as $application){
+            $status = $application['sc_application_log']['status_id'];
+            
+            $pendingArr = array(config('commanConfig.conveyance_status.in_process'),config('commanConfig.conveyance_status.Draft_sale_&_lease_deed'),config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed'),config('commanConfig.conveyance_status.Registered_sale_&_lease_deed'));
+
+            $sendForApprovalCondition = ($application['application_status'] != config('commanConfig.conveyance_status.in_process') && $status == config('commanConfig.conveyance_status.forwarded') && $application['sent_to_society'] == 0);
+
+            $sendToSocietyCondition = $status == config('commanConfig.conveyance_status.forwarded') && ($application['sent_to_society'] == 1);
+
+            $sendForStampDuty = ($status == config('commanConfig.conveyance_status.forwarded') && ($application['sent_to_society'] == 1 && $application['application_status'] == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety')));            
+
+            $sendForRegistration = ($status == config('commanConfig.conveyance_status.forwarded') && ($application['sent_to_society'] == 1 && $application['application_status'] == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease')));
+
+            $sendForRegistration = ($status == config('commanConfig.conveyance_status.forwarded') && ($application['sent_to_society'] == 1 && $application['application_status'] == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease')));
+
+
+            switch ($status)
+            {                
+                case in_array($status, $pendingArr) : $totalPending    += 1; break;
+                case $sendForApprovalCondition      : $sendForApproval += 1; break;
+                case $sendToSocietyCondition        : $sendToSociety   += 1; break;
+                default:
+                ; break;
+            }
+        }
+
+        $totalApplication = count($applicationData);
+
+        $count = ['Application Pending'                       => $totalPending,
+                  'Draft Sale & Lease Deed sent for Approval' => $sendForApproval,
+                  'Sale & Lease Deed sent to society'         => $sendToSociety,
+                  'Total No of Application'                   => $totalApplication
+        ];
+
+        return $count;
+    }                
 }

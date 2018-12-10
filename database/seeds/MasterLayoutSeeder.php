@@ -12,9 +12,16 @@ class MasterLayoutSeeder extends Seeder
      */
     public function run()
     {
+      if(Schema::hasTable('master_layout')) {
+        
+        DB::statement("SET foreign_key_checks=0");
+        MasterLayout::truncate();
+        DB::statement("SET foreign_key_checks=1");
+      }
+        
         $layouts = [
            [
-               'layout_name' => 'Sardar Nagar 1,2,3 Sion Koliwada',
+               'layout_name' => 'Samata Nagar, Kandivali(E)',
                'division' => '',
                'board' => 1
            ],[
@@ -194,7 +201,7 @@ class MasterLayoutSeeder extends Seeder
                'division' => '',
                'board' => 1
            ],[
-               'layout_name' => 'Samta nagar, Kandivali',
+               'layout_name' => 'Sardar Nagar 1,2,3 Sion Koliwada',
                'division' => '',
                'board' => 1
            ],[

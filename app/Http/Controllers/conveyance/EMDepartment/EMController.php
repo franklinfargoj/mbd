@@ -37,6 +37,8 @@ class EMController extends Controller
      * @return \Illuminate\Http\Response
      */
 	public function ScrutinyRemark(Request $request,$applicationId){
+
+        $applicationId = decrypt($applicationId);
         $data = scApplication::with(['societyApplication','scApplicationLog', 'sc_form_request', 'scDocumentStatus' => function($q) use($applicationId){
             $q->where('application_id', $applicationId);
             $q->where('society_flag', 0)->get();
@@ -186,7 +188,8 @@ class EMController extends Controller
             }
 
         }
-        return redirect()->route('em.scrutiny_remark',$id);
+        return back()->with('success','No Dues Certificate uploaded successfully.');
+        // return redirect()->route('em.scrutiny_remark',$id);
     }
 
     /**
@@ -292,7 +295,8 @@ class EMController extends Controller
 
         RenewalDocumentStatus::insert($input_arr);
 
-        return redirect()->route('em.renewal_scrutiny_remark', $request->applicationId);
+        return back()->with('success',' uploaded successfully.');
+        // return redirect()->route('em.renewal_scrutiny_remark', $request->applicationId);
     }
 
     /**
@@ -342,9 +346,9 @@ class EMController extends Controller
                         }
                     }
                 });
-
                 if($count != 0){
                     if($count == count($sc_excel_headers)){
+
                         $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->value('id');
                         $document = $this->conveyance_common->getDocumentId(config('commanConfig.documents.em_conveyance.bonafide')[0], $application_type);
 
@@ -361,17 +365,22 @@ class EMController extends Controller
                         $inserted_document_log = SocietyConveyanceDocumentStatus::create($sc_document_status_arr);
 
                         if($inserted_document_log == true){
-                            return redirect()->route('em.scrutiny_remark', $request->application_id);
+                             return back()->with('success','Uploaded successfully.');
                         }
+                        
                     }else{
-                        return redirect()->route('em.scrutiny_remark')->with('error', "Excel file headers doesn't match")->withInput();
+                        
+                        // return redirect()->route('em.scrutiny_remark')->with('error', "Excel file headers doesn't match")->withInput();
+                        return redirect()->back()->with('error', "Excel file headers doesn't match")->withInput();
                     }
                 }else{
-                    return redirect()->route('em.scrutiny_remark')->with('error', "Excel file is empty.")->withInput();
+                    // return redirect()->route('em.scrutiny_remark')->with('error', "Excel file is empty.")->withInput();
+                    return redirect()->back()->with('error', "Excel file is empty.")->withInput();
                 }
             }
         }else{
-            return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
+            // return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
+            return redirect()->back()->withErrors('error', "Excel file headers doesn't match")->withInput();
         }
     }
 
@@ -485,7 +494,8 @@ class EMController extends Controller
                 $inserted_document_log = SocietyConveyanceDocumentStatus::create($sc_document_status_arr);
 
                 if($inserted_document_log == true){
-                    return redirect()->route('em.scrutiny_remark', $request->applicationId);
+                    return back()->with('success',' uploaded successfully.');
+                    // return redirect()->route('em.scrutiny_remark', $request->applicationId);
                 }
 
             }else{

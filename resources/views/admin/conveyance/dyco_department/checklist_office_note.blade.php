@@ -100,7 +100,7 @@
                                 </table>
                                 <div class="" style="margin-top: 29px;">
                                     <button type="submit" class="btn btn-primary btn-custom" 
-                                    id="uploadBtn">submit</button>
+                                    id="uploadBtn">Submit</button>
                                 </div>
                             </form>
                         </div>
@@ -122,6 +122,27 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="d-flex flex-column h-100 two-cols">
+                                                <h5>Download </h5>
+                                                <span>Download DyCDO Note</span>
+                                                <div class="mt-auto">
+                                                @if(isset($dycdo_note->document_path))
+                                                <input type="hidden" name="old_file_name" value="{{ $dycdo_note->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$dycdo_note->document_path }}" target="_blank">
+
+                                                
+                                                
+                                                    <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                                        Download </Button>
+                                                </a>
+                                                @else
+                                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                                    *Note : DYCDO note is not available.</span>
+                                                @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 border-left">
+                                            <div class="d-flex flex-column h-100 two-cols">
                                                 <h5>Upload</h5>
                                                 <span>Upload DyCDO Note</span>
                                                 <form action="" method="post">
@@ -136,27 +157,6 @@
                                                        <input type="submit" class="btn btn-primary btn-custom uploadBtn" id="uploadBtn" value="Upload">
                                                     </div>
                                                 </form>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 border-left">
-                                            <div class="d-flex flex-column h-100 two-cols">
-                                                <h5>Download DyCDO Note</h5>
-                                                <span>Download</span>
-                                                <div class="mt-auto">
-                                                @if(isset($dycdo_note->document_path))
-                                                <input type="hidden" name="old_file_name" value="{{ $dycdo_note->document_path }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$dycdo_note->document_path }}">
-
-                                                
-                                                
-                                                    <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
-                                                        Download </Button>
-                                                </a>
-                                                @else
-                                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                                    *Note : DYCDO note is not available.</span>
-                                                @endif
-                                                </div>
                                             </div>
                                         </div>
                                     </div>

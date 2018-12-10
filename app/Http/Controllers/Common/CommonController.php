@@ -49,6 +49,7 @@ use DB;
 use Storage;
 use App\EmploymentOfArchitect\EoaApplication;
 use App\conveyance\SfApplicationStatusLog;
+use App\Http\Controllers\conveyance\conveyanceCommonController;
 
 class CommonController extends Controller
 {
@@ -236,8 +237,22 @@ class CommonController extends Controller
     //     return $architect_application;
     // }
 
+    public function roles_will_see_all_architect_layouts()
+    {
+        return array(
+            config('commanConfig.architect'),
+            config('commanConfig.co_engineer'),
+            config('commanConfig.cap_engineer'),
+            config('commanConfig.vp_engineer'),
+            config('commanConfig.la_engineer'),
+            config('commanConfig.land_manager'),
+            config('commanConfig.senior_architect_planner')
+        );
+    }
+
     public function architect_layout_details($request)
     {
+        
         $ArchitectLayoutLayoutdetailsQuery = ArchitectLayout::with(['ArchitectLayoutStatusLogInListing' => function ($q) {
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'))
@@ -265,7 +280,15 @@ class CommonController extends Controller
         if ($request->submitted_at_from && $request->submitted_at_to) {
             $ArchitectLayoutLayoutdetailsQuery->whereBetween('added_date', [date('Y-m-d', strtotime($request->submitted_at_from)), date('Y-m-d', strtotime($request->submitted_at_to))]);
         }
-
+        $LayoutUser=\App\LayoutUser::where(['user_id'=>auth()->user()->id])->first();
+        if($LayoutUser)
+        {
+            if(!in_array(session()->get('role_name'),$this->roles_will_see_all_architect_layouts()))
+            {
+            $ArchitectLayoutLayoutdetails = $ArchitectLayoutLayoutdetailsQuery->where('layout_name',$LayoutUser->layout_id);
+            }
+        }
+        
         $ArchitectLayoutLayoutdetails = $ArchitectLayoutLayoutdetailsQuery->orderBy('id','desc')->get();
 
         return $ArchitectLayoutLayoutdetails;
@@ -303,6 +326,14 @@ class CommonController extends Controller
             $ArchitectLayoutRevisionRequestsQuery->where('layout_no', $request->title);
         }
 
+        $LayoutUser=\App\LayoutUser::where(['user_id'=>auth()->user()->id])->first();
+        if($LayoutUser)
+        {
+            if(!in_array(session()->get('role_name'),$this->roles_will_see_all_architect_layouts()))
+            {
+                $ArchitectLayoutRevisionRequestsQuery = $ArchitectLayoutRevisionRequestsQuery->where('layout_name',$LayoutUser->layout_id);
+            }   
+        }
         // query replaced for optimization
         $ArchitectLayoutRevisionRequests = $ArchitectLayoutRevisionRequestsQuery->where(DB::raw(config('commanConfig.architect_layout_status.new_application')), '!=', function ($q) {
             $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
@@ -322,8 +353,13 @@ class CommonController extends Controller
     public function forward_architect_layout($architect_layout_id,$forward_application)
     {
       DB::transaction(function () use($architect_layout_id,$forward_application){
-        ArchitectLayoutStatusLog::where(['architect_layout_id'=>$architect_layout_id,'open'=>1])->update(['open'=>0]);
-        ArchitectLayoutStatusLog::insert($forward_application);
+        foreach($forward_application as $forward_app)
+        {
+            ArchitectLayoutStatusLog::where(['architect_layout_id'=>$architect_layout_id,'open'=>1])->update(['open'=>0]);
+            ArchitectLayoutStatusLog::where(['architect_layout_id'=>$architect_layout_id,'current_status'=>1,'user_id'=>$forward_app['user_id']])->update(['current_status'=>0]);
+            ArchitectLayoutStatusLog::insert([$forward_app]);
+        }
+        
       });
     }
 
@@ -423,11 +459,9 @@ class CommonController extends Controller
             //Code added by Prajakta >>end
 
         } else {
-            if (session()->get('role_name') == config('commanConfig.cap_engineer') || session()->get('role_name') == config('commanConfig.vp_engineer')) {
 
-                //Code added by Prajakta >>start
-                $to_user_id = $request->user_id;
-                //Code added by Prajakta >>end
+
+            if (session()->get('role_name') == config('commanConfig.cap_engineer') || session()->get('role_name') == config('commanConfig.vp_engineer')) {
 
                 $revert_application = [
                     [
@@ -435,8 +469,8 @@ class CommonController extends Controller
                         'user_id' => Auth::user()->id,
                         'role_id' => session()->get('role_id'),
                         'status_id' => config('commanConfig.applicationStatus.reverted'),
-                        'to_user_id' => $to_user_id,
-                        'to_role_id' => $request->role_id,
+                        'to_user_id' => $request->to_child_id,      // replaced user id to child id in case of revert - Neelam
+                        'to_role_id' => $request->to_role_id,
                         'remark' => $request->remark,
                         'is_active' => 1,
                         'created_at' => Carbon::now(),
@@ -444,8 +478,8 @@ class CommonController extends Controller
 
                     [
                         'application_id' => $request->applicationId,
-                        'user_id' => $request->user_id,
-                        'role_id' => $request->role_id,
+                        'user_id' => $request->to_child_id, // replaced user id to child id in case of revert - Neelam
+                        'role_id' => $request->to_role_id,
                         'status_id' => config('commanConfig.applicationStatus.in_process'),
                         'to_user_id' => null,
                         'to_role_id' => null,
@@ -460,46 +494,80 @@ class CommonController extends Controller
                 $to_user_id = $request->to_child_id;
                 //Code added by Prajakta >>end
 
-                $revert_application = [
-                    [
-                        'application_id' => $request->applicationId,
-                        'user_id' => Auth::user()->id,
-                        'role_id' => session()->get('role_id'),
-                        'status_id' => config('commanConfig.applicationStatus.reverted'),
-                        'to_user_id' => $to_user_id,
-                        'to_role_id' => $request->to_role_id,
-                        'remark' => $request->remark,
-                        'is_active' => 1,
-                        'created_at' => Carbon::now(),
-                    ],
+                if($request->to_role_id==28)    // revert to society
+                {
+                    $revert_application = [
+                        [
+                            'application_id' => $request->applicationId,
+                            'user_id' => Auth::user()->id,
+                            'role_id' => session()->get('role_id'),
+                            'status_id' => config('commanConfig.applicationStatus.reverted'),
+                            'to_user_id' => $request->to_child_id,
+                            'to_role_id' => $request->to_role_id,
+                            'remark' => $request->remark,
+                            'is_active' => 1,
+                            'society_flag'=>0,
+                            'created_at' => Carbon::now(),
+                        ],
 
-                    [
-                        'application_id' => $request->applicationId,
-                        'user_id' => $request->to_child_id,
-                        'role_id' => $request->to_role_id,
-                        'status_id' => config('commanConfig.applicationStatus.in_process'),
-                        'to_user_id' => null,
-                        'to_role_id' => null,
-                        'remark' => $request->remark,
-                        'is_active' => 1,
-                        'created_at' => Carbon::now(),
-                    ],
-                ];
+                        [
+
+                            'application_id' => $request->applicationId,
+                            'user_id' => $request->to_child_id,
+                            'role_id' => $request->to_role_id,
+                            'status_id' => config('commanConfig.applicationStatus.pending'),
+                            'to_user_id' => null,
+                            'to_role_id' => null,
+                            'remark' => $request->remark,
+                            'is_active' => 1,
+                            'society_flag'=>1,
+                            'created_at' => Carbon::now(),
+
+                        ],
+                    ];
+                }
+                else {
+                    $revert_application = [
+                        [
+                            'application_id' => $request->applicationId,
+                            'user_id' => Auth::user()->id,
+                            'role_id' => session()->get('role_id'),
+                            'status_id' => config('commanConfig.applicationStatus.reverted'),
+                            'to_user_id' => $request->to_child_id,
+                            'to_role_id' => $request->to_role_id,
+                            'remark' => $request->remark,
+                            'is_active' => 1,
+                            'created_at' => Carbon::now(),
+                        ],
+
+                        [
+                            'application_id' => $request->applicationId,
+                            'user_id' => $request->to_child_id,
+                            'role_id' => $request->to_role_id,
+                            'status_id' => config('commanConfig.applicationStatus.in_process'),
+                            'to_user_id' => null,
+                            'to_role_id' => null,
+                            'remark' => $request->remark,
+                            'is_active' => 1,
+                            'created_at' => Carbon::now(),
+                        ],
+                    ];
+                }
             }
-
+          //  dd($revert_application);
             //Code added by Prajakta >>start
             DB::beginTransaction();
             try {
                 OlApplicationStatus::where('application_id',$request->applicationId)
-                    ->whereIn('user_id', [Auth::user()->id,$to_user_id ])
+                    ->whereIn('user_id', [Auth::user()->id,$request->to_child_id ])
                     ->update(array('is_active' => 0));
 
                 OlApplicationStatus::insert($revert_application);
 
                 DB::commit();
-            } catch (\Exception $ex) {
+            } catch (\Exception $ex) { echo ($ex->getMessage());exit;
                 DB::rollback();
-//                return response()->json(['error' => $ex->getMessage()], 500);
+               return response()->json(['error' => $ex->getMessage()], 500);
             }
             //Code added by Prajakta >>end
 
@@ -519,6 +587,7 @@ class CommonController extends Controller
             'to_role_id' => $getCo->role_id,
             'remark' => $request->remark,
             'is_active' => 1,
+            'phase' => 1,
             'created_at' => Carbon::now(),
         ],
 
@@ -531,6 +600,7 @@ class CommonController extends Controller
                 'to_role_id' => null,
                 'remark' => $request->remark,
                 'is_active' => 1,
+                'phase' => 1,
                 'created_at' => Carbon::now(),
             ],
         ];
@@ -733,6 +803,17 @@ class CommonController extends Controller
         $status_user = OlApplicationStatus::where(['application_id' => $application_id, 'society_flag' => 0])->pluck('user_id')->toArray();
 
         $final_child = User::with('roles')->whereIn('id', array_unique($status_user))->whereIn('role_id', $result)->get();
+
+        if(session()->get('role_name') == config('commanConfig.ree_branch_head') && $final_child != "")
+        {
+            $society_id = OlApplication::where('id',$application_id)->get(['society_id']);
+            $SocietyOfferLetter = SocietyOfferLetter::find($society_id);
+            $society_user_id = $SocietyOfferLetter[0]->user_id;
+            $society_user = User::where('id',$society_user_id)->get();
+
+            $final_child = $final_child->merge($society_user);
+        }
+
 
         return $final_child;
     }
@@ -1346,6 +1427,7 @@ class CommonController extends Controller
             $insert_application_log[$status_in_words][$key]['to_user_id'] = $user->id;
             $insert_application_log[$status_in_words][$key]['to_role_id'] = $user->role_id;
             $insert_application_log[$status_in_words][$key]['remark'] = '';
+            $insert_application_log[$status_in_words][$key]['is_active'] = 1;
             $application_log_status = $insert_application_log[$status_in_words];
 
             if($status == 2){
@@ -1359,6 +1441,7 @@ class CommonController extends Controller
                 $insert_application_log[$status_in_words_1][$key]['to_user_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['to_role_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['remark'] = '';
+                $insert_application_log[$status_in_words_1][$key]['is_active'] = 1;
                 $application_log_status = array_merge($insert_application_log[$status_in_words], $insert_application_log[$status_in_words_1]);
             }
             $i++;
@@ -1375,7 +1458,7 @@ class CommonController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function sf_application_status_society($insert_arr, $status, $sc_application){
-        $status_in_words = array_flip(config('commanConfig.applicationStatus'))[$status];
+        $status_in_words = array_flip(config('commanConfig.formation_status'))[$status];
         $sc_application_last_id = $sc_application->id;
         $sc_application_master_id = $sc_application->sc_application_master_id;
         foreach($insert_arr['users'] as $key => $user){
@@ -1391,14 +1474,14 @@ class CommonController extends Controller
             $insert_application_log[$status_in_words][$key]['remark'] = '';
             $application_log_status = $insert_application_log[$status_in_words];
 
-            if($status == config('commanConfig.applicationStatus.forwarded')){
-                $status_in_words_1 = array_flip(config('commanConfig.applicationStatus'))[1];
+            if($status == config('commanConfig.formation_status.forwarded')){
+                $status_in_words_1 = array_flip(config('commanConfig.formation_status'))[1];
                 $insert_application_log[$status_in_words_1][$key]['application_id'] = $sc_application_last_id;
                 $insert_application_log[$status_in_words_1][$key]['application_master_id'] = $sc_application_master_id;
                 $insert_application_log[$status_in_words_1][$key]['society_flag'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['user_id'] = $user->id;
                 $insert_application_log[$status_in_words_1][$key]['role_id'] = $user->role_id;
-                $insert_application_log[$status_in_words_1][$key]['status_id'] = config('commanConfig.applicationStatus.in_process');
+                $insert_application_log[$status_in_words_1][$key]['status_id'] = config('commanConfig.formation_status.in_process');
                 $insert_application_log[$status_in_words_1][$key]['to_user_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['to_role_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['remark'] = '';
@@ -1479,6 +1562,11 @@ class CommonController extends Controller
         $role_id = session()->get('role_id');
         $user_id = Auth::id();
 
+        $conveyanceCommonController = new conveyanceCommonController();
+
+        $conveyanceDashboard = $conveyanceCommonController->ConveyanceDashboard();
+        // dd($conveyanceDashboard);
+
         $applicationData = $this->getApplicationData($role_id,$user_id);
 //        dd($applicationData);
 
@@ -1502,6 +1590,13 @@ class CommonController extends Controller
         if(in_array($role_id ,$ee))
             $dashboardData = $this->getEEDashboardData($role_id,$ee,$statusCount);
 
+
+//        foreach ($dashboardData as $key => $dd){
+//            dd($dashboardData);
+//
+//
+//        }
+
         if(in_array($role_id ,$dyce))
             $dashboardData = $this->getDyceDashboardData($role_id,$dyce,$statusCount);
 
@@ -1523,7 +1618,7 @@ class CommonController extends Controller
             $dashboardData1 = $this->getToatalPendingApplicationsAtUser($dyce , $role = 'dyce');
         }
 
-        return view('admin.common.ol_dashboard',compact('dashboardData','dashboardData1'));
+        return view('admin.common.ol_dashboard',compact('dashboardData','dashboardData1','conveyanceDashboard'));
 
     }
 
@@ -1603,26 +1698,41 @@ class CommonController extends Controller
     {
         switch ($role_id) {
             case ($ee['ee_jr_id']):
-                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
-                $dashboardData['Application Pending'] = $statusCount['totalPending'];
-                $dashboardData['Application Forwarded to EE Deputy'] = $statusCount['totalForwarded'];
+                $dashboardData['Total No of Application'][0] = $statusCount['totalApplication'];
+
+                $dashboardData['Total No of Application'][1] = '';
+                $dashboardData['Application Pending'][0] = $statusCount['totalPending'];
+                $dashboardData['Application Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+                $dashboardData['Application Forwarded to EE Deputy'][0] = $statusCount['totalForwarded'];
+                $dashboardData['Application Forwarded to EE Deputy'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+//                $dashboardData['Application Pending'] = '?submitted_at_from=&submitted_at_to=&update_status=4';
                 break;
             case ($ee['ee_head_id']):
-                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
-                $dashboardData['Application Pending'] = $statusCount['totalPending'];
-                $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
-                $dashboardData['Application Forwarded to DyCE Junior'] = $statusCount['totalForwarded'];
+                $dashboardData['Total No of Application'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total No of Application'][1] = '';
+                $dashboardData['Application Pending'][0] = $statusCount['totalPending'];
+                $dashboardData['Application Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+                $dashboardData['Application Sent for Compliance'][0] = $statusCount['totalReverted'];
+                $dashboardData['Application Sent for Compliance'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');
+                $dashboardData['Application Forwarded to DyCE Junior'][0] = $statusCount['totalForwarded'];
+                $dashboardData['Application Forwarded to DyCE Junior'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
                 break;
             case ($ee['ee_deputy_id']):
-                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
-                $dashboardData['Application Pending'] = $statusCount['totalPending'];
-                $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
-                $dashboardData['Application Forwarded to EE Head'] = $statusCount['totalForwarded'];
+                $dashboardData['Total No of Application'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total No of Application'][1] = '';
+                $dashboardData['Application Pending'][0] = $statusCount['totalPending'];
+                $dashboardData['Application Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+                $dashboardData['Application Sent for Compliance'][0] = $statusCount['totalReverted'];
+                $dashboardData['Application Sent for Compliance'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');
+                $dashboardData['Application Forwarded to EE Head'][0] = $statusCount['totalForwarded'];
+                $dashboardData['Application Forwarded to EE Head'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
                 break;
             default:
                 ;
                 break;
         }
+
+//        dd($dashboardData);
         return $dashboardData;
     }
 
@@ -1630,21 +1740,32 @@ class CommonController extends Controller
         switch ($role_id)
         {
             case ($dyce['dyce_jr_id']):
-                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
-                $dashboardData['Application Pending'] = $statusCount['totalPending'];
-                $dashboardData['Application Forwarded to DYCE Deputy'] = $statusCount['totalForwarded'];
+                $dashboardData['Total No of Application'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total No of Application'][1] = '';
+                $dashboardData['Application Pending'][0] = $statusCount['totalPending'];
+                $dashboardData['Application Pending'][1] = '?submitted_at_from=&office_date_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+                $dashboardData['Application Forwarded to DYCE Deputy'][0] = $statusCount['totalForwarded'];
+                $dashboardData['Application Forwarded to DYCE Deputy'][1] = '?submitted_at_from=&office_date_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
                 break;
             case ($dyce['dyce_head_id']):
-                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
-                $dashboardData['Application Pending'] = $statusCount['totalPending'];
-                $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
-                $dashboardData['Application Forwarded to REE Junior'] = $statusCount['totalForwarded'] ;
+                $dashboardData['Total No of Application'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total No of Application'][1] = '';
+                $dashboardData['Application Pending'][0] = $statusCount['totalPending'];
+                $dashboardData['Application Pending'][1] = '?submitted_at_from=&office_date_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+                $dashboardData['Application Sent for Compliance'][0] = $statusCount['totalReverted'];
+                $dashboardData['Application Sent for Compliance'][1] = '?submitted_at_from=&office_date_to=&update_status='.config('commanConfig.applicationStatus.reverted');
+                $dashboardData['Application Forwarded to REE Junior'][0] = $statusCount['totalForwarded'] ;
+                $dashboardData['Application Forwarded to REE Junior'][1] = '?submitted_at_from=&office_date_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
                 break;
             case ($dyce['dyce_deputy_id']):
-                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
-                $dashboardData['Application Pending'] = $statusCount['totalPending'];
-                $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
-                $dashboardData['Application Forwarded to DYCE Head'] = $statusCount['totalForwarded'] ;
+                $dashboardData['Total No of Application'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total No of Application'][1] = '';
+                $dashboardData['Application Pending'][0] = $statusCount['totalPending'];
+                $dashboardData['Application Pending'][1] = '?submitted_at_from=&office_date_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+                $dashboardData['Application Sent for Compliance'][0] = $statusCount['totalReverted'];
+                $dashboardData['Application Sent for Compliance'][1] = '?submitted_at_from=&office_date_to=&update_status='.config('commanConfig.applicationStatus.reverted');
+                $dashboardData['Application Forwarded to DYCE Head'][0] = $statusCount['totalForwarded'] ;
+                $dashboardData['Application Forwarded to DYCE Head'][1] = '?submitted_at_from=&office_date_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
                 break;
             default:
                 ; break;
@@ -1653,18 +1774,26 @@ class CommonController extends Controller
     }
 
     public function getCapDashboardData($statusCount){
-        $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
-        $dashboardData['Application Pending'] = $statusCount['totalPending'];
-        $dashboardData['Application Sent for Compliance To CO'] = $statusCount['totalReverted'];
-        $dashboardData['Application Forwarded to VP'] = $statusCount['totalForwarded'] ;
+        $dashboardData['Total No of Application'][0] = $statusCount['totalApplication'];
+        $dashboardData['Total No of Application'][1] = '';
+        $dashboardData['Application Pending'][0] = $statusCount['totalPending'];
+        $dashboardData['Application Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+        $dashboardData['Application Sent for Compliance To CO'][0] = $statusCount['totalReverted'];
+        $dashboardData['Application Sent for Compliance To CO'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');
+        $dashboardData['Application Forwarded to VP'][0] = $statusCount['totalForwarded'] ;
+        $dashboardData['Application Forwarded to VP'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
         return $dashboardData;
     }
 
     public function getVpDashboardData($statusCount){
-        $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
-        $dashboardData['Application Pending'] = $statusCount['totalPending'];
-        $dashboardData['Application Sent for Compliance To Cap'] = $statusCount['totalReverted'];
-        $dashboardData['Application Forwarded to REE Junior'] = $statusCount['totalForwarded'] ;
+        $dashboardData['Total No of Application'][0] = $statusCount['totalApplication'];
+        $dashboardData['Total No of Application'][1] = '';
+        $dashboardData['Application Pending'][0] = $statusCount['totalPending'];
+        $dashboardData['Application Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+        $dashboardData['Application Sent for Compliance To Cap'][0] = $statusCount['totalReverted'];
+        $dashboardData['Application Sent for Compliance To Cap'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');
+        $dashboardData['Application Forwarded to REE Junior'][0] = $statusCount['totalForwarded'] ;
+        $dashboardData['Application Forwarded to REE Junior'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
         return $dashboardData;
     }
 

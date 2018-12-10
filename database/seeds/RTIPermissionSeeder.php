@@ -22,6 +22,7 @@ class RTIPermissionSeeder extends Seeder
             $role_id = Role::insertGetId([
                 'name' => 'RTI',
                 'redirect_to' => '/rti_applicants',
+                'dashboard' => '/rti_applicants',
                 'display_name' => 'rti_manager',
                 'description' => 'Login as RTI Manager'
             ]);

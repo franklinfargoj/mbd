@@ -32,7 +32,7 @@
         <div class="m-content letter-form-content">
             <div class="letter-form-subject">
 
-                <p><span class="font-weight-semi-bold"> Subject - </span>Proposed redevelopment to the existing Building No. <input type="hidden" name="application_master_id" value="{{ $id }}" readonly><input class="letter-form-input" type="text" id="" name="building_no" value="{{ $society_details->building_no }}" readonly>(address )<input class="letter-form-input" type="text" id="" name="address" value="{{ $society_details->address }}" readonly> (society name) <input class="letter-form-input" type="text" id="" name="name" value="{{ $society_details->name }}" readonly>
+                <p><span class="font-weight-semi-bold"> Subject - </span>Proposed redevelopment to the existing Building No. <input type="hidden" name="application_master_id" value="{{ $id }}" readonly><input class="letter-form-input" type="text" id="" name="building_no" value="{{ $society_details->building_no }}" readonly>(address )<input class="letter-form-input" type="text" id="" name="address" value="{{ $society_details->address }}" readonly> For (society name) <input class="letter-form-input" type="text" id="" name="name" value="{{ $society_details->name }}" readonly>
 
                 <p class="font-weight-semi-bold">Ref: Society's request letter submitted on {{ date(config('commanConfig.dateFormat'), strtotime($old_ol_application->submitted_at )) }}</p>
 
@@ -42,7 +42,7 @@
                 </p>
 
                 <p>
-                    <textarea style="width: 100%" name="revalidation_reason" id="revalidation_reason" placeholder="Type reason for not able to make offer letter payment within 6 months of time">{{ $ol_application->request_form->reason_for_revalidation }}</textarea>
+                    <textarea readonly style="width: 100%" name="revalidation_reason" id="revalidation_reason" placeholder="Type reason for not able to make offer letter payment within 6 months of time">{{ $ol_application->request_form->reason_for_revalidation }}</textarea>
                 </p>
                 <p>
                     It is also understood that, MHADA has passed a Resolution No. <input class="letter-form-input" type="text" id="" name="resolution_no" value="{{ $ol_application->request_form->resolution_no }}" readonly> dated  <input class="letter-form-input" type="text" name="date_of_meeting" value="{{ date(config('commanConfig.dateFormat'), strtotime($ol_application->request_form->date_of_meeting)) }}" readonly> for allowing Co-operative Housing Societies to pay the amount of premium for additional Build-up area in three equal installments over a period of two years. We are ready to pay interest as per policy of MHADA.

@@ -91,7 +91,7 @@
                                         <a href="{{ asset($document_uploaded['society_document_path']) }}" data-value='{{ $document->id }}'
                                             class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
                                                 Download</button></a>
-                                        <a href="{{ url('/delete_uploaded_documents_noc_cc/'.$document->id) }}" data-value='{{ $document->id }}'
+                                        <a onclick="return confirm('Are you sure you want to discard this document?');" href="{{ url('/delete_uploaded_documents_noc_cc/'.$document->id) }}" data-value='{{ $document->id }}'
                                             class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
                                                 <i class="fa fa-trash"></i></button></a>
                                     </span>
@@ -174,7 +174,7 @@
                                 </div>
 
                                 <div class="remarks-section__data">
-                                    <form action="{{ route('resubmit_noc_application') }}" method="post" enctype='multipart/form-data'>
+                                    <form action="{{ route('resubmit_noc_application_cc') }}" method="post" enctype='multipart/form-data'>
                                         @csrf
                                         <div class="form-group">
                                             <label class="col-form-label">Remark</label>

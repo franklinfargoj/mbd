@@ -222,6 +222,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('get_building_ajax', 'EMDepartment\EMController@get_building_ajax')->name('get_building_ajax');
     Route::get('get_building_select', 'EMDepartment\EMController@get_building_select')->name('get_building_select');
     Route::get('get_building_select_updated', 'EMDepartment\EMController@get_building_select_updated')->name('get_building_select_updated');
+    Route::get('get_building_select_updated_RC', 'RCDepartment\RCController@get_building_select_updated_RC')->name('get_building_select_updated_RC');
     Route::get('get_tenant_ajax', 'EMDepartment\EMController@get_tenant_ajax')->name('get_tenant_ajax');
 
 
@@ -258,11 +259,11 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
 
     // RC Department Routes
+    Route::get('get_building_bill_collection', 'RCDepartment\RCController@get_building_bill_collection')->name('get_building_bill_collection');
+    Route::get('get_tenant_bill_collection', 'RCDepartment\RCController@get_tenant_bill_collection')->name('get_tenant_bill_collection');
     Route::resource('rc', 'RCDepartment\RCController');
     Route::get('bill_collection_society', 'RCDepartment\RCController@bill_collection_society')->name('bill_collection_society');
     Route::get('bill_collection_tenant', 'RCDepartment\RCController@bill_collection_tenant')->name('bill_collection_tenant');
-    Route::get('get_building_bill_collection', 'RCDepartment\RCController@get_building_bill_collection')->name('get_building_bill_collection');
-    Route::get('get_tenant_bill_collection', 'RCDepartment\RCController@get_tenant_bill_collection')->name('get_tenant_bill_collection');
     Route::get('generate_receipt_society', 'RCDepartment\RCController@generate_receipt_society')->name('generate_receipt_society');
     Route::get('generate_receipt_tenant', 'RCDepartment\RCController@generate_receipt_tenant')->name('generate_receipt_tenant');
     Route::post('payment_receipt_society', 'RCDepartment\RCController@payment_receipt_society')->name('payment_receipt_society');
@@ -270,6 +271,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('view_bill_tenant', 'RCDepartment\RCController@view_bill_tenant')->name('view_bill_tenant');
     Route::get('view_bill_building', 'RCDepartment\RCController@view_bill_building')->name('view_bill_building');
     Route::get('downloadBill','RCDepartment\RCController@downloadBill')->name('downloadBill');
+    Route::get('downloadReceipt','RCDepartment\RCController@downloadReceipt')->name('downloadReceipt');
     
     //Account Department routes 
     Route::get('search_accounts','AccountDepartment\AccountController@index')->name('search_accounts');
@@ -329,7 +331,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::post('ol_reval_sharing_calculation_sheet/save_details','REEDepartment\OlSharingCalculationSheetDetailsController@saveRevalCalculationDetails')->name('save_reval_sharing_calculation_details');
 
-    Route::get('ol_reval_sharing_calculation_sheet/{id}','REEDepartment\OlApplicationCalculationSheetDetailsController@showRevalSharingCalculationDetails')->name('ol_reval_sharing_calculation_sheet.show');
+    Route::get('ol_reval_sharing_calculation_sheet/{id}','REEDepartment\OlSharingCalculationSheetDetailsController@showRevalSharingCalculationDetails')->name('ol_reval_sharing_calculation_sheet.show');
 
     Route::post('upload_ree_note','REEDepartment\REEController@uploadREENote')->name('ree.upload_ree_note');
 
@@ -469,26 +471,6 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         Route::resource('/society_conveyance','SocietyConveyanceController');
 
         //Society Conveyance END
-
-        //Society Renewal
-
-        Route::get('sr_download_template', 'SocietyRenewalController@download_excel')->name('sr_download');
-        Route::get('sr_upload_docs', 'SocietyRenewalController@sr_upload_docs')->name('sr_upload_docs');
-        Route::post('upload_sr_docs', 'SocietyRenewalController@upload_sr_docs')->name('upload_sr_docs');
-        Route::get('delete_sr_upload_docs/{id}', 'SocietyRenewalController@delete_sr_upload_docs')->name('delete_sr_upload_docs');
-        Route::post('add_society_documents_comment', 'SocietyRenewalController@add_society_documents_comment')->name('society_doc_comment');
-        Route::get('sr_form_download', 'SocietyRenewalController@generate_pdf')->name('sr_form_download');
-        Route::get('sr_form_upload_show', 'SocietyRenewalController@sr_form_upload_show')->name('sr_form_upload_show');
-        Route::post('sr_form_upload', 'SocietyRenewalController@sr_form_upload')->name('sr_form_upload');
-
-        //sale & lease deed alongwith pay stamp duty letter & resolution & undertaking
-//    Route::get('sale_lease_deed/{id}', 'SocietyRenewalController@show_sale_lease')->name('show_sale_lease');
-//    Route::get('signed_sale_lease_deed/{id}', 'SocietyRenewalController@show_signed_sale_lease')->name('show_signed_sale_lease');
-//    Route::post('save_sale_lease_deed', 'SocietyRenewalController@upload_sale_lease')->name('upload_sale_lease');
-//    Route::post('save_signed_sale_lease_deed', 'SocietyRenewalController@upload_signed_sale_lease')->name('upload_signed_sale_lease');
-        Route::resource('/society_renewal','SocietyRenewalController');
-
-        //Society Renewal END
 
     });
 
@@ -673,7 +655,25 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
     //Society Formation End
 
 
+    //Society Renewal
 
+    Route::get('sr_download_template', 'SocietyRenewalController@download_excel')->name('sr_download');
+    Route::get('sr_upload_docs', 'SocietyRenewalController@sr_upload_docs')->name('sr_upload_docs');
+    Route::post('upload_sr_docs', 'SocietyRenewalController@upload_sr_docs')->name('upload_sr_docs');
+    Route::get('delete_sr_upload_docs/{id}', 'SocietyRenewalController@delete_sr_upload_docs')->name('delete_sr_upload_docs');
+    Route::post('add_society_documents_comment', 'SocietyRenewalController@add_society_documents_comment')->name('society_doc_comment');
+    Route::get('sr_form_download', 'SocietyRenewalController@generate_pdf')->name('sr_form_download');
+    Route::get('sr_form_upload_show', 'SocietyRenewalController@sr_form_upload_show')->name('sr_form_upload_show');
+    Route::post('sr_form_upload', 'SocietyRenewalController@sr_form_upload')->name('sr_form_upload');
+
+    //sale & lease deed alongwith pay stamp duty letter & resolution & undertaking
+//    Route::get('sale_lease_deed/{id}', 'SocietyRenewalController@show_sale_lease')->name('show_sale_lease');
+//    Route::get('signed_sale_lease_deed/{id}', 'SocietyRenewalController@show_signed_sale_lease')->name('show_signed_sale_lease');
+//    Route::post('save_sale_lease_deed', 'SocietyRenewalController@upload_sale_lease')->name('upload_sale_lease');
+//    Route::post('save_signed_sale_lease_deed', 'SocietyRenewalController@upload_signed_sale_lease')->name('upload_signed_sale_lease');
+    Route::resource('/society_renewal','SocietyRenewalController');
+
+    //Society Renewal END
 
     
 });
@@ -944,6 +944,12 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     // Ree Dashboard
     Route::get('/ree_dashboard','REEDepartment\REEController@dashboard')->name('ree.dashboard');
 
+    // Co Dashboard
+    Route::get('/co_dashboard','CODepartment\COController@dashboard')->name('co.dashboard');
+
+    //Dashboard routes
+    Route::get('architect_layout_dashboard','Dashboard\ArchitectLayoutDashboardController@dashboard')->name('architect_layout_dashboard');
+
 });
 
 Route::get('/calculation', function () {
@@ -1003,6 +1009,8 @@ Route::prefix('appointing_architect')->group(function () {
 
 //Noc -- /* Created by: Sayan Pal */
 
+Route::group(['middleware' => ['auth']], function(){
+
 Route::get('/show_form_self_noc/{id}', 'SocietyNocController@show_form_self_noc')->name('show_form_self_noc');
 Route::get('/show_form_dev_noc/{id}', 'SocietyNocController@show_form_dev_noc')->name('show_form_dev_noc');
 Route::post('/save_noc_application_self', 'SocietyNocController@save_noc_application_self')->name('save_noc_application_self');
@@ -1047,7 +1055,11 @@ Route::post('issue_noc_letter_to_ree','CODepartment\COController@approveNoctoRee
 Route::get('co_forward_noc_application/{id}','CODepartment\COController@forwardNOCApplication')->name('co.forward_noc_application');
 Route::post('save_forward_noc_Application','CODepartment\COController@sendForwardNocApplication')->name('co.forward_noc_application_data');
 
+});
+
 //NOC FOR CC -- Sayan Pal
+
+Route::group(['middleware' => ['auth']], function(){
 
 Route::get('/show_form_self_noc_cc/{id}', 'SocietyNocforCCController@show_form_self_noc_cc')->name('show_form_self_noc_cc');
 Route::post('/save_noc_cc_application_self', 'SocietyNocforCCController@save_noc_cc_application_self')->name('save_noc_cc_application_self');
@@ -1090,5 +1102,7 @@ Route::get('approve_noc_cc_co/{id}','CODepartment\COController@issueNocforCC')->
 Route::post('issue_noc_cc_letter_to_ree','CODepartment\COController@approveNocforCCtoRee')->name('co.issue_noc_cc_letter_to_ree');
 Route::get('co_forward_noc_cc_application/{id}','CODepartment\COController@forwardNOCforCCApplication')->name('co.forward_noc_cc_application');
 Route::post('save_forward_noc_cc_Application','CODepartment\COController@sendForwardNocforCCApplication')->name('co.forward_noc_cc_application_data');
+
+});
 
 

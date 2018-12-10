@@ -23,7 +23,7 @@
                                 <thead class="thead-default">
                                 <tr>
                                     <th width="10%">
-                                        #
+                                        क्रमांक
                                     </th>
                                     <th width="90%">
                                         तपशील
@@ -39,11 +39,10 @@
                                     <tr>
                                         <td>{{ $i+1}}.</td>
                                         <td>{{(isset($data->documents_Name[0]->name) ? $data->documents_Name[0]->name : '')}}
-                                            <span class="compulsory-text"><small>(Compulsory Document)</small></span>
                                         </td>
                                         <td class="text-center">
                                             @if(isset($data->society_document_path))
-                                                <a href="{{ asset($data->society_document_path) }}">
+                                                <a href="{{ asset($data->society_document_path) }}" target="_blank">
                                                     <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                             @endif
                                         </td>

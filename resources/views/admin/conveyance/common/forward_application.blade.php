@@ -1,6 +1,6 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-@include('admin.conveyance.'.$data->folder.'.action'))
+@include('admin.conveyance.'.$data->folder.'.action')
 @endsection
 @section('content')
  
@@ -356,6 +356,7 @@
                                                     </select>
                                                 </div>                                                 
                                             </div>
+                                            <input type="hidden" id="society_flag" name="society_flag" value="0">
                                              @if($data->child != "")
                                             <div class="form-group m-form__group row mt-3 child-data" style="display: none">
                                                 <label class="col-form-label col-lg-2 col-sm-12">

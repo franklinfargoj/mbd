@@ -1,5 +1,4 @@
-
-
+<body>
     @php 
         $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other; 
 
@@ -16,187 +15,240 @@
             @php $total = $total + $calculation->total_amount; @endphp
       @endforeach
     @endif  
-
-
-<div class="container-fluid">
-    <div class="m-subheader px-0 m-subheader--top">
-        <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title">View Society Bill</h3>
-            <div class="ml-auto btn-list">
-                <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
-            </div>
+    <div>
+        <div>
+            <h3>Bill for {{date("M", strtotime("2001-" . $month . "-01"))}}, {{$year}}</h3>
         </div>
-    </div>
-    <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
-               
-                {{-- <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
-                    <div class="m-form__actions px-0">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="btn-list pull-right">
-                                    <a onclick="goBack()" class="btn btn-block btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary">Back</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
-
-        <form method="post" action="{{route('create_society_bill')}}">
-            {{ csrf_field() }}
-            <input type="text" name="building_id" value="{{$building->id}}" hidden>
-            <input type="text" name="society_id" value="{{$society->id}}" hidden>
-            <input type="text" name="bill_from" value="{{date('1-m-Y')}}" hidden>
-            <input type="text" name="bill_to" value="{{date('1-m-Y', strtotime('+1 month'))}}" hidden>
-            <input type="text" name="bill_month" value="{{date('n')}}" hidden>
-            <input type="text" name="bill_year" value="{{date('Y')}}" hidden>
-            <input type="text" name="monthly_bill" value="{{$total_service}}" hidden>
-            <input type="text" name="arrear_bill" value="{{$total}}" hidden>
-            <input type="text" name="total_service_after_due" value="{{$total_service_after_due}}" hidden>
-            <input type="text" name="late_fee_charge" value="{{$total_after_due}}" hidden>
-            <input type="text" name="no_of_tenant" value="{{$number_of_tenants->tenant_count()->first()->count}}" hidden>
-
-            <div class="m-portlet__body m-portlet__body--spaced">
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-6 form-group">
-                        <span>Bill For:{{date("M", strtotime("2001-" . $month . "-01"))}}, {{$year}}</span>
-                        <input type="text" name="bill_date" value="{{date('d-m-Y')}}" hidden>
-                    </div>
+        <div>
+            <div style="width: 100%; margin-top: 30px;">
+                <div style="width: 100%; float: left; margin-bottom: 20px;">
+                    <div style="width: 100%; float: left;">Consumer No: BL-{{$consumer_number}}</div>
                 </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-6 form-group">
-                        <span>Consumer Number: BL-{{$consumer_number}}</span>
-                         <input type="text" name="consumer_number" value="BL-{{$consumer_number}}" hidden>
-                    </div>
+                <div style="clear:both;"></div>
+                <div style="width: 100%; float: left; margin-bottom: 20px;">
+                    <div style="width: 70%; float: left;">Society Name: @if(!empty($society)){{$society->society_name}}@endif</div>
                 </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-6 form-group">
-                        <span>Society Name: @if(!empty($society)){{$society->society_name}}@endif</span>
-                    </div>
+                <div style="clear:both;"></div>
+                <div style="width: 100%;float: left; margin-bottom: 20px;">
+                    <div style="width: 30%; float: left;">Bill No:</div>
+                    <div style="width: 70%; float: left;"></div>
                 </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-6 form-group">
-                        <span>Bill Number: </span>
-                    </div>
+                <div style="clear:both;"></div>
+                {{-- <div style="width: 100%; float: left; margin-bottom: 20px;">
+                    <div style="width: 30%; float: left;">Name:</div>
+                    <div style="width: 70%; float: left;"></div>
                 </div>
-                <div class="form-group m-form__group row">
-                    <table class="display table table-responsive table-bordered" style="width:100%">
-                        <tr><td>Buidling Name : {{$building->name}} </td><td>Bill Period : {{date('1-M-Y', strtotime('-1 month'))}} to {{date('1-M-Y')}} </td></tr>
-                        <tr><td>Address : @if(!empty($society)){{$society->society_address}}@endif </td><td>Bill Date : {{date('d-M-Y')}}  <input type="text" name="bill_date" value="{{date('d-m-Y')}}" hidden></td></tr>
-                        <tr><td>Total Tenament : {{ $number_of_tenants->tenant_count()->first()->count }} </td><td>Due Date : {{date('d-M-Y', strtotime(date('Y-m-d'). ' + 5 days'))}} <input type="text" name="due_date" value="{{date('d-m-Y', strtotime(date('Y-m-d'). ' + 5 days'))}}" hidden> </td></tr>
-                        <tr><td>Amount : {{$total + $total_service}} <input type="text" name="total_bill" value="{{$total + $total_service}}" hidden> </td><td>Late fee charge : {{ $total_after_due}} </td></tr>
-                    </table>
-                </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-12 form-group">
-                        <p class="text-center">Bill Summary - {{date("M", strtotime("2001-" . $month . "-01"))}}, {{$year}}</p>
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <table class="display table table-responsive table-bordered" style="width:100%">
-                        <tr><th class="text-center">Bill Title - {{date("M", strtotime("2001-" . $month . "-01"))}} </th><th>Amount in Rs.</th></tr>
-                        <tr>
-                            <td>Water Charges  </td>
-                            <td>{{$serviceChargesRate->water_charges}}</td>
-                        </tr>
-                        <tr>
-                            <td>Electric City Charge </td>
-                            <td>{{$serviceChargesRate->electric_city_charge}} </td>
-                        </tr>
-                        <tr>
-                            <td>Pump Man & Repair Charges</td>
-                            <td>{{$serviceChargesRate->pump_man_and_repair_charges}}</td>
-                        </tr>
-                        <tr>
-                            <td>External  Expenture  Charge  </td>
-                            <td>{{$serviceChargesRate->external_expender_charge}} </td>
-                        </tr>
-                        <tr>
-                            <td>Administrative  Charge</td>
-                            <td>{{$serviceChargesRate->administrative_charge}} </td>
-                        </tr>
-                        <tr>
-                            <td>Lease Rent.   </td>
-                            <td>{{$serviceChargesRate->lease_rent}}</td>
-                        </tr>
-                        <tr>
-                            <td>N.A.Assessment</td>
-                            <td>{{$serviceChargesRate->na_assessment}} </td>
-                        </tr>
-                        <tr>
-                            <td>Insurance</td>
-                            <td>{{$serviceChargesRate->other}}</td>
-                        </tr>
-                        <tr>
-                            <td><p class="pull-right">Total</p></td>
-                            <td>{{$total_service}}</td>
-                        </tr>
-                        <tr>
-                            <td><p class="pull-right">After Due date 2% interest</p></td>
-                            <td> {{$total_after_due}} </td>
-                        </tr>
-                        <tr>
-                            <td><p class="pull-right">After Due date Amount payable</p></td>
-                            <td> {{$total_service_after_due}} </td>
-                        </tr>
-                    </table>
-                </div>
-                @if(!$arreasCalculation->isEmpty())
-                @php $total ='0'; @endphp
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-12 form-group">
-                        <p class="text-center">Balance amount to be paid - Arrears</p>
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <table class="display table table-responsive table-bordered" style="width:100%">
-                        <tr>
-                            <th class="text-center">Year</th>
-                            <th class="text-center">Month</th>
-                            <th class="text-center">Amount In Rs.</th>
-                            <th class="text-center">Penalty in Rs</th>
-                        </tr>
-                        @foreach($arreasCalculation as $calculation)
-                            @php $total = $total + $calculation->total_amount; @endphp
-                            <tr>
-                                <td class="text-center">{{$calculation->year}}</td>
-                                <td class="text-center">{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
-                                <td class="text-center">{{$calculation->total_amount}}</td>
-                                <td class="text-center">{{$calculation->old_intrest_amount + $calculation->difference_intrest_amount}}</td>
-                            </tr>
-                        @endforeach
-                        <tr>
-                            <td colspan="3"><p class="pull-right">Total</p></td><td>{{$total}}</td><td></td>
-                        </tr>
-                    </table>
-                </div>
-                @endif
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-12 form-group">
-                        <p class="text-center">Total Amount to be paid</p>
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <table class="display table table-responsive table-bordered" style="width:100%">
-                        <tr>
-                            <th class="text-center">Perticulars</th>
-                            <th class="text-center">Amount In Rs.</th>
-                        </tr>
-                        <tr>
-                            <td>Balance Amount</td>
-                            <td class="text-center">{{$total}}</td>
-                        </tr>
-                        <tr>
-                            <td>Current month Bill amount before due date</td>
-                            <td class="text-center">{{$total_service}}</td>
-                        </tr>
-                        <tr>
-                            <td><p class="pull-right">Total</p></td><td>{{$total + $total_service}}</td>
-                        </tr>
-                    </table>
-                </div>
-                
-                
+                <div style="clear:both;"></div> --}}
             </div>
-        </form>
+            <div style="clear:both;"></div>
+            <div style="width: 100%; float: left; margin-bottom: 20px;">
+                <div style="width: 30%; float: left;">Name:</div>
+                <div style="width: 70%; float: left;"></div>
+            </div>
+            <div style="clear:both;"></div> 
+        </div>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
+            <tbody>
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td valign="top" style="font-weight: bold;">Buidling Name : {{$building->name}}</td>
+                                    <td valign="top" style="text-align: right;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td valign="top" style="font-weight: bold;">Bill Period : {{date('1-M-Y', strtotime('-1 month'))}} to {{date('1-M-Y')}}</td>
+                                    <td valign="top" style="text-align: right;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td valign="top" style="font-weight: bold;">Address : @if(!empty($society)){{$society->society_address}}@endif</td>
+                                    <td valign="top" style="text-align: right;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td valign="top" style="font-weight: bold;">Bill Date : {{date('d-M-Y')}} </td>
+                                    <td valign="top" style="text-align: right;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td valign="top" style="font-weight: bold;">Total Tenament : {{ $number_of_tenants->tenant_count()->first()->count }}</td>
+                                    <td valign="top" style="text-align: right;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td valign="top" style="font-weight: bold;">Due Date : {{date('d-M-Y', strtotime(date('Y-m-d'). ' + 5 days'))}} </td>
+                                    <td valign="top" style="text-align: right;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td valign="top" style="font-weight: bold;">Amount : {{$total + $total_service}}</td>
+                                    <td valign="top" style="text-align: right;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td valign="top" style="font-weight: bold;">Late fee charge : {{ $total_after_due}}</td>
+                                    <td valign="top" style="text-align: right;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="border: 2px solid #000; padding: 5px; margin-top: 30px;"><h3 style="text-align: center;">Bill Summary - {{date("M", strtotime("2001-" . $month . "-01"))}}, {{$year}}</h3></div>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
+            <thead>
+                <tr>
+                    <th valign="top" style="border: 1px solid #000; padding: 5px; width: 40%;">Bill Title - {{date("M", strtotime("2001-" . $month . "-01"))}}</th>
+                    <th valign="top" style="border: 1px solid #000; padding: 5px; width: 60%;">Amount in Rs.</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">Water Charges:</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$serviceChargesRate->water_charges}}</td>
+                </tr>
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">Electric City Charge:</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$serviceChargesRate->electric_city_charge}}</td>
+                </tr>
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">Pump Man & Repair Charges:</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$serviceChargesRate->pump_man_and_repair_charges}}</td>
+                </tr>
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">External Expenture Charge:</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$serviceChargesRate->external_expender_charge}}</td>
+                </tr>
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">Administrative Charge:</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$serviceChargesRate->administrative_charge}}</td>
+                </tr>
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">Lease Rent:</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$serviceChargesRate->lease_rent}}</td>
+                </tr>
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">N.A.Assessment:</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$serviceChargesRate->na_assessment}}</td>
+                </tr>
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">Other:</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$serviceChargesRate->other}}</td>
+                </tr>
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align: right;">Total:</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align: center;">{{$total_service}}</td>
+                </tr>
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align: right;">After Due date x% interest:</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align: center;">{{$total_after_due}}</td>
+                </tr>
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align: right;">After Due date Amount payable:</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align: center;">{{$total_service_after_due}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        @if(!$arreasCalculation->isEmpty())
+            @php $total ='0'; @endphp
+
+        <div style="border: 2px solid #000; padding: 5px; margin-top: 160px;"><h3 style="text-align: center;">Balance amount to be paid - Arrears</h3></div>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
+            <thead>
+                <tr>
+                    <th valign="top" style="border: 1px solid #000; padding: 5px; width: 25%;">Year</th>
+                    <th valign="top" style="border: 1px solid #000; padding: 5px; width: 25%;">Month</th>
+                    <th valign="top" style="border: 1px solid #000; padding: 5px; width: 25%;">Amount in Rs.</th>
+                    <th valign="top" style="border: 1px solid #000; padding: 5px; width: 25%;">Penalty in Rs.</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($arreasCalculation as $calculation)
+                    @php $total = $total + $calculation->total_amount; @endphp
+                    <tr>
+                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$calculation->year}}</td>
+                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
+                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$calculation->total_amount}}</td>
+                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$calculation->old_intrest_amount + $calculation->difference_intrest_amount}}</td>
+                    </tr>
+                @endforeach
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;" colspan="2">Total</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;">{{$total}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;"></td>
+                </tr>
+               
+            </tbody>
+        </table>
+        @endif
+        <div style="border: 2px solid #000; padding: 5px; margin-top: 30px;"><h3 style="text-align: center;">Total amount to be paid</h3></div>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
+            <thead>
+                <tr>
+                    <th valign="top" style="border: 1px solid #000; padding: 5px; width: 50%;">Particulars</th>
+                    <th valign="top" style="border: 1px solid #000; padding: 5px; width: 50%;">Amount in Rs.</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">Balance Amount</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$total}}</td>
+                </tr>
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">Current month Bill amount before due date</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$total_service}}</td>
+                </tr>
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold;">Grand Total</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;">{{$total + $total_service}}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>

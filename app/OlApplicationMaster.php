@@ -15,4 +15,12 @@ class OlApplicationMaster extends Model
     public function ol_application_id(){
         return $this->hasMany(OlApplication::class, 'application_master_id','id');
     }
+
+    public function noc_application_ref(){
+        return $this->hasMany(NocApplication::class, 'application_master_id','id');
+    }
+
+    public function noc_cc_application_ref(){
+        return $this->hasMany(NocCCApplication::class, 'application_master_id','id');
+    }
 }

@@ -8,7 +8,7 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">View Layout Details -
-                {{$ArchitectLayout->layout_name}}</h3>
+                {{$ArchitectLayout->master_layout!=""?$ArchitectLayout->master_layout->layout_name:''}}</h3>
                 {{ Breadcrumbs::render('architect_layout_details',$ArchitectLayout->id) }}
         </div>
     </div>

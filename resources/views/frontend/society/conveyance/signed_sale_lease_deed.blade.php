@@ -75,7 +75,7 @@
                                                 </div>
                                                 @endif
                                                 </p>
-                                                <form action="{{ route('upload_signed_sale_lease') }}" id="no_dues_certi_upload" method="post" enctype="multipart/form-data">
+                                                <form action="{{ route('upload_signed_sale_lease') }}" id="sale_deed_agreement" method="post" enctype="multipart/form-data">
                                                     @csrf
                                                     <div class="m-portlet__body m-portlet__body--spaced">
                                                         @for($i=0; $i < count($field_names); $i++)
@@ -99,7 +99,7 @@
                                                                         @if($type != 'hidden')
                                                                             <div class="col-sm-4 form-group">
                                                                                 <label class="col-form-label" for="{{ $field_names[$i] }}">@php if($field_names[$i] == 'document_path'){ echo 'Upload Sale Deed Agreement'; }else{ $labels = implode(' ', explode('_', $field_names[$i])); echo ucwords($labels); } @endphp:</label>
-                                                                                @php  echo $comm_func->form_fields($field_names[$i], $type,'' , ''); @endphp
+                                                                                @php if(isset($sc_registrar_details['Sale Deed Agreement']) && count($sc_registrar_details['Sale Deed Agreement']) > 0){ $value = $sc_registrar_details['Sale Deed Agreement'][$field_names[$i]]; $readonly = 'readonly'; }else{ $value =''; $readonly = ''; } echo $comm_func->form_fields($field_names[$i], $type,'' , '', $value, $readonly); @endphp
                                                                                 <span id="error_{{ $field_names[$i] }}" class="help-block">{{$errors->first($field_names[$i])}}</span>
                                                                             </div>
                                                                         @endif
@@ -109,7 +109,7 @@
                                                                         @if($type_1 != 'hidden')
                                                                             <div class="col-sm-4 offset-sm-1 form-group">
                                                                                 <label class="col-form-label" for="{{ $field_names[$i+1] }}">@php if($field_names[$i+1 ] == 'document_path'){ echo 'Upload Sale Deed Agreement'; }else{ $labels = implode(' ', explode('_', $field_names[$i+1])); echo ucwords($labels); } @endphp:</label>
-                                                                                @php echo $comm_func->form_fields($field_names[$i+1], $type_1,'' , ''); @endphp
+                                                                                @php if(isset($sc_registrar_details['Sale Deed Agreement']) && count($sc_registrar_details['Sale Deed Agreement']) > 0){ $value = $sc_registrar_details['Sale Deed Agreement'][$field_names[$i+1]]; $readonly = 'readonly'; }else{ $value =''; $readonly = ''; } echo $comm_func->form_fields($field_names[$i+1], $type_1,'' , '', $value, $readonly); @endphp
                                                                                 <span id="error_{{ $field_names[$i+1] }}" class="help-block">{{$errors->first($field_names[$i+1])}}</span>
                                                                             </div>
                                                                         @endif
@@ -131,8 +131,10 @@
                                                         {{--</div>--}}
                                                         {{--</div>--}}
                                                         <div class="mt-3 btn-list">
-                                                            <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
-                                                            <a href="{{route('society_offer_letter_dashboard')}}" class="btn btn-secondary">Cancel</a>
+                                                            @if(!(isset($sc_registrar_details['Sale Deed Agreement']) && count($sc_registrar_details['Sale Deed Agreement']) > 0))
+                                                                <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
+                                                            @endif
+                                                            <a href="{{route('society_conveyance.index')}}" class="btn btn-secondary">Cancel</a>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -190,7 +192,7 @@
                                                     </div>
                                                     @endif
                                                 </p>
-                                                <form action="{{ route('upload_signed_sale_lease') }}" id="no_dues_certi_upload" method="post" enctype="multipart/form-data">
+                                                <form action="{{ route('upload_signed_sale_lease') }}" id="lease_deed_agreement" method="post" enctype="multipart/form-data">
                                                         @csrf
                                                         <div class="m-portlet__body m-portlet__body--spaced">
                                                             @for($i=0; $i < count($field_names); $i++)
@@ -210,21 +212,21 @@
                                                                 @if($type != 'hidden' || $type_1 != 'hidden')
                                                                     <div class="form-group m-form__group row">
                                                                         @if(isset($field_names[$i]))
-                                                                            @php if($field_names[$i] == 'document_path'){ $type = 'file'; } @endphp
+                                                                            @php if($field_names[$i] == 'document_path'){ $type = 'file'; $field_names[$i] = $field_names[$i].'_lease'; } @endphp
                                                                             @if($type != 'hidden')
                                                                                 <div class="col-sm-4 form-group">
-                                                                                    <label class="col-form-label" for="{{ $field_names[$i] }}">@php if($field_names[$i] == 'document_path'){ echo 'Upload Lease Deed Agreement'; }else{ $labels = implode(' ', explode('_', $field_names[$i])); echo ucwords($labels); } @endphp:</label>
-                                                                                    @php  echo $comm_func->form_fields($field_names[$i], $type,'' , ''); @endphp
+                                                                                    <label class="col-form-label" for="{{ $field_names[$i] }}">@php if($field_names[$i] == 'document_path_lease'){ echo 'Upload Lease Deed Agreement'; }else{ $labels = implode(' ', explode('_', $field_names[$i])); echo ucwords($labels); } @endphp:</label>
+                                                                                    @php if(isset($sc_registrar_details['Lease Deed Agreement']) && count($sc_registrar_details['Lease Deed Agreement']) > 0){ $value = $sc_registrar_details['Lease Deed Agreement'][$field_names[$i]]; $readonly = 'readonly'; }else{ $value =''; $readonly = ''; } echo $comm_func->form_fields($field_names[$i], $type,'' , '', $value, $readonly); @endphp
                                                                                     <span id="error_{{ $field_names[$i] }}" class="help-block">{{$errors->first($field_names[$i])}}</span>
                                                                                 </div>
                                                                             @endif
                                                                         @endif
                                                                         @if(isset($field_names[$i+1]))
-                                                                                @php if($field_names[$i+1] == 'document_path'){ $type = 'file'; } @endphp
+                                                                                @php if($field_names[$i+1] == 'document_path'){ $type = 'file'; $field_names[$i+1] = $field_names[$i+1].'_lease'; } @endphp
                                                                             @if($type_1 != 'hidden')
                                                                                 <div class="col-sm-4 offset-sm-1 form-group">
-                                                                                    <label class="col-form-label" for="{{ $field_names[$i+1] }}">@php if($field_names[$i+1] == 'document_path'){ echo 'Upload Lease Deed Agreement'; }else{ $labels = implode(' ', explode('_', $field_names[$i+1])); echo ucwords($labels); } @endphp:</label>
-                                                                                    @php echo $comm_func->form_fields($field_names[$i+1], $type_1,'' , ''); @endphp
+                                                                                    <label class="col-form-label" for="{{ $field_names[$i+1] }}">@php if($field_names[$i+1] == 'document_path_lease'){ echo 'Upload Lease Deed Agreement'; }else{ $labels = implode(' ', explode('_', $field_names[$i+1])); echo ucwords($labels); } @endphp:</label>
+                                                                                    @php if(isset($sc_registrar_details['Lease Deed Agreement']) && count($sc_registrar_details['Lease Deed Agreement']) > 0){ $value = $sc_registrar_details['Lease Deed Agreement'][$field_names[$i+1]]; $readonly = 'readonly'; }else{ $value =''; $readonly = ''; } echo $comm_func->form_fields($field_names[$i+1], $type_1,'' , '', $value, $readonly); @endphp
                                                                                     <span id="error_{{ $field_names[$i+1] }}" class="help-block">{{$errors->first($field_names[$i+1])}}</span>
                                                                                 </div>
                                                                             @endif
@@ -246,8 +248,10 @@
                                                                     {{--</div>--}}
                                                                 {{--</div>--}}
                                                                 <div class="mt-3 btn-list">
-                                                                <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
-                                                                <a href="{{route('society_offer_letter_dashboard')}}" class="btn btn-secondary">Cancel</a>
+                                                                @if(!(isset($sc_registrar_details['Lease Deed Agreement']) && count($sc_registrar_details['Lease Deed Agreement']) > 0))
+                                                                    <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
+                                                                @endif
+                                                                <a href="{{route('society_conveyance.index')}}" class="btn btn-secondary">Cancel</a>
                                                             </div>
                                                         </div>
                                                     </form>
@@ -364,36 +368,43 @@
                 Cookies.set('sectionId', this.id);
             });
 
-            $('#no_dues_certi_upload').validate({
+            function showUploadedFileName() {
+                $('.custom-file-input').change(function (e) {
+                    $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
+                });
+            }
+            showUploadedFileName();
+
+            $('#sale_deed_agreement').validate({
                 rules:{
-                    no_dues_certificate: {
+                    document_path: {
                         required:true,
                         extension:'pdf'
                     }
                 },
                 messages:{
-                    no_dues_certificate: {
+                    document_path: {
                         required: 'File is required to upload.',
                         extension: 'File only in pdf format is required.'
                     }
                 }
             });
 
-            $('#no_dues_certi_upload').validate({
+            $('#lease_deed_agreement').validate({
                 rules:{
-                    no_dues_certificate: {
+                    document_path: {
                         required:true,
                         extension:'pdf'
                     }
                 },
                 messages:{
-                    no_dues_certificate: {
+                    document_path: {
                         required: 'File is required to upload.',
                         extension: 'File only in pdf format is required.'
                     }
                 }
             });
-            list_of_allottees_upload
+
             $('.society_registered').delay("slow").slideUp("slow");
 
         });

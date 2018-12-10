@@ -53,7 +53,9 @@
                                         </div>
                                     </div>
                                 @endif
-                                <div class="col-md-6 @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['conveyance_stamp_duty_letter'])) border-left @endif">
+
+                                @if($sc_application->scApplicationLog->status_id != config('commanConfig.conveyance_status.Sent_society_for_registration_of_sale_&_lease'))
+                                    <div class="col-md-6 @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['conveyance_stamp_duty_letter'])) border-left @endif">
                                     {{--<h5>Letter to Pay Stamp Duty</h5>--}}
                                     <span class="hint-text">Click on 'Upload' to Letter to Pay Stamp Duty</span>
                                     <p>
@@ -68,22 +70,8 @@
                                         {{--</div>--}}
                                         {{--@endif--}}
                                     </p>
-                                    <form action="{{ route('upload_sale_lease') }}" id="stamp_duty_letter" method="post" enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="custom-file">
-                                            <input class="custom-file-input pdfcheck" name="document_path" type="file"
-                                                   id="test-upload_stamp_duty" required="required">
-                                            <label class="custom-file-label" for="test-upload_stamp_duty">Choose
-                                                file...</label>
-                                            <span class="text-danger" id="file_error"></span>
-                                            <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
-                                            <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['conveyance_stamp_duty_letter'] }}">
-                                        </div>
-                                        <div class="mt-auto">
-                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                        </div>
-                                    </form>
                                 </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -105,7 +93,8 @@
                                                 </div>
                                             </div>
                                         @endif
-                                        <div class="col-sm-6 @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['sale_deed_agreement'])) border-left @endif">
+                                        @if($sc_application->scApplicationLog->status_id != config('commanConfig.conveyance_status.Sent_society_for_registration_of_sale_&_lease'))
+                                            <div class="col-sm-6 @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['sale_deed_agreement'])) border-left @endif">
                                             <div class="d-flex flex-column h-100">
                                                 {{--<h5>Upload Sale Deed Agreement</h5>--}}
                                                 <span class="hint-text">Click on 'Upload' to upload Sale Deed Agreement</span>
@@ -138,6 +127,7 @@
                                                     </form>
                                             </div>
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -167,11 +157,13 @@
                                                     </p>
                                                     <form action="{{ route('upload_sale_lease') }}" id="sale_deed_agreement_comment" method="post" enctype="multipart/form-data">
                                                         @csrf
-                                                        <textarea name="remark" rows="5" cols="30" id="remark" class="form-control form-control--custom"></textarea>
+                                                        <textarea name="remark" rows="5" cols="30" id="remark" class="form-control form-control--custom" @if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.sale_deed_agreement'), $sc_agreement_comment) == true) readonly @endif>@if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.sale_deed_agreement'), $sc_agreement_comment) == true) {{ $sc_agreement_comment[config('commanConfig.scAgreements.sale_deed_agreement')]->remark }} @endif</textarea>
                                                         <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
                                                         <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['sale_deed_agreement']}}">
-                                                        <div class="mt-auto">
-                                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                                        <div class="mt-auto"><br/>
+                                                            @if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.sale_deed_agreement'), $sc_agreement_comment) == false)
+                                                                <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                                            @endif
                                                         </div>
                                                     </form>
                                             </div>
@@ -200,7 +192,8 @@
                                                 </div>
                                             </div>
                                         @endif
-                                        <div class="col-sm-6 @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['lease_deed_agreement'])) border-left @endif">
+                                        @if($sc_application->scApplicationLog->status_id != config('commanConfig.conveyance_status.Sent_society_for_registration_of_sale_&_lease'))
+                                            <div class="col-sm-6 @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['lease_deed_agreement'])) border-left @endif">
                                             <div class="d-flex flex-column h-100">
                                                 {{--<h5>Upload Lease Deed Agreement</h5>--}}
                                                 <span class="hint-text">Click on 'Upload' to upload Lease Deed Agreement</span>
@@ -233,6 +226,7 @@
                                                     </form>
                                             </div>
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -258,15 +252,17 @@
                                                     <div class="alert alert-danger society_registered">
                                                         <div class="text-center">{{ session('error') }}</div>
                                                     </div>
-                                                    @endif
+                                                @endif
                                                     </p>
                                                     <form action="{{ route('upload_sale_lease') }}" id="lease_deed_agreement_comment" method="post" enctype="multipart/form-data">
                                                         @csrf
-                                                        <textarea name="remark" rows="5" cols="30" id="remark" class="form-control form-control--custom"></textarea>
+                                                        <textarea name="remark" rows="5" cols="30" id="remark" class="form-control form-control--custom" @if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.lease_deed_agreement'), $sc_agreement_comment) == true) readonly @endif>@if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.lease_deed_agreement'), $sc_agreement_comment) == true) {{ $sc_agreement_comment[config('commanConfig.scAgreements.lease_deed_agreement')]->remark }} @endif</textarea>
                                                         <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
                                                         <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['lease_deed_agreement']}}">
-                                                        <div class="mt-auto">
-                                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                                        <div class="mt-auto"><br/>
+                                                            @if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.lease_deed_agreement'), $sc_agreement_comment) == false)
+                                                                <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                                            @endif
                                                         </div>
                                                     </form>
                                             </div>
@@ -295,7 +291,8 @@
                                             </div>
                                         </div>
                                     @endif
-                                    <div class="col-sm-6 @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['sc_resolution'])) border-left @endif">
+                                    @if($sc_application->scApplicationLog->status_id != config('commanConfig.conveyance_status.Sent_society_for_registration_of_sale_&_lease'))
+                                        <div class="col-sm-6 @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['sc_resolution'])) border-left @endif">
                                         <div class="d-flex flex-column h-100">
                                             {{--<h5>Upload Signed & Stamped society resolution here</h5>--}}
                                             <span class="hint-text">Click on 'Upload' to upload signed & stamped society resolution.</span>
@@ -328,6 +325,7 @@
                                                 </form>
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -348,7 +346,8 @@
                                             </div>
                                         </div>
                                     @endif
-                                    <div class="col-sm-6 @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['sc_undertaking'])) border-left @endif">
+                                    @if($sc_application->scApplicationLog->status_id != config('commanConfig.conveyance_status.Sent_society_for_registration_of_sale_&_lease'))
+                                        <div class="col-sm-6 @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['sc_undertaking'])) border-left @endif">
                                         <div class="d-flex flex-column h-100">
                                             {{--<h5>Upload Signed & Stamped society undertaking here</h5>--}}
                                             <span class="hint-text">Click on 'Upload' to upload signed & stamped society undertaking</span>
@@ -381,6 +380,7 @@
                                                 </form>
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -444,80 +444,80 @@
                 Cookies.set('sectionId', this.id);
             });
 
-            // $('#stamp_duty_letter').validate({
-            //     rules:{
-            //         document_path: {
-            //             required:true,
-            //             extension:'pdf'
-            //         }
-            //     },
-            //     messages:{
-            //         document_path: {
-            //             required: 'File is required to upload.',
-            //             extension: 'File only in pdf format is required.'
-            //         }
-            //     }
-            // });
-            //
-            // $('#sale_deed_agreement').validate({
-            //     rules:{
-            //         document_path: {
-            //             required:true,
-            //             extension:'pdf'
-            //         }
-            //     },
-            //     messages:{
-            //         document_path: {
-            //             required: 'File is required to upload.',
-            //             extension: 'File only in pdf format is required.'
-            //         }
-            //     }
-            // });
-            //
-            // $('#lease_deed_agreement').validate({
-            //     rules:{
-            //         document_path: {
-            //             required:true,
-            //             extension:'pdf'
-            //         }
-            //     },
-            //     messages:{
-            //         document_path: {
-            //             required: 'File is required to upload.',
-            //             extension: 'File only in pdf format is required.'
-            //         }
-            //     }
-            // });
-            //
-            // $('#society_resolution').validate({
-            //     rules:{
-            //         document_path: {
-            //             required:true,
-            //             extension:'pdf'
-            //         }
-            //     },
-            //     messages:{
-            //         document_path: {
-            //             required: 'File is required to upload.',
-            //             extension: 'File only in pdf format is required.'
-            //         }
-            //     }
-            // });
-            //
-            // $('#society_undertaking').validate({
-            //     rules:{
-            //         document_path: {
-            //             required:true,
-            //             extension:'pdf'
-            //         }
-            //     },
-            //     messages:{
-            //         document_path: {
-            //             required: 'File is required to upload.',
-            //             extension: 'File only in pdf format is required.'
-            //         }
-            //     }
-            // });
+            $('#stamp_duty_letter').validate({
+                rules:{
+                    document_path: {
+                        required:true,
+                        extension:'pdf'
+                    }
+                },
+                messages:{
+                    document_path: {
+                        required: 'File is required to upload.',
+                        extension: 'File only in pdf format is required.'
+                    }
+                }
+            });
+
+            $('#sale_deed_agreement').validate({
+                rules:{
+                    document_path: {
+                        required:true,
+                        extension:'pdf'
+                    }
+                },
+                messages:{
+                    document_path: {
+                        required: 'File is required to upload.',
+                        extension: 'File only in pdf format is required.'
+                    }
+                }
+            });
+
+            $('#lease_deed_agreement').validate({
+                rules:{
+                    document_path: {
+                        required:true,
+                        extension:'pdf'
+                    }
+                },
+                messages:{
+                    document_path: {
+                        required: 'File is required to upload.',
+                        extension: 'File only in pdf format is required.'
+                    }
+                }
+            });
+
+            $('#society_resolution').validate({
+                rules:{
+                    document_path: {
+                        required:true,
+                        extension:'pdf'
+                    }
+                },
+                messages:{
+                    document_path: {
+                        required: 'File is required to upload.',
+                        extension: 'File only in pdf format is required.'
+                    }
+                }
+            });
+
+            $('#society_undertaking').validate({
+                rules:{
+                    document_path: {
+                        required:true,
+                        extension:'pdf'
+                    }
+                },
+                messages:{
+                    document_path: {
+                        required: 'File is required to upload.',
+                        extension: 'File only in pdf format is required.'
+                    }
+                }
+            });
 
             $('.society_registered').delay("slow").slideUp("slow");
 

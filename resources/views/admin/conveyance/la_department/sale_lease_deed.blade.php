@@ -54,7 +54,7 @@
                                             <div class="mt-auto">
                                                 @if(isset($data->SignSaleAgreement->document_path))
                                                 <input type="hidden" name="oldSaleFile" value="{{ isset($data->SignSaleAgreement) ? $data->SignSaleAgreement->document_path : '' }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->SignSaleAgreement->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->SignSaleAgreement->document_path }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -89,7 +89,7 @@
                                             <div class="mt-auto">
                                                 @if(isset($data->SignLeaseAgreement->document_path))
                                                 <input type="hidden" name="oldLeaseFile" value="{{ isset($data->SignLeaseAgreement) ? $data->SignLeaseAgreement->document_path : '' }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->SignLeaseAgreement->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->SignLeaseAgreement->document_path }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -188,19 +188,5 @@
             }
         }
     });
-    var id = Cookies.get('sectionId');
-    if (id != undefined) {
-        //alert(id);
-
-
-        $(".tab-pane").removeClass('active');
-        $(".nav-link").removeClass('active');
-        $(".m-tabs__item").removeClass('active');
-        $("#" + id+ " a").addClass('active');
-
-        $("." + id).addClass('active');
-    }else{
-
-    }
 </script>
 @endsection

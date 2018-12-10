@@ -27,8 +27,8 @@
                         <div class="col">
                             <div class="m-portlet app-card text-center">
                                 <h2 class="app-heading">{{$header}}</h2>
-                                <h2 class="app-no mb-0">{{$value}}</h2>
-                                <a href="" class="app-card__details mb-0">View Details</a>
+                                <h2 class="app-no mb-0">{{$value[0]}}</h2>
+                                <a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a>
                             </div>
                         </div>
                     @endforeach

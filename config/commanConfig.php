@@ -56,10 +56,10 @@ return [
        'sent_to_society' => 7,
        'Draft_sale_&_lease_deed' => 8,
        'Aproved_sale_&_lease_deed' => 9,
-       'Sent_society_to_pay_stamp_duety' => 10,
+       'Send_society_to_pay_stamp_duety' => 10,
        'Stamped_sale_&_lease_deed' => 11,
        'Stamped_signed_sale_&_lease_deed' => 12,
-       'Sent_society_for_registration_of_sale_&_lease' => 13,
+       'Send_society_for_registration_of_sale_&_lease' => 13,
        'Registered_sale_&_lease_deed' => 14,
        'NOC_Issued' => 15,
        'Draft_lease_deed' => 16,
@@ -69,6 +69,8 @@ return [
        'NOC_Generation' => 20,
        'draft_offer_letter_generated' => 21,
    ],
+
+
 
     /*'applicationStatus' => [
         'in_process' => 1,
@@ -89,10 +91,10 @@ return [
         'pending' => 4,
         'Draft_sale_&_lease_deed' => 8,
         'Aproved_sale_&_lease_deed' => 9,
-        'Sent_society_to_pay_stamp_duety' => 10,
+        'Send_society_to_pay_stamp_duety' => 10,
         'Stamped_sale_&_lease_deed' => 11,
         'Stamped_signed_sale_&_lease_deed' => 12,
-        'Sent_society_for_registration_of_sale_&_lease' => 13,
+        'Send_society_for_registration_of_sale_&_lease' => 13,
         'Registered_sale_&_lease_deed' => 14,
         'NOC_Issued' => 15,
     ],
@@ -108,6 +110,20 @@ return [
         'Draft_Renewal_of_Lease_deed' => 18,
         'Aproved_Renewal_of_Lease' => 19,
         'NOC_Generation' => 20
+    ],
+
+    'formation_status'=>[
+        'in_process' => 1,
+        'forwarded' => 2,
+        'reverted' => 3,
+        'processed_to_DDR'=>4
+    ],
+
+    'formation_status_color'=>[
+        '1' => 'danger',
+        '2' => 'info',
+        '3' => 'danger',
+        '4' => 'success'
     ],
 
     // sc application agreements
@@ -148,7 +164,8 @@ return [
             'Lease Deed Agreement' => 'Lease Deed Agreement',
             'sc_resolution' => 'sc_resolution',
             'sc_undertaking' => 'sc_undertaking',
-            'Stamped_Signed' => 'Stamped_Signed'
+            'Stamped_Signed' => 'Stamped_Signed',
+            'Register' => 'Register'
         ],
         'dycdo_note'  => 'dycdo_note',
         'architect_conveyance_map' => 'architect_conveyance_map',
@@ -311,6 +328,14 @@ return [
 
     'revalidation_master_ids' => [
         '3', '7', '14', '18'
+    ],
+
+    'noc_master_ids' => [
+        '4', '8', '15', '19'
+    ],
+
+    'noc_cc_master_ids' => [
+        '10', '21'
     ],
 
     'storage_server' => 'http://storage.mhada.php-dev.in',

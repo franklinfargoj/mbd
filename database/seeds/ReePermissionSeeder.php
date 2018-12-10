@@ -251,7 +251,8 @@ class ReePermissionSeeder extends Seeder
         if ($ree_role_id == null) {
             $ree_role_id = Role::insertGetId([
                 'name' => 'ree_engineer',
-                'redirect_to' => '/ree_dashboard',
+                'redirect_to' => '/ree_applications',
+                'dashboard' => '/ree_dashboard',
                 'parent_id' => null,
                 'display_name' => 'Residential Executive Engineer',
                 'description' => 'Login as Residential Executive Engineer',
@@ -263,7 +264,8 @@ class ReePermissionSeeder extends Seeder
         if ($ree_as_role_id == null) {
             $ree_as_role_id = Role::insertGetId([
                 'name' => 'REE Assistant Engineer',
-                'redirect_to' => '/ree_dashboard',
+                'redirect_to' => '/ree_applications',
+                'dashboard' => '/ree_dashboard',
                 'parent_id' => $ree_role_id,
                 'display_name' => 'REE Assistant Engineer',
                 'description' => 'Login as REE Assistant Engineer',
@@ -275,7 +277,8 @@ class ReePermissionSeeder extends Seeder
         if ($ree_deputy_role_id == null) {
             $ree_deputy_role_id = Role::insertGetId([
                 'name' => 'REE deputy Engineer',
-                'redirect_to' => '/ree_dashboard',
+                'redirect_to' => '/ree_applications',
+                'dashboard' => '/ree_dashboard',
                 'parent_id' => $ree_as_role_id,
                 'display_name' => 'REE Deputy Engineer',
                 'description' => 'Login as REE Deputy Engineer',
@@ -287,7 +290,8 @@ class ReePermissionSeeder extends Seeder
         if ($ree_Jr_role_id == null) {
             $ree_Jr_role_id = Role::insertGetId([
                 'name' => 'REE Junior Engineer',
-                'redirect_to' => '/ree_dashboard',
+                'redirect_to' => '/ree_applications',
+                'dashboard' => '/ree_dashboard',
                 'parent_id' => $ree_deputy_role_id,
                 'display_name' => 'REE Junior Engineer',
                 'description' => 'Login as REE Junior Engineer',
@@ -427,30 +431,33 @@ class ReePermissionSeeder extends Seeder
             }
 
             // Layout User Mapping
-            $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
-            if ($layout_id) {
-                if (\App\LayoutUser::where(['user_id' => $ree_user_id, 'layout_id' => $layout_id->id])->first()) {
+           // $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
+
+            $layouts = \App\MasterLayout::pluck('id')->toArray();
+
+            foreach($layouts as $layout_id) {
+                if (\App\LayoutUser::where(['user_id' => $ree_user_id, 'layout_id' => $layout_id])->first()) {
 
                 } else {
-                    \App\LayoutUser::insert(['user_id' => $ree_user_id, 'layout_id' => $layout_id->id]);
+                    \App\LayoutUser::insert(['user_id' => $ree_user_id, 'layout_id' => $layout_id]);
                 }
 
-                if (\App\LayoutUser::where(['user_id' => $ree_as_user_id, 'layout_id' => $layout_id->id])->first()) {
+                if (\App\LayoutUser::where(['user_id' => $ree_as_user_id, 'layout_id' => $layout_id])->first()) {
 
                 } else {
-                    \App\LayoutUser::insert(['user_id' => $ree_as_user_id, 'layout_id' => $layout_id->id]);
+                    \App\LayoutUser::insert(['user_id' => $ree_as_user_id, 'layout_id' => $layout_id]);
                 }
 
-                if (\App\LayoutUser::where(['user_id' => $ree_deputy_user_id, 'layout_id' => $layout_id->id])->first()) {
+                if (\App\LayoutUser::where(['user_id' => $ree_deputy_user_id, 'layout_id' => $layout_id])->first()) {
 
                 } else {
-                    \App\LayoutUser::insert(['user_id' => $ree_deputy_user_id, 'layout_id' => $layout_id->id]);
+                    \App\LayoutUser::insert(['user_id' => $ree_deputy_user_id, 'layout_id' => $layout_id]);
                 }
 
-                if (\App\LayoutUser::where(['user_id' => $ree_Jr_user_id, 'layout_id' => $layout_id->id])->first()) {
+                if (\App\LayoutUser::where(['user_id' => $ree_Jr_user_id, 'layout_id' => $layout_id])->first()) {
 
                 } else {
-                    \App\LayoutUser::insert(['user_id' => $ree_Jr_user_id, 'layout_id' => $layout_id->id]);
+                    \App\LayoutUser::insert(['user_id' => $ree_Jr_user_id, 'layout_id' => $layout_id]);
                 }
             }
         }
