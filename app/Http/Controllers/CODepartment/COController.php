@@ -950,15 +950,28 @@ class COController extends Controller
 //        dd($statusCount);
         $dashboardData = array();
 
-        $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
-        $dashboardData['Application Pending'] = $statusCount['totalPending'];
-        $dashboardData['Application Sent for Revision'] = $statusCount['totalReverted'];
-        $dashboardData['Application Forwarded to CAP'] = $statusCount['totalForwarded'];
+        $dashboardData['Total No of Application'][0] = $statusCount['totalApplication'];
+        $dashboardData['Total No of Application'][1] = '';
+
+        $dashboardData['Application Pending'][0] = $statusCount['totalPending'];
+        $dashboardData['Application Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+
+        $dashboardData['Application Sent for Revision'][0] = $statusCount['totalReverted'];
+        $dashboardData['Application Sent for Revision'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');
+
+        $dashboardData['Application Forwarded to CAP'][0] = $statusCount['totalForwarded'];
+        $dashboardData['Application Forwarded to CAP'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 //                $dashboardData['Draft Offer Letter Generated'] = $statusCount['totalDraftOfferLetterGenereated'];
-        $dashboardData['Offer Letter Pending for Approval'] = $statusCount['totalPendingForOfferLetterApproval'];
+
+        $dashboardData['Offer Letter Pending for Approval'][0] = $statusCount['totalPendingForOfferLetterApproval'];
+        $dashboardData['Offer Letter Pending for Approval'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.offer_letter_generation');
 //                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
-        $dashboardData['Offer Letter Approved'] = $statusCount['totalOfferLetterApproved'];
-        $dashboardData['Offer Letter Approved but not issued to Society'] = $statusCount['totalApprovedOfferLetterForwardedForIssueingToSociety'];
+
+        $dashboardData['Offer Letter Approved'][0] = $statusCount['totalOfferLetterApproved'];
+        $dashboardData['Offer Letter Approved'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.offer_letter_approved');;
+
+        $dashboardData['Offer Letter Approved but not issued to Society'][0] = $statusCount['totalApprovedOfferLetterForwardedForIssueingToSociety'];
+        $dashboardData['Offer Letter Approved but not issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.offer_letter_approved');
 
         return $dashboardData;
     }
