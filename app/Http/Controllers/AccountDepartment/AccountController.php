@@ -281,7 +281,7 @@ class AccountController extends Controller
 
 			if ($datatables->getRequest()->ajax()) {
 				$paymentDetails = TransBillGenerate::where('tenant_id',decrypt($tenant_id))->with('trans_payment')->where('bill_year',$data['year'])->get();
-			
+			 
 				return $datatables->of($paymentDetails)
 					->editColumn('bill_month', function ($paymentDetails)  {               
 						return date("M", mktime(0, 0, 0, $paymentDetails->bill_month, 10));
@@ -289,23 +289,30 @@ class AccountController extends Controller
 					->editColumn('amount', function ($paymentDetails)  {               
 						if(count($paymentDetails->trans_payment)){
 							return $paymentDetails->trans_payment->first()->amount_paid;
-						}
+						} else {
+                            return '-';
+                        }
 					})
 					->editColumn('payment_mode', function ($paymentDetails)  {               
 						if(count($paymentDetails->trans_payment))
 						{
 							return $paymentDetails->trans_payment->first()->mode_of_payment;
-						}
+						} else {
+                            return '-';
+                        }
 					})
 					->editColumn('created_at', function ($paymentDetails)  {               
 						if(count($paymentDetails->trans_payment))
 						{
 							return date('d-m-Y',strtotime($paymentDetails->trans_payment->first()->created_at));
-						}
+						} else {
+                            return '-';
+                        }
 					})
 					->editColumn('action', function ($paymentDetails)  use($society,$tenant_id,$building){               
 						return "<div class='d-flex btn-icon-list'>
 								<a href='".route('view_bill_tenant', ['tenant_id'=>$tenant_id,'building_id'=>encrypt($building->id),'society_id'=>encrypt($society->id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-billing-details-icon.svg')."'></span>View Bill</a>
+                                <a href='".route('generate_receipt_tenant', ['tenant_id'=>$tenant_id,'building_id'=>encrypt($building->id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-billing-details-icon.svg')."'></span>View Receipt</a>
 								</div>";
 					})
 					->rawColumns(['bill_month','amount','payment_mode','action'])
