@@ -2654,17 +2654,17 @@ class CommonController extends Controller
 
         $eeTotalPendingCount = OlApplicationStatus::where('is_active',1)
             ->where('status_id',config('commanConfig.applicationStatus.in_process'))
-            ->whereIn('role_id',[$eeRoleData['ee_jr_id'],$eeRoleData['ee_head_id'],$eeRoleData['ee_deputy_id']])
+            ->whereIn('role_id',$eeRoleData)
             ->get()->count();
 
         $dyceTotalPendingCount = OlApplicationStatus::where('is_active',1)
             ->where('status_id',config('commanConfig.applicationStatus.in_process'))
-            ->whereIn('role_id',[$dyceRoleData['dyce_jr_id'],$dyceRoleData['dyce_head_id'],$dyceRoleData['dyce_deputy_id']])
+            ->whereIn('role_id',$dyceRoleData)
             ->get()->count();
 
         $reeTotalPendingCount = OlApplicationStatus::where('is_active',1)
             ->whereIn('status_id',[config('commanConfig.applicationStatus.offer_letter_generation'),config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.offer_letter_approved')])
-            ->whereIn('role_id',[$reeRoleData['ree_jr_id'],$reeRoleData['ree_head_id'],$reeRoleData['ree_deputy_id'],$reeRoleData['ree_ass_id']])
+            ->whereIn('role_id',$reeRoleData)
             ->get()->count();
 
         $coTotalPendingCount = OlApplicationStatus::where('is_active',1)
