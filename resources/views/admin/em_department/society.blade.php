@@ -27,15 +27,28 @@
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
                     <div class="row align-items-center mb-0">                            
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <div class="form-group m-form__group">
-                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
-                                        id="layout" name="layout">
-                                        <option value="" style="font-weight: normal;">Select Layout</option>
-                                        @foreach($layout_data as $key => $value)
-                                        <option value="{{ $value->id }}">{{ $value->layout_name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <form action="{{route('get_societies')}}" method="get">
+                                        <div class="row">    
+                                            <div class="col-md-4">
+                                                <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
+                                                    id="layout" name="layout">
+                                                    <option value="" style="font-weight: normal;">Select Layout</option>
+                                                    @foreach($layout_data as $key => $value)
+                                                        @if(isset($layout_id) && $layout_id == $value->id)
+                                                              <option value="{{ $value->id }}" selected>{{ $value->layout_name }}</option>
+                                                        @else
+                                                        <option value="{{ $value->id }}">{{ $value->layout_name }}</option>
+                                                        @endif 
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="submit" value="Search" class="submit-button btn m-btn--pill m-btn--custom btn-primary">
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>                          
                     </div>
@@ -79,43 +92,43 @@
     $(document).ready(function () {
         $(".display_msg").delay(5000).slideUp(300);
 
-        $("#searchId").on("keyup", function() {
-            var myLength = $(this).val().length;
-            if(myLength >= 0){
-            var value = $(this).val().toLowerCase();
-            if(myLength == 0) {
-                value = ' ';
-            }
-            $.ajax({
-                    url:"{{URL::route('get_societies')}}",
-                    type: 'get',
-                    data: {search: value},
-                        success: function(response){
-                        //console.log(response);
-                        // $('.m-portlet__body').html(response);
-                        //$('#colony').selectpicker('refresh');
-                    }
-            });                
-            }
-        });
-    });
+    //     $("#searchId").on("keyup", function() {
+    //         var myLength = $(this).val().length;
+    //         if(myLength >= 0){
+    //         var value = $(this).val().toLowerCase();
+    //         if(myLength == 0) {
+    //             value = ' ';
+    //         }
+    //         $.ajax({
+    //                 url:"{{URL::route('get_societies')}}",
+    //                 type: 'get',
+    //                 data: {search: value},
+    //                     success: function(response){
+    //                     //console.log(response);
+    //                     // $('.m-portlet__body').html(response);
+    //                     //$('#colony').selectpicker('refresh');
+    //                 }
+    //         });                
+    //         }
+    //     });
+    // });
 
-    $(document).on('change', '#layout', function(){
-                var id = $(this).val();
-                //console.log(id);
-                if(id != ''){
-                  $.ajax({
-                    url:"{{URL::route('get_societies')}}",
-                    type: 'get',
-                    data: {id: id},
-                        success: function(response){
-                        //console.log(response);
-                        // $('.m-portlet__body').html(response);
-                        //$('#colony').selectpicker('refresh');
-                    }
-                  });    
-                }            
-    });
+    // $(document).on('change', '#layout', function(){
+    //             var id = $(this).val();
+    //             //console.log(id);
+    //             if(id != ''){
+    //               $.ajax({
+    //                 url:"{{URL::route('get_societies')}}",
+    //                 type: 'get',
+    //                 data: {id: id},
+    //                     success: function(response){
+    //                     //console.log(response);
+    //                     // $('.m-portlet__body').html(response);
+    //                     //$('#colony').selectpicker('refresh');
+    //                 }
+    //               });    
+    //             }            
+    // });
 
 
 

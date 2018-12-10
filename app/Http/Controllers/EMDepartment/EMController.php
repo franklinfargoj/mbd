@@ -151,23 +151,24 @@ class EMController extends Controller
         //dd($wards);
         $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
         //dd($colonies);
-
+        
         //done by shrikant sabne
         //$societies = SocietyDetail::whereIn('colony_id', $colonies)->paginate(10);
-        if ($request->has('id') && '' != $request->get('id')) {
-
-            $wards = MasterWard::where('layout_id', '=', $request->input('id'))->pluck('id');
+        if ($request->has('layout') && '' != $request->get('layout')) {
+            $wards = MasterWard::where('layout_id', '=', $request->input('layout'))->pluck('id');
             $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
-            
-        }
+            $layout_id = $request->input('layout');
+        } 
 
         if ($datatables->getRequest()->ajax()) {
            
-                DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-                $societies = SocietyDetail::selectRaw('@rownum  := @rownum  + 1 AS rownum,lm_society_detail.*');
-                if ($request->has('id') && '' != $request->get('id')) {
-                    $societies = $societies->whereIn('colony_id', $colonies);
-                }
+            DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
+        
+            if ($request->has('layout') && '' != $request->get('layout')) {
+                $societies = SocietyDetail::selectRaw('@rownum  := @rownum  + 1 AS rownum,lm_society_detail.*')->whereIn('colony_id', $colonies);
+            } else {
+                 $societies = SocietyDetail::selectRaw('@rownum  := @rownum  + 1 AS rownum,lm_society_detail.*');
+            }
                 
             return $datatables->of($societies)
                 ->editColumn('actions', function ($societies){
@@ -188,7 +189,7 @@ class EMController extends Controller
      
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
-        return view('admin.em_department.society', compact('layout_data','html'));
+        return view('admin.em_department.society', compact('layout_data','html','layout_id'));
 
     //     if($request->input('id')){            
     //         $wards = MasterWard::where('layout_id', '=', $request->input('id'))->pluck('id');
