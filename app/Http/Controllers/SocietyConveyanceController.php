@@ -279,6 +279,7 @@ class SocietyConveyanceController extends Controller
     public function show($id)
     {
         $id = decrypt($id);
+
         $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout', 'scApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();

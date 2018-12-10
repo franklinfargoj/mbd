@@ -55,7 +55,7 @@
                                 <tr>
                                     <td>{{ $i }}</td>
                                     <td>
-                                        {{ $document->document_name }}<span class="compulsory-text">(Compulsory Document)</span>
+                                        {{ ucwords(str_replace('_', ' ', $document->document_name)) }}<span class="compulsory-text">(Compulsory Document)</span>
                                     </td>
                                     <td class="text-center">
                                         <h2 class="m--font-danger">
