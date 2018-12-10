@@ -112,6 +112,16 @@
 {{--@endsection--}}
 
 @section('js')
+    <script>
+        $(".accordion-icon").on("click", function () {
+            var data = $('.hearing-accordion').children().children().attr('aria-expanded');
+            if(data == 'undefine' || data == 'false'){
+                $('.accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+            }else{
+                $('.accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+            }
+        });
+    </script>
     <script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>
 
