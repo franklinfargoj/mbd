@@ -933,7 +933,8 @@ class conveyanceCommonController extends Controller
         $role_id = session()->get('role_id');
         $user_id = Auth::id();
         $applicationData = $this->getApplicationData($role_id,$user_id);
-        $statusCount = $this->getApplicationStatusCount($applicationData);
+        $parentName = $this->getParentName();
+        $statusCount = $this->getApplicationStatusCount($applicationData,$parentName);
         $dycoRoles = $this->getDYCORoles();
 
         // dd($statusCount);
@@ -973,9 +974,24 @@ class conveyanceCommonController extends Controller
         return $dycoRoles;
     } 
 
-    public function getApplicationStatusCount($applicationData){
+    public function getParentName(){
         
-        $sendForApproval = $totalPending = $sendToSociety = 0 ;
+        $parent_name = "";
+        $role_name = session()->get('role_name');
+        
+        if ($role_name == config('commanConfig.dycdo_engineer')){
+            $parent_name = 'DYCO Engineer';
+        } 
+
+        return $parent_name;   
+    }
+
+    public function getApplicationStatusCount($applicationData,$parentName){
+        
+        $sendForApproval = $totalPending = $sendToSociety = $forwardApplication = $sendForStampDuty = $sendForRegistration = $nocIssued = $revertApplication = 0 ;
+        
+        $role_name = session()->get('role_name');
+        $is_view = ($role_name == config('commanConfig.dyco_engineer'));
         
         foreach ($applicationData as $application){
             $status = $application['sc_application_log']['status_id'];
@@ -984,13 +1000,18 @@ class conveyanceCommonController extends Controller
 
             $sendForApprovalCondition = ($application['application_status'] != config('commanConfig.conveyance_status.in_process') && $status == config('commanConfig.conveyance_status.forwarded') && $application['sent_to_society'] == 0);
 
+            $applicationForwarded = ($application['application_status'] == config('commanConfig.conveyance_status.in_process') && $status == config('commanConfig.conveyance_status.forwarded') && $application['sent_to_society'] == 0);
+
+            $applicationReverted = ($application['application_status'] == config('commanConfig.conveyance_status.in_process') && $status == config('commanConfig.conveyance_status.reverted') && $is_view);
+
             $sendToSocietyCondition = $status == config('commanConfig.conveyance_status.forwarded') && ($application['sent_to_society'] == 1);
 
-            $sendForStampDuty = ($status == config('commanConfig.conveyance_status.forwarded') && ($application['sent_to_society'] == 1 && $application['application_status'] == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety')));            
+            $sendForStampDutyCondition = ($status == config('commanConfig.conveyance_status.forwarded') && ($application['sent_to_society'] == 1 && $application['application_status'] == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety')));            
 
-            $sendForRegistration = ($status == config('commanConfig.conveyance_status.forwarded') && ($application['sent_to_society'] == 1 && $application['application_status'] == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease')));
+            $sendForRegistrationCondition = ($status == config('commanConfig.conveyance_status.forwarded') && ($application['sent_to_society'] == 1 && $application['application_status'] == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease')));
 
-            $sendForRegistration = ($status == config('commanConfig.conveyance_status.forwarded') && ($application['sent_to_society'] == 1 && $application['application_status'] == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease')));
+            $nocIssuedCondition = ($status == config('commanConfig.conveyance_status.forwarded') && ($application['sent_to_society'] == 1 && $application['application_status'] == config('commanConfig.conveyance_status.NOC_Issued')));
+
 
 
             switch ($status)
@@ -998,6 +1019,11 @@ class conveyanceCommonController extends Controller
                 case in_array($status, $pendingArr) : $totalPending    += 1; break;
                 case $sendForApprovalCondition      : $sendForApproval += 1; break;
                 case $sendToSocietyCondition        : $sendToSociety   += 1; break;
+                case $sendForStampDutyCondition     : $sendForStampDuty   += 1; break;
+                case $sendForRegistrationCondition  : $sendForRegistration   += 1; break;
+                case $nocIssuedCondition            : $nocIssued   += 1; break;
+                case $applicationForwarded          : $forwardApplication  += 1; break;
+                case $applicationReverted           : $revertApplication  += 1; break;
                 default:
                 ; break;
             }
@@ -1005,12 +1031,25 @@ class conveyanceCommonController extends Controller
 
         $totalApplication = count($applicationData);
 
-        $count = ['Application Pending'                       => $totalPending,
+        $count = ['Total No of Application'                   => $totalApplication,
+                  'Application Pending'                       => $totalPending,
                   'Draft Sale & Lease Deed sent for Approval' => $sendForApproval,
                   'Sale & Lease Deed sent to society'         => $sendToSociety,
-                  'Total No of Application'                   => $totalApplication
         ];
 
+        if ($parentName != ""){
+            $forwardArr = ['Application Forwarded to '.$parentName => $forwardApplication];
+        }else{
+            $forwardArr = ['Application Forwarded' => $forwardApplication];
+        }
+
+        $count = array_merge($count,$forwardArr);
+        
+        if ($is_view){
+            $revertArray = ['Application Reverted' => $revertApplication];
+            $count = array_merge($count,$revertArray);
+        }
+                
         return $count;
     }                
 }
