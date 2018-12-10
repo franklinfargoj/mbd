@@ -29,15 +29,23 @@
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
                     <div class="row align-items-center mb-0">                            
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <div class="form-group m-form__group">
-                                <form action="{{url('payment_details/'.encrypt($data['tenant']->id).'/'.$data['year'])}}" method="get" class="payment_details">
-                                <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="year" name="selectYear" required>
-                                    <option value="" style="font-weight: normal;">Select Year</option>
-                                    @foreach($data['years'] as $key => $value)
-                                        <option value="{{$value}}" @if($value == $data['year']) selected @endif>{{ $value }}</option>
-                                    @endforeach
-                                </select>
+                                <form action="{{url('payment_details/'.encrypt($data['tenant']->id))}}" method="get" class="payment_details">
+                                    <div class="row"> 
+                                        <input type="hidden" value={{$data['tenant']->id }} />
+                                        <div class="col-md-3">
+                                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="year" name="selectYear" required>
+                                                <option value="" style="font-weight: normal;">Select Year</option>
+                                                @foreach($data['years'] as $key => $value)
+                                                    <option value="{{$value}}" @if($value == $data['year']) selected @endif>{{ $value }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="submit" value="Search" class="submit-button btn m-btn--pill m-btn--custom btn-primary">
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>

@@ -23,8 +23,6 @@
             <h3 class="m-subheader__title m-subheader__title--separator">Calculation Of Tenant - {{$data['tenant']->first_name.' '.$data['tenant']->last_name}} - {{$data['tenant']->flat_no}}</h3>
             {{ Breadcrumbs::render('calculations',encrypt($data['ward']->layout_id),encrypt($data['society']->id),encrypt($data['building']->id)) }}
          </div>
-   
-        
         <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
