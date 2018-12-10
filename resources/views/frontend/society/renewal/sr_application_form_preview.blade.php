@@ -1,12 +1,4 @@
 <div>
-    <div >
-        <div >
-            <h3 >Application</h3>
-            <div >
-
-            </div>
-        </div>
-    </div>
     <div>
         <div id="printdiv">
             <form  action="{{ route('society_renewal.store') }}" method="post" id="society-conveyance-application" enctype="multipart/form-data">

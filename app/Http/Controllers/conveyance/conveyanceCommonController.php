@@ -717,7 +717,7 @@ class conveyanceCommonController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function la_agreement_riders($applicationId){
-//        dd($applicationId);
+
         $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout', 'scApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $applicationId)->first();
@@ -737,6 +737,7 @@ class conveyanceCommonController extends Controller
                 $documents_remaining_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
             }
         }
+
         $sc_agreement_comment = ScAgreementComments::with('scAgreementId')->get();
         $data = $sc_application;
 //        dd($sc_application);
