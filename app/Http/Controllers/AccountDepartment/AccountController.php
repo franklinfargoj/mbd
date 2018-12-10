@@ -281,7 +281,7 @@ class AccountController extends Controller
 
 			if ($datatables->getRequest()->ajax()) {
 				$paymentDetails = TransBillGenerate::where('tenant_id',decrypt($tenant_id))->with('trans_payment')->where('bill_year',$data['year'])->get();
-				echo json_encode($paymentDetails);exit();
+			
 				return $datatables->of($paymentDetails)
 					->editColumn('bill_month', function ($paymentDetails)  {               
 						return date("M", mktime(0, 0, 0, $paymentDetails->bill_month, 10));
