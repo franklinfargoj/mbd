@@ -2805,6 +2805,10 @@ label.site-visit-label {
     margin-bottom: 0;
 }
 
+.app-card-footer {
+    margin-top: auto;
+}
+
 .app-no {
     font-size: 2.5rem;
     color: #ff7750;
@@ -2864,7 +2868,6 @@ label.site-visit-label {
 
 .hearing-row .app-no {
     font-size: 1.2rem;
-    margin-top: auto;
 }
 
 .hearing-row .m-portlet {

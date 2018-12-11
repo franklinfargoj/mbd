@@ -28,9 +28,11 @@
                             <div class="col">
                                 <div class="m-portlet app-card text-center">
                                     <h2 class="app-heading">{{$header}}</h2>
-                                    <h2 class="app-no mb-0">{{$value[0]}}</h2>
-                                    @php $chart += $value[0];@endphp
-                                    <a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a>
+                                    <div class="app-card-footer">
+                                        <h2 class="app-no mb-0">{{$value[0]}}</h2>
+                                        @php $chart += $value[0];@endphp
+                                        <a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -46,8 +48,10 @@
                                 <div class="col">
                                     <div class="m-portlet app-card text-center">
                                         <h2 class="app-heading">{{$header}}</h2>
-                                        <h2 class="app-no mb-0">{{$value}}</h2>
-                                    @php $chart += $value;@endphp
+                                        <div class="app-card-footer">
+                                            <h2 class="app-no mb-0">{{$value}}</h2>
+                                            @php $chart += $value;@endphp
+                                        </div>
                                     <!-- <a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a> -->
                                     </div>
                                 </div>
