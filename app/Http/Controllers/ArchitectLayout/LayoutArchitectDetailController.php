@@ -45,8 +45,9 @@ class LayoutArchitectDetailController extends Controller
             ['data' => 'application_no','name' => 'application_no','title' => 'Application No.'],
             ['data' => 'application_master_id','name' => 'application_master_id','title' => 'Model'],
             ['data' => 'created_at','name' => 'created_date','title' => 'Submission Date', 'class' => 'datatable-date'],
-            ['data' => 'updated_at','name' => 'updated_at','title' => 'Certificate Issued Date', 'class' => 'datatable-date'],
+            ['data' => 'updated_at','name' => 'updated_at','title' => 'Issued Date', 'class' => 'datatable-date'],
             ['data' => 'status','name' => 'status','title' => 'Status'],
+            ['data' => 'action','name' => 'action','title' => 'Action'],
         ];
         if ($datatables->getRequest()->ajax()) {
         $application_master_arr = OlApplicationMaster::Where('title', 'like', '%New - Offer Letter%')->orWhere('title', 'like', '%Revalidation Of Offer Letter%')->pluck('id')->toArray();
@@ -97,7 +98,6 @@ class LayoutArchitectDetailController extends Controller
                     return '-';
                 })
                 ->editColumn('status', function ($ol_applications) {
-                    $certificate_link="";
                     $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $ol_applications->olApplicationStatus[0]->status_id)[0]);
                     $status_display = '';
                     foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
@@ -105,18 +105,21 @@ class LayoutArchitectDetailController extends Controller
                     if($status_display == 'Sent To Society'){
                         $status_display = 'Approved';
                     }
-                    
+                    return '<div class="d-flex btn-icon-list"><span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$ol_applications->olApplicationStatus[0]->status_id) .' m-badge--wide">'.$status_display.'</span></div>';
+                })
+                ->editColumn('action', function ($ol_applications) {
+                    $certificate_link="-";
                     if($ol_applications->status_offer_letter==7)
                     {
-                        $certificate_link='<a class="d-flex flex-column align-items-center" title="Offer Letter Download" href="'.config('commanConfig.storage_server').'/'.$ol_applications->offer_letter_document_path.'"
-                        target="_blank" rel="noopener"><span class="btn-icon btn-icon--delete"><img src="'.asset('/img/download-icon.svg').'"></span>Offer Letter Download</a>';
+                        $certificate_link='<a class="d-flex flex-column Offer Letter align-items-center" title="Offer Letter Download" href="'.config('commanConfig.storage_server').'/'.$ol_applications->offer_letter_document_path.'"
+                        target="_blank" rel="noopener"><span class="btn-icon btn-icon--delete"><img src="'.asset('/img/download-icon.svg').'"></span>Download Offer Letter</a>';
                     }
-                    return '<div class="d-flex btn-icon-list"><span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$ol_applications->olApplicationStatus[0]->status_id) .' m-badge--wide">'.$status_display.'</span>'.$certificate_link.'</div>';
+                    return '<div class="d-flex btn-icon-list">'.$certificate_link.'</div>';
                 })
                 // ->editColumn('model', function ($ol_applications) {
                 //     return view('frontend.society.actions', compact('ol_applications', 'status_display'))->render();
                 // })
-                ->rawColumns(['application_no', 'application_master_id', 'created_at','updated_at','status'])
+                ->rawColumns(['application_no', 'application_master_id', 'created_at','updated_at','status','action'])
                 ->make(true);
         }
 
@@ -167,6 +170,7 @@ class LayoutArchitectDetailController extends Controller
                     'to_user_id' => null,
                     'to_role_id' => null,
                     'open'=>1,
+                    'current_status'=>1,
                     'remark' => null,
                 ],
             ];
