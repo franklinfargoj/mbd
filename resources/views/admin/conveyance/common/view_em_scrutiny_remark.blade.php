@@ -3,7 +3,6 @@
     @include('admin.conveyance.'.$data->folder.'.action')
 @endsection
 @section('content')
-
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
@@ -68,8 +67,8 @@
                         <div class="col-md-12">
                             <p>Click to download generated list of allottees in xls format</p>
 
-                            @if(!empty($covering_letter_docs['em_covering_letter']->sc_document_status))
-                                <a href="" class="btn btn-primary"> Download</a>
+                            @if(!empty($society_list_docs['अधिकृत सभासदांची यादी (पती व पत्नी संयुक्त नावे)']->sc_document_status->document_path))
+                                <a href="{{ config('commanConfig.storage_server').'/'.$bonafide_docs['bonafide_list']->sc_document_status->document_path }}" class="btn btn-primary"> Download</a>
                             @else
                                 <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;"> * Note : Covering Letter is not available. </span>
                             @endif    
