@@ -11,16 +11,16 @@
         </div>
 
         <div class="hearing-accordion-wrapper">
-            <div class="m-portlet m-portlet--compact hearing-accordion mb-0">
+            <div class="m-portlet m-portlet--compact ol-accordion mb-0">
                 <div class="d-flex justify-content-between align-items-center">
                     <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
                        data-toggle="collapse" href="#ree-ol-summary">
                         <span class="form-accordion-title">REE Offer Letter Summary</span>
-                        <span class="accordion-icon"></span>
+                        <span class="accordion-icon ol-accordion-icon"></span>
                     </a>
                 </div>
             </div>
-            <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="ree-ol-summary"
+            <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="ree-ol-summary"
                  data-parent="#accordion">
                 <div class="row hearing-row">
                     @php $chart = 0;@endphp
@@ -93,13 +93,18 @@
 @endsection
 @section('js')
     <script>
-        $(".accordion-icon").on("click", function () {
-        var data = $('.hearing-accordion').children().children().attr('aria-expanded');
-        if(data == 'undefine' || data == 'false'){
-            $('.accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-        }else{
-            $('.accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
-        }
+        $(".ol-accordion-icon").on("click", function () {
+            var data = $('.ol-accordion').children().children().attr('aria-expanded');
+            if (!(data)) {
+                $('.ol-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+            }
+            else {
+                if (data == 'undefine' || data == 'false') {
+                    $('.ol-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                } else {
+                    $('.ol-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                }
+            }
         });
     </script>
     <script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>
