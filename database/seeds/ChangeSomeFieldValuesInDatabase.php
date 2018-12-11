@@ -223,7 +223,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         // Land Manager
         $land_manager = Role::where('name', 'LM')->value('id');
         if($land_manager)
-            Role::where('id',$land_manager)->update(['dashboard' => '/village_detail']);
+            Role::where('id',$land_manager)->update(['dashboard' => '/land_dashboard']);
 
         //RC
         $rc_collector = Role::where('name' , 'rc_collector')->value('id');

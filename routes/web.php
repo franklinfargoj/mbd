@@ -938,17 +938,17 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('forward_application_sr/{id}', 'conveyance\renewalCommonController@commonForward')->name('renewal.forward_application_sc');
 
     Route::post('save_forward_application_sr', 'conveyance\renewalCommonController@saveForwardApplication')->name('renewal.save_forward_application');
-//dashboard    
 
+    // All dashboards
     Route::get('/dashboard','Common\CommonController@dashboard')->name('dashboard');
     // Ree Dashboard
     Route::get('/ree_dashboard','REEDepartment\REEController@dashboard')->name('ree.dashboard');
-
     // Co Dashboard
     Route::get('/co_dashboard','CODepartment\COController@dashboard')->name('co.dashboard');
-
-    //Dashboard routes
+    // Architect Layout Dashboard
     Route::get('architect_layout_dashboard','Dashboard\ArchitectLayoutDashboardController@dashboard')->name('architect_layout_dashboard');
+    // Land Dashboard
+    Route::get('/land_dashboard','VillageDetailController@dashboard')->name('land.dashboard');
 
 });
 
