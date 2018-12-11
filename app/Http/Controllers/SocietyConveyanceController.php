@@ -837,9 +837,8 @@ class SocietyConveyanceController extends Controller
 
             if(count($uploaded_document_ids) == 4 && count($documents_remaining_ids) == 0){
                 $role_id = Role::where('name', config('commanConfig.dycdo_engineer'))->first();
-                dd($role_id);
                 $users_record = scApplicationLog::where('application_id', $request->application_id)->where('society_flag', 0)->where('role_id', $role_id->id)->where('status_id', config('commanConfig.conveyance_status.forwarded'))->orderBy('id', 'desc')->first();
-                $users = User::where('id', $users_record->to_user_id)->where('role_id', $users_record->to_role_id)->get();
+                $users = User::where('id', $users_record->user_id)->where('role_id', $users_record->role_id)->get();
                 $insert_log_arr = array(
                     'users' => $users
                 );
