@@ -962,7 +962,7 @@ class conveyanceCommonController extends Controller
         $applicationData = $this->getApplicationData($role_id,$user_id);
         $parentName      = $this->getParentName();
         $statusCount     = $this->getApplicationStatusCount($applicationData,$parentName);
-    
+
         return $statusCount;
     } 
 
@@ -1020,7 +1020,7 @@ class conveyanceCommonController extends Controller
 
     public function getApplicationStatusCount($applicationData,$parentName){
         
-        $sendForApproval = $totalPending = $sendToSociety = $forwardApplication = $sendForStampDuty = $sendForRegistration = $nocIssued = $revertApplication = 0 ;
+        $sendForApproval = $totalPending = $sendToSociety = $forwardApplication = $sendForStampDuty = $sendForRegistration = $nocIssued = $revertApplication =$inprocess = $draft = $approve = $stamp = $stampSign = $registered = $sendForRegistration= $sendForStampDuty = $nocIssued = 0 ;
         
         $role_name = session()->get('role_name');
         $can_revert = ($role_name == config('commanConfig.dyco_engineer') || $role_name == config('commanConfig.ee_deputy_engineer') || $role_name == config('commanConfig.ee_branch_head') || $role_name == config('commanConfig.senior_architect') || $role_name == config('commanConfig.architect') || $role_name == config('commanConfig.co_engineer') || $role_name == config('commanConfig.joint_co'));
@@ -1057,38 +1057,69 @@ class conveyanceCommonController extends Controller
                 case $nocIssuedCondition            : $nocIssued   += 1; break;
                 case $applicationForwarded          : $forwardApplication  += 1; break;
                 case $applicationReverted           : $revertApplication  += 1; break;
+
+                case config('commanConfig.conveyance_status.in_process')  : $inprocess  += 1; break;
+                case config('commanConfig.conveyance_status.Draft_sale_&_lease_deed')  : $draft  += 1; break;
+                case config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed')  : $approve  += 1; break;
+                case config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed')  : $stamp  += 1; break;
+                case config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed')  : $stampSign  += 1; break;
+                case config('commanConfig.conveyance_status.Registered_sale_&_lease_deed')  : $registered  += 1; break;
+                case (config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease') && $application['sent_to_society'] == 0)  : $sendForRegistration  += 1; break;
+                case (config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety') && $application['sent_to_society'] == 0)  : $sendForStampDuty  += 1; break;
+                case (config('commanConfig.conveyance_status.NOC_Issued') && $application['sent_to_society'] == 0)  : 
+                $nocIssued  += 1; break;
                 default:
                 ; break;
             }
         }
 
+        $separation['Inprocess'] = $inprocess;
+        $separation['draft'] = $draft;
+        $separation['approve'] = $approve;
+        $separation['stamp'] = $stamp;
+        $separation['stampSign'] = $stampSign;
+        $separation['registered'] = $registered;
+        $separation['sendForRegistration'] = $sendForRegistration;
+        $separation['sendForStampDuty'] = $sendForStampDuty;
+        $separation['nocIssued'] = $nocIssued;
+
+
+        
         $totalApplication = count($applicationData);
 
-        $count = ['Total No of Applications'                   => $totalApplication,
-                  'Applications Pending'                       => $totalPending,
-                  'Draft Sale & Lease Deed sent for Approval' => $sendForApproval,
-                  // 'Sale & Lease Deed sent to society'         => $sendToSociety,
-                  'Sent to Society for stamp duty'            => $sendForStampDuty,
-                  'Sent to Society for Registration'          => $sendForRegistration,
-                  'NOC Issued'                                => $nocIssued,
-        ];    
+        $count['Total No of Applications'][0] = $totalApplication;
+        $count['Total No of Applications'][1] = '';
+        $count['Applications Pending'][0] = $totalPending;
+        $count['Applications Pending'][1] = 'pending';
+        $count['Draft Sale & Lease Deed sent for Approval'][0] = $sendForApproval;
+        $count['Draft Sale & Lease Deed sent for Approval'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+        $count['Sent to Society for stamp duty'][0] = $sendForStampDuty;
+        $count['Sent to Society for stamp duty'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+        $count['Sent to Society for Registration'][0] = $sendForRegistration;
+        $count['Sent to Society for Registration'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+        $count['NOC Issued'][0] = $nocIssued;
+        $count['NOC Issued'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 
         if ($can_forward){
             if ($parentName != ""){
-                $forwardArr = ['Applications Forwarded to '.$parentName => $forwardApplication];
+                
+                $count['Applications Forwarded to '.$parentName][0] = $forwardApplication;
+                $count['Applications Forwarded to '.$parentName][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');                
+
             }else{
-                $forwardArr = ['Applications Forwarded' => $forwardApplication];
+                $count['Applications Forwarded'][0] = $forwardApplication;
+                $count['Applications Forwarded'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded'); 
             }
-            $count = array_merge($count,$forwardArr);
         }    
 
-        
         if ($can_revert){
-            $revertArray = ['Applications Reverted' => $revertApplication];
-            $count = array_merge($count,$revertArray);
+                
+                $count['Applications Reverted'][0] = $revertApplication;
+                $count['Applications Reverted'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');             
         }
-      
-        return $count;
+        $dashboard = array($count,$separation);
+
+        return $dashboard;
     } 
 
     public function getApplicationPendingAtDepartment(){

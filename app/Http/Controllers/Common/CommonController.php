@@ -42,7 +42,7 @@ use App\REENote;
 use App\Role;
 use App\SocietyOfferLetter;
 use App\User;
-use Auth;
+use Auth; 
 use Carbon\Carbon;
 use Config;
 use DB;
