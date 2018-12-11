@@ -545,6 +545,11 @@ class EmPermissionSeeder extends Seeder
                 'display_name' => 'Create Arrear Calculation',
                 'description' => 'Create Arrear Calculation'
             ],
+            [
+                'name' => 'get_arrear_charges',
+                'display_name' => 'Get Arrear Calculation',
+                'description' => 'Get Arrear Calculation'
+            ],
         ];
 
         $em_clerk_permission_role = [];

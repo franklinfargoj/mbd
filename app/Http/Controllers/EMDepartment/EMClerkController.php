@@ -374,5 +374,15 @@ class EMClerkController extends Controller
         return 'Tenant_data_' . date('YmdHis');
     }
 
+    public function getArrearChargesByYear(Request $request) {
+        if($request->has('year') && !empty($request->year) && $request->has('society_id') &&!empty($request->society_id) && $request->has('building_id') &&!empty($request->building_id)) {
+            $arrearCharges = ArrearsChargesRate::where('society_id',decrypt($request->society_id))->where('building_id',decrypt($request->building_id))->where('year',$request->year)->orderBy('id','DESC')->first();
+
+            echo json_encode(['result' => true,'data' => $arrearCharges]);
+        } else {
+            echo json_encode(['result'=>false]);
+        }
+        exit;
+    }
 }
 

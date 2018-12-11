@@ -286,26 +286,75 @@
         total_amount();
     });
 
-    function total_amount(){
 
-                var ior = "<?php echo $rate_card->interest_on_old_rate ?>";
-                var old_rate = "<?php echo $rate_card->old_rate ?>";
+    var old_rate_old = 0;
+    var old_rate_diff = 0;
+    var old_iod = 0;
+    var old_ior = 0;
+    var old_intrest_amount1 = 0;
+    var old_intrest_amount2 = 0;
+    var intrest_on_difference1 = 0;
+    var intrest_on_difference2 = 0;
+    var old_intrest_amount = 0;
+    var intrest_on_difference = 0;
+    var iod_per = 0;
+    var ior_per = 0;
+    var old_rate = 0;
+    var ior = 0;
+    var iod = 0;
+    var rate_diff = 0
+    var total1 = 0 
+    var total = 0;
+    var total2 = 0;
+
+    function total_amount(){
                 
-                var iod = "<?php echo $rate_card->interest_on_differance ?>";
-                var rate_diff = "<?php echo $rate_card->revise_rate - $rate_card->old_rate ?>";
+                ior = "<?php echo $rate_card->interest_on_old_rate ?>";
+                old_rate = "<?php echo $rate_card->old_rate ?>";
                 
-                var bill_year = $('#bill_year').val();
-                var bill_month = $('#bill_month').val();
+                iod = "<?php echo $rate_card->interest_on_differance ?>";
+                rate_diff = "<?php echo $rate_card->revise_rate - $rate_card->old_rate ?>";
+                
+                var bill_year = $('#bill_year option:selected').val();
+                var bill_month = $('#bill_month option:selected').val();
                 bill_month = bill_month - 1;
-                var ior_year = $('#ior_year').val();
-                var ior_month = $('#ior_month').val();
+                var ior_year = $('#ior_year option:selected').val();
+                var ior_month = $('#ior_month option:selected').val();
 
                 ior_month = ior_month - 1;
 
-                var ida_year = $('#ida_year').val();
-                var ida_month = $('#ida_month').val();
+                var ida_year = $('#ida_year option:selected').val();
+                var ida_month = $('#ida_month option:selected').val();
 
                 ida_month = ida_month - 1;
+
+
+                var currentDate = new Date(),
+
+                currentMonth = currentDate.getMonth(),
+
+                currentYear = currentDate.getFullYear();
+
+                var building_id = "<?php  echo encrypt($tenant->building_id); ?>";
+                var society_id = "<?php  echo encrypt($tenant->society_id); ?>";
+
+
+                if(currentYear != ior_year) {
+                    $.ajax({
+                        url:"{{URL::route('get_arrear_charges')}}",
+                        type: 'get',
+                        data: {year: ior_year,building_id:building_id,society_id:society_id },
+                            success: function(response){
+                            var strResponse = $.parseJSON(response);
+                            if (true == strResponse.result) {
+                                old_rate_old = Number(strResponse.data.old_rate);
+                                old_rate_diff = Number(strResponse.data.revise_rate) - Number(strResponse.data.old_rate);
+                                old_iod = Number(strResponse.data.interest_on_differance);
+                                old_ior = Number(strResponse.data.interest_on_old_rate);
+                            }
+                        }
+                    });
+                }
 
                 if(bill_year == '' || bill_month === ''){
                     $('#bill_error').html('select Year and month for arrear Calculation.');
@@ -333,21 +382,74 @@
                                 new Date(bill_year, bill_month, 01)  
                              );
                 
-                var iod_per = iod / 100;
-                var ior_per = ior / 100;
-                // console.log(months1);
-                // console.log(months2);
-                
-                // if(months1 > 0 ) {
-                    // var old_rate = old_rate *months1;
-                    // var rate_diff = rate_diff *months1;
-                // }
-                var old_intrest_amount = (old_rate * ior_per * months1).toFixed(2);
+                iod_per = iod / 100;
+                ior_per = ior / 100;
 
-                var intrest_on_difference = (rate_diff * iod_per * months2).toFixed(2);
+                if(ior_month > 3 && currentYear != ior_year) {
+                    
+                    var old_monthDiff1 = monthDiff(
+                                new Date(ior_year, 3, 01),
+                                new Date(ior_year, ior_month, 01)
+                             );
 
+                    var old_monthDiff2 = monthDiff(
+                                new Date(ior_year, 3, 01),
+                                new Date(ior_year, ida_month, 01)
+                             );
+                    old_iod_per = old_iod / 100;
+                    old_ior_per = old_ior / 100;
+
+                    old_intrest_amount1 = (old_rate_old * old_ior_per * old_monthDiff1).toFixed(2);
+
+                    intrest_on_difference1 = (old_rate_diff * old_iod_per * old_monthDiff2).toFixed(2);
+
+
+                    var new_monthDiff1 = monthDiff(
+                                new Date(bill_year, 3, 01),
+                                new Date(bill_year, bill_month, 01)
+                             );
+
+                    var new_monthDiff2 = monthDiff(
+                                new Date(bill_year, 3, 01),
+                                new Date(bill_year, bill_month, 01)
+                             );
+
+                    old_intrest_amount2 = (old_rate * ior_per * new_monthDiff1).toFixed(2);
+
+                    intrest_on_difference2 = (rate_diff * iod_per * new_monthDiff2).toFixed(2);
+
+                    old_intrest_amount = (Number(old_intrest_amount1) + Number(old_intrest_amount2));
+
+                    intrest_on_difference = (Number(intrest_on_difference1) + Number(intrest_on_difference2));
+
+
+                    total1 = (parseFloat(old_rate_old *old_monthDiff1)+parseFloat(old_intrest_amount1)+parseFloat(old_rate_diff*old_monthDiff2)+parseFloat(intrest_on_difference1)).toFixed(2);
+
+                    total2 = (parseFloat(old_rate *new_monthDiff1)+parseFloat(old_intrest_amount2)+parseFloat(rate_diff*new_monthDiff2)+parseFloat(intrest_on_difference2)).toFixed(2);
+
+                    total = Number(total1) + Number(total2);
+                } else {
+
+                    // console.log(months2);
+                    
+                    // if(months1 > 0 ) {
+                        // var old_rate = old_rate *months1;
+                        // var rate_diff = rate_diff *months1;
+                    // }
+                    old_intrest_amount = (old_rate * ior_per * months1).toFixed(2);
+
+                    intrest_on_difference = (rate_diff * iod_per * months2).toFixed(2);
+
+                    // $('#oia').html(old_intrest_amount);
+                    // $('#old_intrest_amount').val(old_intrest_amount);                
+
+                    // $('#dia').html(intrest_on_difference);
+                    // $('#difference_intrest_amount').val(intrest_on_difference);
+
+                    total = (parseFloat(old_rate *months1)+parseFloat(old_intrest_amount)+parseFloat(rate_diff*months1)+parseFloat(intrest_on_difference)).toFixed(2);
+                }
                 $('#oia').html(old_intrest_amount);
-                $('#old_intrest_amount').val(old_intrest_amount);                
+                $('#old_intrest_amount').val(old_intrest_amount);
 
                 $('#dia').html(intrest_on_difference);
                 $('#difference_intrest_amount').val(intrest_on_difference);
@@ -357,8 +459,7 @@
                 // console.log(parseFloat(rate_diff*months1));
                 // console.log(parseFloat(old_rate));
 
-                var total = (parseFloat(old_rate *months1)+parseFloat(old_intrest_amount)+parseFloat(rate_diff*months1)+parseFloat(intrest_on_difference)).toFixed(2);
-
+            
                  $('#total_amount').html(total);
                  $('#total_amount_val').val(total);
 

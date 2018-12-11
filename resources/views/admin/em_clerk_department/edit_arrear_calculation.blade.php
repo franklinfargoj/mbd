@@ -343,16 +343,6 @@
                 
                  $('#total_amount').html(total);
                  $('#total_amount_val').val(total);
-
-                 console.log(old_rate);
-                 console.log(months1);
-                 console.log(ior_per);
-                 console.log(old_intrest_amount);
-                
-                 console.log(rate_diff)
-                 console.log(months2);
-                 console.log(iod_per);
-                 console.log(intrest_on_difference);
     }
 
 function monthDiff(d1, d2) {
