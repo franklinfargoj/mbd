@@ -80,8 +80,6 @@
 @section('datatablejs')
 {!! $html->scripts() !!}
 <script type="text/javascript">
-    $('#year').on('change',function(){
-        $('.view_calculations').submit();
-    });
+ 
 </script>
 @endsection
