@@ -775,7 +775,7 @@ class SocietyConveyanceController extends Controller
         $status = ApplicationStatusMaster::where('status_name', $status_name)->value('id');
         $society_flag = 1;
 
-        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
+        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application, $status) { $q->where('application_id', $sc_application->id)->where('status_id', $status)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
         $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
 
         $sc_registration_details = scRegistrationDetails::with('scAgreementId')->where('application_id', $sc_application->id)->get();
