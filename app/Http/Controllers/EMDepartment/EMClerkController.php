@@ -389,10 +389,10 @@ class EMClerkController extends Controller
         if($request->has('start_year') && !empty($request->start_year) && $request->has('ida_year') && !empty($request->ida_year) && $request->has('society_id') &&!empty($request->society_id) && $request->has('building_id') &&!empty($request->building_id) && $request->has('ior_year') && !empty($request->ior_year)) {
             $years = [];
 
-            if($request->ida_month < 3) {
+            if($request->ida_month <= 3) {
                 $request->ida_year = $request->ida_year - 1;
             }
-            if($request->ior_month < 3 ) {
+            if($request->ior_month <= 3 ) {
                 $request->ior_year = $request->ior_year - 1;
             }
             if($request->ior_year < $request->ida_year) {
@@ -408,10 +408,11 @@ class EMClerkController extends Controller
                     $isYearHaveCharges = false;
                 }
             }
+            // print_r($years);exit;
             if(false == $isYearHaveCharges) {
                 echo json_encode(['result'=>false]);
             } else {
-                
+
                 $arrearCharges = ArrearsChargesRate::where('society_id',decrypt($request->society_id))->where('building_id',decrypt($request->building_id))->whereIn('year',$years)->orderBy('id','DESC')->get();
 
                 echo json_encode(['result' => true,'data' => $arrearCharges]);
