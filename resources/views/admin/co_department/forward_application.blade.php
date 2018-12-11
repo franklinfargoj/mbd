@@ -22,6 +22,8 @@
 
                 @if(($arrData['get_current_status']->status_id ==
                 config('commanConfig.applicationStatus.in_process') ||
+                $arrData['get_current_status']->status_id !=
+                config('commanConfig.applicationStatus.reverted') ||
                 ($arrData['get_current_status']->status_id !=
                 config('commanConfig.applicationStatus.offer_letter_generation') &&
                 $arrData['get_current_status']->status_id !=
