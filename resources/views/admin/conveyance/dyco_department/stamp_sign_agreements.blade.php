@@ -11,15 +11,12 @@
 @endif
 
 @php 
-    if(isset($data->StampSaleByJtco->document_path)){
+    if(isset($data->StampSaleByJtco->document_path))
         $document = $data->StampSaleByJtco->document_path;
-    }
-    else if(isset($data->StampSaleBydyco->document_path)) {
-        $document = $data->StampSaleBydyco->document_path;
-    }     
-    else if(isset($data->StampSaleAgreement->document_path)) {
+    else if(isset($data->StampSaleBydyco->document_path)) 
+        $document = $data->StampSaleBydyco->document_path;    
+    else if(isset($data->StampSaleAgreement->document_path)) 
         $document = $data->StampSaleAgreement->document_path;
-    } 
 
     if(isset($data->StampLeaseByJtco->document_path))  
         $document1 = $data->StampLeaseByJtco->document_path;

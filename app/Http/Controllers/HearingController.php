@@ -473,8 +473,9 @@ class HearingController extends Controller
         // conveyance dashboard
         $conveyanceCommonController = new conveyanceCommonController();
         $conveyanceDashboard = $conveyanceCommonController->ConveyanceDashboard();
-        $conveyanceRoles     = $conveyanceCommonController->getConveyanceRoles();        
+        $conveyanceRoles     = $conveyanceCommonController->getConveyanceRoles(); 
+        $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();        
 
-        return view('admin.hearing.dashboard',compact('totalHearing','totalClosedHearing','totalPendingHearing','totalUnderJudgementHearing','todaysHearing','totalScheduledHearing','totalForwardedHearing','conveyanceDashboard','conveyanceRoles'));
+        return view('admin.hearing.dashboard',compact('totalHearing','totalClosedHearing','totalPendingHearing','totalUnderJudgementHearing','todaysHearing','totalScheduledHearing','totalForwardedHearing','conveyanceDashboard','conveyanceRoles','pendingApplications'));
     }
 }

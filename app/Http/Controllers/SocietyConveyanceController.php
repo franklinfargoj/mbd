@@ -747,7 +747,7 @@ class SocietyConveyanceController extends Controller
                 }
             }
         }
-//        dd(array_key_exists(config('commanConfig.scAgreements.lease_deed_agreement'), $sc_agreement_comment));
+
         return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application', 'document_lease', 'documents', 'uploaded_document_ids', 'documents_remaining_ids', 'sc_agreement_comment', 'documents_uploaded'));
     }
 
@@ -836,7 +836,7 @@ class SocietyConveyanceController extends Controller
             }
 
             if(count($uploaded_document_ids) == 4 && count($documents_remaining_ids) == 0){
-                $users_record = scApplicationLog::where('application_id', $request->application_id)->where('society_flag', 1)->where('status_id', config('commanConfig.conveyance_status.forwarded'))->first();
+                $users_record = scApplicationLog::where('application_id', $request->application_id)->where('society_flag', 1)->where('status_id', config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety'))->first();
                 $users = User::where('id', $users_record->to_user_id)->where('role_id', $users_record->to_role_id)->get();
                 $insert_log_arr = array(
                     'users' => $users
@@ -877,7 +877,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Uploads signed sale & lease deed agreement.
-     *Author: Amar Prajapati
+     * Author: Amar Prajapati
      * @param  request
      * @return \Illuminate\Http\Response
      */
@@ -919,8 +919,21 @@ class SocietyConveyanceController extends Controller
 
             scRegistrationDetails::create($insert_registrar_details);
             SocietyConveyanceDocumentStatus::create($insert_sc_document_details);
+            $update_arr = array(
+                'application_status' => config('commanConfig.conveyance_status.Registered_sale_&_lease_deed')
+            );
+            $update_sc_application = scApplication::where('id', $request->application_id)->update($update_arr);
+            $users_record = scApplicationLog::where('application_id', $request->application_id)->where('society_flag', 1)->where('status_id', config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease'))->first();
+            $users = User::where('id', $users_record->to_user_id)->where('role_id', $users_record->to_role_id)->get();
+            $insert_log_arr = array(
+                'users' => $users
+            );
+            $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->value('id');
+            $sc_application = new scApplication();
+            $sc_application->id = $request->application_id;
+            $sc_application->sc_application_master_id = $application_type;
+            $inserted_application_log = $this->CommonController->sc_application_status_society($insert_log_arr, config('commanConfig.conveyance_status.forwarded'), $sc_application, config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed'));
             return redirect()->back();
-//            return redirect()->route('show_signed_sale_lease', $insert_arr['application_id']);
         }
     }
 }

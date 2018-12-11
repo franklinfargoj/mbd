@@ -934,12 +934,9 @@ class conveyanceCommonController extends Controller
         $role_id = session()->get('role_id');
         $user_id = Auth::id();
         $applicationData = $this->getApplicationData($role_id,$user_id);
-        $parentName = $this->getParentName();
-        $statusCount = $this->getApplicationStatusCount($applicationData,$parentName);
-        $dycoRoles = $this->getDYCORoles();
-
-        // dd($statusCount);
-
+        $parentName      = $this->getParentName();
+        $statusCount     = $this->getApplicationStatusCount($applicationData,$parentName);
+    
         return $statusCount;
     } 
 
@@ -971,17 +968,6 @@ class conveyanceCommonController extends Controller
 
         return $applicationData;
     }
-
-    public function getDYCORoles(){
-        
-        $dycdo = Role::where('name',config('commanConfig.dycdo_engineer'))->value('id');
-        $dyco = Role::where('name',config('commanConfig.dyco_engineer'))->value('id');
-
-        $dycoRoles = ['dycdo_role' => $dycdo,
-                      'dyco_role' => $dyco];
-        
-        return $dycoRoles;
-    } 
 
     public function getParentName(){
         
@@ -1053,8 +1039,8 @@ class conveyanceCommonController extends Controller
 
         $totalApplication = count($applicationData);
 
-        $count = ['Total No of Application'                   => $totalApplication,
-                  'Application Pending'                       => $totalPending,
+        $count = ['Total No of Applications'                   => $totalApplication,
+                  'Applications Pending'                       => $totalPending,
                   'Draft Sale & Lease Deed sent for Approval' => $sendForApproval,
                   // 'Sale & Lease Deed sent to society'         => $sendToSociety,
                   'Sent to Society for stamp duty'            => $sendForStampDuty,
@@ -1064,19 +1050,103 @@ class conveyanceCommonController extends Controller
 
         if ($can_forward){
             if ($parentName != ""){
-                $forwardArr = ['Application Forwarded to '.$parentName => $forwardApplication];
+                $forwardArr = ['Applications Forwarded to '.$parentName => $forwardApplication];
             }else{
-                $forwardArr = ['Application Forwarded' => $forwardApplication];
+                $forwardArr = ['Applications Forwarded' => $forwardApplication];
             }
             $count = array_merge($count,$forwardArr);
         }    
 
         
         if ($can_revert){
-            $revertArray = ['Application Reverted' => $revertApplication];
+            $revertArray = ['Applications Reverted' => $revertApplication];
             $count = array_merge($count,$revertArray);
         }
       
         return $count;
-    }                
-}
+    } 
+
+    public function getApplicationPendingAtDepartment(){
+       
+       $dycdoRoles     = $this->getDYCDORoles();
+       $eeRoles        = $this->getEERoles();
+       $emRoles        = $this->getEMRoles();
+       $jtcoRoles      = $this->getJTCORoles();
+       $coRoles        = $this->getCORoles();
+       $laRoles        = $this->getLARoles();
+       $architectRoles = $this->getArchitectRoles();
+
+       $pendingAtDYCDO     = $this->pendingApplicationCount($dycdoRoles);
+       $pendingAtEE        = $this->pendingApplicationCount($eeRoles);
+       $pendingAtEM        = $this->pendingApplicationCount($emRoles);
+       $pendingAtJTCO      = $this->pendingApplicationCount($jtcoRoles);
+       $pendingAtCO        = $this->pendingApplicationCount($coRoles);
+       $pendingAtLA        = $this->pendingApplicationCount($laRoles);
+       $pendingAtArchitect = $this->pendingApplicationCount($architectRoles);
+
+       $pendingAtDepartments = array();
+       $pendingAtDepartments['Applications pending At DYCDO']     = $pendingAtDYCDO;
+       $pendingAtDepartments['Applications pending At EE']        = $pendingAtEE;
+       $pendingAtDepartments['Applications pending At Architect'] = $pendingAtArchitect;
+       $pendingAtDepartments['Applications pending At EM']        = $pendingAtEM;
+       $pendingAtDepartments['Applications pending At JTCO']      = $pendingAtJTCO;
+       $pendingAtDepartments['Applications pending At CO']        = $pendingAtCO;
+       $pendingAtDepartments['Applications pending At LA']        = $pendingAtLA;
+
+       return $pendingAtDepartments; 
+    }
+
+    public function pendingApplicationCount($roles){
+
+        $status = array(config('commanConfig.conveyance_status.in_process'),config('commanConfig.conveyance_status.Draft_sale_&_lease_deed'),config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed'),config('commanConfig.conveyance_status.Registered_sale_&_lease_deed'));
+
+        $count = scApplicationLog::where('is_active',1)
+            ->whereIn('status_id',$status)
+            ->whereIn('role_id',$roles)
+            ->get()->count();
+
+        return $count;    
+    }
+
+    public function getDYCDORoles(){
+        
+        $roles = array(config('commanConfig.dycdo_engineer'));
+        return Role::whereIn('name', $roles)->pluck('id');      
+    }         
+
+    public function getEERoles(){
+        
+        $roles = array(config('commanConfig.ee_junior_engineer'),config('commanConfig.ee_deputy_engineer'),config('commanConfig.ee_branch_head'));
+        return Role::whereIn('name', $roles)->pluck('id');       
+    }     
+
+    public function getEMRoles(){
+        
+        $roles = array(config('commanConfig.estate_manager'));
+        return Role::whereIn('name', $roles)->pluck('id');       
+    }    
+
+    public function getJTCORoles(){
+
+        $roles = array(config('commanConfig.joint_co'));
+        return Role::whereIn('name', $roles)->pluck('id');        
+    }    
+
+    public function getCORoles(){
+
+        $roles = array(config('commanConfig.co_engineer'));
+        return Role::whereIn('name', $roles)->pluck('id');        
+    }    
+
+    public function getLARoles(){
+
+        $roles = array(config('commanConfig.legal_advisor'));
+        return Role::whereIn('name', $roles)->pluck('id');        
+    }    
+
+    public function getArchitectRoles(){
+
+        $roles = array(config('commanConfig.junior_architect'),config('commanConfig.senior_architect'),config('commanConfig.architect'));
+        return Role::whereIn('name', $roles)->pluck('id');        
+    } 
+}      

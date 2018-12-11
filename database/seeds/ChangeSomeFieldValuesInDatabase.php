@@ -142,6 +142,14 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
             $data = Role::findOrFail($co_role_id);
             $data->dashboard ='/co_dashboard';
             $data->save();
+        }        
+
+        // Changing redirect_to route of CO role to '/co'
+        $co_role_id = Role::where('name', '=', 'co_engineer')->value('id');
+        if($co_role_id ){
+            $data = Role::findOrFail($co_role_id);
+            $data->redirect_to ='/co';
+            $data->save();
         }
 
         // Changing dashboard route of CAP to '/dashboard'
