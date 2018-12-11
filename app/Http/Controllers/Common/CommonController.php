@@ -1417,6 +1417,7 @@ class CommonController extends Controller
         $status_in_words = array_flip(config('commanConfig.conveyance_status'))[$status];
         $sc_application_last_id = $sc_application->id;
         $sc_application_master_id = $sc_application->sc_application_master_id;
+
         foreach($insert_arr['users'] as $key => $user){
             $i = 0;
             $insert_application_log[$status_in_words][$key]['application_id'] = $sc_application_last_id;
