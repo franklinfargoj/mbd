@@ -1078,5 +1078,4 @@ class conveyanceCommonController extends Controller
         }
       
         return $count;
-    }                
-}
+    }    
