@@ -2864,6 +2864,7 @@ label.site-visit-label {
 
 .hearing-row .app-no {
     font-size: 1.2rem;
+    margin-top: auto;
 }
 
 .hearing-row .m-portlet {
