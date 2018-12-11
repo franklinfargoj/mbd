@@ -31,7 +31,7 @@
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
         <div class="row align-items-center row--filter">
             <div class="col-md-12">
-                <h4 class="m-subheader__title--hint">Calculation Of Society - {{$society->name}}|
+                <h4 class="m-subheader__title--hint mb-4" style="margin-left: 0;">Calculation Of Society - {{$society->name}}|
                     {{$building->building_no . ' | ' .$building->name}} | @if(!empty($tenant)) {{$tenant->first_name.'
                     '.$tenant->last_name}} @endif</h4>
             </div>
@@ -67,6 +67,8 @@
                 </div>
             </div>
         </form>
+    </div>
+    <div class="m-portlet m-portlet--compact m-portlet--mobile">
         {!! $html->table() !!}
     </div>
 </div>
