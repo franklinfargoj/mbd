@@ -494,6 +494,12 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('society_reval_offer_letter_application_download','SocietyOfferLetterController@generate_reval_pdf')->name('society_reval_offer_letter_application_download');
 
 
+    // Consent For OC
+
+    Route::get('/show_oc_self/{id}', 'SocietyOfferLetterController@show_oc_self')->name('show_oc_self');
+    Route::get('/show_oc_dev/{id}', 'SocietyOfferLetterController@show_oc_dev')->name('show_oc_dev');
+    Route::post('/save_oc_application_self', 'SocietyOfferLetterController@save_oc_application_self')->name('save_oc_application_self');
+    Route::post('/save_oc_application_dev', 'SocietyOfferLetterController@save_oc_application_dev')->name('save_oc_application_dev');
 
 
     //architect Module
