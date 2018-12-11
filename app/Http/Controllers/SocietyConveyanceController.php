@@ -28,6 +28,7 @@ use Mpdf\Mpdf;
 use App\conveyance\scRegistrationDetails;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
 use App\ApplicationStatusMaster;
+use App\MasterTenantType;
 
 use Illuminate\Http\Request;
 
@@ -71,7 +72,7 @@ class SocietyConveyanceController extends Controller
                 $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
             } ])->orderBy('id', 'desc');
 
-           // dd($sc_applications->get());
+
             if($request->application_master_id)
             {
                 $sc_applications = $sc_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
@@ -106,7 +107,6 @@ class SocietyConveyanceController extends Controller
                     if($status_display == 'Sent To Society '){
                         $status_display = 'Approved';
                     }
-                     
 
                     return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$sc_applications->scApplicationLog->status_id) .' m-badge--wide">'.$status_display.'</span>';
                 })
@@ -155,8 +155,9 @@ class SocietyConveyanceController extends Controller
         $comm_func = $this->CommonController;
         $layouts = MasterLayout::all();
         $application_master_id = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->first();
-//        dd($fillable_field_names);
-        return view('frontend.society.conveyance.add', compact('layouts', 'field_names', 'society_details', 'comm_func', 'application_master_id'));
+        $master_tenant_type = MasterTenantType::all();
+
+        return view('frontend.society.conveyance.add', compact('layouts', 'field_names', 'society_details', 'comm_func', 'application_master_id', 'master_tenant_type'));
     }
 
     /**

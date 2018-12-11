@@ -1379,29 +1379,30 @@ class CommonController extends Controller
      * @param $name, $type, $select_arr, $select_arr_key, $value, $readonly
      * @return \Illuminate\Http\Response
      */
-    public function form_fields($name, $type, $select_arr = NULL, $select_arr_key = NULL, $value = NULL, $readonly = NULL, $required = NULL){
+    public function form_fields($name, $type, $select_arr = NULL, $selected_arr_key = NULL, $value = NULL, $readonly = NULL, $required = NULL){
+
         if($type == 'select'){
             foreach($select_arr as $select_arr_key => $select_arr_value){
-                $select_arr .= '<option value="'.$select_arr_value->id.'">'.$select_arr_value->$select_arr_key.'</option>';
+                $select_arr .= '<option value="'.$select_arr_value->id.'">'.$select_arr_value->$selected_arr_key.'</option>';
             }
             $fields = array(
                 'select' => '<select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="'.$name.'" name="'.$name.'" required>'.$select_arr.'</select>',
             );
-        }
-
-        $fields = array(
-            'text' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.' '.$required.'>',
-            'hidden' => '<input type="hidden" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.' '.$required.'>',
-            'date' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input m_datepicker" value="'.$value.'" '.$readonly.' '.$required.'>',
-            'textarea' => '<textarea id="'.$name.'" name="'.$name.'" class="form-control form-control--custom form-control--fixed-height m-input"'.$readonly.' '.$required.'>'.$value.'</textarea>',
-            'file' => '<div class="custom-file">
+        }else{
+            $fields = array(
+                'text' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.' '.$required.'>',
+                'hidden' => '<input type="hidden" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.' '.$required.'>',
+                'date' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input m_datepicker" value="'.$value.'" '.$readonly.' '.$required.'>',
+                'textarea' => '<textarea id="'.$name.'" name="'.$name.'" class="form-control form-control--custom form-control--fixed-height m-input"'.$readonly.' '.$required.'>'.$value.'</textarea>',
+                'file' => '<div class="custom-file">
                             <input class="custom-file-input pdfcheck" name="'.$name.'" type="file"
                                    id="'.$name.'" required="required">
                             <label class="custom-file-label" for="'.$name.'">Choose
                                 file...</label>
                             <span class="text-danger" id="'.$name.'"></span>
                         </div>',
-        );
+            );
+        }
 
         return $fields[$type];
     }
@@ -2640,43 +2641,46 @@ class CommonController extends Controller
         $eeRoleData = $this->getEERoles();
         $dyceRoleData = $this->getDyceRoles();
         $reeRoleData = $this->getREERoles();
-        $coRoleData = Role::where('name',config('commanConfig.co_engineer'))->value('id');
-        $vpRoleData = Role::where('name',config('commanConfig.vp_engineer'))->value('id');
-        $capRoleData = Role::where('name',config('commanConfig.cap_engineer'))->value('id');
+//        $coRoleData = Role::where('name',config('commanConfig.co_engineer'))->value('id');
+//        $vpRoleData = Role::where('name',config('commanConfig.vp_engineer'))->value('id');
+//        $capRoleData = Role::where('name',config('commanConfig.cap_engineer'))->value('id');
 
-//SELECT COUNT(*) FROM `ol_application_status_log` WHERE `is_active`=1 AND `role_id` IN (21) AND `status_id`= 1
+        $roles = Role::whereIn('name',[config('commanConfig.co_engineer'),config('commanConfig.vp_engineer'),config('commanConfig.cap_engineer')])->pluck('id','name');
+//        dd($roles);
+
+        //SELECT COUNT(*) FROM `ol_application_status_log` WHERE `is_active`=1 AND `role_id` IN (21) AND `status_id`= 1
 
 //        $eeTotalPendingCount = $dyceTotalPendingCount = $reeTotalPendingCount
 //        = $coTotalPendingCount = $vpTotalPendingCount = $capTotalPendingCount = 0;
 
         $eeTotalPendingCount = OlApplicationStatus::where('is_active',1)
             ->where('status_id',config('commanConfig.applicationStatus.in_process'))
-            ->whereIn('role_id',[$eeRoleData['ee_jr_id'],$eeRoleData['ee_head_id'],$eeRoleData['ee_deputy_id']])
+            ->whereIn('role_id',$eeRoleData)
             ->get()->count();
 
         $dyceTotalPendingCount = OlApplicationStatus::where('is_active',1)
             ->where('status_id',config('commanConfig.applicationStatus.in_process'))
-            ->whereIn('role_id',[$dyceRoleData['dyce_jr_id'],$dyceRoleData['dyce_head_id'],$dyceRoleData['dyce_deputy_id']])
+            ->whereIn('role_id',$dyceRoleData)
             ->get()->count();
 
         $reeTotalPendingCount = OlApplicationStatus::where('is_active',1)
             ->whereIn('status_id',[config('commanConfig.applicationStatus.offer_letter_generation'),config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.offer_letter_approved')])
-            ->whereIn('role_id',[$reeRoleData['ree_jr_id'],$reeRoleData['ree_head_id'],$reeRoleData['ree_deputy_id'],$reeRoleData['ree_ass_id']])
+            ->whereIn('role_id',$reeRoleData)
             ->get()->count();
 
         $coTotalPendingCount = OlApplicationStatus::where('is_active',1)
             ->whereIn('status_id',[config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.offer_letter_generation')])
-            ->where('role_id',$coRoleData)
+            ->where('role_id',$roles['co_engineer'])
             ->get()->count();
 
         $vpTotalPendingCount = OlApplicationStatus::where('is_active',1)
             ->where('status_id',config('commanConfig.applicationStatus.in_process'))
-            ->where('role_id',$vpRoleData)
+            ->where('role_id',$roles['vp_engineer'])
             ->get()->count();
 
         $capTotalPendingCount = OlApplicationStatus::where('is_active',1)
             ->where('status_id',config('commanConfig.applicationStatus.in_process'))
-            ->where('role_id',$capRoleData)
+            ->where('role_id',$roles['cap_engineer'])
             ->get()->count();
 
         $totalPendingApplications = $eeTotalPendingCount + $dyceTotalPendingCount + $reeTotalPendingCount
@@ -2697,6 +2701,7 @@ class CommonController extends Controller
 
 
     }
+
 
     public function getToatalPendingApplicationsAtUser($roleIds,$role){
 //        dd($roleIds);
