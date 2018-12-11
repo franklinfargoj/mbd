@@ -312,10 +312,16 @@ class AccountController extends Controller
                         }
 					})
 					->editColumn('action', function ($paymentDetails)  use($society,$tenant_id,$building){               
-						return "<div class='d-flex btn-icon-list'>
+						$data= "<div class='d-flex btn-icon-list'>
 								<a href='".route('view_bill_tenant', ['tenant_id'=>$tenant_id,'building_id'=>encrypt($building->id),'society_id'=>encrypt($society->id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-billing-details-icon.svg')."'></span>View Bill</a>
-                                <a href='".route('downloadReceipt', ['tenant_id'=>$tenant_id,'building_id'=>encrypt($building->id),'bill_no'=>encrypt($paymentDetails->id),'flag'=>1])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-billing-details-icon.svg')."'></span>View Receipt</a>
-								</div>";
+                               ";
+                        if($paymentDetails->status == "paid") {
+                            $data.= " <a href='".route('downloadReceipt', ['tenant_id'=>$tenant_id,'building_id'=>encrypt($building->id),'bill_no'=>encrypt($paymentDetails->id),'flag'=>1])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-billing-details-icon.svg')."'></span>View Receipt</a>
+                                </div>";
+                        } else {
+                            $data.="</div>";
+                        }
+                        return $data;
 					})
 					->rawColumns(['bill_month','amount','payment_mode','action'])
 					->make(true);
