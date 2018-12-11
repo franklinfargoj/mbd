@@ -11,18 +11,16 @@
         </div>
 
         <div class="hearing-accordion-wrapper">
-            <div class="m-portlet m-portlet--compact hearing-accordion mb-0">
+            <div class="m-portlet m-portlet--compact ol-accordion mb-0">
                 <div class="d-flex justify-content-between align-items-center">
                     <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
                        data-toggle="collapse" href="#co-ol-summary">
                         <span class="form-accordion-title">CO Offer Letter Summary</span>
-                        <span class="accordion-icon"></span>
+                        <span class="accordion-icon ol-accordion-icon"></span>
                     </a>
                 </div>
             </div>
-            <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="co-ol-summary"
-                 data-parent="#accordion">
-                <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="ree-ol-summary"
+                <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="co-ol-summary"
                      data-parent="#accordion">
                     <div class="row hearing-row">
                         @php $chart = 0;@endphp
@@ -48,7 +46,7 @@
                                 <div class="col">
                                     <div class="m-portlet app-card text-center">
                                         <h2 class="app-heading">{{$header}}</h2>
-                                        <h2 class="app-no mb-0">{{$value[0]}}</h2>
+                                        <h2 class="app-no mb-0">{{$value}}</h2>
                                     @php $chart += $value;@endphp
                                     <!-- <a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a> -->
                                     </div>
@@ -60,7 +58,6 @@
                         @endif
                     @endif
                 </div>
-            </div>
         </div>
 
         <!-- Dashboard for Convayance Module -->
@@ -123,12 +120,17 @@
 @endsection
 @section('js')
     <script>
-        $(".accordion-icon").on("click", function () {
-            var data = $('.hearing-accordion').children().children().attr('aria-expanded');
-            if(data == 'undefine' || data == 'false'){
-                $('.accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-            }else{
-                $('.accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+        $(".ol-accordion-icon").on("click", function () {
+            var data = $('.ol-accordion').children().children().attr('aria-expanded');
+            if (!(data)) {
+                $('.ol-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+            }
+            else {
+                if (data == 'undefine' || data == 'false') {
+                    $('.ol-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                } else {
+                    $('.ol-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                }
             }
         });
     </script>
