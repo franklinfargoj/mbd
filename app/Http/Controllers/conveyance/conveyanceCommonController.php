@@ -1069,7 +1069,7 @@ class conveyanceCommonController extends Controller
     public function getApplicationPendingAtDepartment(){
        
        $dycdoRoles     = $this->CommonController->getDYCDORoles();
-       $eeRoles        = $this->CommonController->getEERoles();
+       $eeRoles        = $this->CommonController->getEERoles1();
        $emRoles        = $this->CommonController->getEMRoles();
        $jtcoRoles      = $this->CommonController->getJTCORoles();
        $coRoles        = $this->CommonController->getCORoles();

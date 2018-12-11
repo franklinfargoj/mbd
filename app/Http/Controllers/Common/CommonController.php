@@ -1676,15 +1676,15 @@ class CommonController extends Controller
 
     }
 
-    // public function getEERoles(){
-    //     $ee_jr_id = Role::where('name',config('commanConfig.ee_junior_engineer'))->value('id');
-    //     $ee_head_id = Role::where('name',config('commanConfig.ee_branch_head'))->value('id');
-    //     $ee_deputy_id = Role::where('name', config('commanConfig.ee_deputy_engineer'))->value('id');
-    //     $ee = ['ee_jr_id'=>$ee_jr_id,
-    //         'ee_head_id'=>$ee_head_id,
-    //         'ee_deputy_id'=>$ee_deputy_id];
-    //     return $ee;
-    // }
+    public function getEERoles(){
+        $ee_jr_id = Role::where('name',config('commanConfig.ee_junior_engineer'))->value('id');
+        $ee_head_id = Role::where('name',config('commanConfig.ee_branch_head'))->value('id');
+        $ee_deputy_id = Role::where('name', config('commanConfig.ee_deputy_engineer'))->value('id');
+        $ee = ['ee_jr_id'=>$ee_jr_id,
+            'ee_head_id'=>$ee_head_id,
+            'ee_deputy_id'=>$ee_deputy_id];
+        return $ee;
+    }
 
     public function getDyceRoles(){
         $dyce_jr_id = Role::where('name',config('commanConfig.dyce_jr_user'))->value('id');
@@ -2731,7 +2731,7 @@ class CommonController extends Controller
             
     }         
 
-    public function getEERoles(){
+    public function getEERoles1(){
         
         $roles = array(config('commanConfig.ee_junior_engineer'),config('commanConfig.ee_deputy_engineer'),config('commanConfig.ee_branch_head'));
         return Role::whereIn('name', $roles)->pluck('id')->toArray();       
