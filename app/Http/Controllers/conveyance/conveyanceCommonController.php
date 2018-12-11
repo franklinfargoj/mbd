@@ -1068,13 +1068,13 @@ class conveyanceCommonController extends Controller
 
     public function getApplicationPendingAtDepartment(){
        
-       $dycdoRoles     = $this->getDYCDORoles();
-       $eeRoles        = $this->getEERoles();
-       $emRoles        = $this->getEMRoles();
-       $jtcoRoles      = $this->getJTCORoles();
-       $coRoles        = $this->getCORoles();
-       $laRoles        = $this->getLARoles();
-       $architectRoles = $this->getArchitectRoles();
+       $dycdoRoles     = $this->CommonController->getDYCDORoles();
+       $eeRoles        = $this->CommonController->getEERoles();
+       $emRoles        = $this->CommonController->getEMRoles();
+       $jtcoRoles      = $this->CommonController->getJTCORoles();
+       $coRoles        = $this->CommonController->getCORoles();
+       $laRoles        = $this->CommonController->getLARoles();
+       $architectRoles = $this->CommonController->getArchitectRoles();
 
        $pendingAtDYCDO     = $this->pendingApplicationCount($dycdoRoles);
        $pendingAtEE        = $this->pendingApplicationCount($eeRoles);
@@ -1085,7 +1085,7 @@ class conveyanceCommonController extends Controller
        $pendingAtArchitect = $this->pendingApplicationCount($architectRoles);
 
        $pendingAtDepartments = array();
-       $pendingAtDepartments['Applications pending At DYCDO']     = $pendingAtDYCDO;
+       $pendingAtDepartments['Applications pending At DYCO']     = $pendingAtDYCDO;
        $pendingAtDepartments['Applications pending At EE']        = $pendingAtEE;
        $pendingAtDepartments['Applications pending At Architect'] = $pendingAtArchitect;
        $pendingAtDepartments['Applications pending At EM']        = $pendingAtEM;
@@ -1098,7 +1098,7 @@ class conveyanceCommonController extends Controller
 
     public function pendingApplicationCount($roles){
 
-        $status = array(config('commanConfig.conveyance_status.in_process'),config('commanConfig.conveyance_status.Draft_sale_&_lease_deed'),config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed'),config('commanConfig.conveyance_status.Registered_sale_&_lease_deed'));
+        $status = array(config('commanConfig.conveyance_status.in_process'),config('commanConfig.conveyance_status.Draft_sale_&_lease_deed'),config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed'),config('commanConfig.conveyance_status.Registered_sale_&_lease_deed'),config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety'),config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease'),config('commanConfig.conveyance_status.NOC_Issued'));
 
         $count = scApplicationLog::where('is_active',1)
             ->whereIn('status_id',$status)
@@ -1107,46 +1107,4 @@ class conveyanceCommonController extends Controller
 
         return $count;    
     }
-
-    public function getDYCDORoles(){
-        
-        $roles = array(config('commanConfig.dycdo_engineer'));
-        return Role::whereIn('name', $roles)->pluck('id');      
-    }         
-
-    public function getEERoles(){
-        
-        $roles = array(config('commanConfig.ee_junior_engineer'),config('commanConfig.ee_deputy_engineer'),config('commanConfig.ee_branch_head'));
-        return Role::whereIn('name', $roles)->pluck('id');       
-    }     
-
-    public function getEMRoles(){
-        
-        $roles = array(config('commanConfig.estate_manager'));
-        return Role::whereIn('name', $roles)->pluck('id');       
-    }    
-
-    public function getJTCORoles(){
-
-        $roles = array(config('commanConfig.joint_co'));
-        return Role::whereIn('name', $roles)->pluck('id');        
-    }    
-
-    public function getCORoles(){
-
-        $roles = array(config('commanConfig.co_engineer'));
-        return Role::whereIn('name', $roles)->pluck('id');        
-    }    
-
-    public function getLARoles(){
-
-        $roles = array(config('commanConfig.legal_advisor'));
-        return Role::whereIn('name', $roles)->pluck('id');        
-    }    
-
-    public function getArchitectRoles(){
-
-        $roles = array(config('commanConfig.junior_architect'),config('commanConfig.senior_architect'),config('commanConfig.architect'));
-        return Role::whereIn('name', $roles)->pluck('id');        
-    } 
 }      

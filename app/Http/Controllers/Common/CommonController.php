@@ -1676,15 +1676,15 @@ class CommonController extends Controller
 
     }
 
-    public function getEERoles(){
-        $ee_jr_id = Role::where('name',config('commanConfig.ee_junior_engineer'))->value('id');
-        $ee_head_id = Role::where('name',config('commanConfig.ee_branch_head'))->value('id');
-        $ee_deputy_id = Role::where('name', config('commanConfig.ee_deputy_engineer'))->value('id');
-        $ee = ['ee_jr_id'=>$ee_jr_id,
-            'ee_head_id'=>$ee_head_id,
-            'ee_deputy_id'=>$ee_deputy_id];
-        return $ee;
-    }
+    // public function getEERoles(){
+    //     $ee_jr_id = Role::where('name',config('commanConfig.ee_junior_engineer'))->value('id');
+    //     $ee_head_id = Role::where('name',config('commanConfig.ee_branch_head'))->value('id');
+    //     $ee_deputy_id = Role::where('name', config('commanConfig.ee_deputy_engineer'))->value('id');
+    //     $ee = ['ee_jr_id'=>$ee_jr_id,
+    //         'ee_head_id'=>$ee_head_id,
+    //         'ee_deputy_id'=>$ee_deputy_id];
+    //     return $ee;
+    // }
 
     public function getDyceRoles(){
         $dyce_jr_id = Role::where('name',config('commanConfig.dyce_jr_user'))->value('id');
@@ -2723,5 +2723,48 @@ class CommonController extends Controller
         }
         return $dashboardData1;
     }
+
+    public function getDYCDORoles(){
+        $roles = array(config('commanConfig.dycdo_engineer'),config('commanConfig.dyco_engineer'));
+        $count =  Role::whereIn('name', $roles)->pluck('id');  
+        return  $count;   
+            
+    }         
+
+    public function getEERoles(){
+        
+        $roles = array(config('commanConfig.ee_junior_engineer'),config('commanConfig.ee_deputy_engineer'),config('commanConfig.ee_branch_head'));
+        return Role::whereIn('name', $roles)->pluck('id')->toArray();       
+    }     
+
+    public function getEMRoles(){
+        
+        $roles = array(config('commanConfig.estate_manager'));
+        return Role::whereIn('name', $roles)->pluck('id');       
+    }    
+
+    public function getJTCORoles(){
+
+        $roles = array(config('commanConfig.joint_co'));
+        return Role::whereIn('name', $roles)->pluck('id');        
+    }    
+
+    public function getCORoles(){
+
+        $roles = array(config('commanConfig.co_engineer'));
+        return Role::whereIn('name', $roles)->pluck('id');        
+    }    
+
+    public function getLARoles(){
+
+        $roles = array(config('commanConfig.legal_advisor'));
+        return Role::whereIn('name', $roles)->pluck('id');        
+    }    
+
+    public function getArchitectRoles(){
+
+        $roles = array(config('commanConfig.junior_architect'),config('commanConfig.senior_architect'),config('commanConfig.architect'));
+        return Role::whereIn('name', $roles)->pluck('id');        
+    }     
 
 }
