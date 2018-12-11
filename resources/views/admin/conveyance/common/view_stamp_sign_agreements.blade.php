@@ -21,7 +21,7 @@
         $document = $data->StampSaleAgreement->document_path;
 
     if(isset($data->StampSignLeaseAgreement->document_path))
-        $document = $data->StampSignLeaseAgreement->document_path;
+        $document1 = $data->StampSignLeaseAgreement->document_path;
     else if(isset($data->StampLeaseByJtco->document_path))  
         $document1 = $data->StampLeaseByJtco->document_path;
     else if(isset($data->StampLeaseBydyco->document_path)) 
@@ -30,6 +30,7 @@
         $document1 = $data->StampLeaseAgreement->document_path;    
 
 @endphp 
+
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">

@@ -489,6 +489,30 @@ class conveyanceCommonController extends Controller
         return $cologs;
     }
 
+    // get logs of EM dept
+    public function getLogsOfEMDepartment($applicationId,$masterId)
+    {
+        $roles = array(config('commanConfig.estate_manager'));
+        $status = array(config('commanConfig.conveyance_status.forwarded'), config('commanConfig.conveyance_status.reverted'));
+
+        $emRoles = Role::whereIn('name', $roles)->pluck('id');
+        $emlogs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $emRoles)->whereIn('status_id', $status)->get();
+
+        return $emlogs;
+    }
+
+    // get logs of LA dept
+    public function getLogsOfLADepartment($applicationId,$masterId)
+    {
+        $roles = array(config('commanConfig.legal_advisor'));
+        $status = array(config('commanConfig.conveyance_status.forwarded'), config('commanConfig.conveyance_status.reverted'));
+
+        $laRoles = Role::whereIn('name', $roles)->pluck('id');
+        $lalogs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $laRoles)->whereIn('status_id', $status)->get();
+
+        return $lalogs;
+    }        
+
     // get agreement as per agreement type id
     public function getScAgreement($typeId,$applicationId,$status){
       
@@ -602,6 +626,8 @@ class conveyanceCommonController extends Controller
       $eelogs        = $this->getLogsOfEEDepartment($applicationId,$data->sc_application_master_id);
       $Architectlogs = $this->getLogsOfArchitectDepartment($applicationId,$data->sc_application_master_id);
       $cologs        = $this->getLogsOfCODepartment($applicationId,$data->sc_application_master_id);
+      $emlogs        = $this->getLogsOfEMDepartment($applicationId,$data->sc_application_master_id);
+      $lalogs        = $this->getLogsOfLADepartment($applicationId,$data->sc_application_master_id);
       $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
       $data->em_document = $this->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
       
@@ -616,12 +642,12 @@ class conveyanceCommonController extends Controller
         }elseif (session()->get('role_name') == config('commanConfig.ee_branch_head') || session()->get('role_name') == config('commanConfig.ee_deputy_engineer') || session()->get('role_name') == config('commanConfig.ee_junior_engineer') ) {
 
              $route = 'admin.conveyance.ee_department.forward_application';
-        }     
+        }      
         else{
         $route = 'admin.conveyance.common.forward_application';
       }
       
-      return view($route,compact('data','societyLogs','dycoLogs','eelogs','Architectlogs','cologs'));         
+      return view($route,compact('data','societyLogs','dycoLogs','eelogs','Architectlogs','cologs','emlogs','lalogs'));         
     }
 
     public function saveForwardApplication(Request $request){
@@ -1001,7 +1027,7 @@ class conveyanceCommonController extends Controller
 
         $can_forward = ($role_name == config('commanConfig.dyco_engineer') || $role_name == config('commanConfig.ee_deputy_engineer') || $role_name == config('commanConfig.ee_branch_head') || $role_name == config('commanConfig.senior_architect') || $role_name == config('commanConfig.architect') || $role_name == config('commanConfig.ee_junior_engineer') || $role_name == config('commanConfig.junior_architect') || $role_name == config('commanConfig.dycdo_engineer') || $role_name == config('commanConfig.estate_manager'));
         
-        $pendingArr = array(config('commanConfig.conveyance_status.in_process'),config('commanConfig.conveyance_status.Draft_sale_&_lease_deed'),config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed'),config('commanConfig.conveyance_status.Registered_sale_&_lease_deed'),config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease'));
+        $pendingArr = array(config('commanConfig.conveyance_status.in_process'),config('commanConfig.conveyance_status.Draft_sale_&_lease_deed'),config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed'),config('commanConfig.conveyance_status.Registered_sale_&_lease_deed'),config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease'),config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety'),config('commanConfig.conveyance_status.NOC_Issued'));
 
         foreach ($applicationData as $application){
             
@@ -1011,7 +1037,7 @@ class conveyanceCommonController extends Controller
 
             $applicationForwarded = ($application['application_status'] == config('commanConfig.conveyance_status.in_process') && $status == config('commanConfig.conveyance_status.forwarded') && $application['sent_to_society'] == 0 && $can_forward);
 
-            $applicationReverted = ($application['application_status'] == config('commanConfig.conveyance_status.in_process') && $status == config('commanConfig.conveyance_status.reverted') && $can_revert);
+            $applicationReverted = ($status == config('commanConfig.conveyance_status.reverted') && $can_revert);
 
             $sendToSocietyCondition = $status == config('commanConfig.conveyance_status.forwarded') && ($application['sent_to_society'] == 1);
 
@@ -1035,7 +1061,6 @@ class conveyanceCommonController extends Controller
                 ; break;
             }
         }
-
 
         $totalApplication = count($applicationData);
 
