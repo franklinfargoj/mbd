@@ -257,6 +257,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('tenant_arrear_calculation', 'EMDepartment\EMClerkController@tenant_arrear_calculation')->name('tenant_arrear_calculation');
     Route::post('create_arrear_calculation', 'EMDepartment\EMClerkController@create_arrear_calculation')->name('create_arrear_calculation');
     Route::get('get_arrear_charges','EMDepartment\EMClerkController@getArrearChargesByYear')->name('get_arrear_charges');
+    Route::get('get_arrear_charges_multiple','EMDepartment\EMClerkController@getArrearChargesByYears')->name('get_arrear_charges_multiple');
 
     // RC Department Routes
     Route::get('get_building_bill_collection', 'RCDepartment\RCController@get_building_bill_collection')->name('get_building_bill_collection');

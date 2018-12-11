@@ -699,6 +699,7 @@ table.dataTable tbody tr:nth-child(even):focus {
     background-color: #c6c6c6;
     color: #4a4949;
     text-transform: capitalize;
+    border: none;
 }
 
 .data-table--icons .dataTables_wrapper table.dataTable thead th:last-child {
@@ -1231,6 +1232,10 @@ table.dataTable tbody tr:nth-child(even):focus {
 /* Bootstrap classes ends here */
 
 /* global classes starts here */
+
+.alert p {
+    margin-bottom: 0;
+}
 
 .optionBox .block + .block {
     margin-top: 5px;

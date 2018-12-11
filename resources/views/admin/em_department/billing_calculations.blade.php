@@ -49,7 +49,7 @@
             <div class="row align-items-center mb-0">
                 <div class="col-md-3">
                     <div class="form-group m-form__group">
-                        <select id="year" name="year" class="form-control form-control--custom m-input"
+                        <select id="year" name="year" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                             placeholder="Select Year">
                             <option value="">Select Year</option>
                             @if(!empty($years)) 
@@ -74,13 +74,16 @@
                     </div>
                 </div> --}}
                 <div class="col-md-3 col-sm-3">
-                    <input class="btn btn-primary Search" type="submit" value="Search" id="Search"/>
+                    <div class="form-group m-form__group">
+                        <input class="submit-button btn m-btn--pill m-btn--custom btn-primary Search" type="submit" value="Search" id="Search"/>
+                    </div>
                 </div>
             </div>
         </form>
+    </div>
         <div class="m-portlet m-portlet--compact m-portlet--mobile">
-            <div class="m-portlet__body table-responsive" style="overflow-x:auto;" >
-                <table id="billing_calculations" class="display table table-responsive table-bordered" style="width:100%">
+            <div class="dataTables_wrapper table-responsive" style="margin-left: -30px; margin-right: -30px; overflow-x: auto;">
+                <table id="billing_calculations" class="display table" style="width:100%;">
                     <thead>
                         <tr>
                             <th>Month,Year</th>
@@ -251,7 +254,6 @@
                 </table>
             </div>
         </div>
-    </div>
 </div>
 
 <!-- END EXAMPLE TABLE PORTLET-->

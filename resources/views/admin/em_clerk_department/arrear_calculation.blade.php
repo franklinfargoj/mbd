@@ -245,7 +245,7 @@
             <div class="portlet-title">
             <div class="caption">
                 <div class="tools">
-                  <h4>Monthly details of - {{$tenant->first_name}} - {{$tenant->flat_no}}</h4>
+                    <h3 class="m-subheader__title--hint" style="margin-left: 0;">Monthly details of - {{$tenant->first_name}} - {{$tenant->flat_no}}</h3>
                 </div>
             </div>
          <div class="m-portlet__body">
@@ -306,6 +306,9 @@
     var total1 = 0 
     var total = 0;
     var total2 = 0;
+    var currentYear = '';
+    var Year = '';
+    var currentMonth = '';
 
     function total_amount(){
                 
@@ -320,8 +323,9 @@
                 bill_month = bill_month - 1;
                 var ior_year = $('#ior_year option:selected').val();
                 var ior_month = $('#ior_month option:selected').val();
-
-                ior_month = ior_month - 1;
+                // if( ior_month != 1 ) {
+                    // ior_month = ior_month - 1;
+                // }
 
                 var ida_year = $('#ida_year option:selected').val();
                 var ida_month = $('#ida_month option:selected').val();
@@ -338,23 +342,246 @@
                 var building_id = "<?php  echo encrypt($tenant->building_id); ?>";
                 var society_id = "<?php  echo encrypt($tenant->society_id); ?>";
 
+                var year_diff = currentYear-ior_year;
+                if(year_diff > 1) {
+                    var start_year = bill_year;
+                    var end_year = ior_year;
 
-                if(currentYear != ior_year) {
                     $.ajax({
-                        url:"{{URL::route('get_arrear_charges')}}",
+                        url:"{{URL::route('get_arrear_charges_multiple')}}",
                         type: 'get',
-                        data: {year: ior_year,building_id:building_id,society_id:society_id },
+                        data: {start_year: start_year,building_id:building_id,society_id:society_id,ior_year:ior_year,ior_month:ior_month, ida_month:ida_month,ida_year:ida_year},
                             success: function(response){
                             var strResponse = $.parseJSON(response);
-                            if (true == strResponse.result) {
-                                old_rate_old = Number(strResponse.data.old_rate);
-                                old_rate_diff = Number(strResponse.data.revise_rate) - Number(strResponse.data.old_rate);
-                                old_iod = Number(strResponse.data.interest_on_differance);
-                                old_ior = Number(strResponse.data.interest_on_old_rate);
+                            
+
+                            if (true == strResponse.result && null != strResponse.data && strResponse.data.length == Number(year_diff+1)) {
+                                old_rate_old = [];
+                                old_rate_diff = [];
+                                old_iod = [];
+                                old_ior = [];
+
+                                $.each(strResponse.data,function(i,v) {
+                                    old_rate_old[v.year] = Number(v.old_rate);
+                                    old_rate_diff[v.year] = Number(v.revise_rate) - Number(v.old_rate);
+                                    old_iod[v.year] = Number(v.interest_on_differance);
+                                    old_ior[v.year] = Number(v.interest_on_old_rate);
+                                });
+                                
+                            } else {
+                                $('#ior_error').html('');
+                                $('#ida_error').html('Arrear charges not defined for selected year.');
                             }
                         }
                     });
+                    var start_date = new Date(ior_year,ior_month,01);
+                    var end_date = new Date(bill_year,bill_month,01);
+
+                    var dates = dateRange(formatDate(start_date),formatDate(end_date));                    
+
+                    var start_date_int = new Date(ida_year, ida_month, 01);
+                    var end_date_int = new Date(bill_year, bill_month, 01);
+                    
+                    var datesint = dateRange(formatDate(start_date_int),formatDate(end_date_int));
+
+                    console.log(dates);
+
+                    if(null != dates ) {
+                        var old_intrest_amount_temp = 0;
+                        var intrest_on_difference_temp = 0;
+                        var old_total = 0;
+                        var old_total_intrest_on_difference = 0;
+
+                        for(i=0; i < dates.length;i++) {
+                            var monthlyDate = dates[i];
+                            
+                            var tempYear = new Date(monthlyDate).getFullYear();
+                            var tempMonth = new Date(monthlyDate).getMonth();
+                            
+                            tempMonth = tempMonth +1;
+                            
+
+                            if(tempMonth > 3 ) {
+
+                                old_ior_per = old_ior[tempYear] / 100;
+
+                                var temp = parseFloat(old_rate_old[tempYear] * old_ior_per ).toFixed(2);
+                            } else if(tempMonth <3 ) {
+                                old_ior_per = old_ior[tempYear-1] / 100;
+
+                                var temp = parseFloat(old_rate_old[tempYear-1] * old_ior_per ).toFixed(2);
+                            } 
+
+                            if(tempMonth > 3 ) {
+                                
+                                old_total += parseFloat(old_rate_old[tempYear]) + parseFloat(temp) || 0;
+                            } else if(tempMonth <= 3) {
+                                old_total += parseFloat(old_rate_old[tempYear-1]) + parseFloat(temp) || 0;
+                            }
+                            
+                            old_intrest_amount_temp += parseFloat(temp) || 0;
+                            
+                        }
+                        
+
+                        for(i=0; i < datesint.length;i++) {
+                            var monthlyDate = dates[i];
+                            
+                            var tempYear = new Date(monthlyDate).getFullYear();
+                            var tempMonth = new Date(monthlyDate).getMonth();
+                            
+                            tempMonth = tempMonth +1;
+                            
+
+                            if(tempMonth > 3 ) {
+
+                                old_iod_per = old_iod[tempYear] / 100;
+
+                                var temp1 = parseFloat(old_rate_diff[tempYear] * old_iod_per).toFixed(2);
+                            } else if(tempMonth <3 ) {
+                                old_iod_per = old_iod[tempYear-1] / 100;
+
+                                var temp1 = parseFloat(old_rate_diff[tempYear-1] * old_iod_per).toFixed(2);
+                            } 
+
+                            if(tempMonth > 3 ) {
+                                
+                                old_total_intrest_on_difference += parseFloat(old_rate_diff[tempYear]) + parseFloat(temp1) || 0;
+                            } else if(tempMonth <= 3) {
+                                old_total_intrest_on_difference += parseFloat(old_rate_diff[tempYear-1]) + parseFloat(temp1) || 0;
+                            }
+                            
+                            intrest_on_difference_temp += parseFloat(temp1) || 0;
+                            
+                        };
+                        old_intrest_amount = old_intrest_amount_temp;
+                        intrest_on_difference = intrest_on_difference_temp;
+                        total = old_total + old_total_intrest_on_difference;
+                    }
+
+                } else {
+                    if(currentYear != ior_year || (ior_month <=3 && currentYear == ior_year )) {
+                        if(ior_month <=3 && currentYear == ior_year) {
+                            Year = currentYear -1;
+                        } else {
+                            Year = ior_year;
+                        }
+
+                        $.ajax({
+                            url:"{{URL::route('get_arrear_charges')}}",
+                            type: 'get',
+                            data: {year: Year,building_id:building_id,society_id:society_id },
+                                success: function(response){
+                                var strResponse = $.parseJSON(response);
+                                
+                                if (true == strResponse.result && null != strResponse.data) {
+                                    old_rate_old = Number(strResponse.data.old_rate);
+                                    old_rate_diff = Number(strResponse.data.revise_rate) - Number(strResponse.data.old_rate);
+                                    old_iod = Number(strResponse.data.interest_on_differance);
+                                    old_ior = Number(strResponse.data.interest_on_old_rate);
+                                } else {
+                                    $('#ior_error').html('');
+                                    $('#ida_error').html('Arrear charges not defined for selected year.');
+                                }
+                            }
+                        });
+                    }
+
+                    var months1 = monthDiff(
+                                new Date(ior_year, ior_month, 01),
+                                new Date(bill_year, bill_month, 01)  
+                             );
+                             // console.log(bill_year+' '+bill_month)
+                
+                    var months2 = monthDiff(
+                                    new Date(ida_year, ida_month, 01),
+                                    new Date(bill_year, bill_month, 01)  
+                                 );
+                    
+                    iod_per = iod / 100;
+                    ior_per = ior / 100;
+
+                    if(ior_month > 3 && currentYear != ior_year || (ior_month <=3 && currentYear == ior_year)) {
+                        if(ior_month <=3 && currentYear == ior_year) {
+                            var old_monthDiff1 = monthDiff(
+                                    new Date(ior_year, ior_month, 01),
+                                    new Date(ior_year, 4, 01)
+                                 );
+
+                            var old_monthDiff2 = monthDiff(
+                                    new Date(ior_year, ior_month, 01),
+                                    new Date(ior_year, 4, 01)
+                                 );
+                        } else if (ior_month ==3 && currentYear == ior_year) {
+                            var old_monthDiff1 = 1;
+                            var old_monthDiff2 = 1;
+
+                        } else {
+
+                            var old_monthDiff1 = monthDiff(
+                                    new Date(ior_year, 3, 01),
+                                    new Date(ior_year, ior_month, 01)
+                                 );
+
+                            var old_monthDiff2 = monthDiff(
+                                    new Date(ior_year, 3, 01),
+                                    new Date(ior_year, ida_month, 01)
+                                 );
+                        }
+                        old_iod_per = old_iod / 100;
+                        old_ior_per = old_ior / 100;
+
+                        old_intrest_amount1 = (old_rate_old * old_ior_per * old_monthDiff1).toFixed(2);
+
+                        intrest_on_difference1 = (old_rate_diff * old_iod_per * old_monthDiff2).toFixed(2);
+
+                        var new_monthDiff1 = monthDiff(
+                                    new Date(bill_year, 3, 01),
+                                    new Date(bill_year, bill_month, 01)
+                                 );
+
+                        var new_monthDiff2 = monthDiff(
+                                    new Date(bill_year, 3, 01),
+                                    new Date(bill_year, bill_month, 01)
+                                 );
+
+                        old_intrest_amount2 = (old_rate * ior_per * new_monthDiff1).toFixed(2);
+
+                        intrest_on_difference2 = (rate_diff * iod_per * new_monthDiff2).toFixed(2);
+
+                        old_intrest_amount = (Number(old_intrest_amount1) + Number(old_intrest_amount2));
+
+                        intrest_on_difference = (Number(intrest_on_difference1) + Number(intrest_on_difference2));
+
+
+                        total1 = (parseFloat(old_rate_old *old_monthDiff1)+parseFloat(old_intrest_amount1)+parseFloat(old_rate_diff*old_monthDiff2)+parseFloat(intrest_on_difference1)).toFixed(2);
+
+                        total2 = (parseFloat(old_rate *new_monthDiff1)+parseFloat(old_intrest_amount2)+parseFloat(rate_diff*new_monthDiff2)+parseFloat(intrest_on_difference2)).toFixed(2);
+
+                        total = Number(total1) + Number(total2);
+                    } else {
+
+                        // console.log(months2);
+                        
+                        // if(months1 > 0 ) {
+                            // var old_rate = old_rate *months1;
+                            // var rate_diff = rate_diff *months1;
+                        // }
+                        old_intrest_amount = (old_rate * ior_per * months1).toFixed(2);
+
+                        intrest_on_difference = (rate_diff * iod_per * months2).toFixed(2);
+
+                        // $('#oia').html(old_intrest_amount);
+                        // $('#old_intrest_amount').val(old_intrest_amount);                
+
+                        // $('#dia').html(intrest_on_difference);
+                        // $('#difference_intrest_amount').val(intrest_on_difference);
+
+                        total = (parseFloat(old_rate *months1)+parseFloat(old_intrest_amount)+parseFloat(rate_diff*months1)+parseFloat(intrest_on_difference)).toFixed(2);
+                    }
                 }
+
+               
 
                 if(bill_year == '' || bill_month === ''){
                     $('#bill_error').html('select Year and month for arrear Calculation.');
@@ -371,94 +598,12 @@
                     $('#ida_error').html('');
                 }
                 
-                var months1 = monthDiff(
-                                new Date(ior_year, ior_month, 01),
-                                new Date(bill_year, bill_month, 01)  
-                             );
-                             // console.log(bill_year+' '+bill_month)
                 
-                var months2 = monthDiff(
-                                new Date(ida_year, ida_month, 01),
-                                new Date(bill_year, bill_month, 01)  
-                             );
-                
-                iod_per = iod / 100;
-                ior_per = ior / 100;
-
-                if(ior_month > 3 && currentYear != ior_year) {
-                    
-                    var old_monthDiff1 = monthDiff(
-                                new Date(ior_year, 3, 01),
-                                new Date(ior_year, ior_month, 01)
-                             );
-
-                    var old_monthDiff2 = monthDiff(
-                                new Date(ior_year, 3, 01),
-                                new Date(ior_year, ida_month, 01)
-                             );
-                    old_iod_per = old_iod / 100;
-                    old_ior_per = old_ior / 100;
-
-                    old_intrest_amount1 = (old_rate_old * old_ior_per * old_monthDiff1).toFixed(2);
-
-                    intrest_on_difference1 = (old_rate_diff * old_iod_per * old_monthDiff2).toFixed(2);
-
-
-                    var new_monthDiff1 = monthDiff(
-                                new Date(bill_year, 3, 01),
-                                new Date(bill_year, bill_month, 01)
-                             );
-
-                    var new_monthDiff2 = monthDiff(
-                                new Date(bill_year, 3, 01),
-                                new Date(bill_year, bill_month, 01)
-                             );
-
-                    old_intrest_amount2 = (old_rate * ior_per * new_monthDiff1).toFixed(2);
-
-                    intrest_on_difference2 = (rate_diff * iod_per * new_monthDiff2).toFixed(2);
-
-                    old_intrest_amount = (Number(old_intrest_amount1) + Number(old_intrest_amount2));
-
-                    intrest_on_difference = (Number(intrest_on_difference1) + Number(intrest_on_difference2));
-
-
-                    total1 = (parseFloat(old_rate_old *old_monthDiff1)+parseFloat(old_intrest_amount1)+parseFloat(old_rate_diff*old_monthDiff2)+parseFloat(intrest_on_difference1)).toFixed(2);
-
-                    total2 = (parseFloat(old_rate *new_monthDiff1)+parseFloat(old_intrest_amount2)+parseFloat(rate_diff*new_monthDiff2)+parseFloat(intrest_on_difference2)).toFixed(2);
-
-                    total = Number(total1) + Number(total2);
-                } else {
-
-                    // console.log(months2);
-                    
-                    // if(months1 > 0 ) {
-                        // var old_rate = old_rate *months1;
-                        // var rate_diff = rate_diff *months1;
-                    // }
-                    old_intrest_amount = (old_rate * ior_per * months1).toFixed(2);
-
-                    intrest_on_difference = (rate_diff * iod_per * months2).toFixed(2);
-
-                    // $('#oia').html(old_intrest_amount);
-                    // $('#old_intrest_amount').val(old_intrest_amount);                
-
-                    // $('#dia').html(intrest_on_difference);
-                    // $('#difference_intrest_amount').val(intrest_on_difference);
-
-                    total = (parseFloat(old_rate *months1)+parseFloat(old_intrest_amount)+parseFloat(rate_diff*months1)+parseFloat(intrest_on_difference)).toFixed(2);
-                }
                 $('#oia').html(old_intrest_amount);
                 $('#old_intrest_amount').val(old_intrest_amount);
 
                 $('#dia').html(intrest_on_difference);
                 $('#difference_intrest_amount').val(intrest_on_difference);
-                // console.log(parseFloat(old_rate));
-                // console.log(parseFloat(old_rate *months1));
-                // console.log(parseFloat(old_intrest_amount));
-                // console.log(parseFloat(rate_diff*months1));
-                // console.log(parseFloat(old_rate));
-
             
                  $('#total_amount').html(total);
                  $('#total_amount_val').val(total);
@@ -474,5 +619,134 @@ function monthDiff(d1, d2) {
 }
 
 
+function dateRange(startDate, endDate) {
+    // end_date = '2017-03-01';
+  var start      = startDate.split('-');
+  var end        = endDate.split('-');
+  var startYear  = parseInt(start[0]);
+  var endYear    = parseInt(end[0]);
+  var dates      = [];
+
+  for(var i = startYear; i <= endYear; i++) {
+    var endMonth = i != endYear ? 11 : parseInt(end[1]) - 1;
+    var startMon = i === startYear ? parseInt(start[1])-1 : 0;
+    for(var j = startMon; j <= endMonth; j = j > 12 ? j % 12 || 11 : j+1) {
+      var month = j+1;
+      var displayMonth = month < 10 ? '0'+month : month;
+      dates.push([i, displayMonth, '01'].join('-'));
+    }
+  }
+  return dates;
+}
+
+function formatDate(passedDate) {
+    var d = passedDate.getDate();
+    var m =  passedDate.getMonth();
+    var y = passedDate.getFullYear();
+
+    var returnDate = y+'-'+m+'-'+d;
+
+    return returnDate;
+}
+
+
+function getYearInterval(current_year,current_month,old_year,old_month)
+    {
+        // var current_year=$('#current_year').val();
+        // var current_month=$('#current_month').val();
+        // var old_year=$('#old_year').val();
+        // var old_month=$('#old_month').val();
+        var result=[];
+        var months=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+        var year_diff=current_year-old_year;
+        var year=0;
+        if(year_diff>0)
+        {
+            if(current_month<=2)
+            {
+                for(i=0;i<=year_diff-1;i++)
+                {
+                    if(i==0)
+                    {   
+                                if(old_month<=2)
+                                {
+
+                                    re
+                                    result=result+" "+" APR "+(parseInt(old_year)-1)+" to MAR "+(parseInt(old_year))+"<br>"+" APR "+old_year+" to  MAR "+(parseInt(old_year)+1)+"<br>";
+                                }
+                                else
+                                {   
+                                    result=result+" "+months[old_month]+" "+old_year+" to "+" MAR "+(parseInt(old_year)+1)+"<br>";      
+                                }           
+                    }
+                    else if(year==parseInt(current_year))
+                    {
+                        // alert(year);
+                        if(current_month<=2)
+                        {
+                            result=result+" "+" APR "+" "+year+" to "+months[current_month]+" "+(parseInt(year))+"<br>";
+                        }
+                        // else if(current_month>old_month)
+                        // {    
+                        //  old_year=parseInt(old_year)+1;          
+                        //  result=result+" "+" APR "+" "+year+" to "+months[current_month]+" "+(parseInt(year))+"<br>";
+                        // }                        
+                        else
+                        {
+                            result=result+" "+" APR "+" "+year+" to "+months[current_month]+" "+(parseInt(year))+"<br>";    
+                        }
+                    }
+                    else
+                    {
+                        result=result+" "+" APR "+" "+year+" to "+" MAR "+(parseInt(year)+1)+"<br>";    
+                    }
+                    year=parseInt(old_year)+1;                      
+                    old_year=parseInt(old_year)+1;
+                }
+            }
+            else
+            {
+                for(i=0;i<=year_diff;i++)
+                {
+                    if(i==0)
+                    {   
+                                    
+                        result=result+" "+months[old_month]+" "+old_year+" to "+" MAR "+(parseInt(old_year)+1)+"<br>";                  
+                    }
+                    else if(year==current_year)
+                    {
+                        if(current_month>old_month)
+                        {   
+                            old_year=parseInt(old_year)+1;          
+                            result=result+" "+" APR "+" "+year+" to "+months[current_month]+" "+(parseInt(year))+"<br>";
+                        }
+                        else
+                        {
+                            result=result+" "+" APR "+" "+year+" to "+months[current_month]+" "+(parseInt(year))+"<br>";    
+                        }
+                    }
+                    else
+                    {
+                        result=result+" "+" APR "+" "+year+" to "+" MAR "+(parseInt(year)+1)+"<br>";    
+                    }
+                    year=parseInt(old_year)+1;  
+                    old_year=parseInt(old_year)+1;
+                }
+            }
+        }
+        else
+        {
+            if(old_month<=2)
+            {
+                result=result+" APR "+(parseInt(current_year)-1)+" to "+ " MAR "+current_year+"<br> APR"+ current_year+" to  "+months[current_month]+" "+current_year+"<br>" ;
+            }
+            else
+            {
+                result=result+" APR "+current_year+" to "+ months[current_month] +" "+current_year;
+            }
+        }
+        return result;
+        // $("#result").html(result);
+    }
 </script>
 @endsection
