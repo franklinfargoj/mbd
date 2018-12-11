@@ -25,14 +25,14 @@
 @endif
 
 <div class="container-fluid">
-    <div class="ml-auto btn-list">
-        <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
-    </div>
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title">Generate Society
                 Bill:@if(!empty($society)){{$society->society_name}}@endif|{{$building->building_no}}|{{$building->name}}|{{$tenant->first_name.'
                 '.$tenant->last_name}}</h3>
+            <div class="ml-auto btn-list">
+                <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
         </div>
     </div>
     <div class="m-portlet m-portlet--mobile">
@@ -229,7 +229,7 @@
                             </div>
                             @endif
                             @if(!is_null($check) || $check != '')
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="btn-list">
                                     <button type="submit" id="" class="btn btn-primary">Regenerate Society Bill</button>
                                     <a onclick="goBack()" class="btn btn-secondary">Cancel</a>

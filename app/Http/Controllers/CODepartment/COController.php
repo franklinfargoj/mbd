@@ -24,6 +24,7 @@ use App\NocSrutinyQuestionMaster;
 use App\NocReeScrutinyAnswer;
 use App\NocApplicationStatus;
 use App\NocCCApplicationStatus;
+use App\Http\Controllers\conveyance\conveyanceCommonController;
 use App\User;
 use Config;
 use Auth;
@@ -869,8 +870,14 @@ class COController extends Controller
         $dashboardData = $this->getCODashboardData($statusCount);
 
         $dashboardData1 = $this->CommonController->getTotalCountsOfApplicationsPending();
+        
+        // conveyance dashboard
+        $conveyanceCommonController = new conveyanceCommonController();
+        $conveyanceDashboard = $conveyanceCommonController->ConveyanceDashboard();
+        $conveyanceRoles     = $conveyanceCommonController->getConveyanceRoles(); 
+        $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();       
 
-        return view('admin.co_department.dashboard',compact('dashboardData','dashboardData1'));
+        return view('admin.co_department.dashboard',compact('dashboardData','dashboardData1','conveyanceDashboard','conveyanceRoles','pendingApplications'));
     }
 
     public function getApplicationData($role_id,$user_id){
@@ -950,15 +957,28 @@ class COController extends Controller
 //        dd($statusCount);
         $dashboardData = array();
 
-        $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
-        $dashboardData['Application Pending'] = $statusCount['totalPending'];
-        $dashboardData['Application Sent for Revision'] = $statusCount['totalReverted'];
-        $dashboardData['Application Forwarded to CAP'] = $statusCount['totalForwarded'];
+        $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
+        $dashboardData['Total No of Applications'][1] = '';
+
+        $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
+        $dashboardData['Applications Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+
+        $dashboardData['Applications Sent for Revision'][0] = $statusCount['totalReverted'];
+        $dashboardData['Applications Sent for Revision'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');
+
+        $dashboardData['Applications Forwarded to CAP'][0] = $statusCount['totalForwarded'];
+        $dashboardData['Applications Forwarded to CAP'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 //                $dashboardData['Draft Offer Letter Generated'] = $statusCount['totalDraftOfferLetterGenereated'];
-        $dashboardData['Offer Letter Pending for Approval'] = $statusCount['totalPendingForOfferLetterApproval'];
+
+        $dashboardData['Offer Letters Pending for Approval'][0] = $statusCount['totalPendingForOfferLetterApproval'];
+        $dashboardData['Offer Letters Pending for Approval'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.offer_letter_generation');
 //                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
-        $dashboardData['Offer Letter Approved'] = $statusCount['totalOfferLetterApproved'];
-        $dashboardData['Offer Letter Approved but not issued to Society'] = $statusCount['totalApprovedOfferLetterForwardedForIssueingToSociety'];
+
+        $dashboardData['Offer Letters Approved'][0] = $statusCount['totalOfferLetterApproved'];
+        $dashboardData['Offer Letters Approved'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.offer_letter_approved');;
+
+        $dashboardData['Offer Letters Approved but Not Issued to Society'][0] = $statusCount['totalApprovedOfferLetterForwardedForIssueingToSociety'];
+        $dashboardData['Offer Letters Approved but Not Issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.offer_letter_approved');
 
         return $dashboardData;
     }

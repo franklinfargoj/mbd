@@ -26,7 +26,7 @@
                             <span class="help-block">{{$errors->first('layout_id')}}</span>
                         </div>
                     </div>
-                    {{--@php dd($comm_func->form_fields('sc_name', 'text','' , '', 'test')); @endphp--}}
+                    {{--@php dd($master_tenant_type); @endphp--}}
                         @for($i=0; $i < count($field_names); $i++)
                             @if($i != 0) @php $i++; @endphp @endif
                                 <div class="form-group m-form__group row">
@@ -46,6 +46,8 @@
                                                 @else
                                                     @php echo $comm_func->form_fields($field_names[$i], 'text', '', '', $society_details->building_no, 'readonly', 'required') @endphp
                                                 @endif
+                                            @elseif($field_names[$i] == 'scheme_name')
+                                                @php echo $comm_func->form_fields($field_names[$i], 'select', $master_tenant_type, 'name', '', '', 'required') @endphp
                                             @else
                                                 @php echo $comm_func->form_fields($field_names[$i], 'text', '', '', '', '', 'required') @endphp
                                                 {{--<input type="text" id="{{ $field_names[$i+1] }}" name="{{ $field_names[$i+1] }}" class="form-control form-control--custom m-input @if(strpos($field_names[$i+1], 'date') != null) m_datepicker @endif" @if($field_names[$i+1] == 'society_name' || $field_names[$i+1] == 'society_no') value="@if($field_names[$i+1] == 'society_name') {{ $society_details->name }} @else {{ $society_details->building_no }} @endif" readonly @endif>--}}
@@ -69,6 +71,8 @@
                                                 @else
                                                     @php echo $comm_func->form_fields($field_names[$i+1], 'text', '', '', $society_details->building_no, 'readonly', 'required') @endphp
                                                 @endif
+                                            @elseif($field_names[$i+1] == 'scheme_name')
+                                                @php echo $comm_func->form_fields($field_names[$i+1], 'select', $master_tenant_type, 'name', '', '', 'required') @endphp
                                             @else
                                                 @php echo $comm_func->form_fields($field_names[$i+1], 'text', '', '' ,'', '', 'required') @endphp
                                                 {{--<input type="text" id="{{ $field_names[$i+1] }}" name="{{ $field_names[$i+1] }}" class="form-control form-control--custom m-input @if(strpos($field_names[$i+1], 'date') != null) m_datepicker @endif" @if($field_names[$i+1] == 'society_name' || $field_names[$i+1] == 'society_no') value="@if($field_names[$i+1] == 'society_name') {{ $society_details->name }} @else {{ $society_details->building_no }} @endif" readonly @endif>--}}

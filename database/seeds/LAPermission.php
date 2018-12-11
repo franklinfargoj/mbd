@@ -196,7 +196,12 @@ class LAPermission extends Seeder
                 'name'=>'em.scrutiny_remark',
                 'display_name'=>'EM scrutiny remark',
                 'description'=>'EM scrutiny remark'
-            ],                                                                         
+            ], 
+            [
+                'name'=>'dashboard',
+                'display_name'=>'dashboard',
+                'description'=>'Dashboard'
+            ],                                                                                     
         ];
 
         $role_id = Role::where('name', '=', 'la_engineer')->first();
@@ -208,7 +213,7 @@ class LAPermission extends Seeder
             $role_id = Role::insertGetId([
                 'name'         => 'la_engineer',
                 'redirect_to'  => '/la',
-                'dashboard'  => '/la',
+                'dashboard'  => '/dashboard',
                 'parent_id'    => NULL,
                 'display_name' => 'la engineer',
                 'description'  => 'Login as la Engineer'
@@ -277,7 +282,7 @@ class LAPermission extends Seeder
         //change LA redirection
         if ($role_id){
 
-            Role::where('id',$role_id)->update(['redirect_to' => '/conveyance','dashboard' => '/conveyance']);
+            Role::where('id',$role_id)->update(['redirect_to' => '/conveyance','dashboard' => '/dashboard']);
         }
     }
 }

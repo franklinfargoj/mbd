@@ -209,6 +209,11 @@ class LmPermissionSeeder extends Seeder
                 'display_name' => 'Shows society data with 3 days before end date for lease',
                 'description' => 'Shows society data with 3 days before end date for lease'
             ],
+            [
+                'name' => 'land.dashboard',
+                'display_name' => 'Land Dashboard',
+                'description' => 'Shows Land Dashboard'
+            ],
         ];
 
         $land_manager = Role::where('name', '=', 'LM')->select('id')->first();
@@ -220,7 +225,7 @@ class LmPermissionSeeder extends Seeder
             $role_id = Role::insertGetId([
                 'name' => 'LM',
                 'redirect_to' => '/village_detail',
-                'dashboard' => '/village_detail',
+                'dashboard' => '/land_dashboard',
                 'display_name' => 'land_manager',
                 'description' => 'Login as Land Manger'
             ]);

@@ -142,6 +142,14 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
             $data = Role::findOrFail($co_role_id);
             $data->dashboard ='/co_dashboard';
             $data->save();
+        }        
+
+        // Changing redirect_to route of CO role to '/co'
+        $co_role_id = Role::where('name', '=', 'co_engineer')->value('id');
+        if($co_role_id ){
+            $data = Role::findOrFail($co_role_id);
+            $data->redirect_to ='/co';
+            $data->save();
         }
 
         // Changing dashboard route of CAP to '/dashboard'
@@ -179,28 +187,28 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         // Main Architect
         $architect_id = Role::where('name' , 'architect')->value('id');
         if($architect_id)
-            Role::where('id',$architect_id)->update(['dashboard' => '/architect_application']);
+            Role::where('id',$architect_id)->update(['dashboard' => '/dashboard']);
 
         // Senior Architect
         $senior_architect = Role::where('name' , 'senior_architect')->value('id');
         if($senior_architect)
-            Role::where('id',$senior_architect)->update(['dashboard' => '/architect_application']);
+            Role::where('id',$senior_architect)->update(['dashboard' => '/dashboard']);
 
 
         // Junior Architect
         $junior_architect = Role::where('name' , 'junior_architect')->value('id');
         if($junior_architect)
-            Role::where('id',$junior_architect)->update(['dashboard' => '/architect_application']);
+            Role::where('id',$junior_architect)->update(['dashboard' => '/dashboard']);
 
         // Dyco
         $dyco = Role::where('name', 'dyco_engineer')->value('id');
         if($dyco)
-            Role::where('id',$dyco)->update(['dashboard' => '/conveyance']);
+            Role::where('id',$dyco)->update(['dashboard' => '/dashboard']);
 
         // Dycdo
         $dycdo = Role::where('name' , 'dycdo_engineer')->value('id');
         if($dycdo)
-            Role::where('id',$dycdo)->update(['dashboard' => '/conveyance']);
+            Role::where('id',$dycdo)->update(['dashboard' => '/dashboard']);
 
         // EM Clerk
         $em_cl_role_id = Role::where('name','em_clerk')->value('id');
@@ -210,12 +218,12 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         // EM Manager
         $em_manager_id = Role::where('name', '=', 'EM')->value('id');
         if($em_manager_id)
-            Role::where('id',$em_manager_id)->update(['dashboard' => '/conveyance']);
+            Role::where('id',$em_manager_id)->update(['dashboard' => '/dashboard']);
 
         // Land Manager
         $land_manager = Role::where('name', 'LM')->value('id');
         if($land_manager)
-            Role::where('id',$land_manager)->update(['dashboard' => '/village_detail']);
+            Role::where('id',$land_manager)->update(['dashboard' => '/land_dashboard']);
 
         //RC
         $rc_collector = Role::where('name' , 'rc_collector')->value('id');
@@ -247,6 +255,11 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         $society = Role::where('name', 'society')->value('id');
         if($society)
             Role::where('id',$society)->update(['dashboard' => '/society/society_offer_letter_dashboard']);
+
+        // LA
+        $la = Role::where('name', 'la_engineer')->value('id');
+        if($la)
+            Role::where('id',$la)->update(['dashboard' => '/dashboard']);        
 
     }
 }
