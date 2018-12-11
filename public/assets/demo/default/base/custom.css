@@ -957,7 +957,13 @@ table.dataTable tbody tr:nth-child(even):focus {
 }
 
 .m-subheader .m-subheader__title.m-subheader__title--separator {
-    border-right: 1px solid #afb8c1;
+    border-right: none;
+    margin-right: 0;
+}
+.m-subheader .m-subheader__title.m-subheader__title--separator:after {
+    content: '-';
+    display: inline-block;
+    padding-left: 15px;
 }
 
 .m-subheader {

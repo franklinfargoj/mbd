@@ -100,31 +100,32 @@ class AccountController extends Controller
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'flat_no','name' => 'flat_no','title' => 'Room No'],
             ['data' => 'tenant_name','name' => 'tenant_name','title' => 'Teanat Name'],
-            ['data' => 'final_rent_amount', 'name' => 'final_rent_amount', 'title' => 'Final Rent Amount','searchable'=>false],
+            ['data' => 'total_amount', 'name' => 'total_amount', 'title' => 'Final Rent Amount','searchable'=>false],
             ['data' => 'payment_status','name' => 'payment_status','title' => 'Payment Status'],
-            ['data' => 'action','name' => 'action','title' => 'Action','searchable'=>false],
+            ['data' => 'action','name' => 'action','title' => 'Action','searchable'=>false,'orderable'=> false],
             ['data' => 'payment_details','name' => 'payment_details','title' => 'Payment Details','searchable'=>false],
         ];
 
         $year = date('Y');
         $month = date('m');
-
+      
         if ($datatables->getRequest()->ajax()) {
         	DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
             $tenants = MasterTenant::selectRaw('@rownum  := @rownum  + 1 AS rownum,master_tenants.*,CONCAT(first_name," ",last_name) as tenant_name')->with(['arrear' => function($query) use($year,$month){
+                $query->select('*');
             	$query->where('year',$year);
             	$query->where('month',$month);
             }])->where('building_id',decrypt($request->building_id));
             
             return $datatables->of($tenants)
-	            ->editColumn('payment_status', function ($tenants){               
+	            ->addColumn('payment_status', function ($tenants){               
 	               	if(count($tenants->arrear) && $this->PAYMENT_STATUS_PAID == $tenants->arrear->first()->payment_status) {
 	               		return 'Paid';
 	               	} else {
 	               		return 'Not Paid';
 	               	}
 	            })
-	            ->editColumn('final_rent_amount', function ($tenants){               
+	            ->addColumn('total_amount', function ($tenants){               
 	               	if(count($tenants->arrear)) {
 	               		return $tenants->arrear->first()->total_amount;
 	               	} else {
@@ -132,16 +133,12 @@ class AccountController extends Controller
 	               	}
 	            })
 	            ->editColumn('action', function ($tenants) use ($year){
-	                
 	                return "<div class='d-flex btn-icon-list'><a href='".url('view_calculations/'.encrypt($tenants->id).'/'.$year)."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>View Calculations</a></div>";
-
 	            })
 	            ->editColumn('payment_details', function ($tenants){
-	                
 	                return "<div class='d-flex btn-icon-list'><a href='".url('payment_details/'.encrypt($tenants->id))."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>Edit</a></div>";
-
 	            })
-	            ->rawColumns(['action','payment_status','payment_details','final_rent_amount'])
+	            ->rawColumns(['action','payment_status','payment_details','total_amount'])
 	            ->make(true);
         }
         $society = SocietyDetail::find(decrypt($request->society_id));
@@ -242,7 +239,6 @@ class AccountController extends Controller
 			}
 	
 			if($request->has('is_download') && true == $request->is_download) {
-		
 				$filename = time();
 				ob_end_clean();
 				ob_start();
@@ -278,12 +274,13 @@ class AccountController extends Controller
 				['data' => 'status', 'name' => 'status', 'title' => 'Status'],
 				['data' => 'payment_mode','name' => 'payment_mode','title' => 'Payment Mode'],
 				['data' => 'created_at','name' => 'created_at','title' => 'Date Of Payment'],
-				['data' => 'action','name' => 'action','title' => 'Action'],
+				['data' => 'action','name' => 'action','title' => 'Action','orderable'=> false],
 			];
 			$data['years'] = ArrearCalculation::selectRaw('Distinct(year)')->where('tenant_id',decrypt($tenant_id))->pluck('year');
 
 			if ($datatables->getRequest()->ajax()) {
 				$paymentDetails = TransBillGenerate::where('tenant_id',decrypt($tenant_id))->with('trans_payment')->where('bill_year',$data['year'])->get();
+
 				return $datatables->of($paymentDetails)
 					->editColumn('bill_month', function ($paymentDetails)  {               
 						return date("M", mktime(0, 0, 0, $paymentDetails->bill_month, 10));
