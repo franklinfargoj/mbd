@@ -44,20 +44,20 @@ $route=\Request::route()->getName();
                 </li>
                 @endif
 
-                @if(session()->get('permission') && in_array('architect_layout_dashboard', session()->get('permission')))
-                <li class="m-menu__item {{($route=='architect_layout_dashboard')?'m-menu__item--active':''}}" aria-haspopup="true">
-                    <a href="{{ url('architect_layout_dashboard') }}" class="m-menu__link ">
-                        <i class="m-menu__link-icon flaticon-line-graph"></i>
-                        <span class="m-menu__link-title">
-                        <span class="m-menu__link-wrap">
-                            <span class="m-menu__link-text">
-                                Dashboard
-                            </span>
-                        </span>
-                    </span>
-                    </a>
-                </li>
-                @endif
+                {{--@if(session()->get('permission') && in_array('architect_layout_dashboard', session()->get('permission')))--}}
+                {{--<li class="m-menu__item {{($route=='architect_layout_dashboard')?'m-menu__item--active':''}}" aria-haspopup="true">--}}
+                    {{--<a href="{{ url('architect_layout_dashboard') }}" class="m-menu__link ">--}}
+                        {{--<i class="m-menu__link-icon flaticon-line-graph"></i>--}}
+                        {{--<span class="m-menu__link-title">--}}
+                        {{--<span class="m-menu__link-wrap">--}}
+                            {{--<span class="m-menu__link-text">--}}
+                                {{--Dashboard--}}
+                            {{--</span>--}}
+                        {{--</span>--}}
+                    {{--</span>--}}
+                    {{--</a>--}}
+                {{--</li>--}}
+                {{--@endif--}}
 
 
                 @if(session()->get('permission') && (in_array('architect_application', session()->get('permission')) ||
