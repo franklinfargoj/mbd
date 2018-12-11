@@ -29,7 +29,7 @@ $route=\Request::route()->getName();
             data-max-height="100vh">
             <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow">
 
-                @if(session()->get('permission') && in_array('dashboard', session()->get('permission')))
+                @if(session()->get('permission') && in_array('dashboard', session()->get('permission')) || (strpos($route,'dashboard') !== false) || (strpos($route,'detail') !== false))
                 <li class="m-menu__item {{(strpos($route,'dashboard') !== false)?'m-menu__item--active':''}}">
                     <a href="{{ session()->get('dashboard') }}" class="m-menu__link m-menu__toggle">
                         <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -358,7 +358,7 @@ $route=\Request::route()->getName();
                             </ul>
                         </li>
 
-                        @if(\Illuminate\Support\Facades\Request::is('lease_detail/*') || (strpos($route,'village_detail') !== false) || (strpos($route,'renew-lease') !== false) || (strpos($route,'architect_layout') !== false) || (strpos($route,'society_detail') !== false))
+                        @if(\Illuminate\Support\Facades\Request::is('lease_detail/*') || (strpos($route,'village_detail') !== false) || (strpos($route,'renew-lease') !== false) || (strpos($route,'architect_layout') !== false) || (strpos($route,'society_detail') !== false) || $route =='land.dashboard')
                         <li class="m-menu__item m-menu__item--level-2 {{($route=='lease_detail.index' || $route=='view-lease.view' || $route=='edit-lease.edit' || $route=='lease_detail.create')? '' : 'collapsed'}}"
                             data-toggle="collapse" data-target="#lease-actions">
                             <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">
@@ -393,6 +393,7 @@ $route=\Request::route()->getName();
                                     || (strpos($route,'renew-lease') !== false)
                                     || (strpos($route,'view-lease') !== false)
                                     || (strpos($route,'edit-lease') !== false)
+                                    || ($route == 'land.dashboard')
                                   )
 
                                         @php
@@ -623,7 +624,7 @@ $route=\Request::route()->getName();
                         @if (isset($route) && ($route == 'co.index' || $route=='ee.index' || $route=='dyce.index' || $route=='co_applications.reval' || $route=='co_applications.noc' || $route=='vp_applications.reval' ||
                         $route=='ree_applications.index' || $route=='ree_applications.reval' || $route == 'ree_applications.noc' || $route == 'ree_applications.noc_cc' || $route == 'co_applications.noc_cc' || $route=='cap.index' || $route=='cap_applications.reval' ||$route=='vp.index' ||
                         $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
-                        $route=='documents_uploaded' || $route=='documents_upload') || (strpos($route,'dashboard') !== false))
+                        $route=='documents_uploaded' || $route=='documents_upload') || (strpos($route,'dashboard') !== false) && $route !='land.dashboard')
 
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2  {{( $route=='ee.index' || $route=='dyce.index' || $route=='ree_applications.index' || $route=='co.index' || $route=='cap.index' || $route=='vp.index' || $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' || $route=='documents_uploaded' || $route=='documents_upload')?'m-menu__item--active':''}}">
                             <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">
