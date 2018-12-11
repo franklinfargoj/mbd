@@ -50,7 +50,7 @@ class OlApplicationMasterTableSeeder extends Seeder
             ]);
             OlApplicationMaster::create([
                 'parent_id'       =>  $application->id,
-                'route_name' => 'show_form_self',
+                'route_name' => 'show_oc_self',
                 'title'   => "Consent for OC",
                 'model'   => "Premium",
             ]);
@@ -89,7 +89,7 @@ class OlApplicationMasterTableSeeder extends Seeder
             ]);
             OlApplicationMaster::create([
                 'parent_id'       =>  $application->id,
-                'route_name' => 'show_form_self',
+                'route_name' => 'show_oc_self',
                 'title'   => "Consent for OC",
                 'model'   => "Sharing",
             ]);
@@ -121,7 +121,7 @@ class OlApplicationMasterTableSeeder extends Seeder
         ]);
         OlApplicationMaster::create([
             'parent_id'       =>  $application->id,
-            'route_name' => 'show_form_self',
+            'route_name' => 'show_oc_dev',
             'title'   => "Consent for OC",
             'model'   => "Premium",
         ]);
@@ -160,7 +160,7 @@ class OlApplicationMasterTableSeeder extends Seeder
         ]);
         OlApplicationMaster::create([
             'parent_id'       =>  $application->id,
-            'route_name' => 'show_form_self',
+            'route_name' => 'show_oc_dev',
             'title'   => "Consent for OC",
             'model'   => "Sharing",
         ]);

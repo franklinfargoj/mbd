@@ -23,86 +23,19 @@
             <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="hearing-summary"
                  data-parent="#accordion">
                 <div class="row hearing-row">
-                    <div class="col">
-                        <div class="m-portlet app-card text-center">
-                            <h2 class="app-heading">New Application</h2>
-                            <h2 class="app-no mb-0">{{$count_array['new_application']}}</h2>
-                            <a href="" class="app-card__details mb-0">View Details</a>
+                    @foreach($count_array as $header =>$data)
+                        <div class="col">
+                            <div class="m-portlet app-card text-center">
+                                <h2 class="app-heading">{{$header}}</h2>
+                                <h2 class="app-no mb-0">{{$data[0]->count}}</h2>
+                                <a href="" class="app-card__details mb-0">View Details</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="m-portlet app-card text-center">
-                            <h2 class="app-heading">Pending</h2>
-                            <h2 class="app-no mb-0">{{$count_array['scrutiny_pending']}}</h2>
-                            <a href="" class="app-card__details mb-0">View Details</a>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="m-portlet app-card text-center">
-                            <h2 class="app-heading">Forwarded</h2>
-                            <h2 class="app-no mb-0">{{$count_array['forward']}}</h2>
-                            <a href="" class="app-card__details mb-0">View Details</a>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="m-portlet app-card text-center">
-                            <h2 class="app-heading">Sent For Revision</h2>
-                            <h2 class="app-no mb-0">{{$count_array['sent_for_revision']}}</h2>
-                            <a href="" class="app-card__details mb-0">View Details</a>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="m-portlet app-card text-center">
-                            <h2 class="app-heading">Reverted</h2>
-                            <h2 class="app-no mb-0">{{$count_array['reverted']}}</h2>
-                            <a href="" class="app-card__details mb-0">View Details</a>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="m-portlet app-card text-center">
-                            <h2 class="app-heading">Approved</h2>
-                            <h2 class="app-no mb-0">{{$count_array['approved']}}</h2>
-                            <a href="" class="app-card__details mb-0">View Details</a>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="m-portlet app-card text-center">
-                            <h2 class="app-heading">Total</h2>
-                            <h2 class="app-no mb-0">{{$count_array['total']}}</h2>
-                            <a href="" class="app-card__details mb-0">View Details</a>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
-
-        {{--@if($dashboardData1)--}}
-            {{--<div class="hearing-accordion-wrapper">--}}
-                {{--<div class="m-portlet m-portlet--compact hearing-accordion mb-0">--}}
-                    {{--<div class="d-flex justify-content-between align-items-center">--}}
-                        {{--<a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"--}}
-                           {{--data-toggle="collapse" href="#ree-ol-pending-summary">--}}
-                            {{--<span class="form-accordion-title">REE Offer Letter Pending Applications Summary</span>--}}
-                            {{--<span class="accordion-icon"></span>--}}
-                        {{--</a>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-                {{--<div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="ree-ol-pending-summary"--}}
-                     {{--data-parent="#accordion">--}}
-                    {{--<div class="row hearing-row">--}}
-                        {{--@foreach($dashboardData1 as $header => $value)--}}
-                            {{--<div class="col">--}}
-                                {{--<div class="m-portlet app-card text-center">--}}
-                                    {{--<h2 class="app-heading">{{$header}}</h2>--}}
-                                    {{--<h2 class="app-no mb-0">{{$value}}</h2>--}}
-                                    {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                        {{--@endforeach--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--@endif--}}
+        
 
     </div>
 @endsection

@@ -92,187 +92,244 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1.</td>
-                                                <td>
-                                                    कार्यकारी अभियंता /कुर्ला विभाग यांचे सिमांकन नकाशानुसार भूखंडाचे
-                                                    क्षेत्रफळ
-                                                </td>
-                                                <td class="text-center">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td>
-                                                    1. टिट बिट भूखंडाचे क्षेत्र
-                                                </td>
-                                                <td class="text-center">
-                                                    <input type="text" class="total_area remaining_area infra_fee  form-control form-control--custom"
-                                                        name="area_of_tit_bit_plot" id="area_of_tit_bit_plot" value="{{ isset($calculationSheetDetails[0]->area_of_tit_bit_plot) ? $calculationSheetDetails[0]->area_of_tit_bit_plot : 0 }}"
-                                                        readonly />
-                                                </td>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td class="font-weight-bold">
-                                                    Total भूखंडाचे क्षेत्रफळ
-                                                </td>
-                                                <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
-                                                        name="area_of_total_plot" id="area_of_total_plot" value="{{ isset($calculationSheetDetails[0]->area_of_total_plot) ? $calculationSheetDetails[0]->area_of_total_plot : 0 }}" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>2.</td>
-                                                <td>
-                                                    अनुज्ञेय चटई क्षेत्र निर्देशांक
-                                                </td>
-                                                <td class="text-center">
-                                                    <input class="remaining_area infra_fee form-control form-control--custom"
-                                                        type="text" name="permissible_carpet_area_coordinates" id="permissible_carpet_area_coordinates"
-                                                        value="{{ isset($calculationSheetDetails[0]->permissible_carpet_area_coordinates) ? $calculationSheetDetails[0]->permissible_carpet_area_coordinates : 0 }}"
-                                                        readonly />
+                                        <tr>
+                                            <td>1.</td>
+                                            <td>
+                                                कार्यकारी अभियंता /कुर्ला विभाग यांचे सिमांकन नकाशानुसार भूखंडाचे
+                                                क्षेत्रफळ
+                                            </td>
+                                            <td class="text-center">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                1. भाडेपट्टा करारनाम्यानुसार क्षेत्रफळ
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="text" placeholder="0" class="total_area form-control form-control--custom"
+                                                       name="area_as_per_lease_agreement" id="area_as_per_lease_agreement"
+                                                   readonly    value="<?php if(isset($calculationSheetDetails[0]->area_as_per_lease_agreement) ) { echo $calculationSheetDetails[0]->area_as_per_lease_agreement; }  ?>" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                2. टिट बिट भूखंडाचे क्षेत्र
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="text" placeholder="0" class="total_area form-control form-control--custom"
+                                                       readonly  name="area_of_tit_bit_plot" id="area_of_tit_bit_plot" value="<?php if(isset($calculationSheetDetails[0]->area_of_tit_bit_plot)) { echo $calculationSheetDetails[0]->area_of_tit_bit_plot; } ?>" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td class="font-weight-bold">
+                                                Total भूखंडाचे क्षेत्रफळ
+                                            </td>
+                                            <td class="text-center">
+                                                <input placeholder="0" class="min_val_for_calculation form-control form-control--custom"
+                                                       readonly type="text" name="area_of_total_plot" id="area_of_total_plot"
+                                                       value="<?php if(isset($calculationSheetDetails[0]->area_of_total_plot)) { echo $calculationSheetDetails[0]->area_of_total_plot; } ?>" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2.</td>
+                                            <td>
+                                                अभिन्यासानुसार भूखंडाचे क्षेत्रफळ
+                                            </td>
+                                            <td class="text-center">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                1. भाडेपट्टा करारनाम्यानुसार क्षेत्रफळ
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="text" placeholder="0" class="abhinyas_total_area  form-control form-control--custom"
+                                                       name="abhinyas_area_as_per_lease_agreement" id="abhinyas_area_as_per_lease_agreement"
+                                                       readonly  value="<?php if(isset($calculationSheetDetails[0]->abhinyas_area_as_per_lease_agreement)) { echo $calculationSheetDetails[0]->abhinyas_area_as_per_lease_agreement; } ?>"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                2. टिट बिट भूखंडाचे क्षेत्र
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="text" placeholder="0" class="abhinyas_total_area form-control form-control--custom"
+                                                       name="abhinyas_area_of_tit_bit_plot" id="abhinyas_area_of_tit_bit_plot"
+                                                       readonly  value="<?php if(isset($calculationSheetDetails[0]->abhinyas_area_of_tit_bit_plot)) { echo $calculationSheetDetails[0]->abhinyas_area_of_tit_bit_plot; } ?>" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td class="font-weight-bold">
+                                                Total भूखंडाचे क्षेत्रफळ
+                                            </td>
+                                            <td class="text-center">
+                                                <input class="min_val_for_calculation form-control form-control--custom" placeholder="0"
+                                                       readonly type="text" name="abhinyas_area_of_total_plot" id="abhinyas_area_of_total_plot"
+                                                       value="<?php if(isset($calculationSheetDetails[0]->abhinyas_area_of_total_plot)) { echo $calculationSheetDetails[0]->abhinyas_area_of_total_plot; } ?>" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>3.</td>
+                                            <td>
+                                                परिगणनाकरिता ग्राह्य भूखंडाचे क्षेत्रफळ (किमान क्षेत्र)
+                                            </td>
+                                            <td class="text-center">
+                                                <input readonly class="infra_fee form-control form-control--custom" placeholder="0"
+                                                       type="text" name="area_of_​​subsistence_to_calculate" id="area_of_​​subsistence_to_calculate"
+                                                       value="<?php if(isset($calculationSheetDetails[0]->area_of_​​subsistence_to_calculate)) { echo $calculationSheetDetails[0]->area_of_​​subsistence_to_calculate; } ?>" />
 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>3.</td>
-                                                <td>
-                                                    अनुज्ञेय बांधकाम क्षेत्रफळ
-                                                </td>
-                                                <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
-                                                        name="permissible_construction_area" id="permissible_construction_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->permissible_construction_area) ? $calculationSheetDetails[0]->permissible_construction_area : 0 }}" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>4.</td>
+                                            <td>
+                                                अनुज्ञेय चटई क्षेत्र निर्देशांक
+                                            </td>
+                                            <td class="text-center">
+                                                <input class="remaining_area infra_fee form-control form-control--custom" placeholder="0"
+                                                       type="text" name="permissible_carpet_area_coordinates" id="permissible_carpet_area_coordinates"
+                                                       readonly     value="<?php if(isset($calculationSheetDetails[0]->permissible_carpet_area_coordinates)) { echo $calculationSheetDetails[0]->permissible_carpet_area_coordinates; } ?>" />
 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>4.</td>
-                                                <td>
-                                                    म.न.पा .कडून ल. ओ. आय. पत्रानुसार अनुज्ञेय प्रोरेटा क्षेत्रफळ
-                                                </td>
-                                                <td class="text-center">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td>
-                                                    1. प्रति सदनिका चौ मी क्षेत्रफळ
-                                                </td>
-                                                <td class="text-center">
-                                                    <input class="remaining_area infra_fee form-control form-control--custom"
-                                                        type="text" name="sqm_area_per_slot" id="sqm_area_per_slot"
-                                                        value="{{ isset($calculationSheetDetails[0]->sqm_area_per_slot) ? $calculationSheetDetails[0]->sqm_area_per_slot : 0 }}"
-                                                        readonly />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>5.</td>
+                                            <td>
+                                                अनुज्ञेय बांधकाम क्षेत्रफळ
+                                            </td>
+                                            <td class="text-center">
+                                                <input class="form-control form-control--custom" readonly type="text" placeholder="0"
+                                                       name="permissible_construction_area" id="permissible_construction_area"
+                                                       value="<?php if(isset($calculationSheetDetails[0]->permissible_construction_area)) { echo $calculationSheetDetails[0]->permissible_construction_area; } ?>" />
 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td>
-                                                    2. एकूण सदनिका
-                                                </td>
-                                                <td class="text-center">
-                                                    <input class="remaining_area infra_fee form-control form-control--custom"
-                                                        type="text" name="total_house" id="total_house" value="{{ isset($calculationSheetDetails[0]->total_house) ? $calculationSheetDetails[0]->total_house : 0 }}"
-                                                        readonly />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>6.</td>
+                                            <td>
+                                                म.न.पा .कडून ल. ओ. आय. पत्रानुसार अनुज्ञेय प्रोरेटा क्षेत्रफळ
+                                            </td>
+                                            <td class="text-center">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                1. प्रति सदनिका चौ मी क्षेत्रफळ
+                                            </td>
+                                            <td class="text-center">
+                                                <input class="remaining_area infra_fee form-control form-control--custom" placeholder="0"
+                                                       type="text" name="sqm_area_per_slot" id="sqm_area_per_slot"
+                                                       readonly     value="<?php if(isset($calculationSheetDetails[0]->sqm_area_per_slot)) { echo $calculationSheetDetails[0]->sqm_area_per_slot; } ?>" />
 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td class="font-weight-bold">
-                                                    Total
-                                                </td>
-                                                <td class="text-center">
-                                                    <input class="remianing_area form-control form-control--custom"
-                                                        readonly type="text" name="permissible_proratata_area" id="permissible_proratata_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->permissible_proratata_area) ? $calculationSheetDetails[0]->permissible_proratata_area : 0 }}" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                2. एकूण सदनिका
+                                            </td>
+                                            <td class="text-center">
+                                                <input class="remaining_area infra_fee form-control form-control--custom" placeholder="0"
+                                                       readonly    type="text" name="total_house" id="total_house" value="<?php if(isset($calculationSheetDetails[0]->total_house)) { echo $calculationSheetDetails[0]->total_house; } ?>" />
 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>5.</td>
-                                                <td>
-                                                    अनुज्ञेय बांधकाम क्षेत्रफळ
-                                                </td>
-                                                <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
-                                                        name="total_permissible_construction_area" id="total_permissible_construction_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->total_permissible_construction_area) ? $calculationSheetDetails[0]->total_permissible_construction_area : 0 }}" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td class="font-weight-bold">
+                                                Total
+                                            </td>
+                                            <td class="text-center">
+                                                <input class="remaining_area form-control form-control--custom" placeholder="0"
+                                                       readonly type="text" name="permissible_proratata_area" id="permissible_proratata_area"
+                                                       value="<?php if(isset($calculationSheetDetails[0]->permissible_proratata_area)) { echo $calculationSheetDetails[0]->permissible_proratata_area; } ?>" />
 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>6.</td>
-                                                <td>
-                                                    अनुज्ञेय चटई क्षेत्रफळ प्रतिगाळा
-                                                </td>
-                                                <td class="text-center">
-                                                    <input class="remianing_area form-control form-control--custom"
-                                                        type="text" name="permissible_mattress_area" id="permissible_mattress_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->permissible_mattress_area) ? $calculationSheetDetails[0]->permissible_mattress_area : 0 }}"
-                                                        readonly />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>7.</td>
+                                            <td>
+                                                एकूण अनुज्ञेय बांधकाम क्षेत्रफळ
+                                            </td>
+                                            <td class="text-center">
+                                                <input class="remaining_area form-control form-control--custom" readonly type="text" placeholder="0"
+                                                       name="total_permissible_construction_area" id="total_permissible_construction_area"
+                                                       value="<?php if(isset($calculationSheetDetails[0]->total_permissible_construction_area)) { echo $calculationSheetDetails[0]->total_permissible_construction_area; } ?>" />
 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>7.</td>
-                                                <td>
-                                                    सुधारित वि नि नि ३३(५) प्रमाणे अनुज्ञेय चटई क्षेत्रफळ वर ३५%
-                                                    प्रतिगाळा
-                                                </td>
-                                                <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
-                                                        name="revised_permissible_mattress_area" id="revised_permissible_mattress_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->revised_permissible_mattress_area) ? $calculationSheetDetails[0]->revised_permissible_mattress_area : 0 }}" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>8.</td>
+                                            <td>
+                                                अनुज्ञेय चटई क्षेत्रफळ प्रतिगाळा
+                                            </td>
+                                            <td class="text-center">
+                                                <input class="remaining_area form-control form-control--custom" placeholder="0"
+                                                       type="text" name="permissible_mattress_area" id="permissible_mattress_area"
+                                                       readonly    value="<?php if(isset($calculationSheetDetails[0]->permissible_mattress_area)) { echo $calculationSheetDetails[0]->permissible_mattress_area; } ?>" />
 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>8.</td>
-                                                <td>
-                                                    सुधारित वि नि नि ३३(५) दि ३.७.२०१७ रोजीच्या फ्रबदलाच्या अधिसूचने
-                                                    नुसार निवासी वापर करिता वाढीव क्षेत्रफळ ३५% मिळून किमान ३५ चौमी
-                                                    अनुज्ञेय आहे. त्यामुळे अ क्र ७ मधील क्षेत्रफळ कमी असल्याने ३५ चौ मी
-                                                    गृहीत धरण्यात येत आहे
-                                                </td>
-                                                <td class="text-center">
-                                                    <input class="remianing_area form-control form-control--custom"
-                                                        type="text" name="revised_increased_area_for_residential_use"
-                                                        id="revised_increased_area_for_residential_use" value="{{ isset($calculationSheetDetails[0]->revised_increased_area_for_residential_use) ? $calculationSheetDetails[0]->revised_increased_area_for_residential_use : 0 }}"
-                                                        readonly />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>9.</td>
+                                            <td>
+                                                सुधारित वि नि नि ३३(५) प्रमाणे अनुज्ञेय चटई क्षेत्रफळ वर ३५%
+                                                प्रतिगाळा
+                                            </td>
+                                            <td class="text-center">
+                                                <input class="form-control form-control--custom" readonly type="text" placeholder="0"
+                                                       name="revised_permissible_mattress_area" id="revised_permissible_mattress_area"
+                                                       value="<?php if(isset($calculationSheetDetails[0]->revised_permissible_mattress_area)) { echo $calculationSheetDetails[0]->revised_permissible_mattress_area; } ?>" />
 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>9.</td>
-                                                <td>
-                                                    एकूण पुनर्वसन चटई क्षेत्रफळ
-                                                </td>
-                                                <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
-                                                        name="total_rehabilitation_mattress_area" id="total_rehabilitation_mattress_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->total_rehabilitation_mattress_area) ? $calculationSheetDetails[0]->total_rehabilitation_mattress_area : 0 }}" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>10.</td>
+                                            <td>
+                                                सुधारित वि नि नि ३३(५) दि ३.७.२०१७ रोजीच्या फ्रबदलाच्या अधिसूचने
+                                                नुसार निवासी वापर करिता वाढीव क्षेत्रफळ ३५% मिळून किमान ३५ चौमी
+                                                अनुज्ञेय आहे. त्यामुळे अ क्र ७ मधील क्षेत्रफळ कमी असल्याने ३५ चौ मी
+                                                गृहीत धरण्यात येत आहे
+                                            </td>
+                                            <td class="text-center">
+                                                <input class="remaining_area form-control form-control--custom" placeholder="0"
+                                                       type="text" name="revised_increased_area_for_residential_use"
+                                                       readonly  id="revised_increased_area_for_residential_use" value="<?php if(isset($calculationSheetDetails[0]->revised_increased_area_for_residential_use)) { echo $calculationSheetDetails[0]->revised_increased_area_for_residential_use; } ?>" />
 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>10.</td>
-                                                <td>
-                                                    सादर प्रकरणामध्ये भूखंड हा ४००० चौ मी पेक्षा कमी असल्याने DCR टेबल
-                                                    अ नुसार अतिरिक्त हक्क
-                                                </td>
-                                                <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
-                                                        name="dcr_a_val" id="dcr_a_val" value="{{ isset($calculationSheetDetails[0]->dcr_a_val) ? $calculationSheetDetails[0]->dcr_a_val.'%' : '0%' }}" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>11.</td>
+                                            <td>
+                                                एकूण पुनर्वसन चटई क्षेत्रफळ
+                                            </td>
+                                            <td class="text-center">
+                                                <input class="form-control form-control--custom" readonly type="text" placeholder="0"
+                                                       name="total_rehabilitation_mattress_area" id="total_rehabilitation_mattress_area"
+                                                       value="<?php if(isset($calculationSheetDetails[0]->total_rehabilitation_mattress_area)) { echo $calculationSheetDetails[0]->total_rehabilitation_mattress_area; } ?>" />
 
-                                                    <!-- data-target="#dcr-a-modal" -->
-                                                </td>
-                                            </tr>
-                                            <!--<tr>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>12.</td>
+                                            <td>
+                                                सादर प्रकरणामध्ये भूखंड हा ४००० चौ मी पेक्षा कमी असल्याने DCR टेबल
+                                                अ नुसार अतिरिक्त हक्क
+                                            </td>
+                                            <td class="text-center">
+                                                    <span style="cursor: pointer" data-toggle="modal" data-target="#dcr-a-modal">
+                                                        DCR A
+                                                    </span>
+                                            </td>
+                                        </tr>
+                                        <!--<tr>
                                                 <td></td>
                                                 <td>
                                                     1. प्रति सदनिका चौ मी प्रोरेटा बांधकाम क्षेत्रफळ
@@ -283,45 +340,44 @@
 
                                                 </td>
                                             </tr>-->
-                                            <tr>
-                                                <td></td>
-                                                <td>
-                                                    Total
-                                                </td>
-                                                <td class="text-center">
-                                                    <input class="form-control form-control--custom" type="text" name="total_additional_claims"
-                                                        id="total_additional_claims" value="{{ isset($calculationSheetDetails[0]->total_additional_claims) ? $calculationSheetDetails[0]->total_additional_claims : 0 }}"
-                                                        readonly />
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                Total
+                                            </td>
+                                            <td class="text-center">
+                                                <input readonly class="form-control form-control--custom" type="text" placeholder="0"
+                                                       name="total_additional_claims" id="total_additional_claims"
+                                                       readonly    value="<?php if(isset($calculationSheetDetails[0]->total_additional_claims)) { echo $calculationSheetDetails[0]->total_additional_claims; } ?>" />
 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>11.</td>
-                                                <td>
-                                                    एकूण पुनर्वसन चटई क्षेत्र फळ
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>13.</td>
+                                            <td>
+                                                एकूण पुनर्वसन चटई क्षेत्र फळ
 
-                                                </td>
-                                                <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
-                                                        name="total_rehabilitation_mattress_area_with_dcr" id="total_rehabilitation_mattress_area_with_dcr"
-                                                        value="{{ isset($calculationSheetDetails[0]->total_rehabilitation_mattress_area) ? $calculationSheetDetails[0]->total_rehabilitation_mattress_area : 0 }}" />
+                                            </td>
+                                            <td class="text-center">
+                                                <input class="form-control form-control--custom" readonly type="text" placeholder="0"
+                                                       name="total_rehabilitation_mattress_area_with_dcr" id="total_rehabilitation_mattress_area_with_dcr"
+                                                       value="<?php  if(isset($calculationSheetDetails[0]->total_rehabilitation_mattress_area)) { echo $calculationSheetDetails[0]->total_rehabilitation_mattress_area; } ?>" />
 
-                                                </td>
-                                            </tr>
+                                            </td>
+                                        </tr>
 
-                                            <tr>
-                                                <td>12.</td>
-                                                <td>
-                                                    एकूण पुनर्वसन बांधकाम क्षेत्रफळ
-                                                </td>
-                                                <td class="text-center">
-                                                    <input class="remaining_area form-control form-control--custom"
-                                                        readonly type="text" name="total_rehabilitation_construction_area"
-                                                        id="total_rehabilitation_construction_area" value="{{ isset($calculationSheetDetails[0]->total_rehabilitation_construction_area) ? $calculationSheetDetails[0]->total_rehabilitation_construction_area : 0 }}" />
+                                        <tr>
+                                            <td>14.</td>
+                                            <td>
+                                                एकूण पुनर्वसन बांधकाम क्षेत्रफळ
+                                            </td>
+                                            <td class="text-center">
+                                                <input class="remaining_area form-control form-control--custom" placeholder="0"
+                                                       readonly type="text" name="total_rehabilitation_construction_area"
+                                                       id="total_rehabilitation_construction_area" value="<?php if(isset($calculationSheetDetails[0]->total_rehabilitation_construction_area)) { echo $calculationSheetDetails[0]->total_rehabilitation_construction_area; } ?>" />
 
-                                                </td>
-                                            </tr>
-                                            <!--  <tr><td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary" value="Save" /> </td></tr> -->
+                                            </td>
+                                        </tr>
 
                                         </tbody>
                                     </table>
@@ -963,7 +1019,7 @@
                                                 <td>3.</td>
                                                 <td>
                                                     उपरोक्त ऑफ साईट इन्फ्रास्ट्रक्चर शुल्क रकमेपैकी म.न.पा.स भरवायची
-                                                    ५/७ रक्कम (५/७ X अनु.क्र.१६)
+                                                    ५/७ रक्कम (५/७ X अनु.क्र.२)
                                                 </td>
                                                 <td class="text-center">
                                                     <input class="form-control form-control--custom" readonly type="text"
@@ -977,7 +1033,7 @@
                                                 <td>4.</td>
                                                 <td>
                                                     म्हाडाकडे भरवायची ऑफ साईट इन्फ्रास्ट्रक्चर शुल्क रक्कम (२/७ *
-                                                    अनु.क्र.१६ )
+                                                    अनु.क्र.२ )
                                                 </td>
                                                 <td class="text-center">
                                                     <input class="total_amount_in_rs form-control form-control--custom"

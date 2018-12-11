@@ -2869,6 +2869,7 @@ label.site-visit-label {
 
 .hearing-row .app-no {
     font-size: 1.2rem;
+    margin-top: auto;
 }
 
 .hearing-row .m-portlet {
@@ -3088,7 +3089,7 @@ label.site-visit-label {
 .accordion-icon {
     width: 30px;
     height: 30px;
-    background-image: url('../../../../img/minus-icon.svg');
+    background-image: url('../../../../img/plus-icon.svg');
     background-repeat: no-repeat;
     background-size: cover;
 }

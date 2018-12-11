@@ -495,6 +495,12 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('society_reval_offer_letter_application_download','SocietyOfferLetterController@generate_reval_pdf')->name('society_reval_offer_letter_application_download');
 
 
+    // Consent For OC
+
+    Route::get('/show_oc_self/{id}', 'SocietyOfferLetterController@show_oc_self')->name('show_oc_self');
+    Route::get('/show_oc_dev/{id}', 'SocietyOfferLetterController@show_oc_dev')->name('show_oc_dev');
+    Route::post('/save_oc_application_self', 'SocietyOfferLetterController@save_oc_application_self')->name('save_oc_application_self');
+    Route::post('/save_oc_application_dev', 'SocietyOfferLetterController@save_oc_application_dev')->name('save_oc_application_dev');
 
 
     //architect Module
@@ -534,7 +540,7 @@ Route::get('add_architect_layout_detail/{layout_id}','ArchitectLayout\LayoutArch
 Route::get('edit_architect_layout_detail/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@edit_detail')->name('architect_layout_detail.edit');
 Route::post('post_architect_layout_detail','ArchitectLayout\LayoutArchitectDetailController@create_detail')->name('architect_layout_detail.create');
 Route::post('uploadLatestLayoutAjax','ArchitectLayout\LayoutArchitectDetailController@uploadLatestLayoutAjax')->name('uploadLatestLayoutAjax');
-
+Route::get('list_of_offer_letter_issued/{layout_id}','ArchitectLayout\LayoutArchitectDetailController@list_of_offer_letter_issued')->name('list_of_offer_letter_issued');
 //Architect Layout Forward Application
 Route::get('forward_architect_layout/{layout_id}','ArchitectLayout\LayoutArchitectController@forwardLayout')->name('forward_architect_layout');
 Route::post('post_forward_architect_layout','ArchitectLayout\LayoutArchitectController@post_forward_layout')->name('post_forward_architect_layout');
@@ -939,17 +945,17 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('forward_application_sr/{id}', 'conveyance\renewalCommonController@commonForward')->name('renewal.forward_application_sc');
 
     Route::post('save_forward_application_sr', 'conveyance\renewalCommonController@saveForwardApplication')->name('renewal.save_forward_application');
-//dashboard    
 
+    // All dashboards
     Route::get('/dashboard','Common\CommonController@dashboard')->name('dashboard');
     // Ree Dashboard
     Route::get('/ree_dashboard','REEDepartment\REEController@dashboard')->name('ree.dashboard');
-
     // Co Dashboard
     Route::get('/co_dashboard','CODepartment\COController@dashboard')->name('co.dashboard');
-
-    //Dashboard routes
+    // Architect Layout Dashboard
     Route::get('architect_layout_dashboard','Dashboard\ArchitectLayoutDashboardController@dashboard')->name('architect_layout_dashboard');
+    // Land Dashboard
+    Route::get('/land_dashboard','VillageDetailController@dashboard')->name('land.dashboard');
 
 });
 

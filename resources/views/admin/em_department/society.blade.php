@@ -59,11 +59,11 @@
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
        
-        <div class="m-portlet__head px-0">
+        {{-- <div class="m-portlet__head px-0">
             <div class="m-portlet__head-caption">
-                {{-- <h3 class="m-portlet__head-text">List of societies</h3> --}}
+                <h3 class="m-portlet__head-text">List of societies</h3>
             </div>
-        </div>
+        </div> --}}
 
         <div class="m-portlet__body">
             <!--begin: Datatable -->

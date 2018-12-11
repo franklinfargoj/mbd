@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
+use App\Http\Controllers\conveyance\conveyanceCommonController;
 use Config;
 
 class HearingController extends Controller
@@ -469,6 +470,12 @@ class HearingController extends Controller
 
         $todaysHearing = HearingSchedule::with(['Hearing'])->where('preceding_date',$today)->get()->toArray();
 
-        return view('admin.hearing.dashboard',compact('totalHearing','totalClosedHearing','totalPendingHearing','totalUnderJudgementHearing','todaysHearing','totalScheduledHearing','totalForwardedHearing'));
+        // conveyance dashboard
+        $conveyanceCommonController = new conveyanceCommonController();
+        $conveyanceDashboard = $conveyanceCommonController->ConveyanceDashboard();
+        $conveyanceRoles     = $conveyanceCommonController->getConveyanceRoles(); 
+        $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();        
+
+        return view('admin.hearing.dashboard',compact('totalHearing','totalClosedHearing','totalPendingHearing','totalUnderJudgementHearing','todaysHearing','totalScheduledHearing','totalForwardedHearing','conveyanceDashboard','conveyanceRoles','pendingApplications'));
     }
 }
