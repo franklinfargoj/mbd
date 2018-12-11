@@ -48,9 +48,9 @@ data-parent="#accordion">
 <div class="col">
 <div class="m-portlet app-card text-center">
 <h2 class="app-heading">{{$header}}</h2>
-<h2 class="app-no mb-0">{{$value}}</h2>
+<h2 class="app-no mb-0">{{$value[0]}}</h2>
 @php $chart += $value;@endphp
-{{--<a href="" class="app-card__details mb-0">View Details</a>--}}
+    <a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a>
 </div>
 </div>
 @endforeach
