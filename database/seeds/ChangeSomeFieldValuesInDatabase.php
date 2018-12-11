@@ -244,7 +244,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         // Sap
         $sap = Role::where('name' , 'senior_architect_planner')->value('id');
         if($sap)
-            Role::where('id',$sap)->update(['dashboard' => '/architect_layouts']);
+            Role::where('id',$sap)->update(['dashboard' => '/architect_layout_dashboard']);
 
         // Selection Commitee
         $slection_commitee = Role::where('name' ,'selection_commitee')->value('id');
