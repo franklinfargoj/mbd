@@ -66,6 +66,7 @@ $route=\Request::route()->getName();
             </a>
         </li>
         @endif
+        @if(in_array('list_of_offer_letter_issued',session()->get('permission')))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{( $route=='list_of_offer_letter_issued')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="View Application" href="{{ route('list_of_offer_letter_issued', encrypt($ArchitectLayout->id)) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -75,6 +76,7 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">List Of offer letter issued</span>
             </a>
         </li>
+        @endif
          @php
         $visible_layout_and_excel=0;
              //get latest detail

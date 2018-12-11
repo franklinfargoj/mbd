@@ -10,6 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('testing',function(){
+    return \App\Layout\ArchitectLayout::whereHas('ArchitectLayoutStatusLog',function($q){
+        $q->where('user_id',18)->where('current_status',1)->where('status_id',3);
+    })->where('layout_excel_status',1)->get();
+});
 Route::post('test','Auth\LoginController@test')->name('testing');
 Route::post('check_user_email_duplicate','Auth\LoginController@check_user_email_duplicate')->name('check_user_email_duplicate');
 Route::get('/', function () {
