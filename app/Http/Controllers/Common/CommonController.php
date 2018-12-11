@@ -1569,7 +1569,6 @@ class CommonController extends Controller
         $conveyanceRoles     = $conveyanceCommonController->getConveyanceRoles();
         $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();
 
-
         $applicationData = $this->getApplicationData($role_id,$user_id);
 //        dd($applicationData);
 

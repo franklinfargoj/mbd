@@ -874,9 +874,10 @@ class COController extends Controller
         // conveyance dashboard
         $conveyanceCommonController = new conveyanceCommonController();
         $conveyanceDashboard = $conveyanceCommonController->ConveyanceDashboard();
-        $conveyanceRoles     = $conveyanceCommonController->getConveyanceRoles();        
+        $conveyanceRoles     = $conveyanceCommonController->getConveyanceRoles(); 
+        $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();       
 
-        return view('admin.co_department.dashboard',compact('dashboardData','dashboardData1','conveyanceDashboard','conveyanceRoles'));
+        return view('admin.co_department.dashboard',compact('dashboardData','dashboardData1','conveyanceDashboard','conveyanceRoles','pendingApplications'));
     }
 
     public function getApplicationData($role_id,$user_id){
