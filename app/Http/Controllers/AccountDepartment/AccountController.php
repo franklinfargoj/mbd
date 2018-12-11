@@ -200,6 +200,9 @@ class AccountController extends Controller
 			if ($datatables->getRequest()->ajax()) {
 				
 				return $datatables->of($arrears_calculations)
+                    ->editColumn('month', function ($arrears_calculations)  {               
+                            return date("M", mktime(0, 0, 0, $arrears_calculations->month, 10));
+                        })
 					->editColumn('old_rate', function ($arrears_calculations)  use($arrears_charges){ if($arrears_charges){     
 						  return $arrears_charges->old_rate;	
                         } else {
@@ -234,7 +237,7 @@ class AccountController extends Controller
                             return 'Not Paid';
                         }  
                     })
-					->rawColumns(['old_rate','interest_on_old_rate','revise_rate','interest_on_diffrence'])
+					->rawColumns(['month','old_rate','interest_on_old_rate','revise_rate','interest_on_diffrence'])
 					->make(true);
 			}
 	

@@ -869,7 +869,7 @@ $route=\Request::route()->getName();
 
                         @if(Session::all()['role_name'] == 'Account')
 
-                        <li class="m-menu__item m-menu__item--submenu {{($route=='search_accounts')?'m-menu__item--active':''}}">
+                        <li class="m-menu__item m-menu__item--submenu m-menu__item--active">
                             <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('search_accounts') }}">
                                 <i class="m-menu__link-icon flaticon-line-graph"></i>
                                 <span class="m-menu__link-title">
