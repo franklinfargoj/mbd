@@ -1918,13 +1918,13 @@ class REEController extends Controller
 
                 $dashboardData['Offer Letters Sent for Approval to REE Deputy'][0] = $statusCount['totalOfferLetterSentForApproval'];
 //                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
-                $dashboardData['Offer Letters Sent for Approval to REE Deputy'][1] = '';
+                $dashboardData['Offer Letters Sent for Approval to REE Deputy'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 
                 $dashboardData['Offer Letters Approved but Not Issued to Society'][0] = $statusCount['offerLetterApprovedNotIssuedToSociety'];
                 $dashboardData['Offer Letters Approved but Not Issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.offer_letter_approved');
 
                 $dashboardData['Offer Letters Forwarded for Issuing to Society'][0] = $statusCount['offerLetterForwardedForIssueingToSociety'];
-                $dashboardData['Offer Letters Forwarded for Issuing to Society'][1] = '';
+                $dashboardData['Offer Letters Forwarded for Issuing to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 
                 break;
             case ($ree['ree_head_id']):
@@ -1943,7 +1943,7 @@ class REEController extends Controller
 
 //                $dashboardData['Draft Offer Letter Generated'] = $statusCount['totalDraftOfferLetterGenereated'];
                 $dashboardData['Offer Letters Sent for Approval to CO'][0] = $statusCount['totalOfferLetterSentForApproval'];
-                $dashboardData['Offer Letters Sent for Approval to CO'][1] = '';
+                $dashboardData['Offer Letters Sent for Approval to CO'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 
 //                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
                 $dashboardData['Offer Letters Approved but Not Issued to Society'][0] = $statusCount['offerLetterApprovedNotIssuedToSociety'];
@@ -1968,7 +1968,7 @@ class REEController extends Controller
 //                $dashboardData['Draft Offer Letter Generated'] = $statusCount['totalDraftOfferLetterGenereated'];
 
                 $dashboardData['Offer Letters Sent for Approval to REE Assistant'][0] = $statusCount['totalOfferLetterSentForApproval'];
-                $dashboardData['Offer Letters Sent for Approval to REE Assistant'][1] = '';
+                $dashboardData['Offer Letters Sent for Approval to REE Assistant'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 //                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
 
                 $dashboardData['Offer Letters Approved but Not Issued to Society'][0] = $statusCount['offerLetterApprovedNotIssuedToSociety'];
@@ -1993,7 +1993,7 @@ class REEController extends Controller
 //                $dashboardData['Draft Offer Letter Generated'] = $statusCount['totalDraftOfferLetterGenereated'];
 
                 $dashboardData['Offer Letters Sent for Approval to REE Head'][0] = $statusCount['totalOfferLetterSentForApproval'];
-                $dashboardData['Offer Letters Sent for Approval to REE Head'][1] = '';
+                $dashboardData['Offer Letters Sent for Approval to REE Head'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 //                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
 
                 $dashboardData['Offer Letters Approved but Not Issued to Society'][0] = $statusCount['offerLetterApprovedNotIssuedToSociety'];
