@@ -42,7 +42,7 @@ class REEController extends Controller
     public function __construct()
     {
         $this->CommonController = new CommonController();
-        $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');        
+        $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
     }
 
     /**
@@ -1918,7 +1918,7 @@ class REEController extends Controller
 
                 $dashboardData['Offer Letters Sent for Approval to REE Deputy'][0] = $statusCount['totalOfferLetterSentForApproval'];
 //                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
-                $dashboardData['Offer Letter Sent for Approval to REE Deputy'][1] = '';
+                $dashboardData['Offer Letters Sent for Approval to REE Deputy'][1] = '';
 
                 $dashboardData['Offer Letters Approved but Not Issued to Society'][0] = $statusCount['offerLetterApprovedNotIssuedToSociety'];
                 $dashboardData['Offer Letters Approved but Not Issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.offer_letter_approved');
@@ -2007,7 +2007,6 @@ class REEController extends Controller
                 ;
                 break;
         }
-
 
         return $dashboardData;
     }
