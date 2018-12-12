@@ -23,6 +23,7 @@ class AccountPermissionSeeder extends Seeder
             $account_role_id = Role::insertGetId([
                 'name' => 'Account',
                 'redirect_to' => '/search_accounts',
+                'dashboard' => '/search_accounts',
                 'display_name' => 'accounts',
                 'description' => 'Login as Account',
             ]);
@@ -83,9 +84,9 @@ class AccountPermissionSeeder extends Seeder
                 'description' => 'Payment Details'
             ],
             [
-                'name' => 'view_bill_tenant',
-                'display_name' => 'View Bill Details',
-                'description' => 'View Bill Details'
+                'name' => 'downloadReceipt',
+                'display_name' => 'View Receipt Details',
+                'description' => 'View Receipt Details'
             ],
         ];
 

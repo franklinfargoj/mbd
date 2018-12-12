@@ -27,6 +27,7 @@ use Carbon\Carbon;
 use Storage;
 use Auth;
 use PDF;
+use DB;
 use Mpdf\Mpdf;
 
 class DYCOController extends Controller
@@ -257,6 +258,13 @@ class DYCOController extends Controller
         $data->SignSaleAgreement  = $this->common->getScAgreement($signSaleId,$applicationId,$signstatus);
         $data->SignLeaseAgreement = $this->common->getScAgreement($signLeaseId,$applicationId,$signstatus); 
 
+        //draft status
+        $draftSatus = ApplicationStatusMaster::where('status_name','=','Draft')->value('id');
+        $draftSaleId   = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype);
+        $draftLeaseId  = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype);    
+
+        $data->draftSaleAgreement  = $this->common->getScAgreement($draftSaleId,$applicationId,$draftSatus);
+        $data->draftLeaseAgreement = $this->common->getScAgreement($draftLeaseId,$applicationId,$draftSatus);         
 
         $data->is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer'); 
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);   
@@ -436,7 +444,24 @@ class DYCOController extends Controller
         $StampLeaseId2 = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype,$Agreementstatus);
         
         $data->StampSaleByJtco  = $this->common->getScAgreement($StampSaleId2,$applicationId,$Agreementstatus2);
-        $data->StampLeaseByJtco = $this->common->getScAgreement($StampLeaseId2,$applicationId,$Agreementstatus2);
+        $data->StampLeaseByJtco = $this->common->getScAgreement($StampLeaseId2,$applicationId,$Agreementstatus2);       
+
+         //get stamp duty agreement uploaded by DYCDO
+        $Agreementstatus3 = ApplicationStatusMaster::where('status_name','=','Stamp_by_dycdo')->value('id');
+        $StampSaleId3  = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype,$Agreementstatus3);
+        $StampLeaseId3 = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype,$Agreementstatus3);
+        
+        $data->StampSaleBydyco  = $this->common->getScAgreement($StampSaleId3,$applicationId,$Agreementstatus3);
+        $data->StampLeaseBydyco = $this->common->getScAgreement($StampLeaseId3,$applicationId,$Agreementstatus3);
+
+        //get stamp duty uploaded by society
+        $Agreementstatus = ApplicationStatusMaster::where('status_name','=','Stamped')->value('id');
+
+        $StampSaleId  = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype,$Agreementstatus);
+        $StampLeaseId = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype,$Agreementstatus);
+
+        $data->StampSaleAgreement  = $this->common->getScAgreement($StampSaleId,$applicationId,$Agreementstatus);
+        $data->StampLeaseAgreement = $this->common->getScAgreement($StampLeaseId,$applicationId,$Agreementstatus);        
 
         $data->AgreementComments = ScAgreementComments::with('Roles')->where('application_id',$applicationId)->where('agreement_type_id',$Applicationtype)->whereNotNull('remark')->get(); 
 
@@ -732,6 +757,7 @@ class DYCOController extends Controller
                 'application_master_id' => $data->sc_application_master_id,
                 'to_user_id'     => $to_user_id,
                 'to_role_id'     => $to_role_id,
+                'is_active'      => 1,
                 'created_at'     => Carbon::now(),
             ],
             [
@@ -743,12 +769,25 @@ class DYCOController extends Controller
                 'application_master_id' => $data->sc_application_master_id,
                 'to_user_id'    => null,
                 'to_role_id'    => null,
+                'is_active'     => 1,
                 'created_at'    => Carbon::now(),
             ],
             ];
-            scApplicationLog::insert($application); 
-            scApplication::where('id',$applicationId)->where('sc_application_master_id',$data->sc_application_master_id)
-                ->update(['application_status' => $data->application_status]);
+
+            DB::beginTransaction();
+            try{
+                scApplicationLog::where('application_id',$applicationId)
+                ->whereIn('user_id', [Auth::user()->id,$to_user_id ])
+                ->update(array('is_active' => 0));                
+            
+                scApplicationLog::insert($application); 
+                scApplication::where('id',$applicationId)->where('sc_application_master_id',$data->sc_application_master_id)
+                    ->update(['application_status' => $data->application_status, 'sent_to_society' => 1]);
+
+                DB::commit();    
+            }catch (\Exception $ex) {
+                DB::rollback();
+            }
             return back()->with('success','Application Send Successfully.');        
     }
 

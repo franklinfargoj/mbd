@@ -29,6 +29,7 @@ use Storage;
 use Mpdf\Mpdf;
 use App\conveyance\scRegistrationDetails;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
+use App\Http\Controllers\conveyance\renewalCommonController;
 
 use Illuminate\Http\Request;
 
@@ -40,6 +41,7 @@ class SocietyRenewalController extends Controller
     {
         $this->CommonController = new CommonController();
         $this->conveyance_common = new conveyanceCommonController();
+        $this->renewal_common = new renewalCommonController();
         $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
     }
 
@@ -442,7 +444,7 @@ class SocietyRenewalController extends Controller
         } ])->orderBy('id', 'desc')->first();
         $society_bank_details = SocietyBankDetails::where('society_id', $society->id)->first();
 //        dd($sc_application);
-        $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->application_master_id)->where('society_flag', '1')->get();
+        $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->application_master_id)->where('society_flag', '1')->where('document_name', '!=', 'stamp_renewal_application')->get();
         $documents_uploaded =   RenewalDocumentStatus::where('application_id', $sc_application->id)->get();
 //        foreach($documents as $document){
 //            if($document->sr_document_status != null)
@@ -451,13 +453,9 @@ class SocietyRenewalController extends Controller
         $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Renewal'))->value('id');
         $uploaded_document_id = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.list_of_members_from_society'), $application_type);
 
-        $sc_bank_details = new SocietyBankDetails;
-        $sc_bank_details_fields_name = $sc_bank_details->getFillable();
-        $sc_bank_details_fields_name = array_flip($sc_bank_details_fields_name);
-        unset($sc_bank_details_fields_name['society_id']);
-        $sc_bank_details_fields = array_values(array_flip($sc_bank_details_fields_name));
-        $comm_func = $this->CommonController;
-        return view('frontend.society.renewal.show_doc_bank_details', compact('documents', 'sc_application', 'society', 'documents_uploaded', 'sc_bank_details_fields', 'comm_func', 'society_bank_details', 'uploaded_document_id'));
+        $renewal_doc_comments = RenewalSocietyDocumentComment::where('society_id', $society->id)->orderBy('id', 'desc')->first();
+
+        return view('frontend.society.renewal.show_doc_bank_details', compact('documents', 'sc_application', 'society', 'documents_uploaded', 'sc_bank_details_fields', 'comm_func', 'society_bank_details', 'uploaded_document_id', 'renewal_doc_comments'));
     }
 
     /**
@@ -543,6 +541,11 @@ class SocietyRenewalController extends Controller
                     'document_path' => $path
                 );
                 $documents_uploaded = RenewalDocumentStatus::create($sr_doc_status);
+                $add_comment = array(
+                    'society_id' => $society->id,
+                    'society_documents_comment' => 'N.A.',
+                );
+                RenewalSocietyDocumentComment::create($add_comment);
             }
 
         }else{
@@ -668,23 +671,33 @@ class SocietyRenewalController extends Controller
             $path = '/' . $folder_name . '/' . $name;
 
             $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
-            $this->conveyance_common->uploadDocumentStatus($request->id, config('commanConfig.documents.society.stamp_renewal_application'), $path);
 
-            $role_id = Role::where('name', config('commanConfig.dycdo_engineer'))->first();
-            $user_ids = RoleUser::where('role_id', $role_id->id)->get();
-            $layout_user_ids = LayoutUser::where('layout_id', $sc_application->layout_id)->whereIn('user_id', $user_ids)->get();
+            $this->renewal_common->uploadDocumentStatus($request->id, config('commanConfig.documents.society.stamp_renewal_application'), $path);
 
-            foreach ($layout_user_ids as $key => $value) {
-                $select_user_ids[] = $value['user_id'];
+
+            if($extension == 'pdf'){
+                $role_id = Role::where('name', config('commanConfig.dycdo_engineer'))->first();
+                $user_ids = RoleUser::where('role_id', $role_id->id)->get();
+                $layout_user_ids = LayoutUser::where('layout_id', $sc_application->layout_id)->whereIn('user_id', $user_ids)->get();
+
+                foreach ($layout_user_ids as $key => $value) {
+                    $select_user_ids[] = $value['user_id'];
+                }
+
+                $users = User::whereIn('id', $select_user_ids)->get();
+                if(count($users) > 0){
+                    $insert_arr = array(
+                        'users' => $users
+                    );
+                    $inserted_application_log = $this->CommonController->sr_application_status_society($insert_arr, config('commanConfig.renewal_status.forwarded'), $sc_application);
+                    RenewalApplication::where('id', $sc_application->id)->update(['application_status' => config('commanConfig.renewal_status.in_process')]);
+                }
+
+            }else{
+                return redirect()->route('sr_form_upload_show')->with('error', 'Only files with .xls extension required.');
             }
-
-            $users = User::whereIn('id', $select_user_ids)->get();
-            if(count($users) > 0){
-                $insert_arr = array(
-                    'users' => $users
-                );
-                $inserted_application_log = $this->CommonController->sr_application_status_society($insert_arr, config('commanConfig.applicationStatus.forwarded'), $sc_application);
-            }
+        }else{
+            return redirect()->route('sr_form_upload_show')->with('error', 'Files with .xls extension required.');
         }
 
         return redirect()->route('society_renewal.index');

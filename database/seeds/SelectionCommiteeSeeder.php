@@ -73,6 +73,7 @@ class SelectionCommiteeSeeder extends Seeder
                 $selection_commitee_id=Role::insertGetId([
                     'name' => 'selection_commitee',
                     'redirect_to' => '/architect_application',
+                    'dashboard' => '/architect_application',
                     'parent_id' => NULL,
                     'display_name' => 'Selection Commitee',
                     'description' => 'Selection Commitee'

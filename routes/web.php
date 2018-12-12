@@ -10,6 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('testing',function(){
+    return \App\Layout\ArchitectLayout::whereHas('ArchitectLayoutStatusLog',function($q){
+        $q->where('user_id',18)->where('current_status',1)->where('status_id',3);
+    })->where('layout_excel_status',1)->get();
+});
 Route::post('test','Auth\LoginController@test')->name('testing');
 Route::post('check_user_email_duplicate','Auth\LoginController@check_user_email_duplicate')->name('check_user_email_duplicate');
 Route::get('/', function () {
@@ -256,7 +262,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('tenant_payment_list', 'EMDepartment\EMClerkController@tenant_payment_list')->name('tenant_payment_list');
     Route::get('tenant_arrear_calculation', 'EMDepartment\EMClerkController@tenant_arrear_calculation')->name('tenant_arrear_calculation');
     Route::post('create_arrear_calculation', 'EMDepartment\EMClerkController@create_arrear_calculation')->name('create_arrear_calculation');
-
+    Route::get('get_arrear_charges','EMDepartment\EMClerkController@getArrearChargesByYear')->name('get_arrear_charges');
+    Route::get('get_arrear_charges_multiple','EMDepartment\EMClerkController@getArrearChargesByYears')->name('get_arrear_charges_multiple');
 
     // RC Department Routes
     Route::get('get_building_bill_collection', 'RCDepartment\RCController@get_building_bill_collection')->name('get_building_bill_collection');
@@ -331,7 +338,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::post('ol_reval_sharing_calculation_sheet/save_details','REEDepartment\OlSharingCalculationSheetDetailsController@saveRevalCalculationDetails')->name('save_reval_sharing_calculation_details');
 
-    Route::get('ol_reval_sharing_calculation_sheet/{id}','REEDepartment\OlApplicationCalculationSheetDetailsController@showRevalSharingCalculationDetails')->name('ol_reval_sharing_calculation_sheet.show');
+    Route::get('ol_reval_sharing_calculation_sheet/{id}','REEDepartment\OlSharingCalculationSheetDetailsController@showRevalSharingCalculationDetails')->name('ol_reval_sharing_calculation_sheet.show');
 
     Route::post('upload_ree_note','REEDepartment\REEController@uploadREENote')->name('ree.upload_ree_note');
 
@@ -494,6 +501,12 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('society_reval_offer_letter_application_download','SocietyOfferLetterController@generate_reval_pdf')->name('society_reval_offer_letter_application_download');
 
 
+    // Consent For OC
+
+    Route::get('/show_oc_self/{id}', 'SocietyOfferLetterController@show_oc_self')->name('show_oc_self');
+    Route::get('/show_oc_dev/{id}', 'SocietyOfferLetterController@show_oc_dev')->name('show_oc_dev');
+    Route::post('/save_oc_application_self', 'SocietyOfferLetterController@save_oc_application_self')->name('save_oc_application_self');
+    Route::post('/save_oc_application_dev', 'SocietyOfferLetterController@save_oc_application_dev')->name('save_oc_application_dev');
 
 
     //architect Module
@@ -533,7 +546,7 @@ Route::get('add_architect_layout_detail/{layout_id}','ArchitectLayout\LayoutArch
 Route::get('edit_architect_layout_detail/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@edit_detail')->name('architect_layout_detail.edit');
 Route::post('post_architect_layout_detail','ArchitectLayout\LayoutArchitectDetailController@create_detail')->name('architect_layout_detail.create');
 Route::post('uploadLatestLayoutAjax','ArchitectLayout\LayoutArchitectDetailController@uploadLatestLayoutAjax')->name('uploadLatestLayoutAjax');
-
+Route::get('list_of_offer_letter_issued/{layout_id}','ArchitectLayout\LayoutArchitectDetailController@list_of_offer_letter_issued')->name('list_of_offer_letter_issued');
 //Architect Layout Forward Application
 Route::get('forward_architect_layout/{layout_id}','ArchitectLayout\LayoutArchitectController@forwardLayout')->name('forward_architect_layout');
 Route::post('post_forward_architect_layout','ArchitectLayout\LayoutArchitectController@post_forward_layout')->name('post_forward_architect_layout');
@@ -938,14 +951,17 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('forward_application_sr/{id}', 'conveyance\renewalCommonController@commonForward')->name('renewal.forward_application_sc');
 
     Route::post('save_forward_application_sr', 'conveyance\renewalCommonController@saveForwardApplication')->name('renewal.save_forward_application');
-//dashboard    
 
+    // All dashboards
     Route::get('/dashboard','Common\CommonController@dashboard')->name('dashboard');
     // Ree Dashboard
     Route::get('/ree_dashboard','REEDepartment\REEController@dashboard')->name('ree.dashboard');
-
-    //Dashboard routes
+    // Co Dashboard
+    Route::get('/co_dashboard','CODepartment\COController@dashboard')->name('co.dashboard');
+    // Architect Layout Dashboard
     Route::get('architect_layout_dashboard','Dashboard\ArchitectLayoutDashboardController@dashboard')->name('architect_layout_dashboard');
+    // Land Dashboard
+    Route::get('/land_dashboard','VillageDetailController@dashboard')->name('land.dashboard');
 
 });
 
@@ -1006,6 +1022,8 @@ Route::prefix('appointing_architect')->group(function () {
 
 //Noc -- /* Created by: Sayan Pal */
 
+Route::group(['middleware' => ['auth']], function(){
+
 Route::get('/show_form_self_noc/{id}', 'SocietyNocController@show_form_self_noc')->name('show_form_self_noc');
 Route::get('/show_form_dev_noc/{id}', 'SocietyNocController@show_form_dev_noc')->name('show_form_dev_noc');
 Route::post('/save_noc_application_self', 'SocietyNocController@save_noc_application_self')->name('save_noc_application_self');
@@ -1050,7 +1068,11 @@ Route::post('issue_noc_letter_to_ree','CODepartment\COController@approveNoctoRee
 Route::get('co_forward_noc_application/{id}','CODepartment\COController@forwardNOCApplication')->name('co.forward_noc_application');
 Route::post('save_forward_noc_Application','CODepartment\COController@sendForwardNocApplication')->name('co.forward_noc_application_data');
 
+});
+
 //NOC FOR CC -- Sayan Pal
+
+Route::group(['middleware' => ['auth']], function(){
 
 Route::get('/show_form_self_noc_cc/{id}', 'SocietyNocforCCController@show_form_self_noc_cc')->name('show_form_self_noc_cc');
 Route::post('/save_noc_cc_application_self', 'SocietyNocforCCController@save_noc_cc_application_self')->name('save_noc_cc_application_self');
@@ -1093,5 +1115,7 @@ Route::get('approve_noc_cc_co/{id}','CODepartment\COController@issueNocforCC')->
 Route::post('issue_noc_cc_letter_to_ree','CODepartment\COController@approveNocforCCtoRee')->name('co.issue_noc_cc_letter_to_ree');
 Route::get('co_forward_noc_cc_application/{id}','CODepartment\COController@forwardNOCforCCApplication')->name('co.forward_noc_cc_application');
 Route::post('save_forward_noc_cc_Application','CODepartment\COController@sendForwardNocforCCApplication')->name('co.forward_noc_cc_application_data');
+
+});
 
 

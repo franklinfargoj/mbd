@@ -100,32 +100,40 @@ class SocietyNocforCCController extends Controller
         foreach ($layout_user_ids as $key => $value) {
             $select_user_ids[] = $value['user_id'];
         }
-        $users = User::whereIn('id', $select_user_ids)->get();
+
+        if(isset($select_user_ids))
+        {
+            $users = User::whereIn('id', $select_user_ids)->get();
+
         
-        if(count($users) > 0){
-            foreach($users as $key => $user){
-                $i = 0;
-                $insert_application_log_pending[$key]['application_id'] = $last_id->id;
-                $insert_application_log_pending[$key]['society_flag'] = 1;
-                $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
-                $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
-                $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
-                $insert_application_log_pending[$key]['to_user_id'] = $user->id;
-                $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
-                $insert_application_log_pending[$key]['remark'] = '';
-                $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
-                $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
-                $i++;
+            if(count($users) > 0){
+                foreach($users as $key => $user){
+                    $i = 0;
+                    $insert_application_log_pending[$key]['application_id'] = $last_id->id;
+                    $insert_application_log_pending[$key]['society_flag'] = 1;
+                    $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
+                    $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
+                    $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
+                    $insert_application_log_pending[$key]['to_user_id'] = $user->id;
+                    $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
+                    $insert_application_log_pending[$key]['remark'] = '';
+                    $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
+                    $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
+                    $i++;
+                }
             }
+            
+            NocCCApplicationStatus::insert($insert_application_log_pending);
+            $last_society_flag_id = NocCCApplicationStatus::where('society_flag', '1')->orderBy('id', 'desc')->first();
+
+            $id = NocCCApplicationStatus::find($last_society_flag_id->id);
+            NocCCApplication::where('user_id', Auth::user()->id)->update([
+                    'current_status_id' => $id->id
+                ]);    
+            return redirect()->route('society_noc_cc_preview');
+        }else{
+            return redirect()->route('show_form_self_noc_cc',['id' => $application_master_id_spec])->with('error','No data found for this application type.Please change the same and retry.');
         }
-        
-        NocCCApplicationStatus::insert($insert_application_log_pending);
-        $last_society_flag_id = NocCCApplicationStatus::where('society_flag', '1')->orderBy('id', 'desc')->first();
-        $id = NocCCApplicationStatus::find($last_society_flag_id->id);
-        NocCCApplication::where('user_id', Auth::user()->id)->update([
-                'current_status_id' => $id->id
-            ]);    
-        return redirect()->route('society_noc_cc_preview');
     }
 
     public function showNocApplication(){

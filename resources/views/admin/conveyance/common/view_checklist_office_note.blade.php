@@ -114,7 +114,7 @@
                             <div class="m-section__content mb-0 table-responsive">
                                 <div class="container">
                                     <div class="row">
-                                        <div class="col-sm-6 border-left">
+                                        <div class="col-sm-6">
                                             <div class="d-flex flex-column h-100 two-cols">
                                                 <h5>Download DyCDO Note</h5>
                                                 <div class="mt-auto">

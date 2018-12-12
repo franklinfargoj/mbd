@@ -76,7 +76,16 @@ class OlSharingCalculationSheetDetailsController extends Controller
         $applicationId = $id;$user = Auth::user();
         $ol_application = $this->CommonController->getOlApplication($id);
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$id)->first();
-        $calculationSheetDetails = OlApplicationCalculationSheetDetails::where('society_id', '=', $ol_application->society_id)->first();
+       // $calculationSheetDetails = OlSharingCalculationSheetDetail::where('society_id', '=', $ol_application->society_id)->first();
+
+
+        $calculationSheetDetails = OlSharingCalculationSheetDetail::where('application_id','=',$id)->get();
+
+        if($calculationSheetDetails === null) {
+            $calculationSheetDetails = OlSharingCalculationSheetDetail::where('society_id', '=', $ol_application->society_id)->get();
+        }
+
+
 
         $dcr_rates = OlDcrRateMaster::all();
         // REE Note download

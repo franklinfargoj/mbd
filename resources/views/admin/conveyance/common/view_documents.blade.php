@@ -12,7 +12,7 @@
                 <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
         </div>
-        <!-- END: Subheader -->
+        <!-- END: Subheader --> 
         <div class="m-portlet m-portlet--creative m-portlet--first m-portlet--bordered-semi mb-0">
             <div class="m-portlet__body m-portlet__body--table">
                 <div class="m-section mb-0">
@@ -44,7 +44,7 @@
                                             <td>
                                                 @if($document->sc_document_status)
                                                     <span>
-                                                    <a href="{{ config('commanConfig.storage_server').'/'.$document->sc_document_status['document_path'] }}" class="btn btn-primary btn-custom" rel="noopener" download>Download</a>
+                                                    <a href="{{ config('commanConfig.storage_server').'/'.$document->sc_document_status['document_path'] }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener" download>Download</a>
                                                     </span>
                                                 @endif
                                             </td>

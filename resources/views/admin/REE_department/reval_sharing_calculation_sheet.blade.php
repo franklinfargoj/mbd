@@ -980,7 +980,7 @@
                                                 <td>3.</td>
                                                 <td>
                                                     उपरोक्त ऑफ साईट इन्फ्रास्ट्रक्चर शुल्क रकमेपैकी म.न.पा.स भरवायची
-                                                    ५/७ रक्कम (५/७ X अनु.क्र.१६)
+                                                    ५/७ रक्कम (५/७ X अनु.क्र.२)
                                                 </td>
                                                 <td class="text-center">
                                                     <input class="form-control form-control--custom" readonly type="text" placeholder="0"
@@ -994,7 +994,7 @@
                                                 <td>4.</td>
                                                 <td>
                                                     म्हाडाकडे भरवायची ऑफ साईट इन्फ्रास्ट्रक्चर शुल्क रक्कम (२/७ *
-                                                    अनु.क्र.१६ )
+                                                    अनु.क्र.२ )
                                                 </td>
                                                 <td class="text-center">
                                                     <input class="total_amount_in_rs form-control form-control--custom" placeholder="0"
@@ -1079,7 +1079,7 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary"
-                                                        value="Next" /> </td>
+                                                        value="Save" /> </td>
                                             </tr>
 
                                         </tbody>
@@ -1435,7 +1435,7 @@
     function mattressAreaForConstructionArea()
     {
         var dcr_b_val = (!$("input[type=radio][name=dcr_b_val]:checked").val() || isNaN($("input[type=radio][name=dcr_b_val]:checked").val())) ? 0 : $("input[type=radio][name=dcr_b_val]:checked").val();
-        var total_rehabilitation_construction_area = (!cleanNumber($("#total_rehabilitation_construction_area").val()) || isNaN(cleanNumber($("#total_rehabilitation_construction_area").val()))) ? 0 : cleanNumber($("#total_rehabilitation_construction_area").val());
+       var total_rehabilitation_construction_area = (!cleanNumber($("#total_rehabilitation_construction_area").val()) || isNaN(cleanNumber($("#total_rehabilitation_construction_area").val()))) ? 0 : cleanNumber($("#total_rehabilitation_construction_area").val());
 
         $("#mattress_area_for_construction_area").attr('value', numberWithCommas(((dcr_b_val / 100) * total_rehabilitation_construction_area).toFixed(2)));
     }

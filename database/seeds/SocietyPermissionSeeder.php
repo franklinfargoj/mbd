@@ -442,7 +442,22 @@ class SocietyPermissionSeeder extends Seeder
                     'name'=>'show_tripatite_dev',
                     'display_name'=> 'show tripatite dev form',
                     'description'  => 'show tripatite dev form'
-                ]
+                ],
+                [
+                    'name'         => 'show_oc_self',
+                    'display_name' => 'Shows self redevelopment consent for oc form',
+                    'description'  => 'Shows self redevelopment consent for oc form'
+                ],
+                [
+                    'name'         => 'show_oc_dev',
+                    'display_name' => 'Shows redevelopment through developer consent for oc form',
+                    'description'  => 'Shows redevelopment through developer consent for oc form'
+                ],
+                [
+                    'name'         => 'save_oc_application_self',
+                    'display_name' => 'Save consent for oc application self',
+                    'description'  => 'Save consent for oc application self'
+                ],
         ];
         
         if(count($society)==0){
@@ -451,6 +466,7 @@ class SocietyPermissionSeeder extends Seeder
             $role_id = Role::insertGetId([
                 'name'         => 'society',
                 'redirect_to'  => '/society/society_offer_letter_dashboard',
+                'dashboard'  => '/society/society_offer_letter_dashboard',
                 'parent_id'    => NULL,
                 'display_name' => 'Society Offer Letter',
                 'description'  => 'Login as Society'

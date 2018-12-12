@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
 use App\Http\Controllers\Common\CommonController;
 use App\conveyance\scApplicationType;
+use App\conveyance\scApplication;
+use Illuminate\Support\Facades\Session;
 use App\conveyance\RenewalApplication;
 use App\conveyance\RenewalDocumentStatus;
 use App\conveyance\RenewalAgreementComments;
@@ -357,7 +359,7 @@ class renewalCommonController extends Controller
         $data->society_role_id = Role::where('name', config('commanConfig.society_offer_letter'))->value('id');
         $data->status = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);
         $data->parent = $this->conveyance->getForwardApplicationParentData();
-        $data->child  = $this->conveyance->getRevertApplicationChildData();
+        $data->child  = $this->conveyance->getRevertApplicationChildData($data->society_id);
        
         return $data;        
     }
@@ -631,7 +633,7 @@ class renewalCommonController extends Controller
     public function ViewDocuments($applicationId){
         $data = RenewalApplication::where('id',$applicationId)->first();
         $data->folder = $this->conveyance->getCurrentRoleFolderName();
-        $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($data) { $q->where('application_id', $data->id)->get(); }])->where('application_type_id', $data->application_master_id)->where('society_flag', '1')->get();
+        $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($data) { $q->where('application_id', $data->id)->get(); }])->where('application_type_id', $data->application_master_id)->where('society_flag', '1')->where('document_name', '!=', 'stamp_renewal_application')->get();
         $documents_uploaded = RenewalDocumentStatus::where('application_id', $data->id)->get();
    
         return view('admin.renewal.common.view_documents', compact('data', 'documents', 'documents_uploaded'));
@@ -717,5 +719,40 @@ class renewalCommonController extends Controller
                 return redirect()->route('renewal.la_agreement_riders', $request->application_id);
             }
         }
+    }
+
+
+    /**
+     * Uploads document status.
+     * Author: Amar Prajapati
+     * @param  int  $applicationId, $document, $documentPath, $status
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadDocumentStatus($applicationId,$document,$documentPath, $status=NULL){
+
+        $masterId   = RenewalApplication::where('id',$applicationId)->value('application_master_id');
+        $documentId = SocietyConveyanceDocumentMaster::where('document_name',$document)
+            ->where('application_type_id',$masterId)->value('id');
+
+        $DocumentStatus = RenewalDocumentStatus::where('application_id',$applicationId)->where('document_id',$documentId)->where('user_id',Auth::Id())->first();
+
+        if(Session::get('role_name') == config('commanConfig.society_offer_letter')){
+            $society_flag = 1;
+        }else{
+            $society_flag = 0;
+        }
+        if (!$DocumentStatus){
+            $DocumentStatus = new RenewalDocumentStatus();
+        }
+
+        $DocumentStatus->application_id = $applicationId;
+        $DocumentStatus->user_id        = Auth::Id();
+        $DocumentStatus->status_id        = $status;
+        $DocumentStatus->society_flag    = $society_flag;
+        $DocumentStatus->document_id    = $documentId;
+        $DocumentStatus->document_path  = $documentPath;
+        $DocumentStatus->save();
+
+        return $DocumentStatus;
     }
 }

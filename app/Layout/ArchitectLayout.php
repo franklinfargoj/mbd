@@ -10,6 +10,11 @@ class ArchitectLayout extends Model
 
     protected $fillable=['layout_no','layout_name','address','open','added_date'];
 
+    public function master_layout()
+    {
+        return $this->hasOne(\App\MasterLayout::class,'id','layout_name');
+    }
+
     public function layout_details()
     {
         return $this->hasMany(\App\Layout\ArchitectLayoutDetail::class,'architect_layout_id','id');

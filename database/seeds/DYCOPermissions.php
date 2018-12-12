@@ -292,7 +292,12 @@ class DYCOPermissions extends Seeder
                 'name'=>'conveyance.save_stamp_duty_agreement',
                 'display_name'=>'save conveyance stamp duty agreement',
                 'description'=>'save conveyance stamp duty agreement'
-            ]                  
+            ],
+            [
+                'name'=>'dashboard',
+                'display_name'=>'dashboard',
+                'description'=>'Dashboard'
+            ],                              
         ];
 
         //dycdo
@@ -306,6 +311,7 @@ class DYCOPermissions extends Seeder
             $role_id = Role::insertGetId([
                 'name' => 'dycdo_engineer',
                 'redirect_to' => '/conveyance',
+                'dashboard' => '/dashboard',
                 'parent_id' => null,
                 'display_name' => 'dycdo engineer',
                 'description' => 'Login as dycdo Engineer',
@@ -395,6 +401,7 @@ class DYCOPermissions extends Seeder
             $role_id1 = Role::insertGetId([
                 'name' => 'dyco_engineer',
                 'redirect_to' => '/conveyance',
+                'dashboard' => '/dashboard',
                 'parent_id' => null,
                 'display_name' => 'dyco engineer',
                 'description' => 'Login as dyco Engineer',
@@ -465,5 +472,8 @@ class DYCOPermissions extends Seeder
         {
             \App\LayoutUser::insert(['user_id' => $user_id1, 'layout_id' => $layout_id->id]);
         }
+
+        // change redirect to for dyco and dycdo role
+        Role::whereIn('id',[$role_id,$role_id1])->update(['redirect_to' => '/conveyance']);
     }
 }

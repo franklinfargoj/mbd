@@ -740,9 +740,19 @@ class RCController extends Controller
             $request->bill_no = decrypt($request->bill_no);
           if($request->has('tenant_id') && !empty($request->tenant_id)) {
             $request->tenant_id = decrypt($request->tenant_id);
-            $this->downloadReceiptTenant($request);
+            if($request->flag) {
+                $data = $this->downloadReceiptTenant($request);
+                return view('admin.rc_department.view_payment_receipt_tenant',$data);
+            } else {
+                $this->downloadReceiptTenant($request);
+            }
           } else {
-            $this->downloadReceiptSociety($request);
+             if($request->flag) {
+                 $data = $this->downloadReceiptSociety($request);
+                return view('admin.rc_department.view_payment_receipt_tenant',$data);
+             } else {
+                $this->downloadReceiptSociety($request);
+             }
           }
         } 
      }
@@ -782,9 +792,12 @@ class RCController extends Controller
         if(!$data['number_of_tenants']->tenant_count()->first()) {
             return redirect()->back()->with('warning', 'Number of Tenants Is zero.');
         }
-
-        $pdf = PDF::loadView('admin.rc_department.payment_receipt_society', $data);
-        return $pdf->download('payment_receipt_society'.date('YmdHis').'.pdf');
+        if($request->flag) {
+            return $data; 
+        } else {
+            $pdf = PDF::loadView('admin.rc_department.payment_receipt_society', $data);
+            return $pdf->download('payment_receipt_society'.date('YmdHis').'.pdf');
+        }
      }
 
 
@@ -799,9 +812,13 @@ class RCController extends Controller
             $data['tenant'] = MasterTenant::where('building_id',$data['building']->id)->where('id',$request->tenant_id)->first();
             $data['bill'] = $receipt;
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
-
-            $pdf = PDF::loadView('admin.rc_department.payment_receipt_tenant', $data);
-                   return $pdf->download('payment_receipt_tenant'.date('YmdHis').'.pdf');
+            
+             if($request->flag) {
+                return  $data;
+            } else {
+                $pdf = PDF::loadView('admin.rc_department.payment_receipt_tenant', $data);
+                return $pdf->download('payment_receipt_tenant'.date('YmdHis').'.pdf');
+            }
         }
      }
 }

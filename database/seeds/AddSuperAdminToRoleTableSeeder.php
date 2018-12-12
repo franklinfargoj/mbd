@@ -308,6 +308,7 @@ class AddSuperAdminToRoleTableSeeder extends Seeder
             $super_admin_role_id = Role::insertGetId([
                 'name' => 'superadmin',
                 'redirect_to' => '/crudadmin/dashboard',
+                'dashboard' => '/crudadmin/dashboard',
                 'parent_id' => NULL,
                 'display_name' => 'Super Admin',
                 'description' => 'Super Admin'

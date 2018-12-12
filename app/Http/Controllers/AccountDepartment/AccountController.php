@@ -118,7 +118,7 @@ class AccountController extends Controller
             
             return $datatables->of($tenants)
 	            ->editColumn('payment_status', function ($tenants){               
-	               	if(count($tenants->arrear) && $this->PAYMENT_STATUS_PAID == $tenants->arrear->payment_status) {
+	               	if(count($tenants->arrear) && $this->PAYMENT_STATUS_PAID == $tenants->arrear->first()->payment_status) {
 	               		return 'Paid';
 	               	} else {
 	               		return 'Not Paid';
@@ -126,7 +126,7 @@ class AccountController extends Controller
 	            })
 	            ->editColumn('final_rent_amount', function ($tenants){               
 	               	if(count($tenants->arrear)) {
-	               		return $tenants->arrear->total_amount;
+	               		return $tenants->arrear->first()->total_amount;
 	               	} else {
 	               		return '-';
 	               	}
@@ -161,11 +161,12 @@ class AccountController extends Controller
         ];
     }
 
-    public function viewCalculations(Request $request,$tenant_id,$year) {
+    public function viewCalculations(Request $request,$tenant_id,$year, Datatables $datatables) {
     	$data['tenant_id'] = $tenant_id;
     	$data['year']      = $year;
     	$data['tenant']    = MasterTenant::find(decrypt($tenant_id));
     	$data['building']  = MasterBuilding::find($data['tenant']->building_id);
+
     	$data['society']   = SocietyDetail::find($data['building']->society_id);
     	$data['colony']    = MasterColony::find($data['society']->colony_id);
     	$data['ward']      = MasterWard::find($data['colony']->ward_id);
@@ -178,29 +179,85 @@ class AccountController extends Controller
     		$data['year'] = $request->selectYear;
     	}
 
-    	if(!empty($data['tenant_id']) && !empty($data['year'])) {
-    		$data['arrears_calculations'] = ArrearCalculation::where('tenant_id',decrypt($data['tenant_id']))->where('year',$data['year'])->get();
-	    	$data['years'] = ArrearCalculation::selectRaw('Distinct(year)')->where('tenant_id',decrypt($data['tenant_id']))->pluck('year');
-	    	$data['arrears_charges'] = ArrearsChargesRate::where('year',$data['year'])->where('society_id',$data['building']->society_id)->where('building_id',$data['tenant']->building_id)->first();
-    	}
-    	if($request->has('is_download') && true == $request->is_download) {
-			
-			$filename = time();
+        $columns = [
+            ['data' => 'month','name' => 'month','title' => 'Month'],
+            ['data' => 'year','name' => 'year','title' => 'Year'],
+            ['data' => 'old_rate', 'name' => 'old_rate', 'title' => 'Old Rate'],
+            ['data' => 'interest_on_old_rate','name' => 'interest_on_old_rate','title' => 'Interest % on Old Rate'],
+			['data' => 'revise_rate','name' => 'revise_rate','title' => 'Revised Rate'],
+			['data' => 'interest_on_diffrence','name' => 'interest_on_diffrence','title' => 'Interest % on Difference'],
+			['data' => 'payment_status','name' => 'payment_status','title' => 'Payment Status'],
+            ['data' => 'total_amount','name' => 'total_amount','title' => 'Final Rent Amount'],
+		];
 
-			ob_end_clean();
-			ob_start();
-			return Excel::create($filename, function($excel) use ($data) {
-				$excel->setTitle('Initiative');
-				$excel->sheet('sheet1', function($sheet) use ($data) {
-					$sheet->loadView('admin.account_department.view_calculations',$data);
-				});
-			})->export('xls');
-		} else {
-    		return view('admin.account_department.view_calculations',$data);
-    	}
+		$arrears_charges = ArrearsChargesRate::where('year',$data['year'])->where('society_id',$data['building']->society_id)->where('building_id',$data['tenant']->building_id)->first();
+		$data['years'] = ArrearCalculation::selectRaw('Distinct(year)')->where('tenant_id',decrypt($data['tenant_id']))->pluck('year');
+		
+    	if(!empty($data['tenant_id']) && !empty($data['year'])) {
+			$arrears_calculations = ArrearCalculation::
+			where('tenant_id',decrypt($data['tenant_id']))->where('year',$data['year'])
+			->get();
+			if ($datatables->getRequest()->ajax()) {
+				
+				return $datatables->of($arrears_calculations)
+					->editColumn('old_rate', function ($arrears_calculations)  use($arrears_charges){ if($arrears_charges){     
+						  return $arrears_charges->old_rate;	
+                        } else {
+                            return '-';
+                        }
+					})
+					->editColumn('interest_on_old_rate', function ($arrears_calculations)  use($arrears_charges){   
+                        if($arrears_charges){              
+						  return $arrears_charges->interest_on_old_rate;	
+					    } else {
+                            return '-';
+                        }
+                    })
+					->editColumn('revise_rate', function ($arrears_calculations)  use($arrears_charges){               
+						if($arrears_charges){  
+                            return $arrears_charges->revise_rate;	
+					    } else {
+                            return '-';
+                        }
+                    })
+					->editColumn('interest_on_diffrence', function ($arrears_calculations)  use($arrears_charges){ 
+                        if($arrears_charges){                
+						   return $arrears_charges->interest_on_differance;
+                        } else {
+                            return '-';
+                        }
+					})
+                    ->editColumn('payment_status', function ($arrears_calculations)  use($arrears_charges){               
+                        if( $this->PAYMENT_STATUS_PAID == $arrears_calculations->payment_status) {
+                            return 'Paid';
+                        } else {
+                            return 'Not Paid';
+                        }  
+                    })
+					->rawColumns(['old_rate','interest_on_old_rate','revise_rate','interest_on_diffrence'])
+					->make(true);
+			}
+	
+			if($request->has('is_download') && true == $request->is_download) {
+		
+				$filename = time();
+				ob_end_clean();
+				ob_start();
+				return Excel::create($filename, function($excel) use ($data,$arrears_calculations,$arrears_charges) {
+					$excel->setTitle('Initiative');
+					$excel->sheet('sheet1', function($sheet) use ($data,$arrears_calculations,$arrears_charges) {
+						$sheet->loadView('admin.account_department.excel',compact('data','arrears_calculations','arrears_charges'));
+					});
+				})->export('xls');
+			} else {
+				$html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+				return view('admin.account_department.view_calculations',compact('data','html'));
+				//return view('admin.account_department.view_calculations',$data);
+			}
+		}
     }
 
-    public function paymentDetails(Request $request,$tenant_id) {
+    public function paymentDetails(Request $request,$tenant_id, Datatables $datatables) {
     	if(!empty($tenant_id)) {
     		$data['year'] = date('Y');
     		if($request->has('selectYear') && !empty($request->selectYear)) {
@@ -208,16 +265,63 @@ class AccountController extends Controller
 	    	}
 
     		$data['tenant']    = MasterTenant::find(decrypt($tenant_id));
-    		$data['building']  = MasterBuilding::find($data['tenant']->building_id);
-	    	$data['society']   = SocietyDetail::find($data['building']->society_id);
-	    	$data['colony']    = MasterColony::find($data['society']->colony_id);
-	    	$data['ward']      = MasterWard::find($data['colony']->ward_id);
+    		$building  = MasterBuilding::find($data['tenant']->building_id);
+	    	$society   = SocietyDetail::find($building->society_id);
+	    	$data['colony']    = MasterColony::find($society->colony_id);
+	    	$ward      = MasterWard::find($data['colony']->ward_id);
+			$columns = [
+				['data' => 'bill_month','name' => 'bill_month','title' => 'Month'],
+				['data' => 'amount','name' => 'amount','title' => 'Amount'],
+				['data' => 'status', 'name' => 'status', 'title' => 'Status'],
+				['data' => 'payment_mode','name' => 'payment_mode','title' => 'Payment Mode'],
+				['data' => 'created_at','name' => 'created_at','title' => 'Date Of Payment'],
+				['data' => 'action','name' => 'action','title' => 'Action'],
+			];
+			$data['years'] = ArrearCalculation::selectRaw('Distinct(year)')->where('tenant_id',decrypt($tenant_id))->pluck('year');
 
+			if ($datatables->getRequest()->ajax()) {
+				$paymentDetails = TransBillGenerate::where('tenant_id',decrypt($tenant_id))->with('trans_payment')->where('bill_year',$data['year'])->get();
+				return $datatables->of($paymentDetails)
+					->editColumn('bill_month', function ($paymentDetails)  {               
+						return date("M", mktime(0, 0, 0, $paymentDetails->bill_month, 10));
+					})
+					->editColumn('amount', function ($paymentDetails)  {               
+						if(count($paymentDetails->trans_payment)){
+							return $paymentDetails->trans_payment->first()->amount_paid;
+						} else {
+                            return '-';
+                        }
+					})
+					->editColumn('payment_mode', function ($paymentDetails)  {               
+						if(count($paymentDetails->trans_payment))
+						{
+							return $paymentDetails->trans_payment->first()->mode_of_payment;
+						} else {
+                            return '-';
+                        }
+					})
+					->editColumn('created_at', function ($paymentDetails)  {               
+						if(count($paymentDetails->trans_payment))
+						{
+							return date('d-m-Y',strtotime($paymentDetails->trans_payment->first()->created_at));
+						} else {
+                            return '-';
+                        }
+					})
+					->editColumn('action', function ($paymentDetails)  use($society,$tenant_id,$building){               
+						return "<div class='d-flex btn-icon-list'>
+								<a href='".route('view_bill_tenant', ['tenant_id'=>$tenant_id,'building_id'=>encrypt($building->id),'society_id'=>encrypt($society->id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-billing-details-icon.svg')."'></span>View Bill</a>
+                                <a href='".route('downloadReceipt', ['tenant_id'=>$tenant_id,'building_id'=>encrypt($building->id),'bill_no'=>encrypt($paymentDetails->id),'flag'=>1])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-billing-details-icon.svg')."'></span>View Receipt</a>
+								</div>";
+					})
+					->rawColumns(['bill_month','amount','payment_mode','action'])
+					->make(true);
+			}
     		// $data['paymentDetails'] = TransPayment::where('tenant_id',decrypt($tenant_id))->with('bill_details')->get();
-    		$data['paymentDetails'] = TransBillGenerate::where('tenant_id',decrypt($tenant_id))->with('trans_payment')->where('bill_year',$data['year'])->get();
     		
-    		$data['years'] = ArrearCalculation::selectRaw('Distinct(year)')->where('tenant_id',decrypt($tenant_id))->pluck('year');
-    		return view('admin.account_department.payment_details',$data);
+    		$html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+    		
+    		return view('admin.account_department.payment_details',compact('html','data','ward','society','building'));
     	}
     }
 
