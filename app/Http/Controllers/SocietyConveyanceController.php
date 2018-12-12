@@ -771,9 +771,40 @@ class SocietyConveyanceController extends Controller
         $comm_func = $this->CommonController;
         $sale_agreement_type_id = $this->conveyance_common->getDocumentId('Sale Deed Agreement', '1');
         $lease_agreement_type_id = $this->conveyance_common->getDocumentId('Lease Deed Agreement', '1');
-        $status_name = config('commanConfig.documents.society.Register');
-        $status = ApplicationStatusMaster::where('status_name', $status_name)->value('id');
+        $status = config('commanConfig.documents.society.Register');
+        $status_names = array(
+            config('commanConfig.documents.society.Stamped_Signed'),
+            config('commanConfig.documents.society.Stamp_by_jtco'),
+            config('commanConfig.documents.society.Stamp_by_dycdo'),
+            config('commanConfig.documents.society.Draft')
+        );
+
+        $statuses = ApplicationStatusMaster::whereIn('status_name', $status_names)->get();
         $society_flag = 1;
+        $status_ids = array_pluck($statuses,'id');
+
+        $sale_agreement = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->where('document_id', $sale_agreement_type_id)->whereIn('status_id', $status_ids)->get();
+        $lease_agreement = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->where('document_id', $lease_agreement_type_id)->whereIn('status_id', $status_ids)->get();
+
+        $i= 0 ;
+        $sale_deed_agreement= '';
+        foreach($sale_agreement as $sale_agreement_val){
+            if($status_ids[$i] == $sale_agreement_val->status_id){
+                $sale_deed_agreement = $sale_agreement_val;
+                break;
+            }
+            $i++;
+        }
+
+        $i= 0 ;
+        $lease_deed_agreement= '';
+        foreach($lease_agreement as $lease_agreement_val){
+            if($status_ids[$i] == $lease_agreement_val->status_id){
+                $lease_deed_agreement = $lease_agreement_val;
+                break;
+            }
+            $i++;
+        }
 
         $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application, $status) { $q->where('application_id', $sc_application->id)->where('status_id', $status)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
         $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
@@ -789,7 +820,7 @@ class SocietyConveyanceController extends Controller
             }
         }
 
-        return view('frontend.society.conveyance.signed_sale_lease_deed', compact('sc_application', 'society_flag','status', 'sale_agreement_type_id', 'lease_agreement_type_id', 'field_names', 'comm_func', 'documents', 'documents_uploaded', 'sc_registrar_details'));
+        return view('frontend.society.conveyance.signed_sale_lease_deed', compact('sc_application', 'society_flag','status', 'sale_agreement_type_id', 'lease_agreement_type_id', 'field_names', 'comm_func', 'documents', 'documents_uploaded', 'sc_registrar_details', 'sale_deed_agreement', 'lease_deed_agreement'));
     }
 
     /**
@@ -934,7 +965,7 @@ class SocietyConveyanceController extends Controller
             $sc_application = new scApplication();
             $sc_application->id = $request->application_id;
             $sc_application->sc_application_master_id = $application_type;
-            $inserted_application_log = $this->CommonController->sc_application_status_society($insert_log_arr, config('commanConfig.conveyance_status.forwarded'), $sc_application, config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed'));
+            $inserted_application_log = $this->CommonController->sc_application_status_society($insert_log_arr, config('commanConfig.conveyance_status.forwarded'), $sc_application, config('commanConfig.conveyance_status.Register'));
             return redirect()->back();
         }
     }
