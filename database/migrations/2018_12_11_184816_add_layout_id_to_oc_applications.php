@@ -13,12 +13,9 @@ class AddLayoutIdToOcApplications extends Migration
      */
     public function up()
     {
-        Schema::disableForeignKeyConstraints();
         Schema::table('oc_applications', function (Blueprint $table) {
             $table->unsignedInteger('layout_id')->after('society_id');
-            $table->foreign('layout_id')->references('id')->on('master_layout')->onDelete('cascade');
         });
-        Schema::enableForeignKeyConstraints();
     }
 
     /**
