@@ -365,7 +365,7 @@
 
             $(".em_tabs").on('click', function () {
                 $(".nav-link").removeClass('active');
-                Cookies.set('sectionId', this.id);
+                Cookies.set('sectionid', this.id);
             });
 
             function showUploadedFileName() {
