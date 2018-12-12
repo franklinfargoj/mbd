@@ -373,11 +373,11 @@
     var chart1;
     var legend;
 
-            @if($conveyanceDashboard[1])
+            @if($pendingApplications)
     var chartData1 = [
-                    @foreach($conveyanceDashboard[1] as $header => $value)     {
+                    @foreach($pendingApplications as $header => $value)     {
                 "status": '{{$header}}',
-                "value": '{{$value[0]}}',
+                "value": '{{$value}}',
             },
                 @endforeach
 
@@ -404,7 +404,8 @@
         // WRITE
         chart1.write("pending_conveyance_chart");
     });
-@endif
+    @endif
+</script>
 
 
 @endsection
