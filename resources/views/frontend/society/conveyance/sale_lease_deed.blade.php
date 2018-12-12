@@ -97,8 +97,8 @@
                                                 </div>
                                             </div>
                                         @endif
-                                        @if($sc_application->scApplicationLog->status_id != config('commanConfig.conveyance_status.forwarded'))
-                                            <div class="col-sm-6 @if($sc_application->scApplicationLog->status_id != config('commanConfig.conveyance_status.forwarded')) border-left @endif">
+                                        @if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety'))
+                                            <div class="col-sm-6 @if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety')) border-left @endif">
                                             <div class="d-flex flex-column h-100">
                                                 {{--<h5>Upload Sale Deed Agreement</h5>--}}
                                                 <span class="hint-text">Click on 'Upload' to upload Sale Deed Agreement</span>
@@ -199,8 +199,8 @@
                                                 </div>
                                             </div>
                                         @endif
-                                        @if($sc_application->scApplicationLog->status_id != config('commanConfig.conveyance_status.forwarded'))
-                                            <div class="col-sm-6 @if($sc_application->scApplicationLog->status_id != config('commanConfig.conveyance_status.forwarded')) border-left @endif">
+                                        @if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety'))
+                                            <div class="col-sm-6 @if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety')) border-left @endif">
                                             <div class="d-flex flex-column h-100">
                                                 {{--<h5>Upload Lease Deed Agreement</h5>--}}
                                                 <span class="hint-text">Click on 'Upload' to upload Lease Deed Agreement</span>
@@ -301,8 +301,8 @@
                                             </div>
                                         </div>
                                     @endif
-                                    @if($sc_application->scApplicationLog->status_id != config('commanConfig.conveyance_status.forwarded'))
-                                        <div class="col-sm-6 @if($sc_application->scApplicationLog->status_id != config('commanConfig.conveyance_status.forwarded')) border-left @endif">
+                                    @if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety'))
+                                        <div class="col-sm-6 @if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety')) border-left @endif">
                                         <div class="d-flex flex-column h-100">
                                             {{--<h5>Upload Signed & Stamped society resolution here</h5>--}}
                                             <span class="hint-text">Click on 'Upload' to upload signed & stamped society resolution.</span>
@@ -356,8 +356,8 @@
                                             </div>
                                         </div>
                                     @endif
-                                    @if($sc_application->scApplicationLog->status_id != config('commanConfig.conveyance_status.forwarded'))
-                                        <div class="col-sm-6 @if($sc_application->scApplicationLog->status_id != config('commanConfig.conveyance_status.forwarded')) border-left @endif">
+                                    @if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety'))
+                                        <div class="col-sm-6 @if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety')) border-left @endif">
                                         <div class="d-flex flex-column h-100">
                                             {{--<h5>Upload Signed & Stamped society undertaking here</h5>--}}
                                             <span class="hint-text">Click on 'Upload' to upload signed & stamped society undertaking</span>

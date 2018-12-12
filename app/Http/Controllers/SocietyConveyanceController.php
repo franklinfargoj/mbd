@@ -665,7 +665,7 @@ class SocietyConveyanceController extends Controller
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         } ])->orderBy('id', 'desc')->first();
 
-        if($request->hasFile('sc_application_form')){
+        if($request->hasFile('sc_application_form')) {
 
             $file = $request->file('sc_application_form');
             $extension = $file->getClientOriginalExtension();
@@ -678,12 +678,14 @@ class SocietyConveyanceController extends Controller
             $this->conveyance_common->uploadDocumentStatus($request->id, config('commanConfig.documents.society.stamp_conveyance_application'), $path);
 
             $role_id = Role::where('name', config('commanConfig.dycdo_engineer'))->first();
-//            if($sc_application->application_status == config('commanConfig.conveyance_status.reverted')){
-//                scApplicationLog::where('society_flag', 1)->where('status_id')->orderBy('id')->first();
-//                $user_ids = RoleUser::where('role_id', $role_id->id)->get();
-//            }else{
-                $user_ids = RoleUser::where('role_id', $role_id->id)->get();
-//            }
+            if ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending')) {
+                if ($sc_application->from_user_id != NULL) {
+                    $status_new = $sc_application->application_status;
+                } else {
+                    $status_new = NULL;
+                }
+            }
+            $user_ids = RoleUser::where('role_id', $role_id->id)->get();
 
             $layout_user_ids = LayoutUser::where('layout_id', $sc_application->layout_id)->whereIn('user_id', $user_ids)->get();
 
@@ -696,7 +698,7 @@ class SocietyConveyanceController extends Controller
                 $insert_arr = array(
                     'users' => $users
                 );
-                $inserted_application_log = $this->CommonController->sc_application_status_society($insert_arr, config('commanConfig.conveyance_status.forwarded'), $sc_application);
+                $inserted_application_log = $this->CommonController->sc_application_status_society($insert_arr, config('commanConfig.conveyance_status.forwarded'), $sc_application, $status_new);
                 scApplication::where('id', $sc_application->id)->update(['application_status' => config('commanConfig.conveyance_status.in_process')]);
             }
         }
