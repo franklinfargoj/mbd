@@ -143,16 +143,17 @@
                         <div class="col">
                             <div class="m-portlet app-card text-center">
                                 <h2 class="app-heading">{{$header}}</h2>
-                                <h2 class="app-no mb-0">{{$value[0]}}</h2>
-                                
-                                @if( $value[1] == 'pending')
-                                    <a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#pending">View Details</a>
-                                @elseif( $value[1] == 'sendToSociety')
-                                    <a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#sendToSociety">View Details</a>
-                                @else
-                                    <a href="{{url($value[1])}}" class="app-card__details mb-0">View Details</a>
-                                @endif                                
+                                <div class="app-card-footer">
+                                    <h2 class="app-no mb-0">{{$value[0]}}</h2>
+                                    @if( $value[1] == 'pending')
+                                        <a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#pending">View Details</a>
+                                    @elseif( $value[1] == 'sendToSociety')
+                                        <a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#sendToSociety">View Details</a>
+                                    @else
+                                        <a href="{{url($value[1])}}" class="app-card__details mb-0">View Details</a>
+                                    @endif
                                 {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
+                                </div>
                             </div>
                         </div>
                     @endforeach
@@ -200,7 +201,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modal Header</h4>
+          <h4 class="modal-title">Pending Applications</h4>
         </div>
         <div class="modal-body">
         <table>
@@ -233,7 +234,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modal Header</h4>
+          <h4 class="modal-title">Applications Sent to Society</h4>
         </div>
         <div class="modal-body">
         <table>
