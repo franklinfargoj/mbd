@@ -281,7 +281,7 @@
 
 @section('js')
 <script>
-    $(".ol-accordion-icon").on("click", function () {
+    $(".ol-accordion").on("click", function () {
         var data = $('.ol-accordion').children().children().attr('aria-expanded');
         if (!(data)) {
             $('.ol-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
