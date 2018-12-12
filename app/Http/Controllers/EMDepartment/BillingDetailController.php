@@ -180,18 +180,18 @@ class BillingDetailController extends Controller
 	        	->where('building_id',$request->building_id)
 	        	->where('year',  $data['arrear_year'])
                 ->whereIn('month', $data['bills']);
-            
+                    $total_service_charges = '0';
+            if(!empty($service_charges)) {
+                $total_service_charges = $service_charges->water_charges + $service_charges->electric_city_charge+$service_charges->pump_man_and_repair_charges+$service_charges->external_expender_charge+$service_charges->administrative_charge+$service_charges->lease_rent+$service_charges->na_assessment+$service_charges->other;
+            }
+
+            if($request->has('tenant_id') && !empty($request->tenant_id)) {
+                $request->tenant_id = decrypt($request->tenant_id);
+                $tenant = MasterTenant::find($request->tenant_id);
+                $arreas_calculations =  $arreas_calculations->where('tenant_id', $request->tenant_id);
+            }
+
         	if ($datatables->getRequest()->ajax()) {
-
-                $total_service_charges = '0';
-                if(!empty($service_charges))
-                    $total_service_charges = $service_charges->water_charges + $service_charges->electric_city_charge+$service_charges->pump_man_and_repair_charges+$service_charges->external_expender_charge+$service_charges->administrative_charge+$service_charges->lease_rent+$service_charges->na_assessment+$service_charges->other;
-
-                if($request->has('tenant_id') && !empty($request->tenant_id)) {
-                    $request->tenant_id = decrypt($request->tenant_id);
-            		$tenant = MasterTenant::find($request->tenant_id);
-                	$arreas_calculations =  $arreas_calculations->where('tenant_id', $request->tenant_id);
-                }
 
                 $arreas_calculations = $arreas_calculations->selectRaw('Sum(old_intrest_amount) as old_intrest_amount,Sum(difference_amount) as difference_amount, Sum(difference_intrest_amount) as difference_intrest_amount,tenant_id,building_id,oir_year,oir_month,ida_year,ida_month,month,year')->orderBy('id','DESC')->get();
 
