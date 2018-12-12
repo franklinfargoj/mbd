@@ -19,7 +19,10 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center" id="search_box">
             <h3 class="m-subheader__title m-subheader__title--separator">Bill Collection Level</h3>
-            {{ Breadcrumbs::render('em') }}
+              {{ Breadcrumbs::render('em') }}
+            <div class="ml-auto btn-list">
+                <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
         </div>
         <form action="{{route('get_building_bill_collection')}}" method="get">
             <div class="m-portlet filter-wrap">
