@@ -23,6 +23,7 @@ class AccountPermissionSeeder extends Seeder
             $account_role_id = Role::insertGetId([
                 'name' => 'Account',
                 'redirect_to' => '/search_accounts',
+                'dashboard' => '/search_accounts',
                 'display_name' => 'accounts',
                 'description' => 'Login as Account',
             ]);

@@ -820,7 +820,7 @@ $(window).on('popstate', function () {
     <div class="m-subheader px-0 mb-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Add Detail -
-                {{$ArchitectLayoutDetail->architect_layout->layout_name}}</h3>
+                {{$ArchitectLayoutDetail->architect_layout->master_layout!=""?$ArchitectLayoutDetail->architect_layout->master_layout->layout_name:''}}</h3>
 
             {{
             Breadcrumbs::render('architect_layout_add_details',encrypt($ArchitectLayoutDetail->architect_layout->id))

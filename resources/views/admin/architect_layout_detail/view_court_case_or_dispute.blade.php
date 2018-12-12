@@ -5,10 +5,13 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">View Court case or Dispute on land Details -
+                {{$ArchitectLayoutDetail->architect_layout->master_layout!=""?$ArchitectLayoutDetail->architect_layout->master_layout->layout_name:''}}</h3>
+{{-- =======
                 {{$ArchitectLayoutDetail->architect_layout->layout_name}}</h3>
                 <div class="ml-auto btn-list">
                     <a href="{{route('architect_layout_details.view',['layout_id'=>encrypt($ArchitectLayoutDetail->architect_layout_id)])}}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                 </div>
+>>>>>>> 16aedf3fa2171eadd20feecd3033b06ac786c8c1 --}}
         </div>
     </div>
     <div class="m-portlet m-portlet--mobile m_panel">

@@ -158,7 +158,8 @@ class CapPermissionSeeder extends Seeder
         } else {
             $role_id = Role::insertGetId([
                 'name' => 'cap_engineer',
-                'redirect_to' => '/dashboard',
+                'redirect_to' => '/cap',
+                'dashboard' => '/dashboard',
                 'parent_id' => null,
                 'display_name' => 'CAP_Engineer',
                 'description' => 'Login as CAP Engineer',
@@ -235,6 +236,8 @@ class CapPermissionSeeder extends Seeder
                 $senior_architect_planner_role->save();
             }
         }
+
+
 
     }
 }

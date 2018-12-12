@@ -6,6 +6,7 @@ use App\Board;
 use App\Http\Requests\village_detail\EditVillageDetailRequest;
 use App\Http\Requests\village_detail\VillageDetailRequest;
 use App\LandSource;
+use App\SocietyDetail;
 use App\VillageDetail;
 use App\DeletedVillages;
 use App\LeaseDetail;
@@ -604,4 +605,20 @@ lm_village_detail.updated_at'))->get();
         $id = $request->id;
         return view('admin.village_detail.villageDeteleReason', compact('id'))->render();
     }
+
+    public function dashboard(){
+//        dd('land dashboard');
+
+        $dashboardData = array();
+        $dashboardData['Total Number of Lands'][0] = VillageDetail::get()->count();
+        $dashboardData['Total Number of Lands'][1] = session()->get('redirect_to');
+        $dashboardData['Total Number of Societies'][0] = SocietyDetail::get()->count();
+        $dashboardData['Total Number of Societies'][1] = route('society_detail.index');
+        $dashboardData['Total Number of Leases'][0] = LeaseDetail::get()->count();
+        $dashboardData['Total Number of Leases'][1] = route('lease_detail.index',0);
+
+        return view('admin.common.land_dashboard',compact('dashboardData'));
+
+    }
+
 }

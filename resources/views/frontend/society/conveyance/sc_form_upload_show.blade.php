@@ -29,8 +29,8 @@
                                 <div class="col-sm-6 border-left">
                                     <div class="d-flex flex-column h-100 two-cols">
                                         <h5>Upload Signed & Stamped Application here</h5>
-                                        <span class="hint-text">Click on 'Upload' to upload signed & stamped application for society renewal.</span>
-                                        <form action="{{ route('sc_form_upload') }}" method="post" enctype="multipart/form-data">
+                                        <span class="hint-text">Click on 'Upload' to upload signed & stamped application for society conveyance.</span>
+                                        <form id="sc_form" action="{{ route('sc_form_upload') }}" method="post" enctype="multipart/form-data">
                                             @csrf
                                             <div class="custom-file">
                                                 <input class="custom-file-input" name="sc_application_form" type="file"
@@ -58,4 +58,22 @@
             </div>
         </div>
     </div>
+@endsection
+@section('datatablejs')
+    <script>
+        $('#sc_form').validate({
+            rules:{
+                sc_application_form: {
+                    required:true,
+                    extension:'pdf'
+                }
+            },
+            messages:{
+                sc_application_form: {
+                    required: 'File is required to upload.',
+                    extension: 'File only in pdf format is required.'
+                }
+            }
+        });
+    </script>
 @endsection

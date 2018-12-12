@@ -374,5 +374,53 @@ class EMClerkController extends Controller
         return 'Tenant_data_' . date('YmdHis');
     }
 
+    public function getArrearChargesByYear(Request $request) {
+        if($request->has('year') && !empty($request->year) && $request->has('society_id') &&!empty($request->society_id) && $request->has('building_id') &&!empty($request->building_id)) {
+            $arrearCharges = ArrearsChargesRate::where('society_id',decrypt($request->society_id))->where('building_id',decrypt($request->building_id))->where('year',$request->year)->orderBy('id','DESC')->first();
+
+            echo json_encode(['result' => true,'data' => $arrearCharges]);
+        } else {
+            echo json_encode(['result'=>false]);
+        }
+        exit;
+    }
+
+    public function getArrearChargesByYears(Request $request) {
+        if($request->has('start_year') && !empty($request->start_year) && $request->has('ida_year') && !empty($request->ida_year) && $request->has('society_id') &&!empty($request->society_id) && $request->has('building_id') &&!empty($request->building_id) && $request->has('ior_year') && !empty($request->ior_year)) {
+            $years = [];
+
+            if($request->ida_month <= 3) {
+                $request->ida_year = $request->ida_year - 1;
+            }
+            if($request->ior_month <= 3 ) {
+                $request->ior_year = $request->ior_year - 1;
+            }
+            if($request->ior_year < $request->ida_year) {
+                $end_year = $request->ior_year;
+            } else {
+                $end_year = $request->ida_year;
+            }
+            $isYearHaveCharges = true;
+            for($i = $end_year; $i<= $request->start_year; $i++) {
+                $years[] = $i; 
+                $arrearCharges = ArrearsChargesRate::where('society_id',decrypt($request->society_id))->where('building_id',decrypt($request->building_id))->where('year',$i)->orderBy('id','DESC')->first();
+                if(!$arrearCharges) {
+                    $isYearHaveCharges = false;
+                }
+            }
+            // print_r($years);exit;
+            if(false == $isYearHaveCharges) {
+                echo json_encode(['result'=>false]);
+            } else {
+
+                $arrearCharges = ArrearsChargesRate::where('society_id',decrypt($request->society_id))->where('building_id',decrypt($request->building_id))->whereIn('year',$years)->orderBy('id','DESC')->get();
+
+                echo json_encode(['result' => true,'data' => $arrearCharges]);
+            }
+        } else {
+            echo json_encode(['result'=>false]);
+        }
+        exit;
+    }
 }
 

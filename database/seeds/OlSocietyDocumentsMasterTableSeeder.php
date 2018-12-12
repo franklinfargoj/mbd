@@ -501,6 +501,77 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
         }
 
 
+        // Consent for OC - documents
+        $english_lang = LanguageMaster::select('id')->where(['language'=>'English'])->get();
+        $application5_arr=OlApplicationMaster::Where('title', 'like', '%Consent for OC%')->pluck('id')->toArray();
+        foreach($application5_arr as $app)
+        {
+            $app_insertArr= [
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "संस्थेचा अर्ज परिशिष्ट अ प्रमाणे "
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "Latest Approved Drawings"
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "Matching statement"
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "Stability certificate from structure consultant"
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "Completion certificate from society architect"
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "Supplymentry lease deed"
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "Building photos from 4 sides - front side"
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "Building photos from 4 sides - side 2"
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "Building photos from 4 sides - side 3"
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "Building photos from 4 sides - side 4"
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "Google Image"
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "Other"
+                ]
+            ];
+
+            OlSocietyDocumentsMaster::insert($app_insertArr);
+        }
+
 
     }
 

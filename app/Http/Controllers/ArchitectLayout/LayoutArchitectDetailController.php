@@ -20,14 +20,128 @@ use Storage;
 use Validator;
 use DB;
 use App\Layout\PrepareLayoutExcelLog;
+use App\OlApplicationMaster;
+use App\OlApplication;
+use Yajra\DataTables\DataTables;
 
 class LayoutArchitectDetailController extends Controller
 {
     protected $common;
-
+    protected $list_num_of_records_per_page;
     public function __construct(CommonController $CommonController)
     {
         $this->common = $CommonController;
+        $this->list_num_of_records_per_page = config('commanConfig.list_num_of_records_per_page');
+    }
+
+    public function list_of_offer_letter_issued($layout_id)
+    {
+        $layout_id=decrypt($layout_id);
+        $ArchitectLayout=ArchitectLayout::find($layout_id);
+        $request=new Request;
+        $datatables=new DataTables;
+        $columns = [
+            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
+            ['data' => 'application_no','name' => 'application_no','title' => 'Application No.'],
+            ['data' => 'application_master_id','name' => 'application_master_id','title' => 'Model'],
+            ['data' => 'created_at','name' => 'created_date','title' => 'Submission Date', 'class' => 'datatable-date'],
+            ['data' => 'updated_at','name' => 'updated_at','title' => 'Issued Date', 'class' => 'datatable-date'],
+            ['data' => 'status','name' => 'status','title' => 'Status'],
+            ['data' => 'action','name' => 'action','title' => 'Action'],
+        ];
+        if ($datatables->getRequest()->ajax()) {
+        $application_master_arr = OlApplicationMaster::Where('title', 'like', '%New - Offer Letter%')->orWhere('title', 'like', '%Revalidation Of Offer Letter%')->pluck('id')->toArray();
+
+            $ol_applications = OlApplication::where('layout_id', session()->get('layout_id'))->with(['ol_application_master', 'olApplicationStatus' => function($q){
+                $q->where('society_flag', '1')->orderBy('id', 'desc');
+            } ])->whereIn('application_master_id', $application_master_arr)->where('status_offer_letter',config('commanConfig.applicationStatus.sent_to_society'));
+            $ol_applications = $ol_applications->get();
+
+            $reval_master_ids_arr = config('commanConfig.revalidation_master_ids');
+            return $datatables->of($ol_applications)
+                ->editColumn('rownum', function ($ol_applications) {
+                    static $i = 0;
+                    $i++;
+                    return $i;
+                })
+                ->editColumn('application_no', function ($ol_applications) use($reval_master_ids_arr) {
+                    if(isset($ol_applications->is_noc_application))
+                    {
+                        $app_type = "<br><span class='m-badge m-badge--danger'>Application for Noc</span>";
+                    }
+                    elseif($ol_applications->is_noc_cc_application)
+                    {
+                        $app_type = "<br><span class='m-badge m-badge--warning'>Application for Noc (CC)</span>";
+                    }
+                    elseif(in_array($ol_applications->application_master_id,$reval_master_ids_arr))
+                    {
+                        $app_type = "<br><span class='m-badge m-badge--success'>Revalidation Of Offer letter</span>";
+                    }
+                    else
+                    {
+                        $app_type = "<br><span class='m-badge m-badge--success'>Application for Offer letter</span>";
+                    }
+
+                    return $ol_applications->application_no . $app_type;
+                })
+                ->editColumn('application_master_id', function ($ol_applications) {
+                    return $ol_applications->ol_application_master->model;
+                })
+                ->editColumn('created_at', function ($ol_applications) {
+                    return date(config('commanConfig.dateFormat'), strtotime($ol_applications->created_at));
+                })
+                ->editColumn('updated_at', function ($ol_applications) {
+                    if($ol_applications->status_offer_letter==7)
+                    {
+                        return date(config('commanConfig.dateFormat'), strtotime($ol_applications->created_at));
+                    }
+                    return '-';
+                })
+                ->editColumn('status', function ($ol_applications) {
+                    $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $ol_applications->olApplicationStatus[0]->status_id)[0]);
+                    $status_display = '';
+                    foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
+                    $status_color = '';
+                    if($status_display == 'Sent To Society'){
+                        $status_display = 'Approved';
+                    }
+                    return '<div class="d-flex btn-icon-list"><span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$ol_applications->olApplicationStatus[0]->status_id) .' m-badge--wide">'.$status_display.'</span></div>';
+                })
+                ->editColumn('action', function ($ol_applications) {
+                    $certificate_link="-";
+                    if($ol_applications->status_offer_letter==7)
+                    {
+                        $certificate_link='<a class="d-flex flex-column Offer Letter align-items-center" title="Offer Letter Download" href="'.config('commanConfig.storage_server').'/'.$ol_applications->offer_letter_document_path.'"
+                        target="_blank" rel="noopener"><span class="btn-icon btn-icon--delete"><img src="'.asset('/img/download-icon.svg').'"></span>Download Offer Letter</a>';
+                    }
+                    return '<div class="d-flex btn-icon-list">'.$certificate_link.'</div>';
+                })
+                // ->editColumn('model', function ($ol_applications) {
+                //     return view('frontend.society.actions', compact('ol_applications', 'status_display'))->render();
+                // })
+                ->rawColumns(['application_no', 'application_master_id', 'created_at','updated_at','status','action'])
+                ->make(true);
+        }
+
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        return view('admin.architect_layout_detail.list_of_issued_offer_letters', compact('html', 'ol_applications', 'ol_application_count','ArchitectLayout'));
+    }
+
+    protected function getParameters() {
+        return [
+            'serverSide' => true,
+            'processing' => true,
+            'ordering'   =>'isSorted',
+            "order"=> [4, "desc" ],
+            "pageLength" => $this->list_num_of_records_per_page,
+            // 'fixedHeader' => [
+            //     'header' => true,
+            //     'footer' => true
+            // ]
+            "filter" => [
+                'class' => 'test_class'
+            ]
+        ];
     }
 
     public function add_detail($layout_id)
@@ -56,6 +170,7 @@ class LayoutArchitectDetailController extends Controller
                     'to_user_id' => null,
                     'to_role_id' => null,
                     'open'=>1,
+                    'current_status'=>1,
                     'remark' => null,
                 ],
             ];
@@ -87,7 +202,8 @@ class LayoutArchitectDetailController extends Controller
     {
         $layout_detail_id = decrypt($layout_detail_id);
         $ArchitectLayoutDetail = ArchitectLayoutDetail::with(['architect_layout', 'ee_reports', 'em_reports', 'ree_reports', 'land_reports'])->where(['id' => $layout_detail_id])->first();
-        $ArchitectLayout = ArchitectLayout::where(['id' => $ArchitectLayoutDetail->architect_layout_id])->first();
+        $ArchitectLayout = ArchitectLayout::with(['master_layout'])->where(['id' => $ArchitectLayoutDetail->architect_layout_id])->first();
+        //dd($ArchitectLayout);
         return view('admin.architect_layout_detail.add', compact('ArchitectLayoutDetail', 'ArchitectLayout'));
     }
 

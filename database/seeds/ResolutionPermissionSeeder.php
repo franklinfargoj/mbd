@@ -23,6 +23,7 @@ class ResolutionPermissionSeeder extends Seeder
                 'name' => 'RM',
                 'parent_id' => NULL,
                 'redirect_to' => '/resolution',
+                'dashboard' => '/resolution',
                 'display_name' => 'resolution_manager',
                 'description' => 'Login as Resolution Manger'
             ]);

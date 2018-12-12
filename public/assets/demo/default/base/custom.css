@@ -2816,6 +2816,10 @@ label.site-visit-label {
     margin-bottom: 0;
 }
 
+.app-card-footer {
+    margin-top: auto;
+}
+
 .app-no {
     font-size: 2.5rem;
     color: #ff7750;
@@ -3094,7 +3098,7 @@ label.site-visit-label {
 .accordion-icon {
     width: 30px;
     height: 30px;
-    background-image: url('../../../../img/minus-icon.svg');
+    background-image: url('../../../../img/plus-icon.svg');
     background-repeat: no-repeat;
     background-size: cover;
 }

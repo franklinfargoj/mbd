@@ -85,5 +85,6 @@ class DatabaseSeeder extends Seeder
         $this->call(NocSocietyDocumentsMasterTableSeeder::class);
 
         $this->call(NocCCSocietyDocumentsMasterTableSeeder::class);
+        $this->call(ChangeSomeFieldValuesInDatabase::class);
     }
 }

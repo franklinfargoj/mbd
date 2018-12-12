@@ -50,7 +50,7 @@
                                         @php echo $comm_func->form_fields($field_names[$i], 'text', '', '', '', '', 'required') @endphp
                                         {{--<input type="text" id="{{ $field_names[$i+1] }}" name="{{ $field_names[$i+1] }}" class="form-control form-control--custom m-input @if(strpos($field_names[$i+1], 'date') != null) m_datepicker @endif" @if($field_names[$i+1] == 'society_name' || $field_names[$i+1] == 'society_no') value="@if($field_names[$i+1] == 'society_name') {{ $society_details->name }} @else {{ $society_details->building_no }} @endif" readonly @endif>--}}
                                     @endif
-                                    <span class="help-block">{{$errors->first($field_names[$i])}}</span>
+                                    <span class="help-block" id="{{ $field_names[$i] }}-error">{{$errors->first($field_names[$i])}}</span>
                                 </div>
                             @endif
                             @if(isset($field_names[$i+1]))
@@ -74,7 +74,7 @@
                                         {{--<input type="text" id="{{ $field_names[$i+1] }}" name="{{ $field_names[$i+1] }}" class="form-control form-control--custom m-input @if(strpos($field_names[$i+1], 'date') != null) m_datepicker @endif" @if($field_names[$i+1] == 'society_name' || $field_names[$i+1] == 'society_no') value="@if($field_names[$i+1] == 'society_name') {{ $society_details->name }} @else {{ $society_details->building_no }} @endif" readonly @endif>--}}
                                     @endif
                                     {{--<input type="hidden" name="application_master_id" value="{{ $id }}">--}}
-                                    <span class="help-block">{{$errors->first($field_names[$i+1])}}</span>
+                                    <span class="help-block" id="{{ $field_names[$i+1] }}-error">{{$errors->first($field_names[$i+1])}}</span>
                                 </div>
                             @endif
                         </div>
@@ -83,7 +83,6 @@
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="no_agricultural_tax">Download Template:</label>
                             <p><a href="{{ route('sr_download') }}" class="btn btn-primary" target="_blank" rel="noopener">Download Template</a> </p>
-                            <span class="help-block">{{$errors->first('no_agricultural_tax')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="template">Upload File:</label>

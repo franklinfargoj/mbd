@@ -9,6 +9,20 @@
     {{ session()->get('success') }}
 </div>
 @endif
+
+@php
+    if(isset($data->SignSaleAgreement->document_path))
+        $document = $data->SignSaleAgreement->document_path;    
+    else if(isset($data->draftSaleAgreement->document_path))
+        $document = $data->draftSaleAgreement->document_path;
+@endphp
+@php
+    if(isset($data->SignLeaseAgreement->document_path))
+        $document1 = $data->SignLeaseAgreement->document_path;    
+    else if(isset($data->draftLeaseAgreement->document_path))
+        $document1 = $data->draftLeaseAgreement->document_path;
+@endphp
+
 <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.save_approved_agreement')}}" enctype="multipart/form-data">
 @csrf
 
@@ -62,9 +76,9 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->SignSaleAgreement->document_path))
-                                                <input type="hidden" name="oldSaleFile" value="{{ $data->SignSaleAgreement->document_path }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->SignSaleAgreement->document_path }}" target="_blank">
+                                                @if(isset($document))
+                                                <input type="hidden" name="oldSaleFile" value="{{ isset($data->ApprovedSaleAgreement->document_path) ? $data->ApprovedSaleAgreement->document_path : '' }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$document }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -118,10 +132,10 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Lease Deed Agreement</span>
                                             <div class="mt-auto"> 
-                                                @if(isset($data->SignLeaseAgreement->document_path))
+                                                @if(isset($document1))
 
-                                                <input type="hidden" name="oldLeaseFile" value="{{ $data->SignLeaseAgreement->document_path }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->SignLeaseAgreement->document_path }}" target="_blank">
+                                                <input type="hidden" name="oldLeaseFile" value="{{ isset($data->ApprovedLeaseAgreement->document_path) ? $data->ApprovedLeaseAgreement->document_path : '' }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$document1 }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                        Download  </Button>
                                                 </a>

@@ -5,7 +5,7 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Court case or Dispute -
-                {{$ArchitectLayoutDetail->architect_layout->layout_name}}</h3>
+                {{$ArchitectLayoutDetail->architect_layout->master_layout!=""?$ArchitectLayoutDetail->architect_layout->master_layout->layout_name:''}}</h3>
             <div class="ml-auto btn-list">
                 <a href="{{route('architect_layout_detail.edit',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id),'#court-case-or-dispute-on-land-section'])}}" class="btn btn-link"><i class="fa fa-long-arrow-left"
                         style="padding-right: 8px;"></i>Back</a>

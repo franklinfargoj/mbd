@@ -353,7 +353,8 @@ class EEUserSeeder extends Seeder
         if ($ee_role_id == NULL)
             $ee_role_id = Role::insertGetId([
                 'name' => 'ee_engineer',
-                'redirect_to' => '/dashboard',
+                'redirect_to' => '/ee',
+                'dashboard' => '/dashboard',
                 'parent_id' => NULL,
                 'display_name' => 'EE Engineer',
                 'description' => 'EE Engineer'
@@ -365,7 +366,8 @@ class EEUserSeeder extends Seeder
         if($ee_dy_role_id  == NULL)
             $ee_dy_role_id = Role::insertGetId([
                 'name' => 'ee_dy_engineer',
-                'redirect_to' => '/dashboard',
+                'redirect_to' => '/ee',
+                'dashboard' => '/dashboard',
                 'parent_id' => $ee_role_id,
                 'display_name' => 'EE Deputy Engineer',
                 'description' => 'EE Deputy Engineer'
@@ -377,7 +379,8 @@ class EEUserSeeder extends Seeder
         if($ee_jr_role_id == NULL)
             $ee_jr_role_id = Role::insertGetId([
                 'name' => 'ee_junior_engineer',
-                'redirect_to' => '/dashboard',
+                'redirect_to' => '/ee',
+                'dashboard' => '/dashboard',
                 'parent_id' => $ee_dy_role_id,
                 'display_name' => 'EE Junior Engineer',
                 'description' => 'EE Junior Engineer'
