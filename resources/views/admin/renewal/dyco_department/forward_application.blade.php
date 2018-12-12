@@ -233,6 +233,41 @@
                                 </div> 
                                 @endif    
 
+                                @if(isset($emlogs) && count($emlogs) > 0)
+                                <div class="remark-body">
+                                    <div class="border-bottom pb-2">
+                                        <span class="hint-text d-block t-remark">Remark by EM Department</span>
+                                    </div>                                
+                                    <div class="remarks-section">
+                                        <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="150">
+
+                                        @foreach($emlogs as $log)
+
+                                            @if($log->status_id == config('commanConfig.renewal_status.forwarded'))
+                                                @php $status = 'Forwarded'; @endphp
+                                            @elseif($log->status_id == config('commanConfig.renewal_status.reverted'))
+                                                @php $status = 'Reverted'; @endphp
+                                            @endif
+
+                                            <div class="remarks-section__data">
+                                                <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",
+                                                        strtotime($log->created_at)) : '')}}</span>
+
+                                                </p>
+                                                <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log) && $log->created_at != '' ? date("H:i",
+                                                        strtotime($log->created_at)) : '')}}</span></p>
+                                                <p class="remarks-section__data__row"><span>Action:</span>
+
+                                                <span>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}} From {{isset($log->getRole->display_name) ? $log->getRole->display_name : ''}}</span></p>
+                                                <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log) ? $log->remark : '')}}</span></p>
+                                            </div>
+                                        @endforeach                                         
+                                        </div>
+                                    </div>
+                                </div> 
+                                @endif                                  
+
                                 @if(isset($Architectlogs) && count($Architectlogs) > 0)
                                 <div class="remark-body">
                                     <div class="border-bottom pb-2">
@@ -271,7 +306,7 @@
                                 @if(isset($cologs) && count($cologs) > 0)
                                 <div class="remark-body">
                                     <div class="border-bottom pb-2">
-                                        <span class="hint-text d-block t-remark">Remark by CO and JTCO Department</span>
+                                        <span class="hint-text d-block t-remark">Remark by JTCO Department</span>
                                     </div>                                
                                     <div class="remarks-section">
                                         <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
@@ -347,7 +382,7 @@
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
                                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_user" name="to_user_id[]" {{(session()->get('role_name') == config('commanConfig.dyco_engineer')) ? 'multiple' : '' }}>
                                                         
-                                                           @if($data->parent)
+                                                        @if($data->parent)
                                                             @foreach($data->parent as $parent)
                                                                 @if($parent->roles[0]->name != config('commanConfig.co_engineer'))
                                                                     <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $parent->roles[0]->display_name }})</option>
@@ -355,8 +390,10 @@
                                                             @endforeach
                                                         @endif
                                                     </select>
+                                                    <span class="error" style="display: none;color: #ce2323;margin-bottom: 17px;"> * Required</span>
                                                 </div>                                                 
                                             </div>
+                                            <input type="hidden" id="society_flag" name="society_flag" value="0">
                                              @if($data->child != "")
                                             <div class="form-group m-form__group row mt-3 child-data" style="display: none">
                                                 <label class="col-form-label col-lg-2 col-sm-12">
@@ -364,12 +401,13 @@
                                                 </label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
                                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_child_id" name="to_child_id[]">
-                                                       
+                                                        @if($data->child)
                                                             @foreach($data->child as $child)
                                                                 @if($child->roles[0]->name != config('commanConfig.co_engineer'))
                                                                     <option value="{{ $child->id }}" data-society="{{ ($child->role_id == $data->society_role_id) ? 1 : 0 }}" data-role="{{ $child->role_id }}">{{ $child->name }} ({{ $child->roles[0]->display_name }}) </option>
                                                                 @endif
                                                             @endforeach
+                                                        @endif    
                                                         
                                                     </select>
                                                 </div>
@@ -379,27 +417,7 @@
                                                 <label for="remark">Remark:</label>
                                                 <textarea class="form-control form-control--custom" name="remark" id="remark"
                                                     cols="30" rows="5"></textarea>
-                                            </div>
-                                            @php 
-                                            $error = '';
-                                                if(isset($data->application_status)){
-                                                    if ($data->application_status == config('commanConfig.renewal_status.Draft_sale_&_lease_deed')){ 
-
-                                                            if (!(isset($data->DraftSaleAgreement) && isset($data->DraftLeaseAgreement))){
-                                                            $error = 'error';
-                                                        }
-                                                    }elseif($data->application_status == config('commanConfig.renewal_status.Aproved_sale_&_lease_deed')){
-                                                        
-                                                        if (!(isset($data->ApprovedSaleAgreement) && isset($data->ApprovedLeaseAgreement))){
-                                                        
-                                                        $error = 'error';
-                                                        }
-                                                    }
-                                                }
-                                            
-                                            @endphp
-                                            
-                                            @if($error == '')
+                                            </div>                                            
                                                 <div class="mt-3 btn-list">
                                                     <button type="submit" class="btn btn-primary">Save</button>
                                                     {{--<button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>
@@ -408,12 +426,6 @@
                                                     <button type="button" onclick=""
                                                         class="btn btn-secondary">Cancel</button>
                                                 </div>
-                                            @else
-                                                <div>
-                                                    <span class="error" style="display: block;color: #ce2323;margin-top: 13px;">* Note : Please Upload Sale and Lease Deed Agreements. 
-                                                    </span>
-                                                </div>      
-                                            @endif
                                         </div>
                                         <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                                     </form>
@@ -449,9 +461,18 @@
             var data = $(".check_status").val();
             if (data == 1) {
                 var id = $("#to_user").find('option:selected').attr("data-role");
-                var user_id = $("#to_user").find('option:selected').attr("value");
+                if (id != undefined){
+                    $(".error").css("display","none");
+                    var user_id = $("#to_user").find('option:selected').attr("value");
+                }else{
+                    $(".error").css("display","block");
+                    return false;
+                }                
+                
             } else {
                 var id = $("#to_child_id").find('option:selected').attr("data-role");
+                var society_flag = $("#to_child_id").find('option:selected').attr("data-society");
+                $("#society_flag").val(society_flag);
                 var user_id = $("#to_child_id").find('option:selected').attr("value");
             }
 

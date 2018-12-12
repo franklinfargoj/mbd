@@ -457,7 +457,7 @@ class EmPermissionSeeder extends Seeder
                 'name'=>'dashboard',
                 'display_name'=>'dashboard',
                 'description'=>'Dashboard'
-            ],             
+            ],                         
         ];
 
         $permission_role = [];
