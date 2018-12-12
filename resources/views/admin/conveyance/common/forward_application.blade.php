@@ -237,11 +237,11 @@
                                 @if(count($emlogs) > 0)
                                 <div class="remark-body">
                                     <div class="border-bottom pb-2">
-                                        <span class="hint-text d-block t-remark">Remark by EE Department</span>
+                                        <span class="hint-text d-block t-remark">Remark by EM Department</span>
                                     </div>                                
                                     <div class="remarks-section">
                                         <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
-                                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+                                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="150">
 
                                         @foreach($emlogs as $log)
 
@@ -272,11 +272,11 @@
                                 @if(count($lalogs) > 0)
                                 <div class="remark-body">
                                     <div class="border-bottom pb-2">
-                                        <span class="hint-text d-block t-remark">Remark by EE Department</span>
+                                        <span class="hint-text d-block t-remark">Remark by LA Department</span>
                                     </div>                                
                                     <div class="remarks-section">
                                         <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
-                                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+                                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="150">
 
                                         @foreach($lalogs as $log)
 

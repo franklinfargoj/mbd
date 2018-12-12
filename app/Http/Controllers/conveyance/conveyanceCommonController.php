@@ -1020,104 +1020,120 @@ class conveyanceCommonController extends Controller
 
     public function getApplicationStatusCount($applicationData,$parentName){
         
-        $sendForApproval = $totalPending = $sendToSociety = $forwardApplication = $sendForStampDuty = $sendForRegistration = $nocIssued = $revertApplication =$inprocess = $draft = $approve = $stamp = $stampSign = $registered = $sendForRegistration= $sendForStampDuty = $nocIssued = 0 ;
+        $sendForApproval = $totalPending = $sendToSocietycount = $forwardApplication = $sendForStampDuty = $sendForRegistration = $nocIssued = $revertApplication =$inprocess = $draft = $approve = $stamp = $stampSign = $registered = $noc= $StampDuty = $Registration = 0 ;
         
-        $role_name = session()->get('role_name');
-        $can_revert = ($role_name == config('commanConfig.dyco_engineer') || $role_name == config('commanConfig.ee_deputy_engineer') || $role_name == config('commanConfig.ee_branch_head') || $role_name == config('commanConfig.senior_architect') || $role_name == config('commanConfig.architect') || $role_name == config('commanConfig.co_engineer') || $role_name == config('commanConfig.joint_co'));
-
-        $can_forward = ($role_name == config('commanConfig.dyco_engineer') || $role_name == config('commanConfig.ee_deputy_engineer') || $role_name == config('commanConfig.ee_branch_head') || $role_name == config('commanConfig.senior_architect') || $role_name == config('commanConfig.architect') || $role_name == config('commanConfig.ee_junior_engineer') || $role_name == config('commanConfig.junior_architect') || $role_name == config('commanConfig.dycdo_engineer') || $role_name == config('commanConfig.estate_manager'));
+        $role_name   = session()->get('role_name');
+        $can_revert  = $this->displayRevertVisibleRole($role_name);
+        $can_forward = $this->displayForwardVisibleRole($role_name);
+        $statusArr   = $this->getAllStatus(); 
         
-        $pendingArr = array(config('commanConfig.conveyance_status.in_process'),config('commanConfig.conveyance_status.Draft_sale_&_lease_deed'),config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed'),config('commanConfig.conveyance_status.Registered_sale_&_lease_deed'),config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease'),config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety'),config('commanConfig.conveyance_status.NOC_Issued'));
-
         foreach ($applicationData as $application){
             
-            $status = $application['sc_application_log']['status_id'];
-            
-            $sendForApprovalCondition = ($application['application_status'] != config('commanConfig.conveyance_status.in_process') && $status == config('commanConfig.conveyance_status.forwarded') && $application['sent_to_society'] == 0);
+            $status = $application['sc_application_log']['status_id'];            
+            $sendForApprovalCondition = ($application['application_status'] != $statusArr['inprocess'] && $status == 
+                $statusArr['forwarded'] && $application['sent_to_society'] == 0);
 
-            $applicationForwarded = ($application['application_status'] == config('commanConfig.conveyance_status.in_process') && $status == config('commanConfig.conveyance_status.forwarded') && $application['sent_to_society'] == 0 && $can_forward);
+            $applicationForwarded = ($application['application_status'] == $statusArr['inprocess'] && $status == 
+                $statusArr['forwarded'] && $application['sent_to_society'] == 0 && $can_forward);
 
-            $applicationReverted = ($status == config('commanConfig.conveyance_status.reverted') && $can_revert);
+            $applicationReverted    = ($status == $statusArr['reverted'] && $can_revert);
+            $sendToSocietyCondition = $status == $statusArr['forwarded'] && ($application['sent_to_society'] == 1);
+            $sendForStampDutyCondition = ($status == $statusArr['forwarded'] && ($application['sent_to_society'] == 1 && $application['application_status'] == $statusArr['stampDuty']));            
 
-            $sendToSocietyCondition = $status == config('commanConfig.conveyance_status.forwarded') && ($application['sent_to_society'] == 1);
+            $sendForRegistrationCondition = ($status == $statusArr['forwarded'] && ($application['sent_to_society'] == 1 && $application['application_status'] == $statusArr['sendForRegistration']));
 
-            $sendForStampDutyCondition = ($status == config('commanConfig.conveyance_status.forwarded') && ($application['sent_to_society'] == 1 && $application['application_status'] == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety')));            
+            $nocIssuedCondition = ($status == $statusArr['forwarded'] && ($application['sent_to_society'] == 1 && $application['application_status'] == $statusArr['noc']));
 
-            $sendForRegistrationCondition = ($status == config('commanConfig.conveyance_status.forwarded') && ($application['sent_to_society'] == 1 && $application['application_status'] == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease')));
+            $inprocessCondition = ($status == $statusArr['inprocess']);
+            $draftCondition     = ($status == $statusArr['draft']);
+            $approveCondition   = ($status == $statusArr['approve']);
+            $stampCondition     = ($status == $statusArr['stamp']);
+            $stampSignCondition = ($status == $statusArr['stampSign']);
+            $registerCondition  = ($status == $statusArr['registered']);
+            $RegistrationCondition = ($status == $statusArr['sendForRegistration'] && $application['sent_to_society'] == 0);
 
-            $nocIssuedCondition = ($status == config('commanConfig.conveyance_status.forwarded') && ($application['sent_to_society'] == 1 && $application['application_status'] == config('commanConfig.conveyance_status.NOC_Issued')));
+            $payDutyCondition = ($status == $statusArr['stampDuty'] && $application['sent_to_society'] == 0);
+            $nocCondition = ($status == $statusArr['noc'] && $application['sent_to_society'] == 0);
 
             switch ($status)
             {                
-                case (in_array($status, $pendingArr) && $application['sent_to_society'] == 0) : $totalPending    += 1; break;
-                case $sendForApprovalCondition      : $sendForApproval += 1; break;
-                // case $sendToSocietyCondition        : $sendToSociety   += 1; break;
-                case $sendForStampDutyCondition     : $sendForStampDuty   += 1; break;
+                case $sendForApprovalCondition      : $sendForApproval       += 1; break;
+                case $sendForStampDutyCondition     : $sendForStampDuty      += 1; break;
                 case $sendForRegistrationCondition  : $sendForRegistration   += 1; break;
-                case $nocIssuedCondition            : $nocIssued   += 1; break;
-                case $applicationForwarded          : $forwardApplication  += 1; break;
-                case $applicationReverted           : $revertApplication  += 1; break;
+                case $nocIssuedCondition            : $nocIssued             += 1; break;
+                case $applicationForwarded          : $forwardApplication    += 1; break;
+                case $applicationReverted           : $revertApplication     += 1; break;
 
-                case config('commanConfig.conveyance_status.in_process')  : $inprocess  += 1; break;
-                case config('commanConfig.conveyance_status.Draft_sale_&_lease_deed')  : $draft  += 1; break;
-                case config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed')  : $approve  += 1; break;
-                case config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed')  : $stamp  += 1; break;
-                case config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed')  : $stampSign  += 1; break;
-                case config('commanConfig.conveyance_status.Registered_sale_&_lease_deed')  : $registered  += 1; break;
-                case (config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease') && $application['sent_to_society'] == 0)  : $sendForRegistration  += 1; break;
-                case (config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety') && $application['sent_to_society'] == 0)  : $sendForStampDuty  += 1; break;
-                case (config('commanConfig.conveyance_status.NOC_Issued') && $application['sent_to_society'] == 0)  : 
-                $nocIssued  += 1; break;
+                case $inprocessCondition     : $inprocess        += 1; break;
+                case $draftCondition         : $draft            += 1; break;
+                case $approveCondition       : $approve          += 1; break;
+                case $stampCondition         : $stamp            += 1; break;
+                case $stampSignCondition     : $stampSign        += 1; break;
+                case $registerCondition      : $registered       += 1; break;
+                case $RegistrationCondition  : $Registration     += 1; break;
+                case $payDutyCondition       : $StampDuty        += 1; break;
+                case $nocCondition           : $noc              += 1; break;
                 default:
                 ; break;
             }
         }
 
-        $separation['Inprocess'] = $inprocess;
-        $separation['draft'] = $draft;
-        $separation['approve'] = $approve;
-        $separation['stamp'] = $stamp;
-        $separation['stampSign'] = $stampSign;
+        $totalPending = $inprocess + $draft + $approve + $stamp + $stampSign + $registered; 
+
+
+        //Application pending Bifergation    
+
+        $separation['Inprocess']  = $inprocess;
+        $separation['draft']      = $draft;
+        $separation['approve']    = $approve;
+        $separation['stamp']      = $stamp;
+        $separation['stampSign']  = $stampSign;
         $separation['registered'] = $registered;
-        $separation['sendForRegistration'] = $sendForRegistration;
-        $separation['sendForStampDuty'] = $sendForStampDuty;
-        $separation['nocIssued'] = $nocIssued;
 
+        if ($role_name == config('commanConfig.dyco_engineer')){
+            $separation['sendForRegistration']  = $Registration;
+            $separation['sendForStampDuty']     = $StampDuty;
+            $separation['nocIssued']            = $noc; 
 
+            $totalPending =  $totalPending + $Registration + $StampDuty +  $noc;  
+        }
+
+        //send to society Bifergation
+        $sendToSociety['Send For Registration'] = $sendForRegistration;
+        $sendToSociety['Send For StampDuty']    = $sendForStampDuty;
+        $sendToSociety['NOC Issued']            = $nocIssued;
+
+        $sendToSocietycount = $sendForRegistration + $sendForStampDuty + $nocIssued;
         
         $totalApplication = count($applicationData);
 
         $count['Total No of Applications'][0] = $totalApplication;
         $count['Total No of Applications'][1] = '';
-        $count['Applications Pending'][0] = $totalPending;
-        $count['Applications Pending'][1] = 'pending';
+        $count['Applications Pending'][0]     = $totalPending;
+        $count['Applications Pending'][1]     = 'pending';
         $count['Draft Sale & Lease Deed sent for Approval'][0] = $sendForApproval;
-        $count['Draft Sale & Lease Deed sent for Approval'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
-        $count['Sent to Society for stamp duty'][0] = $sendForStampDuty;
-        $count['Sent to Society for stamp duty'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
-        $count['Sent to Society for Registration'][0] = $sendForRegistration;
-        $count['Sent to Society for Registration'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
-        $count['NOC Issued'][0] = $nocIssued;
-        $count['NOC Issued'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+        $count['Draft Sale & Lease Deed sent for Approval'][1] = 'conveyance?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+        $count['Sent to Society'][0] = $sendToSocietycount;
+        $count['Sent to Society'][1] = 'sendToSociety';
 
         if ($can_forward){
             if ($parentName != ""){
                 
                 $count['Applications Forwarded to '.$parentName][0] = $forwardApplication;
-                $count['Applications Forwarded to '.$parentName][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');                
+                $count['Applications Forwarded to '.$parentName][1] = 'conveyance?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');                
 
             }else{
                 $count['Applications Forwarded'][0] = $forwardApplication;
-                $count['Applications Forwarded'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded'); 
+                $count['Applications Forwarded'][1] = 'conveyance?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded'); 
             }
         }    
 
         if ($can_revert){
                 
                 $count['Applications Reverted'][0] = $revertApplication;
-                $count['Applications Reverted'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');             
+                $count['Applications Reverted'][1] = 'conveyance?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');             
         }
-        $dashboard = array($count,$separation);
+        $dashboard = array($count,$separation,$sendToSociety);
 
         return $dashboard;
     } 
@@ -1163,4 +1179,34 @@ class conveyanceCommonController extends Controller
 
         return $count;    
     }
+
+    public function displayForwardVisibleRole($role_name){
+
+        $roles = ($role_name == config('commanConfig.dyco_engineer') || $role_name == config('commanConfig.ee_deputy_engineer') || $role_name == config('commanConfig.ee_branch_head') || $role_name == config('commanConfig.senior_architect') || $role_name == config('commanConfig.architect') || $role_name == config('commanConfig.ee_junior_engineer') || $role_name == config('commanConfig.junior_architect') || $role_name == config('commanConfig.dycdo_engineer') || $role_name == config('commanConfig.estate_manager'));
+
+        return  $roles; 
+    }
+
+    public function displayRevertVisibleRole($role_name){
+
+        $roles = ($role_name == config('commanConfig.dyco_engineer') || $role_name == config('commanConfig.ee_deputy_engineer') || $role_name == config('commanConfig.ee_branch_head') || $role_name == config('commanConfig.senior_architect') || $role_name == config('commanConfig.architect') || $role_name == config('commanConfig.co_engineer') || $role_name == config('commanConfig.joint_co'));
+        return  $roles;
+    }
+
+    public function getAllStatus(){
+
+        $status['inprocess'] = config('commanConfig.conveyance_status.in_process');
+        $status['forwarded'] = config('commanConfig.conveyance_status.forwarded');
+        $status['reverted']  = config('commanConfig.conveyance_status.reverted');
+        $status['draft'] = config('commanConfig.conveyance_status.Draft_sale_&_lease_deed');
+        $status['approve'] = config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed');
+        $status['stampDuty'] = config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety');
+        $status['stamp'] = config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed');
+        $status['stampSign'] = config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed');
+        $status['sendForRegistration'] = config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease');
+        $status['registered'] = config('commanConfig.conveyance_status.Registered_sale_&_lease_deed');
+        $status['noc'] = config('commanConfig.conveyance_status.NOC_Issued');
+
+        return $status;
+    }    
 }      
