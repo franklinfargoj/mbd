@@ -18,6 +18,11 @@ class SapPermissionSeeder extends Seeder
     {
         $permissions = [
             [
+                'name'=>'architect_layout_dashboard',
+                'display_name' => 'Dashboard for Architect',
+                'description' => 'Dashboard for Architect'
+            ],
+            [
                 'name' => 'architect_Layout_scrutiny_of_ee_em_lm_ree',
                 'display_name' => 'architect_Layout_scrutiny_of_ee_em_lm_ree',
                 'description' => 'architect_Layout_scrutiny_of_ee_em_lm_ree',
