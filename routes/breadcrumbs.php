@@ -238,6 +238,11 @@ Breadcrumbs::for('society_offer_letter_edit', function ($trail) {
     $trail->push('Redevelopment Application Form', route('society_offer_letter_edit'));
 });
 
+Breadcrumbs::for('society_oc_edit', function ($trail) {
+    $trail->parent('society_dashboard');
+    $trail->push('Consent For OC Application Form', route('society_oc_edit'));
+});
+
 Breadcrumbs::for('noc_edit', function ($trail) {
     $trail->parent('society_dashboard');
     $trail->push('Edit NOC Application', route('society_noc_edit'));

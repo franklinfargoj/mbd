@@ -13,15 +13,12 @@ class AddColumnsToOcApplications extends Migration
      */
     public function up()
     {
-        Schema::disableForeignKeyConstraints();
 
         Schema::table('oc_applications', function (Blueprint $table) {
             $table->integer('request_form_id')->after('society_id');
             $table->unsignedInteger('user_id')->after('id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
 
-        Schema::enableForeignKeyConstraints();
     }
 
     /**
