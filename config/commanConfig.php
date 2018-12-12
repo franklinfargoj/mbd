@@ -165,6 +165,9 @@ return [
             'sc_resolution' => 'sc_resolution',
             'sc_undertaking' => 'sc_undertaking',
             'Stamped_Signed' => 'Stamped_Signed',
+            'Stamp_by_jtco' => 'Stamp_by_jtco',
+            'Stamp_by_dycdo' => 'Stamp_by_dycdo',
+            'Draft' => 'Draft',
             'Register' => 'Register'
         ],
         'dycdo_note'  => 'dycdo_note',
