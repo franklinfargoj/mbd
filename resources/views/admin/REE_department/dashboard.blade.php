@@ -32,7 +32,7 @@
                                     <h2 class="app-no mb-0">{{$value[0]}}</h2>
                                     @php $chart += $value[0];@endphp
                                     @if( $value[1] == 'pending')
-                                        <a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#myModal">View Details</a>
+                                        <a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#reePendingModal">View Details</a>
                                     @else
                                         <a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a>
                                     @endif
@@ -98,39 +98,45 @@
         {{--@endif--}}
 
     </div>
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" role="dialog">
+    <!-- Model for send to society bifergation-->
+    <div class="modal fade" id="reePendingModal" role="dialog">
         <div class="modal-dialog">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Modal Header</h4>
+                    <h4 class="modal-title">Applications Pending</h4>
                 </div>
                 <div class="modal-body">
-                    <table>
-                        <tr>
-                            <th>Header</th>
-                            <th>Count</th>
-                        </tr>
-                        @if($dashboardData[1])
-                            @foreach($dashboardData[1] as $header => $value)
-                                <tr>
-                                    <td> {{$header}} </td>
-                                    <td> {{$value}} </td>
-                                </tr>
-                            @endforeach
-                        @endif
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table text-center">
+                            <thead class="thead-default">
+                            <tr>
+                                <th>Header</th>
+                                <th>Count</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if($dashboardData[1] )
+                                @foreach($dashboardData[1]  as $header => $value)
+                                    <tr>
+                                        <td> {{$header}} </td>
+                                        <td> {{$value}} </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                            </tbody>
+                        </table>
+                    </div>
                     <!-- <p>Some text in the modal.</p> -->
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
+
 
 @endsection
 @section('js')
