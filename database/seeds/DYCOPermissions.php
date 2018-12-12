@@ -297,6 +297,11 @@ class DYCOPermissions extends Seeder
                 'name'=>'dashboard',
                 'display_name'=>'dashboard',
                 'description'=>'Dashboard'
+            ],            
+            [
+                'name'=>'em.renewal_scrutiny_remark',
+                'display_name'=>'em renewal scrutiny remark',
+                'description'=>'em renewal scrutiny remark'
             ],                              
         ];
 

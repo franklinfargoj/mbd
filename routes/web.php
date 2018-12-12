@@ -924,7 +924,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('renewal_application/{id}', 'conveyance\renewalCommonController@ViewApplication')
     ->name('renewal.view_application');
 
-    Route::get('view_renewal_society_documents/{id}', 'conveyance\renewalCommonController@ViewDocuments')->name('renewal.view_documents');
+    Route::get('view_renewal_society_documents/{id}', 'conveyance\renewalCommonController@ViewSocietyDocuments')->name('renewal.view_documents');
 
     Route::get('prepare_renewal_agreement/{id}', 'conveyance\renewalCommonController@PrepareRenewalAgreement')->name('renewal.prepare_renewal_agreement'); 
 
@@ -968,6 +968,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('forward_application_sr/{id}', 'conveyance\renewalCommonController@commonForward')->name('renewal.forward_application_sc');
 
     Route::post('save_forward_application_sr', 'conveyance\renewalCommonController@saveForwardApplication')->name('renewal.save_forward_application');
+
+    Route::post('save_draft_sign_renewal_agreement', 'conveyance\renewalCommonController@saveDraftSignRenewalAgreement')->name('renewal.save_draft_sign_renewal_agreement');
 
     // All dashboards
     Route::get('/dashboard','Common\CommonController@dashboard')->name('dashboard');
