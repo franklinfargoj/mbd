@@ -25,6 +25,7 @@ use Storage;
 use App\User;
 use Auth;
 use File;
+use DB;
 
 class renewalCommonController extends Controller
 {
@@ -133,6 +134,17 @@ class renewalCommonController extends Controller
                 ->where('application_master_id', $renewalId)
                 ->orderBy('id', 'desc');
         });
+
+        if($request->submitted_at_from)
+        {
+            $applicationData=$applicationData->where(\DB::raw("(DATE_FORMAT(created_at,'%Y-%m-%d'))"),'>=',date('Y-m-d',strtotime($request->submitted_at_from)));
+        }
+
+        if($request->submitted_at_to)
+        {
+            $applicationData=$applicationData->where(\DB::raw("(DATE_FORMAT(created_at,'%Y-%m-%d'))"),'<=',date('Y-m-d',strtotime($request->submitted_at_to)));
+        } 
+                
         $applicationData = $applicationData->orderBy('renewal_application.id', 'desc')->get();
         $listArray = [];
         
@@ -427,6 +439,7 @@ class renewalCommonController extends Controller
                 'to_user_id'     => $to_user_id,
                 'to_role_id'     => $user_data->role_id,
                 'remark'         => $request->remark,
+                'is_active'      => 1,
                 'application_master_id' => $masterId,
                 'created_at'     => Carbon::now(),
             ],
@@ -438,20 +451,34 @@ class renewalCommonController extends Controller
                 'to_user_id'    => null,
                 'to_role_id'    => null,
                 'remark'        => $request->remark,
+                'is_active'     => 1,
                 'application_master_id' => $masterId,
                 'created_at'    => Carbon::now(),
             ],
             ];
             
-            RenewalApplicationLog::insert($application); 
-            if ($Scstatus != ""){
+            DB::beginTransaction();
+            try{
                 
-                RenewalApplication::where('id',$request->applicationId)->where('application_master_id',$masterId)
-                ->update(['application_status' => $Tostatus]);                    
+                RenewalApplicationLog::where('application_id',$request->applicationId)
+                    ->whereIn('user_id', [Auth::user()->id,$to_user_id ])
+                    ->update(array('is_active' => 0));  
+                                  
+                RenewalApplicationLog::insert($application); 
+                
+                if ($Scstatus != ""){
+                    
+                    RenewalApplication::where('id',$request->applicationId)->where('application_master_id',$masterId)
+                    ->update(['application_status' => $Tostatus]);                    
+                }
+             DB::commit();    
+            }catch (\Exception $ex) {
+                 
+                DB::rollback();
             }
         }
 
-            return back()->with('success','Application send successfully..');
+        return back()->with('success','Application send successfully..');
     }     
 
     // get current status of application
@@ -639,7 +666,7 @@ class renewalCommonController extends Controller
         $documents_uploaded = RenewalDocumentStatus::where('application_id', $data->id)->get();   
         return view('admin.renewal.common.view_documents', compact('data', 'documents', 'documents_uploaded'));
     }
-
+ 
     // get document id as per document name
     public function getDocumentIds($documentNames,$type){
 

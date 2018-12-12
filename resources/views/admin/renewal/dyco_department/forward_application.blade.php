@@ -119,7 +119,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> 
             <div class="tab-content">
 
                 <div class="tab-pane active show" id="scrutiny-history-tab">

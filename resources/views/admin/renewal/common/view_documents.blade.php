@@ -14,21 +14,6 @@
         </div>
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--creative m-portlet--first m-portlet--bordered-semi mb-0">
-            <!-- <div class="m-portlet__head main-sub-title">
-                <div class="m-portlet__head-caption">
-                    <div class="m-portlet__head-title">
-                        <span class="m-portlet__head-icon m--hide">
-                            <i class="flaticon-statistics"></i>
-                        </span>
-                        <h2 class="m-portlet__head-label m-portlet__head-label--custom">
-                            <span>
-                                Upload Attachments
-                            </span>
-                        </h2>
-                    </div>
-                </div>
-            </div> -->
-
             <div class="m-portlet__body m-portlet__body--table">
                 <div class="m-section mb-0">
                     <div class="m-section__content mb-0 table-responsive">

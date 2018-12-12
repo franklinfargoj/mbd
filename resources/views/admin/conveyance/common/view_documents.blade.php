@@ -32,8 +32,8 @@
                                     @foreach($documents as $document)
                                         <tr>
                                             <td>{{ $i }}</td>
-                                            <td>
-                                                {{ $document->document_name }}<span class="compulsory-text">(Compulsory Document)</span>
+                                            <td>{{ $document->document_name }}
+                                            <span class="compulsory-text">(Compulsory Document)</span>
                                             </td>
                                             <td class="text-center">
                                                 <h2 class="m--font-danger">
