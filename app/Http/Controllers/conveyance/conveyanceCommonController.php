@@ -1080,6 +1080,7 @@ class conveyanceCommonController extends Controller
 
         $totalPending = $inprocess + $draft + $approve + $stamp + $stampSign + $registered; 
 
+
         //Application pending Bifergation    
 
         $separation['Inprocess']  = $inprocess;
@@ -1090,11 +1091,11 @@ class conveyanceCommonController extends Controller
         $separation['registered'] = $registered;
 
         if ($role_name == config('commanConfig.dyco_engineer')){
-            $separation['sendForRegistration']  = $sendForRegistration;
-            $separation['sendForStampDuty']     = $sendForStampDuty;
-            $separation['nocIssued']            = $nocIssued; 
+            $separation['sendForRegistration']  = $Registration;
+            $separation['sendForStampDuty']     = $StampDuty;
+            $separation['nocIssued']            = $noc; 
 
-            $totalPending =  $sendForRegistration + $sendForStampDuty +  $nocIssued;  
+            $totalPending =  $totalPending + $Registration + $StampDuty +  $noc;  
         }
 
         //send to society Bifergation
@@ -1111,7 +1112,7 @@ class conveyanceCommonController extends Controller
         $count['Applications Pending'][0]     = $totalPending;
         $count['Applications Pending'][1]     = 'pending';
         $count['Draft Sale & Lease Deed sent for Approval'][0] = $sendForApproval;
-        $count['Draft Sale & Lease Deed sent for Approval'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+        $count['Draft Sale & Lease Deed sent for Approval'][1] = 'conveyance?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
         $count['Sent to Society'][0] = $sendToSocietycount;
         $count['Sent to Society'][1] = 'sendToSociety';
 
@@ -1119,18 +1120,18 @@ class conveyanceCommonController extends Controller
             if ($parentName != ""){
                 
                 $count['Applications Forwarded to '.$parentName][0] = $forwardApplication;
-                $count['Applications Forwarded to '.$parentName][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');                
+                $count['Applications Forwarded to '.$parentName][1] = 'conveyance?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');                
 
             }else{
                 $count['Applications Forwarded'][0] = $forwardApplication;
-                $count['Applications Forwarded'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded'); 
+                $count['Applications Forwarded'][1] = 'conveyance?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded'); 
             }
         }    
 
         if ($can_revert){
                 
                 $count['Applications Reverted'][0] = $revertApplication;
-                $count['Applications Reverted'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');             
+                $count['Applications Reverted'][1] = 'conveyance?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');             
         }
         $dashboard = array($count,$separation,$sendToSociety);
 
