@@ -79,11 +79,20 @@
                 <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="conveyance_dashboard"
                      data-parent="#accordion">
                     <div class="row hearing-row">
-                        @foreach($conveyanceDashboard as $header => $value)
+                        @foreach($conveyanceDashboard[0] as $header => $value)
                             <div class="col">
                                 <div class="m-portlet app-card text-center">
                                     <h2 class="app-heading">{{$header}}</h2>
-                                    <h2 class="app-no mb-0">{{$value}}</h2>
+                                    <div class="app-card-footer">
+                                        <h2 class="app-no mb-0">{{$value[0]}}</h2>
+                                            @if( $value[1] == 'pending')
+                                                <a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#pending">View Details</a>
+                                            @elseif( $value[1] == 'sendToSociety')
+                                                <a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#sendToSociety">View Details</a>
+                                            @else
+                                                <a href="{{url($value[1])}}" class="app-card__details mb-0">View Details</a>
+                                            @endif
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -108,10 +117,12 @@
                     <div class="row hearing-row">
                         @foreach($pendingApplications as $header => $value)
                             <div class="col">
-                                <div class="m-portlet app-card text-center">
-                                    <h2 class="app-heading">{{$header}}</h2>
-                                    <h2 class="app-no mb-0">{{$value}}</h2>
-                                    {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
+                                <div class="app-card-footer">
+                                    <div class="m-portlet app-card text-center">
+                                        <h2 class="app-heading">{{$header}}</h2>
+                                        <h2 class="app-no mb-0">{{$value}}</h2>
+                                        {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -121,10 +132,77 @@
         @endif
     </div>
 
+  <!-- Modal for application pending bifergation -->
+  <div class="modal fade" id="pending" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Pending Applications</h4>
+        </div>
+        <div class="modal-body">
+        <table>
+            <tr>
+                <th>Header</th>
+                <th>Count</th>
+            </tr>
+            @if($conveyanceDashboard[1])
+                @foreach($conveyanceDashboard[1] as $header => $value)
+                <tr>
+                    <td> {{$header}} </td>
+                    <td> {{$value}} </td>
+                </tr>
+                @endforeach
+            @endif            
+        </table>
+          <!-- <p>Some text in the modal.</p> -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>     
+    </div>
+  </div>  
+
+<!-- Model for send to society bifergation-->
+  <div class="modal fade" id="sendToSociety" role="dialog">
+    <div class="modal-dialog">    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Applications Sent to Society</h4>
+        </div>
+        <div class="modal-body">
+        <table>
+            <tr>
+                <th>Header</th>
+                <th>Count</th>
+            </tr>
+            @if($conveyanceDashboard[2])
+                @foreach($conveyanceDashboard[2] as $header => $value)
+                <tr>
+                    <td> {{$header}} </td>
+                    <td> {{$value}} </td>
+                </tr>
+                @endforeach
+            @endif            
+        </table>
+          <!-- <p>Some text in the modal.</p> -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>     
+    </div>
+  </div>      
+
 @endsection
 @section('js')
     <script>
-        $(".ol-accordion-icon").on("click", function () {
+        $(".ol-accordion").on("click", function () {
             var data = $('.ol-accordion').children().children().attr('aria-expanded');
             if (!(data)) {
                 $('.ol-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");

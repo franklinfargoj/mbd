@@ -16,11 +16,11 @@
                     <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
                        data-toggle="collapse" href="#land-summary">
                         <span class="form-accordion-title">Land Summary</span>
-                        <span class="accordion-icon"></span>
+                        <span class="accordion-icon hearing-accordion"></span>
                     </a>
                 </div>
             </div>
-            <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="land-summary"
+            <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="land-summary"
                  data-parent="#accordion">
                 <div class="row hearing-row">
                     @php $chart = 0;@endphp
@@ -45,15 +45,31 @@
 @endsection
 @section('js')
     <script>
-        $(".accordion-icon").on("click", function () {
+        $(".hearing-accordion").on("click", function () {
             var data = $('.hearing-accordion').children().children().attr('aria-expanded');
-            if(data == 'undefine' || data == 'false'){
+            if (!(data)) {
                 $('.accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-            }else{
-                $('.accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+            }
+            else {
+                if (data == 'undefine' || data == 'false') {
+                    $('.accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                } else {
+                    $('.accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                }
             }
         });
     </script>
+
+    {{--<script>--}}
+        {{--$(".hearing-accordion").on("click", function () {--}}
+            {{--var data = $('.hearing-accordion').children().children().attr('aria-expanded');--}}
+            {{--if(data == 'undefine' || data == 'false'){--}}
+                {{--$('.accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");--}}
+            {{--}else{--}}
+                {{--$('.accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");--}}
+            {{--}--}}
+        {{--});--}}
+    {{--</script>--}}
     <script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>
 

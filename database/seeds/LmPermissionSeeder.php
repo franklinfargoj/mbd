@@ -19,6 +19,11 @@ class LmPermissionSeeder extends Seeder
 
         $permissions = [
             [
+                'name'=>'architect_layout_dashboard',
+                'display_name' => 'Dashboard for Architect',
+                'description' => 'Dashboard for Architect'
+            ],
+            [
                 'name' => 'village_detail.index',
                 'display_name' => 'List village',
                 'description' => 'Listing of village'

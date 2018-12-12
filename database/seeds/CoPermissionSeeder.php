@@ -18,6 +18,11 @@ class CoPermissionSeeder extends Seeder
     {
         $permissions = [
             [
+                'name'=>'architect_layout_dashboard',
+                'display_name' => 'Dashboard for Architect',
+                'description' => 'Dashboard for Architect'
+            ],
+            [
                 'name' => 'co.index',
                 'display_name' => 'index',
                 'description' => 'index',
