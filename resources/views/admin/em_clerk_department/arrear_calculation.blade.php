@@ -320,7 +320,7 @@
                 
                 var bill_year = $('#bill_year option:selected').val();
                 var bill_month = $('#bill_month option:selected').val();
-                bill_month = bill_month - 1;
+                // bill_month = bill_month - 1;
                 var ior_year = $('#ior_year option:selected').val();
                 var ior_month = $('#ior_month option:selected').val();
                 // if( ior_month != 1 ) {
@@ -367,7 +367,7 @@
                                     old_iod[v.year] = Number(v.interest_on_differance);
                                     old_ior[v.year] = Number(v.interest_on_old_rate);
                                 });
-                                
+                                bill_month = bill_month - 1;
                                 var start_date = new Date(ior_year,ior_month,01);
                                 var end_date = new Date(bill_year,bill_month,01);
 
@@ -531,8 +531,8 @@
                                  );
 
                             var old_monthDiff2 = monthDiff(
-                                    new Date(ior_year, ior_month, 01),
-                                    new Date(ior_year, 4, 01)
+                                    new Date(ida_year, ida_month, 01),
+                                    new Date(ida_year, 4, 01)
                                  );
                         } else if (ior_month ==3 && currentYear == ior_year) {
                             var old_monthDiff1 = 1;
@@ -546,8 +546,8 @@
                                  );
 
                             var old_monthDiff2 = monthDiff(
-                                    new Date(ior_year, 3, 01),
-                                    new Date(ior_year, ida_month, 01)
+                                    new Date(ida_year, 3, 01),
+                                    new Date(ida_year, ida_month, 01)
                                  );
                         }
                         old_iod_per = old_iod / 100;
@@ -589,6 +589,7 @@
                             // var old_rate = old_rate *months1;
                             // var rate_diff = rate_diff *months1;
                         // }
+                        console.log(months1);
                         old_intrest_amount = (old_rate * ior_per * months1).toFixed(2);
 
                         intrest_on_difference = (rate_diff * iod_per * months2).toFixed(2);
