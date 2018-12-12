@@ -350,7 +350,7 @@
             //cookies setting for tabs
             $(".display_msg").delay("slow").slideUp("slow");
 
-            var id = Cookies.get('sectionId');
+            var id = Cookies.get('sectionid');
             if (id != undefined) {
                 //alert(id);
 
