@@ -111,21 +111,19 @@ class AccountController extends Controller
       
         if ($datatables->getRequest()->ajax()) {
         	DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-            $tenants = MasterTenant::selectRaw('@rownum  := @rownum  + 1 AS rownum,master_tenants.*,CONCAT(first_name," ",last_name) as tenant_name')->with(['arrear' => function($query) use($year,$month){
-                $query->select('*');
-            	$query->where('year',$year);
-            	$query->where('month',$month);
-            }])->where('building_id',decrypt($request->building_id));
-            
+            $tenants = MasterTenant::selectRaw('@rownum  := @rownum  + 1 AS rownum,master_tenants.*,CONCAT(first_name," ",last_name) as tenant_name');
+
+            $tenants->leftJoin('arrear_calculation','master_tenants.id','=','arrear_calculation.tenant_id')->where('arrear_calculation.month',$month)
+            ->where('arrear_calculation.year',$year)->where('master_tenants.building_id',decrypt($request->building_id));
             return $datatables->of($tenants)
-	            ->addColumn('payment_status', function ($tenants){               
+                ->editColumn('payment_status', function ($tenants){               
 	               	if(count($tenants->arrear) && $this->PAYMENT_STATUS_PAID == $tenants->arrear->first()->payment_status) {
 	               		return 'Paid';
 	               	} else {
 	               		return 'Not Paid';
 	               	}
 	            })
-	            ->addColumn('total_amount', function ($tenants){               
+	            ->editColumn('total_amount', function ($tenants){               
 	               	if(count($tenants->arrear)) {
 	               		return $tenants->arrear->first()->total_amount;
 	               	} else {
