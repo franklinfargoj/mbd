@@ -1091,16 +1091,16 @@ class conveyanceCommonController extends Controller
         $separation['registered'] = $registered;
 
         if ($role_name == config('commanConfig.dyco_engineer')){
-            $separation['sendForRegistration']  = $Registration;
-            $separation['sendForStampDuty']     = $StampDuty;
-            $separation['nocIssued']            = $noc; 
+            $separation['send For Stamp Duty']     = $StampDuty;
+            $separation['send For Registration']  = $Registration;
+            $separation['NOC Issued']            = $noc; 
 
             $totalPending =  $totalPending + $Registration + $StampDuty +  $noc;  
         }
 
         //send to society Bifergation
+        $sendToSociety['Send For Stamp Duty']    = $sendForStampDuty;
         $sendToSociety['Send For Registration'] = $sendForRegistration;
-        $sendToSociety['Send For StampDuty']    = $sendForStampDuty;
         $sendToSociety['NOC Issued']            = $nocIssued;
 
         $sendToSocietycount = $sendForRegistration + $sendForStampDuty + $nocIssued;

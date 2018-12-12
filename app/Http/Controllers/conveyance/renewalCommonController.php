@@ -154,6 +154,7 @@ class renewalCommonController extends Controller
         $data = RenewalApplication::where('id',$applicationId)->first();
         $data->folder = $this->conveyance->getCurrentRoleFolderName();
         $document_id = $this->conveyance->getDocumentId(config('commanConfig.documents.em_renewal.stamp_renewal_application'), $data->application_master_id);
+
         $document = RenewalDocumentStatus::where('document_id', $document_id)->first();
 
         return view('admin.renewal.common.view_application',compact('data', 'document'));
@@ -630,12 +631,12 @@ class renewalCommonController extends Controller
     }
 
     //view documents in readonly format
-    public function ViewDocuments($applicationId){
+    public function ViewSocietyDocuments($applicationId){
+        
         $data = RenewalApplication::where('id',$applicationId)->first();
         $data->folder = $this->conveyance->getCurrentRoleFolderName();
         $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($data) { $q->where('application_id', $data->id)->get(); }])->where('application_type_id', $data->application_master_id)->where('society_flag', '1')->where('document_name', '!=', 'stamp_renewal_application')->get();
-        $documents_uploaded = RenewalDocumentStatus::where('application_id', $data->id)->get();
-   
+        $documents_uploaded = RenewalDocumentStatus::where('application_id', $data->id)->get();   
         return view('admin.renewal.common.view_documents', compact('data', 'documents', 'documents_uploaded'));
     }
 
