@@ -51,7 +51,7 @@
                                         <p>Click Download to download Sale deed agreement in .pdf format.</p>
                                         {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
                                         {{--@if($data->sc_form_request->template_file)--}}
-                                        <a href="" class="btn btn-primary">Download</a>
+                                        <a href="{{ config('commanConfig.storage_server') .'/'. $sale_deed_agreement->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">Download</a>
                                         {{--@endif--}}
                                 </div>
                             </div>
@@ -62,7 +62,7 @@
                                     <div class="col-sm-12">
                                         <div class="d-flex flex-column h-100">
                                             <h5>Upload Registered Agreement</h5>
-                                            <span class="hint-text">Click on 'Upload' to upload List of Non-Bonafide Allottees</span>
+                                            <span class="hint-text">Click on 'Upload' to upload Sale deed agreement</span>
                                             <p>
                                             @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))
                                                 <div class="alert alert-success society_registered">
@@ -168,7 +168,7 @@
                                             </p>
                                             <p>Click Download to download Lease deed agreement in .pdf format.</p>
                                             {{--@if($data->sc_form_request->template_file)--}}
-                                            <a href="" class="btn btn-primary">Download</a>
+                                            <a href="{{ config('commanConfig.storage_server') .'/'. $lease_deed_agreement->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">Download</a>
                                             {{--@endif--}}
                                     </div>
                                 </div>
@@ -179,7 +179,7 @@
                                         <div class="col-sm-12">
                                             <div class="d-flex flex-column h-100">
                                                 <h5>Upload Registered Agreement</h5>
-                                                <span class="hint-text">Click on 'Upload' to upload List of Non-Bonafide Allottees</span>
+                                                <span class="hint-text">Click on 'Upload' to upload Lease deed agreement</span>
                                                 <p>
                                                     @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))
                                                         <div class="alert alert-success society_registered">
