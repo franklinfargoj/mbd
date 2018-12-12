@@ -24,14 +24,19 @@
                  data-parent="#accordion">
                 <div class="row hearing-row">
                     @php $chart = 0;@endphp
-                    @foreach($dashboardData as $header => $value)
+                    @foreach($dashboardData[0] as $header => $value)
                         <div class="col">
                             <div class="m-portlet app-card text-center">
                                 <h2 class="app-heading">{{$header}}</h2>
                                 <div class="app-card-footer">
                                     <h2 class="app-no mb-0">{{$value[0]}}</h2>
                                     @php $chart += $value[0];@endphp
-                                    <a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a>
+                                    @if( $value[1] == 'pending')
+                                        <a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#reePendingModal">View Details</a>
+                                    @else
+                                        <a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a>
+                                    @endif
+                                    {{--<a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a>--}}
                                 </div>
                             </div>
                         </div>
@@ -93,11 +98,50 @@
         {{--@endif--}}
 
     </div>
+    <!-- Model for send to society bifergation-->
+    <div class="modal fade" id="reePendingModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Applications Pending</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table text-center">
+                            <thead class="thead-default">
+                            <tr>
+                                <th>Header</th>
+                                <th>Count</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if($dashboardData[1] )
+                                @foreach($dashboardData[1]  as $header => $value)
+                                    <tr>
+                                        <td> {{$header}} </td>
+                                        <td> {{$value}} </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- <p>Some text in the modal.</p> -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 @endsection
 @section('js')
     <script>
-        $(".ol-accordion-icon").on("click", function () {
+        $(".ol-accordion").on("click", function () {
             var data = $('.ol-accordion').children().children().attr('aria-expanded');
             if (!(data)) {
                 $('.ol-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
@@ -121,7 +165,7 @@
 
         var chartData = [
 
-                @foreach($dashboardData as $header => $value)
+                @foreach($dashboardData[0] as $header => $value)
                 @if($header != 'Total No of Applications'){
                 "status": '{{$header}}',
                 "value": '{{$value[0]}}',

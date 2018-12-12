@@ -2,6 +2,7 @@
 @php
 $route="";
 $route=\Request::route()->getName();
+
 @endphp
 
 {{--@php--}}`
@@ -29,7 +30,7 @@ $route=\Request::route()->getName();
             data-max-height="100vh">
             <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow">
 
-                @if(session()->get('permission') && in_array('dashboard', session()->get('permission')) || (strpos($route,'dashboard') !== false) || (strpos($route,'detail') !== false))
+                @if(session()->get('permission') && in_array('dashboard', session()->get('permission')) || (strpos($route,'dashboard') !== false) || (strpos($route,'detail') !== false) || !($route == 'hearing'))
                 <li class="m-menu__item {{(strpos($route,'dashboard') !== false)?'m-menu__item--active':''}}">
                     <a href="{{ session()->get('dashboard') }}" class="m-menu__link m-menu__toggle">
                         <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -164,24 +165,23 @@ $route=\Request::route()->getName();
                 'forward_case.create', 'forward_case.store', 'forward_case.edit', 'forward_case.update',
                 'send_notice_to_appellant.create', 'send_notice_to_appellant.store', 'send_notice_to_appellant.edit',
                 'send_notice_to_appellant.update',
-                'hearing.dashboard',
                 ];
                 @endphp
 
-                @if(session()->get('permission') && in_array('hearing.dashboard', session()->get('permission')))
-                <li class="m-menu__item {{($route=='hearing.dashboard')?'m-menu__item--active':''}}">
-                    <a href="{{ url('hearing-dashboard') }}" class="m-menu__link m-menu__toggle">
-                        <i class="m-menu__link-icon flaticon-line-graph"></i>
-                        <span class="m-menu__link-title">
-                            <span class="m-menu__link-wrap">
-                                <span class="m-menu__link-text">
-                                    Dashboard
-                                </span>
-                            </span>
-                        </span>
-                    </a>
-                </li>
-                @endif
+                {{--@if(session()->get('permission') && in_array('hearing.dashboard', session()->get('permission')))--}}
+                {{--<li class="m-menu__item {{($route=='hearing.dashboard')?'m-menu__item--active':''}}">--}}
+                    {{--<a href="{{ url('hearing-dashboard') }}" class="m-menu__link m-menu__toggle">--}}
+                        {{--<i class="m-menu__link-icon flaticon-line-graph"></i>--}}
+                        {{--<span class="m-menu__link-title">--}}
+                            {{--<span class="m-menu__link-wrap">--}}
+                                {{--<span class="m-menu__link-text">--}}
+                                    {{--Dashboard--}}
+                                {{--</span>--}}
+                            {{--</span>--}}
+                        {{--</span>--}}
+                    {{--</a>--}}
+                {{--</li>--}}
+                {{--@endif--}}
 
 
                 {{-- @if(!empty(array_intersect($hearing_permission, session()->get('permission'))))--}}

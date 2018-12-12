@@ -55,6 +55,11 @@ class EmPermissionSeeder extends Seeder
         // EM Manager Permissions
         $permissions = [
             [
+                'name'=>'architect_layout_dashboard',
+                'display_name' => 'Dashboard for Architect',
+                'description' => 'Dashboard for Architect'
+            ],
+            [
                 'name'=>'scrutiny-remark',
                 'display_name'=>'list'
             ],
