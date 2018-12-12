@@ -466,6 +466,20 @@ class HearingController extends Controller
 
         $totalHearing = count($hearing_data);
 
+        $dashboardData = array();
+        $dashboardData['Total Number of Cases'][0] =  $totalHearing;
+        $dashboardData['Total Number of Cases'][1] =  '';
+        $dashboardData['Total Number of Pending Cases'][0] =  $totalPendingHearing;
+        $dashboardData['Total Number of Pending Cases'][1] =  '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.pending');
+        $dashboardData['Total Number of Scheduled Cases'][0] = $totalScheduledHearing;
+        $dashboardData['Total Number of Scheduled Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.scheduled_meeting');
+        $dashboardData['Total Number of Under Judgement Cases'][0] = $totalUnderJudgementHearing;
+        $dashboardData['Total Number of Under Judgement Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.case_under_judgement');
+        $dashboardData['Total Number of Forwarded Cases'][0] = $totalForwardedHearing;
+        $dashboardData['Total Number of Forwarded Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.forwarded');
+        $dashboardData['Total Number of Closed Cases'][0] = $totalClosedHearing;
+        $dashboardData['Total Number of Closed Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.case_closed');
+
         $today = Carbon::now()->format('d-m-Y');
 
         $todaysHearing = HearingSchedule::with(['Hearing'])->where('preceding_date',$today)->get()->toArray();
@@ -476,6 +490,6 @@ class HearingController extends Controller
         $conveyanceRoles     = $conveyanceCommonController->getConveyanceRoles(); 
         $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();        
 
-        return view('admin.hearing.dashboard',compact('totalHearing','totalClosedHearing','totalPendingHearing','totalUnderJudgementHearing','todaysHearing','totalScheduledHearing','totalForwardedHearing','conveyanceDashboard','conveyanceRoles','pendingApplications'));
+        return view('admin.hearing.dashboard',compact('todaysHearing','dashboardData','conveyanceDashboard','conveyanceRoles','pendingApplications'));
     }
 }
