@@ -63,62 +63,35 @@
 
     </div>
     <div class="hearing-accordion-wrapper">
-        <div class="m-portlet m-portlet--compact hearing-accordion mb-0">
+        <div class="m-portlet m-portlet--compact hearing-accordion1 mb-0">
             <div class="d-flex justify-content-between align-items-center">
                 <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
                     data-toggle="collapse" href="#hearing-summary">
                     <span class="form-accordion-title">Hearing Summary</span>
-                    <span class="accordion-icon"></span>
+                    <span class="accordion-icon hearing-accordion-icon"></span>
                 </a>
             </div>
         </div>
-        <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="hearing-summary"
+        <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="hearing-summary"
             data-parent="#accordion">
             <div class="row hearing-row">
-                <div class="col">
-                    <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">Total No of Cases</h2>
-                        <h2 class="app-no mb-0">{{$totalHearing}}</h2>
-                        <a href="{{url('hearing')}}" class="app-card__details mb-0">View Details</a>
+                @php $chart = 0;@endphp
+                @foreach($dashboardData as $header => $value)
+                    <div class="col">
+                        <div class="m-portlet app-card text-center">
+                            <h2 class="app-heading">{{$header}}</h2>
+                            <div class="app-card-footer">
+                                <h2 class="app-no mb-0">{{$value[0]}}</h2>
+                                @php $chart += $value[0];@endphp
+                                <a href='{{url(session()->get('redirect_to').$value[1])}}' class="app-card__details mb-0">View Details</a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">Total No of Pending Cases</h2>
-                        <h2 class="app-no mb-0">{{$totalPendingHearing}}</h2>
-                        <a href="{{url('hearing')}}" class="app-card__details mb-0">View Details</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">Total No of Scheduled Cases</h2>
-                        <h2 class="app-no mb-0">{{$totalScheduledHearing}}</h2>
-                        <a href="{{url('hearing')}}" class="app-card__details mb-0">View Details</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">Total No of Forwarded Cases</h2>
-                        <h2 class="app-no mb-0">{{$totalForwardedHearing}}</h2>
-                        <a href="{{url('hearing')}}" class="app-card__details mb-0">View Details</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">Case Under Hearing</h2>
-                        <h2 class="app-no mb-0">{{$totalUnderJudgementHearing}}</h2>
-                        <a href="{{url('hearing')}}" class="app-card__details mb-0">View Details</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">Total No of Closed Cases</h2>
-                        <h2 class="app-no mb-0">{{$totalClosedHearing}}</h2>
-                        <a href="{{url('hearing')}}" class="app-card__details mb-0">View Details</a>
-                    </div>
-                </div>
+                @endforeach
             </div>
-            <div id="chartdiv" style="width: 100%; height: 350px; margin-top: 2px;"></div>
+            @if($chart)
+                <div id="chartdiv" style="width: 100%; height: 350px; margin-top: 2px;"></div>
+            @endif
         </div>
     </div>
 
@@ -262,6 +235,22 @@
 @endsection
 
 @section('js')
+    <script>
+        $(".hearing-accordion1").on("click", function () {
+            var data = $('.hearing-accordion1').children().children().attr('aria-expanded');
+            if (!(data)) {
+                $('.hearing-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+            }
+            else {
+                if (data == 'undefine' || data == 'false') {
+                    $('.hearing-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                } else {
+                    $('.hearing-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                }
+            }
+        });
+    </script>
+
     <script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>
 
@@ -270,26 +259,12 @@
         var legend;
 
         var chartData = [
+            @foreach($dashboardData as $header => $value)
             {
-                "status": "Pending",
-                "value": '{{$totalPendingHearing}}'
+                "status": "{{$header}}",
+                "value": "{{$value[0]}}",
             },
-            {
-                "status": "Scheduled",
-                "value": '{{$totalScheduledHearing}}'
-            },
-            {
-                "status": "Under Judgement",
-                "value": '{{$totalUnderJudgementHearing}}'
-            },
-            {
-                "status": "Forwarded",
-                "value": '{{$totalForwardedHearing}}'
-            },
-            {
-                "status": "Closed",
-                "value": '{{$totalClosedHearing}}'
-            }
+            @endforeach
         ];
 
         AmCharts.ready(function () {
