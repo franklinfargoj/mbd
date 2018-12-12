@@ -67,69 +67,71 @@
 
 
 <!-- Dashboard for Convayance Module  --> 
-        @if($conveyanceDashboard)
-            <div class="hearing-accordion-wrapper">
-                <div class="m-portlet m-portlet--compact hearing-accordion mb-0">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
-                           data-toggle="collapse" href="#ree-ol-pending-summary">
-                            <span class="form-accordion-title">Applications for Society Conveyance</span>
-                            <span class="accordion-icon"></span>
-                        </a>
-                    </div>
-                </div>
-                <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="ree-ol-pending-summary"
-                     data-parent="#accordion">
-                    <div class="row hearing-row">
-                        @foreach($conveyanceDashboard[0] as $header => $value)
-                            <div class="col">
-                                <div class="m-portlet app-card text-center">
-                                    <h2 class="app-heading">{{$header}}</h2>
-                                    <h2 class="app-no mb-0">{{$value[0]}}</h2>
-                                    
-                                    @if( $value[1] == 'pending')
-                                        <a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#pending">View Details</a>
-                                    @elseif( $value[1] == 'sendToSociety')
-                                        <a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#sendToSociety">View Details</a>
-                                    @else
-                                        <a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a>
-                                    @endif
-                                    {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
+@if(in_array(session()->get('role_name'),$conveyanceRoles))
+    @if($conveyanceDashboard)
+        <div class="hearing-accordion-wrapper">
+            <div class="m-portlet m-portlet--compact hearing-accordion mb-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
+                       data-toggle="collapse" href="#conveyance_dashboard">
+                        <span class="form-accordion-title">Applications for Society Conveyance</span>
+                        <span class="accordion-icon"></span>
+                    </a>
                 </div>
             </div>
-        @endif
+            <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="conveyance_dashboard"
+                 data-parent="#accordion">
+                <div class="row hearing-row">
+                    @foreach($conveyanceDashboard[0] as $header => $value)
+                        <div class="col">
+                            <div class="m-portlet app-card text-center">
+                                <h2 class="app-heading">{{$header}}</h2>
+                                <h2 class="app-no mb-0">{{$value[0]}}</h2>
+                                
+                                @if( $value[1] == 'pending')
+                                    <a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#pending">View Details</a>
+                                @elseif( $value[1] == 'sendToSociety')
+                                    <a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#sendToSociety">View Details</a>
+                                @else
+                                    <a href="{{url($value[1])}}" class="app-card__details mb-0">View Details</a>
+                                @endif
+                                {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    @endif
     
-        @if($pendingApplications && session()->get('role_name') == config('commanConfig.dyco_engineer'))
-            <div class="hearing-accordion-wrapper">
-                <div class="m-portlet m-portlet--compact hearing-accordion mb-0">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
-                           data-toggle="collapse" href="#pending_at_dept">
-                            <span class="form-accordion-title">Pending Applications</span>
-                            <span class="accordion-icon"></span>
-                        </a>
-                    </div>
-                </div>
-                <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse " id="pending_at_dept"
-                     data-parent="#accordion">
-                    <div class="row hearing-row">
-                        @foreach($pendingApplications as $header => $value)
-                            <div class="col">
-                                <div class="m-portlet app-card text-center">
-                                    <h2 class="app-heading">{{$header}}</h2>
-                                    <h2 class="app-no mb-0">{{$value}}</h2>
-                                    {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
+    @if($pendingApplications && session()->get('role_name') == config('commanConfig.dyco_engineer'))
+        <div class="hearing-accordion-wrapper">
+            <div class="m-portlet m-portlet--compact hearing-accordion mb-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
+                       data-toggle="collapse" href="#pending_at_dept">
+                        <span class="form-accordion-title">Pending Applications</span>
+                        <span class="accordion-icon"></span>
+                    </a>
                 </div>
             </div>
-        @endif        
+            <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse " id="pending_at_dept"
+                 data-parent="#accordion">
+                <div class="row hearing-row">
+                    @foreach($pendingApplications as $header => $value)
+                        <div class="col">
+                            <div class="m-portlet app-card text-center">
+                                <h2 class="app-heading">{{$header}}</h2>
+                                <h2 class="app-no mb-0">{{$value}}</h2>
+                                {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    @endif  
+@endif              
  <!-- end -->
 
     </div>

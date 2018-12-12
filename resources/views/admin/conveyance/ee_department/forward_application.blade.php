@@ -237,7 +237,7 @@
                                 @if(count($emlogs) > 0)
                                 <div class="remark-body">
                                     <div class="border-bottom pb-2">
-                                        <span class="hint-text d-block t-remark">Remark by EE Department</span>
+                                        <span class="hint-text d-block t-remark">Remark by EM Department</span>
                                     </div>                                
                                     <div class="remarks-section">
                                         <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
@@ -272,7 +272,7 @@
                                 @if(count($lalogs) > 0)
                                 <div class="remark-body">
                                     <div class="border-bottom pb-2">
-                                        <span class="hint-text d-block t-remark">Remark by EE Department</span>
+                                        <span class="hint-text d-block t-remark">Remark by LA Department</span>
                                     </div>                                
                                     <div class="remarks-section">
                                         <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
@@ -414,17 +414,7 @@
                                                 <label for="remark">Remark:</label>
                                                 <textarea class="form-control form-control--custom" name="remark" id="remark"
                                                     cols="30" rows="5"></textarea>
-                                            </div>
-                                            @php
-                                                $error = '';
-                                            if(isset($data->conveyance_map))
-                                                if(isset($data->ConveyanceSalePriceCalculation))
-                                                    $error = '';
-                                            else
-                                                $error = 'error';    
-                                            @endphp
-                                            
-                                            @if($error == "")
+                                            </div>                                            
                                             <div class="mt-3 btn-list">
                                                 <button type="submit" class="btn btn-primary">Save</button>
                                                 {{--<button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>
@@ -433,9 +423,6 @@
                                                 <button type="button" onclick=""
                                                     class="btn btn-secondary">Cancel</button>
                                             </div>
-                                            @else
-                                            <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">*Note : Please Fill calculation of sale price.</span>
-                                            @endif
                                         </div>
                                         <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                                     </form>
