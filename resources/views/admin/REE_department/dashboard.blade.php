@@ -24,14 +24,19 @@
                  data-parent="#accordion">
                 <div class="row hearing-row">
                     @php $chart = 0;@endphp
-                    @foreach($dashboardData as $header => $value)
+                    @foreach($dashboardData[0] as $header => $value)
                         <div class="col">
                             <div class="m-portlet app-card text-center">
                                 <h2 class="app-heading">{{$header}}</h2>
                                 <div class="app-card-footer">
                                     <h2 class="app-no mb-0">{{$value[0]}}</h2>
                                     @php $chart += $value[0];@endphp
-                                    <a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a>
+                                    @if( $value[1] == 'pending')
+                                        <a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#myModal">View Details</a>
+                                    @else
+                                        <a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a>
+                                    @endif
+                                    {{--<a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a>--}}
                                 </div>
                             </div>
                         </div>
@@ -93,6 +98,39 @@
         {{--@endif--}}
 
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <tr>
+                            <th>Header</th>
+                            <th>Count</th>
+                        </tr>
+                        @if($dashboardData[1])
+                            @foreach($dashboardData[1] as $header => $value)
+                                <tr>
+                                    <td> {{$header}} </td>
+                                    <td> {{$value}} </td>
+                                </tr>
+                            @endforeach
+                        @endif
+                    </table>
+                    <!-- <p>Some text in the modal.</p> -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection
 @section('js')
@@ -121,7 +159,7 @@
 
         var chartData = [
 
-                @foreach($dashboardData as $header => $value)
+                @foreach($dashboardData[0] as $header => $value)
                 @if($header != 'Total No of Applications'){
                 "status": '{{$header}}',
                 "value": '{{$value[0]}}',
