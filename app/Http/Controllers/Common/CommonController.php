@@ -50,6 +50,7 @@ use Storage;
 use App\EmploymentOfArchitect\EoaApplication;
 use App\conveyance\SfApplicationStatusLog;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
+use App\Http\Controllers\conveyance\renewalCommonController;
 
 class CommonController extends Controller
 {
@@ -1581,6 +1582,12 @@ class CommonController extends Controller
         $conveyanceRoles     = $conveyanceCommonController->getConveyanceRoles();
         $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();
 
+        $renewal = new renewalCommonController();
+
+        $renewalDashboard = $renewal->RenewalDashboard();
+        $renewalRoles     = $renewal->getRenewalRoles();
+        $renewalPendingApplications = $renewal->getApplicationPendingAtDepartment();         
+
         $applicationData = $this->getApplicationData($role_id,$user_id);
 //        dd($applicationData);
 
@@ -1631,7 +1638,7 @@ class CommonController extends Controller
         if($role_id == $dyceHeadId){
             $dashboardData1 = $this->getToatalPendingApplicationsAtUser($dyce);
         }
-        return view('admin.common.ol_dashboard',compact('dashboardData','dashboardData1','conveyanceDashboard','conveyanceRoles','pendingApplications'));
+        return view('admin.common.ol_dashboard',compact('dashboardData','dashboardData1','conveyanceDashboard','conveyanceRoles','pendingApplications','renewalDashboard','renewalRoles','renewalPendingApplications'));
 
     }
 

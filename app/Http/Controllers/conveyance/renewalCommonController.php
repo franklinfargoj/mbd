@@ -1125,12 +1125,12 @@ class renewalCommonController extends Controller
 
         //Application pending Bifergation    
 
-        $separation['Inprocess']  = $inprocess;
-        $separation['draft']      = $draft;
-        $separation['approve']    = $approve;
-        $separation['stamp']      = $stamp;
-        $separation['stampSign']  = $stampSign;
-        $separation['registered'] = $registered;
+        $separation['In Process']  = $inprocess;
+        $separation['Draft']      = $draft;
+        $separation['Approve']    = $approve;
+        $separation['Stamp']      = $stamp;
+        $separation['Stamp & Sign']  = $stampSign;
+        $separation['Registered'] = $registered;
 
 
         if ($role_name == config('commanConfig.dyco_engineer')){
