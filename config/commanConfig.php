@@ -208,6 +208,12 @@ return [
          ]
     ], 
 
+    'tripartite_agreements'=>[
+        'text_tripartite_agreement',
+        'drafted_tripartite_agreement',
+        'drafted_signed_tripartite_agreement',
+    ],
+
     // sc Application types 
     //  'scApplication' => [
     //     'draft_sale_agreement'       => 'draft_sale_agreement',
