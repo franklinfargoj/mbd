@@ -24,7 +24,7 @@
                     </a>
                 </li>
 
-                @if((session()->get('role_name') == config('commanConfig.dycdo_engineer') && $data->status->status_id != config('commanConfig.renewal_status.forwarded')) || $data->status->status_id == config('commanConfig.renewal_status.Draft_Renewal_of_Lease_deed') || $data->status->status_id == config('commanConfig.renewal_status.in_process') )
+                @if((session()->get('role_name') == config('commanConfig.dycdo_engineer') && $data->status->status_id != config('commanConfig.renewal_status.forwarded')) || $data->status->status_id == config('commanConfig.renewal_status.Draft_Renewal_of_Lease_deed') || $data->status->status_id == config('commanConfig.renewal_status.in_process') || $data->status->status_id == config('commanConfig.renewal_status.Stamp_Renewal_of_Lease_deed') )
                 <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                         <i class="la la-cog"></i> Forward Application

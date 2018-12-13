@@ -11,8 +11,10 @@
 @endif
 
 @php
-    if(isset($data->DraftSignAgreement->document_path))
-        $document = $data->DraftSignAgreement->document_path;
+    if(isset($data->approveAgreement->document_path))
+        $document = $data->approveAgreement->document_path;
+    else if(isset($data->DraftSignAgreement->document_path))
+        $document = $data->DraftSignAgreement->document_path;    
     else if(isset($data->renewalAgreement->document_path))
         $document = $data->renewalAgreement->document_path;
 @endphp
@@ -48,7 +50,7 @@
                                 <h4 class="section-title">
                                     Renewal of Lease Agreement
                                 </h4>
-                            </div>
+                            </div> 
                         </div>
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
@@ -59,7 +61,6 @@
                                             <span class="hint-text">Click to download Lease deed agreement </span>
                                             <div class="mt-auto">
                                                 @if(isset($document))
-                                                <input type="hidden" name="oldLeaseFile" value="{{ $data->renewalAgreement->document_path }}">
                                                 <a href="{{ config('commanConfig.storage_server').'/'.$document }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
@@ -70,7 +71,7 @@
                                                 @endif
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>                                
                                 </div>
                             </div>
                         </div>
@@ -79,53 +80,7 @@
             </div>
         </div>
     </div>   
-        
-   <!-- Generate stamp duty letter      -->
-@if(session()->get('role_name') == config('commanConfig.dycdo_engineer'))
-    <div class="m-portlet m-portlet--mobile m_panel">
-        <div class="m-portlet__body">
-            <div class="m-subheader" style="padding: 0;">
-                <div class="d-flex align-items-center justify-content-center">
-                    <h4 class="section-title">
-                        Generate Letter to Pay Stamp Duty
-                    </h4>
-                </div>
-            </div>
-            <div class="m-section__content mb-0 table-responsive" style="margin-top: 30px;">
-                <div class="container">
-                    <div class="row">
-                    @if($data->status->status_id != config('commanConfig.renewal_status.forwarded'))
-                        <div class="col-sm-6">
-                            <div class="d-flex flex-column h-100 two-cols">
-                                <h5>Generate</h5>
-                                <span class="hint-text">Click to Generate Stamp Duty Letter </span>
-                                <div class="mt-auto">                           
-                                    <a href="{{ route('dyco.generate_stamp_duty_letter',encrypt($data->id)) }}" class="btn btn-primary">Generate </a>
-                                </div>
-                            </div>
-                        </div>
-                    @endif    
-                        <div class="col-sm-6 border-left">
-                                <div class="d-flex flex-column h-100 two-cols">
-                                    <h5>Download</h5>
-                                    <span class="hint-text">Click to Download Stamp Duty Letter </span>
-                                    <div class="mt-auto">
-                                        @if(isset($data->draftStampLetter->document_path))
-                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->draftStampLetter->document_path }}" class="btn btn-primary">Download </a>                                
-                                        @else
-                                        <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                            *Note : Stamp Duty Letter is not available.</span>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-                </div>
-            </div>                   
-        </div>
-    </div> 
-@endif     
-
+      
     <!-- Letter to pay stamp duty -->
     @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id != config('commanConfig.renewal_status.forwarded'))
         <div class="m-portlet m-portlet--mobile m_panel">
@@ -137,29 +92,43 @@
                         </h4>
                     </div>
                 </div>    
+            <form class="nav-tabs-form" id ="stampFRM" role="form" method="POST" action="{{ route('dyco.save_renewal_stamp_duty')}}" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                 <div class="m-section__content mb-0 table-responsive" style="margin-top: 30px;">
                     <div class="container">
                         <div class="row">
                             <div class="col-sm-6">
-                                <form class="nav-tabs-form" id ="stampFRM" role="form" method="POST" action="{{ route('dyco.save_renewal_stamp_duty')}}" enctype="multipart/form-data">
-                                @csrf
-                                <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
-                                    <div class="d-flex flex-column h-100 two-cols">
-                                        <h5>Upload</h5>
-                                        <span class="hint-text">Click to upload Stamp Duty Letter</span>
-                                            <input type="hidden" id="oldStamp" name="oldStamp" value="{{ isset($data->StampLetter->document_path) ? $data->StampLetter->document_path : '' }}">
-                                                <div class="custom-file">
-                                                    <input class="custom-file-input stamp_letter" name="stamp_letter" type="file" id="test-upload1">
-                                                    <label class="custom-file-label" for="test-upload1">Choose
-                                                        file...</label>      
-                                                </div>
-                                            <div class="mt-auto" style="margin-top: 14px !important">   
-                                                <input type="submit" class="btn btn-primary" value="Submit">
-                                             </div>                                
+                                <div class="d-flex flex-column h-100 two-cols">
+                                    <h5>Download</h5>
+                                    <span class="hint-text">Click to Download Stamp Duty Letter </span>
+                                    <div class="mt-auto">
+                                        @if(isset($data->draftStampLetter->document_path))
+                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->draftStampLetter->document_path }}" class="btn btn-primary" target="_blank">Download </a>                                
+                                        @else
+                                        <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                            *Note : Stamp Duty Letter is not available.</span>
+                                        @endif
                                     </div>
-                                </form>                             
+                                </div>
                             </div>
                             <div class="col-sm-6 border-left">
+                                <div class="d-flex flex-column h-100 two-cols">
+                                    <h5>Upload</h5>
+                                    <span class="hint-text">Click to upload Stamp Duty Letter</span>
+                                        <input type="hidden" id="oldStamp" name="oldStamp" value="{{ isset($data->StampLetter->document_path) ? $data->StampLetter->document_path : '' }}">
+                                            <div class="custom-file">
+                                                <input class="custom-file-input stamp_letter" name="stamp_letter" type="file" id="test-upload1">
+                                                <label class="custom-file-label" for="test-upload1">Choose
+                                                    file...</label>      
+                                            </div>
+                                        <div class="mt-auto" style="margin-top: 14px !important">   
+                                            <input type="submit" class="btn btn-primary" value="Submit">
+                                         </div>                                
+                                </div>
+                            </div> 
+                                                       
+<!--                             <div class="col-sm-6 border-left">
                                 <div class="d-flex flex-column h-100 two-cols">
                                     <h5>Send to Society</h5>
                                     <span class="hint-text">Send to Stamp Duty Letter Society </span>
@@ -173,13 +142,49 @@
                                     <span class="error" id="stampError" style="display: none;color: #ce2323;margin-bottom: 17px;">
                                         *Note : Please Upload Stamp Duty Letter.</span>    
                                 </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div> 
+            </form>  
+            </div> 
+        </div>       
+ @endif   
+
+     <!-- Letter to pay stamp duty -->
+    @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id != config('commanConfig.conveyance_status.forwarded'))
+        <div class="m-portlet m-portlet--mobile m_panel">
+            <div class="m-portlet__body">
+                <div class="m-subheader" style="padding: 0;">
+                    <div class="d-flex justify-content-center">
+                        <h4 class="section-title">
+                            Send to Society
+                        </h4>
+                    </div>
+                </div>     
+                <div class="m-section__content mb-0 table-responsive" style="margin-top: 30px;">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="d-flex flex-column h-100 two-cols">
+                                    <h5>Send to Stamp Duty Letter Society</h5>
+                                    <div class="mt-auto">
+                                        <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.renewal_send_to_society')}}" enctype="multipart/form-data">
+                                        @csrf
+                                       <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
+                                                <input type="submit" class="s_btn btn btn-primary" id="sendToSociety" value="Send to Society">
+                                        </form> 
+                                    </div>    
+                                    <span class="error" id="stampError" style="display: none;color: #ce2323;margin-bottom: 17px;">
+                                        *Note : Please Upload Stamp Duty Letter.</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>  
             </div> 
         </div>       
- @endif             
+ @endif            
 
     <!-- display all Agreements comments -->
     @if(count($data->AgreementComments) > 0)       
