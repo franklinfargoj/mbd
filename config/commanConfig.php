@@ -317,6 +317,14 @@ return [
         '86', '94'
     ],
 
+    'optional_docs_premium_oc' => [
+        '106','130'
+    ],
+
+    'optional_docs_sharing_oc' => [
+        '118', '142'
+    ],
+
     'optional_docs_society_noc' => [
         '5', '11', '17', '23'
     ],
