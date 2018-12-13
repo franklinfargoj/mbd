@@ -44,19 +44,19 @@
                 @if($dashboardData1)
 
                 <div class="row hearing-row">
-                    @php $chart = 0;@endphp
+                    @php $chart1 = 0;@endphp
                     @foreach($dashboardData1 as $header => $value)
                         <div class="col">
                             <div class="m-portlet app-card text-center">
                                 <h2 class="app-heading">{{$header}}</h2>
                                 <h2 class="app-no mb-0">{{$value}}</h2>
-                                @php $chart += $value; @endphp
+                                @php $chart1 += $value; @endphp
                                 {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
                             </div>
                         </div>
                     @endforeach
                 </div>
-                @if($chart)
+                @if($chart1)
                     <div id="chartdiv1" style="width: 100%; height: 350px; margin-top: 2px;"></div>
                 @endif
                 @endif
@@ -87,7 +87,7 @@
                     <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="conveyance_dashboard"
                          data-parent="#accordion">
                         <div class="row hearing-row">
-                            @php $chart = 0; @endphp
+                            @php $chart2 = 0; @endphp
                             @foreach($conveyanceDashboard[0] as $header => $value)
                                 <div class="col">
                                     <div class="m-portlet app-card text-center">
@@ -104,33 +104,33 @@
                                             @else
                                                 <a href="{{url($value[1])}}" class="app-card__details mb-0">View Details</a>
                                             @endif
-                                            @php $chart += $value[0]; @endphp
+                                            @php $chart2 += $value[0]; @endphp
                                         </div>
                                         {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
                                     </div>
                                 </div>
                             @endforeach
                         </div>
-                        @if($chart)
+                        @if($chart2)
                             <div id="conveyance_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
                         @endif
                         @if($pendingApplications && session()->get('role_name') == config('commanConfig.dyco_engineer'))
                             <div class="row hearing-row">
-                                @php $chart2 = 0; @endphp
+                                @php $chart3 = 0; @endphp
                                 @foreach($pendingApplications as $header => $value)
                                     <div class="col">
                                         <div class="m-portlet app-card text-center">
                                             <h2 class="app-heading">{{$header}}</h2>
                                             <div class="app-card-footer">
                                                 <h2 class="app-no mb-0">{{$value}}</h2>
-                                                @php $chart2 += $value; @endphp
+                                                @php $chart3+= $value; @endphp
                                                 <a href="" class="app-card__details mb-0">View Details</a>
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
                             </div>
-                            @if($chart2)
+                            @if($chart3)
                                 <div id="pending_conveyance_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
                             @endif
                         @endif
@@ -253,7 +253,7 @@
     </script>
     <script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>
-
+    @if($chart)
     <script>
         var chart;
         var legend;
@@ -293,6 +293,8 @@
         });
 
     </script>
+    @endif
+    @if($chart1)
     <script>
         var chart1;
         var legend;
@@ -332,12 +334,14 @@
         @endif
 
     </script>
+    @endif
+    @if($chart2)
     <script>
-        var chart1;
+        var chart2;
         var legend;
 
                 @if($conveyanceDashboard[0])
-        var chartData1 = [
+        var chartData2 = [
                         @foreach($conveyanceDashboard[0] as $header => $value)     {
                         @if(!($header == 'Total No of Applications'))
                         "status": '{{$header}}',
@@ -351,33 +355,35 @@
 
         AmCharts.ready(function () {
             // PIE CHART
-            chart1 = new AmCharts.AmPieChart();
-            chart1.dataProvider = chartData1;
-            chart1.titleField = "status";
-            chart1.valueField = "value";
-            chart1.outlineColor = "#FFFFFF";
-            chart1.outlineAlpha = 0.8;
-            chart1.outlineThickness = 2;
-            chart1.balloonText =
+            chart2 = new AmCharts.AmPieChart();
+            chart2.dataProvider = chartData2;
+            chart2.titleField = "status";
+            chart2.valueField = "value";
+            chart2.outlineColor = "#FFFFFF";
+            chart2.outlineAlpha = 0.8;
+            chart2.outlineThickness = 2;
+            chart2.balloonText =
                 "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
             // this makes the chart 3D
-            chart1.depth3D = 15;
-            chart1.angle = 30;
-            chart1.colors = ["#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999",
+            chart2.depth3D = 15;
+            chart2.angle = 30;
+            chart2.colors = ["#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999",
                 "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"
             ]
             //
             // WRITE
-            chart1.write("conveyance_chart");
+            chart2.write("conveyance_chart");
         });
         @endif
     </script>
+    @endif
+    @if($chart3)
     <script>
-        var chart2;
+        var chart3;
         var legend;
 
                 @if($pendingApplications)
-        var chartData2 = [
+        var chartData3 = [
                         @foreach($pendingApplications as $header => $value)     {
                     "status": '{{$header}}',
                     "value": '{{$value}}',
@@ -389,27 +395,28 @@
 
         AmCharts.ready(function () {
             // PIE CHART
-            chart2 = new AmCharts.AmPieChart();
-            chart2.dataProvider = chartData2;
-            chart2.titleField = "status";
-            chart2.valueField = "value";
-            chart2.outlineColor = "#FFFFFF";
-            chart2.outlineAlpha = 0.8;
-            chart2.outlineThickness = 2;
-            chart2.balloonText =
+            chart3 = new AmCharts.AmPieChart();
+            chart3.dataProvider = chartData3;
+            chart3.titleField = "status";
+            chart3.valueField = "value";
+            chart3.outlineColor = "#FFFFFF";
+            chart3.outlineAlpha = 0.8;
+            chart3.outlineThickness = 2;
+            chart3.balloonText =
                 "[[title]]<br><span style='font-size:24px'><b>[[value]]</b> ([[percents]]%)</span>";
             // this makes the chart 3D
-            chart2.depth3D = 15;
-            chart2.angle = 30;
-            chart2.colors = ["#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999",
+            chart3.depth3D = 15;
+            chart3.angle = 30;
+            chart3.colors = ["#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999",
                 "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"
             ]
             //
             // WRITE
-            chart2.write("pending_conveyance_chart");
+            chart3.write("pending_conveyance_chart");
         });
         @endif
     </script>
+    @endif
 
 
 @endsection
