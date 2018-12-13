@@ -56,7 +56,7 @@ $route=\Request::route()->getName();
             <span class="m-menu__link-text">REE Note</span>
          </a>
       </li>
-      @if(isset($noc_application->final_draft_noc_path) && !empty($noc_application->final_draft_noc_path))
+      @if(isset($noc_application->final_draft_noc_path) && !empty($noc_application->final_draft_noc_path) && $noc_application->noc_generation_status == config('commanConfig.applicationStatus.NOC_Generation'))
       <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='co.approve_noc_cc')?'m-menu__item--active':''}}">
          <a class="m-menu__link m-menu__toggle" title="Approve Noc" href="{{route('co.approve_noc_cc',$noc_application->id)}}">
             <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">

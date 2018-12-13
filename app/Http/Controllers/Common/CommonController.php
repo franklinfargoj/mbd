@@ -1818,6 +1818,18 @@ class CommonController extends Controller
 
     public function listApplicationDataNoc($request, $application_type = null)
     {
+        if(isset($request['dashboard_redicted']) && $request['dashboard_redicted'] == 1)
+        {
+            $applicationData = NocApplication::with(['applicationLayoutUser', 'noc_application_master', 'eeApplicationSociety', 'nocApplicationStatusForLoginListing' => function ($q) {
+                $q->where('society_flag', 0)
+                ->orderBy('id', 'desc');
+            }])
+            ->whereHas('nocApplicationStatusForLoginListing', function ($q) {
+                $q->where('society_flag', 0)
+                    ->orderBy('id', 'desc');
+            });
+
+        }else{
         $applicationData = NocApplication::with(['applicationLayoutUser', 'noc_application_master', 'eeApplicationSociety', 'nocApplicationStatusForLoginListing' => function ($q) {
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'))
@@ -1830,6 +1842,7 @@ class CommonController extends Controller
                     ->where('society_flag', 0)
                     ->orderBy('id', 'desc');
             });
+        }
 
         if ($request->submitted_at_from) {
             $applicationData = $applicationData->whereDate('submitted_at', '>=', date('Y-m-d', strtotime($request->submitted_at_from)));
@@ -1864,18 +1877,32 @@ class CommonController extends Controller
 
     public function listApplicationDataNocforCC($request, $application_type = null)
     {
-        $applicationData = NocCCApplication::with(['applicationLayoutUser', 'noc_application_master', 'eeApplicationSociety', 'nocApplicationStatusForLoginListing' => function ($q) {
-            $q->where('user_id', Auth::user()->id)
-                ->where('role_id', session()->get('role_id'))
-                ->where('society_flag', 0)
+        if(isset($request['dashboard_redicted']) && $request['dashboard_redicted'] == 1)
+        {
+            $applicationData = NocCCApplication::with(['applicationLayoutUser', 'noc_application_master', 'eeApplicationSociety', 'nocApplicationStatusForLoginListing' => function ($q) {
+                $q->where('society_flag', 0)
                 ->orderBy('id', 'desc');
-        }])
+            }])
             ->whereHas('nocApplicationStatusForLoginListing', function ($q) {
+                $q->where('society_flag', 0)
+                    ->orderBy('id', 'desc');
+            });
+        }else{
+
+            $applicationData = NocCCApplication::with(['applicationLayoutUser', 'noc_application_master', 'eeApplicationSociety', 'nocApplicationStatusForLoginListing' => function ($q) {
                 $q->where('user_id', Auth::user()->id)
                     ->where('role_id', session()->get('role_id'))
                     ->where('society_flag', 0)
                     ->orderBy('id', 'desc');
-            });
+            }])
+                ->whereHas('nocApplicationStatusForLoginListing', function ($q) {
+                    $q->where('user_id', Auth::user()->id)
+                        ->where('role_id', session()->get('role_id'))
+                        ->where('society_flag', 0)
+                        ->orderBy('id', 'desc');
+                });
+            
+        }
 
         if ($request->submitted_at_from) {
             $applicationData = $applicationData->whereDate('submitted_at', '>=', date('Y-m-d', strtotime($request->submitted_at_from)));
@@ -2099,6 +2126,8 @@ class CommonController extends Controller
                 'to_user_id' => $request->to_user_id,
                 'to_role_id' => $request->to_role_id,
                 'remark' => $request->remark,
+                'is_active' => 1,
+                'phase'=>1,
                 'created_at' => Carbon::now(),
             ],
 
@@ -2110,9 +2139,13 @@ class CommonController extends Controller
                 'to_user_id' => null,
                 'to_role_id' => null,
                 'remark' => $request->remark,
+                'is_active' => 1,
+                'phase'=>1,
                 'created_at' => Carbon::now(),
             ],
             ];
+
+            NocApplicationStatus::where('application_id',$request->applicationId)->update(array('is_active' => 0));
 
             NocApplicationStatus::insert($forward_application);
 
@@ -2126,6 +2159,8 @@ class CommonController extends Controller
                     'to_user_id' => $request->to_child_id,
                     'to_role_id' => $request->to_role_id,
                     'remark' => $request->remark,
+                    'is_active' => 1,
+                    'phase'=>1,
                     'created_at' => Carbon::now(),
                 ],
 
@@ -2137,13 +2172,29 @@ class CommonController extends Controller
                     'to_user_id' => null,
                     'to_role_id' => null,
                     'remark' => $request->remark,
+                    'is_active' => 1,
+                    'phase'=>1,
                     'created_at' => Carbon::now(),
                 ],
             ];
+
+            NocApplicationStatus::where('application_id',$request->applicationId)->update(array('is_active' => 0));
+
             NocApplicationStatus::insert($revert_application);
         }
+
+        DB::beginTransaction();
+        try {
+
+           NocApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.NOC_Generation')]);
+
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+        }
         
-        NocApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.NOC_Generation')]);
+        //NocApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.NOC_Generation')]);
 
         return true;
     }
@@ -2159,6 +2210,8 @@ class CommonController extends Controller
                 'to_user_id' => $request->to_user_id,
                 'to_role_id' => $request->to_role_id,
                 'remark' => $request->remark,
+                'is_active' => 1,
+                'phase'=>1,
                 'created_at' => Carbon::now(),
             ],
 
@@ -2170,9 +2223,13 @@ class CommonController extends Controller
                 'to_user_id' => null,
                 'to_role_id' => null,
                 'remark' => $request->remark,
+                'is_active' => 1,
+                'phase'=>1,
                 'created_at' => Carbon::now(),
             ],
             ];
+
+            NocCCApplicationStatus::where('application_id',$request->applicationId)->update(array('is_active' => 0));
 
             NocCCApplicationStatus::insert($forward_application);
 
@@ -2200,6 +2257,8 @@ class CommonController extends Controller
                     'created_at' => Carbon::now(),
                 ],
             ];
+
+            NocCCApplicationStatus::where('application_id',$request->applicationId)->update(array('is_active' => 0));
             NocCCApplicationStatus::insert($revert_application);
         }
         
@@ -2219,6 +2278,8 @@ class CommonController extends Controller
                 'to_user_id' => $request->to_user_id,
                 'to_role_id' => $request->to_role_id,
                 'remark' => $request->remark,
+                'is_active' => 1,
+                'phase' => 2,
                 'created_at' => Carbon::now(),
             ],
 
@@ -2230,14 +2291,28 @@ class CommonController extends Controller
                 'to_user_id' => null,
                 'to_role_id' => null,
                 'remark' => $request->remark,
+                'is_active' => 1,
+                'phase' => 2,
                 'created_at' => Carbon::now(),
             ],
         ];
 
-//            echo "in forward";
-            //            dd($forward_application);
-            NocApplicationStatus::insert($forward_application);
-            NocApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.NOC_Issued')]);
+
+            DB::beginTransaction();
+            try {
+                NocApplicationStatus::where('application_id',$request->applicationId)->update(array('is_active' => 0));
+
+                NocApplicationStatus::insert($forward_application);
+                NocApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.NOC_Issued')]);
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+            }
+
+            /*NocApplicationStatus::insert($forward_application);
+            NocApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.NOC_Issued')]);*/
         }
 
         return true;
@@ -2254,6 +2329,8 @@ class CommonController extends Controller
                 'to_user_id' => $request->to_user_id,
                 'to_role_id' => $request->to_role_id,
                 'remark' => $request->remark,
+                'is_active' => 1,
+                'phase' => 2,
                 'created_at' => Carbon::now(),
             ],
 
@@ -2265,14 +2342,28 @@ class CommonController extends Controller
                 'to_user_id' => null,
                 'to_role_id' => null,
                 'remark' => $request->remark,
+                'is_active' => 1,
+                'phase' => 2,
                 'created_at' => Carbon::now(),
             ],
         ];
 
-//            echo "in forward";
-            //            dd($forward_application);
-            NocCCApplicationStatus::insert($forward_application);
-            NocCCApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.NOC_Issued')]);
+
+            DB::beginTransaction();
+            try {
+                NocCCApplicationStatus::where('application_id',$request->applicationId)->update(array('is_active' => 0));
+
+                NocCCApplicationStatus::insert($forward_application);
+                NocCCApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.NOC_Issued')]);
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+            }
+
+            /*NocCCApplicationStatus::insert($forward_application);
+            NocCCApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.NOC_Issued')]);*/
         }
 
         return true;
@@ -2289,6 +2380,7 @@ class CommonController extends Controller
                 'to_user_id' => $request->to_user_id,
                 'to_role_id' => $request->to_role_id,
                 'remark' => $request->remark,
+                'is_active' => 1,
                 'created_at' => Carbon::now(),
             ],
 
@@ -2300,11 +2392,24 @@ class CommonController extends Controller
                 'to_user_id' => null,
                 'to_role_id' => null,
                 'remark' => $request->remark,
+                'is_active' => 1,
                 'created_at' => Carbon::now(),
             ],
             ];
 
-            NocApplicationStatus::insert($forward_application);
+            DB::beginTransaction();
+            try {
+                NocApplicationStatus::where('application_id',$request->applicationId)->update(array('is_active' => 0));
+
+                NocApplicationStatus::insert($forward_application);
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+            }
+
+            //NocApplicationStatus::insert($forward_application);
         } else {
             $revert_application = [
                 [
@@ -2315,6 +2420,7 @@ class CommonController extends Controller
                     'to_user_id' => $request->to_child_id,
                     'to_role_id' => $request->to_role_id,
                     'remark' => $request->remark,
+                    'is_active' => 1,
                     'created_at' => Carbon::now(),
                 ],
 
@@ -2326,10 +2432,24 @@ class CommonController extends Controller
                     'to_user_id' => null,
                     'to_role_id' => null,
                     'remark' => $request->remark,
+                    'is_active' => 1,
                     'created_at' => Carbon::now(),
                 ],
             ];
-            NocApplicationStatus::insert($revert_application);
+
+            DB::beginTransaction();
+            try {
+                NocApplicationStatus::where('application_id',$request->applicationId)->update(array('is_active' => 0));
+
+                NocApplicationStatus::insert($revert_application);
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+            }
+
+            //NocApplicationStatus::insert($revert_application);
         }
 
         return true;
@@ -2346,6 +2466,7 @@ class CommonController extends Controller
                 'to_user_id' => $request->to_user_id,
                 'to_role_id' => $request->to_role_id,
                 'remark' => $request->remark,
+                'is_active' => 1,
                 'created_at' => Carbon::now(),
             ],
 
@@ -2357,11 +2478,24 @@ class CommonController extends Controller
                 'to_user_id' => null,
                 'to_role_id' => null,
                 'remark' => $request->remark,
+                'is_active' => 1,
                 'created_at' => Carbon::now(),
             ],
             ];
 
-            NocCCApplicationStatus::insert($forward_application);
+            DB::beginTransaction();
+            try {
+                NocCCApplicationStatus::where('application_id',$request->applicationId)->update(array('is_active' => 0));
+
+                NocCCApplicationStatus::insert($forward_application);
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+            }
+
+            //NocCCApplicationStatus::insert($forward_application);
         } else {
             $revert_application = [
                 [
@@ -2372,6 +2506,7 @@ class CommonController extends Controller
                     'to_user_id' => $request->to_child_id,
                     'to_role_id' => $request->to_role_id,
                     'remark' => $request->remark,
+                    'is_active' => 1,
                     'created_at' => Carbon::now(),
                 ],
 
@@ -2383,10 +2518,24 @@ class CommonController extends Controller
                     'to_user_id' => null,
                     'to_role_id' => null,
                     'remark' => $request->remark,
+                    'is_active' => 1,
                     'created_at' => Carbon::now(),
                 ],
             ];
-            NocCCApplicationStatus::insert($revert_application);
+
+            DB::beginTransaction();
+            try {
+                NocCCApplicationStatus::where('application_id',$request->applicationId)->update(array('is_active' => 0));
+
+                NocCCApplicationStatus::insert($revert_application);
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+            }
+
+            //NocCCApplicationStatus::insert($revert_application);
         }
 
         return true;
@@ -2402,6 +2551,8 @@ class CommonController extends Controller
             'to_user_id' => $ree->user_id,
             'to_role_id' => $ree->role_id,
             'remark' => $request->remark,
+            'is_active' => 1,
+            'phase' => 2,
             'created_at' => Carbon::now(),
         ],
 
@@ -2413,12 +2564,27 @@ class CommonController extends Controller
             'to_user_id' => null,
             'to_role_id' => null,
             'remark' => $request->remark,
+            'is_active' => 1,
+            'phase' => 2,
             'created_at' => Carbon::now(),
         ],
         ];
 
-        NocApplicationStatus::insert($forward_application);
-        NocApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.NOC_Issued')]);
+        DB::beginTransaction();
+        try {
+            NocApplicationStatus::where('application_id',$request->applicationId)->update(array('is_active' => 0));
+
+            NocApplicationStatus::insert($forward_application);
+            NocApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.NOC_Issued')]);
+
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+        }
+
+        /*NocApplicationStatus::insert($forward_application);
+        NocApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.NOC_Issued')]);*/
 
         return true;
     }
@@ -2433,6 +2599,8 @@ class CommonController extends Controller
             'to_user_id' => $ree->user_id,
             'to_role_id' => $ree->role_id,
             'remark' => $request->remark,
+            'is_active' => 1,
+            'phase' => 2,
             'created_at' => Carbon::now(),
         ],
 
@@ -2444,12 +2612,27 @@ class CommonController extends Controller
             'to_user_id' => null,
             'to_role_id' => null,
             'remark' => $request->remark,
+            'is_active' => 1,
+            'phase' => 2,
             'created_at' => Carbon::now(),
         ],
         ];
 
-        NocCCApplicationStatus::insert($forward_application);
-        NocCCApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.NOC_Issued')]);
+        DB::beginTransaction();
+        try {
+            NocCCApplicationStatus::where('application_id',$request->applicationId)->update(array('is_active' => 0));
+
+            NocCCApplicationStatus::insert($forward_application);
+            NocCCApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.NOC_Issued')]);
+
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+        }
+
+        /*NocCCApplicationStatus::insert($forward_application);
+        NocCCApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.NOC_Issued')]);*/
 
         return true;
     }
@@ -2492,6 +2675,8 @@ class CommonController extends Controller
                 'society_flag' => 0,
                 'to_role_id' => $society_details->role_id,
                 'remark' => $request->remark,
+                'is_active' => 1,
+                'phase' => 2,
                 'created_at' => Carbon::now(),
             ],
 
@@ -2504,12 +2689,27 @@ class CommonController extends Controller
                 'society_flag' => 1,
                 'to_role_id' => null,
                 'remark' => $request->remark,
+                'is_active' => 1,
+                'phase' => 2,
                 'created_at' => Carbon::now(),
             ],
         ];
 
-        NocApplicationStatus::insert($forward_application);
-        NocApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.sent_to_society') , 'is_issued_to_society' => 1]);
+        DB::beginTransaction();
+        try {
+            NocApplicationStatus::where('application_id',$request->applicationId)->update(array('is_active' => 0));
+
+            NocApplicationStatus::insert($forward_application);
+            NocApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.sent_to_society') , 'is_issued_to_society' => 1]);
+
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+        }
+
+        /*NocApplicationStatus::insert($forward_application);
+        NocApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.sent_to_society') , 'is_issued_to_society' => 1]);*/
 
         return true;
     }
@@ -2528,6 +2728,8 @@ class CommonController extends Controller
                 'society_flag' => 0,
                 'to_role_id' => $society_details->role_id,
                 'remark' => $request->remark,
+                'is_active' => 1,
+                'phase' => 2,
                 'created_at' => Carbon::now(),
             ],
 
@@ -2540,12 +2742,27 @@ class CommonController extends Controller
                 'society_flag' => 1,
                 'to_role_id' => null,
                 'remark' => $request->remark,
+                'is_active' => 1,
+                'phase' => 2,
                 'created_at' => Carbon::now(),
             ],
         ];
 
-        NocCCApplicationStatus::insert($forward_application);
-        NocCCApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.sent_to_society') , 'is_issued_to_society' => 1]);
+        DB::beginTransaction();
+        try {
+            NocCCApplicationStatus::where('application_id',$request->applicationId)->update(array('is_active' => 0));
+
+            NocCCApplicationStatus::insert($forward_application);
+            NocCCApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.sent_to_society') , 'is_issued_to_society' => 1]);
+
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+        }
+
+        /*NocCCApplicationStatus::insert($forward_application);
+        NocCCApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.sent_to_society') , 'is_issued_to_society' => 1]);*/
 
         return true;
     }
@@ -2564,6 +2781,8 @@ class CommonController extends Controller
                 'society_flag' => 0,
                 'to_role_id' => $society_details->role_id,
                 'remark' => $request->remark,
+                'is_active' => 1,
+                'phase' => 3,
                 'created_at' => Carbon::now(),
             ],
 
@@ -2576,13 +2795,28 @@ class CommonController extends Controller
                 'society_flag' => 1,
                 'to_role_id' => null,
                 'remark' => $request->remark,
+                'is_active' => 1,
+                'phase' => 3,
                 'created_at' => Carbon::now(),
             ],
         ];
 
+        DB::beginTransaction();
+        try {
+            NocApplicationStatus::where('application_id',$request->applicationId)->update(array('is_active' => 0));
+
+           NocApplicationStatus::insert($revert_application);
+           NocApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.reverted')]);
+
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+        }
+/*
         NocApplicationStatus::insert($revert_application);
         NocApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.reverted')]);
-
+*/
         return true;
     }
 
@@ -2600,6 +2834,8 @@ class CommonController extends Controller
                 'society_flag' => 0,
                 'to_role_id' => $society_details->role_id,
                 'remark' => $request->remark,
+                'is_active' => 1,
+                'phase' => 3,
                 'created_at' => Carbon::now(),
             ],
 
@@ -2612,12 +2848,27 @@ class CommonController extends Controller
                 'society_flag' => 1,
                 'to_role_id' => null,
                 'remark' => $request->remark,
+                'is_active' => 1,
+                'phase' => 3,
                 'created_at' => Carbon::now(),
             ],
         ];
 
-        NocCCApplicationStatus::insert($revert_application);
-        NocCCApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.reverted')]);
+        DB::beginTransaction();
+        try {
+            NocCCApplicationStatus::where('application_id',$request->applicationId)->update(array('is_active' => 0));
+
+           NocCCApplicationStatus::insert($revert_application);
+           NocCCApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.reverted')]);
+
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+        }
+
+        /*NocCCApplicationStatus::insert($revert_application);
+        NocCCApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.reverted')]);*/
 
         return true;
     }

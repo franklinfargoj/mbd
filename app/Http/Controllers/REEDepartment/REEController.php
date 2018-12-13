@@ -27,6 +27,8 @@ use App\NocApplicationStatus;
 use App\NocCCApplicationStatus;
 use App\NocSrutinyQuestionMaster;
 use App\NocReeScrutinyAnswer;
+use App\Http\Controllers\SocietyNocController;
+use App\Http\Controllers\SocietyNocforCCController;
 use App\User;
 use Config;
 use Auth;
@@ -1807,7 +1809,17 @@ class REEController extends Controller
             $dashboardData1 = $this->CommonController->getTotalCountsOfApplicationsPending();
         }
 
-        return view('admin.REE_department.dashboard',compact('dashboardData','dashboardData1'));
+        //Noc dashboard -- Sayan
+
+        $nocModuleController = new SocietyNocController();
+        $nocApplication = $nocModuleController->getApplicationListDashboard('REE');
+
+        //Noc for CC dashboard -- Sayan
+
+        $nocforCCModuleController = new SocietyNocforCCController();
+        $nocforCCApplication = $nocforCCModuleController->getApplicationListDashboard('REE');
+
+        return view('admin.REE_department.dashboard',compact('dashboardData','dashboardData1','nocApplication','nocforCCApplication'));
     }
 
     public function getApplicationData($role_id,$user_id){
