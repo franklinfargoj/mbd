@@ -371,9 +371,9 @@
     <script>
         var chart2;
         var legend;
-        var chartData2 = [
+
                 @if($pendingApplications)
-        var chartData1 = [
+        var chartData2 = [
                         @foreach($pendingApplications as $header => $value)     {
                     "status": '{{$header}}',
                     "value": '{{$value}}',
