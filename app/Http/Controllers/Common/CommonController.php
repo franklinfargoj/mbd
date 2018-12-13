@@ -1383,7 +1383,12 @@ class CommonController extends Controller
 
         if($type == 'select'){
             foreach($select_arr as $select_arr_key => $select_arr_value){
-                $select_arr .= '<option value="'.$select_arr_value->id.'">'.$select_arr_value->$selected_arr_key.'</option>';
+                if($value == $select_arr_value->id){
+                    $selected = 'selected';
+                }else{
+                    $selected = '';
+                }
+                $select_arr .= '<option value="'.$select_arr_value->id.'"'.$selected.'>'.$select_arr_value->$selected_arr_key.'</option>';
             }
             $fields = array(
                 'select' => '<select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="'.$name.'" name="'.$name.'" required>'.$select_arr.'</select>',

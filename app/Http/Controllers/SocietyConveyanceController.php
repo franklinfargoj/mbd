@@ -316,6 +316,7 @@ class SocietyConveyanceController extends Controller
         }
         $comm_func = $this->CommonController;
         $layouts = MasterLayout::all();
+        $master_tenant_type = MasterTenantType::all();
 
         $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
         $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();

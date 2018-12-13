@@ -28,4 +28,10 @@ class SocietyConveyance extends Model
         'prev_lease_agreement_no'
     ];
 
+
+    public function sr_scheme_name()
+    {
+        return $this->hasOne('App\MasterTenantType', 'id','scheme_name');
+    }
+
 }

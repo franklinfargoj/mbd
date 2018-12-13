@@ -46,6 +46,8 @@
                                         @else
                                             @php echo $comm_func->form_fields($field_names[$i], 'text', '', '', $society_details->building_no, 'readonly', 'required') @endphp
                                         @endif
+                                    @elseif($field_names[$i] == 'scheme_name')
+                                        @php echo $comm_func->form_fields($field_names[$i], 'select', $master_tenant_type, 'name', '', '', 'required') @endphp
                                     @else
                                         @php echo $comm_func->form_fields($field_names[$i], 'text', '', '', '', '', 'required') @endphp
                                         {{--<input type="text" id="{{ $field_names[$i+1] }}" name="{{ $field_names[$i+1] }}" class="form-control form-control--custom m-input @if(strpos($field_names[$i+1], 'date') != null) m_datepicker @endif" @if($field_names[$i+1] == 'society_name' || $field_names[$i+1] == 'society_no') value="@if($field_names[$i+1] == 'society_name') {{ $society_details->name }} @else {{ $society_details->building_no }} @endif" readonly @endif>--}}
@@ -69,6 +71,8 @@
                                         @else
                                             @php echo $comm_func->form_fields($field_names[$i+1], 'text', '', '', $society_details->building_no, 'readonly', 'required') @endphp
                                         @endif
+                                    @elseif($field_names[$i+1] == 'scheme_name')
+                                        @php echo $comm_func->form_fields($field_names[$i+1], 'select', $master_tenant_type, 'name', '', '', 'required') @endphp
                                     @else
                                         @php echo $comm_func->form_fields($field_names[$i+1], 'text', '', '', '', '', 'required') @endphp
                                         {{--<input type="text" id="{{ $field_names[$i+1] }}" name="{{ $field_names[$i+1] }}" class="form-control form-control--custom m-input @if(strpos($field_names[$i+1], 'date') != null) m_datepicker @endif" @if($field_names[$i+1] == 'society_name' || $field_names[$i+1] == 'society_no') value="@if($field_names[$i+1] == 'society_name') {{ $society_details->name }} @else {{ $society_details->building_no }} @endif" readonly @endif>--}}
@@ -118,7 +122,6 @@
         $('#society_registration_date').on( 'change',function(){
             var flat_date = $('#first_flat_issue_date').val();
             var society_date = $('#society_registration_date').val();
-            console.log(society_date);
             console.log(flat_date);
             if(society_date > flat_date){
                 $('#society_registration_date-error').html('<span style="color:red">Society registration date should not be greater than '+ flat_date +'</span>');
