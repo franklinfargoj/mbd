@@ -294,14 +294,29 @@ class DYCOPermissions extends Seeder
                 'description'=>'save conveyance stamp duty agreement'
             ],
             [
-                'name'=>'dashboard',
-                'display_name'=>'dashboard',
-                'description'=>'Dashboard'
+                'name'=>'conveyance.dashboard',
+                'display_name'=>'conveyance dashboard',
+                'description'=>'conveyance dashboard'
             ],            
             [
                 'name'=>'em.renewal_scrutiny_remark',
                 'display_name'=>'em renewal scrutiny remark',
                 'description'=>'em renewal scrutiny remark'
+            ],             
+            [
+                'name'=>'renewal.stamp_renewal_agreement',
+                'display_name'=>'renewal stamp renewal agreement',
+                'description'=>'renewal stamp renewal agreement'
+            ],            
+            [
+                'name'=>'renewal.save_stamp_renewal_agreement',
+                'display_name'=>'renewal save stamp renewal agreement',
+                'description'=>'renewal save stamp renewal agreement'
+            ],            
+            [
+                'name'=>'renewal.save_draft_sign_renewal_agreement',
+                'display_name'=>'save draft sign renewal agreement',
+                'description'=>'save draft sign renewal agreement'
             ],                              
         ];
 
@@ -314,9 +329,9 @@ class DYCOPermissions extends Seeder
         }else
         {
             $role_id = Role::insertGetId([
-                'name' => 'dycdo_engineer',
+                'name' => 'dycdo_engineer', 
                 'redirect_to' => '/conveyance',
-                'dashboard' => '/dashboard',
+                'dashboard' => '/sc_dashboard',
                 'parent_id' => null,
                 'display_name' => 'dycdo engineer',
                 'description' => 'Login as dycdo Engineer',
@@ -406,7 +421,7 @@ class DYCOPermissions extends Seeder
             $role_id1 = Role::insertGetId([
                 'name' => 'dyco_engineer',
                 'redirect_to' => '/conveyance',
-                'dashboard' => '/dashboard',
+                'dashboard' => '/sc_dashboard',
                 'parent_id' => null,
                 'display_name' => 'dyco engineer',
                 'description' => 'Login as dyco Engineer',

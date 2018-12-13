@@ -810,6 +810,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
  
  //common in conveyance
     Route::resource('conveyance', 'conveyance\conveyanceCommonController');    
+    Route::get('sc_dashboard', 'conveyance\conveyanceCommonController@displayDashboard')->name('conveyance.dashboard');
+
     Route::get('conveyance_application/{id}', 'conveyance\conveyanceCommonController@ViewApplication')->name('conveyance.view_application');
 
     Route::get('view_ee_documents/{id}', 'conveyance\conveyanceCommonController@ViewEEDocuments')->name('conveyance.view_ee_documents'); 

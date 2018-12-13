@@ -25,6 +25,7 @@ use Auth;
 use DB;
 use App\conveyance\ScChecklistMaster;
 use App\conveyance\ScChecklistScrutinyStatus;
+use App\Http\Controllers\conveyance\renewalCommonController;
 
 class conveyanceCommonController extends Controller
 {	 
@@ -954,6 +955,25 @@ class conveyanceCommonController extends Controller
     }
 
     // Dashboard for conveyance start header_remove
+
+    public function displayDashboard(){
+
+        $conveyanceDashboard = $this->ConveyanceDashboard();
+        $conveyanceRoles     = $this->getConveyanceRoles();
+        $pendingApplications = $this->getApplicationPendingAtDepartment();
+
+        //renewal dashboard
+
+        $renewal = new renewalCommonController();
+
+        $renewalDashboard    = $renewal->RenewalDashboard();
+        $renewalRoles     = $renewal->getRenewalRoles();
+        $renewalPendingApplications = $renewal->getApplicationPendingAtDepartment(); 
+
+              
+        
+        return view('admin.conveyance.common.dashboard',compact('conveyanceDashboard','conveyanceRoles','pendingApplications','renewalDashboard','renewalRoles','renewalPendingApplications'));
+    }    
 
     public function ConveyanceDashboard(){
 

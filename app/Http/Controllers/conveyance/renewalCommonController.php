@@ -25,7 +25,7 @@ use Storage;
 use App\User;
 use Auth;
 use File;
-use DB;
+use DB; 
 
 class renewalCommonController extends Controller
 {
@@ -167,8 +167,7 @@ class renewalCommonController extends Controller
         $data = RenewalApplication::where('id',$applicationId)->first();
         $data->folder = $this->conveyance->getCurrentRoleFolderName();
         $document_id = $this->conveyance->getDocumentId(config('commanConfig.documents.em_renewal.stamp_renewal_application'), $data->application_master_id);
-
-        $document = RenewalDocumentStatus::where('document_id', $document_id)->first();
+        $document = RenewalDocumentStatus::where('document_id', $document_id)->where('application_id',$applicationId)->first();
 
         return view('admin.renewal.common.view_application',compact('data', 'document'));
     }
@@ -216,7 +215,12 @@ class renewalCommonController extends Controller
         $draft_sign = ApplicationStatusMaster::where('status_name','=','Draft_Sign')->value('id');
         $draftLeaseId = $this->conveyance->getScAgreementId($LeaseAgreement,$data->application_master_id);
         $data->DraftSignAgreement = $this->getRenewalAgreement($draftLeaseId,$applicationId,$draft_sign);
-       
+
+        // Approve
+        $approve = ApplicationStatusMaster::where('status_name','=','Approved')->value('id');
+        $approveLeaseId = $this->conveyance->getScAgreementId($LeaseAgreement,$data->application_master_id);
+        $data->approveAgreement = $this->getRenewalAgreement($approveLeaseId,$applicationId,$approve);  
+
         $data->folder = $this->conveyance->getCurrentRoleFolderName();  
         
         $data->AgreementComments = RenewalAgreementComments::with('Roles')->where('application_id',$applicationId)->where('agreement_type_id',$data->application_master_id)->whereNotNull('remark')->get(); 
@@ -233,7 +237,13 @@ class renewalCommonController extends Controller
         $stamp  = config('commanConfig.scAgreements.renewal_stamp_duty_letter');
         $stampId = $this->conveyance->getScAgreementId($stamp,$data->application_master_id);
         $data->StampLetter = $this->getRenewalAgreement($stampId,$applicationId,NULL);
-        $route = 'admin.renewal.common.view_approve_renewal_agreement';
+
+
+        if ($is_view)
+            $route = 'admin.renewal.dyco_department.approve_renewal_agreement';
+        else
+            $route = 'admin.renewal.common.view_approve_renewal_agreement';
+
         return view($route,compact('data'));   
     }
     
@@ -243,37 +253,43 @@ class renewalCommonController extends Controller
         $applicationId = decrypt($applicationId);
         $data = RenewalApplication::where('id',$applicationId)->first();
         $LeaseAgreement  = config('commanConfig.scAgreements.renewal_lease_deed_agreement');
-        $Agreementstatus = ApplicationStatusMaster::where('status_name','=','Stamped_Signed')->value('id');
+
+        $Agreementstatus = ApplicationStatusMaster::where('status_name','=','Stamped')->value('id');
         $LeaseId = $this->conveyance->getScAgreementId($LeaseAgreement,$data->application_master_id);
-        $data->renewalAgreement = $this->getRenewalAgreement($LeaseId,$applicationId,$Agreementstatus);
+        $data->StampAgreement = $this->getRenewalAgreement($LeaseId,$applicationId,$Agreementstatus);
         $data->folder = $this->conveyance->getCurrentRoleFolderName(); 
 
+        // stamp_sign
+        $stampStatus = ApplicationStatusMaster::where('status_name','=','Stamp_by_dycdo')->value('id');
+        $stampId = $this->conveyance->getScAgreementId($LeaseAgreement,$data->application_master_id);
+        $data->StampByDycdoAgreement = $this->getRenewalAgreement($stampId,$applicationId,$stampStatus);        
+       
         $data->AgreementComments = RenewalAgreementComments::with('Roles')->where('application_id',$applicationId)->where('agreement_type_id',$data->application_master_id)->whereNotNull('remark')->get();
-        $is_view = session()->get('role_name') == config('commanConfig.co_engineer'); 
+        $is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer'); 
         $data->status = $this->getCurrentStatus($applicationId,$data->application_master_id); 
+        // dd($data->status);
 
-        if ($is_view && $data->status->status_id == config('commanConfig.renewal_status.Stamped_signed_sale_&_lease_deed')) {
+        if ($is_view && $data->status->status_id == config('commanConfig.renewal_status.Stamp_Renewal_of_Lease_deed')) {
             
-            $route = 'admin.renewal.co_department.stamp_renewal_agreement';
+            $route = 'admin.renewal.dyco_department.stamp_sign_renewal';
         }else{
-            $route = 'admin.renewal.common.view_stamp_renewal_agreement';
+            $route = 'admin.renewal.common.view_stamp_sign_renewal';
         }           
-
+        
         return view($route,compact('data'));
     }
 
-    // save stamp and sign Renewal lease Agreement(from JTCO dept)
+    // save stamp and sign Renewal lease Agreement
     public function saveStampRenewalAgreement(Request $request){
 
-            dd("hi");
         $applicationId   = $request->applicationId;  
         $file = $request->file('lease_agreement'); 
         $LeaseAgreement = config('commanConfig.scAgreements.renewal_lease_deed_agreement');  
         $data = RenewalApplication::where('id',$applicationId)->first(); 
         $Applicationtype = $data->application_master_id;  
         
-        $Agrstatus = ApplicationStatusMaster::where('status_name','=','Stamped_Signed')->value('id');          
-        $folderName = "renewal_Stamp_Lease_Agreement"; 
+        $Agrstatus = ApplicationStatusMaster::where('status_name','=','Stamp_by_dycdo')->value('id');          
+        $folderName = "renewal_Stamp_Sign_Lease_Agreement"; 
 
         if ($file) {
             $extension = $file->getClientOriginalExtension(); 
@@ -308,7 +324,54 @@ class renewalCommonController extends Controller
         } else{
             return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
         }                       
-    }          
+    }      
+
+    // save stamp and sign Renewal lease Agreement
+    // public function saveStampRenewalAgreement(Request $request){
+
+    //     $applicationId   = $request->applicationId;  
+    //     $file = $request->file('lease_agreement'); 
+    //     $LeaseAgreement = config('commanConfig.scAgreements.renewal_lease_deed_agreement');  
+    //     $data = RenewalApplication::where('id',$applicationId)->first(); 
+    //     $Applicationtype = $data->application_master_id;  
+        
+    //     $Agrstatus = ApplicationStatusMaster::where('status_name','=','Stamped_Signed')->value('id');          
+    //     $folderName = "renewal_Stamp_Sign_Lease_Agreement"; 
+
+    //     if ($file) {
+    //         $extension = $file->getClientOriginalExtension(); 
+    //         $fileName = time().'_lease_'.$applicationId.'.'.$extension;
+    //         $path = $folderName.'/'.$fileName;
+
+
+    //         $LeaseId = $this->conveyance->getScAgreementId($LeaseAgreement,$Applicationtype);
+            
+    //         if ($extension == "pdf") {
+                
+    //             Storage::disk('ftp')->delete($request->oldLeaseFile);
+    //             $this->CommonController->ftpFileUpload($folderName,$file,$fileName);
+    //             $leaseData = $this->getRenewalAgreement($LeaseId,$applicationId,$Agrstatus);
+                   
+    //             if ($leaseData){
+    //                 $this->updateRenewalAgreement($applicationId,$LeaseId,$path,$Agrstatus);                    
+    //             }else{
+    //                 $this->createRenewalAgreement($applicationId,$LeaseId,$path,$Agrstatus);
+    //             }
+    //             $status = 'success';                
+    //         }            
+    //     } 
+        
+    //     //save remark    
+    //     if ($request->remark){
+    //       $this->renewalAgreementComment($applicationId,$request->remark,$Applicationtype);  
+    //     }
+        
+    //     if (isset($status) && $status == 'success'){
+    //         return back()->with('success', 'Agreements uploaded successfully.'); 
+    //     } else{
+    //         return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
+    //     }                       
+    // }          
 
     // get agreement as per agreement type id
     public function getRenewalAgreement($typeId,$applicationId,$status){
@@ -735,7 +798,7 @@ class renewalCommonController extends Controller
         }
         
         if (isset($status) && $status == 'success'){
-            return back()->with('success', 'Agreements uploaded successfully.'); 
+            return back()->with('success', 'Submitted successfully.'); 
         } else{
             return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
         }            
@@ -857,4 +920,250 @@ class renewalCommonController extends Controller
 
         return $DocumentStatus;
     }
+
+    // Dashboard for Renewal start here
+
+    public function RenewalDashboard(){
+
+        $role_id = session()->get('role_id');
+        $user_id = Auth::id();
+        $applicationData = $this->getApplicationData($role_id,$user_id);
+        $parentName      = $this->getParentName();
+        $statusCount     = $this->getApplicationStatusCount($applicationData,$parentName);
+
+        return $statusCount;
+    } 
+
+    public function getRenewalRoles(){
+
+        $is_view = array(config('commanConfig.dycdo_engineer'),config('commanConfig.dyco_engineer'),config('commanConfig.ee_junior_engineer'),config('commanConfig.ee_branch_head'),config('commanConfig.ee_deputy_engineer'),config('commanConfig.estate_manager'),config('commanConfig.joint_co'),config('commanConfig.junior_architect'),config('commanConfig.senior_architect'),config('commanConfig.architect'));
+
+        return $is_view;
+
+    } 
+
+    public function getApplicationData($role_id,$user_id){
+        
+        $applicationData = RenewalApplication::with([
+            'renewalApplicationLog' => function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+                    ->where('is_active',1)
+                    ->orderBy('id', 'desc');
+            }])
+            ->whereHas('renewalApplicationLog', function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+                    ->where('is_active',1)
+                    ->orderBy('id', 'desc');
+            })->get()->toArray();
+
+        return $applicationData;
+    }
+
+    public function getParentName(){
+        
+        $parent_name = "";
+        $role_name = session()->get('role_name');
+        
+        if ($role_name == config('commanConfig.dycdo_engineer')){
+            $parent_name = 'DYCO Engineer';
+
+        } else if ($role_name == config('commanConfig.ee_junior_engineer')){
+            $parent_name = 'EE Deputy Engineer';
+        } else if ($role_name == config('commanConfig.ee_deputy_engineer')){
+            $parent_name = 'EE Engineer';
+        } else if ($role_name == config('commanConfig.junior_architect')){
+            $parent_name = 'Senior Architect';
+        }else if ($role_name == config('commanConfig.senior_architect')){
+            $parent_name = 'Architect Head';
+        }
+
+        return $parent_name;   
+    }
+
+    public function getApplicationStatusCount($applicationData,$parentName){
+        
+        $sendForApproval = $totalPending = $sendToSocietycount = $forwardApplication = $sendForStampDuty = $sendForRegistration = $nocIssued = $revertApplication =$inprocess = $draft = $approve = $stamp = $stampSign = $registered = $noc= $StampDuty = $Registration = 0 ;
+        
+        $role_name   = session()->get('role_name');
+        $can_revert  = $this->displayRevertVisibleRole($role_name);
+        $can_forward = $this->displayForwardVisibleRole($role_name);
+        $statusArr   = $this->getAllStatus(); 
+        
+        foreach ($applicationData as $application){
+            
+            $status = $application['renewal_application_log']['status_id'];            
+            // dd($application);
+            $sendForApprovalCondition = ($application['application_status'] != $statusArr['inprocess'] && $status == 
+                $statusArr['forwarded'] && $application['sent_to_society'] == 0);
+
+            $applicationForwarded = ($application['application_status'] == $statusArr['inprocess'] && $status == 
+                $statusArr['forwarded'] && $application['sent_to_society'] == 0 && $can_forward);
+
+            $applicationReverted    = ($status == $statusArr['reverted'] && $can_revert);
+            $sendToSocietyCondition = $status == $statusArr['forwarded'] && ($application['sent_to_society'] == 1);
+            $sendForStampDutyCondition = ($status == $statusArr['forwarded'] && ($application['sent_to_society'] == 1 && $application['application_status'] == $statusArr['stampDuty']));            
+
+            $sendForRegistrationCondition = ($status == $statusArr['forwarded'] && ($application['sent_to_society'] == 1 && $application['application_status'] == $statusArr['sendForRegistration']));
+
+            $nocIssuedCondition = ($status == $statusArr['forwarded'] && ($application['sent_to_society'] == 1 && $application['application_status'] == $statusArr['noc']));
+
+            $inprocessCondition = ($status == $statusArr['inprocess']);
+            $draftCondition     = ($status == $statusArr['draft']);
+            $approveCondition   = ($status == $statusArr['approve']);
+            // $stampCondition     = ($status == $statusArr['stamp']);
+            // $stampSignCondition = ($status == $statusArr['stampSign']);
+            // $registerCondition  = ($status == $statusArr['registered']);
+            // $RegistrationCondition = ($status == $statusArr['sendForRegistration'] && $application['sent_to_society'] == 0);
+
+            $payDutyCondition = ($status == $statusArr['stampDuty'] && $application['sent_to_society'] == 0);
+            $nocCondition = ($status == $statusArr['noc'] && $application['sent_to_society'] == 0);
+
+            switch ($status)
+            {                
+                case $sendForApprovalCondition      : $sendForApproval       += 1; break;
+                case $sendForStampDutyCondition     : $sendForStampDuty      += 1; break;
+                case $sendForRegistrationCondition  : $sendForRegistration   += 1; break;
+                case $nocIssuedCondition            : $nocIssued             += 1; break;
+                case $applicationForwarded          : $forwardApplication    += 1; break;
+                case $applicationReverted           : $revertApplication     += 1; break;
+
+                case $inprocessCondition     : $inprocess        += 1; break;
+                case $draftCondition         : $draft            += 1; break;
+                case $approveCondition       : $approve          += 1; break;
+                // case $stampCondition         : $stamp            += 1; break;
+                // case $stampSignCondition     : $stampSign        += 1; break;
+                // case $registerCondition      : $registered       += 1; break;
+                // case $RegistrationCondition  : $Registration     += 1; break;
+                case $payDutyCondition       : $StampDuty        += 1; break;
+                case $nocCondition           : $noc              += 1; break;
+                default:
+                ; break;
+            }
+        }
+
+        $totalPending = $inprocess + $draft + $approve + $stamp + $stampSign + $registered; 
+
+
+        //Application pending Bifergation    
+
+        $separation['Inprocess']  = $inprocess;
+        $separation['draft']      = $draft;
+        $separation['approve']    = $approve;
+        // $separation['stamp']      = $stamp;
+        // $separation['stampSign']  = $stampSign;
+        // $separation['registered'] = $registered;
+
+        if ($role_name == config('commanConfig.dyco_engineer')){
+            $separation['send For Stamp Duty']     = $StampDuty;
+            $separation['send For Registration']  = $Registration;
+            $separation['NOC Issued']            = $noc; 
+
+            $totalPending =  $totalPending + $Registration + $StampDuty +  $noc;  
+        }
+
+        //send to society Bifergation
+        $sendToSociety['Send For Stamp Duty']    = $sendForStampDuty;
+        $sendToSociety['Send For Registration'] = $sendForRegistration;
+        $sendToSociety['NOC Issued']            = $nocIssued;
+
+        $sendToSocietycount = $sendForRegistration + $sendForStampDuty + $nocIssued;
+        
+        $totalApplication = count($applicationData);
+
+        $count['Total No of Applications'][0] = $totalApplication;
+        $count['Total No of Applications'][1] = '';
+        $count['Applications Pending'][0]     = $totalPending;
+        $count['Applications Pending'][1]     = 'pending';
+        $count['Draft Sale & Lease Deed sent for Approval'][0] = $sendForApproval;
+        $count['Draft Sale & Lease Deed sent for Approval'][1] = 'conveyance?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+        $count['Sent to Society'][0] = $sendToSocietycount;
+        $count['Sent to Society'][1] = 'sendToSociety';
+
+        if ($can_forward){
+            if ($parentName != ""){
+                
+                $count['Applications Forwarded to '.$parentName][0] = $forwardApplication;
+                $count['Applications Forwarded to '.$parentName][1] = 'conveyance?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');                
+
+            }else{
+                $count['Applications Forwarded'][0] = $forwardApplication;
+                $count['Applications Forwarded'][1] = 'conveyance?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded'); 
+            }
+        }    
+
+        if ($can_revert){
+                
+                $count['Applications Reverted'][0] = $revertApplication;
+                $count['Applications Reverted'][1] = 'conveyance?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');             
+        }
+        $dashboard = array($count,$separation,$sendToSociety);
+
+        return $dashboard;
+    } 
+
+    public function getApplicationPendingAtDepartment(){
+       
+       $dycdoRoles     = $this->CommonController->getDYCDORoles();
+       $eeRoles        = $this->CommonController->getEERoles1();
+       $emRoles        = $this->CommonController->getEMRoles();
+       $jtcoRoles      = $this->CommonController->getJTCORoles();
+       $architectRoles = $this->CommonController->getArchitectRoles();
+
+       $pendingAtDYCDO     = $this->pendingApplicationCount($dycdoRoles);
+       $pendingAtEE        = $this->pendingApplicationCount($eeRoles);
+       $pendingAtEM        = $this->pendingApplicationCount($emRoles);
+       $pendingAtJTCO      = $this->pendingApplicationCount($jtcoRoles);
+       $pendingAtArchitect = $this->pendingApplicationCount($architectRoles);
+
+       $pendingAtDepartments = array();
+       $pendingAtDepartments['Applications pending At DYCO']     = $pendingAtDYCDO;
+       $pendingAtDepartments['Applications pending At EE']        = $pendingAtEE;
+       $pendingAtDepartments['Applications pending At Architect'] = $pendingAtArchitect;
+       $pendingAtDepartments['Applications pending At EM']        = $pendingAtEM;
+       $pendingAtDepartments['Applications pending At JTCO']      = $pendingAtJTCO;
+
+       return $pendingAtDepartments; 
+    }
+
+    public function pendingApplicationCount($roles){
+
+        $status = array(config('commanConfig.renewal_status.in_process'),config('commanConfig.renewal_status.Draft_Renewal_of_Lease_deed'),config('commanConfig.renewal_status.Aproved_Renewal_of_Lease'),config('commanConfig.renewal_status.Sent_society_to_pay_stamp_duety'),config('commanConfig.renewal_status.NOC_Generation'));
+
+        $count = RenewalApplicationLog::where('is_active',1)
+            ->whereIn('status_id',$status)
+            ->whereIn('role_id',$roles)
+            ->get()->count();
+
+        return $count;    
+    }
+
+    public function displayForwardVisibleRole($role_name){
+
+        $roles = ($role_name == config('commanConfig.dyco_engineer') || $role_name == config('commanConfig.ee_deputy_engineer') || $role_name == config('commanConfig.ee_branch_head') || $role_name == config('commanConfig.senior_architect') || $role_name == config('commanConfig.architect') || $role_name == config('commanConfig.ee_junior_engineer') || $role_name == config('commanConfig.junior_architect') || $role_name == config('commanConfig.dycdo_engineer') || $role_name == config('commanConfig.estate_manager'));
+
+        return  $roles; 
+    }
+
+    public function displayRevertVisibleRole($role_name){
+
+        $roles = ($role_name == config('commanConfig.dyco_engineer') || $role_name == config('commanConfig.ee_deputy_engineer') || $role_name == config('commanConfig.ee_branch_head') || $role_name == config('commanConfig.senior_architect') || $role_name == config('commanConfig.architect') || $role_name == config('commanConfig.joint_co'));
+        return  $roles;
+    }
+
+    public function getAllStatus(){
+
+        $status['inprocess'] = config('commanConfig.renewal_status.in_process');
+        $status['forwarded'] = config('commanConfig.renewal_status.forwarded');
+        $status['reverted']  = config('commanConfig.renewal_status.reverted');
+        $status['draft']     = config('commanConfig.renewal_status.Draft_Renewal_of_Lease_deed');
+        $status['approve']   = config('commanConfig.renewal_status.Aproved_Renewal_of_Lease');
+        $status['stampDuty'] = config('commanConfig.renewal_status.Sent_society_to_pay_stamp_duety');
+        $status['noc']       = config('commanConfig.renewal_status.NOC_Generation');
+
+        return $status;
+    }     
 }
