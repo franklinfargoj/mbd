@@ -11,10 +11,7 @@
 @endif
 
 @php
-
-    if(isset($data->StampSignAgreement->document_path))
-        $document = $data->StampSignAgreement->document_path; 
-    else if(isset($data->StampByDycdoAgreement->document_path))
+    if(isset($data->StampByDycdoAgreement->document_path))
         $document = $data->StampByDycdoAgreement->document_path;    
     else if(isset($data->StampAgreement->document_path))
         $document = $data->StampAgreement->document_path;
@@ -38,10 +35,8 @@
             </li>
         </ul>
     </div>
-@if(session()->get('role_name') == config('commanConfig.dycdo_engineer'))    
-    <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('renewal.save_stamp_sign_renewal_agreement')}}" enctype="multipart/form-data">
-    @csrf
-@endif
+<form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('renewal.save_stamp_sign_renewal_agreement')}}" enctype="multipart/form-data">
+@csrf
 
 <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
     <div class="tab-content">
@@ -76,11 +71,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if(session()->get('role_name') == config('commanConfig.dycdo_engineer') && $data->status->status_id != config('commanConfig.renewal_status.forwarded') && $data->status->status_id != config('commanConfig.renewal_status.reverted'))
+
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload</h5>
-                                            <input type="hidden" name="oldLeaseFile" value="{{ isset($data->StampSignByDycdo->document_path) ? $data->StampSignByDycdo->document_path : '' }}">
+                                            <input type="hidden" name="oldLeaseFile" value="{{ isset($data->StampSignAgreement->document_path) ? $data->StampSignAgreement->document_path : '' }}">
                                             <span class="hint-text">Click to upload Lease deed agreement</span>
                                                 <div class="custom-file">
                                                     <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload1">
@@ -90,7 +85,6 @@
                                                 </div>
                                         </div>
                                     </div>
-                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -101,28 +95,6 @@
             <!-- Add Send to JT CO here -->
         </div>
     </div>
-
-@if(session()->get('role_name') == config('commanConfig.dyco_engineer') && ($data->status->status_id != config('commanConfig.renewal_status.forwarded') && $data->status->status_id != config('commanConfig.renewal_status.reverted')) )
-    <div class="m-portlet m-portlet--mobile m_panel">
-        <div class="m-portlet__body">
-            <h5>Send To Society</h5>
-            <span class="hint-text">Send To Society For Registration of Lease Agreement</span>
-            <div class="col-xs-12 row">
-                <div class="col-md-12">
-                    <form class="nav-tabs-form" id ="send" role="form" method="POST" action="{{ route('dyco.renewal_send_to_society')}}" enctype="multipart/form-data">
-                        @csrf
-
-                        <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
-                        <div class="col-md-6" style="display: inline;">
-                                <input type="submit" class="s_btn btn btn-primary" id="SendBtn" value="Send to Society ">
-                                
-                            </div>     
-                    </form>    
-                </div>
-            </div>
-        </div>
-    </div>
-@endif     
   
     @if(count($data->AgreementComments) > 0)       
         <div class="m-portlet m-portlet--mobile m_panel">
@@ -143,9 +115,9 @@
                 </div>               
             </div>    
         </div> 
-    @endif 
+    @endif    
 
-    @if($data->status->status_id != config('commanConfig.renewal_status.forwarded') && $data->status->status_id != config('commanConfig.renewal_status.reverted'))         
+    @if($data->status->status_id != config('commanConfig.renewal_status.forwarded') && $data->status->status_id != config('commanConfig.renewal_status.reverted'))      
         <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">   
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body">
@@ -159,7 +131,7 @@
             </div>
         </div>
     @endif    
-    </form>       
+    </form>        
 </div>
 
 @endsection

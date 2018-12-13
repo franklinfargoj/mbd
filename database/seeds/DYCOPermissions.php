@@ -202,12 +202,7 @@ class DYCOPermissions extends Seeder
                 'name'=>'dyco.generate_stamp_duty_letter',
                 'display_name'=>'dyco generate stamp duty letter',
                 'description'=>'dyco generate stamp duty letter'
-            ],            
-            // [
-            //     'name'=>'dyco.save_stamp_duty_letter',
-            //     'display_name'=>'dyco save stamp duty letter',
-            //     'description'=>'dyco save stamp duty letter'
-            // ],            
+            ],                       
             [
                 'name'=>'formation.em_srutiny_and_remark',
                 'display_name'=>'display the scrutiny report of EM for SF',
@@ -317,6 +312,21 @@ class DYCOPermissions extends Seeder
                 'name'=>'renewal.save_draft_sign_renewal_agreement',
                 'display_name'=>'save draft sign renewal agreement',
                 'description'=>'save draft sign renewal agreement'
+            ],            
+            [
+                'name'=>'renewal.stamp_sign_renewal_agreement',
+                'display_name'=>'renewal stamp sign renewal agreement',
+                'description'=>'renewal stamp sign renewal agreement' 
+            ],            
+            [
+                'name'=>'renewal.save_stamp_sign_renewal_agreement',
+                'display_name'=>'renewal save stamp sign renewal agreement',
+                'description'=>'renewal save stamp sign renewal agreement' 
+            ],            
+            [
+                'name'=>'renewal.registered_renewal_agreement',
+                'display_name'=>'renewal registered renewal agreement',
+                'description'=>'renewal registered renewal agreement' 
             ],                              
         ];
 
