@@ -116,25 +116,6 @@
                         @if($chart2)
                             <div id="conveyance_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
                         @endif
-                        @if($pendingApplications && session()->get('role_name') == config('commanConfig.dyco_engineer'))
-                            <div class="row hearing-row">
-                                @foreach($pendingApplications as $header => $value)
-                                    <div class="col">
-                                        <div class="m-portlet app-card text-center">
-                                            <h2 class="app-heading">{{$header}}</h2>
-                                            <div class="app-card-footer">
-                                                <h2 class="app-no mb-0">{{$value}}</h2>
-                                                @php $chart3+= $value; @endphp
-                                                <a href="" class="app-card__details mb-0">View Details</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                            @if($chart3)
-                                <div id="pending_conveyance_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
-                            @endif
-                        @endif
                     </div>
                 </div>
         @endif
@@ -374,46 +355,6 @@
             //
             // WRITE
             chart2.write("conveyance_chart");
-        });
-        @endif
-    </script>
-    @endif
-    @if($chart3)
-    <script>
-        var chart3;
-        var legend;
-
-                @if($pendingApplications)
-        var chartData3 = [
-                        @foreach($pendingApplications as $header => $value)     {
-                    "status": '{{$header}}',
-                    "value": '{{$value}}',
-                },
-                    @endforeach
-
-            ];
-        //    console.log(chartData2);
-
-        AmCharts.ready(function () {
-            // PIE CHART
-            chart3 = new AmCharts.AmPieChart();
-            chart3.dataProvider = chartData3;
-            chart3.titleField = "status";
-            chart3.valueField = "value";
-            chart3.outlineColor = "#FFFFFF";
-            chart3.outlineAlpha = 0.8;
-            chart3.outlineThickness = 2;
-            chart3.balloonText =
-                "[[title]]<br><span style='font-size:24px'><b>[[value]]</b> ([[percents]]%)</span>";
-            // this makes the chart 3D
-            chart3.depth3D = 15;
-            chart3.angle = 30;
-            chart3.colors = ["#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999",
-                "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"
-            ]
-            //
-            // WRITE
-            chart3.write("pending_conveyance_chart");
         });
         @endif
     </script>
