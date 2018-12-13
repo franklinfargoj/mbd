@@ -1914,10 +1914,10 @@ class REEController extends Controller
 
     public function getREEDashboardData($role_id,$ree,$statusCount)
     {
-//        dd($ree);
+
 //        dd('perparing for dashboard data');
         switch ($role_id) {
-            case ($ree['ree_jr_id']):
+            case ($ree['REE Junior Engineer']):
                 $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
                 $dashboardData['Total No of Applications'][1] = '';
 
@@ -1941,7 +1941,7 @@ class REEController extends Controller
                 $dashboardData['Offer Letters Forwarded for Issuing to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 
                 break;
-            case ($ree['ree_head_id']):
+            case ($ree['ree_engineer']):
                 $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
                 $dashboardData['Total No of Applications'][1] = '';
 
@@ -1967,7 +1967,7 @@ class REEController extends Controller
                 $dashboardData['Offer Letters Sent to Society '][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.sent_to_society');
 
                 break;
-            case ($ree['ree_deputy_id']):
+            case ($ree['REE deputy Engineer']):
                 $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
                 $dashboardData['Total No of Applications'][1] = '';
 
@@ -1992,7 +1992,7 @@ class REEController extends Controller
                 $dashboardData['Offer Letters Forwarded for Issuing to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.sent_to_society');
 
                 break;
-            case ($ree['ree_ass_id']):
+            case ($ree['REE Assistant Engineer']):
                 $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
                 $dashboardData['Total No of Applications'][1] = '';
 

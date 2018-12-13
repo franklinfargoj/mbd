@@ -25,6 +25,7 @@ use Auth;
 use DB;
 use App\conveyance\ScChecklistMaster;
 use App\conveyance\ScChecklistScrutinyStatus;
+use App\Http\Controllers\conveyance\renewalCommonController;
 
 class conveyanceCommonController extends Controller
 {	 
@@ -955,6 +956,24 @@ class conveyanceCommonController extends Controller
 
     // Dashboard for conveyance start header_remove
 
+    public function displayDashboard(){
+
+        $conveyanceDashboard = $this->ConveyanceDashboard();
+        $conveyanceRoles     = $this->getConveyanceRoles();
+        $pendingApplications = $this->getApplicationPendingAtDepartment();
+
+        //renewal dashboard
+
+        $renewal = new renewalCommonController();
+
+        $renewalDashboard    = $renewal->RenewalDashboard();
+        $renewalRoles     = $renewal->getRenewalRoles();
+        $renewalPendingApplications = $renewal->getApplicationPendingAtDepartment(); 
+        // dd($renewalPendingApplications);             
+        
+        return view('admin.conveyance.common.dashboard',compact('conveyanceDashboard','conveyanceRoles','pendingApplications','renewalDashboard','renewalRoles','renewalPendingApplications'));
+    }    
+
     public function ConveyanceDashboard(){
 
         $role_id = session()->get('role_id');
@@ -1083,12 +1102,12 @@ class conveyanceCommonController extends Controller
 
         //Application pending Bifergation    
 
-        $separation['Inprocess']  = $inprocess;
-        $separation['draft']      = $draft;
-        $separation['approve']    = $approve;
-        $separation['stamp']      = $stamp;
-        $separation['stampSign']  = $stampSign;
-        $separation['registered'] = $registered;
+        $separation['In Process']  = $inprocess;
+        $separation['Draft']      = $draft;
+        $separation['Approve']    = $approve;
+        $separation['Stamp']      = $stamp;
+        $separation['Stamp & Sign']  = $stampSign;
+        $separation['Registered'] = $registered;
 
         if ($role_name == config('commanConfig.dyco_engineer')){
             $separation['send For Stamp Duty']     = $StampDuty;

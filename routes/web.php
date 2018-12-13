@@ -479,6 +479,26 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
         //Society Conveyance END
 
+        //Society Renewal
+
+        Route::get('sr_download_template', 'SocietyRenewalController@download_excel')->name('sr_download');
+        Route::get('sr_upload_docs', 'SocietyRenewalController@sr_upload_docs')->name('sr_upload_docs');
+        Route::post('upload_sr_docs', 'SocietyRenewalController@upload_sr_docs')->name('upload_sr_docs');
+        Route::get('delete_sr_upload_docs/{id}', 'SocietyRenewalController@delete_sr_upload_docs')->name('delete_sr_upload_docs');
+        Route::post('add_society_documents_comment', 'SocietyRenewalController@add_society_documents_comment')->name('society_doc_comment');
+        Route::get('sr_form_download', 'SocietyRenewalController@generate_pdf')->name('sr_form_download');
+        Route::get('sr_form_upload_show', 'SocietyRenewalController@sr_form_upload_show')->name('sr_form_upload_show');
+        Route::post('sr_form_upload', 'SocietyRenewalController@sr_form_upload')->name('sr_form_upload');
+
+        //sale & lease deed alongwith pay stamp duty letter & resolution & undertaking
+//    Route::get('sale_lease_deed/{id}', 'SocietyRenewalController@show_sale_lease')->name('show_sale_lease');
+//    Route::get('signed_sale_lease_deed/{id}', 'SocietyRenewalController@show_signed_sale_lease')->name('show_signed_sale_lease');
+//    Route::post('save_sale_lease_deed', 'SocietyRenewalController@upload_sale_lease')->name('upload_sale_lease');
+//    Route::post('save_signed_sale_lease_deed', 'SocietyRenewalController@upload_signed_sale_lease')->name('upload_signed_sale_lease');
+        Route::resource('/society_renewal','SocietyRenewalController');
+
+        //Society Renewal END
+
     });
 
     Route::get('/show_reval_self/{id}', 'SocietyOfferLetterController@show_reval_self')->name('show_reval_self');
@@ -684,7 +704,14 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
     Route::post('formation.send_no_due_to_society','conveyance\FormationCommonController@send_no_due_to_society')->name('formation.send_no_due_to_society');
     //Society Formation End
 
-
+    //tripartite
+    Route::group(['prefix' => 'tripartite'], function () {
+        Route::get('/','Tripartite\TripartiteController@index')->name('tripartite.index');
+        Route::get('/view_application/{application_id}','Tripartite\TripartiteController@view_application')->name('tripartite.view_application');
+        Route::get('/view_society_documents/{application_id}','Tripartite\TripartiteController@view_society_documents')->name('tripartite.view_society_documents');
+        Route::get('/tripartite_agreement/{application_id}','Tripartite\TripartiteController@tripartite_agreement')->name('tripartite.tripartite_agreement');
+    });
+    //End tripartite
     //Society Renewal
 
     Route::get('sr_download_template', 'SocietyRenewalController@download_excel')->name('sr_download');
@@ -810,6 +837,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
  
  //common in conveyance
     Route::resource('conveyance', 'conveyance\conveyanceCommonController');    
+    Route::get('sc_dashboard', 'conveyance\conveyanceCommonController@displayDashboard')->name('conveyance.dashboard');
+
     Route::get('conveyance_application/{id}', 'conveyance\conveyanceCommonController@ViewApplication')->name('conveyance.view_application');
 
     Route::get('view_ee_documents/{id}', 'conveyance\conveyanceCommonController@ViewEEDocuments')->name('conveyance.view_ee_documents'); 
@@ -930,7 +959,11 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('approve_renewal_agreement/{id}', 'conveyance\renewalCommonController@ApproveRenewalAgreement')->name('renewal.approve_renewal_agreement');    
 
-     Route::get('stamp_renewal_agreement/{id}', 'conveyance\renewalCommonController@StampRenewalAgreement')->name('renewal.stamp_renewal_agreement'); 
+     Route::get('registered_renewal_agreement/{id}', 'conveyance\renewalCommonController@registeredRenewalAgreement')->name('renewal.registered_renewal_agreement');
+
+     Route::get('stamp_renewal_agreement/{id}', 'conveyance\renewalCommonController@StampRenewalAgreement')->name('renewal.stamp_renewal_agreement');
+
+      Route::get('stamp_sign_renewal_agreement/{id}', 'conveyance\renewalCommonController@StampSignRenewalAgreement')->name('renewal.stamp_sign_renewal_agreement'); 
 
     Route::get('renewal_forward_application/{id}', 'conveyance\renewalCommonController@commonForwardApplication')->name('renewal.renewal_forward_application');    
 
@@ -946,7 +979,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::post('save_forward_application_renewal', 'conveyance\renewalCommonController@saveForwardApplication')->name('renewal.save_forward_application_renewal'); 
 
-    Route::post('save_stamp_renewal_agreement', 'conveyance\renewalCommonController@saveStampRenewalAgreement')->name('renewal.save_stamp_renewal_agreement');   
+    Route::post('save_stamp_renewal_agreement', 'conveyance\renewalCommonController@saveStampRenewalAgreement')->name('renewal.save_stamp_renewal_agreement'); 
+
+    Route::post('save_stamp_sign_renewal_agreement', 'conveyance\renewalCommonController@SaveStampSignRenewalAgreement')->name('renewal.save_stamp_sign_renewal_agreement');   
 
     Route::post('renewal_save_agreement_comments', 'conveyance\renewalCommonController@SaveAgreementComments')->name('renewal.save_agreement_comments');
 

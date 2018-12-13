@@ -1074,7 +1074,7 @@ class DYCOController extends Controller
     }
 
     public function SendRenewalApplicationToSociety(Request $request){
-
+        
         $applicationId = $request->applicationId; 
         $data = RenewalApplication::with(['societyApplication.roleUser'])->where('id',$applicationId)->first();
    
@@ -1090,6 +1090,7 @@ class DYCOController extends Controller
                 'application_master_id' => $data->application_master_id,
                 'to_user_id'     => $to_user_id,
                 'to_role_id'     => $to_role_id,
+                'is_active'      => 1,
                 'created_at'     => Carbon::now(),
             ],
             [
@@ -1101,13 +1102,14 @@ class DYCOController extends Controller
                 'application_master_id' => $data->application_master_id,
                 'to_user_id'    => null,
                 'to_role_id'    => null,
+                'is_active'     => 1,
                 'created_at'    => Carbon::now(),
             ],
             ];
 
             RenewalApplicationLog::insert($application); 
             RenewalApplication::where('id',$applicationId)->where('application_master_id',$data->application_master_id)
-                ->update(['application_status' => $data->application_status]);            
+                ->update(['application_status' => $data->application_status,'sent_to_society' => 1]);            
             return back()->with('success','Application Send Successfully.');     
     }
 
@@ -1223,6 +1225,6 @@ class DYCOController extends Controller
         } else{
             return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
         }         
-    }          
+    }         
 }
  

@@ -9,7 +9,7 @@
     {{ session()->get('success') }}
 </div>
 @endif
- 
+
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
          <div class="m-subheader px-0 m-subheader--top">
@@ -30,19 +30,7 @@
                 </a>
             </li>
         </ul>
-    </div>
-
-@php
-    if(isset($data->DraftSignAgreement->document_path))
-        $document = $data->DraftSignAgreement->document_path;    
-    else if(isset($data->renewalAgreement->document_path))
-        $document = $data->renewalAgreement->document_path;
-@endphp
-
-<form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.save_approve_renewal_agreement')}}" enctype="multipart/form-data">
-@csrf
-
-<input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
+    </div> 
     <div class="tab-content">
         <div class="tab-pane active show" id="sale-deed-agreement" role="tabpanel">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
@@ -53,7 +41,7 @@
                                 <h4 class="section-title">
                                     Renewal of Lease Agreement
                                 </h4>
-                            </div>
+                            </div> 
                         </div>
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
@@ -63,8 +51,8 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Lease deed agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($document))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$document }}" target="_blank">
+                                                @if(isset($data->RegisterAgreement->document_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->RegisterAgreement->document_path }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -74,77 +62,41 @@
                                                 @endif
                                             </div>
                                         </div>
-                                    </div>
-                                    @if($data->status->status_id != config('commanConfig.renewal_status.forwarded') && $data->status->status_id != config('commanConfig.renewal_status.reverted'))
-                                    <div class="col-sm-6 border-left">
-                                        <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Upload</h5>
-                                            <input type="hidden" name="oldLeaseFile" value="{{ isset($data->approveAgreement->document_path) ? $data->approveAgreement->document_path : '' }}">
-                                            <span class="hint-text">Click to upload Lease deed agreement</span>
-                                                <div class="custom-file">
-                                                    <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload1">
-                                                
-                                                        <label class="custom-file-label" for="test-upload1">Choose
-                                                        file...</label>   
-                                                </div>
-                                        </div>
-                                    </div>
-                                    @endif
+                                    </div>                                
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Add Send to JT CO here -->
-        </div>
-    </div>
-
-   <!-- Generate stamp duty letter      -->
-    <div class="m-portlet m-portlet--mobile m_panel">
-        <div class="m-portlet__body">
-            <div class="m-subheader" style="padding: 0;">
-                <div class="d-flex align-items-center justify-content-center">
-                    <h4 class="section-title">
-                        Generate Letter to Pay Stamp Duty
-                    </h4>
-                </div>
-            </div>
-            <div class="m-section__content mb-0 table-responsive" style="margin-top: 30px;">
-                <div class="container">
-                    <div class="row">
-                    @if($data->status->status_id != config('commanConfig.renewal_status.forwarded') && $data->status->status_id != config('commanConfig.renewal_status.reverted'))
-                        <div class="col-sm-6">
-                            <div class="d-flex flex-column h-100 two-cols">
-                                <h5>Generate</h5>
-                                <span class="hint-text">Click to Generate Stamp Duty Letter </span>
-                                <div class="mt-auto">                           
-                                    <a href="{{ route('dyco.generate_stamp_duty_letter',encrypt($data->id)) }}" class="btn btn-primary">Generate </a>
-                                </div>
-                            </div>
-                        </div>
-                    @endif    
-                        <div class="col-sm-6 border-left">
-                                <div class="d-flex flex-column h-100 two-cols">
-                                    <h5>Download</h5>
-                                    <span class="hint-text">Click to Download Stamp Duty Letter </span>
-                                    <div class="mt-auto">
-                                        @if(isset($data->draftStampLetter->document_path))
-                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->draftStampLetter->document_path }}" class="btn btn-primary" target="_blank">Download </a>                                
-                                        @else
-                                        <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                            *Note : Stamp Duty Letter is not available.</span>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-                </div>
-            </div>                   
         </div>
     </div>  
 
+    <div class="m-portlet m-portlet--mobile m_panel">
+        <div class="m-portlet__body">
+            <h3 class="section-title section-title--small">Sub registrar Details</h3>
+              <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-3 col-form-label">Sub Registrar Name - </label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="inputPassword" value="{{ isset($data->lease_registration->sub_registrar_name) ? $data->lease_registration->sub_registrar_name : '' }}" readonly>
+                    </div>
+              </div> 
+              <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-3 col-form-label">Year -</label>
+                    <div class="col-sm-5">
+                       <input type="text" class="form-control" id="inputPassword" value="{{ isset($data->lease_registration->registration_year) ? $data->lease_registration->registration_year : '' }}" readonly>
+                    </div>
+              </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-3 col-form-label">Registration No -</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="inputPassword" value="{{ isset($data->lease_registration->registration_no) ? $data->lease_registration->registration_no : '' }}" readonly>
+                    </div>
+              </div>              
+        </div>
+    </div>      
+      
+    <!-- display all Agreements comments -->
     @if(count($data->AgreementComments) > 0)       
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body">
@@ -164,9 +116,13 @@
                 </div>               
             </div>    
         </div> 
-    @endif 
+    @endif  
 
-    @if($data->status->status_id != config('commanConfig.renewal_status.forwarded') && $data->status->status_id != config('commanConfig.renewal_status.reverted'))     
+    <!-- Add your remark -->
+    @if($data->status->status_id != config('commanConfig.renewal_status.forwarded') && $data->status->status_id != config('commanConfig.renewal_status.reverted'))    
+    <form class="nav-tabs-form" id ="CommentFRM" role="form" method="POST" action="{{ route('renewal.save_agreement_comments')}}">
+    @csrf        
+        <input type="hidden" name="application_id" id="application_id" value="{{ isset($data->id) ? $data->id : '' }}">  
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body">
                 <h3 class="section-title section-title--small">Remark</h3>
@@ -178,24 +134,10 @@
                 </div>
             </div>
         </div>
-    @endif
- </form>   
+    </form>
+    @endif   
 </div>
 
 @endsection
 
-@section('js')
-<script>
-    $("#agreementFRM").validate({
-        rules: {            
-            lease_agreement: {
-                extension: "pdf"
-            },
-        }, messages: {           
-            lease_agreement: {
-                extension: "Invalid type of file uploaded (only pdf allowed)."
-            }
-        }
-    });  
-</script>
-@endsection
+

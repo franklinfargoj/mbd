@@ -130,5 +130,20 @@
  </form>   
 </div>
 
+@endsection 
+@section('js')
+<script>
+    $("#agreementFRM").validate({
+        rules: {            
+            lease_agreement: {
+                extension: "pdf"
+            },
+        }, messages: {           
+            lease_agreement: {
+                extension: "Invalid type of file uploaded (only pdf allowed)."
+            }
+        }
+    });  
+</script>
 @endsection
 
