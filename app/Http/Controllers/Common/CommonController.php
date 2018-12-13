@@ -390,7 +390,11 @@ class CommonController extends Controller
             $application_master_arr = OlApplicationMaster::Where('title', 'like', '%Revalidation Of Offer Letter%')->pluck('id')->toArray();
             $applicationData = $applicationData->whereIn('application_master_id', $application_master_arr);
         }
-        else
+        else if($application_type!=null && $application_type =='tripartite')
+        {
+            $application_master_arr = OlApplicationMaster::Where('title', 'like', '%Tripartite Agreement%')->pluck('id')->toArray();
+            $applicationData = $applicationData->whereIn('application_master_id', $application_master_arr);
+        }else
         {
             $application_master_arr = OlApplicationMaster::Where('title', 'like', '%New - Offer Letter%')->pluck('id')->toArray();
             $applicationData = $applicationData->whereIn('application_master_id', $application_master_arr);
