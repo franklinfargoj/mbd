@@ -1617,10 +1617,10 @@ class CommonController extends Controller
         $dyceHeadId = Role::where('name',config('commanConfig.dyce_branch_head'))->value('id');
 
         if($role_id == $eeHeadId){
-            $dashboardData1 = $this->getToatalPendingApplicationsAtUser($ee,$role = 'ee' );
+            $dashboardData1 = $this->getToatalPendingApplicationsAtUser($ee);
         }
         if($role_id == $dyceHeadId){
-            $dashboardData1 = $this->getToatalPendingApplicationsAtUser($dyce , $role = 'dyce');
+            $dashboardData1 = $this->getToatalPendingApplicationsAtUser($dyce);
         }
         return view('admin.common.ol_dashboard',compact('dashboardData','dashboardData1','conveyanceDashboard','conveyanceRoles','pendingApplications'));
 
@@ -1661,7 +1661,7 @@ class CommonController extends Controller
 
      * Author :Prajakta Sisale.
      *
-     * @param $role_id,$user_id
+     * @param $applicationData
      *
      * @return array
      */
@@ -1696,6 +1696,13 @@ class CommonController extends Controller
 
     }
 
+    /*
+     * Function for getting EE roles.
+     *
+     * Author :Prajakta Sisale.
+     *
+     * @return array
+     */
     public function getEERoles(){
 //        $ee_jr_id = Role::where('name',config('commanConfig.ee_junior_engineer'))->value('id');
 //        $ee_head_id = Role::where('name',config('commanConfig.ee_branch_head'))->value('id');
@@ -1708,6 +1715,13 @@ class CommonController extends Controller
         return Role::whereIn('name', $roles)->pluck('id','name')->toArray();
     }
 
+    /*
+    * Function for getting DYCE roles.
+    *
+    * Author :Prajakta Sisale.
+    *
+    * @return array
+    */
     public function getDyceRoles(){
         $roles = array(config('commanConfig.dyce_jr_user'),config('commanConfig.dyce_branch_head'),config('commanConfig.dyce_deputy_engineer'));
         return Role::whereIn('name', $roles)->pluck('id','name')->toArray();
@@ -1720,6 +1734,15 @@ class CommonController extends Controller
 //        return $dyce;
     }
 
+    /*
+    * Function for getting EE dashboard data.
+    *
+    * @param $role_id,$ee,$statusCount
+    *
+    * Author :Prajakta Sisale.
+    *
+    * @return array
+    */
     public function getEEDashboardData($role_id,$ee,$statusCount)
     {
 //        dd($ee);
@@ -1762,6 +1785,15 @@ class CommonController extends Controller
         return $dashboardData;
     }
 
+    /*
+    * Function for getting DYCE dashboard data.
+    *
+    * @param $role_id,$dyce,$statusCount
+    *
+    * Author :Prajakta Sisale.
+    *
+    * @return array
+    */
     public function getDyceDashboardData($role_id,$dyce,$statusCount){
 //        dd($dyce);
         switch ($role_id)
@@ -1800,6 +1832,15 @@ class CommonController extends Controller
         return $dashboardData;
     }
 
+    /*
+    * Function for getting CAP dashboard data.
+    *
+    * @param $statusCount
+    *
+    * Author :Prajakta Sisale.
+    *
+    * @return array
+    */
     public function getCapDashboardData($statusCount){
         $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
         $dashboardData['Total No of Applications'][1] = '';
@@ -1812,6 +1853,15 @@ class CommonController extends Controller
         return $dashboardData;
     }
 
+    /*
+    * Function for getting VP dashboard data.
+    *
+    * @param $statusCount
+    *
+    * Author :Prajakta Sisale.
+    *
+    * @return array
+    */
     public function getVpDashboardData($statusCount){
         $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
         $dashboardData['Total No of Applications'][1] = '';
@@ -2663,8 +2713,13 @@ class CommonController extends Controller
 
     }
 
-    // total count of all department dashboard for ree
-
+    /*
+     * Function for getting total count of all department dashboard for ree
+     *
+     * Author :Prajakta Sisale.
+     *
+     * @return array
+     */
     public function getTotalCountsOfApplicationsPending(){
 
         $eeRoleData = $this->getEERoles();
@@ -2731,8 +2786,16 @@ class CommonController extends Controller
 
     }
 
-
-    public function getToatalPendingApplicationsAtUser($roleIds,$role){
+    /*
+     * Function for getting DYCE roles.
+     *
+     *  @param $roleIds
+     *
+     * Author :Prajakta Sisale.
+     *
+     * @return array
+     */
+    public function getToatalPendingApplicationsAtUser($roleIds){
 //        dd($roleIds);
 
         $users =User::whereIn('role_id',$roleIds)
