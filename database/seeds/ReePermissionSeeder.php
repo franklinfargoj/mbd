@@ -246,6 +246,26 @@ class ReePermissionSeeder extends Seeder
                 'name'=>'ree.send_reval_letter_society',
                 'display_name'=>'Send approved & revalidated offer letter to society',
                 'description'=>'Send approved & revalidated offer letter to society'
+            ],
+            [
+                'name'=>'tripartite.index',
+                'display_name'=>'display tripartite list of application',
+                'description'=>'display tripartite list of application'
+            ],
+            [
+                'name'=>'tripartite.view_application',
+                'display_name'=>'view tripartite application submitted by society',
+                'description'=>'view tripartite application submitted by society'
+            ],
+            [
+                'name'=>'tripartite.view_society_documents',
+                'display_name'=>'tripartite.view_society_documents',
+                'description'=>'tripartite.view_society_documents'
+            ],
+            [
+                'name'=>'tripartite.tripartite_agreement',
+                'display_name'=>'tripartite.tripartite_agreement',
+                'description'=>'tripartite.tripartite_agreement'
             ]
         ];
 

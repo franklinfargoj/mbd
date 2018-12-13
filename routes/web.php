@@ -667,7 +667,14 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
     Route::post('formation.send_no_due_to_society','conveyance\FormationCommonController@send_no_due_to_society')->name('formation.send_no_due_to_society');
     //Society Formation End
 
-
+    //tripartite
+    Route::group(['prefix' => 'tripartite'], function () {
+        Route::get('/','Tripartite\TripartiteController@index')->name('tripartite.index');
+        Route::get('/view_application/{application_id}','Tripartite\TripartiteController@view_application')->name('tripartite.view_application');
+        Route::get('/view_society_documents/{application_id}','Tripartite\TripartiteController@view_society_documents')->name('tripartite.view_society_documents');
+        Route::get('/tripartite_agreement/{application_id}','Tripartite\TripartiteController@tripartite_agreement')->name('tripartite.tripartite_agreement');
+    });
+    //End tripartite
     //Society Renewal
 
     Route::get('sr_download_template', 'SocietyRenewalController@download_excel')->name('sr_download');
