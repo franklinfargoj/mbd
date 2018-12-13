@@ -1562,6 +1562,8 @@ class CommonController extends Controller
     /**
      * Show the offer letter dashboard.
      *
+     * Author: Prajakta Sisale.
+     *
      * @return \Illuminate\Http\Response
      */
     public function dashboard()
@@ -1620,17 +1622,25 @@ class CommonController extends Controller
         $dyceHeadId = Role::where('name',config('commanConfig.dyce_branch_head'))->value('id');
 
         if($role_id == $eeHeadId){
-            $dashboardData1 = $this->getToatalPendingApplicationsAtUser($ee,$role = 'ee' );
+            $dashboardData1 = $this->getToatalPendingApplicationsAtUser($ee);
         }
         if($role_id == $dyceHeadId){
-            $dashboardData1 = $this->getToatalPendingApplicationsAtUser($dyce , $role = 'dyce');
+            $dashboardData1 = $this->getToatalPendingApplicationsAtUser($dyce);
         }
-
         return view('admin.common.ol_dashboard',compact('dashboardData','dashboardData1','conveyanceDashboard','conveyanceRoles','pendingApplications'));
 
     }
 
 
+    /*
+     * Function for getting application's data.
+
+     * Author :Prajakta Sisale.
+     *
+     * @param $role_id,$user_id
+     *
+     * @return array
+     */
     public function getApplicationData($role_id,$user_id){
         $applicationData = OlApplication::with([
             'olApplicationStatus' => function ($q) use ($role_id,$user_id) {
@@ -1651,6 +1661,15 @@ class CommonController extends Controller
         return $applicationData;
     }
 
+    /*
+     * Function for getting application's status counts.
+
+     * Author :Prajakta Sisale.
+     *
+     * @param $applicationData
+     *
+     * @return array
+     */
     public function getApplicationStatusCount($applicationData){
 
         $totalForwarded = $totalReverted = $totalPending = $totalInProcess = 0 ;
@@ -1682,30 +1701,58 @@ class CommonController extends Controller
 
     }
 
+    /*
+     * Function for getting EE roles.
+     *
+     * Author :Prajakta Sisale.
+     *
+     * @return array
+     */
     public function getEERoles(){
-        $ee_jr_id = Role::where('name',config('commanConfig.ee_junior_engineer'))->value('id');
-        $ee_head_id = Role::where('name',config('commanConfig.ee_branch_head'))->value('id');
-        $ee_deputy_id = Role::where('name', config('commanConfig.ee_deputy_engineer'))->value('id');
-        $ee = ['ee_jr_id'=>$ee_jr_id,
-            'ee_head_id'=>$ee_head_id,
-            'ee_deputy_id'=>$ee_deputy_id];
-        return $ee;
+//        $ee_jr_id = Role::where('name',config('commanConfig.ee_junior_engineer'))->value('id');
+//        $ee_head_id = Role::where('name',config('commanConfig.ee_branch_head'))->value('id');
+//        $ee_deputy_id = Role::where('name', config('commanConfig.ee_deputy_engineer'))->value('id');
+//        $ee = ['ee_jr_id'=>$ee_jr_id,
+//            'ee_head_id'=>$ee_head_id,
+//            'ee_deputy_id'=>$ee_deputy_id];
+//        return $ee;
+        $roles = array(config('commanConfig.ee_junior_engineer'),config('commanConfig.ee_deputy_engineer'),config('commanConfig.ee_branch_head'));
+        return Role::whereIn('name', $roles)->pluck('id','name')->toArray();
     }
 
+    /*
+    * Function for getting DYCE roles.
+    *
+    * Author :Prajakta Sisale.
+    *
+    * @return array
+    */
     public function getDyceRoles(){
-        $dyce_jr_id = Role::where('name',config('commanConfig.dyce_jr_user'))->value('id');
-        $dyce_head_id = Role::where('name',config('commanConfig.dyce_branch_head'))->value('id');
-        $dyce_deputy_id = Role::where('name', config('commanConfig.dyce_deputy_engineer'))->value('id');
-        $dyce = ['dyce_jr_id' => $dyce_jr_id,
-                 'dyce_head_id' => $dyce_head_id,
-                 'dyce_deputy_id' => $dyce_deputy_id];
-        return $dyce;
+        $roles = array(config('commanConfig.dyce_jr_user'),config('commanConfig.dyce_branch_head'),config('commanConfig.dyce_deputy_engineer'));
+        return Role::whereIn('name', $roles)->pluck('id','name')->toArray();
+//        $dyce_jr_id = Role::where('name',config('commanConfig.dyce_jr_user'))->value('id');
+//        $dyce_head_id = Role::where('name',config('commanConfig.dyce_branch_head'))->value('id');
+//        $dyce_deputy_id = Role::where('name', config('commanConfig.dyce_deputy_engineer'))->value('id');
+//        $dyce = ['dyce_jr_id' => $dyce_jr_id,
+//                 'dyce_head_id' => $dyce_head_id,
+//                 'dyce_deputy_id' => $dyce_deputy_id];
+//        return $dyce;
     }
 
+    /*
+    * Function for getting EE dashboard data.
+    *
+    * @param $role_id,$ee,$statusCount
+    *
+    * Author :Prajakta Sisale.
+    *
+    * @return array
+    */
     public function getEEDashboardData($role_id,$ee,$statusCount)
     {
+//        dd($ee);
         switch ($role_id) {
-            case ($ee['ee_jr_id']):
+            case ($ee['ee_junior_engineer']):
                 $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
                 $dashboardData['Total No of Applications'][1] = '';
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
@@ -1714,7 +1761,7 @@ class CommonController extends Controller
                 $dashboardData['Applications Forwarded to EE Deputy'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 //                $dashboardData['Application Pending'] = '?submitted_at_from=&submitted_at_to=&update_status=4';
                 break;
-            case ($ee['ee_head_id']):
+            case ($ee['ee_engineer']):
                 $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
                 $dashboardData['Total No of Applications'][1] = '';
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
@@ -1724,7 +1771,7 @@ class CommonController extends Controller
                 $dashboardData['Applications Forwarded to DyCE Junior'][0] = $statusCount['totalForwarded'];
                 $dashboardData['Applications Forwarded to DyCE Junior'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
                 break;
-            case ($ee['ee_deputy_id']):
+            case ($ee['ee_dy_engineer']):
                 $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
                 $dashboardData['Total No of Applications'][1] = '';
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
@@ -1743,10 +1790,20 @@ class CommonController extends Controller
         return $dashboardData;
     }
 
+    /*
+    * Function for getting DYCE dashboard data.
+    *
+    * @param $role_id,$dyce,$statusCount
+    *
+    * Author :Prajakta Sisale.
+    *
+    * @return array
+    */
     public function getDyceDashboardData($role_id,$dyce,$statusCount){
+//        dd($dyce);
         switch ($role_id)
         {
-            case ($dyce['dyce_jr_id']):
+            case ($dyce['dyce_junior_engineer']):
                 $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
                 $dashboardData['Total No of Applications'][1] = '';
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
@@ -1754,7 +1811,7 @@ class CommonController extends Controller
                 $dashboardData['Applications Forwarded to DYCE Deputy'][0] = $statusCount['totalForwarded'];
                 $dashboardData['Applications Forwarded to DYCE Deputy'][1] = '?submitted_at_from=&office_date_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
                 break;
-            case ($dyce['dyce_head_id']):
+            case ($dyce['dyce_engineer']):
                 $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
                 $dashboardData['Total No of Applications'][1] = '';
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
@@ -1764,7 +1821,7 @@ class CommonController extends Controller
                 $dashboardData['Applications Forwarded to REE Junior'][0] = $statusCount['totalForwarded'] ;
                 $dashboardData['Applications Forwarded to REE Junior'][1] = '?submitted_at_from=&office_date_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
                 break;
-            case ($dyce['dyce_deputy_id']):
+            case ($dyce['dyce_deputy_engineer']):
                 $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
                 $dashboardData['Total No of Applications'][1] = '';
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
@@ -1780,6 +1837,15 @@ class CommonController extends Controller
         return $dashboardData;
     }
 
+    /*
+    * Function for getting CAP dashboard data.
+    *
+    * @param $statusCount
+    *
+    * Author :Prajakta Sisale.
+    *
+    * @return array
+    */
     public function getCapDashboardData($statusCount){
         $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
         $dashboardData['Total No of Applications'][1] = '';
@@ -1792,6 +1858,15 @@ class CommonController extends Controller
         return $dashboardData;
     }
 
+    /*
+    * Function for getting VP dashboard data.
+    *
+    * @param $statusCount
+    *
+    * Author :Prajakta Sisale.
+    *
+    * @return array
+    */
     public function getVpDashboardData($statusCount){
         $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
         $dashboardData['Total No of Applications'][1] = '';
@@ -2628,21 +2703,28 @@ class CommonController extends Controller
     }
 
     public function getREERoles(){
-        $ree_jr_id = Role::where('name',config('commanConfig.ree_junior'))->value('id');
-        $ree_head_id = Role::where('name',config('commanConfig.ree_branch_head'))->value('id');
-        $ree_deputy_id = Role::where('name', config('commanConfig.ree_deputy_engineer'))->value('id');
-        $ree_ass_id = Role::where('name', config('commanConfig.ree_assistant_engineer'))->value('id');
+//        $ree_jr_id = Role::where('name',config('commanConfig.ree_junior'))->value('id');
+//        $ree_head_id = Role::where('name',config('commanConfig.ree_branch_head'))->value('id');
+//        $ree_deputy_id = Role::where('name', config('commanConfig.ree_deputy_engineer'))->value('id');
+//        $ree_ass_id = Role::where('name', config('commanConfig.ree_assistant_engineer'))->value('id');
+//        $ree = ['ree_jr_id' => $ree_jr_id,
+//            'ree_head_id' => $ree_head_id,
+//            'ree_deputy_id' => $ree_deputy_id,
+//            'ree_ass_id' => $ree_ass_id];
 
-        $ree = ['ree_jr_id' => $ree_jr_id,
-            'ree_head_id' => $ree_head_id,
-            'ree_deputy_id' => $ree_deputy_id,
-            'ree_ass_id' => $ree_ass_id];
+//        return $ree;
+        $roles = array(config('commanConfig.ree_junior'),config('commanConfig.ree_branch_head'),config('commanConfig.ree_deputy_engineer'),config('commanConfig.ree_assistant_engineer'));
+        return Role::whereIn('name', $roles)->pluck('id','name')->toArray();
 
-        return $ree;
     }
 
-    // total count of all department dashboard for ree
-
+    /*
+     * Function for getting total count of all department dashboard for ree
+     *
+     * Author :Prajakta Sisale.
+     *
+     * @return array
+     */
     public function getTotalCountsOfApplicationsPending(){
 
         $eeRoleData = $this->getEERoles();
@@ -2709,11 +2791,19 @@ class CommonController extends Controller
 
     }
 
-
-    public function getToatalPendingApplicationsAtUser($roleIds,$role){
+    /*
+     * Function for getting DYCE roles.
+     *
+     *  @param $roleIds
+     *
+     * Author :Prajakta Sisale.
+     *
+     * @return array
+     */
+    public function getToatalPendingApplicationsAtUser($roleIds){
 //        dd($roleIds);
 
-        $users =User::whereIn('role_id',[$roleIds[$role.'_jr_id'],$roleIds[$role.'_head_id'],$roleIds[$role.'_deputy_id']])
+        $users =User::whereIn('role_id',$roleIds)
             ->get()->toArray();
 
 //        dd($users);
@@ -2740,7 +2830,7 @@ class CommonController extends Controller
     public function getEERoles1(){
         
         $roles = array(config('commanConfig.ee_junior_engineer'),config('commanConfig.ee_deputy_engineer'),config('commanConfig.ee_branch_head'));
-        return Role::whereIn('name', $roles)->pluck('id')->toArray();       
+        return Role::whereIn('name', $roles)->pluck('id')->toArray();
     }     
 
     public function getEMRoles(){

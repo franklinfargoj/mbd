@@ -111,7 +111,7 @@
             </div>
             <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="conveyance-summary"
                  data-parent="#accordion">
-                @php $chart = 0; @endphp
+                @php $chart1 = 0; @endphp
                 <div class="row hearing-row">
                     @foreach($conveyanceDashboard[0] as $header => $value)
                         <div class="col">
@@ -119,7 +119,7 @@
                                 <h2 class="app-heading">{{$header}}</h2>
                                 <div class="app-card-footer">
                                     <h2 class="app-no mb-0">{{$value[0]}}</h2>
-                                    @php $chart += 1; @endphp
+                                    @php $chart1 += $value[0]; @endphp
                                 @if( $value[1] == 'pending')
                                         <a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#pending">View Details</a>
                                     @elseif( $value[1] == 'sendToSociety')
@@ -133,26 +133,26 @@
                         </div>
                     @endforeach
                 </div>
-                @if($chart)
+                @if($chart1)
                     <div id="conveyance_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
                 @endif
 
                 @if($pendingApplications)
-                    @php $chart1 = 0; @endphp
+                    @php $chart2 = 0; @endphp
                     <div class="row hearing-row">
                         @foreach($pendingApplications as $header => $value)
                             <div class="col">
                                 <div class="m-portlet app-card text-center">
                                     <h2 class="app-heading">{{$header}}</h2>
                                     <h2 class="app-no mb-0">{{$value}}</h2>
-                                    @php $chart1 += 1; @endphp
+                                    @php $chart2 += $value; @endphp
 
                                     {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
                                 </div>
                             </div>
                         @endforeach
                     </div>
-                    @if($chart1)
+                    @if($chart2)
                         <div id="pending_conveyance_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
                     @endif
                 @endif
@@ -265,7 +265,7 @@
 
     <script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>
-
+    @if($chart)
     <script>
         var chart;
         var legend;
@@ -298,7 +298,8 @@
             chart.write("chartdiv");
         });
     </script>
-
+    @endif
+    @if($chart1)
     <script>
         var chart1;
         var legend;
@@ -333,6 +334,8 @@
             chart1.write("conveyance_chart");
         });
     </script>
+    @endif
+    @if($chart2)
     <script>
         var chart2;
         var legend;
@@ -366,4 +369,5 @@
         });
         @endif
     </script>
+    @endif
 @endsection
