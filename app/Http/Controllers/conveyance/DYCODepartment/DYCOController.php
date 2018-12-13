@@ -1074,7 +1074,7 @@ class DYCOController extends Controller
     }
 
     public function SendRenewalApplicationToSociety(Request $request){
-
+        
         $applicationId = $request->applicationId; 
         $data = RenewalApplication::with(['societyApplication.roleUser'])->where('id',$applicationId)->first();
    

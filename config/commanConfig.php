@@ -107,9 +107,12 @@ return [
         'pending' => 4,
         'Draft_Renewal_of_Lease_deed' => 18,
         'Aproved_Renewal_of_Lease' => 19,
-        'NOC_Generation' => 20,
+        // 'NOC_Generation' => 20,
         'Sent_society_to_pay_stamp_duety' => 10,
-        'Stamp_Renewal_of_Lease_deed' => 24
+        'Stamp_Renewal_of_Lease_deed' => 24,
+        'Stamp_Sign_Renewal_of_Lease_deed' => 25,
+        'Send_society_for_registration_of_Lease_deed' => 27,
+        'Registered_lease_deed' => 28,
     ],
 
     'formation_status'=>[

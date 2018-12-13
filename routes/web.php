@@ -959,7 +959,11 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('approve_renewal_agreement/{id}', 'conveyance\renewalCommonController@ApproveRenewalAgreement')->name('renewal.approve_renewal_agreement');    
 
-     Route::get('stamp_renewal_agreement/{id}', 'conveyance\renewalCommonController@StampRenewalAgreement')->name('renewal.stamp_renewal_agreement'); 
+     Route::get('registered_renewal_agreement/{id}', 'conveyance\renewalCommonController@registeredRenewalAgreement')->name('renewal.registered_renewal_agreement');
+
+     Route::get('stamp_renewal_agreement/{id}', 'conveyance\renewalCommonController@StampRenewalAgreement')->name('renewal.stamp_renewal_agreement');
+
+      Route::get('stamp_sign_renewal_agreement/{id}', 'conveyance\renewalCommonController@StampSignRenewalAgreement')->name('renewal.stamp_sign_renewal_agreement'); 
 
     Route::get('renewal_forward_application/{id}', 'conveyance\renewalCommonController@commonForwardApplication')->name('renewal.renewal_forward_application');    
 
@@ -975,7 +979,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::post('save_forward_application_renewal', 'conveyance\renewalCommonController@saveForwardApplication')->name('renewal.save_forward_application_renewal'); 
 
-    Route::post('save_stamp_renewal_agreement', 'conveyance\renewalCommonController@saveStampRenewalAgreement')->name('renewal.save_stamp_renewal_agreement');   
+    Route::post('save_stamp_renewal_agreement', 'conveyance\renewalCommonController@saveStampRenewalAgreement')->name('renewal.save_stamp_renewal_agreement'); 
+
+    Route::post('save_stamp_sign_renewal_agreement', 'conveyance\renewalCommonController@SaveStampSignRenewalAgreement')->name('renewal.save_stamp_sign_renewal_agreement');   
 
     Route::post('renewal_save_agreement_comments', 'conveyance\renewalCommonController@SaveAgreementComments')->name('renewal.save_agreement_comments');
 

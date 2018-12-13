@@ -107,11 +107,9 @@
                             <h2 class="app-no mb-0">{{$value[0]}}</h2>
 
                             @if( $value[1] == 'pending')
-                            <a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#pending">View
-                                Details</a>
+                            <a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#pending_renewal">View Details</a>
                             @elseif( $value[1] == 'sendToSociety')
-                            <a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#sendToSociety">View
-                                Details</a>
+                            <a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#sendToSociety_renewal">View Details</a>
                             @else
                             <a href="{{url($value[1])}}" class="app-card__details mb-0">View Details</a>
                             @endif
@@ -155,7 +153,7 @@
     <!-- end -->    
 </div>
 
-<!-- Modal for application pending bifergation -->
+<!-- Modal for conveyance application pending bifergation -->
 <div class="modal fade" id="pending" role="dialog">
     <div class="modal-dialog">
 
@@ -195,6 +193,46 @@
     </div>
 </div>
 
+<!-- Modal for renewal application pending bifergation -->
+<div class="modal fade" id="pending_renewal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Pending Applications</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive m-portlet__body--table">
+                    <table class="table text-center">
+                        <thead class="thead-default">
+                            <tr>
+                                <th>Header</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if($renewalDashboard[1])
+                            @foreach($renewalDashboard[1] as $header => $value)
+                            <tr>
+                                <td> {{$header}} </td>
+                                <td> {{$value}} </td>
+                            </tr>
+                            @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+                <!-- <p>Some text in the modal.</p> -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Model for send to society bifergation-->
 <div class="modal fade" id="sendToSociety" role="dialog">
     <div class="modal-dialog">
@@ -216,6 +254,45 @@
                         <tbody>
                             @if($conveyanceDashboard[2])
                                 @foreach($conveyanceDashboard[2] as $header => $value)
+                                <tr>
+                                    <td> {{$header}} </td>
+                                    <td> {{$value}} </td>
+                                </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+                <!-- <p>Some text in the modal.</p> -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Model for renewal send to society bifergation-->
+<div class="modal fade" id="sendToSociety_renewal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Applications Sent to Society</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table text-center">
+                        <thead class="thead-default">
+                            <tr>
+                                <th>Header</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if($renewalDashboard[2])
+                                @foreach($renewalDashboard[2] as $header => $value)
                                 <tr>
                                     <td> {{$header}} </td>
                                     <td> {{$value}} </td>

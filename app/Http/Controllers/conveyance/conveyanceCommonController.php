@@ -969,8 +969,7 @@ class conveyanceCommonController extends Controller
         $renewalDashboard    = $renewal->RenewalDashboard();
         $renewalRoles     = $renewal->getRenewalRoles();
         $renewalPendingApplications = $renewal->getApplicationPendingAtDepartment(); 
-
-              
+        dd($renewalPendingApplications);             
         
         return view('admin.conveyance.common.dashboard',compact('conveyanceDashboard','conveyanceRoles','pendingApplications','renewalDashboard','renewalRoles','renewalPendingApplications'));
     }    

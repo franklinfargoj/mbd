@@ -1134,10 +1134,11 @@ Breadcrumbs::for('renewal_approve_sale_lease', function ($trail,$id) {
     $trail->push('Lease Agreement', route('renewal.approve_renewal_agreement',$id));
 });
 
-Breadcrumbs::for('renewal_stamp_sale_lease', function ($trail,$id) {
+Breadcrumbs::for('renewal_stamp_lease', function ($trail,$id) {
     $trail->parent('society_renewal');
     $trail->push('Lease Agreement', route('renewal.stamp_renewal_agreement',$id));
 });
+
 
 Breadcrumbs::for('tripartite',function($trail){
     $trail->push('Home',route('tripartite.index'));
@@ -1156,4 +1157,8 @@ Breadcrumbs::for('tripartite_society_documents', function ($trail,$id) {
 Breadcrumbs::for('tripartite_agreement', function ($trail,$id) {
     $trail->parent('tripartite');
     $trail->push('Tripartite Agreement', route('tripartite.tripartite_agreement',$id));
+
+Breadcrumbs::for('renewal_stamp_sign_lease', function ($trail,$id) {
+    $trail->parent('society_renewal');
+    $trail->push('Lease Agreement', route('renewal.stamp_sign_renewal_agreement',$id));
 });

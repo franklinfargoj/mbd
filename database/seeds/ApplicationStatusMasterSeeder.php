@@ -37,6 +37,10 @@ class ApplicationStatusMasterSeeder extends Seeder
         ['status_name' => 'Stamp_by_dycdo'],
         ['status_name' => 'Stamp_by_jtco'],
         ['status_name' => 'Stamp_Renewal_of_Lease_deed'],
+        ['status_name' => 'Stamp_Sign_Renewal_of_Lease_deed'],
+        ['status_name' => 'Stamped_Signed_by_dycdo'],
+        ['status_name' => 'Send_society_for_registration_of_Lease_deed'],
+        ['status_name' => 'Registered_lease_deed'],
     	];
      	$applicationStatus = ApplicationStatusMaster::pluck('status_name');
  		 if (count($applicationStatus) > '0') {
