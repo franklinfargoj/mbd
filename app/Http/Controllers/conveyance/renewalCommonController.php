@@ -247,7 +247,7 @@ class renewalCommonController extends Controller
         return view($route,compact('data'));   
     }
     
-    //stamp and sign Renewal lease Agreement
+    //stamp by dycdo Renewal lease Agreement
     public function StampRenewalAgreement(Request $request,$applicationId){
         
         $applicationId = decrypt($applicationId);
@@ -268,6 +268,7 @@ class renewalCommonController extends Controller
         $is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer'); 
         $data->status = $this->getCurrentStatus($applicationId,$data->application_master_id); 
         // dd($data->status);
+        RenewalApplication::where('id',$applicationId)->update(['stamp_by_dycdo' => 1]);
 
         if ($is_view && $data->status->status_id == config('commanConfig.renewal_status.Stamp_Renewal_of_Lease_deed')) {
             

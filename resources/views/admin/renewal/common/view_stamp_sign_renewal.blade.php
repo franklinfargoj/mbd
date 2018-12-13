@@ -16,7 +16,6 @@
         $document = $data->StampAgreement->document_path;
 @endphp
 
-
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
          <div class="m-subheader px-0 m-subheader--top">
@@ -80,7 +79,7 @@
             <!-- Add Send to JT CO here -->
         </div>
     </div>
-  
+   
     @if(count($data->AgreementComments) > 0)       
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body">
@@ -104,7 +103,8 @@
 
     @if($data->status->status_id != config('commanConfig.renewal_status.forwarded') && $data->status->status_id != config('commanConfig.renewal_status.reverted')) 
     <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('renewal.save_agreement_comments')}}" enctype="multipart/form-data">
-    @csrf     
+    @csrf    
+    <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body">
                 <h3 class="section-title section-title--small">Remark</h3>
