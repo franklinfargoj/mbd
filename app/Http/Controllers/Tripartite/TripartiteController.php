@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Common\CommonController;
 use Yajra\DataTables\DataTables;
 use App\OlApplicationStatus;
+use App\OlSocietyDocumentsMaster;
+use App\OlSocietyDocumentsStatus;
 
 class TripartiteController extends Controller
 {
@@ -121,7 +123,14 @@ class TripartiteController extends Controller
         $applicationId=decrypt($applicationId);
         $ol_application = $this->comman->getOlApplication($applicationId); 
         $applicationLog = $this->comman->getCurrentStatus($applicationId);
-        //dd($applicationLog);
+        $document_type_id=$ol_application->application_master_id;
+        $text_agreement_name=config('commanConfig.tripartite_agreements')[0];
+        $OlSocietyDocumentsMaster=OlSocietyDocumentsMaster::where(['application_id'=>$document_type_id,'name'=>$text_agreement_name])->first();
+        if($OlSocietyDocumentsMaster)
+        {
+            dd($OlSocietyDocumentsMaster);
+        }
+
         $societyData['ree_Jr_id'] = (session()->get('role_name') == config('commanConfig.ree_junior')); 
         $societyData['ree_branch_head'] = (session()->get('role_name') == config('commanConfig.ree_branch_head')); 
         return view('admin.tripartite.tripartite_agreement',compact('societyData','applicationLog','ol_application'));
