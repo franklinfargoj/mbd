@@ -302,9 +302,10 @@
     </script>
 
     <script>
-        var chart;
+        var chart2;
         var legend;
-        var chartData = [
+                @if($conveyanceDashboard)
+        var chartData2 = [
 
                 @foreach($conveyanceDashboard[0] as $header => $value)
                 @if($header != 'Total No of Applications'){
@@ -318,29 +319,30 @@
 
         AmCharts.ready(function () {
 // PIE CHART
-            chart = new AmCharts.AmPieChart();
-            chart.dataProvider = chartData;
-            chart.titleField = "status";
-            chart.valueField = "value";
-            chart.outlineColor = "#FFFFFF";
-            chart.outlineAlpha = 0.8;
-            chart.outlineThickness = 2;
-            chart.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+            chart2 = new AmCharts.AmPieChart();
+            chart2.dataProvider = chartData2;
+            chart2.titleField = "status";
+            chart2.valueField = "value";
+            chart2.outlineColor = "#FFFFFF";
+            chart2.outlineAlpha = 0.8;
+            chart2.outlineThickness = 2;
+            chart2.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
 // this makes the chart 3D
-            chart.depth3D = 15;
-            chart.angle = 30;
-            chart.colors = [ "#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999", "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"]
+            chart2.depth3D = 15;
+            chart2.angle = 30;
+            chart2.colors = [ "#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999", "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"]
 //
 // WRITE
-            chart.write("conveyance_chart");
+            chart2.write("conveyance_chart");
         });
+        @endif
     </script>
     <script>
-        var chart1;
+        var chart3;
         var legend;
 
         @if($pendingApplications)
-        var chartData1 = [
+        var chartData3 = [
                         @foreach($pendingApplications as $header => $value)
 {{--                        @if($header != 'Total Number of Applications Pending'){--}}
                         {"status": '{{$header}}',
@@ -351,21 +353,21 @@
             ];
         AmCharts.ready(function () {
 // PIE CHART
-            chart1 = new AmCharts.AmPieChart();
-            chart1.dataProvider = chartData1;
-            chart1.titleField = "status";
-            chart1.valueField = "value";
-            chart1.outlineColor = "#FFFFFF";
-            chart1.outlineAlpha = 0.8;
-            chart1.outlineThickness = 2;
-            chart1.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+            chart3 = new AmCharts.AmPieChart();
+            chart3.dataProvider = chartData1;
+            chart3.titleField = "status";
+            chart3.valueField = "value";
+            chart3.outlineColor = "#FFFFFF";
+            chart3.outlineAlpha = 0.8;
+            chart3.outlineThickness = 2;
+            chart3.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
 // this makes the chart 3D
-            chart1.depth3D = 15;
-            chart1.angle = 30;
-            chart1.colors = [ "#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999", "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"]
+            chart3.depth3D = 15;
+            chart3.angle = 30;
+            chart3.colors = [ "#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999", "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"]
 //
 // WRITE
-            chart1.write("pending_conveyance_chart");
+            chart3.write("pending_conveyance_chart");
         });
         @endif
 
