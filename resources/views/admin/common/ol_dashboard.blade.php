@@ -41,28 +41,32 @@
                 @if($chart)
                     <div id="chartdiv" style="width: 100%; height: 350px; margin-top: 2px;"></div>
                 @endif
-
                 @if($dashboardData1)
-                    <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="ree-ol-pending-summary"
-                         data-parent="#accordion">
-                        <div class="row hearing-row">
-                            @php $chart = 0;@endphp
-                            @foreach($dashboardData1 as $header => $value)
-                                <div class="col">
-                                    <div class="m-portlet app-card text-center">
-                                        <h2 class="app-heading">{{$header}}</h2>
-                                        <h2 class="app-no mb-0">{{$value}}</h2>
-                                        @php $chart += $value; @endphp
-                                        {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
-                                    </div>
-                                </div>
-                            @endforeach
+
+                <div class="row hearing-row">
+                    @php $chart = 0;@endphp
+                    @foreach($dashboardData1 as $header => $value)
+                        <div class="col">
+                            <div class="m-portlet app-card text-center">
+                                <h2 class="app-heading">{{$header}}</h2>
+                                <h2 class="app-no mb-0">{{$value}}</h2>
+                                @php $chart += $value; @endphp
+                                {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
+                            </div>
                         </div>
-                        @if($chart)
-                            <div id="chartdiv1" style="width: 100%; height: 350px; margin-top: 2px;"></div>
-                        @endif
-                    </div>
+                    @endforeach
+                </div>
+                @if($chart)
+                    <div id="chartdiv1" style="width: 100%; height: 350px; margin-top: 2px;"></div>
                 @endif
+                @endif
+
+                {{--@if($dashboardData1)--}}
+                    {{--<div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="ree-ol-pending-summary"--}}
+                         {{--data-parent="#accordion">--}}
+                        {{----}}
+                    {{--</div>--}}
+                {{--@endif--}}
             </div>
         </div>
 
