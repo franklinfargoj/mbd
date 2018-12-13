@@ -104,6 +104,7 @@ return [
         'in_process' => 1,
         'forwarded' => 2,
         'reverted' => 3,
+        'pending' => 4,
         'Sent_society_to_pay_stamp_duety' => 10,
         // 'Draft_lease_deed' => 16,
         // 'Aproved_lease_deed' => 17,

@@ -30,6 +30,7 @@ use Mpdf\Mpdf;
 use App\conveyance\scRegistrationDetails;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
 use App\Http\Controllers\conveyance\renewalCommonController;
+use App\MasterTenantType;
 
 use Illuminate\Http\Request;
 
@@ -150,7 +151,8 @@ class SocietyRenewalController extends Controller
         $comm_func = $this->CommonController;
         $layouts = MasterLayout::all();
         $application_master_id = scApplicationType::where('application_type', config('commanConfig.applicationType.Renewal'))->first();
-        return view('frontend.society.renewal.add', compact('layouts', 'field_names', 'society_details', 'comm_func', 'application_master_id'));
+        $master_tenant_type = MasterTenantType::all();
+        return view('frontend.society.renewal.add', compact('layouts', 'field_names', 'society_details', 'comm_func', 'application_master_id', 'master_tenant_type'));
     }
 
     /**
@@ -276,7 +278,9 @@ class SocietyRenewalController extends Controller
     {
         $id = decrypt($id);
 
-        $sc_application = RenewalApplication::with(['sr_form_request', 'societyApplication', 'applicationLayout', 'srApplicationLog' => function($q){
+        $sc_application = RenewalApplication::with(['sr_form_request' => function($q){
+            $q->with('sr_scheme_name');
+        }, 'societyApplication', 'applicationLayout', 'srApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();
 
@@ -291,9 +295,13 @@ class SocietyRenewalController extends Controller
      */
     public function edit($id)
     {
-        $id = base64_decode($id);
+        $id = decrypt($id);
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $sc_application = RenewalApplication::with(['sr_form_request', 'societyApplication', 'applicationLayout'])->where('id', $id)->first();
+        $sc_application = RenewalApplication::with(['sr_form_request' => function($q){
+            $q->with('sr_scheme_name');
+        }, 'societyApplication', 'applicationLayout', 'srApplicationLog' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+        }])->where('id', $id)->first();
         $sc = new SocietyConveyance;
         $fillable_field_names = $sc->getFillable();
         if(in_array('language_id', $fillable_field_names) == true || in_array('society_id', $fillable_field_names) == true){
@@ -304,8 +312,9 @@ class SocietyRenewalController extends Controller
         }
         $comm_func = $this->CommonController;
         $layouts = MasterLayout::all();
-//        dd($field_names);
-        return view('frontend.society.renewal.edit', compact('layouts', 'field_names', 'society_details', 'comm_func', 'sc_application', 'id'));
+        $master_tenant_type = MasterTenantType::all();
+
+        return view('frontend.society.renewal.edit', compact('layouts', 'field_names', 'society_details', 'comm_func', 'sc_application', 'id','master_tenant_type'));
     }
 
     /**
@@ -358,10 +367,10 @@ class SocietyRenewalController extends Controller
                         $is_match = 1;
                         $sc_application = RenewalApplication::with('sr_form_request')->where('id', $id)->first();
                     }else{
-                        return redirect()->route('society_renewal.edit', base64_encode($id))->withErrors('error', "Excel file headers doesn't match")->withInput();
+                        return redirect()->route('society_renewal.edit', encrypt($id))->withErrors('error', "Excel file headers doesn't match")->withInput();
                     }
                 }else{
-                    return redirect()->route('society_renewal.edit', base64_encode($id))->withErrors('error', "Excel file is empty.")->withInput();
+                    return redirect()->route('society_renewal.edit', encrypt($id))->withErrors('error', "Excel file is empty.")->withInput();
                 }
             }
         }else{
@@ -399,7 +408,7 @@ class SocietyRenewalController extends Controller
                 SocietyConveyance::where('id', $sc_application->sr_form_request->id)->update($input);
             }
         }
-        return redirect()->route('society_renewal.show', base64_encode($id));
+        return redirect()->route('society_renewal.show', encrypt($id));
     }
 
     /**
@@ -454,6 +463,12 @@ class SocietyRenewalController extends Controller
         $uploaded_document_id = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.list_of_members_from_society'), $application_type);
 
         $renewal_doc_comments = RenewalSocietyDocumentComment::where('society_id', $society->id)->orderBy('id', 'desc')->first();
+
+        if(isset($renewal_doc_comments)){
+            if($renewal_doc_comments->society_documents_comment == 'N.A.'){
+                $renewal_doc_comments->society_documents_comment = '';
+            }
+        }
 
         return view('frontend.society.renewal.show_doc_bank_details', compact('documents', 'sc_application', 'society', 'documents_uploaded', 'sc_bank_details_fields', 'comm_func', 'society_bank_details', 'uploaded_document_id', 'renewal_doc_comments'));
     }
@@ -563,7 +578,7 @@ class SocietyRenewalController extends Controller
      */
     public function delete_sr_upload_docs($id)
     {
-        $id = base64_decode($id);
+        $id = decrypt($id);
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $sc_application = RenewalApplication::where('society_id', $society->id)->with(['srApplicationType', 'srApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
