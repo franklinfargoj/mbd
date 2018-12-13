@@ -233,6 +233,76 @@
                                     </div>
                                 </div> 
                                 @endif 
+
+                                @if(count($emlogs) > 0)
+                                <div class="remark-body">
+                                    <div class="border-bottom pb-2">
+                                        <span class="hint-text d-block t-remark">Remark by EM Department</span>
+                                    </div>                                
+                                    <div class="remarks-section">
+                                        <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+
+                                        @foreach($emlogs as $log)
+
+                                            @if($log->status_id == config('commanConfig.conveyance_status.forwarded'))
+                                                @php $status = 'Forwarded'; @endphp
+                                            @elseif($log->status_id == config('commanConfig.conveyance_status.reverted'))
+                                                @php $status = 'Reverted'; @endphp
+                                            @endif
+
+                                            <div class="remarks-section__data">
+                                                <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",
+                                                        strtotime($log->created_at)) : '')}}</span>
+
+                                                </p>
+                                                <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log) && $log->created_at != '' ? date("H:i",
+                                                        strtotime($log->created_at)) : '')}}</span></p>
+                                                <p class="remarks-section__data__row"><span>Action:</span>
+
+                                                <span>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}} From {{isset($log->getRole->display_name) ? $log->getRole->display_name : ''}}</span></p>
+                                                <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log) ? $log->remark : '')}}</span></p>
+                                            </div>
+                                        @endforeach                                         
+                                        </div>
+                                    </div>
+                                </div> 
+                                @endif  
+
+                                @if(count($lalogs) > 0)
+                                <div class="remark-body">
+                                    <div class="border-bottom pb-2">
+                                        <span class="hint-text d-block t-remark">Remark by LA Department</span>
+                                    </div>                                
+                                    <div class="remarks-section">
+                                        <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+
+                                        @foreach($lalogs as $log)
+
+                                            @if($log->status_id == config('commanConfig.conveyance_status.forwarded'))
+                                                @php $status = 'Forwarded'; @endphp
+                                            @elseif($log->status_id == config('commanConfig.conveyance_status.reverted'))
+                                                @php $status = 'Reverted'; @endphp
+                                            @endif
+
+                                            <div class="remarks-section__data">
+                                                <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",
+                                                        strtotime($log->created_at)) : '')}}</span>
+
+                                                </p>
+                                                <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log) && $log->created_at != '' ? date("H:i",
+                                                        strtotime($log->created_at)) : '')}}</span></p>
+                                                <p class="remarks-section__data__row"><span>Action:</span>
+
+                                                <span>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}} From {{isset($log->getRole->display_name) ? $log->getRole->display_name : ''}}</span></p>
+                                                <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log) ? $log->remark : '')}}</span></p>
+                                            </div>
+                                        @endforeach                                         
+                                        </div>
+                                    </div>
+                                </div> 
+                                @endif                                 
                                  
                                 @if(count($Architectlogs) > 0)
                                 <div class="remark-body">
@@ -344,17 +414,7 @@
                                                 <label for="remark">Remark:</label>
                                                 <textarea class="form-control form-control--custom" name="remark" id="remark"
                                                     cols="30" rows="5"></textarea>
-                                            </div>
-                                            @php
-                                                $error = '';
-                                            if(isset($data->conveyance_map))
-                                                if(isset($data->ConveyanceSalePriceCalculation))
-                                                    $error = '';
-                                            else
-                                                $error = 'error';    
-                                            @endphp
-                                            
-                                            @if($error == "")
+                                            </div>                                            
                                             <div class="mt-3 btn-list">
                                                 <button type="submit" class="btn btn-primary">Save</button>
                                                 {{--<button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>
@@ -363,9 +423,6 @@
                                                 <button type="button" onclick=""
                                                     class="btn btn-secondary">Cancel</button>
                                             </div>
-                                            @else
-                                            <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">*Note : Please Fill calculation of sale price.</span>
-                                            @endif
                                         </div>
                                         <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                                     </form>

@@ -17,4 +17,9 @@ class ArchitectLayoutStatusLog extends Model
     {
         return $this->hasOne('App\Role', 'id','role_id');
     }
+
+    public function architect_layout()
+    {
+        return $this->belongsTo('App\Layout\ArchitectLayout','architect_layout_id','id');
+    }
 }

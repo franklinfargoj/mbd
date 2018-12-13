@@ -23,7 +23,7 @@ class EmPermissionSeeder extends Seeder
             $em_manager_id = Role::insertGetId([
                 'name' => 'EM',
                 'redirect_to' => '/conveyance',
-                'dashboard' => '/conveyance',
+                'dashboard' => '/dashboard',
                 'display_name' => 'estate_manager',
                 'description' => 'Login as Estae Manger',
             ]);
@@ -54,6 +54,11 @@ class EmPermissionSeeder extends Seeder
 
         // EM Manager Permissions
         $permissions = [
+            [
+                'name'=>'architect_layout_dashboard',
+                'display_name' => 'Dashboard for Architect',
+                'description' => 'Dashboard for Architect'
+            ],
             [
                 'name'=>'scrutiny-remark',
                 'display_name'=>'list'
@@ -429,6 +434,16 @@ class EmPermissionSeeder extends Seeder
                 'description'=>'Forwards Application'
             ],
             [
+                'name'=>'renewal.architect_scrutiny',
+                'display_name'=>'Architect Srutiny & Remark',
+                'description'=>'Architect Srutiny & Remark'
+            ],
+            [
+                'name'=>'renewal.renewal_forward_application',
+                'display_name'=>'Forward Application',
+                'description'=>'Forward Application'
+            ],
+            [
                 'name'=>'em.save_covering_letter',
                 'display_name'=>'Uploads covering letter',
                 'description'=>'Uploads covering letter'
@@ -442,7 +457,12 @@ class EmPermissionSeeder extends Seeder
                 'name' => 'downloadReceipt',
                 'display_name' => 'Download Receipt',
                 'description' => 'Download Receipt',
-            ]
+            ],
+            [
+                'name'=>'dashboard',
+                'display_name'=>'dashboard',
+                'description'=>'Dashboard'
+            ],                         
         ];
 
         $permission_role = [];
@@ -545,6 +565,16 @@ class EmPermissionSeeder extends Seeder
                 'display_name' => 'Create Arrear Calculation',
                 'description' => 'Create Arrear Calculation'
             ],
+            [
+                'name' => 'get_arrear_charges',
+                'display_name' => 'Get Arrear Calculation',
+                'description' => 'Get Arrear Calculation'
+            ],
+            [
+                'name' => 'get_arrear_charges_multiple',
+                'display_name' => 'Get Arrear Calculations',
+                'description' => 'Get Arrear Calculations'
+            ],
         ];
 
         $em_clerk_permission_role = [];
@@ -573,5 +603,8 @@ class EmPermissionSeeder extends Seeder
         if(!$layout_user){
             \App\LayoutUser::insert(['user_id' => $em_cl_user_id, 'layout_id' => $layout_id]);
         }
+
+        // change redirect to for EM to dashboard
+        Role::where('id',$em_manager_id)->update(['redirect_to' => '/conveyance']);        
     }
 }

@@ -22,14 +22,14 @@
             {{ Breadcrumbs::render('em') }}
         </div>
         <form action="{{route('get_building_bill_collection')}}" method="get">
-            <div class="m-portlet m-portlet--compact filter-wrap">
+            <div class="m-portlet filter-wrap">
                 <div class="row align-items-center mb-3">
                     <div class="col-md-12">
                         <h4 class="m-subheader__title"></h4>
                     </div>
                 </div>
 
-                <div class="row align-items-center mb-3">
+                <div class="row align-items-center">
                     <div class="col-md-4">
                         <div class="form-group m-form__group">
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
@@ -127,6 +127,9 @@
 
             </div>
         </form>
+    </div>
+
+    <div class="m-portlet">
         @if($html)
         {!! $html->table() !!}
         @endif

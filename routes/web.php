@@ -10,6 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('testing',function(){
+    return \App\Layout\ArchitectLayout::whereHas('ArchitectLayoutStatusLog',function($q){
+        $q->where('user_id',18)->where('current_status',1)->where('status_id',3);
+    })->where('layout_excel_status',1)->get();
+});
 Route::post('test','Auth\LoginController@test')->name('testing');
 Route::post('check_user_email_duplicate','Auth\LoginController@check_user_email_duplicate')->name('check_user_email_duplicate');
 Route::get('/', function () {
@@ -256,7 +262,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('tenant_payment_list', 'EMDepartment\EMClerkController@tenant_payment_list')->name('tenant_payment_list');
     Route::get('tenant_arrear_calculation', 'EMDepartment\EMClerkController@tenant_arrear_calculation')->name('tenant_arrear_calculation');
     Route::post('create_arrear_calculation', 'EMDepartment\EMClerkController@create_arrear_calculation')->name('create_arrear_calculation');
-
+    Route::get('get_arrear_charges','EMDepartment\EMClerkController@getArrearChargesByYear')->name('get_arrear_charges');
+    Route::get('get_arrear_charges_multiple','EMDepartment\EMClerkController@getArrearChargesByYears')->name('get_arrear_charges_multiple');
 
     // RC Department Routes
     Route::get('get_building_bill_collection', 'RCDepartment\RCController@get_building_bill_collection')->name('get_building_bill_collection');
@@ -484,7 +491,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('society_reval_offer_letter_update','SocietyOfferLetterController@updateRevalOfferLetterApplication')->name('society_reval_offer_letter_update');
 
     Route::get('reval_documents_upload','SocietyOfferLetterController@displaySocietyRevalDocuments')->name('reval_documents_upload');
-    Route::post('add_uploaded_reval_documents_remark','Sosociety_offer_letter_dashboardcietyOfferLetterController@addSocietyRevalDocumentsRemark')->name('add_uploaded_reval_documents_remark');
+    Route::post('add_uploaded_reval_documents_remark','SocietyOfferLetterController@addSocietyRevalDocumentsRemark')->name('add_uploaded_reval_documents_remark');
     Route::get('reval_documents_uploaded','SocietyOfferLetterController@viewSocietyRevalDocuments')->name('reval_documents_uploaded');
     Route::post('uploaded_reval_documents','SocietyOfferLetterController@uploadSocietyRevalDocuments')->name('uploaded_reval_documents');
     Route::get('delete_uploaded_reval_documents/{id}','SocietyOfferLetterController@deleteSocietyRevalDocuments')->name('delete_uploaded_reval_documents');
@@ -492,6 +499,29 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('upload_society_reval_offer_letter_application','SocietyOfferLetterController@showuploadRevalOfferLetterAfterSign')->name('upload_society_reval_offer_letter_application');
     Route::post('upload_society_reval_offer_letter','SocietyOfferLetterController@uploadRevalOfferLetterAfterSign')->name('upload_society_reval_offer_letter');
     Route::get('society_reval_offer_letter_application_download','SocietyOfferLetterController@generate_reval_pdf')->name('society_reval_offer_letter_application_download');
+
+
+    // Consent For OC
+
+    Route::get('/show_oc_self/{id}', 'SocietyOfferLetterController@show_oc_self')->name('show_oc_self');
+    Route::get('/show_oc_dev/{id}', 'SocietyOfferLetterController@show_oc_dev')->name('show_oc_dev');
+    Route::post('/save_oc_application_self', 'SocietyOfferLetterController@save_oc_application_self')->name('save_oc_application_self');
+    Route::post('/save_oc_application_dev', 'SocietyOfferLetterController@save_oc_application_dev')->name('save_oc_application_dev');
+
+    Route::get('society_oc_preview','SocietyOfferLetterController@showOcApplication')->name('society_oc_preview');
+    Route::get('society_oc_edit','SocietyOfferLetterController@editOcApplication')->name('society_oc_edit');
+    Route::post('society_oc_update','SocietyOfferLetterController@updateOcApplication')->name('society_oc_update');
+
+    Route::get('oc_documents_upload','SocietyOfferLetterController@displaySocietyOcDocuments')->name('oc_documents_upload');
+    Route::post('add_uploaded_oc_documents_remark','SocietyOfferLetterController@addSocietyOcDocumentsRemark')->name('add_uploaded_oc_documents_remark');
+    Route::get('ocl_documents_uploaded','SocietyOfferLetterController@viewSocietyOcDocuments')->name('oc_documents_uploaded');
+    Route::post('uploaded_oc_documents','SocietyOfferLetterController@uploadSocietyOcDocuments')->name('uploaded_oc_documents');
+    Route::get('delete_uploaded_oc_documents/{id}','SocietyOfferLetterController@deleteSocietyOcDocuments')->name('delete_uploaded_oc_documents');
+    Route::post('add_uploaded_oc_documents_comment','SocietyOfferLetterController@addSocietyOcDocumentsComment')->name('add_oc_documents_comment');
+    Route::get('upload_society_oc_application','SocietyOfferLetterController@showuploadOcAfterSign')->name('upload_society_oc_application');
+    Route::post('upload_society_oc','SocietyOfferLetterController@uploadOcAfterSign')->name('upload_society_oc');
+    Route::get('society_oc_application_download','SocietyOfferLetterController@generate_oc_pdf')->name('society_oc_application_download');
+
 
 
 
@@ -533,7 +563,7 @@ Route::get('add_architect_layout_detail/{layout_id}','ArchitectLayout\LayoutArch
 Route::get('edit_architect_layout_detail/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@edit_detail')->name('architect_layout_detail.edit');
 Route::post('post_architect_layout_detail','ArchitectLayout\LayoutArchitectDetailController@create_detail')->name('architect_layout_detail.create');
 Route::post('uploadLatestLayoutAjax','ArchitectLayout\LayoutArchitectDetailController@uploadLatestLayoutAjax')->name('uploadLatestLayoutAjax');
-
+Route::get('list_of_offer_letter_issued/{layout_id}','ArchitectLayout\LayoutArchitectDetailController@list_of_offer_letter_issued')->name('list_of_offer_letter_issued');
 //Architect Layout Forward Application
 Route::get('forward_architect_layout/{layout_id}','ArchitectLayout\LayoutArchitectController@forwardLayout')->name('forward_architect_layout');
 Route::post('post_forward_architect_layout','ArchitectLayout\LayoutArchitectController@post_forward_layout')->name('post_forward_architect_layout');
@@ -894,7 +924,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('renewal_application/{id}', 'conveyance\renewalCommonController@ViewApplication')
     ->name('renewal.view_application');
 
-    Route::get('view_renewal_society_documents/{id}', 'conveyance\renewalCommonController@ViewDocuments')->name('renewal.view_documents');
+    Route::get('view_renewal_society_documents/{id}', 'conveyance\renewalCommonController@ViewSocietyDocuments')->name('renewal.view_documents');
 
     Route::get('prepare_renewal_agreement/{id}', 'conveyance\renewalCommonController@PrepareRenewalAgreement')->name('renewal.prepare_renewal_agreement'); 
 
@@ -938,17 +968,19 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('forward_application_sr/{id}', 'conveyance\renewalCommonController@commonForward')->name('renewal.forward_application_sc');
 
     Route::post('save_forward_application_sr', 'conveyance\renewalCommonController@saveForwardApplication')->name('renewal.save_forward_application');
-//dashboard    
 
+    Route::post('save_draft_sign_renewal_agreement', 'conveyance\renewalCommonController@saveDraftSignRenewalAgreement')->name('renewal.save_draft_sign_renewal_agreement');
+
+    // All dashboards
     Route::get('/dashboard','Common\CommonController@dashboard')->name('dashboard');
     // Ree Dashboard
     Route::get('/ree_dashboard','REEDepartment\REEController@dashboard')->name('ree.dashboard');
-
     // Co Dashboard
     Route::get('/co_dashboard','CODepartment\COController@dashboard')->name('co.dashboard');
-
-    //Dashboard routes
+    // Architect Layout Dashboard
     Route::get('architect_layout_dashboard','Dashboard\ArchitectLayoutDashboardController@dashboard')->name('architect_layout_dashboard');
+    // Land Dashboard
+    Route::get('/land_dashboard','VillageDetailController@dashboard')->name('land.dashboard');
 
 });
 

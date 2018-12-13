@@ -153,7 +153,7 @@
                                             <div class="custom-file"> 
                                             <input type="hidden" name= "oldFile" id="oldFile_{{$i}}" value="{{ isset($document->document_path) ? $document->document_path : '' }}">
                                             <input type="hidden" id="key_{{$i}}" value="{{ isset($document->id) ? $document->id : '' }}">
-                                            <a href="{{config('commanConfig.storage_server').'/'.$document->document_path}}">
+                                            <a href="{{config('commanConfig.storage_server').'/'.$document->document_path}}" target="_blank">
                                             <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"> 
                                             </a>
                                             <span>{{ isset(explode('/',$document->document_path)[1]) ? explode('/',$document->document_path)[1] : '' }}</span>

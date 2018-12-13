@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\OcApplications;
+use App\OcApplicationStatusLog;
 use App\RevalOlSocietyDocumentStatus;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Auth\SessionGuard;
@@ -39,6 +41,7 @@ use Session;
 use App\Mail\SocietyOfferLetterForgotPassword;
 use Storage;
 use App\SocietyConveyance;
+use App\OcApplication;
 
 class SocietyOfferLetterController extends Controller
 {
@@ -520,6 +523,14 @@ class SocietyOfferLetterController extends Controller
         return view('frontend.society.show_reval_self', compact('society_details', 'id', 'layouts'));
     }
 
+
+    public function show_oc_self($id){
+        $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $layouts = MasterLayout::all();
+        // dd($society_details);
+        return view('frontend.society.show_oc_self', compact('society_details', 'id', 'layouts'));
+    }
+
     /**
      * Shows self redevelopment application form in marathi.
      * Author: Amar Prajapati
@@ -667,6 +678,68 @@ class SocietyOfferLetterController extends Controller
         return redirect()->route('society_reval_offer_letter_preview');
     }
 
+    public function save_oc_application_self(Request $request){
+        $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $input = array(
+            'society_id' => $society_details->id,
+            'resolution_no' => $request->input('resolution_no'),
+            'architect_name' => $request->input('architect_name'),
+            'developer_name' => $request->input('developer_name'),
+            'is_full_oc' => $request->input('is_full_oc'),
+            'construction_details' => $request->input('construction_details'),
+            'updated_at' => null
+        );
+        $last_inserted_id = OlRequestForm::create($input);
+        $insert_application = array(
+            'user_id' => Auth::user()->id,
+            'language_id' => '1',
+            'society_id' => $society_details->id,
+            'layout_id' => $request->input('layout_id'),
+            'request_form_id' => $last_inserted_id->id,
+            'application_master_id' => $request->input('application_master_id'),
+            'application_no' => mt_rand(10,100).time(),
+            'application_path' => 'test',
+            'submitted_at' => date('Y-m-d'),
+            'current_status_id' => '1',
+            'is_approve_oc' => '0',
+        );
+        $last_id = OcApplication::create($insert_application);
+        $role_ids = Role::where('name','like', 'ee_junior_engineer')->orWhere('name','like', 'EM')->pluck('id')->toArray();
+
+        $user_ids = RoleUser::whereIn('role_id', $role_ids)->get();
+        $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
+
+        foreach ($layout_user_ids as $key => $value) {
+            $select_user_ids[] = $value['user_id'];
+        }
+        $users = User::whereIn('id', $select_user_ids)->get();
+
+        if(count($users) > 0){
+            foreach($users as $key => $user){
+                $i = 0;
+                $insert_application_log_pending[$key]['application_id'] = $last_id->id;
+                $insert_application_log_pending[$key]['society_flag'] = 1;
+                $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
+                $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
+                $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
+                $insert_application_log_pending[$key]['to_user_id'] = $user->id;
+                $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
+                $insert_application_log_pending[$key]['remark'] = '';
+                $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
+                $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
+                $i++;
+            }
+        }
+
+        OcApplicationStatusLog::insert($insert_application_log_pending);
+        $last_society_flag_id = OcApplicationStatusLog::where('society_flag', '1')->orderBy('id', 'desc')->first();
+        $id = OcApplicationStatusLog::find($last_society_flag_id->id);
+        OcApplication::where('user_id', Auth::user()->id)->update([
+            'current_status_id' => $id->id
+        ]);
+        return redirect()->route('society_oc_preview');
+    }
+
     /**
      * Shows redevelopment through developer application form.
      * Author: Amar Prajapati
@@ -685,6 +758,13 @@ class SocietyOfferLetterController extends Controller
         $layouts = MasterLayout::all();
         // dd($society_details);
         return view('frontend.society.show_reval_dev', compact('society_details', 'id', 'layouts'));
+    }
+
+    public function show_oc_dev($id){
+        $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $layouts = MasterLayout::all();
+        // dd($society_details);
+        return view('frontend.society.show_oc_dev', compact('society_details', 'id', 'layouts'));
     }
 
     /**
@@ -919,6 +999,44 @@ class SocietyOfferLetterController extends Controller
         return view('frontend.society.society_upload_reval_documents', compact('documents','ol_applications',  'optional_docs', 'docs_count', 'docs_uploaded_count', 'documents_uploaded', 'society', 'application', 'documents_comment'));
     }
 
+
+    public function displaySocietyOcDocuments(){
+
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $application = OcApplication::where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+        } ])->orderBy('id', 'desc')->first();
+        $oc_applications = $application;
+        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['reval_documents_uploaded' => function($q) use ($society){
+            $q->where('society_id', $society->id)->get();
+        }])->get();
+        foreach ($documents as $key => $value) {
+            $document_ids[] = $value->id;
+        }
+        $documents_uploaded = RevalOlSocietyDocumentStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->with(['documents_uploaded'])->get();
+
+        $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id','desc')->first();
+
+        if($application->application_master_id == '3' || $application->application_master_id == '14'){
+            $optional_docs = config('commanConfig.optional_docs_premium_reval');
+        }
+        if($application->application_master_id == '7' || $application->application_master_id == '18'){
+            $optional_docs = config('commanConfig.optional_docs_sharing_reval');
+        }
+
+        $docs_uploaded_count = 0;
+        $docs_count = 0;
+        foreach($documents as $documents_key => $documents_val){
+            if(in_array($documents_key+1, $optional_docs) == false){
+                $docs_count++;
+                if(count($documents_val->documents_uploaded) > 0){
+                    $docs_uploaded_count++;
+                }
+            }
+        }
+
+        return view('frontend.society.society_upload_reval_documents', compact('documents','ol_applications',  'optional_docs', 'docs_count', 'docs_uploaded_count', 'documents_uploaded', 'society', 'application', 'documents_comment'));
+    }
 
     /**
      * Adds society documents comments.
@@ -1506,6 +1624,20 @@ class SocietyOfferLetterController extends Controller
         return view('frontend.society.show_reval_ol_application_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id','old_ol_application'));
     }
 
+    public function showOcApplication(){
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $society_details = SocietyOfferLetter::find($society->id);
+        $oc_application = OcApplication::where('user_id', Auth::user()->id)->where('society_id', $society->id)->with(['request_form', 'applicationMasterLayout', 'ocApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        }])->orderBy('id', 'desc')->first();
+
+        $layouts = MasterLayout::all();
+        $id = $oc_application->application_master_id;
+        $oc_applications = $oc_application;
+
+        return view('frontend.society.show_oc_application_form', compact('society_details', 'oc_applications', 'oc_application', 'layouts', 'id'));
+    }
+
     /**
      * Shows Edit offer letter application form.
      * Author: Amar Prajapati
@@ -1532,6 +1664,17 @@ class SocietyOfferLetterController extends Controller
         $ol_applications = $ol_application;
 
         return view('frontend.society.edit_reval_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id'));
+    }
+
+    public function editOcApplication(){
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $society_details = SocietyOfferLetter::find($society->id);
+        $oc_application = OcApplication::where('user_id', Auth::user()->id)->with(['request_form', 'applicationMasterLayout'])->orderBy('id','desc')->first();
+        $layouts = MasterLayout::all();
+        $id = $oc_application->application_master_id;
+        $oc_applications = $oc_application;
+
+        return view('frontend.society.edit_oc_form', compact('society_details', 'oc_applications', 'oc_application', 'layouts', 'id'));
     }
 
     /**
@@ -1566,6 +1709,18 @@ class SocietyOfferLetterController extends Controller
         );
         OlRequestForm::where('society_id', $society->id)->where('id', $request->request_form_id)->update($update_input);
         return redirect()->route('society_reval_offer_letter_preview');
+    }
+
+    public function updateOcApplication(Request $request){
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $update_input = array(
+            'architect_name' => $request->architect_name,
+            'developer_name' => $request->developer_name,
+            'construction_details' => $request->construction_details,
+            'is_full_oc' => $request->is_full_oc,
+        );
+        OlRequestForm::where('society_id', $society->id)->where('id', $request->request_form_id)->update($update_input);
+        return redirect()->route('society_oc_preview');
     }
 
     /**

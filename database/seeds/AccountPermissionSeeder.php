@@ -84,9 +84,9 @@ class AccountPermissionSeeder extends Seeder
                 'description' => 'Payment Details'
             ],
             [
-                'name' => 'view_bill_tenant',
-                'display_name' => 'View Bill Details',
-                'description' => 'View Bill Details'
+                'name' => 'downloadReceipt',
+                'display_name' => 'View Receipt Details',
+                'description' => 'View Receipt Details'
             ],
         ];
 

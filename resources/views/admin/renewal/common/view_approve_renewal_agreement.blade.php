@@ -10,6 +10,13 @@
 </div>
 @endif
 
+@php
+    if(isset($data->DraftSignAgreement->document_path))
+        $document = $data->DraftSignAgreement->document_path;
+    else if(isset($data->renewalAgreement->document_path))
+        $document = $data->renewalAgreement->document_path;
+@endphp
+
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
          <div class="m-subheader px-0 m-subheader--top">
@@ -51,9 +58,9 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Lease deed agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->renewalAgreement->document_path))
+                                                @if(isset($document))
                                                 <input type="hidden" name="oldLeaseFile" value="{{ $data->renewalAgreement->document_path }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->renewalAgreement->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$document }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -74,7 +81,7 @@
     </div>   
         
    <!-- Generate stamp duty letter      -->
-@if(session()->get('role_name') == config('commanConfig.dyco_engineer'))
+@if(session()->get('role_name') == config('commanConfig.dycdo_engineer'))
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body">
             <div class="m-subheader" style="padding: 0;">
@@ -93,7 +100,7 @@
                                 <h5>Generate</h5>
                                 <span class="hint-text">Click to Generate Stamp Duty Letter </span>
                                 <div class="mt-auto">                           
-                                    <a href="{{ route('dyco.generate_stamp_duty_letter',$data->id) }}" class="btn btn-primary">Generate </a>
+                                    <a href="{{ route('dyco.generate_stamp_duty_letter',encrypt($data->id)) }}" class="btn btn-primary">Generate </a>
                                 </div>
                             </div>
                         </div>
@@ -117,7 +124,7 @@
             </div>                   
         </div>
     </div> 
-@endif    
+@endif     
 
     <!-- Letter to pay stamp duty -->
     @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id != config('commanConfig.renewal_status.forwarded'))
@@ -140,7 +147,7 @@
                                     <div class="d-flex flex-column h-100 two-cols">
                                         <h5>Upload</h5>
                                         <span class="hint-text">Click to upload Stamp Duty Letter</span>
-                                            <input type="hidden" name="oldStamp" value="{{ isset($data->StampLetter->document_path) ? $data->StampLetter->document_path : '' }}">
+                                            <input type="hidden" id="oldStamp" name="oldStamp" value="{{ isset($data->StampLetter->document_path) ? $data->StampLetter->document_path : '' }}">
                                                 <div class="custom-file">
                                                     <input class="custom-file-input stamp_letter" name="stamp_letter" type="file" id="test-upload1">
                                                     <label class="custom-file-label" for="test-upload1">Choose
@@ -160,9 +167,11 @@
                                         <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.renewal_send_to_society')}}" enctype="multipart/form-data">
                                         @csrf
                                         <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
-                                                <input type="submit" class="s_btn btn btn-primary" id="submitBtn" value="Send to Society">
+                                                <input type="submit" class="s_btn btn btn-primary" id="sendToSociety" value="Send to Society">
                                         </form>
-                                    </div>    
+                                    </div>
+                                    <span class="error" id="stampError" style="display: none;color: #ce2323;margin-bottom: 17px;">
+                                        *Note : Please Upload Stamp Duty Letter.</span>    
                                 </div>
                             </div>
                         </div>
@@ -268,7 +277,19 @@
                 extension: "Invalid type of file uploaded (only pdf allowed)."
             }
         }
-    });    
+    }); 
+
+    $("#sendToSociety").click(function(){
+        
+        var stampLetter = $("#oldStamp").val();
+        if(stampLetter != ""){
+            $("#stampError").css("display","none"); 
+            return true;           
+        }else{
+            $("#stampError").css("display","block");
+            return false;
+        }
+    });       
 </script>
 @endsection
 

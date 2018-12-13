@@ -297,6 +297,11 @@ class DYCOPermissions extends Seeder
                 'name'=>'dashboard',
                 'display_name'=>'dashboard',
                 'description'=>'Dashboard'
+            ],            
+            [
+                'name'=>'em.renewal_scrutiny_remark',
+                'display_name'=>'em renewal scrutiny remark',
+                'description'=>'em renewal scrutiny remark'
             ],                              
         ];
 
@@ -311,7 +316,7 @@ class DYCOPermissions extends Seeder
             $role_id = Role::insertGetId([
                 'name' => 'dycdo_engineer',
                 'redirect_to' => '/conveyance',
-                'dashboard' => '/conveyance',
+                'dashboard' => '/dashboard',
                 'parent_id' => null,
                 'display_name' => 'dycdo engineer',
                 'description' => 'Login as dycdo Engineer',
@@ -401,7 +406,7 @@ class DYCOPermissions extends Seeder
             $role_id1 = Role::insertGetId([
                 'name' => 'dyco_engineer',
                 'redirect_to' => '/conveyance',
-                'dashboard' => '/conveyance',
+                'dashboard' => '/dashboard',
                 'parent_id' => null,
                 'display_name' => 'dyco engineer',
                 'description' => 'Login as dyco Engineer',
@@ -474,6 +479,6 @@ class DYCOPermissions extends Seeder
         }
 
         // change redirect to for dyco and dycdo role
-        Role::whereIn('id',[$role_id,$role_id1])->update(['redirect_to' => '/dashboard']);
+        Role::whereIn('id',[$role_id,$role_id1])->update(['redirect_to' => '/conveyance']);
     }
 }

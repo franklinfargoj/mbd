@@ -442,7 +442,82 @@ class SocietyPermissionSeeder extends Seeder
                     'name'=>'show_tripatite_dev',
                     'display_name'=> 'show tripatite dev form',
                     'description'  => 'show tripatite dev form'
-                ]
+                ],
+                [
+                    'name'         => 'show_oc_self',
+                    'display_name' => 'Shows self redevelopment consent for oc form',
+                    'description'  => 'Shows self redevelopment consent for oc form'
+                ],
+                [
+                    'name'         => 'show_oc_dev',
+                    'display_name' => 'Shows redevelopment through developer consent for oc form',
+                    'description'  => 'Shows redevelopment through developer consent for oc form'
+                ],
+                [
+                    'name'         => 'save_oc_application_self',
+                    'display_name' => 'Save consent for oc application self',
+                    'description'  => 'Save consent for oc application self'
+                ],
+                [
+                    'name'         => 'society_oc_preview',
+                    'display_name' => 'Preview society oc application',
+                    'description'  => 'Preview society oc application'
+                ],
+                [
+                    'name'         => 'society_oc_edit',
+                    'display_name' => 'Edit society oc application',
+                    'description'  => 'Edit society oc application'
+                ],
+                [
+                    'name'         => 'society_oc_update',
+                    'display_name' => 'Update society oc application',
+                    'description'  => 'Update society oc application'
+                ],
+            [
+                'name'         => 'oc_documents_upload',
+                'display_name' => 'oc documents upload',
+                'description'  => 'oc documents upload'
+            ],
+            [
+                'name'         => 'add_uploaded_oc_documents_remark',
+                'display_name' => 'Add uploaded oc documents remark',
+                'description'  => 'Add uploaded oc documents remark'
+            ],
+            [
+                'name'         => 'oc_documents_uploaded',
+                'display_name' => 'Oc documents uploaded',
+                'description'  => 'Oc documents uploaded'
+            ],
+            [
+                'name'         => 'uploaded_oc_documents',
+                'display_name' => 'Uploaded oc documents',
+                'description'  => 'Uploaded oc documents'
+            ],
+            [
+                'name'         => 'delete_uploaded_oc_documents',
+                'display_name' => 'Delete uploaded on documents',
+                'description'  => 'Delete uploaded on documents'
+            ],
+            [
+                'name'         => 'add_oc_documents_comment',
+                'display_name' => 'Add oc documents comment',
+                'description'  => 'Add oc documents comment'
+            ],
+            [
+                'name'         => 'upload_society_oc_application',
+                'display_name' => 'Upload society oc application',
+                'description'  => 'Upload society oc application'
+            ],
+            [
+                'name'         => 'upload_society_oc',
+                'display_name' => 'Upload society oc',
+                'description'  => 'Upload society oc'
+            ],
+            [
+                'name'         => 'society_oc_application_download',
+                'display_name' => 'Download society oc application',
+                'description'  => 'Download society oc application'
+            ],
         ];
         
         if(count($society)==0){

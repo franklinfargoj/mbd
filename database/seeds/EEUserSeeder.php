@@ -20,6 +20,11 @@ class EEUserSeeder extends Seeder
     {
         $ee_permissions = [
             [
+                'name'=>'architect_layout_dashboard',
+                'display_name' => 'Dashboard for Architect',
+                'description' => 'Dashboard for Architect'
+            ],
+            [
                 'name' => 'ee.index',
                 'display_name' => 'List EE Application',
                 'description' => 'Listing EE Application'

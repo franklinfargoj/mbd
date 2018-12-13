@@ -472,8 +472,7 @@ $route=\Request::route()->getName();
                         </ul>
                     </li>
 
-                    <li class="m-menu__item {{ ($route == 'society_conveyance.index' || $route == 'society_conveyance.create')? '':'collapsed' }}"  id="
-                                                estate_conveyances" data-toggle="collapse" data-target="#estate_conveyance">
+                    <li class="m-menu__item {{ ($route == 'society_conveyance.index' || $route == 'society_conveyance.create')? '':'collapsed' }}"  id="estate_conveyances" data-toggle="collapse" data-target="#estate_conveyance">
                                                 <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
                                                     <i class="m-menu__link-icon flaticon-line-graph"></i>
                                                     <span class="m-menu__link-title">

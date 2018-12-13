@@ -218,6 +218,11 @@ Breadcrumbs::for('society_offer_application_create', function ($trail, $id) {
     $trail->push('Application form for Redevelopment', route('show_form_dev', $id));
 });
 
+Breadcrumbs::for('society_oc_application_create', function ($trail, $id) {
+    $trail->parent('society_dashboard');
+    $trail->push('Application form for Consent For OC', route('show_oc_self', $id));
+});
+
 Breadcrumbs::for('society_noc_application_create', function ($trail, $id) {
     $trail->parent('society_dashboard');
     $trail->push('Application form for Redevelopment (NOC)', route('show_form_self_noc', $id));
@@ -231,6 +236,11 @@ Breadcrumbs::for('society_noc_cc_application_create', function ($trail, $id) {
 Breadcrumbs::for('society_offer_letter_edit', function ($trail) {
     $trail->parent('society_dashboard');
     $trail->push('Redevelopment Application Form', route('society_offer_letter_edit'));
+});
+
+Breadcrumbs::for('society_oc_edit', function ($trail) {
+    $trail->parent('society_dashboard');
+    $trail->push('Consent For OC Application Form', route('society_oc_edit'));
 });
 
 Breadcrumbs::for('noc_edit', function ($trail) {

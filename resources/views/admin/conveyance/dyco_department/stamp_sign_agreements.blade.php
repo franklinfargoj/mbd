@@ -10,6 +10,22 @@
 </div>
 @endif
 
+@php 
+    if(isset($data->StampSaleByJtco->document_path))
+        $document = $data->StampSaleByJtco->document_path;
+    else if(isset($data->StampSaleBydyco->document_path)) 
+        $document = $data->StampSaleBydyco->document_path;    
+    else if(isset($data->StampSaleAgreement->document_path)) 
+        $document = $data->StampSaleAgreement->document_path;
+
+    if(isset($data->StampLeaseByJtco->document_path))  
+        $document1 = $data->StampLeaseByJtco->document_path;
+    else if(isset($data->StampLeaseBydyco->document_path)) 
+        $document1 = $data->StampLeaseBydyco->document_path;     
+    else if(isset($data->StampLeaseAgreement->document_path)) 
+        $document1 = $data->StampLeaseAgreement->document_path;    
+
+@endphp 
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
@@ -61,10 +77,10 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->StampSaleByJtco->document_path))
+                                                @if(isset($document))
 
                                                 <input type="hidden" name="oldSaleFile" value="{{ isset($data->StampSignSaleAgreement->document_path) ? $data->StampSignSaleAgreement->document_path : '' }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampSaleByJtco->document_path }}" target="_blank">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$document }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -116,10 +132,10 @@
                                             <h5>Download </h5>
                                             <span class="hint-text">Click to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
-                                                @if(isset($data->StampLeaseByJtco->document_path))
+                                                @if(isset($document1))
 
                                                 <input type="hidden" name="oldLeaseFile" value="{{ isset($data->StampSignLeaseAgreement->document_path) ? $data->StampSignLeaseAgreement->document_path : '' }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampLeaseByJtco->document_path }}" target="_blank">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$document1 }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
