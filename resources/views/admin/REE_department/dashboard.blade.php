@@ -3,6 +3,10 @@
     <link rel="stylesheet" href="../../../../public/css/amcharts.css">
 @endsection
 @section('content')
+    @php
+        $chart = 0;
+        $chart1 = 0;
+    @endphp
     <div class="container-fluid">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
@@ -23,7 +27,6 @@
             <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="ree-ol-summary"
                  data-parent="#accordion">
                 <div class="row hearing-row">
-                    @php $chart = 0;@endphp
                     @foreach($dashboardData[0] as $header => $value)
                         <div class="col">
                             <div class="m-portlet app-card text-center">
@@ -48,7 +51,6 @@
 
                 @if($dashboardData1)
                     <div class="row hearing-row">
-                        @php $chart1 = 0;@endphp
                         @foreach($dashboardData1 as $header => $value)
                             <div class="col">
                                 <div class="m-portlet app-card text-center">
