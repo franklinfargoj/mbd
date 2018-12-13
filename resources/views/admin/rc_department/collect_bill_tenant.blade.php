@@ -130,6 +130,9 @@
 
             </div>
         </form>
+    </div>
+
+    <div class="m-portlet">
         @if($html)
         {!! $html->table() !!}
         @endif
