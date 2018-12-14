@@ -104,12 +104,15 @@ return [
         'in_process' => 1,
         'forwarded' => 2,
         'reverted' => 3,
-        'Sent_society_to_pay_stamp_duety' => 10,
-        // 'Draft_lease_deed' => 16,
-        // 'Aproved_lease_deed' => 17,
+        'pending' => 4,
         'Draft_Renewal_of_Lease_deed' => 18,
         'Aproved_Renewal_of_Lease' => 19,
-        'NOC_Generation' => 20
+        // 'NOC_Generation' => 20,
+        'Sent_society_to_pay_stamp_duety' => 10,
+        'Stamp_Renewal_of_Lease_deed' => 24,
+        'Stamp_Sign_Renewal_of_Lease_deed' => 25,
+        'Send_society_for_registration_of_Lease_deed' => 27,
+        'Registered_lease_deed' => 28,
     ],
 
     'formation_status'=>[
@@ -207,6 +210,12 @@ return [
              'Lease Deed Agreement' => 'renewal_Lease Deed Agreement'
          ]
     ], 
+
+    'tripartite_agreements'=>[
+        'text_tripartite_agreement',
+        'drafted_tripartite_agreement',
+        'drafted_signed_tripartite_agreement',
+    ],
 
     // sc Application types 
     //  'scApplication' => [
@@ -315,6 +324,14 @@ return [
 
     'optional_docs_sharing_reval' => [
         '86', '94'
+    ],
+
+    'optional_docs_premium_oc' => [
+        '106','130'
+    ],
+
+    'optional_docs_sharing_oc' => [
+        '118', '142'
     ],
 
     'optional_docs_society_noc' => [

@@ -152,7 +152,7 @@
                                             </div>
                                             <div class="col-lg-5 form-group">                                            
                                                 <div class="custom-file"> 
-                                                <a href="{{config('commanConfig.storage_server').'/'.$document->document_path}}">
+                                                <a href="{{config('commanConfig.storage_server').'/'.$document->document_path}}" target="_blank">
                                                 <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"> 
                                                 </a>
                                                 <span>{{ isset(explode('/',$document->document_path)[1]) ? explode('/',$document->document_path)[1] : '' }}</span>

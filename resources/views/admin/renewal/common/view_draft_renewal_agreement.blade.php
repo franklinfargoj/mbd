@@ -31,7 +31,8 @@
             </li>
         </ul>
     </div>
-
+<form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('renewal.save_draft_sign_renewal_agreement')}}" enctype="multipart/form-data">
+@csrf
 <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
     <div class="tab-content">
         <div class="tab-pane active show" id="sale-deed-agreement" role="tabpanel">
@@ -54,8 +55,8 @@
                                             <span class="hint-text">Click to download Lease deed agreement </span>
                                             <div class="mt-auto">
                                                 @if(isset($data->renewalAgreement->document_path))
-                                                <input type="hidden" name="oldLeaseFile" value="{{ $data->renewalAgreement->document_path }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->renewalAgreement->document_path }}">
+                                                <input type="hidden" name="oldLeaseFile" value="{{ isset($data->DraftSignAgreement->document_path) ? $data->DraftSignAgreement->document_path : '' }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->renewalAgreement->document_path }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -65,13 +66,27 @@
                                                 @endif
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> 
+                                    @if(session()->get('role_name') == config('commanConfig.joint_co'))
+                                    <div class="col-sm-6 border-left">
+                                        <div class="d-flex flex-column h-100 two-cols">
+                                            <h5>Upload</h5>
+                                            <span class="hint-text">Click to upload Lease deed agreement</span>
+                                                <div class="custom-file">
+                                                    <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload1">
+                                                
+                                                        <label class="custom-file-label" for="test-upload1">Choose
+                                                        file...</label>   
+                                                </div>
+                                        </div>
+                                    </div> 
+                                    @endif                                 
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> 
 
             <!-- Add Send to JT CO here -->
         </div>
@@ -98,8 +113,7 @@
     @endif 
 
      @if($data->status->status_id != config('commanConfig.renewal_status.forwarded') && $data->status->status_id != config('commanConfig.renewal_status.reverted')) 
-<form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('renewal.save_agreement_comments')}}" enctype="multipart/form-data">
-@csrf 
+
     <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body">
@@ -116,5 +130,20 @@
  </form>   
 </div>
 
+@endsection 
+@section('js')
+<script>
+    $("#agreementFRM").validate({
+        rules: {            
+            lease_agreement: {
+                extension: "pdf"
+            },
+        }, messages: {           
+            lease_agreement: {
+                extension: "Invalid type of file uploaded (only pdf allowed)."
+            }
+        }
+    });  
+</script>
 @endsection
 

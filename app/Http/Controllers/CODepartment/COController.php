@@ -25,6 +25,8 @@ use App\NocReeScrutinyAnswer;
 use App\NocApplicationStatus;
 use App\NocCCApplicationStatus;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
+use App\Http\Controllers\SocietyNocController;
+use App\Http\Controllers\SocietyNocforCCController;
 use App\User;
 use Config;
 use Auth;
@@ -777,7 +779,7 @@ class COController extends Controller
 
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatusNoc($applicationId);
 
-        if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.NOC_Generation'))
+        if(isset($arrData['get_current_status']->status_id) && $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.NOC_Generation'))
         {
             $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
 
@@ -790,6 +792,12 @@ class COController extends Controller
         else{
             $arrData['get_forward_ree'] = array();
             $arrData['ree_role_name']   = null;
+
+            if(empty($arrData['get_current_status']->status_id))
+            {
+                $arrData['get_current_status'] = new \stdClass();
+                $arrData['get_current_status']->status_id = null;
+            }
         }
 
         //remark and history
@@ -809,7 +817,7 @@ class COController extends Controller
 
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatusNocCC($applicationId);
 
-        if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.NOC_Generation'))
+        if(isset($arrData['get_current_status']->status_id) && $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.NOC_Generation'))
         {
             $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
 
@@ -822,6 +830,12 @@ class COController extends Controller
         else{
             $arrData['get_forward_ree'] = array();
             $arrData['ree_role_name']   = null;
+
+            if(empty($arrData['get_current_status']->status_id))
+            {
+                $arrData['get_current_status'] = new \stdClass();
+                $arrData['get_current_status']->status_id = null;
+            }
         }
 
         //remark and history
@@ -875,9 +889,20 @@ class COController extends Controller
         $conveyanceCommonController = new conveyanceCommonController();
         $conveyanceDashboard = $conveyanceCommonController->ConveyanceDashboard();
         $conveyanceRoles     = $conveyanceCommonController->getConveyanceRoles(); 
-        $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();       
+        $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();
 
-        return view('admin.co_department.dashboard',compact('dashboardData','dashboardData1','conveyanceDashboard','conveyanceRoles','pendingApplications'));
+        //Noc dashboard -- Sayan
+
+        $nocModuleController = new SocietyNocController();
+        $nocApplication = $nocModuleController->getApplicationListDashboard();
+
+        //Noc for CC dashboard -- Sayan
+
+        $nocforCCModuleController = new SocietyNocforCCController();
+        $nocforCCApplication = $nocforCCModuleController->getApplicationListDashboard();
+
+
+        return view('admin.co_department.dashboard',compact('dashboardData','dashboardData1','conveyanceDashboard','conveyanceRoles','pendingApplications','nocApplication','nocforCCApplication'));
     }
 
     public function getApplicationData($role_id,$user_id){

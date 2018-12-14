@@ -52,24 +52,12 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Upload</h5>
-                                            <span class="hint-text">Click to upload Lease deed agreement</span>
-                                                <div class="custom-file">
-                                                    <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload1">
-                                                
-                                                        <label class="custom-file-label" for="test-upload1">Choose
-                                                        file...</label>   
-                                                </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 border-left">
-                                        <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Lease deed agreement </span>
                                             <div class="mt-auto">
                                                 @if(isset($data->renewalAgreement->document_path))
                                                 <input type="hidden" name="oldLeaseFile" value="{{ $data->renewalAgreement->document_path }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->renewalAgreement->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->renewalAgreement->document_path }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -78,6 +66,18 @@
                                                     *Note : Lease deed agreement is not available.</span>
                                                 @endif
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 border-left">
+                                        <div class="d-flex flex-column h-100 two-cols">
+                                            <h5>Upload</h5>
+                                            <span class="hint-text">Click to upload Lease deed agreement</span>
+                                                <div class="custom-file">
+                                                    <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload1">
+                                                
+                                                        <label class="custom-file-label" for="test-upload1">Choose
+                                                        file...</label>   
+                                                </div>
                                         </div>
                                     </div>
                                 </div>

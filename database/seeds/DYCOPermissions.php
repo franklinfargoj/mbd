@@ -202,12 +202,7 @@ class DYCOPermissions extends Seeder
                 'name'=>'dyco.generate_stamp_duty_letter',
                 'display_name'=>'dyco generate stamp duty letter',
                 'description'=>'dyco generate stamp duty letter'
-            ],            
-            // [
-            //     'name'=>'dyco.save_stamp_duty_letter',
-            //     'display_name'=>'dyco save stamp duty letter',
-            //     'description'=>'dyco save stamp duty letter'
-            // ],            
+            ],                       
             [
                 'name'=>'formation.em_srutiny_and_remark',
                 'display_name'=>'display the scrutiny report of EM for SF',
@@ -294,9 +289,44 @@ class DYCOPermissions extends Seeder
                 'description'=>'save conveyance stamp duty agreement'
             ],
             [
-                'name'=>'dashboard',
-                'display_name'=>'dashboard',
-                'description'=>'Dashboard'
+                'name'=>'conveyance.dashboard',
+                'display_name'=>'conveyance dashboard',
+                'description'=>'conveyance dashboard'
+            ],            
+            [
+                'name'=>'em.renewal_scrutiny_remark',
+                'display_name'=>'em renewal scrutiny remark',
+                'description'=>'em renewal scrutiny remark'
+            ],             
+            [
+                'name'=>'renewal.stamp_renewal_agreement',
+                'display_name'=>'renewal stamp renewal agreement',
+                'description'=>'renewal stamp renewal agreement'
+            ],            
+            [
+                'name'=>'renewal.save_stamp_renewal_agreement',
+                'display_name'=>'renewal save stamp renewal agreement',
+                'description'=>'renewal save stamp renewal agreement'
+            ],            
+            [
+                'name'=>'renewal.save_draft_sign_renewal_agreement',
+                'display_name'=>'save draft sign renewal agreement',
+                'description'=>'save draft sign renewal agreement'
+            ],            
+            [
+                'name'=>'renewal.stamp_sign_renewal_agreement',
+                'display_name'=>'renewal stamp sign renewal agreement',
+                'description'=>'renewal stamp sign renewal agreement' 
+            ],            
+            [
+                'name'=>'renewal.save_stamp_sign_renewal_agreement',
+                'display_name'=>'renewal save stamp sign renewal agreement',
+                'description'=>'renewal save stamp sign renewal agreement' 
+            ],            
+            [
+                'name'=>'renewal.registered_renewal_agreement',
+                'display_name'=>'renewal registered renewal agreement',
+                'description'=>'renewal registered renewal agreement' 
             ],                              
         ];
 
@@ -309,9 +339,9 @@ class DYCOPermissions extends Seeder
         }else
         {
             $role_id = Role::insertGetId([
-                'name' => 'dycdo_engineer',
+                'name' => 'dycdo_engineer', 
                 'redirect_to' => '/conveyance',
-                'dashboard' => '/dashboard',
+                'dashboard' => '/sc_dashboard',
                 'parent_id' => null,
                 'display_name' => 'dycdo engineer',
                 'description' => 'Login as dycdo Engineer',
@@ -401,7 +431,7 @@ class DYCOPermissions extends Seeder
             $role_id1 = Role::insertGetId([
                 'name' => 'dyco_engineer',
                 'redirect_to' => '/conveyance',
-                'dashboard' => '/dashboard',
+                'dashboard' => '/sc_dashboard',
                 'parent_id' => null,
                 'display_name' => 'dyco engineer',
                 'description' => 'Login as dyco Engineer',

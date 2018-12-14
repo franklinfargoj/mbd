@@ -57,7 +57,7 @@
                                     <div class="col-sm-4 application-fields">
                                         <label class="application-form-label" for="">३. योजनेचे नाव:</label>
                                         <input class="letter-form-input letter-form-input--100" type="text" id="" name="scheme_name"
-                                               value="{{ $sc_application->sr_form_request->scheme_name }}" readonly>
+                                               value="{{ $sc_application->sr_form_request->sr_scheme_name->name }}" readonly>
                                     </div>
                                     <div class="col-sm-4 application-fields">
                                         <label class="application-form-label" for="">४. प्रथम सदनिका वितरणाचा दिनांक:</label>
@@ -170,7 +170,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href="@if($sc_application->application_master_id) {{ route('society_renewal.edit', base64_encode($sc_application->id)) }} @endif" class="btn btn-primary">
+                                <a href="@if($sc_application->application_master_id) {{ route('society_renewal.edit', encrypt($sc_application->id)) }} @endif" class="btn btn-primary">
                                     Back
                                 </a>
                                 <span style="float:right;margin-right: 20px">

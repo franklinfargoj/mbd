@@ -38,7 +38,7 @@ class RenewalApplication extends Model
     public function renewalApplicationLog()
     {
         return $this->hasOne('App\conveyance\RenewalApplicationLog', 'application_id','id');
-    }      	
+    }
 
     public function srApplicationLog()
     {

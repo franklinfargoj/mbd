@@ -161,15 +161,6 @@
                                        else{
                                        $required = '';
                                        }
-
-                                        if(isset($arrData['scrutiny_answers_to_questions'][$each_question->id]))
-                                        {
-                                            $disabled='disabled';
-                                            $style = "display:none";
-                                        }else{
-                                            $disabled='';
-                                            $style = "";
-                                        }
                                        @endphp
                                        <tr>
                                           <td>{{ $i }}.</td>

@@ -20,6 +20,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
+use App\Http\Controllers\conveyance\renewalCommonController;
 use Config;
 
 class HearingController extends Controller
@@ -488,8 +489,14 @@ class HearingController extends Controller
         $conveyanceCommonController = new conveyanceCommonController();
         $conveyanceDashboard = $conveyanceCommonController->ConveyanceDashboard();
         $conveyanceRoles     = $conveyanceCommonController->getConveyanceRoles(); 
-        $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();        
+        $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();      
 
-        return view('admin.hearing.dashboard',compact('todaysHearing','dashboardData','conveyanceDashboard','conveyanceRoles','pendingApplications'));
+        $renewal = new renewalCommonController();
+
+        $renewalDashboard = $renewal->RenewalDashboard();
+        $renewalRoles     = $renewal->getRenewalRoles();
+        $renewalPendingApplications = $renewal->getApplicationPendingAtDepartment();           
+
+        return view('admin.hearing.dashboard',compact('todaysHearing','dashboardData','conveyanceDashboard','conveyanceRoles','pendingApplications','renewalDashboard','renewalRoles','renewalPendingApplications'));
     }
 }

@@ -624,7 +624,7 @@ $route=\Request::route()->getName();
                         @if (isset($route) && ($route == 'co.index' || $route=='ee.index' || $route=='dyce.index' || $route=='co_applications.reval' || $route=='co_applications.noc' || $route=='vp_applications.reval' ||
                         $route=='ree_applications.index' || $route=='ree_applications.reval' || $route == 'ree_applications.noc' || $route == 'ree_applications.noc_cc' || $route == 'co_applications.noc_cc' || $route=='cap.index' || $route=='cap_applications.reval' ||$route=='vp.index' ||
                         $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
-                        $route=='documents_uploaded' || $route=='documents_upload') || (strpos($route,'dashboard') !== false) && $route !='land.dashboard')
+                        $route=='documents_uploaded' || $route=='documents_upload' || $route=='tripartite.index') || (strpos($route,'dashboard') !== false) && $route !='land.dashboard')
 
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2  {{( $route=='ee.index' || $route=='dyce.index' || $route=='ree_applications.index' || $route=='co.index' || $route=='cap.index' || $route=='vp.index' || $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' || $route=='documents_uploaded' || $route=='documents_upload')?'m-menu__item--active':''}}">
                             <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">
@@ -645,7 +645,7 @@ $route=\Request::route()->getName();
                         $route=='village_detail.index' || $route=='ee.index' || $route=='dyce.index' || $route=='ree_applications.reval' || $route == 'ree_applications.noc' || $route=='vp_applications.reval' ||
                         $route=='ree_applications.index' || $route=='co_applications.reval' || $route=='co_applications.noc' || $route == 'ree_applications.noc_cc' || $route == 'co_applications.noc_cc' || $route=='cap.index' || $route=='cap_applications.reval' || $route=='vp.index' ||
                         $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
-                        $route=='documents_uploaded' || $route=='documents_upload'))
+                        $route=='documents_uploaded' || $route=='documents_upload' || $route=='tripartite.index'))
 
                                 @php
                                 $reval_redirect_to = "";
@@ -674,11 +674,22 @@ $route=\Request::route()->getName();
                         </li>
                         @endif
                         @endif
-                        
+                        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='tripartite.index')?'m-menu__item--active':'' }}">
+                            <a href="{{ route('tripartite.index') }}" class="m-menu__link m-menu__toggle">
+                                <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    viewBox="0 0 510 510">
+                                    <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                        fill="#FFF" />
+                                </svg>
+                                <span class="m-menu__link-text">
+                                    Tripartite
+                                </span>
+                            </a>
+                        </li>
                         @if (isset($route) && ($route == 'co.index' || $route=='ree_applications.reval' || $route == 'ree_applications.noc' || $route=='vp_applications.reval' ||
                         $route=='ree_applications.index' || $route=='co_applications.reval' || $route=='co_applications.noc' || $route == 'ree_applications.noc_cc' || $route == 'co_applications.noc_cc' ||
                         $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
-                        $route=='documents_uploaded' || $route=='documents_upload'))
+                        $route=='documents_uploaded' || $route=='documents_upload' || $route=='tripartite.index'))
 
                         @php
                         $reval_redirect_to = "";
@@ -707,7 +718,7 @@ $route=\Request::route()->getName();
                         @if (isset($route) && ($route == 'co.index' || $route=='ree_applications.reval' || $route == 'ree_applications.noc' || $route=='vp_applications.reval' ||
                         $route=='ree_applications.index' || $route=='co_applications.reval' || $route=='co_applications.noc' || $route == 'ree_applications.noc_cc' || $route == 'co_applications.noc_cc' ||
                         $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
-                        $route=='documents_uploaded' || $route=='documents_upload'))
+                        $route=='documents_uploaded' || $route=='documents_upload' || $route=='tripartite.index'))
 
                         @php
                         $noc_redirect_to = "";

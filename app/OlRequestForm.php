@@ -15,6 +15,8 @@ class OlRequestForm extends Model
         'developer_name',
         'ol_vide_no',
         'ol_issue_date',
-        'reason_for_revalidation'
+        'reason_for_revalidation',
+        'construction_details',
+        'is_full_oc'
     ];
 }
