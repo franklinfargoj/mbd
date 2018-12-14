@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\OcApplications;
+use App\OcApplicationStatusLog;
+use App\OcSocietyDocumentStatus;
 use App\RevalOlSocietyDocumentStatus;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Auth\SessionGuard;
@@ -40,6 +42,7 @@ use Session;
 use App\Mail\SocietyOfferLetterForgotPassword;
 use Storage;
 use App\SocietyConveyance;
+use App\OcApplication;
 
 class SocietyOfferLetterController extends Controller
 {
@@ -701,10 +704,10 @@ class SocietyOfferLetterController extends Controller
             'current_status_id' => '1',
             'is_approve_oc' => '0',
         );
-        $last_id = OcApplications::create($insert_application);
-        $role_ids = Role::where('name','like', 'ee_junior_engineer')-OrWhere('name','like', 'EM')->first();
-dd($role_ids);
-        $user_ids = RoleUser::where('role_id', $role_id->id)->get();
+        $last_id = OcApplication::create($insert_application);
+        $role_ids = Role::where('name','like', 'ee_junior_engineer')->orWhere('name','like', 'EM')->pluck('id')->toArray();
+
+        $user_ids = RoleUser::whereIn('role_id', $role_ids)->get();
         $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
 
         foreach ($layout_user_ids as $key => $value) {
@@ -729,13 +732,13 @@ dd($role_ids);
             }
         }
 
-        OlApplicationStatus::insert($insert_application_log_pending);
-        $last_society_flag_id = OlApplicationStatus::where('society_flag', '1')->orderBy('id', 'desc')->first();
-        $id = OlApplicationStatus::find($last_society_flag_id->id);
-        OlApplication::where('user_id', Auth::user()->id)->update([
+        OcApplicationStatusLog::insert($insert_application_log_pending);
+        $last_society_flag_id = OcApplicationStatusLog::where('society_flag', '1')->orderBy('id', 'desc')->first();
+        $id = OcApplicationStatusLog::find($last_society_flag_id->id);
+        OcApplication::where('user_id', Auth::user()->id)->update([
             'current_status_id' => $id->id
         ]);
-        return redirect()->route('society_reval_offer_letter_preview');
+        return redirect()->route('society_oc_preview');
     }
 
     /**
@@ -998,6 +1001,44 @@ dd($role_ids);
     }
 
 
+    public function displaySocietyOcDocuments(){
+
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $application = OcApplication::where('society_id', $society->id)->with(['oc_application_master', 'ocApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+        } ])->orderBy('id', 'desc')->first();
+        $oc_applications = $application;
+        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($society){
+            $q->where('society_id', $society->id)->get();
+        }])->get();
+        foreach ($documents as $key => $value) {
+            $document_ids[] = $value->id;
+        }
+        $documents_uploaded = OcSocietyDocumentStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->with(['documents_uploaded'])->get();
+
+        $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id','desc')->first();
+
+        if($application->application_master_id == '5' || $application->application_master_id == '16'){
+            $optional_docs = config('commanConfig.optional_docs_premium_oc');
+        }
+        if($application->application_master_id == '11' || $application->application_master_id == '22'){
+            $optional_docs = config('commanConfig.optional_docs_sharing_oc');
+        }
+
+        $docs_uploaded_count = 0;
+        $docs_count = 0;
+        foreach($documents as $documents_key => $documents_val){
+            if(in_array($documents_key+1, $optional_docs) == false){
+                $docs_count++;
+                if(count($documents_val->oc_documents_uploaded) > 0){
+                    $docs_uploaded_count++;
+                }
+            }
+        }
+
+        return view('frontend.society.society_upload_oc_documents', compact('documents','oc_applications',  'optional_docs', 'docs_count', 'docs_uploaded_count', 'documents_uploaded', 'society', 'application', 'documents_comment'));
+    }
+
     /**
      * Adds society documents comments.
      * Author: Amar Prajapati
@@ -1036,6 +1077,24 @@ dd($role_ids);
 
         OlSocietyDocumentsComment::where('society_id', $society->id)->update($input);
         return redirect()->route('upload_society_reval_offer_letter_application');
+    }
+
+
+    public function addSocietyOcDocumentsComment(Request $request){
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $comments = '';
+        if(!empty($request->input('society_documents_comment'))){
+            $comments = $request->input('society_documents_comment');
+        }else{
+            $comments = 'N.A.';
+        }
+        $input = array(
+            'society_id' => $society->id,
+            'society_documents_comment' => $comments,
+        );
+
+        OlSocietyDocumentsComment::where('society_id', $society->id)->update($input);
+        return redirect()->route('upload_society_oc_application');
     }
 
     /**
@@ -1396,6 +1455,101 @@ dd($role_ids);
         return redirect()->route('reval_documents_upload');
     }
 
+
+    public function uploadSocietyOcDocuments(Request $request){
+        $uploadPath = '/uploads/society_oc_documents';
+        $destinationPath = public_path($uploadPath);
+
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $application = OlApplication::where('society_id', $society->id)->orderBy('id','desc')->first();
+
+        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('id', $request->input('document_id'))->with(['oc_documents_uploaded' => function($q) use ($society){
+            $q->where('society_id', $society->id)->get();
+        }])->get();
+
+        if($request->file('document_name'))
+        {
+            $file = $request->file('document_name');
+            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+            $extension = $request->file('document_name')->getClientOriginalExtension();
+            if ($extension == "pdf") {
+                $time = time();
+                $name = File::name($request->file('document_name')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+                $folder_name = "society_oc_documents";
+                $path = config('commanConfig.storage_server').'/'.$folder_name.'/'.$name;
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('document_name'),$name);
+            }else{
+                return redirect()->back()->with('error_'.$request->input('document_id'), 'Invalid type of file uploaded (only pdf allowed)');
+            }
+        }
+        $input = array(
+            'society_id' => $society->id,
+            'document_id' => $request->input('document_id'),
+            'society_document_path' => $path,
+        );
+        OcSocietyDocumentStatus::create($input);
+        $documents_master = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($society){
+            $q->where('society_id', $society->id)->get();
+        }])->get();
+
+        if($application->application_master_id == '5' || $application->application_master_id == '16'){
+            $optional_docs = config('commanConfig.optional_docs_premium_oc');
+        }
+        if($application->application_master_id == '11' || $application->application_master_id == '22 '){
+            $optional_docs = config('commanConfig.optional_docs_sharing_oc');
+        }
+        $docs_uploaded_count = 0;
+        $docs_count = 0;
+        foreach($documents_master as $documents_key => $documents_val) {
+            if (in_array($documents_key + 1, $optional_docs) == false) {
+                $docs_count++;
+                if (count($documents_val->documents_uploaded) > 0) {
+                    $documents_uploaded[] = $documents_val->documents_uploaded;
+                    $docs_uploaded_count++;
+                }
+            }
+        }
+
+        if($docs_count == $docs_uploaded_count){
+
+            $role_ids = Role::where('name','like', 'ee_junior_engineer')->orWhere('name','like', 'EM')->pluck('id')->toArray();
+
+            $user_ids = RoleUser::whereIn('role_id', $role_ids)->get();
+            $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
+
+            foreach ($layout_user_ids as $key => $value) {
+                $select_user_ids[] = $value['user_id'];
+            }
+            $users = User::whereIn('id', $select_user_ids)->get();
+
+
+            if(count($users) > 0){
+
+                foreach($users as $key => $user){
+                    $i = 0;
+                    $insert_application_log_pending[$key]['application_id'] = $application->id;
+                    $insert_application_log_pending[$key]['society_flag'] = 1;
+                    $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
+                    $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
+                    $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
+                    $insert_application_log_pending[$key]['to_user_id'] = $user->id;
+                    $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
+                    $insert_application_log_pending[$key]['remark'] = '';
+                    $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
+                    $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
+                    $i++;
+                }
+                OcApplicationStatusLog::insert($insert_application_log_pending);
+                $add_comment = array(
+                    'society_id' => $society->id,
+                    'society_documents_comment' => 'N.A.',
+                );
+                OlSocietyDocumentsComment::create($add_comment);
+            }
+        }
+        return redirect()->route('oc_documents_upload');
+    }
+
     /**
      * Deletes uploaded society documents.
      * Author: Amar Prajapati
@@ -1531,6 +1685,75 @@ dd($role_ids);
         return redirect()->route('reval_documents_upload');
     }
 
+
+    public function deleteSocietyOcDocuments($id){
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $application = OcApplication::where('society_id', $society->id)->orderBy('id','desc')->first();
+
+        $documents_master = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($society){
+            $q->where('society_id', $society->id)->get();
+        }])->get();
+
+        if($application->application_master_id == '5' || $application->application_master_id == '16'){
+            $optional_docs = config('commanConfig.optional_docs_premium_oc');
+        }
+        if($application->application_master_id == '11' || $application->application_master_id == '22'){
+            $optional_docs = config('commanConfig.optional_docs_sharing_oc');
+        }
+        $docs_uploaded_count = 0;
+        $docs_count = 0;
+        foreach($documents_master as $documents_key => $documents_val) {
+            if (in_array($documents_key + 1, $optional_docs) == false) {
+                $docs_count++;
+                if (count($documents_val->documents_uploaded) > 0) {
+                    $documents_uploaded[] = $documents_val->documents_uploaded;
+                    $docs_uploaded_count++;
+                }
+            }
+        }
+
+        if($docs_count == $docs_uploaded_count){
+
+            $role_ids = Role::where('name','like', 'ee_junior_engineer')->orWhere('name','like', 'EM')->pluck('id')->toArray();
+
+            $user_ids = RoleUser::whereIn('role_id', $role_ids)->get();
+            $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
+
+            foreach ($layout_user_ids as $key => $value) {
+                $select_user_ids[] = $value['user_id'];
+            }
+            $users = User::whereIn('id', $select_user_ids)->get();
+
+
+            if(count($users) > 0){
+                foreach($users as $key => $user){
+                    $i = 0;
+                    $insert_application_log_pending[$key]['application_id'] = $application->id;
+                    $insert_application_log_pending[$key]['society_flag'] = 1;
+                    $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
+                    $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
+                    $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
+                    $insert_application_log_pending[$key]['to_user_id'] = $user->id;
+                    $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
+                    $insert_application_log_pending[$key]['remark'] = '';
+                    $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
+                    $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
+                    $i++;
+                }
+            }
+            OcApplicationStatusLog::insert($insert_application_log_pending);
+        }
+
+        $delete_document_details = OcSocietyDocumentStatus::where('society_id', $society->id)->where('document_id', $id)->get();
+        $stored_filepath = explode('/', $delete_document_details[0]->society_document_path);
+        $folder_name = "society_oc_documents";
+        $path = $folder_name.'/'.$stored_filepath[count($stored_filepath)-1];
+        $delete = Storage::disk('ftp')->delete($path);
+        OcSocietyDocumentStatus::where('society_id', $society->id)->where('document_id', $id)->delete();
+
+        return redirect()->route('oc_documents_upload');
+    }
+
     /**
      * Shows filled offer letter application form in pdf format.
      * Author: Amar Prajapati
@@ -1584,6 +1807,20 @@ dd($role_ids);
         return view('frontend.society.show_reval_ol_application_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id','old_ol_application'));
     }
 
+    public function showOcApplication(){
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $society_details = SocietyOfferLetter::find($society->id);
+        $oc_application = OcApplication::where('user_id', Auth::user()->id)->where('society_id', $society->id)->with(['request_form', 'applicationMasterLayout', 'ocApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        }])->orderBy('id', 'desc')->first();
+
+        $layouts = MasterLayout::all();
+        $id = $oc_application->application_master_id;
+        $oc_applications = $oc_application;
+
+        return view('frontend.society.show_oc_application_form', compact('society_details', 'oc_applications', 'oc_application', 'layouts', 'id'));
+    }
+
     /**
      * Shows Edit offer letter application form.
      * Author: Amar Prajapati
@@ -1610,6 +1847,17 @@ dd($role_ids);
         $ol_applications = $ol_application;
 
         return view('frontend.society.edit_reval_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id'));
+    }
+
+    public function editOcApplication(){
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $society_details = SocietyOfferLetter::find($society->id);
+        $oc_application = OcApplication::where('user_id', Auth::user()->id)->with(['request_form', 'applicationMasterLayout'])->orderBy('id','desc')->first();
+        $layouts = MasterLayout::all();
+        $id = $oc_application->application_master_id;
+        $oc_applications = $oc_application;
+
+        return view('frontend.society.edit_oc_form', compact('society_details', 'oc_applications', 'oc_application', 'layouts', 'id'));
     }
 
     /**
@@ -1644,6 +1892,18 @@ dd($role_ids);
         );
         OlRequestForm::where('society_id', $society->id)->where('id', $request->request_form_id)->update($update_input);
         return redirect()->route('society_reval_offer_letter_preview');
+    }
+
+    public function updateOcApplication(Request $request){
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $update_input = array(
+            'architect_name' => $request->architect_name,
+            'developer_name' => $request->developer_name,
+            'construction_details' => $request->construction_details,
+            'is_full_oc' => $request->is_full_oc,
+        );
+        OlRequestForm::where('society_id', $society->id)->where('id', $request->request_form_id)->update($update_input);
+        return redirect()->route('society_oc_preview');
     }
 
     /**
@@ -1688,6 +1948,24 @@ dd($role_ids);
 
     }
 
+
+    public function generate_oc_pdf(){
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $society_details = SocietyOfferLetter::find($society->id);
+        $oc_application = OcApplication::where('user_id', Auth::user()->id)->with(['request_form', 'applicationMasterLayout'])->orderBy('id','desc')->first();
+        $layouts = MasterLayout::all();
+        $id = $oc_application->application_master_id;
+
+
+        $mpdf = new Mpdf();
+        $mpdf->autoScriptToLang = true;
+        $mpdf->autoLangToFont = true;
+        $contents = view('frontend.society.display_society_oc_application', compact('society_details', 'oc_application', 'layouts', 'id'));
+        $mpdf->WriteHTML($contents);
+        $mpdf->Output();
+
+    }
+
     /**
      * Shows form to upload stamped offer letter application form.
      * Author: Amar Prajapati
@@ -1712,6 +1990,16 @@ dd($role_ids);
         $ol_applications = $application_details;
 
         return view('frontend.society.upload_download_reval_offer_letter_application_form', compact('ol_applications', 'application_details'));
+    }
+
+    public function showuploadOcAfterSign(){
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $application_details = OcApplication::where('society_id', $society->id)->with(['oc_application_master', 'ocApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        }])->orderBy('id', 'desc')->first();
+        $oc_applications = $application_details;
+
+        return view('frontend.society.upload_download_oc_application_form', compact('oc_applications', 'application_details'));
     }
 
     /**
@@ -1870,5 +2158,73 @@ dd($role_ids);
         return redirect()->route('society_offer_letter_dashboard');
     }
 
+    public function uploadOcAfterSign(Request $request){
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $application_name = OcApplication::where('society_id', $society->id)->with('oc_application_master')->get();
+        $society_remark = OlSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id', 'desc')->first();
+        if($request->file('reval_offer_letter_application_form'))
+        {
+            $file = $request->file('oc_application_form');
+            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+            $extension = $request->file('oc_application_form')->getClientOriginalExtension();
+            if ($extension == "pdf") {
+                $time = time();
+                $name = File::name($request->file('oc_application_form')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+                $folder_name = "society_oc_documents";
+                $path = config('commanConfig.storage_server').'/'.$folder_name.'/'.$name;
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('oc_application_form'),$name);
+                $input = array(
+                    'application_path' => $path,
+                    'submitted_at' => date('Y-m-d H-i-s')
+                );
+                OcApplication::where('society_id', $society->id)->where('id', $request->input('id'))->update($input);
 
+
+
+                $role_ids = Role::where('name','like', 'ee_junior_engineer')->orWhere('name','like', 'EM')->pluck('id')->toArray();
+                $application = OcApplication::where('society_id', $society->id)->where('id', $request->input('id'))->first();
+
+                $user_ids = RoleUser::whereIn('role_id', $role_ids)->get();
+                $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
+
+                foreach ($layout_user_ids as $key => $value) {
+                    $select_user_ids[] = $value['user_id'];
+                }
+                $users = User::whereIn('id', $select_user_ids)->get();
+
+
+                if(count($users) > 0) {
+                    foreach ($users as $key => $user) {
+                        $i = 0;
+                        $insert_application_log_forwarded[$key]['application_id'] = $application->id;
+                        $insert_application_log_forwarded[$key]['society_flag'] = 1;
+                        $insert_application_log_forwarded[$key]['user_id'] = Auth::user()->id;
+                        $insert_application_log_forwarded[$key]['role_id'] = Auth::user()->role_id;
+                        $insert_application_log_forwarded[$key]['status_id'] = config('commanConfig.applicationStatus.forwarded');
+                        $insert_application_log_forwarded[$key]['to_user_id'] = $user->id;
+                        $insert_application_log_forwarded[$key]['to_role_id'] = $user->role_id;
+                        $insert_application_log_forwarded[$key]['remark'] = isset($society_remark->society_documents_comment) ? $society_remark->society_documents_comment : '' ;
+                        $insert_application_log_forwarded[$key]['created_at'] = date('Y-m-d H-i-s');
+                        $insert_application_log_forwarded[$key]['updated_at'] = date('Y-m-d H-i-s');
+
+                        $insert_application_log_in_process[$key]['application_id'] = $application->id;
+                        $insert_application_log_in_process[$key]['society_flag'] = 0;
+                        $insert_application_log_in_process[$key]['user_id'] = $user->id;
+                        $insert_application_log_in_process[$key]['role_id'] = $user->role_id;
+                        $insert_application_log_in_process[$key]['status_id'] = config('commanConfig.applicationStatus.in_process');
+                        $insert_application_log_in_process[$key]['to_user_id'] = 0;
+                        $insert_application_log_in_process[$key]['to_role_id'] = 0;
+                        $insert_application_log_in_process[$key]['remark'] = isset($society_remark->society_documents_comment) ? $society_remark->society_documents_comment : '' ;
+                        $insert_application_log_in_process[$key]['created_at'] = date('Y-m-d H-i-s');
+                        $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d H-i-s');
+                        $i++;
+                    }
+                }
+                OcApplicationStatusLog::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
+            }else{
+                return redirect()->back()->with('error_uploaded_file', 'Invalid type of file uploaded (only pdf allowed)');
+            }
+        }
+        return redirect()->route('society_offer_letter_dashboard');
+    }
 }

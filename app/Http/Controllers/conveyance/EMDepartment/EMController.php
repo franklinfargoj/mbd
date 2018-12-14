@@ -201,7 +201,6 @@ class EMController extends Controller
     public function RenewalScrutinyRemark(Request $request,$applicationId){
 
         $applicationId = decrypt($applicationId);
-
         $data = RenewalApplication::with(['societyApplication','srApplicationLog', 'sr_form_request'])->where('id',$applicationId)->first();
         $data->folder = $this->conveyance_common->getCurrentRoleFolderName();
 
@@ -242,6 +241,7 @@ class EMController extends Controller
         }else{
             $content = "";
         }
+//        dd($no_dues_certificate_docs['renewal_drafted_no_dues_certificate']->sr_document_status);
 
         return view('admin.renewal.em_department.scrutiny_remark',compact('data', 'content', 'no_dues_certificate_docs', 'bonafide_docs', 'covering_letter_docs'));
     }
@@ -257,27 +257,33 @@ class EMController extends Controller
         $content = str_replace('_', "", $_POST['ckeditorText']);
         
         $folder_name = 'renewal_no_dues_certificate';
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($content);
-        $fileName = time().'renewal_no_dues_certificate_'.$id.'.pdf';
-        $filePath = $folder_name."/".$fileName;
 
-        if (!(Storage::disk('ftp')->has($folder_name))) {
-            Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
-        }
-        Storage::disk('ftp')->put($filePath, $pdf->output());
+        $content = str_replace('_', "", $_POST['ckeditorText']);
+
+        $header_file = view('admin.REE_department.offer_letter_header');
+        $footer_file = view('admin.REE_department.offer_letter_footer');
+
+        $pdf = new Mpdf();
+        $pdf->autoScriptToLang = true;
+        $pdf->autoLangToFont = true;
+        $pdf->setAutoBottomMargin = 'stretch';
+        $pdf->setAutoTopMargin = 'stretch';
+        $pdf->SetHTMLHeader($header_file);
+        $pdf->SetHTMLFooter($footer_file);
+        $pdf->WriteHTML($content);
+
+        $fileName = time().'renewal_no_dues_certificate_'.$id.'.pdf';
+        $filePath1 = $folder_name."/".$fileName;
+        $file_uploaded_pdf = $this->CommonController->ftpGeneratedFileUpload($folder_name, $pdf->Output($fileName, 'S'), $filePath1);
 
         //text offer letter
 
         $folder_name1 = 'text_renewal_no_dues_certificate';
 
-        if (!(Storage::disk('ftp')->has($folder_name1))) {
-            Storage::disk('ftp')->makeDirectory($folder_name1, $mode = 0777, true, true);
-        }
         $file_nm =  time()."text_renewal_no_dues_certificate_".$id.'.txt';
-        $filePath1 = $folder_name1."/".$file_nm;
+        $filePath = $folder_name1."/".$file_nm;
 
-        Storage::disk('ftp')->put($filePath1, $content);
+        $file_uploaded_text = $this->CommonController->ftpGeneratedFileUpload($folder_name, $content, $filePath);
         foreach(config('commanConfig.documents.em_renewal.no_dues_certificate') as $document){
             $documents_required[$document] = $document;
         }
@@ -288,21 +294,16 @@ class EMController extends Controller
 
         $i=0;
         foreach($document_ids as $document_id){
-            dd($filePath);
             $input_arr[] = array(
                 'application_id' => $id,
                 'user_id' => Auth::user()->id,
                 'society_flag' => 0,
                 'document_id' => $document_id->id,
-                'document_path' => $filePath.($i==0)? '':$i
+                'document_path' => ($i==0)? $filePath:$filePath1
             );
-            if($i==1){
-                dd($input_arr);
-            }
             $i++;
         }
 
-        dd($input_arr);
         RenewalDocumentStatus::insert($input_arr);
 
         return back()->with('success',' uploaded successfully.');

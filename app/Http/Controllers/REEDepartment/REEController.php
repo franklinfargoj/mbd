@@ -27,6 +27,8 @@ use App\NocApplicationStatus;
 use App\NocCCApplicationStatus;
 use App\NocSrutinyQuestionMaster;
 use App\NocReeScrutinyAnswer;
+use App\Http\Controllers\SocietyNocController;
+use App\Http\Controllers\SocietyNocforCCController;
 use App\User;
 use Config;
 use Auth;
@@ -1807,7 +1809,17 @@ class REEController extends Controller
             $dashboardData1 = $this->CommonController->getTotalCountsOfApplicationsPending();
         }
 
-        return view('admin.REE_department.dashboard',compact('dashboardData','dashboardData1'));
+        //Noc dashboard -- Sayan
+
+        $nocModuleController = new SocietyNocController();
+        $nocApplication = $nocModuleController->getApplicationListDashboard('REE');
+
+        //Noc for CC dashboard -- Sayan
+
+        $nocforCCModuleController = new SocietyNocforCCController();
+        $nocforCCApplication = $nocforCCModuleController->getApplicationListDashboard('REE');
+
+        return view('admin.REE_department.dashboard',compact('dashboardData','dashboardData1','nocApplication','nocforCCApplication'));
     }
 
     public function getApplicationData($role_id,$user_id){
@@ -1832,9 +1844,9 @@ class REEController extends Controller
 
     public function getApplicationStatusCount($applicationData){
 
-        $totalForwarded = $totalReverted = $totalPending = $totalInProcess = 0 ;
+        $totalForwarded = $totalReverted = $totalPending = $totalInProcess = $inProcess = 0 ;
 
-        $totalDraftOfferLetterGenereated = $totalOfferLetterSentForApproval = 0 ;
+        $totalDraftOfferLetterGenereated = $totalOfferLetterSentForApproval = $offerLetterGeneration = 0 ;
 
         $offerLetterApprovedNotIssuedToSociety = $offerLetterIssuedToSociety = $offerLetterForwardedForIssueingToSociety = 0;
 
@@ -1849,7 +1861,7 @@ class REEController extends Controller
             if($phase == 0){
                 switch ( $status )
                 {
-                    case config('commanConfig.applicationStatus.in_process'): $totalPending += 1; break;
+                    case config('commanConfig.applicationStatus.in_process'): $totalPending += 1; $inProcess += 1; break;
                     case config('commanConfig.applicationStatus.forwarded'): $totalForwarded += 1; break;
                     case config('commanConfig.applicationStatus.reverted'): $totalReverted += 1 ; break;
                     default:
@@ -1860,7 +1872,7 @@ class REEController extends Controller
 //                dd($application);
                 switch ( $status )
                 {
-                    case config('commanConfig.applicationStatus.offer_letter_generation'): $totalPending += 1; break;
+                    case config('commanConfig.applicationStatus.offer_letter_generation'): $totalPending += 1; $offerLetterGeneration += 1; break;
                     case (config('commanConfig.applicationStatus.forwarded') /*&& $application['drafted_offer_letter']*/) : $totalOfferLetterSentForApproval += 1; break;
                     case config('commanConfig.applicationStatus.draft_offer_letter_generated') : $totalDraftOfferLetterGenereated += 1 ; break;
                     default:
@@ -1893,6 +1905,8 @@ class REEController extends Controller
             'offerLetterApprovedNotIssuedToSociety' => $offerLetterApprovedNotIssuedToSociety,
             'offerLetterIssuedToSociety' => $offerLetterIssuedToSociety,
             'offerLetterForwardedForIssueingToSociety' => $offerLetterForwardedForIssueingToSociety,
+            'sepeartion'=> ['Total Pending Applications'=> $inProcess,
+                    'Total Pending Proposals'=> $offerLetterGeneration],
             ];
         return $count;
 
@@ -1900,15 +1914,15 @@ class REEController extends Controller
 
     public function getREEDashboardData($role_id,$ree,$statusCount)
     {
-//        dd($ree);
+
 //        dd('perparing for dashboard data');
         switch ($role_id) {
-            case ($ree['ree_jr_id']):
+            case ($ree['REE Junior Engineer']):
                 $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
                 $dashboardData['Total No of Applications'][1] = '';
 
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
-                $dashboardData['Applications Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+                $dashboardData['Applications Pending'][1] = 'pending';
 
                 $dashboardData['Proposals Sent For Approval to REE Deputy'][0] = $statusCount['totalForwarded'];
                 $dashboardData['Proposals Sent For Approval to REE Deputy'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
@@ -1927,12 +1941,12 @@ class REEController extends Controller
                 $dashboardData['Offer Letters Forwarded for Issuing to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 
                 break;
-            case ($ree['ree_head_id']):
+            case ($ree['ree_engineer']):
                 $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
                 $dashboardData['Total No of Applications'][1] = '';
 
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
-                $dashboardData['Applications Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+                $dashboardData['Applications Pending'][1] = 'pending';
 
                 $dashboardData['Applications Sent for Compliance'][0] = $statusCount['totalReverted'];
                 $dashboardData['Applications Sent for Compliance'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');
@@ -1953,12 +1967,12 @@ class REEController extends Controller
                 $dashboardData['Offer Letters Sent to Society '][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.sent_to_society');
 
                 break;
-            case ($ree['ree_deputy_id']):
+            case ($ree['REE deputy Engineer']):
                 $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
                 $dashboardData['Total No of Applications'][1] = '';
 
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
-                $dashboardData['Applications Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+                $dashboardData['Applications Pending'][1] = 'pending';
 
                 $dashboardData['Applications Sent for Compliance'][0] = $statusCount['totalReverted'];
                 $dashboardData['Applications Sent for Compliance'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');
@@ -1978,12 +1992,12 @@ class REEController extends Controller
                 $dashboardData['Offer Letters Forwarded for Issuing to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.sent_to_society');
 
                 break;
-            case ($ree['ree_ass_id']):
+            case ($ree['REE Assistant Engineer']):
                 $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
                 $dashboardData['Total No of Applications'][1] = '';
 
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
-                $dashboardData['Applications Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+                $dashboardData['Applications Pending'][1] = 'pending';
 
                 $dashboardData['Applications Sent for Compliance'][0] = $statusCount['totalReverted'];
                 $dashboardData['Applications Sent for Compliance'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');
@@ -2008,6 +2022,8 @@ class REEController extends Controller
                 break;
         }
 
+        $dashboardData = array($dashboardData,$statusCount['sepeartion']);
+//dd($dashboardData);
         return $dashboardData;
     }
 

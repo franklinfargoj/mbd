@@ -572,6 +572,34 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
             OlSocietyDocumentsMaster::insert($app_insertArr);
         }
 
+        $english_lang = LanguageMaster::select('id')->where(['language'=>'English'])->get();
+        $application5_arr=OlApplicationMaster::Where('title', 'like', '%Tripartite Agreement%')->pluck('id')->toArray();
+        //dd($application5_arr);
+        foreach($application5_arr as $app)
+        {
+            $app_insertArr= [ 
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "text_tripartite_agreement",
+                    'is_admin'=>1
+
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "drafted_tripartite_agreement",
+                    'is_admin'=>1
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "drafted_signed_tripartite_agreement",
+                    'is_admin'=>1
+                ],
+            ];
+            OlSocietyDocumentsMaster::insert($app_insertArr);
+        }
 
     }
 

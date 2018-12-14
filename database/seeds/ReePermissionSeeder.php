@@ -18,6 +18,11 @@ class ReePermissionSeeder extends Seeder
     {
         $permissions = [
             [
+                'name'=>'architect_layout_dashboard',
+                'display_name' => 'Dashboard for Architect',
+                'description' => 'Dashboard for Architect'
+            ],
+            [
                 'name' => 'ree_dashboard.index',
                 'display_name' => 'REE Dashboard',
                 'description' => 'REE Dashboard',
@@ -241,6 +246,26 @@ class ReePermissionSeeder extends Seeder
                 'name'=>'ree.send_reval_letter_society',
                 'display_name'=>'Send approved & revalidated offer letter to society',
                 'description'=>'Send approved & revalidated offer letter to society'
+            ],
+            [
+                'name'=>'tripartite.index',
+                'display_name'=>'display tripartite list of application',
+                'description'=>'display tripartite list of application'
+            ],
+            [
+                'name'=>'tripartite.view_application',
+                'display_name'=>'view tripartite application submitted by society',
+                'description'=>'view tripartite application submitted by society'
+            ],
+            [
+                'name'=>'tripartite.view_society_documents',
+                'display_name'=>'tripartite.view_society_documents',
+                'description'=>'tripartite.view_society_documents'
+            ],
+            [
+                'name'=>'tripartite.tripartite_agreement',
+                'display_name'=>'tripartite.tripartite_agreement',
+                'description'=>'tripartite.tripartite_agreement'
             ]
         ];
 
