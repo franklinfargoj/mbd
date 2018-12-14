@@ -1150,7 +1150,7 @@ class renewalCommonController extends Controller
         $totalApplication = count($applicationData);
 
         $count['Total No of Applications'][0] = $totalApplication;
-        $count['Total No of Applications'][1] = '';
+        $count['Total No of Applications'][1] = 'renewal';
         $count['Applications Pending'][0]     = $totalPending;
         $count['Applications Pending'][1]     = 'pending';
         $count['Draft Sale & Lease Deed sent for Approval'][0] = $sendForApproval;
