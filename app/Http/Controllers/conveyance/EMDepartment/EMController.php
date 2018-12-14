@@ -201,7 +201,20 @@ class EMController extends Controller
     public function RenewalScrutinyRemark(Request $request,$applicationId){
 
         $applicationId = decrypt($applicationId);
-        $data = RenewalApplication::with(['societyApplication','srApplicationLog', 'sr_form_request'])->where('id',$applicationId)->first();
+        $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Renewal'))->value('id');
+        $data = RenewalApplication::with(['societyApplication','srApplicationLog' => function($q) use($application_type) {
+            $q->where('user_id', Auth::user()->id)
+                ->where('role_id', session()->get('role_id'))
+                ->where('application_master_id', $application_type)
+                ->orderBy('id', 'desc');
+        }, 'sr_form_request'])
+            ->whereHas('RenewalApplicationLog', function ($q) use($application_type) {
+                $q->where('user_id', Auth::user()->id)
+                    ->where('role_id', session()->get('role_id'))
+                    ->where('application_master_id', $application_type)
+                    ->orderBy('id', 'desc');
+            })
+            ->where('id',$applicationId)->first();
         $data->folder = $this->conveyance_common->getCurrentRoleFolderName();
 
         $no_dues_certificate_docs_defined = config('commanConfig.documents.em_renewal.no_dues_certificate');
@@ -241,7 +254,6 @@ class EMController extends Controller
         }else{
             $content = "";
         }
-//        dd($no_dues_certificate_docs['renewal_drafted_no_dues_certificate']->sr_document_status);
 
         return view('admin.renewal.em_department.scrutiny_remark',compact('data', 'content', 'no_dues_certificate_docs', 'bonafide_docs', 'covering_letter_docs'));
     }
@@ -402,7 +414,7 @@ class EMController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function uploadRenewalListOfAllottees(Request $request){
-//        dd($request->all());
+
         if($request->file('document_path')) {
             $file = $request->file('document_path');
             $file_name = time() . $file->getFileName() . '.' . $file->getClientOriginalExtension();
@@ -486,7 +498,7 @@ class EMController extends Controller
                 $time = time();
                 $name = File::name($request->file('covering_letter')->getClientOriginalName()) . '_' . $time . '.' . $extension;
                 $folder_name = "covering_letter_documents";
-                $path = config('commanConfig.storage_server').'/'.$folder_name.'/'.$name;
+                $path = $folder_name.'/'.$name;
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('covering_letter'),$name);
 
                 $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->value('id');
@@ -506,7 +518,6 @@ class EMController extends Controller
 
                 if($inserted_document_log == true){
                     return back()->with('success',' uploaded successfully.');
-                    // return redirect()->route('em.scrutiny_remark', $request->applicationId);
                 }
 
             }else{
@@ -522,17 +533,18 @@ class EMController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function uploadRenewalCoveringLetter(Request $request){
+
         if($request->file('covering_letter'))
         {
-//            dd($request->all());
             $file = $request->file('covering_letter');
             $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
             $extension = $request->file('covering_letter')->getClientOriginalExtension();
+
             if ($extension == "pdf") {
                 $time = time();
                 $name = File::name($request->file('covering_letter')->getClientOriginalName()) . '_' . $time . '.' . $extension;
                 $folder_name = "covering_letter_documents";
-                $path = config('commanConfig.storage_server').'/'.$folder_name.'/'.$name;
+                $path = $folder_name.'/'.$name;
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('covering_letter'),$name);
 
                 $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Renewal'))->value('id');
@@ -551,7 +563,7 @@ class EMController extends Controller
                 $inserted_document_log = RenewalDocumentStatus::create($sc_document_status_arr);
 
                 if($inserted_document_log == true){
-                    return redirect()->route('em.renewal_scrutiny_remark', $request->application_id);
+                    return redirect()->back();
                 }
 
             }else{
