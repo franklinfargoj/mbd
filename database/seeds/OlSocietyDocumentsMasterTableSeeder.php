@@ -583,7 +583,6 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'language_id'   => $english_lang[0]['id'],
                     'name' => "text_tripartite_agreement",
                     'is_admin'=>1
-
                 ],
                 [
                     'application_id'   => $app,
@@ -598,7 +597,18 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'is_admin'=>1
                 ],
             ];
-            OlSocietyDocumentsMaster::insert($app_insertArr);
+            foreach($app_insertArr as $app_insertAr)
+            { 
+                $ol_doc_master=OlSocietyDocumentsMaster::where(['application_id'=>$app_insertAr['application_id'],'name'=>$app_insertAr['name']])->first();
+                if($ol_doc_master)
+                {
+
+                }else
+                {
+                    OlSocietyDocumentsMaster::insert($app_insertArr);
+                }
+            }
+            
         }
 
     }
