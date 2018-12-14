@@ -710,6 +710,13 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
         Route::get('/view_application/{application_id}','Tripartite\TripartiteController@view_application')->name('tripartite.view_application');
         Route::get('/view_society_documents/{application_id}','Tripartite\TripartiteController@view_society_documents')->name('tripartite.view_society_documents');
         Route::get('/tripartite_agreement/{application_id}','Tripartite\TripartiteController@tripartite_agreement')->name('tripartite.tripartite_agreement');
+        Route::post('/saveTripartiteagreement','Tripartite\TripartiteController@saveTripartiteagreement')->name('saveTripartiteagreement');
+        Route::post('/upload_signed_tripartite_agreement','Tripartite\TripartiteController@upload_signed_tripartite_agreement')->name('upload_signed_tripartite_agreement');
+        Route::get('/tripartite_ree_note/{application_id}','Tripartite\TripartiteController@ree_note')->name('tripartite.ree_note');
+        Route::post('/upload_tripartite_ree_note','Tripartite\TripartiteController@upload_ree_note')->name('tripartite.upload_ree_note');
+        Route::post('/setTripartiteRemark','Tripartite\TripartiteController@setTripartiteRemark')->name('tripartite.setTripartiteRemark');
+        Route::get('tripartite_forward_application/{application_id}','Tripartite\TripartiteController@forward_application')->name('tripartite.forward_application');
+        Route::post('tripartite_forward_application','Tripartite\TripartiteController@saveForwardApplication')->name('tripartite.post_forward_application');
     });
     //End tripartite
     //Society Renewal

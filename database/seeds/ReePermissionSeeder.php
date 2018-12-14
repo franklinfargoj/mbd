@@ -266,6 +266,41 @@ class ReePermissionSeeder extends Seeder
                 'name'=>'tripartite.tripartite_agreement',
                 'display_name'=>'tripartite.tripartite_agreement',
                 'description'=>'tripartite.tripartite_agreement'
+            ],
+            [
+                'name'=>'saveTripartiteagreement',
+                'display_name'=>'saveTripartiteagreement',
+                'description'=>'saveTripartiteagreement'
+            ],
+            [
+                'name'=>'upload_signed_tripartite_agreement',
+                'display_name'=>'upload_signed_tripartite_agreement',
+                'description'=>'upload_signed_tripartite_agreement'
+            ],
+            [
+                'name'=>'tripartite.ree_note',
+                'display_name'=>'tripartite.ree_note',
+                'description'=>'tripartite.ree_note'
+            ],
+            [
+                'name'=>'tripartite.upload_ree_note',
+                'display_name'=>'tripartite.upload_ree_note',
+                'description'=>'tripartite.upload_ree_note'
+            ],
+            [
+                'name'=>'tripartite.setTripartiteRemark',
+                'display_name'=>'tripartite.setTripartiteRemark',
+                'description'=>'tripartite.setTripartiteRemark'
+            ],
+            [
+                'name'=>'tripartite.forward_application',
+                'display_name'=>'tripartite.forward_application',
+                'description'=>'tripartite.forward_application'
+            ],
+            [
+                'name'=>'tripartite.post_forward_application',
+                'display_name'=>'tripartite.post_forward_application',
+                'description'=>'tripartite.post_forward_application'
             ]
         ];
 

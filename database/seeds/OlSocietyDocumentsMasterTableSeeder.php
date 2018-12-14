@@ -596,6 +596,12 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'name' => "drafted_signed_tripartite_agreement",
                     'is_admin'=>1
                 ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "tripartite_ree_note",
+                    'is_admin'=>1
+                ]
             ];
             foreach($app_insertArr as $app_insertAr)
             { 
