@@ -17,7 +17,7 @@
             @if(!empty($arrears_calculations) && !empty($arrears_charges))
                 @foreach($arrears_calculations as $key => $value )
                     <tr>    
-                        <td>{{$value->month}}</td>
+                        <td>{{date("M", mktime(0, 0, 0, $value->month, 10))}}</td>
                         <td>{{$value->year}}</td>
                         <td>{{$arrears_charges->old_rate}}</td>
                         <td>{{$arrears_charges->interest_on_old_rate}}</td>
