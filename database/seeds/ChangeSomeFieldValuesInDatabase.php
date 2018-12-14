@@ -27,6 +27,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         if($ee_role_id){
             $data = Role::findOrFail($ee_role_id);
             $data->dashboard ='/dashboard';
+            $data->redirect_to ='/ee';
             $data->save();
         }
 
@@ -35,6 +36,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         if($ee_dy_role_id){
             $data = Role::findOrFail($ee_dy_role_id);
             $data->dashboard ='/dashboard';
+            $data->redirect_to ='/ee';
             $data->save();
         }
 
@@ -43,6 +45,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         if($ee_jr_role_id){
             $data = Role::findOrFail($ee_jr_role_id);
             $data->dashboard ='/dashboard';
+            $data->redirect_to ='/ee';
             $data->save();
         }
 
@@ -50,6 +53,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         if($role_id){
             $data = Role::findOrFail($role_id);
             $data->dashboard ='/dashboard';
+            $data->redirect_to ='/dyce';
             $data->save();
         }
 
@@ -58,6 +62,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         if($dyce_deputy_role_id){
             $data = Role::findOrFail($dyce_deputy_role_id);
             $data->dashboard ='/dashboard';
+            $data->redirect_to ='/dyce';
             $data->save();
         }
 
@@ -65,6 +70,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         if($dyce_Jr_role_id){
             $data = Role::findOrFail($dyce_Jr_role_id);
             $data->dashboard ='/dashboard';
+            $data->redirect_to ='/dyce';
             $data->save();
         }
 
@@ -73,6 +79,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         if($joint_co_role_id ){
             $data = Role::findOrFail($joint_co_role_id);
             $data->dashboard ='/hearing-dashboard';
+            $data->redirect_to ='/hearing';
             $data->save();
         }
 
@@ -80,6 +87,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         if($joint_co_pa_role_id){
             $data = Role::findOrFail($joint_co_pa_role_id);
             $data->dashboard ='/hearing-dashboard';
+            $data->redirect_to ='/hearing';
             $data->save();
         }
 
@@ -87,6 +95,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         if($co_role_id){
             $data = Role::findOrFail($co_role_id);
             $data->dashboard ='/hearing-dashboard';
+            $data->redirect_to ='/hearing';
             $data->save();
         }
 
@@ -94,6 +103,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         if($co_pa_role_id){
             $data = Role::findOrFail($co_pa_role_id);
             $data->dashboard ='/hearing-dashboard';
+            $data->redirect_to ='/hearing';
             $data->save();
         }
 
@@ -112,6 +122,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         if($joint_co_role_id ){
             $data = Role::findOrFail($ree_head_role_id);
             $data->dashboard ='/ree_dashboard';
+            $data->redirect_to ='/ree_applications';
             $data->save();
         }
 
@@ -119,6 +130,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         if($ree_ass_role_id ){
             $data = Role::findOrFail($ree_ass_role_id);
             $data->dashboard ='/ree_dashboard';
+            $data->redirect_to ='/ree_applications';
             $data->save();
         }
 
@@ -126,6 +138,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         if($ree_dy_role_id ){
             $data = Role::findOrFail($ree_dy_role_id);
             $data->dashboard ='/ree_dashboard';
+            $data->redirect_to ='/ree_applications';
             $data->save();
         }
 
@@ -133,6 +146,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         if($ree_jr_role_id ){
             $data = Role::findOrFail($ree_jr_role_id);
             $data->dashboard ='/ree_dashboard';
+            $data->redirect_to ='/ree_applications';
             $data->save();
         }
 
@@ -157,6 +171,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         if($cap_role_id ){
             $data = Role::findOrFail($cap_role_id);
             $data->dashboard ='/dashboard';
+            $data->redirect_to ='/cap';
             $data->save();
         }
 
@@ -165,6 +180,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         if($vp_role_id ){
             $data = Role::findOrFail($vp_role_id);
             $data->dashboard ='/dashboard';
+            $data->redirect_to ='/vp';
             $data->save();
         }
 
