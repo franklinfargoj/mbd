@@ -2,52 +2,52 @@
 
 // Rti Application
 Breadcrumbs::for('rti_applicants', function ($trail) {
-    $trail->push('rti_applicants', route('rti_applicants'));
+    $trail->push('RTI Applicants', route('rti_applicants'));
 });
 
 Breadcrumbs::for('view_applicant', function ($trail,$id) {
     $trail->parent('rti_applicants');
-    $trail->push('view_applicant/', route('view_applicant',$id));
+    $trail->push('View Application/', route('view_applicant',$id));
 });
 
 Breadcrumbs::for('schedule_meeting', function ($trail,$id) {
     $trail->parent('rti_applicants');
-    $trail->push('schedule_meeting/', route('schedule_meeting',$id));
+    $trail->push('Schedule Meeting/', route('schedule_meeting',$id));
 });
 
 Breadcrumbs::for('update_status', function ($trail,$id) {
     $trail->parent('rti_applicants');
-    $trail->push('update_status/', route('update_status',$id));
+    $trail->push('Update Status/', route('update_status',$id));
 });
 
 Breadcrumbs::for('rti_send_info', function ($trail,$id) {
     $trail->parent('rti_applicants');
-    $trail->push('rti_send_info/', route('rti_send_info',$id));
+    $trail->push('RTI Send Info/', route('rti_send_info',$id));
 });
 
 Breadcrumbs::for('rti_forwarded_application', function ($trail,$id) {
     $trail->parent('rti_applicants');
-    $trail->push('rti_forwarded_application/', route('rti_forwarded_application',$id));
+    $trail->push('RTI Forward Application/', route('rti_forwarded_application',$id));
 });
 
 //Resolution
 Breadcrumbs::for('resolution', function ($trail) {
-    $trail->push('resolution', route('resolution.index'));
+    $trail->push('Resolution', route('resolution.index'));
 });
 
 Breadcrumbs::for('resolution_create', function ($trail) {
 	$trail->parent('resolution');
-    $trail->push('resolution_create', route('resolution.create'));
+    $trail->push('Create Resolution', route('resolution.create'));
 });
  
 Breadcrumbs::for('resolution_edit', function ($trail,$id) {
 	$trail->parent('resolution');
-    $trail->push('resolution_edit/', route('resolution.edit',$id));
+    $trail->push('Edit Resolution/', route('resolution.edit',$id));
 });
 
 Breadcrumbs::for('resolution_view', function ($trail,$id) {
     $trail->parent('resolution');
-    $trail->push('resolution_view/', route('resolution.view',$id));
+    $trail->push('View Resolution/', route('resolution.view',$id));
 });
 
 //Land
