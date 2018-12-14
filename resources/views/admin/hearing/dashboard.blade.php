@@ -115,7 +115,7 @@
                     </a>
                 </div>
             </div>
-            <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="conveyance-summary"
+            <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="conveyance-summary"
                  data-parent="#accordion">
                 <div class="row hearing-row">
                     @foreach($conveyanceDashboard[0] as $header => $value)
