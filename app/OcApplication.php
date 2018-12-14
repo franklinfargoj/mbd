@@ -50,6 +50,11 @@ class OcApplication extends Model
         return $this->hasMany(OcApplicationStatusLog::class, 'application_id', 'id');
     }
 
+    public function olApplicationStatus()
+    {
+        return $this->hasMany(OcApplicationStatusLog::class, 'application_id', 'id');
+    }
+
     public function ocApplicationStatusForLoginListing()
     {
         return $this->hasMany('App\OcApplicationStatusLog', 'application_id', 'id');
@@ -58,6 +63,11 @@ class OcApplication extends Model
 
 
     public function oc_application_master(){
+        return $this->hasOne(OlApplicationMaster::class, 'id', 'application_master_id');
+    }
+
+
+    public function ol_application_master(){
         return $this->hasOne(OlApplicationMaster::class, 'id', 'application_master_id');
     }
 
