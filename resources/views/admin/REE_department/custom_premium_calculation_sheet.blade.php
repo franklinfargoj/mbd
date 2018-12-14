@@ -86,13 +86,13 @@
                                         </div>
                                         <thead class="thead-default">
                                             <tr>
-                                               <th>
+                                               <th style = "border-style: ridge;width:50%">
                                                     तपशील
                                                 </th>
-                                                <th class="table-data--md">
+                                                <th class="table-data--md" style = "border-style: ridge;width:50%">
                                                     रक्कम रु
                                                 </th>
-                                                <th class="table-data--xs">
+                                                <th class="table-data--xs" style = "border-style: ridge;">
                                                     #
                                                 </th>
                                             </tr>
@@ -103,12 +103,15 @@
                                         @php $i = 1; @endphp
                                             @foreach($ol_application->table1 as $data) 
                                                 <tr>
-                                                    <td>
+                                                    <td style="width:70%">
                                                     <input type="hidden" name="table1[{{$i}}][hiddenId]" value="{{ isset($data['id']) ? $data['id'] : '' }}">
-                                                        <input type="text" class="form-control form-control--custom" name="table1[{{$i}}][title]" value="{{ isset($data['title'])? $data['title'] : '' }}" required>
+                                                    <textarea name="table1[{{$i}}][title]" class="form-control form-control--custom" 
+                                                    style="width:100%; height:50px;border-style: ridge;" required>{{ isset($data['title'])? $data['title'] : '' }}</textarea>
+                                                       <!--  <input type="text" class="form-control form-control--custom" name="table1[{{$i}}][title]" value="{{ isset($data['title'])? $data['title'] : '' }}" required style="width:100%"> -->
                                                     </td>
-                                                    <td class="text-center"> 
-                                                        <input type="text" class="form-control form-control--custom" name="table1[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" required>
+                                                    <td class="text-center" style="width:30%"> 
+
+                                                        <input type="text" class="form-control form-control--custom" name="table1[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" required style="height:50px;width:100%;border-style: ridge;">
                                                     </td>
                                                     <td><i class="fa fa-trash deleteBtn" aria-hidden="true" id="table1_{{$data['id']}}" style="font-size: 20px;color: #b21c1c;cursor: pointer;"></i></td>
                                                 </tr>  
@@ -166,13 +169,13 @@
                                     <table class="table mb-0 table--box-input table2">
                                         <thead class="thead-default">
                                             <tr>
-                                               <th>
+                                               <th style = "border-style: ridge;width:50%">
                                                     तपशील
                                                 </th>
-                                                <th class="table-data--md">
+                                                <th class="table-data--md" style = "border-style: ridge;width:50%">
                                                     रक्कम रु
                                                 </th>
-                                                <th class="table-data--xs">
+                                                <th class="table-data--xs" style = "border-style: ridge;">
                                                     #
                                                 </th>
                                             </tr>
@@ -183,12 +186,17 @@
                                         @php $i = 1; @endphp
                                             @foreach($ol_application->table2 as $data) 
                                                 <tr>
-                                                    <td>
+                                                    <td style="width:70%">
+                                                    
                                                     <input type="hidden" name="table2[{{$i}}][hiddenId]" value="{{ isset($data['id']) ? $data['id'] : '' }}">
-                                                        <input type="text" class="form-control form-control--custom" name="table2[{{$i}}][title]" value="{{ isset($data['title'])? $data['title'] : '' }}" required>
+
+                                                    <textarea name="table2[{{$i}}][title]" class="form-control form-control--custom" 
+                                                    style="width:100%; height:50px;border-style: ridge;" required>{{ isset($data['title'])? $data['title'] : '' }}</textarea>
+
+                                                   <!--      <input type="text" class="form-control form-control--custom" name="table2[{{$i}}][title]" value="{{ isset($data['title'])? $data['title'] : '' }}" required> -->
                                                     </td>
-                                                    <td class="text-center"> 
-                                                        <input type="text" class="form-control form-control--custom" name="table2[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" required>
+                                                    <td class="text-center" style="width:30%"> 
+                                                        <input type="text" class="form-control form-control--custom" name="table2[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" required style="height:50px;width:100%;border-style: ridge;">
                                                     </td>
                                                     <td><i class="fa fa-trash deleteBtn" aria-hidden="true" id="table2_{{$data['id']}}" style="font-size: 20px;color: #b21c1c;cursor: pointer;"></i></td>
                                                 </tr>  
@@ -246,13 +254,13 @@
                                     <table class="table mb-0 table--box-input table3">
                                         <thead class="thead-default">
                                             <tr>
-                                               <th>
+                                               <th style = "border-style: ridge;width:50%">
                                                     तपशील
                                                 </th>
-                                                <th class="table-data--md">
+                                                <th class="table-data--md" style = "border-style: ridge;width:50%">
                                                     रक्कम रु
                                                 </th>
-                                                <th class="table-data--xs">
+                                                <th class="table-data--xs" style = "border-style: ridge;">
                                                     #
                                                 </th>
                                             </tr>
@@ -263,12 +271,16 @@
                                         @php $i = 1; @endphp
                                             @foreach($ol_application->table3 as $data) 
                                                 <tr>
-                                                    <td>
+                                                    <td style="width:70%">
                                                     <input type="hidden" name="table3[{{$i}}][hiddenId]" value="{{ isset($data['id']) ? $data['id'] : '' }}">
-                                                        <input type="text" class="form-control form-control--custom" name="table3[{{$i}}][title]" value="{{ isset($data['title'])? $data['title'] : '' }}" required>
+
+                                                    <textarea name="table3[{{$i}}][title]" class="form-control form-control--custom" 
+                                                    style="width:100%; height:50px;border-style: ridge;" required>{{ isset($data['title'])? $data['title'] : '' }}</textarea>
+
+                                                       <!--  <input type="text" class="form-control form-control--custom" name="table3[{{$i}}][title]" value="{{ isset($data['title'])? $data['title'] : '' }}" required> -->
                                                     </td>
-                                                    <td class="text-center"> 
-                                                        <input type="text" class="form-control form-control--custom" name="table3[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" required>
+                                                    <td class="text-center" style="width:30%"> 
+                                                        <input type="text" class="form-control form-control--custom" name="table3[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" required style="height:50px;width:100%;border-style: ridge;">
                                                     </td>
                                                     <td><i class="fa fa-trash deleteBtn" aria-hidden="true" id="table3_{{$data['id']}}" style="font-size: 20px;color: #b21c1c;cursor: pointer;"></i></td>
                                                 </tr>  
@@ -326,13 +338,13 @@
                                     <table class="table mb-0 table--box-input table4">
                                         <thead class="thead-default">
                                             <tr>
-                                               <th>
+                                               <th style = "border-style: ridge;width:50%">
                                                     तपशील
                                                 </th>
-                                                <th class="table-data--md">
+                                                <th class="table-data--md" style = "border-style: ridge;width:50%">
                                                     रक्कम रु
                                                 </th>
-                                                <th class="table-data--xs">
+                                                <th class="table-data--xs" style = "border-style: ridge;">
                                                     #
                                                 </th>
                                             </tr>
@@ -343,12 +355,16 @@
                                         @php $i = 1; @endphp
                                             @foreach($ol_application->table4 as $data) 
                                                 <tr>
-                                                    <td>
+                                                    <td style="width:70%">
                                                     <input type="hidden" name="table4[{{$i}}][hiddenId]" value="{{ isset($data['id']) ? $data['id'] : '' }}">
-                                                        <input type="text" class="form-control form-control--custom" name="table4[{{$i}}][title]" value="{{ isset($data['title'])? $data['title'] : '' }}" required>
+
+                                                     <textarea name="table4[{{$i}}][title]" class="form-control form-control--custom" 
+                                                    style="width:100%; height:50px;border-style: ridge;" required>{{ isset($data['title'])? $data['title'] : '' }}</textarea>
+
+                                                        <!-- <input type="text" class="form-control form-control--custom" name="table4[{{$i}}][title]" value="{{ isset($data['title'])? $data['title'] : '' }}" required> -->
                                                     </td>
-                                                    <td class="text-center"> 
-                                                        <input type="text" class="form-control form-control--custom" name="table4[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" required>
+                                                    <td class="text-center" style="width:30%"> 
+                                                        <input type="text" class="form-control form-control--custom" name="table4[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" required style="height:50px;width:100%;border-style: ridge;">
                                                     </td>
                                                     <td><i class="fa fa-trash deleteBtn" aria-hidden="true" id="table4_{{$data['id']}}" style="font-size: 20px;color: #b21c1c;cursor: pointer;"></i></td>
                                                 </tr>  
@@ -406,13 +422,13 @@
                                 <table class="table mb-0 table--box-input">
                                     <thead class="thead-default">
                                         <tr>
-                                            <th class="table-data--xs">
+                                            <th class="table-data--xs" style = "border-style: ridge;">
                                                 #
                                             </th>
-                                            <th>
+                                            <th style = "border-style: ridge;">
                                                 तपशील
                                             </th>
-                                            <th class="table-data--md">
+                                            <th class="table-data--md" style = "border-style: ridge;">
                                                 रक्कम रु
                                             </th>
                                         </tr>
@@ -420,66 +436,66 @@
                                     <tbody>
                                     
                                         <tr>
-                                            <td>1.</td>
-                                            <td>
+                                            <td style = "border-style: ridge;">1.</td>
+                                            <td style = "border-style: ridge;">
                                                 मंडळाकडे देकारपत्र जरी केल्याच्या दिनांकापासून पहिल्या सहा
                                                 महिन्या पर्यंत भरणा करावयाची पहिल्या हफ्त्याची रक्कम
                                                 <input type="hidden" class="form-control form-control--custom" name="table5[1][title]" value="within_6months">
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input type="text" class="form-control form-control--custom" name="table5[1][amount]" value="{{ isset($summary['within_6months']) ? $summary['within_6months'] : '' }}" required>
 
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>2.</td>
-                                            <td>
+                                            <td style = "border-style: ridge;">2.</td>
+                                            <td style = "border-style: ridge;">
                                                 मंडळाकडे पहिले देकारपत्र जारी केल्याच्या दिनांकापासून एक
                                                 वर्षाच्या आत, भरणा करावयाची दुसऱ्या हफ्त्याची रक्कम तसेच
                                                 प्रत्यक्ष भरेपर्यंत प्रथम देकारपात्राच्या दिनांकापासून १२%
                                                 (दार तिमाहीला परिगणनीय दराने) अधिक रकमेचा भरणा करावा लागेल
                                                 <input type="hidden" class="form-control form-control--custom" name="table5[2][title]" value="within_1year">
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input type="text" class="form-control form-control--custom" name="table5[2][amount]" value="{{ isset($summary['within_1year']) ? $summary['within_1year'] : '' }}" required>
 
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>3.</td>
-                                            <td>
+                                            <td style = "border-style: ridge;">3.</td>
+                                            <td style = "border-style: ridge;">
                                                 मंडळाकडे पहिले देकारपत्र जारी केल्याच्या दिनांकापासून दोन
                                                 वर्षाच्या आत, भरणा करावयाची तीसऱ्या हफ्त्याची रक्कम तसेच
                                                 प्रत्यक्ष भरेपर्यंत प्रथम देकारपात्राच्या दिनांकापासून १२%
                                                 (दर तिमाहीला परिगणनीय दराने) अधिक रकमेचा भरणा करावा लागेल
                                                 <input type="hidden" class="form-control form-control--custom" name="table5[3][title]" value="within_2year">
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input type="text" class="form-control form-control--custom" name="table5[3][amount]" value="{{ isset($summary['within_2year']) ? $summary['within_2year'] : '' }}" required>
 
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>4.</td>
-                                            <td>
+                                            <td style = "border-style: ridge;">4.</td>
+                                            <td style = "border-style: ridge;">
                                                 मंडळाकडे पहिले देकारपत्र जारी केल्याच्या दिनांकापासून तीन
                                                 वर्षाच्या आत, भरणा करावयाची चौथ्या हफ्त्याची रक्कम तसेच
                                                 प्रत्यक्ष भरेपर्यंत प्रथम देकारपात्राच्या दिनांकापासून १२%
                                                 (दर तिमाहीला परिगणनीय दराने) अधिक रकमेचा भरणा करावा लागेल
                                                 <input type="hidden" class="form-control form-control--custom" name="table5[4][title]" value="within_3year">
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input type="text" class="form-control form-control--custom" name="table5[4][amount]" value="{{ isset($summary['within_3year']) ? $summary['within_3year'] : '' }}" required>
 
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>5.</td>
-                                            <td class="font-weight-bold">
+                                            <td style = "border-style: ridge;">5.</td>
+                                            <td class="font-weight-bold" style = "border-style: ridge;">
                                                 एकूण
                                                 <input type="hidden" class="form-control form-control--custom" name="table5[5][title]" value="total">
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input type="text" class="form-control form-control--custom" name="table5[5][amount]" value="{{ isset($summary['total']) ? $summary['total'] : '' }}" required>
                                             </td>
                                         </tr>
@@ -594,7 +610,7 @@
 
     function PrintElem(elem) {
 
-        // console.log(elem);
+        $(".subtn").css("display","none");
         $("#"+elem+"_btn").css("display","none");
         var printable = document.getElementById(elem).innerHTML;
 
@@ -611,6 +627,7 @@
         mywindow.print();
         mywindow.close();
         $("#"+elem+"_btn").css("display","block");
+        $(".subtn").css("display","block");
 
         return true;
     }           
