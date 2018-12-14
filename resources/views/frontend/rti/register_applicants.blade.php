@@ -24,15 +24,15 @@
                     <div class="m-login__signin">
                         <div class="m-login__head">
                             <h1 class="m-login__title mb-0 display-4">
-                                RTI Application Registration
+                                RTI Registration
                             </h1>
                             <p class="sub-title"></p>
                         </div>
                         <form class="m-login__form m-form" id="rti_application_form" method="post" action="{{route('rti_frontend_application')}}" enctype="multipart/form-data">
                             @csrf
-                            <p class="text-center">
-                                Application for obtaining information under the Right to Information Act, 2005
-                            </p>
+                            {{--<p class="text-center">--}}
+                                {{--Application for obtaining information under the Right to Information Act, 2005--}}
+                            {{--</p>--}}
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group m-form__group">
