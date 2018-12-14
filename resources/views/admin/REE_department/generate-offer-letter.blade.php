@@ -173,8 +173,7 @@
                                         <div class="mt-auto">
 
                                             @if($societyData->drafted_offer_letter)
-                                            <a href="{{config('commanConfig.storage_server').'/'.$societyData->drafted_offer_letter}}"
-                                                class="btn btn-primary">Download</a>
+                                            <a href="{{config('commanConfig.storage_server').'/'.$societyData->drafted_offer_letter}}" class="btn btn-primary" target="_blank">Download</a>
                                             @else
                                             <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
                                                 * Note : Offer Letter not available. </span>

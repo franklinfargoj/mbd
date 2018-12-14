@@ -3176,3 +3176,9 @@ label.site-visit-label {
 .m-portlet .dt-buttons {
     display: none;
 }
+
+@media print {
+    body {
+        background: red;
+    }
+}
