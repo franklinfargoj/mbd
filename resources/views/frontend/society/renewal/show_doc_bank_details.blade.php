@@ -81,7 +81,7 @@
                                            class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
                                                 Download</button></a>
                                         @if($sc_application->srApplicationLog->status_id == 4)
-                                            <a href="{{ route('delete_sr_upload_docs', base64_encode($document->id)) }}" data-value='{{ $document->id }}'
+                                            <a href="{{ route('delete_sr_upload_docs', encrypt($document->id)) }}" data-value='{{ $document->id }}'
                                                class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
                                                     <i class="fa fa-trash"></i></button></a>
                                         @endif

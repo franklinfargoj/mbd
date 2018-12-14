@@ -126,19 +126,18 @@
     @if(in_array(session()->get('role_name'),$renewalRoles))
     @if($renewalDashboard)
     <div class="hearing-accordion-wrapper">
-        <div class="m-portlet m-portlet--compact conveyance-accordion mb-0">
+        <div class="m-portlet m-portlet--compact renewal-accordion mb-0">
             <div class="d-flex justify-content-between align-items-center">
                 <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
                     data-toggle="collapse" href="#renewal_dashboard">
                     <span class="form-accordion-title">Applications for Society Renewal</span>
-                    <span class="accordion-icon conveyance-accordion-icon"></span>
+                    <span class="accordion-icon renewal-accordion-icon"></span>
                 </a>
             </div>
         </div>
         <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="renewal_dashboard"
             data-parent="#accordion">
             <div class="row hearing-row">
-                @php $chart = 0; @endphp
             @foreach($renewalDashboard[0] as $header => $value)
                 <div class="col">
                     <div class="m-portlet app-card text-center">
@@ -153,39 +152,16 @@
                             @else
                             <a href="{{url($value[1])}}" class="app-card__details mb-0">View Details</a>
                             @endif
-                            @php $chart += $value[0]; @endphp
+                            @php $chart3 += $value[0]; @endphp
                         </div>
                         {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
                     </div>
                 </div>
                 @endforeach
-                    @if($chart)
-                        <div id="conveyance_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
+                    @if($chart3)
+                        <div id="renewal_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
                     @endif
             </div>
-            @if($renewalPendingApplications && session()->get('role_name') == config('commanConfig.dyco_engineer'))
-                <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse " id="pending_at_dept"
-                     data-parent="#accordion">
-                    @php $chart = 0; @endphp
-                    <div class="row hearing-row">
-                        @foreach($renewalPendingApplications as $header => $value)
-                            <div class="col">
-                                <div class="m-portlet app-card text-center">
-                                    <h2 class="app-heading">{{$header}}</h2>
-                                    <div class="app-card-footer">
-                                        <h2 class="app-no mb-0">{{$value}}</h2>
-                                        @php $chart += $value; @endphp
-                                        {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    @if($chart)
-                        <div id="pending_conveyance_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
-                    @endif
-                </div>
-            @endif
         </div>
     </div>
     @endif
@@ -382,6 +358,21 @@
             }
         });
     </script>
+    <script>
+        $(".renewal-accordion").on("click", function () {
+            var data = $('.renewal-accordion').children().children().attr('aria-expanded');
+            if (!(data)) {
+                $('.renewal-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+            } else {
+                if (data == 'undefine' || data == 'false') {
+                    $('.renewal-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                } else {
+                    $('.renewal-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                }
+            }
+        });
+    </script>
+
     <script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>
     @if($chart)
@@ -507,6 +498,47 @@
         });
         @endif
     </script>
+    @endif
+    @if($chart3)
+        <script>
+            var chart3;
+            var legend;
+
+
+            var chartData3 = [
+
+                    @foreach($renewalDashboard[0] as $header => $value)
+                    @if($header != 'Total No of Applications') {
+                    "status": '{{$header}}',
+                    "value": '{{$value[0]}}',
+                },
+                @endif
+                @endforeach
+
+            ];
+
+            AmCharts.ready(function () {
+                // PIE CHART
+                chart3 = new AmCharts.AmPieChart();
+                chart3.dataProvider = chartData3;
+                chart3.titleField = "status";
+                chart3.valueField = "value";
+                chart3.outlineColor = "#FFFFFF";
+                chart3.outlineAlpha = 0.8;
+                chart3.outlineThickness = 2;
+                chart3.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+                // this makes the chart 3D
+                chart3.depth3D = 15;
+                chart3.angle = 30;
+                chart3.colors = ["#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999",
+                    "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"
+                ]
+                //
+                // WRITE
+                chart3.write("renewal_chart");
+            });
+
+        </script>
     @endif
 
 

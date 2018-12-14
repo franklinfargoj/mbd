@@ -16,9 +16,9 @@
                             </tr>
                         </tbody>
                     </table>
-                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">मुंबई गृहनिर्माण व क्षेत्रविकास मंडळ,</p>
-                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">गृहनिर्माण भवन, वांद्रे (पुर्व),</p>
-                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">मुंबई - ४०००५१.</p>
+                    <p style="display: block; margin-top: 3px; margin-bottom: 3px;">मुंबई गृहनिर्माण व क्षेत्रविकास मंडळ,</p>
+                    <p style="display: block; margin-top: 3px; margin-bottom: 3px;">गृहनिर्माण भवन, वांद्रे (पुर्व),</p>
+                    <p style="display: block; margin-top: 3px; margin-bottom: 3px;">मुंबई - ४०००५१.</p>
                 </p>
             </div>
         </div>

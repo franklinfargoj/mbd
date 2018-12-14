@@ -115,7 +115,7 @@
                     </a>
                 </div>
             </div>
-            <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="conveyance-summary"
+            <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="conveyance-summary"
                  data-parent="#accordion">
                 <div class="row hearing-row">
                     @foreach($conveyanceDashboard[0] as $header => $value)
@@ -516,37 +516,37 @@
     <script>
         var chart2;
         var legend;
-        @if($pendingApplications)
+                @if($pendingApplications)
         var chartData2 = [
-                @foreach($pendingApplications as $header => $value)
-            {
-                "status": "{{$header}}",
-                "value": "{{$value}}",
-            },
-            @endforeach
-        ];
+                        @foreach($pendingApplications as $header => $value)
+                {
+                        "status": "{{$header}}",
+                        "value": "{{$value}}",
+                },
+                    @endforeach
+            ];
 
         AmCharts.ready(function () {
             // PIE CHART
-            chart2 = new AmCharts.AmPieChart();
-            chart2.dataProvider = chartData2;
-            chart2.titleField = "status";
-            chart2.valueField = "value";
-            chart2.outlineColor = "#FFFFFF";
-            chart2.outlineAlpha = 0.8;
-            chart2.outlineThickness = 2;
-            chart2.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+                chart2 = new AmCharts.AmPieChart();
+                chart2.dataProvider = chartData2;
+                chart2.titleField = "status";
+                chart2.valueField = "value";
+                chart2.outlineColor = "#FFFFFF";
+                chart2.outlineAlpha = 0.8;
+                chart2.outlineThickness = 2;
+                chart2.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
             // this makes the chart 3D
-            chart2.depth3D = 15;
-            chart2.angle = 30;
-            chart2.colors = [ "#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999", "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"]
-//
+                chart2.depth3D = 15;
+                chart2.angle = 30;
+                chart2.colors = [ "#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999", "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"]
+            //
             // WRITE
             chart2.write("pending_conveyance_chart");
         });
         @endif
     </script>
-
+    @endif
     @if($chart3)
     <script>
         var chart3;
@@ -555,9 +555,9 @@
                 @if($renewalDashboard[0])
         var chartData3 = [
                         @foreach($renewalDashboard[0] as $header => $value)     {
-                        @if(!($header == 'Total No of Applications'))
+                                @if(!($header == 'Total No of Applications'))
                         "status": '{{$header}}',
-                    "value": '{{$value[0]}}',
+                        "value": '{{$value[0]}}',
                         @endif
                 },
                     @endforeach
@@ -567,20 +567,20 @@
 
         AmCharts.ready(function () {
             // PIE CHART
-            chart3 = new AmCharts.AmPieChart();
-            chart3.dataProvider = chartData3;
-            chart3.titleField = "status";
-            chart3.valueField = "value";
-            chart3.outlineColor = "#FFFFFF";
-            chart3.outlineAlpha = 0.8;
-            chart3.outlineThickness = 2;
-            chart3.balloonText =
-                "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+                chart3 = new AmCharts.AmPieChart();
+                chart3.dataProvider = chartData3;
+                chart3.titleField = "status";
+                chart3.valueField = "value";
+                chart3.outlineColor = "#FFFFFF";
+                chart3.outlineAlpha = 0.8;
+                chart3.outlineThickness = 2;
+                chart3.balloonText =
+                        "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
             // this makes the chart 3D
-            chart3.depth3D = 15;
-            chart3.angle = 30;
-            chart3.colors = ["#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999",
-                "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"
+                chart3.depth3D = 15;
+                chart3.angle = 30;
+                chart3.colors = ["#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999",
+                    "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"
             ]
             //
             // WRITE
@@ -588,7 +588,7 @@
         });
         @endif
     </script>
-    @endif 
+    @endif
 
     @if($chart4)
     <script>
@@ -608,20 +608,20 @@
 
         AmCharts.ready(function () {
             // PIE CHART
-            chart4 = new AmCharts.AmPieChart();
-            chart4.dataProvider = chartData4;
-            chart4.titleField = "status";
-            chart4.valueField = "value";
-            chart4.outlineColor = "#FFFFFF";
-            chart4.outlineAlpha = 0.8;
-            chart4.outlineThickness = 2;
-            chart4.balloonText =
-                "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+                chart4 = new AmCharts.AmPieChart();
+                chart4.dataProvider = chartData4;
+                chart4.titleField = "status";
+                chart4.valueField = "value";
+                chart4.outlineColor = "#FFFFFF";
+                chart4.outlineAlpha = 0.8;
+                chart4.outlineThickness = 2;
+                chart4.balloonText =
+                        "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
             // this makes the chart 3D
-            chart4.depth3D = 15;
-            chart4.angle = 30;
-            chart4.colors = ["#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999",
-                "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"
+                chart4.depth3D = 15;
+                chart4.angle = 30;
+                chart4.colors = ["#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999",
+                    "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"
             ]
             //
             // WRITE
@@ -629,6 +629,5 @@
         });
         @endif
     </script>
-    @endif     
     @endif
 @endsection
