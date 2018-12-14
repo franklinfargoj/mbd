@@ -7,27 +7,27 @@ Breadcrumbs::for('rti_applicants', function ($trail) {
 
 Breadcrumbs::for('view_applicant', function ($trail,$id) {
     $trail->parent('rti_applicants');
-    $trail->push('View Application/', route('view_applicant',$id));
+    $trail->push('View Application', route('view_applicant',$id));
 });
 
 Breadcrumbs::for('schedule_meeting', function ($trail,$id) {
     $trail->parent('rti_applicants');
-    $trail->push('Schedule Meeting/', route('schedule_meeting',$id));
+    $trail->push('Schedule Meeting', route('schedule_meeting',$id));
 });
 
 Breadcrumbs::for('update_status', function ($trail,$id) {
     $trail->parent('rti_applicants');
-    $trail->push('Update Status/', route('update_status',$id));
+    $trail->push('Update Status', route('update_status',$id));
 });
 
 Breadcrumbs::for('rti_send_info', function ($trail,$id) {
     $trail->parent('rti_applicants');
-    $trail->push('RTI Send Info/', route('rti_send_info',$id));
+    $trail->push('RTI Send Info', route('rti_send_info',$id));
 });
 
 Breadcrumbs::for('rti_forwarded_application', function ($trail,$id) {
     $trail->parent('rti_applicants');
-    $trail->push('RTI Forward Application/', route('rti_forwarded_application',$id));
+    $trail->push('RTI Forward Application', route('rti_forwarded_application',$id));
 });
 
 //Resolution
@@ -42,12 +42,12 @@ Breadcrumbs::for('resolution_create', function ($trail) {
  
 Breadcrumbs::for('resolution_edit', function ($trail,$id) {
 	$trail->parent('resolution');
-    $trail->push('Edit Resolution/', route('resolution.edit',$id));
+    $trail->push('Edit Resolution', route('resolution.edit',$id));
 });
 
 Breadcrumbs::for('resolution_view', function ($trail,$id) {
     $trail->parent('resolution');
-    $trail->push('View Resolution/', route('resolution.view',$id));
+    $trail->push('View Resolution', route('resolution.view',$id));
 });
 
 //Land
