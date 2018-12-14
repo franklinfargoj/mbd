@@ -106,7 +106,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     // RTI Routes
 
-    Route::get('rti_form','RtiFormController@showFrontendForm')->name('rti_form');
+//    Route::get('rti_form','RtiFormController@showFrontendForm')->name('rti_form');
 // Route::post('rti_form','RtiFormController@saveFrontendForm');
     Route::get('rti_form_success','RtiFormController@rtiFormSuccess')->name('rti_form_success');
     Route::get('rti_form_success_close','RtiFormController@rtiFormSuccessClose')->name('rti_form_success_close');
@@ -742,7 +742,9 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
     
 });
 
+// RTI Routes
 
+Route::get('rti_form','RtiFormController@showFrontendForm')->name('rti_form');
 
 
 
