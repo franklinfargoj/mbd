@@ -27,15 +27,22 @@
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
                     <div class="row align-items-center mb-0">                            
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group m-form__group">
                                 <form action="{{url('view_calculations/'.encrypt($data['tenant']->id).'/'.$data['year'])}}" method="get" class="view_calculations">
-                                <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="year" name="selectYear" required>
-                                    <option value="" style="font-weight: normal;">Select Year</option>
-                                    @foreach($data['years'] as $key => $value)
-                                        <option @if($value == $data['year']) selected @endif value="{{$value}}">{{ $value }}</option>
-                                    @endforeach
-                                </select>
+                                <div class="row">   
+                                    <div class="col-md-4">   
+                                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="year" name="selectYear" required>
+                                            <option value="" style="font-weight: normal;">Select Year</option>
+                                            @foreach($data['years'] as $key => $value)
+                                                <option @if($value == $data['year']) selected @endif value="{{$value}}">{{ $value }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="submit" value="Search" class="submit-button btn m-btn--pill m-btn--custom btn-primary">
+                                    </div>
+                                </div>
                                 </form>
                             </div>
                         </div>   
@@ -73,8 +80,6 @@
 @section('datatablejs')
 {!! $html->scripts() !!}
 <script type="text/javascript">
-    $('#year').on('change',function(){
-        $('.view_calculations').submit();
-    });
+ 
 </script>
 @endsection
