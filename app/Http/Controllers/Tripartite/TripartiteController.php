@@ -128,8 +128,9 @@ class TripartiteController extends Controller
         return view('admin.tripartite.view_society_documents', compact('ol_application'));
     }
 
-    public function get_tripartite_agreements($ol_application, $agreement_type)
+    public function get_tripartite_agreements($ol_application_id, $agreement_type)
     {
+        $ol_application = $this->comman->getOlApplication($ol_application_id);
         $document_type_id = $ol_application->application_master_id;
         $agreement_type = $agreement_type;
         $OlSocietyDocumentsMaster = OlSocietyDocumentsMaster::where(['application_id' => $document_type_id, 'name' => $agreement_type])->first();
@@ -219,7 +220,7 @@ class TripartiteController extends Controller
         $this->set_tripartite_agreements($ol_application, config('commanConfig.tripartite_agreements.text'), $filePath1);
         $this->set_tripartite_agreements($ol_application, config('commanConfig.tripartite_agreements.drafted'), $filePath, $this->get_document_status_by_name('Draft'));
 
-        if ((session()->get('role_name') == config('commanConfig.ree_junior')) && $this->get_tripartite_agreements($ol_application, config('commanConfig.tripartite_agreements.drafted')) != null) {
+        if ((session()->get('role_name') == config('commanConfig.ree_junior')) && $this->get_tripartite_agreements($ol_application->id, config('commanConfig.tripartite_agreements.drafted')) != null) {
             return back()->with('success', 'Agreement generated successfully.');
         }
     }
@@ -269,9 +270,9 @@ class TripartiteController extends Controller
         $applicationId = decrypt($applicationId);
         $ol_application = $this->comman->getOlApplication($applicationId);
         $applicationLog = $this->comman->getCurrentStatus($applicationId);
-        $tripartite_agrement['text_agreement_name'] = $this->get_tripartite_agreements($ol_application, config('commanConfig.tripartite_agreements.text'));
-        $tripartite_agrement['drafted_tripartite_agreement'] = $this->get_tripartite_agreements($ol_application, config('commanConfig.tripartite_agreements.drafted'));
-        $tripartite_agrement['drafted_signed_tripartite_agreement'] = $this->get_tripartite_agreements($ol_application, config('commanConfig.tripartite_agreements.drafted_signed'));
+        $tripartite_agrement['text_agreement_name'] = $this->get_tripartite_agreements($ol_application->id, config('commanConfig.tripartite_agreements.text'));
+        $tripartite_agrement['drafted_tripartite_agreement'] = $this->get_tripartite_agreements($ol_application->id, config('commanConfig.tripartite_agreements.drafted'));
+        $tripartite_agrement['drafted_signed_tripartite_agreement'] = $this->get_tripartite_agreements($ol_application->id, config('commanConfig.tripartite_agreements.drafted_signed'));
         if ($tripartite_agrement['text_agreement_name'] != null) {
             $text_doc_path = $tripartite_agrement['text_agreement_name']->society_document_path;
             if ($text_doc_path != null) {
@@ -293,8 +294,9 @@ class TripartiteController extends Controller
     {
         $applicationId = decrypt($applicationId);
         $ol_application = $this->comman->getOlApplication($applicationId);
-        $ree_note = $this->get_tripartite_agreements($ol_application, config('commanConfig.tripartite_agreements.ree_note'));
-        return view('admin.tripartite.ree_note', compact('ol_application', 'ree_note', 'applicationId'));
+        $applicationLog = $this->comman->getCurrentStatus($applicationId);
+        $ree_note = $this->get_tripartite_agreements($ol_application->id, config('commanConfig.tripartite_agreements.ree_note'));
+        return view('admin.tripartite.ree_note', compact('ol_application', 'ree_note', 'applicationId','applicationLog'));
     }
 
     public function upload_ree_note(Request $request)
@@ -335,16 +337,25 @@ class TripartiteController extends Controller
         return $current_status;
     }
 
-    public function getForwardApplicationParentData()
+    public function getForwardApplicationParentData($society_id)
     {
         $result = array();
         if (session()->get('role_name') == config('commanConfig.co_engineer')) {
-            $role_id = Role::where('name', config('commanConfig.la_engineer'))->first();
-            $result[] = $role_id->id;
+            $roles = Role::whereIn('name', [config('commanConfig.la_engineer'),config('commanConfig.ree_junior')])->get();
+            foreach($roles as $role)
+            {
+                $result[] = $role->id;
+            }
         } else if (session()->get('role_name') == config('commanConfig.la_engineer')) {
             $role_id = Role::where('name', config('commanConfig.co_engineer'))->first();
             $result[] = $role_id->id;
-        } else{
+        } else if (session()->get('role_name') == config('commanConfig.ree_branch_head')) {
+            $SocietyOfferLetter= SocietyOfferLetter::find($society_id);
+            $society_user_id=$SocietyOfferLetter->user_id;
+            $society_user=User::where('id',$society_user_id)->get();
+            $role_id = Role::where('name', config('commanConfig.co_engineer'))->first();
+            $result[] = $role_id->id;
+        }else{
             $role_id = Role::where('id', auth()->user()->role_id)->first();
             //$result = json_decode($role_id->parent_id);
             $result[] = $role_id->parent_id;
@@ -360,6 +371,9 @@ class TripartiteController extends Controller
                     $q->where('layout_id', session('layout_id'));
                 })
                 ->whereIn('role_id', $result)->get();
+        }
+        if (session()->get('role_name') == config('commanConfig.ree_branch_head')) {
+            $parent = $parent->merge($society_user);
         }
         //dd($parent);
         return $parent;
@@ -404,7 +418,7 @@ class TripartiteController extends Controller
         
         $data->status = $this->getCurrentStatus($applicationId, $data->application_master_id);
         
-        $data->parent = $this->getForwardApplicationParentData();
+        $data->parent = $this->getForwardApplicationParentData($applicationId);
         
         $data->child = $this->getRevertApplicationChildData($society_id);
         return $data;
@@ -465,6 +479,36 @@ class TripartiteController extends Controller
         return $reeLogs;
     }
 
+    public function get_master_log_of_status($data_logs)
+    {
+        $master_log=array();
+        foreach($data_logs as $data_log)
+        {
+            foreach($data_log as $log)
+            {
+                if($log->status_id == config('commanConfig.applicationStatus.forward'))
+                {
+                $status = 'Forwarded';
+                }
+                elseif($log->status_id ==config('commanConfig.applicationStatus.reverted'))
+                {
+                $status = 'Reverted';
+                }else
+                {
+                    $status='';
+                }
+                $master_log[$log->id]['role_id']=(isset($log) && $log->created_at != '' ? $log->getCurrentRole->name : '');
+                $master_log[$log->id]['date']=(isset($log) && $log->created_at != '' ? date("d-m-Y",strtotime($log->created_at)) : '');
+                $master_log[$log->id]['time']=(isset($log) && $log->created_at != '' ? date("H:i",strtotime($log->created_at)) : '');
+                $master_log[$log->id]['action']=$status.' to '.(isset($log->getRoleName->display_name)?$log->getRoleName->display_name : '');
+                $master_log[$log->id]['description']=(isset($log)? $log->remark : '');
+            }
+        }
+        ksort($master_log);
+        return $master_log;
+        
+    }
+
     public function forward_application($applicationId)
     {
         $applicationId = decrypt($applicationId);
@@ -475,7 +519,8 @@ class TripartiteController extends Controller
         $ReeLogs = $this->getLogsOfReeDepartment($applicationId);
         $CoLogs = $this->getLogsOfCoDepartment($applicationId);
         $LaLogs = $this->getLogsOfLaDepartment($applicationId);
-        return view('admin.tripartite.forward_application',compact('ol_application','applicationId','tripartite_application','data','societyLogs','ReeLogs','CoLogs','LaLogs'));
+        $master_log=$this->get_master_log_of_status(array($societyLogs,$ReeLogs,$CoLogs,$LaLogs));
+        return view('admin.tripartite.forward_application',compact('master_log','ol_application','applicationId','tripartite_application','data','societyLogs','ReeLogs','CoLogs','LaLogs'));
     }
 
     public function saveForwardApplication(Request $request)

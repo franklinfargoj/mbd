@@ -23,6 +23,11 @@ class OlApplicationStatus extends Model
         return $this->hasOne('App\Role', 'id','to_role_id');
     }
 
+    public function getCurrentRole()
+    {
+        return $this->hasOne('App\Role', 'id','role_id');
+    }
+
     public function getRole()
     {
         return $this->hasOne('App\Role', 'id','role_id');

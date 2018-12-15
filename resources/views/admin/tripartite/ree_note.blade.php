@@ -70,7 +70,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if(session()->get('role_name')==config('commanConfig.ree_junior'))
+                                    @if(session()->get('role_name')==config('commanConfig.ree_junior') && $applicationLog->status_id
+                                    !=config('commanConfig.applicationStatus.forwarded'))
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload Ree Note</h5>

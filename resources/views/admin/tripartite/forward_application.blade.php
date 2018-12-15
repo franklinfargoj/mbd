@@ -117,152 +117,43 @@
                 </div>
             </div>
             <div class="tab-content">
-
                 <div class="tab-pane active show" id="scrutiny-history-tab">
-                    <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
-                        <div class="portlet-body">
-                            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
-                                <div class="border-bottom pb-2">
-                                    <h3 class="section-title section-title--small mb-2">
-                                        Remark History:
-                                    </h3>
-                                    <span class="hint-text d-block t-remark">Remark by Ree Department</span>
+                        <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
+                            <div class="portlet-body">
+                                <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
+                                    <table class="table">
+                                        <thead class="thead-default">
+                                            <tr>
+                                                <th>Role</th>
+                                                <th>Date</th>
+                                                <th>Time</th>
+                                                <th>Action</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+    
+                                            @forelse($master_log as $log)
+                                            <tr>
+                                                <td>{{$log['role_id']}}</td>
+                                                <td>{{$log['date']}}</td>
+                                                <td>{{$log['time']}}</td>
+                                                <td>{{$log['action']}}</td>
+                                                <td>{{$log['description']}}</td>
+                                            </tr>
+                                            @empty
+                                            <tr>
+                                                <td colspan="5">No Records Found</td>
+                                            </tr>
+                                            @endforelse
+    
+                                        </tbody>
+                                    </table>
                                 </div>
-                                @if(count($ReeLogs) > 0)
-                                <div class="remark-body">
-                                    <div class="remarks-section">
-                                        <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
-                                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
-
-                                            @foreach($ReeLogs as $log)
-
-                                            @if($log->status_id == config('commanConfig.formation_status.forwarded'))
-                                            @php $status = 'Forwarded'; @endphp
-                                            @elseif($log->status_id ==
-                                            config('commanConfig.formation_status.reverted'))
-                                            @php $status = 'Reverted'; @endphp
-                                            @endif
-
-                                            <div class="remarks-section__data">
-                                                <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log)
-                                                        && $log->created_at != '' ? date("d-m-Y",
-                                                        strtotime($log->created_at)) : '')}}</span>
-
-                                                </p>
-                                                <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log)
-                                                        && $log->created_at != '' ? date("H:i",
-                                                        strtotime($log->created_at)) : '')}}</span></p>
-                                                <p class="remarks-section__data__row"><span>Action:</span>
-
-                                                    <span>{{$status}} to {{isset($log->getRoleName->display_name) ?
-                                                        $log->getRoleName->display_name : ''}} From
-                                                        {{isset($log->getRole->display_name) ?
-                                                        $log->getRole->display_name : ''}}</span></p>
-                                                <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log)
-                                                        ? $log->remark : '')}}</span></p>
-                                            </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                                @endif
                             </div>
-
-                            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
-                                <div class="border-bottom pb-2">
-                                    <h3 class="section-title section-title--small mb-2">
-                                        Remark History:
-                                    </h3>
-                                    <span class="hint-text d-block t-remark">Remark by Co</span>
-                                </div>
-                                @if(count($CoLogs) > 0)
-                                <div class="remark-body">
-                                    <div class="remarks-section">
-                                        <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
-                                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
-
-                                            @foreach($CoLogs as $log)
-
-                                            @if($log->status_id == config('commanConfig.formation_status.forwarded'))
-                                            @php $status = 'Forwarded'; @endphp
-                                            @elseif($log->status_id ==
-                                            config('commanConfig.formation_status.reverted'))
-                                            @php $status = 'Reverted'; @endphp
-                                            @endif
-
-                                            <div class="remarks-section__data">
-                                                <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log)
-                                                        && $log->created_at != '' ? date("d-m-Y",
-                                                        strtotime($log->created_at)) : '')}}</span>
-
-                                                </p>
-                                                <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log)
-                                                        && $log->created_at != '' ? date("H:i",
-                                                        strtotime($log->created_at)) : '')}}</span></p>
-                                                <p class="remarks-section__data__row"><span>Action:</span>
-
-                                                    <span>{{$status}} to {{isset($log->getRoleName->display_name) ?
-                                                        $log->getRoleName->display_name : ''}} From
-                                                        {{isset($log->getRole->display_name) ?
-                                                        $log->getRole->display_name : ''}}</span></p>
-                                                <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log)
-                                                        ? $log->remark : '')}}</span></p>
-                                            </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                                @endif
-                            </div>
-                            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
-                                    <div class="border-bottom pb-2">
-                                        <h3 class="section-title section-title--small mb-2">
-                                            Remark History:
-                                        </h3>
-                                        <span class="hint-text d-block t-remark">Remark by La</span>
-                                    </div>
-                                    @if(count($LaLogs) > 0)
-                                    <div class="remark-body">
-                                        <div class="remarks-section">
-                                            <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
-                                                data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
-    
-                                                @foreach($LaLogs as $log)
-    
-                                                @if($log->status_id == config('commanConfig.formation_status.forwarded'))
-                                                @php $status = 'Forwarded'; @endphp
-                                                @elseif($log->status_id ==
-                                                config('commanConfig.formation_status.reverted'))
-                                                @php $status = 'Reverted'; @endphp
-                                                @endif
-    
-                                                <div class="remarks-section__data">
-                                                    <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log)
-                                                            && $log->created_at != '' ? date("d-m-Y",
-                                                            strtotime($log->created_at)) : '')}}</span>
-    
-                                                    </p>
-                                                    <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log)
-                                                            && $log->created_at != '' ? date("H:i",
-                                                            strtotime($log->created_at)) : '')}}</span></p>
-                                                    <p class="remarks-section__data__row"><span>Action:</span>
-    
-                                                        <span>{{$status}} to {{isset($log->getRoleName->display_name) ?
-                                                            $log->getRoleName->display_name : ''}} From
-                                                            {{isset($log->getRole->display_name) ?
-                                                            $log->getRole->display_name : ''}}</span></p>
-                                                    <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log)
-                                                            ? $log->remark : '')}}</span></p>
-                                                </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @endif
-                                </div>
                         </div>
                     </div>
-                </div>
+                    
 
                 <div class="tab-pane show" id="forward-application-tab">
                     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">

@@ -106,7 +106,8 @@ $disabled=isset($disabled)?$disabled:0;
     </div>
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body" style="padding-right: 0;">
-            @if($societyData['ree_Jr_id'])
+            @if($societyData['ree_Jr_id'] && $applicationLog->status_id
+            !=config('commanConfig.applicationStatus.forwarded'))
             <h3 class="section-title section-title--small mb-0">Tripartite Agreement:</h3>
             <div class=" row-list">
                 <div class="row">
@@ -173,7 +174,7 @@ $disabled=isset($disabled)?$disabled:0;
                     <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container" data-scrollbar-shown="true"
                         data-scrollable="true" data-max-height="150">
                         <div class="remarks-section__data">
-                            <p class="remarks-section__data__row"><span>Remark By {{
+                        <p class="remarks-section__data__row"><span>{{config('commanConfig.la_engineer')==$history->Roles->name?'Riders By':'Remark By'}} {{
                                     isset($history->Roles->display_name) ? $history->Roles->display_name : '' }}</p>
                             <p class="">
                                 {{-- <span>Remark:</span> --}}
@@ -187,10 +188,16 @@ $disabled=isset($disabled)?$disabled:0;
         </div>
     </div>
     @endif
-    @if(session()->get('role_name')==config('commanConfig.ree_junior') || session()->get('role_name')==config('commanConfig.co_engineer') || session()->get('role_name')==config('commanConfig.la_engineer'))
+
+    @if((session()->get('role_name')==config('commanConfig.ree_junior') || session()->get('role_name')==config('commanConfig.co_engineer') || session()->get('role_name')==config('commanConfig.la_engineer')) && $applicationLog->status_id
+    !=config('commanConfig.applicationStatus.forwarded'))
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body">
+            @if(session()->get('role_name')==config('commanConfig.la_engineer'))
+            <h3 class="section-title section-title--small">Riders by LA</h3>
+            @else
             <h3 class="section-title section-title--small">Remark</h3>
+            @endif
             <div class="col-xs-12 row">
                 <div class="col-md-12">
                     <form action="{{route('tripartite.setTripartiteRemark')}}" method="POST">

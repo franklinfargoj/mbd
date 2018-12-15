@@ -295,9 +295,47 @@ class CoPermissionSeeder extends Seeder
                 'name'=>'co.dashboard',
                 'display_name'=>'CO Offer Letter Dashboard',
                 'description'=>'CO Offer Letter Dashboard'
+            ],
+            [
+                'name'=>'tripartite.index',
+                'display_name'=>'display tripartite list of application',
+                'description'=>'display tripartite list of application'
+            ],
+            [
+                'name'=>'tripartite.view_application',
+                'display_name'=>'view tripartite application submitted by society',
+                'description'=>'view tripartite application submitted by society'
+            ],
+            [
+                'name'=>'tripartite.view_society_documents',
+                'display_name'=>'tripartite.view_society_documents',
+                'description'=>'tripartite.view_society_documents'
+            ],
+            [
+                'name'=>'tripartite.tripartite_agreement',
+                'display_name'=>'tripartite.tripartite_agreement',
+                'description'=>'tripartite.tripartite_agreement'
+            ],
+            [
+                'name'=>'tripartite.ree_note',
+                'display_name'=>'tripartite.ree_note',
+                'description'=>'tripartite.ree_note'
+            ],
+            [
+                'name'=>'tripartite.setTripartiteRemark',
+                'display_name'=>'tripartite.setTripartiteRemark',
+                'description'=>'tripartite.setTripartiteRemark'
+            ],
+            [
+                'name'=>'tripartite.forward_application',
+                'display_name'=>'tripartite.forward_application',
+                'description'=>'tripartite.forward_application'
+            ],
+            [
+                'name'=>'tripartite.post_forward_application',
+                'display_name'=>'tripartite.post_forward_application',
+                'description'=>'tripartite.post_forward_application'
             ]
-
-
         ];
         $ree_role_id = Role::where('name', 'ree_engineer')->value('id');
         if ($ree_role_id == null) {
