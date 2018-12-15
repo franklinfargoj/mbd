@@ -77,7 +77,7 @@ class OlApplicationMasterTableSeeder extends Seeder
             ]);
             OlApplicationMaster::create([
                 'parent_id'       =>  $application->id,
-                'route_name' => 'show_form_self',
+                'route_name' => 'show_tripatite_self',
                 'title'   => "Tripartite Agreement",
                 'model'   => "Sharing",
             ]);
@@ -148,7 +148,7 @@ class OlApplicationMasterTableSeeder extends Seeder
         ]);
         OlApplicationMaster::create([
             'parent_id'       =>  $application->id,
-            'route_name' => 'show_form_self',
+            'route_name' => 'show_tripatite_dev',
             'title'   => "Tripartite Agreement",
             'model'   => "Sharing",
         ]);

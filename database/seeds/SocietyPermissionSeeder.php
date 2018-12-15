@@ -518,6 +518,16 @@ class SocietyPermissionSeeder extends Seeder
                 'display_name' => 'Download society oc application',
                 'description'  => 'Download society oc application'
             ],
+            [
+                'name'         => 'save_tripatite_self',
+                'display_name' => 'Saves Tripartite Agreement Application form',
+                'description'  => 'Saves Tripartite Agreement Application form'
+            ],
+            [
+                'name'         => 'save_tripatite_dev',
+                'display_name' => 'Saves Tripartite Agreement Application form',
+                'description'  => 'Saves Tripartite Agreement Application form'
+            ],
         ];
         
         if(count($society)==0){

@@ -17,6 +17,12 @@ class OlRequestForm extends Model
         'ol_issue_date',
         'reason_for_revalidation',
         'construction_details',
-        'is_full_oc'
+        'is_full_oc',
+        'offer_letter_number',
+        'offer_letter_date',
+        'revised_offer_letter_number',
+        'revised_offer_letter_date',
+        'noc_for_iod_purpose_number',
+        'noc_for_iod_purpose_date'
     ];
 }

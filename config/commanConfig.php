@@ -82,6 +82,20 @@ return [
         'sent_to_society' => 7,
     ],*/
 
+    'tripartite_fields' => [
+        'offer_letter_number',
+        'offer_letter_date',
+        'revised_offer_letter_number',
+        'revised_offer_letter_date',
+        'noc_for_iod_purpose_number',
+        'noc_for_iod_purpose_date'
+    ],
+
+//    'society_details_fields' => [
+//        'layout_id',
+//        ''
+//    ],
+
     //conveyance status
 
     'conveyance_status' => [
