@@ -462,7 +462,12 @@ class EmPermissionSeeder extends Seeder
                 'name'=>'conveyance.dashboard',
                 'display_name'=>'conveyance dashboard',
                 'description'=>'conveyance dashboard'
-            ],                                      
+            ],
+            [
+                'name'=>'em.upload_renewal_covering_letter',
+                'display_name'=>'Upload Covering Letter',
+                'description'=>'Upload Covering Letter'
+            ],
         ];
 
         $permission_role = [];

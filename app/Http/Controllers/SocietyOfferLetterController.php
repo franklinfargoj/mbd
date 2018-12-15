@@ -287,7 +287,6 @@ class SocietyOfferLetterController extends Controller
         $self_parent = OlApplicationMaster::where('title', 'Self Redevelopment')->value('id');
         $dev_parent = OlApplicationMaster::where('title', 'Redevelopment Through Developer')->value('id');
 
-
         $getRequest = $request->all();
         $applications_tab = array(
             'self_pre_parent' => $self_parent.'_premium',
@@ -315,6 +314,9 @@ class SocietyOfferLetterController extends Controller
         $sc_application_count = count(SocietyConveyance::where('society_id', $society_details->id)->get());
         Session::put('sc_application_count', $sc_application_count);
 //        dd(Session::get('applications_tab')['self_premium']);
+
+        $oc_application_count = count(OcApplication::where('society_id', $society_details->id)->get());
+        Session::put('oc_application_count', $oc_application_count);
 
         //NOC changed added by <--Sayan Pal--> Start >>
 
@@ -345,6 +347,7 @@ class SocietyOfferLetterController extends Controller
         //NOC changed added by <--Sayan Pal--> << End
 
         if ($datatables->getRequest()->ajax()) {
+            $oc_master_ids_arr = config('commanConfig.oc_master_ids');
 
             $application_master_arr = OlApplicationMaster::Where('title', 'like', '%New - Offer Letter%')->orWhere('title', 'like', '%Revalidation Of Offer Letter%')->pluck('id')->toArray();
 
@@ -352,11 +355,26 @@ class SocietyOfferLetterController extends Controller
                 $q->where('society_flag', '1')->orderBy('id', 'desc');
             } ])->whereIn('application_master_id', $application_master_arr);
 
+
+           $oc_applications = OcApplication::where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+                $q->where('society_flag', '1')->orderBy('id', 'desc');
+            } ]);
+
             if($request->application_master_id)
             {
                 $ol_applications = $ol_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
+
+          //     $oc_applications = $oc_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
             }
+
             $ol_applications = $ol_applications->get();
+
+            $oc_applications = $oc_applications->get();
+
+          $ol_applications = $ol_applications->toBase()->merge($oc_applications);
+
+
+
 
             //NOC changed added by <--Sayan Pal--> Start >>
 
@@ -393,10 +411,12 @@ class SocietyOfferLetterController extends Controller
             // dd($ol_applications);exit;
             $reval_master_ids_arr = config('commanConfig.revalidation_master_ids');
 
+
             return $datatables->of($ol_applications)
-                ->editColumn('radio', function ($ol_applications) use($reval_master_ids_arr) {
+                ->editColumn('radio', function ($ol_applications) use($reval_master_ids_arr,$oc_master_ids_arr) {
                     $url = route('society_offer_letter_preview');
                     $reval_url = route('society_reval_offer_letter_preview');
+                    $oc_url= route('society_oc_preview');
                     $url_noc = route('society_noc_preview');
                     $url_noc_cc = route('society_noc_cc_preview');
 
@@ -413,6 +433,11 @@ class SocietyOfferLetterController extends Controller
                         return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$reval_url .'" name="ol_applications_id"><span></span></label>';
 
                     }
+                    elseif(in_array($ol_applications->application_master_id,$oc_master_ids_arr))
+                    {
+                        return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$oc_url .'" name="ol_applications_id"><span></span></label>';
+
+                    }
                     else{
 
                         return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="ol_applications_id"><span></span></label>';
@@ -423,7 +448,7 @@ class SocietyOfferLetterController extends Controller
                     $i++;
                     return $i;
                 })
-                ->editColumn('application_no', function ($ol_applications) use($reval_master_ids_arr) {
+                ->editColumn('application_no', function ($ol_applications) use($reval_master_ids_arr,$oc_master_ids_arr) {
 
 
 
@@ -438,6 +463,10 @@ class SocietyOfferLetterController extends Controller
                     elseif(in_array($ol_applications->application_master_id,$reval_master_ids_arr))
                     {
                         $app_type = "<br><span class='m-badge m-badge--success'>Revalidation Of Offer letter</span>";
+                    }
+                    elseif(in_array($ol_applications->application_master_id,$oc_master_ids_arr))
+                    {
+                        $app_type = "<br><span class='m-badge m-badge--success'>Consent For OC</span>";
                     }
                     else
                     {

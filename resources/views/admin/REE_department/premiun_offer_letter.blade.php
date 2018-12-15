@@ -35,9 +35,8 @@
                         </div>
                         <div style="clear: both;"></div>
                     </div>
-                    <h3 style="text-decoration: underline; text-align: center;">Offer Letter</h3>
-                        <p > </p>
-                    <div style="margin-top: -15px;">
+                    <h3 style="text-decoration: underline; text-align: center; margin-bottom: 30px;">Offer Letter</h3>
+                    <div>
                         <p style="margin-bottom:0; line-height:0.25;">To,</p>
                         <span style="margin-bottom:0; line-height:0.25;">The Secretary,</span>
                         <p style="margin-bottom:0; line-height:0.25;">{{$calculationData->eeApplicationSociety->name}}</p>
@@ -139,7 +138,7 @@
                     <table style="width: 100%; text-align: center; border-collapse: collapse;">
                         <thead style="text-align: center;">
                             <tr>
-                                <th style="width: 4%; border: 1px solid #000; padding: 5px 10px">Sr.No</th>
+                                <th style="width: 10%; border: 1px solid #000; padding: 5px 10px">Sr.No</th>
                                 <th style="width: 65%; border: 1px solid #000; padding: 5px 10px">Particular</th>
                                 <th style="width: 35%; border: 1px solid #000; padding: 5px 10px">Amount in Rs.</th>
                             </tr>
@@ -286,7 +285,8 @@
                 <!-- Table 1 ends here -->
 
                 <!-- Table 2 starts here -->
-                <div style="margin-top: 50px;">
+
+                <div style="margin-top: 100px;">
 
                     <div style="text-align: center;">
                         <h3 style="text-transform: uppercase; font-weight: bold;">As per Authority Resolution No. 6749 dt.
@@ -608,12 +608,12 @@
                             giving any reason to do so.</div>
                         <div style="clear: both;"></div>                         
 
-                        <p style="margin-bottom: 5px; margin-top: 5px; font-weight: bold;">(Draft approved by CO/MB)</p>
                         <div>
                             <div style="float: left; width: 70%">
                             </div>
-                            <div style="margin-bottom: 5px; margin-top: 5px; font-weight: bold; float: left; width: 30%;">
+                            <div style="font-weight: bold; float: left; width: 30%;">
                                 <div style="text-align: center;">
+                                <span style="display: block;">(Draft approved by CO/MB)</span>
                                     <span style="display: block;">Sd/-</span>
                                     <span style="display: block;">(Bhushan R. Desai)</span>
                                     <span style="display: block; font-weight: bold;">Resident Executive Engineer.</span>

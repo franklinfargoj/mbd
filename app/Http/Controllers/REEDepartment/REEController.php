@@ -38,6 +38,7 @@ use File;
 use Storage;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
+use Mpdf\Mpdf;
 
 class REEController extends Controller
 {
@@ -490,24 +491,32 @@ class REEController extends Controller
     }
 // 
     public function saveOfferLetter(Request $request){
-
+      
         $id = $request->applicationId;
         $content = str_replace('_', "", $_POST['ckeditorText']);
         $folder_name = 'Draft_offer_letter';
 
         $header_file = view('admin.REE_department.offer_letter_header');        
         $footer_file = view('admin.REE_department.offer_letter_footer');
-        $pdf = \App::make('dompdf.wrapper');
+        
+        // $pdf = \App::make('dompdf.wrapper');
+        $pdf = new Mpdf();
+        $pdf->autoScriptToLang = true;
+        $pdf->autoLangToFont = true;
 
-        $pdf->loadHTML($header_file.$content.$footer_file);
+        // $pdf->SetHTMLHeader($header_file);
+        // $pdf->SetHTMLFooter($footer_file);
+        // $pdf->WriteHTML($content);                   
 
+        $pdf->WriteHTML($header_file.$content.$footer_file);
+ 
         $fileName = time().'draft_offer_letter_'.$id.'.pdf';
         $filePath = $folder_name."/".$fileName;
 
         if (!(Storage::disk('ftp')->has($folder_name))) {            
             Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
         } 
-        Storage::disk('ftp')->put($filePath, $pdf->output());
+        Storage::disk('ftp')->put($filePath, $pdf->Output($fileName, 'S'));
         $file = $pdf->output();
 
         //text offer letter
@@ -723,6 +732,7 @@ class REEController extends Controller
 
     public function showCalculationSheet($id)
     {
+
         $applicationId = $id;
         $user = $this->CommonController->showCalculationSheet($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId); 
@@ -749,10 +759,10 @@ class REEController extends Controller
         }  
         $status = $this->CommonController->getCurrentStatus($applicationId); 
         $reeNote = REENote::where('application_id',$applicationId)->orderBy('id','DESC')->first(); 
-        $folder = $this->getCurrentRoleFolderName();
+        $ol_application->folder = $this->getCurrentRoleFolderName();
         $buldingNumber = OlCustomCalculationSheet::where('application_id',$applicationId)
             ->where('title','total_no_of_buildings')->value('amount');     
-          
+
         return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','summary','status','reeNote','folder','buldingNumber'));
 
     }
@@ -921,11 +931,12 @@ class REEController extends Controller
         $buldingNumber = OlCustomCalculationSheet::where('application_id',$applicationId)
             ->where('title','total_no_of_buildings')->value('amount');    
          
-        if (session()->get('role_name') == config('commanConfig.ree_junior') && ($status->status_id == config('commanConfig.applicationStatus.offer_letter_generation') || $status->status_id == config('commanConfig.applicationStatus.in_process') )) {
+        if (session()->get('role_name') == config('commanConfig.ree_junior') && ($status->status_id == config('commanConfig.applicationStatus.offer_letter_generation') || ($status->status_id == config('commanConfig.applicationStatus.in_process')) || $status->status_id == config('commanConfig.applicationStatus.draft_offer_letter_generated'))) {
              $route = 'admin.REE_department.custom_premium_calculation_sheet';
         }  else{
             $route = 'admin.REE_department.view_custom_premium_calculation_sheet';
-        } 
+        }
+
         $folder = $this->getCurrentRoleFolderName();
         return view($route,compact('ol_application','user','summary','status','reeNote','buldingNumber','folder')); 
     }

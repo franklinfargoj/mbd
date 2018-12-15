@@ -212,9 +212,10 @@ return [
     ], 
 
     'tripartite_agreements'=>[
-        'text_tripartite_agreement',
-        'drafted_tripartite_agreement',
-        'drafted_signed_tripartite_agreement',
+        'text'=>'text_tripartite_agreement',
+        'drafted'=>'drafted_tripartite_agreement',
+        'drafted_signed'=>'drafted_signed_tripartite_agreement',
+        'ree_note'=>'tripartite_ree_note'
     ],
 
     // sc Application types 
@@ -348,6 +349,10 @@ return [
 
     'revalidation_master_ids' => [
         '3', '7', '14', '18'
+    ],
+
+    'oc_master_ids' => [
+        '5', '11', '16', '22'
     ],
 
     'noc_master_ids' => [

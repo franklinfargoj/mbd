@@ -1511,7 +1511,7 @@ class CommonController extends Controller
      * @param $insert_arr, $status, $sc_application
      * @return \Illuminate\Http\Response
      */
-    public function sr_application_status_society($insert_arr, $status, $sc_application){
+    public function sr_application_status_society($insert_arr, $status, $sc_application, $status_new = NULL){
         $status_in_words = array_flip(config('commanConfig.renewal_status'))[$status];
         $sc_application_last_id = $sc_application->id;
         $sc_application_master_id = $sc_application->application_master_id;
@@ -1525,10 +1525,11 @@ class CommonController extends Controller
             $insert_application_log[$status_in_words][$key]['status_id'] = $status;
             $insert_application_log[$status_in_words][$key]['to_user_id'] = $user->id;
             $insert_application_log[$status_in_words][$key]['to_role_id'] = $user->role_id;
+            $insert_application_log[$status_in_words][$key]['is_active'] = 1;
             $insert_application_log[$status_in_words][$key]['remark'] = '';
             $application_log_status = $insert_application_log[$status_in_words];
 
-            if($status == 2){
+            if($status == config('commanConfig.conveyance_status.forwarded')){
                 $status_in_words_1 = array_flip(config('commanConfig.applicationStatus'))[1];
                 $insert_application_log[$status_in_words_1][$key]['application_id'] = $sc_application_last_id;
                 $insert_application_log[$status_in_words_1][$key]['application_master_id'] = $sc_application_master_id;
@@ -1538,6 +1539,7 @@ class CommonController extends Controller
                 $insert_application_log[$status_in_words_1][$key]['status_id'] = config('commanConfig.renewal_status.in_process');
                 $insert_application_log[$status_in_words_1][$key]['to_user_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['to_role_id'] = 0;
+                $insert_application_log[$status_in_words_1][$key]['is_active'] = 1;
                 $insert_application_log[$status_in_words_1][$key]['remark'] = '';
                 $application_log_status = array_merge($insert_application_log[$status_in_words], $insert_application_log[$status_in_words_1]);
             }

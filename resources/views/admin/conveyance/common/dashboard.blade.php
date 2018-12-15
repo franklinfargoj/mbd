@@ -83,7 +83,7 @@
     @endif
     <!-- end -->
 
-        <!-- Dashboard for Renewal Module  -->
+        <!-- Dashboard for Renewal Module  --> 
     @if(in_array(session()->get('role_name'),$renewalRoles))
     @if($renewalDashboard)
     <div class="hearing-accordion-wrapper">

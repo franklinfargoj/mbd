@@ -1,7 +1,6 @@
 <div>
     <div style="text-align: center;">
-        <h1>RTI Application Registration</h1>
-        <p>Application for obtaining information under the Right to Information Act, 2005</p>
+        <h1>RTI Registration</h1>
     </div>
     <div>
         <div style="width: 100%; margin-top: 30px;">

@@ -106,7 +106,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     // RTI Routes
 
-    Route::get('rti_form','RtiFormController@showFrontendForm')->name('rti_form');
+//    Route::get('rti_form','RtiFormController@showFrontendForm')->name('rti_form');
 // Route::post('rti_form','RtiFormController@saveFrontendForm');
     Route::get('rti_form_success','RtiFormController@rtiFormSuccess')->name('rti_form_success');
     Route::get('rti_form_success_close','RtiFormController@rtiFormSuccessClose')->name('rti_form_success_close');
@@ -710,32 +710,41 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
         Route::get('/view_application/{application_id}','Tripartite\TripartiteController@view_application')->name('tripartite.view_application');
         Route::get('/view_society_documents/{application_id}','Tripartite\TripartiteController@view_society_documents')->name('tripartite.view_society_documents');
         Route::get('/tripartite_agreement/{application_id}','Tripartite\TripartiteController@tripartite_agreement')->name('tripartite.tripartite_agreement');
+        Route::post('/saveTripartiteagreement','Tripartite\TripartiteController@saveTripartiteagreement')->name('saveTripartiteagreement');
+        Route::post('/upload_signed_tripartite_agreement','Tripartite\TripartiteController@upload_signed_tripartite_agreement')->name('upload_signed_tripartite_agreement');
+        Route::get('/tripartite_ree_note/{application_id}','Tripartite\TripartiteController@ree_note')->name('tripartite.ree_note');
+        Route::post('/upload_tripartite_ree_note','Tripartite\TripartiteController@upload_ree_note')->name('tripartite.upload_ree_note');
+        Route::post('/setTripartiteRemark','Tripartite\TripartiteController@setTripartiteRemark')->name('tripartite.setTripartiteRemark');
+        Route::get('tripartite_forward_application/{application_id}','Tripartite\TripartiteController@forward_application')->name('tripartite.forward_application');
+        Route::post('tripartite_forward_application','Tripartite\TripartiteController@saveForwardApplication')->name('tripartite.post_forward_application');
     });
     //End tripartite
     //Society Renewal
 
-    Route::get('sr_download_template', 'SocietyRenewalController@download_excel')->name('sr_download');
-    Route::get('sr_upload_docs', 'SocietyRenewalController@sr_upload_docs')->name('sr_upload_docs');
-    Route::post('upload_sr_docs', 'SocietyRenewalController@upload_sr_docs')->name('upload_sr_docs');
-    Route::get('delete_sr_upload_docs/{id}', 'SocietyRenewalController@delete_sr_upload_docs')->name('delete_sr_upload_docs');
-    Route::post('add_society_documents_comment', 'SocietyRenewalController@add_society_documents_comment')->name('society_doc_comment');
-    Route::get('sr_form_download', 'SocietyRenewalController@generate_pdf')->name('sr_form_download');
-    Route::get('sr_form_upload_show', 'SocietyRenewalController@sr_form_upload_show')->name('sr_form_upload_show');
-    Route::post('sr_form_upload', 'SocietyRenewalController@sr_form_upload')->name('sr_form_upload');
-
-    //sale & lease deed alongwith pay stamp duty letter & resolution & undertaking
-//    Route::get('sale_lease_deed/{id}', 'SocietyRenewalController@show_sale_lease')->name('show_sale_lease');
-//    Route::get('signed_sale_lease_deed/{id}', 'SocietyRenewalController@show_signed_sale_lease')->name('show_signed_sale_lease');
-//    Route::post('save_sale_lease_deed', 'SocietyRenewalController@upload_sale_lease')->name('upload_sale_lease');
-//    Route::post('save_signed_sale_lease_deed', 'SocietyRenewalController@upload_signed_sale_lease')->name('upload_signed_sale_lease');
-    Route::resource('/society_renewal','SocietyRenewalController');
+//    Route::get('sr_download_template', 'SocietyRenewalController@download_excel')->name('sr_download');
+//    Route::get('sr_upload_docs', 'SocietyRenewalController@sr_upload_docs')->name('sr_upload_docs');
+//    Route::post('upload_sr_docs', 'SocietyRenewalController@upload_sr_docs')->name('upload_sr_docs');
+//    Route::get('delete_sr_upload_docs/{id}', 'SocietyRenewalController@delete_sr_upload_docs')->name('delete_sr_upload_docs');
+//    Route::post('add_society_documents_comment', 'SocietyRenewalController@add_society_documents_comment')->name('society_doc_comment');
+//    Route::get('sr_form_download', 'SocietyRenewalController@generate_pdf')->name('sr_form_download');
+//    Route::get('sr_form_upload_show', 'SocietyRenewalController@sr_form_upload_show')->name('sr_form_upload_show');
+//    Route::post('sr_form_upload', 'SocietyRenewalController@sr_form_upload')->name('sr_form_upload');
+//
+//    //sale & lease deed alongwith pay stamp duty letter & resolution & undertaking
+////    Route::get('sale_lease_deed/{id}', 'SocietyRenewalController@show_sale_lease')->name('show_sale_lease');
+////    Route::get('signed_sale_lease_deed/{id}', 'SocietyRenewalController@show_signed_sale_lease')->name('show_signed_sale_lease');
+////    Route::post('save_sale_lease_deed', 'SocietyRenewalController@upload_sale_lease')->name('upload_sale_lease');
+////    Route::post('save_signed_sale_lease_deed', 'SocietyRenewalController@upload_signed_sale_lease')->name('upload_signed_sale_lease');
+//    Route::resource('/society_renewal','SocietyRenewalController');
 
     //Society Renewal END
 
     
 });
 
+// RTI Routes
 
+Route::get('rti_form','RtiFormController@showFrontendForm')->name('rti_form');
 
 
 

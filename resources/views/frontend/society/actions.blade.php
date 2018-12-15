@@ -118,6 +118,7 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
         $('#architect').hide();
         $('#revalidation').hide();
         $('#apply_sc').hide();
+        $('#estate_conveyances').hide();
     });
 </script>
 @endsection

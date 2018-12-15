@@ -425,25 +425,33 @@ class HearingPermissionSeeder extends Seeder
         // Board
 
         $board_id = \App\Board::where('board_name', '=', "Mumbai")->get(['id'])->first();
-        $department1 = \App\Department::create([
-            'department_name' => "Joint CO",
-            'status' => 1
-        ])->id;
 
-        $department2 = \App\Department::create([
-            'department_name' => "Co",
-            'status' => 1
-        ])->id;
 
-        $board_department1 = \App\BoardDepartment::create([
-            'board_id' => $board_id->id,
-            'department_id' => $department1,
-        ]);
+        $department_id = \App\Department::where('department_name','Joint CO')->value('id');
+        if($department_id == NULL){
+            $department1 = \App\Department::create([
+                'department_name' => "Joint CO",
+                'status' => 1
+            ])->id;
 
-        $board_department2 = \App\BoardDepartment::create([
-            'board_id' => $board_id->id,
-            'department_id' => $department2,
-        ]);
+            $board_department1 = \App\BoardDepartment::create([
+                'board_id' => $board_id->id,
+                'department_id' => $department1,
+            ]);
+        }
+
+        $department_id1 = \App\Department::where('department_name','Co')->value('id');
+        if($department_id1 == NULL){
+            $department2 = \App\Department::create([
+                'department_name' => "Co",
+                'status' => 1
+            ])->id;
+
+            $board_department2 = \App\BoardDepartment::create([
+                'board_id' => $board_id->id,
+                'department_id' => $department2,
+            ]);
+        }
 
         $board_user1 = \App\BoardUser::create([
             'board_id' => $board_id->id,

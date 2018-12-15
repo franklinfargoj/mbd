@@ -254,7 +254,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6 border-left">
+                                    @if($data->srApplicationLog->status_id != config('commanConfig.conveyance_status.forwarded'))
+                                        <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100">
                                             <h5>Upload No Dues Certificate</h5>
                                             <span class="hint-text">Click on 'Upload' to upload No Dues Certificate</span>
@@ -286,6 +287,7 @@
                                             </form>
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -317,11 +319,12 @@
                                             <p>Click to download generated list of allottees in xls format</p>
                                             {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
 
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->sr_form_request->template_file }}" class="btn btn-primary">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->sr_form_request->template_file }}" class="btn btn-primary" target="_blank" rel="noopener">
                                                 Download</a>
                                     </div>
                                 @endif
-                                <div class="col-sm-6 @if(isset($data->sr_form_request) && $data->sr_form_request->template_file) border-left @endif">
+                                @if($data->srApplicationLog->status_id != config('commanConfig.conveyance_status.forwarded'))
+                                    <div class="col-sm-6 @if(isset($data->sr_form_request) && $data->sr_form_request->template_file) border-left @endif">
                                     <div class="d-flex flex-column h-100">
                                         <h5>Upload List of Bonafide Allottees</h5>
                                         <span class="hint-text">Click on 'Upload' to upload List of Bonafide Allottees</span>
@@ -354,6 +357,7 @@
                                             </form>
                                     </div>
                                 </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -367,29 +371,29 @@
                     <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                         <div class="m-subheader">
                             <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="d-flex flex-column h-100">
-                                        <h5>Download Covering Letter</h5>
+                                @if(!empty($covering_letter_docs[config('commanConfig.documents.em_renewal.covering_letter')[0]]->sr_document_status))
+                                    <div class="col-sm-6">
+                                        <h5 class="section-title section-title--small mb-0">Download Covering Letter</h5>
                                         <p>
-                                        @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')))
-                                            <div class="alert alert-success society_registered">
-                                                <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')) }}</div>
-                                            </div>
-                                        @endif
-                                        @if (session('error'))
-                                        <div class="alert alert-danger society_registered">
-                                            <div class="text-center">{{ session('error') }}</div>
-                                        </div>
-                                        @endif
+                                            @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')))
+                                                <div class="alert alert-success society_registered">
+                                                    <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')) }}</div>
+                                                </div>
+                                            @endif
+                                            @if (session('error'))
+                                                <div class="alert alert-danger society_registered">
+                                                    <div class="text-center">{{ session('error') }}</div>
+                                                </div>
+                                            @endif
                                         </p>
-                                        <p>Click to download Covering Letter in pdf format</p><p></p>
+                                        <p>Click to download Covering Letter in pdf format</p>
                                         {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
-                                        @if($data->sr_form_request->template_file)
-                                            <a href="{{ config('commanConfig.storage_server').'/'.$data->sr_form_request->template_file }}" class="btn btn-primary">Download</a>
-                                        @endif
+
+                                            <a href="{{ config('commanConfig.storage_server').'/'.$covering_letter_docs[config('commanConfig.documents.em_renewal.covering_letter')[0]]->sr_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">Download</a>
                                     </div>
-                                </div>
-                                <div class="col-sm-6 border-left">
+                                @endif
+                                @if($data->srApplicationLog->status_id != config('commanConfig.conveyance_status.forwarded'))
+                                    <div class="col-sm-6 @if(!empty($covering_letter_docs[config('commanConfig.documents.em_renewal.covering_letter')[0]]->sr_document_status)) border-left @endif">
                                     <div class="d-flex flex-column h-100">
                                         <h5>Upload Covering Letter</h5>
                                         <span class="hint-text">Click on 'Upload' to upload Covering Letter</span>
@@ -421,6 +425,7 @@
                                         </form>
                                     </div>
                                 </div>
+                                @endif
                             </div>
                         </div>
                     </div>

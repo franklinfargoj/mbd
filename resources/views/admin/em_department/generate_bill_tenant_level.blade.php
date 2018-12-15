@@ -102,7 +102,7 @@
                         </div>                          
                     </div>
                     @if(isset($buildingId) && isset($building_name) && $buildingId !=0) 
-                        <div class="row align-items-center mb-3">                            
+                        <div class="row align-items-center mb-3 building">                            
                             <div class="col-md-12">
                                 <div class="form-group m-form__group ">
                                     Billing Level : Tenant level Billing.
@@ -110,7 +110,7 @@
                             </div>                          
                         </div>
 
-                        <div class="row align-items-center mb-3">                            
+                        <div class="row align-items-center mb-3 building">                      
                             <div class="col-md-4">
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="building" name="building" required>
@@ -226,6 +226,7 @@
                 if($(this).text() != 'Select Societies') {
                     $('.submit-button').prop('disabled',false);
                 }
+                $('.building').remove();
                 $.ajax({
                     url:"{{URL::route('get_building_select_updated')}}",
                     type: 'get',
@@ -242,7 +243,7 @@
 
     $(document).on('change', '#building', function(){
                 var id = $(this).val();
-                console.log(id);
+                // console.log(id);
                 //return false;
                 // $.ajax({
                 //     url:"{{URL::route('get_tenant_ajax')}}",
