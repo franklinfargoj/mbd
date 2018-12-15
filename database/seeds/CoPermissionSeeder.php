@@ -335,7 +335,12 @@ class CoPermissionSeeder extends Seeder
                 'name'=>'tripartite.post_forward_application',
                 'display_name'=>'tripartite.post_forward_application',
                 'description'=>'tripartite.post_forward_application'
-            ]
+            ],
+            [
+                'name'=>'upload_signed_tripartite_agreement',
+                'display_name'=>'upload_signed_tripartite_agreement',
+                'description'=>'upload_signed_tripartite_agreement'
+            ],
         ];
         $ree_role_id = Role::where('name', 'ree_engineer')->value('id');
         if ($ree_role_id == null) {

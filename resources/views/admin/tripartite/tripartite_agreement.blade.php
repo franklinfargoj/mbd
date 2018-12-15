@@ -107,7 +107,7 @@ $disabled=isset($disabled)?$disabled:0;
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body" style="padding-right: 0;">
             @if($societyData['ree_Jr_id'] && $applicationLog->status_id
-            !=config('commanConfig.applicationStatus.forwarded'))
+            !=config('commanConfig.applicationStatus.forwarded') && ($stamped_by_society!=1 && $approved_by_co!=1))
             <h3 class="section-title section-title--small mb-0">Tripartite Agreement:</h3>
             <div class=" row-list">
                 <div class="row">
@@ -137,8 +137,9 @@ $disabled=isset($disabled)?$disabled:0;
                                 </div>
                             </div>
                         </div>
-                        @if($societyData['ree_Jr_id'] && $applicationLog->status_id
-                        !=config('commanConfig.applicationStatus.forwarded'))
+                        @if(($societyData['ree_Jr_id'] && $applicationLog->status_id
+                        !=config('commanConfig.applicationStatus.forwarded') && $stamped_and_signed!=1 && $approved_by_co!=1) || (($stamped_by_society==1 || $approved_by_co==1) && session()->get('role_name')==config('commanConfig.co_engineer') && $applicationLog->status_id
+                        !=config('commanConfig.applicationStatus.forwarded')) )
                         <div class="col-sm-6 border-left">
                             <div class="d-flex flex-column h-100">
                                 <h5>Upload Signed & scanned Tripartite Agreement</h5>

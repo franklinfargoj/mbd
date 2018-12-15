@@ -236,7 +236,22 @@ class TripartiteController extends Controller
             $folder_name = "signed_tripartite_agreement";
             if ($extension == "pdf") {
                 $fileUpload = $this->comman->ftpFileUpload($folder_name, $request->file('signed_agreement'), $file_name);
-                $this->set_tripartite_agreements($ol_application, config('commanConfig.tripartite_agreements.drafted'), $fileUpload, $this->get_document_status_by_name('Draft_Sign'));
+                $drafted_agreement=$this->get_tripartite_agreements($ol_application->id, config('commanConfig.tripartite_agreements.drafted'));
+                if(($drafted_agreement->status_id==$this->get_document_status_by_name('Stamped')) || ($drafted_agreement->status_id==$this->get_document_status_by_name('Stamped_Signed')))
+                {
+                    if(session()->get('role_name')==config('commanConfig.co_engineer'))
+                    {
+                        $status=$this->get_document_status_by_name('Approved');
+                    }else
+                    {
+                        $status=$this->get_document_status_by_name('Stamped_Signed');
+                    }
+                    
+                }else
+                {
+                    $status=$this->get_document_status_by_name('Draft_Sign');
+                }
+                $this->set_tripartite_agreements($ol_application, config('commanConfig.tripartite_agreements.drafted'), $fileUpload, $status);
                 return redirect()->back()->with('success', 'Draft copy of Agreement has been uploaded successfully.');
             } else {
                 return redirect()->back()->with('error', 'Invalid format. pdf file only.');
@@ -267,12 +282,23 @@ class TripartiteController extends Controller
 
     public function tripartite_agreement($applicationId)
     {
+        $stamped_by_society=0;
+        $stamped_and_signed=0;
+        $approved_by_co=0;
         $applicationId = decrypt($applicationId);
         $ol_application = $this->comman->getOlApplication($applicationId);
         $applicationLog = $this->comman->getCurrentStatus($applicationId);
         $tripartite_agrement['text_agreement_name'] = $this->get_tripartite_agreements($ol_application->id, config('commanConfig.tripartite_agreements.text'));
         $tripartite_agrement['drafted_tripartite_agreement'] = $this->get_tripartite_agreements($ol_application->id, config('commanConfig.tripartite_agreements.drafted'));
-        $tripartite_agrement['drafted_signed_tripartite_agreement'] = $this->get_tripartite_agreements($ol_application->id, config('commanConfig.tripartite_agreements.drafted_signed'));
+        //$tripartite_agrement['drafted_signed_tripartite_agreement'] = $this->get_tripartite_agreements($ol_application->id, config('commanConfig.tripartite_agreements.drafted_signed'));
+        
+        if($tripartite_agrement['drafted_tripartite_agreement']!=null)
+        {
+            $stamped_by_society=(($this->get_document_status_by_name('Stamped')==$tripartite_agrement['drafted_tripartite_agreement']->status_id) || ($this->get_document_status_by_name('Stamped_Signed')==$tripartite_agrement['drafted_tripartite_agreement']->status_id))?1:0;
+            $stamped_and_signed=($this->get_document_status_by_name('Stamped_Signed')==$tripartite_agrement['drafted_tripartite_agreement']->status_id)?1:0;
+            $approved_by_co=($this->get_document_status_by_name('Approved')==$tripartite_agrement['drafted_tripartite_agreement']->status_id)?1:0;
+        }
+        
         if ($tripartite_agrement['text_agreement_name'] != null) {
             $text_doc_path = $tripartite_agrement['text_agreement_name']->society_document_path;
             if ($text_doc_path != null) {
@@ -283,11 +309,12 @@ class TripartiteController extends Controller
         } else {
             $content = "";
         }
+
         $tripatiet_remark_history=$this->getTripartiteRemarks($applicationId);
-        //dd($tripatiet_remark_history);
+
         $societyData['ree_Jr_id'] = (session()->get('role_name') == config('commanConfig.ree_junior'));
         $societyData['ree_branch_head'] = (session()->get('role_name') == config('commanConfig.ree_branch_head'));
-        return view('admin.tripartite.tripartite_agreement', compact('societyData', 'applicationLog', 'ol_application','tripatiet_remark_history', 'tripartite_agrement', 'content'));
+        return view('admin.tripartite.tripartite_agreement', compact('approved_by_co','stamped_and_signed','stamped_by_society','societyData', 'applicationLog', 'ol_application','tripatiet_remark_history', 'tripartite_agrement', 'content'));
     }
 
     public function ree_note($applicationId)
@@ -337,7 +364,7 @@ class TripartiteController extends Controller
         return $current_status;
     }
 
-    public function getForwardApplicationParentData($society_id)
+    public function getForwardApplicationParentData($applicationId)
     {
         $result = array();
         if (session()->get('role_name') == config('commanConfig.co_engineer')) {
@@ -350,7 +377,7 @@ class TripartiteController extends Controller
             $role_id = Role::where('name', config('commanConfig.co_engineer'))->first();
             $result[] = $role_id->id;
         } else if (session()->get('role_name') == config('commanConfig.ree_branch_head')) {
-            $SocietyOfferLetter= SocietyOfferLetter::find($society_id);
+            $SocietyOfferLetter= OlApplication::find($applicationId);
             $society_user_id=$SocietyOfferLetter->user_id;
             $society_user=User::where('id',$society_user_id)->get();
             $role_id = Role::where('name', config('commanConfig.co_engineer'))->first();
@@ -372,8 +399,19 @@ class TripartiteController extends Controller
                 })
                 ->whereIn('role_id', $result)->get();
         }
+        $approved_by_co=0;
         if (session()->get('role_name') == config('commanConfig.ree_branch_head')) {
-            $parent = $parent->merge($society_user);
+            $tripartite_agrement['drafted_tripartite_agreement'] = $this->get_tripartite_agreements($applicationId, config('commanConfig.tripartite_agreements.drafted'));
+            $approved_by_co=($this->get_document_status_by_name('Approved')==$tripartite_agrement['drafted_tripartite_agreement']->status_id)?1:0;
+            if($approved_by_co==1)
+            {
+                $parent = $society_user;
+            }else
+            {
+                //$parent = $parent->merge($society_user);
+                $parent = $parent;
+            }
+            
         }
         //dd($parent);
         return $parent;
