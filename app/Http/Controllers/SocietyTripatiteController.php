@@ -94,7 +94,7 @@ class SocietyTripatiteController extends Controller
     public function show_tripatite_dev($id){
         $society_details = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $layouts = MasterLayout::all();
-         dd($society_details);
+
         return view('frontend.society.tripatite.show_tripatite_dev', compact('society_details', 'id', 'layouts'));
     }
 
@@ -119,7 +119,7 @@ class SocietyTripatiteController extends Controller
         $ol_applications = OlApplication::where('id', $id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->first();
-        dd($ol_applications);
+
         return view('frontend.society.tripatite.tripartite_application_form_preview', compact('ol_applications', 'society_details'));
     }
 
@@ -156,15 +156,22 @@ class SocietyTripatiteController extends Controller
      */
     public function upload_tripartite_docs(Request $request){
         dd($request->all());
-        $uploadPath = '/uploads/society_offer_letter_documents';
+        $uploadPath = '/uploads/society_tripartite_agreement_documents';
         $destinationPath = public_path($uploadPath);
 
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $application = OlApplication::where('society_id', $society->id)->first();
 
-        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('id', $request->input('document_id'))->with(['documents_uploaded' => function($q) use ($society){
+        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('is_admin', 0)->with(['documents_uploaded' => function($q) use ($society){
             $q->where('society_id', $society->id)->get();
         }])->get();
+//        dd($documents);
+
+        foreach ($documents as $key => $value) {
+            $document_ids[] = $value->id;
+        }
+        $documents_uploaded = OlSocietyDocumentsStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->get();
+        $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->first();
 
         if($request->file('document_name'))
         {
@@ -174,13 +181,34 @@ class SocietyTripatiteController extends Controller
             if ($extension == "pdf") {
                 $time = time();
                 $name = File::name($request->file('document_name')->getClientOriginalName()) . '_' . $time . '.' . $extension;
-                $folder_name = "society_offer_letter_documents";
-                $path = config('commanConfig.storage_server').'/'.$folder_name.'/'.$name;
+                $folder_name = "society_tripartite_agreement_documents";
+                $path = $folder_name.'/'.$name;
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('document_name'),$name);
+
             }else{
                 return redirect()->back()->with('error_'.$request->input('document_id'), 'Invalid type of file uploaded (only pdf allowed)');
             }
         }
+
+        $input = array(
+            'society_id' => $society->id,
+            'document_id' => $request->input('document_id'),
+            'society_document_path' => $path,
+        );
+        OlSocietyDocumentsStatus::create($input);
+
+        $role_id = Role::where('name', 'ee_junior_engineer')->first();
+        $user_ids = RoleUser::where('role_id', $role_id->id)->get();
+        $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
+        foreach ($layout_user_ids as $key => $value) {
+            $select_user_ids[] = $value['user_id'];
+        }
+        $users = User::whereIn('id', $select_user_ids)->get();
+        $insert_arr = array(
+            'users' => $users
+        );
+
+        $this->CommonController->tripartite_application_status_society($insert_arr, config('commanConfig.applicationStatus.forwarded'), $application);
 
     }
 }
