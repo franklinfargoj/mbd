@@ -13,6 +13,9 @@ use App\RoleUser;
 use App\LayoutUser;
 use App\User;
 use Config;
+use App\OlSocietyDocumentsMaster;
+use App\OlSocietyDocumentsStatus;
+use App\OlSocietyDocumentsComment;
 
 class SocietyTripatiteController extends Controller
 {
@@ -67,7 +70,7 @@ class SocietyTripatiteController extends Controller
             'layout_id' => $request->layout_id,
             'request_form_id' => $ol_request_form_id->id,
             'application_master_id' => $request->application_master_id,
-            'application_no' => str_pad($ol_request_form_id, 5, '0', STR_PAD_LEFT),
+            'application_no' => 'MHD'.str_pad($ol_request_form_id->id, 5, '0', STR_PAD_LEFT),
             'current_status_id' => config('commanConfig.applicationStatus.in_process')
         );
         $ol_application = OlApplication::create($input_arr_ol_applications);
@@ -102,5 +105,82 @@ class SocietyTripatiteController extends Controller
      */
     public function save_tripatite_dev(Request $request){
         dd($request->all());
+    }
+
+
+    /**
+     * Shows tripatite application form preview.
+     * @param  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function tripartite_application_form_preview($id){
+        $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
+        $society_details = SocietyOfferLetter::find($society->id);
+        $ol_applications = OlApplication::where('id', $id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+        }])->first();
+        dd($ol_applications);
+        return view('frontend.society.tripatite.tripartite_application_form_preview', compact('ol_applications', 'society_details'));
+    }
+
+    /**
+     * Shows tripatite application documents.
+     * @param  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function display_tripartite_docs($id){
+        $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
+        $society_details = SocietyOfferLetter::find($society->id);
+        $ol_applications = OlApplication::where('id', $id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        }])->first();
+        $documents = OlSocietyDocumentsMaster::where('application_id', $ol_applications->application_master_id)->where('is_admin', 0)->with(['documents_uploaded' => function($q) use ($society){
+            $q->where('society_id', $society->id)->get();
+        }])->get();
+//        dd($documents);
+
+        foreach ($documents as $key => $value) {
+            $document_ids[] = $value->id;
+        }
+        $documents_uploaded = OlSocietyDocumentsStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->get();
+        $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->first();
+//        dd($ol_applications);
+        return view('frontend.society.tripatite.show_society_documents', compact('ol_applications', 'documents', 'documents_uploaded', 'documents_comment'));
+
+    }
+
+    /**
+     * Saves tripatite application documents.
+     * @param  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function upload_tripartite_docs(Request $request){
+        dd($request->all());
+        $uploadPath = '/uploads/society_offer_letter_documents';
+        $destinationPath = public_path($uploadPath);
+
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $application = OlApplication::where('society_id', $society->id)->first();
+
+        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('id', $request->input('document_id'))->with(['documents_uploaded' => function($q) use ($society){
+            $q->where('society_id', $society->id)->get();
+        }])->get();
+
+        if($request->file('document_name'))
+        {
+            $file = $request->file('document_name');
+            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+            $extension = $request->file('document_name')->getClientOriginalExtension();
+            if ($extension == "pdf") {
+                $time = time();
+                $name = File::name($request->file('document_name')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+                $folder_name = "society_offer_letter_documents";
+                $path = config('commanConfig.storage_server').'/'.$folder_name.'/'.$name;
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('document_name'),$name);
+            }else{
+                return redirect()->back()->with('error_'.$request->input('document_id'), 'Invalid type of file uploaded (only pdf allowed)');
+            }
+        }
+
     }
 }
