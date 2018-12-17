@@ -68,10 +68,6 @@
                                 </div>
                             </div>
                             <div id="one" class="m-section__content mb-0 table-responsive">
-                                <form role="form" method="POST" action="{{ route('save_sharing_calculation_details') }}">
-                                    <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
-                                    <input name="application_id" type="hidden" value="{{ $applicationId }}" />
-                                    <input name="user_id" type="hidden" value="{{ $user->id }}" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
                                                 src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");'
@@ -80,106 +76,103 @@
                                     <table class="table mb-0" style="padding-top: 10px;">
                                         <thead class="thead-default">
                                             <tr>
-                                                <th class="table-data--xs">
+                                                <th class="table-data--xs" style = "border-style: ridge;">
                                                     #
                                                 </th>
-                                                <th>
-                                                    तपशील
-                                                </th>
-                                                <th class="table-data--md">
-                                                    रक्कम रु
+                                                <th style = "border-style: ridge;"> तपशील </th>
+                                                <th class="table-data--md" style = "border-style: ridge;"> रक्कम रु
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <td>1.</td>
-                                            <td>
+                                            <td style = "border-style: ridge;">1.</td>
+                                            <td style = "border-style: ridge;">
                                                 कार्यकारी अभियंता /कुर्ला विभाग यांचे सिमांकन नकाशानुसार भूखंडाचे
                                                 क्षेत्रफळ
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td></td>
-                                            <td>
+                                            <td style = "border-style: ridge;"></td>
+                                            <td style = "border-style: ridge;">
                                                 1. भाडेपट्टा करारनाम्यानुसार क्षेत्रफळ
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input type="text" placeholder="0" class="total_area form-control form-control--custom"
                                                        name="area_as_per_lease_agreement" id="area_as_per_lease_agreement"
                                                    readonly    value="<?php if(isset($calculationSheetDetails[0]->area_as_per_lease_agreement) ) { echo $calculationSheetDetails[0]->area_as_per_lease_agreement; }  ?>" />
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td></td>
-                                            <td>
+                                            <td style = "border-style: ridge;"></td>
+                                            <td style = "border-style: ridge;">
                                                 2. टिट बिट भूखंडाचे क्षेत्र
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input type="text" placeholder="0" class="total_area form-control form-control--custom"
                                                        readonly  name="area_of_tit_bit_plot" id="area_of_tit_bit_plot" value="<?php if(isset($calculationSheetDetails[0]->area_of_tit_bit_plot)) { echo $calculationSheetDetails[0]->area_of_tit_bit_plot; } ?>" />
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td></td>
-                                            <td class="font-weight-bold">
+                                            <td style = "border-style: ridge;"></td>
+                                            <td class="font-weight-bold" style = "border-style: ridge;">
                                                 Total भूखंडाचे क्षेत्रफळ
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input placeholder="0" class="min_val_for_calculation form-control form-control--custom"
                                                        readonly type="text" name="area_of_total_plot" id="area_of_total_plot"
                                                        value="<?php if(isset($calculationSheetDetails[0]->area_of_total_plot)) { echo $calculationSheetDetails[0]->area_of_total_plot; } ?>" />
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>2.</td>
-                                            <td>
+                                            <td style = "border-style: ridge;">2.</td>
+                                            <td style = "border-style: ridge;">
                                                 अभिन्यासानुसार भूखंडाचे क्षेत्रफळ
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td></td>
-                                            <td>
+                                            <td style = "border-style: ridge;"></td>
+                                            <td style = "border-style: ridge;">
                                                 1. भाडेपट्टा करारनाम्यानुसार क्षेत्रफळ
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input type="text" placeholder="0" class="abhinyas_total_area  form-control form-control--custom"
                                                        name="abhinyas_area_as_per_lease_agreement" id="abhinyas_area_as_per_lease_agreement"
                                                        readonly  value="<?php if(isset($calculationSheetDetails[0]->abhinyas_area_as_per_lease_agreement)) { echo $calculationSheetDetails[0]->abhinyas_area_as_per_lease_agreement; } ?>"/>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td></td>
-                                            <td>
+                                            <td style = "border-style: ridge;"></td>
+                                            <td style = "border-style: ridge;">
                                                 2. टिट बिट भूखंडाचे क्षेत्र
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input type="text" placeholder="0" class="abhinyas_total_area form-control form-control--custom"
                                                        name="abhinyas_area_of_tit_bit_plot" id="abhinyas_area_of_tit_bit_plot"
                                                        readonly  value="<?php if(isset($calculationSheetDetails[0]->abhinyas_area_of_tit_bit_plot)) { echo $calculationSheetDetails[0]->abhinyas_area_of_tit_bit_plot; } ?>" />
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td></td>
-                                            <td class="font-weight-bold">
+                                            <td style = "border-style: ridge;"></td>
+                                            <td class="font-weight-bold" style = "border-style: ridge;">
                                                 Total भूखंडाचे क्षेत्रफळ
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input class="min_val_for_calculation form-control form-control--custom" placeholder="0"
                                                        readonly type="text" name="abhinyas_area_of_total_plot" id="abhinyas_area_of_total_plot"
                                                        value="<?php if(isset($calculationSheetDetails[0]->abhinyas_area_of_total_plot)) { echo $calculationSheetDetails[0]->abhinyas_area_of_total_plot; } ?>" />
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>3.</td>
-                                            <td>
+                                            <td style = "border-style: ridge;">3.</td>
+                                            <td style = "border-style: ridge;">
                                                 परिगणनाकरिता ग्राह्य भूखंडाचे क्षेत्रफळ (किमान क्षेत्र)
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input readonly class="infra_fee form-control form-control--custom" placeholder="0"
                                                        type="text" name="area_of_​​subsistence_to_calculate" id="area_of_​​subsistence_to_calculate"
                                                        value="<?php if(isset($calculationSheetDetails[0]->area_of_​​subsistence_to_calculate)) { echo $calculationSheetDetails[0]->area_of_​​subsistence_to_calculate; } ?>" />
@@ -187,11 +180,11 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>4.</td>
-                                            <td>
+                                            <td style = "border-style: ridge;">4.</td>
+                                            <td style = "border-style: ridge;">
                                                 अनुज्ञेय चटई क्षेत्र निर्देशांक
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input class="remaining_area infra_fee form-control form-control--custom" placeholder="0"
                                                        type="text" name="permissible_carpet_area_coordinates" id="permissible_carpet_area_coordinates"
                                                        readonly     value="<?php if(isset($calculationSheetDetails[0]->permissible_carpet_area_coordinates)) { echo $calculationSheetDetails[0]->permissible_carpet_area_coordinates; } ?>" />
@@ -199,11 +192,11 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>5.</td>
-                                            <td>
+                                            <td style = "border-style: ridge;">5.</td>
+                                            <td style = "border-style: ridge;">
                                                 अनुज्ञेय बांधकाम क्षेत्रफळ
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input class="form-control form-control--custom" readonly type="text" placeholder="0"
                                                        name="permissible_construction_area" id="permissible_construction_area"
                                                        value="<?php if(isset($calculationSheetDetails[0]->permissible_construction_area)) { echo $calculationSheetDetails[0]->permissible_construction_area; } ?>" />
@@ -211,19 +204,19 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>6.</td>
-                                            <td>
+                                            <td style = "border-style: ridge;">6.</td>
+                                            <td style = "border-style: ridge;">
                                                 म.न.पा .कडून ल. ओ. आय. पत्रानुसार अनुज्ञेय प्रोरेटा क्षेत्रफळ
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td></td>
-                                            <td>
+                                            <td style = "border-style: ridge;"></td>
+                                            <td style = "border-style: ridge;">
                                                 1. प्रति सदनिका चौ मी क्षेत्रफळ
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input class="remaining_area infra_fee form-control form-control--custom" placeholder="0"
                                                        type="text" name="sqm_area_per_slot" id="sqm_area_per_slot"
                                                        readonly     value="<?php if(isset($calculationSheetDetails[0]->sqm_area_per_slot)) { echo $calculationSheetDetails[0]->sqm_area_per_slot; } ?>" />
@@ -231,22 +224,22 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td></td>
-                                            <td>
+                                            <td style = "border-style: ridge;"></td>
+                                            <td style = "border-style: ridge;">
                                                 2. एकूण सदनिका
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input class="remaining_area infra_fee form-control form-control--custom" placeholder="0"
                                                        readonly    type="text" name="total_house" id="total_house" value="<?php if(isset($calculationSheetDetails[0]->total_house)) { echo $calculationSheetDetails[0]->total_house; } ?>" />
 
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td></td>
-                                            <td class="font-weight-bold">
+                                            <td style = "border-style: ridge;"></td>
+                                            <td class="font-weight-bold" style = "border-style: ridge;">
                                                 Total
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input class="remaining_area form-control form-control--custom" placeholder="0"
                                                        readonly type="text" name="permissible_proratata_area" id="permissible_proratata_area"
                                                        value="<?php if(isset($calculationSheetDetails[0]->permissible_proratata_area)) { echo $calculationSheetDetails[0]->permissible_proratata_area; } ?>" />
@@ -254,23 +247,23 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>7.</td>
-                                            <td>
+                                            <td style = "border-style: ridge;">7.</td>
+                                            <td style = "border-style: ridge;">
                                                 एकूण अनुज्ञेय बांधकाम क्षेत्रफळ
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input class="remaining_area form-control form-control--custom" readonly type="text" placeholder="0"
                                                        name="total_permissible_construction_area" id="total_permissible_construction_area"
                                                        value="<?php if(isset($calculationSheetDetails[0]->total_permissible_construction_area)) { echo $calculationSheetDetails[0]->total_permissible_construction_area; } ?>" />
 
-                                            </td>
+                                            </td> 
                                         </tr>
                                         <tr>
-                                            <td>8.</td>
-                                            <td>
+                                            <td style = "border-style: ridge;">8.</td>
+                                            <td style = "border-style: ridge;">
                                                 अनुज्ञेय चटई क्षेत्रफळ प्रतिगाळा
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input class="remaining_area form-control form-control--custom" placeholder="0"
                                                        type="text" name="permissible_mattress_area" id="permissible_mattress_area"
                                                        readonly    value="<?php if(isset($calculationSheetDetails[0]->permissible_mattress_area)) { echo $calculationSheetDetails[0]->permissible_mattress_area; } ?>" />
@@ -278,12 +271,12 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>9.</td>
-                                            <td>
+                                            <td style = "border-style: ridge;">9.</td>
+                                            <td style = "border-style: ridge;">
                                                 सुधारित वि नि नि ३३(५) प्रमाणे अनुज्ञेय चटई क्षेत्रफळ वर ३५%
                                                 प्रतिगाळा
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input class="form-control form-control--custom" readonly type="text" placeholder="0"
                                                        name="revised_permissible_mattress_area" id="revised_permissible_mattress_area"
                                                        value="<?php if(isset($calculationSheetDetails[0]->revised_permissible_mattress_area)) { echo $calculationSheetDetails[0]->revised_permissible_mattress_area; } ?>" />
@@ -291,14 +284,14 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>10.</td>
-                                            <td>
+                                            <td style = "border-style: ridge;">10.</td>
+                                            <td style = "border-style: ridge;">
                                                 सुधारित वि नि नि ३३(५) दि ३.७.२०१७ रोजीच्या फ्रबदलाच्या अधिसूचने
                                                 नुसार निवासी वापर करिता वाढीव क्षेत्रफळ ३५% मिळून किमान ३५ चौमी
                                                 अनुज्ञेय आहे. त्यामुळे अ क्र ७ मधील क्षेत्रफळ कमी असल्याने ३५ चौ मी
                                                 गृहीत धरण्यात येत आहे
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input class="remaining_area form-control form-control--custom" placeholder="0"
                                                        type="text" name="revised_increased_area_for_residential_use"
                                                        readonly  id="revised_increased_area_for_residential_use" value="<?php if(isset($calculationSheetDetails[0]->revised_increased_area_for_residential_use)) { echo $calculationSheetDetails[0]->revised_increased_area_for_residential_use; } ?>" />
@@ -306,11 +299,11 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>11.</td>
-                                            <td>
+                                            <td style = "border-style: ridge;">11.</td>
+                                            <td style = "border-style: ridge;">
                                                 एकूण पुनर्वसन चटई क्षेत्रफळ
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input class="form-control form-control--custom" readonly type="text" placeholder="0"
                                                        name="total_rehabilitation_mattress_area" id="total_rehabilitation_mattress_area"
                                                        value="<?php if(isset($calculationSheetDetails[0]->total_rehabilitation_mattress_area)) { echo $calculationSheetDetails[0]->total_rehabilitation_mattress_area; } ?>" />
@@ -318,12 +311,12 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>12.</td>
-                                            <td>
+                                            <td style = "border-style: ridge;">12.</td>
+                                            <td style = "border-style: ridge;">
                                                 सादर प्रकरणामध्ये भूखंड हा ४००० चौ मी पेक्षा कमी असल्याने DCR टेबल
                                                 अ नुसार अतिरिक्त हक्क
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                     <span style="cursor: pointer" data-toggle="modal" data-target="#dcr-a-modal">
                                                         DCR A
                                                     </span>
@@ -341,11 +334,11 @@
                                                 </td>
                                             </tr>-->
                                         <tr>
-                                            <td></td>
-                                            <td>
+                                            <td style = "border-style: ridge;"></td>
+                                            <td style = "border-style: ridge;">
                                                 Total
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input readonly class="form-control form-control--custom" type="text" placeholder="0"
                                                        name="total_additional_claims" id="total_additional_claims"
                                                        readonly    value="<?php if(isset($calculationSheetDetails[0]->total_additional_claims)) { echo $calculationSheetDetails[0]->total_additional_claims; } ?>" />
@@ -353,12 +346,12 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>13.</td>
-                                            <td>
+                                            <td style = "border-style: ridge;">13.</td>
+                                            <td style = "border-style: ridge;">
                                                 एकूण पुनर्वसन चटई क्षेत्र फळ
 
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input class="form-control form-control--custom" readonly type="text" placeholder="0"
                                                        name="total_rehabilitation_mattress_area_with_dcr" id="total_rehabilitation_mattress_area_with_dcr"
                                                        value="<?php  if(isset($calculationSheetDetails[0]->total_rehabilitation_mattress_area)) { echo $calculationSheetDetails[0]->total_rehabilitation_mattress_area; } ?>" />
@@ -367,11 +360,11 @@
                                         </tr>
 
                                         <tr>
-                                            <td>14.</td>
-                                            <td>
+                                            <td style = "border-style: ridge;">14.</td>
+                                            <td style = "border-style: ridge;">
                                                 एकूण पुनर्वसन बांधकाम क्षेत्रफळ
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style = "border-style: ridge;">
                                                 <input class="remaining_area form-control form-control--custom" placeholder="0"
                                                        readonly type="text" name="total_rehabilitation_construction_area"
                                                        id="total_rehabilitation_construction_area" value="<?php if(isset($calculationSheetDetails[0]->total_rehabilitation_construction_area)) { echo $calculationSheetDetails[0]->total_rehabilitation_construction_area; } ?>" />
@@ -381,111 +374,6 @@
 
                                         </tbody>
                                     </table>
-
-                                    <div class="modal fade show" id="dcr-a-modal" tabindex="-1" role="dialog"
-                                        aria-labelledby="exampleModalLabel">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel1">उर्वरितचटईक्षेत्राचे
-                                                        अधिमूल्य दर</h5>
-                                                    <button style="cursor: pointer;" type="button" class="close"
-                                                        data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">×</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="table-responsive">
-                                                        <table class="table text-center table--dark">
-                                                            <thead>
-                                                                <th>Area plot under redevelopment</th>
-                                                                <th>Additional Entitlement (As % of carpet area of
-                                                                    existing tenament)</th>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>Upto 4000 sq.m</td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_a_val"
-                                                                                    readonly id="" value="0"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_a_val) && $calculationSheetDetails[0]->dcr_a_val == 'nil' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>Nil</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Above 4000 sq. m to 2 hect</td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_a_val" id=""
-                                                                                    value="15"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_a_val) && $calculationSheetDetails[0]->dcr_a_val == '15' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>15%</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Above 2 hect to 5 hect</td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_a_val" id=""
-                                                                                    value="25"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_a_val) && $calculationSheetDetails[0]->dcr_a_val == '25' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>25%</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Above 5 hetc to 10 hect</td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_a_val" id=""
-                                                                                    value="35"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_a_val) && $calculationSheetDetails[0]->dcr_a_val == '35' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>35%</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Above 10 hect</td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_a_val" id=""
-                                                                                    value="45"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_a_val) && $calculationSheetDetails[0]->dcr_a_val == '45' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>45%</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
                             </div>
                         </div>
                     </div>
@@ -501,10 +389,6 @@
                                 </div>
                             </div>
                             <div id="two" class="m-section__content mb-0 table-responsive">
-                                <form role="form" method="POST" action="{{ route('save_sharing_calculation_details') }}">
-                                    <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
-                                    <input name="application_id" type="hidden" value="{{ $applicationId }}" />
-                                    <input name="user_id" type="hidden" value="{{ $user->id }}" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
                                                 src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("two");'
@@ -513,24 +397,24 @@
                                     <table class="table mb-0" style="padding-top: 10px;">
                                         <thead class="thead-default">
                                             <tr>
-                                                <th class="table-data--xs">
+                                                <th class="table-data--xs" style = "border-style: ridge;">
                                                     #
                                                 </th>
-                                                <th>
+                                                <th style = "border-style: ridge;">
                                                     तपशील
                                                 </th>
-                                                <th class="table-data--md">
+                                                <th class="table-data--md" style = "border-style: ridge;">
                                                     रक्कम रु
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>1.</td>
-                                                <td>
+                                                <td style = "border-style: ridge;">1.</td>
+                                                <td style = "border-style: ridge;">
                                                     LR
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style = "border-style: ridge;">
                                                     <input class="infra_fee form-control form-control--custom" type="text"
                                                         name="lr_val" id="lr_val" value="{{ isset($calculationSheetDetails[0]->lr_val) ? $calculationSheetDetails[0]->lr_val : 0 }}"
                                                         readonly />
@@ -538,11 +422,11 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>2.</td>
-                                                <td>
+                                                <td style = "border-style: ridge;">2.</td>
+                                                <td style = "border-style: ridge;">
                                                     RC
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style = "border-style: ridge;">
                                                     <input class="form-control form-control--custom" type="text" name="rc_val"
                                                         id="rc_val" value="{{ isset($calculationSheetDetails[0]->rc_val) ? $calculationSheetDetails[0]->rc_val : 0 }}"
                                                         readonly />
@@ -551,23 +435,23 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>3.</td>
-                                                <td>
+                                                <td style = "border-style: ridge;">3.</td>
+                                                <td style = "border-style: ridge;">
                                                     LC/RC
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style = "border-style: ridge;">
                                                     <input class="form-control form-control--custom" readonly type="text"
                                                         name="lr_rc_division_val" id="lr_rc_division_val" value="{{ isset($calculationSheetDetails[0]->lr_rc_division_val) ? $calculationSheetDetails[0]->lr_rc_division_val : 0 }}" />
 
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>4.</td>
-                                                <td>
+                                                <td style = "border-style: ridge;">4.</td> 
+                                                <td style = "border-style: ridge;">
                                                     सुधारित वि नि नि ३३(५) मधील तक्त्या नुसार LC/RC करिता प्रोत्साहन
                                                     क्षेत्रफळ
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style = "border-style: ridge;">
                                                     <input class="form-control form-control--custom" readonly type="text"
                                                         name="dcr_b_val" id="dcr_b_val" value="{{ isset($calculationSheetDetails[0]->dcr_b_val) ? $calculationSheetDetails[0]->dcr_b_val.'%' : '0%' }}" />
 
@@ -575,123 +459,19 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>5.</td>
-                                                <td>
+                                                <td style = "border-style: ridge;">5.</td>
+                                                <td style = "border-style: ridge;">
                                                     बांधकाम क्षेत्रफलकरीता प्रोत्साहन चटई क्षेत्रफळ
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style = "border-style: ridge;">
                                                     <input class="form-control form-control--custom" readonly type="text"
                                                         name="mattress_area_for_construction_area" id="mattress_area_for_construction_area"
                                                         value="{{ isset($calculationSheetDetails[0]->mattress_area_for_construction_area) ? $calculationSheetDetails[0]->mattress_area_for_construction_area : 0 }}" />
 
                                                 </td>
                                             </tr>
-                                            <!-- <tr><td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary" value="Save" /> </td></tr> -->
-
-
                                         </tbody>
                                     </table>
-                                    <div class="modal fade show" id="dcr-b-modal" tabindex="-1" role="dialog"
-                                        aria-labelledby="exampleModalLabel">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel1">Table B</h5>
-                                                    <button style="cursor: pointer;" type="button" class="close"
-                                                        data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">×</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="table-responsive">
-                                                        <table class="table text-center table--dark">
-                                                            <thead>
-                                                                <th>Basic ratio (LC/RC)</th>
-                                                                <th>Incentive (as % of admissible rehablitation area)</th>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>Above 6.00</td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_b_val" id=""
-                                                                                    value="40"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_b_val) && $calculationSheetDetails[0]->dcr_b_val == '40' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>40%</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Above 4.00 and upto 6.00</td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_b_val" id=""
-                                                                                    value="50"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_b_val) && $calculationSheetDetails[0]->dcr_b_val == '50' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>50%</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Above 2.00 and upto 4,00</td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_b_val" id=""
-                                                                                    value="60"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_b_val) && $calculationSheetDetails[0]->dcr_b_val == '60' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>60%</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Upto 2.00</td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_b_val" id=""
-                                                                                    value="70"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_b_val) && $calculationSheetDetails[0]->dcr_b_val == '70' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>70%</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Above 10 hect</td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_b_val" id=""
-                                                                                    value="45"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_b_val) && $calculationSheetDetails[0]->dcr_b_val == '45' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>45%</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -708,10 +488,6 @@
                                 </div>
                             </div>
                             <div id="three" class="m-section__content mb-0 table-responsive">
-                                <form role="form" method="POST" action="{{ route('save_sharing_calculation_details') }}">
-                                    <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
-                                    <input name="application_id" type="hidden" value="{{ $applicationId }}" />
-                                    <input name="user_id" type="hidden" value="{{ $user->id }}" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
                                                 src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("three");'
@@ -720,234 +496,97 @@
                                     <table class="table mb-0" style="padding-top: 10px;">
                                         <thead class="thead-default">
                                             <tr>
-                                                <th class="table-data--xs">
+                                                <th class="table-data--xs" style = "border-style: ridge;">
                                                     #
                                                 </th>
-                                                <th>
+                                                <th style = "border-style: ridge;">
                                                     तपशील
                                                 </th>
-                                                <th class="table-data--md">
+                                                <th class="table-data--md" style = "border-style: ridge;">
                                                     रक्कम रु
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>1.</td>
-                                                <td>
+                                                <td style = "border-style: ridge;">1.</td>
+                                                <td style = "border-style: ridge;">
                                                     उर्वरित क्षेत्रफळ
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style = "border-style: ridge;">
                                                     <input class="form-control form-control--custom" readonly type="text"
-                                                        name="remaining_area" id="remaining_area" value="{{ isset($calculationSheetDetails[0]->remaining_area) ? $calculationSheetDetails[0]->remaining_area : 0 }}" />
+                                                        name="remaining_area" id="remaining_area" value="{{ isset($calculationSheetDetails[0]->remaining_area) ? $calculationSheetDetails[0]->remaining_area : 0 }}" style="width:100%" />
 
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>2.</td>
-                                                <td>
+                                                <td style = "border-style: ridge;">2.</td>
+                                                <td style = "border-style: ridge;">
                                                     LC/RC
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style = "border-style: ridge;">
                                                     <input class="form-control form-control--custom" readonly type="text"
-                                                        name="lr_rc_division_val" id="lr_rc_division_val" value="{{ isset($calculationSheetDetails[0]->lr_rc_division_val) ? $calculationSheetDetails[0]->lr_rc_division_val : 0 }}" />
+                                                        name="lr_rc_division_val" id="lr_rc_division_val" value="{{ isset($calculationSheetDetails[0]->lr_rc_division_val) ? $calculationSheetDetails[0]->lr_rc_division_val : 0 }}" style="width:100%"/>
 
                                                 </td>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>3.</td>
-                                                <td>
+                                                <td style = "border-style: ridge;">3.</td>
+                                                <td style = "border-style: ridge;">
                                                     सादर प्रकरणामध्ये भूखंड हा ४००० चौ मी पेक्षा कमी असल्याने DCR टेबल
                                                     C नुसार shariung हक्क
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style = "border-style: ridge;">
                                                     <input class="form-control form-control--custom" readonly type="text"
-                                                        name="dcr_c_society_val" id="dcr_c_society_val" value="{{ isset($calculationSheetDetails[0]->dcr_c_society_val) ? $calculationSheetDetails[0]->dcr_c_society_val.'%' : '0%' }}" />
+                                                        name="dcr_c_society_val" id="dcr_c_society_val" value="{{ isset($calculationSheetDetails[0]->dcr_c_society_val) ? $calculationSheetDetails[0]->dcr_c_society_val.'%' : '0%' }}" style="width:100%"/>
 
                                                     <input class="form-control form-control--custom" readonly type="text"
-                                                        name="dcr_c_mhada_val" id="dcr_c_mhada_val" value="{{ isset($calculationSheetDetails[0]->dcr_c_mhada_val) ? $calculationSheetDetails[0]->dcr_c_mhada_val.'%' : '0%' }}" />
+                                                        name="dcr_c_mhada_val" id="dcr_c_mhada_val" value="{{ isset($calculationSheetDetails[0]->dcr_c_mhada_val) ? $calculationSheetDetails[0]->dcr_c_mhada_val.'%' : '0%' }}" style="width:100%"/>
 
                                                     <!-- data-target="#select-dcr" -->
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>4.</td>
-                                                <td>
+                                                <td style = "border-style: ridge;">4.</td>
+                                                <td style = "border-style: ridge;">
                                                     संस्थेचा हिस्सा
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style = "border-style: ridge;">
                                                     <input class="form-control form-control--custom" readonly type="text"
-                                                        name="society_share" id="society_share" value="{{ isset($calculationSheetDetails[0]->society_share) ? $calculationSheetDetails[0]->society_share : 0 }}" />
+                                                        name="society_share" id="society_share" value="{{ isset($calculationSheetDetails[0]->society_share) ? $calculationSheetDetails[0]->society_share : 0 }}" style="width:100%"/>
 
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>5.</td>
-                                                <td>
+                                                <td style = "border-style: ridge;">5.</td>
+                                                <td style = "border-style: ridge;">
 
                                                     म्हाडाचा हिस्सा
 
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style = "border-style: ridge;">
                                                     <input class="form-control form-control--custom" readonly type="text"
-                                                        name="mhada_share" id="mhada_share" value="{{ isset($calculationSheetDetails[0]->mhada_share) ? $calculationSheetDetails[0]->mhada_share : 0 }}" />
+                                                        name="mhada_share" id="mhada_share" value="{{ isset($calculationSheetDetails[0]->mhada_share) ? $calculationSheetDetails[0]->mhada_share : 0 }}" style="width:100%"/>
 
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>6.</td>
-                                                <td>
+                                                <td style = "border-style: ridge;">6.</td>
+                                                <td style = "border-style: ridge;">
 
                                                     फंजिबल सह म्हाडाचा हिस्सा
 
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style = "border-style: ridge;">
                                                     <input class="form-control form-control--custom" readonly type="text"
                                                         name="mhada_share_with_fungib" id="mhada_share_with_fungib"
-                                                        value="{{ isset($calculationSheetDetails[0]->mhada_share_with_fungib) ? $calculationSheetDetails[0]->mhada_share_with_fungib : 0 }}" />
+                                                        value="{{ isset($calculationSheetDetails[0]->mhada_share_with_fungib) ? $calculationSheetDetails[0]->mhada_share_with_fungib : 0 }}" style="width:100%"/>
 
                                                 </td>
                                             </tr>
-                                            <!-- <tr><td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary" value="Save" /> </td></tr> -->
-
                                         </tbody>
                                     </table>
-                                    <div class="modal fade show" id="select-dcr" tabindex="-1" role="dialog"
-                                        aria-labelledby="exampleModalLabel">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel2">Table C</h5>
-                                                    <button style="cursor: pointer;" type="button" class="close"
-                                                        data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">×</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="table-responsive">
-                                                        <table class="table text-center table--dark">
-                                                            <thead>
-                                                                <th>Basic ratio (LC/RC)</th>
-                                                                <th>Cooprative society share</th>
-                                                                <th>Mhada share</th>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>Above 6.00</td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_c_society_val"
-                                                                                    id="" value="30"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_c_society_val) && $calculationSheetDetails[0]->dcr_c_society_val == '30' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>30%</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_c_mhada_val"
-                                                                                    id="" value="70"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_c_mhada_val) && $calculationSheetDetails[0]->dcr_c_mhada_val == '70' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>70%</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Above 4.00 and upto 6.00</td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_c_society_val"
-                                                                                    id="" value="35"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_c_society_val) && $calculationSheetDetails[0]->dcr_c_society_val == '35' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>35%</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_c_mhada_val"
-                                                                                    id="" value="65"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_c_mhada_val) && $calculationSheetDetails[0]->dcr_c_mhada_val == '65' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>65%</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Above 2.00 and upto 4,00</td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_c_society_val"
-                                                                                    id="" value="40"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_c_society_val) && $calculationSheetDetails[0]->dcr_c_society_val == '40' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>40%</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_c_mhada_val"
-                                                                                    id="" value="60"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_c_mhada_val) && $calculationSheetDetails[0]->dcr_c_mhada_val == '60' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>60%</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Upto 2.00</td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_c_society_val"
-                                                                                    id="" value="45"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_c_society_val) && $calculationSheetDetails[0]->dcr_c_society_val == '45' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>45%</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_c_mhada_val"
-                                                                                    id="" value="55"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_c_mhada_val) && $calculationSheetDetails[0]->dcr_c_mhada_val == '55' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>55%</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -964,10 +603,6 @@
                                 </div>
                             </div>
                             <div id="four" class="m-section__content mb-0 table-responsive">
-                                <form role="form" method="POST" action="{{ route('save_sharing_calculation_details') }}">
-                                    <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
-                                    <input name="application_id" type="hidden" value="{{ $applicationId }}" />
-                                    <input name="user_id" type="hidden" value="{{ $user->id }}" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
                                                 src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("four");'
@@ -976,24 +611,24 @@
                                     <table class="table mb-0" style="padding-top: 10px;">
                                         <thead class="thead-default">
                                             <tr>
-                                                <th class="table-data--xs">
+                                                <th class="table-data--xs" style = "border-style: ridge;">
                                                     #
                                                 </th>
-                                                <th>
+                                                <th style = "border-style: ridge;">
                                                     तपशील
                                                 </th>
-                                                <th class="table-data--md">
+                                                <th class="table-data--md" style = "border-style: ridge;">
                                                     रक्कम रु
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>1.</td>
-                                                <td>
+                                                <td style = "border-style: ridge;">1.</td>
+                                                <td style = "border-style: ridge;">
                                                     अस्तित्वातील बांधकाम क्षेत्रफळ
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style = "border-style: ridge;">
                                                     <input class="infra_fee  form-control form-control--custom" type="text"
                                                         name="existing_construction_area" id="existing_construction_area"
                                                         value="{{ isset($calculationSheetDetails[0]->existing_construction_area) ? $calculationSheetDetails[0]->existing_construction_area : 0 }}"
@@ -1002,12 +637,12 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>2.</td>
-                                                <td>
+                                                <td style = "border-style: ridge;">2.</td>
+                                                <td style = "border-style: ridge;">
                                                     दि.०८.१०.२०१३ च्या अधिसूचनेमधील अनु.क्र.५ ए ,नुसार ७ % ऑफ
                                                     इन्फ्रास्टक्चर शुल्क रक्कम
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style = "border-style: ridge;">
                                                     <input class="form-control form-control--custom" readonly type="text"
                                                         name="off_site_infrastructure_fee" id="off_site_infrastructure_fee"
                                                         value="{{ isset($calculationSheetDetails[0]->off_site_infrastructure_fee) ? $calculationSheetDetails[0]->off_site_infrastructure_fee : 0 }}" />
@@ -1016,12 +651,12 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>3.</td>
-                                                <td>
+                                                <td style = "border-style: ridge;">3.</td>
+                                                <td style = "border-style: ridge;">
                                                     उपरोक्त ऑफ साईट इन्फ्रास्ट्रक्चर शुल्क रकमेपैकी म.न.पा.स भरवायची
                                                     ५/७ रक्कम (५/७ X अनु.क्र.२)
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style = "border-style: ridge;">
                                                     <input class="form-control form-control--custom" readonly type="text"
                                                         name="amount_to_be_paid_to_municipal" id="amount_to_be_paid_to_municipal"
                                                         value="{{ isset($calculationSheetDetails[0]->amount_to_be_paid_to_municipal) ? $calculationSheetDetails[0]->amount_to_be_paid_to_municipal : 0 }}" />
@@ -1030,12 +665,12 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>4.</td>
-                                                <td>
+                                                <td style = "border-style: ridge;">4.</td>
+                                                <td style = "border-style: ridge;">
                                                     म्हाडाकडे भरवायची ऑफ साईट इन्फ्रास्ट्रक्चर शुल्क रक्कम (२/७ *
                                                     अनु.क्र.२ )
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style = "border-style: ridge;">
                                                     <input class="total_amount_in_rs form-control form-control--custom"
                                                         readonly type="text" name="offsite_infrastructure_charge_to_mhada"
                                                         id="offsite_infrastructure_charge_to_mhada" value="{{ isset($calculationSheetDetails[0]->offsite_infrastructure_charge_to_mhada) ? $calculationSheetDetails[0]->offsite_infrastructure_charge_to_mhada : 0 }}" />
@@ -1044,11 +679,11 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>5.</td>
-                                                <td>
+                                                <td style = "border-style: ridge;">5.</td>
+                                                <td style = "border-style: ridge;">
                                                     छाननी शुल्क
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style = "border-style: ridge;">
                                                     <input class="total_amount_in_rs form-control form-control--custom"
                                                         readonly type="text" name="scrutiny_fee" id="scrutiny_fee"
                                                         value="{{ isset($calculationSheetDetails[0]->scrutiny_fee) ? $calculationSheetDetails[0]->scrutiny_fee : 6000 }}" />
@@ -1056,11 +691,11 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>6.</td>
-                                                <td>
+                                                <td style = "border-style: ridge;">6.</td>
+                                                <td style = "border-style: ridge;">
                                                     डेब्रिज रिमूव्हल शुल्क रु.६६००/-
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style = "border-style: ridge;">
                                                     <input class="total_amount_in_rs form-control form-control--custom"
                                                         readonly type="text" name="debraj_removal_fee" id="debraj_removal_fee"
                                                         value="{{ isset($calculationSheetDetails[0]->debraj_removal_fee) ? $calculationSheetDetails[0]->debraj_removal_fee : 6600 }}" />
@@ -1069,11 +704,11 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>7.</td>
-                                                <td>
+                                                <td style = "border-style: ridge;">7.</td>
+                                                <td style = "border-style: ridge;">
                                                     अभिन्यास मंजुरी शुल्क रु,१०००/ - प्रति गाळा
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style = "border-style: ridge;">
                                                     <input class="total_amount_in_rs form-control form-control--custom"
                                                         readonly type="text" name="layout_approval_fee" id="layout_approval_fee"
                                                         value="{{ isset($calculationSheetDetails[0]->layout_approval_fee) ? $calculationSheetDetails[0]->layout_approval_fee : 0 }}" />
@@ -1081,11 +716,11 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>8.</td>
-                                                <td>
+                                                <td style = "border-style: ridge;">8.</td>
+                                                <td style = "border-style: ridge;">
                                                     पाणी वापर शुल्क (रु.१,००,०००/- )
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style = "border-style: ridge;">
                                                     <input class="total_amount_in_rs form-control form-control--custom"
                                                         readonly type="text" name="water_usage_charges" id="water_usage_charges"
                                                         value="{{ isset($calculationSheetDetails[0]->water_usage_charges) ? $calculationSheetDetails[0]->water_usage_charges : 100000 }}" />
@@ -1093,22 +728,22 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>9.</td>
-                                                <td>
+                                                <td style = "border-style: ridge;">9.</td>
+                                                <td style = "border-style: ridge;">
                                                     एकूण रक्कम रुपये
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style = "border-style: ridge;">
                                                     <input class="form-control form-control--custom" readonly type="text"
                                                         name="total_amount_in_rs" id="total_amount_in_rs" value="{{ isset($calculationSheetDetails[0]->total_amount_in_rs) ? $calculationSheetDetails[0]->total_amount_in_rs : 0 }}" />
 
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>10.</td>
-                                                <td>
+                                                <td style = "border-style: ridge;">10.</td>
+                                                <td style = "border-style: ridge;">
                                                     बृहनमुंबई महानगर पालिकेकडे भरणा करावयाची रक्कम
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style = "border-style: ridge;">
                                                     <input class="form-control form-control--custom" readonly type="text"
                                                         name="amount_to_b_paid_to_municipal_corporation" id="amount_to_b_paid_to_municipal_corporation"
                                                         value="{{ isset($calculationSheetDetails[0]->amount_to_b_paid_to_municipal_corporation) ? $calculationSheetDetails[0]->amount_to_b_paid_to_municipal_corporation : 0 }}" />
@@ -1118,7 +753,6 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                </form>
                             </div>
                         </div>
                     </div>

@@ -502,7 +502,7 @@ class REEController extends Controller
         // $pdf = \App::make('dompdf.wrapper');
         $pdf = new Mpdf();
         $pdf->autoScriptToLang = true;
-        $pdf->autoLangToFont = true;
+        $pdf->autoLangToFont = true; 
 
         // $pdf->SetHTMLHeader($header_file);
         // $pdf->SetHTMLFooter($footer_file);
@@ -517,7 +517,7 @@ class REEController extends Controller
             Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
         } 
         Storage::disk('ftp')->put($filePath, $pdf->Output($fileName, 'S'));
-        $file = $pdf->output();
+        // $file = $pdf->output();
 
         //text offer letter
 
@@ -565,7 +565,7 @@ class REEController extends Controller
         }
         //Code added by Prajakta >>end
 
-        return redirect('generate_offer_letter/'.$request->applicationId);
+        return redirect('generate_offer_letter/'.$request->applicationId)->with('success','Offer Letter generated successfully..');
     }
 
     public function saveRevalOfferLetter(Request $request){
@@ -732,7 +732,6 @@ class REEController extends Controller
 
     public function showCalculationSheet($id)
     {
-
         $applicationId = $id;
         $user = $this->CommonController->showCalculationSheet($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId); 
@@ -761,8 +760,8 @@ class REEController extends Controller
         $reeNote = REENote::where('application_id',$applicationId)->orderBy('id','DESC')->first(); 
         $ol_application->folder = $this->getCurrentRoleFolderName();
         $buldingNumber = OlCustomCalculationSheet::where('application_id',$applicationId)
-            ->where('title','total_no_of_buildings')->value('amount');     
-
+            ->where('title','total_no_of_buildings')->value('amount');
+   
         return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','summary','status','reeNote','folder','buldingNumber'));
 
     }
