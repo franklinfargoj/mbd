@@ -153,7 +153,10 @@ class SocietyConveyanceController extends Controller
             $field_names = array_values($fields_names);
         }
         $comm_func = $this->CommonController;
-        $layouts = MasterLayout::all();
+        $role_id = Role::where('name', config('commanConfig.dycdo_engineer'))->first();
+        $user_ids = RoleUser::where('role_id', $role_id->id)->pluck('user_id');
+
+        $layouts = MasterLayout::whereHas('layoutuser', function($q)use($user_ids){ $q->whereIn('user_id', $user_ids); })->get();
         $application_master_id = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->first();
         $master_tenant_type = MasterTenantType::all();
 

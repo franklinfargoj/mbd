@@ -10,8 +10,7 @@
         </div>
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
-
-            <form id="save_offer_letter_application_self" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{ route('save_tripatite_self') }}">
+            <form id="save_offer_letter_application_self" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{ route('tripartite_application_form_update') }}">
                 @csrf
                 <div class="m-portlet__body m-portlet__body--spaced">
                     <div class="form-group m-form__group row">
@@ -29,7 +28,8 @@
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="preceding_officer_name">Department:</label>
                             <input type="text" id="department_name" name="department_name" class="form-control form-control--custom m-input" value="EE" readonly>
-                            <input type="hidden" name="application_master_id" value="{{ $id }}" required>
+                            <input type="hidden" name="application_master_id" value="{{ $ol_applications->application_master_id }}" required>
+                            <input type="hidden" name="application_id" value="{{ $ol_applications->id }}" required>
                             <span class="help-block">{{$errors->first('department_name')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
@@ -59,9 +59,9 @@
                                 <div class="col-sm-4 form-group">
                                     <label class="col-form-label" for="{{ $form_fields[$i] }}">@php $labels = implode(' ', explode('_', $form_fields[$i])); echo ucwords($labels); @endphp:</label>
                                     @if(strpos($form_fields[$i], 'date') != null)
-                                        @php echo $comm_func->form_fields($form_fields[$i], 'date') @endphp
+                                        @php echo $comm_func->form_fields($form_fields[$i], 'date', '', '', $form_fields_values[$form_fields[$i]]) @endphp
                                     @else
-                                        @php echo $comm_func->form_fields($form_fields[$i], 'text', '', '', '', '', 'required') @endphp
+                                        @php echo $comm_func->form_fields($form_fields[$i], 'text', '', '', $form_fields_values[$form_fields[$i]], '', 'required') @endphp
                                     @endif
                                     <span class="help-block">{{ $errors->first($form_fields[$i]) }}</span>
                                 </div>
@@ -70,9 +70,9 @@
                                 <div class="col-sm-4 offset-sm-1 form-group">
                                     <label class="col-form-label" for="{{ $form_fields[$i+1] }}">@php $labels = implode(' ', explode('_', $form_fields[$i+1])); echo ucwords($labels); @endphp:</label>
                                     @if(strpos($form_fields[$i+1], 'date') != null)
-                                        @php echo $comm_func->form_fields($form_fields[$i+1], 'date') @endphp
+                                        @php echo $comm_func->form_fields($form_fields[$i+1], 'date', '', '', $form_fields_values[$form_fields[$i+1]]) @endphp
                                     @else
-                                        @php echo $comm_func->form_fields($form_fields[$i+1], 'text', '', '', '', '', 'required') @endphp
+                                        @php echo $comm_func->form_fields($form_fields[$i+1], 'text', '', '', $form_fields_values[$form_fields[$i+1]], '', 'required') @endphp
                                     @endif
                                     <span class="help-block">{{ $errors->first($form_fields[$i+1]) }}</span>
                                 </div>
@@ -86,7 +86,7 @@
                                 <div class="col-sm-4">
                                     <div class="btn-list">
                                         <a href="{{ route('society_offer_letter_dashboard') }}" class="btn btn-secondary">Cancel</a>
-                                        <button type="submit"  class="btn btn-primary">Save</button>
+                                        <button type="submit"  class="btn btn-primary">Update</button>
                                     </div>
                                 </div>
                             </div>
