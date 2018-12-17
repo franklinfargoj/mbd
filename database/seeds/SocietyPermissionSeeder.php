@@ -553,6 +553,31 @@ class SocietyPermissionSeeder extends Seeder
                 'display_name' => 'Updates Application',
                 'description'  => 'Updates Application'
             ],
+            [
+                'name'         => 'delete_tripartite_docs',
+                'display_name' => 'Delete Application documents',
+                'description'  => 'Delete Application documents'
+            ],
+            [
+                'name'         => 'add_tripartite_documents_comment',
+                'display_name' => 'Adds society documents comment',
+                'description'  => 'Adds society documents comment'
+            ],
+            [
+                'name'         => 'upload_society_tripartite_application',
+                'display_name' => 'Upload Stamped Tripartite Application',
+                'description'  => 'Upload Stamped Tripartite Application'
+            ],
+            [
+                'name'         => 'upload_society_tripartite',
+                'display_name' => 'Uploads Stamped Tripartite Application',
+                'description'  => 'Uploads Stamped Tripartite Application'
+            ],
+            [
+                'name'         => 'society_tripartite_application_download',
+                'display_name' => 'Shows Application form in pdf format',
+                'description'  => 'Shows Application form in pdf format'
+            ],
         ];
         
         if(count($society)==0){

@@ -464,6 +464,11 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         Route::post('/upload_tripartite_docs', 'SocietyTripatiteController@upload_tripartite_docs')->name('upload_tripartite_docs');
         Route::get('/tripartite_application_form_edit/{id}', 'SocietyTripatiteController@tripartite_application_form_edit')->name('tripartite_application_form_edit');
         Route::post('/tripartite_application_form_update', 'SocietyTripatiteController@tripartite_application_form_update')->name('tripartite_application_form_update');
+        Route::get('/delete_tripartite_docs/{id}', 'SocietyTripatiteController@delete_tripartite_docs')->name('delete_tripartite_docs');
+        Route::post('add_tripartite_documents_comment', 'SocietyTripatiteController@addSocietyDocumentsComment')->name('add_tripartite_documents_comment');
+        Route::get('upload_society_tripartite_application/{id}', 'SocietyTripatiteController@showuploadTripartiteAfterSign')->name('upload_society_tripartite_application');
+        Route::post('upload_society_tripartite', 'SocietyTripatiteController@uploadTripartiteAfterSign')->name('upload_society_tripartite');
+        Route::get('society_tripartite_application_download/{id}', 'SocietyTripatiteController@generate_pdf')->name('society_tripartite_application_download');
 
         //tripartite end
 
