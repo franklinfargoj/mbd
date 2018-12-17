@@ -27,6 +27,19 @@ $route=\Request::route()->getName();
     {{--</a>--}}
 {{--</li>--}}
 
+<li class="m-menu__item {{($route=='hearing.index')?'m-menu__item--active':''}}">
+    <a href="{{ url('hearing') }}" class="m-menu__link m-menu__toggle">
+        <i class="m-menu__link-icon flaticon-line-graph"></i>
+        <span class="m-menu__link-title">
+            <span class="m-menu__link-wrap">
+                <span class="m-menu__link-text">
+                    List of Hearings
+                </span>
+            </span>
+        </span>
+    </a>
+</li>
+
 <li class="m-menu__item" data-toggle="collapse" data-target="#hearing-actions">
     <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
         <i class="m-menu__link-icon flaticon-line-graph"></i>

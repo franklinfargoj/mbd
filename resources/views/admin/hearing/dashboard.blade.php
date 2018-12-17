@@ -9,7 +9,7 @@
         $chart2 = 0;
         $chart3 = 0;
         $chart4 = 0;
-    @endphp
+    @endphp 
 <div class="container-fluid">
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
@@ -104,6 +104,7 @@
     
 
 <!-- Dashboard for Convayance Module  --> 
+@if(session()->get('role_name') == config('commanConfig.joint_co'))
     @if($conveyanceDashboard)
         <div class="hearing-accordion-wrapper">
             <div class="m-portlet m-portlet--compact conveyance-accordion mb-0">
@@ -230,6 +231,7 @@
     </div>
     @endif
     @endif
+@endif    
     <!-- end -->   
 
 </div>
