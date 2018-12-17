@@ -2,7 +2,6 @@
 @php
 $route="";
 $route=\Request::route()->getName();
-
 @endphp
 
 {{--@php--}}`
@@ -30,7 +29,7 @@ $route=\Request::route()->getName();
             data-max-height="100vh">
             <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow">
 
-                @if(session()->get('permission') && in_array('dashboard', session()->get('permission')) || (strpos($route,'dashboard') !== false) || (strpos($route,'detail') !== false) || !($route == 'hearing'))
+                @if(session()->get('permission') && in_array('dashboard', session()->get('permission')) || (strpos($route,'dashboard') !== false) || (strpos($route,'detail') !== false) || !($route == 'hearing') && !(strpos($route,'rti') !== false))
                 <li class="m-menu__item {{(strpos($route,'dashboard') !== false)?'m-menu__item--active':''}}">
                     <a href="{{ session()->get('dashboard') }}" class="m-menu__link m-menu__toggle">
                         <i class="m-menu__link-icon flaticon-line-graph"></i>
