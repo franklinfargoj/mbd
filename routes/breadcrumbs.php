@@ -1165,7 +1165,7 @@ Breadcrumbs::for('tripartite_note_ree', function ($trail,$id) {
 });
 
 Breadcrumbs::for('ol_forward_application', function ($trail,$id) {
-    $trail->parent('society_renewal');
+    $trail->parent('tripartite');
     $trail->push('Forward Application', route('tripartite.forward_application',$id));
 });
 
