@@ -2,18 +2,15 @@
 @php
 $route="";
 $route=\Request::route()->getName();
-//dd($route);
-//dd(session()->all());
-//dd(in_array($route, session()->get('permission')));
 
 @endphp
 
 {{--@php--}}`
-    {{--dd((\Illuminate\Support\Facades\Request::is('lease_detail/*')--}}
-                                            {{--&& (isset($count) && ($count==0)))--}}
-                                            {{--|| \Illuminate\Support\Facades\Request::is('lease_detail/create/*')--}}
-                                            {{--|| \Illuminate\Support\Facades\Request::is('lease_detail/view-lease/*')--}}
-                                            {{--|| \Illuminate\Support\Facades\Request::is('lease_detail/edit-lease/*'));--}}
+{{--dd((\Illuminate\Support\Facades\Request::is('lease_detail/*')--}}
+{{--&& (isset($count) && ($count==0)))--}}
+{{--|| \Illuminate\Support\Facades\Request::is('lease_detail/create/*')--}}
+{{--|| \Illuminate\Support\Facades\Request::is('lease_detail/view-lease/*')--}}
+{{--|| \Illuminate\Support\Facades\Request::is('lease_detail/edit-lease/*'));--}}
 {{--@endphp--}}
 
 <button class="m-aside-left-close  m-aside-left-close--skin-dark " id="m_aside_left_close_btn"><i class="la la-close"></i></button>
@@ -33,7 +30,9 @@ $route=\Request::route()->getName();
             data-max-height="100vh">
             <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow">
 
-                @if(session()->get('permission') && in_array('dashboard', session()->get('permission')) || (strpos($route,'dashboard') !== false) || (strpos($route,'detail') !== false) || !($route == 'hearing') && !(strpos($route,'rti') !== false))
+                @if(session()->get('permission') && in_array('dashboard', session()->get('permission')) ||
+                (strpos($route,'dashboard') !== false) || (strpos($route,'detail') !== false) || !($route ==
+                'hearing'))
                 <li class="m-menu__item {{(strpos($route,'dashboard') !== false)?'m-menu__item--active':''}}">
                     <a href="{{ session()->get('dashboard') }}" class="m-menu__link m-menu__toggle">
                         <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -48,19 +47,21 @@ $route=\Request::route()->getName();
                 </li>
                 @endif
 
-                {{--@if(session()->get('permission') && in_array('architect_layout_dashboard', session()->get('permission')))--}}
-                {{--<li class="m-menu__item {{($route=='architect_layout_dashboard')?'m-menu__item--active':''}}" aria-haspopup="true">--}}
+                {{--@if(session()->get('permission') && in_array('architect_layout_dashboard',
+                session()->get('permission')))--}}
+                {{--<li class="m-menu__item {{($route=='architect_layout_dashboard')?'m-menu__item--active':''}}"
+                    aria-haspopup="true">--}}
                     {{--<a href="{{ url('architect_layout_dashboard') }}" class="m-menu__link ">--}}
                         {{--<i class="m-menu__link-icon flaticon-line-graph"></i>--}}
                         {{--<span class="m-menu__link-title">--}}
-                        {{--<span class="m-menu__link-wrap">--}}
-                            {{--<span class="m-menu__link-text">--}}
-                                {{--Dashboard--}}
+                            {{--<span class="m-menu__link-wrap">--}}
+                                {{--<span class="m-menu__link-text">--}}
+                                    {{--Dashboard--}}
+                                    {{--</span>--}}
+                                {{--</span>--}}
                             {{--</span>--}}
-                        {{--</span>--}}
-                    {{--</span>--}}
-                    {{--</a>--}}
-                {{--</li>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
                 {{--@endif--}}
 
 
@@ -171,7 +172,8 @@ $route=\Request::route()->getName();
                 ];
                 @endphp
 
-                {{--@if(session()->get('permission') && in_array('hearing.dashboard', session()->get('permission')))--}}
+                {{--@if(session()->get('permission') && in_array('hearing.dashboard',
+                session()->get('permission')))--}}
                 {{--<li class="m-menu__item {{($route=='hearing.dashboard')?'m-menu__item--active':''}}">--}}
                     {{--<a href="{{ url('hearing-dashboard') }}" class="m-menu__link m-menu__toggle">--}}
                         {{--<i class="m-menu__link-icon flaticon-line-graph"></i>--}}
@@ -179,11 +181,11 @@ $route=\Request::route()->getName();
                             {{--<span class="m-menu__link-wrap">--}}
                                 {{--<span class="m-menu__link-text">--}}
                                     {{--Dashboard--}}
+                                    {{--</span>--}}
                                 {{--</span>--}}
                             {{--</span>--}}
-                        {{--</span>--}}
-                    {{--</a>--}}
-                {{--</li>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
                 {{--@endif--}}
 
 
@@ -315,7 +317,8 @@ $route=\Request::route()->getName();
                                 <span class="m-menu__link-title">
                                     <span class="m-menu__link-wrap">
                                         <span class="m-menu__link-text">
-                                            <img class="sidebar-icon" src="{{ asset('/img/sidebar/society-details-icon.svg')}}">Society Details
+                                            <img class="sidebar-icon" src="{{ asset('/img/sidebar/society-details-icon.svg')}}">Society
+                                            Details
                                         </span>
                                         <i class="m-menu__ver-arrow la la-angle-right"></i>
                                     </span>
@@ -361,7 +364,10 @@ $route=\Request::route()->getName();
                             </ul>
                         </li>
 
-                        @if(\Illuminate\Support\Facades\Request::is('lease_detail/*') || (strpos($route,'village_detail') !== false) || (strpos($route,'renew-lease') !== false) || (strpos($route,'architect_layout') !== false) || (strpos($route,'society_detail') !== false) || $route =='land.dashboard')
+                        @if(\Illuminate\Support\Facades\Request::is('lease_detail/*') ||
+                        (strpos($route,'village_detail') !== false) || (strpos($route,'renew-lease') !== false) ||
+                        (strpos($route,'architect_layout') !== false) || (strpos($route,'society_detail') !== false) ||
+                        $route =='land.dashboard')
                         <li class="m-menu__item m-menu__item--level-2 {{($route=='lease_detail.index' || $route=='view-lease.view' || $route=='edit-lease.edit' || $route=='lease_detail.create')? '' : 'collapsed'}}"
                             data-toggle="collapse" data-target="#lease-actions">
                             <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">
@@ -382,70 +388,72 @@ $route=\Request::route()->getName();
 
 
                                 {{--@if(\Illuminate\Support\Facades\Request::is('village_detail')--}}
-                                 {{--|| \Illuminate\Support\Facades\Request::is('village_detail/*'))--}}
+                                {{--|| \Illuminate\Support\Facades\Request::is('village_detail/*'))--}}
                                 {{--@endif--}}
 
                                 {{--@if(\Illuminate\Support\Facades\Request::is('society_detail')--}}
-                                     {{--|| \Illuminate\Support\Facades\Request::is('society_detail/*'))--}}
+                                {{--|| \Illuminate\Support\Facades\Request::is('society_detail/*'))--}}
                                 {{--@endif--}}
-                                    {{--@php dd($route); @endphp--}}
+                                {{--@php dd($route); @endphp--}}
                                 @if((strpos($route,'village_detail') !== false)
-                                    || (strpos($route,'lease_detail') !== false)
-                                    || (strpos($route,'society_detail') !== false)
-                                    || (strpos($route,'architect_layout') !== false)
-                                    || (strpos($route,'renew-lease') !== false)
-                                    || (strpos($route,'view-lease') !== false)
-                                    || (strpos($route,'edit-lease') !== false)
-                                    || ($route == 'land.dashboard')
-                                  )
+                                || (strpos($route,'lease_detail') !== false)
+                                || (strpos($route,'society_detail') !== false)
+                                || (strpos($route,'architect_layout') !== false)
+                                || (strpos($route,'renew-lease') !== false)
+                                || (strpos($route,'view-lease') !== false)
+                                || (strpos($route,'edit-lease') !== false)
+                                || ($route == 'land.dashboard')
+                                )
 
-                                        @php
-                                            if((strpos($route,'village_detail') !== false) || (strpos($route,'society_detail') !== false) || (strpos($route,'architect_layouts') !== false)){
+                                @php
+                                if((strpos($route,'village_detail') !== false) || (strpos($route,'society_detail') !==
+                                false) || (strpos($route,'architect_layouts') !== false)){
 
-                                                $id = '0' ;
-                                            }else{
-                                                $id = collect(request()->segments())->last();
-                                            }
-                                        @endphp
-                                        <li class="m-menu__item m-menu__item--submenu {{ ($route=='lease_detail.index' || (strpos($route,'view-lease') !== false) || $route=='edit-lease.edit')?'m-menu__item--active':''}}">
-                                            <a class="m-menu__link m-menu__toggle"
-                                               href="{{ route('lease_detail.index', $id)}}"
-                                               class="m-menu__link m-menu__toggle">
-                                                <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                     viewBox="0 0 510 510">
-                                                    <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                          fill="#FFF" />
-                                                </svg>
-                                                <span class="m-menu__link-text">List of Lease</span></a>
-                                        </li>
+                                $id = '0' ;
+                                }else{
+                                $id = collect(request()->segments())->last();
+                                }
+                                @endphp
+                                <li class="m-menu__item m-menu__item--submenu {{ ($route=='lease_detail.index' || (strpos($route,'view-lease') !== false) || $route=='edit-lease.edit')?'m-menu__item--active':''}}">
+                                    <a class="m-menu__link m-menu__toggle" href="{{ route('lease_detail.index', $id)}}"
+                                        class="m-menu__link m-menu__toggle">
+                                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            viewBox="0 0 510 510">
+                                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                                fill="#FFF" />
+                                        </svg>
+                                        <span class="m-menu__link-text">List of Lease</span></a>
+                                </li>
 
-                                        @if((strpos($route,'lease_detail') !== false)|| (strpos($route,'renew-lease') !== false) || (strpos($route,'view-lease') !== false) || (strpos($route,'edit-lease') !== false))
-                                            @if(isset($count) && ($count==0) && ($id != 0) || ($route=='lease_detail.create'))
-                                                <li class="m-menu__item m-menu__item--submenu {{($route=='lease_detail.create')?'m-menu__item--active':''}}">
-                                                    <a class="m-menu__link m-menu__toggle" href="{{route('lease_detail.create', $id)}}"
-                                                       class="m-menu__link m-menu__toggle">
-                                                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                             viewBox="0 0 510 510">
-                                                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                                  fill="#FFF" />
-                                                        </svg>
-                                                        <span class="m-menu__link-text">Add Lease</span></a>
-                                                </li>
-                                            @endif
-                                            @if(isset($count) && ($count != 0) && ($id != 0))
-                                                <li class="m-menu__item m-menu__item--submenu {{($route=='renew-lease.renew')?'m-menu__item--active':''}}">
-                                                    <a class="m-menu__link m-menu__toggle" href="{{route('renew-lease.renew', $id)}}"
-                                                       class="m-menu__link m-menu__toggle">
-                                                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                             viewBox="0 0 510 510">
-                                                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                                  fill="#FFF" />
-                                                        </svg>
-                                                        <span class="m-menu__link-text">Renew Lease</span></a>
-                                                </li>
-                                            @endif
-                                        @endif
-                                    @endif
+                                @if((strpos($route,'lease_detail') !== false)|| (strpos($route,'renew-lease') !==
+                                false) || (strpos($route,'view-lease') !== false) || (strpos($route,'edit-lease') !==
+                                false))
+                                @if(isset($count) && ($count==0) && ($id != 0) || ($route=='lease_detail.create'))
+                                <li class="m-menu__item m-menu__item--submenu {{($route=='lease_detail.create')?'m-menu__item--active':''}}">
+                                    <a class="m-menu__link m-menu__toggle" href="{{route('lease_detail.create', $id)}}"
+                                        class="m-menu__link m-menu__toggle">
+                                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            viewBox="0 0 510 510">
+                                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                                fill="#FFF" />
+                                        </svg>
+                                        <span class="m-menu__link-text">Add Lease</span></a>
+                                </li>
+                                @endif
+                                @if(isset($count) && ($count != 0) && ($id != 0))
+                                <li class="m-menu__item m-menu__item--submenu {{($route=='renew-lease.renew')?'m-menu__item--active':''}}">
+                                    <a class="m-menu__link m-menu__toggle" href="{{route('renew-lease.renew', $id)}}"
+                                        class="m-menu__link m-menu__toggle">
+                                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            viewBox="0 0 510 510">
+                                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                                fill="#FFF" />
+                                        </svg>
+                                        <span class="m-menu__link-text">Renew Lease</span></a>
+                                </li>
+                                @endif
+                                @endif
+                                @endif
 
 
                             </ul>
@@ -454,180 +462,199 @@ $route=\Request::route()->getName();
                 </li>
                 @endif
 
-                    @if(session()->get('permission') && (in_array('architect_layout.index', session()->get('permission'))
-                    ||
-                    in_array('architect_layouts_layout_details.index',
-                    session()->get('permission')) || in_array('architect_layout_details.view',
-                    session()->get('permission'))
-                    ||
-                    in_array('forward_architect_layout', session()->get('permission')) ||
-                    in_array('architect_layout_get_scrtiny',
-                    session()->get('permission')) || in_array('architect_layout_add_scrutiny_report',
-                    session()->get('permission')) ||
-                    in_array('architect_layout_detail_view_cts_plan', session()->get('permission')) ||
-                    in_array('architect_layout_detail_view_prc_detail', session()->get('permission')) ||
-                    in_array('architect_detail_dp_crz_remark_view', session()->get('permission')) ||
-                    in_array('view_court_case_or_dispute_on_land', session()->get('permission')) ||
-                    in_array('architect_layout_add_scrutiny_report', session()->get('permission')) ))
-                        
-                        <li class="m-menu__item {{($route=='architect_layout.index' || $route=='architect_layouts_layout_details.index' || $route=='architect_layout.add')?'':'collapsed'}}"
-                            data-toggle="collapse" data-target="#architect-layouts">
-                            <a href="{{ route('architect_layout.index') }}" class="m-menu__link m-menu__toggle">
-                                <span class="m-menu__link-title">
+                @if(session()->get('permission') && (in_array('architect_layout.index', session()->get('permission'))
+                ||
+                in_array('architect_layouts_layout_details.index',
+                session()->get('permission')) || in_array('architect_layout_details.view',
+                session()->get('permission'))
+                ||
+                in_array('forward_architect_layout', session()->get('permission')) ||
+                in_array('architect_layout_get_scrtiny',
+                session()->get('permission')) || in_array('architect_layout_add_scrutiny_report',
+                session()->get('permission')) ||
+                in_array('architect_layout_detail_view_cts_plan', session()->get('permission')) ||
+                in_array('architect_layout_detail_view_prc_detail', session()->get('permission')) ||
+                in_array('architect_detail_dp_crz_remark_view', session()->get('permission')) ||
+                in_array('view_court_case_or_dispute_on_land', session()->get('permission')) ||
+                in_array('architect_layout_add_scrutiny_report', session()->get('permission')) ))
+
+                <li class="m-menu__item {{($route=='architect_layout.index' || $route=='architect_layouts_layout_details.index' || $route=='architect_layout.add')?'':'collapsed'}}"
+                    data-toggle="collapse" data-target="#architect-layouts">
+                    <a href="{{ route('architect_layout.index') }}" class="m-menu__link m-menu__toggle">
+                        <span class="m-menu__link-title">
                             <span class="m-menu__link-wrap">
                                 <span class="m-menu__link-text">
-                                    <img class="sidebar-icon" src="{{ asset('/img/sidebar/architect-layouts-icon.svg')}}">Architect Layouts
+                                    <img class="sidebar-icon" src="{{ asset('/img/sidebar/architect-layouts-icon.svg')}}">Architect
+                                    Layouts
                                 </span>
                                 <i class="m-menu__ver-arrow la la-angle-right"></i>
                             </span>
                         </span>
-                            </a>
-                        </li>
+                    </a>
+                </li>
 
-                        <li id="architect-layouts" class="collapse {{($route=='architect_layout.index'|| $route=='architect_layouts_layout_details.index' || $route=='architect_layout.add')?'show':''}}">
-                            <ul class="list-unstyled">
-                                @if(session()->get('role_name')=='junior_architect')
-                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='architect_layout.add')?'m-menu__item--active':''}}"
-                                        aria-haspopup="true">
-                                        <a href="{{ route('architect_layout.add') }}" class="m-menu__link m-menu__toggle">
-                                            <i class="m-menu__link-icon flaticon-line-graph"></i>
-                                            <span class="m-menu__link-title">
+                <li id="architect-layouts" class="collapse {{($route=='architect_layout.index'|| $route=='architect_layouts_layout_details.index' || $route=='architect_layout.add')?'show':''}}">
+                    <ul class="list-unstyled">
+                        @if(session()->get('role_name')=='junior_architect')
+                        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='architect_layout.add')?'m-menu__item--active':''}}"
+                            aria-haspopup="true">
+                            <a href="{{ route('architect_layout.add') }}" class="m-menu__link m-menu__toggle">
+                                <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                <span class="m-menu__link-title">
                                     <span class="m-menu__link-wrap">
                                         <span class="m-menu__link-text">
                                             Add Layout
                                         </span>
                                     </span>
                                 </span>
-                                        </a>
-                                    </li>
-                                @endif
-                                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='architect_layout.index' || $route=='architect_layouts_layout_details.index')?'m-menu__item--active':''}}"
-                                    aria-haspopup="true">
-                                    <a href="{{ route('architect_layout.index') }}" class="m-menu__link m-menu__toggle">
-                                        <i class="m-menu__link-icon flaticon-line-graph"></i>
-                                        <span class="m-menu__link-title">
+                            </a>
+                        </li>
+                        @endif
+                        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='architect_layout.index' || $route=='architect_layouts_layout_details.index')?'m-menu__item--active':''}}"
+                            aria-haspopup="true">
+                            <a href="{{ route('architect_layout.index') }}" class="m-menu__link m-menu__toggle">
+                                <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                <span class="m-menu__link-title">
                                     <span class="m-menu__link-wrap">
                                         <span class="m-menu__link-text">
-                                           Layouts & Revision Requests
+                                            Layouts & Revision Requests
                                         </span>
                                     </span>
                                 </span>
-                                    </a>
-                                </li>
-                                {{-- <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='architect_layouts_layout_details.index')?'m-menu__item--active':''}}"
-                                    aria-haspopup="true">
-                                    <a href="{{ route('architect_layouts_layout_details.index') }}" class="m-menu__link m-menu__toggle">
-                                        <i class="m-menu__link-icon flaticon-line-graph"></i>
-                                        <span class="m-menu__link-title">
-                                            <span class="m-menu__link-wrap">
-                                                <span class="m-menu__link-text">
-                                                    Layout Details
-                                                </span>
-                                            </span>
-                                        </span>
-                                    </a>
-                                </li> --}}
-                            </ul>
+                            </a>
                         </li>
-                    @endif
-                                     
-
-<!-- Tabs for Estate and Conveyance -->
- @if(session()->get('permission') && (( in_array('conveyance.index', session()->get('permission')) || in_array('renewal.index', session()->get('permission')) || in_array('get_sf_applications.index', session()->get('permission')) ) ))
-    <li class="m-menu__item {{($route=='conveyance.index' || $route=='renewal.index' || $route=='get_sf_applications.index')?'':'collapsed'}}" data-toggle="collapse" data-target="#estate-actions">
-        <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
-            <i class="m-menu__link-icon flaticon-line-graph"></i>
-            <span class="m-menu__link-title">
-                <span class="m-menu__link-wrap">
-                    <span class="m-menu__link-text">
-                        Estate & Conveyance
-                    </span>
-                    <i class="m-menu__ver-arrow la la-angle-right"></i>
-                </span>
-            </span>
-        </a>
-    </li>
-
-    <li id="estate-actions" class="collapse {{($route=='conveyance.index' || $route=='renewal.index' || $route=='get_sf_applications.index')? 'show' : ''}}"> 
-        <ul class="list-unstyled">           
-            @if(session()->get('permission') && (in_array('conveyance.index', session()->get('permission')) ))
-                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route=='conveyance.index') ? 'm-menu__item--active' : '' }}">
-                    <a href="{{ route('conveyance.index') }}" class="m-menu__link m-menu__toggle">
-                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
-                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z" fill="#FFF" />
-                        </svg>
-                        <span class="m-menu__link-text">
-                            Society Conveyance Applications
-                        </span>
-                    </a>
+                        {{-- <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='architect_layouts_layout_details.index')?'m-menu__item--active':''}}"
+                            aria-haspopup="true">
+                            <a href="{{ route('architect_layouts_layout_details.index') }}" class="m-menu__link m-menu__toggle">
+                                <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                <span class="m-menu__link-title">
+                                    <span class="m-menu__link-wrap">
+                                        <span class="m-menu__link-text">
+                                            Layout Details
+                                        </span>
+                                    </span>
+                                </span>
+                            </a>
+                        </li> --}}
+                    </ul>
                 </li>
-            @endif
-  
-            @if(session()->get('permission') && (in_array('renewal.index', session()->get('permission')) ))
+                @endif
 
-            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route=='renewal.index') ? 'm-menu__item--active' : '' }}">
-                <a href="{{ route('renewal.index') }}" class="m-menu__link m-menu__toggle">
-                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
-                    <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z" fill="#FFF" />
-                    </svg>
-                    <span class="m-menu__link-text">
-                        Society Renewal Applications
-                    </span>
-                </a>
-            </li>                        
-            @endif
 
-            @if(in_array('get_sf_applications.index',session()->get('permission')))
-            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route=='get_sf_applications.index') ? 'm-menu__item--active' : '' }}">
-                <a href="{{ route('get_sf_applications.index') }}" class="m-menu__link m-menu__toggle">
-                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
-                    <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z" fill="#FFF" />
-                    </svg>
-                    <span class="m-menu__link-text">
-                        Society Formation Applications
-                    </span>
-                </a>
-            </li>
-            @endif 
-        </ul> 
-    </li> 
-@endif        
-<!-- end of Estate of Conveyance -->
-
-                @if(session()->get('permission') && (in_array('vp.index', session()->get('permission')) ||
-                in_array('ee.index',
-                session()->get('permission')) || in_array('dyce.index', session()->get('permission')) ||
-                in_array('ree_applications.index', session()->get('permission')) || in_array('co.index',
-                session()->get('permission')) || in_array('cap.index', session()->get('permission')) ||
-                in_array('society_offer_letter.index', session()->get('permission')) ||
-                in_array('architect_layout.index', session()->get('permission')) || in_array('dyco.index', session()->get('permission')) || in_array('hearing.index', session()->get('permission')) ))
-
-                @if (isset($route) && ($route == 'co.index' || $route=='ee.index' || $route=='dyce.index' || $route=='co_applications.reval' || $route=='co_applications.noc' || $route == 'ree_applications.noc_cc' || $route == 'co_applications.noc_cc' ||
-                $route=='ree_applications.index' || $route=='ree_applications.reval' || $route == 'ree_applications.noc' || $route=='cap.index' || $route=='cap_applications.reval' || $route=='vp.index' ||
-                $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
-                $route=='documents_uploaded' || $route=='documents_upload'))
-
-                <li class="m-menu__item" data-toggle="collapse" data-target="#society-actions">
+                <!-- Tabs for Estate and Conveyance -->
+                @if(session()->get('permission') && (( in_array('conveyance.index', session()->get('permission')) ||
+                in_array('renewal.index', session()->get('permission')) || in_array('get_sf_applications.index',
+                session()->get('permission')) ) ))
+                <li class="m-menu__item {{($route=='conveyance.index' || $route=='renewal.index' || $route=='get_sf_applications.index')?'':'collapsed'}}"
+                    data-toggle="collapse" data-target="#estate-actions">
                     <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
                         <i class="m-menu__link-icon flaticon-line-graph"></i>
                         <span class="m-menu__link-title">
                             <span class="m-menu__link-wrap">
                                 <span class="m-menu__link-text">
-                                    Applications
+                                    Estate & Conveyance
                                 </span>
                                 <i class="m-menu__ver-arrow la la-angle-right"></i>
                             </span>
                         </span>
                     </a>
                 </li>
-                @endif
 
+                <li id="estate-actions" class="collapse {{($route=='conveyance.index' || $route=='renewal.index' || $route=='get_sf_applications.index')? 'show' : ''}}">
+                    <ul class="list-unstyled">
+                        @if(session()->get('permission') && (in_array('conveyance.index', session()->get('permission'))
+                        ))
+                        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route=='conveyance.index') ? 'm-menu__item--active' : '' }}">
+                            <a href="{{ route('conveyance.index') }}" class="m-menu__link m-menu__toggle">
+                                <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    viewBox="0 0 510 510">
+                                    <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                        fill="#FFF" />
+                                </svg>
+                                <span class="m-menu__link-text">
+                                    Society Conveyance Applications
+                                </span>
+                            </a>
+                        </li>
+                        @endif
+
+                        @if(session()->get('permission') && (in_array('renewal.index', session()->get('permission')) ))
+
+                        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route=='renewal.index') ? 'm-menu__item--active' : '' }}">
+                            <a href="{{ route('renewal.index') }}" class="m-menu__link m-menu__toggle">
+                                <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    viewBox="0 0 510 510">
+                                    <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                        fill="#FFF" />
+                                </svg>
+                                <span class="m-menu__link-text">
+                                    Society Renewal Applications
+                                </span>
+                            </a>
+                        </li>
+                        @endif
+
+                        @if(in_array('get_sf_applications.index',session()->get('permission')))
+                        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route=='get_sf_applications.index') ? 'm-menu__item--active' : '' }}">
+                            <a href="{{ route('get_sf_applications.index') }}" class="m-menu__link m-menu__toggle">
+                                <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    viewBox="0 0 510 510">
+                                    <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                        fill="#FFF" />
+                                </svg>
+                                <span class="m-menu__link-text">
+                                    Society Formation Applications
+                                </span>
+                            </a>
+                        </li>
+                        @endif
+                    </ul>
+                </li>
+                @endif
+                <!-- end of Estate of Conveyance -->
+
+
+                @if(isset($route) && (in_array('ree_applications.index', session()->get('permission')) ||
+                in_array('ee.index', session()->get('permission')) ||
+                in_array('dyce.index', session()->get('permission')) ||
+                in_array('co.index', session()->get('permission')) ||
+                in_array('vp.index', session()->get('permission')) ||
+                in_array('vp.index', session()->get('permission')) ||
+                in_array('ree_applications.reval', session()->get('permission')) ||
+                in_array('co_applications.reval', session()->get('permission')) ||
+                in_array('vp_applications.reval', session()->get('permission')) ||
+                in_array('cap_applications.reval', session()->get('permission')) ||
+                in_array('ree_applications.noc', session()->get('permission'))||
+                in_array('co_applications.noc', session()->get('permission')) ||
+                in_array('ree_applications.noc_cc', session()->get('permission'))||
+                in_array('co_applications.noc_cc', session()->get('permission'))
+                ))
+                <li class="m-menu__item" data-toggle="collapse" data-target="#society-actions">
+                    <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
+                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                        <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">
+                                    Redevelopement
+                                </span>
+                                <i class="m-menu__ver-arrow la la-angle-right"></i>
+                            </span>
+                        </span>
+                    </a>
+                </li>
+
+                @if (isset($route) && (in_array('ree_applications.index', session()->get('permission')) ||
+                in_array('ee.index', session()->get('permission')) ||
+                in_array('dyce.index', session()->get('permission')) ||
+                in_array('co.index', session()->get('permission')) ||
+                in_array('vp.index', session()->get('permission')) ||
+                in_array('vp.index', session()->get('permission')) ||
+                in_array('tripartite.index', session()->get('permission')) ||
+                in_array('ree_applications.noc_cc', session()->get('permission'))||
+                in_array('co_applications.noc_cc', session()->get('permission'))
+                ))
                 <li id="society-actions" class="collapse show">
                     <ul class="list-unstyled">
-                        @if (isset($route) && ($route == 'co.index' || $route=='ee.index' || $route=='dyce.index' || $route=='co_applications.reval' || $route=='co_applications.noc' || $route=='vp_applications.reval' ||
-                        $route=='ree_applications.index' || $route=='ree_applications.reval' || $route == 'ree_applications.noc' || $route == 'ree_applications.noc_cc' || $route == 'co_applications.noc_cc' || $route=='cap.index' || $route=='cap_applications.reval' ||$route=='vp.index' ||
-                        $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
-                        $route=='documents_uploaded' || $route=='documents_upload' || $route=='tripartite.index') || (strpos($route,'dashboard') !== false) && $route !='land.dashboard' && !(strpos($route,'hearing') !== false) )
 
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2  {{( $route=='ee.index' || $route=='dyce.index' || $route=='ree_applications.index' || $route=='co.index' || $route=='cap.index' || $route=='vp.index' || $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' || $route=='documents_uploaded' || $route=='documents_upload')?'m-menu__item--active':''}}">
                             <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">
@@ -644,24 +671,25 @@ $route=\Request::route()->getName();
                         @endif
 
 
-                        @if (isset($route) && ($route == 'co.index' || $route=='society_detail.index' ||
-                        $route=='village_detail.index' || $route=='ee.index' || $route=='dyce.index' || $route=='ree_applications.reval' || $route == 'ree_applications.noc' || $route=='vp_applications.reval' ||
-                        $route=='ree_applications.index' || $route=='co_applications.reval' || $route=='co_applications.noc' || $route == 'ree_applications.noc_cc' || $route == 'co_applications.noc_cc' || $route=='cap.index' || $route=='cap_applications.reval' || $route=='vp.index' ||
-                        $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
-                        $route=='documents_uploaded' || $route=='documents_upload' || $route=='tripartite.index'))
-
-                                @php
-                                $reval_redirect_to = "";
-                                if(Session::all()['role_name'] == 'REE Junior Engineer' || Session::all()['role_name'] ==  'REE deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' || Session::all()['role_name'] == 'ree_engineer')
-                                    $reval_redirect_to = "ree_applications.reval";
-                                elseif(Session::all()['role_name'] == 'co_engineer' )
-                                    $reval_redirect_to = "co_applications.reval";
-                                elseif(Session::all()['role_name'] == 'cap_engineer' )
-                                    $reval_redirect_to = "cap_applications.reval";
-                                elseif(Session::all()['role_name'] == 'vp_engineer' )
-                                    $reval_redirect_to = "vp_applications.reval";
-                                @endphp
-                        @if($reval_redirect_to != "")  
+                        @if (isset($route) && (in_array('ree_applications.reval', session()->get('permission')) ||
+                        in_array('co_applications.reval', session()->get('permission')) ||
+                        in_array('vp_applications.reval', session()->get('permission')) ||
+                        in_array('cap_applications.reval', session()->get('permission'))
+                        ))
+                        @php
+                        $reval_redirect_to = "";
+                        if(Session::all()['role_name'] == 'REE Junior Engineer' || Session::all()['role_name'] == 'REE
+                        deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' ||
+                        Session::all()['role_name'] == 'ree_engineer')
+                        $reval_redirect_to = "ree_applications.reval";
+                        elseif(Session::all()['role_name'] == 'co_engineer' )
+                        $reval_redirect_to = "co_applications.reval";
+                        elseif(Session::all()['role_name'] == 'cap_engineer' )
+                        $reval_redirect_to = "cap_applications.reval";
+                        elseif(Session::all()['role_name'] == 'vp_engineer' )
+                        $reval_redirect_to = "vp_applications.reval";
+                        @endphp
+                        @if($reval_redirect_to != "")
 
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route==$reval_redirect_to)?'m-menu__item--active':'' }}">
                             <a href="{{ route($reval_redirect_to) }}" class="m-menu__link m-menu__toggle">
@@ -677,6 +705,7 @@ $route=\Request::route()->getName();
                         </li>
                         @endif
                         @endif
+                        @if (isset($route) && in_array('tripartite.index', session()->get('permission')))
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='tripartite.index')?'m-menu__item--active':'' }}">
                             <a href="{{ route('tripartite.index') }}" class="m-menu__link m-menu__toggle">
                                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -689,20 +718,21 @@ $route=\Request::route()->getName();
                                 </span>
                             </a>
                         </li>
-                        @if (isset($route) && ($route == 'co.index' || $route=='ree_applications.reval' || $route == 'ree_applications.noc' || $route=='vp_applications.reval' ||
-                        $route=='ree_applications.index' || $route=='co_applications.reval' || $route=='co_applications.noc' || $route == 'ree_applications.noc_cc' || $route == 'co_applications.noc_cc' ||
-                        $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
-                        $route=='documents_uploaded' || $route=='documents_upload' || $route=='tripartite.index'))
-
+                        @endif
+                        @if (isset($route) && (in_array('ree_applications.noc', session()->get('permission'))||
+                        in_array('co_applications.noc', session()->get('permission'))
+                        ))
                         @php
                         $reval_redirect_to = "";
 
-                        if(Session::all()['role_name'] == 'REE Junior Engineer' || Session::all()['role_name'] ==  'REE deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' || Session::all()['role_name'] == 'ree_engineer')
-                            $reval_redirect_to = "ree_applications.noc";
+                        if(Session::all()['role_name'] == 'REE Junior Engineer' || Session::all()['role_name'] == 'REE
+                        deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' ||
+                        Session::all()['role_name'] == 'ree_engineer')
+                        $reval_redirect_to = "ree_applications.noc";
                         elseif(Session::all()['role_name'] == 'co_engineer' )
-                            $reval_redirect_to = "co_applications.noc";
+                        $reval_redirect_to = "co_applications.noc";
                         @endphp
-                        @if($reval_redirect_to != "")         
+                        @if($reval_redirect_to != "")
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route==$reval_redirect_to)?'m-menu__item--active':'' }}">
                             <a href="{{ route($reval_redirect_to) }}" class="m-menu__link m-menu__toggle">
                                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -717,21 +747,21 @@ $route=\Request::route()->getName();
                         </li>
                         @endif
                         @endif
-
-                        @if (isset($route) && ($route == 'co.index' || $route=='ree_applications.reval' || $route == 'ree_applications.noc' || $route=='vp_applications.reval' ||
-                        $route=='ree_applications.index' || $route=='co_applications.reval' || $route=='co_applications.noc' || $route == 'ree_applications.noc_cc' || $route == 'co_applications.noc_cc' ||
-                        $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
-                        $route=='documents_uploaded' || $route=='documents_upload' || $route=='tripartite.index'))
-
+                        @if (isset($route) && (in_array('ree_applications.noc_cc', session()->get('permission'))||
+                        in_array('co_applications.noc_cc', session()->get('permission'))
+                        ))
+                        {{-- @if (isset($route) && in_array($route, session()->get('permission'))) --}}
                         @php
                         $noc_redirect_to = "";
 
-                        if(Session::all()['role_name'] == 'REE Junior Engineer' || Session::all()['role_name'] ==  'REE deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' || Session::all()['role_name'] == 'ree_engineer')
-                            $noc_redirect_to = "ree_applications.noc_cc";
+                        if(Session::all()['role_name'] == 'REE Junior Engineer' || Session::all()['role_name'] == 'REE
+                        deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' ||
+                        Session::all()['role_name'] == 'ree_engineer')
+                        $noc_redirect_to = "ree_applications.noc_cc";
                         elseif(Session::all()['role_name'] == 'co_engineer' )
-                            $noc_redirect_to = "co_applications.noc_cc";
+                        $noc_redirect_to = "co_applications.noc_cc";
                         @endphp
-                        @if($noc_redirect_to != "")         
+                        @if($noc_redirect_to != "")
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route==$noc_redirect_to)?'m-menu__item--active':'' }}">
                             <a href="{{ route($noc_redirect_to) }}" class="m-menu__link m-menu__toggle">
                                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -745,179 +775,188 @@ $route=\Request::route()->getName();
                             </a>
                         </li>
                         @endif
-                        @endif
+                        <!-- sudesh-->
+                    </ul>
+                    <!-- comment-->
+                </li>
+                @endif
 
-                        @if(Session::all()['role_name'] == 'ee_engineer')
-                        {{-- <li class="m-menu__item {{($route=='society_detail.billing_level')?'m-menu__item--active':''}}">
-                            <a href="#" class="m-menu__link m-menu__toggle">
-                                <i class="m-menu__link-icon flaticon-line-graph"></i>
-                                <span class="m-menu__link-title">
-                                    <span class="m-menu__link-wrap">
-                                        <span class="m-menu__link-text">
-                                            Service Tax Rates
-                                        </span>
-                                    </span>
+                @if(Session::all()['role_name'] == 'ee_engineer')
+                {{-- <li class="m-menu__item {{($route=='society_detail.billing_level')?'m-menu__item--active':''}}">
+                    <a href="#" class="m-menu__link m-menu__toggle">
+                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                        <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">
+                                    Service Tax Rates
                                 </span>
-                            </a>
-                        </li> --}}
-                        <li class="m-menu__item {{($route=='society.billing_level' || $route=='society.society_details' || $route == 'arrears_charges' || $route == 'arrears_charges.edit' || $route == 'arrears_charges.create' || $route == 'service_charges' || $route == 'service_charges.edit' || $route == 'service_charges.create')?'':'collapsed'}}"
-                            data-toggle="collapse" data-target="#e_billing"> 
-                            <a href="#" class="m-menu__link m-menu__toggle">
-                                <i class="m-menu__link-icon flaticon-line-graph"></i> 
+                            </span>
+                        </span>
+                    </a>
+                </li> --}}
+
+                <li class="m-menu__item {{($route=='society.billing_level' || $route=='society.society_details' || $route == 'arrears_charges' || $route == 'arrears_charges.edit' || $route == 'arrears_charges.create' || $route == 'service_charges' || $route == 'service_charges.edit' || $route == 'service_charges.create')?'':'collapsed'}}"
+                    data-toggle="collapse" data-target="#e_billing">
+                    <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
+                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                        <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text"> E Billing </span>
+                                <i class="m-menu__ver-arrow la la-angle-right"></i>
+                            </span>
+                        </span>
+                    </a>
+                </li>
+                <li id="e_billing" class="collapse {{($route=='society.billing_level'|| $route == 'society.society_details' || $route == 'arrears_charges' || $route == 'arrears_charges.edit' || $route == 'arrears_charges.create' || $route == 'service_charges' || $route == 'service_charges.edit' || $route == 'service_charges.create')?'show':''}}">
+                    <ul class="list-unstyled">
+                        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='society.billing_level' || $route == 'society.society_details' || $route == 'arrears_charges' || $route == 'arrears_charges.create' || $route == 'arrears_charges.edit' || $route == 'service_charges' || $route == 'service_charges.edit' || $route == 'service_charges.create')?'m-menu__item--active':''}}">
+                            <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('society.billing_level') }}">
+                                <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    viewBox="0 0 510 510">
+                                    <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                        fill="#FFF" />
+                                </svg>
+                                {{-- <i class="m-menu__link-icon flaticon-line-graph"></i>
                                 <span class="m-menu__link-title">
-                                    <span class="m-menu__link-wrap"> 
-                                        <span class="m-menu__link-text"> E Billing </span>
-                                        <i class="m-menu__ver-arrow la la-angle-right"></i> 
-                                    </span> 
-                                </span> 
-                            </a> 
-                        </li>
-                        <li id="e_billing" class="collapse {{($route=='society.billing_level'|| $route == 'society.society_details' || $route == 'arrears_charges' || $route == 'arrears_charges.edit' || $route == 'arrears_charges.create' || $route == 'service_charges' || $route == 'service_charges.edit' || $route == 'service_charges.create')?'show':''}}">
-                            <ul class="list-unstyled">
-                                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='society.billing_level' || $route == 'society.society_details' || $route == 'arrears_charges' || $route == 'arrears_charges.create' || $route == 'arrears_charges.edit' || $route == 'service_charges' || $route == 'service_charges.edit' || $route == 'service_charges.create')?'m-menu__item--active':''}}">
-                                    <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('society.billing_level') }}">
-                                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
-                                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                fill="#FFF" />
-                                        </svg>
-                                        {{-- <i class="m-menu__link-icon flaticon-line-graph"></i> 
-                                        <span class="m-menu__link-title">
-                                            <span class="m-menu__link-wrap"> --}}
-                                                <span class="m-menu__link-text">
-                                                    Society Master
-                                                </span>
-                                            {{-- </span>
-                                        </span> --}}
-                                    </a> 
-                                </li>
-                            </ul>
-                        </li>
-                       {{--  <li class="m-menu__item">
-                            <a href="{{ route('society.billing_level') }}" class="m-menu__link m-menu__toggle">
-                                <i class="m-menu__link-icon flaticon-line-graph"></i>
-                                <span class="m-menu__link-title">
-                                    <span class="m-menu__link-wrap">
+                                    <span class="m-menu__link-wrap"> --}}
                                         <span class="m-menu__link-text">
                                             Society Master
                                         </span>
-                                    </span>
-                                </span>
-                            </a>
-                        </li> --}}
-                        @endif
-
-                        @if(Session::all()['role_name'] == 'society')
-                    </ul> </li> <li class="m-menu__item {{($route=='society_conveyance.create' )?'m-menu__item--active':''}}">
-                                                <a href="{{ route('society_conveyance.create') }}" class="m-menu__link m-menu__toggle">
-                                                    <i class="m-menu__link-icon flaticon-line-graph"></i>
-                                                    <span class="m-menu__link-title">
-                                                        <span class="m-menu__link-wrap">
-                                                            <span class="m-menu__link-text">
-                                                                Apply for Society Conveyance
-                                                            </span>
-                                                        </span>
-                                                    </span>
-                                                </a>
-                        </li>
-                        @if(Session::has('application_count'))
-                        @if(Session::get('application_count') == 0)
-                        <li class="m-menu__item {{($route=='society_detail.application' )?'m-menu__item--active':''}}">
-                            <a href="{{route('society_detail.application')}}" class="m-menu__link m-menu__toggle">
-                                <i class="m-menu__link-icon flaticon-line-graph"></i>
-                                <span class="m-menu__link-title">
-                                    <span class="m-menu__link-wrap">
-                                        <span class="m-menu__link-text">
-                                            Apply for Offer Letter
-                                        </span>
-                                    </span>
-                                </span>
+                                        {{-- </span>
+                                </span> --}}
                             </a>
                         </li>
-                        @endif
-                        @endif
-                        @endif
-                        @endif
-
-
-                        @if(Session::all()['role_name'] == 'EM')
-                        <li class="m-menu__item {{($route=='generate_tenant_bill' || $route=='get_societies' || $route == 'get_buildings' || $route == 'get_tenants' || $route == 'edit_tenant' || $route == 'add_tenant' || $route == 'edit_building' || $route == 'add_building' || $route == 'soc_bill_level' || $route == 'soc_ward_colony')?'':'collapsed'}}"
-                            data-toggle="collapse" data-target="#e_billing"> 
-                            <a href="#" class="m-menu__link m-menu__toggle">
-                                <i class="m-menu__link-icon flaticon-line-graph"></i> 
-                                <span class="m-menu__link-title">
-                                    <span class="m-menu__link-wrap"> 
-                                        <span class="m-menu__link-text"> E Billing </span>
-                                        <i class="m-menu__ver-arrow la la-angle-right"></i> 
-                                    </span> 
-                                </span> 
-                            </a> 
-                        </li>
-                        <li id="e_billing" class="collapse {{($route=='generate_tenant_bill' || $route=='get_societies' || $route == 'get_buildings' || $route == 'get_tenants' || $route == 'edit_tenant' || $route == 'add_tenant' || $route == 'edit_building' || $route == 'add_building' || $route == 'soc_bill_level' || $route == 'soc_ward_colony' || $route == 'billing_calculations' || $route == 'generateTenantBill' || $route == 'arrears_calculations' || $route == 'generateBuildingBill'|| $route == 'get_tenant_ajax')?'show':''}}">
-                            <ul class="list-unstyled">
-                                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='get_societies' || $route == 'get_buildings' || $route == 'get_tenants' || $route == 'edit_tenant' || $route == 'add_tenant' || $route == 'edit_building' || $route == 'add_building' || $route == 'soc_bill_level' || $route == 'soc_ward_colony')?'m-menu__item--active':''}}">
-                                    <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('get_societies') }}">
-                                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
-                                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                fill="#FFF" />
-                                        </svg>
-                                        <span class="m-menu__link-text"> 
-                                            Manage Societies
-                                        </span>     
-                                    </a> 
-                                </li> 
-
-                                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2  {{($route=='generate_tenant_bill' || $route == 'billing_calculations' || $route == 'generateTenantBill' || $route == 'arrears_calculations' || $route == 'generateBuildingBill' || $route == 'get_tenant_ajax')?'m-menu__item--active':''}}" id="e_billing">
-                                    <a href="{{ route('generate_tenant_bill') }}" class="m-menu__link m-menu__toggle">
-                                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
-                                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                fill="#FFF" />
-                                        </svg>
-                                        <span class="m-menu__link-text"> 
-                                            Generate Bill 
-                                        </span>
-                                    </a> 
-                                </li>
-                            </ul>
-                        </li> 
-                        @endif
-
-
-                        @if(Session::all()['role_name'] == 'em_clerk')
-
-                        <li class="m-menu__item m-menu__item--submenu {{($route=='em_clerk.index' || $route == 'tenant_payment_list' || $route == 'tenant_arrear_calculation') ?'m-menu__item--active':''}}">
-                            <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('em_clerk.index') }}">
-                                <i class="m-menu__link-icon flaticon-line-graph"></i>
-                                <span class="m-menu__link-title">
-                                    <span class="m-menu__link-wrap">
-                                        <span class="m-menu__link-text">
-                                            Manage Societies
-                                        </span>
-                                    </span>
+                    </ul>
+                </li>
+                {{-- <li class="m-menu__item">
+                    <a href="{{ route('society.billing_level') }}" class="m-menu__link m-menu__toggle">
+                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                        <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">
+                                    Society Master
                                 </span>
-                            </a>
-                        </li>
+                            </span>
+                        </span>
+                    </a>
+                </li> --}}
+                @endif
 
-                        @endif
+                @if(Session::all()['role_name'] == 'society')
+            </ul>
+            </li>
+            <li class="m-menu__item {{($route=='society_conveyance.create' )?'m-menu__item--active':''}}">
+                <a href="{{ route('society_conveyance.create') }}" class="m-menu__link m-menu__toggle">
+                    <i class="m-menu__link-icon flaticon-line-graph"></i>
+                    <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">
+                                Apply for Society Conveyance
+                            </span>
+                        </span>
+                    </span>
+                </a>
+            </li>
+            @if(Session::has('application_count'))
+            @if(Session::get('application_count') == 0)
+            <li class="m-menu__item {{($route=='society_detail.application' )?'m-menu__item--active':''}}">
+                <a href="{{route('society_detail.application')}}" class="m-menu__link m-menu__toggle">
+                    <i class="m-menu__link-icon flaticon-line-graph"></i>
+                    <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">
+                                Apply for Offer Letter
+                            </span>
+                        </span>
+                    </span>
+                </a>
+            </li>
+            @endif
+            @endif
+            @endif
+            @endif
 
-                        @if(Session::all()['role_name'] == 'Account')
 
-                        <li class="m-menu__item m-menu__item--submenu m-menu__item--active">
-                            <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('search_accounts') }}">
-                                <i class="m-menu__link-icon flaticon-line-graph"></i>
-                                <span class="m-menu__link-title">
-                                    <span class="m-menu__link-wrap">
-                                        <span class="m-menu__link-text">
-                                            List Of Society/Search Accounts
-                                        </span>
-                                    </span>
-                                </span>
-                            </a>
-                        </li>
+            @if(Session::all()['role_name'] == 'EM')
+            <li class="m-menu__item {{($route=='generate_tenant_bill' || $route=='get_societies' || $route == 'get_buildings' || $route == 'get_tenants' || $route == 'edit_tenant' || $route == 'add_tenant' || $route == 'edit_building' || $route == 'add_building' || $route == 'soc_bill_level' || $route == 'soc_ward_colony')?'':'collapsed'}}"
+                data-toggle="collapse" data-target="#e_billing">
+                <a href="#" class="m-menu__link m-menu__toggle">
+                    <i class="m-menu__link-icon flaticon-line-graph"></i>
+                    <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text"> E Billing </span>
+                            <i class="m-menu__ver-arrow la la-angle-right"></i>
+                        </span>
+                    </span>
+                </a>
+            </li>
+            <li id="e_billing" class="collapse {{($route=='generate_tenant_bill' || $route=='get_societies' || $route == 'get_buildings' || $route == 'get_tenants' || $route == 'edit_tenant' || $route == 'add_tenant' || $route == 'edit_building' || $route == 'add_building' || $route == 'soc_bill_level' || $route == 'soc_ward_colony' || $route == 'billing_calculations' || $route == 'generateTenantBill' || $route == 'arrears_calculations' || $route == 'generateBuildingBill'|| $route == 'get_tenant_ajax')?'show':''}}">
+                <ul class="list-unstyled">
+                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='get_societies' || $route == 'get_buildings' || $route == 'get_tenants' || $route == 'edit_tenant' || $route == 'add_tenant' || $route == 'edit_building' || $route == 'add_building' || $route == 'soc_bill_level' || $route == 'soc_ward_colony')?'m-menu__item--active':''}}">
+                        <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('get_societies') }}">
+                            <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                                <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                    fill="#FFF" />
+                            </svg>
+                            <span class="m-menu__link-text">
+                                Manage Societies
+                            </span>
+                        </a>
+                    </li>
 
-                        @endif
+                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2  {{($route=='generate_tenant_bill' || $route == 'billing_calculations' || $route == 'generateTenantBill' || $route == 'arrears_calculations' || $route == 'generateBuildingBill' || $route == 'get_tenant_ajax')?'m-menu__item--active':''}}"
+                        id="e_billing">
+                        <a href="{{ route('generate_tenant_bill') }}" class="m-menu__link m-menu__toggle">
+                            <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                                <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                    fill="#FFF" />
+                            </svg>
+                            <span class="m-menu__link-text">
+                                Generate Bill
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            @endif
 
-                        @if(Session::all()['role_name'] == 'rc_collector')
-                        <!--<li class="m-menu__item m-menu__item--submenu {{($route=='bill_collection_society')?'m-menu__item--active':''}}">
+
+            @if(Session::all()['role_name'] == 'em_clerk')
+
+            <li class="m-menu__item m-menu__item--submenu {{($route=='em_clerk.index' || $route == 'tenant_payment_list' || $route == 'tenant_arrear_calculation') ?'m-menu__item--active':''}}">
+                <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('em_clerk.index') }}">
+                    <i class="m-menu__link-icon flaticon-line-graph"></i>
+                    <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">
+                                Manage Societies
+                            </span>
+                        </span>
+                    </span>
+                </a>
+            </li>
+
+            @endif
+
+            @if(Session::all()['role_name'] == 'Account')
+
+            <li class="m-menu__item m-menu__item--submenu m-menu__item--active">
+                <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('search_accounts') }}">
+                    <i class="m-menu__link-icon flaticon-line-graph"></i>
+                    <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">
+                                List Of Society/Search Accounts
+                            </span>
+                        </span>
+                    </span>
+                </a>
+            </li>
+
+            @endif
+
+            @if(Session::all()['role_name'] == 'rc_collector')
+            <!--<li class="m-menu__item m-menu__item--submenu {{($route=='bill_collection_society')?'m-menu__item--active':''}}">
                             <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('bill_collection_society') }}">
                                 <i class="m-menu__link-icon flaticon-line-graph"></i>
                                 <span class="m-menu__link-title">
@@ -930,24 +969,24 @@ $route=\Request::route()->getName();
                             </a>
                         </li>-->
 
-                        <li class="m-menu__item m-menu__item--submenu {{($route=='bill_collection_tenant')?'m-menu__item--active':''}}">
-                            <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('bill_collection_tenant') }}">
+            <li class="m-menu__item m-menu__item--submenu {{($route=='bill_collection_tenant')?'m-menu__item--active':''}}">
+                <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('bill_collection_tenant') }}">
 
-                                <i class="m-menu__link-icon flaticon-line-graph"></i>
-                                <span class="m-menu__link-title">
-                                    <span class="m-menu__link-wrap">
-                                        <span class="m-menu__link-text">
-                                            Collect Bill
-                                        </span>
-                                    </span>
-                                </span>
-                            </a>
-                        </li>
-                        @endif
+                    <i class="m-menu__link-icon flaticon-line-graph"></i>
+                    <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">
+                                Collect Bill
+                            </span>
+                        </span>
+                    </span>
+                </a>
+            </li>
+            @endif
 
-                        @yield('actions')
+            @yield('actions')
 
-                        <!-- <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+            <!-- <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
                     <a href="{{ route('society_offer_letter_dashboard') }}" class="m-menu__link ">
                         <i class="m-menu__link-icon flaticon-line-graph"></i>
                         <span class="m-menu__link-title">
@@ -959,7 +998,7 @@ $route=\Request::route()->getName();
                         </span>
                     </a>
                 </li> -->
-                    </ul>
+            </ul>
         </div>
     </div>
     <!-- END: Aside Menu -->
