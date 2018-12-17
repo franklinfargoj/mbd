@@ -619,7 +619,6 @@ $route=\Request::route()->getName();
                 in_array('dyce.index', session()->get('permission')) ||
                 in_array('co.index', session()->get('permission')) ||
                 in_array('vp.index', session()->get('permission')) ||
-                in_array('vp.index', session()->get('permission')) ||
                 in_array('ree_applications.reval', session()->get('permission')) ||
                 in_array('co_applications.reval', session()->get('permission')) ||
                 in_array('vp_applications.reval', session()->get('permission')) ||
@@ -627,9 +626,10 @@ $route=\Request::route()->getName();
                 in_array('ree_applications.noc', session()->get('permission'))||
                 in_array('co_applications.noc', session()->get('permission')) ||
                 in_array('ree_applications.noc_cc', session()->get('permission'))||
-                in_array('co_applications.noc_cc', session()->get('permission'))
+                in_array('co_applications.noc_cc', session()->get('permission')) ||
+                in_array('tripartite.index', session()->get('permission'))
                 ))
-                <li class="m-menu__item" data-toggle="collapse" data-target="#society-actions">
+                <li class="m-menu__item {{( $route=='co_applications.noc_cc' || $route=='ree_applications.noc_cc' || $route=='co_applications.noc' || $route=='ree_applications.noc' || $route=='cap_applications.reval' || $route=='vp_applications.reval' || $route=='co_applications.reval' || $route=='ree_applications.reval' || $route=='ree_applications.index' || $route=='ee.index' || $route=='dyce.index' || $route=='co.index' || $route=='vp.index')?'':'collapsed'}}" data-toggle="collapse" data-target="#society-actions">
                     <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
                         <i class="m-menu__link-icon flaticon-line-graph"></i>
                         <span class="m-menu__link-title">
@@ -653,7 +653,7 @@ $route=\Request::route()->getName();
                 in_array('ree_applications.noc_cc', session()->get('permission'))||
                 in_array('co_applications.noc_cc', session()->get('permission'))
                 ))
-                <li id="society-actions" class="collapse show">
+                <li id="society-actions" class="collapse {{($route=='tripartite.index' || $route=='co_applications.noc_cc' || $route=='ree_applications.noc_cc' || $route=='co_applications.noc' || $route=='ree_applications.noc' || $route=='cap_applications.reval' || $route=='vp_applications.reval' || $route=='co_applications.reval' || $route=='ree_applications.reval' || $route=='ree_applications.index' || $route=='ee.index' || $route=='dyce.index' || $route=='co.index' || $route=='vp.index')?'show':''}}">
                     <ul class="list-unstyled">
 
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2  {{( $route=='ee.index' || $route=='dyce.index' || $route=='ree_applications.index' || $route=='co.index' || $route=='cap.index' || $route=='vp.index' || $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' || $route=='documents_uploaded' || $route=='documents_upload')?'m-menu__item--active':''}}">
@@ -776,11 +776,11 @@ $route=\Request::route()->getName();
                         </li>
                         @endif
                         <!-- sudesh-->
-                    </ul>
-                    <!-- comment-->
-                </li>
+                    
                 @endif
-
+            </ul>
+            <!-- comment-->
+        </li>
                 @if(Session::all()['role_name'] == 'ee_engineer')
                 {{-- <li class="m-menu__item {{($route=='society_detail.billing_level')?'m-menu__item--active':''}}">
                     <a href="#" class="m-menu__link m-menu__toggle">
