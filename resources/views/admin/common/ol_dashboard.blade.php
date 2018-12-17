@@ -21,7 +21,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
                        data-toggle="collapse" href="#ree-offer-letter-summary">
-                        <span class="form-accordion-title">Application Summary</span>
+                        <span class="form-accordion-title">Application for Redevelopment</span>
                         <span class="accordion-icon ol-accordion-icon"></span>
                     </a>
                 </div>
