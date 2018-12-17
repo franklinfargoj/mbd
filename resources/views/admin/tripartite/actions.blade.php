@@ -3,8 +3,21 @@ $route="";
 $route=\Request::route()->getName();
 @endphp
 
-<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2">
+{{-- <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2">
     <a href="{{route('tripartite.index')}}" class="m-menu__link m-menu__toggle">
+        <i class="m-menu__link-icon flaticon-line-graph"></i>
+        <span class="m-menu__link-title">
+            <span class="m-menu__link-wrap">
+                <span class="m-menu__link-text">
+                    
+                </span>
+            </span>
+        </span>
+    </a>
+</li> --}}
+
+<li class="m-menu__item m-menu__item--level-1">
+    <a href="{{ route('tripartite.index') }}" class="m-menu__link m-menu__toggle">
         <i class="m-menu__link-icon flaticon-line-graph"></i>
         <span class="m-menu__link-title">
             <span class="m-menu__link-wrap">
@@ -16,7 +29,7 @@ $route=\Request::route()->getName();
     </a>
 </li>
 
-<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2" data-toggle="collapse" data-target="#ee-actions">
+<li class="m-menu__item m-menu__item--level-1" data-toggle="collapse" data-target="#tripartite-actions">
     <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
         <i class="m-menu__link-icon flaticon-line-graph"></i>
         <span class="m-menu__link-title">
@@ -29,7 +42,7 @@ $route=\Request::route()->getName();
         </span>
     </a>
 </li>
-<li id="ee-actions" class="collapse show">
+<li id="tripartite-actions" class="collapse show">
     <ul class="list-unstyled">
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='tripartite.view_application')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('tripartite.view_application', encrypt($ol_application->id)) }}">
