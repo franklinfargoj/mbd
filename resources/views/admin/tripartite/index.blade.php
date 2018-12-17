@@ -22,7 +22,7 @@
         <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
-                    <form role="form" id="eeForm" method="get" action="{{ route('ee.index') }}">
+                    <form role="form" id="eeForm" method="get" action="{{ route('tripartite.index') }}">
                         <div class="row align-items-center mb-0">
                             {{--<div class="col-md-4">--}}
                                 {{--<label for="exampleSelect1">Search</label>--}}
