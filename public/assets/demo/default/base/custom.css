@@ -2948,7 +2948,7 @@ label.site-visit-label {
 /* Hearing starts here */
 
 .m-portlet__body--hearing {
-    padding: 30px;
+    padding: 0 30px 30px;
     background-color: #fff;
 }
 
