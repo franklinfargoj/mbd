@@ -256,7 +256,7 @@
 
             <!-- Table 2 starts here -->
 
-            <div style="margin-top: 30px;">
+            <div style="margin-top: 70px;">
 
                 <div style="text-align: center;">
                     <h3 style="text-transform: uppercase; font-weight: bold; text-decoration: underline;">Statement B (Particulars of Payment)</h3>
