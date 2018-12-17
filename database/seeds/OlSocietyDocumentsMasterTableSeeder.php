@@ -582,25 +582,50 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $app,
                     'language_id'   => $english_lang[0]['id'],
                     'name' => "text_tripartite_agreement",
+                    'is_optional'=>0,
                     'is_admin'=>1
                 ],
                 [
                     'application_id'   => $app,
                     'language_id'   => $english_lang[0]['id'],
                     'name' => "drafted_tripartite_agreement",
+                    'is_optional'=>0,
                     'is_admin'=>1
                 ],
                 [
                     'application_id'   => $app,
                     'language_id'   => $english_lang[0]['id'],
                     'name' => "drafted_signed_tripartite_agreement",
+                    'is_optional'=>0,
                     'is_admin'=>1
                 ],
                 [
                     'application_id'   => $app,
                     'language_id'   => $english_lang[0]['id'],
                     'name' => "tripartite_ree_note",
+                    'is_optional'=>0,
                     'is_admin'=>1
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "Approved NOC - IOD",
+                    'is_optional'=>0,
+                    'is_admin' => 0
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "Draft of triprtite agreement if available",
+                    'is_optional'=>1,
+                    'is_admin' => 0
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "other",
+                    'is_optional'=>0,
+                    'is_admin' => 0
                 ]
             ];
             foreach($app_insertArr as $app_insertAr)

@@ -1550,6 +1550,50 @@ class CommonController extends Controller
         return $inserted_application_log;
     }
 
+    /**
+     * Updates status of society tripartite application.
+     * Author: Amar Prajapati
+     * @param $insert_arr, $status, $sc_application, $status_new
+     * @return \Illuminate\Http\Response
+     */
+    public function tripartite_application_status_society($insert_arr, $status, $sc_application, $status_new = NULL){
+        $status_in_words = array_flip(config('commanConfig.applicationStatus'))[$status];
+        $sc_application_last_id = $sc_application->id;
+        $sc_application_master_id = $sc_application->application_master_id;
+
+        foreach($insert_arr['users'] as $key => $user){
+            $i = 0;
+            $insert_application_log[$status_in_words][$key]['application_id'] = $sc_application_last_id;
+            $insert_application_log[$status_in_words][$key]['society_flag'] = 1;
+            $insert_application_log[$status_in_words][$key]['user_id'] = Auth::user()->id;
+            $insert_application_log[$status_in_words][$key]['role_id'] = Auth::user()->role_id;
+            $insert_application_log[$status_in_words][$key]['status_id'] = $status;
+            $insert_application_log[$status_in_words][$key]['to_user_id'] = $user->id;
+            $insert_application_log[$status_in_words][$key]['to_role_id'] = $user->role_id;
+            $insert_application_log[$status_in_words][$key]['remark'] = '';
+            $insert_application_log[$status_in_words][$key]['is_active'] = 1;
+            $application_log_status = $insert_application_log[$status_in_words];
+
+            if($status == 2){
+                $status_in_words_1 = array_flip(config('commanConfig.conveyance_status'))[1];
+                $insert_application_log[$status_in_words_1][$key]['application_id'] = $sc_application_last_id;
+                $insert_application_log[$status_in_words_1][$key]['society_flag'] = 0;
+                $insert_application_log[$status_in_words_1][$key]['user_id'] = $user->id;
+                $insert_application_log[$status_in_words_1][$key]['role_id'] = $user->role_id;
+                $insert_application_log[$status_in_words_1][$key]['status_id'] = ($status_new != null) ? $status_new : config('commanConfig.conveyance_status.in_process');
+                $insert_application_log[$status_in_words_1][$key]['to_user_id'] = 0;
+                $insert_application_log[$status_in_words_1][$key]['to_role_id'] = 0;
+                $insert_application_log[$status_in_words_1][$key]['remark'] = '';
+                $insert_application_log[$status_in_words_1][$key]['is_active'] = 1;
+                $application_log_status = array_merge($insert_application_log[$status_in_words], $insert_application_log[$status_in_words_1]);
+            }
+            $i++;
+        }
+
+        $inserted_application_log = OlApplicationStatus::insert($application_log_status);
+        return $inserted_application_log;
+    }
+
 
     // Reval society-REE documents
     public function getRevalSocietyREEDocuments($applicationId)

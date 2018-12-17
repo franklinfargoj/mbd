@@ -456,7 +456,12 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         //tripatite start
 
         Route::get('/show_tripatite_self/{id}', 'SocietyTripatiteController@show_tripatite_self')->name('show_tripatite_self');
+        Route::post('/save_tripatite_self', 'SocietyTripatiteController@save_tripatite_self')->name('save_tripatite_self');
         Route::get('/show_tripatite_dev/{id}', 'SocietyTripatiteController@show_tripatite_dev')->name('show_tripatite_dev');
+        Route::post('/save_tripatite_dev', 'SocietyTripatiteController@save_tripatite_dev')->name('save_tripatite_dev');
+        Route::get('/tripartite_application_form_preview/{id}', 'SocietyTripatiteController@tripartite_application_form_preview')->name('tripartite_application_form_preview');
+        Route::get('/society_tripartite_docs/{id}', 'SocietyTripatiteController@display_tripartite_docs')->name('display_tripartite_docs');
+        Route::post('/upload_tripartite_docs', 'SocietyTripatiteController@upload_tripartite_docs')->name('upload_tripartite_docs');
 
         //tripatite end
         //Society Conveyance
