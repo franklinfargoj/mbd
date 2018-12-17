@@ -2,6 +2,10 @@
 @php
 $route="";
 $route=\Request::route()->getName();
+//dd($route);
+//dd(session()->all());
+//dd(in_array($route, session()->get('permission')));
+
 @endphp
 
 {{--@php--}}`
