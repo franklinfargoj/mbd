@@ -453,7 +453,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         //Society Offer Letter END
 
 
-        //tripatite start
+        //tripartite start
 
         Route::get('/show_tripatite_self/{id}', 'SocietyTripatiteController@show_tripatite_self')->name('show_tripatite_self');
         Route::post('/save_tripatite_self', 'SocietyTripatiteController@save_tripatite_self')->name('save_tripatite_self');
@@ -462,8 +462,11 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         Route::get('/tripartite_application_form_preview/{id}', 'SocietyTripatiteController@tripartite_application_form_preview')->name('tripartite_application_form_preview');
         Route::get('/society_tripartite_docs/{id}', 'SocietyTripatiteController@display_tripartite_docs')->name('display_tripartite_docs');
         Route::post('/upload_tripartite_docs', 'SocietyTripatiteController@upload_tripartite_docs')->name('upload_tripartite_docs');
+        Route::get('/tripartite_application_form_edit/{id}', 'SocietyTripatiteController@tripartite_application_form_edit')->name('tripartite_application_form_edit');
+        Route::post('/tripartite_application_form_update', 'SocietyTripatiteController@tripartite_application_form_update')->name('tripartite_application_form_update');
 
-        //tripatite end
+        //tripartite end
+
         //Society Conveyance
 
         Route::get('download_template', 'SocietyConveyanceController@download_excel')->name('sc_download');
