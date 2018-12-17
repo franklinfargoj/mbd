@@ -4,14 +4,14 @@
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title m-subheader__title--separator">Redevelopment Through Developer</h3>
-                {{ Breadcrumbs::render('society_offer_application_create', $id) }}
+                {{ Breadcrumbs::render('society_oc_application_create', $id) }}
 
             </div>
         </div>
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
 
-            <form id="save_offer_letter_application_dev" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{ route('save_offer_letter_application_reval_dev') }}">
+            <form id="save_offer_letter_application_dev" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{ route('save_oc_application_dev') }}">
                 @csrf
                 <div class="m-portlet__body m-portlet__body--spaced">
                     <div class="form-group m-form__group row">
@@ -54,35 +54,18 @@
 
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="date_of_meeting">Date of Resolution:</label>
-                            <input type="text" id="m_datepicker" name="date_of_meeting" class="form-control form-control--custom m-input m_datepicker" value="{{ old('date_of_meeting') }}" required>
-                            <span class="help-block">{{$errors->first('date_of_meeting')}}</span>
+                            <label class="col-form-label" for="construction_details">Construction Details</label>
+                            <textarea id="construction_details" name="construction_details" class="form-control form-control--custom m-input" required></textarea>
+                            <span class="help-block">{{$errors->first('construction_details')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
-                            <label class="col-form-label" for="resolution_no">Resolution No:</label>
-                            <input type="text" id="resolution_no" name="resolution_no" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('resolution_no') }}" required>
-                            <span class="help-block">{{$errors->first('resolution_no')}}</span>
-                        </div>
-                    </div>
+                            <label class="col-form-label" for="is_full_oc">Type Of OC</label>
+                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="is_full_oc" name="is_full_oc" required>
+                                <option value="0">Part OC</option>
+                                <option value="1">Full OC</option>
+                            </select>
+                            <span class="help-block">{{$errors->first('is_full_oc')}}</span>
 
-                    <div class="form-group m-form__group row">
-                        <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="ol_vide_no">Offer Letter Vide No</label>
-                            <input type="text" id="ol_vide_no" name="ol_vide_no" class="form-control form-control--custom m-input" value="{{ old('ol_vide_no') }}" required>
-                            <span class="help-block">{{$errors->first('ol_vide_no')}}</span>
-                        </div>
-                        <div class="col-sm-4 offset-sm-1 form-group">
-                            <label class="col-form-label" for="ol_issue_date">Offer Letter Issue Date</label>
-                            <input type="text" id="ol_issue_date" name="ol_issue_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('ol_issue_date') }}" required>
-                            <span class="help-block">{{$errors->first('ol_issue_date')}}</span>
-                        </div>
-                    </div>
-
-                    <div class="form-group m-form__group row">
-                        <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="reason_for_revalidation">Reason For Revalidation</label>
-                            <textarea id="reason_for_revalidation" name="reason_for_revalidation" class="form-control form-control--custom m-input" required ></textarea>
-                            <span class="help-block">{{$errors->first('reason_for_revalidation')}}</span>
                         </div>
                     </div>
 
@@ -92,10 +75,10 @@
                             <input type="text" id="architect_name" name="architect_name" class="form-control form-control--custom m-input" value="{{ $society_details->name_of_architect }}" readonly>
                             <span class="help-block">{{$errors->first('architect_name')}}</span>
                         </div>
-                        @if($id == '14' || $id == '18')
+                        @if($id == '16' || $id == '22')
                             <div class="col-sm-4 offset-sm-1 form-group">
                                 <label class="col-form-label" for="developer_name">Developer Name:</label>
-                                <input type="text" id="developer_name" name="developer_name" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $society_details->developer_name }}" required>
+                                <input type="text" id="developer_name" name="developer_name" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $society_details->developer_name }}">
                                 <span class="help-block">{{$errors->first('developer_name')}}</span>
                             </div>
                         @endif

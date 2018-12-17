@@ -459,6 +459,11 @@ class SocietyPermissionSeeder extends Seeder
                     'description'  => 'Save consent for oc application self'
                 ],
                 [
+                    'name'         => 'save_oc_application_dev',
+                    'display_name' => 'Save consent for oc application dev',
+                    'description'  => 'Save consent for oc application dev'
+                ],
+                [
                     'name'         => 'society_oc_preview',
                     'display_name' => 'Preview society oc application',
                     'description'  => 'Preview society oc application'
