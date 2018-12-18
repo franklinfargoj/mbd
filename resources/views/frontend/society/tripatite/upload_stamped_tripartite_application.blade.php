@@ -1,6 +1,6 @@
 @extends('frontend.layouts.sidebarAction')
 @section('actions')
-    @include('frontend.society.actions',compact('ol_applications'))
+    @include('frontend.society.tripatite.actions',compact('ol_applications'))
 @endsection
 @section('content')
     <div class="panel" id="ee-note">
