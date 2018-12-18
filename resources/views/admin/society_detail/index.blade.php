@@ -35,9 +35,9 @@
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                             data-live-search="true" id="village" name="village">
                                         <option value="" style="font-weight: normal;">Select Village</option>
-                                        @foreach($villages as $village)
-                                            <option value="{{$village->id}}" {{ isset($getData['village'])? (($getData['village'] == $village->id ) ? 'selected' : '') : '' }} >{{$village->village_name}}</option>
-                                        @endforeach
+                                        {{--@foreach($villages as $village)--}}
+                                            {{--<option value="{{$village->id}}" {{ isset($getData['village'])? (($getData['village'] == $village->id ) ? 'selected' : '') : '' }} >{{$village->village_name}}</option>--}}
+                                        {{--@endforeach--}}
                                     </select>
                                 </div>
                             </div>
