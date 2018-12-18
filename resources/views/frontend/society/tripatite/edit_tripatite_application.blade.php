@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('frontend.layouts.sidebarAction')
+@section('actions')
+    @include('frontend.society.tripatite.actions',compact('ol_applications'))
+@endsection
 @section('content')
     <div class="col-md-12">
         <div class="m-subheader px-0 m-subheader--top">
