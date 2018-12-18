@@ -275,7 +275,20 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         // LA
         $la = Role::where('name', 'la_engineer')->value('id');
         if($la)
-            Role::where('id',$la)->update(['dashboard' => '/sc_dashboard']);        
+            Role::where('id',$la)->update(['dashboard' => '/sc_dashboard']);
 
+        $master_layout_id = \App\MasterLayout::where([
+            'layout_name' => 'Samata Nagar, Kandivali(E)',
+            'Board' => 'Mumbai',
+            'division' => 'Borivali',
+        ])->value('id');
+
+        if($master_layout_id){
+            \App\MasterLayout::where([
+                'layout_name' => 'Samata Nagar, Kandivali(E)',
+                'Board' => 'Mumbai',
+                'division' => 'Borivali',
+            ])->delete();
+        }
     }
 }
