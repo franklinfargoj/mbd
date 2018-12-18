@@ -407,8 +407,7 @@ $route=\Request::route()->getName();
 
                                 @php
                                     if((strpos($route,'village_detail') !== false) || (strpos($route,'society_detail') !==
-                                    false) || (strpos($route,'architect_layouts') !== false) || (strpos($route,'lease_detail') !==
-                                    false ) || ($route == 'land.dashboard')){
+                                    false) || (strpos($route,'architect_layouts') !== false) || ($route == 'land.dashboard')){
                                     $id = '0' ;
                                     }else{
                                     $id = collect(request()->segments())->last();
