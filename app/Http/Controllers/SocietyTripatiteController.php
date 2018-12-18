@@ -239,19 +239,20 @@ class SocietyTripatiteController extends Controller
             $docs_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->where('application_id', $ol_applications->id)->first();
             $input = array(
                 'society_id' => $society->id,
-                'application_id' => $ol_applications->id,
-                'society_documents_comment' => 'N.A.',
+                'application_id' => $ol_applications->id
             );
             if(count($docs_comment) > 0){
+                $input['society_documents_comment'] = $docs_comment->society_documents_comment;
                 OlSocietyDocumentsComment::where('id', $docs_comment->id)->update($input);
             }else{
+                $input['society_documents_comment'] = 'N.A.';
                 OlSocietyDocumentsComment::create($input);
             }
             $show_comment_tab = 1;
         }else{
             $show_comment_tab = 0;
         }
-//        dd($ol_applications->olApplicationStatus[0]->status_id);
+
         return view('frontend.society.tripatite.show_society_documents', compact('ol_applications', 'documents', 'documents_uploaded', 'documents_comment', 'id', 'society', 'society_details', 'show_comment_tab'));
 
     }
@@ -296,14 +297,9 @@ class SocietyTripatiteController extends Controller
             }
         }
 
-        $input = array(
-            'society_id' => $society->id,
-            'document_id' => $request->input('document_id'),
-            'society_document_path' => $path,
-        );
-        OlSocietyDocumentsStatus::create($input);
 
-        $role_id = Role::where('name', 'ee_junior_engineer')->first();
+
+        $role_id = Role::where('name', config('commanConfig.ree_junior'))->first();
         $user_ids = RoleUser::where('role_id', $role_id->id)->get();
         $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
         foreach ($layout_user_ids as $key => $value) {
@@ -313,8 +309,13 @@ class SocietyTripatiteController extends Controller
         $insert_arr = array(
             'users' => $users
         );
-
-        $this->CommonController->tripartite_application_status_society($insert_arr, config('commanConfig.applicationStatus.forwarded'), $application);
+        $input = array(
+            'society_id' => $society->id,
+            'document_id' => $request->input('document_id'),
+            'society_document_path' => $path,
+        );
+        OlSocietyDocumentsStatus::create($input);
+//        $this->CommonController->tripartite_application_status_society($insert_arr, config('commanConfig.applicationStatus.forwarded'), $application);
         return redirect()->back();
     }
 
@@ -384,11 +385,11 @@ class SocietyTripatiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function showuploadTripartiteAfterSign($id){
-//        dd($id);
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $ol_applications = OlApplication::where('society_id', $society->id)->where('id', $id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc');
         }])->first();
+//        dd($ol_applications);
 
         return view('frontend.society.tripatite.upload_stamped_tripartite_application', compact('ol_applications', 'application_details'));
     }

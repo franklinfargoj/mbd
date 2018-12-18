@@ -354,6 +354,9 @@ class SocietyOfferLetterController extends Controller
             $ol_applications = OlApplication::where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
                 $q->where('society_flag', '1')->orderBy('id', 'desc');
             } ])->whereIn('application_master_id', $application_master_arr);
+            $ol_applications = OlApplication::where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+                $q->where('society_flag', '1')->orderBy('id', 'desc');
+            } ]);
 
 
            $oc_applications = OcApplication::where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
@@ -364,7 +367,7 @@ class SocietyOfferLetterController extends Controller
             {
                 $ol_applications = $ol_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
 
-          //     $oc_applications = $oc_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
+               $oc_applications = $oc_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
             }
 
             $ol_applications = $ol_applications->get();
@@ -408,7 +411,7 @@ class SocietyOfferLetterController extends Controller
 
             //NOC changed added by <--Sayan Pal--> << End
 
-            // dd($ol_applications);exit;
+//             dd($ol_applications);
             $reval_master_ids_arr = config('commanConfig.revalidation_master_ids');
 
 
@@ -419,6 +422,8 @@ class SocietyOfferLetterController extends Controller
                     $oc_url= route('society_oc_preview');
                     $url_noc = route('society_noc_preview');
                     $url_noc_cc = route('society_noc_cc_preview');
+                    $url_tripartite = route('tripartite_application_form_preview', $ol_applications->id);
+//                    dd($ol_applications->ol_application_master);
 
                     if(isset($ol_applications->is_noc_application))
                     {
@@ -436,6 +441,11 @@ class SocietyOfferLetterController extends Controller
                     elseif(in_array($ol_applications->application_master_id,$oc_master_ids_arr))
                     {
                         return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$oc_url .'" name="ol_applications_id"><span></span></label>';
+
+                    }
+                    elseif(in_array($ol_applications->application_master_id,config('commanConfig.tripartite_master_ids')))
+                    {
+                        return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url_tripartite .'" name="ol_applications_id"><span></span></label>';
 
                     }
                     else{
@@ -460,18 +470,19 @@ class SocietyOfferLetterController extends Controller
                     {
                         $app_type = "<br><span class='m-badge m-badge--warning'>Application for Noc (CC)</span>";
                     }
-                    elseif(in_array($ol_applications->application_master_id,$reval_master_ids_arr))
+//                    elseif(in_array($ol_applications->application_master_id,$reval_master_ids_arr))
+                    elseif(isset($ol_applications->ol_application_master))
                     {
-                        $app_type = "<br><span class='m-badge m-badge--success'>Revalidation Of Offer letter</span>";
+                        $app_type = "<br><span class='m-badge m-badge--success'> Application for ".$ol_applications->ol_application_master->title."</span>";
                     }
-                    elseif(in_array($ol_applications->application_master_id,$oc_master_ids_arr))
-                    {
-                        $app_type = "<br><span class='m-badge m-badge--success'>Consent For OC</span>";
-                    }
-                    else
-                    {
-                        $app_type = "<br><span class='m-badge m-badge--success'>Application for Offer letter</span>";
-                    }
+//                    elseif(in_array($ol_applications->application_master_id,$oc_master_ids_arr))
+//                    {
+//                        $app_type = "<br><span class='m-badge m-badge--success'>Consent For OC</span>";
+//                    }
+//                    else
+//                    {
+//                        $app_type = "<br><span class='m-badge m-badge--success'>Application for Offer letter</span>";
+//                    }
 
                     return $ol_applications->application_no . $app_type;
                 })
@@ -508,7 +519,7 @@ class SocietyOfferLetterController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [5, "desc" ],
+            "order"=> [1, "asc" ],
             "pageLength" => $this->list_num_of_records_per_page,
             // 'fixedHeader' => [
             //     'header' => true,
