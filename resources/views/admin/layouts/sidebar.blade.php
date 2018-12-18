@@ -406,13 +406,13 @@ $route=\Request::route()->getName();
                                 )
 
                                 @php
-                                if((strpos($route,'village_detail') !== false) || (strpos($route,'society_detail') !==
-                                false) || (strpos($route,'architect_layouts') !== false)){
-
-                                $id = '0' ;
-                                }else{
-                                $id = collect(request()->segments())->last();
-                                }
+                                    if((strpos($route,'village_detail') !== false) || (strpos($route,'society_detail') !==
+                                    false) || (strpos($route,'architect_layouts') !== false) || (strpos($route,'lease_detail') !==
+                                    false ) || ($route == 'land.dashboard')){
+                                    $id = '0' ;
+                                    }else{
+                                    $id = collect(request()->segments())->last();
+                                    }
                                 @endphp
                                 <li class="m-menu__item m-menu__item--submenu {{ ($route=='lease_detail.index' || (strpos($route,'view-lease') !== false) || $route=='edit-lease.edit')?'m-menu__item--active':''}}">
                                     <a class="m-menu__link m-menu__toggle" href="{{ route('lease_detail.index', $id)}}"
