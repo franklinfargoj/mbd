@@ -228,11 +228,9 @@ class DYCEPermissionSeeder extends Seeder
             }
 
             // Layout Table entry
-            $master_layout=MasterLayout::where([
-                'layout_name' => 'Samata Nagar, Kandivali(E)',
-                'Board' => 'Mumbai',
-                'division' => 'Borivali',
-            ])->first();
+            $master_layout=MasterLayout::where(
+                'layout_name','Samata Nagar, Kandivali(E)'
+            )->first();
             if($master_layout)
             {
                 $layout_id=$master_layout->id;
@@ -240,8 +238,8 @@ class DYCEPermissionSeeder extends Seeder
             {
                 $layout_id = MasterLayout::insertGetId([
                     'layout_name' => 'Samata Nagar, Kandivali(E)',
-                    'Board' => 'Mumbai',
-                    'division' => 'Borivali',
+                    'Board' => '',
+                    'division' => '',
                 ]);
             }
 

@@ -1,6 +1,6 @@
 @extends('frontend.layouts.sidebarAction')
 @section('actions')
-    @include('frontend.society.actions',compact('ol_applications'))
+    @include('frontend.society.tripatite.actions',compact('ol_applications'))
 @endsection
 @section('content')
     <div class="col-md-12">
@@ -78,7 +78,7 @@
                                             @foreach($document->documents_uploaded as $document_uploaded)
                                                 @if($document_uploaded['society_id'] == $society->id)
                                                     <span>
-                                        <a href="{{ asset($document_uploaded['society_document_path']) }}" data-value='{{ $document->id }}'
+                                        <a href="{{ config('commanConfig.storage_server').'/'.$document_uploaded['society_document_path'] }}" data-value='{{ $document->id }}'
                                            class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
                                                 Download</button></a>
                                         <a href="{{ route('delete_tripartite_docs', $document->id) }}" data-value='{{ $document->id }}'
@@ -218,7 +218,7 @@
                                                 <div class="mt-3">
                                                     <label for="society_documents_comment">Additional Information:</label>
                                                     <div class="@if($errors->has('society_documents_comment')) has-error @endif">
-                                                        <textarea name="society_documents_comment" rows="5" cols="30" id="society_documents_comment" class="form-control form-control--custom">{{old('society_documents_comment')}}</textarea>
+                                                        <textarea name="society_documents_comment" rows="5" cols="30" id="society_documents_comment" class="form-control form-control--custom">@if($documents_comment) {{ $documents_comment->society_documents_comment }} @endif</textarea>
                                                         <input type="hidden" name="application_id" id="application_id" class="form-control m-input"
                                                                value="{{ $ol_applications->id }}">
                                                         <span class="help-block">{{$errors->first('society_documents_comment')}}</span>

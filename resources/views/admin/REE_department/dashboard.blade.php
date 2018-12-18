@@ -26,9 +26,12 @@
             </div>
             <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="ree-ol-summary"
                  data-parent="#accordion">
-                <div class="row hearing-row">
+                <div class="row no-gutters hearing-row">
+                    <div class="col-12 no-shadow">
+                        <div class="app-card-section-title">Offer Letter</div>
+                    </div>
                     @foreach($dashboardData[0] as $header => $value)
-                        <div class="col">
+                        <div class="col-lg-3">
                             <div class="m-portlet app-card text-center">
                                 <h2 class="app-heading">{{$header}}</h2>
                                 <div class="app-card-footer">
@@ -50,9 +53,12 @@
                 @endif
 
                 @if($dashboardData1)
-                    <div class="row hearing-row">
+                    <div class="row no-gutters hearing-row">
+                        <div class="col-12 no-shadow">
+                            <div class="app-card-section-title">Offer Letter</div>
+                        </div>
                         @foreach($dashboardData1 as $header => $value)
-                            <div class="col">
+                            <div class="col-lg-3">
                                 <div class="m-portlet app-card text-center">
                                     <h2 class="app-heading">{{$header}}</h2>
                                     <div class="app-card-footer">
@@ -112,10 +118,13 @@
             </div>
                 <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="co-noc-summary"
                      data-parent="#accordion">
-                    <div class="row hearing-row">
+                    <div class="row no-gutters hearing-row">
+                        <div class="col-12 no-shadow">
+                            <div class="app-card-section-title">Offer Letter</div>
+                        </div>
                         @php $noc_chart = 0;@endphp
                         @foreach($nocApplication['app_data'] as $header => $value)
-                            <div class="col">
+                            <div class="col-lg-3">
                                 <div class="m-portlet app-card text-center">
                                     <h2 class="app-heading">{{$header}}</h2>
                                     <div class="app-card-footer">
@@ -131,9 +140,12 @@
                         <div id="noc_chart_div" style="width: 100%; height: 350px; margin-top: 2px;"></div>
                     @endif
                     @if($nocApplication['pending_data'])
-                    <div class="row hearing-row">
+                    <div class="row no-gutters hearing-row">
+                        <div class="col-12 no-shadow">
+                            <div class="app-card-section-title">Offer Letter</div>
+                        </div>
                         @foreach($nocApplication['pending_data'] as $pending_label => $pending_count)
-                            <div class="col">
+                            <div class="col-lg-3">
                                 <div class="m-portlet app-card text-center">
                                     <h2 class="app-heading">{{$pending_label}}</h2>
                                     <div class="app-card-footer">
@@ -160,10 +172,13 @@
             </div>
                 <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="co-noc_cc-summary"
                      data-parent="#accordion">
-                    <div class="row hearing-row">
+                    <div class="row no-gutters hearing-row">
+                        <div class="col-12 no-shadow">
+                            <div class="app-card-section-title">Offer Letter</div>
+                        </div>
                         @php $noc_cc_chart = 0;@endphp
                         @foreach($nocforCCApplication['app_data'] as $header => $value)
-                            <div class="col">
+                            <div class="col-lg-3">
                                 <div class="m-portlet app-card text-center">
                                     <h2 class="app-heading">{{$header}}</h2>
                                     <div class="app-card-footer">
@@ -179,9 +194,12 @@
                         <div id="noc_cc_chart_div" style="width: 100%; height: 350px; margin-top: 2px;"></div>
                     @endif
                     @if($nocforCCApplication['pending_data'])
-                    <div class="row hearing-row">
+                    <div class="row no-gutters hearing-row">
+                        <div class="col-12 no-shadow">
+                            <div class="app-card-section-title">Offer Letter</div>
+                        </div>
                         @foreach($nocforCCApplication['pending_data'] as $pending_label => $pending_count)
-                            <div class="col">
+                            <div class="col-lg-3">
                                 <div class="m-portlet app-card text-center">
                                     <h2 class="app-heading">{{$pending_label}}</h2>
                                     <div class="app-card-footer">

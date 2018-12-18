@@ -241,8 +241,12 @@ class SocietyTripatiteController extends Controller
                 'society_id' => $society->id,
                 'application_id' => $ol_applications->id
             );
+<<<<<<< HEAD
             if($docs_comment){
+=======
+            if(count($docs_comment) > 0){
                 $input['society_documents_comment'] = $docs_comment->society_documents_comment;
+>>>>>>> @society_offer_letter
                 OlSocietyDocumentsComment::where('id', $docs_comment->id)->update($input);
             }else{
                 $input['society_documents_comment'] = 'N.A.';
@@ -297,12 +301,6 @@ class SocietyTripatiteController extends Controller
             }
         }
 
-        //$input = array(
-          //  'society_id' => $society->id,
-            //'document_id' => $request->input('document_id'),
-            //'society_document_path' => $path,
-        //);
-        //OlSocietyDocumentsStatus::create($input);
 
 
         $role_id = Role::where('name', config('commanConfig.ree_junior'))->first();
@@ -391,11 +389,11 @@ class SocietyTripatiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function showuploadTripartiteAfterSign($id){
-//        dd($id);
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $ol_applications = OlApplication::where('society_id', $society->id)->where('id', $id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc');
         }])->first();
+//        dd($ol_applications);
 
         return view('frontend.society.tripatite.upload_stamped_tripartite_application', compact('ol_applications', 'application_details'));
     }
@@ -433,15 +431,14 @@ class SocietyTripatiteController extends Controller
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $application_name = OlApplication::where('society_id', $society->id)->with('ol_application_master')->get();
         $society_remark = OlSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id', 'desc')->first();
-
-        if($request->file('application_path'))
+        if($request->file('offer_letter_application_form'))
         {
-            $file = $request->file('application_path');
+            $file = $request->file('offer_letter_application_form');
             $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
-            $extension = $request->file('application_path')->getClientOriginalExtension();
+            $extension = $request->file('offer_letter_application_form')->getClientOriginalExtension();
             if ($extension == "pdf") {
                 $time = time();
-                $name = File::name($request->file('application_path')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+                $name = File::name($request->file('offer_letter_application_form')->getClientOriginalName()) . '_' . $time . '.' . $extension;
                 $folder_name = "society_offer_letter_documents";
                 $path = $folder_name.'/'.$name;
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('application_path'),$name);
@@ -473,16 +470,4 @@ class SocietyTripatiteController extends Controller
         }
         return redirect()->route('society_offer_letter_dashboard');
     }
-
-    /**
-     * Uploads stamped offer letter application form in marathi in pdf format.
-     * Author: Amar Prajapati
-     * @param  $request
-     * @return \Illuminate\Http\Response
-     */
-//    public function uploadTripartiteAfterSign(Request $request){
-//
-//    }
-
-
 }
