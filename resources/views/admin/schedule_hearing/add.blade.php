@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
 @section('actions')
     @include('admin.hearing.actions',compact('hearing_data'))
 @endsection

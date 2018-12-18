@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+    @include('admin.rti_form.actions',compact('rti_applicant'))
+@endsection
 @section('css')
 <!-- <style>
     .disabled_input{

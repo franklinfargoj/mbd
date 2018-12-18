@@ -948,6 +948,73 @@ class SocietyOfferLetterController extends Controller
         return redirect()->route('society_reval_offer_letter_preview');
     }
 
+
+    public function save_oc_application_dev(Request $request){
+        $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+
+        $input = array(
+            'society_id' => $society_details->id,
+            'architect_name' => $request->input('architect_name'),
+            'developer_name' => $request->input('developer_name'),
+            'is_full_oc' => $request->input('is_full_oc'),
+            'construction_details' => $request->input('construction_details'),
+            'updated_at' => null
+        );
+        $last_inserted_id = OlRequestForm::create($input);
+
+        $insert_application = array(
+            'user_id' => Auth::user()->id,
+            'language_id' => '1',
+            'society_id' => $society_details->id,
+            'layout_id' => $request->input('layout_id'),
+            'request_form_id' => $last_inserted_id->id,
+            'application_master_id' => $request->input('application_master_id'),
+            'application_no' => rand().time(),
+            'application_path' => 'test',
+            'submitted_at' => date('Y-m-d'),
+            'current_status_id' => '1',
+            'is_approve_oc' => '0',
+        );
+
+        $last_id = OcApplication::create($insert_application);
+        $role_ids = Role::where('name','like', 'ee_junior_engineer')->orWhere('name','like', 'EM')->pluck('id')->toArray();
+
+        $user_ids = RoleUser::whereIn('role_id', $role_ids)->get();
+        $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
+
+        foreach ($layout_user_ids as $key => $value) {
+            $select_user_ids[] = $value['user_id'];
+        }
+        $users = User::whereIn('id', $select_user_ids)->get();
+
+        if(count($users) > 0){
+            foreach($users as $key => $user){
+                $i = 0;
+                $insert_application_log_pending[$key]['application_id'] = $last_id->id;
+                $insert_application_log_pending[$key]['society_flag'] = 1;
+                $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
+                $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
+                $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
+                $insert_application_log_pending[$key]['to_user_id'] = $user->id;
+                $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
+                $insert_application_log_pending[$key]['remark'] = '';
+                $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
+                $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
+                $i++;
+            }
+        }
+
+        OcApplicationStatusLog::insert($insert_application_log_pending);
+        $last_society_flag_id = OcApplicationStatusLog::where('society_flag', '1')->orderBy('id', 'desc')->first();
+        $id = OcApplicationStatusLog::find($last_society_flag_id->id);
+        OcApplication::where('user_id', Auth::user()->id)->update([
+            'current_status_id' => $id->id
+        ]);
+        return redirect()->route('society_oc_preview');
+    }
+
+
+
     /**
      * Shows society documents.
      * Author: Amar Prajapati
@@ -1292,6 +1359,46 @@ class SocietyOfferLetterController extends Controller
 
         return view('frontend.society.view_society_uploaded_reval_documents', compact('documents', 'optional_docs', 'docs_uploaded_count','docs_count', 'ol_applications','documents_uploaded', 'documents_comment', 'society'));
     }
+
+
+    public function viewSocietyOcDocuments(){
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $application = OcApplication::where('society_id', $society->id)->with(['ocApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+        }])->orderBy('id', 'desc')->first();
+
+        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($society){
+            $q->where('society_id', $society->id)->get();
+        }])->get();
+
+        foreach ($documents as $key => $value) {
+            $document_ids[] = $value->id;
+        }
+        if($application->application_master_id == '5' || $application->application_master_id == '16'){
+            $optional_docs = config('commanConfig.optional_docs_premium_oc');
+        }
+        if($application->application_master_id == '11' || $application->application_master_id == '22'){
+            $optional_docs = config('commanConfig.optional_docs_sharing_oc');
+        }
+
+        $docs_uploaded_count = 0;
+        $docs_count = 0;
+        foreach($documents as $documents_key => $documents_val) {
+            if (in_array($documents_key + 1, $optional_docs) == false) {
+                $docs_count++;
+                if (count($documents_val->documents_uploaded) > 0) {
+                    $docs_uploaded_count++;
+                }
+            }
+        }
+        $oc_applications = $application;
+        $documents_uploaded = OcSocietyDocumentStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->get();
+        $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id','desc')->first();
+
+        return view('frontend.society.view_society_uploaded_oc_documents', compact('documents', 'optional_docs', 'docs_uploaded_count','docs_count', 'oc_applications','documents_uploaded', 'documents_comment', 'society'));
+    }
+
+
 
     /**
      * Uploads society documents.
@@ -2191,7 +2298,7 @@ class SocietyOfferLetterController extends Controller
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $application_name = OcApplication::where('society_id', $society->id)->with('oc_application_master')->get();
         $society_remark = OlSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id', 'desc')->first();
-        if($request->file('reval_offer_letter_application_form'))
+        if($request->file('oc_application_form'))
         {
             $file = $request->file('oc_application_form');
             $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
@@ -2214,7 +2321,7 @@ class SocietyOfferLetterController extends Controller
                 $application = OcApplication::where('society_id', $society->id)->where('id', $request->input('id'))->first();
 
                 $user_ids = RoleUser::whereIn('role_id', $role_ids)->get();
-                $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
+                $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
 
                 foreach ($layout_user_ids as $key => $value) {
                     $select_user_ids[] = $value['user_id'];
