@@ -588,9 +588,10 @@ class TripartiteController extends Controller
     public function get_master_log_of_status($data_logs)
     {
         $master_log = array();
+       // dd($data_logs[0]);
         foreach ($data_logs as $data_log) {
             foreach ($data_log as $log) {
-                if ($log->status_id == config('commanConfig.applicationStatus.forward')) {
+                if ($log->status_id == config('commanConfig.applicationStatus.forwarded')) {
                     $status = 'Forwarded';
                 } elseif ($log->status_id == config('commanConfig.applicationStatus.reverted')) {
                     $status = 'Reverted';
@@ -616,10 +617,12 @@ class TripartiteController extends Controller
         $tripartite_application = OlApplication::with('eeApplicationSociety')->where('id', $applicationId)->first();
         $data = $this->getForwardApplicationData($applicationId);
         $societyLogs = $this->getLogsOfSociety($applicationId);
+        //dd($societyLogs);
         $ReeLogs = $this->getLogsOfReeDepartment($applicationId);
         $CoLogs = $this->getLogsOfCoDepartment($applicationId);
         $LaLogs = $this->getLogsOfLaDepartment($applicationId);
         $master_log = $this->get_master_log_of_status(array($societyLogs, $ReeLogs, $CoLogs, $LaLogs));
+        //dd($master_log);
         return view('admin.tripartite.forward_application', compact('master_log', 'ol_application', 'applicationId', 'tripartite_application', 'data', 'societyLogs', 'ReeLogs', 'CoLogs', 'LaLogs'));
     }
 
