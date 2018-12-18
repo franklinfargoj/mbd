@@ -68,6 +68,8 @@ return [
        'Aproved_Renewal_of_Lease' => 19,
        'NOC_Generation' => 20,
        'draft_offer_letter_generated' => 21,
+       'draft_tripartite_agreement'=>22,
+       'approved_tripartite_agreement'=>23
    ],
 
 
