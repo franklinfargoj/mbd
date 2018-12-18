@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Mpdf\Mpdf;
 use Storage;
 use Yajra\DataTables\DataTables;
+use App\OlSocietyDocumentsComment;
 
 class TripartiteController extends Controller
 {
@@ -117,14 +118,62 @@ class TripartiteController extends Controller
     {
         $applicationId = decrypt($applicationId);
         $ol_application = $this->comman->getOlApplication($applicationId);
-        return view('admin.tripartite.view_application', compact('ol_application'));
+        $id=$applicationId;
+        $society_details = SocietyOfferLetter::find($ol_application->society_id);
+        $ol_applications = OlApplication::where('id', $id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+        }])->first();
+        return view('admin.tripartite.view_application', compact('ol_application','ol_applications', 'society_details', 'id'));
     }
 
     public function view_society_documents($applicationId)
     {
         $applicationId = decrypt($applicationId);
+        $id=$applicationId;
         $ol_application = $this->comman->getOlApplication($applicationId);
-        return view('admin.tripartite.view_society_documents', compact('ol_application'));
+        $society = SocietyOfferLetter::where('id', $ol_application->society_id)->first();
+        $society_details = SocietyOfferLetter::find($ol_application->society_id);
+        $ol_applications = OlApplication::where('id', $id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+        }])->first();
+
+        $documents = OlSocietyDocumentsMaster::where('application_id', $ol_applications->application_master_id)->where('is_admin', 0)->with(['documents_uploaded' => function($q) use ($ol_application){
+            $q->where('society_id', $ol_application->society_id)->get();
+        }])->get();
+
+        $document_ids = array_pluck($documents, 'id');
+        $documents_uploaded = OlSocietyDocumentsStatus::with('document_name')->where('society_id', $ol_application->society_id)->whereIn('document_id', $document_ids)->get();
+        $documents_comment = OlSocietyDocumentsComment::where('society_id', $ol_application->society_id)->first();
+        $documents_complusory = [];
+        foreach ($documents as $key => $value) {
+            if($value->is_optional == 0){
+                $documents_complusory[] = $value;
+            }
+        }
+
+        $documents_uploaded_complusory = [];
+        foreach ($documents_uploaded as $key => $value) {
+            if($value->document_name->is_optional == 0){
+                $documents_uploaded_complusory[] = $value;
+            }
+        }
+        if(count($documents_complusory) == count($documents_uploaded_complusory) || count($documents_complusory) < count($documents_uploaded)){
+            $docs_comment = OlSocietyDocumentsComment::where('society_id', $ol_application->society_id)->where('application_id', $ol_applications->id)->first();
+            $input = array(
+                'society_id' => $ol_application->society_id,
+                'application_id' => $ol_applications->id,
+                'society_documents_comment' => 'N.A.',
+            );
+            if($docs_comment){
+                OlSocietyDocumentsComment::where('id', $docs_comment->id)->update($input);
+            }else{
+                OlSocietyDocumentsComment::create($input);
+            }
+            $show_comment_tab = 1;
+        }else{
+            $show_comment_tab = 0;
+        }
+        return view('admin.tripartite.view_society_documents', compact('ol_application','ol_applications','id','documents','society','show_comment_tab','documents_comment'));
     }
 
     public function get_tripartite_agreements($ol_application_id, $agreement_type)
@@ -394,12 +443,13 @@ class TripartiteController extends Controller
         $approved_by_co = 0;
         if (session()->get('role_name') == config('commanConfig.ree_branch_head')) {
             $tripartite_agrement['drafted_tripartite_agreement'] = $this->get_tripartite_agreements($applicationId, config('commanConfig.tripartite_agreements.drafted'));
+            //dd($tripartite_agrement['drafted_tripartite_agreement']->status_id);
             $approved_by_co = ($this->get_document_status_by_name('Approved') == $tripartite_agrement['drafted_tripartite_agreement']->status_id) ? 1 : 0;
             if ($approved_by_co == 1) {
                 $parent = $society_user;
             } else {
-                //$parent = $parent->merge($society_user);
-                $parent = $parent;
+                $parent = $parent->merge($society_user);
+                //$parent = $parent;
             }
 
         }
@@ -569,11 +619,12 @@ class TripartiteController extends Controller
         $data = OlApplication::where('id', $request->applicationId)->first();
         $applicationStatus = $data->application_status;
         if ($request->check_status == 1) {
+            
+            $status = config('commanConfig.formation_status.forwarded');
+        } else {
             if ($request->to_role_id == $this->get_role_from_user_id($request->to_user_id)) {
                 $is_reverted_to_society = 1;
             }
-            $status = config('commanConfig.formation_status.forwarded');
-        } else {
             $status = config('commanConfig.formation_status.reverted');
         }
 
@@ -609,7 +660,7 @@ class TripartiteController extends Controller
             ],
         ];
 
-        DB::transaction(function () {
+        \DB::transaction(function () use($is_reverted_to_society,$request,$application){
             if ($is_reverted_to_society == 1) {
                 OlApplication::where('id', $request->applicationId)->update(['is_reverted_to_society' => $is_reverted_to_society]);
             }

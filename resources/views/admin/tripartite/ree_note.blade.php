@@ -54,7 +54,7 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
-                                            {{-- <h5>Download Ree Note</h5> --}}
+                                            <h5>Download Ree Note</h5>
                                             <!-- <span class="hint-text">Download  Note uploaded by CAP</span> -->
                                             <div class="mt-auto">
                                                 @if($ree_note!=null)
