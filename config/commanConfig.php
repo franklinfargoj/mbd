@@ -377,6 +377,10 @@ return [
         '10', '21'
     ],
 
+    'tripartite_master_ids' => [
+        '9', '20'
+    ],
+
     'storage_server' => 'http://storage.mhada.php-dev.in',
 
 
