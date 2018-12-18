@@ -463,11 +463,27 @@ class TripartiteController extends Controller
         $society_user_id = $SocietyOfferLetter->user_id;
         $society_user = User::where('id', $society_user_id)->get();
         // dd($society_user);
+        $ignore_roles=array();
+        $ignore_role=Role::whereIn('name',['dyce_engineer','ee_engineer'])->get();
+        if($ignore_role)
+        {
+            foreach($ignore_role as $ignore_rol)
+            {
+                $ignore_roles[]=$ignore_rol->id;
+            }   
+        }
+
         $role_id = Role::where('id', auth()->user()->role_id)->first();
         $result = json_decode($role_id->child_id);
         $child = "";
-        //dd($result);
         if ($result) {
+            foreach($result as $key=>$res)
+            {
+                if(in_array($res, $ignore_roles))
+                {
+                    unset($result[$key]);
+                }
+            }
             $child = User::with(['roles', 'LayoutUser' => function ($q) {
                 $q->where('layout_id', session('layout_id'));
             }])
@@ -476,7 +492,7 @@ class TripartiteController extends Controller
                 })
                 ->whereIn('role_id', $result)->get();
         }
-
+// dd($child);
         if ($child) {
             $child = $child->merge($society_user);
         }
