@@ -242,7 +242,7 @@ class SocietyTripatiteController extends Controller
                 'application_id' => $ol_applications->id,
                 'society_documents_comment' => 'N.A.',
             );
-            if(count($docs_comment) > 0){
+            if($docs_comment){
                 OlSocietyDocumentsComment::where('id', $docs_comment->id)->update($input);
             }else{
                 OlSocietyDocumentsComment::create($input);
