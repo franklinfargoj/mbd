@@ -2953,11 +2953,13 @@ label.site-visit-label {
 }
 
 .app-card-section-title {
-    color: #fff;
+    color: #636161;
     padding: 15px;
-    background-color: coral;
-    margin-left: -2px;
-    margin-right: -2px;
+    font-weight: 600;
+    outline: 2px solid #e4e4e4;
+    position: relative;
+    left: 2px;
+    width: calc(100% - 2px);
 }
 
 .hearing-accordion-wrapper {
@@ -2968,17 +2970,8 @@ label.site-visit-label {
     margin-top: 30px;
 }
 
-.hearing-row {
-    margin-top: 1px;
-    margin-left: -1px;
-    margin-right: -1px;
-    border-left: 2px solid #f2f3f8;
-    border-right: 2px solid #f2f3f8;
-    border-bottom: 2px solid #f2f3f8;
-}
-
-.hearing-row .col + .col {
-    border-left: 2px solid #f2f3f8;
+.hearing-row + .hearing-row {
+    margin-top: 30px;
 }
 
 .hearing-row .app-card {
@@ -2986,6 +2979,7 @@ label.site-visit-label {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    box-shadow: 2px 0 0 0 #e4e4e4, 0 2px 0 0 #e4e4e4, 2px 2px 0 0 #e4e4e4, 2px 0 0 0 #e4e4e4 inset, 0 2px 0 0 #e4e4e4 inset !important;
 }
 
 .hearing-row .app-card > * {

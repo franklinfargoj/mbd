@@ -23,9 +23,12 @@
             </div>
         </div>
         <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="ree-offer-letter-summary" data-parent="#accordion">
-            <div class="row hearing-row">
+            <div class="row no-gutters hearing-row">
+                <div class="col-12 no-shadow">
+                    <div class="app-card-section-title">Offer Letter</div>
+                </div>
                 @foreach($dashboardData as $header => $value)
-                <div class="col">
+                <div class="col-lg-3">
                     <div class="m-portlet app-card text-center">
                         <h2 class="app-heading">{{$header}}</h2>
                         <div class="app-card-footer">
@@ -42,9 +45,12 @@
             @if($chart)
             <div id="chartdiv" style="width: 100%; height: 350px; margin-top: 2px;"></div>
             @endif @if($dashboardData1)
-            <div class="row hearing-row">
+            <div class="row no-gutters hearing-row">
+                <div class="col-12 no-shadow">
+                    <div class="app-card-section-title">Offer Letter</div>
+                </div>
                 @foreach($dashboardData1 as $header => $value)
-                <div class="col">
+                <div class="col-lg-3">
                     <div class="m-portlet app-card text-center">
                         <h2 class="app-heading">{{$header}}</h2>
                         <h2 class="app-no mb-0">{{$value}}</h2>
@@ -77,10 +83,13 @@
             </div>
         </div>
         <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="conveyance_dashboard" data-parent="#accordion">
-            <div class="row hearing-row">
+            <div class="row no-gutters hearing-row">
+                <div class="col-12 no-shadow">
+                    <div class="app-card-section-title">Offer Letter</div>
+                </div>
                 @foreach($conveyanceDashboard[0] as $header => $value)
-                <div class="col">
-                    <div class="m-portlet app-card text-center">
+                <div class="col-lg-3">
+                    <div class="m-portlet app-card text-center no-shadow">
                         <h2 class="app-heading">{{$header}}</h2>
                         <div class="app-card-footer">
                             <h2 class="app-no mb-0">{{$value[0]}}</h2>
@@ -121,11 +130,11 @@
         </div>
         <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="renewal_dashboard" data-parent="#accordion">
             <div class="row no-gutters hearing-row">
-                <div class="col-12">
+                <div class="col-12 no-shadow">
                     <div class="app-card-section-title">Offer Letter</div>
                 </div>
                 @foreach($renewalDashboard[0] as $header => $value)
-                <div class="col">
+                <div class="col-lg-3">
                     <div class="m-portlet app-card text-center">
                         <h2 class="app-heading">{{$header}}</h2>
                         <div class="app-card-footer">
