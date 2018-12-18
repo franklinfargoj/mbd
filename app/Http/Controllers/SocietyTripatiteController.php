@@ -433,14 +433,15 @@ class SocietyTripatiteController extends Controller
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $application_name = OlApplication::where('society_id', $society->id)->with('ol_application_master')->get();
         $society_remark = OlSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id', 'desc')->first();
-        if($request->file('offer_letter_application_form'))
+
+        if($request->file('application_path'))
         {
-            $file = $request->file('offer_letter_application_form');
+            $file = $request->file('application_path');
             $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
-            $extension = $request->file('offer_letter_application_form')->getClientOriginalExtension();
+            $extension = $request->file('application_path')->getClientOriginalExtension();
             if ($extension == "pdf") {
                 $time = time();
-                $name = File::name($request->file('offer_letter_application_form')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+                $name = File::name($request->file('application_path')->getClientOriginalName()) . '_' . $time . '.' . $extension;
                 $folder_name = "society_offer_letter_documents";
                 $path = $folder_name.'/'.$name;
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('application_path'),$name);
@@ -472,4 +473,16 @@ class SocietyTripatiteController extends Controller
         }
         return redirect()->route('society_offer_letter_dashboard');
     }
+
+    /**
+     * Uploads stamped offer letter application form in marathi in pdf format.
+     * Author: Amar Prajapati
+     * @param  $request
+     * @return \Illuminate\Http\Response
+     */
+//    public function uploadTripartiteAfterSign(Request $request){
+//
+//    }
+
+
 }
