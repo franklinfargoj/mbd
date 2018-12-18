@@ -646,6 +646,7 @@ class TripartiteController extends Controller
     // forward and revert application
     public function forwardApplication(Request $request)
     {
+        $society_flag=0;
         $is_reverted_to_society = 0;
         $is_approved_agreement=0;
         $data = OlApplication::where('id', $request->applicationId)->first();
@@ -653,7 +654,8 @@ class TripartiteController extends Controller
         if ($request->check_status == 1) {
 
             if ($request->to_role_id == $this->get_society_role_from_user_id($request->to_user_id)) {
-                $agreement=$this->get_tripartite_agreements($applicationId, config('commanConfig.tripartite_agreements.drafted'));
+                $society_flag=1;
+                $agreement=$this->get_tripartite_agreements($request->applicationId, config('commanConfig.tripartite_agreements.drafted'));
                 if($agreement)
                 {
                     if($agreement->status_id==$this->get_document_status_by_name('Approved'))
@@ -684,6 +686,7 @@ class TripartiteController extends Controller
 
             if ($request->to_role_id == $this->get_society_role_from_user_id($request->to_user_id)) {
                 $is_reverted_to_society = 1;
+                $society_flag=1;
                 $status = config('commanConfig.applicationStatus.reverted');
                 $Tostatus = config('commanConfig.applicationStatus.pending');
             }else
@@ -711,6 +714,7 @@ class TripartiteController extends Controller
             'status_id' => $status,
             'to_user_id' => $request->to_user_id,
             'to_role_id' => $request->to_role_id,
+            'society_flag' => 0,
             'remark' => $request->remark,
             'created_at' => Carbon::now(),
         ],
@@ -721,14 +725,18 @@ class TripartiteController extends Controller
                 'status_id' => $Tostatus,
                 'to_user_id' => null,
                 'to_role_id' => null,
+                'society_flag' => $society_flag,
                 'remark' => $request->remark,
                 'created_at' => Carbon::now(),
             ],
         ];
 
-        \DB::transaction(function () use($is_reverted_to_society,$request,$application){
+        \DB::transaction(function () use($is_reverted_to_society,$request,$application,$is_approved_agreement){
             if ($is_reverted_to_society == 1) {
-                OlApplication::where('id', $request->applicationId)->update(['current_status_id'=>$is_approved_agreement,'is_reverted_to_society' => $is_reverted_to_society]);
+                OlApplication::where('id', $request->applicationId)->update(['is_reverted_to_society' => $is_reverted_to_society]);
+            }
+            if ($is_approved_agreement != 0) {
+                OlApplication::where('id', $request->applicationId)->update(['current_status_id'=>$is_approved_agreement]);
             }
             OlApplicationStatus::insert($application);
         });
