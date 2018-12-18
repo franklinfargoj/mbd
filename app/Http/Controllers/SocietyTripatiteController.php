@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\ApplicationStatusMaster;
 use App\OlApplication;
+use App\OlApplicationStatus;
 use Illuminate\Http\Request;
 use App\SocietyOfferLetter;
 use App\MasterLayout;
@@ -475,14 +477,57 @@ class SocietyTripatiteController extends Controller
     }
 
     /**
-     * Uploads stamped offer letter application form in marathi in pdf format.
+     * Shows drafted/signed tripartite agreement.
+     * Author: Amar Prajapati
+     * @param  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show_tripartite_agreement($id){
+        $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
+        $ol_applications = OlApplication::where('society_id', $society->id)->where('id', $id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        }])->first();
+        $tripartite_agreement = $this->CommonController->get_tripartite_agreements($ol_applications->id, config('commanConfig.tripartite_agreements.drafted'));
+//        dd($tripartite_agreement);
+        return view('frontend.society.tripatite.show_tripartite_agreement', compact('society', 'ol_applications', 'tripartite_agreement'));
+    }
+
+    /**
+     * Uploads stamped tripartite agreement.
      * Author: Amar Prajapati
      * @param  $request
      * @return \Illuminate\Http\Response
      */
-//    public function uploadTripartiteAfterSign(Request $request){
-//
-//    }
+    public function upload_tripartite_agreement(Request $request){
+        if($request->file('document_path')){
+            $file = $request->file('document_path');
+            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+            $extension = $request->file('document_path')->getClientOriginalExtension();
+            if ($extension == "pdf") {
+                $time = time();
+                $name = File::name($request->file('document_path')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+                $folder_name = "society_tripartite_documents";
+                $path = $folder_name . '/' . $name;
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $request->file('document_path'), $name);
 
+                $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
+                $ol_applications = OlApplication::where('society_id', $society->id)->where('id', $request->application_id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+                    $q->where('society_flag', '1')->orderBy('id', 'desc');
+                }])->first();
+
+                $status = ApplicationStatusMaster::where('status_name', config('commanConfig.documents.society.Stamped'))->value('id');
+
+                $this->CommonController->set_tripartite_agreements($ol_applications, config('commanConfig.tripartite_agreements.drafted'), $path, $status);
+                $ol_application_status = OlApplicationStatus::where('application_id', $request->application_id)->where('society_flag', 1)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
+                $users = User::where('id', $ol_application_status->user_id)->get();
+                $insert_arr = array(
+                    'users' => $users
+                );
+
+                $this->CommonController->tripartite_application_status_society($insert_arr, config('commanConfig.applicationStatus.forwarded'), $ol_applications);
+            }
+        }
+        return redirect()->route('society_offer_letter_dashboard');
+    }
 
 }

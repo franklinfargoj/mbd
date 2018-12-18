@@ -187,7 +187,8 @@ return [
             'Stamp_by_jtco' => 'Stamp_by_jtco',
             'Stamp_by_dycdo' => 'Stamp_by_dycdo',
             'Draft' => 'Draft',
-            'Register' => 'Register'
+            'Register' => 'Register',
+            'Stamped' => 'Stamped'
         ],
         'dycdo_note'  => 'dycdo_note',
         'architect_conveyance_map' => 'architect_conveyance_map',
