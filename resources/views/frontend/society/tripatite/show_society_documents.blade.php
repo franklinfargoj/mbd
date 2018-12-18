@@ -81,7 +81,7 @@
                                         <a href="{{ asset($document_uploaded['society_document_path']) }}" data-value='{{ $document->id }}'
                                            class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
                                                 Download</button></a>
-                                        <a href="{{ url('/delete_uploaded_documents/'.$document->id) }}" data-value='{{ $document->id }}'
+                                        <a href="{{ route('delete_tripartite_docs', $document->id) }}" data-value='{{ $document->id }}'
                                            class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
                                                 <i class="fa fa-trash"></i></button></a>
                                     </span>
@@ -136,11 +136,11 @@
                 </div>
             </div>
         </div>
-        @if(!empty($docs_count) && !empty($docs_uploaded_count))
-            @if($docs_count == $docs_uploaded_count)
+        @if(!empty($show_comment_tab))
+            @if($show_comment_tab == 1)
                 <div class="m-portlet">
                     <div>
-                        @if($application->olApplicationStatus[0]->status_id == 3)
+                        @if($ol_applications->olApplicationStatus[0]->status_id == 3)
                             <div>
                                 <div>
                                     <div class="portlet-body">
@@ -154,13 +154,13 @@
                                             <div class="remarks-section">
                                                 <div class="remarks-section__data">
                                                     <p class="remarks-section__data__row"><span>Date:</span><span>{{date('d-m-Y',
-                                            strtotime($application->olApplicationStatus[0]->created_at))}}</span>
+                                            strtotime($ol_applications->olApplicationStatus[0]->created_at))}}</span>
                                                     </p>
                                                     <p class="remarks-section__data__row"><span>Time:</span><span>{{date('h:i:sa',
-                                            strtotime($application->olApplicationStatus[0]->created_at))}}</span></p>
+                                            strtotime($ol_applications->olApplicationStatus[0]->created_at))}}</span></p>
                                                     <p class="remarks-section__data__row"><span>Action:</span><span>Sent
                                             to Society</span></p>
-                                                    <p class="remarks-section__data__row"><span>Description:</span><span>{{$application->olApplicationStatus[0]->remark}}</span></p>
+                                                    <p class="remarks-section__data__row"><span>Description:</span><span>{{$ol_applications->olApplicationStatus[0]->remark}}</span></p>
                                                 </div>
 
                                                 <div class="remarks-section__data">
@@ -173,9 +173,11 @@
                                                                     <textarea name="remark" id="remark" class="form-control m-input">{{old('remark')}}</textarea>
                                                                     <span class="help-block">{{$errors->first('remark')}}</span>
                                                                     <input type="hidden" name="user_id" id="user_id" class="form-control m-input"
-                                                                           value="{{ $application->olApplicationStatus[0]->user_id }}">
+                                                                           value="{{ $ol_applications->olApplicationStatus[0]->user_id }}">
                                                                     <input type="hidden" name="role_id" id="role_id" class="form-control m-input"
-                                                                           value="{{ $application->olApplicationStatus[0]->role_id }}">
+                                                                           value="{{ $ol_applications->olApplicationStatus[0]->role_id }}">
+                                                                    <input type="hidden" name="application_id" id="application_id" class="form-control m-input"
+                                                                           value="{{ $ol_applications->id }}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -210,13 +212,15 @@
                                         <div class="">
                                             <h3 class="section-title section-title--small">Submit Application:</h3>
                                         </div>
-                                        <form action="{{ route('add_documents_comment') }}" method="post" enctype='multipart/form-data'>
+                                        <form action="{{ route('add_tripartite_documents_comment') }}" method="post" enctype='multipart/form-data'>
                                             @csrf
                                             <div class="remarks-suggestions table--box-input">
                                                 <div class="mt-3">
                                                     <label for="society_documents_comment">Additional Information:</label>
                                                     <div class="@if($errors->has('society_documents_comment')) has-error @endif">
                                                         <textarea name="society_documents_comment" rows="5" cols="30" id="society_documents_comment" class="form-control form-control--custom">{{old('society_documents_comment')}}</textarea>
+                                                        <input type="hidden" name="application_id" id="application_id" class="form-control m-input"
+                                                               value="{{ $ol_applications->id }}">
                                                         <span class="help-block">{{$errors->first('society_documents_comment')}}</span>
                                                     </div>
                                                 </div>

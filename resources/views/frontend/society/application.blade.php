@@ -70,20 +70,27 @@
             <span class="App_head"> List of Applications for Redevelopment - {{ $data[0]->ol_application_type[0]->title }}</span>
             <div class="options">
                 @foreach($data as $application)
-                    @if(in_array($application->id,config('commanConfig.new_offer_letter_master_ids')))
-                        <p><a @if(count($application->ol_application_id) == 0) href="{{ route($application->route_name, $application->id) }}" @endif>{{ $application->title }}</a></p>
-                    @elseif(in_array($application->id,config('commanConfig.noc_master_ids')))
-                      <p><a @if(count($application->noc_application_ref) == 0) href="{{ route($application->route_name, $application->id) }}" @endif>{{ $application->title }}</a></p>
-                    @elseif(in_array($application->id,config('commanConfig.noc_cc_master_ids')))
-                      <p><a @if(count($application->noc_cc_application_ref) == 0) href="{{ route($application->route_name, $application->id) }}" @endif>{{ $application->title }}</a></p>
-                    @else
-                        <p><a href="{{ route($application->route_name, $application->id) }}">{{ $application->title }}</a></p>
-                    @endif
-
+{{--                    @if($application->ol_application_id !=null || $application->noc_application_ref != null || $application->noc_cc_application_ref != null)--}}
+                        {{--@foreach($application->ol_application_id as $application_val)--}}
+                    {{--@if(in_array($application->id,config('commanConfig.new_offer_letter_master_ids')) ==true)--}}
+                        {{--<p><a @if(count($application->ol_application_id) == 0) href="{{ route($application->route_name, $application->id) }}" @endif>{{ $application->title }}</a></p>--}}
+                    {{--@elseif(in_array($application->id,config('commanConfig.noc_master_ids')))--}}
+                        {{--<p><a @if(count($application->noc_application_ref) == 0) href="{{ route($application->route_name, $application->id) }}" @endif>{{ $application->title }}</a></p>--}}
+                    {{--@elseif(in_array($application->id,config('commanConfig.noc_cc_master_ids')))--}}
+                        {{--<p><a @if(count($application->noc_cc_application_ref) == 0) href="{{ route($application->route_name, $application->id) }}" @endif>{{ $application->title }}</a></p>--}}
+                    {{--@else--}}
+                        {{--<p><a href="{{ route($application->route_name, $application->id) }}">{{ $application->title }}</a></p>--}}
+                    {{--@endif--}}
+                            {{--@if($application_val->application_master_id == $application->id)--}}
+                                <p><a href="{{ route($application->route_name, $application->id) }}">{{ $application->title }}</a></p>
+                            {{--@else--}}
+                                {{--<p>{{ $application->title }}</p>--}}
+                            {{--@endif--}}
+                        {{--@endforeach--}}
+                    {{--@endif--}}
                 @endforeach
             </div>
         </div>
-
         {{--<div class="col-xs-12 self_premium" id="">--}}
           {{--<span class="App_head"> List of Applications for Redevelopment - @if($id == $self_premium || $id == $self_sharing || $id == $self_reval_premium || $id == $self_reval_sharing) Self Redevelopment @endif @if($id == $dev_premium || $id == $dev_sharing || $id == $dev_reval_premium || $id == $dev_reval_sharing) Redevelopment Through Developer @endif</span>--}}
           {{--<div class="options">--}}
