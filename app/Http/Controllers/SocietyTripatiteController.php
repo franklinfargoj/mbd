@@ -519,7 +519,7 @@ class SocietyTripatiteController extends Controller
 
                 $this->CommonController->set_tripartite_agreements($ol_applications, config('commanConfig.tripartite_agreements.drafted'), $path, $status);
                 $ol_application_status = OlApplicationStatus::where('application_id', $request->application_id)->where('society_flag', 1)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
-                $users = User::where('id', $ol_application_status->user_id)->get();
+                $users = User::where('id', $ol_application_status->to_user_id)->get();
                 $insert_arr = array(
                     'users' => $users
                 );
