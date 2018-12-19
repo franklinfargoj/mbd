@@ -50,13 +50,13 @@ class DYCEController extends Controller
             // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
         if ($datatables->getRequest()->ajax()) {
-
+ 
             return $datatables->of($dyce_application_data)
                 ->editColumn('rownum', function ($listArray) {
                     static $i = 0; $i++; return $i;
                 })
                 ->editColumn('radio', function ($dyce_application_data) {
-                    $url = route('dyce.view_application', $dyce_application_data->id);
+                    $url = route('dyce.view_application', encrypt($dyce_application_data->id));
                     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })                
                 ->editColumn('eeApplicationSociety.name', function ($dyce_application_data) {
@@ -111,6 +111,8 @@ class DYCEController extends Controller
 
     // function used to DyCE Scrutiny & Remark page
     public function dyceScrutinyRemark(Request $request, $applicationId){
+
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->log = $this->CommonController->getCurrentStatus($applicationId);
         $is_view = session()->get('role_name') == config('commanConfig.dyce_jr_user'); 
@@ -172,6 +174,7 @@ class DYCEController extends Controller
     // society and EE documents
     public function societyEEDocuments(Request $request,$applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $societyDocuments = $this->CommonController->getSocietyEEDocuments($applicationId);
        return view('admin.DYCE_department.society_EE_documents',compact('societyDocuments','ol_application')); 
@@ -180,6 +183,7 @@ class DYCEController extends Controller
     // EE - Scrutiny & Remark page
     public function eeScrutinyRemark(Request $request,$applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $eeScrutinyData = $this->CommonController->getEEScrutinyRemark($applicationId);
         return view('admin.DYCE_department.EE_Scrutiny_Remark',compact('eeScrutinyData','ol_application'));
@@ -188,6 +192,7 @@ class DYCEController extends Controller
     // Forward Application page
     public function forwardApplication(Request $request, $applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
         $parentData      = $this->CommonController->getForwardApplicationParentData();
@@ -233,6 +238,7 @@ class DYCEController extends Controller
 
     public function viewApplication(Request $request, $applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->downloadOfferLetter($applicationId);
         $ol_application->folder = 'DYCE_department';
 

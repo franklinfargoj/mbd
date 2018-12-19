@@ -82,7 +82,7 @@
                                             name="total_no_of_buildings" id="total_no_of_buildings" value="<?php if(isset($calculationSheetDetails[0]->total_no_of_buildings)) { echo $calculationSheetDetails[0]->total_no_of_buildings; }  ?>" />
                                     </div>
                                     <div id="print_one">
-                                    <table id="one" class="table mb-0 table--box-input" style="padding-top: 10px;">
+                                    <table id="one" class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;>
                                         <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                         <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                         <input name="user_id" type="hidden" value="{{ $user->id }}" />
@@ -123,7 +123,7 @@
                                                     1. भाडेपट्टा करारनाम्यानुसार क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" class="total_area form-control form-control--custom txtbox" placeholder="0"
+                                                    <input style="border: none;" type="text" class="total_area form-control form-control--custom txtbox" placeholder="0"
                                                         name="area_as_per_lease_agreement" id="area_as_per_lease_agreement"
                                                         value="<?php if(isset($calculationSheetDetails[0]->area_as_per_lease_agreement)) { echo $calculationSheetDetails[0]->area_as_per_lease_agreement; } ?>" />
                                                 </td>
@@ -135,7 +135,7 @@
                                                     2. टिट बिट भूखंडाचे क्षेत्र
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" class="total_area form-control form-control--custom txtbox" placeholder="0"
+                                                    <input style="border: none;" type="text" class="total_area form-control form-control--custom txtbox" placeholder="0"
                                                         name="area_of_tit_bit_plot" id="area_of_tit_bit_plot" value="<?php  if(isset($calculationSheetDetails[0]->area_of_tit_bit_plot)) { echo $calculationSheetDetails[0]->area_of_tit_bit_plot; } ?>" />
                                                 </td>
                                             </tr>
@@ -145,7 +145,7 @@
                                                     3. आर जी भूखंडाचे क्षेत्र
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" class="total_area form-control form-control--custom txtbox" placeholder="0"
+                                                    <input style="border: none;" type="text" class="total_area form-control form-control--custom txtbox" placeholder="0"
                                                         name="area_of_rg_plot" id="area_of_rg_plot" value="<?php if(isset($calculationSheetDetails[0]->area_of_rg_plot)) { echo $calculationSheetDetails[0]->area_of_rg_plot; } ?>" />
                                                 </td>
                                             </tr>
@@ -155,7 +155,7 @@
                                                     4. NTBNIB भूखंडाचे क्षेत्र
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" class="total_area form-control form-control--custom txtbox" placeholder="0"
+                                                    <input style="border: none;" type="text" class="total_area form-control form-control--custom txtbox" placeholder="0"
                                                         name="area_of_ntbnib_plot" id="area_of_ntbnib_plot" value="<?php if(isset($calculationSheetDetails[0]->area_of_ntbnib_plot)) { echo $calculationSheetDetails[0]->area_of_ntbnib_plot;} ?>" />
                                                 </td>
                                             </tr>
@@ -165,7 +165,7 @@
                                                     Total भूखंडाचे क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input class="min_val_for_calculation form-control form-control--custom txtbox" readonly type="text" placeholder="0"
+                                                    <input style="border: none;" class="min_val_for_calculation form-control form-control--custom txtbox" readonly type="text" placeholder="0"
                                                         name="area_of_total_plot" id="area_of_total_plot" value="<?php if(isset($calculationSheetDetails[0]->area_of_total_plot)) { echo $calculationSheetDetails[0]->area_of_total_plot; } ?>" /></td>
                                             </tr>
                                             <tr>
@@ -174,7 +174,7 @@
                                                     अभिन्यासानुसार भूखंडाचे क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" placeholder="0" class="min_val_for_calculation form-control form-control--custom txtbox" name="area_as_per_introduction"
+                                                    <input style="border: none;" type="text" placeholder="0" class="min_val_for_calculation form-control form-control--custom txtbox" name="area_as_per_introduction"
                                                         id="area_as_per_introduction" value="<?php if(isset($calculationSheetDetails[0]->area_as_per_introduction)) { echo $calculationSheetDetails[0]->area_as_per_introduction; } ?>" />
                                                 </td>
                                             </tr>
@@ -184,7 +184,7 @@
                                                     परिगणनाकरिता ग्राह्य भूखंडाचे क्षेत्रफळ (किमान क्षेत्र)
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="permissible_area total_permissible form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="permissible_area total_permissible form-control form-control--custom txtbox"
                                                         name="area_of_subsistence_to_calculate" id="area_of_subsistence_to_calculate"
                                                         value="<?php if(isset($calculationSheetDetails[0]->area_of_subsistence_to_calculate)) { echo $calculationSheetDetails[0]->area_of_subsistence_to_calculate; }?>" />
                                                 </td>
@@ -195,7 +195,7 @@
                                                     अनुज्ञेय चटई क्षेत्र निर्देशांक
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" placeholder="0" class="permissible_area total_permissible form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" placeholder="0" class="permissible_area total_permissible form-control form-control--custom txtbox"
                                                         name="permissible_carpet_area_coordinates" id="permissible_carpet_area_coordinates"
                                                         value="<?php if(isset($calculationSheetDetails[0]->permissible_carpet_area_coordinates)) { echo $calculationSheetDetails[0]->permissible_carpet_area_coordinates; } ?>" />
                                                 </td>
@@ -206,7 +206,7 @@
                                                     अनुज्ञेय बांधकाम क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="total_permissible form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="total_permissible form-control form-control--custom txtbox"
                                                         name="permissible_construction_area" id="permissible_construction_area"
                                                         value="<?php if(isset($calculationSheetDetails[0]->permissible_construction_area)) { echo $calculationSheetDetails[0]->permissible_construction_area;} ?>" />
 
@@ -228,7 +228,7 @@
                                                     1. प्रति सदनिका चौ मी क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" placeholder="0" class="proratata_area form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" placeholder="0" class="proratata_area form-control form-control--custom txtbox"
                                                         name="sqm_area_per_slot" id="sqm_area_per_slot" value="<?php if(isset($calculationSheetDetails[0]->sqm_area_per_slot)) { echo $calculationSheetDetails[0]->sqm_area_per_slot; } ?>" />
                                                 </td>
                                             </tr>
@@ -238,7 +238,7 @@
                                                     2. एकूण सदनिका
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" placeholder="0" class="proratata_area total_permissible form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" placeholder="0" class="proratata_area total_permissible form-control form-control--custom txtbox"
                                                         name="total_house" id="total_house" value="<?php if(isset($calculationSheetDetails[0]->total_house)) { echo $calculationSheetDetails[0]->total_house; } ?>" />
                                                 </td>
                                             </tr>
@@ -248,7 +248,7 @@
                                                     Total
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" placeholder="0" readonly class="form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" placeholder="0" readonly class="form-control form-control--custom txtbox"
                                                         name="permissible_proratata_area" id="permissible_proratata_area"
                                                         value="<?php if(isset($calculationSheetDetails[0]->permissible_proratata_area)) { echo $calculationSheetDetails[0]->permissible_proratata_area; }?>" />
 
@@ -269,7 +269,7 @@
                                                     1. प्रति सदनिका चौ मी प्रोरेटा बांधकाम क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" placeholder="0" class="total_permissible form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" placeholder="0" class="total_permissible form-control form-control--custom txtbox"
                                                         name="per_sq_km_proyerta_construction_area" id="per_sq_km_proyerta_construction_area"
                                                         value="<?php if(isset($calculationSheetDetails[0]->per_sq_km_proyerta_construction_area)) { echo $calculationSheetDetails[0]->per_sq_km_proyerta_construction_area; } ?>" />
                                                 </td>
@@ -280,7 +280,7 @@
                                                     Total
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
                                                         name="proratata_construction_area" id="proratata_construction_area"
                                                         value="<?php if(isset($calculationSheetDetails[0]->proratata_construction_area)) { echo $calculationSheetDetails[0]->proratata_construction_area; } ?>" />
 
@@ -293,7 +293,7 @@
                                                     संस्थेस वितरित करावयाचे क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" placeholder="0" class="total_permissible form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" placeholder="0" class="total_permissible form-control form-control--custom txtbox"
                                                         name="area_in_reserved_seats_for_vp_pio" id="area_in_reserved_seats_for_vp_pio"
                                                         value="<?php if(isset($calculationSheetDetails[0]->area_in_reserved_seats_for_vp_pio)) { echo $calculationSheetDetails[0]->area_in_reserved_seats_for_vp_pio; } ?>" />
                                                 </td>
@@ -304,7 +304,7 @@
                                                     एकूण अनुज्ञेय बांधकाम क्षेत्रफळ (अ.क्र. ५ + ७ + 8)
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="remaining_area form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="remaining_area form-control form-control--custom txtbox"
                                                         name="total_permissible_construction_area" id="total_permissible_construction_area"
                                                         value="<?php if(isset($calculationSheetDetails[0]->total_permissible_construction_area)) { echo $calculationSheetDetails[0]->total_permissible_construction_area; } ?>" />
 
@@ -316,7 +316,7 @@
                                                     अस्तित्वातील बांधकाम क्षेत्रफळ (सी - ५७)
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" placeholder="0" class="remaining_area form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" placeholder="0" class="remaining_area form-control form-control--custom txtbox"
                                                         name="existing_construction_area" id="existing_construction_area"
                                                         value="<?php if(isset($calculationSheetDetails[0]->existing_construction_area)) { echo $calculationSheetDetails[0]->existing_construction_area; } ?>" />
                                                 </td>
@@ -327,7 +327,7 @@
                                                     उर्वरित क्षेत्रफळ (अ.क्र 9. - अ.क्र.10 )
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" placeholder="0" readonly class="form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" placeholder="0" readonly class="form-control form-control--custom txtbox"
                                                         name="remaining_area" id="remaining_area" value="<?php if(isset($calculationSheetDetails[0]->remaining_area)) { echo $calculationSheetDetails[0]->remaining_area; } ?>" />
 
                                                 </td>
@@ -342,7 +342,7 @@
                                                     क्रमांक सी - ६०५ ते सी -६०७ )
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" placeholder="0" class="redirekner_val form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" placeholder="0" class="redirekner_val form-control form-control--custom txtbox"
                                                         name="redirekner_value" id="redirekner_value" value="<?php if(isset($calculationSheetDetails[0]->redirekner_value)) { echo $calculationSheetDetails[0]->redirekner_value; } ?>" />
                                                 </td>
                                             </tr>
@@ -352,7 +352,7 @@
                                                     बांधकामाचा दर (रेडीरेकनर २०१८-१९)
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" placeholder="0" class="redirekner_val form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" placeholder="0" class="redirekner_val form-control form-control--custom txtbox"
                                                         name="redirekner_construction_rate" id="redirekner_construction_rate"
                                                         value="<?php if(isset($calculationSheetDetails[0]->redirekner_construction_rate)) { echo $calculationSheetDetails[0]->redirekner_construction_rate; } ?>" />
                                                 </td>
@@ -363,7 +363,7 @@
                                                     LR/RC = ५५,९००/२७५००
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" placeholder="0" readonly class=" form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" placeholder="0" readonly class=" form-control form-control--custom txtbox"
                                                         name="redirekner_val" id="redirekner_val" value="<?php if(isset($calculationSheetDetails[0]->redirekner_val)) { echo $calculationSheetDetails[0]->redirekner_val; } ?>" />
 
                                                 </td>
@@ -383,7 +383,7 @@
                                                     1. उर्वरित च.क्षे.रहिवासी वापर क्षेत्र
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" placeholder="0" readonly class="form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" placeholder="0" readonly class="form-control form-control--custom txtbox"
                                                         name="remaining_residential_area" id="remaining_residential_area"
                                                         value="<?php if(isset($calculationSheetDetails[0]->remaining_residential_area)) { echo $calculationSheetDetails[0]->remaining_residential_area; } ?>" />
 
@@ -395,7 +395,7 @@
                                                     2. दर
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
                                                            name="calculated_dcr_rate_val" id="calculated_dcr_rate_val"
                                                            value="<?php if(isset($calculationSheetDetails[0]->calculated_dcr_rate_val)) { echo $calculationSheetDetails[0]->calculated_dcr_rate_val; } ?>" />
 
@@ -409,7 +409,7 @@
                                                     अधिमूल्य
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
                                                         name="balance_of_remaining_area" id="balance_of_remaining_area"
                                                         value="<?php if(isset($calculationSheetDetails[0]->balance_of_remaining_area)) { echo $calculationSheetDetails[0]->balance_of_remaining_area; } ?>" />
 
@@ -422,7 +422,7 @@
                                                     इन्फ्रास्टक्चर शुल्क रक्कम
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
                                                         name="infrastructure_fee_amount" id="infrastructure_fee_amount"
                                                         value="<?php if(isset($calculationSheetDetails[0]->infrastructure_fee_amount)) { echo $calculationSheetDetails[0]->infrastructure_fee_amount; } ?>" />
 
@@ -435,7 +435,7 @@
                                                     भरवायची ५/७ रक्कम (५/७ X अनु.क्र.१६)
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
                                                         name="amount_to_be_paid_to_municipal" id="amount_to_be_paid_to_municipal"
                                                         value="<?php if(isset($calculationSheetDetails[0]->amount_to_be_paid_to_municipal)) { echo $calculationSheetDetails[0]->amount_to_be_paid_to_municipal; } ?>" />
 
@@ -449,7 +449,7 @@
                                                     अनु.क्र.१६ )
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
                                                         name="offsite_infrastructure_charge_to_mhada" id="offsite_infrastructure_charge_to_mhada"
                                                         value="<?php if(isset($calculationSheetDetails[0]->offsite_infrastructure_charge_to_mhada)) { echo $calculationSheetDetails[0]->offsite_infrastructure_charge_to_mhada; } ?>" />
 
@@ -461,7 +461,7 @@
                                                     छाननी शुल्क रु.६०००/- [for 1 building]
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
                                                         name="scrutiny_fee" id="scrutiny_fee" value="<?php if(isset($calculationSheetDetails[0]->scrutiny_fee)) { echo $calculationSheetDetails[0]->scrutiny_fee; } ?>" />
 
                                                 </td>
@@ -472,7 +472,7 @@
                                                     अभिन्यास मंजुरी शुल्क रु,१०००/ - प्रति गाळा
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
                                                         name="layout_approval_fee" id="layout_approval_fee" value="<?php if(isset($calculationSheetDetails[0]->layout_approval_fee)) { echo $calculationSheetDetails[0]->layout_approval_fee; } ?>" />
 
                                                 </td>
@@ -483,7 +483,7 @@
                                                     डेब्रिज रिमूव्हल शुल्क रु.६६००/- [for 1 building]
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
                                                         name="debraj_removal_fee" id="debraj_removal_fee" value="<?php if(isset($calculationSheetDetails[0]->debraj_removal_fee)) { echo $calculationSheetDetails[0]->debraj_removal_fee; } ?>" />
 
                                                 </td>
@@ -494,7 +494,7 @@
                                                     पाणी वापर शुल्क (रु.१,००,०००/- ) [for 1 building]
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="form-control total_amount form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control total_amount form-control--custom txtbox"
                                                         name="water_usage_charges" id="water_usage_charges" value="<?php if(isset($calculationSheetDetails[0]->water_usage_charges)) { echo $calculationSheetDetails[0]->water_usage_charges; } ?>" />
 
                                                 </td>
@@ -514,7 +514,7 @@
                                                     1. आर. जी. स्थलांतरणाचे क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" placeholder="0" class="form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" placeholder="0" class="form-control form-control--custom txtbox"
                                                            name="area_of_rg_to_be_relocated" id="area_of_rg_to_be_relocated" value="<?php if(isset($calculationSheetDetails[0]->area_of_rg_to_be_relocated)) { echo $calculationSheetDetails[0]->area_of_rg_to_be_relocated; } ?>" />
 
                                                 </td>
@@ -525,7 +525,7 @@
                                                     Total
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
                                                            name="total_area_of_rg_to_be_relocated" id="total_area_of_rg_to_be_relocated"
                                                            value="<?php if(isset($calculationSheetDetails[0]->total_area_of_rg_to_be_relocated)) { echo $calculationSheetDetails[0]->total_area_of_rg_to_be_relocated; } ?>" />
 
@@ -537,7 +537,7 @@
                                                     भुईभाड्याचे भांडवलीकरणे वार्षिक २.५ टक्के
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
                                                            name="groundrent_capitalization_yearly" id="groundrent_capitalization_yearly" value="<?php if(isset($calculationSheetDetails[0]->groundrent_capitalization_yearly)) { echo $calculationSheetDetails[0]->groundrent_capitalization_yearly; } ?>" />
 
                                                 </td>
@@ -548,7 +548,7 @@
                                                     आगाऊ भुईभाडे (प्रति वर्ष ८ टक्के दराने)
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
                                                            name="advance_groundrent_per_year" id="advance_groundrent_per_year" value="<?php if(isset($calculationSheetDetails[0]->advance_groundrent_per_year)) { echo $calculationSheetDetails[0]->advance_groundrent_per_year; } ?>" />
 
                                                 </td>
@@ -559,7 +559,7 @@
                                                     नाममात्र भुईभाडे (Rs. 1 per year)
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" placeholder="0" class="total_amount form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" placeholder="0" class="total_amount form-control form-control--custom txtbox"
                                                            name="nominal_groundrent" id="nominal_groundrent" value="<?php if(isset($calculationSheetDetails[0]->nominal_groundrent)) { echo $calculationSheetDetails[0]->nominal_groundrent; } ?>" />
 
                                                 </td>
@@ -570,7 +570,7 @@
                                                     एकूण रक्कम रुपये (अ .क्र.१५+१८+१९+२०+२१+२२)
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
                                                         name="total_amount_in_rs" id="total_amount_in_rs" value="<?php if(isset($calculationSheetDetails[0]->total_amount_in_rs)) { echo $calculationSheetDetails[0]->total_amount_in_rs; } ?>" />
 
                                                 </td>
@@ -582,7 +582,7 @@
                                                     रक्कमपैकी भरणा करावयाची ५/७ रक्कम
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
                                                         name="offsite_infrastructure_charges_to_municipal_corporation"
                                                         id="offsite_infrastructure_charges_to_municipal_corporation"
                                                         value="<?php if(isset($calculationSheetDetails[0]->offsite_infrastructure_charges_to_municipal_corporation)) { echo $calculationSheetDetails[0]->offsite_infrastructure_charges_to_municipal_corporation; } ?>" />
@@ -786,7 +786,7 @@
                                                 src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("two");'
                                                 style="max-width: 22px"></a>
                                     </div>
-                                    <table class="table mb-0 table--box-input">
+                                    <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                         <thead class="thead-default">
                                             <tr>
                                                 <th class="table-data--xs" style = "border-style: ridge;">
@@ -816,7 +816,7 @@
                                                     उर्वरितच क्षे निरहिवासी वापर क्षेत्र
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" placeholder="0" readonly class="form-control form-control--custom txtbox" name="remaining_residential_area"
+                                                    <input style="border: none;" type="text" placeholder="0" readonly class="form-control form-control--custom txtbox" name="remaining_residential_area"
                                                         id="remaining_residential_area" value="<?php if(isset($calculationSheetDetails[0]->remaining_residential_area)) { echo $calculationSheetDetails[0]->remaining_residential_area;} ?>" />
 
                                                 </td>
@@ -827,7 +827,7 @@
                                                     दर रु
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="form-control form-control--custom txtbox" name="calculated_dcr_rate_val"
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox" name="calculated_dcr_rate_val"
                                                         id="calculated_dcr_rate_val" value="<?php if(isset($calculationSheetDetails[0]->calculated_dcr_rate_val)) { echo  $calculationSheetDetails[0]->calculated_dcr_rate_val; } ?>" />
 
                                                 </td>
@@ -838,7 +838,7 @@
                                                     अधिमूल्य
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="form-control form-control--custom txtbox" name="remaining_area_of_resident_area_balance"
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox" name="remaining_area_of_resident_area_balance"
                                                         id="remaining_area_of_resident_area_balance" value="<?php if(isset($calculationSheetDetails[0]->balance_of_remaining_area)) { echo $calculationSheetDetails[0]->balance_of_remaining_area; } ?>" />
 
                                                 </td>
@@ -853,7 +853,7 @@
                                                     pt 9]) }
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="form-control form-control--custom txtbox" name="off_site_infrastructure_fee"
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox" name="off_site_infrastructure_fee"
                                                         id="off_site_infrastructure_fee" value="<?php if(isset($calculationSheetDetails[0]->infrastructure_fee_amount)) { echo $calculationSheetDetails[0]->infrastructure_fee_amount; } ?>" />
 
                                                 </td>
@@ -865,7 +865,7 @@
                                                     भरावयाची ५/७ रक्कम (५/७ * अनु क्र २)
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
                                                         name="amount_to_be_paid_to_municipal1" id="amount_to_be_paid_to_municipal1" />
 
                                                 </td>
@@ -877,24 +877,24 @@
                                                     (२/७ * अनु क्र २)
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly class="form-control form-control--custom txtbox" placeholder="0"
+                                                    <input style="border: none;" type="text" readonly class="form-control form-control--custom txtbox" placeholder="0"
                                                         name="offsite_infrastructure_charge_to_mhada1" id="offsite_infrastructure_charge_to_mhada1" />
 
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">5.</td>
-                                                <td class="font-weight-bold" style = "border-style: ridge;">
+                                                <td>5.</td>
+                                                <td class="font-weight-bold">
                                                     १/४ अधिमूल्यापोटी शुल्क
                                                 </td>
-                                                <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly class="form-control form-control--custom txtbox" placeholder="0"
+                                                <td class="text-center">
+                                                    <input style="border: none;" type="text" readonly class="form-control form-control--custom txtbox" placeholder="0"
                                                         name="non_profit_duty" id="non_profit_duty" />
 
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3" align="right" style = "border-style: ridge;">
+                                                <td colspan="3" align="right">
                                                 <input type="submit" name="submit" class="btn btn-primary btn-next
                                                 subtn" value="Next" /> </td>
                                             </tr>
@@ -929,7 +929,7 @@
                                                 src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("three");'
                                                 style="max-width: 22px"></a>
                                     </div>
-                                    <table class="table mb-0 table--box-input">
+                                    <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
 
                                         <thead class="thead-default">
                                             <tr>
@@ -952,7 +952,7 @@
                                                     १/४)
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly class="first_installment form-control form-control--custom txtbox" placeholder="0"
+                                                    <input type="text" style="border: none;" readonly class="first_installment form-control form-control--custom txtbox" placeholder="0"
                                                         name="non_profit_duty_installment" id="non_profit_duty_installment" />
 
                                                 </td>
@@ -965,7 +965,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
 
-                                                    <input type="text" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
+                                                    <input type="text" style="border: none;" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
                                                         name="offsite_infrastructure_charge_to_mhada1_installment" id="offsite_infrastructure_charge_to_mhada1_installment" />
 
                                                 </td>
@@ -976,7 +976,7 @@
                                                     छाननी शुल्क
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly class="first_installment  form-control form-control--custom txtbox" placeholder="0"
+                                                    <input type="text" style="border: none;" readonly class="first_installment  form-control form-control--custom txtbox" placeholder="0"
                                                         name="scrutiny_fee" id="scrutiny_fee" value="<?php if(isset($calculationSheetDetails[0]->scrutiny_fee)) { echo $calculationSheetDetails[0]->scrutiny_fee; } ?>"
 
                                                 </td>
@@ -987,7 +987,7 @@
                                                     अभिन्यास मंजुरी शुल्क रु १,०००/- प्रति गळा
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly class="first_installment  form-control form-control--custom txtbox" placeholder="0"
+                                                    <input type="text" style="border: none;" readonly class="first_installment  form-control form-control--custom txtbox" placeholder="0"
                                                         name="layout_approval_fee" id="layout_approval_fee" value="<?php if(isset($calculationSheetDetails[0]->layout_approval_fee)) { echo $calculationSheetDetails[0]->layout_approval_fee; } ?>" />
 
                                                 </td>
@@ -998,7 +998,7 @@
                                                     डेब्रिज रिमूव्हल शुल्क रु ६६०० /-
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="first_installment  form-control form-control--custom txtbox"
+                                                    <input type="text" style="border: none;" readonly placeholder="0" class="first_installment  form-control form-control--custom txtbox"
                                                         name="debraj_removal_fee" id="debraj_removal_fee" value="<?php if(isset($calculationSheetDetails[0]->debraj_removal_fee)) { echo $calculationSheetDetails[0]->debraj_removal_fee; } ?>" />
 
                                                 </td>
@@ -1009,7 +1009,7 @@
                                                     पाणी वापर शुल्क (रु १,००,०००/-)
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
+                                                    <input type="text" style="border: none;" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
                                                         name="water_usage_charges" id="water_usage_charges" value="<?php if(isset($calculationSheetDetails[0]->water_usage_charges)) { echo $calculationSheetDetails[0]->water_usage_charges; } ?>" />
 
                                                 </td>
@@ -1029,7 +1029,7 @@
                                                     1. आर. जी. स्थलांतरणाचे क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
+                                                    <input type="text" style="border: none;" readonly placeholder="0" class="form-control form-control--custom txtbox"
                                                            name="area_of_rg_to_be_relocated" id="area_of_rg_to_be_relocated" value="<?php if(isset($calculationSheetDetails[0]->area_of_rg_to_be_relocated)) { echo $calculationSheetDetails[0]->area_of_rg_to_be_relocated; } ?>" />
 
                                                 </td>
@@ -1040,7 +1040,7 @@
                                                     Total
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
+                                                    <input type="text" style="border: none;" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
                                                            name="total_area_of_rg_to_be_relocated" id="total_area_of_rg_to_be_relocated"
                                                            value="<?php if(isset($calculationSheetDetails[0]->total_area_of_rg_to_be_relocated)) { echo $calculationSheetDetails[0]->total_area_of_rg_to_be_relocated; } ?>" />
 
@@ -1052,7 +1052,7 @@
                                                     भुईभाड्याचे भांडवलीकरणे वार्षिक २.५ टक्के
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
+                                                    <input type="text" style="border: none;" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
                                                            name="groundrent_capitalization_yearly" id="groundrent_capitalization_yearly" value="<?php if(isset($calculationSheetDetails[0]->groundrent_capitalization_yearly)) { echo $calculationSheetDetails[0]->groundrent_capitalization_yearly; } ?>" />
 
                                                 </td>
@@ -1063,7 +1063,7 @@
                                                     आगाऊ भुईभाडे (प्रति वर्ष ८ टक्के दराने)
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
+                                                    <input type="text" style="border: none;" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
                                                            name="advance_groundrent_per_year" id="advance_groundrent_per_year" value="<?php if(isset($calculationSheetDetails[0]->advance_groundrent_per_year)) { echo $calculationSheetDetails[0]->advance_groundrent_per_year; } ?>" />
 
                                                 </td>
@@ -1074,7 +1074,7 @@
                                                     नाममात्र भुईभाडे (Rs. 1 per year)
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
+                                                    <input type="text" style="border: none;" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
                                                            name="nominal_groundrent" id="nominal_groundrent" value="<?php if(isset($calculationSheetDetails[0]->nominal_groundrent)) { echo $calculationSheetDetails[0]->nominal_groundrent; } ?>" />
 
                                                 </td>
@@ -1086,7 +1086,7 @@
                                                     पूर्णांकामधे
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly class="form-control txtbox form-control--custom" placeholder="0"
+                                                    <input type="text" style="border: none;" readonly class="form-control txtbox form-control--custom" placeholder="0"
                                                         name="payment_of_first_installment" id="payment_of_first_installment"
                                                         value="<?php  if(isset($calculationSheetDetails[0]->payment_of_first_installment)) { echo $calculationSheetDetails[0]->payment_of_first_installment; } ?>" />
 
@@ -1126,7 +1126,7 @@
                                                 src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("four");'
                                                 style="max-width: 22px"></a>
                                     </div>
-                                    <table class="table mb-0 table--box-input">
+                                    <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                         <thead class="thead-default">
                                             <tr>
                                                 <th class="table-data--xs" style = "border-style: ridge;">
@@ -1148,7 +1148,7 @@
                                                             अधिमूल्य च्या १/४)</small></span>
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly class="form-control form-control--custom txtbox" placeholder="0"
+                                                    <input type="text" style="border: none;" readonly class="form-control form-control--custom txtbox" placeholder="0"
                                                         name="non_profit_duty_val" id="non_profit_duty_val"
                                                         />
 
@@ -1162,7 +1162,7 @@
                                                     हफ्त्याची रक्कम पूर्णांकामध्ये
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly class="form-control form-control--custom txtbox" placeholder="0"
+                                                    <input type="text" style="border: none;" readonly class="form-control form-control--custom txtbox" placeholder="0"
                                                         name="payment_of_remaining_installment" id="payment_of_remaining_installment"
                                                         value="<?php if(isset($calculationSheetDetails[0]->payment_of_remaining_installment)) { echo $calculationSheetDetails[0]->payment_of_remaining_installment; } ?>" />
                                                 </td>
@@ -1194,7 +1194,7 @@
                                     <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
                                             src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("five");' style="max-width: 22px"></a>
                                 </div>
-                                <table class="table mb-0 table--box-input">
+                                <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                     <thead class="thead-default">
                                         <tr>
                                             <th class="table-data--xs" style = "border-style: ridge;">
@@ -1211,11 +1211,11 @@
                                     <tbody>
                                         <tr>
                                             <td style = "border-style: ridge;">1.</td>
-                                            <td style = "border-style: ridge;">
+                                            <td>
                                                 मंडळाकडे देकारपत्र जरी केल्याच्या दिनांकापासून पहिल्या सहा
                                                 महिन्या पर्यंत भरणा करावयाची पहिल्या हफ्त्याची रक्कम
                                             </td>
-                                            <td class="text-center" style = "border-style: ridge;">
+                                            <td class="text-center">
                                                 {{ isset($calculationSheetDetails[0]->payment_of_first_installment) ?
                                                 $calculationSheetDetails[0]->payment_of_first_installment : 0 }}
 
@@ -1505,6 +1505,11 @@
                 return cleanNumber(a.value) - cleanNumber(b.value)
             });
         var lowest = sorted[0].value;
+
+        if(lowest==0)
+        {
+            lowest = sorted[1].value;
+        }
 
         $("#area_of_subsistence_to_calculate").attr('value', numberWithCommas(lowest));
     }

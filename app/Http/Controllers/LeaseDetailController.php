@@ -363,6 +363,8 @@ class LeaseDetailController extends Controller
         $lease_start_date = $request->lease_start_date;
         $lease_period = '+'.$request->lease_period.' years';
         $lease_end_date = date('Y-m-d', strtotime($lease_period, strtotime($lease_start_date)));
+        $lease_end_date = date('Y-m-d', strtotime('+1 day', strtotime($lease_end_date)));
+
         $lease_detail = [
             'lease_rule_16_other' => $request->lease_rule_other,
             'lease_basis' => $request->lease_basis,
