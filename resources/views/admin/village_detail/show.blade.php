@@ -138,7 +138,7 @@
 
             <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="land_cost">Land Cost:</label>
+                    <label class="col-form-label" for="land_cost">Land Cost(in Rs.):</label>
                     <input disabled type="text" id="land_cost" name="land_cost" class="form-control form-control--custom"
                            class="form-control form-control--custom m-input" value="{{ $arrData['village_data']['land_cost'] }}">
                     <span class="help-block">{{$errors->first('land_cost')}}</span>
@@ -156,7 +156,7 @@
 
             <div class="form-group m-form__group row align-items-center">
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="property_card_area">Property Card Area:</label>
+                    <label class="col-form-label" for="property_card_area">Property Card Area(sq.m.):</label>
                     <input disabled type="text" id="property_card_area" name="property_card_area" class="form-control form-control--custom" class="form-control form-control--custom m-input"  value="{{$arrData['village_data']['property_card_area'] }}">
                     <span class="help-block">{{$errors->first('property_card_area')}}</span>
                 </div>
