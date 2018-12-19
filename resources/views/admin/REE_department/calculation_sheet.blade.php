@@ -1506,6 +1506,11 @@
             });
         var lowest = sorted[0].value;
 
+        if(lowest==0)
+        {
+            lowest = sorted[1].value;
+        }
+
         $("#area_of_subsistence_to_calculate").attr('value', numberWithCommas(lowest));
     }
 
