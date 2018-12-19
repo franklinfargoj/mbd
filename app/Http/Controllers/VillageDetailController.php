@@ -501,7 +501,6 @@ lm_village_detail.updated_at'))->get();
      */
     public function update(EditVillageDetailRequest $request, $id)
     {
-//        dd($request->all());
         $village = VillageDetail::find($id);
         $village_data = [
             'board_id' => $request->board_id,
