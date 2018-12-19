@@ -109,7 +109,7 @@
                         <label class="col-form-label" for="lease_renewal_date">Date of Renewal of lease:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input disabled type="text" id="lease_renewal_date" name="lease_renewal_date" class="form-control form-control--custom m-input m_datepicker"
-                                readonly value="{{ $arrData['lease_data']->lease_renewal_date }}">
+                                readonly value="{{ date(config('commanConfig.dateFormat'), strtotime($arrData['lease_data']->lease_renewal_date)) }}">
                             <span class="help-block">{{$errors->first('lease_renewal_date')}}</span>
                         </div>
                     </div>
