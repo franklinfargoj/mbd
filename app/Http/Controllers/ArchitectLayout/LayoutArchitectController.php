@@ -1207,7 +1207,7 @@ class LayoutArchitectController extends Controller
             // if ($file->getClientMimeType() != 'application/vnd.ms-excel' ||) {
                 $response_array = array(
                     'status' => false,
-                    'message' => 'XLS file is required',
+                    'message' => 'excel file is required',
                 );
                 return response()->json($response_array);
             }
