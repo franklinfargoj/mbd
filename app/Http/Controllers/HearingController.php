@@ -138,17 +138,17 @@ class HearingController extends Controller
 
             $hearing_data = $hearing_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', case_year, hearing.id as id, case_number, department_id,  office_date, applicant_name')->orderBy('id', 'desc');
 
-//            $hearing_data = $hearing_data->select()->get();
+            $hearing_data = $hearing_data->select()->get();
 
             $listArray = [];
+
             if($request->hearing_status_id)
             {
                 foreach ($hearing_data as $hearing)
                 {
                     if($hearing->hearingStatusLog[0]->hearing_status_id == $request->hearing_status_id)
                     {
-//                        dd("in if");
-                        $listArray[] = $hearing;
+                    $listArray[] = $hearing;
                     }
                 }
             }
@@ -156,7 +156,6 @@ class HearingController extends Controller
             {
                 $listArray =  $hearing_data;
             }
-
             return $datatables->of($listArray)
                 ->editColumn('radio', function ($hearing_data) {
                     $url = route('hearing.show', $hearing_data->id);
@@ -484,6 +483,10 @@ class HearingController extends Controller
         $today = Carbon::now()->format('d-m-Y');
 
         $todaysHearing = HearingSchedule::with(['Hearing'])->where('preceding_date',$today)->get()->toArray();
+
+//        $todaysHearing = Hearing::with(['HearingSchedule' => function($q) use ($today) {
+//            $q->where('preceding_date',$today)->get();
+//        }])->where('user_id',$user_id)->get()->toArray();
 
         // conveyance dashboard
         $conveyanceCommonController = new conveyanceCommonController();

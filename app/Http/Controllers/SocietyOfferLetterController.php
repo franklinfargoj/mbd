@@ -1096,9 +1096,9 @@ class SocietyOfferLetterController extends Controller
         $docs_uploaded_count = 0;
         $docs_count = 0;
         foreach($documents as $documents_key => $documents_val){
-            if(in_array($documents_key+1, $optional_docs) == false){
+            if(in_array($documents_val->id, $optional_docs) == false){
                 $docs_count++;
-                if(count($documents_val->documents_uploaded) > 0){
+                if(count($documents_val->reval_documents_uploaded) > 0){
                     $docs_uploaded_count++;
                 }
             }
@@ -1135,7 +1135,7 @@ class SocietyOfferLetterController extends Controller
         $docs_uploaded_count = 0;
         $docs_count = 0;
         foreach($documents as $documents_key => $documents_val){
-            if(in_array($documents_key+1, $optional_docs) == false){
+            if(in_array($documents_val->id, $optional_docs) == false){
                 $docs_count++;
                 if(count($documents_val->oc_documents_uploaded) > 0){
                     $docs_uploaded_count++;
@@ -1608,7 +1608,7 @@ class SocietyOfferLetterController extends Controller
         $destinationPath = public_path($uploadPath);
 
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $application = OlApplication::where('society_id', $society->id)->orderBy('id','desc')->first();
+        $application = OcApplication::where('society_id', $society->id)->orderBy('id','desc')->first();
 
         $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('id', $request->input('document_id'))->with(['oc_documents_uploaded' => function($q) use ($society){
             $q->where('society_id', $society->id)->get();

@@ -469,6 +469,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         Route::get('upload_society_tripartite_application/{id}', 'SocietyTripatiteController@showuploadTripartiteAfterSign')->name('upload_society_tripartite_application');
         Route::post('upload_society_tripartite', 'SocietyTripatiteController@uploadTripartiteAfterSign')->name('upload_society_tripartite');
         Route::get('society_tripartite_application_download/{id}', 'SocietyTripatiteController@generate_pdf')->name('society_tripartite_application_download');
+        Route::get('tripartite_agreement/{id}', 'SocietyTripatiteController@show_tripartite_agreement')->name('show_tripartite_agreement');
+        Route::post('upload_tripartite_agreement', 'SocietyTripatiteController@upload_tripartite_agreement')->name('upload_tripartite_agreement');
 
         //tripartite end
 

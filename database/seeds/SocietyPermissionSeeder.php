@@ -583,6 +583,16 @@ class SocietyPermissionSeeder extends Seeder
                 'display_name' => 'Shows Application form in pdf format',
                 'description'  => 'Shows Application form in pdf format'
             ],
+            [
+                'name'         => 'show_tripartite_agreement',
+                'display_name' => 'Tripartite Agreement',
+                'description'  => 'Shows Tripartite Agreement form'
+            ],
+            [
+                'name'         => 'upload_tripartite_agreement',
+                'display_name' => 'Uploads Tripartite Agreement',
+                'description'  => 'Uploads Tripartite Agreement form'
+            ],
         ];
         
         if(count($society)==0){

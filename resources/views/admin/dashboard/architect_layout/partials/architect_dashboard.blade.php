@@ -141,13 +141,13 @@
     <div class="m-portlet m-portlet--compact hearing-accordion mb-0">
         <div class="d-flex justify-content-between align-items-center">
             <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
-                data-toggle="collapse" href="#layout_forwarded_for_approval">
+                data-toggle="collapse" href="#layout_forwarded_for_approval_main">
                 <span class="form-accordion-title">Layout Approval</span>
                 <span class="accordion-icon"></span>
             </a>
         </div>
     </div>
-    <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="layout_forwarded_for_approval"
+    <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="layout_forwarded_for_approval_main"
         data-parent="#accordion">
         <div class="row hearing-row">
             <div class="col">

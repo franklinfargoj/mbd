@@ -646,7 +646,7 @@ $route=\Request::route()->getName();
                 in_array('ee.index', session()->get('permission')) ||
                 in_array('dyce.index', session()->get('permission')) ||
                 in_array('co.index', session()->get('permission')) ||
-                in_array('vp.index', session()->get('permission')) ||
+                in_array('cap.index', session()->get('permission')) ||
                 in_array('vp.index', session()->get('permission')) ||
                 in_array('tripartite.index', session()->get('permission')) ||
                 in_array('ree_applications.noc_cc', session()->get('permission'))||

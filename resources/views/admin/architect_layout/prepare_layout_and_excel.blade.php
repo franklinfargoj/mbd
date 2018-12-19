@@ -279,10 +279,9 @@
                                 {{-- <p> Click 'Download Note' to download & view</p> --}}
                                 <a target="_blank" id="upload_architect_note_file" class="btn btn-primary col-md-6"
                                     href="{{config('commanConfig.storage_server').'/'.$ArchitectLayout->upload_architect_note}}">Download
-                                    Excel Report</a>
+                                    Architect Note</a>
                             </div>
                         </div>
-
                         <span class="text-danger" id="upload_architect_note_error"></span>
                     </div>
                 </div>

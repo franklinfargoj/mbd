@@ -138,7 +138,7 @@ $disabled=isset($disabled)?$disabled:0;
                             </div>
                         </div>
                         @if(($societyData['ree_Jr_id'] && $applicationLog->status_id
-                        !=config('commanConfig.applicationStatus.forwarded') && $stamped_and_signed!=1 && $approved_by_co!=1) || (($stamped_by_society==1 || $approved_by_co==1) && session()->get('role_name')==config('commanConfig.co_engineer') && $applicationLog->status_id
+                        !=config('commanConfig.applicationStatus.forwarded') || $stamped_and_signed!=1 && $approved_by_co!=1) || (($stamped_by_society==1 || $approved_by_co==1) && session()->get('role_name')==config('commanConfig.co_engineer') && $applicationLog->status_id
                         !=config('commanConfig.applicationStatus.forwarded')) )
                         <div class="col-sm-6 border-left">
                             <div class="d-flex flex-column h-100">
@@ -172,15 +172,25 @@ $disabled=isset($disabled)?$disabled:0;
             <div class="remark-body">
                 <div class="remarks-section">
                     @foreach($tripatiet_remark_history as $history)
+                    {{-- <div class="card">
+                        <div class="card-header">
+                            {{config('commanConfig.la_engineer')==$history->Roles->name?'Riders By':'Remark By'}} 
+                            {{ isset($history->Roles->display_name) ? $history->Roles->display_name : '' }}
+                        </div>
+                        <div class="card-body">
+                          <p class="card-text">{{ isset($history->remark)? $history->remark : '' }}</p>
+                        </div>
+                    </div> --}}
                     <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container" data-scrollbar-shown="true"
                         data-scrollable="true" data-max-height="150">
                         <div class="remarks-section__data">
                         <p class="remarks-section__data__row"><span>{{config('commanConfig.la_engineer')==$history->Roles->name?'Riders By':'Remark By'}} {{
-                                    isset($history->Roles->display_name) ? $history->Roles->display_name : '' }}</p>
-                            <p class="">
-                                {{-- <span>Remark:</span> --}}
-                                <span>{{ isset($history->remark)
-                                    ? $history->remark : '' }}</span></p>
+                                    isset($history->Roles->display_name) ? $history->Roles->display_name : '' }}
+                        </p>
+                        <p class="">
+                       
+                        <span>{{ isset($history->remark)? $history->remark : '' }}</span>
+                        </p>
                         </div>
                     </div>
                     @endforeach
@@ -195,7 +205,7 @@ $disabled=isset($disabled)?$disabled:0;
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body">
             @if(session()->get('role_name')==config('commanConfig.la_engineer'))
-            <h3 class="section-title section-title--small">Riders by LA</h3>
+            <h3 class="section-title section-title--small">Riders</h3>
             @else
             <h3 class="section-title section-title--small">Remark</h3>
             @endif

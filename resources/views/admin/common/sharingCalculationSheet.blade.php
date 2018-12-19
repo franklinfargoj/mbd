@@ -73,6 +73,11 @@
                                                 src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");'
                                                 style="max-width: 22px"></a>
                                     </div>
+                                <div class="d-flex justify-content-start align-items-center mb-4">
+                                    <span class="flex-shrink-0 text-nowrap">Total Number of buildings:</span>
+                                    <input type="text" readonly class="form-control form-control--xs form-control--custom flex-grow-0 ml-3" placeholder="0"
+                                           name="total_no_of_buildings" id="total_no_of_buildings" value="<?php if(isset($calculationSheetDetails[0]->total_no_of_buildings)) { echo $calculationSheetDetails[0]->total_no_of_buildings; } else { echo '1'; } ?>" />
+                                </div>
                                     <table class="table mb-0" style="padding-top: 10px;">
                                         <thead class="thead-default">
                                             <tr>
