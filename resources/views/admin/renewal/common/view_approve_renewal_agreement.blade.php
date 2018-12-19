@@ -79,8 +79,86 @@
                 </div>
             </div>
         </div>
-    </div>   
-        
+    </div>  
+
+   <!-- download and upload stamp duty letter      -->
+    <div class="m-portlet m-portlet--mobile m_panel">
+        <div class="m-portlet__body">
+            <div class="m-subheader" style="padding: 0;">
+                <div class="d-flex align-items-center justify-content-center">
+                    <h4 class="section-title">
+                        Stamp Duty Letter
+                    </h4>
+                </div> 
+            </div>
+            <div class="m-section__content mb-0 table-responsive" style="margin-top: 30px;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="d-flex flex-column h-100 two-cols">
+                                <h5>Download</h5>
+                                <span class="hint-text">Click to Download Stamp Duty Letter </span>
+                                <div class="mt-auto">
+                                    @if(isset($data->draftStampLetter->document_path))
+                                    <a href="{{ config('commanConfig.storage_server').'/'.$data->draftStampLetter->document_path }}" class="btn btn-primary" target="_blank">Download </a>                                
+                                    @else
+                                    <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                        *Note : Stamp Duty Letter is not available.</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div> 
+                    @if($data->status->status_id != config('commanConfig.renewal_status.forwarded') && $data->status->status_id != config('commanConfig.renewal_status.reverted'))
+                    
+                        <div class="col-sm-6 border-left">
+                        <form class="nav-tabs-form" id ="send" role="form" method="POST" action="{{ route('dyco.save_renewal_stamp_duty')}}" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
+                            <div class="d-flex flex-column h-100 two-cols">
+                                <h5>Upload</h5>
+                                <input type="hidden" id="oldStamp" name="oldStamp" value="{{ isset($data->StampLetter->document_path) ? $data->StampLetter->document_path : '' }}">
+                                <span class="hint-text">Click to upload Stamp Duty Letter</span>
+                                    <div class="custom-file">
+                                        <input class="custom-file-input" name="stamp_letter" type="file" id="test-upload1">
+                                            <label class="custom-file-label" for="test-upload1">Choose
+                                            file...</label> 
+                                    </div>
+                                    <div class="mt-auto">
+                                        <button type="submit" class="btn btn-primary" style="display:block">
+                                        Upload</button> 
+                                    </div>         
+                                </div>
+                            </form>                           
+                        </div> 
+                    @endif    
+                    </div>
+                </div>
+            </div>                   
+        </div>
+    </div>    
+ 
+@if(session()->get('role_name') == config('commanConfig.dyco_engineer') && ($data->status->status_id != config('commanConfig.renewal_status.forwarded') && $data->status->status_id != config('commanConfig.renewal_status.reverted')) )
+    <div class="m-portlet m-portlet--mobile m_panel">
+        <div class="m-portlet__body">
+            <h5>Send To Society</h5>
+            <span class="hint-text" style="margin-left: 12px;"> Send stamp duty Letter to Society,</span>
+            <div class="col-xs-12 row">
+                <div class="col-md-12">
+                    <form class="nav-tabs-form" id ="send" role="form" method="POST" action="{{ route('dyco.renewal_send_to_society')}}" enctype="multipart/form-data">
+                        @csrf
+
+                        <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
+                        <div class="col-md-6" style="display: inline;">
+                            <input type="submit" class="s_btn btn btn-primary" id="sendToSociety" value="Send to Society ">                                
+                        <span class="error" id="stampError" style="display: none;color: #ce2323;margin-top: 11px;margin-left: 12px;">*Note : Please upload Stamp Duty Letter.</span>  
+                            </div>     
+                    </form> 
+                </div>
+            </div>
+        </div>
+    </div>
+@endif       
+         
     <!-- display all Agreements comments -->
     @if(count($data->AgreementComments) > 0)       
         <div class="m-portlet m-portlet--mobile m_panel">
@@ -127,45 +205,6 @@
 
 @section('js')
 <script>
-    // $(".stamp_letter").change(function(){
-
-    //     var id = this.id;
-    //     myfile = $("#"+id).val();
-    //     var ext = myfile.split('.').pop();
-        
-
-    //         if (ext == "pdf"){
-    //             $(".loader").show();
-    //             var fileData = $("#"+id).prop('files')[0];
-    //             var applicationId = $("#application_id").val();
-    //             console.log(applicationId);
-
-    //             var form_data = new FormData();
-    //             form_data.append('file', fileData);  
-    //             form_data.append('doc_name', myfile);  
-    //             form_data.append('application_id', applicationId);  
-    //             form_data.append('_token', document.getElementsByName("_token")[0].value);  
-                
-    //             // ajax call to save file    
-    //             $.ajax({
-    //                 url: "/upload_renewal_stamp_letter", // point to server-side PHP script
-    //                 data: form_data,
-    //                 type: 'POST',
-    //                 contentType: false, // The content type used when sending data to the server.
-    //                 cache: false, // To unable request pages to be cached
-    //                 processData: false,
-    //                 success: function(data) {
-    //                     $(".loader").hide();
-    //                     if(data == 'success')
-    //                         $("#file_error"+id).css("display","none");
-    //                 }
-    //             });                     
-    //         }else{
-    //             $("#file_error"+id).text("Invalid type of file uploaded.");
-    //             $("#"+id).closest(".custom-file").addClass("has-error");
-    //         }        
-    // });
-
     $("#stampFRM").validate({
         rules: {            
             stamp_letter: {

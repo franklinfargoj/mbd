@@ -255,6 +255,15 @@ class EMController extends Controller
             $content = "";
         }
 
+        // $is_view = session()->get('role_name') == config('commanConfig.estate_manager');
+        // $status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);
+
+        // if ($is_view && ($status->status_id != config('commanConfig.renewal_status.forwarded') && $status->status_id != config('commanConfig.renewal_status.reverted') )) {
+        //     $route = 'admin.renewal.em_department.scrutiny_remark';
+        // }else{
+        //     $route = 'admin.conveyance.common.view_em_scrutiny_remark';
+        // }       
+
         return view('admin.renewal.em_department.scrutiny_remark',compact('data', 'content', 'no_dues_certificate_docs', 'bonafide_docs', 'covering_letter_docs'));
     }
 

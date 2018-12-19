@@ -203,6 +203,7 @@ class renewalCommonController extends Controller
     //Approve renewal lease Agreement
     public function ApproveRenewalAgreement(Request $request,$applicationId){
         
+        // dd(date('Y-m-d', strtotime('+5 years')));
         $applicationId = decrypt($applicationId);    
         $data = RenewalApplication::where('id',$applicationId)->first();
         
