@@ -39,7 +39,7 @@
 
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="area">Area:</label>
+                        <label class="col-form-label" for="area">Area(Sq.m.):</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="area" name="area" class="form-control form-control--custom m-input"
                                 value="{{ $arrData['lease_data']->area }}" readonly>
@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="lease_period">Lease Period:</label>
+                        <label class="col-form-label" for="lease_period">Lease Period(in Yrs.):</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="lease_period" name="lease_period" class="form-control form-control--custom m-input"
                                 value="{{ $arrData['lease_data']->lease_period }}" readonly>
@@ -68,7 +68,7 @@
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="lease_rent">Land rent / lease rent:</label>
+                        <label class="col-form-label" for="lease_rent">Land rent / lease rent(in Rs.):</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="lease_rent" name="lease_rent" class="form-control form-control--custom m-input"
                                 value="{{ $arrData['lease_data']->lease_rent }}" readonly>
@@ -114,6 +114,7 @@
                         </div>
                     </div>
 
+                    @if($arrData['lease_data']->lease_renewed_period)
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="lease_renewed_period">Period of renewed Lease:</label>
                         <div class="m-input-icon m-input-icon--right">
@@ -122,8 +123,10 @@
                             <span class="help-block">{{$errors->first('lease_renewed_period')}}</span>
                         </div>
                     </div>
+                    @endif
                 </div>
 
+                @if($arrData['lease_data']->rent_per_renewed_lease || $arrData['lease_data']->interest_per_renewed_lease_agreement)
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="rent_per_renewed_lease">Lease rent as per renewed lease:</label>
@@ -144,7 +147,9 @@
                         </div>
                     </div>
                 </div>
+                @endif
 
+                @if($arrData['lease_data']->month_rent_per_renewed_lease)
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="month_rent_per_renewed_lease">Month to start collection of
@@ -161,6 +166,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
 
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions px-0">
