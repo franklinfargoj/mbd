@@ -70,17 +70,17 @@
                                     <div class="col-sm-4 application-fields">
                                         <label class="d-block" for="">A. निवासी:</label>
                                         <input class="letter-form-input letter-form-input--100" type="text" id="" name="residential_flat"
-                                               value="{{ $sc_application->sc_form_request->residential_flat }}" readonly>
+                                               value="{{ $sc_application->sc_form_request->no_of_residential_flat }}" readonly>
                                     </div>
                                     <div class="col-sm-4 application-fields">
                                         <label class="d-block" for="">B. अनिवासी:</label>
                                         <input class="letter-form-input letter-form-input--100" type="text" id="" name="non_residential_flat"
-                                               value="{{ $sc_application->sc_form_request->non_residential_flat }}" readonly>
+                                               value="{{ $sc_application->sc_form_request->no_of_non_residential_flat }}" readonly>
                                     </div>
                                     <div class="col-sm-4 application-fields">
                                         <label class="d-block" for="">C. एकूण:</label>
                                         <input class="letter-form-input letter-form-input--100" type="text" id="" name="total_flat"
-                                               value="{{ $sc_application->sc_form_request->total_flat }}" readonly>
+                                               value="{{ $sc_application->sc_form_request->total_no_of_flat }}" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row">

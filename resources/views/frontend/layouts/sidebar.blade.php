@@ -655,19 +655,6 @@ $route=\Request::route()->getName();
                                             </li>
                                         </ul>
                                     </li>
-                                    <li class="m-menu__item" id="architect" data-toggle="collapse" data-target="#">
-                                        <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
-                                            <i class="m-menu__link-icon flaticon-line-graph"></i>
-                                            <span class="m-menu__link-title">
-                                                <span class="m-menu__link-wrap">
-                                                    <span class="m-menu__link-text">
-                                                        Architect
-                                                    </span>
-                                                    <i class="m-menu__ver-arrow la la-angle-right"></i>
-                                                </span>
-                                            </span>
-                                        </a>
-                                    </li>
                                     {{--<li class="m-menu__item" data-toggle="collapse" data-target="#redevelopment">--}}
                                         {{--<a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">--}}
                                             {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
