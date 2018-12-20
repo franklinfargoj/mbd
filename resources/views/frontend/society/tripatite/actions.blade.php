@@ -35,15 +35,17 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
                     <span class="m-menu__link-text">View Application</span>
                 </a>
             </li>
-            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='tripartite_application_form_edit')?'m-menu__item--active':''}}">
-                <a class="m-menu__link m-menu__toggle" title="Edit Application" href="{{ route('tripartite_application_form_edit', $ol_applications->id) }}">
-                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
-                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                              fill="#FFF" />
-                    </svg>
-                    <span class="m-menu__link-text">Edit Application</span>
-                </a>
-            </li>
+            @if($ol_applications->current_status_id != config('commanConfig.applicationStatus.draft_tripartite_agreement') && $ol_applications->current_status_id != config('commanConfig.applicationStatus.approved_tripartite_agreement'))
+                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='tripartite_application_form_edit')?'m-menu__item--active':''}}">
+                    <a class="m-menu__link m-menu__toggle" title="Edit Application" href="{{ route('tripartite_application_form_edit', $ol_applications->id) }}">
+                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                  fill="#FFF" />
+                        </svg>
+                        <span class="m-menu__link-text">Edit Application</span>
+                    </a>
+                </li>
+            @endif
             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='display_tripartite_docs')?'m-menu__item--active':''}}">
                 <a class="m-menu__link m-menu__toggle" title="Upload Documents" href="{{ route('display_tripartite_docs', $ol_applications->id) }}">
                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -53,15 +55,28 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
                     <span class="m-menu__link-text">Upload Documents</span>
                 </a>
             </li>
-            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='upload_society_tripartite_application')?'m-menu__item--active':''}}">
-                <a class="m-menu__link m-menu__toggle" title="Upload Signed Application for Offer Letter" href="{{ route('upload_society_tripartite_application', $ol_applications->id) }}">
-                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
-                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                              fill="#FFF" />
-                    </svg>
-                    <span class="m-menu__link-text">Upload Signed Application for Tripartite Agreement</span>
-                </a>
-            </li>
+            @if(($ol_applications->current_status_id != config('commanConfig.applicationStatus.draft_tripartite_agreement') && $ol_applications->current_status_id != config('commanConfig.applicationStatus.approved_tripartite_agreement')) && $ol_applications->olApplicationStatus[0]->status_id != config('commanConfig.applicationStatus.forwarded'))
+                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='upload_society_tripartite_application')?'m-menu__item--active':''}}">
+                    <a class="m-menu__link m-menu__toggle" title="Upload Signed Application for Offer Letter" href="{{ route('upload_society_tripartite_application', $ol_applications->id) }}">
+                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                  fill="#FFF" />
+                        </svg>
+                        <span class="m-menu__link-text">Upload Signed Application for Tripartite Agreement</span>
+                    </a>
+                </li>
+            @endif
+            @if(($ol_applications->current_status_id == config('commanConfig.applicationStatus.draft_tripartite_agreement') || $ol_applications->current_status_id == config('commanConfig.applicationStatus.approved_tripartite_agreement')) || $ol_applications->olApplicationStatus[0]->status_id == config('commanConfig.applicationStatus.forwarded'))
+                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='society_tripartite_application_download')?'m-menu__item--active':''}}">
+                    <a class="m-menu__link m-menu__toggle" title="Signed Application for Offer Letter" href="{{ route('society_tripartite_application_download', $ol_applications->id) }}" target="_blank" rel="noopener">
+                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                  fill="#FFF" />
+                        </svg>
+                        <span class="m-menu__link-text">Signed Application for Tripartite Agreement</span>
+                    </a>
+                </li>
+            @endif
         @endif
         @if($status == '2')
             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='tripartite_application_form_preview')?'m-menu__item--active':''}}">
@@ -92,14 +107,14 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
                 </a>
             </li>
         @endif
-        @if($status == config('commanConfig.applicationStatus.pending') && $ol_applications->current_status_id == config('commanConfig.applicationStatus.draft_tripartite_agreement'))
+        @if(($status == config('commanConfig.applicationStatus.pending') && $ol_applications->current_status_id == config('commanConfig.applicationStatus.draft_tripartite_agreement')) || ($status == config('commanConfig.applicationStatus.forwarded') && $ol_applications->current_status_id == config('commanConfig.applicationStatus.draft_tripartite_agreement')) || ($status == config('commanConfig.applicationStatus.pending') && $ol_applications->current_status_id == config('commanConfig.applicationStatus.approved_tripartite_agreement')))
             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='show_tripartite_agreement')?'m-menu__item--active':''}}">
-                <a class="m-menu__link m-menu__toggle" title="Signed Application for Offer Letter" href="{{ route('show_tripartite_agreement', $ol_applications->id) }}" target="_blank" rel="noopener">
+                <a class="m-menu__link m-menu__toggle" title="Signed Application for Offer Letter" href="{{ route('show_tripartite_agreement', $ol_applications->id) }}">
                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
                         <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
                               fill="#FFF" />
                     </svg>
-                    <span class="m-menu__link-text">Tripartite Agreement</span>
+                    <span class="m-menu__link-text">@if($ol_applications->current_status_id == config('commanConfig.applicationStatus.approved_tripartite_agreement')) Approved @endif Tripartite Agreement</span>
                 </a>
             </li>
         @endif

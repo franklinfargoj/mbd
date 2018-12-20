@@ -254,7 +254,7 @@ class SocietyTripatiteController extends Controller
         }else{
             $show_comment_tab = 0;
         }
-        if($documents_comment->society_documents_comment == 'N.A.'){
+        if($documents_comment && $documents_comment->society_documents_comment == 'N.A.'){
             $documents_comment->society_documents_comment = '';
         }
         return view('frontend.society.tripatite.show_society_documents', compact('ol_applications', 'documents', 'documents_uploaded', 'documents_comment', 'id', 'society', 'society_details', 'show_comment_tab'));
@@ -398,7 +398,7 @@ class SocietyTripatiteController extends Controller
 //        dd($id);
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $ol_applications = OlApplication::where('society_id', $society->id)->where('id', $id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
-            $q->where('society_flag', '1')->orderBy('id', 'desc');
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->first();
 
         return view('frontend.society.tripatite.upload_stamped_tripartite_application', compact('ol_applications', 'application_details'));
@@ -414,14 +414,14 @@ class SocietyTripatiteController extends Controller
     public function generate_pdf($id){
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
-        $ol_application = OlApplication::where('user_id', auth()->user()->id)->where('id', $id)->with(['request_form', 'applicationMasterLayout'])->first();
+        $ol_applications = OlApplication::where('user_id', auth()->user()->id)->where('id', $id)->with(['request_form', 'applicationMasterLayout'])->first();
         $layouts = MasterLayout::all();
-        $id = $ol_application->application_master_id;
+        $id = $ol_applications->application_master_id;
 
         $mpdf = new Mpdf();
         $mpdf->autoScriptToLang = true;
         $mpdf->autoLangToFont = true;
-        $contents = view('frontend.society.display_society_offer_letter_application', compact('society_details', 'ol_application', 'layouts', 'id'));
+        $contents = view('frontend.society.tripatite.display_society_tripartite_application', compact('society_details', 'ol_applications', 'layouts', 'id'));
         $mpdf->WriteHTML($contents);
         $mpdf->Output();
     }
