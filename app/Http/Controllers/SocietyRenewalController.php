@@ -77,6 +77,8 @@ class SocietyRenewalController extends Controller
             }
             $sr_applications = $sr_applications->get();
 
+            Session::put('sr_application_count', count($sr_applications));
+
             return $datatables->of($sr_applications)
                 ->editColumn('radio', function ($sr_applications) {
                     $url = route('society_renewal.show', encrypt($sr_applications->id));

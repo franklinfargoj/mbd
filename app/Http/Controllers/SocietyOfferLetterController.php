@@ -43,6 +43,7 @@ use App\Mail\SocietyOfferLetterForgotPassword;
 use Storage;
 use App\SocietyConveyance;
 use App\OcApplication;
+use App\conveyance\RenewalApplication;
 
 class SocietyOfferLetterController extends Controller
 {
@@ -313,6 +314,9 @@ class SocietyOfferLetterController extends Controller
 
         $sc_application_count = count(SocietyConveyance::where('society_id', $society_details->id)->get());
         Session::put('sc_application_count', $sc_application_count);
+
+        $sr_application_count = count(RenewalApplication::where('society_id', $society_details->id)->get());
+        Session::put('sr_application_count', $sr_application_count);
 //        dd(Session::get('applications_tab')['self_premium']);
 
         $oc_application_count = count(OcApplication::where('society_id', $society_details->id)->get());

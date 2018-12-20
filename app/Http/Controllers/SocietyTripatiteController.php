@@ -254,7 +254,9 @@ class SocietyTripatiteController extends Controller
         }else{
             $show_comment_tab = 0;
         }
-
+        if($documents_comment->society_documents_comment == 'N.A.'){
+            $documents_comment->society_documents_comment = '';
+        }
         return view('frontend.society.tripatite.show_society_documents', compact('ol_applications', 'documents', 'documents_uploaded', 'documents_comment', 'id', 'society', 'society_details', 'show_comment_tab'));
 
     }
@@ -381,7 +383,7 @@ class SocietyTripatiteController extends Controller
             'application_id' => $request->application_id,
             'society_documents_comment' => $comments,
         );
-
+//        dd($society->id);
         OlSocietyDocumentsComment::where('society_id', $society->id)->where('application_id', $request->application_id)->update($input);
         return redirect()->route('upload_society_tripartite_application', $request->application_id);
     }
