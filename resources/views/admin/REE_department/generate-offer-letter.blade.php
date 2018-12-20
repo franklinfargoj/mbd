@@ -157,7 +157,7 @@
                             <div class="col-md-12">
                                 <p class="font-weight-semi-bold">Edit Offer letter</p>
                                 <p>Click to view generated offer letter in PDF format</p>
-                                <a href="{{route('ree.edit_offer_letter',$societyData->id)}}" class="btn btn-primary">
+                                <a href="{{route('ree.edit_offer_letter',encrypt($societyData->id))}}" class="btn btn-primary">
                                     Edit</a>
                                 <!-- <button type="submit">Edit offer Letter </button> -->
                             </div>

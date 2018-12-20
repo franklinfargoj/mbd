@@ -62,7 +62,7 @@ class VPController extends Controller
                     static $i = 0; $i++; return $i;
                 })
                 ->editColumn('radio', function ($vp_application_data) {
-                    $url = route('vp.view_application', $vp_application_data->id);
+                    $url = route('vp.view_application', encrypt($vp_application_data->id));
                     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })
                 ->editColumn('eeApplicationSociety.name', function ($vp_application_data) {
@@ -192,6 +192,7 @@ class VPController extends Controller
     // society and EE documents
     public function societyEEDocuments(Request $request,$applicationId){
        
+       $applicationId = decrypt($applicationId); 
        $ol_application = $this->CommonController->getOlApplication($applicationId);
         $societyDocuments = $this->CommonController->getSocietyEEDocuments($applicationId);
        return view('admin.vp_department.society_EE_documents',compact('ol_application','societyDocuments'));
@@ -200,6 +201,7 @@ class VPController extends Controller
     // EE - Scrutiny & Remark page
     public function eeScrutinyRemark(Request $request,$applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $eeScrutinyData = $this->CommonController->getEEScrutinyRemark($applicationId);
         return view('admin.vp_department.EE_Scrunity_Remark',compact('ol_application','eeScrutinyData'));
@@ -208,6 +210,7 @@ class VPController extends Controller
     // DyCE Scrutiny & Remark page
     public function dyceScrutinyRemark(Request $request,$applicationId){
         
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);
         // dd($applicationData);
@@ -217,6 +220,7 @@ class VPController extends Controller
     // Forward Application page
     public function forwardApplication(Request $request, $applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
         $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
@@ -358,6 +362,7 @@ class VPController extends Controller
 
     public function displayCAPNote(Request $request, $applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $capNote = $this->CommonController->downloadCapNote($applicationId);
         return view('admin.vp_department.cap_note',compact('applicationId','capNote','ol_application'));
@@ -365,6 +370,7 @@ class VPController extends Controller
 
     public function viewApplication(Request $request, $applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->downloadOfferLetter($applicationId);
         $ol_application->folder = 'vp_department';
 
