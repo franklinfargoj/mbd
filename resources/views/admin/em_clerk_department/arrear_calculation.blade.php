@@ -340,7 +340,7 @@
                 currentYear = currentDate.getFullYear();
 
                 var building_id = "<?php  echo encrypt($tenant->building_id); ?>";
-                var society_id = "<?php  echo encrypt($tenant->society_id); ?>";
+                var society_id = "<?php  echo encrypt($society->id); ?>";
 
                 var year_diff = currentYear-ior_year;
                 // if(year_diff > 1) {
