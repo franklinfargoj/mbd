@@ -30,7 +30,7 @@ $route=\Request::route()->getName();
             data-max-height="100vh">
             <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow">
 
-                @if(session()->get('permission') && in_array('dashboard', session()->get('permission')) ||
+                @if((session()->get('permission') && in_array('dashboard', session()->get('permission')) && !(strpos($route,'resolution') !== false)) ||
                 (strpos($route,'dashboard') !== false) || (strpos($route,'detail') !== false) || !($route ==
                 'hearing'))
                 <li class="m-menu__item {{(strpos($route,'dashboard') !== false)?'m-menu__item--active':''}}">
