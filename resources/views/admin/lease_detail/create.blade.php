@@ -40,7 +40,7 @@
 
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="area">Area:</label>
+                        <label class="col-form-label" for="area">Area(Sq.m.):</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="area" name="area" class="form-control form-control--custom m-input"
                                 value="{{ old('area') }}">
@@ -49,7 +49,7 @@
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="lease_period">Lease Period:</label>
+                        <label class="col-form-label" for="lease_period">Lease Period(in Yrs.):</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="lease_period" name="lease_period" class="form-control form-control--custom m-input"
                                 value="{{ old('lease_period') }}">
@@ -69,7 +69,7 @@
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="lease_rent">Land rent / lease rent:</label>
+                        <label class="col-form-label" for="lease_rent">Land rent / lease rent(in Rs.):</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="lease_rent" name="lease_rent" class="form-control form-control--custom m-input"
                                 value="{{ old('lease_rent') }}">

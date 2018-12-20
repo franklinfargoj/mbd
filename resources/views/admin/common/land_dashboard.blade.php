@@ -22,10 +22,13 @@
             </div>
             <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="land-summary"
                  data-parent="#accordion">
-                <div class="row hearing-row">
+                <div class="row no-gutters hearing-row">
+                    <div class="col-12 no-shadow">
+                        <div class="app-card-section-title">Offer Letter</div>
+                    </div>
                     @php $chart = 0;@endphp
                     @foreach($dashboardData as $header => $value)
-                        <div class="col">
+                        <div class="col-lg-3">
                             <div class="m-portlet app-card text-center">
                                 <h2 class="app-heading">{{$header}}</h2>
                                 <h2 class="app-no mb-0">{{$value[0]}}</h2>
@@ -98,8 +101,8 @@
             // this makes the chart 3D
             chart.depth3D = 15;
             chart.angle = 30;
-            chart.colors = [ "#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999", "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"]
-//
+            chart.colors = [ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
+            chart.fontSize = 15;
             // WRITE
             chart.write("land_chart");
         });

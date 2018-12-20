@@ -1493,13 +1493,18 @@
     }
 
     function areaOfSubsistenceToCalculate()
-    { console.log('enter');
+    {
         var sorted = $(".min_val_for_calculation").sort(
 
             function (a, b) {
                 return cleanNumber(a.value) - cleanNumber(b.value)
             });
         var lowest = sorted[0].value;
+
+        if(lowest==0)
+        {
+            lowest = sorted[1].value;
+        }
 
         $("#area_of_subsistence_to_calculate").attr('value', numberWithCommas(lowest));
     }

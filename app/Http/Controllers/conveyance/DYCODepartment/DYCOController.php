@@ -1107,8 +1107,13 @@ class DYCOController extends Controller
             ],
             ];
 
-            RenewalApplicationLog::insert($application); 
-            RenewalApplication::where('id',$applicationId)->where('application_master_id',$data->application_master_id)
+             
+                RenewalApplicationLog::where('application_id',$applicationId)
+                ->whereIn('user_id', [Auth::user()->id,$to_user_id ])
+                ->update(['is_active' => 0]); 
+                RenewalApplicationLog::insert($application); 
+
+               RenewalApplication::where('id',$applicationId)->where('application_master_id',$data->application_master_id)
                 ->update(['application_status' => $data->application_status,'sent_to_society' => 1]);            
             return back()->with('success','Application Send Successfully.');     
     }

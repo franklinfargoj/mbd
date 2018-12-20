@@ -82,6 +82,7 @@ class renewalCommonController extends Controller
                 ->editColumn('Status', function ($data) use ($request) {
 
                     $status = $data->RenewalApplicationLog->status_id;
+                    
                     if($request->update_status)
                     {
                         if($request->update_status == $status){
@@ -203,6 +204,7 @@ class renewalCommonController extends Controller
     //Approve renewal lease Agreement
     public function ApproveRenewalAgreement(Request $request,$applicationId){
         
+        // dd(date('Y-m-d', strtotime('+5 years')));
         $applicationId = decrypt($applicationId);    
         $data = RenewalApplication::where('id',$applicationId)->first();
         

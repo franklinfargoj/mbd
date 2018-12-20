@@ -68,6 +68,8 @@ return [
        'Aproved_Renewal_of_Lease' => 19,
        'NOC_Generation' => 20,
        'draft_offer_letter_generated' => 21,
+       'draft_tripartite_agreement'=>22,
+       'approved_tripartite_agreement'=>23
    ],
 
 
@@ -185,7 +187,8 @@ return [
             'Stamp_by_jtco' => 'Stamp_by_jtco',
             'Stamp_by_dycdo' => 'Stamp_by_dycdo',
             'Draft' => 'Draft',
-            'Register' => 'Register'
+            'Register' => 'Register',
+            'Stamped' => 'Stamped'
         ],
         'dycdo_note'  => 'dycdo_note',
         'architect_conveyance_map' => 'architect_conveyance_map',
@@ -252,7 +255,8 @@ return [
         '12' => 'purple', 
         '13' => 'success', 
         '14' => 'purple', 
-        '15' => 'success', 
+        '15' => 'success',
+        '23' => 'success', 
     ],
 
     'architect_applicationStatus' => [
@@ -375,6 +379,10 @@ return [
 
     'noc_cc_master_ids' => [
         '10', '21'
+    ],
+
+    'tripartite_master_ids' => [
+        '9', '20'
     ],
 
     'storage_server' => 'http://storage.mhada.php-dev.in',

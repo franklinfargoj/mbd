@@ -16,7 +16,7 @@ class HearingPermissionSeeder extends Seeder
      */
     public function run()
     {
- 
+
         //Role
         // Joint CO
         $joint_co_role_id = Role::where('name', '=', 'Joint CO')->value('id');
@@ -44,16 +44,16 @@ class HearingPermissionSeeder extends Seeder
             ]);
 
         // CO
-        $co_role_id = Role::where('name','Co')->value('id');
+        $co_role_id = Role::where('name','co_engineer')->value('id');
 
         if($co_role_id == NULL)
             $co_role_id = Role::insertGetId([
-                'name' => 'Co',
-                'parent_id' => NULL,
-                'redirect_to' => '/hearing',
-                'dashboard' => '/hearing-dashboard',
-                'display_name' => 'co',
-                'description' => 'Login as CO'
+                'name' => 'co_engineer',
+                'redirect_to' => '/co',
+                'dashboard' => '/co_dashboard',
+                'parent_id' => null,
+                'display_name' => 'Co_Engineer',
+                'description' => 'Login as CO Engineer',
             ]);
 
         //CO PA
@@ -115,14 +115,13 @@ class HearingPermissionSeeder extends Seeder
 
         }
 
-
         // CO
-        $co_user_id = User::where('email','hearingco@gmail.com')->value('id');
+        $co_user_id = User::where('email','co@gmail.com')->value('id');
         if($co_user_id == NULL){
             $co_user_id = User::insertGetId([
                 'name' => 'CO',
-                'email' => 'hearingco@gmail.com',
-                'password' => bcrypt('co123'),
+                'email' => 'co@gmail.com',
+                'password' => bcrypt('1234'),
                 'role_id' => $co_role_id,
                 'uploaded_note_path' => 'Test',
                 'mobile_no' => '7412589635',
@@ -405,14 +404,16 @@ class HearingPermissionSeeder extends Seeder
                     'role_id' => $joint_co_role_id,
                 ];
 
-            $permission_role_co_data = PermissionRole::where('permission_id', $permission_ids)
-                ->where('role_id', $co_role_id)->first();
+            if(!($hearings['name'] == 'hearing.dashboard')){
+                $permission_role_co_data = PermissionRole::where('permission_id', $permission_ids)
+                    ->where('role_id', $co_role_id)->first();
 
-            if (!$permission_role_co_data)
-                $permission_role_co[] = [
-                    'permission_id' => $permission_ids,
-                    'role_id' => $co_role_id,
-                ];
+                if (!$permission_role_co_data)
+                    $permission_role_co[] = [
+                        'permission_id' => $permission_ids,
+                        'role_id' => $co_role_id,
+                    ];
+            }
         }
 
         if (count($permission_role_joint_co) > 0)
@@ -549,12 +550,12 @@ class HearingPermissionSeeder extends Seeder
                 'name' => 'renewal.index',
                 'display_name' => 'renewal',
                 'description' => 'renewal',
-            ],            
+            ],
             [
                 'name' => 'renewal.view_application',
                 'display_name' => 'renewal_view_application',
                 'description' => 'renewal_view_application',
-            ],            
+            ],
             [
                 'name' => 'renewal.prepare_renewal_agreement',
                 'display_name' => 'prepare renewal agreement',
@@ -569,22 +570,22 @@ class HearingPermissionSeeder extends Seeder
                 'name' => 'renewal.renewal_forward_application',
                 'display_name' => 'renewal forward application',
                 'description' => 'renewal forward application',
-            ],            
+            ],
             [
                 'name' => 'renewal.save_forward_application_renewal',
                 'display_name' => 'save forward application renewal',
                 'description' => 'save forward application renewal',
-            ],            
+            ],
             [
                 'name' => 'renewal.stamp_renewal_agreement',
                 'display_name' => 'stamp renewal agreement',
                 'description' => 'stamp renewal agreement',
-            ],             
+            ],
             [
                 'name' => 'renewal.save_stamp_renewal_agreement',
                 'display_name' => 'save stamp renewal agreement',
                 'description' => 'save stamp renewal agreement',
-            ],             
+            ],
             [
                 'name' => 'renewal.save_agreement_comments',
                 'display_name' => 'save agreement comments',
@@ -594,7 +595,7 @@ class HearingPermissionSeeder extends Seeder
                 'name' => 'renewal.ee_scrutiny',
                 'display_name' => 'renewal ee scrutiny',
                 'description' => 'renewal ee scrutiny',
-            ],            
+            ],
             [
                 'name' => 'renewal.architect_scrutiny',
                 'display_name' => 'renewal architect scrutiny',
@@ -604,27 +605,27 @@ class HearingPermissionSeeder extends Seeder
                 'name'=>'renewal.save_agreement_comments',
                 'display_name'=>'renewal save agreement comments',
                 'description'=>'renewal save agreement comments'
-            ], 
+            ],
             [
                 'name'=>'conveyance.view_documents',
                 'display_name'=>'view conveyance documents',
                 'description'=>'view conveyance documents'
-            ], 
+            ],
             [
                 'name'=>'renewal.view_documents',
                 'display_name'=>'view renewal society documents',
                 'description'=>'view renewal society documents'
-            ],             
+            ],
             [
                 'name'=>'em.scrutiny_remark',
                 'display_name'=>'EM scrutiny remark',
                 'description'=>'EM scrutiny remark'
-            ],            
+            ],
             [
                 'name'=>'conveyance.save_draft_sign_conveyance_agreement',
                 'display_name'=>'save draft sign conveyance agreement',
                 'description'=>'save draft sign conveyance agreement'
-            ],            
+            ],
             [
                 'name'=>'conveyance.draft_sign_conveyance_agreement',
                 'display_name'=>'draft sign conveyance agreement',
@@ -639,7 +640,7 @@ class HearingPermissionSeeder extends Seeder
                 'name'=>'em.renewal_scrutiny_remark',
                 'display_name'=>'em renewal scrutiny remark',
                 'description'=>'em renewal scrutiny remark'
-            ],            
+            ],
             [
                 'name'=>'renewal.save_draft_sign_renewal_agreement',
                 'display_name'=>'renewal save draft sign renewal agreement',
@@ -648,15 +649,15 @@ class HearingPermissionSeeder extends Seeder
             [
                 'name'=>'renewal.stamp_sign_renewal_agreement',
                 'display_name'=>'renewal stamp sign renewal agreement',
-                'description'=>'renewal stamp sign renewal agreement' 
-            ],             
+                'description'=>'renewal stamp sign renewal agreement'
+            ],
             [
                 'name'=>'renewal.save_stamp_sign_renewal_agreement',
                 'display_name'=>'renewal save stamp sign renewal agreement',
-                'description'=>'renewal save stamp sign renewal agreement' 
-            ],                                                                                                                                  
+                'description'=>'renewal save stamp sign renewal agreement'
+            ],
         ];
-  
+
         foreach ($Jtco_permission as $permission) {
             $permission_role = [];
             $permission_ids = Permission::where('name', $permission['name'])->value('id');

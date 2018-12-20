@@ -212,6 +212,7 @@
 
                 <div class="m-portlet m-portlet--mobile m_panel">
                     <div class="m-portlet__body" style="padding-right: 0;">
+                            @if(session()->get('role_name') == config('commanConfig.estate_manager'))
                             <h3 class="section-title section-title--small mb-0">Generate No dues certificate:</h3>
                             <div class=" row-list">
                                 <div class="row">
@@ -236,6 +237,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
                         <div class="w-100 row-list">
                             <div class="">
                                 <div class="row">
@@ -254,7 +256,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if($data->srApplicationLog->status_id != config('commanConfig.conveyance_status.forwarded'))
+                                    @if(session()->get('role_name') == config('commanConfig.estate_manager') && $data->srApplicationLog->status_id != config('commanConfig.conveyance_status.forwarded'))
                                         <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100">
                                             <h5>Upload No Dues Certificate</h5>
@@ -323,7 +325,8 @@
                                                 Download</a>
                                     </div>
                                 @endif
-                                @if($data->srApplicationLog->status_id != config('commanConfig.conveyance_status.forwarded'))
+                    
+                                @if(session()->get('role_name') == config('commanConfig.estate_manager') && $data->srApplicationLog->status_id != config('commanConfig.conveyance_status.forwarded'))
                                     <div class="col-sm-6 @if(isset($data->sr_form_request) && $data->sr_form_request->template_file) border-left @endif">
                                     <div class="d-flex flex-column h-100">
                                         <h5>Upload List of Bonafide Allottees</h5>
@@ -368,10 +371,9 @@
             <!-- Society Resolution div here -->
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                 <div class="portlet-body">
-                    <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
-                        <div class="m-subheader">
-                            <div class="row">
-                                @if(!empty($covering_letter_docs[config('commanConfig.documents.em_renewal.covering_letter')[0]]->sr_document_status))
+                    <div class="m-portlet__body" style="padding-right: 0;">
+                         <div class=" row-list">
+                            <div class="row">                                
                                     <div class="col-sm-6">
                                         <h5 class="section-title section-title--small mb-0">Download Covering Letter</h5>
                                         <p>
@@ -389,11 +391,17 @@
                                         <p>Click to download Covering Letter in pdf format</p>
                                         {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
 
+                                    @if(!empty($covering_letter_docs[config('commanConfig.documents.em_renewal.covering_letter')[0]]->sr_document_status))
                                             <a href="{{ config('commanConfig.storage_server').'/'.$covering_letter_docs[config('commanConfig.documents.em_renewal.covering_letter')[0]]->sr_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">Download</a>
-                                    </div>
-                                @endif
-                                @if($data->srApplicationLog->status_id != config('commanConfig.conveyance_status.forwarded'))
-                                    <div class="col-sm-6 @if(!empty($covering_letter_docs[config('commanConfig.documents.em_renewal.covering_letter')[0]]->sr_document_status)) border-left @endif">
+                                    
+                                    @else
+                                        <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                                * Note : Covering Letter is not available. </span>
+                                    @endif
+                                </div>    
+
+                                @if(session()->get('role_name') == config('commanConfig.estate_manager') && $data->srApplicationLog->status_id != config('commanConfig.conveyance_status.forwarded'))
+                                    <div class="col-sm-6 border-left">
                                     <div class="d-flex flex-column h-100">
                                         <h5>Upload Covering Letter</h5>
                                         <span class="hint-text">Click on 'Upload' to upload Covering Letter</span>

@@ -606,9 +606,7 @@ var SnippetLogin = function() {
                             required: !0,
                             number: true
                         },
-                        chairman: {
-                            required: !0
-                        },
+                        
                         society_address: {
                             required: !0
                         },

@@ -30,7 +30,7 @@ $route=\Request::route()->getName();
             data-max-height="100vh">
             <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow">
 
-                @if(session()->get('permission') && in_array('dashboard', session()->get('permission')) ||
+                @if((session()->get('permission') && in_array('dashboard', session()->get('permission')) && !(strpos($route,'resolution') !== false)) ||
                 (strpos($route,'dashboard') !== false) || (strpos($route,'detail') !== false) || !($route ==
                 'hearing'))
                 <li class="m-menu__item {{(strpos($route,'dashboard') !== false)?'m-menu__item--active':''}}">
@@ -407,8 +407,7 @@ $route=\Request::route()->getName();
 
                                 @php
                                     if((strpos($route,'village_detail') !== false) || (strpos($route,'society_detail') !==
-                                    false) || (strpos($route,'architect_layouts') !== false) || (strpos($route,'lease_detail') !==
-                                    false ) || ($route == 'land.dashboard')){
+                                    false) || (strpos($route,'architect_layouts') !== false) || ($route == 'land.dashboard')){
                                     $id = '0' ;
                                     }else{
                                     $id = collect(request()->segments())->last();
@@ -647,7 +646,7 @@ $route=\Request::route()->getName();
                 in_array('ee.index', session()->get('permission')) ||
                 in_array('dyce.index', session()->get('permission')) ||
                 in_array('co.index', session()->get('permission')) ||
-                in_array('vp.index', session()->get('permission')) ||
+                in_array('cap.index', session()->get('permission')) ||
                 in_array('vp.index', session()->get('permission')) ||
                 in_array('tripartite.index', session()->get('permission')) ||
                 in_array('ree_applications.noc_cc', session()->get('permission'))||
@@ -678,9 +677,8 @@ $route=\Request::route()->getName();
                         ))
                         @php
                         $reval_redirect_to = "";
-                        if(Session::all()['role_name'] == 'REE Junior Engineer' || Session::all()['role_name'] == 'REE
-                        deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' ||
-                        Session::all()['role_name'] == 'ree_engineer')
+                        if(Session::all()['role_name'] == config('commanConfig.ree_junior') || Session::all()['role_name'] == config('commanConfig.ree_deputy_engineer') || Session::all()['role_name'] == config('commanConfig.ree_assistant_engineer') ||
+                        Session::all()['role_name'] == config('commanConfig.ree_branch_head'))
                         $reval_redirect_to = "ree_applications.reval";
                         elseif(Session::all()['role_name'] == 'co_engineer' )
                         $reval_redirect_to = "co_applications.reval";
@@ -719,15 +717,15 @@ $route=\Request::route()->getName();
                             </a>
                         </li>
                         @endif
+
                         @if (isset($route) && (in_array('ree_applications.noc', session()->get('permission'))||
                         in_array('co_applications.noc', session()->get('permission'))
                         ))
                         @php
                         $reval_redirect_to = "";
 
-                        if(Session::all()['role_name'] == 'REE Junior Engineer' || Session::all()['role_name'] == 'REE
-                        deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' ||
-                        Session::all()['role_name'] == 'ree_engineer')
+                        if(Session::all()['role_name'] == config('commanConfig.ree_junior') || Session::all()['role_name'] == config('commanConfig.ree_deputy_engineer') || Session::all()['role_name'] == config('commanConfig.ree_assistant_engineer') ||
+                        Session::all()['role_name'] == config('commanConfig.ree_branch_head'))
                         $reval_redirect_to = "ree_applications.noc";
                         elseif(Session::all()['role_name'] == 'co_engineer' )
                         $reval_redirect_to = "co_applications.noc";
@@ -754,9 +752,8 @@ $route=\Request::route()->getName();
                         @php
                         $noc_redirect_to = "";
 
-                        if(Session::all()['role_name'] == 'REE Junior Engineer' || Session::all()['role_name'] == 'REE
-                        deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' ||
-                        Session::all()['role_name'] == 'ree_engineer')
+                        if(Session::all()['role_name'] == config('commanConfig.ree_junior') || Session::all()['role_name'] == config('commanConfig.ree_deputy_engineer') || Session::all()['role_name'] == config('commanConfig.ree_assistant_engineer') ||
+                        Session::all()['role_name'] == config('commanConfig.ree_branch_head'))
                         $noc_redirect_to = "ree_applications.noc_cc";
                         elseif(Session::all()['role_name'] == 'co_engineer' )
                         $noc_redirect_to = "co_applications.noc_cc";
@@ -776,7 +773,7 @@ $route=\Request::route()->getName();
                         </li>
                         @endif
                         <!-- sudesh-->
-                    
+
                 @endif
             </ul>
             <!-- comment-->

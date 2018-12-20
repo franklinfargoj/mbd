@@ -1,7 +1,7 @@
 @extends('frontend.layouts.sidebarAction')
-{{--@section('actions')--}}
-    {{--@include('frontend.society.conveyance.actions',compact('sc_applications', 'documents', 'documents_uploaded'))--}}
-{{--@endsection--}}
+@section('actions')
+    @include('frontend.society.tripatite.actions',compact('ol_applications'))
+@endsection
 @section('content')
     <div class="col-md-12">
         <div class="m-subheader px-0 m-subheader--top">
@@ -49,10 +49,11 @@
                             <div class="ml-auto text-right">
                                 <p class="mb-5">Thanking You,</p>
                                 <p>
-                                <span class="d-flex">अध्यक्ष <input class="letter-form-input letter-form-input--xl"
-                                                                    type="text" id="" name="" value=""></span>
-                                    <span class="d-flex mt-3">सचिव <input class="letter-form-input letter-form-input--xl"
-                                                                          type="text" id="" name="" value=""></span>
+                                <span class="d-flex">Best Regards
+                                    {{--<input class="letter-form-input letter-form-input--xl"--}}
+                                                                    {{--type="text" id="" name="" value="">--}}</span>
+                                    {{--<span class="d-flex mt-3">सचिव <input class="letter-form-input letter-form-input--xl"--}}
+                                                                          {{--type="text" id="" name="" value=""></span>--}}
                                 </p>
                             </div>
                         </div>

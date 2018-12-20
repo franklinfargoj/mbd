@@ -156,7 +156,7 @@
 
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="land_cost">Land Cost:<span class="star">*</span></label>
+                        <label class="col-form-label" for="land_cost">Land Cost(in Rs.):<span class="star">*</span></label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="land_cost" name="land_cost" class="form-control form-control--custom" class="form-control form-control--custom m-input"  value="{{ old('land_cost') }}">
                             <span class="help-block">{{$errors->first('land_cost')}}</span>
@@ -173,7 +173,7 @@
 
                 <div class="form-group m-form__group row align-items-center">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="property_card_area">Property Card Area:<span class="star">*</span></label>
+                        <label class="col-form-label" for="property_card_area">Property Card Area(sq.m.):<span class="star">*</span></label>
                             <input type="text" id="property_card_area" name="property_card_area" class="form-control form-control--custom" class="form-control form-control--custom m-input"  value="{{ old('property_card_area') }}">
                             <span class="help-block">{{$errors->first('property_card_area')}}</span>
                     </div>

@@ -37,6 +37,7 @@ use App\OlRgRelocationVerificationQuestionMaster;
 use App\OlSharingCalculationSheetDetail;
 use App\OlSocietyDocumentsMaster;
 use App\OlTitBitVerificationQuestionMaster;
+use App\OlSocietyDocumentsStatus;
 use App\Permission;
 use App\REENote;
 use App\Role;
@@ -1572,6 +1573,7 @@ class CommonController extends Controller
             $insert_application_log[$status_in_words][$key]['to_role_id'] = $user->role_id;
             $insert_application_log[$status_in_words][$key]['remark'] = '';
             $insert_application_log[$status_in_words][$key]['is_active'] = 1;
+            $insert_application_log[$status_in_words][$key]['created_at'] = date('Y-m-d');
             $application_log_status = $insert_application_log[$status_in_words];
 
             if($status == 2){
@@ -1585,10 +1587,12 @@ class CommonController extends Controller
                 $insert_application_log[$status_in_words_1][$key]['to_role_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['remark'] = '';
                 $insert_application_log[$status_in_words_1][$key]['is_active'] = 1;
+                $insert_application_log[$status_in_words_1][$key]['created_at'] = date('Y-m-d');
                 $application_log_status = array_merge($insert_application_log[$status_in_words], $insert_application_log[$status_in_words_1]);
             }
             $i++;
         }
+//        dd($application_log_status);
 
         $inserted_application_log = OlApplicationStatus::insert($application_log_status);
         return $inserted_application_log;
@@ -3169,6 +3173,41 @@ class CommonController extends Controller
 
         $roles = array(config('commanConfig.junior_architect'),config('commanConfig.senior_architect'),config('commanConfig.architect'));
         return Role::whereIn('name', $roles)->pluck('id');        
-    }     
+    }
+
+    public function get_tripartite_agreements($ol_application_id, $agreement_type)
+    {
+        $ol_application = $this->getOlApplication($ol_application_id);
+        $document_type_id = $ol_application->application_master_id;
+        $agreement_type = $agreement_type;
+        $OlSocietyDocumentsMaster = OlSocietyDocumentsMaster::where(['application_id' => $document_type_id, 'name' => $agreement_type])->first();
+        if ($OlSocietyDocumentsMaster) {
+            $documents_id = $OlSocietyDocumentsMaster->id;
+            return OlSocietyDocumentsStatus::where(['society_id' => $ol_application->society_id, 'document_id' => $OlSocietyDocumentsMaster->id])->orderBy('id','desc')->first();
+        }
+        return null;
+    }
+
+    public function set_tripartite_agreements($ol_application, $agreement_type, $path, $status_id = 0)
+    {
+        $document_type_id = $ol_application->application_master_id;
+        $agreement_type = $agreement_type;
+        $OlSocietyDocumentsMaster = OlSocietyDocumentsMaster::where(['application_id' => $document_type_id, 'name' => $agreement_type])->first();
+        if ($OlSocietyDocumentsMaster) {
+            $document_type_id = $ol_application->application_master_id;
+            $agreement_type = $agreement_type;
+
+            $OlSocietyDocumentsStatus = new OlSocietyDocumentsStatus;
+            $OlSocietyDocumentsStatus->society_id = $ol_application->society_id;
+            $OlSocietyDocumentsStatus->document_id = $OlSocietyDocumentsMaster->id;
+            $OlSocietyDocumentsStatus->society_document_path = $path;
+            $OlSocietyDocumentsStatus->status_id = $status_id;
+            $OlSocietyDocumentsStatus->save();
+            if ($OlSocietyDocumentsStatus) {
+                return $OlSocietyDocumentsStatus;
+            }
+        }
+        return null;
+    }
 
 }

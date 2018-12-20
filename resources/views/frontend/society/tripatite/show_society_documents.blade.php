@@ -1,6 +1,6 @@
 @extends('frontend.layouts.sidebarAction')
 @section('actions')
-    @include('frontend.society.actions',compact('ol_applications'))
+    @include('frontend.society.tripatite.actions',compact('ol_applications'))
 @endsection
 @section('content')
     <div class="col-md-12">
@@ -78,12 +78,14 @@
                                             @foreach($document->documents_uploaded as $document_uploaded)
                                                 @if($document_uploaded['society_id'] == $society->id)
                                                     <span>
-                                        <a href="{{ asset($document_uploaded['society_document_path']) }}" data-value='{{ $document->id }}'
+                                        <a href="{{ config('commanConfig.storage_server').'/'.$document_uploaded['society_document_path'] }}" data-value='{{ $document->id }}'
                                            class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
                                                 Download</button></a>
-                                        <a href="{{ url('/delete_uploaded_documents/'.$document->id) }}" data-value='{{ $document->id }}'
+                                                        @if($ol_applications->olApplicationStatus[0]->status_id != config('commanConfig.applicationStatus.forwarded'))
+                                        <a href="{{ route('delete_tripartite_docs', $document->id) }}" data-value='{{ $document->id }}'
                                            class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
                                                 <i class="fa fa-trash"></i></button></a>
+                                                            @endif
                                     </span>
                                                 @else
                                                     <form action="{{ route('upload_tripartite_docs') }}" method="post" enctype='multipart/form-data'
@@ -136,11 +138,11 @@
                 </div>
             </div>
         </div>
-        @if(!empty($docs_count) && !empty($docs_uploaded_count))
-            @if($docs_count == $docs_uploaded_count)
+        @if(!empty($show_comment_tab))
+            @if($show_comment_tab == 1)
                 <div class="m-portlet">
                     <div>
-                        @if($application->olApplicationStatus[0]->status_id == 3)
+                        @if($ol_applications->olApplicationStatus[0]->status_id == 3)
                             <div>
                                 <div>
                                     <div class="portlet-body">
@@ -154,13 +156,13 @@
                                             <div class="remarks-section">
                                                 <div class="remarks-section__data">
                                                     <p class="remarks-section__data__row"><span>Date:</span><span>{{date('d-m-Y',
-                                            strtotime($application->olApplicationStatus[0]->created_at))}}</span>
+                                            strtotime($ol_applications->olApplicationStatus[0]->created_at))}}</span>
                                                     </p>
                                                     <p class="remarks-section__data__row"><span>Time:</span><span>{{date('h:i:sa',
-                                            strtotime($application->olApplicationStatus[0]->created_at))}}</span></p>
+                                            strtotime($ol_applications->olApplicationStatus[0]->created_at))}}</span></p>
                                                     <p class="remarks-section__data__row"><span>Action:</span><span>Sent
                                             to Society</span></p>
-                                                    <p class="remarks-section__data__row"><span>Description:</span><span>{{$application->olApplicationStatus[0]->remark}}</span></p>
+                                                    <p class="remarks-section__data__row"><span>Description:</span><span>{{$ol_applications->olApplicationStatus[0]->remark}}</span></p>
                                                 </div>
 
                                                 <div class="remarks-section__data">
@@ -173,9 +175,11 @@
                                                                     <textarea name="remark" id="remark" class="form-control m-input">{{old('remark')}}</textarea>
                                                                     <span class="help-block">{{$errors->first('remark')}}</span>
                                                                     <input type="hidden" name="user_id" id="user_id" class="form-control m-input"
-                                                                           value="{{ $application->olApplicationStatus[0]->user_id }}">
+                                                                           value="{{ $ol_applications->olApplicationStatus[0]->user_id }}">
                                                                     <input type="hidden" name="role_id" id="role_id" class="form-control m-input"
-                                                                           value="{{ $application->olApplicationStatus[0]->role_id }}">
+                                                                           value="{{ $ol_applications->olApplicationStatus[0]->role_id }}">
+                                                                    <input type="hidden" name="application_id" id="application_id" class="form-control m-input"
+                                                                           value="{{ $ol_applications->id }}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -210,20 +214,24 @@
                                         <div class="">
                                             <h3 class="section-title section-title--small">Submit Application:</h3>
                                         </div>
-                                        <form action="{{ route('add_documents_comment') }}" method="post" enctype='multipart/form-data'>
+                                        <form action="{{ route('add_tripartite_documents_comment') }}" method="post" enctype='multipart/form-data'>
                                             @csrf
                                             <div class="remarks-suggestions table--box-input">
                                                 <div class="mt-3">
                                                     <label for="society_documents_comment">Additional Information:</label>
                                                     <div class="@if($errors->has('society_documents_comment')) has-error @endif">
-                                                        <textarea name="society_documents_comment" rows="5" cols="30" id="society_documents_comment" class="form-control form-control--custom">{{old('society_documents_comment')}}</textarea>
+                                                        <textarea name="society_documents_comment" rows="5" cols="30" id="society_documents_comment" class="form-control form-control--custom" @if($ol_applications->olApplicationStatus[0]->status_id == config('commanConfig.applicationStatus.forwarded')) readonly @endif>@if($documents_comment) {{ $documents_comment->society_documents_comment }} @endif</textarea>
+                                                        <input type="hidden" name="application_id" id="application_id" class="form-control m-input"
+                                                               value="{{ $ol_applications->id }}">
                                                         <span class="help-block">{{$errors->first('society_documents_comment')}}</span>
                                                     </div>
                                                 </div>
-                                                <div class="mt-3 btn-list">
-                                                    <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
-                                                    <a href="{{route('society_offer_letter_dashboard')}}" class="btn btn-secondary">Cancel</a>
-                                                </div>
+                                                @if($ol_applications->olApplicationStatus[0]->status_id != config('commanConfig.applicationStatus.forwarded'))
+                                                    <div class="mt-3 btn-list">
+                                                        <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
+                                                        <a href="{{route('society_offer_letter_dashboard')}}" class="btn btn-secondary">Cancel</a>
+                                                    </div>
+                                                @endif
                                             </div>
                                         <!-- <a href="{{ route('society_offer_letter_dashboard') }}" class="btn btn-primary btn-custom" id="">Cancel</a> -->
                                         </form>

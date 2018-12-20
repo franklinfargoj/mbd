@@ -220,7 +220,7 @@
 
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="surplus_charges">Surplus Charges:<span class="star">*</span></label>
+                        <label class="col-form-label" for="surplus_charges">Surplus Charges(in Rs.):<span class="star">*</span></label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="surplus_charges" name="surplus_charges" class="form-control form-control--custom m-input"
                                    value="{{ $arrData['society_data']->surplus_charges }}">
