@@ -158,7 +158,7 @@
                     <div class="col-sm-12 field-col">
                         <div class="d-flex">
                             <span style="width: 200px;">Upload Site Photos:</span>
-                            <a href="{{config('commanConfig.storage_server').'/'.$data->document_path}}">
+                            <a href="{{config('commanConfig.storage_server').'/'.$data->document_path}}" target="_blank">
                                 @if($imgIcon == 'pdf')
                                     <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}">
                                             

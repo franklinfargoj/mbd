@@ -58,7 +58,7 @@ class CAPController extends Controller
                 })
                 ->editColumn('radio', function ($cap_application_data) {
 
-                    $url = route('cap.view_application', $cap_application_data->id);
+                    $url = route('cap.view_application', encrypt($cap_application_data->id));
                     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })
                 ->editColumn('eeApplicationSociety.name', function ($cap_application_data) {
@@ -187,7 +187,8 @@ class CAPController extends Controller
 
     // society and EE documents
     public function societyEEDocuments(Request $request,$applicationId){
-       
+        
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);       
         $societyDocuments = $this->CommonController->getSocietyEEDocuments($applicationId);
        return view('admin.cap_department.society_EE_documents',compact('societyDocuments','ol_application'));
@@ -196,6 +197,7 @@ class CAPController extends Controller
     // EE - Scrutiny & Remark page
     public function eeScrutinyRemark(Request $request,$applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $eeScrutinyData = $this->CommonController->getEEScrutinyRemark($applicationId);
         return view('admin.cap_department.EE_Scrunity_Remark',compact('eeScrutinyData','ol_application','ol_application'));
@@ -204,6 +206,7 @@ class CAPController extends Controller
     // DyCE Scrutiny & Remark page
     public function dyceScrutinyRemark(Request $request,$applicationId){
 
+        $applicationId = decrypt($applicationId);
         $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         return view('admin.cap_department.dyce_scrunity_remark',compact('applicationData','ol_application'));
@@ -212,6 +215,7 @@ class CAPController extends Controller
     // Forward Application page
     public function forwardApplication(Request $request, $applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
         $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
@@ -257,6 +261,7 @@ class CAPController extends Controller
 
     public function displayCAPNote(Request $request, $applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
         // dd($ol_application->status->status_id);
@@ -295,6 +300,8 @@ class CAPController extends Controller
     }
 
     public function viewApplication(Request $request, $applicationId){
+
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->downloadOfferLetter($applicationId);
         $ol_application->folder = 'cap_department';
 

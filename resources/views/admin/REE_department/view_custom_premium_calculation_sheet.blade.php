@@ -18,7 +18,7 @@
 @php
 $route_name=\Request::route()->getName();
 @endphp
- 
+  
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="d-flex">
@@ -429,7 +429,7 @@ $route_name=\Request::route()->getName();
                                                 <!-- <span class="hint-text">Download  Note uploaded by REE</span> -->
                                                 <div class="mt-auto">
                                                     @if(isset($reeNote->document_path))
-                                                    <a href="{{config('commanConfig.storage_server').'/'.$reeNote->document_path}}">
+                                                    <a href="{{config('commanConfig.storage_server').'/'.$reeNote->document_path}}"  target="_blank">
 
                                                         <button class="btn btn-primary">Download </button>
                                                     </a>

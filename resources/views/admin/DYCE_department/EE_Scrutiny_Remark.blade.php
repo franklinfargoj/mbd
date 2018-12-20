@@ -698,7 +698,7 @@
                                         by EE</span> -->
                                     <div class="mt-3">
                                         @if(isset($eeScrutinyData->eeNote->document_path))
-                                        <a href="{{ config('commanConfig.storage_server').'/'.$eeScrutinyData->eeNote->document_path }}">
+                                        <a href="{{ config('commanConfig.storage_server').'/'.$eeScrutinyData->eeNote->document_path }}" target="_blank">
 
                                             <button class="btn btn-primary">Download</button>
                                         </a>

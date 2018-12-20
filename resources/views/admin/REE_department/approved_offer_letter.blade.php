@@ -142,7 +142,7 @@
                         <p>Click on below button to download offer letter.</p>
 
                         @if($applicationData->offer_letter_document_path)   
-                            <a href=" {{config('commanConfig.storage_server').'/'.$applicationData->offer_letter_document_path}}" class="btn btn-primary" download> Download</a>
+                            <a href=" {{config('commanConfig.storage_server').'/'.$applicationData->offer_letter_document_path}}" class="btn btn-primary" download target="_blank"> Download</a>
                         @endif    
                     </div>
                 </div>
