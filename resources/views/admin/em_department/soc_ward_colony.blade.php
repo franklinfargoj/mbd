@@ -46,7 +46,7 @@
                             <option value="" style="font-weight: normal;">Select Ward</option>
                             @foreach($wards as $key => $value)
                             <option value="{{ $value->id }}"
-                                {{ old("wards", $soc_colony->ward_id) == $value->id ? 'selected' : '' }}>{{
+                                @if(!empty($soc_colony)){{ old("wards", $soc_colony->ward_id) == $value->id ? 'selected' : '' }} @endif>{{
                                 $value->name }}</option>
                             @endforeach
                         </select>

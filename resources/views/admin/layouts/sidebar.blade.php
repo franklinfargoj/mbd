@@ -30,7 +30,7 @@ $route=\Request::route()->getName();
             data-max-height="100vh">
             <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow">
 
-                @if(session()->get('permission') && in_array('dashboard', session()->get('permission')) ||
+                @if((session()->get('permission') && in_array('dashboard', session()->get('permission')) && !(strpos($route,'resolution') !== false)) ||
                 (strpos($route,'dashboard') !== false) || (strpos($route,'detail') !== false) || !($route ==
                 'hearing'))
                 <li class="m-menu__item {{(strpos($route,'dashboard') !== false)?'m-menu__item--active':''}}">
@@ -407,14 +407,14 @@ $route=\Request::route()->getName();
 
                                 @php
                                     if((strpos($route,'village_detail') !== false) || (strpos($route,'society_detail') !==
-                                    false) || (strpos($route,'architect_layouts') !== false) || ($route == 'land.dashboard')){
+                                    false) || (strpos($route,'architect_layouts') !== false) || ($route == 'land.dashboard') || (strpos($route,'lease.index') !== false)){
                                     $id = '0' ;
                                     }else{
-                                    $id = collect(request()->segments())->last();
+                                    $id = decrypt(collect(request()->segments())->last());
                                     }
                                 @endphp
                                 <li class="m-menu__item m-menu__item--submenu {{ ($route=='lease_detail.index' || (strpos($route,'view-lease') !== false) || $route=='edit-lease.edit')?'m-menu__item--active':''}}">
-                                    <a class="m-menu__link m-menu__toggle" href="{{ route('lease_detail.index', $id)}}"
+                                    <a class="m-menu__link m-menu__toggle" href="{{ route('lease_detail.index', encrypt($id))}}"
                                         class="m-menu__link m-menu__toggle">
                                         <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             viewBox="0 0 510 510">
@@ -441,7 +441,7 @@ $route=\Request::route()->getName();
                                 @endif
                                 @if(isset($count) && ($count != 0) && ($id != 0))
                                 <li class="m-menu__item m-menu__item--submenu {{($route=='renew-lease.renew')?'m-menu__item--active':''}}">
-                                    <a class="m-menu__link m-menu__toggle" href="{{route('renew-lease.renew', $id)}}"
+                                    <a class="m-menu__link m-menu__toggle" href="{{route('renew-lease.renew', encrypt($id))}}"
                                         class="m-menu__link m-menu__toggle">
                                         <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             viewBox="0 0 510 510">
@@ -677,8 +677,8 @@ $route=\Request::route()->getName();
                         ))
                         @php
                         $reval_redirect_to = "";
-                        if(Session::all()['role_name'] == 'REE Junior Engineer' || Session::all()['role_name'] == 'REE deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' ||
-                        Session::all()['role_name'] == 'ree_engineer')
+                        if(Session::all()['role_name'] == config('commanConfig.ree_junior') || Session::all()['role_name'] == config('commanConfig.ree_deputy_engineer') || Session::all()['role_name'] == config('commanConfig.ree_assistant_engineer') ||
+                        Session::all()['role_name'] == config('commanConfig.ree_branch_head'))
                         $reval_redirect_to = "ree_applications.reval";
                         elseif(Session::all()['role_name'] == 'co_engineer' )
                         $reval_redirect_to = "co_applications.reval";
@@ -724,8 +724,8 @@ $route=\Request::route()->getName();
                         @php
                         $reval_redirect_to = "";
 
-                        if(Session::all()['role_name'] == 'REE Junior Engineer' || Session::all()['role_name'] == 'REE deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' ||
-                        Session::all()['role_name'] == 'ree_engineer')
+                        if(Session::all()['role_name'] == config('commanConfig.ree_junior') || Session::all()['role_name'] == config('commanConfig.ree_deputy_engineer') || Session::all()['role_name'] == config('commanConfig.ree_assistant_engineer') ||
+                        Session::all()['role_name'] == config('commanConfig.ree_branch_head'))
                         $reval_redirect_to = "ree_applications.noc";
                         elseif(Session::all()['role_name'] == 'co_engineer' )
                         $reval_redirect_to = "co_applications.noc";
@@ -752,8 +752,8 @@ $route=\Request::route()->getName();
                         @php
                         $noc_redirect_to = "";
 
-                        if(Session::all()['role_name'] == 'REE Junior Engineer' || Session::all()['role_name'] == 'REE deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' ||
-                        Session::all()['role_name'] == 'ree_engineer')
+                        if(Session::all()['role_name'] == config('commanConfig.ree_junior') || Session::all()['role_name'] == config('commanConfig.ree_deputy_engineer') || Session::all()['role_name'] == config('commanConfig.ree_assistant_engineer') ||
+                        Session::all()['role_name'] == config('commanConfig.ree_branch_head'))
                         $noc_redirect_to = "ree_applications.noc_cc";
                         elseif(Session::all()['role_name'] == 'co_engineer' )
                         $noc_redirect_to = "co_applications.noc_cc";

@@ -170,14 +170,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href="@if($sc_application->application_master_id) {{ route('society_renewal.edit', encrypt($sc_application->id)) }} @endif" class="btn btn-primary">
-                                    Back
-                                </a>
-                                <span style="float:right;margin-right: 20px">
-                                    <a href="{{ route('sr_upload_docs') }}" class="btn btn-primary">
-                                        Next
+                                @if($sc_application->srApplicationLog->status_id != config('commanConfig.renewal_status.forwarded'))
+                                    <a href="@if($sc_application->application_master_id) {{ route('society_renewal.edit', encrypt($sc_application->id)) }} @endif" class="btn btn-primary">
+                                        Back
                                     </a>
-                                </span>
+                                    <span style="float:right;margin-right: 20px">
+                                        <a href="{{ route('sr_upload_docs') }}" class="btn btn-primary">
+                                            Next
+                                        </a>
+                                    </span>
+                                @endif
                             </div>
                         </div>
                     </div>

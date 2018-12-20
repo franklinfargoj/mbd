@@ -77,7 +77,7 @@ class LoginController extends Controller
         $request->session()->flush();
 
         $request->session()->regenerate();
-        if ($role_name === 'society') {
+        if ($role_name === config('commanConfig.society_offer_letter')) {
             return redirect('/society_offer_letter');
         } else if ($role_name === 'appointing_architect') {
             return redirect(route('appointing_architect.login'));
@@ -114,12 +114,12 @@ class LoginController extends Controller
                   return redirect('/home');
               } else {
                   $role_name = Role::where('id', Auth::user()->role_id)->value('name');
-                  if (explode('/', explode('.', Session::get('_previous')['url'])[0])[2] == 'society') {
+                  if (explode('/', explode('.', Session::get('_previous')['url'])[0])[2] == config('commanConfig.staging') || explode('/', explode('.', Session::get('_previous')['url'])[0])[2] == config('commanConfig.testing')) {
                       // Authentication passed...
                       return redirect('/home');
                   } else {
                       if (!empty($role_name)) {
-                          if ($role_name != 'society') {
+                          if ($role_name != config('commanConfig.society_offer_letter')) {
                               // Authentication passed...
                               return redirect('/home');
                           } else {
@@ -149,7 +149,7 @@ class LoginController extends Controller
                       return redirect('/login-user')->with('error', "Please enter valid credentials");
                   }
               } else {
-                  if (explode('/', explode('.', URL::previous())[2])[0] == 'society') {
+                  if (explode('/', explode('.', URL::previous())[2])[0] == config('commanConfig.staging') || explode('/', explode('.', URL::previous())[2])[0] == config('commanConfig.testing')) {
                       Session::flush();
                       return redirect('/society_offer_letter')->with('error', "Please enter valid credentials");
                   } elseif (explode('/', explode('.', URL::previous())[2])[0] == 'appointing_architect') {

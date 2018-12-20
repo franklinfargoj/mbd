@@ -4,7 +4,7 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">View Lease</h3>
-            {{ Breadcrumbs::render('lease_view', $id, $society_id) }}
+            {{ Breadcrumbs::render('lease_view', encrypt($id), encrypt($society_id)) }}
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
@@ -13,7 +13,7 @@
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
         <form id="renewLeaseDetail" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
-            action="{{route('update-lease.update', $id)}}">
+            action="{{route('update-lease.update', encrypt($id))}}">
             @csrf
             <input type="hidden" name="society_id" value="{{ $society_id }}">
             <div class="m-portlet__body m-portlet__body--spaced">

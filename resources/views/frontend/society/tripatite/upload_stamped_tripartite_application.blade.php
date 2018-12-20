@@ -27,10 +27,12 @@
                                     {{--</div>--}}
                                 {{--</div>--}}
                                 {{--<div class="col-sm-6 border-left">--}}
-                                <div class="col-sm-6">
+                                {{--@php dd($ol_applications); @endphp--}}
+                                @if(($ol_applications->current_status_id != config('commanConfig.applicationStatus.draft_tripartite_agreement') && $ol_applications->current_status_id != config('commanConfig.applicationStatus.approved_tripartite_agreement')) && $ol_applications->olApplicationStatus[0]->status_id != config('commanConfig.applicationStatus.forwarded'))
+                                    <div class="col-sm-6">
                                     <div class="d-flex flex-column h-100 two-cols">
                                         <h5>Upload Signed & Stamped Application here</h5>
-                                        <span class="hint-text">Click on 'Upload' to upload signed & stamped application for offer letter.</span>
+                                        <span class="hint-text">Click on 'Upload' to upload signed & stamped application for tripartite agreement.</span>
                                         <form action="{{ route('upload_society_tripartite') }}" method="post" enctype="multipart/form-data">
                                             @csrf
                                             <div class="custom-file">
@@ -52,6 +54,7 @@
                                         </form>
                                     </div>
                                 </div>
+                                @endif
                             </div>
                         </div>
                     </div>

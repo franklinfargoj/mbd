@@ -22,10 +22,13 @@
             </div>
             <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="land-summary"
                  data-parent="#accordion">
-                <div class="row hearing-row">
+                <div class="row no-gutters hearing-row">
+                    <div class="col-12 no-shadow">
+                        <div class="app-card-section-title">Offer Letter</div>
+                    </div>
                     @php $chart = 0;@endphp
                     @foreach($dashboardData as $header => $value)
-                        <div class="col">
+                        <div class="col-lg-3">
                             <div class="m-portlet app-card text-center">
                                 <h2 class="app-heading">{{$header}}</h2>
                                 <h2 class="app-no mb-0">{{$value[0]}}</h2>

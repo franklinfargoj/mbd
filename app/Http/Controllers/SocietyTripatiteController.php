@@ -174,9 +174,17 @@ class SocietyTripatiteController extends Controller
      */
     public function show_tripatite_dev($id){
         $society_details = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
-        $layouts = MasterLayout::all();
+        $ol_form_request_fields = new OlRequestForm;
 
-        return view('frontend.society.tripatite.show_tripatite_dev', compact('society_details', 'id', 'layouts'));
+        foreach($ol_form_request_fields->getFillable() as $key => $value){
+            if(in_array($value, config('commanConfig.tripartite_fields'))){
+                $form_fields[] = $value;
+            }
+        }
+        $layouts = MasterLayout::all();
+        $comm_func = $this->CommonController;
+
+        return view('frontend.society.tripatite.show_tripatite_dev', compact('society_details', 'id', 'layouts', 'form_fields', 'layouts', 'comm_func'));
     }
 
     /**
@@ -185,7 +193,41 @@ class SocietyTripatiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function save_tripatite_dev(Request $request){
-        dd($request->all());
+        $ol_request_form_details = new OlRequestForm;
+        $ol_request_form_details = $ol_request_form_details->getFillable();
+        $ol_request_form['society_id'] = $request->society_id;
+        foreach($request->all() as $key => $ol_request_form_detail){
+            if(in_array($key, $ol_request_form_details) == true){
+                $ol_request_form[$key] = $ol_request_form_detail;
+            }
+        }
+        $ol_request_form_id = OlRequestForm::create($ol_request_form);
+        $input_arr_ol_applications = array(
+            'user_id' => auth()->user()->id,
+            'language_id' => 1,
+            'society_id' => $request->society_id,
+            'layout_id' => $request->layout_id,
+            'request_form_id' => $ol_request_form_id->id,
+            'application_master_id' => $request->application_master_id,
+            'application_no' => 'MHD'.str_pad($ol_request_form_id->id, 5, '0', STR_PAD_LEFT),
+            'current_status_id' => config('commanConfig.applicationStatus.in_process')
+        );
+        $ol_application = OlApplication::create($input_arr_ol_applications);
+
+        $role_id = Role::where('name', config('commanConfig.ree_junior'))->first();
+        $user_ids = RoleUser::where('role_id', $role_id->id)->get();
+        $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
+
+        foreach ($layout_user_ids as $key => $value) {
+            $select_user_ids[] = $value['user_id'];
+        }
+        $users = User::whereIn('id', $select_user_ids)->get();
+        $insert_arr = array(
+            'users' => $users
+        );
+
+        $this->CommonController->tripartite_application_status_society($insert_arr, config('commanConfig.applicationStatus.pending'), $ol_application);
+        return redirect()->route('tripartite_application_form_preview', $ol_application->id);
     }
 
 
@@ -254,7 +296,7 @@ class SocietyTripatiteController extends Controller
         }else{
             $show_comment_tab = 0;
         }
-        if($documents_comment->society_documents_comment == 'N.A.'){
+        if($documents_comment && $documents_comment->society_documents_comment == 'N.A.'){
             $documents_comment->society_documents_comment = '';
         }
         return view('frontend.society.tripatite.show_society_documents', compact('ol_applications', 'documents', 'documents_uploaded', 'documents_comment', 'id', 'society', 'society_details', 'show_comment_tab'));
@@ -398,7 +440,7 @@ class SocietyTripatiteController extends Controller
 //        dd($id);
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $ol_applications = OlApplication::where('society_id', $society->id)->where('id', $id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
-            $q->where('society_flag', '1')->orderBy('id', 'desc');
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->first();
 
         return view('frontend.society.tripatite.upload_stamped_tripartite_application', compact('ol_applications', 'application_details'));
@@ -414,14 +456,14 @@ class SocietyTripatiteController extends Controller
     public function generate_pdf($id){
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
-        $ol_application = OlApplication::where('user_id', auth()->user()->id)->where('id', $id)->with(['request_form', 'applicationMasterLayout'])->first();
+        $ol_applications = OlApplication::where('user_id', auth()->user()->id)->where('id', $id)->with(['request_form', 'applicationMasterLayout'])->first();
         $layouts = MasterLayout::all();
-        $id = $ol_application->application_master_id;
+        $id = $ol_applications->application_master_id;
 
         $mpdf = new Mpdf();
         $mpdf->autoScriptToLang = true;
         $mpdf->autoLangToFont = true;
-        $contents = view('frontend.society.display_society_offer_letter_application', compact('society_details', 'ol_application', 'layouts', 'id'));
+        $contents = view('frontend.society.tripatite.display_society_tripartite_application', compact('society_details', 'ol_applications', 'layouts', 'id'));
         $mpdf->WriteHTML($contents);
         $mpdf->Output();
     }

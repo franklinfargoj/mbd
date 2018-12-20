@@ -56,10 +56,11 @@ class OlSharingCalculationSheetDetailsController extends Controller
      */
     public function show($id)
     {
-        $applicationId = $id;$user = Auth::user();
-        $ol_application = $this->CommonController->getOlApplication($id);
-        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$id)->first();        
-        $calculationSheetDetails = OlSharingCalculationSheetDetail::where('application_id','=',$id)->get();
+        $applicationId = decrypt($id);
+        $user = Auth::user();
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();        
+        $calculationSheetDetails = OlSharingCalculationSheetDetail::where('application_id','=',$applicationId)->get();
 
         $dcr_rates = OlDcrRateMaster::all();
         // REE Note download
@@ -133,9 +134,9 @@ class OlSharingCalculationSheetDetailsController extends Controller
 
     public function saveCalculationDetails(Request $request)
     {
-
         OlSharingCalculationSheetDetail::updateOrCreate(['application_id'=>$request->get('application_id')],$request->all());
-        return redirect("ol_sharing_calculation_sheet/" . $request->get('application_id')."#".$request->get('redirect_tab'));
+        $id = encrypt($request->get('application_id'));
+        return redirect("ol_sharing_calculation_sheet/" . $id."#".$request->get('redirect_tab'));
     }
 
     public function saveRevalCalculationDetails(Request $request)
