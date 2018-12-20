@@ -505,6 +505,10 @@ class SocietyOfferLetterController extends Controller
                         $status_display = 'Approved';
                     }
 
+                    if($status_display == 'Pending ' && $ol_applications->is_approve_offer_letter){
+                        $status_display = 'Approved';
+                    }
+
                     return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$ol_applications->olApplicationStatus[0]->status_id) .' m-badge--wide">'.$status_display.'</span>';
                 })
                 ->editColumn('model', function ($ol_applications) {
