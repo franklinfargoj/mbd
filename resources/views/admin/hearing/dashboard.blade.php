@@ -472,6 +472,8 @@
             chart.depth3D = 15;
             chart.angle = 30;
             chart.colors = [ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
+            chart.fontSize = 15;
+
             // WRITE
             chart.write("chartdiv");
         });
@@ -507,6 +509,8 @@
             chart1.depth3D = 15;
             chart1.angle = 30;
             chart1.colors = [ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
+            chart1.fontSize = 15;
+
             // WRITE
             chart1.write("conveyance_chart");
         });
@@ -579,7 +583,8 @@
                 chart3.depth3D = 15;
                 chart3.angle = 30;
                 chart3.colors = [ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
-            //
+                chart3.fontSize = 15;
+
             // WRITE
             chart3.write("renewal_chart");
         });
@@ -618,7 +623,8 @@
                 chart4.depth3D = 15;
                 chart4.angle = 30;
                 chart4.colors = [ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
-            //
+                chart4.fontSize = 15;
+
             // WRITE
             chart4.write("pending_renewal_chart");
         });
