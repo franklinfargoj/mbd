@@ -114,7 +114,7 @@ class LoginController extends Controller
                   return redirect('/home');
               } else {
                   $role_name = Role::where('id', Auth::user()->role_id)->value('name');
-                  if (explode('/', explode('.', Session::get('_previous')['url'])[0])[2] == 'society') {
+                  if (explode('/', explode('.', Session::get('_previous')['url'])[0])[2] == 'society' || explode('/', explode('.', Session::get('_previous')['url'])[0])[2] == 'societytest') {
                       // Authentication passed...
                       return redirect('/home');
                   } else {
