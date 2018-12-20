@@ -19,13 +19,13 @@
                         <i class="la la-cog"></i> Scrutiny History
                     </a>
                 </li>
-
-                @if(($arrData['get_current_status']->status_id ==
+                
+                @if((($arrData['get_current_status']->status_id ==
                 config('commanConfig.applicationStatus.in_process') ||
                 $arrData['get_current_status']->status_id !=
-                config('commanConfig.applicationStatus.reverted') ||
+                config('commanConfig.applicationStatus.reverted') &&
                 ($arrData['get_current_status']->status_id !=
-                config('commanConfig.applicationStatus.offer_letter_generation') &&
+                config('commanConfig.applicationStatus.offer_letter_generation')) &&
                 $arrData['get_current_status']->status_id !=
                 config('commanConfig.applicationStatus.offer_letter_approved') ) &&
                 $arrData['get_current_status']->status_id !=

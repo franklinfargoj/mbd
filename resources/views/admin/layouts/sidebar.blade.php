@@ -407,14 +407,14 @@ $route=\Request::route()->getName();
 
                                 @php
                                     if((strpos($route,'village_detail') !== false) || (strpos($route,'society_detail') !==
-                                    false) || (strpos($route,'architect_layouts') !== false) || ($route == 'land.dashboard')){
+                                    false) || (strpos($route,'architect_layouts') !== false) || ($route == 'land.dashboard') || (strpos($route,'lease.index') !== false)){
                                     $id = '0' ;
                                     }else{
-                                    $id = collect(request()->segments())->last();
+                                    $id = decrypt(collect(request()->segments())->last());
                                     }
                                 @endphp
                                 <li class="m-menu__item m-menu__item--submenu {{ ($route=='lease_detail.index' || (strpos($route,'view-lease') !== false) || $route=='edit-lease.edit')?'m-menu__item--active':''}}">
-                                    <a class="m-menu__link m-menu__toggle" href="{{ route('lease_detail.index', $id)}}"
+                                    <a class="m-menu__link m-menu__toggle" href="{{ route('lease_detail.index', encrypt($id))}}"
                                         class="m-menu__link m-menu__toggle">
                                         <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             viewBox="0 0 510 510">
@@ -441,7 +441,7 @@ $route=\Request::route()->getName();
                                 @endif
                                 @if(isset($count) && ($count != 0) && ($id != 0))
                                 <li class="m-menu__item m-menu__item--submenu {{($route=='renew-lease.renew')?'m-menu__item--active':''}}">
-                                    <a class="m-menu__link m-menu__toggle" href="{{route('renew-lease.renew', $id)}}"
+                                    <a class="m-menu__link m-menu__toggle" href="{{route('renew-lease.renew', encrypt($id))}}"
                                         class="m-menu__link m-menu__toggle">
                                         <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             viewBox="0 0 510 510">

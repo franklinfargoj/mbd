@@ -6,7 +6,7 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Lease Details</h3>
-            {{ Breadcrumbs::render('lease_detail',$id) }}
+            {{ Breadcrumbs::render('lease_detail',encrypt($id)) }}
             <div class="ml-auto btn-list">
                 {{--<a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>--}}
                     <a href="?excel=excel" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></a>

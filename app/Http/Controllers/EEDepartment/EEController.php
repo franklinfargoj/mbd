@@ -320,8 +320,8 @@ class EEController extends Controller
 
     public function scrutinyRemarkByEE($application_id, $society_id)
     {
-        // $application_id = decrypt($application_id);
-        // $society_id = decrypt($society_id);
+        $application_id = decrypt($application_id);
+        $society_id = decrypt($society_id);
         $ol_application = $this->comman->getOlApplication($application_id);
         $ol_application->status = $this->comman->getCurrentStatus($application_id);
         $application_master_id = OlApplication::where('society_id', $society_id)->value('application_master_id');

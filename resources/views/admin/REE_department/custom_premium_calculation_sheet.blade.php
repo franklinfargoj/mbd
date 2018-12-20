@@ -535,7 +535,7 @@
                                                 <div class="mt-auto">
 
                                                     @if(isset($reeNote->document_path))
-                                                    <a href="{{config('commanConfig.storage_server').'/'.$reeNote->document_path}}">
+                                                    <a href="{{config('commanConfig.storage_server').'/'.$reeNote->document_path}}" target="_blank">
 
                                                         <button class="btn btn-primary">Download </button>
                                                     </a>

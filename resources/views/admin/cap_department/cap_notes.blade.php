@@ -59,7 +59,7 @@
                                             <!-- <span class="hint-text">Download  Note uploaded by CAP</span> -->
                                             <div class="mt-auto">
                                                 @if(isset($capNote->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$capNote->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$capNote->document_path }}" target="_blank">
 
                                                 
                                                 

@@ -303,6 +303,10 @@ return [
 
     'appointing_architect' => 'appointing_architect',
 
+    //Staging, testing, local society domain names
+    'staging' => 'society',
+    'testing' => 'societytest',
+
     // Hearing Statuses
 
     'joint_co' => 'Joint CO',
