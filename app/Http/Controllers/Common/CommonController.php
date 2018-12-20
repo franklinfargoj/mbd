@@ -1573,6 +1573,7 @@ class CommonController extends Controller
             $insert_application_log[$status_in_words][$key]['to_role_id'] = $user->role_id;
             $insert_application_log[$status_in_words][$key]['remark'] = '';
             $insert_application_log[$status_in_words][$key]['is_active'] = 1;
+            $insert_application_log[$status_in_words][$key]['created_at'] = date('Y-m-d');
             $application_log_status = $insert_application_log[$status_in_words];
 
             if($status == 2){
@@ -1586,6 +1587,7 @@ class CommonController extends Controller
                 $insert_application_log[$status_in_words_1][$key]['to_role_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['remark'] = '';
                 $insert_application_log[$status_in_words_1][$key]['is_active'] = 1;
+                $insert_application_log[$status_in_words_1][$key]['created_at'] = date('Y-m-d');
                 $application_log_status = array_merge($insert_application_log[$status_in_words], $insert_application_log[$status_in_words_1]);
             }
             $i++;

@@ -81,9 +81,11 @@
                                         <a href="{{ config('commanConfig.storage_server').'/'.$document_uploaded['society_document_path'] }}" data-value='{{ $document->id }}'
                                            class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
                                                 Download</button></a>
+                                                        @if($ol_applications->olApplicationStatus[0]->status_id != config('commanConfig.applicationStatus.forwarded'))
                                         <a href="{{ route('delete_tripartite_docs', $document->id) }}" data-value='{{ $document->id }}'
                                            class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
                                                 <i class="fa fa-trash"></i></button></a>
+                                                            @endif
                                     </span>
                                                 @else
                                                     <form action="{{ route('upload_tripartite_docs') }}" method="post" enctype='multipart/form-data'
@@ -218,16 +220,18 @@
                                                 <div class="mt-3">
                                                     <label for="society_documents_comment">Additional Information:</label>
                                                     <div class="@if($errors->has('society_documents_comment')) has-error @endif">
-                                                        <textarea name="society_documents_comment" rows="5" cols="30" id="society_documents_comment" class="form-control form-control--custom">@if($documents_comment) {{ $documents_comment->society_documents_comment }} @endif</textarea>
+                                                        <textarea name="society_documents_comment" rows="5" cols="30" id="society_documents_comment" class="form-control form-control--custom" @if($ol_applications->olApplicationStatus[0]->status_id == config('commanConfig.applicationStatus.forwarded')) readonly @endif>@if($documents_comment) {{ $documents_comment->society_documents_comment }} @endif</textarea>
                                                         <input type="hidden" name="application_id" id="application_id" class="form-control m-input"
                                                                value="{{ $ol_applications->id }}">
                                                         <span class="help-block">{{$errors->first('society_documents_comment')}}</span>
                                                     </div>
                                                 </div>
-                                                <div class="mt-3 btn-list">
-                                                    <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
-                                                    <a href="{{route('society_offer_letter_dashboard')}}" class="btn btn-secondary">Cancel</a>
-                                                </div>
+                                                @if($ol_applications->olApplicationStatus[0]->status_id != config('commanConfig.applicationStatus.forwarded'))
+                                                    <div class="mt-3 btn-list">
+                                                        <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
+                                                        <a href="{{route('society_offer_letter_dashboard')}}" class="btn btn-secondary">Cancel</a>
+                                                    </div>
+                                                @endif
                                             </div>
                                         <!-- <a href="{{ route('society_offer_letter_dashboard') }}" class="btn btn-primary btn-custom" id="">Cancel</a> -->
                                         </form>
