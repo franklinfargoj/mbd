@@ -339,6 +339,26 @@ class SocietyPermissionSeeder extends Seeder
                     'description'  => 'Download Application Form'
                 ],
                 [
+                    'name'         => 'show_lease',
+                    'display_name' => 'Lease Deed Agreement',
+                    'description'  => 'Shows Lease Deed Agreement upload form'
+                ],
+                [
+                    'name'         => 'show_signed_lease',
+                    'display_name' => 'Signed Lease Deed Agreement',
+                    'description'  => 'Shows Signed Lease Deed Agreement upload form'
+                ],
+                [
+                    'name'         => 'upload_lease',
+                    'display_name' => 'Uploads Lease Deed Agreement',
+                    'description'  => 'Uploads Lease Deed Agreement'
+                ],
+                [
+                    'name'         => 'upload_signed_lease',
+                    'display_name' => 'Uploads Signed Lease Deed Agreement',
+                    'description'  => 'Uploads Signed Lease Deed Agreement'
+                ],
+                [
                     'name'=>'society_formation.store',
                     'display_name'=>'store society formation',
                     'description' => 'store society formation'
