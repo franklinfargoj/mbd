@@ -456,7 +456,7 @@
                                                 <input type="text" style="border: none;" class="form-control form-control--custom" name="table5[2][amount]" value="{{ isset($summary['within_1year']) ? $summary['within_1year'] : '' }}" required>
 
                                             </td>
-                                        </tr>
+                                        </tr> 
                                         <tr>
                                             <td style = "border-style: ridge;">3.</td>
                                             <td style = "border-style: ridge;">

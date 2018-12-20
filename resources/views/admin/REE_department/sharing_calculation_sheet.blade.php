@@ -79,12 +79,6 @@
                                                 src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("print_one");'
                                                 style="max-width: 22px"></a>
                                     </div>
-                                <div class="d-flex justify-content-start align-items-center mb-4">
-                                    <span class="flex-shrink-0 text-nowrap">Total Number of buildings:</span>
-                                    <input type="text" class="form-control form-control--xs form-control--custom flex-grow-0 ml-3" placeholder="0"
-                                           name="total_no_of_buildings" id="total_no_of_buildings" value="<?php if(isset($calculationSheetDetails[0]->total_no_of_buildings)) { echo $calculationSheetDetails[0]->total_no_of_buildings; } else { echo '1'; } ?>" />
-                                </div>
-            
                                     <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                         <thead class="thead-default">
                                             <tr>
@@ -537,7 +531,7 @@
                                                     <th class="table-data--md" style = "border-style: ridge;">
                                                         रक्कम रु
                                                     </th>
-                                                </tr>
+                                                </tr> 
                                             </thead>
                                             <tbody>
                                                 <tr>
@@ -1025,7 +1019,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" class="total_amount_in_rs form-control form-control--custom txtbox" placeholder="0"
                                                         readonly type="text" name="scrutiny_fee" id="scrutiny_fee"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->scrutiny_fee)) { echo $calculationSheetDetails[0]->scrutiny_fee; } ?>" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->scrutiny_fee)) { echo $calculationSheetDetails[0]->scrutiny_fee; } else { echo '6000'; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -1037,7 +1031,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" class="total_amount_in_rs form-control form-control--custom txtbox" placeholder="0"
                                                         readonly type="text" name="debraj_removal_fee" id="debraj_removal_fee"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->debraj_removal_fee)) { echo $calculationSheetDetails[0]->debraj_removal_fee; } ?>" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->debraj_removal_fee)) { echo $calculationSheetDetails[0]->debraj_removal_fee; } else { echo '6600'; } ?>" />
 
 
                                                 </td>
@@ -1062,7 +1056,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" class="total_amount_in_rs form-control form-control--custom txtbox" placeholder="0"
                                                         readonly type="text" name="water_usage_charges" id="water_usage_charges"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->water_usage_charges)) { echo $calculationSheetDetails[0]->water_usage_charges; }  ?>" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->water_usage_charges)) { echo $calculationSheetDetails[0]->water_usage_charges; } else { echo '1,00,000'; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -1325,7 +1319,7 @@
 
         totalAmountInRs();
 
-        debrajWaterScrutinyFee();
+
 
 
 
@@ -1526,26 +1520,7 @@
         $("#total_amount_in_rs").attr('value', numberWithCommas(Math.ceil(total_amount_in_rs)));
     }
 
-    function debrajWaterScrutinyFee()
-    {
-        var total_no_of_buildings = (!cleanNumber($("#total_no_of_buildings").val()) || isNaN(cleanNumber($("#total_no_of_buildings").val()))) ? 0 : cleanNumber($("#total_no_of_buildings").val());
-
-        $("#debraj_removal_fee").attr('value',numberWithCommas(6600 * total_no_of_buildings));
-        $("#water_usage_charges").attr('value',numberWithCommas(100000 * total_no_of_buildings));
-        $("#scrutiny_fee").attr('value',numberWithCommas(6000 * total_no_of_buildings));
-    }
-
-
     // =========================================================
-
-
-    $(document).on("keyup", "#total_no_of_buildings", function () {
-
-        debrajWaterScrutinyFee();
-
-        totalAmountInRs();
-    });
-
 
     $(document).on("keyup blur", ".total_area", function () {
         areaOfTotalPlot();
