@@ -9,7 +9,7 @@
     {{ session()->get('success') }}
 </div>
 @endif
-
+ 
 @if(session()->has('error'))
 <div class="alert alert-success display_msg">
     {{ session()->get('success') }}
@@ -73,7 +73,7 @@
                                         परिगणनेचा तक्ता - अ
                                     </h3>
                                 </div>
-                            </div>
+                            </div> 
                             <div class="m-section__content mb-0 table-responsive">
                                 <form class="nav-tabs-form" role="form" method="POST" action="{{ route('save_calculation_details') }}">
                                     <div class="d-flex justify-content-start align-items-center mb-4">
@@ -82,7 +82,7 @@
                                             name="total_no_of_buildings" id="total_no_of_buildings" value="<?php if(isset($calculationSheetDetails[0]->total_no_of_buildings)) { echo $calculationSheetDetails[0]->total_no_of_buildings; }  ?>" />
                                     </div>
                                     <div id="print_one">
-                                    <table id="one" class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;>
+                                    <table id="one" class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                         <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                         <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                         <input name="user_id" type="hidden" value="{{ $user->id }}" />
@@ -1505,11 +1505,6 @@
                 return cleanNumber(a.value) - cleanNumber(b.value)
             });
         var lowest = sorted[0].value;
-
-        if(lowest==0)
-        {
-            lowest = sorted[1].value;
-        }
 
         $("#area_of_subsistence_to_calculate").attr('value', numberWithCommas(lowest));
     }
