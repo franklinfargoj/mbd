@@ -677,8 +677,7 @@ $route=\Request::route()->getName();
                         ))
                         @php
                         $reval_redirect_to = "";
-                        if(Session::all()['role_name'] == 'REE Junior Engineer' || Session::all()['role_name'] == 'REE
-                        deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' ||
+                        if(Session::all()['role_name'] == 'REE Junior Engineer' || Session::all()['role_name'] == 'REE deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' ||
                         Session::all()['role_name'] == 'ree_engineer')
                         $reval_redirect_to = "ree_applications.reval";
                         elseif(Session::all()['role_name'] == 'co_engineer' )
@@ -718,14 +717,14 @@ $route=\Request::route()->getName();
                             </a>
                         </li>
                         @endif
+
                         @if (isset($route) && (in_array('ree_applications.noc', session()->get('permission'))||
                         in_array('co_applications.noc', session()->get('permission'))
                         ))
                         @php
                         $reval_redirect_to = "";
 
-                        if(Session::all()['role_name'] == 'REE Junior Engineer' || Session::all()['role_name'] == 'REE
-                        deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' ||
+                        if(Session::all()['role_name'] == 'REE Junior Engineer' || Session::all()['role_name'] == 'REE deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' ||
                         Session::all()['role_name'] == 'ree_engineer')
                         $reval_redirect_to = "ree_applications.noc";
                         elseif(Session::all()['role_name'] == 'co_engineer' )
@@ -753,8 +752,7 @@ $route=\Request::route()->getName();
                         @php
                         $noc_redirect_to = "";
 
-                        if(Session::all()['role_name'] == 'REE Junior Engineer' || Session::all()['role_name'] == 'REE
-                        deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' ||
+                        if(Session::all()['role_name'] == 'REE Junior Engineer' || Session::all()['role_name'] == 'REE deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' ||
                         Session::all()['role_name'] == 'ree_engineer')
                         $noc_redirect_to = "ree_applications.noc_cc";
                         elseif(Session::all()['role_name'] == 'co_engineer' )
@@ -775,7 +773,7 @@ $route=\Request::route()->getName();
                         </li>
                         @endif
                         <!-- sudesh-->
-                    
+
                 @endif
             </ul>
             <!-- comment-->
