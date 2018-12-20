@@ -392,9 +392,9 @@
             // this makes the chart 3D
             chart.depth3D = 15;
             chart.angle = 30;
-            chart.colors = ["#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999",
-                "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"
-            ]
+            chart.colors = [ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
+            chart.fontSize = 15;
+
             //
             // WRITE
             chart.write("chartdiv");
@@ -431,9 +431,9 @@
             // this makes the chart 3D
             chart1.depth3D = 15;
             chart1.angle = 30;
-            chart1.colors = ["#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999",
-                "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"
-            ]
+            chart1.colors = [ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
+            chart1.fontSize = 15;
+
             //
             // WRITE
             chart1.write("chartdiv1");
@@ -473,9 +473,9 @@
             // this makes the chart 3D
             chart2.depth3D = 15;
             chart2.angle = 30;
-            chart2.colors = ["#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999",
-                "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"
-            ]
+            chart2.colors = [ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
+            chart2.fontSize = 15;
+
             //
             // WRITE
             chart2.write("conveyance_chart");
@@ -514,10 +514,9 @@
                 // this makes the chart 3D
                 chart3.depth3D = 15;
                 chart3.angle = 30;
-                chart3.colors = ["#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999",
-                    "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"
-                ]
-                //
+                chart3.colors =[ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
+                chart3.fontSize = 15;
+
                 // WRITE
                 chart3.write("renewal_chart");
             });

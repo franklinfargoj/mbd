@@ -87,7 +87,7 @@ $route_name=\Request::route()->getName();
                                         <input type="text" class="form-control form-control--xs form-control--custom flex-grow-0 ml-3" placeholder="0"
                                             name="total_no_of_buildings" id="total_no_of_buildings" value="{{ isset($buldingNumber) ? $buldingNumber : '' }}" readonly />
                                     </div>
-                                    <table id="one" class="table mb-0 table--box-input table1" style="padding-top: 10px;">
+                                    <table id="one" class="table mb-0 table--box-input table1" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                         <input name="redirect_tab" type="hidden" value="two" />
                                         <div class="d-flex justify-content-between align-items-center mb-4">
                                             <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");'
@@ -95,10 +95,10 @@ $route_name=\Request::route()->getName();
                                         </div>
                                         <thead class="thead-default">
                                             <tr>
-                                               <th style = "border-style: ridge;width:50%">
+                                               <th >
                                                     तपशील
                                                 </th>
-                                                <th class="table-data--md" style = "border-style: ridge;width:50%">
+                                                <th class="table-data--md" style = "width:50%">
                                                     रक्कम रु
                                                 </th>
                                             </tr>
@@ -113,12 +113,12 @@ $route_name=\Request::route()->getName();
                                                     <input type="hidden" name="table1[{{$i}}][hiddenId]" value="{{ isset($data['id']) ? $data['id'] : '' }}">
 
                                                     <textarea name="table1[{{$i}}][title]" class="form-control form-control--custom" 
-                                                    style="width:100%; height:50px;border-style: ridge;" readonly>{{ isset($data['title'])? $data['title'] : '' }}</textarea>
+                                                    style="width:100%; height:50px; resize: none;" readonly>{{ isset($data['title'])? $data['title'] : '' }}</textarea>
 
                                                         <!-- <input type="text" class="form-control form-control--custom" name="table1[{{$i}}][title]" value="{{ isset($data['title'])? $data['title'] : '' }}" readonly> -->
                                                     </td>
                                                     <td class="text-center"> 
-                                                        <input type="text" class="form-control form-control--custom" name="table1[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" readonly style="height:50px;width:100%;border-style: ridge;">
+                                                        <input type="text" class="form-control form-control--custom" name="table1[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" readonly style="height:50px;width:100%;">
                                                     </td>
                                                 </tr>  
                                             @php $i++; @endphp                                               
@@ -149,13 +149,13 @@ $route_name=\Request::route()->getName();
                                                 src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("two");'
                                                 style="max-width: 22px"></a>
                                     </div>
-                                    <table class="table mb-0 table--box-input table2">
+                                    <table class="table mb-0 table--box-input table2" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                         <thead class="thead-default">
                                             <tr>
-                                               <th style = "border-style: ridge;width:50%">
+                                               <th style = "width:50%">
                                                     तपशील
                                                 </th>
-                                                <th class="table-data--md" style = "border-style: ridge;width:50%">
+                                                <th class="table-data--md" style = "width:50%">
                                                     रक्कम रु
                                                 </th>
                                             </tr>
@@ -172,11 +172,11 @@ $route_name=\Request::route()->getName();
           <!--                                               <input type="text" class="form-control form-control--custom" name="table2[{{$i}}][title]" value="{{ isset($data['title'])? $data['title'] : '' }}" readonly> -->
 
                                                     <textarea name="table2[{{$i}}][title]" class="form-control form-control--custom" 
-                                                    style="width:100%; height:50px;border-style: ridge;" readonly>{{ isset($data['title'])? $data['title'] : '' }}</textarea>
+                                                    style="width:100%; height:50px; resize: none;" readonly>{{ isset($data['title'])? $data['title'] : '' }}</textarea>
                                                         
                                                     </td>
                                                     <td class="text-center" style="width:30%"> 
-                                                        <input type="text" class="form-control form-control--custom" name="table2[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" readonly style="height:50px;width:100%;border-style: ridge;">
+                                                        <input type="text" class="form-control form-control--custom" name="table2[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" readonly style="height:50px;width:100%;">
                                                     </td>
                                                 </tr>  
                                             @php $i++; @endphp                                               
@@ -207,13 +207,13 @@ $route_name=\Request::route()->getName();
                                                 src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("three");'
                                                 style="max-width: 22px"></a>
                                     </div>
-                                    <table class="table mb-0 table--box-input table3">
+                                    <table class="table mb-0 table--box-input table3" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                         <thead class="thead-default">
                                             <tr>
-                                               <th style = "border-style: ridge;width:50%">
+                                               <th style = "width:50%">
                                                     तपशील
                                                 </th>
-                                                <th class="table-data--md" style = "border-style: ridge;width:50%">
+                                                <th class="table-data--md" style = "width:50%">
                                                     रक्कम रु
                                                 </th>
                                             </tr>
@@ -230,11 +230,11 @@ $route_name=\Request::route()->getName();
                                                         <!-- <input type="text" class="form-control form-control--custom" name="table3[{{$i}}][title]" value="{{ isset($data['title'])? $data['title'] : '' }}" readonly> -->
 
                                                         <textarea name="table3[{{$i}}][title]" class="form-control form-control--custom" 
-                                                    style="width:100%; height:50px;border-style: ridge;" readonly>{{ isset($data['title'])? $data['title'] : '' }}</textarea>
+                                                    style="width:100%; height:50px; resize: none;" readonly>{{ isset($data['title'])? $data['title'] : '' }}</textarea>
 
                                                     </td>
                                                     <td class="text-center" style="width:30%"> 
-                                                        <input type="text" class="form-control form-control--custom" name="table3[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" readonly style="height:50px;width:100%;border-style: ridge;">
+                                                        <input type="text" class="form-control form-control--custom" name="table3[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" readonly style="height:50px;width:100%;">
                                                     </td>
                                                 </tr>  
                                             @php $i++; @endphp                                               
@@ -265,13 +265,13 @@ $route_name=\Request::route()->getName();
                                                 src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("four");'
                                                 style="max-width: 22px"></a>
                                     </div>
-                                    <table class="table mb-0 table--box-input table4">
+                                    <table class="table mb-0 table--box-input table4" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                         <thead class="thead-default">
                                             <tr>
-                                               <th style = "border-style: ridge;width:50%">
+                                               <th style = "width:50%">
                                                     तपशील
                                                 </th>
-                                                <th class="table-data--md" style = "border-style: ridge;width:50%">
+                                                <th class="table-data--md" style = "width:50%">
                                                     रक्कम रु
                                                 </th>
                                             </tr>
@@ -288,11 +288,11 @@ $route_name=\Request::route()->getName();
                                                      <!--    <input type="text" class="form-control form-control--custom" name="table4[{{$i}}][title]" value="{{ isset($data['title'])? $data['title'] : '' }}" readonly> -->
 
                                                         <textarea name="table4[{{$i}}][title]" class="form-control form-control--custom" 
-                                                    style="width:100%; height:50px;border-style: ridge;" readonly>{{ isset($data['title'])? $data['title'] : '' }}</textarea>
+                                                    style="width:100%; height:50px; resize: none;" readonly>{{ isset($data['title'])? $data['title'] : '' }}</textarea>
 
                                                     </td>
                                                     <td class="text-center" style="width:30%"> 
-                                                        <input type="text" class="form-control form-control--custom" name="table4[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" readonly style="height:50px;width:100%;border-style: ridge;">
+                                                        <input type="text" class="form-control form-control--custom" name="table4[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" readonly style="height:50px;width:100%;">
                                                     </td>
                                                 </tr>  
                                             @php $i++; @endphp                                               
@@ -322,16 +322,16 @@ $route_name=\Request::route()->getName();
                                     <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
                                             src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("five");' style="max-width: 22px"></a>
                                 </div>
-                                <table class="table mb-0 table--box-input">
+                                <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                     <thead class="thead-default">
                                         <tr>
-                                            <th class="table-data--xs" style = "border-style: ridge;">
+                                            <th class="table-data--xs">
                                                 #
                                             </th>
-                                            <th style = "border-style: ridge;">
+                                            <th>
                                                 तपशील
                                             </th>
-                                            <th class="table-data--md" style = "border-style: ridge;">
+                                            <th class="table-data--md">
                                                 रक्कम रु
                                             </th>                                            
                                         </tr>
@@ -346,7 +346,7 @@ $route_name=\Request::route()->getName();
                                                 <input type="hidden" class="form-control form-control--custom" name="table5[1][title]" value="within_6months">
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
-                                                <input type="text" class="form-control form-control--custom" name="table5[1][amount]" value="{{ isset($summary['within_6months']) ? $summary['within_6months'] : '' }}" readonly>
+                                                <input style="border: none;" type="text" class="form-control form-control--custom" name="table5[1][amount]" value="{{ isset($summary['within_6months']) ? $summary['within_6months'] : '' }}" readonly>
 
                                             </td>
                                         </tr>
@@ -360,7 +360,7 @@ $route_name=\Request::route()->getName();
                                                 <input type="hidden" class="form-control form-control--custom" name="table5[2][title]" value="within_1year">
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
-                                                <input type="text" class="form-control form-control--custom" name="table5[2][amount]" value="{{ isset($summary['within_1year']) ? $summary['within_1year'] : '' }}" readonly>
+                                                <input style="border: none;" type="text" class="form-control form-control--custom" name="table5[2][amount]" value="{{ isset($summary['within_1year']) ? $summary['within_1year'] : '' }}" readonly>
 
                                             </td>
                                         </tr>
@@ -374,7 +374,7 @@ $route_name=\Request::route()->getName();
                                                 <input type="hidden" class="form-control form-control--custom" name="table5[3][title]" value="within_2year">
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
-                                                <input type="text" class="form-control form-control--custom" name="table5[3][amount]" value="{{ isset($summary['within_2year']) ? $summary['within_2year'] : '' }}" readonly>
+                                                <input style="border: none;" type="text" class="form-control form-control--custom" name="table5[3][amount]" value="{{ isset($summary['within_2year']) ? $summary['within_2year'] : '' }}" readonly>
 
                                             </td>
                                         </tr>
@@ -388,7 +388,7 @@ $route_name=\Request::route()->getName();
                                                 <input type="hidden" class="form-control form-control--custom" name="table5[4][title]" value="within_3year">
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
-                                                <input type="text" class="form-control form-control--custom" name="table5[4][amount]" value="{{ isset($summary['within_3year']) ? $summary['within_3year'] : '' }}" readonly>
+                                                <input style="border: none;" type="text" class="form-control form-control--custom" name="table5[4][amount]" value="{{ isset($summary['within_3year']) ? $summary['within_3year'] : '' }}" readonly>
 
                                             </td>
                                         </tr>
@@ -399,7 +399,7 @@ $route_name=\Request::route()->getName();
                                                 <input type="hidden" class="form-control form-control--custom" name="table5[5][title]" value="total">
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
-                                                <input type="text" class="form-control form-control--custom" name="table5[5][amount]" value="{{ isset($summary['total']) ? $summary['total'] : '' }}" readonly>
+                                                <input style="border: none;" type="text" class="form-control form-control--custom" name="table5[5][amount]" value="{{ isset($summary['total']) ? $summary['total'] : '' }}" readonly>
                                             </td>
                                         </tr>  
                                     </tbody>
