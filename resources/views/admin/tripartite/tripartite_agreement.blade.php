@@ -137,9 +137,9 @@ $disabled=isset($disabled)?$disabled:0;
                                 </div>
                             </div>
                         </div>
-                        @if(($societyData['ree_Jr_id'] && $applicationLog->status_id
-                        !=config('commanConfig.applicationStatus.forwarded') || $stamped_and_signed!=1 && $approved_by_co!=1) || (($stamped_by_society==1 || $approved_by_co==1) && session()->get('role_name')==config('commanConfig.co_engineer') && $applicationLog->status_id
-                        !=config('commanConfig.applicationStatus.forwarded')) )
+                        @if(((session()->get('role_name')==config('commanConfig.ree_branch_head') && $applicationLog->status_id
+                        !=config('commanConfig.applicationStatus.forwarded')) || (session()->get('role_name')==config('commanConfig.co_engineer') && $applicationLog->status_id
+                        !=config('commanConfig.applicationStatus.forwarded'))) && ($stamped_by_society==1 || $stamped_and_signed==1))
                         <div class="col-sm-6 border-left">
                             <div class="d-flex flex-column h-100">
                                 <h5>Upload Signed & scanned Tripartite Agreement</h5>
