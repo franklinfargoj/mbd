@@ -129,7 +129,7 @@ class LeaseDetailController extends Controller
      */
     public function index(Request $request, Datatables $datatables, $id)
     {
-
+        $id = decrypt($id);
         $header_data = $this->header_data;
         $getData = $request->all();
 
@@ -344,6 +344,7 @@ class LeaseDetailController extends Controller
      */
     public function create($id)
     {
+        $id = decrypt($id);
         $header_data = $this->header_data;
         $arrData['month_data'] = MasterMonth::all();
 
@@ -390,6 +391,7 @@ class LeaseDetailController extends Controller
 
     public function renewLease($id)
     {
+        $id = decrypt($id);
         $header_data = $this->header_data;
         $arrData['month_data'] = MasterMonth::all();
         if($id)
@@ -404,6 +406,9 @@ class LeaseDetailController extends Controller
 
     public function updateLease(LeaseDetailRequest $request, $id)
     {
+
+        $id = decrypt($id);
+
         $lease_data = LeaseDetail::where('society_id', $id)->update(['lease_status' => 0]);
 
         $lease_detail = [
@@ -426,10 +431,13 @@ class LeaseDetailController extends Controller
 
         LeaseDetail::create($lease_detail);
 
-        return redirect('/lease_detail/'.$request->society_id.'/'.$request->village_id)->with(['success'=> 'Lease renewed succesfully']);
+        return redirect('/lease_detail/'.encrypt($request->society_id).'/'.$request->village_id)->with(['success'=> 'Lease renewed succesfully']);
     }
 
     public function showLatestLease($id, $society_id){
+
+        $id = decrypt($id);
+        $society_id = decrypt($society_id);
         $header_data = $this->header_data;
         $arrData['month_data'] = MasterMonth::all();
         $arrData['lease_data'] = LeaseDetail::where(['id' => $id,'society_id' => $society_id, 'lease_status' => 1])->first();
@@ -441,6 +449,9 @@ class LeaseDetailController extends Controller
     }
 
     public function updateLatestLease(Request $request, $id){
+
+        $id = decrypt($id);
+
         $lease_data = LeaseDetail::where('id', $id)->first();
         $lease_detail = [
             'lease_rule_16_other' => $request->lease_rule_other,
@@ -461,10 +472,13 @@ class LeaseDetailController extends Controller
 
         LeaseDetail::where('id', $id)->update($lease_detail);
         // $village_id = SocietyDetail::where('id', $lease_data->society_id)->first();
-        return redirect('/lease_detail/'.$request->society_id.'/'.$request->village_id)->with(['success'=> 'Lease updated succesfully']);
+
+        return redirect('/lease_detail/'.encrypt($request->society_id).'/'.$request->village_id)->with(['success'=> 'Lease updated succesfully']);
     }
 
     public function viewLease($id, $society_id){
+        $id = decrypt($id);
+        $society_id =decrypt($society_id);
         $header_data = $this->header_data;
         $arrData['month_data'] = MasterMonth::all();
         $arrData['lease_data'] = LeaseDetail::where(['id' => $id,'society_id' => $society_id])->first();
