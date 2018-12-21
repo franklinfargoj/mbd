@@ -30,9 +30,9 @@
                     </div>
                     <div class="d-flex align-items-center">
                     <div class="col-md-4"> 
-                        <a href="{{ route('ol_calculation_sheet.show', $ol_application->id) }}" class="btn btn-primary btn-next" id="with_formula" >Calculation Sheet with Formula's</a>
+                        <a href="{{ route('ol_calculation_sheet.show', encrypt($ol_application->id)) }}" class="btn btn-primary btn-next" id="with_formula" >Calculation Sheet with Formula's</a>
                     </div>
-                     <a href="{{ route('ree_applications.custom_calculation_sheet', $ol_application->id) }}" class="btn btn-primary btn-next">Custom Calculation Sheet</a>
+                     <a href="{{ route('ree_applications.custom_calculation_sheet', encrypt($ol_application->id)) }}" class="btn btn-primary btn-next">Custom Calculation Sheet</a>
                     </div>    
                 </div>
             </div>

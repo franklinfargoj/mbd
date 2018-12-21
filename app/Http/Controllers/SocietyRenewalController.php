@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\conveyance\RenewalApplication;
 use App\conveyance\RenewalDocumentStatus;
 use App\conveyance\RenewalSocietyDocumentComment;
+use App\conveyance\RenewalAgreementComments;
 use App\SocietyConveyance;
 use App\SocietyOfferLetter;
 use Session;
@@ -732,11 +733,42 @@ class SocietyRenewalController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show_sale_lease($id){
-        $sc_application = scApplication::with(['sr_form_request', 'societyApplication', 'applicationLayout', 'scApplicationLog' => function($q){
+        $id = decrypt($id);
+        $sc_application = RenewalApplication::with(['sr_form_request', 'societyApplication', 'applicationLayout', 'srApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();
+        $documents_req = array(
+            config('commanConfig.documents.society.renewal_stamp_duty_letter'),
+            config('commanConfig.documents.society.renewal_lease_deed_agreement')
+        );
+        $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Renewal'))->value('id');
+        $document_ids = $this->renewal_common->getDocumentIds($documents_req, $application_type, $sc_application->id);
+        $uploaded_document_ids = [];
+        $documents_remaining_ids = [];
+//        dd($document_ids);
+        foreach($document_ids as $document_id){
+            $document_lease[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id->document_name;
+            if($document_id->sc_document_status !== null){
+                $uploaded_document_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
+            }else{
+                $documents_remaining_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
+            }
+        }
 
-        return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application'));
+        $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
+        $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
+
+        $sc_agreement_comments = RenewalAgreementComments::with('scAgreementId')->where('user_id', Auth::user()->id)->where('role_id', Session::get('role_id'))->orderBy('id', 'desc')->get();
+
+        foreach($sc_agreement_comments as $sc_agreement_comment_val){
+            foreach($document_ids as $document_id){
+                if($document_id->id == $sc_agreement_comment_val->agreement_type_id){
+                    $sc_agreement_comment[$sc_agreement_comment_val->scAgreementId->document_name] = $sc_agreement_comment_val;
+                }
+            }
+        }
+//        dd($document_lease);
+        return view('frontend.society.renewal.sale_lease_deed', compact('sc_application', 'document_lease', 'documents', 'uploaded_document_ids', 'documents_remaining_ids', 'sc_agreement_comment', 'documents_uploaded'));
     }
 
     /**
@@ -750,17 +782,17 @@ class SocietyRenewalController extends Controller
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();
         $sc_registration_details = new scRegistrationDetails;
-        $sc_document_status = new SocietyConveyanceDocumentStatus;
+        $sc_document_status = new RenewalDocumentStatus;
         $field_names_registrar_details = $sc_registration_details->getFillable();
         $field_names_docs = $sc_document_status->getFillable();
         $field_names = array_merge($field_names_registrar_details, $field_names_docs);
         $comm_func = $this->CommonController;
         $sale_agreement_type_id = $this->conveyance_common->getDocumentId('Sale Deed Agreement', '1');
         $lease_agreement_type_id = $this->conveyance_common->getDocumentId('Lease Deed Agreement', '1');
-        $status = config('commanConfig.applicationStatus.Stamped_signed_sale_&_lease_deed');
+        $status = config('commanConfig.renewal_status.Stamped_signed_sale_&_lease_deed');
         $society_flag = 1;
 
-        return view('frontend.society.conveyance.signed_sale_lease_deed', compact('sc_application', 'society_flag','status', 'sale_agreement_type_id', 'lease_agreement_type_id', 'field_names', 'comm_func'));
+        return view('frontend.society.renewal.signed_sale_lease_deed', compact('sc_application', 'society_flag','status', 'sale_agreement_type_id', 'lease_agreement_type_id', 'field_names', 'comm_func'));
     }
 
     /**
@@ -770,7 +802,7 @@ class SocietyRenewalController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function upload_sale_lease(Request $request){
-
+        dd($request->all());
     }
 
     /**
@@ -793,7 +825,7 @@ class SocietyRenewalController extends Controller
             $insert_arr['document_path'] = $path;
             unset($insert_arr['_token']);
             $sc_registration_details = new scRegistrationDetails;
-            $sc_document_status = new SocietyConveyanceDocumentStatus;
+            $sc_document_status = new RenewalDocumentStatus;
             $registration_details = $sc_registration_details->getFillable();
             $sc_document_details = $sc_document_status->getFillable();
             $insert_registrar_details = array_slice($insert_arr, 0, count($registration_details));

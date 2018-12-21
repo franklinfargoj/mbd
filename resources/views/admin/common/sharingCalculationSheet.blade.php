@@ -779,7 +779,7 @@
                                                 <!-- <span class="hint-text">Download  Note uploaded by REE</span> -->
                                                 <div class="mt-auto">
                                                     @if(isset($arrData['reeNote']->document_path))
-                                                    <a href="{{ config('commanConfig.storage_server').'/'.$arrData['reeNote']->document_path }}">
+                                                    <a href="{{ config('commanConfig.storage_server').'/'.$arrData['reeNote']->document_path }}" target="_blank">
                                                         <button class="btn btn-primary">Download</button>
                                                     </a>
                                                     @else

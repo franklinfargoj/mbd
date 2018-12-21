@@ -33,7 +33,7 @@ use App\User;
 use Config;
 use Auth;
 use DB;
-
+ 
 class COController extends Controller
 {
     public function __construct()
@@ -68,7 +68,7 @@ class COController extends Controller
                     static $i = 0; $i++; return $i;
                 })
                 ->editColumn('radio', function ($co_application_data) {
-                    $url = route('co.view_application', $co_application_data->id);
+                    $url = route('co.view_application', encrypt($co_application_data->id));
                     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })
                 ->editColumn('eeApplicationSociety.name', function ($co_application_data) {
@@ -346,6 +346,7 @@ class COController extends Controller
     // society and EE documents
     public function societyEEDocuments(Request $request,$applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
 
@@ -355,6 +356,8 @@ class COController extends Controller
 
     // EE - Scrutiny & Remark page
     public function eeScrutinyRemark(Request $request,$applicationId){
+        
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
         $eeScrutinyData = $this->CommonController->getEEScrutinyRemark($applicationId);
@@ -363,6 +366,8 @@ class COController extends Controller
 
     // DyCE Scrutiny & Remark page
     public function dyceScrutinyRemark(Request $request,$applicationId){
+        
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
         $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);
@@ -372,6 +377,7 @@ class COController extends Controller
     // Forward Application page
     public function forwardApplication(Request $request, $applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
@@ -501,6 +507,8 @@ class COController extends Controller
     }
 
     public function downloadCapNote(Request $request, $applicationId){
+        
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
         $capNote = $this->CommonController->downloadCapNote($applicationId);
@@ -510,6 +518,7 @@ class COController extends Controller
 
     public function approveOfferLetter(Request $request, $applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
         // dd($ol_application->status->status_id);
@@ -572,6 +581,7 @@ class COController extends Controller
 
     public function viewApplication(Request $request, $applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
 

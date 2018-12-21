@@ -81,7 +81,7 @@ class REEController extends Controller
                      static $i = 0; $i++; return $i;
                 })
             ->editColumn('radio', function ($ree_application_data) {
-                $url = route('ree.view_application', $ree_application_data->id);
+                $url = route('ree.view_application', encrypt($ree_application_data->id));
                 return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
             })            
             ->editColumn('eeApplicationSociety.name', function ($ree_application_data) {
@@ -139,6 +139,7 @@ class REEController extends Controller
 
     public function societyEEDocuments(Request $request,$applicationId){
         
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         $societyDocuments = $this->CommonController->getSocietyEEDocuments($applicationId);
@@ -148,6 +149,7 @@ class REEController extends Controller
     // EE - Scrutiny & Remark page
     public function eeScrutinyRemark(Request $request,$applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         $eeScrutinyData = $this->CommonController->getEEScrutinyRemark($applicationId);
@@ -157,6 +159,7 @@ class REEController extends Controller
     // DyCE Scrutiny & Remark page
     public function dyceScrutinyRemark(Request $request,$applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);
@@ -166,6 +169,7 @@ class REEController extends Controller
     // Forward Application page
     public function forwardApplication(Request $request, $applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
@@ -300,6 +304,7 @@ class REEController extends Controller
 
     public function downloadCapNote(Request $request, $applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         $capNote = $this->CommonController->downloadCapNote($applicationId);
@@ -354,6 +359,7 @@ class REEController extends Controller
 
     public function GenerateOfferLetter(Request $request, $applicationId){
         
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         $applicationLog = $this->CommonController->getCurrentStatus($applicationId);
@@ -400,6 +406,7 @@ class REEController extends Controller
 
     public function editOfferLetter(Request $request,$applicatonId){
         
+        $applicatonId = decrypt($applicatonId);
         $model = OlApplication::with('ol_application_master')->where('id',$applicatonId)->first();
         if ($model->ol_application_master->model == 'Premium'){
             
@@ -564,8 +571,8 @@ class REEController extends Controller
 //                return response()->json(['error' => $ex->getMessage()], 500);
         }
         //Code added by Prajakta >>end
-
-        return redirect('generate_offer_letter/'.$request->applicationId)->with('success','Offer Letter generated successfully..');
+        $applicationId = encrypt($request->applicationId);
+        return redirect('generate_offer_letter/'.$applicationId)->with('success','Offer Letter generated successfully..');
     }
 
     public function saveRevalOfferLetter(Request $request){
@@ -653,6 +660,7 @@ class REEController extends Controller
 
     public function approvedOfferLetter(Request $request,$applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ree_head = session()->get('role_name') == config('commanConfig.ree_branch_head'); 
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
@@ -722,6 +730,7 @@ class REEController extends Controller
 
     public function viewApplication(Request $request, $applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->downloadOfferLetter($applicationId);
         $ol_application->folder = 'REE_department';
 
@@ -732,7 +741,8 @@ class REEController extends Controller
 
     public function showCalculationSheet($id)
     {
-        $applicationId = $id;
+        $applicationId = decrypt($id);
+        // $applicationId = $id;
         $user = $this->CommonController->showCalculationSheet($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId); 
         $this->getCustomCalculationData($ol_application,$applicationId);
@@ -761,7 +771,7 @@ class REEController extends Controller
         $ol_application->folder = $this->getCurrentRoleFolderName();
         $buldingNumber = OlCustomCalculationSheet::where('application_id',$applicationId)
             ->where('title','total_no_of_buildings')->value('amount');
-   
+       
         return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','summary','status','reeNote','folder','buldingNumber'));
 
     }
@@ -899,6 +909,7 @@ class REEController extends Controller
     //calculations option with formula and custom
     public function displayCalculationSheetOptions(Request $request,$applicationId){
         
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         return view('admin.REE_department.show_calculation_sheet',compact('ol_application'));

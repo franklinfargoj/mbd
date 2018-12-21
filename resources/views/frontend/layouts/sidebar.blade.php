@@ -3,7 +3,7 @@
 $route="";
 $route=\Request::route()->getName();
 @endphp
-{{--@php dd(Session::all()); @endphp--}}
+{{--@php dd(Session::get('sr_application_count') > 0); @endphp--}}
 <button class="m-aside-left-close  m-aside-left-close--skin-dark " id="m_aside_left_close_btn"><i class="la la-close"></i></button>
 <div id="m_aside_left" class="m-grid__item  m-aside-left  m-aside-left--skin-dark ">
     <!-- BEGIN: Aside Menu -->
@@ -636,7 +636,7 @@ $route=\Request::route()->getName();
                                             </li>
                                             <li id="renewal" class="collapse {{ ($route == 'society_renewal.index' || $route == 'society_renewal.create')? 'show':'' }}">
                                                 <ul class="list-unstyled">
-                                                    @if(Session::has('sr_application_count') && Session::get('sr_application_count') > 0)
+                                                    @if(Session::has('sr_application_count') && Session::get('sr_application_count') != 0)
                                                     <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ($route == 'society_renewal.index') ? 'm-menu__item--active':''}}">
                                                         <a href="{{ route('society_renewal.index') }}" class="m-menu__link m-menu__toggle">
                                                             <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg"

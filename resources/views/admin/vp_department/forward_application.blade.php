@@ -1,13 +1,13 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-@include('admin.co_department.action',compact('ol_application'))
+@include('admin.vp_department.action',compact('ol_application'))
 @endsection
 @section('content')
-
+ 
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="d-flex">
-            {{ Breadcrumbs::render('Forward_Application_co',$ol_application->id) }}
+            {{ Breadcrumbs::render('Forward_Application_vp',$ol_application->id) }}
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
