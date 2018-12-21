@@ -188,7 +188,9 @@ return [
             'Stamp_by_dycdo' => 'Stamp_by_dycdo',
             'Draft' => 'Draft',
             'Register' => 'Register',
-            'Stamped' => 'Stamped'
+            'Stamped' => 'Stamped',
+            'renewal_lease_deed_agreement' => 'Renewal Lease Deed Agreement',
+            'renewal_stamp_duty_letter' => 'renewal_stamp_duty_letter'
         ],
         'dycdo_note'  => 'dycdo_note',
         'architect_conveyance_map' => 'architect_conveyance_map',
