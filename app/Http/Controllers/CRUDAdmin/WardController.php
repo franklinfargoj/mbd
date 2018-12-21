@@ -165,7 +165,7 @@ class WardController extends Controller
             'reason'             => $request->input('delete_message'),
         ]);
 
-        return redirect()->back()->with(['success'=> 'Application status deleted succesfully']);
+        return redirect()->back()->with(['success'=> 'Ward deleted succesfully']);
     }
 
     public function loadDeleteWardUsingAjax(Request $request){
