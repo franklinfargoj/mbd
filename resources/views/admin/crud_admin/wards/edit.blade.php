@@ -22,7 +22,7 @@
                 <div class="m-portlet__body m-portlet__body--spaced">
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="name">Application Status Name:</label>
+                            <label class="col-form-label" for="name">Ward Name:</label>
                             <div class="m-input-icon m-input-icon--right">
                                 <input type="text" id="name" name="name" class="form-control form-control--custom m-input"  value="{{ $ward['name'] }}">
                                 <span class="text-danger">{{$errors->first('name')}}</span>
