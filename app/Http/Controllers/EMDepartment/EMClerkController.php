@@ -274,12 +274,12 @@ class EMClerkController extends Controller
                 }                               
             })
             ->editColumn('actions', function ($arrear){
-                if($arrear->total_amount == null || $arrear->payment_status == null || $arrear->payment_status == 0 ){
+                // if($arrear->total_amount == null || $arrear->payment_status == null || $arrear->payment_status == 0 ){
 
                      return "<div class='d-flex btn-icon-list'><a href='".url('tenant_arrear_calculation?id='.encrypt($arrear->tenant_id).'&row_id='.encrypt($arrear->id))."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>edit</a></div>";
-                } else {
-                    return '';
-                } 
+                // } else {
+                //     return '';
+                // } 
             })
             ->rawColumns(['actions'])
             ->make(true);
