@@ -419,7 +419,7 @@
                                     
 
                                     for(i=0; i < datesint.length;i++) {
-                                        var monthlyDate = dates[i];
+                                        var monthlyDate = datesint[i];
                                         
                                         var tempYear = new Date(monthlyDate).getFullYear();
                                         var tempMonth = new Date(monthlyDate).getMonth();
@@ -448,7 +448,7 @@
                                         intrest_on_difference_temp += parseFloat(temp1) || 0;
                                         
                                     };
-                                    console.log('hi');
+                                    
                                     old_intrest_amount = old_intrest_amount_temp;
                                     intrest_on_difference = intrest_on_difference_temp;
                                     total = old_total + old_total_intrest_on_difference;
