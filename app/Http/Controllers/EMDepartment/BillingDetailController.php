@@ -340,20 +340,20 @@ class BillingDetailController extends Controller
                                         'society_id'=>encrypt($society->id),'month'=> $arreas_calculations->month,'year'=> $arreas_calculations->year]);
 
                             $button = "<div class='d-flex btn-icon-list'>
-                                <a href='".$url."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>Donwload Receipt</a>";
+                                <a href='".$url."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>Donwload Bill</a>";
                             if(!empty($reciepts) && array_key_exists($arreas_calculations->tenant_id, $reciepts) && !empty($tenant)) {
                                 $url = (!empty($tenant))?
                                     route('downloadReceipt', ['building_id'=>encrypt($building->id),'bill_no'=>encrypt($reciepts[$arreas_calculations->tenant_id]),'tenant_id'=> encrypt($tenant->id)])
                                     :route('downloadReceipt', ['building_id'=>encrypt($building->id),'society_id'=>encrypt($building->society_id),
                                         'bill_no'=>encrypt($reciepts[$arreas_calculations->tenant_id])]);
-                                $button.= "<a href='".$url."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>View Billing Details</a></div>";
+                                $button.= "<a href='".$url."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Download Receipt</a></div>";
 
                             } else if(!empty($reciepts) && array_key_exists($arreas_calculations->building_id, $reciepts) && !empty($tenant)) {
                                     $url = (!empty($tenant))?
                                         route('downloadReceipt', ['building_id'=>encrypt($building->id),'bill_no'=>encrypt($reciepts[$arreas_calculations->building_id]),'tenant_id'=> encrypt($tenant->id)])
                                         :route('downloadReceipt', ['building_id'=>encrypt($building->id),'society_id'=>encrypt($building->society_id),'bill_no'=>encrypt($reciepts[$arreas_calculations->building_id])]);
 
-                                     $button.= "<a href='".$url."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>View Billing Details</a></div>";
+                                     $button.= "<a href='".$url."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Download Receipt</a></div>";
                             }
                             return $button;
                         }
