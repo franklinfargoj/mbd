@@ -897,7 +897,29 @@ Breadcrumbs::for('ward_view', function ($trail,$id) {
     $trail->push('View Ward', route('ward.show',$id));
 });
 
+//Colony
+Breadcrumbs::for('colony', function ($trail) {
+    $trail->push('Home', route('colony.index'));
+});
 
+Breadcrumbs::for('add_colony', function ($trail) {
+    $trail->parent('colony');
+    $trail->push('Create Colony', route('colony.create'));
+});
+
+Breadcrumbs::for('colony_detail', function ($trail) {
+    $trail->push('Colony Detail', route('colony.index'));
+});
+
+Breadcrumbs::for('edit_colony', function ($trail,$id) {
+    $trail->parent('colony_detail');
+    $trail->push('Edit Colony', route('colony.edit',$id));
+});
+
+Breadcrumbs::for('colony_view', function ($trail,$id) {
+    $trail->parent('colony');
+    $trail->push('View Colony', route('colony.show',$id));
+});
 
 
 Breadcrumbs::for('em', function ($trail) {
