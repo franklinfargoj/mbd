@@ -241,7 +241,7 @@ class renewalCommonController extends Controller
         $stampId = $this->conveyance->getScAgreementId($stamp,$data->application_master_id);
         $data->StampLetter = $this->getRenewalAgreement($stampId,$applicationId,NULL);
 
-
+        // dd($data);
         if ($is_view)
             $route = 'admin.renewal.dyco_department.approve_renewal_agreement';
         else

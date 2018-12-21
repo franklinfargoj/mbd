@@ -8,6 +8,7 @@
         </div>
         <div style="width: 50%; float: left;">
             <img src="https://www.mumbailive.com/images/news/Mhada_1505484179354.jpg?w=1368" style="width: 200px; float: right;">
+            <!-- getcwd().'/public/img/logo-short.png'; -->
         </div>
     </div>
 </div>

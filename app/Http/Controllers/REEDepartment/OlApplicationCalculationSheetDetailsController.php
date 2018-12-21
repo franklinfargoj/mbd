@@ -58,7 +58,7 @@ class OlApplicationCalculationSheetDetailsController extends Controller
     public function show($id)
     {
         $applicationId = decrypt($id);
-        // $applicationId = $id;
+        // $applicationId = $id; 
         $user = Auth::user();
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
@@ -67,12 +67,10 @@ class OlApplicationCalculationSheetDetailsController extends Controller
         $dcr_rates = OlDcrRateMaster::all();
         // REE Note download
 
-        $arrData['reeNote'] = REENote::where('application_id', $applicationId)->orderBy('id', 'desc')->first();
-
+        $arrData['reeNote'] = REENote::where('application_id', $applicationId)->orderBy('id', 'desc')
+                            ->first();
 
         return view('admin.REE_department.calculation_sheet',compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));
-
-
     }
 
 

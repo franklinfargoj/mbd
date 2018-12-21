@@ -431,6 +431,11 @@ class ReePermissionSeeder extends Seeder
                 'name'=>'ree.send_noc_cc_issued_society',
                 'display_name'=>'ree.send_noc_cc_issued_society',
                 'description'=>'ree.send_noc_cc_issued_society'
+            ],            
+            [
+                'name'=>'ree.fsi_calculation_application',
+                'display_name'=>'fsi calculation application',
+                'description'=>'fsi calculation application'
             ],
         ];
 

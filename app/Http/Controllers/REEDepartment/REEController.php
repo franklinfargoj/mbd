@@ -29,6 +29,7 @@ use App\NocSrutinyQuestionMaster;
 use App\NocReeScrutinyAnswer;
 use App\Http\Controllers\SocietyNocController;
 use App\Http\Controllers\SocietyNocforCCController;
+use App\OlDcrRateMaster;
 use App\User;
 use Config;
 use Auth;
@@ -2048,6 +2049,18 @@ class REEController extends Controller
         return $dashboardData;
     }
 
+    //calculation sheet for 2.5 FSI
+    public function fsiCalculationSheet(Request $request,$applicationId){
 
+        $applicationId = decrypt($applicationId); 
+        $user = Auth::user();
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+        $calculationSheetDetails = OlApplicationCalculationSheetDetails::where('application_id','=',$applicationId)->get();
+        $dcr_rates = OlDcrRateMaster::all();
+        $arrData['reeNote'] = REENote::where('application_id', $applicationId)->orderBy('id', 'desc')
+                            ->first();
 
+        return view('admin.REE_department.fsi_calculation_sheet',compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));                    
+    }
 }

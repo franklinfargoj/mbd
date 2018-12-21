@@ -28,12 +28,20 @@
                                 Select Calculation Sheet
                         </h3>
                     </div>
-                    <div class="d-flex align-items-center">
-                    <div class="col-md-4"> 
-                        <a href="{{ route('ol_calculation_sheet.show', encrypt($ol_application->id)) }}" class="btn btn-primary btn-next" id="with_formula" >Calculation Sheet with Formula's</a>
-                    </div>
-                     <a href="{{ route('ree_applications.custom_calculation_sheet', encrypt($ol_application->id)) }}" class="btn btn-primary btn-next">Custom Calculation Sheet</a>
-                    </div>    
+                        <div class="col-md-12 d-flex align-items-center">
+                            <div class="col-md-6"> 
+                                <a href="{{ route('ol_calculation_sheet.show', encrypt($ol_application->id)) }}" class="btn btn-primary btn-next" id="with_formula" >
+                                Calculation Sheet with Formula's(3 FSI)</a>
+                            </div>                    
+                            <div class="col-md-6"> 
+                                <a href="{{ route('ree.fsi_calculation_application', encrypt($ol_application->id)) }}" class="btn btn-primary btn-next" id="with_formula">
+                                Calculation Sheet with Formula's(2.5 FSI)</a>
+                            </div>
+                        </div>
+                        <div class="col-md-12"> 
+                         <a href="{{ route('ree_applications.custom_calculation_sheet', encrypt($ol_application->id)) }}" class="btn btn-primary btn-next">
+                         Custom Calculation Sheet</a>
+                        </div>   
                 </div>
             </div>
         </div>
