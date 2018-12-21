@@ -189,6 +189,8 @@ return [
             'Draft' => 'Draft',
             'Register' => 'Register',
             'Stamped' => 'Stamped',
+            'Approved' => 'Approved',
+            'Draft_Sign' => 'Draft_Sign',
             'renewal_lease_deed_agreement' => 'Renewal Lease Deed Agreement',
             'renewal_stamp_duty_letter' => 'renewal_stamp_duty_letter'
         ],

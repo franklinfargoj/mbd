@@ -303,7 +303,7 @@
                     <div class="m-portlet__body" style="padding-right: 0;">
                         <div class=" row-list">
                             <div class="row">
-                                @if(isset($data->sr_form_request) && $data->sr_form_request->template_file)
+                                @if(isset($bonafide_docs['renewal_bonafide_list']) && $bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path)
                                     <div class="col-md-6">
                                         <h5 class="section-title section-title--small mb-0">Download List of Allottees uploaded by Society:</h5>
                                         <p>
@@ -321,7 +321,7 @@
                                             <p>Click to download generated list of allottees in xls format</p>
                                             {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
 
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->sr_form_request->template_file }}" class="btn btn-primary" target="_blank" rel="noopener">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
                                                 Download</a>
                                     </div>
                                 @endif
