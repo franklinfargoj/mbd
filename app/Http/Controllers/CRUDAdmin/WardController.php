@@ -31,7 +31,7 @@ class WardController extends Controller
 
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
-            ['data' => 'name','name' => 'status_name','title' => 'Name'],
+            ['data' => 'name','name' => 'name','title' => 'Name'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 //dd($datatables->getRequest()->ajax());
