@@ -873,6 +873,31 @@ Breadcrumbs::for('user_layout_view', function ($trail,$id) {
 });
 
 
+//Ward
+Breadcrumbs::for('ward', function ($trail) {
+    $trail->push('Home', route('ward.index'));
+});
+
+Breadcrumbs::for('add_ward', function ($trail) {
+    $trail->parent('ward');
+    $trail->push('Create Ward', route('ward.create'));
+});
+
+Breadcrumbs::for('ward_detail', function ($trail) {
+    $trail->push('Ward Detail', route('ward.index'));
+});
+
+Breadcrumbs::for('edit_ward', function ($trail,$id) {
+    $trail->parent('ward_detail');
+    $trail->push('Edit Ward', route('ward.edit',$id));
+});
+
+Breadcrumbs::for('ward_view', function ($trail,$id) {
+    $trail->parent('ward');
+    $trail->push('View Ward', route('ward.show',$id));
+});
+
+
 
 
 Breadcrumbs::for('em', function ($trail) {

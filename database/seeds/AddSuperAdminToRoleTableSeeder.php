@@ -298,7 +298,47 @@ class AddSuperAdminToRoleTableSeeder extends Seeder
                 'name' => 'loadDeleteUserLayoutUsingAjax',
                 'display_name' => 'Delete User Layouts Ajax',
                 'description' => 'Deleting User Layouts using Ajax'
-            ]
+            ],
+            [
+                'name' => 'ward.index',
+                'display_name' => 'List Ward',
+                'description' => 'Listing Ward'
+            ],
+            [
+                'name' => 'ward.create',
+                'display_name' => 'Create Ward',
+                'description' => 'Creating Ward'
+            ],
+            [
+                'name' => 'ward.show',
+                'display_name' => 'Create Ward',
+                'description' => 'Creating Ward'
+            ],
+            [
+                'name' => 'ward.store',
+                'display_name' => 'Store Ward',
+                'description' => 'Storing Ward'
+            ],
+            [
+                'name' => 'ward.edit',
+                'display_name' => 'Edit Ward',
+                'description' => 'EDiting Ward'
+            ],
+            [
+                'name' => 'ward.update',
+                'display_name' => 'Update Ward',
+                'description' => 'updating Ward'
+            ],
+            [
+                'name' => 'ward.destroy',
+                'display_name' => 'Delete Ward',
+                'description' => 'Deleting Ward'
+            ],
+            [
+                'name' => 'loadDeleteWardUsingAjax',
+                'display_name' => 'Delete Ward Ajax',
+                'description' => 'Deleting Ward using Ajax'
+            ],
         ];
 
         $super_admin_role_id = Role::where('name', '=', 'superadmin')->value('id');
