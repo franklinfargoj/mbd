@@ -101,7 +101,7 @@
                         The NOC is granted as per policy laid down by the MHADA vide MHADA Resolution Nos. 6260 Dt.04/06/2007, A. R. No. 6397 dated 5/05/2009 , A. R. No. 6422 dated 07.08.2009 and A.R. no. 6749, Dt. 11/07/2017 and circular dated 16/06/2011 &amp; 21/12/2011 subject to following conditions. The other additional terms and conditions as per Annexure-I shall also apply &amp; are appended separately.
                     </p>
                     <center>
-                        <table style="width: 80%; border-collapse: collapse;">
+                        <table style="width: 80%; border-collapse: collapse;" border="1">
                             <tbody>
                                 <tr valign="top">
                                     <td>
@@ -168,7 +168,7 @@
                                                 The built up area permitted as per statement below.
                                             </strong>
                                         </p>
-                                        <table style="width: 80%; border-collapse: collapse;">
+                                        <table style="width: 80%; border-collapse: collapse;" border="1">
                                             <tbody>
                                                 <tr valign="top">
                                                     <td>
@@ -382,7 +382,7 @@
                                     </td>
                                     <td >
                                         <p lang="en-US" align="justify">
-                                            No additional F.S.I. should be utilized other than mentioned above and carpet area for existing members / tenements should be retained as per Govt. G.R. ÎããÔã¶ã ãä¶ã¥ãÃ¾ã ‰ãŠ.ºãõŸ‡ãŠ 1109/¹ãÆ.‰ãŠ.36/Øãðãä¶ã¼ã. ½ãâ¨ããË¾ã dated 26/08/2009.
+                                            No additional F.S.I. should be utilized other than mentioned above and carpet area for existing members / tenements should be retained as per Govt. G.R. शासन निर्णय क्र।बैठक ११०९/प्र।क्र।३६/गृनिभ। मंत्रालय dated 26/08/2009.
                                         </p>
                                     </td>
                                 </tr>
