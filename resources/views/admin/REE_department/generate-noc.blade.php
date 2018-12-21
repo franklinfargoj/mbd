@@ -151,6 +151,7 @@
                      </div>
                   </div>
                   @endif
+                  @if(!empty($noc_application->draft_noc_path))
                   <div class="w-100 row-list">
                      <div class="">
                         <div class="row">
@@ -194,6 +195,7 @@
                         </div>
                      </div>
                   </div>
+                  @endif
                </div>
             </div>
             @if($societyData->ree_branch_head && $societyData->status_offer_letter ==
