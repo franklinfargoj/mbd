@@ -186,7 +186,8 @@
                                                 <td>{{ $i }}.</td>
                                                 <td>{{ $document->documents_Name[0]->name }}</td>
 
-                                                <td class="text-center"><a download href="{{ asset($document->society_document_path) }}"><img
+                                                <td class="text-center">
+                                                <a download href="{{ asset($document->society_document_path) }}" target="_blank"><img
                                                             class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a></td>
                                                 <td>
 
@@ -347,7 +348,7 @@
 
                                                 @if(!empty($document->EE_document_path))
 
-                                                <td class="text-center"><a download href="{{config('commanConfig.storage_server').'/'.$document->EE_document_path}}"><img
+                                                <td class="text-center"><a download href="{{config('commanConfig.storage_server').'/'.$document->EE_document_path}}" target="_blank"><img
                                                             class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a></td>
                                                 @else
                                                 <td></td>
@@ -992,7 +993,7 @@
 
                                                         @if(isset($arrData['eeNote']->document_path))
 
-                                                        <a download href="{{ config('commanConfig.storage_server').'/'.$arrData['eeNote']->document_path}} ">
+                                                        <a download href="{{ config('commanConfig.storage_server').'/'.$arrData['eeNote']->document_path}} " target="_blank">
                                                             <button class="btn btn-primary">
 
                                                                 Download</button>

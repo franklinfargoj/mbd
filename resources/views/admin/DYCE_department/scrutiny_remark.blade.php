@@ -258,7 +258,7 @@
                                             @else
                                             <i class="pdf-icon fa fa-file-image-o" aria-hidden="true" style="color: #862727;font-size: 19px;"></i>  
                                             @endif
-                                           <span class="field-value" style="padding-left: 15px;">{{ (isset(explode('/',$data->document_path)[1]) ? explode('/',$data->document_path)[1]: '') }}</span>
+                                           <span class="field-value" style="padding-left: 15px;">{{ (isset(explode('/',$data->document_path)[1]) ? explode('/',$data->document_path)[1]: '') }}</span></a>
                                         </div>
                                     </div>
                                 @endforeach                            

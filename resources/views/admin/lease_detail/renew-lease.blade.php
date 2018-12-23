@@ -4,7 +4,7 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Renew Lease</h3>
-            {{ Breadcrumbs::render('lease_renew',$id) }}
+            {{ Breadcrumbs::render('lease_renew',encrypt($id)) }}
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
@@ -13,7 +13,7 @@
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
         <form id="renewLeaseDetail" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
-            action="{{route('renew-lease.update-lease', $id)}}">
+            action="{{route('renew-lease.update-lease', encrypt($id))}}">
             @csrf
             <input type="hidden" name="society_id" value="{{ $id }}">
             <div class="m-portlet__body m-portlet__body--spaced">
@@ -39,7 +39,7 @@
 
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="area">Area:</label>
+                        <label class="col-form-label" for="area">Area(Sq.m.):</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="area" name="area" class="form-control form-control--custom m-input"
                                 value="{{ $arrData['lease_data']->area }}">
@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="lease_period">Lease Period:</label>
+                        <label class="col-form-label" for="lease_period">Lease Period(in Yrs.):</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="lease_period" name="lease_period" class="form-control form-control--custom m-input"
                                 value="{{ $arrData['lease_data']->lease_period }}">
@@ -68,7 +68,7 @@
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="lease_rent">Land rent / lease rent:</label>
+                        <label class="col-form-label" for="lease_rent">Land rent / lease rent(in Rs.):</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="lease_rent" name="lease_rent" class="form-control form-control--custom m-input"
                                 value="{{ $arrData['lease_data']->lease_rent }}">
@@ -168,7 +168,7 @@
                             <div class="col-sm-4">
                                 <div class="btn-list">
                                     <button type="submit" id="renew_lease" class="btn btn-primary">Save</button>
-                                    <a href="{{url('/lease_detail/'.$id)}}" class="btn btn-secondary">Cancel</a>
+                                    <a href="{{url('/lease_detail/'.encrypt($id))}}" class="btn btn-secondary">Cancel</a>
                                 </div>
                             </div>
                         </div>

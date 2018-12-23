@@ -8,7 +8,7 @@
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title m-subheader__title--separator">Application</h3>
                 <div class="ml-auto btn-list">
-                    <a href="{{ route('society_conveyance.index') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                    <a href="{{ route('society_renewal.index') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                     <a href="#" target="_blank" id="download_application_form" class="btn print-icon" rel="noopener"
                        onclick="printContent('printdiv')"><img src="{{asset('/img/print-icon.svg')}}" title="print"></a>
                 </div>
@@ -70,17 +70,17 @@
                                     <div class="col-sm-4 application-fields">
                                         <label class="d-block" for="">A. निवासी:</label>
                                         <input class="letter-form-input letter-form-input--100" type="text" id="" name="residential_flat"
-                                               value="{{ $sc_application->sr_form_request->residential_flat }}" readonly>
+                                               value="{{ $sc_application->sr_form_request->no_of_residential_flat }}" readonly>
                                     </div>
                                     <div class="col-sm-4 application-fields">
                                         <label class="d-block" for="">B. अनिवासी:</label>
                                         <input class="letter-form-input letter-form-input--100" type="text" id="" name="non_residential_flat"
-                                               value="{{ $sc_application->sr_form_request->non_residential_flat }}" readonly>
+                                               value="{{ $sc_application->sr_form_request->no_of_non_residential_flat }}" readonly>
                                     </div>
                                     <div class="col-sm-4 application-fields">
                                         <label class="d-block" for="">C. एकूण:</label>
                                         <input class="letter-form-input letter-form-input--100" type="text" id="" name="total_flat"
-                                               value="{{ $sc_application->sr_form_request->total_flat }}" readonly>
+                                               value="{{ $sc_application->sr_form_request->total_no_of_flat }}" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row">
@@ -170,14 +170,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href="@if($sc_application->application_master_id) {{ route('society_renewal.edit', encrypt($sc_application->id)) }} @endif" class="btn btn-primary">
-                                    Back
-                                </a>
-                                <span style="float:right;margin-right: 20px">
-                                    <a href="{{ route('sr_upload_docs') }}" class="btn btn-primary">
-                                        Next
+                                @if($sc_application->srApplicationLog->status_id != config('commanConfig.renewal_status.forwarded'))
+                                    <a href="@if($sc_application->application_master_id) {{ route('society_renewal.edit', encrypt($sc_application->id)) }} @endif" class="btn btn-primary">
+                                        Back
                                     </a>
-                                </span>
+                                    <span style="float:right;margin-right: 20px">
+                                        <a href="{{ route('sr_upload_docs') }}" class="btn btn-primary">
+                                            Next
+                                        </a>
+                                    </span>
+                                @endif
                             </div>
                         </div>
                     </div>

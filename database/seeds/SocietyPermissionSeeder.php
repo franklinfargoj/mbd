@@ -339,6 +339,26 @@ class SocietyPermissionSeeder extends Seeder
                     'description'  => 'Download Application Form'
                 ],
                 [
+                    'name'         => 'show_lease',
+                    'display_name' => 'Lease Deed Agreement',
+                    'description'  => 'Shows Lease Deed Agreement upload form'
+                ],
+                [
+                    'name'         => 'show_signed_lease',
+                    'display_name' => 'Signed Lease Deed Agreement',
+                    'description'  => 'Shows Signed Lease Deed Agreement upload form'
+                ],
+                [
+                    'name'         => 'upload_lease',
+                    'display_name' => 'Uploads Lease Deed Agreement',
+                    'description'  => 'Uploads Lease Deed Agreement'
+                ],
+                [
+                    'name'         => 'upload_signed_lease',
+                    'display_name' => 'Uploads Signed Lease Deed Agreement',
+                    'description'  => 'Uploads Signed Lease Deed Agreement'
+                ],
+                [
                     'name'=>'society_formation.store',
                     'display_name'=>'store society formation',
                     'description' => 'store society formation'
@@ -557,6 +577,41 @@ class SocietyPermissionSeeder extends Seeder
                 'name'         => 'tripartite_application_form_update',
                 'display_name' => 'Updates Application',
                 'description'  => 'Updates Application'
+            ],
+            [
+                'name'         => 'delete_tripartite_docs',
+                'display_name' => 'Delete Application documents',
+                'description'  => 'Delete Application documents'
+            ],
+            [
+                'name'         => 'add_tripartite_documents_comment',
+                'display_name' => 'Adds society documents comment',
+                'description'  => 'Adds society documents comment'
+            ],
+            [
+                'name'         => 'upload_society_tripartite_application',
+                'display_name' => 'Upload Stamped Tripartite Application',
+                'description'  => 'Upload Stamped Tripartite Application'
+            ],
+            [
+                'name'         => 'upload_society_tripartite',
+                'display_name' => 'Uploads Stamped Tripartite Application',
+                'description'  => 'Uploads Stamped Tripartite Application'
+            ],
+            [
+                'name'         => 'society_tripartite_application_download',
+                'display_name' => 'Shows Application form in pdf format',
+                'description'  => 'Shows Application form in pdf format'
+            ],
+            [
+                'name'         => 'show_tripartite_agreement',
+                'display_name' => 'Tripartite Agreement',
+                'description'  => 'Shows Tripartite Agreement form'
+            ],
+            [
+                'name'         => 'upload_tripartite_agreement',
+                'display_name' => 'Uploads Tripartite Agreement',
+                'description'  => 'Uploads Tripartite Agreement form'
             ],
         ];
         

@@ -147,13 +147,14 @@
                                             <tr>
                                                 <td>{{$i+1}}</td>
                                                 <td>{{($data->documents_Name[0]->name)}}</td>
-                                                <td class="text-center"><a href="{{ asset($data->society_document_path) }}">
+                                                <td class="text-center"><a href="{{ asset($data->society_document_path) }}" target="_blank">
                                                         <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a></td>
                                                 <td>
                                                     <p class="mb-2">{{$data->comment_by_EE}}</p>
                                                 </td>
                                                 <td class="text-center">
-                                                    @if(isset($data->EE_document_path))<a href="{{ config('commanConfig.storage_server').'/'.$data->EE_document_path }}"><img
+                                                    @if(isset($data->EE_document_path))
+                                                    <a href="{{ config('commanConfig.storage_server').'/'.$data->EE_document_path }}" target="_blank"><img
                                                             class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     @endif</td>
                                             </tr>
@@ -674,7 +675,7 @@
                                                     <!-- <span class="hint-text">Download  Note uploaded by EE</span> -->
                                                     <div class="mt-auto">
                                                         @if(isset($eeScrutinyData->eeNote->document_path))
-                                                        <a href="{{ config('commanConfig.storage_server').'/'.$eeScrutinyData->eeNote->document_path }}">
+                                                        <a href="{{ config('commanConfig.storage_server').'/'.$eeScrutinyData->eeNote->document_path }}" target="_blank">
                                                             <button class="btn btn-primary">Download</button>
                                                         </a>
                                                         @else

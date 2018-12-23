@@ -77,7 +77,7 @@ class EEController extends Controller
                     static $i = 0; $i++; return $i;
                 })
                 ->editColumn('radio', function ($ee_application_data) {
-                    $url = route('ee.view_application', $ee_application_data->id);
+                    $url = route('ee.view_application', encrypt($ee_application_data->id));
                     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })                
                 ->editColumn('eeApplicationSociety.name', function ($listArray) {
@@ -422,6 +422,7 @@ class EEController extends Controller
 
     public function documentSubmittedBySociety($applicationId)
     {
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->comman->getOlApplication($applicationId);    
         $societyDocument = $this->comman->getSocietyEEDocuments($applicationId);
         $ol_application->status = $this->comman->getCurrentStatus($applicationId);
@@ -431,6 +432,7 @@ class EEController extends Controller
 
     public function getForwardApplicationForm($application_id){
 
+        $application_id = decrypt($application_id);
         $ol_application = $this->comman->getOlApplication($application_id);
         $ol_application->status = $this->comman->getCurrentStatus($application_id);
         $arrData['society_detail'] = OlApplication::with('eeApplicationSociety')->where('id', $application_id)->first();
@@ -611,6 +613,8 @@ class EEController extends Controller
 
     public function scrutinyRemarkByEE($application_id, $society_id)
     {
+        $application_id = decrypt($application_id);
+        $society_id = decrypt($society_id);
         $ol_application = $this->comman->getOlApplication($application_id);
         $ol_application->status = $this->comman->getCurrentStatus($application_id);
         $application_master_id = OlApplication::where('society_id', $society_id)->value('application_master_id');
@@ -937,10 +941,11 @@ class EEController extends Controller
                 return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
             }
         }
-    }
+    } 
 
     public function viewApplication(Request $request, $applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->comman->downloadOfferLetter($applicationId);
         $ol_application->folder = 'ee_department';
         $ol_application->status = $this->comman->getCurrentStatus($applicationId);

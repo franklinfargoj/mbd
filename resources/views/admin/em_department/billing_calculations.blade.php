@@ -83,7 +83,7 @@
         </form>
     </div>
         <div class="m-portlet m-portlet--compact m-portlet--mobile">
-            <div class="dataTables_wrapper table-responsive" style="margin-left: -30px; margin-right: -30px; overflow-x: auto;">
+            <div class="dataTables_wrapper table-responsive">
                 <!--begin: Datatable -->
                 {!! $html->table() !!}
                 <!--end: Datatable -->

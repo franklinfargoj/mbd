@@ -63,6 +63,7 @@ class SocietyConveyanceController extends Controller
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
 
         $sc_application_count = count(SocietyConveyance::where('society_id', $society_details->id)->get());
+
         Session::put('sc_application_count', $sc_application_count);
 
         if ($datatables->getRequest()->ajax()) {

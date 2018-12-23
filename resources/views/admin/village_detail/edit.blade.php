@@ -61,6 +61,18 @@
                     </div>
                 </div>
 
+                <div class="form-group m-form__group row" id="other_land_source" >
+                    <div class="col-sm-4 form-group">
+                    </div>
+                    <div class="col-sm-4 offset-sm-1 form-group">
+                        <div class="m-input-icon m-input-icon--right">
+                            <label class="col-form-label" for="other_land_source">Enter Other Land Source:<span class="star">*</span></label>
+                            <textarea id="other_land_source" name="other_land_source" class="form-control form-control--custom form-control--fixed-height m-input">{{$arrData['village_data']['other_land_source']  }}</textarea>
+                            <span class="help-block">{{$errors->first('other_land_source')}}</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="land_address">Land Address:<span class="star">*</span></label>
@@ -124,9 +136,9 @@
                         <label class="col-form-label" for="remark">Remark:<span class="star">*</span></label>
                         <div class="m-input-icon m-input-icon--right">
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="remark" name="remark">
-                                <option value="Test 1">Test 1</option>
-                                <option value="Test 2">Test 2</option>
-                                <option value="other" selected>Other</option>
+                                <option value="Test 1" {{$arrData['village_data']['remark'] == 'Test 1' ? 'selected':''}}>Test 1</option>
+                                <option value="Test 2" {{$arrData['village_data']['remark'] == 'Test 2' ? 'selected':''}}>Test 2</option>
+                                <option value="other" {{$arrData['village_data']['remark'] == 'other' ? 'selected':''}}>Other</option>
                             </select>
                             <span class="help-block">{{$errors->first('remark')}}</span>
                         </div>
@@ -153,7 +165,7 @@
 
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="land_cost">Land Cost:</label>
+                        <label class="col-form-label" for="land_cost">Land Cost(in Rs.):</label>
                         <input type="text" id="land_cost" name="land_cost" class="form-control form-control--custom"
                             class="form-control form-control--custom m-input" value="{{ $arrData['village_data']['land_cost'] }}">
                         <span class="help-block">{{$errors->first('land_cost')}}</span>
@@ -172,7 +184,7 @@
                 <div class="form-group m-form__group row align-items-center">
 
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="property_card_area">Property Card Area:<span class="star">*</span></label>
+                        <label class="col-form-label" for="property_card_area">Property Card Area(sq.m.):<span class="star">*</span></label>
                         <input type="text" id="property_card_area" name="property_card_area" class="form-control form-control--custom" class="form-control form-control--custom m-input"  value="{{$arrData['village_data']['property_card_area'] }}">
                         <span class="help-block">{{$errors->first('property_card_area')}}</span>
                     </div>
@@ -278,12 +290,20 @@
     });
 
     if($('#remark').val() == 'other') $("#other").show();
-    else $("#other").hide();
+    else{$("#other").hide();}
+
+    if($('#land_source_id').val() == '4') $("#other").show();
+    else $("#other_land_source").hide();
+
 
     $("#remark").on("change", function () {
         if($(this).val() == 'other') $("#other").show();
         else $("#other").hide();
     });
 
+    $("#land_source_id").on("change", function () {
+        if($(this).val() == 4) $("#other_land_source").show();
+        else $("#other_land_source").hide();
+    });
 </script>
 @endsection

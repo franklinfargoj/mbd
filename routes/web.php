@@ -464,6 +464,13 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         Route::post('/upload_tripartite_docs', 'SocietyTripatiteController@upload_tripartite_docs')->name('upload_tripartite_docs');
         Route::get('/tripartite_application_form_edit/{id}', 'SocietyTripatiteController@tripartite_application_form_edit')->name('tripartite_application_form_edit');
         Route::post('/tripartite_application_form_update', 'SocietyTripatiteController@tripartite_application_form_update')->name('tripartite_application_form_update');
+        Route::get('/delete_tripartite_docs/{id}', 'SocietyTripatiteController@delete_tripartite_docs')->name('delete_tripartite_docs');
+        Route::post('add_tripartite_documents_comment', 'SocietyTripatiteController@addSocietyDocumentsComment')->name('add_tripartite_documents_comment');
+        Route::get('upload_society_tripartite_application/{id}', 'SocietyTripatiteController@showuploadTripartiteAfterSign')->name('upload_society_tripartite_application');
+        Route::post('upload_society_tripartite', 'SocietyTripatiteController@uploadTripartiteAfterSign')->name('upload_society_tripartite');
+        Route::get('society_tripartite_application_download/{id}', 'SocietyTripatiteController@generate_pdf')->name('society_tripartite_application_download');
+        Route::get('tripartite_agreement/{id}', 'SocietyTripatiteController@show_tripartite_agreement')->name('show_tripartite_agreement');
+        Route::post('upload_tripartite_agreement', 'SocietyTripatiteController@upload_tripartite_agreement')->name('upload_tripartite_agreement');
 
         //tripartite end
 
@@ -499,10 +506,10 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         Route::post('sr_form_upload', 'SocietyRenewalController@sr_form_upload')->name('sr_form_upload');
 
         //sale & lease deed alongwith pay stamp duty letter & resolution & undertaking
-//    Route::get('sale_lease_deed/{id}', 'SocietyRenewalController@show_sale_lease')->name('show_sale_lease');
-//    Route::get('signed_sale_lease_deed/{id}', 'SocietyRenewalController@show_signed_sale_lease')->name('show_signed_sale_lease');
-//    Route::post('save_sale_lease_deed', 'SocietyRenewalController@upload_sale_lease')->name('upload_sale_lease');
-//    Route::post('save_signed_sale_lease_deed', 'SocietyRenewalController@upload_signed_sale_lease')->name('upload_signed_sale_lease');
+    Route::get('lease_deed/{id}', 'SocietyRenewalController@show_sale_lease')->name('show_lease');
+    Route::get('signed_lease_deed/{id}', 'SocietyRenewalController@show_signed_sale_lease')->name('show_signed_lease');
+    Route::post('save_lease_deed', 'SocietyRenewalController@upload_sale_lease')->name('upload_lease');
+    Route::post('save_signed_lease_deed', 'SocietyRenewalController@upload_signed_sale_lease')->name('upload_signed_lease');
         Route::resource('/society_renewal','SocietyRenewalController');
 
         //Society Renewal END
@@ -685,9 +692,14 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
         // User Layout
         Route::post('loadDeleteUserLayoutUsingAjax', 'UserLayoutController@loadDeleteUserLayoutUsingAjax')->name('loadDeleteUserLayoutUsingAjax');
         Route::resource('user_layouts','UserLayoutController');
+        // Wards
+        Route::post('loadDeleteWardUsingAjax', 'WardController@loadDeleteWardUsingAjax')->name('loadDeleteWardUsingAjax');
+        Route::resource('ward','WardController');
+        // Colony
+        Route::post('loadDeleteColonyUsingAjax', 'ColonyController@loadDeleteColonyUsingAjax')->name('loadDeleteColonyUsingAjax');
+        Route::resource('colony','ColonyController');
 
     });
-
 
     //Society Formation
     Route::get('society_formation','SocietyFormationController@index')->name('society_formation.index');

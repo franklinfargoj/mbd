@@ -4,7 +4,7 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Edit Lease</h3>
-            {{ Breadcrumbs::render('lease_edit', $id, $society_id) }}
+            {{ Breadcrumbs::render('lease_edit', encrypt($id), encrypt($society_id)) }}
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
@@ -13,7 +13,7 @@
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
         <form id="renewLeaseDetail" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
-            action="{{route('update-lease.update', $id)}}">
+            action="{{route('update-lease.update', encrypt($id))}}">
             @csrf
             <input type="hidden" name="society_id" value="{{ $society_id }}">
             <div class="m-portlet__body m-portlet__body--spaced">
@@ -39,7 +39,7 @@
 
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="area">Area:</label>
+                        <label class="col-form-label" for="area">Area(Sq.m.):</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="area" name="area" class="form-control form-control--custom m-input"
                                 value="{{ $arrData['lease_data']->area }}">
@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="lease_period">Lease Period:</label>
+                        <label class="col-form-label" for="lease_period">Lease Period(in Yrs.):</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="lease_period" name="lease_period" class="form-control form-control--custom m-input"
                                 value="{{ $arrData['lease_data']->lease_period }}">
@@ -68,7 +68,7 @@
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="lease_rent">Land rent / lease rent:</label>
+                        <label class="col-form-label" for="lease_rent">Land rent / lease rent(in Rs.):</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="lease_rent" name="lease_rent" class="form-control form-control--custom m-input"
                                 value="{{ $arrData['lease_data']->lease_rent }}">
@@ -109,21 +109,24 @@
                         <label class="col-form-label" for="lease_renewal_date">Date of Renewal of lease:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="lease_renewal_date" name="lease_renewal_date" class="form-control form-control--custom m-input m_datepicker"
-                                readonly value="{{ $arrData['lease_data']->lease_renewal_date }}">
+                                readonly value="{{ date(config('commanConfig.dateFormat'), strtotime($arrData['lease_data']->lease_renewal_date)) }}">
                             <span class="help-block">{{$errors->first('lease_renewal_date')}}</span>
                         </div>
                     </div>
 
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="lease_renewed_period">Period of renewed Lease:</label>
-                        <div class="m-input-icon m-input-icon--right">
-                            <input type="text" id="lease_renewed_period" name="lease_renewed_period" class="form-control form-control--custom m-input"
-                                value="{{ $arrData['lease_data']->lease_renewed_period }}">
-                            <span class="help-block">{{$errors->first('lease_renewed_period')}}</span>
+                    @if($arrData['lease_data']->lease_renewed_period)
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="lease_renewed_period">Period of renewed Lease:</label>
+                            <div class="m-input-icon m-input-icon--right">
+                                <input type="text" id="lease_renewed_period" name="lease_renewed_period" class="form-control form-control--custom m-input"
+                                    value="{{ $arrData['lease_data']->lease_renewed_period }}">
+                                <span class="help-block">{{$errors->first('lease_renewed_period')}}</span>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
 
+                @if($arrData['lease_data']->rent_per_renewed_lease || $arrData['lease_data']->interest_per_renewed_lease_agreement)
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="rent_per_renewed_lease">Lease rent as per renewed lease:</label>
@@ -144,7 +147,9 @@
                         </div>
                     </div>
                 </div>
+                @endif
 
+                @if($arrData['lease_data']->month_rent_per_renewed_lease)
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="month_rent_per_renewed_lease">Month to start collection of
@@ -161,6 +166,8 @@
                         </div>
                     </div>
                 </div>
+                @endif
+
 
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions px-0">
@@ -168,7 +175,7 @@
                             <div class="col-sm-4">
                                 <div class="btn-list">
                                     <button type="submit" id="renew_lease" class="btn btn-primary">Save</button>
-                                    <a href="{{url('/lease_detail/'.$society_id. '/'.$village_id)}}" class="btn btn-secondary">Cancel</a>
+                                    <a href="{{url('/lease_detail/'.encrypt($society_id). '/'.$village_id)}}" class="btn btn-secondary">Cancel</a>
                                 </div>
                             </div>
                         </div>

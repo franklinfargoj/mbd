@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\CODepartment;
 
+use App\Hearing;
+use App\HearingSchedule;
 use App\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -35,17 +37,17 @@ use App\User;
 use Config;
 use Auth;
 use DB;
-
+ 
 class COController extends Controller
 {
     public function __construct()
     {
         $this->CommonController = new CommonController();
-        $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');        
-    }	
+        $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
+    }
 
     public function index(Request $request, Datatables $datatables){
-		
+
 
         $getData = $request->all();
         $columns = [
@@ -57,7 +59,7 @@ class COController extends Controller
             ['data' => 'eeApplicationSociety.building_no','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
             ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address', 'class' => 'datatable-address'],
             // ['data' => 'model','name' => 'model','title' => 'Model'],
-             ['data' => 'Status','name' => 'Status','title' => 'Status'],
+            ['data' => 'Status','name' => 'Status','title' => 'Status'],
             // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
@@ -70,9 +72,9 @@ class COController extends Controller
                     static $i = 0; $i++; return $i;
                 })
                 ->editColumn('radio', function ($co_application_data) {
-                    $url = route('co.view_application', $co_application_data->id);
+                    $url = route('co.view_application', encrypt($co_application_data->id));
                     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
-                })                
+                })
                 ->editColumn('eeApplicationSociety.name', function ($co_application_data) {
                     return $co_application_data->eeApplicationSociety->name;
                 })
@@ -81,7 +83,7 @@ class COController extends Controller
                 })
                 ->editColumn('eeApplicationSociety.address', function ($co_application_data) {
                     return "<span>".$co_application_data->eeApplicationSociety->address."</span>";
-                })                
+                })
                 ->editColumn('date', function ($co_application_data) {
                     return date(config('commanConfig.dateFormat'), strtotime($co_application_data->submitted_at));
                 })
@@ -107,11 +109,11 @@ class COController extends Controller
                 })
                 ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date','actions','eeApplicationSociety.address'])
                 ->make(true);
-        }        
-    	        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
-            
-            return view('admin.co_department.index', compact('html','header_data','getData'));    
-   	
+        }
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+
+        return view('admin.co_department.index', compact('html','header_data','getData'));
+
     }
 
 
@@ -189,7 +191,7 @@ class COController extends Controller
     }
 
     public function nocApplicationList(Request $request, Datatables $datatables){
-        
+
 
         $getData = $request->all();
         $columns = [
@@ -200,8 +202,8 @@ class COController extends Controller
             ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
             ['data' => 'eeApplicationSociety.building_no','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
             ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address', 'class' => 'datatable-address'],
-             ['data' => 'Model','name' => 'Model','title' => 'Model'],
-             ['data' => 'Status','name' => 'Status','title' => 'Status'],
+            ['data' => 'Model','name' => 'Model','title' => 'Model'],
+            ['data' => 'Status','name' => 'Status','title' => 'Status'],
             // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
@@ -216,7 +218,7 @@ class COController extends Controller
                 ->editColumn('radio', function ($co_application_data) {
                     $url = route('co.view_noc_application', $co_application_data->id);
                     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
-                })                
+                })
                 ->editColumn('eeApplicationSociety.name', function ($co_application_data) {
                     return $co_application_data->eeApplicationSociety->name;
                 })
@@ -225,7 +227,7 @@ class COController extends Controller
                 })
                 ->editColumn('eeApplicationSociety.address', function ($co_application_data) {
                     return "<span>".$co_application_data->eeApplicationSociety->address."</span>";
-                })                
+                })
                 ->editColumn('date', function ($co_application_data) {
                     return date(config('commanConfig.dateFormat'), strtotime($co_application_data->submitted_at));
                 })
@@ -254,15 +256,15 @@ class COController extends Controller
                 })
                 ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date','actions','eeApplicationSociety.address'])
                 ->make(true);
-        }        
-                $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
-            
-            return view('admin.co_department.noc_applications', compact('html','header_data','getData'));    
-    
+        }
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+
+        return view('admin.co_department.noc_applications', compact('html','header_data','getData'));
+
     }
 
     public function nocforCCApplicationList(Request $request, Datatables $datatables){
-        
+
 
         $getData = $request->all();
         $columns = [
@@ -273,8 +275,8 @@ class COController extends Controller
             ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
             ['data' => 'eeApplicationSociety.building_no','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
             ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address', 'class' => 'datatable-address'],
-             ['data' => 'Model','name' => 'Model','title' => 'Model'],
-             ['data' => 'Status','name' => 'Status','title' => 'Status'],
+            ['data' => 'Model','name' => 'Model','title' => 'Model'],
+            ['data' => 'Status','name' => 'Status','title' => 'Status'],
             // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
@@ -289,7 +291,7 @@ class COController extends Controller
                 ->editColumn('radio', function ($co_application_data) {
                     $url = route('co.view_noc_cc_application', $co_application_data->id);
                     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
-                })                
+                })
                 ->editColumn('eeApplicationSociety.name', function ($co_application_data) {
                     return $co_application_data->eeApplicationSociety->name;
                 })
@@ -298,7 +300,7 @@ class COController extends Controller
                 })
                 ->editColumn('eeApplicationSociety.address', function ($co_application_data) {
                     return "<span>".$co_application_data->eeApplicationSociety->address."</span>";
-                })                
+                })
                 ->editColumn('date', function ($co_application_data) {
                     return date(config('commanConfig.dateFormat'), strtotime($co_application_data->submitted_at));
                 })
@@ -327,11 +329,11 @@ class COController extends Controller
                 })
                 ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date','actions','eeApplicationSociety.address'])
                 ->make(true);
-        }        
-                $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
-            
-            return view('admin.co_department.noc_cc_applications', compact('html','header_data','getData'));    
-    
+        }
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+
+        return view('admin.co_department.noc_cc_applications', compact('html','header_data','getData'));
+
     }
 
     public function consentforOcApplicationList(Request $request, Datatables $datatables){
@@ -416,20 +418,23 @@ class COController extends Controller
             "order"      => [1, "asc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
-    } 
+    }
 
     // society and EE documents
     public function societyEEDocuments(Request $request,$applicationId){
 
-       $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $applicationId = decrypt($applicationId);
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
 
         $societyDocuments = $this->CommonController->getSocietyEEDocuments($applicationId);
-       return view('admin.co_department.society_EE_documents',compact('societyDocuments','ol_application'));
+        return view('admin.co_department.society_EE_documents',compact('societyDocuments','ol_application'));
     }
 
     // EE - Scrutiny & Remark page
     public function eeScrutinyRemark(Request $request,$applicationId){
+        
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
         $eeScrutinyData = $this->CommonController->getEEScrutinyRemark($applicationId);
@@ -438,22 +443,25 @@ class COController extends Controller
 
     // DyCE Scrutiny & Remark page
     public function dyceScrutinyRemark(Request $request,$applicationId){
-         $ol_application = $this->CommonController->getOlApplication($applicationId);
-         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
+        
+        $applicationId = decrypt($applicationId);
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
         $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);
         return view('admin.co_department.dyce_scrunity_remark',compact('applicationData','ol_application'));
     }
 
     // Forward Application page
     public function forwardApplication(Request $request, $applicationId){
-        
+
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
 //        $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
 
 //        if(session()->get('role_name') != config('commanConfig.co_engineer'))
-            $arrData['application_status'] = $this->CommonController->getCurrentLoggedInChild($applicationId);
+        $arrData['application_status'] = $this->CommonController->getCurrentLoggedInChild($applicationId);
 
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
 
@@ -483,15 +491,15 @@ class COController extends Controller
         // remark and history
         $this->CommonController->getEEForwardRevertLog($applicationData,$applicationId);
         $this->CommonController->getDyceForwardRevertLog($applicationData,$applicationId);
-        $this->CommonController->getREEForwardRevertLog($applicationData,$applicationId);  
+        $this->CommonController->getREEForwardRevertLog($applicationData,$applicationId);
 
         //remark and history
         $eelogs   = $this->CommonController->getLogsOfEEDepartment($applicationId);
         $dyceLogs = $this->CommonController->getLogsOfDYCEDepartment($applicationId);
-        $reeLogs  = $this->CommonController->getLogsOfREEDepartment($applicationId); 
-        $coLogs   = $this->CommonController->getLogsOfCODepartment($applicationId); 
-        $capLogs  = $this->CommonController->getLogsOfCAPDepartment($applicationId); 
-        $vpLogs   = $this->CommonController->getLogsOfVPDepartment($applicationId); 
+        $reeLogs  = $this->CommonController->getLogsOfREEDepartment($applicationId);
+        $coLogs   = $this->CommonController->getLogsOfCODepartment($applicationId);
+        $capLogs  = $this->CommonController->getLogsOfCAPDepartment($applicationId);
+        $vpLogs   = $this->CommonController->getLogsOfVPDepartment($applicationId);
 
         return view('admin.co_department.forward_application',compact('applicationData', 'arrData','ol_application','eelogs','dyceLogs','reeLogs','coLogs','capLogs','vpLogs'));
     }
@@ -576,15 +584,18 @@ class COController extends Controller
     }
 
     public function downloadCapNote(Request $request, $applicationId){
+        
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
         $capNote = $this->CommonController->downloadCapNote($applicationId);
 
         return view('admin.co_department.cap_note',compact('capNote','ol_application'));
-     } 
+    }
 
     public function approveOfferLetter(Request $request, $applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
         // dd($ol_application->status->status_id);
@@ -595,7 +606,7 @@ class COController extends Controller
 
         $applicationData->ReeLog = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$ree_branch_head)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
 
-        $applicationData->coLog = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first(); 
+        $applicationData->coLog = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
 
         return view('admin.co_department.approve_offer_letter',compact('applicationData','ol_application'));
     }
@@ -623,12 +634,12 @@ class COController extends Controller
 
         $ree = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
             ->where('lu.layout_id', session()->get('layout_id'))
-            ->where('role_id', $ree_id->id)->first(); 
+            ->where('role_id', $ree_id->id)->first();
 
-            $this->CommonController->generateOfferLetterForwardToREE($request,$ree);
-            return redirect('/co')->with('success','Approved Offer Letter successfully.');
+        $this->CommonController->generateOfferLetterForwardToREE($request,$ree);
+        return redirect('/co')->with('success','Approved Offer Letter successfully.');
 
-        // $updateApplication = OlApplication::where('id',)           
+        // $updateApplication = OlApplication::where('id',)
     }
 
     public function approvedRevalOfferLetter(Request $request){
@@ -647,6 +658,7 @@ class COController extends Controller
 
     public function viewApplication(Request $request, $applicationId){
 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
 
@@ -678,7 +690,7 @@ class COController extends Controller
     }
 
     public function showCalculationSheet(Request $request, $applicationId){
-        
+
         $user = $this->CommonController->showCalculationSheet($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
@@ -688,7 +700,7 @@ class COController extends Controller
         $blade = $user->blade;
         $arrData['reeNote'] = $user->areeNote;
         // dd($blade);
-        return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));         
+        return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));
     }
 
     public function showRevalCalculationSheet(Request $request, $applicationId){
@@ -712,7 +724,7 @@ class COController extends Controller
         $noc_application->folder = 'co_department';
 
         $noc_application->model = NocApplication::with(['noc_application_master'])->where('id',$applicationId)->first();
-        
+
         return view('admin.common.noc', compact('noc_application'));
     }
 
@@ -722,26 +734,26 @@ class COController extends Controller
         $noc_application->folder = 'co_department';
 
         $noc_application->model = NocApplication::with(['noc_application_master'])->where('id',$applicationId)->first();
-        
+
         return view('admin.common.noc_cc', compact('noc_application'));
     }
 
     public function societyNocDocuments(Request $request,$applicationId){
 
-       $noc_application = $this->CommonController->getNocApplication($applicationId);
-       $noc_application->model = NocApplication::with(['noc_application_master'])->where('id',$applicationId)->first();
-       $societyDocuments = $this->CommonController->getSocietyNocDocuments($applicationId);
+        $noc_application = $this->CommonController->getNocApplication($applicationId);
+        $noc_application->model = NocApplication::with(['noc_application_master'])->where('id',$applicationId)->first();
+        $societyDocuments = $this->CommonController->getSocietyNocDocuments($applicationId);
 
-       return view('admin.co_department.society_noc_documents',compact('noc_application','societyDocuments'));
+        return view('admin.co_department.society_noc_documents',compact('noc_application','societyDocuments'));
     }
 
     public function societyNocforCCDocuments(Request $request,$applicationId){
 
-       $noc_application = $this->CommonController->getNocforCCApplication($applicationId);
-       $noc_application->model = NocCCApplication::with(['noc_application_master'])->where('id',$applicationId)->first();
-       $societyDocuments = $this->CommonController->getSocietyNocCCDocuments($applicationId);
+        $noc_application = $this->CommonController->getNocforCCApplication($applicationId);
+        $noc_application->model = NocCCApplication::with(['noc_application_master'])->where('id',$applicationId)->first();
+        $societyDocuments = $this->CommonController->getSocietyNocCCDocuments($applicationId);
 
-       return view('admin.co_department.society_noc_cc_documents',compact('noc_application','societyDocuments'));
+        return view('admin.co_department.society_noc_cc_documents',compact('noc_application','societyDocuments'));
     }
 
     public function nocScrutinyRemarks(Request $request,$applicationId){
@@ -758,10 +770,10 @@ class COController extends Controller
         $arrData['scrutiny_answers_to_questions'] = NocReeScrutinyAnswer::where('application_id', $applicationId)->get()->keyBy('question_id')->toArray();
 
         $arrData['get_last_status'] = NocApplicationStatus::where([
-                'application_id' =>  $applicationId,
-                'user_id' => Auth::user()->id,
-                'role_id' => session()->get('role_id')
-            ])->orderBy('id', 'desc')->first();
+            'application_id' =>  $applicationId,
+            'user_id' => Auth::user()->id,
+            'role_id' => session()->get('role_id')
+        ])->orderBy('id', 'desc')->first();
 
         return view('admin.co_department.scrutiny-remark-noc', compact('arrData','noc_application'));
     }
@@ -776,10 +788,10 @@ class COController extends Controller
         $arrData['society_detail'] = NocCCApplication::with('eeApplicationSociety')->where('id', $applicationId)->first();
 
         $arrData['get_last_status'] = NocCCApplicationStatus::where([
-                'application_id' =>  $applicationId,
-                'user_id' => Auth::user()->id,
-                'role_id' => session()->get('role_id')
-            ])->orderBy('id', 'desc')->first();
+            'application_id' =>  $applicationId,
+            'user_id' => Auth::user()->id,
+            'role_id' => session()->get('role_id')
+        ])->orderBy('id', 'desc')->first();
 
         return view('admin.co_department.scrutiny-remark-noc-cc', compact('arrData','noc_application'));
     }
@@ -796,7 +808,7 @@ class COController extends Controller
 
         $applicationData->ReeLog = NocApplicationStatus::where('application_id',$applicationId)->where('role_id',$ree_branch_head)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
 
-        $applicationData->coLog = NocApplicationStatus::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first(); 
+        $applicationData->coLog = NocApplicationStatus::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
 
         return view('admin.co_department.issue_noc',compact('applicationData','noc_application'));
     }
@@ -813,7 +825,7 @@ class COController extends Controller
 
         $applicationData->ReeLog = NocCCApplicationStatus::where('application_id',$applicationId)->where('role_id',$ree_branch_head)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
 
-        $applicationData->coLog = NocCCApplicationStatus::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first(); 
+        $applicationData->coLog = NocCCApplicationStatus::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
 
         return view('admin.co_department.issue_noc_cc',compact('applicationData','noc_application'));
     }
@@ -824,12 +836,12 @@ class COController extends Controller
 
         $ree = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
             ->where('lu.layout_id', session()->get('layout_id'))
-            ->where('role_id', $ree_id->id)->first(); 
+            ->where('role_id', $ree_id->id)->first();
 
-            $this->CommonController->generateNOCforwardToREE($request,$ree);
-            return redirect('/co_noc_applications')->with('success','NOC has been approved successfully.');
+        $this->CommonController->generateNOCforwardToREE($request,$ree);
+        return redirect('/co_noc_applications')->with('success','NOC has been approved successfully.');
 
-        // $updateApplication = OlApplication::where('id',)           
+        // $updateApplication = OlApplication::where('id',)
     }
 
     public function approveNocforCCtoRee(Request $request){
@@ -838,16 +850,16 @@ class COController extends Controller
 
         $ree = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
             ->where('lu.layout_id', session()->get('layout_id'))
-            ->where('role_id', $ree_id->id)->first(); 
+            ->where('role_id', $ree_id->id)->first();
 
-            $this->CommonController->generateNOCforCCforwardToREE($request,$ree);
-            return redirect('/co_noc_cc_applications')->with('success','NOC has been approved successfully.');
+        $this->CommonController->generateNOCforCCforwardToREE($request,$ree);
+        return redirect('/co_noc_cc_applications')->with('success','NOC has been approved successfully.');
 
-        // $updateApplication = OlApplication::where('id',)           
+        // $updateApplication = OlApplication::where('id',)
     }
 
     public function forwardNOCApplication(Request $request, $applicationId){
-        
+
         $noc_application = $this->CommonController->getNocApplication($applicationId);
         $noc_application->status = $this->CommonController->getCurrentStatusNoc($applicationId);
         $applicationData = $this->CommonController->getForwardNocApplication($applicationId);
@@ -878,14 +890,14 @@ class COController extends Controller
         }
 
         //remark and history
-        $reeLogs  = $this->CommonController->getLogsOfREEDepartmentForNOC($applicationId); 
-        $coLogs   = $this->CommonController->getLogsOfCODepartmentForNOC($applicationId); 
+        $reeLogs  = $this->CommonController->getLogsOfREEDepartmentForNOC($applicationId);
+        $coLogs   = $this->CommonController->getLogsOfCODepartmentForNOC($applicationId);
 
         return view('admin.co_department.forward_application_noc',compact('applicationData', 'arrData','noc_application','reeLogs','coLogs'));
     }
 
     public function forwardNOCforCCApplication(Request $request, $applicationId){
-        
+
         $noc_application = $this->CommonController->getNocforCCApplication($applicationId);
         $noc_application->status = $this->CommonController->getCurrentStatusNocCC($applicationId);
         $applicationData = $this->CommonController->getForwardNocCCApplication($applicationId);
@@ -916,8 +928,8 @@ class COController extends Controller
         }
 
         //remark and history
-        $reeLogs  = $this->CommonController->getLogsOfREEDepartmentForNOCforCC($applicationId); 
-        $coLogs   = $this->CommonController->getLogsOfCODepartmentForNOCforCC($applicationId); 
+        $reeLogs  = $this->CommonController->getLogsOfREEDepartmentForNOCforCC($applicationId);
+        $coLogs   = $this->CommonController->getLogsOfCODepartmentForNOCforCC($applicationId);
 
         return view('admin.co_department.forward_application_noc_cc',compact('applicationData', 'arrData','noc_application','reeLogs','coLogs'));
     }
@@ -928,7 +940,7 @@ class COController extends Controller
 
         $ree = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
             ->where('lu.layout_id', session()->get('layout_id'))
-            ->where('role_id', $ree_id->id)->first(); 
+            ->where('role_id', $ree_id->id)->first();
 
         $this->CommonController->generateNOCforwardToREE($request);
 
@@ -941,7 +953,7 @@ class COController extends Controller
 
         $ree = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
             ->where('lu.layout_id', session()->get('layout_id'))
-            ->where('role_id', $ree_id->id)->first(); 
+            ->where('role_id', $ree_id->id)->first();
 
         $this->CommonController->generateNOCforCCforwardToREE($request);
 
@@ -961,11 +973,11 @@ class COController extends Controller
         $dashboardData = $this->getCODashboardData($statusCount);
 
         $dashboardData1 = $this->CommonController->getTotalCountsOfApplicationsPending();
-        
+
         // conveyance dashboard
         $conveyanceCommonController = new conveyanceCommonController();
         $conveyanceDashboard = $conveyanceCommonController->ConveyanceDashboard();
-        $conveyanceRoles     = $conveyanceCommonController->getConveyanceRoles(); 
+        $conveyanceRoles     = $conveyanceCommonController->getConveyanceRoles();
         $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();
 
         //Noc dashboard -- Sayan
@@ -979,7 +991,59 @@ class COController extends Controller
         $nocforCCApplication = $nocforCCModuleController->getApplicationListDashboard();
 
 
-        return view('admin.co_department.dashboard',compact('dashboardData','dashboardData1','conveyanceDashboard','conveyanceRoles','pendingApplications','nocApplication','nocforCCApplication'));
+        // Hearing Dashboard --Prajakta
+        $role_id = session()->get('role_id');
+        $user_id = Auth::id();
+
+        $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q) use ($user_id,$role_id){
+            $q->where('user_id', $user_id)
+                ->where('role_id', $role_id);
+        }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
+            ->whereHas('hearingStatusLog' ,function($q) use ($user_id,$role_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id);
+            })->get()->toArray();
+
+        $totalPendingHearing = $totalClosedHearing = $totalScheduledHearing = $totalUnderJudgementHearing = $totalForwardedHearing = 0;
+
+        foreach ($hearing_data as $hearing){
+
+            $status = $hearing['hearing_status_log']['0']['hearing_status']['id'];
+
+            switch ( $status )
+            {
+                case config('commanConfig.hearingStatus.pending'): $totalPendingHearing += 1; break;
+                case config('commanConfig.hearingStatus.scheduled_meeting'): $totalScheduledHearing += 1; break;
+                case config('commanConfig.hearingStatus.case_under_judgement'): $totalUnderJudgementHearing += 1 ; break;
+                case config('commanConfig.hearingStatus.forwarded'): $totalForwardedHearing += 1; break;
+                case config('commanConfig.hearingStatus.case_closed'): $totalClosedHearing +=1 ; break;
+                default:
+                    ; break;
+            }
+
+        }
+
+        $totalHearing = count($hearing_data);
+
+        $hearingDashboardData = array();
+        $hearingDashboardData['Total Number of Cases'][0] =  $totalHearing;
+        $hearingDashboardData['Total Number of Cases'][1] =  '';
+        $hearingDashboardData['Total Number of Pending Cases'][0] =  $totalPendingHearing;
+        $hearingDashboardData['Total Number of Pending Cases'][1] =  '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.pending');
+        $hearingDashboardData['Total Number of Scheduled Cases'][0] = $totalScheduledHearing;
+        $hearingDashboardData['Total Number of Scheduled Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.scheduled_meeting');
+        $hearingDashboardData['Total Number of Under Judgement Cases'][0] = $totalUnderJudgementHearing;
+        $hearingDashboardData['Total Number of Under Judgement Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.case_under_judgement');
+        $hearingDashboardData['Total Number of Forwarded Cases'][0] = $totalForwardedHearing;
+        $hearingDashboardData['Total Number of Forwarded Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.forwarded');
+        $hearingDashboardData['Total Number of Closed Cases'][0] = $totalClosedHearing;
+        $hearingDashboardData['Total Number of Closed Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.case_closed');
+
+        $today = Carbon::now()->format('d-m-Y');
+
+        $todaysHearing = HearingSchedule::with(['Hearing'])->where('preceding_date',$today)->get()->toArray();
+
+        return view('admin.co_department.dashboard',compact('dashboardData','hearingDashboardData','todaysHearing','dashboardData1','conveyanceDashboard','conveyanceRoles','pendingApplications','nocApplication','nocforCCApplication'));
     }
 
     public function getApplicationData($role_id,$user_id){

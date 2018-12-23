@@ -233,7 +233,7 @@ class EMController extends Controller
             }
             if(in_array($document->document_name, $bonafide_docs_defined) == 1){
                 $bonafide_docs[$document->document_name] = $document;
-                if($document->sc_document_status != null){
+                if($document->sr_document_status != null){
                     $bonafide_docs[$document->document_name]['sr_document_status'] = $document->sr_document_status;
                 }else{
                     $bonafide_docs[$document->document_name]['sr_document_status'] = '';
@@ -255,6 +255,15 @@ class EMController extends Controller
             $content = "";
         }
 
+        // $is_view = session()->get('role_name') == config('commanConfig.estate_manager');
+        // $status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);
+
+        // if ($is_view && ($status->status_id != config('commanConfig.renewal_status.forwarded') && $status->status_id != config('commanConfig.renewal_status.reverted') )) {
+        //     $route = 'admin.renewal.em_department.scrutiny_remark';
+        // }else{
+        //     $route = 'admin.conveyance.common.view_em_scrutiny_remark';
+        // }       
+
         return view('admin.renewal.em_department.scrutiny_remark',compact('data', 'content', 'no_dues_certificate_docs', 'bonafide_docs', 'covering_letter_docs'));
     }
 
@@ -266,57 +275,73 @@ class EMController extends Controller
      */
     public function saveRenewalNoDuesCertificate(Request $request){
         $id = $request->applicationId;
-        $content = str_replace('_', "", $_POST['ckeditorText']);
-        
-        $folder_name = 'renewal_no_dues_certificate';
 
-        $content = str_replace('_', "", $_POST['ckeditorText']);
+        if($request->hasFile('no_dues_certificate')){
+            $folder_name = 'renewal_no_dues_certificate';
+            $fileName = time().'no_dues_certificate_'.$id.'.pdf';
+            $filePath = $folder_name."/".$fileName;
+            $file_uploaded = $this->CommonController->ftpFileUpload($folder_name, $request->file('no_dues_certificate'), $filePath);
+            if($file_uploaded){
+                $this->renewal_common->uploadDocumentStatus($request->applicationId, config('commanConfig.documents.em_renewal.no_dues_certificate.renewal_uploaded_no_dues_certificate'), $filePath);
+//                scApplication::where('id',$request->applicationId)->update([config('commanConfig.no_dues_certificate.db_columns.upload') => $file_uploaded]);
 
-        $header_file = view('admin.REE_department.offer_letter_header');
-        $footer_file = view('admin.REE_department.offer_letter_footer');
+                $message = config('commanConfig.no_dues_certificate.redirect_message.upload');
+                $message_status = config('commanConfig.no_dues_certificate.redirect_message_status.upload');
+            }
+        }else{
+            $content = str_replace('_', "", $_POST['ckeditorText']);
 
-        $pdf = new Mpdf();
-        $pdf->autoScriptToLang = true;
-        $pdf->autoLangToFont = true;
-        $pdf->setAutoBottomMargin = 'stretch';
-        $pdf->setAutoTopMargin = 'stretch';
-        $pdf->SetHTMLHeader($header_file);
-        $pdf->SetHTMLFooter($footer_file);
-        $pdf->WriteHTML($content);
+            $folder_name = 'renewal_no_dues_certificate';
 
-        $fileName = time().'renewal_no_dues_certificate_'.$id.'.pdf';
-        $filePath1 = $folder_name."/".$fileName;
-        $file_uploaded_pdf = $this->CommonController->ftpGeneratedFileUpload($folder_name, $pdf->Output($fileName, 'S'), $filePath1);
+            $content = str_replace('_', "", $_POST['ckeditorText']);
 
-        //text offer letter
+            $header_file = view('admin.REE_department.offer_letter_header');
+            $footer_file = view('admin.REE_department.offer_letter_footer');
 
-        $folder_name1 = 'text_renewal_no_dues_certificate';
+            $pdf = new Mpdf();
+            $pdf->autoScriptToLang = true;
+            $pdf->autoLangToFont = true;
+            $pdf->setAutoBottomMargin = 'stretch';
+            $pdf->setAutoTopMargin = 'stretch';
+            $pdf->SetHTMLHeader($header_file);
+            $pdf->SetHTMLFooter($footer_file);
+            $pdf->WriteHTML($content);
 
-        $file_nm =  time()."text_renewal_no_dues_certificate_".$id.'.txt';
-        $filePath = $folder_name1."/".$file_nm;
+            $fileName = time().'renewal_no_dues_certificate_'.$id.'.pdf';
+            $filePath1 = $folder_name."/".$fileName;
+            $file_uploaded_pdf = $this->CommonController->ftpGeneratedFileUpload($folder_name, $pdf->Output($fileName, 'S'), $filePath1);
 
-        $file_uploaded_text = $this->CommonController->ftpGeneratedFileUpload($folder_name, $content, $filePath);
-        foreach(config('commanConfig.documents.em_renewal.no_dues_certificate') as $document){
-            $documents_required[$document] = $document;
+            //text offer letter
+
+            $folder_name1 = 'text_renewal_no_dues_certificate';
+
+            $file_nm =  time()."text_renewal_no_dues_certificate_".$id.'.txt';
+            $filePath = $folder_name1."/".$file_nm;
+
+            $file_uploaded_text = $this->CommonController->ftpGeneratedFileUpload($folder_name, $content, $filePath);
+            foreach(config('commanConfig.documents.em_renewal.no_dues_certificate') as $document){
+                $documents_required[$document] = $document;
+            }
+            unset($documents_required['renewal_uploaded_no_dues_certificate']);
+
+            $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Renewal'))->value('id');
+            $document_ids = $this->renewal_common->getDocumentIds($documents_required, $application_type);
+
+            $i=0;
+            foreach($document_ids as $document_id){
+                $input_arr[] = array(
+                    'application_id' => $id,
+                    'user_id' => Auth::user()->id,
+                    'society_flag' => 0,
+                    'document_id' => $document_id->id,
+                    'document_path' => ($i==0)? $filePath:$filePath1
+                );
+                $i++;
+            }
+
+            RenewalDocumentStatus::insert($input_arr);
         }
-        unset($documents_required['renewal_uploaded_no_dues_certificate']);
 
-        $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Renewal'))->value('id');
-        $document_ids = $this->renewal_common->getDocumentIds($documents_required, $application_type);
-
-        $i=0;
-        foreach($document_ids as $document_id){
-            $input_arr[] = array(
-                'application_id' => $id,
-                'user_id' => Auth::user()->id,
-                'society_flag' => 0,
-                'document_id' => $document_id->id,
-                'document_path' => ($i==0)? $filePath:$filePath1
-            );
-            $i++;
-        }
-
-        RenewalDocumentStatus::insert($input_arr);
 
         return back()->with('success',' uploaded successfully.');
         // return redirect()->route('em.renewal_scrutiny_remark', $request->applicationId);
@@ -430,15 +455,19 @@ class EMController extends Controller
                 $sc_excel_headers = [];
                 Excel::load($request->file('document_path')->getRealPath(), function ($reader)use(&$count, &$sc_excel_headers) {
                     if(count($reader->toArray()) > 0){
+
                         $excel_headers = $reader->first()->keys()->toArray();
                         $sc_excel_headers = config('commanConfig.sc_excel_headers_em');
 
                         foreach($excel_headers as $excel_headers_key => $excel_headers_val){
                             $excel_headers_value = strtolower(str_replace(str_split('\\/- '), '_', $sc_excel_headers[$excel_headers_key]));
+                            $excel_headers_value = str_replace(str_split('\\() '), '', $excel_headers_value);
+
                             if($excel_headers_value == $excel_headers_val){
                                 $count++;
                             }else{
                                 $exploded = explode('_', $excel_headers_value);
+
                                 foreach($exploded as $exploded_key => $exploded_value){
                                     if(!empty(strpos($excel_headers_val, $exploded_value))){
                                         $count++;
@@ -467,17 +496,17 @@ class EMController extends Controller
                         $inserted_document_log = RenewalDocumentStatus::create($sc_document_status_arr);
 
                         if($inserted_document_log == true){
-                            return redirect()->route('em.renewal_scrutiny_remark', $request->application_id);
+                            return redirect()->route('em.renewal_scrutiny_remark', encrypt($request->application_id));
                         }
                     }else{
-                        return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
+                        return redirect()->back()->with('error', "Excel file headers doesn't match")->withInput();
                     }
                 }else{
-                    return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file is empty.")->withInput();
+                    return redirect()->back()->with('error', "Excel file headers doesn't match")->withInput();
                 }
             }
         }else{
-            return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
+            return redirect()->back()->with('error', "Excel file headers doesn't match")->withInput();
         }
     }
 

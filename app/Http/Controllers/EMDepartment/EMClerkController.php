@@ -51,9 +51,9 @@ class EMClerkController extends Controller
         $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
         //dd($colonies);
         
-        $societies = SocietyDetail::whereIn('colony_id', $colonies)->pluck('id');
+        $societies = SocietyDetail::whereIn('layout_id', $layouts)->pluck('id');
 
-        $societies_data = SocietyDetail::whereIn('colony_id', $colonies)->get();
+        $societies_data = SocietyDetail::whereIn('layout_id', $layouts)->get();
 
         $building_data = MasterBuilding::whereIn('society_id', $societies)->get();
         $html = '';
@@ -68,7 +68,7 @@ class EMClerkController extends Controller
             $wards = MasterWard::where('layout_id', '=', decrypt($request->id))->pluck('id');
             $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
 
-            $societies = SocietyDetail::whereIn('colony_id', $colonies)->get();
+            $societies = SocietyDetail::whereIn('layout_id',decrypt($request->id))->get();
 
             $html = '<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="society" name="society" required>
                                         <option value="" style="font-weight: normal;">Select Society</option>';
@@ -171,12 +171,12 @@ class EMClerkController extends Controller
                 }                               
             })
             ->editColumn('actions', function ($tenant){
-                if($tenant->total_amount == null || $tenant->payment_status == null || $tenant->payment_status == 0 ){
+                // if($tenant->total_amount == null || $tenant->payment_status == null || $tenant->payment_status == 0 ){
                     
                     return "<div class='d-flex btn-icon-list'><a href='".url('tenant_arrear_calculation?id='.encrypt($tenant->id))."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>edit</a></div>";
-                } else {
-                    return '';
-                } 
+                // } else {
+                //     return '';
+                // } 
             })
             ->rawColumns(['actions'])
             ->make(true);
@@ -274,12 +274,12 @@ class EMClerkController extends Controller
                 }                               
             })
             ->editColumn('actions', function ($arrear){
-                if($arrear->total_amount == null || $arrear->payment_status == null || $arrear->payment_status == 0 ){
+                // if($arrear->total_amount == null || $arrear->payment_status == null || $arrear->payment_status == 0 ){
 
                      return "<div class='d-flex btn-icon-list'><a href='".url('tenant_arrear_calculation?id='.encrypt($arrear->tenant_id).'&row_id='.encrypt($arrear->id))."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>edit</a></div>";
-                } else {
-                    return '';
-                } 
+                // } else {
+                //     return '';
+                // } 
             })
             ->rawColumns(['actions'])
             ->make(true);

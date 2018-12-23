@@ -989,6 +989,53 @@ Breadcrumbs::for('user_layout_view', function ($trail,$id) {
 });
 
 
+//Ward
+Breadcrumbs::for('ward', function ($trail) {
+    $trail->push('Home', route('ward.index'));
+});
+
+Breadcrumbs::for('add_ward', function ($trail) {
+    $trail->parent('ward');
+    $trail->push('Create Ward', route('ward.create'));
+});
+
+Breadcrumbs::for('ward_detail', function ($trail) {
+    $trail->push('Ward Detail', route('ward.index'));
+});
+
+Breadcrumbs::for('edit_ward', function ($trail,$id) {
+    $trail->parent('ward_detail');
+    $trail->push('Edit Ward', route('ward.edit',$id));
+});
+
+Breadcrumbs::for('ward_view', function ($trail,$id) {
+    $trail->parent('ward');
+    $trail->push('View Ward', route('ward.show',$id));
+});
+
+//Colony
+Breadcrumbs::for('colony', function ($trail) {
+    $trail->push('Home', route('colony.index'));
+});
+
+Breadcrumbs::for('add_colony', function ($trail) {
+    $trail->parent('colony');
+    $trail->push('Create Colony', route('colony.create'));
+});
+
+Breadcrumbs::for('colony_detail', function ($trail) {
+    $trail->push('Colony Detail', route('colony.index'));
+});
+
+Breadcrumbs::for('edit_colony', function ($trail,$id) {
+    $trail->parent('colony_detail');
+    $trail->push('Edit Colony', route('colony.edit',$id));
+});
+
+Breadcrumbs::for('colony_view', function ($trail,$id) {
+    $trail->parent('colony');
+    $trail->push('View Colony', route('colony.show',$id));
+});
 
 
 Breadcrumbs::for('em', function ($trail) {

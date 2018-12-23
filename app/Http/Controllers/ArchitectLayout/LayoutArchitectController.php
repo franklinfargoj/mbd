@@ -1195,15 +1195,19 @@ class LayoutArchitectController extends Controller
 
     public function uploadLayoutandExcelAjax(Request $request)
     {
-
+        $allowed_excel_format=array(
+            'application/vnd.ms-excel',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        );
         $response_array = array();
         $file = $request->file('file');
         //dd($file->getClientMimeType());
         if ($request->field_name == 'layout_in_excel') {
-            if ($file->getClientMimeType() != 'application/vnd.ms-excel') {
+            if (!in_array($file->getClientMimeType(),$allowed_excel_format)){
+            // if ($file->getClientMimeType() != 'application/vnd.ms-excel' ||) {
                 $response_array = array(
                     'status' => false,
-                    'message' => 'XLS file is required',
+                    'message' => 'excel file is required',
                 );
                 return response()->json($response_array);
             }
