@@ -19,16 +19,16 @@ class OcApplication extends Model
         'application_path',
         'submitted_at',
         'current_status_id',
-         'name_of_architect' ,
-         'architect_mobile_no' ,
-         'architect_telephone_no' ,
-         'architect_address' ,
+        'name_of_architect' ,
+        'architect_mobile_no' ,
+        'architect_telephone_no' ,
+        'architect_address' ,
         'date_of_site_visit' ,
-         'site_visit_officers' ,
-         'oc_path' ,
+        'site_visit_officers' ,
+        'oc_path' ,
         'is_approve_oc',
-         'drafted_oc' ,
-         'text_oc' ,
+        'drafted_oc' ,
+        'text_oc' ,
     ];
 
     public function request_form(){
@@ -60,8 +60,6 @@ class OcApplication extends Model
         return $this->hasMany('App\OcApplicationStatusLog', 'application_id', 'id');
     }
 
-
-
     public function oc_application_master(){
         return $this->hasOne(OlApplicationMaster::class, 'id', 'application_master_id');
     }
@@ -76,20 +74,9 @@ class OcApplication extends Model
     }
 
 
-/*
     public function eeApplicationSociety()
     {
         return $this->hasOne('App\SocietyOfferLetter', 'id','society_id');
     }
 
-    public function visitDocuments(){
-        return $this->hasMany('App\olSiteVisitDocuments', 'application_id','id');
-    }
-
-
-    public function cap_notes()
-    {
-        return $this->hasOne(OlCapNotes::class,'application_id','id');
-    }
-*/
 }

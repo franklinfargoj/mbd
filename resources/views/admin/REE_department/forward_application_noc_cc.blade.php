@@ -313,7 +313,7 @@
                               ==
                               config('commanConfig.ree_branch_head')) && empty($noc_application->final_draft_noc_path))
                               <label class="m-radio m-radio--primary">
-                              <input type="radio" name="remarks_suggestion"
+                              <input type="radio" class="forward-application" name="remarks_suggestion"
                                  id="remark"
                                  value="1" checked> Send back 
                               To Society

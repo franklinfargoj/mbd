@@ -24,6 +24,10 @@ use App\NocSrutinyQuestionMaster;
 use App\NocReeScrutinyAnswer;
 use App\NocApplicationStatus;
 use App\NocCCApplicationStatus;
+use App\OcApplication;
+use App\OcApplicationStatusLog;
+use App\OcSrutinyQuestionMaster;
+use App\OcEEScrutinyAnswer;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
 use App\Http\Controllers\SocietyNocController;
 use App\Http\Controllers\SocietyNocforCCController;
@@ -327,6 +331,79 @@ class COController extends Controller
                 $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
             
             return view('admin.co_department.noc_cc_applications', compact('html','header_data','getData'));    
+    
+    }
+
+    public function consentforOcApplicationList(Request $request, Datatables $datatables){
+        
+
+        $getData = $request->all();
+        $columns = [
+            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
+            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
+            ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
+            ['data' => 'date','name' => 'date','title' => 'Date', 'class' => 'datatable-date'],
+            ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
+            ['data' => 'eeApplicationSociety.building_no','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
+            ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address', 'class' => 'datatable-address'],
+             ['data' => 'Model','name' => 'Model','title' => 'Model'],
+             ['data' => 'Status','name' => 'Status','title' => 'Status'],
+            // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+        ];
+
+        if ($datatables->getRequest()->ajax()) {
+
+            $co_application_data = $this->CommonController->listApplicationDataOc($request);
+
+            return $datatables->of($co_application_data)
+                ->editColumn('rownum', function ($listArray) {
+                    static $i = 0; $i++; return $i;
+                })
+                ->editColumn('radio', function ($co_application_data) {
+                    $url = route('co.view_oc_application', $co_application_data->id);
+                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                })                
+                ->editColumn('eeApplicationSociety.name', function ($co_application_data) {
+                    return $co_application_data->eeApplicationSociety->name;
+                })
+                ->editColumn('eeApplicationSociety.building_no', function ($co_application_data) {
+                    return $co_application_data->eeApplicationSociety->building_no;
+                })
+                ->editColumn('eeApplicationSociety.address', function ($co_application_data) {
+                    return "<span>".$co_application_data->eeApplicationSociety->address."</span>";
+                })                
+                ->editColumn('date', function ($co_application_data) {
+                    return date(config('commanConfig.dateFormat'), strtotime($co_application_data->submitted_at));
+                })
+                // ->editColumn('actions', function ($co_application_data) use($request){
+                //    return view('admin.co_department.action', compact('co_application_data', 'request'))->render();
+                // })
+                ->editColumn('Status', function ($listArray) use ($request) {
+                    $status = $listArray->ocApplicationStatusForLoginListing[0]->status_id;
+
+                    if($request->update_status)
+                    {
+                        if($request->update_status == $status){
+                            $config_array = array_flip(config('commanConfig.applicationStatus'));
+                            $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                            return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
+                        }
+                    }else{
+                        $config_array = array_flip(config('commanConfig.applicationStatus'));
+                        $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                        return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
+                    }
+
+                })
+                ->editColumn('Model', function ($co_application_data) {
+                    return $co_application_data->oc_application_master->model;
+                })
+                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date','actions','eeApplicationSociety.address'])
+                ->make(true);
+        }        
+                $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+            
+            return view('admin.co_department.oc_applications', compact('html','header_data','getData'));    
     
     }
 
@@ -1006,5 +1083,164 @@ class COController extends Controller
         $dashboardData['Offer Letters Approved but Not Issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.offer_letter_approved');
 
         return $dashboardData;
+    }
+
+    public function viewApplicationConsentOc(Request $request, $applicationId)
+    {
+        $oc_application = $this->CommonController->downloadConsentforOc($applicationId);
+        $oc_application->folder = 'co_department';
+        /*$oc_application->status = $this->comman->getCurrentStatus($applicationId);*/
+        return view('admin.common.consent_for_oc', compact('oc_application'));
+    }
+
+    public function societyconsentOcDocuments(Request $request,$applicationId){
+
+       $oc_application = $this->CommonController->getOcApplication($applicationId);
+       $oc_application->model = OcApplication::with(['oc_application_master'])->where('id',$applicationId)->first();
+       $societyDocuments = $this->CommonController->getSocietyDocumentsforOC($applicationId);
+
+       return view('admin.co_department.society_oc_documents',compact('oc_application','societyDocuments'));
+    }
+
+    public function viewEMScrutinyOc($applicationId)
+    {
+        $oc_application = $this->CommonController->getOcApplication($applicationId);
+        $oc_application->status = $this->CommonController->getCurrentStatusOc($applicationId);
+
+        $application_master_id = OcApplication::where('society_id', $oc_application->eeApplicationSociety->id)->value('application_master_id');
+
+        $arrData['society_detail'] = OcApplication::with('eeApplicationSociety')->where('id', $applicationId)->first();
+
+        $arrData['get_last_status'] = OcApplicationStatusLog::where([
+                'application_id' =>  $applicationId,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id')
+            ])->orderBy('id', 'desc')->first();
+
+        return view('admin.co_department.view_em_scrutiny', compact('arrData','oc_application'));
+    }
+
+    public function viewEEScrutinyOc($applicationId)
+    {
+        $oc_application = $this->CommonController->getOcApplication($applicationId);
+        $oc_application->status = $this->CommonController->getCurrentStatusOc($applicationId);
+
+        $application_master_id = OcApplication::where('society_id', $oc_application->eeApplicationSociety->id)->value('application_master_id');
+
+        $arrData['society_detail'] = OcApplication::with('eeApplicationSociety')->where('id', $applicationId)->first();
+
+        $arrData['scrutiny_questions_oc'] = OcSrutinyQuestionMaster::all();
+
+        $arrData['scrutiny_answers_to_questions'] = OcEEScrutinyAnswer::where('application_id', $applicationId)->get()->keyBy('question_id')->toArray();
+
+        $arrData['get_last_status'] = OcApplicationStatusLog::where([
+                'application_id' =>  $applicationId,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id')
+            ])->orderBy('id', 'desc')->first();
+
+        return view('admin.co_department.ee_scrutiny_oc_ree', compact('arrData','oc_application'));
+    }
+
+    public function consentforOcREEnote(Request $request,$applicationId){
+
+        $oc_application = $this->CommonController->getOcApplication($applicationId);
+        $oc_application->status = $this->CommonController->getCurrentStatusOc($applicationId);
+
+        $application_master_id = OcApplication::where('society_id', $oc_application->eeApplicationSociety->id)->value('application_master_id');
+
+        $arrData['society_detail'] = OcApplication::with('eeApplicationSociety')->where('id', $applicationId)->first();
+
+        $arrData['get_last_status'] = OcApplicationStatusLog::where([
+                'application_id' =>  $applicationId,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id')
+            ])->orderBy('id', 'desc')->first();
+
+        return view('admin.co_department.ree_note_oc', compact('arrData','oc_application'));
+    }
+
+    public function approveConsentforOc(Request $request, $applicationId){
+
+        $oc_application = $this->CommonController->getOcApplication($applicationId);
+        $oc_application->status = $this->CommonController->getCurrentStatusOc($applicationId);
+        // dd($ol_application->status->status_id);
+        $ree_branch_head = Role::where('name',config('commanConfig.ree_branch_head'))->value('id');
+        $co = Role::where('name',config('commanConfig.co_engineer'))->value('id');
+
+        $applicationData = OcApplication::where('id',$applicationId)->first();
+
+        $applicationData->ReeLog = OcApplicationStatusLog::where('application_id',$applicationId)->where('role_id',$ree_branch_head)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
+
+        $applicationData->coLog = OcApplicationStatusLog::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first(); 
+
+        return view('admin.co_department.approve_consent_oc',compact('applicationData','oc_application'));
+    }
+
+    public function approveconsentOctoRee(Request $request){
+
+        $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
+
+        $ree = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+            ->where('lu.layout_id', session()->get('layout_id'))
+            ->where('role_id', $ree_id->id)->first(); 
+
+            $this->CommonController->generateOCforwardToREE($request,$ree);
+            return redirect('/co_consent_oc_applications')->with('success','Consent for OC has been approved successfully.');
+
+        // $updateApplication = OlApplication::where('id',)           
+    }
+
+    public function forwardOcApplication(Request $request, $applicationId){
+        
+        $oc_application = $this->CommonController->getOcApplication($applicationId);
+        $oc_application->status = $this->CommonController->getCurrentStatusOc($applicationId);
+        $applicationData = $this->CommonController->getForwardOcApplication($applicationId);
+
+        $arrData['application_status'] = $this->CommonController->getCurrentLoggedInChildOc($applicationId);
+
+        $arrData['get_current_status'] = $this->CommonController->getCurrentStatusOc($applicationId);
+
+        if(isset($arrData['get_current_status']->status_id) && $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.OC_Generation'))
+        {
+            $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
+
+            $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                ->where('lu.layout_id', session()->get('layout_id'))
+                ->where('role_id', $ree_id->id)->get();
+
+            $arrData['ree_role_name']   = strtoupper(str_replace('_', ' ', $ree_id->name));
+        }
+        else{
+            $arrData['get_forward_ree'] = array();
+            $arrData['ree_role_name']   = null;
+
+            if(empty($arrData['get_current_status']->status_id))
+            {
+                $arrData['get_current_status'] = new \stdClass();
+                $arrData['get_current_status']->status_id = null;
+            }
+        }
+
+        //remark and history
+        $eelogs   = $this->CommonController->getLogsOfEEDepartmentforOc($applicationId);
+        $emlogs   = $this->CommonController->getLogsOfEMforOc($applicationId);
+        $reeLogs  = $this->CommonController->getLogsOfREEDepartmentForOc($applicationId); 
+        $coLogs   = $this->CommonController->getLogsOfCODepartmentForOc($applicationId);   
+
+        return view('admin.co_department.forward_application_oc',compact('applicationData', 'arrData','oc_application','reeLogs','coLogs' , 'emlogs' ,'eelogs'));
+    }
+
+    public function sendForwardOcApplication(Request $request){
+
+        $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
+
+        $ree = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+            ->where('lu.layout_id', session()->get('layout_id'))
+            ->where('role_id', $ree_id->id)->first(); 
+
+        $this->CommonController->generateOCforwardToREE($request);
+
+        return redirect('/co_consent_oc_applications')->with('success','Application send successfully.');
     }
 }

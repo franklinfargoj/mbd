@@ -1,12 +1,12 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-@include('admin.REE_department.action_noc',compact('noc_application'))
+@include('admin.ee_department.action_oc',compact('oc_application'))
 @endsection
 @section('content')
 <div class="custom-wrapper">
    <div class="col-md-12">
       <div class="d-flex">
-         {{ Breadcrumbs::render('Forward_Application_ree_noc',$noc_application->id) }}
+         {{ Breadcrumbs::render('Forward_Application_oc',$oc_application->id) }}
          <div class="ml-auto btn-list">
             <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
          </div>
@@ -18,11 +18,7 @@
                <i class="la la-cog"></i> Scrutiny History
                </a>
             </li>
-            @if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.in_process') ||
-            ($arrData['get_current_status']->status_id ==
-            config('commanConfig.applicationStatus.NOC_Generation')) || ($arrData['get_current_status']->status_id ==
-            config('commanConfig.applicationStatus.NOC_Issued') && session()->get('role_name') !=
-            config('commanConfig.ree_branch_head')))
+            @if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.in_process') && ($oc_application->ee_scrutiny_completed == 1))
             <li class="nav-item m-tabs__item">
                <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                <i class="la la-cog"></i> Forward Application
@@ -132,8 +128,72 @@
                         <h3 class="section-title section-title--small mb-4">
                             Remark History:
                         </h3>
-                        @if(count($reeLogs) == 0 && count($coLogs) == 0)
+                        @if(count($reeLogs) == 0 && count($coLogs) == 0 && count($eelogs) == 0 && count($emlogs) == 0)
                         <h4 class="section-title section-title--small mb-4"><small>No Remarks found..</small></h4>
+                        @endif
+                        @if(count($eelogs) > 0)
+                        <div class="remark-body">
+                           <div class="border-bottom pb-2">
+                              <span class="hint-text d-block font-weight-semi-bold">Remark by EE Department</span>
+                           </div>
+                           <div class="remarks-section">
+                              <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                                 data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+                                 <!-- EE logs -->
+                                 @foreach($eelogs as $log)
+                                 @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                 @php $status = 'Forwarded'; @endphp
+                                 @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                 @php $status = 'Reverted'; @endphp
+                                 @endif  
+                                 <div class="remarks-section__data">
+                                    <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",
+                                       strtotime($log->created_at)) : '')}}</span>
+                                    </p>
+                                    <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log) && $log->created_at != '' ? date("H:i",
+                                       strtotime($log->created_at)) : '')}}</span>
+                                    </p>
+                                    <p class="remarks-section__data__row"><span>Action:</span>
+                                       <span>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}} From {{isset($log->getRole->display_name) ? $log->getRole->display_name : ''}}</span>
+                                    </p>
+                                    <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log) ? $log->remark : '')}}</span></p>
+                                 </div>
+                                 @endforeach
+                              </div>
+                           </div>
+                        </div>
+                        @endif 
+                        @if(count($emlogs) > 0)
+                        <div class="remark-body">
+                           <div class="border-bottom pb-2">
+                              <span class="hint-text d-block font-weight-semi-bold">Remark by EM</span>
+                           </div>
+                           <div class="remarks-section">
+                              <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                                 data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+                                 <!-- EE logs -->
+                                 @foreach($emlogs as $log)
+                                 @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                 @php $status = 'Forwarded'; @endphp
+                                 @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                 @php $status = 'Reverted'; @endphp
+                                 @endif  
+                                 <div class="remarks-section__data">
+                                    <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",
+                                       strtotime($log->created_at)) : '')}}</span>
+                                    </p>
+                                    <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log) && $log->created_at != '' ? date("H:i",
+                                       strtotime($log->created_at)) : '')}}</span>
+                                    </p>
+                                    <p class="remarks-section__data__row"><span>Action:</span>
+                                       <span>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}} From {{isset($log->getRole->display_name) ? $log->getRole->display_name : ''}}</span>
+                                    </p>
+                                    <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log) ? $log->remark : '')}}</span></p>
+                                 </div>
+                                 @endforeach
+                              </div>
+                           </div>
+                        </div>
                         @endif
                         @if(count($reeLogs) > 0)
                         <div class="remark-body">
@@ -266,7 +326,7 @@
                         </h3>
                      </div>
                      <div class="remarks-suggestions">
-                        <form action="{{ route('ree.forward_noc_application_data') }}"
+                        <form action="{{ route('ee.forward_oc_application_data') }}"
                            id="forwardApplication" method="post">
                            @csrf
                            <input type="hidden" name="to_role_id" id="to_role_id">
@@ -275,12 +335,7 @@
                            <div class="m-form__group form-group">
                               <div class="m-radio-inline">
                                  @if($arrData['get_current_status']->status_id
-                                 !=
-                                 config('commanConfig.applicationStatus.NOC_Issued') && !($noc_application->noc_generation_status
-                                 == '0'
-                                 && (session()->get('role_name')
-                                 ==
-                                 config('commanConfig.ree_branch_head')) && empty($noc_application->final_draft_noc_path)))
+                                 == config('commanConfig.applicationStatus.in_process') && ($oc_application->ee_scrutiny_completed == 1))
                                  <label class="m-radio m-radio--primary">
                                  <input type="hidden" name="user_id">
                                  <input type="hidden" name="role_id">
@@ -293,11 +348,11 @@
                                  @endif
                                  @if(session()->get('role_name')
                                  !=
-                                 config('commanConfig.ree_junior')
+                                 config('commanConfig.ee_junior_engineer')
                                  &&
                                  $arrData['get_current_status']->status_id
                                  !=
-                                 config('commanConfig.applicationStatus.NOC_Issued'))
+                                 config('commanConfig.applicationStatus.OC_Approved'))
                                  <label class="m-radio m-radio--primary">
                                  <input type="radio" name="remarks_suggestion"
                                     id="remark" class="forward-application"
@@ -307,19 +362,6 @@
                                  </label>
                                  @endif
                               </div>
-                              @if($noc_application->noc_generation_status
-                              == '0'
-                              && (session()->get('role_name')
-                              ==
-                              config('commanConfig.ree_branch_head')) && empty($noc_application->final_draft_noc_path))
-                              <label class="m-radio m-radio--primary">
-                              <input type="radio" class="forward-application" name="remarks_suggestion"
-                                 id="remark"
-                                 value="1" checked> Send back 
-                              To Society
-                              <span></span>
-                              </label>
-                              @else
                               <div class="form-group m-form__group row mt-3 parent-data"
                                  id="select_dropdown">
                                  <label class="col-form-label col-lg-2 col-sm-12">
@@ -340,14 +382,14 @@
                                        </option>
                                        @endforeach
                                        @else
-                                       @if(isset($arrData['get_forward_co']))
-                                       @foreach($arrData['get_forward_co']
+                                       @if(isset($arrData['get_forward_ree']))
+                                       @foreach($arrData['get_forward_ree']
                                        as $parent)
                                        <option value="{{ $parent->user_id }}"
                                           data-role="{{ $parent->role_id }}">{{
                                           $parent->name
                                           }} ({{
-                                          $arrData['co_role_name']
+                                          $arrData['ree_junior_name']
                                           }})
                                        </option>
                                        @endforeach
@@ -355,15 +397,14 @@
                                        @endif
                                     </select>
                                  </div>
-                                 @endif
                               </div>
                               @if(session()->get('role_name')
                                  !=
-                                 config('commanConfig.ree_junior')
+                                 config('commanConfig.ee_junior_engineer')
                               &&
                               $arrData['get_current_status']->status_id
                               !=
-                              config('commanConfig.applicationStatus.NOC_Issued'))
+                              config('commanConfig.applicationStatus.OC_Approved'))
                               <div class="form-group m-form__group row mt-3 child-data"
                                  style="display: none">
                                  <label class="col-form-label col-lg-2 col-sm-12">
@@ -396,32 +437,16 @@
                                     name="remark" id="remark" cols="30"
                                     rows="5"></textarea>
                               </div>
-                              @if($noc_application->noc_generation_status == 0)
+                              @if($oc_application->ee_scrutiny_completed == 1)
                               <div class="mt-3 btn-list">
                                  <button type="submit" class="btn btn-primary">Save</button>
-                                 {{--<button type="submit" id="sign"
-                                    class="btn btn-primary forwrdBtn">Sign</button>
-                                 <button type="submit" class="btn btn-primary forwrdBtn">Sign
-                                 & Forward</button>
-                                 <button type="submit" class="btn btn-primary forwrdBtn">Forward</button>--}}
-                                 <button type="button" onclick="window.location.href='{{ url("/ree_noc_applications") }}'"
-                                 class="btn btn-secondary">Cancel</button>
-                              </div>
-                              @elseif($noc_application->noc_generation_status != 0 && isset($noc_application->final_draft_noc_path))
-                              <div class="mt-3 btn-list">
-                                 <button type="submit" class="btn btn-primary">Save</button>
-                                 {{--<button type="submit" id="sign"
-                                    class="btn btn-primary forwrdBtn">Sign</button>
-                                 <button type="submit" class="btn btn-primary forwrdBtn">Sign
-                                 & Forward</button>
-                                 <button type="submit" class="btn btn-primary forwrdBtn">Forward</button>--}}
-                                 <button type="button" onclick="window.location.href='{{ url("/ree_noc_applications") }}'"
+                                 <button type="button" onclick="window.location.href='{{ url("/consentoc_ee") }}'"
                                  class="btn btn-secondary">Cancel</button>
                               </div>
                               @else                                    
                               <div>
                                  <span class="error" style="display: block;color: #ce2323;margin-top: 13px;">
-                                 * Note : Please generate and upload NOC. </span>
+                                 * Please complete scrutiny section to forward application. </span>
                               </div>
                               @endif
                            </div>

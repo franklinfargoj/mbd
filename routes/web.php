@@ -1189,4 +1189,56 @@ Route::post('save_forward_noc_cc_Application','CODepartment\COController@sendFor
 
 });
 
+// Consent for OC -- EE routes
 
+Route::get('consentoc_ee','EEDepartment\EEController@consent_for_oc')->name('ee.consent_for_oc');
+Route::get('view_oc_application/{id}','EEDepartment\EEController@viewOCApplication')->name('ee.view_oc_application');
+Route::get('society_documents_oc/{id}', 'EEDepartment\EEController@societyDocumentsOC')->name('ee.society_documents_oc');
+Route::get('/scrutiny-remark-oc/{id}', 'EEDepartment\EEController@scrutinyRemarkOcByEE')->name('ee.scrutiny-remark-oc');
+Route::post('/scrutiny-verification-oc', 'EEDepartment\EEController@oCScrutinyVerification')->name('ee.scrutiny_verification_oc');
+Route::post('upload_ee_note_oc','EEDepartment\EEController@uploadOfficeNoteOcEE')->name('ee.upload_office-note-oc');
+Route::get('ee-forward-application-oc/{id}','EEDepartment\EEController@forwardApplicationOcEE')->name('ee-forward-application-oc');
+Route::post('ee_forward_oc_application_data','EEDepartment\EEController@sendForwardOcApplication')->name('ee.forward_oc_application_data');
+
+// EM Routes consent for OC
+
+Route::get('consentoc_em','EMDepartment\EMController@consent_for_oc')->name('em.consent_for_oc');
+Route::get('view_oc_application_em/{id}','EMDepartment\EMController@viewOCApplication')->name('em.view_oc_application');
+Route::get('society_documents_oc_em/{id}', 'EMDepartment\EMController@societyDocumentsOC')->name('em.society_documents_oc');
+Route::get('no_dues_certificate_em_oc/{id}', 'EMDepartment\EMController@generateNoDueCertificateOc')->name('em.no_dues_certifitce');
+Route::get('create_edit_noduecert/{id}', 'EMDepartment\EMController@createEditNoDueCert')->name('em.create_edit_ndc');
+Route::post('save_no_dues_cert_em', 'EMDepartment\EMController@saveNoDuesCertOc')->name('em.save_no_dues_cert_oc');
+Route::post('upload_em_note_oc','EMDepartment\EMController@uploadOfficeNoteOcEM')->name('em.upload_office-note-oc');
+Route::get('em-forward-application-oc/{id}','EMDepartment\EMController@forwardApplicationOcEM')->name('em-forward-application-oc');
+Route::post('em_forward_oc_application_data','EMDepartment\EMController@sendForwardOcApplication')->name('em.forward_oc_application_data');
+
+// Consent for OC -- REE routes
+
+Route::get('ree_oc_applications','REEDepartment\REEController@consentforOCApplicationList')->name('ree_applications.consent_oc');
+Route::get('view_application_consent_oc/{id}','REEDepartment\REEController@viewApplicationConsentOc')->name('ree.view_application_consent_oc');
+Route::get('society_oc_documents/{id}','REEDepartment\REEController@societyOcDocuments')->name('ree.society_oc_documents');
+Route::get('em_scrutiny_oc_ree/{id}','REEDepartment\REEController@viewEMScrutinyOc')->name('ree.em_scrutiny_oc_ree');
+Route::get('ee_scrutiny_oc_ree/{id}','REEDepartment\REEController@viewEEScrutinyOc')->name('ree.ee_scrutiny_oc_ree');
+Route::get('generate_oc_certificate/{id}','REEDepartment\REEController@generateOccertificate')->name('ree.generate_oc_certificate');
+Route::get('create_edit_oc/{id}', 'REEDepartment\REEController@createEditConsentOc')->name('ree.create_edit_oc');
+Route::post('save_draft_consent_oc', 'REEDepartment\REEController@saveDraftConsentOc')->name('ree.save_draft_consent_oc');
+Route::post('upload_draft_consent_oc/{id}', 'REEDepartment\REEController@uploadDraftConsentforOc')->name('ree.upload_draft_consent_oc');
+Route::get('/ree-note-consentoc/{application_id}', 'REEDepartment\REEController@uploadNoteConsentOC')->name('ree.ree-note-consentoc');
+Route::post('upload_ree_note_consent_oc','REEDepartment\REEController@uploadOfficeNoteConsentOCRee')->name('ree.upload_ree_note_consent_oc');
+Route::get('ree-forward-application-oc/{id}','REEDepartment\REEController@forwardApplicationConsentOc')->name('ree-forward-application-oc');
+Route::post('ree_forward_oc_application_data','REEDepartment\REEController@sendForwardConsentOcApplication')->name('ree.ree_forward_oc_application_data');
+Route::get('approved_consent_oc_letter/{id}','REEDepartment\REEController@approvedConsentOcletter')->name('ree.approved_consent_oc_letter');
+Route::post('send_oc_issued_society','REEDepartment\REEController@sendissuedOcToSociety')->name('ree.send_oc_issued_society');
+
+// Consent for OC -- CO routes
+
+Route::get('co_consent_oc_applications','CODepartment\COController@consentforOcApplicationList')->name('co_applications.consent_oc');
+Route::get('view_oc_application_co/{id}','CODepartment\COController@viewApplicationConsentOc')->name('co.view_oc_application');
+Route::get('society_oc_documents_co/{id}','CODepartment\COController@societyconsentOcDocuments')->name('co.society_oc_documents');
+Route::get('em_scrutiny_oc_co/{id}','CODepartment\COController@viewEMScrutinyOc')->name('co.em_scrutiny_oc_co');
+Route::get('ee_scrutiny_oc_co/{id}','CODepartment\COController@viewEEScrutinyOc')->name('co.ee_scrutiny_oc_co');
+Route::get('ree_note_oc_co/{id}','CODepartment\COController@consentforOcREEnote')->name('co.ree_note_oc_co');
+Route::get('approve_consent_oc/{id}','CODepartment\COController@approveConsentforOc')->name('co.approve_consent_oc');
+Route::post('issue_oc_letter_to_ree','CODepartment\COController@approveconsentOctoRee')->name('co.issue_oc_letter_to_ree');
+Route::get('co-forward-application-oc/{id}','CODepartment\COController@forwardOcApplication')->name('co-forward-application-oc');
+Route::post('save_forward_oc_Application','CODepartment\COController@sendForwardOcApplication')->name('co.forward_oc_application_data');

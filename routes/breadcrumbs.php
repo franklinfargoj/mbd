@@ -599,6 +599,122 @@ Breadcrumbs::for('ee', function ($trail) {
 	$trail->push('Home', route('ee.index'));
 });
 
+Breadcrumbs::for('ee_for_oc', function ($trail) {
+    $trail->push('Home', route('ee.consent_for_oc'));
+});
+
+Breadcrumbs::for('view_oc_application_ee', function ($trail,$id) {
+    $trail->parent('ee_for_oc');
+    $trail->push('View application for consent for OC', route('ee.view_oc_application',$id));
+});
+
+Breadcrumbs::for('ee_society_documents_oc', function ($trail,$id) {
+    $trail->parent('ee_for_oc');
+    $trail->push('Society documents', route('ee.society_documents_oc',$id));
+});
+
+Breadcrumbs::for('scrutiny-remark-ee-oc', function ($trail,$id) {
+    $trail->parent('ee_for_oc');
+    $trail->push('EE Scrutiny', route('ee.scrutiny-remark-oc',$id));
+});
+
+Breadcrumbs::for('Forward_Application_oc', function ($trail,$id) {
+    $trail->parent('ee_for_oc');
+    $trail->push('Forward Application', route('ee-forward-application-oc',$id));
+});
+
+Breadcrumbs::for('em_for_oc', function ($trail) {
+    $trail->push('Home', route('em.consent_for_oc'));
+});
+
+Breadcrumbs::for('em_society_documents_oc', function ($trail,$id) {
+    $trail->parent('em_for_oc');
+    $trail->push('Society documents', route('em.society_documents_oc',$id));
+});
+
+Breadcrumbs::for('em_generate_no_due_certificate', function ($trail,$id) {
+    $trail->parent('em_for_oc');
+    $trail->push('No dues certificate', route('em.no_dues_certifitce',$id));
+});
+
+Breadcrumbs::for('Forward_Application_oc_em', function ($trail,$id) {
+    $trail->parent('em_for_oc');
+    $trail->push('Forward Application', route('em-forward-application-oc',$id));
+});
+
+Breadcrumbs::for('ree_oc', function ($trail) {
+    $trail->push('Home', route('ree_applications.consent_oc'));
+});
+
+Breadcrumbs::for('ree_society_document_oc', function ($trail,$id) {
+    $trail->parent('ree_oc');
+    $trail->push('Society Documents', route('ree.society_oc_documents',$id));
+});
+
+Breadcrumbs::for('em-scrutiny-oc-ree', function ($trail,$id) {
+    $trail->parent('ree_oc');
+    $trail->push('EM Scrutiny', route('ree.em_scrutiny_oc_ree',$id));
+});
+
+Breadcrumbs::for('scrutiny-remark-oc-ee', function ($trail,$id) {
+    $trail->parent('ree_oc');
+    $trail->push('EE Scrutiny', route('ree.ee_scrutiny_oc_ree',$id));
+});
+
+Breadcrumbs::for('generate_consent_oc', function ($trail,$id) {
+    $trail->parent('ree_oc');
+    $trail->push('Generate Consent for OC', route('ree.generate_oc_certificate',$id));
+});
+
+Breadcrumbs::for('scrutiny-remark-oc-ree', function ($trail,$id) {
+    $trail->parent('ree_oc');
+    $trail->push('REE Note', route('ree.ree-note-consentoc',$id));
+});
+
+Breadcrumbs::for('Forward_Application_ree_oc', function ($trail,$id) {
+    $trail->parent('ree_oc');
+    $trail->push('Forward Application', route('ree-forward-application-oc',$id));
+});
+
+Breadcrumbs::for('co_consent_oc', function ($trail) {
+    $trail->push('Home', route('co_applications.consent_oc'));
+});
+
+Breadcrumbs::for('society_oc_documents_co', function ($trail,$id) {
+    $trail->parent('co_consent_oc');
+    $trail->push('Society Documents', route('co.society_oc_documents',$id));
+});
+
+Breadcrumbs::for('em-scrutiny-oc-co', function ($trail,$id) {
+    $trail->parent('co_consent_oc');
+    $trail->push('EM Scrutiny', route('co.em_scrutiny_oc_co',$id));
+});
+
+Breadcrumbs::for('scrutiny-remark-oc-ee-co', function ($trail,$id) {
+    $trail->parent('co_consent_oc');
+    $trail->push('EE Scrutiny', route('co.ee_scrutiny_oc_co',$id));
+});
+
+Breadcrumbs::for('ree-note-oc_co', function ($trail,$id) {
+    $trail->parent('co_consent_oc');
+    $trail->push('REE Note', route('co.ree_note_oc_co',$id));
+});
+
+Breadcrumbs::for('issue_consent_oc', function ($trail,$id) {
+    $trail->parent('co_consent_oc');
+    $trail->push('Approve Consent for OC', route('co.approve_consent_oc',$id));
+});
+
+Breadcrumbs::for('Forward_oc_Application_co', function ($trail,$id) {
+    $trail->parent('co_consent_oc');
+    $trail->push('Forward Application', route('co-forward-application-oc',$id));
+});
+
+Breadcrumbs::for('approved_oc', function ($trail,$id) {
+    $trail->parent('ree_oc');
+    $trail->push('Approved Consent for OC', route('ree.approved_consent_oc_letter',$id));
+});
+
 //offer letter
 Breadcrumbs::for('view_application_ee', function ($trail,$id) {
     $trail->parent('ee');

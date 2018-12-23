@@ -68,6 +68,8 @@ return [
        'Aproved_Renewal_of_Lease' => 19,
        'NOC_Generation' => 20,
        'draft_offer_letter_generated' => 21,
+       'OC_Approved' => 22, 
+       'OC_Generation' => 23,
    ],
 
 
@@ -375,6 +377,10 @@ return [
 
     'noc_cc_master_ids' => [
         '10', '21'
+    ],
+
+    'oc_master_ids' => [
+        '5', '11' , '16' , '22'
     ],
 
     'storage_server' => 'http://storage.mhada.php-dev.in',

@@ -76,6 +76,8 @@
                       <p><a @if(count($application->noc_application_ref) == 0) href="{{ route($application->route_name, $application->id) }}" @endif>{{ $application->title }}</a></p>
                     @elseif(in_array($application->id,config('commanConfig.noc_cc_master_ids')))
                       <p><a @if(count($application->noc_cc_application_ref) == 0) href="{{ route($application->route_name, $application->id) }}" @endif>{{ $application->title }}</a></p>
+                    @elseif(in_array($application->id,config('commanConfig.oc_master_ids')))
+                      <p><a @if(count($application->oc_application_ref) == 0) href="{{ route($application->route_name, $application->id) }}" @endif>{{ $application->title }}</a></p>
                     @else
                         <p><a href="{{ route($application->route_name, $application->id) }}">{{ $application->title }}</a></p>
                     @endif
