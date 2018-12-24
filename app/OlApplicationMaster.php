@@ -24,4 +24,8 @@ class OlApplicationMaster extends Model
     public function noc_cc_application_ref(){
         return $this->hasMany(NocCCApplication::class, 'application_master_id','id')->where('user_id', Auth::user()->id);
     }
+
+    public function oc_application_ref(){
+        return $this->hasMany(OcApplication::class, 'application_master_id','id')->where('user_id', Auth::user()->id);
+    }
 }

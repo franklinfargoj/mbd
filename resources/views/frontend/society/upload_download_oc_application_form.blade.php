@@ -22,7 +22,7 @@
                                     <h5>Download Consent For OC Application</h5>
                                     <span class="hint-text">Download submitted application in .pdf format</span>
                                     <div class="mt-auto">
-                                        <a title="Donwload Offer Letter Application" href="{{ route('society_oc_application_download') }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Offer Letter Application</a>
+                                        <a title="Donwload Offer Letter Application" href="{{ route('society_oc_application_download') }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Consent For OC Application</a>
                                     </div>
                                 </div>
                             </div>
