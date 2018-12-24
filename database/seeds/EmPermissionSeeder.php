@@ -468,6 +468,11 @@ class EmPermissionSeeder extends Seeder
                 'display_name'=>'Upload Covering Letter',
                 'description'=>'Upload Covering Letter'
             ],
+            [
+                'name'=>'em.save_renewal_list_of_allottees',
+                'display_name'=>'Uploads List of Bonafide Allottees',
+                'description'=>'Uploads List of Bonafide Allottees'
+            ],
         ];
 
         $permission_role = [];

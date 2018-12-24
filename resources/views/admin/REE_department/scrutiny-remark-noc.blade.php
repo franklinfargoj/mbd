@@ -286,7 +286,7 @@
                                        <div class="mt-auto">
                                           <a download href="{{ config('commanConfig.storage_server').'/'.$noc_application->ree_office_note_noc}} ">
                                           <button class="btn btn-primary">
-                                          Download</button>
+                                          Download Note</button>
                                           </a>
                                        </div>
                                     </div>

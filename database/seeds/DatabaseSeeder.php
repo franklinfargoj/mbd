@@ -86,5 +86,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(NocCCSocietyDocumentsMasterTableSeeder::class);
         $this->call(ChangeSomeFieldValuesInDatabase::class);
+
+        $this->call(OcScrutinyQuestionMasterTable::class);
     }
 }

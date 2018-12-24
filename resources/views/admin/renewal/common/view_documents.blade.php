@@ -58,5 +58,29 @@
                 </div>
             </div>
         </div>
+        @if(!empty($documents) && !empty($documents_uploaded))
+            @if(count($documents) == count($documents_uploaded))
+                <div class="m-portlet">
+                    <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
+                        <div class="">
+                            <h3 class="section-title section-title--small">Submit Application:</h3>
+                        </div>
+                        <form action="{{ route('society_doc_comment') }}" method="post" enctype='multipart/form-data'>
+                            @csrf
+                            <div class="remarks-suggestions table--box-input">
+                                <div class="mt-3">
+                                    <label for="society_documents_comment">Additional Information:</label>
+                                    <div class="@if($errors->has('society_documents_comment')) has-error @endif">
+                                        <textarea name="society_documents_comment" rows="5" cols="30" id="society_documents_comment" class="form-control form-control--custom" readonly>@if(isset($renewal_doc_comments) && count($renewal_doc_comments) > 0) {{ $renewal_doc_comments->society_documents_comment }} @endif</textarea>
+                                        <span class="help-block">{{$errors->first('society_documents_comment')}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        <!-- <a href="{{ route('society_offer_letter_dashboard') }}" class="btn btn-primary btn-custom" id="">Cancel</a> -->
+                        </form>
+                    </div>
+                </div>
+            @endif
+        @endif
     </div>
 @endsection

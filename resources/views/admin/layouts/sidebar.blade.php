@@ -627,8 +627,9 @@ $route=\Request::route()->getName();
                 in_array('ree_applications.noc_cc', session()->get('permission'))||
                 in_array('co_applications.noc_cc', session()->get('permission')) ||
                 in_array('tripartite.index', session()->get('permission'))
-                ))
-                <li class="m-menu__item {{( $route=='co_applications.noc_cc' || $route=='ree_applications.noc_cc' || $route=='co_applications.noc' || $route=='ree_applications.noc' || $route=='cap_applications.reval' || $route=='vp_applications.reval' || $route=='co_applications.reval' || $route=='ree_applications.reval' || $route=='ree_applications.index' || $route=='ee.index' || $route=='dyce.index' || $route=='co.index' || $route=='vp.index')?'':'collapsed'}}" data-toggle="collapse" data-target="#society-actions">
+                ) ||
+                in_array('ree_applications.consent_oc', session()->get('permission')) || (Session::all()['role_name'] == 'EM'))
+                <li class="m-menu__item {{( $route=='co_applications.noc_cc' || $route=='ree_applications.noc_cc' || $route=='co_applications.noc' || $route=='ree_applications.noc' || $route=='cap_applications.reval' || $route=='vp_applications.reval' || $route=='co_applications.reval' || $route=='ree_applications.reval' || $route=='ree_applications.index' || $route=='ee.index' || $route=='dyce.index' || $route=='co.index' || $route=='vp.index' || $route=='ee.consent_for_oc' || $route == 'em.consent_for_oc' || $route == 'ree_applications.consent_oc')?'':'collapsed'}}" data-toggle="collapse" data-target="#society-actions">
                     <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
                         <i class="m-menu__link-icon flaticon-line-graph"></i>
                         <span class="m-menu__link-title">
@@ -641,20 +642,19 @@ $route=\Request::route()->getName();
                         </span>
                     </a>
                 </li>
-
-                @if (isset($route) && (in_array('ree_applications.index', session()->get('permission')) ||
-                in_array('ee.index', session()->get('permission')) ||
-                in_array('dyce.index', session()->get('permission')) ||
-                in_array('co.index', session()->get('permission')) ||
-                in_array('cap.index', session()->get('permission')) ||
-                in_array('vp.index', session()->get('permission')) ||
-                in_array('tripartite.index', session()->get('permission')) ||
-                in_array('ree_applications.noc_cc', session()->get('permission'))||
-                in_array('co_applications.noc_cc', session()->get('permission'))
-                ))
-                <li id="society-actions" class="collapse {{($route=='tripartite.index' || $route=='co_applications.noc_cc' || $route=='ree_applications.noc_cc' || $route=='co_applications.noc' || $route=='ree_applications.noc' || $route=='cap_applications.reval' || $route=='vp_applications.reval' || $route=='co_applications.reval' || $route=='ree_applications.reval' || $route=='ree_applications.index' || $route=='ee.index' || $route=='dyce.index' || $route=='co.index' || $route=='vp.index')?'show':''}}">
+                
+                <li id="society-actions" class="collapse {{($route=='tripartite.index' || $route=='co_applications.noc_cc' || $route=='ree_applications.noc_cc' || $route=='co_applications.noc' || $route=='ree_applications.noc' || $route=='cap_applications.reval' || $route=='vp_applications.reval' || $route=='co_applications.reval' || $route=='ree_applications.reval' || $route=='ree_applications.index' || $route=='ee.index' || $route=='dyce.index' || $route=='co.index' || $route=='vp.index' || $route=='ee.consent_for_oc' || $route=='em.consent_for_oc' || $route == 'ree_applications.consent_oc')?'show':''}}">
                     <ul class="list-unstyled">
-
+                    @if (isset($route) && (in_array('ree_applications.index', session()->get('permission')) ||
+                    in_array('ee.index', session()->get('permission')) ||
+                    in_array('dyce.index', session()->get('permission')) ||
+                    in_array('co.index', session()->get('permission')) ||
+                    in_array('vp.index', session()->get('permission')) ||
+                    in_array('vp.index', session()->get('permission')) ||
+                    in_array('tripartite.index', session()->get('permission')) ||
+                    in_array('ree_applications.noc_cc', session()->get('permission'))||
+                    in_array('co_applications.noc_cc', session()->get('permission'))
+                    ))
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2  {{( $route=='ee.index' || $route=='dyce.index' || $route=='ree_applications.index' || $route=='co.index' || $route=='cap.index' || $route=='vp.index' || $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' || $route=='documents_uploaded' || $route=='documents_upload')?'m-menu__item--active':''}}">
                             <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">
                                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -772,9 +772,32 @@ $route=\Request::route()->getName();
                             </a>
                         </li>
                         @endif
-                        <!-- sudesh-->
-
-                @endif
+                        @endif
+                        @php
+                        if(Session::all()['role_name'] == 'REE Junior Engineer' || Session::all()['role_name'] == 'REE deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' ||
+                        Session::all()['role_name'] == 'ree_engineer')
+                        $oc_redirect_to = "ree_applications.consent_oc";
+                        elseif(Session::all()['role_name'] == 'ee_engineer' ||  Session::all()['role_name'] == 'ee_dy_engineer' ||  Session::all()['role_name'] == 'ee_junior_engineer')
+                        $oc_redirect_to = "ee.consent_for_oc";
+                        elseif(Session::all()['role_name'] == 'EM')
+                        $oc_redirect_to = "em.consent_for_oc";
+                        elseif(Session::all()['role_name'] == 'co_engineer' )
+                        $oc_redirect_to = "co_applications.consent_oc";
+                        @endphp
+                        @if($oc_redirect_to != "")
+                            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route==$oc_redirect_to)?'m-menu__item--active':'' }}">
+                                    <a href="{{ route($oc_redirect_to) }}" class="m-menu__link m-menu__toggle">
+                                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            viewBox="0 0 510 510">
+                                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                                fill="#FFF" />
+                                        </svg>
+                                        <span class="m-menu__link-text">
+                                            Consent for Oc
+                                        </span>
+                                    </a>
+                                </li>
+                        @endif
             </ul>
             <!-- comment-->
         </li>

@@ -17,6 +17,10 @@ use App\OlSocietyDocumentsMaster;
 use App\OlSocietyDocumentsStatus;
 use App\OlTitBitVerificationDetails;
 use App\OlTitBitVerificationQuestionMaster;
+use App\OcApplication;
+use App\OcApplicationStatusLog;
+use App\OcSrutinyQuestionMaster;
+use App\OcEEScrutinyAnswer;
 use App\Role;
 use App\SocietyOfferLetter;
 use App\User;
@@ -123,6 +127,276 @@ class EMController extends Controller
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
         return view('admin.em_department.index', compact('html','header_data','getData'));
+    }
+
+    public function consent_for_oc(Request $request, Datatables $datatables)
+    {
+        $getData = $request->all();
+
+        $columns = [
+            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
+            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
+            ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
+            ['data' => 'submitted_at','name' => 'submitted_at','title' => 'Date', 'class' => 'datatable-date'],
+            ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
+            ['data' => 'eeApplicationSociety.building_no', 'name' => 'eeApplicationSociety.building_no', 'title' => 'Building No'],
+            ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address','class' => 'datatable-address'],
+            ['data' => 'Model','name' => 'Model','title' => 'Model'],
+            ['data' => 'Status','name' => 'current_status_id','title' => 'Status'],
+            // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+        ];
+
+        if ($datatables->getRequest()->ajax()) {
+
+            $em_application_data =  $this->comman->listApplicationDataOc($request);
+
+            return $datatables->of($em_application_data)
+                ->editColumn('rownum', function ($listArray) {
+                    static $i = 0; $i++; return $i;
+                })
+                ->editColumn('radio', function ($em_application_data) {
+                    $url = route('em.view_oc_application', $em_application_data->id);
+                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                })                
+                ->editColumn('eeApplicationSociety.name', function ($listArray) {
+                    return $listArray->eeApplicationSociety->name;
+                })
+                ->editColumn('eeApplicationSociety.building_no', function ($listArray) {
+                    return $listArray->eeApplicationSociety->building_no;
+                })
+                ->editColumn('eeApplicationSociety.address', function ($listArray) {
+                    return "<span>".$listArray->eeApplicationSociety->address."</span>";
+                })
+                ->editColumn('Status', function ($listArray) use ($request) {
+                    $status = $listArray->ocApplicationStatusForLoginListing[0]->status_id;
+                    // dd(config('commanConfig.applicationStatusColor.'.$status));
+                    if($request->update_status)
+                    {
+                        if($request->update_status == $status){
+                            $config_array = array_flip(config('commanConfig.applicationStatus'));
+                            $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                            return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
+                        }
+                    }else{
+                        $config_array = array_flip(config('commanConfig.applicationStatus'));
+                        $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                        return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
+                    }
+
+                })
+                ->editColumn('Model', function ($listArray) {
+                    return $listArray->oc_application_master->model;
+                })
+                ->editColumn('submitted_at', function ($listArray) {
+                    return date(config('commanConfig.dateFormat'), strtotime($listArray->submitted_at));
+                })
+                // ->editColumn('actions', function ($ee_application_data) use($request) {
+                //     return view('admin.ee_department.actions', compact('ee_application_data', 'request'))->render();
+                // })
+                ->rawColumns(['radio','society_name', 'society_building_no', 'society_address', 'Status', 'submitted_at','eeApplicationSociety.address'])
+                ->make(true);
+        }
+
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+
+        return view('admin.em_department.oc_applications', compact('html','header_data','getData'));
+    }
+
+    public function viewOCApplication(Request $request, $applicationId)
+    {
+        $oc_application = $this->comman->downloadConsentforOc($applicationId);
+        $oc_application->folder = 'em_department';
+        /*$oc_application->status = $this->comman->getCurrentStatus($applicationId);*/
+        return view('admin.common.consent_for_oc', compact('oc_application'));
+    }
+
+    public function societyDocumentsOC(Request $request,$applicationId)
+    {
+        $oc_application = $this->comman->getOcApplication($applicationId);    
+        $societyDocument = $this->comman->getSocietyDocumentsforOC($applicationId);
+        $oc_application->status = $this->comman->getCurrentStatusOc($applicationId);
+
+        return view('admin.em_department.society_documents_consent_oc', compact('societyDocument','oc_application'));
+    }
+
+    public function generateNoDueCertificateOc(Request $request,$applicationId)
+    {
+        $oc_application = $this->comman->getOcApplication($applicationId);
+        $oc_application->model = OcApplication::with(['oc_application_master'])->where('id',$applicationId)->first();
+        $applicationLog = $this->comman->getCurrentStatusOc($applicationId);
+        $societyData = OcApplication::with(['eeApplicationSociety'])
+                ->where('id',$applicationId)->orderBy('id','DESC')->first();
+        $oc_application->status = $this->comman->getCurrentStatusOc($applicationId);
+
+        $societyData->em_eng = (session()->get('role_name') == config('commanConfig.estate_manager'));
+
+        return view('admin.em_department.no_due_certificate',compact('societyData','oc_application','applicationLog'));
+    }
+
+    public function createEditNoDueCert(Request $request,$applicatonId){
+        
+        $model = OcApplication::with('oc_application_master','eeApplicationSociety','request_form')->where('id',$applicatonId)->first();
+
+        $blade =  "em_no_due_cert";
+
+        if($model->no_dues_certificate_text){
+
+            $content = Storage::disk('ftp')->get($model->no_dues_certificate_text); 
+                   
+        }else{
+           $content = ""; 
+        }
+
+        return view('admin.em_department.'.$blade,compact('applicatonId','content','model'));
+    }
+
+    public function saveNoDuesCertOc(Request $request){
+
+        $noc_application = $this->comman->getOcApplication($request->applicationId);
+
+        $id = $request->applicationId;
+        $content = str_replace('_', "", $_POST['ckeditorText']);
+        $folder_name = 'No_Dues_Cert_Oc';
+
+        /*$header_file = view('admin.REE_department.offer_letter_header');        
+        $footer_file = view('admin.REE_department.offer_letter_footer');*/
+        $header_file = '';
+        $footer_file = '';
+
+        $pdf = \App::make('dompdf.wrapper');
+
+        $pdf->loadHTML($header_file.$content.$footer_file);
+
+        $fileName = time().'no_due_cert_oc'.$id.'.pdf';
+        $filePath = $folder_name."/".$fileName;
+
+        if (!(Storage::disk('ftp')->has($folder_name))) {            
+            Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
+        } 
+        Storage::disk('ftp')->put($filePath, $pdf->output());
+        $file = $pdf->output();
+
+        $folder_name1 = 'text_no_due_cert_oc';
+
+        if (!(Storage::disk('ftp')->has($folder_name1))) {            
+            Storage::disk('ftp')->makeDirectory($folder_name1, $mode = 0777, true, true);
+        }        
+        $file_nm =  time()."text_no_due_cert_oc".$id.'.txt';
+        $filePath1 = $folder_name1."/".$file_nm;
+
+        Storage::disk('ftp')->put($filePath1, $content);
+
+        OcApplication::where('id',$request->applicationId)->update(["no_dues_certificate_draft" => $filePath, "no_dues_certificate_text" => $filePath1]);
+
+        \Session::flash('success_msg', 'No Dues Certificate has been successfully generated..');
+
+        return redirect('no_dues_certificate_em_oc/'.$request->applicationId);
+    }
+
+    public function uploadOfficeNoteOcEM(Request $request){
+        $applicationId   = $request->application_id;
+        $uploadPath      = '/uploads/em_office_note_oc';
+        $destinationPath = public_path($uploadPath);
+
+        if ($request->file('em_office_note_oc')){
+
+            $file = $request->file('em_office_note_oc');
+            $extension = $file->getClientOriginalExtension();
+            $file_name = time().'em_office_note_oc.'.$extension;
+            $folder_name = "em_office_note_oc";
+            $path = $folder_name."/".$file_name;
+
+            if($extension == "pdf") {
+
+                $fileUpload = $this->comman->ftpFileUpload($folder_name,$request->file('em_office_note_oc'),$file_name);
+
+                OcApplication::where('id',$applicationId)->update(["em_office_note_oc" => $path]);
+
+                return back()->with('success', 'Office Note has been uploaded successfully');
+            }
+            else
+            {
+                return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
+            }
+        }
+    }
+
+    public function forwardApplicationOcEM(Request $request, $applicationId){
+
+        $oc_application = $this->comman->getOcApplication($applicationId);
+        $oc_application->model = OcApplication::with(['oc_application_master'])->where('id',$applicationId)->first();
+        $applicationData = $this->comman->getForwardOcApplication($applicationId);
+
+        $parentData = $this->comman->getForwardApplicationParentData();
+        $arrData['parentData'] = $parentData['parentData'];
+        $arrData['role_name'] = $parentData['role_name'];
+
+/*        if(session()->get('role_name') != config('commanConfig.ee_junior_engineer'))
+        $arrData['application_status'] = $this->comman->getCurrentLoggedInChildOc($applicationId);*/
+
+        $arrData['get_current_status'] = $this->comman->getCurrentStatusOc($applicationId);
+
+        // REE junior Forward Application
+
+        $ree_jr_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
+
+        $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                                ->where('lu.layout_id', session()->get('layout_id'))
+                                ->where('role_id', $ree_jr_id->id)->get();
+        $arrData['ree_junior_name'] = strtoupper(str_replace('_', ' ', $ree_jr_id->name));
+
+        //remark and history
+        $eelogs   = $this->comman->getLogsOfEEDepartmentforOc($applicationId);
+        $emlogs   = $this->comman->getLogsOfEMforOc($applicationId);
+        $reeLogs  = $this->comman->getLogsOfREEDepartmentForOc($applicationId); 
+        $coLogs   = $this->comman->getLogsOfCODepartmentForOc($applicationId); 
+
+          // dd($ol_application->offer_letter_document_path);
+        return view('admin.em_department.forward_application_oc',compact('applicationData','arrData','oc_application','reeLogs','coLogs','eelogs','emlogs'));  
+    }
+
+    function sendForwardOcApplication(Request $request)
+    {
+        if($request->check_status == 1) {
+            $forward_application = [[
+                'application_id' => $request->applicationId,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id'),
+                'status_id' => config('commanConfig.applicationStatus.forwarded'),
+                'to_user_id' => $request->to_user_id,
+                'to_role_id' => $request->to_role_id,
+                'remark' => $request->remark,
+                'is_active' => 1,
+                'created_at' => Carbon::now()
+            ],
+
+            [
+                'application_id' => $request->applicationId,
+                'user_id' => $request->to_user_id,
+                'role_id' => $request->to_role_id,
+                'status_id' => config('commanConfig.applicationStatus.in_process'),
+                'to_user_id' => NULL,
+                'to_role_id' => NULL,
+                'remark' => $request->remark,
+                'is_active' => 1,
+                'created_at' => Carbon::now()
+            ]
+            ];
+
+            DB::beginTransaction();
+            try {
+                OcApplicationStatusLog::where('application_id',$request->applicationId)
+                    ->update(array('is_active' => 0));
+
+                OcApplicationStatusLog::insert($forward_application);
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+            }
+        }
+
+        return redirect('/consentoc_em')->with('success','Application send successfully.');
     }
 
     protected function getParameters() {
