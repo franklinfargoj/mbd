@@ -93,4 +93,13 @@ class SocietyOfferLetter extends Authenticatable
 
         return $this->hasOne(NocCCSocietyDocumentsComment::class, 'society_id', 'id');   
     }
+
+    public function societyOcDocuments(){
+        return $this->hasMany('App\OcSocietyDocumentStatus', 'society_id','id');
+    }
+
+    public function documentCommentsforOc(){
+
+        return $this->hasOne(OcSocietyDocumentsComment::class, 'society_id', 'id');   
+    }
 }

@@ -436,6 +436,11 @@ class ReePermissionSeeder extends Seeder
                 'name'=>'ree.fsi_calculation_application',
                 'display_name'=>'fsi calculation application',
                 'description'=>'fsi calculation application'
+            ],            
+            [
+                'name'=>'ree.save_fsi_calculation_data',
+                'display_name'=>'save fsi calculation data',
+                'description'=>'save fsi calculation data'
             ],
         ];
 

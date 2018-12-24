@@ -75,7 +75,7 @@
                                 </div>
                             </div> 
                             <div class="m-section__content mb-0 table-responsive">
-                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('save_calculation_details') }}">
+                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_fsi_calculation_data') }}">
                                     <div class="d-flex justify-content-start align-items-center mb-4">
                                         <span class="flex-shrink-0 text-nowrap">Total Number of buildings:</span>
                                         <input type="text" class="form-control form-control--xs form-control--custom flex-grow-0 ml-3" placeholder="0"
@@ -85,8 +85,6 @@
                                     <table id="one" class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                         <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                         <input name="application_id" type="hidden" value="{{ $applicationId }}" />
-                                        <input name="user_id" type="hidden" value="{{ $user->id }}" />
-                                        <input name="society_id" type="hidden" value="{{ $ol_application->society_id }}" />
                                         <input name="redirect_tab" type="hidden" value="two" />
                                         <div class="d-flex justify-content-between align-items-center mb-4">
                                             <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
@@ -409,8 +407,8 @@
                                                     अधिमूल्य
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
-                                                        name="balance_of_remaining_area" id="balance_of_remaining_area"
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox infrastructure_charges"
+                                                        name="balance_of_remaining_area" id="balance_of_remaining_area" 
                                                         value="<?php if(isset($calculationSheetDetails[0]->balance_of_remaining_area)) { echo $calculationSheetDetails[0]->balance_of_remaining_area; } ?>" />
 
                                                 </td>
@@ -435,8 +433,8 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
-                                                        name="amount_to_be_paid_to_municipal" id="amount_to_be_paid_to_municipal"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->amount_to_be_paid_to_municipal)) { echo $calculationSheetDetails[0]->amount_to_be_paid_to_municipal; } ?>" />
+                                                        name="infrastructure_charges" class="infrastructure_charges" id="infrastructure_charges"
+                                                        value="<?php if(isset($calculationSheetDetails[0]->infrastructure_charges)) { echo $calculationSheetDetails[0]->infrastructure_charges; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -447,8 +445,8 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
-                                                        name="offsite_infrastructure_charge_to_mhada" id="offsite_infrastructure_charge_to_mhada"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->offsite_infrastructure_charge_to_mhada)) { echo $calculationSheetDetails[0]->offsite_infrastructure_charge_to_mhada; } ?>" />
+                                                        name="remaining_mat_area" id="remaining_mat_area"
+                                                        value="<?php if(isset($calculationSheetDetails[0]->remaining_mat_area)) { echo $calculationSheetDetails[0]->remaining_mat_area; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -474,6 +472,7 @@
 
                                                 </td>
                                             </tr>
+                                            
                                             <tr>
                                                 <td style = "border-style: ridge;">21.</td>
                                                 <td style = "border-style: ridge;">
@@ -484,11 +483,12 @@
                                                     <div class="m-radio-inline">
                                                         <!-- <span class="mr-3">Is there any encroachment ?</span> -->
                                                         <label class="m-radio m-radio--primary">
-                                                            <input type="radio" class="radioBtn debrajRadioBtn" name="is_debraj_fee_paid" value="1" >Yes
+                                                            <input type="radio" class="radioBtn debrajRadioBtn" name="is_debraj_fee_paid" value="1" 
+                                                            {{isset($calculationSheetDetails[0]->is_debraj_fee_paid) &&  $calculationSheetDetails[0]->is_debraj_fee_paid == 1 ? 'checked' : '' }}>Yes
                                                                 <span></span>
                                                         </label>
                                                         <label class="m-radio m-radio--primary">
-                                                            <input type="radio" class="radioBtn debrajRadioBtn" name="is_debraj_fee_paid" value="0" checked> No
+                                                            <input type="radio" class="radioBtn debrajRadioBtn" name="is_debraj_fee_paid" value="0"  {{isset($calculationSheetDetails[0]->is_debraj_fee_paid) &&  $calculationSheetDetails[0]->is_debraj_fee_paid == 0 ? 'checked' : '' }} > No
                                                             <span></span>
                                                         </label>
                                                     </div>
@@ -529,7 +529,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control total_amount form-control--custom txtbox"
-                                                        name="water_usage_charges" id="water_usage_charges" value="<?php if(isset($calculationSheetDetails[0]->water_usage_charges)) { echo $calculationSheetDetails[0]->water_usage_charges; } ?>" />
+                                                        name="basic_infrastructure_amount" id="basic_infrastructure_amount" value="<?php if(isset($calculationSheetDetails[0]->basic_infrastructure_amount)) { echo $calculationSheetDetails[0]->basic_infrastructure_amount; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -609,20 +609,6 @@
 
                                                 </td>
                                             </tr>
-<!--                                             <tr>
-                                                <td style = "border-style: ridge;">29.</td>
-                                                <td style = "border-style: ridge;">
-                                                    बृहनमुंबई महानगर पालिकेकडे ऑफ साईट इन्फ्रास्ट्रक्चर शुल्क
-                                                    रक्कमपैकी भरणा करावयाची ५/७ रक्कम
-                                                </td>
-                                                <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
-                                                        name="offsite_infrastructure_charges_to_municipal_corporation"
-                                                        id="offsite_infrastructure_charges_to_municipal_corporation"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->offsite_infrastructure_charges_to_municipal_corporation)) { echo $calculationSheetDetails[0]->offsite_infrastructure_charges_to_municipal_corporation; } ?>" />
-
-                                                </td>
-                                            </tr> -->
                                             <tr>
                                                 <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary btn-next subtn" value="Next" /> </td>
                                             </tr>
@@ -809,11 +795,9 @@
                                 </div>
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
-                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('save_calculation_details') }}">
+                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_fsi_calculation_data') }}">
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
-                                    <input name="user_id" type="hidden" value="{{ $user->id }}" />
-                                    <input name="society_id" type="hidden" value="{{ $ol_application->society_id }}" />
                                     <input name="redirect_tab" type="hidden" value="three" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
@@ -952,11 +936,9 @@
                                 </div>
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
-                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('save_calculation_details') }}">
+                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_fsi_calculation_data') }}">
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
-                                    <input name="user_id" type="hidden" value="{{ $user->id }}" />
-                                    <input name="society_id" type="hidden" value="{{ $ol_application->society_id }}" />
                                     <input name="redirect_tab" type="hidden" value="four" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
@@ -1034,7 +1016,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                
                                                     <input type="text" style="border: none;" readonly placeholder="0" class="first_installment  form-control form-control--custom txtbox"
-                                                        name="debraj_removal_fee" id="debraj_removal_fee" value="<?php if(isset($calculationSheetDetails[0]->debraj_removal_fee)) { echo $calculationSheetDetails[0]->debraj_removal_fee; } ?>" />
+                                                        name="debraj_removal_fee" id="debraj_removal" value="<?php if(isset($calculationSheetDetails[0]->debraj_removal_fee)) { echo $calculationSheetDetails[0]->debraj_removal_fee; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -1150,11 +1132,9 @@
                                 </div>
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
-                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('save_calculation_details') }}">
+                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_fsi_calculation_data') }}">
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
-                                    <input name="user_id" type="hidden" value="{{ $user->id }}" />
-                                    <input name="society_id" type="hidden" value="{{ $ol_application->society_id }}" />
                                     <input name="redirect_tab" type="hidden" value="five" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
@@ -1519,6 +1499,7 @@
 
             total_amount += +parseFloat(amountVal);
         });
+        console.log(total_amount);
         $("#total_amount_in_rs").attr('value',numberWithCommas(Math.ceil(total_amount)));
     }
 
@@ -1561,7 +1542,7 @@
     }
 
     function calculatedDcrBalanceOfRemainingArea()
-    {
+    { 
         var redirekner_value = (!cleanNumber($("#redirekner_value").val()) || isNaN(cleanNumber($("#redirekner_value").val()))) ? 0 : cleanNumber($("#redirekner_value").val());
         var dcr_rate_in_percentage = (!$("input[type=radio][name=dcr_rate_in_percentage]:checked").val() || isNaN($("input[type=radio][name=dcr_rate_in_percentage]:checked").val())) ? 0 : $("input[type=radio][name=dcr_rate_in_percentage]:checked").val();
 
@@ -1574,6 +1555,7 @@
         var balance = remaining_residential_area * calculated_dcr.toFixed(2);
 
         $("#balance_of_remaining_area").attr('value',numberWithCommas(balance.toFixed(2)));
+
     }
 
     function nonProfitDuty()
@@ -1586,7 +1568,7 @@
 
         $("#payment_of_remaining_installment").attr('value',numberWithCommas((Math.ceil(1 / 4 * remaining_area_of_resident_area_balance)).toFixed(2)));
     }
-
+ 
     function calculateAmountForMhadaMuncipal()
     {
         var off_site_infrastructure_fee = (!cleanNumber($("#off_site_infrastructure_fee").val()) || isNaN(cleanNumber($("#off_site_infrastructure_fee").val()))) ? 0 : cleanNumber($("#off_site_infrastructure_fee").val());
@@ -1699,6 +1681,13 @@
 
         $("#remaining_area").attr('value',numberWithCommas(sub));
 
+        // pt 23 value
+        var area = (!cleanNumber($("#remaining_area").val()) || isNaN(cleanNumber($("#remaining_area").val()))) ? 0 : cleanNumber($("#remaining_area").val());
+
+        var amount = (parseFloat(area) * 1076.4).toFixed(2);
+      
+        $("#basic_infrastructure_amount").val(numberWithCommas(amount));
+
         $("#remaining_residential_area").attr('value',numberWithCommas(sub));
 
         if ($('input[type=radio][name=dcr_rate_in_percentage]').is(':checked')) {
@@ -1726,12 +1715,22 @@
 
     $(document).on("change", "input[type=radio][name=dcr_rate_in_percentage]", function () {
 
-
         calculatedDcrBalanceOfRemainingArea();
-
-
         totalAmountInRs();
 
+        // pt 17 value
+        var balance = (!cleanNumber($("#balance_of_remaining_area").val()) || isNaN(cleanNumber($("#balance_of_remaining_area").val()))) ? 0 : cleanNumber($("#balance_of_remaining_area").val());
+        var amount  = (parseFloat(balance) * (12.5 / 100)).toFixed(2);
+        $("#infrastructure_charges").val(numberWithCommas(amount));
+
+        //pt 18 value
+        var area = (!cleanNumber($("#balance_of_remaining_area").val()) || isNaN(cleanNumber($("#balance_of_remaining_area").val()))) ? 0 : cleanNumber($("#balance_of_remaining_area").val());
+
+        var charges = (!cleanNumber($("#infrastructure_charges").val()) || isNaN(cleanNumber($("#infrastructure_charges").val()))) ? 0 : cleanNumber($("#infrastructure_charges").val());
+
+        var mat_area = (parseFloat(area) - parseFloat(charges)).toFixed(2);
+        // console.log(numberWithCommas(mat_area));
+        $("#remaining_mat_area").val(numberWithCommas(mat_area));
     });
 
 
@@ -1743,7 +1742,7 @@
         var fee_amount = (parseFloat(remaining_area) * parseFloat(redirekner_value) * (7 / 100)).toFixed(2);
         $("#infrastructure_fee_amount").attr('value',numberWithCommas(fee_amount));
         $("#amount_to_be_paid_to_municipal").attr('value',numberWithCommas((5 / 7 * fee_amount).toFixed(2)));
-        $("#offsite_infrastructure_charges_to_municipal_corporation").attr('value',numberWithCommas(Math.ceil(5 / 7 * fee_amount)));
+        // $("#offsite_infrastructure_charges_to_municipal_corporation").attr('value',numberWithCommas(Math.ceil(5 / 7 * fee_amount)));
         $("#offsite_infrastructure_charge_to_mhada").attr('value',numberWithCommas((2 / 7 * fee_amount).toFixed(2)));
 
         totalAmountInRs();
@@ -1842,21 +1841,24 @@
 
     $(".debrajRadioBtn").change(function(){
         var value = this.value;
+        var building_no = $("#total_no_of_buildings").val();
         if (value == 1){
-            $(".debraj_fee").val(0);
+            $("#debraj_removal_fee").attr('value',0);
         }else{
-            $(".debraj_fee").val(3360);
+            $("#debraj_removal_fee").attr('value',(building_no * 6600));
         }
+        totalAmountInRs();
     });
 
     $(".WaterRadioBtn").change(function(){
         var value = this.value;
+        var building_no = $("#total_no_of_buildings").val();
         if (value == 1){
-            $(".WaterCharge").val(0);
+            $(".WaterCharge").attr('value',0);
         }else{
-            $(".WaterCharge").val('1,00,000');
+            $(".WaterCharge").attr('value',numberWithCommas(building_no * 100000));
         }
-    });    
-
+        totalAmountInRs();
+    }); 
 </script>
 @endsection

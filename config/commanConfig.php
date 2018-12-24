@@ -69,7 +69,9 @@ return [
        'NOC_Generation' => 20,
        'draft_offer_letter_generated' => 21,
        'draft_tripartite_agreement'=>22,
-       'approved_tripartite_agreement'=>23
+       'approved_tripartite_agreement'=>23,
+       'OC_Approved' => 24, 
+       'OC_Generation' => 25,
    ],
 
 
@@ -189,6 +191,8 @@ return [
             'Draft' => 'Draft',
             'Register' => 'Register',
             'Stamped' => 'Stamped',
+            'Approved' => 'Approved',
+            'Draft_Sign' => 'Draft_Sign',
             'renewal_lease_deed_agreement' => 'Renewal Lease Deed Agreement',
             'renewal_stamp_duty_letter' => 'renewal_stamp_duty_letter'
         ],
@@ -385,6 +389,10 @@ return [
 
     'noc_cc_master_ids' => [
         '10', '21'
+    ],
+
+    'oc_master_ids' => [
+        '5', '11' , '16' , '22'
     ],
 
     'tripartite_master_ids' => [

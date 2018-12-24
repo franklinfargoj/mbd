@@ -17,6 +17,7 @@ use App\conveyance\RenewalEEScrutinyDocuments;
 use App\conveyance\RenewalArchitectScrutinyDocuments;
 use App\conveyance\SocietyConveyanceDocumentMaster;
 use App\conveyance\scRegistrationDetails;
+use App\conveyance\RenewalSocietyDocumentComment;
 use App\ApplicationStatusMaster;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
@@ -834,8 +835,20 @@ class renewalCommonController extends Controller
         $data = RenewalApplication::where('id',$applicationId)->first();
         $data->folder = $this->conveyance->getCurrentRoleFolderName();
         $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($data) { $q->where('application_id', $data->id)->get(); }])->where('application_type_id', $data->application_master_id)->where('society_flag', '1')->where('document_name', '!=', 'stamp_renewal_application')->get();
-        $documents_uploaded = RenewalDocumentStatus::where('application_id', $data->id)->get();   
-        return view('admin.renewal.common.view_documents', compact('data', 'documents', 'documents_uploaded'));
+
+        foreach($documents as $document){
+            if($document->sr_document_status != null){
+                $documents_uploaded[] = $document;
+            }
+        }
+        $renewal_doc_comments = RenewalSocietyDocumentComment::where('society_id', $data->society_id)->orderBy('id', 'desc')->first();
+
+        if(isset($renewal_doc_comments)){
+            if($renewal_doc_comments->society_documents_comment == 'N.A.'){
+                $renewal_doc_comments->society_documents_comment = '';
+            }
+        }
+        return view('admin.renewal.common.view_documents', compact('data', 'documents', 'documents_uploaded', 'renewal_doc_comments'));
     }
 
     // save draft and sign uploaded by JTCO

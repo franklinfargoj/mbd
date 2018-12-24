@@ -13,11 +13,10 @@ class CreateOlFsiCalculationSheet extends Migration
      */
     public function up()
     {
-        Schema::create('ol_fsi_calculation', function (Blueprint $table) {
+        Schema::create('ol_fsi_calculation_sheet', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('application_id')->nullable();
             $table->integer('user_id')->nullable();
-            $table->integer('society_id')->nullable();
             $table->integer('total_no_of_buildings')->nullable();
             $table->string('area_as_per_lease_agreement')->nullable();
             $table->string('area_of_tit_bit_plot')->nullable();
@@ -47,12 +46,13 @@ class CreateOlFsiCalculationSheet extends Migration
             $table->string('rate_of_remaining_area')->nullable();             
             $table->string('balance_of_remaining_area')->nullable();             
             $table->string('off_site_infrastructure_fee')->nullable();             
-            $table->string('amount_to_be_paid_to_municipal')->nullable();             
-            $table->string('offsite_infrastructure_charge_to_mhada')->nullable();             
-            $table->string('scrutiny_fee')->nullable();             
-            $table->string('offsite_infrastructure_charges_to_municipal_corporation')->nullable();             
+            $table->string('infrastructure_charges')->nullable();             
+            $table->string('remaining_mat_area')->nullable();             
+            $table->string('scrutiny_fee')->nullable();                          
             $table->string('layout_approval_fee')->nullable();
+            $table->tinyInteger('is_water_charges_paid')->default(0);
             $table->string('debraj_removal_fee')->nullable();
+            $table->tinyInteger('is_debraj_fee_paid')->default(0);
             $table->string('water_usage_charges')->nullable();
             $table->string('area_of_rg_to_be_relocated')->nullable();
             $table->string('total_area_of_rg_to_be_relocated')->nullable();
@@ -60,7 +60,6 @@ class CreateOlFsiCalculationSheet extends Migration
             $table->string('advance_groundrent_per_year')->nullable();
             $table->string('nominal_groundrent')->nullable();
             $table->string('total_amount_in_rs')->nullable();
-            $table->string('offsite_notification_charge_as_per_notification')->nullable();
             $table->string('remaining_area_of_resident_area')->nullable();
             $table->string('remaining_area_of_resident_area_rate')->nullable();
             $table->string('remaining_area_of_resident_area_balance')->nullable();
@@ -68,7 +67,6 @@ class CreateOlFsiCalculationSheet extends Migration
             $table->string('payment_of_remaining_installment')->nullable();
             $table->string('amount_to_be_paid_to_board')->nullable();
             $table->string('basic_infrastructure_amount')->nullable();
-            // is_water_charges_paid
             $table->timestamps();
         });
     }
@@ -80,6 +78,6 @@ class CreateOlFsiCalculationSheet extends Migration
      */
     public function down()
     {
-       Schema::dropIfExists('ol_fsi_calculation');
+       Schema::dropIfExists('ol_fsi_calculation_sheet');
     }
 } 

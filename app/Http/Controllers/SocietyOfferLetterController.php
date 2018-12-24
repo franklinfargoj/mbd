@@ -43,6 +43,7 @@ use App\Mail\SocietyOfferLetterForgotPassword;
 use Storage;
 use App\SocietyConveyance;
 use App\OcApplication;
+use App\OcSocietyDocumentsComment;
 use App\conveyance\RenewalApplication;
 
 class SocietyOfferLetterController extends Controller
@@ -998,7 +999,8 @@ class SocietyOfferLetterController extends Controller
         $last_id = OcApplication::create($insert_application);
         $role_ids = Role::where('name','like', 'ee_junior_engineer')->orWhere('name','like', 'EM')->pluck('id')->toArray();
 
-        $user_ids = RoleUser::whereIn('role_id', $role_ids)->get();
+        $user_ids = RoleUser::whereIn('role_id', $role_ids)->get()->toArray();
+        $user_ids = array_column($user_ids, 'user_id');
         $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
 
         foreach ($layout_user_ids as $key => $value) {
@@ -1131,7 +1133,7 @@ class SocietyOfferLetterController extends Controller
         }
         $documents_uploaded = OcSocietyDocumentStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->with(['documents_uploaded'])->get();
 
-        $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id','desc')->first();
+        $documents_comment = OcSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id','desc')->first();
 
         if($application->application_master_id == '5' || $application->application_master_id == '16'){
             $optional_docs = config('commanConfig.optional_docs_premium_oc');
@@ -1151,7 +1153,13 @@ class SocietyOfferLetterController extends Controller
             }
         }
 
-        return view('frontend.society.society_upload_oc_documents', compact('documents','oc_applications',  'optional_docs', 'docs_count', 'docs_uploaded_count', 'documents_uploaded', 'society', 'application', 'documents_comment'));
+        $check_upload_avail = 0;
+        if($docs_uploaded_count >= $docs_count)
+        {
+            $check_upload_avail = 1;
+        }
+
+        return view('frontend.society.society_upload_oc_documents', compact('documents','oc_applications',  'optional_docs', 'docs_count', 'docs_uploaded_count', 'documents_uploaded', 'society', 'application', 'documents_comment','check_upload_avail'));
     }
 
     /**
@@ -1208,7 +1216,7 @@ class SocietyOfferLetterController extends Controller
             'society_documents_comment' => $comments,
         );
 
-        OlSocietyDocumentsComment::where('society_id', $society->id)->update($input);
+        OcSocietyDocumentsComment::where('society_id', $society->id)->update($input);
         return redirect()->route('upload_society_oc_application');
     }
 
@@ -1403,16 +1411,16 @@ class SocietyOfferLetterController extends Controller
         $docs_uploaded_count = 0;
         $docs_count = 0;
         foreach($documents as $documents_key => $documents_val) {
-            if (in_array($documents_key + 1, $optional_docs) == false) {
+            if (in_array($documents_val->id, $optional_docs) == false) {
                 $docs_count++;
-                if (count($documents_val->documents_uploaded) > 0) {
+                if (count($documents_val->oc_documents_uploaded) > 0) {
                     $docs_uploaded_count++;
                 }
             }
         }
         $oc_applications = $application;
         $documents_uploaded = OcSocietyDocumentStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->get();
-        $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id','desc')->first();
+        $documents_comment = OcSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id','desc')->first();
 
         return view('frontend.society.view_society_uploaded_oc_documents', compact('documents', 'optional_docs', 'docs_uploaded_count','docs_count', 'oc_applications','documents_uploaded', 'documents_comment', 'society'));
     }
@@ -1656,9 +1664,9 @@ class SocietyOfferLetterController extends Controller
         $docs_uploaded_count = 0;
         $docs_count = 0;
         foreach($documents_master as $documents_key => $documents_val) {
-            if (in_array($documents_key + 1, $optional_docs) == false) {
+            if (in_array($documents_val->id, $optional_docs) == false) {
                 $docs_count++;
-                if (count($documents_val->documents_uploaded) > 0) {
+                if (count($documents_val->oc_documents_uploaded) > 0) {
                     $documents_uploaded[] = $documents_val->documents_uploaded;
                     $docs_uploaded_count++;
                 }
@@ -1670,7 +1678,7 @@ class SocietyOfferLetterController extends Controller
             $role_ids = Role::where('name','like', 'ee_junior_engineer')->orWhere('name','like', 'EM')->pluck('id')->toArray();
 
             $user_ids = RoleUser::whereIn('role_id', $role_ids)->get();
-            $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
+            $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
 
             foreach ($layout_user_ids as $key => $value) {
                 $select_user_ids[] = $value['user_id'];
@@ -1699,7 +1707,7 @@ class SocietyOfferLetterController extends Controller
                     'society_id' => $society->id,
                     'society_documents_comment' => 'N.A.',
                 );
-                OlSocietyDocumentsComment::create($add_comment);
+                OcSocietyDocumentsComment::create($add_comment);
             }
         }
         return redirect()->route('oc_documents_upload');
@@ -1871,7 +1879,8 @@ class SocietyOfferLetterController extends Controller
 
             $role_ids = Role::where('name','like', 'ee_junior_engineer')->orWhere('name','like', 'EM')->pluck('id')->toArray();
 
-            $user_ids = RoleUser::whereIn('role_id', $role_ids)->get();
+            $user_ids = RoleUser::whereIn('role_id', $role_ids)->get()->toArray();
+            $user_ids = array_column($user_ids, 'user_id');
             $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
 
             foreach ($layout_user_ids as $key => $value) {
@@ -1973,7 +1982,35 @@ class SocietyOfferLetterController extends Controller
         $id = $oc_application->application_master_id;
         $oc_applications = $oc_application;
 
-        return view('frontend.society.show_oc_application_form', compact('society_details', 'oc_applications', 'oc_application', 'layouts', 'id'));
+        $documents = OlSocietyDocumentsMaster::where('application_id', $oc_application->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($society){
+            $q->where('society_id', $society->id)->get();
+        }])->get();
+
+        if($oc_application->application_master_id == '5' || $oc_application->application_master_id == '16'){
+            $optional_docs = config('commanConfig.optional_docs_premium_oc');
+        }
+        if($oc_application->application_master_id == '11' || $oc_application->application_master_id == '22'){
+            $optional_docs = config('commanConfig.optional_docs_sharing_oc');
+        }
+
+        $docs_uploaded_count = 0;
+        $docs_count = 0;
+        foreach($documents as $documents_key => $documents_val){
+                if(in_array($documents_val->id, $optional_docs) == false){
+                    $docs_count++;
+                    if(count($documents_val->oc_documents_uploaded) > 0){
+                        $docs_uploaded_count++;
+                    }
+                }
+        }
+
+        $check_upload_avail = 0;
+        if($docs_uploaded_count >= $docs_count)
+        {
+            $check_upload_avail = 1;
+        }
+
+        return view('frontend.society.show_oc_application_form', compact('society_details', 'oc_applications', 'oc_application', 'layouts', 'id' , 'check_upload_avail'));
     }
 
     /**
@@ -2012,7 +2049,35 @@ class SocietyOfferLetterController extends Controller
         $id = $oc_application->application_master_id;
         $oc_applications = $oc_application;
 
-        return view('frontend.society.edit_oc_form', compact('society_details', 'oc_applications', 'oc_application', 'layouts', 'id'));
+        $documents = OlSocietyDocumentsMaster::where('application_id', $oc_application->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($society){
+            $q->where('society_id', $society->id)->get();
+        }])->get();
+
+        if($oc_application->application_master_id == '5' || $oc_application->application_master_id == '16'){
+            $optional_docs = config('commanConfig.optional_docs_premium_oc');
+        }
+        if($oc_application->application_master_id == '11' || $oc_application->application_master_id == '22'){
+            $optional_docs = config('commanConfig.optional_docs_sharing_oc');
+        }
+
+        $docs_uploaded_count = 0;
+        $docs_count = 0;
+        foreach($documents as $documents_key => $documents_val){
+                if(in_array($documents_val->id, $optional_docs) == false){
+                    $docs_count++;
+                    if(count($documents_val->oc_documents_uploaded) > 0){
+                        $docs_uploaded_count++;
+                    }
+                }
+        }
+
+        $check_upload_avail = 0;
+        if($docs_uploaded_count >= $docs_count)
+        {
+            $check_upload_avail = 1;
+        }
+
+        return view('frontend.society.edit_oc_form', compact('society_details', 'oc_applications', 'oc_application', 'layouts', 'id' , 'check_upload_avail'));
     }
 
     /**
@@ -2154,7 +2219,35 @@ class SocietyOfferLetterController extends Controller
         }])->orderBy('id', 'desc')->first();
         $oc_applications = $application_details;
 
-        return view('frontend.society.upload_download_oc_application_form', compact('oc_applications', 'application_details'));
+        $documents = OlSocietyDocumentsMaster::where('application_id', $application_details->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($society){
+            $q->where('society_id', $society->id)->get();
+        }])->get();
+
+        if($application_details->application_master_id == '5' || $application_details->application_master_id == '16'){
+            $optional_docs = config('commanConfig.optional_docs_premium_oc');
+        }
+        if($application_details->application_master_id == '11' || $application_details->application_master_id == '22'){
+            $optional_docs = config('commanConfig.optional_docs_sharing_oc');
+        }
+
+        $docs_uploaded_count = 0;
+        $docs_count = 0;
+        foreach($documents as $documents_key => $documents_val){
+                if(in_array($documents_val->id, $optional_docs) == false){
+                    $docs_count++;
+                    if(count($documents_val->oc_documents_uploaded) > 0){
+                        $docs_uploaded_count++;
+                    }
+                }
+        }
+
+        $check_upload_avail = 0;
+        if($docs_uploaded_count >= $docs_count)
+        {
+            $check_upload_avail = 1;
+        }
+
+        return view('frontend.society.upload_download_oc_application_form', compact('oc_applications', 'application_details','check_upload_avail'));
     }
 
     /**
@@ -2316,7 +2409,7 @@ class SocietyOfferLetterController extends Controller
     public function uploadOcAfterSign(Request $request){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $application_name = OcApplication::where('society_id', $society->id)->with('oc_application_master')->get();
-        $society_remark = OlSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id', 'desc')->first();
+        $society_remark = OcSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id', 'desc')->first();
         if($request->file('oc_application_form'))
         {
             $file = $request->file('oc_application_form');
@@ -2339,7 +2432,8 @@ class SocietyOfferLetterController extends Controller
                 $role_ids = Role::where('name','like', 'ee_junior_engineer')->orWhere('name','like', 'EM')->pluck('id')->toArray();
                 $application = OcApplication::where('society_id', $society->id)->where('id', $request->input('id'))->first();
 
-                $user_ids = RoleUser::whereIn('role_id', $role_ids)->get();
+                $user_ids = RoleUser::whereIn('role_id', $role_ids)->get()->toArray();
+                $user_ids = array_column($user_ids, 'user_id');
                 $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
 
                 foreach ($layout_user_ids as $key => $value) {
@@ -2359,6 +2453,7 @@ class SocietyOfferLetterController extends Controller
                         $insert_application_log_forwarded[$key]['to_user_id'] = $user->id;
                         $insert_application_log_forwarded[$key]['to_role_id'] = $user->role_id;
                         $insert_application_log_forwarded[$key]['remark'] = isset($society_remark->society_documents_comment) ? $society_remark->society_documents_comment : '' ;
+                        $insert_application_log_forwarded[$key]['is_active'] = 1;
                         $insert_application_log_forwarded[$key]['created_at'] = date('Y-m-d H-i-s');
                         $insert_application_log_forwarded[$key]['updated_at'] = date('Y-m-d H-i-s');
 
@@ -2367,9 +2462,10 @@ class SocietyOfferLetterController extends Controller
                         $insert_application_log_in_process[$key]['user_id'] = $user->id;
                         $insert_application_log_in_process[$key]['role_id'] = $user->role_id;
                         $insert_application_log_in_process[$key]['status_id'] = config('commanConfig.applicationStatus.in_process');
-                        $insert_application_log_in_process[$key]['to_user_id'] = 0;
-                        $insert_application_log_in_process[$key]['to_role_id'] = 0;
+                        $insert_application_log_in_process[$key]['to_user_id'] = null;
+                        $insert_application_log_in_process[$key]['to_role_id'] = null;
                         $insert_application_log_in_process[$key]['remark'] = isset($society_remark->society_documents_comment) ? $society_remark->society_documents_comment : '' ;
+                        $insert_application_log_in_process[$key]['is_active'] = 1;
                         $insert_application_log_in_process[$key]['created_at'] = date('Y-m-d H-i-s');
                         $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d H-i-s');
                         $i++;

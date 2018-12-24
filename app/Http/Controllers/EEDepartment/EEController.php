@@ -17,6 +17,10 @@ use App\OlSocietyDocumentsMaster;
 use App\OlSocietyDocumentsStatus;
 use App\OlTitBitVerificationDetails;
 use App\OlTitBitVerificationQuestionMaster;
+use App\OcApplication;
+use App\OcApplicationStatusLog;
+use App\OcSrutinyQuestionMaster;
+use App\OcEEScrutinyAnswer;
 use App\Role;
 use App\SocietyOfferLetter;
 use App\SocietyDetail;
@@ -115,6 +119,295 @@ class EEController extends Controller
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
         return view('admin.ee_department.index', compact('html','header_data','getData'));
+    }
+
+    public function consent_for_oc(Request $request, Datatables $datatables)
+    {
+        $getData = $request->all();
+
+        $columns = [
+            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
+            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
+            ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
+            ['data' => 'submitted_at','name' => 'submitted_at','title' => 'Date', 'class' => 'datatable-date'],
+            ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
+            ['data' => 'eeApplicationSociety.building_no', 'name' => 'eeApplicationSociety.building_no', 'title' => 'Building No'],
+            ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address','class' => 'datatable-address'],
+            ['data' => 'Model','name' => 'Model','title' => 'Model'],
+            ['data' => 'Status','name' => 'current_status_id','title' => 'Status'],
+            // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+        ];
+
+        if ($datatables->getRequest()->ajax()) {
+
+            $ee_application_data =  $this->comman->listApplicationDataOc($request);
+
+            return $datatables->of($ee_application_data)
+                ->editColumn('rownum', function ($listArray) {
+                    static $i = 0; $i++; return $i;
+                })
+                ->editColumn('radio', function ($ee_application_data) {
+                    $url = route('ee.view_oc_application', $ee_application_data->id);
+                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                })                
+                ->editColumn('eeApplicationSociety.name', function ($listArray) {
+                    return $listArray->eeApplicationSociety->name;
+                })
+                ->editColumn('eeApplicationSociety.building_no', function ($listArray) {
+                    return $listArray->eeApplicationSociety->building_no;
+                })
+                ->editColumn('eeApplicationSociety.address', function ($listArray) {
+                    return "<span>".$listArray->eeApplicationSociety->address."</span>";
+                })
+                ->editColumn('Status', function ($listArray) use ($request) {
+                    $status = $listArray->ocApplicationStatusForLoginListing[0]->status_id;
+                    // dd(config('commanConfig.applicationStatusColor.'.$status));
+                    if($request->update_status)
+                    {
+                        if($request->update_status == $status){
+                            $config_array = array_flip(config('commanConfig.applicationStatus'));
+                            $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                            return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
+                        }
+                    }else{
+                        $config_array = array_flip(config('commanConfig.applicationStatus'));
+                        $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                        return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
+                    }
+
+                })
+                ->editColumn('Model', function ($listArray) {
+                    return $listArray->oc_application_master->model;
+                })
+                ->editColumn('submitted_at', function ($listArray) {
+                    return date(config('commanConfig.dateFormat'), strtotime($listArray->submitted_at));
+                })
+                // ->editColumn('actions', function ($ee_application_data) use($request) {
+                //     return view('admin.ee_department.actions', compact('ee_application_data', 'request'))->render();
+                // })
+                ->rawColumns(['radio','society_name', 'society_building_no', 'society_address', 'Status', 'submitted_at','eeApplicationSociety.address'])
+                ->make(true);
+        }
+
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+
+        return view('admin.ee_department.oc_applications', compact('html','header_data','getData'));
+    }
+
+    public function viewOCApplication(Request $request, $applicationId)
+    {
+        $oc_application = $this->comman->downloadConsentforOc($applicationId);
+        $oc_application->folder = 'ee_department';
+        /*$oc_application->status = $this->comman->getCurrentStatus($applicationId);*/
+        return view('admin.common.consent_for_oc', compact('oc_application'));
+    }
+
+    public function societyDocumentsOC(Request $request,$applicationId)
+    {
+        $oc_application = $this->comman->getOcApplication($applicationId);    
+        $societyDocument = $this->comman->getSocietyDocumentsforOC($applicationId);
+        $oc_application->status = $this->comman->getCurrentStatusOc($applicationId);
+
+        return view('admin.ee_department.society_documents_consent_oc', compact('societyDocument','oc_application'));
+    }
+
+    public function scrutinyRemarkOcByEE($application_id)
+    {
+        $oc_application = $this->comman->getOcApplication($application_id);
+        $oc_application->status = $this->comman->getCurrentStatusOc($application_id);
+
+        $application_master_id = OcApplication::where('society_id', $oc_application->eeApplicationSociety->id)->value('application_master_id');
+
+        $arrData['society_detail'] = OcApplication::with('eeApplicationSociety')->where('id', $application_id)->first();
+
+        $arrData['scrutiny_questions_oc'] = OcSrutinyQuestionMaster::all();
+
+        $arrData['scrutiny_answers_to_questions'] = OcEEScrutinyAnswer::where('application_id', $application_id)->get()->keyBy('question_id')->toArray();
+/*
+        // EE Note download
+
+        $arrData['eeNote'] = EENote::where('application_id', $application_id)->orderBy('id', 'desc')->first();
+
+        // Get Application last Status
+        // dd($arrData);*/
+        $arrData['get_last_status'] = OcApplicationStatusLog::where([
+                'application_id' =>  $application_id,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id')
+            ])->orderBy('id', 'desc')->first();
+
+        return view('admin.ee_department.scrutiny-remark-oc', compact('arrData','oc_application'));
+    }
+
+    public function oCScrutinyVerification(Request $request)
+    {
+
+        OcEEScrutinyAnswer::where('application_id', $request->application_id)->delete();
+
+
+        foreach($request->question_id as $key => $consent_data) {
+            $oc_verification_answers[] = [
+                'application_id' => $request->application_id,
+                'society_id' => $request->society_id,
+                'user_id' => Auth::user()->id,
+                'question_id' => isset($request->question_id[$key]) ? $request->question_id[$key] : NULL,
+                'answer' => isset($request->answer[$key]) ? $request->answer[$key] : NULL,
+                'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL
+            ];
+        }
+        // insert into ol_consent_verification_details table
+
+        OcEEScrutinyAnswer::insert($oc_verification_answers);
+
+        OcApplication::where('id',$request->application_id)->update(["ee_scrutiny_completed" => 1 , "ee_additional_remarks" => $request->ee_additional_remarks]);
+
+        return redirect()->back()->with('success', 'Answers for scrutiny questions has been successfully submitted.');
+    }
+
+    public function uploadOfficeNoteOcEE(Request $request){
+        $applicationId   = $request->application_id;
+        $uploadPath      = '/uploads/ee_office_note_oc';
+        $destinationPath = public_path($uploadPath);
+
+        if ($request->file('ee_office_note_oc')){
+
+            $file = $request->file('ee_office_note_oc');
+            $extension = $file->getClientOriginalExtension();
+            $file_name = time().'ee_office_note_oc.'.$extension;
+            $folder_name = "ee_office_note_oc";
+            $path = $folder_name."/".$file_name;
+
+            if($extension == "pdf") {
+
+                $fileUpload = $this->comman->ftpFileUpload($folder_name,$request->file('ee_office_note_oc'),$file_name);
+
+                OcApplication::where('id',$applicationId)->update(["ee_office_note_oc" => $path]);
+
+                return back()->with('success', 'Office Note has been uploaded successfully');
+            }
+            else
+            {
+                return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
+            }
+        }
+    }
+
+    public function forwardApplicationOcEE(Request $request, $applicationId){
+
+        $oc_application = $this->comman->getOcApplication($applicationId);
+        $oc_application->model = OcApplication::with(['oc_application_master'])->where('id',$applicationId)->first();
+        $applicationData = $this->comman->getForwardOcApplication($applicationId);
+
+        $parentData = $this->comman->getForwardApplicationParentData();
+        $arrData['parentData'] = $parentData['parentData'];
+        $arrData['role_name'] = $parentData['role_name'];
+
+        if(session()->get('role_name') != config('commanConfig.ee_junior_engineer'))
+        $arrData['application_status'] = $this->comman->getCurrentLoggedInChildOc($applicationId);
+
+        $arrData['get_current_status'] = $this->comman->getCurrentStatusOc($applicationId);
+
+        // REE junior Forward Application
+
+        $ree_jr_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
+
+        $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                                ->where('lu.layout_id', session()->get('layout_id'))
+                                ->where('role_id', $ree_jr_id->id)->get();
+        $arrData['ree_junior_name'] = strtoupper(str_replace('_', ' ', $ree_jr_id->name));
+
+        //remark and history
+        $eelogs   = $this->comman->getLogsOfEEDepartmentforOc($applicationId);
+        $emlogs   = $this->comman->getLogsOfEMforOc($applicationId);
+        $reeLogs  = $this->comman->getLogsOfREEDepartmentForOc($applicationId); 
+        $coLogs   = $this->comman->getLogsOfCODepartmentForOc($applicationId); 
+
+          // dd($ol_application->offer_letter_document_path);
+        return view('admin.ee_department.forward_application_oc',compact('applicationData','arrData','oc_application','reeLogs','coLogs','eelogs','emlogs'));  
+    }
+
+    function sendForwardOcApplication(Request $request)
+    {
+        if($request->check_status == 1) {
+            $forward_application = [[
+                'application_id' => $request->applicationId,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id'),
+                'status_id' => config('commanConfig.applicationStatus.forwarded'),
+                'to_user_id' => $request->to_user_id,
+                'to_role_id' => $request->to_role_id,
+                'remark' => $request->remark,
+                'is_active' => 1,
+                'created_at' => Carbon::now()
+            ],
+
+            [
+                'application_id' => $request->applicationId,
+                'user_id' => $request->to_user_id,
+                'role_id' => $request->to_role_id,
+                'status_id' => config('commanConfig.applicationStatus.in_process'),
+                'to_user_id' => NULL,
+                'to_role_id' => NULL,
+                'remark' => $request->remark,
+                'is_active' => 1,
+                'created_at' => Carbon::now()
+            ]
+            ];
+
+            DB::beginTransaction();
+            try {
+                OcApplicationStatusLog::where('application_id',$request->applicationId)
+                    ->update(array('is_active' => 0));
+
+                OcApplicationStatusLog::insert($forward_application);
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+            }
+        }else{
+            $revert_application = [
+                    [
+                        'application_id' => $request->applicationId,
+                        'user_id' => Auth::user()->id,
+                        'role_id' => session()->get('role_id'),
+                        'society_flag' => 0,
+                        'status_id' => config('commanConfig.applicationStatus.reverted'),
+                        'to_user_id' => $request->to_child_id,
+                        'to_role_id' => $request->to_role_id,
+                        'remark' => $request->remark,
+                        'is_active' => 1,
+                        'created_at' => Carbon::now()
+                    ],
+
+                    [
+                        'application_id' => $request->applicationId,
+                        'user_id' => $request->to_child_id,
+                        'role_id' => $request->to_role_id,
+                        'society_flag' => $request->society_flag,
+                         'status_id' => config('commanConfig.applicationStatus.in_process'),                         
+                        'to_user_id' => NULL,
+                        'to_role_id' => NULL,
+                        'remark' => $request->remark,
+                        'is_active' => 1,
+                        'created_at' => Carbon::now()
+                    ]
+                ];
+
+            DB::beginTransaction();
+            try {
+                OcApplicationStatusLog::where('application_id',$request->applicationId)
+                    ->update(array('is_active' => 0));
+
+                OcApplicationStatusLog::insert($revert_application);
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+            }
+        }
+
+        return redirect('/consentoc_ee')->with('success','Application send successfully.');
     }
 
     protected function getParameters() {

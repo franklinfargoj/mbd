@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\REEDepartment;
 
-use App\REENote;
+use App\REENote; 
 use App\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -19,10 +19,15 @@ use App\OlDemarcationVerificationDetails;
 use App\OlTitBitVerificationDetails;
 use App\OlRelocationVerificationDetails;
 use App\OlApplicationCalculationSheetDetails;
+use App\OlFsiCalculationSheet;
 use App\OlCustomCalculationMasterModel;
 use App\OlCustomCalculationSheet;
 use App\OlChecklistScrutiny;
 use App\OlApplicationStatus;
+use App\OcApplication;
+use App\OcApplicationStatusLog;
+use App\OcSrutinyQuestionMaster;
+use App\OcEEScrutinyAnswer;
 use App\NocApplicationStatus;
 use App\NocCCApplicationStatus;
 use App\NocSrutinyQuestionMaster;
@@ -2049,18 +2054,399 @@ class REEController extends Controller
         return $dashboardData;
     }
 
-    //calculation sheet for 2.5 FSI
+    public function consentforOCApplicationList(Request $request, Datatables $datatables)
+    {
+        $getData = $request->all();
+        $columns = [
+            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
+            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
+            ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
+            ['data' => 'date','name' => 'date','title' => 'Date', 'class' => 'datatable-date'],
+            ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
+            ['data' => 'eeApplicationSociety.building_no','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
+            ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address','class' => 'datatable-address', 'searchable' => false],
+            ['data' => 'Model','name' => 'Model','title' => 'Model'],
+            ['data' => 'Status','name' => 'Status','title' => 'Status'],
+        ];
+
+        if ($datatables->getRequest()->ajax()) {
+            $oc_application_data = $this->CommonController->listApplicationDataOc($request);
+              
+            return $datatables->of($oc_application_data)
+                ->editColumn('rownum', function ($listArray) {
+                     static $i = 0; $i++; return $i;
+                })
+            ->editColumn('radio', function ($oc_application_data) {
+                $url = route('ree.view_application_consent_oc', $oc_application_data->id);
+                return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+            })            
+            ->editColumn('eeApplicationSociety.name', function ($oc_application_data) {
+                return $oc_application_data->eeApplicationSociety->name;
+            })
+            ->editColumn('eeApplicationSociety.building_no', function ($oc_application_data) {
+                return $oc_application_data->eeApplicationSociety->building_no;
+            })
+            ->editColumn('eeApplicationSociety.address', function ($oc_application_data) {
+                return "<span>".$oc_application_data->eeApplicationSociety->address."</span>";
+            })                
+            ->editColumn('date', function ($oc_application_data) {
+                return date(config('commanConfig.dateFormat'), strtotime($oc_application_data->submitted_at));
+            })
+            // ->editColumn('actions', function ($ree_application_data) use($request){
+            //    return view('admin.REE_department.action', compact('ree_application_data', 'request'))->render();
+            // }) 
+            ->editColumn('Status', function ($listArray) use ($request) {
+                $status = $listArray->ocApplicationStatusForLoginListing[0]->status_id;
+
+                if ($request->update_status)
+                {
+                    if ($request->update_status == $status){
+                        $config_array = array_flip(config('commanConfig.applicationStatus'));
+                        $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                        return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
+                    }
+                }else{
+                    $config_array = array_flip(config('commanConfig.applicationStatus'));
+                    $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                    return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
+                }
+
+            })
+           ->editColumn('Model', function ($oc_application_data) {
+                    return $oc_application_data->oc_application_master->model;
+                })
+            ->rawColumns(['radio','society_name', 'building_name', 'society_address','date','Status','eeApplicationSociety.address'])
+            ->make(true);
+        }        
+            $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+            
+        return view('admin.REE_department.oc_list', compact('html','header_data','getData')); 
+    }
+
+    public function viewApplicationConsentOc(Request $request, $applicationId)
+    {
+        $oc_application = $this->CommonController->downloadConsentforOc($applicationId);
+        $oc_application->folder = 'REE_department';
+        /*$oc_application->status = $this->comman->getCurrentStatus($applicationId);*/
+        return view('admin.common.consent_for_oc', compact('oc_application'));
+    }
+
+    public function societyOcDocuments(Request $request,$applicationId)
+    {
+        $oc_application = $this->CommonController->getOcApplication($applicationId);    
+        $societyDocument = $this->CommonController->getSocietyDocumentsforOC($applicationId);
+        $oc_application->status = $this->CommonController->getCurrentStatusOc($applicationId);
+
+        return view('admin.REE_department.society_documents_consent_oc', compact('societyDocument','oc_application'));
+    }
+
+    public function viewEMScrutinyOc($applicationId)
+    {
+        $oc_application = $this->CommonController->getOcApplication($applicationId);
+        $oc_application->status = $this->CommonController->getCurrentStatusOc($applicationId);
+
+        $application_master_id = OcApplication::where('society_id', $oc_application->eeApplicationSociety->id)->value('application_master_id');
+
+        $arrData['society_detail'] = OcApplication::with('eeApplicationSociety')->where('id', $applicationId)->first();
+
+        $arrData['get_last_status'] = OcApplicationStatusLog::where([
+                'application_id' =>  $applicationId,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id')
+            ])->orderBy('id', 'desc')->first();
+
+        return view('admin.REE_department.view_em_scrutiny', compact('arrData','oc_application'));
+    }
+
+    public function viewEEScrutinyOc($applicationId)
+    {
+        $oc_application = $this->CommonController->getOcApplication($applicationId);
+        $oc_application->status = $this->CommonController->getCurrentStatusOc($applicationId);
+
+        $application_master_id = OcApplication::where('society_id', $oc_application->eeApplicationSociety->id)->value('application_master_id');
+
+        $arrData['society_detail'] = OcApplication::with('eeApplicationSociety')->where('id', $applicationId)->first();
+
+        $arrData['scrutiny_questions_oc'] = OcSrutinyQuestionMaster::all();
+
+        $arrData['scrutiny_answers_to_questions'] = OcEEScrutinyAnswer::where('application_id', $applicationId)->get()->keyBy('question_id')->toArray();
+
+        $arrData['get_last_status'] = OcApplicationStatusLog::where([
+                'application_id' =>  $applicationId,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id')
+            ])->orderBy('id', 'desc')->first();
+
+        return view('admin.REE_department.ee_scrutiny_oc_ree', compact('arrData','oc_application'));
+    }
+
+    function generateOccertificate($applicationId)
+    {
+        $oc_application = $this->CommonController->getOcApplication($applicationId);
+        $oc_application->model = OcApplication::with(['oc_application_master'])->where('id',$applicationId)->first();
+        $applicationLog = $this->CommonController->getCurrentStatusOc($applicationId);
+        $societyData = OcApplication::with(['eeApplicationSociety'])
+                ->where('id',$applicationId)->orderBy('id','DESC')->first();
+
+        $societyData->ree_Jr_id = (session()->get('role_name') == config('commanConfig.ree_junior')); 
+        $societyData->ree_branch_head = (session()->get('role_name') == config('commanConfig.ree_branch_head')); 
+
+        //$societyData->drafted_offer_letter = OlApplication::where('id',$applicationId)->value('drafted_offer_letter');   
+      
+        return view('admin.REE_department.generate-consent-oc',compact('societyData','oc_application','applicationLog'));
+    }
+
+    public function createEditConsentOc(Request $request,$applicatonId){
+        
+        $model = OcApplication::with('oc_application_master','eeApplicationSociety','request_form')->where('id',$applicatonId)->first();
+
+        $blade =  "oc_draft_copy";
+
+        if($model->text_oc){
+
+            $content = Storage::disk('ftp')->get($model->text_oc); 
+                   
+        }else{
+           $content = ""; 
+        }
+
+        return view('admin.REE_department.'.$blade,compact('applicatonId','content','model'));
+    }
+
+    public function saveDraftConsentOc(Request $request){
+
+        $oc_application = $this->CommonController->getOcApplication($request->applicationId);
+
+        $id = $request->applicationId;
+        $content = str_replace('_', "", $_POST['ckeditorText']);
+        $folder_name = 'Draft_consent_oc';
+
+        /*$header_file = view('admin.REE_department.offer_letter_header');        
+        $footer_file = view('admin.REE_department.offer_letter_footer');*/
+        $header_file = '';
+        $footer_file = '';
+
+        $pdf = new Mpdf();
+        $pdf->autoScriptToLang = true;
+        $pdf->autoLangToFont = true; 
+
+        $pdf->WriteHTML($content);
+
+        $fileName = time().'draft_consent_oc_'.$id.'.pdf';
+        $filePath = $folder_name."/".$fileName;
+
+        if (!(Storage::disk('ftp')->has($folder_name))) {            
+            Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
+        } 
+        Storage::disk('ftp')->put($filePath, $pdf->Output($fileName, 'S'));
+        //$file = $pdf->output();
+
+        $folder_name1 = 'text_consent_oc';
+
+        if (!(Storage::disk('ftp')->has($folder_name1))) {            
+            Storage::disk('ftp')->makeDirectory($folder_name1, $mode = 0777, true, true);
+        }        
+        $file_nm =  time()."text_consent_oc".$id.'.txt';
+        $filePath1 = $folder_name1."/".$file_nm;
+
+        Storage::disk('ftp')->put($filePath1, $content);
+
+        OcApplication::where('id',$request->applicationId)->update(["drafted_oc" => $filePath, "text_oc" => $filePath1]);
+
+        \Session::flash('success_msg', 'Changes in OC draft has been saved successfully..');
+
+        if((session()->get('role_name') == config('commanConfig.ree_junior')) && !empty($oc_application->oc_path) && ($oc_application->is_approve_oc == 1))
+        {
+            return redirect('approved_oc_letter/'.$request->applicationId)->with('success', 'Changes in OC has been incorporated successfully.');
+        }
+
+        return redirect('generate_oc_certificate/'.$request->applicationId);
+    }
+
+    public function uploadDraftConsentforOc(Request $request,$applicationId){
+        
+        if ($request->file('oc_letter')) {
+            $file = $request->file('oc_letter');
+            $extension = $file->getClientOriginalExtension();
+            $file_name = time().'_uploaded_oc_'.$applicationId.'.'.$extension;
+            $folder_name = "uploaded_oc";
+
+            if ($extension == "pdf") {
+
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('oc_letter'),$file_name);
+
+                    $draftNocPath = $folder_name."/".$file_name; 
+                    OcApplication::where('id',$applicationId)->update(["oc_path" => $draftNocPath]);
+
+                    return redirect()->back()->with('success', 'Draft copy of OC has been uploaded successfully.');
+            } else {
+                return redirect()->back()->with('error', 'Invalid format. pdf file only.');
+            }
+        }       
+    }
+
+    public function uploadNoteConsentOC($application_id)
+    {
+        $oc_application = $this->CommonController->getOcApplication($application_id);
+        $oc_application->status = $this->CommonController->getCurrentStatusOc($application_id);
+
+        $application_master_id = OcApplication::where('society_id', $oc_application->eeApplicationSociety->id)->value('application_master_id');
+
+        $arrData['society_detail'] = OcApplication::with('eeApplicationSociety')->where('id', $application_id)->first();
+
+        $arrData['get_last_status'] = OcApplicationStatusLog::where([
+                'application_id' =>  $application_id,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id')
+            ])->orderBy('id', 'desc')->first();
+
+        return view('admin.REE_department.ree-note_consent_oc', compact('arrData','oc_application'));
+    }
+
+    public function uploadOfficeNoteConsentOCRee(Request $request){
+        $applicationId   = $request->application_id;
+        $uploadPath      = '/uploads/ree_office_note_oc';
+        $destinationPath = public_path($uploadPath);
+
+        if ($request->file('ree_office_note_oc')){
+
+            $file = $request->file('ree_office_note_oc');
+            $extension = $file->getClientOriginalExtension();
+            $file_name = time().'ree_office_note_oc.'.$extension;
+            $folder_name = "ree_office_note_oc";
+            $path = $folder_name."/".$file_name;
+
+            if($extension == "pdf") {
+
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('ree_office_note_oc'),$file_name);
+
+                OcApplication::where('id',$applicationId)->update(["ree_office_note_oc" => $path]);
+
+                return back()->with('success', 'Office Note has been uploaded successfully');
+            }
+            else
+            {
+                return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
+            }
+        }
+    }
+
+    public function forwardApplicationConsentOc(Request $request, $applicationId){
+
+        $oc_application = $this->CommonController->getOcApplication($applicationId);
+        $oc_application->model = OcApplication::with(['oc_application_master'])->where('id',$applicationId)->first();
+        $applicationData = $this->CommonController->getForwardOcApplication($applicationId);
+
+        $parentData = $this->CommonController->getForwardApplicationParentData();
+        $arrData['parentData'] = $parentData['parentData'];
+        $arrData['role_name'] = $parentData['role_name'];
+
+        if(session()->get('role_name') != config('commanConfig.ree_junior'))
+        $arrData['application_status'] = $this->CommonController->getCurrentLoggedInChildOc($applicationId);
+
+        $arrData['get_current_status'] = $this->CommonController->getCurrentStatusOc($applicationId);
+
+        // CO Forward Application
+
+        $co_id = Role::where('name', '=', config('commanConfig.co_engineer'))->first();
+        if($arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.OC_Approved'))
+        {
+            $arrData['get_forward_co'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                                ->where('lu.layout_id', session()->get('layout_id'))
+                                ->where('role_id', $co_id->id)->get();
+            $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
+        }
+
+        //remark and history
+        $eelogs   = $this->CommonController->getLogsOfEEDepartmentforOc($applicationId);
+        $emlogs   = $this->CommonController->getLogsOfEMforOc($applicationId);
+        $reeLogs  = $this->CommonController->getLogsOfREEDepartmentForOc($applicationId); 
+        $coLogs   = $this->CommonController->getLogsOfCODepartmentForOc($applicationId);  
+
+          // dd($ol_application->offer_letter_document_path);
+        return view('admin.REE_department.forward_application_oc',compact('applicationData','arrData','oc_application','reeLogs','coLogs','eelogs','emlogs'));  
+    }
+
+    public function sendForwardConsentOcApplication(Request $request){
+
+        $oc_application = $this->CommonController->getOcApplication($request->applicationId);
+
+        $arrData['get_current_status'] = $this->CommonController->getCurrentStatusOc($request->applicationId);
+
+        if(session()->get('role_name') == config('commanConfig.ree_junior') && $oc_application->OC_Generation_status == 0 && !empty($oc_application->oc_path))
+        {
+            OcApplication::where('id',$request->applicationId)->update(["OC_Generation_status" => config('commanConfig.applicationStatus.OC_Generation')]);
+
+            $oc_application = $this->CommonController->getOcApplication($request->applicationId);
+        }
+
+        if($oc_application->OC_Generation_status == '0' && (session()->get('role_name') == config('commanConfig.ree_branch_head')) && empty($oc_application->final_draft_noc_path) && $request['remarks_suggestion'] == 1)
+        {
+            $this->CommonController->revertOcApplicationToSociety($request);
+        }
+        elseif($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.OC_Generation') || ($oc_application->OC_Generation_status == config('commanConfig.applicationStatus.OC_Generation') && session()->get('role_name') == config('commanConfig.ree_junior')))
+        {
+            $this->CommonController->generateOcREE($request);
+        }
+        elseif($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.OC_Approved'))
+        {
+             $this->CommonController->forwardApprovedOcApplication($request);
+        }
+        else
+        {
+            $this->CommonController->forwardOcApplicationForm($request);
+        }
+
+        return redirect('/ree_oc_applications')->with('success','Application send successfully.');
+
+    }
+
+    public function approvedConsentOcletter(Request $request,$applicationId){
+
+        $ree_head = session()->get('role_name') == config('commanConfig.ree_branch_head'); 
+        $oc_application = $this->CommonController->getOcApplication($applicationId);
+        $oc_application->model = OcApplication::with(['oc_application_master'])->where('id',$applicationId)->first();
+        $applicationData = OcApplication::with(['eeApplicationSociety'])
+                ->where('id',$applicationId)->orderBy('id','DESC')->first();
+
+        $applicationData->ree_Jr_id = (session()->get('role_name') == config('commanConfig.ree_junior'));
+
+        $this->CommonController->getREEForwardRevertLogOc($applicationData,$applicationId); 
+       
+       // get Co log
+        $co = Role::where('name',config('commanConfig.co_engineer'))->value('id');
+        $applicationData->coLog = OcApplicationStatusLog::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();   
+
+        return view('admin.REE_department.approved_oc_cert',compact('applicationData','oc_application','ree_head'));
+    }
+
+    public function sendissuedOcToSociety(Request $request){
+
+        $this->CommonController->forwardOcApplicationToSociety($request);
+        return redirect('/ree_oc_applications')->with('success','Issued Consent for OC has been successfully sent to society.');
+        
+    }
+
+        //calculation sheet for 2.5 FSI
     public function fsiCalculationSheet(Request $request,$applicationId){
 
         $applicationId = decrypt($applicationId); 
         $user = Auth::user();
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
-        $calculationSheetDetails = OlApplicationCalculationSheetDetails::where('application_id','=',$applicationId)->get();
+        $calculationSheetDetails = OlFsiCalculationSheet::where('application_id','=',$applicationId)->get();
         $dcr_rates = OlDcrRateMaster::all();
         $arrData['reeNote'] = REENote::where('application_id', $applicationId)->orderBy('id', 'desc')
                             ->first();
 
         return view('admin.REE_department.fsi_calculation_sheet',compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));                    
+    }
+
+    public function saveFsiCalculationData(Request $request){
+        // dd($request);
+        $applicationId = $request->get('application_id'); 
+        OlFsiCalculationSheet::updateOrCreate(['application_id'=>$applicationId],$request->all());
+        $id = encrypt($request->get('application_id'));
+        return redirect("fsi_calculation_application/" . $id."#".$request->get('redirect_tab'));
     }
 }
