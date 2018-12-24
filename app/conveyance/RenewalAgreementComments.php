@@ -8,6 +8,13 @@ class RenewalAgreementComments extends Model
 {
 	protected $table = 'renewal_agreement_comments';
 	public $timestamps = true;
+    protected $fillable = [
+        'application_id',
+        'user_id',
+        'role_id',
+        'agreement_type_id',
+        'remark'
+    ];
 
     public function Roles()
     {
