@@ -55,7 +55,7 @@
                 @if($dashboardData1)
                     <div class="row no-gutters hearing-row">
                         <div class="col-12 no-shadow">
-                            <div class="app-card-section-title">Offer Letter</div>
+                            <div class="app-card-section-title">Offer Letter Subordinate Pendency</div>
                         </div>
                         @foreach($dashboardData1 as $header => $value)
                             <div class="col-lg-3">
@@ -120,7 +120,7 @@
                      data-parent="#accordion">
                     <div class="row no-gutters hearing-row">
                         <div class="col-12 no-shadow">
-                            <div class="app-card-section-title">Offer Letter</div>
+                            <div class="app-card-section-title">NOC</div>
                         </div>
                         @php $noc_chart = 0;@endphp
                         @foreach($nocApplication['app_data'] as $header => $value)
@@ -142,7 +142,7 @@
                     @if($nocApplication['pending_data'])
                     <div class="row no-gutters hearing-row">
                         <div class="col-12 no-shadow">
-                            <div class="app-card-section-title">Offer Letter</div>
+                            <div class="app-card-section-title">NOC Subordinate Pendency</div>
                         </div>
                         @foreach($nocApplication['pending_data'] as $pending_label => $pending_count)
                             <div class="col-lg-3">
@@ -174,7 +174,7 @@
                      data-parent="#accordion">
                     <div class="row no-gutters hearing-row">
                         <div class="col-12 no-shadow">
-                            <div class="app-card-section-title">Offer Letter</div>
+                            <div class="app-card-section-title">NOC (CC)</div>
                         </div>
                         @php $noc_cc_chart = 0;@endphp
                         @foreach($nocforCCApplication['app_data'] as $header => $value)
@@ -196,7 +196,7 @@
                     @if($nocforCCApplication['pending_data'])
                     <div class="row no-gutters hearing-row">
                         <div class="col-12 no-shadow">
-                            <div class="app-card-section-title">Offer Letter</div>
+                            <div class="app-card-section-title">NOC (CC) Subordinate Pendency</div>
                         </div>
                         @foreach($nocforCCApplication['pending_data'] as $pending_label => $pending_count)
                             <div class="col-lg-3">

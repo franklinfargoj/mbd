@@ -48,7 +48,7 @@
             @endif @if($dashboardData1)
             <div class="row no-gutters hearing-row">
                 <div class="col-12 no-shadow">
-                    <div class="app-card-section-title">Offer Letter</div>
+                    <div class="app-card-section-title">Offer Letter Subordinate Pendency</div>
                 </div>
                 @foreach($dashboardData1 as $header => $value)
                 <div class="col-lg-3">
@@ -84,7 +84,7 @@
                         data-parent="#accordion">
                         <div class="row no-gutters hearing-row">
                             <div class="col-12 no-shadow">
-                                <div class="app-card-section-title">Offer Letter</div>
+                                <div class="app-card-section-title">Society Conveyance</div>
                             </div>
                             @foreach($conveyanceDashboard[0] as $header => $value)
                             <div class="col-lg-3">
@@ -134,7 +134,7 @@
                         data-parent="#accordion">
                         <div class="row no-gutters hearing-row">
                             <div class="col-12 no-shadow">
-                                <div class="app-card-section-title">Offer Letter</div>
+                                <div class="app-card-section-title">Society Renewal</div>
                             </div>
                             @foreach($renewalDashboard[0] as $header => $value)
                             <div class="col-lg-3">
