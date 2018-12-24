@@ -36,6 +36,7 @@ class PrePostScheduleController extends Controller
      */
     public function create($id)
     {
+        $id = decrypt($id);
         $header_data = $this->header_data;
 //        $arrData['schedule_hearing_data'] = Hearing::with('hearingSchedule')->where('id', $id)->first();
         $arrData['hearing_data'] = Hearing::with(['hearingStatus', 'hearingPrePostSchedule', 'hearingApplicationType', 'hearingStatusLog' => function($q){
@@ -118,6 +119,7 @@ class PrePostScheduleController extends Controller
      */
     public function edit($id)
     {
+        $id = decrypt($id);
         $header_data = $this->header_data;
 //        $arrData['schedule_prepost_data'] = PrePostSchedule::FindOrFail($id);
         $arrData['schedule_prepost_data'] = Hearing::with(['hearingSchedule.prePostSchedule'])->where('id', $id)->first();
