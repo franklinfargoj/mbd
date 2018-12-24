@@ -51,8 +51,14 @@ class SocietyConveyanceDocumentMaster extends Model
 
     public function sr_document_status()
     {
-        return $this->hasOne(\App\conveyance\RenewalDocumentStatus::class, 'document_id','id');
+        return $this->hasOne(\App\conveyance\RenewalDocumentStatus::class, 'document_id','id')->orderBy('id', 'desc');
     }
+
+    public function sr_agreement_document_status()
+    {
+        return $this->hasMany(\App\conveyance\RenewalDocumentStatus::class, 'document_id','id');
+    }
+
     public function sf_document_status()
     {
         return $this->hasOne(\App\conveyance\SfDocumentStatus::class, 'document_id','id');

@@ -899,7 +899,7 @@ class renewalCommonController extends Controller
     // get document id as per document name
     public function getDocumentIds($documentNames,$type){
 
-        $typeId = SocietyConveyanceDocumentMaster::with(['sr_document_status'])->whereIn('document_name',$documentNames)->where('application_type_id',$type)->get();
+        $typeId = SocietyConveyanceDocumentMaster::with(['sr_document_status', 'sr_agreement_document_status'])->whereIn('document_name',$documentNames)->where('application_type_id',$type)->get();
         return $typeId;
     }
 
