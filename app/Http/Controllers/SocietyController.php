@@ -453,6 +453,7 @@ class SocietyController extends Controller
      */
     public function show($id)
     {
+        $id = decrypt($id);
         $villages_belongs=array();
         $header_data = $this->header_data;
         $arrData['other_land'] = OtherLand::where('status', 1)->get();
@@ -476,6 +477,7 @@ class SocietyController extends Controller
      */
     public function edit($id)
     {
+        $id = decrypt($id);
         $villages_belongs=array();
         $header_data = $this->header_data;
         $arrData['other_land'] = OtherLand::where('status', 1)->get();

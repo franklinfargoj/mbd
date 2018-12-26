@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\REEDepartment;
 
-use App\REENote;
+use App\REENote; 
 use App\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -19,6 +19,7 @@ use App\OlDemarcationVerificationDetails;
 use App\OlTitBitVerificationDetails;
 use App\OlRelocationVerificationDetails;
 use App\OlApplicationCalculationSheetDetails;
+use App\OlFsiCalculationSheet;
 use App\OlCustomCalculationMasterModel;
 use App\OlCustomCalculationSheet;
 use App\OlChecklistScrutiny;
@@ -33,6 +34,7 @@ use App\NocSrutinyQuestionMaster;
 use App\NocReeScrutinyAnswer;
 use App\Http\Controllers\SocietyNocController;
 use App\Http\Controllers\SocietyNocforCCController;
+use App\OlDcrRateMaster;
 use App\User;
 use Config;
 use Auth;
@@ -2425,5 +2427,26 @@ class REEController extends Controller
         
     }
 
+        //calculation sheet for 2.5 FSI
+    public function fsiCalculationSheet(Request $request,$applicationId){
 
+        $applicationId = decrypt($applicationId); 
+        $user = Auth::user();
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+        $calculationSheetDetails = OlFsiCalculationSheet::where('application_id','=',$applicationId)->get();
+        $dcr_rates = OlDcrRateMaster::all();
+        $arrData['reeNote'] = REENote::where('application_id', $applicationId)->orderBy('id', 'desc')
+                            ->first();
+
+        return view('admin.REE_department.fsi_calculation_sheet',compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));                    
+    }
+
+    public function saveFsiCalculationData(Request $request){
+        // dd($request);
+        $applicationId = $request->get('application_id'); 
+        OlFsiCalculationSheet::updateOrCreate(['application_id'=>$applicationId],$request->all());
+        $id = encrypt($request->get('application_id'));
+        return redirect("fsi_calculation_application/" . $id."#".$request->get('redirect_tab'));
+    }
 }

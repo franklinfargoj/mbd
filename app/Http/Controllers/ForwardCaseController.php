@@ -22,6 +22,7 @@ class ForwardCaseController extends Controller
 
     public function create($id)
     {
+        $id = decrypt($id);
         $header_data = $this->header_data;
         $arrData['hearing'] = Hearing::with(['hearingBoard', 'hearingDepartment'])
                                         ->where('id', $id)->first();
@@ -120,6 +121,7 @@ class ForwardCaseController extends Controller
 
     public function edit($id)
     {
+        $id = decrypt($id);
         $header_data = $this->header_data;
         $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingForwardCase' => function($q){
             $q->orderBy('created_at', 'desc');
@@ -157,6 +159,7 @@ class ForwardCaseController extends Controller
     }
 
     public function show($id){
+        $id = decrypt($id);
         $header_data = $this->header_data;
         $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingForwardCase' => function($q){
             $q->orderBy('created_at', 'desc');

@@ -158,7 +158,7 @@ class HearingController extends Controller
             }
             return $datatables->of($listArray)
                 ->editColumn('radio', function ($hearing_data) {
-                    $url = route('hearing.show', $hearing_data->id);
+                    $url = route('hearing.show', encrypt($hearing_data->id));
                     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })
                 ->editColumn('rownum', function ($hearing_data) {
@@ -315,6 +315,7 @@ class HearingController extends Controller
 //        $config_array = array_flip(config('commanConfig.hearingStatus'));
 //        $status_value = ucwords(str_replace('_', ' ', $config_array[$status]));
 //        dd($value);
+        $id = decrypt($id);
         $header_data = $this->header_data;
         $arrData['hearing'] = Hearing::FindOrFail($id);
         $arrData['application_type'] = ApplicationType::all();
@@ -334,6 +335,7 @@ class HearingController extends Controller
      */
     public function edit($id)
     {
+        $id = decrypt($id);
         $header_data = $this->header_data;
         $arrData['hearing'] = Hearing::FindOrFail($id);
         $arrData['application_type'] = ApplicationType::all();
@@ -404,7 +406,6 @@ class HearingController extends Controller
     public function destroy(Request $request, $id)
     {
         $hearing = Hearing::findOrFail($id);
-
         $hearing->delete();
         DeletedHearing::create([
             'hearing_id' => $id,
@@ -416,7 +417,7 @@ class HearingController extends Controller
             'delete_reason' => $request->delete_reason,
         ]);
 
-        return redirect()->back()->with(['success'=> 'Record deleted succesfully']);
+        return redirect('hearing')->with(['success'=> 'Record deleted succesfully']);
     }
 
     public function loadDeleteReasonOfHearingUsingAjax(Request $request)

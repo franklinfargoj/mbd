@@ -110,7 +110,7 @@
                             <div class="col-sm-4">
                                 <div class="btn-list">
                                     <button type="submit" id="add_lease" class="btn btn-primary">Save</button>
-                                    <a href="{{url('/lease_detail/'.$id)}}" class="btn btn-secondary">Cancel</a>
+                                    <a href="{{url('/lease_detail/'.encrypt($id))}}" class="btn btn-secondary">Cancel</a>
                                 </div>
                             </div>
                         </div>

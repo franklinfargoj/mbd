@@ -386,7 +386,7 @@ class LeaseDetailController extends Controller
 
         LeaseDetail::create($lease_detail);
 
-        return redirect('/lease_detail/'.$request->society_id)->with(['success'=> 'Lease added succesfully']);
+        return redirect('/lease_detail/'.encrypt($request->society_id))->with(['success'=> 'Lease added succesfully']);
     }
 
     public function renewLease($id)

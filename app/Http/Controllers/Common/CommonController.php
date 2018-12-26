@@ -1566,7 +1566,7 @@ class CommonController extends Controller
                 $insert_application_log[$status_in_words_1][$key]['society_flag'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['user_id'] = $user->id;
                 $insert_application_log[$status_in_words_1][$key]['role_id'] = $user->role_id;
-                $insert_application_log[$status_in_words_1][$key]['status_id'] = config('commanConfig.renewal_status.in_process');
+                $insert_application_log[$status_in_words_1][$key]['status_id'] = ($status_new != null) ? $status_new : config('commanConfig.renewal_status.in_process');
                 $insert_application_log[$status_in_words_1][$key]['to_user_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['to_role_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['is_active'] = 1;

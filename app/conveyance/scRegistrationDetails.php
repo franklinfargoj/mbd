@@ -13,7 +13,8 @@ class scRegistrationDetails extends Model
         'agreement_type_id',
         'sub_registrar_name',
         'registration_year',
-        'registration_no'
+        'registration_no',
+        'application_type_id'
     ];
 
     public function scAgreementId()

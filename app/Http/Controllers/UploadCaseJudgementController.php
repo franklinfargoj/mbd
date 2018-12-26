@@ -36,6 +36,7 @@ class UploadCaseJudgementController extends Controller
      */
     public function create($id)
     {
+        $id = decrypt($id);
         $header_data = $this->header_data;
         $arrData['hearing_data'] = Hearing::with(['hearingStatus', 'hearingPrePostSchedule', 'hearingApplicationType', 'hearingStatusLog' => function($q){
             $q->where('user_id', Auth::user()->id)
@@ -133,6 +134,7 @@ class UploadCaseJudgementController extends Controller
      */
     public function edit($id)
     {
+        $id = decrypt($id);
         $header_data = $this->header_data;
         $arrData['hearing_data'] = Hearing::with(['hearingStatus', 'hearingPrePostSchedule', 'hearingApplicationType', 'hearingStatusLog' => function($q){
             $q->where('user_id', Auth::user()->id)

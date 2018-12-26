@@ -36,7 +36,7 @@ $chart4 = 0;
             @foreach($todaysHearing as $hearing)
             <div class="row no-gutters hearing-row">
                 <div class="col-12 no-shadow">
-                    <div class="app-card-section-title">Offer Letter</div>
+                    <div class="app-card-section-title">Today's Hearing</div>
                 </div>
                 <div class="col-lg-3">
                     <div class="m-portlet app-card text-center">
@@ -87,7 +87,7 @@ $chart4 = 0;
             data-parent="#accordion">
             <div class="row no-gutters hearing-row">
                 <div class="col-12 no-shadow">
-                    <div class="app-card-section-title">Offer Letter</div>
+                    <div class="app-card-section-title">Hearing</div>
                 </div>
                 @foreach($dashboardData as $header => $value)
                 <div class="col-lg-3">
@@ -128,7 +128,7 @@ $chart4 = 0;
             data-parent="#accordion">
             <div class="row no-gutters hearing-row">
                 <div class="col-12 no-shadow">
-                    <div class="app-card-section-title">Offer Letter</div>
+                    <div class="app-card-section-title">Society Conveyance</div>
                 </div>
                 @foreach($conveyanceDashboard[0] as $header => $value)
                 <div class="col-lg-3">
@@ -159,7 +159,7 @@ $chart4 = 0;
             @if($pendingApplications)
             <div class="row no-gutters hearing-row">
                 <div class="col-12 no-shadow">
-                    <div class="app-card-section-title">Offer Letter</div>
+                    <div class="app-card-section-title">Society Conveyance Subordinate Pendency</div>
                 </div>
                 @foreach($pendingApplications as $header => $value)
                 <div class="col-lg-3">
@@ -200,7 +200,7 @@ $chart4 = 0;
             data-parent="#accordion">
             <div class="row no-gutters hearing-row">
                 <div class="col-12 no-shadow">
-                    <div class="app-card-section-title">Offer Letter</div>
+                    <div class="app-card-section-title">Society Renewal</div>
                 </div>
                 @foreach($renewalDashboard[0] as $header => $value)
                 <div class="col-lg-3">
@@ -232,7 +232,7 @@ $chart4 = 0;
             @if($renewalPendingApplications)
             <div class="row no-gutters hearing-row">
                 <div class="col-12 no-shadow">
-                    <div class="app-card-section-title">Offer Letter</div>
+                    <div class="app-card-section-title">Society Renewal Subordeinate Pendency</div>
                 </div>
                 @foreach($renewalPendingApplications as $header => $value)
                 <div class="col-lg-3">
@@ -476,10 +476,12 @@ $chart4 = 0;
     var legend;
 
     var chartData = [
-        @foreach($dashboardData as $header => $value) {
-            "status": "{{$header}}",
-            "value": "{{$value[0]}}",
-        },
+        @foreach($dashboardData as $header => $value)
+            @if(!($header == 'Total Number of Cases')){
+                "status": "{{$header}}",
+                "value": "{{$value[0]}}"
+            },
+            @endif
         @endforeach
     ];
 

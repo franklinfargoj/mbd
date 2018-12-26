@@ -342,6 +342,10 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::post('upload_ree_note','REEDepartment\REEController@uploadREENote')->name('ree.upload_ree_note');
 
+    Route::get('fsi_calculation_application/{id}','REEDepartment\REEController@fsiCalculationSheet')->name('ree.fsi_calculation_application'); 
+
+    Route::post('save_fsi_calculation_data','REEDepartment\REEController@saveFsiCalculationData')->name('ree.save_fsi_calculation_data');
+
     // CO department route 
     Route::resource('co','CODepartment\COController');
 

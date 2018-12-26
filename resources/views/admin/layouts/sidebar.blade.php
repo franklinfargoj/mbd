@@ -429,7 +429,7 @@ $route=\Request::route()->getName();
                                 false))
                                 @if(isset($count) && ($count==0) && ($id != 0) || ($route=='lease_detail.create'))
                                 <li class="m-menu__item m-menu__item--submenu {{($route=='lease_detail.create')?'m-menu__item--active':''}}">
-                                    <a class="m-menu__link m-menu__toggle" href="{{route('lease_detail.create', $id)}}"
+                                    <a class="m-menu__link m-menu__toggle" href="{{route('lease_detail.create', encrypt($id))}}"
                                         class="m-menu__link m-menu__toggle">
                                         <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             viewBox="0 0 510 510">

@@ -36,7 +36,7 @@
                 @foreach($todaysHearing as $hearing)
                     <div class="row no-gutters hearing-row">
                         <div class="col-12 no-shadow">
-                            <div class="app-card-section-title">Offer Letter</div>
+                            <div class="app-card-section-title">Today's Hearing</div>
                         </div>
                         <div class="col-lg-3">
                             <div class="m-portlet app-card text-center">
@@ -86,7 +86,7 @@
                  data-parent="#accordion">
                 <div class="row no-gutters hearing-row">
                     <div class="col-12 no-shadow">
-                        <div class="app-card-section-title">Offer Letter</div>
+                        <div class="app-card-section-title">Hearing</div>
                     </div>
                     @foreach($hearingDashboardData as $header => $value)
                         <div class="col-lg-3">
@@ -144,7 +144,7 @@
                 @if($dashboardData1)
                     <div class="row no-gutters hearing-row">
                         <div class="col-12 no-shadow">
-                            <div class="app-card-section-title">Offer Letter</div>
+                            <div class="app-card-section-title">Offer Letter Subordinate Pendency</div>
                         </div>
                         @foreach($dashboardData1 as $header => $value)
                             <div class="col-lg-3">
@@ -182,7 +182,7 @@
                      data-parent="#accordion">
                     <div class="row no-gutters hearing-row">
                         <div class="col-12 no-shadow">
-                            <div class="app-card-section-title">Offer Letter</div>
+                            <div class="app-card-section-title">Society Conveyance</div>
                         </div>
                         @foreach($conveyanceDashboard[0] as $header => $value)
                             <div class="col-lg-3">
@@ -209,7 +209,7 @@
                     @if($pendingApplications)
                         <div class="row no-gutters hearing-row">
                             <div class="col-12 no-shadow">
-                                <div class="app-card-section-title">Offer Letter</div>
+                                <div class="app-card-section-title">Society Conveyance Subordinate Pendency</div>
                             </div>
                             @foreach($pendingApplications as $header => $value)
                                 <div class="col-lg-3">
@@ -246,7 +246,7 @@
                      data-parent="#accordion">
                     <div class="row no-gutters hearing-row">
                         <div class="col-12 no-shadow">
-                            <div class="app-card-section-title">Offer Letter</div>
+                            <div class="app-card-section-title">NOC</div>
                         </div>
                         @php $noc_chart = 0;@endphp
                         @foreach($nocApplication['app_data'] as $header => $value)
@@ -268,7 +268,7 @@
                     @if($nocApplication['pending_data'])
                         <div class="row no-gutters hearing-row">
                             <div class="col-12 no-shadow">
-                                <div class="app-card-section-title">Offer Letter</div>
+                                <div class="app-card-section-title">NOC Subordinate Pendency</div>
                             </div>
                             @foreach($nocApplication['pending_data'] as $pending_label => $pending_count)
                                 <div class="col-lg-3">
@@ -301,7 +301,7 @@
                      data-parent="#accordion">
                     <div class="row no-gutters hearing-row">
                         <div class="col-12 no-shadow">
-                            <div class="app-card-section-title">Offer Letter</div>
+                            <div class="app-card-section-title">NOC (CC)</div>
                         </div>
                         @php $noc_cc_chart = 0;@endphp
                         @foreach($nocforCCApplication['app_data'] as $header => $value)
@@ -323,7 +323,7 @@
                     @if($nocforCCApplication['pending_data'])
                         <div class="row no-gutters hearing-row">
                             <div class="col-12 no-shadow">
-                                <div class="app-card-section-title">Offer Letter</div>
+                                <div class="app-card-section-title">NOC (CC) Subordinate Pendency</div>
                             </div>
                             @foreach($nocforCCApplication['pending_data'] as $pending_label => $pending_count)
                                 <div class="col-lg-3">
@@ -489,42 +489,6 @@
     </script>
     <script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>
-    @if($chart4)
-        <script>
-            var chart4;
-            var legend;
-
-            var chartData4 = [
-                    @foreach($hearingDashboardData as $header => $value)
-                    @if(!($header = 'Total Number of Cases'))
-                {
-                    "status": "{{$header}}",
-                    "value": "{{$value[0]}}",
-                },
-                @endif
-                @endforeach
-            ];
-            AmCharts.ready(function () {
-                // PIE CHART
-                chart4 = new AmCharts.AmPieChart();
-                chart4.dataProvider = chartData4;
-                chart4.titleField = "status";
-                chart4.valueField = "value";
-                chart4.outlineColor = "#FFFFFF";
-                chart4.outlineAlpha = 0.8;
-                chart4.outlineThickness = 2;
-                chart4.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
-                // this makes the chart 3D
-                chart4.depth3D = 15;
-                chart4.angle = 30;
-                chart4.colors = [ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
-                chart4.fontSize = 15;
-
-                // WRITE
-                chart4.write("hearing_chart");
-            });
-        </script>
-    @endif
     @if($chart)
         <script>
             var chart;
@@ -746,6 +710,43 @@
             });
             @endif
 
+        </script>
+    @endif
+
+    @if($chart4)
+        <script>
+            var chart4;
+            var legend;
+
+            var chartData4 = [
+                    @foreach($hearingDashboardData as $header => $value)
+                    @if(!($header == 'Total Number of Cases'))
+                {
+                    "status": "{{$header}}",
+                    "value": "{{$value[0]}}",
+                },
+                @endif
+                @endforeach
+            ];
+            AmCharts.ready(function () {
+                // PIE CHART
+                chart4 = new AmCharts.AmPieChart();
+                chart4.dataProvider = chartData4;
+                chart4.titleField = "status";
+                chart4.valueField = "value";
+                chart4.outlineColor = "#FFFFFF";
+                chart4.outlineAlpha = 0.8;
+                chart4.outlineThickness = 2;
+                chart4.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+                // this makes the chart 3D
+                chart4.depth3D = 15;
+                chart4.angle = 30;
+                chart4.colors = [ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
+                chart4.fontSize = 15;
+
+                // WRITE
+                chart4.write("hearing_chart");
+            });
         </script>
     @endif
 

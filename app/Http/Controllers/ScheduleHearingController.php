@@ -44,6 +44,7 @@ class ScheduleHearingController extends Controller
      */
     public function create($id)
     {
+        $id = decrypt($id);
         $header_data = $this->header_data;
         $arrData['hearing'] = Hearing::FindOrFail($id);
         $arrData['status'] = HearingStatus::all();
@@ -143,7 +144,7 @@ class ScheduleHearingController extends Controller
      */
     public function show($id)
     {
-
+        $id = decrypt($id);
         $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingSchedule', 'hearingStatusLog' => function($q){
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'));

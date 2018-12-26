@@ -13,8 +13,13 @@
                 </div>
             </div>
             @if (session('success'))
-                <div class="alert alert-success society_registered">
+                <div class="alert alert-success society_renewal_agreement">
                     <div class="text-center">{{ session('success') }}</div>
+                </div>
+            @endif
+            @if (session('error_db'))
+                <div class="alert alert-danger society_renewal_agreement">
+                    <div class="text-center">{{ session('error_db') }}</div>
                 </div>
             @endif
             <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
@@ -43,7 +48,7 @@
                                         <div>
                                             <span class="hint-text">Click on 'Download' to download Pay Stamp Duty Letter</span>
                                             <p></p>
-                                            <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['renewal_stamp_duty_letter']->sr_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download Pay Stamp Duty Letter</a>
+                                            <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['renewal_stamp_duty_letter']->sr_agreement_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download Pay Stamp Duty Letter</a>
                                         </div>
                                     </div>
                                 @endif
@@ -84,12 +89,12 @@
                                                 <div>
                                                     <span class="hint-text">Click on 'Download' to download Lease Deed Agreement</span>
                                                     <p></p>
-                                                    <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['renewal_lease_deed_agreement']->sr_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download Lease Deed Agreement</a>
+                                                    <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['renewal_lease_deed_agreement']->sr_agreement_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download Lease Deed Agreement</a>
                                                 </div>
                                             </div>
                                         @endif
-{{--                                        @if($sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.pending') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Send_society_to_pay_stamp_duety'))--}}
-                                            <div class="col-sm-6 @if($sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.pending') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Send_society_to_pay_stamp_duety')) border-left @endif">
+                                        @if($sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.pending') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Sent_society_to_pay_stamp_duety'))
+                                            <div class="col-sm-6 @if($sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.pending') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Sent_society_to_pay_stamp_duety')) border-left @endif">
                                                 <div class="d-flex flex-column h-100">
                                                     {{--<h5>Upload Lease Deed Agreement</h5>--}}
                                                     <span class="hint-text">Click on 'Upload' to upload Lease Deed Agreement</span>
@@ -116,13 +121,13 @@
                                                                 <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
                                                                 <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['renewal_lease_deed_agreement']}}">
                                                             </div>
-                                                            <div class="mt-auto">
-                                                                <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                                            </div>
-                                                        </form>
+                                                            {{--<div class="mt-auto">--}}
+                                                                {{--<button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>--}}
+                                                            {{--</div>--}}
+                                                        {{--</form>--}}
                                                 </div>
                                             </div>
-                                        {{--@endif--}}
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -150,136 +155,23 @@
                                                     </div>
                                                     @endif
                                                     </p>
-                                                    <form action="{{ route('upload_sale_lease') }}" id="lease_deed_agreement_comment" method="post" enctype="multipart/form-data">
+                                                    {{--<form action="{{ route('upload_sale_lease') }}" id="lease_deed_agreement_comment" method="post" enctype="multipart/form-data">--}}
                                                         @csrf
-                                                        <textarea name="remark" rows="5" cols="30" id="remark" class="form-control form-control--custom" @if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.lease_deed_agreement'), $sc_agreement_comment) == true) readonly @endif>@if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.lease_deed_agreement'), $sc_agreement_comment) == true) {{ $sc_agreement_comment[config('commanConfig.scAgreements.lease_deed_agreement')]->remark }} @endif</textarea>
+                                                        <textarea name="remark" rows="5" cols="30" id="remark" class="form-control form-control--custom" @if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.renewal_lease_deed_agreement'), $sc_agreement_comment) == true) readonly @endif>@if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.renewal_lease_deed_agreement'), $sc_agreement_comment) == true) {{ $sc_agreement_comment[config('commanConfig.scAgreements.renewal_lease_deed_agreement')]->remark }} @endif</textarea>
                                                         <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
-                                                        <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['renewal_lease_deed_agreement']}}">
+                                                        <input  type="hidden" id="document_name" name="document_name" value="{{ $document_lease['renewal_lease_deed_agreement']}}">
                                                         <div class="mt-auto"><br/>
                                                             {{--@if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.lease_deed_agreement'), $sc_agreement_comment) == false)--}}
                                                             {{--<button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>--}}
                                                             {{--@endif--}}
-                                                            @if(($sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.pending') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Send_society_to_pay_stamp_duety') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Send_society_for_registration_of_sale_&_lease')))
-                                                                <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                                            @if(($sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.pending') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Sent_society_to_pay_stamp_duety') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Send_society_for_registration_of_sale_&_lease')))
+                                                                <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Submit</button>
                                                             @endif
                                                         </div>
                                                     </form>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane section-4" id="society-resolution-undertaking" role="tabpanel">
-                <!-- Society Resolution div here -->
-                <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
-                    <div class="portlet-body">
-                        <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
-                            <div class="m-subheader">
-                                {{--<h4>Society Resolution</h4>--}}
-                                <div class="row">
-                                    @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['sc_resolution']))
-                                        <div class="col-sm-6">
-                                            <div>
-                                                <span class="hint-text">Click on 'Download' to downaload Society Resolution</span>
-                                                <p></p>
-                                                <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['sc_resolution']->sr_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download Society Resolution</a>
-                                            </div>
-                                        </div>
-                                    @endif
-                                    @if($sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.pending') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Send_society_to_pay_stamp_duety'))
-                                        <div class="col-sm-6 @if($sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.pending') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Send_society_to_pay_stamp_duety')) border-left @endif">
-                                            <div class="d-flex flex-column h-100">
-                                                {{--<h5>Upload Signed & Stamped society resolution here</h5>--}}
-                                                <span class="hint-text">Click on 'Upload' to upload signed & stamped society resolution.</span>
-                                                <p>
-                                                @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))
-                                                    <div class="alert alert-success society_registered">
-                                                        <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')) }}</div>
-                                                    </div>
-                                                @endif
-                                                @if (session('error'))
-                                                    <div class="alert alert-danger society_registered">
-                                                        <div class="text-center">{{ session('error') }}</div>
-                                                    </div>
-                                                    @endif
-                                                    </p>
-                                                    <form action="{{ route('upload_sale_lease') }}" id="society_resolution" method="post" enctype="multipart/form-data">
-                                                        @csrf
-                                                        <div class="custom-file">
-                                                            <input class="custom-file-input pdfcheck" name="document_path" type="file"
-                                                                   id="test-upload_society resolution" required="required">
-                                                            <label class="custom-file-label" for="test-upload_society resolution">Choose
-                                                                file...</label>
-                                                            <span class="text-danger" id="file_error"></span>
-                                                            <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
-                                                            <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['sc_resolution']}}">
-                                                        </div>
-                                                        <div class="mt-auto">
-                                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                                        </div>
-                                                    </form>
-                                            </div>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
-                    <div class="portlet-body">
-                        <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
-                            <div class="w-100 row-list">
-                                {{--<h4>Society undertaking</h4>--}}
-                                <div class="row">
-                                    @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['sc_undertaking']))
-                                        <div class="col-sm-6">
-                                            <div>
-                                                <span class="hint-text">Click on 'download' to download Society Undertaking</span>
-                                                <p></p>
-                                                <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['sc_undertaking']->sr_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download Society Undertaking</a>
-                                            </div>
-                                        </div>
-                                    @endif
-                                    @if($sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.pending') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Send_society_to_pay_stamp_duety'))
-                                        <div class="col-sm-6 @if($sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.pending') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Send_society_to_pay_stamp_duety')) border-left @endif">
-                                            <div class="d-flex flex-column h-100">
-                                                {{--<h5>Upload Signed & Stamped society undertaking here</h5>--}}
-                                                <span class="hint-text">Click on 'Upload' to upload signed & stamped society undertaking</span>
-                                                <p>
-                                                @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))
-                                                    <div class="alert alert-success society_registered">
-                                                        <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')) }}</div>
-                                                    </div>
-                                                @endif
-                                                @if (session('error'))
-                                                    <div class="alert alert-danger society_registered">
-                                                        <div class="text-center">{{ session('error') }}</div>
-                                                    </div>
-                                                    @endif
-                                                    </p>
-                                                    <form action="{{ route('upload_sale_lease') }}" id="society_undertaking" method="post" enctype="multipart/form-data">
-                                                        @csrf
-                                                        <div class="custom-file">
-                                                            <input class="custom-file-input pdfcheck" name="document_path" type="file"
-                                                                   id="test-upload_society_undertaking" required="required">
-                                                            <label class="custom-file-label" for="test-upload_society_undertaking">Choose
-                                                                file...</label>
-                                                            <span class="text-danger" id="file_error"></span>
-                                                            <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
-                                                            <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['sc_undertaking']}}">
-                                                        </div>
-                                                        <div class="mt-auto">
-                                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                                        </div>
-                                                    </form>
-                                            </div>
-                                        </div>
-                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -417,10 +309,9 @@
                     }
                 }
             });
-
-            $('.society_registered').delay("slow").slideUp("slow");
-
+            $('.society_renewal_agreement').delay("slow").slideUp("slow");
         });
+
     </script>
 
 

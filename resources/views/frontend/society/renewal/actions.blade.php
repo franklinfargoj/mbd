@@ -90,7 +90,7 @@ $status = $sc_application->srApplicationLog->status_id;
                     <span class="m-menu__link-text">Signed Application for Renewal of lease</span>
                 </a>
             </li>
-            @if($sc_application->application_status != config('commanConfig.conveyance_status.in_process') || $status == config('commanConfig.renewal_status.Sent_society_to_pay_stamp_duety') || $status == config('commanConfig.renewal_status.Stamp_Renewal_of_Lease_deed') || $status == config('commanConfig.renewal_status.Send_society_for_registration_of_Lease_deed') || $status == config('commanConfig.renewal_status.Registered_lease_deed'))
+            @if($sc_application->application_status != config('commanConfig.conveyance_status.pending') || $status == config('commanConfig.renewal_status.Sent_society_to_pay_stamp_duety') || $sc_application->application_status == config('commanConfig.renewal_status.Stamp_Renewal_of_Lease_deed') || $status == config('commanConfig.renewal_status.Send_society_for_registration_of_Lease_deed') || $status == config('commanConfig.renewal_status.Registered_lease_deed'))
                 <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='show_lease')?'m-menu__item--active':''}}">
                     <a class="m-menu__link m-menu__toggle" title="Sale & Lease deed Agreement" href="{{ route('show_lease', encrypt($sc_application->id)) }}">
                         <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -101,7 +101,7 @@ $status = $sc_application->srApplicationLog->status_id;
                     </a>
                 </li>
             @endif
-            @if($sc_application->application_status != config('commanConfig.conveyance_status.in_process') || $status == config('commanConfig.renewal_status.Send_society_for_registration_of_Lease_deed') || $status == config('commanConfig.renewal_status.Registered_lease_deed'))
+            @if($status == config('commanConfig.renewal_status.Send_society_for_registration_of_Lease_deed') || $sc_application->application_status == config('commanConfig.renewal_status.Registered_lease_deed'))
                 <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='show_signed_lease')?'m-menu__item--active':''}}">
                     <a class="m-menu__link m-menu__toggle" title="Signed Sale & Lease deed Agreement" href="{{ route('show_signed_lease', encrypt($sc_application->id)) }}">
                         <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
