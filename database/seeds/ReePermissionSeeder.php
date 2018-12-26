@@ -298,6 +298,11 @@ class ReePermissionSeeder extends Seeder
                 'description'=>'tripartite.forward_application'
             ],
             [
+                'name'=>'tripartite.post_forward_application',
+                'display_name'=>'tripartite.post_forward_application',
+                'description'=>'tripartite.post_forward_application'
+            ],
+            [
                 'name'=>'ree_applications.noc',
                 'display_name'=>'ree_applications.noc',
                 'description'=>'ree_applications.noc'
