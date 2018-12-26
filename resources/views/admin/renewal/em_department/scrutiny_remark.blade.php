@@ -303,9 +303,9 @@
                     <div class="m-portlet__body" style="padding-right: 0;">
                         <div class=" row-list">
                             <div class="row">
-                                @if(isset($bonafide_docs['renewal_bonafide_list']) && $bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path)
                                     <div class="col-md-6">
-                                        <h5 class="section-title section-title--small mb-0">Download List of Allottees uploaded by Society:</h5>
+                                        <h5 class="section-title section-title--small mb-0">
+                                        List of Allottees uploaded by Society:</h5>
                                         <p>
                                             @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')))
                                                 <div class="alert alert-success society_registered">
@@ -321,10 +321,14 @@
                                             <p>Click to download generated list of allottees in xls format</p>
                                             {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
 
+                                            @if(isset($bonafide_docs['renewal_bonafide_list']) && isset($bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path) && $bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path)
                                                 <a href="{{ config('commanConfig.storage_server').'/'.$bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
                                                 Download</a>
+                                            @else
+                                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">* Note : List of Allottees is not available. </span>   
+                                            @endif    
                                     </div>
-                                @endif
+        
                     
                                 @if(session()->get('role_name') == config('commanConfig.estate_manager') && $data->srApplicationLog->status_id != config('commanConfig.conveyance_status.forwarded'))
                                     <div class="col-sm-6 @if(isset($data->sr_form_request) && $data->sr_form_request->template_file) border-left @endif">

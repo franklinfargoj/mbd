@@ -783,6 +783,8 @@ $route=\Request::route()->getName();
                         $oc_redirect_to = "em.consent_for_oc";
                         elseif(Session::all()['role_name'] == 'co_engineer' )
                         $oc_redirect_to = "co_applications.consent_oc";
+                        else
+                        $oc_redirect_to = "";
                         @endphp
                         @if($oc_redirect_to != "")
                             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route==$oc_redirect_to)?'m-menu__item--active':'' }}">

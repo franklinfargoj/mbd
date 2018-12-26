@@ -67,7 +67,7 @@
                                             </div>
                                         </div>
                                     </div> 
-                                    @if(session()->get('role_name') == config('commanConfig.joint_co'))
+                                    @if(session()->get('role_name') == config('commanConfig.joint_co') && $data->status->status_id == config('commanConfig.renewal_status.forwarded') && $data->status->status_id == config('commanConfig.renewal_status.reverted'))
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload</h5>

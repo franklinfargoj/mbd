@@ -93,7 +93,8 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">Prepar draft Renewal of lease Agreement</span>
             </a> 
         </li>   -->
-    @if($data->application_status == config('commanConfig.renewal_status.Draft_Renewal_of_Lease_deed'))
+
+    @if($data->stamp_by_dycdo == '0' && ($data->application_status == config('commanConfig.renewal_status.Draft_Renewal_of_Lease_deed') || $data->application_status == config('commanConfig.renewal_status.Aproved_Renewal_of_Lease') || $data->application_status == config('commanConfig.renewal_status.Stamp_Renewal_of_Lease_deed') ))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='renewal.prepare_renewal_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Approve Renewal of Lease Agreement" href="{{ route('renewal.prepare_renewal_agreement', encrypt($data->id)) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -104,9 +105,8 @@ $route=\Request::route()->getName();
             </a> 
         </li>  
     @endif       
-        
 
-    @if($data->application_status == config('commanConfig.renewal_status.Stamp_Renewal_of_Lease_deed') || $data->application_status == config('commanConfig.renewal_status.Stamp_Sign_Renewal_of_Lease_deed'))
+    @if($data->stamp_by_dycdo == '1' && ($data->application_status == config('commanConfig.renewal_status.Stamp_Renewal_of_Lease_deed') || $data->application_status == config('commanConfig.renewal_status.Stamp_Sign_Renewal_of_Lease_deed')))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='renewal.stamp_sign_renewal_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Stamped & Signed Renewal of Lease Agreement" href="{{ route('renewal.stamp_sign_renewal_agreement', encrypt($data->id)) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
