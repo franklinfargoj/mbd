@@ -765,7 +765,7 @@ class REEController extends Controller
         $custom = OlCustomCalculationSheet::where('application_id',$applicationId)->orderBy('updated_at','DESC')
         ->value('updated_at');
         $premium = OlApplicationCalculationSheetDetails::where('application_id',$applicationId)
-        ->orderBy('updated_at','DESC')->value('updated_at');  
+        ->orderBy('updated_at','DESC')->value('updated_at'); 
 
         if ($custom > $premium){
             $route = 'admin.REE_department.view_custom_premium_calculation_sheet';            
@@ -924,6 +924,7 @@ class REEController extends Controller
     public function displayCustomCalculationSheet(Request $request,$applicationId){
         
         $user = Auth::user(); 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
 
@@ -2438,12 +2439,21 @@ class REEController extends Controller
         $dcr_rates = OlDcrRateMaster::all();
         $arrData['reeNote'] = REENote::where('application_id', $applicationId)->orderBy('id', 'desc')
                             ->first();
+        
+        $is_view = session()->get('role_name') == config('commanConfig.ree_junior'); 
+        $status = $this->CommonController->getCurrentStatus($applicationId);  
+        
+        if ($is_view && $status->status_id != config('commanConfig.applicationStatus.forwarded') && $status->status_id != config('commanConfig.applicationStatus.reverted')) {
+            $route = 'admin.REE_department.fsi_calculation_sheet';
+        } else{
+            $route = 'admin.REE_department.view_fsi_calculation_sheet';
+        }              
 
-        return view('admin.REE_department.fsi_calculation_sheet',compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));                    
+        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));                    
     }
 
     public function saveFsiCalculationData(Request $request){
-        // dd($request->all());
+
         $applicationId = $request->get('application_id'); 
         OlFsiCalculationSheet::updateOrCreate(['application_id'=>$applicationId],$request->all());
         $id = encrypt($request->get('application_id'));

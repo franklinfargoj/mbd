@@ -395,7 +395,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <div class="col-sm-12" style="margin-bottom: 12px;padding: 0px">
-                                                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" name="dcr_rate" id="dcr_rate">
+                                                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input subtn" name="dcr_rate" id="dcr_rate">
                                                             <option value="" selected disabled>Select</option>
                                                             <option value="EWS" {{ isset($calculationSheetDetails[0]->dcr_rate) && $calculationSheetDetails[0]->dcr_rate == 'EWS' ? 'selected' : '' }}> EWS / LIG</option>
                                                             <option value="MIG" {{ isset($calculationSheetDetails[0]->dcr_rate) && $calculationSheetDetails[0]->dcr_rate == 'MIG' ? 'selected' : '' }}>MIG</option>
@@ -418,7 +418,7 @@
                                                     अधिमूल्य
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox infrastructure_charges"
+                                                    <input type="text" readonly placeholder="0" class="form-control form-control--custom txtbox infrastructure_charges"
                                                         name="balance_of_remaining_area" id="balance_of_remaining_area" 
                                                         value="<?php if(isset($calculationSheetDetails[0]->balance_of_remaining_area)) { echo $calculationSheetDetails[0]->balance_of_remaining_area; } ?>" />
 
@@ -491,7 +491,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                 <div>
-                                                    <div class="m-radio-inline">
+                                                    <div class="m-radio-inline subtn">
                                                         <!-- <span class="mr-3">Is there any encroachment ?</span> -->
                                                         <label class="m-radio m-radio--primary">
                                                             <input type="radio" class="radioBtn debrajRadioBtn" name="is_debraj_fee_paid" value="1" 
@@ -505,31 +505,32 @@
                                                     </div>
                                                 </div>     
                                                 <div> 
-                                                <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox debraj_fee"
-                                                    name="debraj_removal_fee" id="debraj_removal_fee" value="{{ isset($calculationSheetDetails[0]->debraj_removal_fee) ? $calculationSheetDetails[0]->debraj_removal_fee : '3360' }}" />
+                                                <input style="border: none;" type="text" readonly placeholder="" class="total_amount form-control form-control--custom txtbox debraj_fee"
+                                                    name="debraj_removal_fee" id="debraj_removal_fee" value="{{ isset($calculationSheetDetails[0]->debraj_removal_fee) ? $calculationSheetDetails[0]->debraj_removal_fee : '' }}" />
                                                 </div>    
 
                                                 </td>
                                             </tr> 
+                                          
                                             <tr>
                                                 <td style = "border-style: ridge;">22.</td>
                                                 <td style = "border-style: ridge;">
                                                     पाणी वापर शुल्क (रु.१,००,०००/- ) [for 1 building]
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <div class="m-radio-inline">
+                                                    <div class="m-radio-inline subtn">
                                                         <!-- <span class="mr-3">Is there any encroachment ?</span> -->
                                                         <label class="m-radio m-radio--primary">
-                                                            <input type="radio" class="radioBtn WaterRadioBtn" name="is_water_charges_paid" value="1" >Yes
+                                                            <input type="radio" class="radioBtn WaterRadioBtn" name="is_water_charges_paid" value="1" {{isset($calculationSheetDetails[0]->is_water_charges_paid) &&  $calculationSheetDetails[0]->is_water_charges_paid == 1 ? 'checked' : '' }}>Yes
                                                                 <span></span>
                                                         </label>
                                                         <label class="m-radio m-radio--primary">
-                                                            <input type="radio" class="radioBtn WaterRadioBtn" name="is_water_charges_paid" value="0" checked> No
+                                                            <input type="radio" class="radioBtn WaterRadioBtn" name="is_water_charges_paid" value="0"  {{isset($calculationSheetDetails[0]->is_water_charges_paid) &&  $calculationSheetDetails[0]->is_water_charges_paid == 0 ? 'checked' : '' }}> No
                                                             <span></span>
                                                         </label>
                                                     </div>                                                
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control total_amount form-control--custom txtbox WaterCharge"
-                                                        name="water_usage_charges" id="water_usage_charges" value="{{ isset($calculationSheetDetails[0]->water_usage_charges) ? $calculationSheetDetails[0]->water_usage_charges : '1,00,000' }}" />
+                                                        name="water_usage_charges" id="water_usage_charges" value="{{ isset($calculationSheetDetails[0]->water_usage_charges) ? $calculationSheetDetails[0]->water_usage_charges : '' }}" />
 
                                                 </td>
                                             </tr>                                            
@@ -559,7 +560,7 @@
                                                     1. आर. जी. स्थलांतरणाचे क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" placeholder="0" class="form-control form-control--custom txtbox"
+                                                    <input type="text" placeholder="0" class="form-control form-control--custom txtbox"
                                                            name="area_of_rg_to_be_relocated" id="area_of_rg_to_be_relocated" value="<?php if(isset($calculationSheetDetails[0]->area_of_rg_to_be_relocated)) { echo $calculationSheetDetails[0]->area_of_rg_to_be_relocated; } ?>" />
 
                                                 </td>
@@ -1506,11 +1507,9 @@
         $(".total_amount").each(function () {
             var total_amount_val = cleanNumber($(this).val());
             var amountVal = (!total_amount_val || isNaN(total_amount_val)) ? 0 : total_amount_val;
-            console.log(amountVal);
-
             total_amount += +parseFloat(amountVal);
         });
-        // console.log(total_amount);
+
         $("#total_amount_in_rs").attr('value',numberWithCommas(Math.ceil(total_amount)));
     }
 
@@ -1526,7 +1525,6 @@
 
     function areaOfSubsistenceToCalculate()
     { 
-        // console.log('enter');
         var sorted = $(".min_val_for_calculation").sort(
 
             function (a, b) {
@@ -1559,9 +1557,9 @@
         var lr_rc_range = getLRRCRange();
         var dcr_rate_in_percentage = getDCRPercentage(lr_rc_range,dcr_rate);
         
-        console.log(dcr_rate);        
-        console.log(lr_rc_range);        
-        console.log(dcr_rate_in_percentage);        
+        // console.log(dcr_rate);        
+        // console.log(lr_rc_range);        
+        // console.log(dcr_rate_in_percentage);        
         
         var redirekner_value = (!cleanNumber($("#redirekner_value").val()) || isNaN(cleanNumber($("#redirekner_value").val()))) ? 0 : cleanNumber($("#redirekner_value").val());
         // var dcr_rate_in_percentage = (!$("input[type=radio][name=dcr_rate_in_percentage]:checked").val() || isNaN($("input[type=radio][name=dcr_rate_in_percentage]:checked").val())) ? 0 : $("input[type=radio][name=dcr_rate_in_percentage]:checked").val();
@@ -1673,9 +1671,10 @@
 
         var total_no_of_buildings = (!cleanNumber($("#total_no_of_buildings").val()) || isNaN(cleanNumber($("#total_no_of_buildings").val()))) ? 0 : cleanNumber($("#total_no_of_buildings").val());
 
-        $("#debraj_removal_fee").attr('value',numberWithCommas(6600 * total_no_of_buildings));
-        $("#water_usage_charges").attr('value',numberWithCommas(100000 * total_no_of_buildings));
-        $("#scrutiny_fee").attr('value',numberWithCommas(6000 * total_no_of_buildings));
+        // $("#debraj_removal_fee").attr('value',numberWithCommas(6600 * total_no_of_buildings));
+        $("#debraj_removal_fee").val(numberWithCommas(6600 * total_no_of_buildings));
+        $("#water_usage_charges").val(numberWithCommas(100000 * total_no_of_buildings));
+        $("#scrutiny_fee").val(numberWithCommas(6000 * total_no_of_buildings));
 
         totalAmountInRs();
     });
@@ -1799,16 +1798,9 @@
         var charges = (!cleanNumber($("#infrastructure_charges").val()) || isNaN(cleanNumber($("#infrastructure_charges").val()))) ? 0 : cleanNumber($("#infrastructure_charges").val());
 
         var mat_area = (parseFloat(area) - parseFloat(charges)).toFixed(2);
-        // console.log(numberWithCommas(mat_area));
         $("#remaining_mat_area").val(numberWithCommas(mat_area));        
         
     });
-
-    // $(document).on("change", "input[type=radio][name=dcr_rate_in_percentage]", function () {
-
-
-    // });
-
 
     $(document).on("keyup", "#redirekner_value", function () {
 
@@ -1919,20 +1911,22 @@
         var value = this.value;
         var building_no = $("#total_no_of_buildings").val();
         if (value == 1){
-            $("#debraj_removal_fee").attr('value',0);
+
+            $(".debraj_fee").val(0);
         }else{
-            $("#debraj_removal_fee").attr('value',(building_no * 6600));
+            $(".debraj_fee").val(numberWithCommas(building_no * 6600));
         }
         totalAmountInRs();
     });
 
     $(".WaterRadioBtn").change(function(){
         var value = this.value;
+        
         var building_no = $("#total_no_of_buildings").val();
         if (value == 1){
-            $(".WaterCharge").attr('value',0);
+            $(".WaterCharge").val(0);
         }else{
-            $(".WaterCharge").attr('value',numberWithCommas(building_no * 100000));
+            $(".WaterCharge").val(numberWithCommas(building_no * 100000));
         }
         totalAmountInRs();
     }); 
