@@ -33,4 +33,9 @@ class OlApplicationStatus extends Model
         return $this->hasOne('App\Role', 'id','role_id');
     }
 
+    public function olApplication()
+    {
+        return $this->belongsTo('App\OlApplication', 'application_id','id');
+    }
+
 }
