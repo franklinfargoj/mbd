@@ -64,7 +64,7 @@
                         </div>
                         <div class="col-lg-3">
                             <div class="m-portlet app-card text-center">
-                                <a href="{{route('hearing.show',$hearing['hearing_id'])}}" class="app-no app-no--view mb-0">View Details</a>
+                                <a href="{{route('hearing.show',encrypt($hearing['hearing_id']))}}" class="app-no app-no--view mb-0">View Details</a>
                             </div>
                         </div>
                     </div>
