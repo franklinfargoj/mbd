@@ -32,6 +32,7 @@ class OlFsiCalculationSheet extends Model
         'redirekner_value',
         'redirekner_construction_rate',
         'redirekner_val',
+        'dcr_rate',
         'dcr_rate_in_percentage',
         'calculated_dcr_rate_val',
         'infrastructure_fee_amount',
