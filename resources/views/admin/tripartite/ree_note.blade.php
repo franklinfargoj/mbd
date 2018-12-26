@@ -2,7 +2,6 @@
 @section('actions')
 @include('admin.tripartite.actions',compact('sf_application'))
 @endsection
-@section('content')
 @section('css')
 <!-- <style> -->
 <link href="{{asset('/frontend/css/dyce_scrutiny.css')}}" rel="stylesheet" type="text/css" />
