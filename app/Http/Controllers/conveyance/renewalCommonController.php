@@ -199,6 +199,7 @@ class renewalCommonController extends Controller
         }else{
             $route = 'admin.renewal.common.view_draft_renewal_agreement';
         }
+
         return view($route,compact('data'));  
     }
 
@@ -263,7 +264,7 @@ class renewalCommonController extends Controller
         $data->StampAgreement = $this->getRenewalAgreement($LeaseId,$applicationId,$Agreementstatus);
         $data->folder = $this->conveyance->getCurrentRoleFolderName(); 
 
-        // stamp_sign
+        // Stamp_by_dycdo
         $stampStatus = ApplicationStatusMaster::where('status_name','=','Stamp_by_dycdo')->value('id');
         $stampId = $this->conveyance->getScAgreementId($LeaseAgreement,$data->application_master_id);
         $data->StampByDycdoAgreement = $this->getRenewalAgreement($stampId,$applicationId,$stampStatus);        
@@ -271,7 +272,7 @@ class renewalCommonController extends Controller
         $data->AgreementComments = RenewalAgreementComments::with('Roles')->where('application_id',$applicationId)->where('agreement_type_id',$data->application_master_id)->whereNotNull('remark')->get();
         $is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer'); 
         $data->status = $this->getCurrentStatus($applicationId,$data->application_master_id); 
-        // dd($data->status);
+
         RenewalApplication::where('id',$applicationId)->update(['stamp_by_dycdo' => 1]);
 
         if ($is_view && $data->status->status_id == config('commanConfig.renewal_status.Stamp_Renewal_of_Lease_deed')) {
@@ -284,7 +285,7 @@ class renewalCommonController extends Controller
         return view($route,compact('data'));
     }
 
-    // save stamp and sign Renewal lease Agreement
+    // save stamp Renewal lease Agreement
     public function saveStampRenewalAgreement(Request $request){
 
         $applicationId   = $request->applicationId;  
@@ -366,7 +367,6 @@ class renewalCommonController extends Controller
         }else{
             $route = 'admin.renewal.common.view_stamp_sign_renewal';
         }
-
         return view($route,compact('data'));                 
     }  
 

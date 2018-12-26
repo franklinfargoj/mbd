@@ -8,7 +8,7 @@
 <div class="alert alert-success display_msg">
     {{ session()->get('success') }}
 </div>
-@endif
+@endif 
 @php
     if(isset($data->StampByDycdoAgreement->document_path))
         $document = $data->StampByDycdoAgreement->document_path;    
@@ -22,7 +22,7 @@
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title m-subheader__title--separator">
                     Lease Agreement </h3>
-                     {{ Breadcrumbs::render('renewal_stamp_sale_lease',$data->id) }}
+                     {{ Breadcrumbs::render('renewal_stamp_lease',$data->id) }}
                     <div class="ml-auto btn-list">
                         <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                     </div>
