@@ -116,7 +116,7 @@
                     </a>
                 </div>
             </div>
-                <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="co-noc-summary"
+                <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="co-noc-summary"
                      data-parent="#accordion">
                     <div class="row no-gutters hearing-row">
                         <div class="col-12 no-shadow">
@@ -170,7 +170,7 @@
                     </a>
                 </div>
             </div>
-                <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="co-noc_cc-summary"
+                <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="co-noc_cc-summary"
                      data-parent="#accordion">
                     <div class="row no-gutters hearing-row">
                         <div class="col-12 no-shadow">

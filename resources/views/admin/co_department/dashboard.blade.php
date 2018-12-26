@@ -242,7 +242,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="co-noc-summary"
+                <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="co-noc-summary"
                      data-parent="#accordion">
                     <div class="row no-gutters hearing-row">
                         <div class="col-12 no-shadow">
@@ -297,7 +297,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="co-noc_cc-summary"
+                <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="co-noc_cc-summary"
                      data-parent="#accordion">
                     <div class="row no-gutters hearing-row">
                         <div class="col-12 no-shadow">
@@ -600,6 +600,7 @@
         @endif
 
     </script>
+
     <script>
         var noc_cc_chart;
         var legend;
@@ -627,10 +628,11 @@
             noc_cc_chart.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
             noc_cc_chart.depth3D = 15;
             noc_cc_chart.angle = 30;
-            noc_cc_chart.colors = [ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
+            noc_cc_chart.colors = ["#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
             noc_cc_chart.fontSize = 15;
 
             noc_cc_chart.write("noc_cc_chart_div");
+        });
         @endif
 
     </script>
