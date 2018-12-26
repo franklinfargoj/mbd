@@ -69,13 +69,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <a href="{{ route('tripartite_application_form_edit', $ol_applications->id) }}" class="btn btn-primary">
-                                        Back
-                                    </a>
-                                    <span style="float:right;margin-right: 20px">
-                                    <a href="{{ route('display_tripartite_docs', $id) }}" class="btn btn-primary">
-                                        Next
-                                    </a>
+                                    @if($ol_applications->olApplicationStatus[0]->status_id == config('commanConfig.applicationStatus.pending') && $ol_applications->current_status_id != config('commanConfig.applicationStatus.draft_tripartite_agreement'))
+                                        <a href="{{ route('tripartite_application_form_edit', $ol_applications->id) }}" class="btn btn-primary">
+                                            Back
+                                        </a>
+                                        <span style="float:right;margin-right: 20px">
+                                        <a href="{{ route('display_tripartite_docs', $id) }}" class="btn btn-primary">
+                                            Next
+                                        </a>
+                                    @endif
                                 </span>
                                 </div>
                             </div>
