@@ -2443,7 +2443,7 @@ class REEController extends Controller
     }
 
     public function saveFsiCalculationData(Request $request){
-        // dd($request);
+        // dd($request->all());
         $applicationId = $request->get('application_id'); 
         OlFsiCalculationSheet::updateOrCreate(['application_id'=>$applicationId],$request->all());
         $id = encrypt($request->get('application_id'));

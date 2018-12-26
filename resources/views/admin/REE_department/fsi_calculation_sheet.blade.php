@@ -387,18 +387,29 @@
 
                                                 </td>
                                             </tr>
+                                            
                                             <tr>
                                                 <td style = "border-style: ridge;"></td>
                                                 <td style = "border-style: ridge;">
                                                     2. दर
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
+                                                    <div class="col-sm-12" style="margin-bottom: 12px;padding: 0px">
+                                                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" name="dcr_rate" id="dcr_rate">
+                                                            <option value="" selected disabled>Select</option>
+                                                            <option value="EWS" {{ isset($calculationSheetDetails[0]->dcr_rate) && $calculationSheetDetails[0]->dcr_rate == 'EWS' ? 'selected' : '' }}> EWS / LIG</option>
+                                                            <option value="MIG" {{ isset($calculationSheetDetails[0]->dcr_rate) && $calculationSheetDetails[0]->dcr_rate == 'MIG' ? 'selected' : '' }}>MIG</option>
+                                                            <option value="HIG" {{ isset($calculationSheetDetails[0]->dcr_rate) && $calculationSheetDetails[0]->dcr_rate == 'HIG' ? 'selected' : '' }}>HIG</option> 
+                                                        </select>
+                                                    </div>
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
                                                            name="calculated_dcr_rate_val" id="calculated_dcr_rate_val"
                                                            value="<?php if(isset($calculationSheetDetails[0]->calculated_dcr_rate_val)) { echo $calculationSheetDetails[0]->calculated_dcr_rate_val; } ?>" />
 
-                                                    <span style="cursor: pointer" class="subtn" data-toggle="modal" data-target="#select-from-dcr">Select
-                                                        from DCR</span>
+                                                    <!-- </div>                                                                                                                        -->
+
+                                                    <!-- <span style="cursor: pointer" class="subtn" data-toggle="modal" data-target="#select-from-dcr">Select
+                                                        from DCR</span> -->
                                                 </td>
                                             </tr>
                                             <tr>
@@ -1493,13 +1504,13 @@
     {
         var total_amount = 0;
         $(".total_amount").each(function () {
-
             var total_amount_val = cleanNumber($(this).val());
             var amountVal = (!total_amount_val || isNaN(total_amount_val)) ? 0 : total_amount_val;
+            console.log(amountVal);
 
             total_amount += +parseFloat(amountVal);
         });
-        console.log(total_amount);
+        // console.log(total_amount);
         $("#total_amount_in_rs").attr('value',numberWithCommas(Math.ceil(total_amount)));
     }
 
@@ -1514,7 +1525,8 @@
     }
 
     function areaOfSubsistenceToCalculate()
-    { console.log('enter');
+    { 
+        // console.log('enter');
         var sorted = $(".min_val_for_calculation").sort(
 
             function (a, b) {
@@ -1543,11 +1555,18 @@
 
     function calculatedDcrBalanceOfRemainingArea()
     { 
+        var dcr_rate = $("#dcr_rate").val();
+        var lr_rc_range = getLRRCRange();
+        var dcr_rate_in_percentage = getDCRPercentage(lr_rc_range,dcr_rate);
+        
+        console.log(dcr_rate);        
+        console.log(lr_rc_range);        
+        console.log(dcr_rate_in_percentage);        
+        
         var redirekner_value = (!cleanNumber($("#redirekner_value").val()) || isNaN(cleanNumber($("#redirekner_value").val()))) ? 0 : cleanNumber($("#redirekner_value").val());
-        var dcr_rate_in_percentage = (!$("input[type=radio][name=dcr_rate_in_percentage]:checked").val() || isNaN($("input[type=radio][name=dcr_rate_in_percentage]:checked").val())) ? 0 : $("input[type=radio][name=dcr_rate_in_percentage]:checked").val();
+        // var dcr_rate_in_percentage = (!$("input[type=radio][name=dcr_rate_in_percentage]:checked").val() || isNaN($("input[type=radio][name=dcr_rate_in_percentage]:checked").val())) ? 0 : $("input[type=radio][name=dcr_rate_in_percentage]:checked").val();
 
         var calculated_dcr = redirekner_value * (dcr_rate_in_percentage / 100);
-
         $("#calculated_dcr_rate_val").attr('value',numberWithCommas(calculated_dcr.toFixed(2)));
 
         var remaining_residential_area = (!cleanNumber($("#remaining_residential_area").val()) || isNaN(cleanNumber($("#remaining_residential_area").val()))) ? 0 : cleanNumber($("#remaining_residential_area").val());
@@ -1556,6 +1575,58 @@
 
         $("#balance_of_remaining_area").attr('value',numberWithCommas(balance.toFixed(2)));
 
+    }
+
+    function getLRRCRange(){
+        
+        var redirekner_value = (!cleanNumber($("#redirekner_val").val()) || isNaN(cleanNumber($("#redirekner_val").val()))) ? 0 : cleanNumber($("#redirekner_val").val());
+
+        if(redirekner_value >= 0 && redirekner_value <= 2)
+            $rate = '0_to_2';        
+        else if(redirekner_value > 2 && redirekner_value <= 4)
+            $rate = '2_to_4';        
+        else if(redirekner_value > 4 && redirekner_value <= 6)
+            $rate = '4_to_6';        
+        else if(redirekner_value > 6)
+            $rate = 'above_6';
+        return $rate;
+    }
+
+    function getDCRPercentage(lr_rc_range,dcr_rate){
+
+        $per_rate = '';
+        if (dcr_rate == 'EWS'){
+            if (lr_rc_range == '0_to_2')
+                $per_rate = '40';            
+            else if (lr_rc_range == '2_to_4')
+                $per_rate = '45';            
+            else if (lr_rc_range == '4_to_6')
+                $per_rate = '50';            
+            else if (lr_rc_range == 'above_6')
+                $per_rate = '55';
+
+        }else if (dcr_rate == 'MIG'){
+            if (lr_rc_range == '0_to_2')
+                $per_rate = '60';            
+            else if (lr_rc_range == '2_to_4')
+                $per_rate = '65';            
+            else if (lr_rc_range == '4_to_6')
+                $per_rate = '70';            
+            else if (lr_rc_range == 'above_6')
+                $per_rate = '75';            
+
+        }else if (dcr_rate == 'HIG'){
+            if (lr_rc_range == '0_to_2')
+                $per_rate = '80';            
+            else if (lr_rc_range == '2_to_4')
+                $per_rate = '85';            
+            else if (lr_rc_range == '4_to_6')
+                $per_rate = '90';            
+            else if (lr_rc_range == 'above_6')
+                $per_rate = '95';            
+
+        }
+        return $per_rate;        
     }
 
     function nonProfitDuty()
@@ -1690,10 +1761,10 @@
 
         $("#remaining_residential_area").attr('value',numberWithCommas(sub));
 
-        if ($('input[type=radio][name=dcr_rate_in_percentage]').is(':checked')) {
+        // if ($('input[type=radio][name=dcr_rate_in_percentage]').is(':checked')) {
 
-            calculatedDcrBalanceOfRemainingArea();
-        }
+        //     calculatedDcrBalanceOfRemainingArea();
+        // }
 
     });
 
@@ -1712,8 +1783,7 @@
         totalAreaOfRgToBeRelocated();
     });
 
-
-    $(document).on("change", "input[type=radio][name=dcr_rate_in_percentage]", function () {
+    $("#dcr_rate").change(function(){
 
         calculatedDcrBalanceOfRemainingArea();
         totalAmountInRs();
@@ -1730,8 +1800,14 @@
 
         var mat_area = (parseFloat(area) - parseFloat(charges)).toFixed(2);
         // console.log(numberWithCommas(mat_area));
-        $("#remaining_mat_area").val(numberWithCommas(mat_area));
+        $("#remaining_mat_area").val(numberWithCommas(mat_area));        
+        
     });
+
+    // $(document).on("change", "input[type=radio][name=dcr_rate_in_percentage]", function () {
+
+
+    // });
 
 
     $(document).on("keyup", "#redirekner_value", function () {
