@@ -52,8 +52,8 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Lease deed agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->renewalAgreement->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->renewalAgreement->document_path }}" target="_blank">
+                                                @if(isset($data->StampAgreement->document_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampAgreement->document_path }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -67,7 +67,7 @@
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload</h5>
-                                            <input type="hidden" name="oldLeaseFile" value="{{ $data->StampByDycdoAgreement->document_path }}">
+                                            <input type="hidden" name="oldLeaseFile" value="{{ isset($data->StampByDycdoAgreement->document_path) ? $data->StampByDycdoAgreement->document_path : '' }}">
                                             <span class="hint-text">Click to upload Lease deed agreement</span>
                                                 <div class="custom-file">
                                                     <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload1">
