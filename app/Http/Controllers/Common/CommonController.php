@@ -3584,23 +3584,117 @@ class CommonController extends Controller
             ->whereIn('role_id',$dyceRoleData)
             ->get()->count();
 
-        $reeTotalPendingCount = OlApplicationStatus::where('is_active',1)
+        $new_offer_letter_master_ids = config('commanConfig.new_offer_letter_master_ids');
+
+        $reeTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($new_offer_letter_master_ids){
+                $q->whereIn('application_master_id', $new_offer_letter_master_ids);
+            })->where('is_active',1)
             ->whereIn('status_id',[config('commanConfig.applicationStatus.offer_letter_generation'),config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.offer_letter_approved')])
             ->whereIn('role_id',$reeRoleData)
             ->get()->count();
 
-        $coTotalPendingCount = OlApplicationStatus::where('is_active',1)
-            ->whereIn('status_id',[config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.offer_letter_generation')])
+        $coTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($new_offer_letter_master_ids){
+            $q->whereIn('application_master_id', $new_offer_letter_master_ids);
+        })->where('is_active',1)
+            ->whereIn('status_id',[config('commanConfig.applicationStatus.offer_letter_generation'),config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.offer_letter_approved')])
             ->where('role_id',$roles['co_engineer'])
             ->get()->count();
 
-        $vpTotalPendingCount = OlApplicationStatus::where('is_active',1)
-            ->where('status_id',config('commanConfig.applicationStatus.in_process'))
+        $vpTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($new_offer_letter_master_ids){
+            $q->whereIn('application_master_id', $new_offer_letter_master_ids);
+        })->where('is_active',1)
+            ->whereIn('status_id',[config('commanConfig.applicationStatus.offer_letter_generation'),config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.offer_letter_approved')])
             ->where('role_id',$roles['vp_engineer'])
             ->get()->count();
 
-        $capTotalPendingCount = OlApplicationStatus::where('is_active',1)
+        $capTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($new_offer_letter_master_ids){
+            $q->whereIn('application_master_id', $new_offer_letter_master_ids);
+        })->where('is_active',1)
+            ->whereIn('status_id',[config('commanConfig.applicationStatus.offer_letter_generation'),config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.offer_letter_approved')])
+            ->where('role_id',$roles['cap_engineer'])
+            ->get()->count();
+
+        $totalPendingApplications = $eeTotalPendingCount + $dyceTotalPendingCount + $reeTotalPendingCount
+            + $coTotalPendingCount + $vpTotalPendingCount + $capTotalPendingCount;
+
+
+        $dashboardData1 = array();
+        $dashboardData1['Total Number of Applications Pending'] = $totalPendingApplications;
+        $dashboardData1['Applications Pending at EE Department'] = $eeTotalPendingCount;
+        $dashboardData1['Applications Pending at DyCE'] = $dyceTotalPendingCount;
+        $dashboardData1['Applications Pending at REE'] = $reeTotalPendingCount;
+        $dashboardData1['Applications Pending at CO'] = $coTotalPendingCount;
+//                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
+        $dashboardData1['Applications Pending at CAP'] = $capTotalPendingCount;
+        $dashboardData1['Applications Pending at VP'] = $vpTotalPendingCount;
+
+        return $dashboardData1;
+
+
+    }
+
+
+    /*
+     * Function for getting total count of all department dashboard for ree
+     *
+     * Author :Prajakta Sisale.
+     *
+     * @return array
+     */
+    public function getTotalCountsOfRevalApplicationsPending(){
+
+        $eeRoleData = $this->getEERoles();
+        $dyceRoleData = $this->getDyceRoles();
+        $reeRoleData = $this->getREERoles();
+//        $coRoleData = Role::where('name',config('commanConfig.co_engineer'))->value('id');
+//        $vpRoleData = Role::where('name',config('commanConfig.vp_engineer'))->value('id');
+//        $capRoleData = Role::where('name',config('commanConfig.cap_engineer'))->value('id');
+
+        $roles = Role::whereIn('name',[config('commanConfig.co_engineer'),config('commanConfig.vp_engineer'),config('commanConfig.cap_engineer')])->pluck('id','name');
+//        dd($roles);
+
+        //SELECT COUNT(*) FROM `ol_application_status_log` WHERE `is_active`=1 AND `role_id` IN (21) AND `status_id`= 1
+
+//        $eeTotalPendingCount = $dyceTotalPendingCount = $reeTotalPendingCount
+//        = $coTotalPendingCount = $vpTotalPendingCount = $capTotalPendingCount = 0;
+
+        $eeTotalPendingCount = OlApplicationStatus::where('is_active',1)
             ->where('status_id',config('commanConfig.applicationStatus.in_process'))
+            ->whereIn('role_id',$eeRoleData)
+            ->get()->count();
+
+        $dyceTotalPendingCount = OlApplicationStatus::where('is_active',1)
+            ->where('status_id',config('commanConfig.applicationStatus.in_process'))
+            ->whereIn('role_id',$dyceRoleData)
+            ->get()->count();
+
+        $reval_application_type_ids= config('commanConfig.revalidation_master_ids');
+
+        $reeTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($reval_application_type_ids){
+            $q->whereIn('application_master_id', $reval_application_type_ids);
+        })->where('is_active',1)
+            ->whereIn('status_id',[config('commanConfig.applicationStatus.offer_letter_generation'),config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.offer_letter_approved')])
+            ->whereIn('role_id',$reeRoleData)
+            ->get()->count();
+
+        $coTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($reval_application_type_ids){
+            $q->whereIn('application_master_id', $reval_application_type_ids);
+        })->where('is_active',1)
+            ->whereIn('status_id',[config('commanConfig.applicationStatus.offer_letter_generation'),config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.offer_letter_approved')])
+            ->where('role_id',$roles['co_engineer'])
+            ->get()->count();
+
+        $vpTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($reval_application_type_ids){
+            $q->whereIn('application_master_id', $reval_application_type_ids);
+        })->where('is_active',1)
+            ->whereIn('status_id',[config('commanConfig.applicationStatus.offer_letter_generation'),config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.offer_letter_approved')])
+            ->where('role_id',$roles['vp_engineer'])
+            ->get()->count();
+
+        $capTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($reval_application_type_ids){
+            $q->whereIn('application_master_id', $reval_application_type_ids);
+        })->where('is_active',1)
+            ->whereIn('status_id',[config('commanConfig.applicationStatus.offer_letter_generation'),config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.offer_letter_approved')])
             ->where('role_id',$roles['cap_engineer'])
             ->get()->count();
 

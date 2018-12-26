@@ -6,6 +6,8 @@
     @php
         $chart = 0;
         $chart1 = 0;
+        $chart2 = 0;
+        $chart3 = 0;
     @endphp
     <div class="container-fluid">
         <div class="m-subheader px-0 m-subheader--top">
@@ -77,6 +79,71 @@
             </div>
         </div>
 
+        <div class="hearing-accordion-wrapper">
+            <div class="m-portlet m-portlet--compact ol-reval-accordion mb-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
+                       data-toggle="collapse" href="#ree-ol-reval-summary">
+                        <span class="form-accordion-title">Application for Revalidation of Offer Letter </span>
+                        <span class="accordion-icon ol-reval-accordion-icon"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="ree-ol-reval-summary"
+                 data-parent="#accordion">
+                <div class="row no-gutters hearing-row">
+                    <div class="col-12 no-shadow">
+                        <div class="app-card-section-title">Offer Letter Revalidation</div>
+                    </div>
+                    @foreach($revalDashboardData[0] as $header => $value)
+                        <div class="col-lg-3">
+                            <div class="m-portlet app-card text-center">
+                                <h2 class="app-heading">{{$header}}</h2>
+                                <div class="app-card-footer">
+                                    <h2 class="app-no mb-0">{{$value[0]}}</h2>
+                                    @php $chart2 += $value[0];@endphp
+                                    @if( $value[1] == 'pending')
+                                        <a href="{{route('ree_applications.reval').$value[1]}}" class="app-card__details mb-0" data-toggle="modal" data-target="#reeRevalPendingModal">View Details</a>
+                                    @else
+                                        <a href="{{route('ree_applications.reval').$value[1]}}" class="app-card__details mb-0">View Details</a>
+                                    @endif
+                                    {{--<a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a>--}}
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                @if($chart2)
+                    <div id="reval_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
+                @endif
+
+                @if($revalDashboardData1)
+                    <div class="row no-gutters hearing-row">
+                        <div class="col-12 no-shadow">
+                            <div class="app-card-section-title">Offer Letter Revalidation Subordinate Pendency</div>
+                        </div>
+                        @foreach($revalDashboardData1 as $header => $value)
+                            <div class="col-lg-3">
+                                <div class="m-portlet app-card text-center">
+                                    <h2 class="app-heading">{{$header}}</h2>
+                                    <div class="app-card-footer">
+                                        <h2 class="app-no mb-0">{{$value}}</h2>
+                                        @php $chart3 += $value;@endphp
+                                    </div>
+                                    {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    @if($chart3)
+                        <div id="revalchartdiv1" style="width: 100%; height: 350px; margin-top: 2px;"></div>
+                    @endif
+                @endif
+            </div>
+        </div>
+
+
+
         {{--@if($dashboardData1)--}}
         {{--<div class="hearing-accordion-wrapper">--}}
             {{--<div class="m-portlet m-portlet--compact hearing-accordion mb-0">--}}
@@ -116,7 +183,7 @@
                     </a>
                 </div>
             </div>
-                <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="co-noc-summary"
+                <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="co-noc-summary"
                      data-parent="#accordion">
                     <div class="row no-gutters hearing-row">
                         <div class="col-12 no-shadow">
@@ -170,7 +237,7 @@
                     </a>
                 </div>
             </div>
-                <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="co-noc_cc-summary"
+                <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="co-noc_cc-summary"
                      data-parent="#accordion">
                     <div class="row no-gutters hearing-row">
                         <div class="col-12 no-shadow">
@@ -253,7 +320,44 @@
             </div>
         </div>
     </div>
-
+    <!-- Model for Reval Pending Bifurcation-->
+    <div class="modal fade" id="reeRevalPendingModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Applications Pending</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table text-center">
+                            <thead class="thead-default">
+                            <tr>
+                                <th>Header</th>
+                                <th>Count</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if($revalDashboardData[1] )
+                                @foreach($revalDashboardData[1]  as $header => $value)
+                                    <tr>
+                                        <td> {{$header}} </td>
+                                        <td> {{$value}} </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- <p>Some text in the modal.</p> -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection
 @section('js')
@@ -272,12 +376,27 @@
             }
         });
 
-        $('.noc-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+        $(".ol-reval-accordion").on("click", function () {
+            var data = $('.ol-reval-accordion').children().children().attr('aria-expanded');
+            if (!(data)) {
+                $('.ol-reval-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+            }
+            else {
+                if (data == 'undefine' || data == 'false') {
+                    $('.ol-reval-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                } else {
+                    $('.ol-reval-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                }
+            }
+        });
+
+
+//        $('.noc-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
 
         $(".noc_accordian").on("click", function () {
             var data = $('.noc_accordian').children().children().attr('aria-expanded');
             if (!(data)) {
-                $('.noc-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                $('.noc-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
             }
             else {
                 if (data == 'undefine' || data == 'false') {
@@ -288,12 +407,12 @@
             }
         });
 
-        $('.noc_cc-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+//        $('.noc_cc-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
 
         $(".noc_cc_accordian").on("click", function () {
             var data = $('.noc_cc_accordian').children().children().attr('aria-expanded');
             if (!(data)) {
-                $('.noc_cc-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                $('.noc_cc-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
             }
             else {
                 if (data == 'undefine' || data == 'false') {
@@ -384,6 +503,83 @@
 
     </script>
     @endif
+
+    @if($chart2)
+        <script>
+            var chart2;
+            var legend;
+
+
+            var chartData2 = [
+
+                    @foreach($revalDashboardData[0] as $header => $value)
+                    @if($header != 'Total No of Applications'){
+                    "status": '{{$header}}',
+                    "value": '{{$value[0]}}',
+                },
+                @endif
+                @endforeach
+
+            ];
+
+            AmCharts.ready(function () {
+                // PIE CHART
+                chart2 = new AmCharts.AmPieChart();
+                chart2.dataProvider = chartData2;
+                chart2.titleField = "status";
+                chart2.valueField = "value";
+                chart2.outlineColor = "#FFFFFF";
+                chart2.outlineAlpha = 0.8;
+                chart2.outlineThickness = 2;
+                chart2.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+                // this makes the chart 3D
+                chart2.depth3D = 15;
+                chart2.angle = 30;
+                chart2.colors =[ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
+                chart2.fontSize = 15;
+
+                // WRITE
+                chart2.write("reval_chart");
+            });
+        </script>
+    @endif
+    @if($chart3)
+        <script>
+            var chart3;
+            var legend;
+
+            var chartData3 = [
+                            @foreach($revalDashboardData1 as $header => $value)
+                            @if($header != 'Total Number of Applications Pending'){
+                        "status": '{{$header}}',
+                        "value": '{{$value}}',
+                    },
+                        @endif
+                        @endforeach
+                ];
+
+            AmCharts.ready(function () {
+                // PIE CHART
+                chart3 = new AmCharts.AmPieChart();
+                chart3.dataProvider = chartData3;
+                chart3.titleField = "status";
+                chart3.valueField = "value";
+                chart3.outlineColor = "#FFFFFF";
+                chart3.outlineAlpha = 0.8;
+                chart3.outlineThickness = 2;
+                chart3.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+                // this makes the chart 3D
+                chart3.depth3D = 15;
+                chart3.angle = 30;
+                chart3.colors = [ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
+                chart3.fontSize = 15;
+
+                // WRITE
+                chart3.write("revalchartdiv1");
+            });
+        </script>
+    @endif
+
     <script>
         var noc_chart;
         var legend;
