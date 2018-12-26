@@ -24,7 +24,7 @@
                  data-parent="#accordion">
                 <div class="row no-gutters hearing-row">
                     <div class="col-12 no-shadow">
-                        <div class="app-card-section-title">Offer Letter</div>
+                        <div class="app-card-section-title">Land Details</div>
                     </div>
                     @php $chart = 0;@endphp
                     @foreach($dashboardData as $header => $value)
