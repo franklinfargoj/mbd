@@ -438,7 +438,7 @@ class SocietyTripatiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function showuploadTripartiteAfterSign($id){
-//        dd($id);
+
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $ol_applications = OlApplication::where('society_id', $society->id)->where('id', $id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();

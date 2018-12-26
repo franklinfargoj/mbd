@@ -765,7 +765,7 @@ class SocietyRenewalController extends Controller
         $document_status_master_seq = array_pluck($document_status_master_seq, 'id');
         $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Renewal'))->value('id');
         $document_ids = $this->renewal_common->getDocumentIds($documents_req, $application_type, $sc_application->id);
-//        dd($document_ids);
+
         $uploaded_document_ids = [];
         $documents_remaining_ids = [];
 
@@ -866,7 +866,8 @@ class SocietyRenewalController extends Controller
 
         $society_flag = 1;
         $status = ApplicationStatusMaster::where('status_name', config('commanConfig.documents.society.Register'))->value('id');
-
+//        dd($field_names);
+//        dd($sc_registration_detail);
         return view('frontend.society.renewal.signed_sale_lease_deed', compact('sc_application', 'society_flag','status', 'sale_agreement_type_id', 'lease_agreement_type_id', 'field_names', 'comm_func', 'uploaded_document_ids', 'documents', 'documents_uploaded', 'status', 'sc_registration_detail'));
     }
 
