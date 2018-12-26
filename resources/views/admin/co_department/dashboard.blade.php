@@ -440,12 +440,12 @@
             }
         });
 
-        $('.noc-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+//        $('.noc-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
 
         $(".noc_accordian").on("click", function () {
             var data = $('.noc_accordian').children().children().attr('aria-expanded');
             if (!(data)) {
-                $('.noc-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                $('.noc-accordion-icon').css('background-image', "url('../../../../img/minuss-icon.svg')");
             }
             else {
                 if (data == 'undefine' || data == 'false') {
@@ -456,12 +456,12 @@
             }
         });
 
-        $('.noc_cc-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+//        $('.noc_cc-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
 
         $(".noc_cc_accordian").on("click", function () {
             var data = $('.noc_cc_accordian').children().children().attr('aria-expanded');
             if (!(data)) {
-                $('.noc_cc-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                $('.noc_cc-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
             }
             else {
                 if (data == 'undefine' || data == 'false') {
