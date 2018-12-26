@@ -287,7 +287,9 @@ class REEController extends Controller
         //dd($request->all());
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($request->applicationId);
 
-        if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation'))
+        // Added OR Condition by Prajakta Sisale
+        if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation')
+            || $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.draft_offer_letter_generated'))
         {
             $this->CommonController->generateOfferLetterREE($request);
         }
@@ -1822,18 +1824,35 @@ class REEController extends Controller
 
         $applicationData = $this->getApplicationData($role_id,$user_id);
 
+        // Reval APplication data
+
+        $revalApplicationData = $this->getRevalApplicationData($role_id,$user_id);
+
+
         $statusCount = $this->getApplicationStatusCount($applicationData);
+
+        // Reval status Count
+        $revalStatusCount = $this->getApplicationStatusCount($revalApplicationData);
 
         // REE Roles
         $ree = $this->CommonController->getREERoles();
 
         $dashboardData = $this->getREEDashboardData($role_id,$ree,$statusCount);
 
+        // Reval status Count
+        $revalDashboardData = $this->getREEDashboardData($role_id,$ree,$revalStatusCount);
+
         $reeHeadId = Role::where('name',config('commanConfig.ree_branch_head'))->value('id');
 
         $dashboardData1 = NULL;
         if($role_id == $reeHeadId){
             $dashboardData1 = $this->CommonController->getTotalCountsOfApplicationsPending();
+        }
+
+        // Reval Dashboard data
+        $revalDashboardData1 = NULL;
+        if($role_id == $reeHeadId){
+            $revalDashboardData1 = $this->CommonController->getTotalCountsOfRevalApplicationsPending();
         }
 
         //Noc dashboard -- Sayan
@@ -1846,10 +1865,13 @@ class REEController extends Controller
         $nocforCCModuleController = new SocietyNocforCCController();
         $nocforCCApplication = $nocforCCModuleController->getApplicationListDashboard('REE');
 
-        return view('admin.REE_department.dashboard',compact('dashboardData','dashboardData1','nocApplication','nocforCCApplication'));
+        return view('admin.REE_department.dashboard',compact('dashboardData','dashboardData1','revalDashboardData1','nocApplication','nocforCCApplication','revalDashboardData'));
     }
 
     public function getApplicationData($role_id,$user_id){
+
+        $new_offer_letter_master_ids = config('commanConfig.new_offer_letter_master_ids');
+
         $applicationData = OlApplication::with([
             'olApplicationStatus' => function ($q) use ($role_id,$user_id) {
                 $q->where('user_id', $user_id)
@@ -1864,7 +1886,31 @@ class REEController extends Controller
                     ->where('society_flag', 0)
                     ->where('is_active',1)
                     ->orderBy('id', 'desc');
-            })->get()->toArray();
+            })->where('application_master_id',$new_offer_letter_master_ids)->get()->toArray();
+
+        return $applicationData;
+    }
+
+    // reval application data
+    public function getRevalApplicationData($role_id,$user_id){
+
+        $reval_application_type_ids= config('commanConfig.revalidation_master_ids');
+
+        $applicationData = OlApplication::with([
+            'olApplicationStatus' => function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+                    ->where('is_active',1)
+                    ->orderBy('id', 'desc');
+            }])
+            ->whereHas('olApplicationStatus', function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+                    ->where('is_active',1)
+                    ->orderBy('id', 'desc');
+            })->whereIn('application_master_id',$reval_application_type_ids)->get()->toArray();
 
         return $applicationData;
     }
