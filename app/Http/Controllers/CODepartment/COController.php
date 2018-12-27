@@ -968,11 +968,25 @@ class COController extends Controller
 
         $applicationData = $this->getApplicationData($role_id,$user_id);
 
+        // Reval APplication data
+
+        $revalApplicationData = $this->getRevalApplicationData($role_id,$user_id);
+
         $statusCount = $this->getApplicationStatusCount($applicationData);
+
+        // Reval status Count
+        $revalStatusCount = $this->getApplicationStatusCount($revalApplicationData);
 
         $dashboardData = $this->getCODashboardData($statusCount);
 
         $dashboardData1 = $this->CommonController->getTotalCountsOfApplicationsPending();
+
+        // Reval Dashboard pending data
+        $revalDashboardData1 = $this->CommonController->getTotalCountsOfRevalApplicationsPending();
+
+
+        // Reval dashboard data
+        $revalDashboardData = $this->getCODashboardData($revalStatusCount);
 
         // conveyance dashboard
         $conveyanceCommonController = new conveyanceCommonController();
@@ -1043,10 +1057,13 @@ class COController extends Controller
 
         $todaysHearing = HearingSchedule::with(['Hearing'])->where('preceding_date',$today)->get()->toArray();
 
-        return view('admin.co_department.dashboard',compact('dashboardData','hearingDashboardData','todaysHearing','dashboardData1','conveyanceDashboard','conveyanceRoles','pendingApplications','nocApplication','nocforCCApplication'));
+        return view('admin.co_department.dashboard',compact('dashboardData','revalDashboardData','revalDashboardData1','hearingDashboardData','todaysHearing','dashboardData1','conveyanceDashboard','conveyanceRoles','pendingApplications','nocApplication','nocforCCApplication'));
     }
 
     public function getApplicationData($role_id,$user_id){
+
+        $new_offer_letter_master_ids = config('commanConfig.new_offer_letter_master_ids');
+
         $applicationData = OlApplication::with([
             'olApplicationStatus' => function ($q) use ($role_id,$user_id) {
                 $q->where('user_id', $user_id)
@@ -1061,7 +1078,31 @@ class COController extends Controller
                     ->where('society_flag', 0)
                     ->where('is_active',1)
                     ->orderBy('id', 'desc');
-            })->get()->toArray();
+            })->where('application_master_id',$new_offer_letter_master_ids)->get()->toArray();
+
+        return $applicationData;
+    }
+
+    // reval application data
+    public function getRevalApplicationData($role_id,$user_id){
+
+        $reval_application_type_ids= config('commanConfig.revalidation_master_ids');
+
+        $applicationData = OlApplication::with([
+            'olApplicationStatus' => function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+                    ->where('is_active',1)
+                    ->orderBy('id', 'desc');
+            }])
+            ->whereHas('olApplicationStatus', function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+                    ->where('is_active',1)
+                    ->orderBy('id', 'desc');
+            })->whereIn('application_master_id',$reval_application_type_ids)->get()->toArray();
 
         return $applicationData;
     }
