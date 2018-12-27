@@ -213,7 +213,35 @@
                 </div>
         </div>
         @endif
-
+        @if((session()->get('role_name')==config('commanConfig.junior_architect'))||
+    (session()->get('role_name')==config('commanConfig.senior_architect')) ||
+    (session()->get('role_name')==config('commanConfig.architect')))
+    @include('admin.dashboard.architect_layout.partials.architect_dashboard',compact('data'))
+    @endif
+    @if(session()->get('role_name')==config('commanConfig.land_manager'))
+    @include('admin.dashboard.architect_layout.partials.lm_dashboard',compact('data'))
+    @endif
+    @if(session()->get('role_name')==config('commanConfig.estate_manager'))
+    @include('admin.dashboard.architect_layout.partials.em_dashboard',compact('data'))
+    @endif
+    @if (in_array(session()->get('role_name'),array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'))))
+    @include('admin.dashboard.architect_layout.partials.ee_dashboard',compact('data'))
+    @endif
+    @if (in_array(session()->get('role_name'),array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head'))))
+    @include('admin.dashboard.architect_layout.partials.ree_dashboard',compact('data'))
+    @endif
+    @if(in_array(session()->get('role_name'),array(config('commanConfig.co_engineer'))))
+    @include('admin.dashboard.architect_layout.partials.co_dashboard',compact('data'))
+    @endif
+    @if(in_array(session()->get('role_name'),array(config('commanConfig.senior_architect_planner'))))
+    @include('admin.dashboard.architect_layout.partials.sap_dashboard',compact('data'))
+    @endif
+    @if(in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'))))
+    @include('admin.dashboard.architect_layout.partials.cap_dashboard',compact('data'))
+    @endif
+    @if(in_array(session()->get('role_name'),array(config('commanConfig.vp_engineer'))))
+    @include('admin.dashboard.architect_layout.partials.vp_dashboard',compact('data'))
+    @endif
     </div>
     <!-- Model for send to society bifergation-->
     <div class="modal fade" id="reePendingModal" role="dialog">
