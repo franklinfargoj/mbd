@@ -1670,7 +1670,14 @@ class CommonController extends Controller
         $applicationData = $this->getApplicationData($role_id,$user_id);
 //        dd($applicationData);
 
+        // Reval APplication data
+
+        $revalApplicationData = $this->getRevalApplicationData($role_id,$user_id);
+
         $statusCount = $this->getApplicationStatusCount($applicationData);
+
+        // Reval status Count
+        $revalStatusCount = $this->getApplicationStatusCount($revalApplicationData);
 
         // EE Roles
         $ee = $this->getEERoles();
@@ -1700,11 +1707,15 @@ class CommonController extends Controller
         if(in_array($role_id ,$dyce))
             $dashboardData = $this->getDyceDashboardData($role_id,$dyce,$statusCount);
 
-        if($cap == $role_id)
+        if($cap == $role_id){
             $dashboardData = $this->getCapDashboardData($statusCount);
+            $revalDashboardData = $this->getCapDashboardData($revalStatusCount);
+        }
 
-        if($vp == $role_id)
+        if($vp == $role_id){
             $dashboardData = $this->getVpDashboardData($statusCount);
+            $revalDashboardData = $this->getCapDashboardData($revalStatusCount);
+        }
 
         $dashboardData1 = NULL;
         $eeHeadId = Role::where('name',config('commanConfig.ee_branch_head'))->value('id');
@@ -1717,7 +1728,8 @@ class CommonController extends Controller
         if($role_id == $dyceHeadId){
             $dashboardData1 = $this->getToatalPendingApplicationsAtUser($dyce);
         }
-        return view('admin.common.ol_dashboard',compact('dashboardData','dashboardData1','conveyanceDashboard','conveyanceRoles','pendingApplications','renewalDashboard','renewalRoles','renewalPendingApplications'));
+
+        return view('admin.common.ol_dashboard',compact('dashboardData','revalDashboardData','dashboardData1','conveyanceDashboard','conveyanceRoles','pendingApplications','renewalDashboard','renewalRoles','renewalPendingApplications'));
 
     }
 
@@ -1732,6 +1744,9 @@ class CommonController extends Controller
      * @return array
      */
     public function getApplicationData($role_id,$user_id){
+
+        $new_offer_letter_master_ids = config('commanConfig.new_offer_letter_master_ids');
+
         $applicationData = OlApplication::with([
             'olApplicationStatus' => function ($q) use ($role_id,$user_id) {
                 $q->where('user_id', $user_id)
@@ -1746,7 +1761,40 @@ class CommonController extends Controller
                     ->where('society_flag', 0)
                     ->where('is_active',1)
                     ->orderBy('id', 'desc');
-            })->get()->toArray();
+            })->where('application_master_id',$new_offer_letter_master_ids)->get()->toArray();
+
+        return $applicationData;
+    }
+
+
+    /*
+     * Function for getting application's data.
+
+     * Author :Prajakta Sisale.
+     *
+     * @param $role_id,$user_id
+     *
+     * @return array
+     */
+    public function getRevalApplicationData($role_id,$user_id){
+
+        $reval_application_type_ids= config('commanConfig.revalidation_master_ids');
+
+        $applicationData = OlApplication::with([
+            'olApplicationStatus' => function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+                    ->where('is_active',1)
+                    ->orderBy('id', 'desc');
+            }])
+            ->whereHas('olApplicationStatus', function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+                    ->where('is_active',1)
+                    ->orderBy('id', 'desc');
+            })->whereIn('application_master_id',$reval_application_type_ids)->get()->toArray();
 
         return $applicationData;
     }
