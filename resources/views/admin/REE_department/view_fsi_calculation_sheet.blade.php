@@ -1,6 +1,6 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-@include('admin.REE_department.action',compact('ol_application'))
+@include('admin.'.$folder.'.action',compact('ol_application'))
 @endsection
 @section('content')
 
