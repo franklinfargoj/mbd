@@ -410,7 +410,12 @@ $route=\Request::route()->getName();
                                     false) || (strpos($route,'architect_layouts') !== false) || ($route == 'land.dashboard') || (strpos($route,'lease.index') !== false)){
                                     $id = '0' ;
                                     }else{
+
+                                    if(collect(request()->segments())->last() == 'architect_layouts'){
+                                    $id = collect(request()->segments())->last();
+                                    }else{
                                     $id = decrypt(collect(request()->segments())->last());
+                                    }
                                     }
                                 @endphp
                                 <li class="m-menu__item m-menu__item--submenu {{ ($route=='lease_detail.index' || (strpos($route,'view-lease') !== false) || $route=='edit-lease.edit')?'m-menu__item--active':''}}">
