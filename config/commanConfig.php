@@ -72,6 +72,7 @@ return [
        'approved_tripartite_agreement'=>23,
        'OC_Approved' => 24, 
        'OC_Generation' => 25,
+       'sent_for_stamp_duty_registration'=>26
    ],
 
 
@@ -264,6 +265,7 @@ return [
         '14' => 'purple', 
         '15' => 'success',
         '23' => 'success', 
+        '26'=>'info'
     ],
 
     'architect_applicationStatus' => [
