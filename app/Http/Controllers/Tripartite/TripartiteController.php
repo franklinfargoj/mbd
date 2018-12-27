@@ -508,7 +508,10 @@ class TripartiteController extends Controller
         }
 // dd($child);
         if ($child) {
-            $child = $child->merge($society_user);
+            if(session()->get('role_name')==config('commanCOnfig.ree_branch_head'))
+            {
+                $child = $child->merge($society_user);
+            }
         }
         //dd($child);
         return $child;
@@ -664,12 +667,12 @@ class TripartiteController extends Controller
                         $Tostatus = config('commanConfig.applicationStatus.approved_tripartite_agreement');
                     } else {
                         $is_approved_agreement = config('commanConfig.applicationStatus.draft_tripartite_agreement');
-                        $status = config('commanConfig.applicationStatus.forwarded');
+                        $status = config('commanConfig.applicationStatus.sent_for_stamp_duty_registration');
                         $Tostatus = config('commanConfig.applicationStatus.pending');
                     }
                 } else {
                     $is_approved_agreement = config('commanConfig.applicationStatus.draft_tripartite_agreement');
-                    $status = config('commanConfig.applicationStatus.forwarded');
+                    $status = config('commanConfig.applicationStatus.sent_for_stamp_duty_registration');
                     $Tostatus = config('commanConfig.applicationStatus.pending');
                 }
 

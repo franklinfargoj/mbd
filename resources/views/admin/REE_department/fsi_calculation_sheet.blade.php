@@ -79,7 +79,7 @@
                                     <div class="d-flex justify-content-start align-items-center mb-4">
                                         <span class="flex-shrink-0 text-nowrap">Total Number of buildings:</span>
                                         <input type="text" class="form-control form-control--xs form-control--custom flex-grow-0 ml-3" placeholder="0"
-                                            name="total_no_of_buildings" id="total_no_of_buildings" value="<?php if(isset($calculationSheetDetails[0]->total_no_of_buildings)) { echo $calculationSheetDetails[0]->total_no_of_buildings; }  ?>" />
+                                            name="total_no_of_buildings" id="total_no_of_buildings" value="<?php if(isset($calculationSheetDetails->total_no_of_buildings)) { echo $calculationSheetDetails->total_no_of_buildings; }  ?>" />
                                     </div>
                                     <div id="print_one">
                                     <table id="one" class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
@@ -108,7 +108,7 @@
                                             <tr>
                                                 <td style = "border-style: ridge;">1.</td>
                                                 <td style = "border-style: ridge;">
-                                                    कार्यकारी अभियंता /कुर्ला विभाग यांचे सिमांकन नकाशानुसार
+                                                    कार्यकारी अभियंता  यांचे सिमांकन नकाशानुसार
                                                     भूखंडाचे क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
@@ -123,7 +123,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" class="total_area form-control form-control--custom txtbox" placeholder="0"
                                                         name="area_as_per_lease_agreement" id="area_as_per_lease_agreement"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->area_as_per_lease_agreement)) { echo $calculationSheetDetails[0]->area_as_per_lease_agreement; } ?>" />
+                                                        value="<?php if(isset($calculationSheetDetails->area_as_per_lease_agreement)) { echo $calculationSheetDetails->area_as_per_lease_agreement; } ?>" />
                                                 </td>
                                                 </td>
                                             </tr>
@@ -134,7 +134,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" class="total_area form-control form-control--custom txtbox" placeholder="0"
-                                                        name="area_of_tit_bit_plot" id="area_of_tit_bit_plot" value="<?php  if(isset($calculationSheetDetails[0]->area_of_tit_bit_plot)) { echo $calculationSheetDetails[0]->area_of_tit_bit_plot; } ?>" />
+                                                        name="area_of_tit_bit_plot" id="area_of_tit_bit_plot" value="<?php  if(isset($calculationSheetDetails->area_of_tit_bit_plot)) { echo $calculationSheetDetails->area_of_tit_bit_plot; } ?>" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -144,7 +144,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" class="total_area form-control form-control--custom txtbox" placeholder="0"
-                                                        name="area_of_rg_plot" id="area_of_rg_plot" value="<?php if(isset($calculationSheetDetails[0]->area_of_rg_plot)) { echo $calculationSheetDetails[0]->area_of_rg_plot; } ?>" />
+                                                        name="area_of_rg_plot" id="area_of_rg_plot" value="<?php if(isset($calculationSheetDetails->area_of_rg_plot)) { echo $calculationSheetDetails->area_of_rg_plot; } ?>" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -154,7 +154,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" class="total_area form-control form-control--custom txtbox" placeholder="0"
-                                                        name="area_of_ntbnib_plot" id="area_of_ntbnib_plot" value="<?php if(isset($calculationSheetDetails[0]->area_of_ntbnib_plot)) { echo $calculationSheetDetails[0]->area_of_ntbnib_plot;} ?>" />
+                                                        name="area_of_ntbnib_plot" id="area_of_ntbnib_plot" value="<?php if(isset($calculationSheetDetails->area_of_ntbnib_plot)) { echo $calculationSheetDetails->area_of_ntbnib_plot;} ?>" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -164,7 +164,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" class="min_val_for_calculation form-control form-control--custom txtbox" readonly type="text" placeholder="0"
-                                                        name="area_of_total_plot" id="area_of_total_plot" value="<?php if(isset($calculationSheetDetails[0]->area_of_total_plot)) { echo $calculationSheetDetails[0]->area_of_total_plot; } ?>" /></td>
+                                                        name="area_of_total_plot" id="area_of_total_plot" value="<?php if(isset($calculationSheetDetails->area_of_total_plot)) { echo $calculationSheetDetails->area_of_total_plot; } ?>" /></td>
                                             </tr>
                                             <tr>
                                                 <td style = "border-style: ridge;">2.</td>
@@ -173,7 +173,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="min_val_for_calculation form-control form-control--custom txtbox" name="area_as_per_introduction"
-                                                        id="area_as_per_introduction" value="<?php if(isset($calculationSheetDetails[0]->area_as_per_introduction)) { echo $calculationSheetDetails[0]->area_as_per_introduction; } ?>" />
+                                                        id="area_as_per_introduction" value="<?php if(isset($calculationSheetDetails->area_as_per_introduction)) { echo $calculationSheetDetails->area_as_per_introduction; } ?>" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -184,7 +184,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="permissible_area total_permissible form-control form-control--custom txtbox"
                                                         name="area_of_subsistence_to_calculate" id="area_of_subsistence_to_calculate"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->area_of_subsistence_to_calculate)) { echo $calculationSheetDetails[0]->area_of_subsistence_to_calculate; }?>" />
+                                                        value="<?php if(isset($calculationSheetDetails->area_of_subsistence_to_calculate)) { echo $calculationSheetDetails->area_of_subsistence_to_calculate; }?>" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -195,7 +195,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="permissible_area total_permissible form-control form-control--custom txtbox"
                                                         name="permissible_carpet_area_coordinates" id="permissible_carpet_area_coordinates"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->permissible_carpet_area_coordinates)) { echo $calculationSheetDetails[0]->permissible_carpet_area_coordinates; } ?>" />
+                                                        value="<?php if(isset($calculationSheetDetails->permissible_carpet_area_coordinates)) { echo $calculationSheetDetails->permissible_carpet_area_coordinates; } ?>" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -206,7 +206,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="total_permissible form-control form-control--custom txtbox"
                                                         name="permissible_construction_area" id="permissible_construction_area"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->permissible_construction_area)) { echo $calculationSheetDetails[0]->permissible_construction_area;} ?>" />
+                                                        value="<?php if(isset($calculationSheetDetails->permissible_construction_area)) { echo $calculationSheetDetails->permissible_construction_area;} ?>" />
 
                                                 </td>
                                             </tr>
@@ -227,7 +227,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="proratata_area form-control form-control--custom txtbox"
-                                                        name="sqm_area_per_slot" id="sqm_area_per_slot" value="<?php if(isset($calculationSheetDetails[0]->sqm_area_per_slot)) { echo $calculationSheetDetails[0]->sqm_area_per_slot; } ?>" />
+                                                        name="sqm_area_per_slot" id="sqm_area_per_slot" value="<?php if(isset($calculationSheetDetails->sqm_area_per_slot)) { echo $calculationSheetDetails->sqm_area_per_slot; } ?>" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -237,7 +237,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="proratata_area total_permissible form-control form-control--custom txtbox"
-                                                        name="total_house" id="total_house" value="<?php if(isset($calculationSheetDetails[0]->total_house)) { echo $calculationSheetDetails[0]->total_house; } ?>" />
+                                                        name="total_house" id="total_house" value="<?php if(isset($calculationSheetDetails->total_house)) { echo $calculationSheetDetails->total_house; } ?>" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -248,7 +248,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" readonly class="form-control form-control--custom txtbox"
                                                         name="permissible_proratata_area" id="permissible_proratata_area"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->permissible_proratata_area)) { echo $calculationSheetDetails[0]->permissible_proratata_area; }?>" />
+                                                        value="<?php if(isset($calculationSheetDetails->permissible_proratata_area)) { echo $calculationSheetDetails->permissible_proratata_area; }?>" />
 
                                                 </td>
                                             </tr>
@@ -269,7 +269,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="total_permissible form-control form-control--custom txtbox"
                                                         name="per_sq_km_proyerta_construction_area" id="per_sq_km_proyerta_construction_area"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->per_sq_km_proyerta_construction_area)) { echo $calculationSheetDetails[0]->per_sq_km_proyerta_construction_area; } ?>" />
+                                                        value="<?php if(isset($calculationSheetDetails->per_sq_km_proyerta_construction_area)) { echo $calculationSheetDetails->per_sq_km_proyerta_construction_area; } ?>" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -280,7 +280,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
                                                         name="proratata_construction_area" id="proratata_construction_area"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->proratata_construction_area)) { echo $calculationSheetDetails[0]->proratata_construction_area; } ?>" />
+                                                        value="<?php if(isset($calculationSheetDetails->proratata_construction_area)) { echo $calculationSheetDetails->proratata_construction_area; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -293,7 +293,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="total_permissible form-control form-control--custom txtbox"
                                                         name="area_in_reserved_seats_for_vp_pio" id="area_in_reserved_seats_for_vp_pio"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->area_in_reserved_seats_for_vp_pio)) { echo $calculationSheetDetails[0]->area_in_reserved_seats_for_vp_pio; } ?>" />
+                                                        value="<?php if(isset($calculationSheetDetails->area_in_reserved_seats_for_vp_pio)) { echo $calculationSheetDetails->area_in_reserved_seats_for_vp_pio; } ?>" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -304,7 +304,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="remaining_area form-control form-control--custom txtbox"
                                                         name="total_permissible_construction_area" id="total_permissible_construction_area"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->total_permissible_construction_area)) { echo $calculationSheetDetails[0]->total_permissible_construction_area; } ?>" />
+                                                        value="<?php if(isset($calculationSheetDetails->total_permissible_construction_area)) { echo $calculationSheetDetails->total_permissible_construction_area; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -316,7 +316,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="remaining_area form-control form-control--custom txtbox"
                                                         name="existing_construction_area" id="existing_construction_area"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->existing_construction_area)) { echo $calculationSheetDetails[0]->existing_construction_area; } ?>" />
+                                                        value="<?php if(isset($calculationSheetDetails->existing_construction_area)) { echo $calculationSheetDetails->existing_construction_area; } ?>" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -326,22 +326,18 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" readonly class="form-control form-control--custom txtbox"
-                                                        name="remaining_area" id="remaining_area" value="<?php if(isset($calculationSheetDetails[0]->remaining_area)) { echo $calculationSheetDetails[0]->remaining_area; } ?>" />
+                                                        name="remaining_area" id="remaining_area" value="<?php if(isset($calculationSheetDetails->remaining_area)) { echo $calculationSheetDetails->remaining_area; } ?>" />
 
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td style = "border-style: ridge;">12.</td>
                                                 <td style = "border-style: ridge;">
-                                                    रेडीरेकनर २०१८ - १९ , न. भू. क्र. ३५१ (पै), व्हिलेज-
-                                                    हरियाली ,
-                                                    टागोरनगर झोन क्रमांक. ११२/५३५, दर रुपये रु. ५५,९०० /-
-                                                    (पृष्ठ
-                                                    क्रमांक सी - ६०५ ते सी -६०७ )
+                                                    रेडीरेकनर २०१८ - १९
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="redirekner_val form-control form-control--custom txtbox"
-                                                        name="redirekner_value" id="redirekner_value" value="<?php if(isset($calculationSheetDetails[0]->redirekner_value)) { echo $calculationSheetDetails[0]->redirekner_value; } ?>" />
+                                                        name="redirekner_value" id="redirekner_value" value="<?php if(isset($calculationSheetDetails->redirekner_value)) { echo $calculationSheetDetails->redirekner_value; } ?>" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -352,17 +348,17 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="redirekner_val form-control form-control--custom txtbox"
                                                         name="redirekner_construction_rate" id="redirekner_construction_rate"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->redirekner_construction_rate)) { echo $calculationSheetDetails[0]->redirekner_construction_rate; } ?>" />
+                                                        value="<?php if(isset($calculationSheetDetails->redirekner_construction_rate)) { echo $calculationSheetDetails->redirekner_construction_rate; } ?>" />
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td style = "border-style: ridge;">14.</td>
                                                 <td style = "border-style: ridge;">
-                                                    LR/RC = ५५,९००/२७५००
+                                                    LR/RC 
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" readonly class=" form-control form-control--custom txtbox"
-                                                        name="redirekner_val" id="redirekner_val" value="<?php if(isset($calculationSheetDetails[0]->redirekner_val)) { echo $calculationSheetDetails[0]->redirekner_val; } ?>" />
+                                                        name="redirekner_val" id="redirekner_val" value="<?php if(isset($calculationSheetDetails->redirekner_val)) { echo $calculationSheetDetails->redirekner_val; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -383,7 +379,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" readonly class="form-control form-control--custom txtbox"
                                                         name="remaining_residential_area" id="remaining_residential_area"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->remaining_residential_area)) { echo $calculationSheetDetails[0]->remaining_residential_area; } ?>" />
+                                                        value="<?php if(isset($calculationSheetDetails->remaining_residential_area)) { echo $calculationSheetDetails->remaining_residential_area; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -395,16 +391,16 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <div class="col-sm-12" style="margin-bottom: 12px;padding: 0px">
-                                                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" name="dcr_rate" id="dcr_rate">
+                                                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input subtn" name="dcr_rate" id="dcr_rate">
                                                             <option value="" selected disabled>Select</option>
-                                                            <option value="EWS" {{ isset($calculationSheetDetails[0]->dcr_rate) && $calculationSheetDetails[0]->dcr_rate == 'EWS' ? 'selected' : '' }}> EWS / LIG</option>
-                                                            <option value="MIG" {{ isset($calculationSheetDetails[0]->dcr_rate) && $calculationSheetDetails[0]->dcr_rate == 'MIG' ? 'selected' : '' }}>MIG</option>
-                                                            <option value="HIG" {{ isset($calculationSheetDetails[0]->dcr_rate) && $calculationSheetDetails[0]->dcr_rate == 'HIG' ? 'selected' : '' }}>HIG</option> 
+                                                            <option value="EWS" {{ isset($calculationSheetDetails->dcr_rate) && $calculationSheetDetails->dcr_rate == 'EWS' ? 'selected' : '' }}> EWS / LIG</option>
+                                                            <option value="MIG" {{ isset($calculationSheetDetails->dcr_rate) && $calculationSheetDetails->dcr_rate == 'MIG' ? 'selected' : '' }}>MIG</option>
+                                                            <option value="HIG" {{ isset($calculationSheetDetails->dcr_rate) && $calculationSheetDetails->dcr_rate == 'HIG' ? 'selected' : '' }}>HIG</option> 
                                                         </select>
                                                     </div>
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
                                                            name="calculated_dcr_rate_val" id="calculated_dcr_rate_val"
-                                                           value="<?php if(isset($calculationSheetDetails[0]->calculated_dcr_rate_val)) { echo $calculationSheetDetails[0]->calculated_dcr_rate_val; } ?>" />
+                                                           value="<?php if(isset($calculationSheetDetails->calculated_dcr_rate_val)) { echo $calculationSheetDetails->calculated_dcr_rate_val; } ?>" />
 
                                                     <!-- </div>                                                                                                                        -->
 
@@ -418,9 +414,9 @@
                                                     अधिमूल्य
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox infrastructure_charges"
+                                                    <input type="text" readonly placeholder="0" class="form-control form-control--custom txtbox infrastructure_charges"
                                                         name="balance_of_remaining_area" id="balance_of_remaining_area" 
-                                                        value="<?php if(isset($calculationSheetDetails[0]->balance_of_remaining_area)) { echo $calculationSheetDetails[0]->balance_of_remaining_area; } ?>" />
+                                                        value="<?php if(isset($calculationSheetDetails->balance_of_remaining_area)) { echo $calculationSheetDetails->balance_of_remaining_area; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -433,7 +429,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
                                                         name="infrastructure_fee_amount" id="infrastructure_fee_amount"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->infrastructure_fee_amount)) { echo $calculationSheetDetails[0]->infrastructure_fee_amount; } ?>" />
+                                                        value="<?php if(isset($calculationSheetDetails->infrastructure_fee_amount)) { echo $calculationSheetDetails->infrastructure_fee_amount; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -445,7 +441,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
                                                         name="infrastructure_charges" class="infrastructure_charges" id="infrastructure_charges"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->infrastructure_charges)) { echo $calculationSheetDetails[0]->infrastructure_charges; } ?>" />
+                                                        value="<?php if(isset($calculationSheetDetails->infrastructure_charges)) { echo $calculationSheetDetails->infrastructure_charges; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -457,7 +453,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
                                                         name="remaining_mat_area" id="remaining_mat_area"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->remaining_mat_area)) { echo $calculationSheetDetails[0]->remaining_mat_area; } ?>" />
+                                                        value="<?php if(isset($calculationSheetDetails->remaining_mat_area)) { echo $calculationSheetDetails->remaining_mat_area; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -468,7 +464,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
-                                                        name="scrutiny_fee" id="scrutiny_fee" value="<?php if(isset($calculationSheetDetails[0]->scrutiny_fee)) { echo $calculationSheetDetails[0]->scrutiny_fee; } ?>" />
+                                                        name="scrutiny_fee" id="scrutiny_fee" value="<?php if(isset($calculationSheetDetails->scrutiny_fee)) { echo $calculationSheetDetails->scrutiny_fee; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -478,8 +474,8 @@
                                                     अभिन्यास मंजुरी शुल्क रु,१०००/ - प्रति गाळा
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
-                                                        name="layout_approval_fee" id="layout_approval_fee" value="<?php if(isset($calculationSheetDetails[0]->layout_approval_fee)) { echo $calculationSheetDetails[0]->layout_approval_fee; } ?>" />
+                                                    <input style="border: none;" type="text" placeholder="0" class="total_amount form-control form-control--custom txtbox"
+                                                        name="layout_approval_fee" id="layout_approval_fee" value="<?php if(isset($calculationSheetDetails->layout_approval_fee)) { echo $calculationSheetDetails->layout_approval_fee; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -491,45 +487,46 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                 <div>
-                                                    <div class="m-radio-inline">
+                                                    <div class="m-radio-inline subtn">
                                                         <!-- <span class="mr-3">Is there any encroachment ?</span> -->
                                                         <label class="m-radio m-radio--primary">
                                                             <input type="radio" class="radioBtn debrajRadioBtn" name="is_debraj_fee_paid" value="1" 
-                                                            {{isset($calculationSheetDetails[0]->is_debraj_fee_paid) &&  $calculationSheetDetails[0]->is_debraj_fee_paid == 1 ? 'checked' : '' }}>Yes
+                                                            {{isset($calculationSheetDetails->is_debraj_fee_paid) &&  $calculationSheetDetails->is_debraj_fee_paid == 1 ? 'checked' : '' }}>Yes
                                                                 <span></span>
                                                         </label>
                                                         <label class="m-radio m-radio--primary">
-                                                            <input type="radio" class="radioBtn debrajRadioBtn" name="is_debraj_fee_paid" value="0"  {{isset($calculationSheetDetails[0]->is_debraj_fee_paid) &&  $calculationSheetDetails[0]->is_debraj_fee_paid == 0 ? 'checked' : '' }} > No
+                                                            <input type="radio" class="radioBtn debrajRadioBtn" name="is_debraj_fee_paid" value="0"  {{isset($calculationSheetDetails->is_debraj_fee_paid) &&  $calculationSheetDetails->is_debraj_fee_paid == 0 ? 'checked' : '' }} > No
                                                             <span></span>
                                                         </label>
                                                     </div>
                                                 </div>     
                                                 <div> 
-                                                <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox debraj_fee"
-                                                    name="debraj_removal_fee" id="debraj_removal_fee" value="{{ isset($calculationSheetDetails[0]->debraj_removal_fee) ? $calculationSheetDetails[0]->debraj_removal_fee : '3360' }}" />
+                                                <input style="border: none;" type="text" readonly placeholder="" class="total_amount form-control form-control--custom txtbox debraj_fee"
+                                                    name="debraj_removal_fee" id="debraj_removal_fee" value="{{ isset($calculationSheetDetails->debraj_removal_fee) ? $calculationSheetDetails->debraj_removal_fee : '' }}" />
                                                 </div>    
 
                                                 </td>
                                             </tr> 
+                                          
                                             <tr>
                                                 <td style = "border-style: ridge;">22.</td>
                                                 <td style = "border-style: ridge;">
                                                     पाणी वापर शुल्क (रु.१,००,०००/- ) [for 1 building]
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <div class="m-radio-inline">
+                                                    <div class="m-radio-inline subtn">
                                                         <!-- <span class="mr-3">Is there any encroachment ?</span> -->
                                                         <label class="m-radio m-radio--primary">
-                                                            <input type="radio" class="radioBtn WaterRadioBtn" name="is_water_charges_paid" value="1" >Yes
+                                                            <input type="radio" class="radioBtn WaterRadioBtn" name="is_water_charges_paid" value="1" {{isset($calculationSheetDetails->is_water_charges_paid) &&  $calculationSheetDetails->is_water_charges_paid == 1 ? 'checked' : '' }}>Yes
                                                                 <span></span>
                                                         </label>
                                                         <label class="m-radio m-radio--primary">
-                                                            <input type="radio" class="radioBtn WaterRadioBtn" name="is_water_charges_paid" value="0" checked> No
+                                                            <input type="radio" class="radioBtn WaterRadioBtn" name="is_water_charges_paid" value="0"  {{isset($calculationSheetDetails->is_water_charges_paid) &&  $calculationSheetDetails->is_water_charges_paid == 0 ? 'checked' : '' }}> No
                                                             <span></span>
                                                         </label>
                                                     </div>                                                
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control total_amount form-control--custom txtbox WaterCharge"
-                                                        name="water_usage_charges" id="water_usage_charges" value="{{ isset($calculationSheetDetails[0]->water_usage_charges) ? $calculationSheetDetails[0]->water_usage_charges : '1,00,000' }}" />
+                                                        name="water_usage_charges" id="water_usage_charges" value="{{ isset($calculationSheetDetails->water_usage_charges) ? $calculationSheetDetails->water_usage_charges : '' }}" />
 
                                                 </td>
                                             </tr>                                            
@@ -540,7 +537,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control total_amount form-control--custom txtbox"
-                                                        name="basic_infrastructure_amount" id="basic_infrastructure_amount" value="<?php if(isset($calculationSheetDetails[0]->basic_infrastructure_amount)) { echo $calculationSheetDetails[0]->basic_infrastructure_amount; } ?>" />
+                                                        name="basic_infrastructure_amount" id="basic_infrastructure_amount" value="<?php if(isset($calculationSheetDetails->basic_infrastructure_amount)) { echo $calculationSheetDetails->basic_infrastructure_amount; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -559,8 +556,8 @@
                                                     1. आर. जी. स्थलांतरणाचे क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" placeholder="0" class="form-control form-control--custom txtbox"
-                                                           name="area_of_rg_to_be_relocated" id="area_of_rg_to_be_relocated" value="<?php if(isset($calculationSheetDetails[0]->area_of_rg_to_be_relocated)) { echo $calculationSheetDetails[0]->area_of_rg_to_be_relocated; } ?>" />
+                                                    <input type="text" placeholder="0" class="form-control form-control--custom txtbox"
+                                                           name="area_of_rg_to_be_relocated" id="area_of_rg_to_be_relocated" value="<?php if(isset($calculationSheetDetails->area_of_rg_to_be_relocated)) { echo $calculationSheetDetails->area_of_rg_to_be_relocated; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -572,7 +569,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
                                                            name="total_area_of_rg_to_be_relocated" id="total_area_of_rg_to_be_relocated"
-                                                           value="<?php if(isset($calculationSheetDetails[0]->total_area_of_rg_to_be_relocated)) { echo $calculationSheetDetails[0]->total_area_of_rg_to_be_relocated; } ?>" />
+                                                           value="<?php if(isset($calculationSheetDetails->total_area_of_rg_to_be_relocated)) { echo $calculationSheetDetails->total_area_of_rg_to_be_relocated; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -583,7 +580,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
-                                                           name="groundrent_capitalization_yearly" id="groundrent_capitalization_yearly" value="<?php if(isset($calculationSheetDetails[0]->groundrent_capitalization_yearly)) { echo $calculationSheetDetails[0]->groundrent_capitalization_yearly; } ?>" />
+                                                           name="groundrent_capitalization_yearly" id="groundrent_capitalization_yearly" value="<?php if(isset($calculationSheetDetails->groundrent_capitalization_yearly)) { echo $calculationSheetDetails->groundrent_capitalization_yearly; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -594,7 +591,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
-                                                           name="advance_groundrent_per_year" id="advance_groundrent_per_year" value="<?php if(isset($calculationSheetDetails[0]->advance_groundrent_per_year)) { echo $calculationSheetDetails[0]->advance_groundrent_per_year; } ?>" />
+                                                           name="advance_groundrent_per_year" id="advance_groundrent_per_year" value="<?php if(isset($calculationSheetDetails->advance_groundrent_per_year)) { echo $calculationSheetDetails->advance_groundrent_per_year; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -605,18 +602,18 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="total_amount form-control form-control--custom txtbox"
-                                                           name="nominal_groundrent" id="nominal_groundrent" value="<?php if(isset($calculationSheetDetails[0]->nominal_groundrent)) { echo $calculationSheetDetails[0]->nominal_groundrent; } ?>" />
+                                                           name="nominal_groundrent" id="nominal_groundrent" value="<?php if(isset($calculationSheetDetails->nominal_groundrent)) { echo $calculationSheetDetails->nominal_groundrent; } ?>" />
 
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td style = "border-style: ridge;">28.</td>
                                                 <td style = "border-style: ridge;">
-                                                    एकूण रक्कम रुपये (अ .क्र.१५+१८+१९+२०+२१+२२)
+                                                    एकूण रक्कम रुपये (अ .क्र. 18+19+20+21+22+23+24(total)+25+26+27)
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
-                                                        name="total_amount_in_rs" id="total_amount_in_rs" value="<?php if(isset($calculationSheetDetails[0]->total_amount_in_rs)) { echo $calculationSheetDetails[0]->total_amount_in_rs; } ?>" />
+                                                        name="total_amount_in_rs" id="total_amount_in_rs" value="<?php if(isset($calculationSheetDetails->total_amount_in_rs)) { echo $calculationSheetDetails->total_amount_in_rs; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -656,7 +653,7 @@
                                                                             <label class="m-radio m-radio--box-label">
                                                                                 <input type="radio" name="dcr_rate_in_percentage"
                                                                                     id="dcr_rate_in_percentage" value="40"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_rate_in_percentage) && $calculationSheetDetails[0]->dcr_rate_in_percentage == '40' ? 'checked' : '' }}>
+                                                                                    {{ isset($calculationSheetDetails->dcr_rate_in_percentage) && $calculationSheetDetails->dcr_rate_in_percentage == '40' ? 'checked' : '' }}>
                                                                                 <span class="m-radio--box-span"><span>40%</span></span>
                                                                             </label>
                                                                         </div>
@@ -666,7 +663,7 @@
                                                                             <label class="m-radio m-radio--box-label">
                                                                                 <input type="radio" name="dcr_rate_in_percentage"
                                                                                     id="dcr_rate_in_percentage" value="60"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_rate_in_percentage) && $calculationSheetDetails[0]->dcr_rate_in_percentage == '60' ? 'checked' : '' }}>
+                                                                                    {{ isset($calculationSheetDetails->dcr_rate_in_percentage) && $calculationSheetDetails->dcr_rate_in_percentage == '60' ? 'checked' : '' }}>
                                                                                 <span class="m-radio--box-span"><span>60%</span></span>
                                                                             </label>
                                                                         </div>
@@ -676,7 +673,7 @@
                                                                             <label class="m-radio m-radio--box-label">
                                                                                 <input type="radio" name="dcr_rate_in_percentage"
                                                                                     id="dcr_rate_in_percentage" value="80"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_rate_in_percentage) && $calculationSheetDetails[0]->dcr_rate_in_percentage == '80' ? 'checked' : '' }}>
+                                                                                    {{ isset($calculationSheetDetails->dcr_rate_in_percentage) && $calculationSheetDetails->dcr_rate_in_percentage == '80' ? 'checked' : '' }}>
                                                                                 <span class="m-radio--box-span"><span>80%</span></span>
                                                                             </label>
                                                                         </div>
@@ -689,7 +686,7 @@
                                                                             <label class="m-radio m-radio--box-label">
                                                                                 <input type="radio" name="dcr_rate_in_percentage"
                                                                                     id="dcr_rate_in_percentage" value="45"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_rate_in_percentage) && $calculationSheetDetails[0]->dcr_rate_in_percentage == '45' ? 'checked' : '' }}>
+                                                                                    {{ isset($calculationSheetDetails->dcr_rate_in_percentage) && $calculationSheetDetails->dcr_rate_in_percentage == '45' ? 'checked' : '' }}>
                                                                                 <span class="m-radio--box-span"><span>45%</span></span>
                                                                             </label>
                                                                         </div>
@@ -699,7 +696,7 @@
                                                                             <label class="m-radio m-radio--box-label">
                                                                                 <input type="radio" name="dcr_rate_in_percentage"
                                                                                     id="dcr_rate_in_percentage" value="65"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_rate_in_percentage) && $calculationSheetDetails[0]->dcr_rate_in_percentage == '65' ? 'checked' : '' }}>
+                                                                                    {{ isset($calculationSheetDetails->dcr_rate_in_percentage) && $calculationSheetDetails->dcr_rate_in_percentage == '65' ? 'checked' : '' }}>
                                                                                 <span class="m-radio--box-span"><span>65%</span></span>
                                                                             </label>
                                                                         </div>
@@ -709,7 +706,7 @@
                                                                             <label class="m-radio m-radio--box-label">
                                                                                 <input type="radio" name="dcr_rate_in_percentage"
                                                                                     id="dcr_rate_in_percentage" value="85"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_rate_in_percentage) && $calculationSheetDetails[0]->dcr_rate_in_percentage == '85' ? 'checked' : '' }}>
+                                                                                    {{ isset($calculationSheetDetails->dcr_rate_in_percentage) && $calculationSheetDetails->dcr_rate_in_percentage == '85' ? 'checked' : '' }}>
                                                                                 <span class="m-radio--box-span"><span>85%</span></span>
                                                                             </label>
                                                                         </div>
@@ -722,7 +719,7 @@
                                                                             <label class="m-radio m-radio--box-label">
                                                                                 <input type="radio" name="dcr_rate_in_percentage"
                                                                                     id="dcr_rate_in_percentage" value="50"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_rate_in_percentage) && $calculationSheetDetails[0]->dcr_rate_in_percentage == '50' ? 'checked' : '' }}>
+                                                                                    {{ isset($calculationSheetDetails->dcr_rate_in_percentage) && $calculationSheetDetails->dcr_rate_in_percentage == '50' ? 'checked' : '' }}>
                                                                                 <span class="m-radio--box-span"><span>50%</span></span>
                                                                             </label>
                                                                         </div>
@@ -732,7 +729,7 @@
                                                                             <label class="m-radio m-radio--box-label">
                                                                                 <input type="radio" name="dcr_rate_in_percentage"
                                                                                     id="dcr_rate_in_percentage" value="70"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_rate_in_percentage) && $calculationSheetDetails[0]->dcr_rate_in_percentage == '70' ? 'checked' : '' }}>
+                                                                                    {{ isset($calculationSheetDetails->dcr_rate_in_percentage) && $calculationSheetDetails->dcr_rate_in_percentage == '70' ? 'checked' : '' }}>
                                                                                 <span class="m-radio--box-span"><span>70%</span></span>
                                                                             </label>
                                                                         </div>
@@ -742,7 +739,7 @@
                                                                             <label class="m-radio m-radio--box-label">
                                                                                 <input type="radio" name="dcr_rate_in_percentage"
                                                                                     id="dcr_rate_in_percentage" value="90"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_rate_in_percentage) && $calculationSheetDetails[0]->dcr_rate_in_percentage == '90' ? 'checked' : '' }}>
+                                                                                    {{ isset($calculationSheetDetails->dcr_rate_in_percentage) && $calculationSheetDetails->dcr_rate_in_percentage == '90' ? 'checked' : '' }}>
                                                                                 <span class="m-radio--box-span"><span>90%</span></span>
                                                                             </label>
                                                                         </div>
@@ -755,7 +752,7 @@
                                                                             <label class="m-radio m-radio--box-label">
                                                                                 <input type="radio" name="dcr_rate_in_percentage"
                                                                                     id="dcr_rate_in_percentage" value="55"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_rate_in_percentage) && $calculationSheetDetails[0]->dcr_rate_in_percentage == '55' ? 'checked' : '' }}>
+                                                                                    {{ isset($calculationSheetDetails->dcr_rate_in_percentage) && $calculationSheetDetails->dcr_rate_in_percentage == '55' ? 'checked' : '' }}>
                                                                                 <span class="m-radio--box-span"><span>55%</span></span>
                                                                             </label>
                                                                         </div>
@@ -765,7 +762,7 @@
                                                                             <label class="m-radio m-radio--box-label">
                                                                                 <input type="radio" name="dcr_rate_in_percentage"
                                                                                     id="dcr_rate_in_percentage" value="75"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_rate_in_percentage) && $calculationSheetDetails[0]->dcr_rate_in_percentage == '75' ? 'checked' : '' }}>
+                                                                                    {{ isset($calculationSheetDetails->dcr_rate_in_percentage) && $calculationSheetDetails->dcr_rate_in_percentage == '75' ? 'checked' : '' }}>
                                                                                 <span class="m-radio--box-span"><span>75%</span></span>
                                                                             </label>
                                                                         </div>
@@ -775,7 +772,7 @@
                                                                             <label class="m-radio m-radio--box-label">
                                                                                 <input type="radio" name="dcr_rate_in_percentage"
                                                                                     id="dcr_rate_in_percentage" value="95"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_rate_in_percentage) && $calculationSheetDetails[0]->dcr_rate_in_percentage == '95' ? 'checked' : '' }}>
+                                                                                    {{ isset($calculationSheetDetails->dcr_rate_in_percentage) && $calculationSheetDetails->dcr_rate_in_percentage == '95' ? 'checked' : '' }}>
                                                                                 <span class="m-radio--box-span"><span>95%</span></span>
                                                                             </label>
                                                                         </div>
@@ -846,7 +843,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" readonly class="form-control form-control--custom txtbox" name="remaining_residential_area"
-                                                        id="remaining_residential_area" value="<?php if(isset($calculationSheetDetails[0]->remaining_residential_area)) { echo $calculationSheetDetails[0]->remaining_residential_area;} ?>" />
+                                                        id="remaining_residential_area" value="<?php if(isset($calculationSheetDetails->remaining_residential_area)) { echo $calculationSheetDetails->remaining_residential_area;} ?>" />
 
                                                 </td>
                                             </tr>
@@ -857,7 +854,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox" name="calculated_dcr_rate_val"
-                                                        id="calculated_dcr_rate_val" value="<?php if(isset($calculationSheetDetails[0]->calculated_dcr_rate_val)) { echo  $calculationSheetDetails[0]->calculated_dcr_rate_val; } ?>" />
+                                                        id="calculated_dcr_rate_val" value="<?php if(isset($calculationSheetDetails->calculated_dcr_rate_val)) { echo  $calculationSheetDetails->calculated_dcr_rate_val; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -868,7 +865,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox" name="remaining_area_of_resident_area_balance"
-                                                        id="remaining_area_of_resident_area_balance" value="<?php if(isset($calculationSheetDetails[0]->balance_of_remaining_area)) { echo $calculationSheetDetails[0]->balance_of_remaining_area; } ?>" />
+                                                        id="remaining_area_of_resident_area_balance" value="<?php if(isset($calculationSheetDetails->balance_of_remaining_area)) { echo $calculationSheetDetails->balance_of_remaining_area; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -883,7 +880,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox" name="off_site_infrastructure_fee"
-                                                        id="off_site_infrastructure_fee" value="<?php if(isset($calculationSheetDetails[0]->infrastructure_fee_amount)) { echo $calculationSheetDetails[0]->infrastructure_fee_amount; } ?>" />
+                                                        id="off_site_infrastructure_fee" value="<?php if(isset($calculationSheetDetails->infrastructure_fee_amount)) { echo $calculationSheetDetails->infrastructure_fee_amount; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -1004,7 +1001,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input type="text" style="border: none;" readonly class="first_installment  form-control form-control--custom txtbox" placeholder="0"
-                                                        name="scrutiny_fee" id="scrutiny_fee" value="<?php if(isset($calculationSheetDetails[0]->scrutiny_fee)) { echo $calculationSheetDetails[0]->scrutiny_fee; } ?>"
+                                                        name="scrutiny_fee" id="scrutiny_fee" value="<?php if(isset($calculationSheetDetails->scrutiny_fee)) { echo $calculationSheetDetails->scrutiny_fee; } ?>"
 
                                                 </td>
                                             </tr>
@@ -1015,7 +1012,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input type="text" style="border: none;" readonly class="first_installment  form-control form-control--custom txtbox" placeholder="0"
-                                                        name="layout_approval_fee" id="layout_approval_fee" value="<?php if(isset($calculationSheetDetails[0]->layout_approval_fee)) { echo $calculationSheetDetails[0]->layout_approval_fee; } ?>" />
+                                                        name="layout_approval_fee" id="layout_approval_fee" value="<?php if(isset($calculationSheetDetails->layout_approval_fee)) { echo $calculationSheetDetails->layout_approval_fee; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -1027,7 +1024,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                
                                                     <input type="text" style="border: none;" readonly placeholder="0" class="first_installment  form-control form-control--custom txtbox"
-                                                        name="debraj_removal_fee" id="debraj_removal" value="<?php if(isset($calculationSheetDetails[0]->debraj_removal_fee)) { echo $calculationSheetDetails[0]->debraj_removal_fee; } ?>" />
+                                                        name="debraj_removal_fee" id="debraj_removal" value="<?php if(isset($calculationSheetDetails->debraj_removal_fee)) { echo $calculationSheetDetails->debraj_removal_fee; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -1038,7 +1035,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input type="text" style="border: none;" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
-                                                        name="water_usage_charges" id="water_usage_charges" value="<?php if(isset($calculationSheetDetails[0]->water_usage_charges)) { echo $calculationSheetDetails[0]->water_usage_charges; } ?>" />
+                                                        name="water_usage_charges" id="water_usage_charges" value="<?php if(isset($calculationSheetDetails->water_usage_charges)) { echo $calculationSheetDetails->water_usage_charges; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -1058,7 +1055,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input type="text" style="border: none;" readonly placeholder="0" class="form-control form-control--custom txtbox"
-                                                           name="area_of_rg_to_be_relocated" id="area_of_rg_to_be_relocated" value="<?php if(isset($calculationSheetDetails[0]->area_of_rg_to_be_relocated)) { echo $calculationSheetDetails[0]->area_of_rg_to_be_relocated; } ?>" />
+                                                           name="area_of_rg_to_be_relocated" id="area_of_rg_to_be_relocated" value="<?php if(isset($calculationSheetDetails->area_of_rg_to_be_relocated)) { echo $calculationSheetDetails->area_of_rg_to_be_relocated; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -1070,7 +1067,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input type="text" style="border: none;" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
                                                            name="total_area_of_rg_to_be_relocated" id="total_area_of_rg_to_be_relocated"
-                                                           value="<?php if(isset($calculationSheetDetails[0]->total_area_of_rg_to_be_relocated)) { echo $calculationSheetDetails[0]->total_area_of_rg_to_be_relocated; } ?>" />
+                                                           value="<?php if(isset($calculationSheetDetails->total_area_of_rg_to_be_relocated)) { echo $calculationSheetDetails->total_area_of_rg_to_be_relocated; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -1081,7 +1078,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input type="text" style="border: none;" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
-                                                           name="groundrent_capitalization_yearly" id="groundrent_capitalization_yearly" value="<?php if(isset($calculationSheetDetails[0]->groundrent_capitalization_yearly)) { echo $calculationSheetDetails[0]->groundrent_capitalization_yearly; } ?>" />
+                                                           name="groundrent_capitalization_yearly" id="groundrent_capitalization_yearly" value="<?php if(isset($calculationSheetDetails->groundrent_capitalization_yearly)) { echo $calculationSheetDetails->groundrent_capitalization_yearly; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -1092,7 +1089,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input type="text" style="border: none;" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
-                                                           name="advance_groundrent_per_year" id="advance_groundrent_per_year" value="<?php if(isset($calculationSheetDetails[0]->advance_groundrent_per_year)) { echo $calculationSheetDetails[0]->advance_groundrent_per_year; } ?>" />
+                                                           name="advance_groundrent_per_year" id="advance_groundrent_per_year" value="<?php if(isset($calculationSheetDetails->advance_groundrent_per_year)) { echo $calculationSheetDetails->advance_groundrent_per_year; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -1103,7 +1100,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input type="text" style="border: none;" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
-                                                           name="nominal_groundrent" id="nominal_groundrent" value="<?php if(isset($calculationSheetDetails[0]->nominal_groundrent)) { echo $calculationSheetDetails[0]->nominal_groundrent; } ?>" />
+                                                           name="nominal_groundrent" id="nominal_groundrent" value="<?php if(isset($calculationSheetDetails->nominal_groundrent)) { echo $calculationSheetDetails->nominal_groundrent; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -1116,7 +1113,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input type="text" style="border: none;" readonly class="form-control txtbox form-control--custom" placeholder="0"
                                                         name="payment_of_first_installment" id="payment_of_first_installment"
-                                                        value="<?php  if(isset($calculationSheetDetails[0]->payment_of_first_installment)) { echo $calculationSheetDetails[0]->payment_of_first_installment; } ?>" />
+                                                        value="<?php  if(isset($calculationSheetDetails->payment_of_first_installment)) { echo $calculationSheetDetails->payment_of_first_installment; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -1190,7 +1187,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input type="text" style="border: none;" readonly class="form-control form-control--custom txtbox" placeholder="0"
                                                         name="payment_of_remaining_installment" id="payment_of_remaining_installment"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->payment_of_remaining_installment)) { echo $calculationSheetDetails[0]->payment_of_remaining_installment; } ?>" />
+                                                        value="<?php if(isset($calculationSheetDetails->payment_of_remaining_installment)) { echo $calculationSheetDetails->payment_of_remaining_installment; } ?>" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -1242,8 +1239,8 @@
                                                 महिन्या पर्यंत भरणा करावयाची पहिल्या हफ्त्याची रक्कम
                                             </td>
                                             <td class="text-center">
-                                                {{ isset($calculationSheetDetails[0]->payment_of_first_installment) ?
-                                                $calculationSheetDetails[0]->payment_of_first_installment : 0 }}
+                                                {{ isset($calculationSheetDetails->payment_of_first_installment) ?
+                                                $calculationSheetDetails->payment_of_first_installment : 0 }}
 
                                             </td>
                                         </tr>
@@ -1256,8 +1253,8 @@
                                                 (दार तिमाहीला परिगणनीय दराने) अधिक रकमेचा भरणा करावा लागेल
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
-                                                {{ isset($calculationSheetDetails[0]->payment_of_remaining_installment)
-                                                ? $calculationSheetDetails[0]->payment_of_remaining_installment : 0 }}
+                                                {{ isset($calculationSheetDetails->payment_of_remaining_installment)
+                                                ? $calculationSheetDetails->payment_of_remaining_installment : 0 }}
                                                 + interest
 
                                             </td>
@@ -1271,8 +1268,8 @@
                                                 (दर तिमाहीला परिगणनीय दराने) अधिक रकमेचा भरणा करावा लागेल
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
-                                                {{ isset($calculationSheetDetails[0]->payment_of_remaining_installment)
-                                                ? $calculationSheetDetails[0]->payment_of_remaining_installment : 0 }}
+                                                {{ isset($calculationSheetDetails->payment_of_remaining_installment)
+                                                ? $calculationSheetDetails->payment_of_remaining_installment : 0 }}
                                                 + interest
 
                                             </td>
@@ -1286,8 +1283,8 @@
                                                 (दर तिमाहीला परिगणनीय दराने) अधिक रकमेचा भरणा करावा लागेल
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
-                                                {{ isset($calculationSheetDetails[0]->payment_of_remaining_installment)
-                                                ? $calculationSheetDetails[0]->payment_of_remaining_installment : 0 }}
+                                                {{ isset($calculationSheetDetails->payment_of_remaining_installment)
+                                                ? $calculationSheetDetails->payment_of_remaining_installment : 0 }}
                                                 + interest
 
                                             </td>
@@ -1298,9 +1295,9 @@
                                                 एकूण
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
-                                                @if(isset($calculationSheetDetails[0]->payment_of_remaining_installment) || isset($calculationSheetDetails[0]->payment_of_first_installment))
+                                                @if(isset($calculationSheetDetails->payment_of_remaining_installment) || isset($calculationSheetDetails->payment_of_first_installment))
 
-                                                  {{ (3 * (float)(str_replace( ',', '',$calculationSheetDetails[0]->payment_of_remaining_installment)) ) + (float)(str_replace( ',', '',$calculationSheetDetails[0]->payment_of_first_installment)) }}
+                                                  {{ (3 * (float)(str_replace( ',', '',$calculationSheetDetails->payment_of_remaining_installment)) ) + (float)(str_replace( ',', '',$calculationSheetDetails->payment_of_first_installment)) }}
                                                 @else
                                                     0
                                                 @endif
@@ -1506,11 +1503,9 @@
         $(".total_amount").each(function () {
             var total_amount_val = cleanNumber($(this).val());
             var amountVal = (!total_amount_val || isNaN(total_amount_val)) ? 0 : total_amount_val;
-            console.log(amountVal);
-
             total_amount += +parseFloat(amountVal);
         });
-        // console.log(total_amount);
+
         $("#total_amount_in_rs").attr('value',numberWithCommas(Math.ceil(total_amount)));
     }
 
@@ -1526,7 +1521,6 @@
 
     function areaOfSubsistenceToCalculate()
     { 
-        // console.log('enter');
         var sorted = $(".min_val_for_calculation").sort(
 
             function (a, b) {
@@ -1559,9 +1553,9 @@
         var lr_rc_range = getLRRCRange();
         var dcr_rate_in_percentage = getDCRPercentage(lr_rc_range,dcr_rate);
         
-        console.log(dcr_rate);        
-        console.log(lr_rc_range);        
-        console.log(dcr_rate_in_percentage);        
+        // console.log(dcr_rate);        
+        // console.log(lr_rc_range);        
+        // console.log(dcr_rate_in_percentage);        
         
         var redirekner_value = (!cleanNumber($("#redirekner_value").val()) || isNaN(cleanNumber($("#redirekner_value").val()))) ? 0 : cleanNumber($("#redirekner_value").val());
         // var dcr_rate_in_percentage = (!$("input[type=radio][name=dcr_rate_in_percentage]:checked").val() || isNaN($("input[type=radio][name=dcr_rate_in_percentage]:checked").val())) ? 0 : $("input[type=radio][name=dcr_rate_in_percentage]:checked").val();
@@ -1673,9 +1667,10 @@
 
         var total_no_of_buildings = (!cleanNumber($("#total_no_of_buildings").val()) || isNaN(cleanNumber($("#total_no_of_buildings").val()))) ? 0 : cleanNumber($("#total_no_of_buildings").val());
 
-        $("#debraj_removal_fee").attr('value',numberWithCommas(6600 * total_no_of_buildings));
-        $("#water_usage_charges").attr('value',numberWithCommas(100000 * total_no_of_buildings));
-        $("#scrutiny_fee").attr('value',numberWithCommas(6000 * total_no_of_buildings));
+        // $("#debraj_removal_fee").attr('value',numberWithCommas(6600 * total_no_of_buildings));
+        $("#debraj_removal_fee").val(numberWithCommas(6600 * total_no_of_buildings));
+        $("#water_usage_charges").val(numberWithCommas(100000 * total_no_of_buildings));
+        $("#scrutiny_fee").val(numberWithCommas(6000 * total_no_of_buildings));
 
         totalAmountInRs();
     });
@@ -1799,16 +1794,9 @@
         var charges = (!cleanNumber($("#infrastructure_charges").val()) || isNaN(cleanNumber($("#infrastructure_charges").val()))) ? 0 : cleanNumber($("#infrastructure_charges").val());
 
         var mat_area = (parseFloat(area) - parseFloat(charges)).toFixed(2);
-        // console.log(numberWithCommas(mat_area));
         $("#remaining_mat_area").val(numberWithCommas(mat_area));        
         
     });
-
-    // $(document).on("change", "input[type=radio][name=dcr_rate_in_percentage]", function () {
-
-
-    // });
-
 
     $(document).on("keyup", "#redirekner_value", function () {
 
@@ -1919,20 +1907,22 @@
         var value = this.value;
         var building_no = $("#total_no_of_buildings").val();
         if (value == 1){
-            $("#debraj_removal_fee").attr('value',0);
+
+            $(".debraj_fee").val(0);
         }else{
-            $("#debraj_removal_fee").attr('value',(building_no * 6600));
+            $(".debraj_fee").val(numberWithCommas(building_no * 6600));
         }
         totalAmountInRs();
     });
 
     $(".WaterRadioBtn").change(function(){
         var value = this.value;
+        
         var building_no = $("#total_no_of_buildings").val();
         if (value == 1){
-            $(".WaterCharge").attr('value',0);
+            $(".WaterCharge").val(0);
         }else{
-            $(".WaterCharge").attr('value',numberWithCommas(building_no * 100000));
+            $(".WaterCharge").val(numberWithCommas(building_no * 100000));
         }
         totalAmountInRs();
     }); 

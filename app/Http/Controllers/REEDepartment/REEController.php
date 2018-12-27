@@ -506,7 +506,7 @@ class REEController extends Controller
     }
 // 
     public function saveOfferLetter(Request $request){
-      
+
         $id = $request->applicationId;
         $content = str_replace('_', "", $_POST['ckeditorText']);
         $folder_name = 'Draft_offer_letter';
@@ -560,6 +560,7 @@ class REEController extends Controller
             'to_role_id' => NULL,
             'remark' => NULL,
             'is_active' => 1,
+            'phase' => 1,
             'created_at' => Carbon::now(),
         ];
 
@@ -618,6 +619,37 @@ class REEController extends Controller
 
         OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath, "text_offer_letter" => $filePath1]);
         // OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath]);
+
+        //Code added by Prajakta >>start
+        $generated_offer_letter = [
+            'application_id' => $request->applicationId,
+            'user_id' => Auth::user()->id,
+            'role_id' => session()->get('role_id'),
+            'status_id' => config('commanConfig.applicationStatus.draft_offer_letter_generated'),
+            'to_user_id' => NULL,
+            'to_role_id' => NULL,
+            'remark' => NULL,
+            'is_active' => 1,
+            'phase' => 1,
+            'created_at' => Carbon::now(),
+        ];
+//dd($generated_offer_letter);
+        DB::beginTransaction();
+        try {
+            OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath, "text_offer_letter" => $filePath1]);
+
+            OlApplicationStatus::where('application_id',$request->applicationId)
+                ->whereIn('user_id', [Auth::user()->id])
+                ->where('status_id',config('commanConfig.applicationStatus.offer_letter_generation'))
+                ->update(array('is_active' => 0));
+
+            OlApplicationStatus::insert($generated_offer_letter);
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+        }
+        //Code added by Prajakta >>end
 
         return redirect('generate_reval_offer_letter/'.$request->applicationId);
     }
@@ -764,16 +796,20 @@ class REEController extends Controller
         $arrData['reeNote'] = $user->areeNote;
 
         //latest calculation data
-        $custom = OlCustomCalculationSheet::where('application_id',$applicationId)->orderBy('updated_at','DESC')
-        ->value('updated_at');
-        $premium = OlApplicationCalculationSheetDetails::where('application_id',$applicationId)
-        ->orderBy('updated_at','DESC')->value('updated_at');  
+        $custom = OlCustomCalculationSheet::where('application_id',$applicationId)->first();
+        $premium = OlApplicationCalculationSheetDetails::where('application_id',$applicationId)->first(); 
+        $fsiCalculation = OlFsiCalculationSheet::where('application_id',$applicationId)->first(); 
 
-        if ($custom > $premium){
-            $route = 'admin.REE_department.view_custom_premium_calculation_sheet';            
-        }  else{
-            $route = 'admin.common.'.$blade;
-        }  
+        if ($fsiCalculation){
+            $route = 'admin.REE_department.view_fsi_calculation_sheet';
+            $calculationSheetDetails = $fsiCalculation;
+        }else if ($custom) {
+            $route = 'admin.REE_department.view_custom_premium_calculation_sheet';
+        }else {
+           $route = 'admin.common.'.$blade; 
+           $calculationSheetDetails = $user->calculationSheetDetails;
+        }
+
         $status = $this->CommonController->getCurrentStatus($applicationId); 
         $reeNote = REENote::where('application_id',$applicationId)->orderBy('id','DESC')->first(); 
         $ol_application->folder = $this->getCurrentRoleFolderName();
@@ -926,6 +962,7 @@ class REEController extends Controller
     public function displayCustomCalculationSheet(Request $request,$applicationId){
         
         $user = Auth::user(); 
+        $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
 
@@ -1000,12 +1037,14 @@ class REEController extends Controller
 
 
     // }
-
+ 
     public function saveCustomCalculationData(Request $request){
+
+        $applicationId = $request->application_id;
         
         if ($request->total_no_of_buildings){
 
-            $buldingNumber = OlCustomCalculationSheet::where('application_id',$request->application_id)
+            $buldingNumber = OlCustomCalculationSheet::where('application_id',$applicationId)
             ->where('title','total_no_of_buildings')
             ->where('user_id',Auth::id())->first();    
             
@@ -1013,7 +1052,7 @@ class REEController extends Controller
                 $buldingNumber = new OlCustomCalculationSheet();
             }
 
-            $buldingNumber->application_id =  $request->application_id;      
+            $buldingNumber->application_id =  $applicationId;      
             $buldingNumber->user_id =  Auth::id();      
             $buldingNumber->title =  'total_no_of_buildings';      
             $buldingNumber->amount =  $request->total_no_of_buildings; 
@@ -1071,7 +1110,7 @@ class REEController extends Controller
 
                     if($request->table5){
 
-                      $calculationData = OlCustomCalculationSheet::where('application_id',$request->application_id)
+                      $calculationData = OlCustomCalculationSheet::where('application_id',$applicationId)
                         ->where('user_id',Auth::id())->where('parent_id',$parentId)
                         ->where('title',$data['title'])->first(); 
                     }
@@ -1079,7 +1118,7 @@ class REEController extends Controller
                     else if(isset($data['hiddenId'])){
 
                         $calculationData = OlCustomCalculationSheet::where('id',$data['hiddenId'])
-                        ->where('application_id',$request->application_id)
+                        ->where('application_id',$applicationId)
                         ->where('user_id',Auth::id())->where('parent_id',$parentId)->first();
                     
                     } 
@@ -1090,16 +1129,26 @@ class REEController extends Controller
                         $calculationData = new OlCustomCalculationSheet();
                     }
 
-                    $calculationData->application_id = $request->application_id;
+                    $calculationData->application_id = $applicationId;
                     $calculationData->user_id        = Auth::id();
                     $calculationData->parent_id      = $parentId;
                     $calculationData->title          = $data['title'];
                     $calculationData->amount         = $data['amount'];
-                    $calculationData->save();                  
+
+                    DB::beginTransaction();
+                    try{
+                        $calculationData->save(); 
+                        OlFsiCalculationSheet::where('application_id',$applicationId)->delete();
+                        OlApplicationCalculationSheetDetails::where('application_id',$applicationId)->delete();
+                        DB::commit();
+                    }catch(\Exception $ex){
+                        DB::rollback();
+                    }                     
                 }                
             }
         }
-        return redirect("custom_calculation_sheet/" . $request->get('application_id')."#".$request->get('redirect_tab'));
+        $applicationId = encrypt($applicationId);
+        return redirect("custom_calculation_sheet/" .$applicationId."#".$request->get('redirect_tab'));
     }
 
     public function nocApplicationList(Request $request, Datatables $datatables)
@@ -2480,19 +2529,41 @@ class REEController extends Controller
         $user = Auth::user();
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
-        $calculationSheetDetails = OlFsiCalculationSheet::where('application_id','=',$applicationId)->get();
+        $calculationSheetDetails = OlFsiCalculationSheet::where('application_id','=',$applicationId)->first();
         $dcr_rates = OlDcrRateMaster::all();
         $arrData['reeNote'] = REENote::where('application_id', $applicationId)->orderBy('id', 'desc')
                             ->first();
+        
+        $is_view = session()->get('role_name') == config('commanConfig.ree_junior'); 
+        $status = $this->CommonController->getCurrentStatus($applicationId);  
+        
+        if ($is_view && $status->status_id != config('commanConfig.applicationStatus.forwarded') && $status->status_id != config('commanConfig.applicationStatus.reverted')) {
+            $route = 'admin.REE_department.fsi_calculation_sheet';
+        } else{
+            $route = 'admin.REE_department.view_fsi_calculation_sheet';
+        }              
 
-        return view('admin.REE_department.fsi_calculation_sheet',compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));                    
+        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));                    
     }
 
     public function saveFsiCalculationData(Request $request){
-        // dd($request->all());
+
         $applicationId = $request->get('application_id'); 
-        OlFsiCalculationSheet::updateOrCreate(['application_id'=>$applicationId],$request->all());
+        $request->merge(['user_id' => Auth::Id()]);
+
+        DB::beginTransaction();
+        try {
+            OlFsiCalculationSheet::updateOrCreate(['application_id'=>$applicationId],$request->all());
+            OlApplicationCalculationSheetDetails::where('application_id',$applicationId)->delete();
+            OlCustomCalculationSheet::where('application_id',$applicationId)->delete();
+            DB::commit();
+        }catch(\Exception $ex){
+            DB::rollback();
+        }
+        
         $id = encrypt($request->get('application_id'));
         return redirect("fsi_calculation_application/" . $id."#".$request->get('redirect_tab'));
+         
     }
 }
+ 
