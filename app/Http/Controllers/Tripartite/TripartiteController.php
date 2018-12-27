@@ -508,7 +508,7 @@ class TripartiteController extends Controller
         }
 // dd($child);
         if ($child) {
-            if(session()->get('role_name')==config('commanCOnfig.ree_branch_head'))
+            if(session()->get('role_name')==config('commanConfig.ree_branch_head'))
             {
                 $child = $child->merge($society_user);
             }
