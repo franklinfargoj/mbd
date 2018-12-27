@@ -34,6 +34,7 @@ class DashboardComposer
      */
     public function compose(View $view)
     {
+        $data = array();
         if (in_array(session()->get('role_name'),array(config('commanConfig.junior_architect'),config('commanConfig.senior_architect'),config('commanConfig.architect')))) {
             $data['total_no_of_appln_for_revision'] = $this->architect_dashboard->total_no_of_appln_for_revision();
             $data['pending_at_current_user'] = $this->architect_dashboard->pending_at_current_user();
