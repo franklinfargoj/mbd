@@ -78,7 +78,7 @@
                                     <div class="d-flex justify-content-start align-items-center mb-4">
                                         <span class="flex-shrink-0 text-nowrap">Total Number of buildings:</span>
                                         <input type="text" class="form-control form-control--xs form-control--custom flex-grow-0 ml-3" placeholder="0"
-                                            name="total_no_of_buildings" id="total_no_of_buildings" value="<?php if(isset($calculationSheetDetails[0]->total_no_of_buildings)) { echo $calculationSheetDetails[0]->total_no_of_buildings; }  ?>" readonly/>
+                                            name="total_no_of_buildings" id="total_no_of_buildings" value="<?php if(isset($calculationSheetDetails->total_no_of_buildings)) { echo $calculationSheetDetails->total_no_of_buildings; }  ?>" readonly/>
                                     </div>
                                     <div id="print_one">
                                     <table id="one" class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
@@ -104,7 +104,7 @@
                                             <tr>
                                                 <td style = "border-style: ridge;">1.</td>
                                                 <td style = "border-style: ridge;">
-                                                    कार्यकारी अभियंता /कुर्ला विभाग यांचे सिमांकन नकाशानुसार
+                                                    कार्यकारी अभियंता यांचे सिमांकन नकाशानुसार
                                                     भूखंडाचे क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
@@ -119,7 +119,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" class="total_area form-control form-control--custom txtbox" placeholder="0"
                                                         name="area_as_per_lease_agreement" id="area_as_per_lease_agreement"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->area_as_per_lease_agreement)) { echo $calculationSheetDetails[0]->area_as_per_lease_agreement; } ?>" readonly/>
+                                                        value="<?php if(isset($calculationSheetDetails->area_as_per_lease_agreement)) { echo $calculationSheetDetails->area_as_per_lease_agreement; } ?>" readonly/>
                                                 </td>
                                                 </td>
                                             </tr>
@@ -130,7 +130,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" class="total_area form-control form-control--custom txtbox" placeholder="0"
-                                                        name="area_of_tit_bit_plot" id="area_of_tit_bit_plot" value="<?php  if(isset($calculationSheetDetails[0]->area_of_tit_bit_plot)) { echo $calculationSheetDetails[0]->area_of_tit_bit_plot; } ?>" readonly/>
+                                                        name="area_of_tit_bit_plot" id="area_of_tit_bit_plot" value="<?php  if(isset($calculationSheetDetails->area_of_tit_bit_plot)) { echo $calculationSheetDetails->area_of_tit_bit_plot; } ?>" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -140,7 +140,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" class="total_area form-control form-control--custom txtbox" placeholder="0"
-                                                        name="area_of_rg_plot" id="area_of_rg_plot" value="<?php if(isset($calculationSheetDetails[0]->area_of_rg_plot)) { echo $calculationSheetDetails[0]->area_of_rg_plot; } ?>" readonly/>
+                                                        name="area_of_rg_plot" id="area_of_rg_plot" value="<?php if(isset($calculationSheetDetails->area_of_rg_plot)) { echo $calculationSheetDetails->area_of_rg_plot; } ?>" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -150,7 +150,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" class="total_area form-control form-control--custom txtbox" placeholder="0"
-                                                        name="area_of_ntbnib_plot" id="area_of_ntbnib_plot" value="<?php if(isset($calculationSheetDetails[0]->area_of_ntbnib_plot)) { echo $calculationSheetDetails[0]->area_of_ntbnib_plot;} ?>" readonly/>
+                                                        name="area_of_ntbnib_plot" id="area_of_ntbnib_plot" value="<?php if(isset($calculationSheetDetails->area_of_ntbnib_plot)) { echo $calculationSheetDetails->area_of_ntbnib_plot;} ?>" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -160,7 +160,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" class="min_val_for_calculation form-control form-control--custom txtbox" readonly type="text" placeholder="0"
-                                                        name="area_of_total_plot" id="area_of_total_plot" value="<?php if(isset($calculationSheetDetails[0]->area_of_total_plot)) { echo $calculationSheetDetails[0]->area_of_total_plot; } ?>" readonly/></td>
+                                                        name="area_of_total_plot" id="area_of_total_plot" value="<?php if(isset($calculationSheetDetails->area_of_total_plot)) { echo $calculationSheetDetails->area_of_total_plot; } ?>" readonly/></td>
                                             </tr>
                                             <tr>
                                                 <td style = "border-style: ridge;">2.</td>
@@ -169,7 +169,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="min_val_for_calculation form-control form-control--custom txtbox" name="area_as_per_introduction"
-                                                        id="area_as_per_introduction" value="<?php if(isset($calculationSheetDetails[0]->area_as_per_introduction)) { echo $calculationSheetDetails[0]->area_as_per_introduction; } ?>" readonly/>
+                                                        id="area_as_per_introduction" value="<?php if(isset($calculationSheetDetails->area_as_per_introduction)) { echo $calculationSheetDetails->area_as_per_introduction; } ?>" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -180,7 +180,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="permissible_area total_permissible form-control form-control--custom txtbox"
                                                         name="area_of_subsistence_to_calculate" id="area_of_subsistence_to_calculate"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->area_of_subsistence_to_calculate)) { echo $calculationSheetDetails[0]->area_of_subsistence_to_calculate; }?>" readonly/>
+                                                        value="<?php if(isset($calculationSheetDetails->area_of_subsistence_to_calculate)) { echo $calculationSheetDetails->area_of_subsistence_to_calculate; }?>" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -191,7 +191,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="permissible_area total_permissible form-control form-control--custom txtbox"
                                                         name="permissible_carpet_area_coordinates" id="permissible_carpet_area_coordinates"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->permissible_carpet_area_coordinates)) { echo $calculationSheetDetails[0]->permissible_carpet_area_coordinates; } ?>" readonly/>
+                                                        value="<?php if(isset($calculationSheetDetails->permissible_carpet_area_coordinates)) { echo $calculationSheetDetails->permissible_carpet_area_coordinates; } ?>" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -202,7 +202,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="total_permissible form-control form-control--custom txtbox"
                                                         name="permissible_construction_area" id="permissible_construction_area"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->permissible_construction_area)) { echo $calculationSheetDetails[0]->permissible_construction_area;} ?>" readonly/>
+                                                        value="<?php if(isset($calculationSheetDetails->permissible_construction_area)) { echo $calculationSheetDetails->permissible_construction_area;} ?>" readonly/>
 
                                                 </td>
                                             </tr>
@@ -223,7 +223,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="proratata_area form-control form-control--custom txtbox"
-                                                        name="sqm_area_per_slot" id="sqm_area_per_slot" value="<?php if(isset($calculationSheetDetails[0]->sqm_area_per_slot)) { echo $calculationSheetDetails[0]->sqm_area_per_slot; } ?>" readonly/>
+                                                        name="sqm_area_per_slot" id="sqm_area_per_slot" value="<?php if(isset($calculationSheetDetails->sqm_area_per_slot)) { echo $calculationSheetDetails->sqm_area_per_slot; } ?>" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -233,7 +233,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="proratata_area total_permissible form-control form-control--custom txtbox"
-                                                        name="total_house" id="total_house" value="<?php if(isset($calculationSheetDetails[0]->total_house)) { echo $calculationSheetDetails[0]->total_house; } ?>" readonly/>
+                                                        name="total_house" id="total_house" value="<?php if(isset($calculationSheetDetails->total_house)) { echo $calculationSheetDetails->total_house; } ?>" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -244,7 +244,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" readonly class="form-control form-control--custom txtbox"
                                                         name="permissible_proratata_area" id="permissible_proratata_area"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->permissible_proratata_area)) { echo $calculationSheetDetails[0]->permissible_proratata_area; }?>" readonly/>
+                                                        value="<?php if(isset($calculationSheetDetails->permissible_proratata_area)) { echo $calculationSheetDetails->permissible_proratata_area; }?>" readonly/>
 
                                                 </td>
                                             </tr>
@@ -265,7 +265,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="total_permissible form-control form-control--custom txtbox"
                                                         name="per_sq_km_proyerta_construction_area" id="per_sq_km_proyerta_construction_area"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->per_sq_km_proyerta_construction_area)) { echo $calculationSheetDetails[0]->per_sq_km_proyerta_construction_area; } ?>" readonly/>
+                                                        value="<?php if(isset($calculationSheetDetails->per_sq_km_proyerta_construction_area)) { echo $calculationSheetDetails->per_sq_km_proyerta_construction_area; } ?>" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -276,7 +276,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
                                                         name="proratata_construction_area" id="proratata_construction_area"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->proratata_construction_area)) { echo $calculationSheetDetails[0]->proratata_construction_area; } ?>" readonly/>
+                                                        value="<?php if(isset($calculationSheetDetails->proratata_construction_area)) { echo $calculationSheetDetails->proratata_construction_area; } ?>" readonly/>
 
                                                 </td>
                                             </tr>
@@ -289,7 +289,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="total_permissible form-control form-control--custom txtbox"
                                                         name="area_in_reserved_seats_for_vp_pio" id="area_in_reserved_seats_for_vp_pio"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->area_in_reserved_seats_for_vp_pio)) { echo $calculationSheetDetails[0]->area_in_reserved_seats_for_vp_pio; } ?>" readonly/>
+                                                        value="<?php if(isset($calculationSheetDetails->area_in_reserved_seats_for_vp_pio)) { echo $calculationSheetDetails->area_in_reserved_seats_for_vp_pio; } ?>" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -300,7 +300,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="remaining_area form-control form-control--custom txtbox"
                                                         name="total_permissible_construction_area" id="total_permissible_construction_area"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->total_permissible_construction_area)) { echo $calculationSheetDetails[0]->total_permissible_construction_area; } ?>" readonly/>
+                                                        value="<?php if(isset($calculationSheetDetails->total_permissible_construction_area)) { echo $calculationSheetDetails->total_permissible_construction_area; } ?>" readonly/>
 
                                                 </td>
                                             </tr>
@@ -312,7 +312,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="remaining_area form-control form-control--custom txtbox"
                                                         name="existing_construction_area" id="existing_construction_area"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->existing_construction_area)) { echo $calculationSheetDetails[0]->existing_construction_area; } ?>" readonly/>
+                                                        value="<?php if(isset($calculationSheetDetails->existing_construction_area)) { echo $calculationSheetDetails->existing_construction_area; } ?>" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -322,22 +322,18 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" readonly class="form-control form-control--custom txtbox"
-                                                        name="remaining_area" id="remaining_area" value="<?php if(isset($calculationSheetDetails[0]->remaining_area)) { echo $calculationSheetDetails[0]->remaining_area; } ?>" readonly/>
+                                                        name="remaining_area" id="remaining_area" value="<?php if(isset($calculationSheetDetails->remaining_area)) { echo $calculationSheetDetails->remaining_area; } ?>" readonly/>
 
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td style = "border-style: ridge;">12.</td>
                                                 <td style = "border-style: ridge;">
-                                                    रेडीरेकनर २०१८ - १९ , न. भू. क्र. ३५१ (पै), व्हिलेज-
-                                                    हरियाली ,
-                                                    टागोरनगर झोन क्रमांक. ११२/५३५, दर रुपये रु. ५५,९०० /-
-                                                    (पृष्ठ
-                                                    क्रमांक सी - ६०५ ते सी -६०७ )
+                                                    रेडीरेकनर २०१८ - १९ 
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="redirekner_val form-control form-control--custom txtbox"
-                                                        name="redirekner_value" id="redirekner_value" value="<?php if(isset($calculationSheetDetails[0]->redirekner_value)) { echo $calculationSheetDetails[0]->redirekner_value; } ?>" readonly/>
+                                                        name="redirekner_value" id="redirekner_value" value="<?php if(isset($calculationSheetDetails->redirekner_value)) { echo $calculationSheetDetails->redirekner_value; } ?>" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -348,17 +344,17 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="redirekner_val form-control form-control--custom txtbox"
                                                         name="redirekner_construction_rate" id="redirekner_construction_rate"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->redirekner_construction_rate)) { echo $calculationSheetDetails[0]->redirekner_construction_rate; } ?>" readonly/>
+                                                        value="<?php if(isset($calculationSheetDetails->redirekner_construction_rate)) { echo $calculationSheetDetails->redirekner_construction_rate; } ?>" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td style = "border-style: ridge;">14.</td>
                                                 <td style = "border-style: ridge;">
-                                                    LR/RC = ५५,९००/२७५००
+                                                    LR/RC 
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" readonly class=" form-control form-control--custom txtbox"
-                                                        name="redirekner_val" id="redirekner_val" value="<?php if(isset($calculationSheetDetails[0]->redirekner_val)) { echo $calculationSheetDetails[0]->redirekner_val; } ?>" readonly/>
+                                                        name="redirekner_val" id="redirekner_val" value="<?php if(isset($calculationSheetDetails->redirekner_val)) { echo $calculationSheetDetails->redirekner_val; } ?>" readonly/>
 
                                                 </td>
                                             </tr>
@@ -379,7 +375,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" readonly class="form-control form-control--custom txtbox"
                                                         name="remaining_residential_area" id="remaining_residential_area"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->remaining_residential_area)) { echo $calculationSheetDetails[0]->remaining_residential_area; } ?>" readonly/>
+                                                        value="<?php if(isset($calculationSheetDetails->remaining_residential_area)) { echo $calculationSheetDetails->remaining_residential_area; } ?>" readonly/>
 
                                                 </td>
                                             </tr>
@@ -393,14 +389,14 @@
                                                     <div class="col-sm-12" style="margin-bottom: 12px;padding: 0px">
                                                         <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input subtn" name="dcr_rate" id="dcr_rate" disabled>
                                                             <option value="" selected disabled>Select</option>
-                                                            <option value="EWS" {{ isset($calculationSheetDetails[0]->dcr_rate) && $calculationSheetDetails[0]->dcr_rate == 'EWS' ? 'selected' : '' }}> EWS / LIG</option>
-                                                            <option value="MIG" {{ isset($calculationSheetDetails[0]->dcr_rate) && $calculationSheetDetails[0]->dcr_rate == 'MIG' ? 'selected' : '' }}>MIG</option>
-                                                            <option value="HIG" {{ isset($calculationSheetDetails[0]->dcr_rate) && $calculationSheetDetails[0]->dcr_rate == 'HIG' ? 'selected' : '' }}>HIG</option> 
+                                                            <option value="EWS" {{ isset($calculationSheetDetails->dcr_rate) && $calculationSheetDetails->dcr_rate == 'EWS' ? 'selected' : '' }}> EWS / LIG</option>
+                                                            <option value="MIG" {{ isset($calculationSheetDetails->dcr_rate) && $calculationSheetDetails->dcr_rate == 'MIG' ? 'selected' : '' }}>MIG</option>
+                                                            <option value="HIG" {{ isset($calculationSheetDetails->dcr_rate) && $calculationSheetDetails->dcr_rate == 'HIG' ? 'selected' : '' }}>HIG</option> 
                                                         </select>
                                                     </div>
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
                                                            name="calculated_dcr_rate_val" id="calculated_dcr_rate_val"
-                                                           value="<?php if(isset($calculationSheetDetails[0]->calculated_dcr_rate_val)) { echo $calculationSheetDetails[0]->calculated_dcr_rate_val; } ?>" readonly/>
+                                                           value="<?php if(isset($calculationSheetDetails->calculated_dcr_rate_val)) { echo $calculationSheetDetails->calculated_dcr_rate_val; } ?>" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -411,7 +407,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input type="text" readonly placeholder="0" class="form-control form-control--custom txtbox infrastructure_charges"
                                                         name="balance_of_remaining_area" id="balance_of_remaining_area" 
-                                                        value="<?php if(isset($calculationSheetDetails[0]->balance_of_remaining_area)) { echo $calculationSheetDetails[0]->balance_of_remaining_area; } ?>" readonly/>
+                                                        value="<?php if(isset($calculationSheetDetails->balance_of_remaining_area)) { echo $calculationSheetDetails->balance_of_remaining_area; } ?>" readonly/>
 
                                                 </td>
                                             </tr>
@@ -424,7 +420,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
                                                         name="infrastructure_fee_amount" id="infrastructure_fee_amount"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->infrastructure_fee_amount)) { echo $calculationSheetDetails[0]->infrastructure_fee_amount; } ?>" readonly/>
+                                                        value="<?php if(isset($calculationSheetDetails->infrastructure_fee_amount)) { echo $calculationSheetDetails->infrastructure_fee_amount; } ?>" readonly/>
 
                                                 </td>
                                             </tr>
@@ -436,7 +432,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
                                                         name="infrastructure_charges" class="infrastructure_charges" id="infrastructure_charges"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->infrastructure_charges)) { echo $calculationSheetDetails[0]->infrastructure_charges; } ?>" readonly/>
+                                                        value="<?php if(isset($calculationSheetDetails->infrastructure_charges)) { echo $calculationSheetDetails->infrastructure_charges; } ?>" readonly/>
 
                                                 </td>
                                             </tr>
@@ -448,7 +444,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
                                                         name="remaining_mat_area" id="remaining_mat_area"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->remaining_mat_area)) { echo $calculationSheetDetails[0]->remaining_mat_area; } ?>" readonly/>
+                                                        value="<?php if(isset($calculationSheetDetails->remaining_mat_area)) { echo $calculationSheetDetails->remaining_mat_area; } ?>" readonly/>
 
                                                 </td>
                                             </tr>
@@ -459,7 +455,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
-                                                        name="scrutiny_fee" id="scrutiny_fee" value="<?php if(isset($calculationSheetDetails[0]->scrutiny_fee)) { echo $calculationSheetDetails[0]->scrutiny_fee; } ?>" readonly/>
+                                                        name="scrutiny_fee" id="scrutiny_fee" value="<?php if(isset($calculationSheetDetails->scrutiny_fee)) { echo $calculationSheetDetails->scrutiny_fee; } ?>" readonly/>
 
                                                 </td>
                                             </tr>
@@ -470,7 +466,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
-                                                        name="layout_approval_fee" id="layout_approval_fee" value="<?php if(isset($calculationSheetDetails[0]->layout_approval_fee)) { echo $calculationSheetDetails[0]->layout_approval_fee; } ?>" readonly/>
+                                                        name="layout_approval_fee" id="layout_approval_fee" value="<?php if(isset($calculationSheetDetails->layout_approval_fee)) { echo $calculationSheetDetails->layout_approval_fee; } ?>" readonly/>
 
                                                 </td>
                                             </tr>
@@ -484,19 +480,19 @@
                                                 <div>
                                                     <div class="m-radio-inline subtn">
                                                         <label class="m-radio m-radio--primary">
-                                                            <input type="radio" class="radioBtn debrajRadioBtn" name="is_debraj_fee_paid" value="1" disabled
-                                                            {{isset($calculationSheetDetails[0]->is_debraj_fee_paid) &&  $calculationSheetDetails[0]->is_debraj_fee_paid == 1 ? 'checked' : '' }} >Yes
+                                                            <input type="radio" class="radioBtn debrajRadioBtn" name="is_debraj_fee_paid" value="1" disabled 
+                                                            {{isset($calculationSheetDetails->is_debraj_fee_paid) &&  $calculationSheetDetails->is_debraj_fee_paid == 1 ? 'checked' : '' }} >Yes
                                                                 <span></span>
                                                         </label>
                                                         <label class="m-radio m-radio--primary">
-                                                            <input type="radio" class="radioBtn debrajRadioBtn" name="is_debraj_fee_paid" value="0" disabled{{isset($calculationSheetDetails[0]->is_debraj_fee_paid) &&  $calculationSheetDetails[0]->is_debraj_fee_paid == 0 ? 'checked' : '' }} > No
+                                                            <input type="radio" class="radioBtn debrajRadioBtn" name="is_debraj_fee_paid" value="0" disabled {{isset($calculationSheetDetails->is_debraj_fee_paid) &&  $calculationSheetDetails->is_debraj_fee_paid == 0 ? 'checked' : '' }} > No
                                                             <span></span>
                                                         </label>
                                                     </div>
                                                 </div>     
                                                 <div> 
                                                 <input style="border: none;" type="text" readonly placeholder="" class="total_amount form-control form-control--custom txtbox debraj_fee"
-                                                    name="debraj_removal_fee" id="debraj_removal_fee" value="{{ isset($calculationSheetDetails[0]->debraj_removal_fee) ? $calculationSheetDetails[0]->debraj_removal_fee : '' }}" readonly/>
+                                                    name="debraj_removal_fee" id="debraj_removal_fee" value="{{ isset($calculationSheetDetails->debraj_removal_fee) ? $calculationSheetDetails->debraj_removal_fee : '' }}" readonly/>
                                                 </div>    
 
                                                 </td>
@@ -510,16 +506,16 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <div class="m-radio-inline subtn">
                                                         <label class="m-radio m-radio--primary">
-                                                            <input type="radio" class="radioBtn WaterRadioBtn" name="is_water_charges_paid" value="1" disabled {{isset($calculationSheetDetails[0]->is_water_charges_paid) &&  $calculationSheetDetails[0]->is_water_charges_paid == 1 ? 'checked' : '' }}>Yes
+                                                            <input type="radio" class="radioBtn WaterRadioBtn" name="is_water_charges_paid" value="1" disabled {{isset($calculationSheetDetails->is_water_charges_paid) &&  $calculationSheetDetails->is_water_charges_paid == 1 ? 'checked' : '' }}>Yes
                                                                 <span></span>
                                                         </label>
                                                         <label class="m-radio m-radio--primary">
-                                                            <input type="radio" class="radioBtn WaterRadioBtn" name="is_water_charges_paid" value="0" disabled{{isset($calculationSheetDetails[0]->is_water_charges_paid) &&  $calculationSheetDetails[0]->is_water_charges_paid == 0 ? 'checked' : '' }}> No
+                                                            <input type="radio" class="radioBtn WaterRadioBtn" name="is_water_charges_paid" value="0" disabled {{isset($calculationSheetDetails->is_water_charges_paid) &&  $calculationSheetDetails->is_water_charges_paid == 0 ? 'checked' : '' }}> No
                                                             <span></span>
                                                         </label>
                                                     </div>                                                
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control total_amount form-control--custom txtbox WaterCharge"
-                                                        name="water_usage_charges" id="water_usage_charges" value="{{ isset($calculationSheetDetails[0]->water_usage_charges) ? $calculationSheetDetails[0]->water_usage_charges : '' }}" readonly/>
+                                                        name="water_usage_charges" id="water_usage_charges" value="{{ isset($calculationSheetDetails->water_usage_charges) ? $calculationSheetDetails->water_usage_charges : '' }}" readonly/>
 
                                                 </td>
                                             </tr>                                            
@@ -530,7 +526,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control total_amount form-control--custom txtbox"
-                                                        name="basic_infrastructure_amount" id="basic_infrastructure_amount" value="<?php if(isset($calculationSheetDetails[0]->basic_infrastructure_amount)) { echo $calculationSheetDetails[0]->basic_infrastructure_amount; } ?>" readonly/>
+                                                        name="basic_infrastructure_amount" id="basic_infrastructure_amount" value="<?php if(isset($calculationSheetDetails->basic_infrastructure_amount)) { echo $calculationSheetDetails->basic_infrastructure_amount; } ?>" readonly/>
 
                                                 </td>
                                             </tr>
@@ -550,7 +546,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input type="text" placeholder="0" class="form-control form-control--custom txtbox"
-                                                           name="area_of_rg_to_be_relocated" id="area_of_rg_to_be_relocated" value="<?php if(isset($calculationSheetDetails[0]->area_of_rg_to_be_relocated)) { echo $calculationSheetDetails[0]->area_of_rg_to_be_relocated; } ?>" readonly/>
+                                                           name="area_of_rg_to_be_relocated" id="area_of_rg_to_be_relocated" value="<?php if(isset($calculationSheetDetails->area_of_rg_to_be_relocated)) { echo $calculationSheetDetails->area_of_rg_to_be_relocated; } ?>" readonly/>
 
                                                 </td>
                                             </tr>
@@ -562,7 +558,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
                                                            name="total_area_of_rg_to_be_relocated" id="total_area_of_rg_to_be_relocated"
-                                                           value="<?php if(isset($calculationSheetDetails[0]->total_area_of_rg_to_be_relocated)) { echo $calculationSheetDetails[0]->total_area_of_rg_to_be_relocated; } ?>" readonly/>
+                                                           value="<?php if(isset($calculationSheetDetails->total_area_of_rg_to_be_relocated)) { echo $calculationSheetDetails->total_area_of_rg_to_be_relocated; } ?>" readonly/>
 
                                                 </td>
                                             </tr>
@@ -573,7 +569,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
-                                                           name="groundrent_capitalization_yearly" id="groundrent_capitalization_yearly" value="<?php if(isset($calculationSheetDetails[0]->groundrent_capitalization_yearly)) { echo $calculationSheetDetails[0]->groundrent_capitalization_yearly; } ?>" readonly/>
+                                                           name="groundrent_capitalization_yearly" id="groundrent_capitalization_yearly" value="<?php if(isset($calculationSheetDetails->groundrent_capitalization_yearly)) { echo $calculationSheetDetails->groundrent_capitalization_yearly; } ?>" readonly/>
 
                                                 </td>
                                             </tr>
@@ -584,7 +580,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
-                                                           name="advance_groundrent_per_year" id="advance_groundrent_per_year" value="<?php if(isset($calculationSheetDetails[0]->advance_groundrent_per_year)) { echo $calculationSheetDetails[0]->advance_groundrent_per_year; } ?>" readonly/>
+                                                           name="advance_groundrent_per_year" id="advance_groundrent_per_year" value="<?php if(isset($calculationSheetDetails->advance_groundrent_per_year)) { echo $calculationSheetDetails->advance_groundrent_per_year; } ?>" readonly/>
 
                                                 </td>
                                             </tr>
@@ -595,18 +591,18 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="total_amount form-control form-control--custom txtbox"
-                                                           name="nominal_groundrent" id="nominal_groundrent" value="<?php if(isset($calculationSheetDetails[0]->nominal_groundrent)) { echo $calculationSheetDetails[0]->nominal_groundrent; } ?>" readonly/>
+                                                           name="nominal_groundrent" id="nominal_groundrent" value="<?php if(isset($calculationSheetDetails->nominal_groundrent)) { echo $calculationSheetDetails->nominal_groundrent; } ?>" readonly/>
 
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td style = "border-style: ridge;">28.</td>
                                                 <td style = "border-style: ridge;">
-                                                    एकूण रक्कम रुपये (अ .क्र.१५+१८+१९+२०+२१+२२)
+                                                    एकूण रक्कम रुपये (अ .क्र. 18+19+20+21+22+23+24(total)+25+26+27)
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
-                                                        name="total_amount_in_rs" id="total_amount_in_rs" value="<?php if(isset($calculationSheetDetails[0]->total_amount_in_rs)) { echo $calculationSheetDetails[0]->total_amount_in_rs; } ?>" readonly/>
+                                                        name="total_amount_in_rs" id="total_amount_in_rs" value="<?php if(isset($calculationSheetDetails->total_amount_in_rs)) { echo $calculationSheetDetails->total_amount_in_rs; } ?>" readonly/>
 
                                                 </td>
                                             </tr>
@@ -666,7 +662,7 @@
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
                                                 <input style="border: none;" type="text" placeholder="0" readonly class="form-control form-control--custom txtbox" name="remaining_residential_area"
-                                                    id="remaining_residential_area" value="<?php if(isset($calculationSheetDetails[0]->remaining_residential_area)) { echo $calculationSheetDetails[0]->remaining_residential_area;} ?>" readonly/>
+                                                    id="remaining_residential_area" value="<?php if(isset($calculationSheetDetails->remaining_residential_area)) { echo $calculationSheetDetails->remaining_residential_area;} ?>" readonly/>
 
                                             </td>
                                         </tr>
@@ -677,7 +673,7 @@
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
                                                 <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox" name="calculated_dcr_rate_val"
-                                                    id="calculated_dcr_rate_val" value="<?php if(isset($calculationSheetDetails[0]->calculated_dcr_rate_val)) { echo  $calculationSheetDetails[0]->calculated_dcr_rate_val; } ?>" readonly/>
+                                                    id="calculated_dcr_rate_val" value="<?php if(isset($calculationSheetDetails->calculated_dcr_rate_val)) { echo  $calculationSheetDetails->calculated_dcr_rate_val; } ?>" readonly/>
 
                                             </td>
                                         </tr>
@@ -688,7 +684,7 @@
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
                                                 <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox" name="remaining_area_of_resident_area_balance"
-                                                    id="remaining_area_of_resident_area_balance" value="<?php if(isset($calculationSheetDetails[0]->balance_of_remaining_area)) { echo $calculationSheetDetails[0]->balance_of_remaining_area; } ?>" readonly/>
+                                                    id="remaining_area_of_resident_area_balance" value="<?php if(isset($calculationSheetDetails->balance_of_remaining_area)) { echo $calculationSheetDetails->balance_of_remaining_area; } ?>" readonly/>
 
                                             </td>
                                         </tr>
@@ -703,7 +699,7 @@
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
                                                 <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox" name="off_site_infrastructure_fee"
-                                                    id="off_site_infrastructure_fee" value="<?php if(isset($calculationSheetDetails[0]->infrastructure_fee_amount)) { echo $calculationSheetDetails[0]->infrastructure_fee_amount; } ?>" readonly/>
+                                                    id="off_site_infrastructure_fee" value="<?php if(isset($calculationSheetDetails->infrastructure_fee_amount)) { echo $calculationSheetDetails->infrastructure_fee_amount; } ?>" readonly/>
 
                                             </td>
                                         </tr>
@@ -814,7 +810,7 @@
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
                                                 <input type="text" style="border: none;" readonly class="first_installment  form-control form-control--custom txtbox" placeholder="0"
-                                                    name="scrutiny_fee" id="scrutiny_fee" value="<?php if(isset($calculationSheetDetails[0]->scrutiny_fee)) { echo $calculationSheetDetails[0]->scrutiny_fee; } ?>" readonly>
+                                                    name="scrutiny_fee" id="scrutiny_fee" value="<?php if(isset($calculationSheetDetails->scrutiny_fee)) { echo $calculationSheetDetails->scrutiny_fee; } ?>" readonly>
 
                                             </td>
                                         </tr>
@@ -825,7 +821,7 @@
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
                                                 <input type="text" style="border: none;" readonly class="first_installment  form-control form-control--custom txtbox" placeholder="0"
-                                                    name="layout_approval_fee" id="layout_approval_fee" value="<?php if(isset($calculationSheetDetails[0]->layout_approval_fee)) { echo $calculationSheetDetails[0]->layout_approval_fee; } ?>" readonly/>
+                                                    name="layout_approval_fee" id="layout_approval_fee" value="<?php if(isset($calculationSheetDetails->layout_approval_fee)) { echo $calculationSheetDetails->layout_approval_fee; } ?>" readonly/>
 
                                             </td>
                                         </tr>
@@ -837,7 +833,7 @@
                                             <td class="text-center" style = "border-style: ridge;">
                                            
                                                 <input type="text" style="border: none;" readonly placeholder="0" class="first_installment  form-control form-control--custom txtbox"
-                                                    name="debraj_removal_fee" id="debraj_removal" value="<?php if(isset($calculationSheetDetails[0]->debraj_removal_fee)) { echo $calculationSheetDetails[0]->debraj_removal_fee; } ?>" readonly/>
+                                                    name="debraj_removal_fee" id="debraj_removal" value="<?php if(isset($calculationSheetDetails->debraj_removal_fee)) { echo $calculationSheetDetails->debraj_removal_fee; } ?>" readonly/>
 
                                             </td>
                                         </tr>
@@ -848,7 +844,7 @@
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
                                                 <input type="text" style="border: none;" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
-                                                    name="water_usage_charges" id="water_usage_charges" value="<?php if(isset($calculationSheetDetails[0]->water_usage_charges)) { echo $calculationSheetDetails[0]->water_usage_charges; } ?>" readonly/>
+                                                    name="water_usage_charges" id="water_usage_charges" value="<?php if(isset($calculationSheetDetails->water_usage_charges)) { echo $calculationSheetDetails->water_usage_charges; } ?>" readonly/>
 
                                             </td>
                                         </tr>
@@ -868,7 +864,7 @@
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
                                                 <input type="text" style="border: none;" readonly placeholder="0" class="form-control form-control--custom txtbox"
-                                                       name="area_of_rg_to_be_relocated" id="area_of_rg_to_be_relocated" value="<?php if(isset($calculationSheetDetails[0]->area_of_rg_to_be_relocated)) { echo $calculationSheetDetails[0]->area_of_rg_to_be_relocated; } ?>" readonly/>
+                                                       name="area_of_rg_to_be_relocated" id="area_of_rg_to_be_relocated" value="<?php if(isset($calculationSheetDetails->area_of_rg_to_be_relocated)) { echo $calculationSheetDetails->area_of_rg_to_be_relocated; } ?>" readonly/>
 
                                             </td>
                                         </tr>
@@ -880,7 +876,7 @@
                                             <td class="text-center" style = "border-style: ridge;">
                                                 <input type="text" style="border: none;" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
                                                        name="total_area_of_rg_to_be_relocated" id="total_area_of_rg_to_be_relocated"
-                                                       value="<?php if(isset($calculationSheetDetails[0]->total_area_of_rg_to_be_relocated)) { echo $calculationSheetDetails[0]->total_area_of_rg_to_be_relocated; } ?>" readonly/>
+                                                       value="<?php if(isset($calculationSheetDetails->total_area_of_rg_to_be_relocated)) { echo $calculationSheetDetails->total_area_of_rg_to_be_relocated; } ?>" readonly/>
 
                                             </td>
                                         </tr>
@@ -891,7 +887,7 @@
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
                                                 <input type="text" style="border: none;" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
-                                                       name="groundrent_capitalization_yearly" id="groundrent_capitalization_yearly" value="<?php if(isset($calculationSheetDetails[0]->groundrent_capitalization_yearly)) { echo $calculationSheetDetails[0]->groundrent_capitalization_yearly; } ?>" readonly/>
+                                                       name="groundrent_capitalization_yearly" id="groundrent_capitalization_yearly" value="<?php if(isset($calculationSheetDetails->groundrent_capitalization_yearly)) { echo $calculationSheetDetails->groundrent_capitalization_yearly; } ?>" readonly/>
 
                                             </td>
                                         </tr>
@@ -902,7 +898,7 @@
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
                                                 <input type="text" style="border: none;" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
-                                                       name="advance_groundrent_per_year" id="advance_groundrent_per_year" value="<?php if(isset($calculationSheetDetails[0]->advance_groundrent_per_year)) { echo $calculationSheetDetails[0]->advance_groundrent_per_year; } ?>" readonly/>
+                                                       name="advance_groundrent_per_year" id="advance_groundrent_per_year" value="<?php if(isset($calculationSheetDetails->advance_groundrent_per_year)) { echo $calculationSheetDetails->advance_groundrent_per_year; } ?>" readonly/>
 
                                             </td>
                                         </tr>
@@ -913,7 +909,7 @@
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
                                                 <input type="text" style="border: none;" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
-                                                       name="nominal_groundrent" id="nominal_groundrent" value="<?php if(isset($calculationSheetDetails[0]->nominal_groundrent)) { echo $calculationSheetDetails[0]->nominal_groundrent; } ?>" readonly/>
+                                                       name="nominal_groundrent" id="nominal_groundrent" value="<?php if(isset($calculationSheetDetails->nominal_groundrent)) { echo $calculationSheetDetails->nominal_groundrent; } ?>" readonly/>
 
                                             </td>
                                         </tr>
@@ -926,7 +922,7 @@
                                             <td class="text-center" style = "border-style: ridge;">
                                                 <input type="text" style="border: none;" readonly class="form-control txtbox form-control--custom" placeholder="0"
                                                     name="payment_of_first_installment" id="payment_of_first_installment"
-                                                    value="<?php  if(isset($calculationSheetDetails[0]->payment_of_first_installment)) { echo $calculationSheetDetails[0]->payment_of_first_installment; } ?>" readonly/>
+                                                    value="<?php  if(isset($calculationSheetDetails->payment_of_first_installment)) { echo $calculationSheetDetails->payment_of_first_installment; } ?>" readonly/>
 
                                             </td>
                                         </tr>
@@ -992,7 +988,7 @@
                                             <td class="text-center" style = "border-style: ridge;">
                                                 <input type="text" style="border: none;" readonly class="form-control form-control--custom txtbox" placeholder="0"
                                                     name="payment_of_remaining_installment" id="payment_of_remaining_installment"
-                                                    value="<?php if(isset($calculationSheetDetails[0]->payment_of_remaining_installment)) { echo $calculationSheetDetails[0]->payment_of_remaining_installment; } ?>" readonly/>
+                                                    value="<?php if(isset($calculationSheetDetails->payment_of_remaining_installment)) { echo $calculationSheetDetails->payment_of_remaining_installment; } ?>" readonly/>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -1040,8 +1036,8 @@
                                                 महिन्या पर्यंत भरणा करावयाची पहिल्या हफ्त्याची रक्कम
                                             </td>
                                             <td class="text-center">
-                                                {{ isset($calculationSheetDetails[0]->payment_of_first_installment) ?
-                                                $calculationSheetDetails[0]->payment_of_first_installment : 0 }}
+                                                {{ isset($calculationSheetDetails->payment_of_first_installment) ?
+                                                $calculationSheetDetails->payment_of_first_installment : 0 }}
 
                                             </td>
                                         </tr>
@@ -1054,8 +1050,8 @@
                                                 (दार तिमाहीला परिगणनीय दराने) अधिक रकमेचा भरणा करावा लागेल
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
-                                                {{ isset($calculationSheetDetails[0]->payment_of_remaining_installment)
-                                                ? $calculationSheetDetails[0]->payment_of_remaining_installment : 0 }}
+                                                {{ isset($calculationSheetDetails->payment_of_remaining_installment)
+                                                ? $calculationSheetDetails->payment_of_remaining_installment : 0 }}
                                                 + interest
 
                                             </td>
@@ -1069,8 +1065,8 @@
                                                 (दर तिमाहीला परिगणनीय दराने) अधिक रकमेचा भरणा करावा लागेल
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
-                                                {{ isset($calculationSheetDetails[0]->payment_of_remaining_installment)
-                                                ? $calculationSheetDetails[0]->payment_of_remaining_installment : 0 }}
+                                                {{ isset($calculationSheetDetails->payment_of_remaining_installment)
+                                                ? $calculationSheetDetails->payment_of_remaining_installment : 0 }}
                                                 + interest
 
                                             </td>
@@ -1084,8 +1080,8 @@
                                                 (दर तिमाहीला परिगणनीय दराने) अधिक रकमेचा भरणा करावा लागेल
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
-                                                {{ isset($calculationSheetDetails[0]->payment_of_remaining_installment)
-                                                ? $calculationSheetDetails[0]->payment_of_remaining_installment : 0 }}
+                                                {{ isset($calculationSheetDetails->payment_of_remaining_installment)
+                                                ? $calculationSheetDetails->payment_of_remaining_installment : 0 }}
                                                 + interest
 
                                             </td>
@@ -1096,9 +1092,9 @@
                                                 एकूण
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
-                                                @if(isset($calculationSheetDetails[0]->payment_of_remaining_installment) || isset($calculationSheetDetails[0]->payment_of_first_installment))
+                                                @if(isset($calculationSheetDetails->payment_of_remaining_installment) || isset($calculationSheetDetails->payment_of_first_installment))
 
-                                                  {{ (3 * (float)(str_replace( ',', '',$calculationSheetDetails[0]->payment_of_remaining_installment)) ) + (float)(str_replace( ',', '',$calculationSheetDetails[0]->payment_of_first_installment)) }}
+                                                  {{ (3 * (float)(str_replace( ',', '',$calculationSheetDetails->payment_of_remaining_installment)) ) + (float)(str_replace( ',', '',$calculationSheetDetails->payment_of_first_installment)) }}
                                                 @else
                                                     0
                                                 @endif

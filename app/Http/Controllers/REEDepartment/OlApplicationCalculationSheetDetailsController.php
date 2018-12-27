@@ -5,6 +5,8 @@ namespace App\Http\Controllers\REEDepartment;
 use App\OlApplicationCalculationSheetDetails;
 use App\Http\Controllers\Common\CommonController;
 use App\Http\Controllers\Controller;
+use App\OlCustomCalculationSheet;
+use App\OlFsiCalculationSheet;
 use App\OlDcrRateMaster;
 use App\OlApplication;
 use App\REENote;
@@ -13,6 +15,7 @@ use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use niklasravnsborg\LaravelPdf\Facades\Pdf as NewPDF;
+use DB;
 
 class OlApplicationCalculationSheetDetailsController extends Controller
 {
@@ -143,15 +146,26 @@ class OlApplicationCalculationSheetDetailsController extends Controller
 
     public function saveCalculationDetails(Request $request)
     {
+        $applicationId = $request->get('application_id');
+        DB::beginTransaction();
+        try{
+            OlApplicationCalculationSheetDetails::updateOrCreate(['application_id'=>$applicationId],$request->all());
+            OlCustomCalculationSheet::where('application_id',$applicationId)->delete();
+            OlFsiCalculationSheet::where('application_id',$applicationId)->delete();
 
-        OlApplicationCalculationSheetDetails::updateOrCreate(['application_id'=>$request->get('application_id')],$request->all());
+            DB::commit();
+        }catch(\Exception $ex){
+            dd($ex);
+            DB::rollback();
+        }
+        
         $id = encrypt($request->get('application_id'));
         return redirect("ol_calculation_sheet/" . $id."#".$request->get('redirect_tab'));
     }
 
     public function saveRevalCalculationDetails(Request $request)
     {
-
+ 
         OlApplicationCalculationSheetDetails::updateOrCreate(['application_id'=>$request->get('application_id')],$request->all());
         return redirect("ol_reval_calculation_sheet/" . $request->get('application_id')."#".$request->get('redirect_tab'));
     }
