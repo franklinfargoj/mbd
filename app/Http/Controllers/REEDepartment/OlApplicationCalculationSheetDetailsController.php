@@ -170,3 +170,4 @@ class OlApplicationCalculationSheetDetailsController extends Controller
         return redirect("ol_reval_calculation_sheet/" . $request->get('application_id')."#".$request->get('redirect_tab'));
     }
 }
+ 

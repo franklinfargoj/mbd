@@ -418,7 +418,16 @@ class REEController extends Controller
         $model = OlApplication::with('ol_application_master')->where('id',$applicatonId)->first();
         if ($model->ol_application_master->model == 'Premium'){
             
-            $calculationData = OlApplication::with(['premiumCalculationSheet','eeApplicationSociety'])->where('id',$applicatonId)->first();  
+            $calculationData = OlApplication::with(['eeApplicationSociety'])->where('id',$applicatonId)->first(); 
+            $fsi_calculation = OlFsiCalculationSheet::where('application_id',$applicatonId)->first();
+            $premium = OlApplicationCalculationSheetDetails::where('application_id',$applicatonId)->first();
+            
+            if ($fsi_calculation){
+                $calculationData->premiumCalculationSheet = $fsi_calculation;
+            }else {
+                $calculationData->premiumCalculationSheet = $premium;
+            }   
+
             $blade =  "premiun_offer_letter";
                      
         }else if($model->ol_application_master->model == 'Sharing') {
@@ -777,10 +786,10 @@ class REEController extends Controller
            $route = 'admin.common.'.$blade; 
            $calculationSheetDetails = $user->calculationSheetDetails;
         }
-
+        $folder = $this->getCurrentRoleFolderName();
         $status = $this->CommonController->getCurrentStatus($applicationId); 
         $reeNote = REENote::where('application_id',$applicationId)->orderBy('id','DESC')->first(); 
-        $ol_application->folder = $this->getCurrentRoleFolderName();
+        $ol_application->folder = $folder;
         $buldingNumber = OlCustomCalculationSheet::where('application_id',$applicationId)
             ->where('title','total_no_of_buildings')->value('amount');
        
