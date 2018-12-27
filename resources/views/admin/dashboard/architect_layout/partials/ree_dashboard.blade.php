@@ -15,21 +15,21 @@
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Total No of Application Sent For Revision</h2>
                 <h2 class="app-no mb-0"></h2>
-                    <a href="" class="app-card__details mb-0">{{$data['total_no_of_appln_for_revision']}}</a>
+                    <a href="" class="app-card__details mb-0">{{$architect_data['total_no_of_appln_for_revision']}}</a>
                 </div>
             </div>
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Application Pending</h2>
-                <h2 class="app-no mb-0">{{$data['application_pending']}}</h2>
-                    <a href="" class="app-card__details mb-0">View Details</a>
+                <h2 class="app-no mb-0">{{$architect_data['application_pending']}}</h2>
+                    {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
                 </div>
             </div>
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Application Forwarded</h2>
-                <h2 class="app-no mb-0">{{$data['ree_forwarded_layouts']}}</h2>
-                    <a href="" class="app-card__details mb-0">View Details</a>
+                <h2 class="app-no mb-0">{{$architect_data['ree_forwarded_layouts']}}</h2>
+                    {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
                 </div>
             </div>
         </div>
@@ -51,22 +51,22 @@
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Total No of Application Sent For Approval</h2>
-                <h2 class="app-no mb-0"></h2>
-                    <a href="" class="app-card__details mb-0">{{$data['appln_sent_for_arroval']}}</a>
+                <h2 class="app-no mb-0">{{$architect_data['appln_sent_for_arroval']}}</h2>
+                    {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
                 </div>
             </div>
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Application Pending</h2>
-                <h2 class="app-no mb-0">{{$data['application_pending_after_layout_and_excel']}}</h2>
-                    <a href="" class="app-card__details mb-0">View Details</a>
+                <h2 class="app-no mb-0">{{$architect_data['application_pending_after_layout_and_excel']}}</h2>
+                    {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
                 </div>
             </div>
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Application Forwarded</h2>
-                <h2 class="app-no mb-0">{{$data['application_forwarded_after_layout_and_excel']}}</h2>
-                    <a href="" class="app-card__details mb-0">View Details</a>
+                <h2 class="app-no mb-0">{{$architect_data['application_forwarded_after_layout_and_excel']}}</h2>
+                    {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
                 </div>
             </div>
         </div>
@@ -89,36 +89,36 @@
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Total No of Application Sent For Approval</h2>
-                <h2 class="app-no mb-0"></h2>
-                    <a href="" class="app-card__details mb-0">{{$data['appln_sent_for_arroval']}}</a>
+                <h2 class="app-no mb-0">{{$architect_data['appln_sent_for_arroval']}}</h2>
+                    {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
                 </div>
             </div>
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Pending at JE / SE</h2>
-                <h2 class="app-no mb-0">{{$data['jr_ree_pending']}}</h2>
-                    <a href="" class="app-card__details mb-0">View Details</a>
+                <h2 class="app-no mb-0">{{$architect_data['jr_ree_pending']}}</h2>
+                    {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
                 </div>
             </div>
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Pending at Deputy Engineer</h2>
-                <h2 class="app-no mb-0">{{$data['dy_ree_pending']}}</h2>
-                    <a href="" class="app-card__details mb-0">View Details</a>
+                <h2 class="app-no mb-0">{{$architect_data['dy_ree_pending']}}</h2>
+                    {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
                 </div>
             </div>
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Pending at  Asst REE</h2>
-                <h2 class="app-no mb-0">{{$data['assistant_ree_pending']}}</h2>
-                    <a href="" class="app-card__details mb-0">View Details</a>
+                <h2 class="app-no mb-0">{{$architect_data['assistant_ree_pending']}}</h2>
+                    {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
                 </div>
             </div>
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Pending at REE</h2>
-                <h2 class="app-no mb-0">{{$data['head_ree_pending']}}</h2>
-                    <a href="" class="app-card__details mb-0">View Details</a>
+                <h2 class="app-no mb-0">{{$architect_data['head_ree_pending']}}</h2>
+                    {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
                 </div>
             </div>
         </div>

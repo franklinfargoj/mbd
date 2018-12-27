@@ -309,116 +309,116 @@ class ArchitectLayoutDashboardController extends Controller
     public function dashboard()
     {
         if (in_array(session()->get('role_name'),array(config('commanConfig.junior_architect'),config('commanConfig.senior_architect'),config('commanConfig.architect')))) {
-            $data['total_no_of_appln_for_revision'] = $this->total_no_of_appln_for_revision();
-            $data['pending_at_current_user'] = $this->pending_at_current_user();
-            $data['sent_to_ee'] = $this->sent_to_ee();
-            $data['sent_to_ree'] = $this->sent_to_ree();
-            $data['sent_to_lm'] = $this->sent_to_lm();
-            $data['sent_to_em'] = $this->sent_to_em();
-            $data['approved_layouts'] = $this->approved_layouts();
-            $data['appln_sent_for_arroval'] = $this->appln_sent_for_arroval();
-            $data['pending_at_ree'] = $this->pending_at_ree();
-            $data['pending_at_co'] = $this->pending_at_co();
-            $data['pending_at_cap'] = $this->pending_at_cap();
-            $data['pending_at_sap'] = $this->pending_at_sap();
-            $data['pending_at_la'] = $this->pending_at_la();
-            $data['pending_at_vp'] = $this->pending_at_vp();
-            $data['pending_at_jr_architect'] = $this->pending_at_jr_architect();
-            $data['pending_at_sr_architect'] = $this->pending_at_sr_architect();
+            $architect_data['total_no_of_appln_for_revision'] = $this->total_no_of_appln_for_revision();
+            $architect_data['pending_at_current_user'] = $this->pending_at_current_user();
+            $architect_data['sent_to_ee'] = $this->sent_to_ee();
+            $architect_data['sent_to_ree'] = $this->sent_to_ree();
+            $architect_data['sent_to_lm'] = $this->sent_to_lm();
+            $architect_data['sent_to_em'] = $this->sent_to_em();
+            $architect_data['approved_layouts'] = $this->approved_layouts();
+            $architect_data['appln_sent_for_arroval'] = $this->appln_sent_for_arroval();
+            $architect_data['pending_at_ree'] = $this->pending_at_ree();
+            $architect_data['pending_at_co'] = $this->pending_at_co();
+            $architect_data['pending_at_cap'] = $this->pending_at_cap();
+            $architect_data['pending_at_sap'] = $this->pending_at_sap();
+            $architect_data['pending_at_la'] = $this->pending_at_la();
+            $architect_data['pending_at_vp'] = $this->pending_at_vp();
+            $architect_data['pending_at_jr_architect'] = $this->pending_at_jr_architect();
+            $architect_data['pending_at_sr_architect'] = $this->pending_at_sr_architect();
         }
 
         if (session()->get('role_name') == config('commanConfig.land_manager')) {
-            $data['total_no_of_appln_for_revision'] = $this->total_no_of_appln_for_revision();
-            $data['application_pending'] = $this->pending_layout_before_layout_and_excel();
-            $data['lm_forwarded_layouts'] = $this->forwarded_layout_before_layout_and_excel();
+            $architect_data['total_no_of_appln_for_revision'] = $this->total_no_of_appln_for_revision();
+            $architect_data['application_pending'] = $this->pending_layout_before_layout_and_excel();
+            $architect_data['lm_forwarded_layouts'] = $this->forwarded_layout_before_layout_and_excel();
         }
 
         if (session()->get('role_name') == config('commanConfig.estate_manager')) {
-            $data['total_no_of_appln_for_revision'] = $this->total_no_of_appln_for_revision();
-            $data['application_pending'] = $this->pending_layout_before_layout_and_excel();
-            $data['em_forwarded_layouts'] = $this->forwarded_layout_before_layout_and_excel();
+            $architect_data['total_no_of_appln_for_revision'] = $this->total_no_of_appln_for_revision();
+            $architect_data['application_pending'] = $this->pending_layout_before_layout_and_excel();
+            $architect_data['em_forwarded_layouts'] = $this->forwarded_layout_before_layout_and_excel();
         }
 
         if (in_array(session()->get('role_name'),array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head')))) {
-            $data['total_no_of_appln_for_revision'] = $this->total_no_of_appln_for_revision();
-            $data['application_pending'] = $this->pending_layout_before_layout_and_excel();
-            $data['ee_forwarded_layouts'] = $this->forwarded_layout_before_layout_and_excel();
+            $architect_data['total_no_of_appln_for_revision'] = $this->total_no_of_appln_for_revision();
+            $architect_data['application_pending'] = $this->pending_layout_before_layout_and_excel();
+            $architect_data['ee_forwarded_layouts'] = $this->forwarded_layout_before_layout_and_excel();
             if(session()->get('role_name')==config('commanConfig.ee_branch_head'))
             {
-                $data['jr_ee_pending'] = $this->ee_pending_at_role(config('commanConfig.ee_junior_engineer'));
-                $data['dy_ee_pending'] = $this->ee_pending_at_role(config('commanConfig.ee_deputy_engineer'));
-                $data['head_ee_pending'] = $this->ee_pending_at_role(config('commanConfig.ee_branch_head'));
+                $architect_data['jr_ee_pending'] = $this->ee_pending_at_role(config('commanConfig.ee_junior_engineer'));
+                $architect_data['dy_ee_pending'] = $this->ee_pending_at_role(config('commanConfig.ee_deputy_engineer'));
+                $architect_data['head_ee_pending'] = $this->ee_pending_at_role(config('commanConfig.ee_branch_head'));
             }
         }
 
         if (in_array(session()->get('role_name'),array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head')))) {
-            $data['total_no_of_appln_for_revision'] = $this->total_no_of_appln_for_revision();
-            $data['application_pending'] = $this->pending_layout_before_layout_and_excel();
-            $data['ree_forwarded_layouts'] = $this->forwarded_layout_before_layout_and_excel();
-            $data['appln_sent_for_arroval'] = $this->appln_sent_for_arroval();
-            $data['application_pending_after_layout_and_excel'] = $this->pending_layout_before_layout_and_excel(1);
-            $data['application_forwarded_after_layout_and_excel'] = $this->forwarded_layout_before_layout_and_excel(1);
+            $architect_data['total_no_of_appln_for_revision'] = $this->total_no_of_appln_for_revision();
+            $architect_data['application_pending'] = $this->pending_layout_before_layout_and_excel();
+            $architect_data['ree_forwarded_layouts'] = $this->forwarded_layout_before_layout_and_excel();
+            $architect_data['appln_sent_for_arroval'] = $this->appln_sent_for_arroval();
+            $architect_data['application_pending_after_layout_and_excel'] = $this->pending_layout_before_layout_and_excel(1);
+            $architect_data['application_forwarded_after_layout_and_excel'] = $this->forwarded_layout_before_layout_and_excel(1);
             
             
             if(session()->get('role_name')==config('commanConfig.ree_branch_head'))
             {
-                $data['jr_ree_pending'] = $this->ree_pending_at_role(config('commanConfig.ree_junior'));
-                $data['dy_ree_pending'] = $this->ree_pending_at_role(config('commanConfig.ree_deputy_engineer'));
-                $data['assistant_ree_pending'] = $this->ree_pending_at_role(config('commanConfig.ree_assistant_engineer'));
-                $data['head_ree_pending'] = $this->ree_pending_at_role(config('commanConfig.ree_branch_head'));
+                $architect_data['jr_ree_pending'] = $this->ree_pending_at_role(config('commanConfig.ree_junior'));
+                $architect_data['dy_ree_pending'] = $this->ree_pending_at_role(config('commanConfig.ree_deputy_engineer'));
+                $architect_data['assistant_ree_pending'] = $this->ree_pending_at_role(config('commanConfig.ree_assistant_engineer'));
+                $architect_data['head_ree_pending'] = $this->ree_pending_at_role(config('commanConfig.ree_branch_head'));
             }
         }
 
         if(in_array(session()->get('role_name'),array(config('commanConfig.co_engineer'))))
         {
-            $data['total_no_of_layout']=$this->total_number_of_layouts();
-            $data['layout_in_process']=$this->total_no_of_appln_for_revision_and_approval();
-            $data['approved_by_vp']=$this->approved_layouts();
-            $data['total_no_of_appln_for_revision'] = $this->total_no_of_appln_for_revision();
-            $data['pending_at_current_user'] = $this->pending_layout_before_layout_and_excel(1);
-            $data['sent_to_ee'] = $this->sent_to_ee();
-            $data['sent_to_ree'] = $this->sent_to_ree();
-            $data['sent_to_lm'] = $this->sent_to_lm();
-            $data['sent_to_em'] = $this->sent_to_em();
-            $data['approved_layouts'] = $this->approved_layouts();
-            $data['appln_sent_for_arroval'] = $this->appln_sent_for_arroval();
-            $data['pending_at_ree'] = $this->pending_at_ree();
-            $data['pending_at_co'] = $this->pending_at_co();
-            $data['pending_at_cap'] = $this->pending_at_cap();
-            $data['pending_at_sap'] = $this->pending_at_sap();
-            $data['pending_at_la'] = $this->pending_at_la();
-            $data['pending_at_vp'] = $this->pending_at_vp();
+            $architect_data['total_no_of_layout']=$this->total_number_of_layouts();
+            $architect_data['layout_in_process']=$this->total_no_of_appln_for_revision_and_approval();
+            $architect_data['approved_by_vp']=$this->approved_layouts();
+            $architect_data['total_no_of_appln_for_revision'] = $this->total_no_of_appln_for_revision();
+            $architect_data['pending_at_current_user'] = $this->pending_layout_before_layout_and_excel(1);
+            $architect_data['sent_to_ee'] = $this->sent_to_ee();
+            $architect_data['sent_to_ree'] = $this->sent_to_ree();
+            $architect_data['sent_to_lm'] = $this->sent_to_lm();
+            $architect_data['sent_to_em'] = $this->sent_to_em();
+            $architect_data['approved_layouts'] = $this->approved_layouts();
+            $architect_data['appln_sent_for_arroval'] = $this->appln_sent_for_arroval();
+            $architect_data['pending_at_ree'] = $this->pending_at_ree();
+            $architect_data['pending_at_co'] = $this->pending_at_co();
+            $architect_data['pending_at_cap'] = $this->pending_at_cap();
+            $architect_data['pending_at_sap'] = $this->pending_at_sap();
+            $architect_data['pending_at_la'] = $this->pending_at_la();
+            $architect_data['pending_at_vp'] = $this->pending_at_vp();
         }
         
         if(in_array(session()->get('role_name'),array(config('commanConfig.senior_architect_planner'))))
         {
-            $data['total_no_of_appln_for_approval'] = $this->appln_sent_for_arroval();;
-            $data['layouts_pending_at_sap'] = $this->pending_layout_before_layout_and_excel(1);
-            $data['sap_forwarded_layouts'] = $this->forwarded_layout_before_layout_and_excel(1);
-            $data['sap_reverted_layouts'] =$this->reverted_layout_before_layout_and_excel(1);
+            $architect_data['total_no_of_appln_for_approval'] = $this->appln_sent_for_arroval();;
+            $architect_data['layouts_pending_at_sap'] = $this->pending_layout_before_layout_and_excel(1);
+            $architect_data['sap_forwarded_layouts'] = $this->forwarded_layout_before_layout_and_excel(1);
+            $architect_data['sap_reverted_layouts'] =$this->reverted_layout_before_layout_and_excel(1);
         }
 
         if(in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'))))
         {
-            $data['total_no_of_appln_for_approval'] = $this->appln_sent_for_arroval();;
-            $data['layouts_pending_at_cap'] = $this->pending_layout_before_layout_and_excel(1);
-            $data['cap_forwarded_layouts'] = $this->forwarded_layout_before_layout_and_excel(1);
-            $data['cap_reverted_layouts'] =$this->reverted_layout_before_layout_and_excel(1);
+            $architect_data['total_no_of_appln_for_approval'] = $this->appln_sent_for_arroval();;
+            $architect_data['layouts_pending_at_cap'] = $this->pending_layout_before_layout_and_excel(1);
+            $architect_data['cap_forwarded_layouts'] = $this->forwarded_layout_before_layout_and_excel(1);
+            $architect_data['cap_reverted_layouts'] =$this->reverted_layout_before_layout_and_excel(1);
         }
 
         if(in_array(session()->get('role_name'),array(config('commanConfig.vp_engineer'))))
         {
-            $data['total_no_of_layout']=$this->total_number_of_layouts();
-            $data['layout_in_process']=$this->total_no_of_appln_for_revision_and_approval();
-            $data['approved_by_vp']=$this->approved_layouts();
+            $architect_data['total_no_of_layout']=$this->total_number_of_layouts();
+            $architect_data['layout_in_process']=$this->total_no_of_appln_for_revision_and_approval();
+            $architect_data['approved_by_vp']=$this->approved_layouts();
 
-            $data['total_no_of_appln_for_approval'] = $this->appln_sent_for_arroval();;
-            $data['layouts_pending_at_vp'] = $this->pending_layout_before_layout_and_excel(1);
-            $data['vp_forwarded_and_approved_layouts'] = $this->vp_approved_and_forwarded_layout();
-            $data['vp_reverted_layouts'] =$this->reverted_layout_before_layout_and_excel(1);
+            $architect_data['total_no_of_appln_for_approval'] = $this->appln_sent_for_arroval();;
+            $architect_data['layouts_pending_at_vp'] = $this->pending_layout_before_layout_and_excel(1);
+            $architect_data['vp_forwarded_and_approved_layouts'] = $this->vp_approved_and_forwarded_layout();
+            $architect_data['vp_reverted_layouts'] =$this->reverted_layout_before_layout_and_excel(1);
         }
 
-        return view('admin.dashboard.architect_layout.dashboard', compact('data'));
+        return view('admin.dashboard.architect_layout.dashboard', compact('architect_data'));
     }
 
    
