@@ -2,7 +2,7 @@
     $route="";
     $route=\Request::route()->getName();
 $status = $ol_applications->olApplicationStatus[0]->status_id;
-//dd($ol_applications->current_status_id);
+//dd($ol_applications);
 @endphp
 <li class="m-menu__item">
     <a class="m-menu__link m-menu__toggle" title="List of Applications" href="{{ route('society_offer_letter_dashboard') }}">
@@ -25,7 +25,7 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
 </li>
 <li id="ree-actions" class="collapse show">
     <ul class="list-unstyled">
-        @if($status == '4' || $status == '3' || $status == config('commanConfig.applicationStatus.approved_tripartite_agreement'))
+        @if($status == config('commanConfig.applicationStatus.pending') || $status == config('commanConfig.applicationStatus.reverted') || $status == config('commanConfig.applicationStatus.approved_tripartite_agreement'))
             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='tripartite_application_form_preview')?'m-menu__item--active':''}}">
                 <a class="m-menu__link m-menu__toggle" title="View Application" href="{{ route('tripartite_application_form_preview', $ol_applications->id) }}">
                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -107,7 +107,7 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
                 </a>
             </li>
         @endif
-        @if($ol_applications->current_status_id == config('commanConfig.applicationStatus.approved_tripartite_agreement') || ($status == config('commanConfig.applicationStatus.forwarded') && $ol_applications->current_status_id == config('commanConfig.applicationStatus.draft_tripartite_agreement')))
+        @if(($ol_applications->current_status_id == config('commanConfig.applicationStatus.draft_tripartite_agreement')) || $ol_applications->current_status_id == config('commanConfig.applicationStatus.approved_tripartite_agreement') || ($status == config('commanConfig.applicationStatus.forwarded') && $ol_applications->current_status_id == config('commanConfig.applicationStatus.draft_tripartite_agreement')))
             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='show_tripartite_agreement')?'m-menu__item--active':''}}">
                 <a class="m-menu__link m-menu__toggle" title="Signed Application for Offer Letter" href="{{ route('show_tripartite_agreement', $ol_applications->id) }}">
                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
