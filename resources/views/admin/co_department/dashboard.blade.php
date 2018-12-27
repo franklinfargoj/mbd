@@ -9,6 +9,8 @@
         $chart2 = 0;
         $chart3 = 0;
         $chart4 = 0;
+        $chart5 = 0;
+        $chart6 = 0;
     @endphp
     <div class="container-fluid">
         <div class="m-subheader px-0 m-subheader--top">
@@ -165,6 +167,71 @@
                 @endif
             </div>
         </div>
+
+        <!-- Dashboard for renewal Module -->
+        <div class="hearing-accordion-wrapper">
+            <div class="m-portlet m-portlet--compact ol-reval-accordion mb-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
+                       data-toggle="collapse" href="#ree-ol-reval-summary">
+                        <span class="form-accordion-title">Application for Revalidation of Offer Letter </span>
+                        <span class="accordion-icon ol-reval-accordion-icon"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="ree-ol-reval-summary"
+                 data-parent="#accordion">
+                <div class="row no-gutters hearing-row">
+                    <div class="col-12 no-shadow">
+                        <div class="app-card-section-title">Offer Letter Revalidation</div>
+                    </div>
+                    @foreach($revalDashboardData as $header => $value)
+                        <div class="col-lg-3">
+                            <div class="m-portlet app-card text-center">
+                                <h2 class="app-heading">{{$header}}</h2>
+                                <div class="app-card-footer">
+                                    <h2 class="app-no mb-0">{{$value[0]}}</h2>
+                                    @php $chart5 += $value[0];@endphp
+                                    @if( $value[1] == 'pending')
+                                        <a href="{{route('co_applications.reval').$value[1]}}" class="app-card__details mb-0" data-toggle="modal" data-target="#reeRevalPendingModal">View Details</a>
+                                    @else
+                                        <a href="{{route('co_applications.reval').$value[1]}}" class="app-card__details mb-0">View Details</a>
+                                    @endif
+                                    {{--<a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a>--}}
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                @if($chart5)
+                    <div id="reval_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
+                @endif
+
+                @if($revalDashboardData1)
+                    <div class="row no-gutters hearing-row">
+                        <div class="col-12 no-shadow">
+                            <div class="app-card-section-title">Offer Letter Revalidation Subordinate Pendency</div>
+                        </div>
+                        @foreach($revalDashboardData1 as $header => $value)
+                            <div class="col-lg-3">
+                                <div class="m-portlet app-card text-center">
+                                    <h2 class="app-heading">{{$header}}</h2>
+                                    <div class="app-card-footer">
+                                        <h2 class="app-no mb-0">{{$value}}</h2>
+                                        @php $chart6 += $value;@endphp
+                                    </div>
+                                    {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    @if($chart6)
+                        <div id="revalchartdiv1" style="width: 100%; height: 350px; margin-top: 2px;"></div>
+                    @endif
+                @endif
+            </div>
+        </div>
+
 
         <!-- Dashboard for Convayance Module -->
         @if($conveyanceDashboard)
@@ -340,6 +407,35 @@
                 </div>
             </div>
         @endif
+        @if((session()->get('role_name')==config('commanConfig.junior_architect'))||
+    (session()->get('role_name')==config('commanConfig.senior_architect')) ||
+    (session()->get('role_name')==config('commanConfig.architect')))
+    @include('admin.dashboard.architect_layout.partials.architect_dashboard',compact('data'))
+    @endif
+    @if(session()->get('role_name')==config('commanConfig.land_manager'))
+    @include('admin.dashboard.architect_layout.partials.lm_dashboard',compact('data'))
+    @endif
+    @if(session()->get('role_name')==config('commanConfig.estate_manager'))
+    @include('admin.dashboard.architect_layout.partials.em_dashboard',compact('data'))
+    @endif
+    @if (in_array(session()->get('role_name'),array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'))))
+    @include('admin.dashboard.architect_layout.partials.ee_dashboard',compact('data'))
+    @endif
+    @if (in_array(session()->get('role_name'),array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head'))))
+    @include('admin.dashboard.architect_layout.partials.ree_dashboard',compact('data'))
+    @endif
+    @if(in_array(session()->get('role_name'),array(config('commanConfig.co_engineer'))))
+    @include('admin.dashboard.architect_layout.partials.co_dashboard',compact('data'))
+    @endif
+    @if(in_array(session()->get('role_name'),array(config('commanConfig.senior_architect_planner'))))
+    @include('admin.dashboard.architect_layout.partials.sap_dashboard',compact('data'))
+    @endif
+    @if(in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'))))
+    @include('admin.dashboard.architect_layout.partials.cap_dashboard',compact('data'))
+    @endif
+    @if(in_array(session()->get('role_name'),array(config('commanConfig.vp_engineer'))))
+    @include('admin.dashboard.architect_layout.partials.vp_dashboard',compact('data'))
+    @endif
     </div>
 
     <!-- Modal for application pending bifergation -->
@@ -456,6 +552,19 @@
             }
         });
 
+        $(".ol-reval-accordion").on("click", function () {
+            var data = $('.ol-reval-accordion').children().children().attr('aria-expanded');
+            if (!(data)) {
+                $('.ol-reval-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+            }
+            else {
+                if (data == 'undefine' || data == 'false') {
+                    $('.ol-reval-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                } else {
+                    $('.ol-reval-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                }
+            }
+        });
 //        $('.noc_cc-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
 
         $(".noc_cc_accordian").on("click", function () {
@@ -752,7 +861,81 @@
         </script>
     @endif
 
+    @if($chart5)
+        <script>
+            var chart5;
+            var legend;
 
+
+            var chartData5 = [
+
+                    @foreach($revalDashboardData as $header => $value)
+                    @if($header != 'Total No of Applications'){
+                    "status": '{{$header}}',
+                    "value": '{{$value[0]}}',
+                },
+                @endif
+                @endforeach
+
+            ];
+
+            AmCharts.ready(function () {
+                // PIE CHART
+                chart5 = new AmCharts.AmPieChart();
+                chart5.dataProvider = chartData5;
+                chart5.titleField = "status";
+                chart5.valueField = "value";
+                chart5.outlineColor = "#FFFFFF";
+                chart5.outlineAlpha = 0.8;
+                chart5.outlineThickness = 2;
+                chart5.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+                // this makes the chart 3D
+                chart5.depth3D = 15;
+                chart5.angle = 30;
+                chart5.colors =[ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
+                chart5.fontSize = 15;
+
+                // WRITE
+                chart5.write("reval_chart");
+            });
+        </script>
+    @endif
+    @if($chart6)
+        <script>
+            var chart6;
+            var legend;
+
+            var chartData6 = [
+                    @foreach($revalDashboardData1 as $header => $value)
+                    @if($header != 'Total Number of Applications Pending'){
+                    "status": '{{$header}}',
+                    "value": '{{$value}}',
+                },
+                @endif
+                @endforeach
+            ];
+
+            AmCharts.ready(function () {
+                // PIE CHART
+                chart6 = new AmCharts.AmPieChart();
+                chart6.dataProvider = chartData3;
+                chart6.titleField = "status";
+                chart6.valueField = "value";
+                chart6.outlineColor = "#FFFFFF";
+                chart6.outlineAlpha = 0.8;
+                chart6.outlineThickness = 2;
+                chart6.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+                // this makes the chart 3D
+                chart6.depth3D = 15;
+                chart6.angle = 30;
+                chart6.colors = [ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
+                chart6.fontSize = 15;
+
+                // WRITE
+                chart6.write("revalchartdiv1");
+            });
+        </script>
+    @endif
 
 @endsection
 

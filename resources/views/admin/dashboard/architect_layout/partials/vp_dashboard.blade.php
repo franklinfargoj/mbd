@@ -15,20 +15,20 @@
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Total No of Layouts  </h2>
                 <h2 class="app-no mb-0"></h2>
-                    <a href="" class="app-card__details mb-0">{{$data['total_no_of_layout']}}</a>
+                    <a href="" class="app-card__details mb-0">{{$architect_data['total_no_of_layout']}}</a>
                 </div>
             </div>
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Layouts in process</h2>
-                <h2 class="app-no mb-0">{{$data['layout_in_process']}}</h2>
+                <h2 class="app-no mb-0">{{$architect_data['layout_in_process']}}</h2>
                     <a href="" class="app-card__details mb-0">View Details</a>
                 </div>
             </div>
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Layouts Approved by VP</h2>
-                <h2 class="app-no mb-0">{{$data['approved_by_vp']}}</h2>
+                <h2 class="app-no mb-0">{{$architect_data['approved_by_vp']}}</h2>
                     <a href="" class="app-card__details mb-0">View Details</a>
                 </div>
             </div>
@@ -52,28 +52,28 @@
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Total No of Layout for Approval</h2>
-                <h2 class="app-no mb-0">{{$data['total_no_of_appln_for_approval']}}</h2>
+                <h2 class="app-no mb-0">{{$architect_data['total_no_of_appln_for_approval']}}</h2>
                     <a href="" class="app-card__details mb-0"></a>
                 </div>
             </div>
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Application Pending</h2>
-                <h2 class="app-no mb-0">{{$data['layouts_pending_at_vp']}}</h2>
+                <h2 class="app-no mb-0">{{$architect_data['layouts_pending_at_vp']}}</h2>
                     <a href="" class="app-card__details mb-0">View Details</a>
                 </div>
             </div>
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Application Approved & Sent to Architect</h2>
-                <h2 class="app-no mb-0">{{$data['vp_forwarded_and_approved_layouts']}}</h2>
+                <h2 class="app-no mb-0">{{$architect_data['vp_forwarded_and_approved_layouts']}}</h2>
                     <a href="" class="app-card__details mb-0">View Details</a>
                 </div>
             </div>
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Application Sent Back to CAP</h2>
-                <h2 class="app-no mb-0">{{$data['vp_reverted_layouts']}}</h2>
+                <h2 class="app-no mb-0">{{$architect_data['vp_reverted_layouts']}}</h2>
                     <a href="" class="app-card__details mb-0">View Details</a>
                 </div>
             </div>
