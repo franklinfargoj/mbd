@@ -2,7 +2,6 @@
 @section('actions')
 @include('admin.tripartite.actions',compact('sf_application'))
 @endsection
-@section('content')
 @section('css')
 <!-- <style> -->
 <link href="{{asset('/frontend/css/dyce_scrutiny.css')}}" rel="stylesheet" type="text/css" />
@@ -31,7 +30,6 @@
                 <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
         </div>
     </div>
-
     <!-- society and Appointed Architect details -->
     <form role="form" id="CAPnotes" style="margin-top: 30px;" name="CAPnotes" class="form-horizontal" method="post"
         action="{{ route('tripartite.upload_ree_note')}}" enctype="multipart/form-data">
