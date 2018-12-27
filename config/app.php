@@ -164,6 +164,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Unisharp\Ckeditor\ServiceProvider::class,
         niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
+        App\Providers\ViewServiceProvider::class
     ],
 
     /*
