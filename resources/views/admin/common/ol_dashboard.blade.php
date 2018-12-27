@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="../../../../public/css/amcharts.css">
 @endsection
 
-@section('content') @php $chart = 0; $chart1 = 0; $chart2 = 0; $chart3 = 0;
+@section('content') @php $chart = 0; $chart1 = 0; $chart2 = 0; $chart3 = 0; $chart4 = 0;
 @endphp
 <div class="container-fluid">
     <div class="m-subheader px-0 m-subheader--top">
@@ -118,6 +118,49 @@
                 </div>
                 @endif @endif
                 <!-- end -->
+
+    @if (in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'), config('commanConfig.vp_engineer'))))
+                <div class="hearing-accordion-wrapper">
+                    <div class="m-portlet m-portlet--compact ol-reval-accordion mb-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
+                               data-toggle="collapse" href="#ree-ol-reval-summary">
+                                <span class="form-accordion-title">Application for Revalidation of Offer Letter </span>
+                                <span class="accordion-icon ol-reval-accordion-icon"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="ree-ol-reval-summary"
+                         data-parent="#accordion">
+                        <div class="row no-gutters hearing-row">
+                            <div class="col-12 no-shadow">
+                                <div class="app-card-section-title">Offer Letter Revalidation</div>
+                            </div>
+                            @foreach($revalDashboardData as $header => $value)
+                                <div class="col-lg-3">
+                                    <div class="m-portlet app-card text-center">
+                                        <h2 class="app-heading">{{$header}}</h2>
+                                        <div class="app-card-footer">
+                                            <h2 class="app-no mb-0">{{$value[0]}}</h2>
+                                            @php $chart4 += $value[0];@endphp
+                                            <a href="{{ (session()->get('role_name') == config('commanConfig.cap_engineer')) ? route('cap_applications.reval').$value[1] : route('vp_applications.reval').$value[1]}}" class="app-card__details mb-0">View
+                                                Details</a>
+
+                                            {{--<a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a>--}}
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        @if($chart4)
+                            <div id="reval_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
+                        @endif
+                    </div>
+                </div>
+    @endif
+
+
+
 
                 <!-- Dashboard for Renewal Module  -->
                 @if(in_array(session()->get('role_name'),$renewalRoles)) @if($renewalDashboard)
@@ -369,6 +412,20 @@
                     }
                 });
 
+                $(".ol-reval-accordion").on("click", function () {
+                    var data = $('.ol-reval-accordion').children().children().attr('aria-expanded');
+                    if (!(data)) {
+                        $('.ol-reval-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                    }
+                    else {
+                        if (data == 'undefine' || data == 'false') {
+                            $('.ol-reval-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                        } else {
+                            $('.ol-reval-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                        }
+                    }
+                });
+
             </script>
             <script>
                 $(".conveyance-accordion").on("click", function () {
@@ -452,7 +509,8 @@
                 });
 
             </script>
-            @endif @if($chart1)
+            @endif
+            @if($chart1)
             <script>
                 var chart1;
                 var legend;
@@ -538,7 +596,8 @@
                 @endif
 
             </script>
-            @endif @if($chart3)
+            @endif
+            @if($chart3)
             <script>
                 var chart3;
                 var legend;
@@ -581,4 +640,44 @@
 
             </script>
             @endif
+            @if($chart4)
+                <script>
+                    var chart4;
+                    var legend;
+
+
+                    var chartData4 = [
+
+                            @foreach($revalDashboardData as $header => $value)
+                            @if($header != 'Total No of Applications'){
+                            "status": '{{$header}}',
+                            "value": '{{$value[0]}}',
+                        },
+                        @endif
+                        @endforeach
+
+                    ];
+
+                    AmCharts.ready(function () {
+                        // PIE CHART
+                        chart4 = new AmCharts.AmPieChart();
+                        chart4.dataProvider = chartData4;
+                        chart4.titleField = "status";
+                        chart4.valueField = "value";
+                        chart4.outlineColor = "#FFFFFF";
+                        chart4.outlineAlpha = 0.8;
+                        chart4.outlineThickness = 2;
+                        chart4.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+                        // this makes the chart 3D
+                        chart4.depth3D = 15;
+                        chart4.angle = 30;
+                        chart4.colors =[ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
+                        chart4.fontSize = 15;
+
+                        // WRITE
+                        chart4.write("reval_chart");
+                    });
+                </script>
+            @endif
+
             @endsection
