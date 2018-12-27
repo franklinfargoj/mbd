@@ -506,7 +506,7 @@ class REEController extends Controller
     }
 // 
     public function saveOfferLetter(Request $request){
-      
+
         $id = $request->applicationId;
         $content = str_replace('_', "", $_POST['ckeditorText']);
         $folder_name = 'Draft_offer_letter';
@@ -560,6 +560,7 @@ class REEController extends Controller
             'to_role_id' => NULL,
             'remark' => NULL,
             'is_active' => 1,
+            'phase' => 1,
             'created_at' => Carbon::now(),
         ];
 
@@ -618,6 +619,37 @@ class REEController extends Controller
 
         OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath, "text_offer_letter" => $filePath1]);
         // OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath]);
+
+        //Code added by Prajakta >>start
+        $generated_offer_letter = [
+            'application_id' => $request->applicationId,
+            'user_id' => Auth::user()->id,
+            'role_id' => session()->get('role_id'),
+            'status_id' => config('commanConfig.applicationStatus.draft_offer_letter_generated'),
+            'to_user_id' => NULL,
+            'to_role_id' => NULL,
+            'remark' => NULL,
+            'is_active' => 1,
+            'phase' => 1,
+            'created_at' => Carbon::now(),
+        ];
+//dd($generated_offer_letter);
+        DB::beginTransaction();
+        try {
+            OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath, "text_offer_letter" => $filePath1]);
+
+            OlApplicationStatus::where('application_id',$request->applicationId)
+                ->whereIn('user_id', [Auth::user()->id])
+                ->where('status_id',config('commanConfig.applicationStatus.offer_letter_generation'))
+                ->update(array('is_active' => 0));
+
+            OlApplicationStatus::insert($generated_offer_letter);
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+        }
+        //Code added by Prajakta >>end
 
         return redirect('generate_reval_offer_letter/'.$request->applicationId);
     }

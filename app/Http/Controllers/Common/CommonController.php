@@ -1714,7 +1714,7 @@ class CommonController extends Controller
 
         if($vp == $role_id){
             $dashboardData = $this->getVpDashboardData($statusCount);
-            $revalDashboardData = $this->getCapDashboardData($revalStatusCount);
+            $revalDashboardData = $this->getVpDashboardData($revalStatusCount);
         }
 
         $dashboardData1 = NULL;

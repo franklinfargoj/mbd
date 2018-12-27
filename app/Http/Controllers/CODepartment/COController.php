@@ -968,6 +968,7 @@ class COController extends Controller
 
         $applicationData = $this->getApplicationData($role_id,$user_id);
 
+
         // Reval APplication data
 
         $revalApplicationData = $this->getRevalApplicationData($role_id,$user_id);
@@ -976,6 +977,9 @@ class COController extends Controller
 
         // Reval status Count
         $revalStatusCount = $this->getApplicationStatusCount($revalApplicationData);
+
+        $data =  array_merge($revalStatusCount);
+//        die('kjhh');
 
         $dashboardData = $this->getCODashboardData($statusCount);
 
@@ -1108,18 +1112,18 @@ class COController extends Controller
     }
 
     public function getApplicationStatusCount($applicationData){
-
         $totalForwarded = $totalReverted = $totalPending = $totalInProcess = 0 ;
 
         $totalPendingForOfferLetterApproval = $approvedOfferLetterForwardedForIssueingToSociety = $totalOfferLetterApproved = 0;
 
+//        dd($applicationData);
         foreach ($applicationData as $application){
 //            echo "<pre>";
 //            print_r($application);
 
             $phase =  $application['ol_application_status'][0]['phase'];
             $status = $application['ol_application_status'][0]['status_id'];
-//            print_r($status);
+//            print_r($phase);
 //            echo '=====';
             if($phase == 0){
                 switch ( $status )
@@ -1132,7 +1136,16 @@ class COController extends Controller
                 }
             }
             if($phase == 1){
-//                dd($application);
+                switch ( $status )
+                {
+                    case config('commanConfig.applicationStatus.offer_letter_generation'): $totalPendingForOfferLetterApproval += 1; break;
+                    case config('commanConfig.applicationStatus.offer_letter_approved'): $totalOfferLetterApproved += 1; break;
+                    case config('commanConfig.applicationStatus.forwarded') /*&& $application['drafted_offer_letter']*/ : $approvedOfferLetterForwardedForIssueingToSociety += 1; break;
+                    default:
+                        ; break;
+                }
+            }
+            if($phase == 2){
                 switch ( $status )
                 {
                     case config('commanConfig.applicationStatus.offer_letter_generation'): $totalPendingForOfferLetterApproval += 1; break;
@@ -1143,7 +1156,7 @@ class COController extends Controller
                 }
             }
         }
-//        dd('asdhash');
+
         $totalApplication = count($applicationData);
 
         $count = ['totalPending' => $totalPending,
@@ -1155,6 +1168,7 @@ class COController extends Controller
             'totalApprovedOfferLetterForwardedForIssueingToSociety' => $approvedOfferLetterForwardedForIssueingToSociety
 
         ];
+//        dd($count);
         return $count;
 
     }
