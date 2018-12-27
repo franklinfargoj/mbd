@@ -25,7 +25,7 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
 </li>
 <li id="ree-actions" class="collapse show">
     <ul class="list-unstyled">
-        @if($status == '4' || $status == '3' || $status == config('commanConfig.applicationStatus.approved_tripartite_agreement'))
+        @if($status == config('commanConfig.applicationStatus.pending') || $status == config('commanConfig.applicationStatus.reverted') || $status == config('commanConfig.applicationStatus.approved_tripartite_agreement'))
             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='tripartite_application_form_preview')?'m-menu__item--active':''}}">
                 <a class="m-menu__link m-menu__toggle" title="View Application" href="{{ route('tripartite_application_form_preview', $ol_applications->id) }}">
                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
