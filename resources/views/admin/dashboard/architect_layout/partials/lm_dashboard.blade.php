@@ -14,22 +14,22 @@
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Total No of Application Sent For Revision</h2>
-                <h2 class="app-no mb-0"></h2>
-                    <a href="" class="app-card__details mb-0">{{$architect_data['total_no_of_appln_for_revision']}}</a>
+                <h2 class="app-no mb-0">{{$architect_data['total_no_of_appln_for_revision']}}</h2>
+                    {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
                 </div>
             </div>
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Application Pending</h2>
                 <h2 class="app-no mb-0">{{$architect_data['application_pending']}}</h2>
-                    <a href="" class="app-card__details mb-0">View Details</a>
+                    {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
                 </div>
             </div>
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Application Forwarded to Architect</h2>
                 <h2 class="app-no mb-0">{{$architect_data['lm_forwarded_layouts']}}</h2>
-                    <a href="" class="app-card__details mb-0">View Details</a>
+                    {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
                 </div>
             </div>
         </div>
