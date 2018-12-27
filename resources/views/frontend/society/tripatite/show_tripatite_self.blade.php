@@ -59,7 +59,7 @@
                                 <div class="col-sm-4 form-group">
                                     <label class="col-form-label" for="{{ $form_fields[$i] }}">@php $labels = implode(' ', explode('_', $form_fields[$i])); echo ucwords($labels); @endphp:</label>
                                     @if(strpos($form_fields[$i], 'date') != null)
-                                        @php echo $comm_func->form_fields($form_fields[$i], 'date') @endphp
+                                        @php echo $comm_func->form_fields($form_fields[$i], 'date', '', '', '', '', 'required') @endphp
                                     @else
                                         @php echo $comm_func->form_fields($form_fields[$i], 'text', '', '', '', '', 'required') @endphp
                                     @endif
@@ -70,7 +70,7 @@
                                 <div class="col-sm-4 offset-sm-1 form-group">
                                     <label class="col-form-label" for="{{ $form_fields[$i+1] }}">@php $labels = implode(' ', explode('_', $form_fields[$i+1])); echo ucwords($labels); @endphp:</label>
                                     @if(strpos($form_fields[$i+1], 'date') != null)
-                                        @php echo $comm_func->form_fields($form_fields[$i+1], 'date') @endphp
+                                        @php echo $comm_func->form_fields($form_fields[$i+1], 'date', '', '', '', '', 'required') @endphp
                                     @else
                                         @php echo $comm_func->form_fields($form_fields[$i+1], 'text', '', '', '', '', 'required') @endphp
                                     @endif

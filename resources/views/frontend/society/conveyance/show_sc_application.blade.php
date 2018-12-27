@@ -9,8 +9,8 @@
                 <h3 class="m-subheader__title m-subheader__title--separator">Application</h3>
                 <div class="ml-auto btn-list">
                     <a href="{{ route('society_conveyance.index') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
-                    <a href="#" target="_blank" id="download_application_form" class="btn print-icon" rel="noopener"
-                       onclick="printContent('printdiv')"><img src="{{asset('/img/print-icon.svg')}}" title="print"></a>
+                    {{--<a href="#" target="_blank" id="download_application_form" class="btn print-icon" rel="noopener"--}}
+                       {{--onclick="printContent('printdiv')"><img src="{{asset('/img/print-icon.svg')}}" title="print"></a>--}}
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@
                                     <div class="col-sm-4 application-fields">
                                         <label class="application-form-label" for="">३. योजनेचे नाव:</label>
                                         <input class="letter-form-input letter-form-input--100" type="text" id="" name="scheme_name"
-                                               value="{{ $sc_application->sc_form_request->scheme_name }}" readonly>
+                                               value="{{ $sc_application->sc_form_request->scheme_names->name }}" readonly>
                                     </div>
                                     <div class="col-sm-4 application-fields">
                                         <label class="application-form-label" for="">४. प्रथम सदनिका वितरणाचा दिनांक:</label>

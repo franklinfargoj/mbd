@@ -285,7 +285,7 @@ class SocietyConveyanceController extends Controller
     {
         $id = decrypt($id);
 
-        $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout', 'scApplicationLog' => function($q){
+        $sc_application = scApplication::with(['sc_form_request' => function($q){  $q->with('scheme_names'); }, 'societyApplication', 'applicationLayout', 'scApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();
 
@@ -306,8 +306,10 @@ class SocietyConveyanceController extends Controller
     {
         $id = decrypt($id);
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout'])->where('id', $id)->first();
-
+        $sc_application = scApplication::with(['sc_form_request' => function($q){
+            $q->with('scheme_names');
+        }, 'societyApplication', 'applicationLayout'])->where('id', $id)->first();
+//        dd($sc_application->sc_form_request);
         $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
         $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
 
@@ -326,7 +328,7 @@ class SocietyConveyanceController extends Controller
         $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
         $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
         $master_tenant_type = MasterTenantType::all();
-
+//        dd($sc_application->sc_form_request);
         return view('frontend.society.conveyance.edit', compact('layouts', 'field_names', 'society_details', 'comm_func', 'sc_application', 'id', 'documents', 'documents_uploaded', 'master_tenant_type'));
     }
 
