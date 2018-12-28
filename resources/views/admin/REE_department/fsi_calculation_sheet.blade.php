@@ -974,7 +974,8 @@
                                                     १/४)
                                                 </td> 
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" style="border: none;" readonly class="first_installment form-control form-control--custom txtbox" placeholder="0" value="<?php if(isset($calculationSheetDetails->non_profit_duty)) { echo $calculationSheetDetails->non_profit_duty; } ?>"/>
+                                                    <input type="text" style="border: none;" readonly class="first_installment form-control form-control--custom txtbox" placeholder="0"
+                                                         value="<?php if(isset($calculationSheetDetails->non_profit_duty)) { echo $calculationSheetDetails->non_profit_duty; } ?>"/>
 
                                                 </td>
                                             </tr>
@@ -1180,6 +1181,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input type="text" style="border: none;" readonly class="form-control form-control--custom txtbox" placeholder="0"
+                                                         id="non_profit_duty_val"
                                                         value="<?php if(isset($calculationSheetDetails->non_profit_duty)) { echo $calculationSheetDetails->non_profit_duty; } ?>"
                                                         />
 
@@ -1251,7 +1253,7 @@
                                                 $calculationSheetDetails->payment_of_first_installment : 0 }}
 
                                             </td>
-                                        </tr> 
+                                        </tr>
                                         <tr>
                                             <td style = "border-style: ridge;">2.</td>
                                             <td style = "border-style: ridge;">
@@ -1261,8 +1263,8 @@
                                                 (दार तिमाहीला परिगणनीय दराने) अधिक रकमेचा भरणा करावा लागेल
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
-                                                {{ isset($calculationSheetDetails->non_profit_duty)
-                                                ? $calculationSheetDetails->non_profit_duty : 0 }}
+                                                {{ isset($calculationSheetDetails->payment_of_remaining_installment)
+                                                ? $calculationSheetDetails->payment_of_remaining_installment : 0 }}
                                                 + interest
 
                                             </td>
@@ -1644,7 +1646,9 @@
         // $("#non_profit_duty_installment").attr('value',  numberWithCommas(Math.ceil(1 / 4 * remaining_area_of_resident_area_balance)));
         // $("#non_profit_duty_val").attr('value', numberWithCommas(Math.ceil(1 / 4 * remaining_area_of_resident_area_balance)));
 
-        $("#payment_of_remaining_installment").attr('value',numberWithCommas((Math.ceil(1 / 4 * remaining_area_of_resident_area_balance)).toFixed(2)));
+        var non_profit_duty_val = (!cleanNumber($("#non_profit_duty_val").val()) || isNaN(cleanNumber($("#non_profit_duty_val").val()))) ? 0 : cleanNumber($("#non_profit_duty_val").val());
+
+        $("#payment_of_remaining_installment").attr('value',numberWithCommas(non_profit_duty_val));
     }
  
     function calculateAmountForMhadaMuncipal()
