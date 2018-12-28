@@ -23,15 +23,15 @@ class BoardsAndDepartmentsTableSeeder extends Seeder
 				        		'status' => 1
 				        	]);
 
-        	$createdDepartment = Department::create([
-				        		'department_name' => 'Department 1',
-				        		'status' => 1
-				        	]);
-
-        	BoardDepartment::create([
-        		'board_id' => $createdBoard->id,
-        		'department_id' => $createdDepartment->id
-        	]);
+//        	$createdDepartment = Department::create([
+//				        		'department_name' => 'Department 1',
+//				        		'status' => 1
+//				        	]);
+//
+//        	BoardDepartment::create([
+//        		'board_id' => $createdBoard->id,
+//        		'department_id' => $createdDepartment->id
+//        	]);
         }
     }
 }
