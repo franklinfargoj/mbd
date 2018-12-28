@@ -729,6 +729,7 @@ class TripartiteController extends Controller
             'society_flag' => 0,
             'remark' => $request->remark,
             'created_at' => Carbon::now(),
+            'is_active' => 1,
         ],
             [
                 'application_id' => $request->applicationId,
@@ -740,6 +741,7 @@ class TripartiteController extends Controller
                 'society_flag' => $society_flag,
                 'remark' => $request->remark,
                 'created_at' => Carbon::now(),
+                'is_active' => 1,
             ],
         ];
 
@@ -750,6 +752,9 @@ class TripartiteController extends Controller
             if ($is_approved_agreement != 0) {
                 OlApplication::where('id', $request->applicationId)->update(['current_status_id' => $is_approved_agreement]);
             }
+            OlApplicationStatus::where('application_id',$request->applicationId)
+                    ->whereIn('user_id', [auth()->user()->id,$request->to_user_id ])
+                    ->update(array('is_active' => 0));
             OlApplicationStatus::insert($application);
         });
     }
