@@ -1944,7 +1944,7 @@ class REEController extends Controller
                     ->where('society_flag', 0)
                     ->where('is_active',1)
                     ->orderBy('id', 'desc');
-            })->where('application_master_id',$new_offer_letter_master_ids)->get()->toArray();
+            })->whereIn('application_master_id',$new_offer_letter_master_ids)->get()->toArray();
 
         return $applicationData;
     }
