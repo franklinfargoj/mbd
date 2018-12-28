@@ -63,17 +63,17 @@
                                 <div style="margin-bottom: 10px;">
                                     <div style="width: 50%; float: left;">
                                         <label  for="">A. निवासी:</label>
-                                        <span style="font-weight: bold;"> &nbsp; {{ $sc_application->sr_form_request->residential_flat }} &nbsp; </span>
+                                        <span style="font-weight: bold;"> &nbsp; {{ $sc_application->sr_form_request->no_of_residential_flat }} &nbsp; </span>
                                     </div>
                                     <div style="width: 50%; float: left;">
                                         <label  for="">B. अनिवासी:</label>
-                                        <span style="font-weight: bold;"> &nbsp; {{ $sc_application->sr_form_request->non_residential_flat }} &nbsp; </span>
+                                        <span style="font-weight: bold;"> &nbsp; {{ $sc_application->sr_form_request->no_of_non_residential_flat }} &nbsp; </span>
                                     </div>
                                 </div>
                                 <div style="margin-bottom: 10px;">
                                     <div style="width: 50%; float: left;">
                                         <label  for="">C. एकूण:</label>
-                                        <span style="font-weight: bold;"> &nbsp;{{ $sc_application->sr_form_request->total_flat }} &nbsp; </span>
+                                        <span style="font-weight: bold;"> &nbsp;{{ $sc_application->sr_form_request->total_no_of_flat }} &nbsp; </span>
                                     </div>
                                 </div>
                                     <div style="clear: both;"></div>
@@ -147,10 +147,10 @@
                         <div style="font-size: 16px;">
                             <p style="font-size: 16px;" >आपला विश्वासू,</p>
                             <p style="font-size: 16px;" >
-                                <span >अध्यक्ष <span style="font-weight: bold;"> &nbsp; test &nbsp;</span></span>
+                                <span >अध्यक्ष <span style="font-weight: bold;"> &nbsp;  &nbsp;</span></span>
                             </p>
                             <p style="font-size: 16px;" >
-                                <span >सचिव <span style="font-weight: bold;"> &nbsp; test &nbsp;</span></span>
+                                <span >सचिव <span style="font-weight: bold;"> &nbsp;  &nbsp;</span></span>
                             </p>
                         </div>
                     </div>
