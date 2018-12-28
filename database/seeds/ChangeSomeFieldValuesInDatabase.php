@@ -290,5 +290,16 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
                 'division' => 'Borivali',
             ])->delete();
         }
+
+        // Removing department 1 from department
+        $depaertment_id = \App\Department::where('department_name', 'Department 1')->value('id');
+
+        if($depaertment_id){
+            \App\Department::where([
+                'department_name' => 'Department 1',
+            ])->delete();
+
+            \App\BoardDepartment::where('department_id',$depaertment_id)->delete();
+        }
     }
 }
