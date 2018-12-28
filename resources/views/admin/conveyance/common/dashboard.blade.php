@@ -31,9 +31,12 @@
                     </div>
                     <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="conveyance_dashboard"
                          data-parent="#accordion">
-                        <div class="row hearing-row">
+                        <div class="row no-gutters hearing-row">
+                            <div class="col-12 no-shadow">
+                                <div class="app-card-section-title">Lorem Ipsum</div>
+                            </div>
                             @foreach($conveyanceDashboard[0] as $header => $value)
-                                <div class="col">
+                                <div class="col-lg-3">
                                     <div class="m-portlet app-card text-center">
                                         <h2 class="app-heading">{{$header}}</h2>
                                         <div class="app-card-footer">
@@ -59,9 +62,12 @@
                             <div id="conveyance_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
                         @endif
                         @if($pendingApplications && session()->get('role_name') == config('commanConfig.dyco_engineer'))
-                            <div class="row hearing-row">
+                            <div class="row no-gutters hearing-row">
+                                <div class="col-12 no-shadow">
+                                    <div class="app-card-section-title">Society Renewal</div>
+                                </div>
                                 @foreach($pendingApplications as $header => $value)
-                                    <div class="col">
+                                    <div class="col-lg-3">
                                         <div class="m-portlet app-card text-center">
                                             <h2 class="app-heading">{{$header}}</h2>
                                             <div class="app-card-footer">
@@ -98,15 +104,17 @@
         </div>
         <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="renewal_dashboard"
             data-parent="#accordion">
-            <div class="row hearing-row">
+            <div class="row no-gutters hearing-row">
+                <div class="col-12 no-shadow">
+                    <div class="app-card-section-title">Lorem Ipsum</div>
+                </div>
                 @php $chart = 0; @endphp
             @foreach($renewalDashboard[0] as $header => $value)
-                <div class="col">
+                <div class="col-lg-3">
                     <div class="m-portlet app-card text-center">
                         <h2 class="app-heading">{{$header}}</h2>
                         <div class="app-card-footer">
                             <h2 class="app-no mb-0">{{$value[0]}}</h2>
-
                             @if( $value[1] == 'pending')
                             <a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#pending_renewal">View Details</a>
                             @elseif( $value[1] == 'sendToSociety')
@@ -125,9 +133,12 @@
                     @endif
 
                 @if($renewalPendingApplications && session()->get('role_name') == config('commanConfig.dyco_engineer'))
-                    <div class="row hearing-row">
+                    <div class="row no-gutters hearing-row">
+                        <div class="col-12 no-shadow">
+                            <div class="app-card-section-title">Lorem Ipsum</div>
+                        </div>
                         @foreach($renewalPendingApplications as $header => $value)
-                            <div class="col">
+                            <div class="col-lg-3">
                                 <div class="m-portlet app-card text-center">
                                     <h2 class="app-heading">{{$header}}</h2>
                                     <div class="app-card-footer">

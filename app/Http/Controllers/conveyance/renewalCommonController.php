@@ -1220,13 +1220,13 @@ class renewalCommonController extends Controller
 
     public function pendingApplicationCount($roles){
 
-        $status = array(config('commanConfig.renewal_status.in_process'),config('commanConfig.renewal_status.Draft_Renewal_of_Lease_deed'),config('commanConfig.renewal_status.Aproved_Renewal_of_Lease'),config('commanConfig.renewal_status.Sent_society_to_pay_stamp_duety'),config('commanConfig.renewal_status.NOC_Generation'));
+        $status = array(config('commanConfig.renewal_status.in_process'),config('commanConfig.renewal_status.Draft_Renewal_of_Lease_deed'),config('commanConfig.renewal_status.Aproved_Renewal_of_Lease'),config('commanConfig.renewal_status.Sent_society_to_pay_stamp_duety'),config('commanConfig.renewal_status.Registered_lease_deed'),config('commanConfig.renewal_status.Stamp_Renewal_of_Lease_deed'),config('commanConfig.renewal_status.Stamp_Sign_Renewal_of_Lease_deed'),config('commanConfig.renewal_status.Send_society_for_registration_of_Lease_deed'));
 
         $count = RenewalApplicationLog::where('is_active',1)
             ->whereIn('status_id',$status)
             ->whereIn('role_id',$roles)
             ->get()->count();
-
+          
         return $count;    
     }
 

@@ -291,7 +291,7 @@ class SocietyRenewalController extends Controller
         $id = decrypt($id);
 
         $sc_application = RenewalApplication::with(['sr_form_request' => function($q){
-            $q->with('sr_scheme_name');
+            $q->with('scheme_names');
         }, 'societyApplication', 'applicationLayout', 'srApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();
@@ -310,7 +310,7 @@ class SocietyRenewalController extends Controller
         $id = decrypt($id);
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $sc_application = RenewalApplication::with(['sr_form_request' => function($q){
-            $q->with('sr_scheme_name');
+            $q->with('scheme_names');
         }, 'societyApplication', 'applicationLayout', 'srApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();

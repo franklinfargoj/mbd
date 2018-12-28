@@ -246,7 +246,7 @@
                                                     Total
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" placeholder="0" readonly class="form-control form-control--custom txtbox"
+                                                    <input type="text" placeholder="0" readonly class="form-control form-control--custom txtbox"
                                                         name="permissible_proratata_area" id="permissible_proratata_area"
                                                         value="<?php if(isset($calculationSheetDetails->permissible_proratata_area)) { echo $calculationSheetDetails->permissible_proratata_area; }?>" />
 
@@ -278,7 +278,7 @@
                                                     Total
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
+                                                    <input type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
                                                         name="proratata_construction_area" id="proratata_construction_area"
                                                         value="<?php if(isset($calculationSheetDetails->proratata_construction_area)) { echo $calculationSheetDetails->proratata_construction_area; } ?>" />
 
@@ -887,24 +887,22 @@
                                             <tr>
                                                 <td style = "border-style: ridge;">3.</td>
                                                 <td style = "border-style: ridge;">
-                                                    उपरोक्त ऑफ साईट इन्फ्रास्ट्रक्चर शुक्ल रक्कमेपैकी म न प स
-                                                    भरावयाची ५/७ रक्कम (५/७ * अनु क्र २)
+                                                    वजा - सुधारित वि. नि. नि. ३३(५)(२) अंतर्गत मु. मं. न. पा. कडे भारावयाची इन्फ्रास्ट्रुक्चर शुल्क (उर्वरित चटईक्षेत्राचे अधिमूल्य * १२.५%)
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
-                                                        name="amount_to_be_paid_to_municipal1" id="amount_to_be_paid_to_municipal1" />
+                                                        name="infrastructure_charges" id="amount_to_be_paid_to_municipal1" value="<?php if(isset($calculationSheetDetails->infrastructure_charges)) { echo $calculationSheetDetails->infrastructure_charges; } ?>" />
 
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td style = "border-style: ridge;">4.</td>
                                                 <td style = "border-style: ridge;">
-                                                    म्हाडाकडे भरावयाची ऑफ साईट इन्फ्रास्ट्रुक्चर शुल्क रक्कम
-                                                    (२/७ * अनु क्र २)
+                                                    उर्वरित चटईक्षेत्राचे देय रक्कम
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly class="form-control form-control--custom txtbox" placeholder="0"
-                                                        name="offsite_infrastructure_charge_to_mhada1" id="offsite_infrastructure_charge_to_mhada1" />
+                                                        name="remaining_mat_area" id="offsite_infrastructure_charge_to_mhada1" value="<?php if(isset($calculationSheetDetails->remaining_mat_area)) { echo $calculationSheetDetails->remaining_mat_area; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -914,8 +912,8 @@
                                                     १/४ अधिमूल्यापोटी शुल्क
                                                 </td>
                                                 <td class="text-center">
-                                                    <input style="border: none;" type="text" readonly class="form-control form-control--custom txtbox" placeholder="0"
-                                                        name="non_profit_duty" id="non_profit_duty" />
+                                                    <input style="border: none;" type="text" class="form-control form-control--custom txtbox" placeholder="0"
+                                                        name="non_profit_duty" id="non_profit_duty" value="<?php if(isset($calculationSheetDetails->non_profit_duty)) { echo $calculationSheetDetails->non_profit_duty; } ?>"/>
 
                                                 </td>
                                             </tr>
@@ -974,14 +972,14 @@
                                                 <td style = "border-style: ridge;">
                                                     १/४ अधिमूल्यापोटी शुल्क (उर्वरितचटईक्षेत्राचे अधिमूल्य च्या
                                                     १/४)
-                                                </td>
+                                                </td> 
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input type="text" style="border: none;" readonly class="first_installment form-control form-control--custom txtbox" placeholder="0"
-                                                        name="non_profit_duty_installment" id="non_profit_duty_installment" />
+                                                        name="non_profit_duty_installment" id="non_profit_duty_installment" value="<?php if(isset($calculationSheetDetails->non_profit_duty_installment)) { echo $calculationSheetDetails->non_profit_duty_installment; } ?>"/>
 
                                                 </td>
                                             </tr>
-                                            <tr>
+<!--                                             <tr>
                                                 <td style = "border-style: ridge;">2.</td>
                                                 <td style = "border-style: ridge;">
                                                     म्हाडा कडे भरावयाची ऑफ साईट इन्फ्रास्ट्रुक्चर शुल्क रक्कम
@@ -993,9 +991,9 @@
                                                         name="offsite_infrastructure_charge_to_mhada1_installment" id="offsite_infrastructure_charge_to_mhada1_installment" />
 
                                                 </td>
-                                            </tr>
+                                            </tr> -->
                                             <tr>
-                                                <td style = "border-style: ridge;">3.</td>
+                                                <td style = "border-style: ridge;">2.</td>
                                                 <td style = "border-style: ridge;">
                                                     छाननी शुल्क
                                                 </td>
@@ -1006,7 +1004,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">4.</td>
+                                                <td style = "border-style: ridge;">3.</td>
                                                 <td style = "border-style: ridge;">
                                                     अभिन्यास मंजुरी शुल्क रु १,०००/- प्रति गळा
                                                 </td>
@@ -1017,7 +1015,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">5.</td>
+                                                <td style = "border-style: ridge;">4.</td>
                                                 <td style = "border-style: ridge;">
                                                     डेब्रिज रिमूव्हल शुल्क रु ६६०० /-
                                                 </td>
@@ -1029,13 +1027,24 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">6.</td>
+                                                <td style = "border-style: ridge;">5.</td>
                                                 <td style = "border-style: ridge;">
                                                     पाणी वापर शुल्क (रु १,००,०००/-)
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input type="text" style="border: none;" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
                                                         name="water_usage_charges" id="water_usage_charges" value="<?php if(isset($calculationSheetDetails->water_usage_charges)) { echo $calculationSheetDetails->water_usage_charges; } ?>" />
+
+                                                </td>
+                                            </tr>                                            
+                                            <tr>
+                                                <td style = "border-style: ridge;">6.</td>
+                                                <td style = "border-style: ridge;">
+                                                    मु. मं. ठराव क्रमांक २५४/२८१३ दि. २३/०४/२०१० अन्वये पायाभूत सुविधांशुल्काची रक्कम (प्रति चौ. मी. रुपये १०७६.४० म्हणजेच रुपये १००/- प्रति चौ. फूट)
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                    <input type="text" style="border: none;" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
+                                                        name="basic_infrastructure_amount" id="basic_infrastructure_amount" value="<?php if(isset($calculationSheetDetails->basic_infrastructure_amount)) { echo $calculationSheetDetails->basic_infrastructure_amount; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -1162,7 +1171,7 @@
                                                     रक्कम रु
                                                 </th>
                                             </tr>
-                                        </thead>
+                                        </thead> 
                                         <tbody>
                                             <tr>
                                                 <td style = "border-style: ridge;">1.</td>
@@ -1173,6 +1182,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input type="text" style="border: none;" readonly class="form-control form-control--custom txtbox" placeholder="0"
                                                         name="non_profit_duty_val" id="non_profit_duty_val"
+                                                        value="<?php if(isset($calculationSheetDetails->non_profit_duty_val)) { echo $calculationSheetDetails->non_profit_duty_val; } ?>"
                                                         />
 
 
@@ -1260,6 +1270,7 @@
                                             </td>
                                         </tr>
                                         <tr>
+
                                             <td style = "border-style: ridge;">3.</td>
                                             <td style = "border-style: ridge;">
                                                 मंडळाकडे पहिले देकारपत्र जारी केल्याच्या दिनांकापासून दोन
@@ -1625,9 +1636,13 @@
 
     function nonProfitDuty()
     {
-        var remaining_area_of_resident_area_balance = (!cleanNumber($("#remaining_area_of_resident_area_balance").val()) || isNaN(cleanNumber($("#remaining_area_of_resident_area_balance").val()))) ? 0 : cleanNumber($("#remaining_area_of_resident_area_balance").val());
+        var remaining_area_of_resident_area_balance = (!cleanNumber($("#remaining_area_of_resident_area_balance").val()) || isNaN(cleanNumber($("#remaining_area_of_resident_area_balance").val()))) ? 0 : cleanNumber($("#remaining_area_of_resident_area_balance").val());        
+     
+        var infrastructure = (!cleanNumber($("#offsite_infrastructure_charge_to_mhada1").val()) || isNaN(cleanNumber($("#offsite_infrastructure_charge_to_mhada1").val()))) ? 0 : cleanNumber($("#offsite_infrastructure_charge_to_mhada1").val());
 
-        $("#non_profit_duty").attr('value', numberWithCommas(Math.ceil(1 / 4 * remaining_area_of_resident_area_balance)));
+        var total = numberWithCommas((1 / 4 * infrastructure).toFixed(2));
+        $("#non_profit_duty").attr('value', numberWithCommas(total));
+
         $("#non_profit_duty_installment").attr('value',  numberWithCommas(Math.ceil(1 / 4 * remaining_area_of_resident_area_balance)));
         $("#non_profit_duty_val").attr('value', numberWithCommas(Math.ceil(1 / 4 * remaining_area_of_resident_area_balance)));
 
@@ -1638,8 +1653,8 @@
     {
         var off_site_infrastructure_fee = (!cleanNumber($("#off_site_infrastructure_fee").val()) || isNaN(cleanNumber($("#off_site_infrastructure_fee").val()))) ? 0 : cleanNumber($("#off_site_infrastructure_fee").val());
 
-        $("#amount_to_be_paid_to_municipal1").attr('value',numberWithCommas((5 / 7 * off_site_infrastructure_fee).toFixed(2)));
-        $("#offsite_infrastructure_charge_to_mhada1").attr('value',numberWithCommas((2 / 7 * off_site_infrastructure_fee).toFixed(2)));
+        // $("#amount_to_be_paid_to_municipal1").attr('value',numberWithCommas((5 / 7 * off_site_infrastructure_fee).toFixed(2)));
+        // $("#offsite_infrastructure_charge_to_mhada1").attr('value',numberWithCommas((2 / 7 * off_site_infrastructure_fee).toFixed(2)));
         $("#offsite_infrastructure_charge_to_mhada1_installment").attr('value',numberWithCommas((2 / 7 * off_site_infrastructure_fee).toFixed(2)));
     }
 

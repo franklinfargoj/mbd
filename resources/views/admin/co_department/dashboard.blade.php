@@ -793,13 +793,14 @@
                     @if($pendingApplications)
             var chartData3 = [
                             @foreach($pendingApplications as $header => $value)
-                            @if($header != 'Total Number of Applications Pending'){
+                            @if($header != 'Total Number of Applications Pending')
                     {"status": '{{$header}}',
                         "value": '{{$value}}',
                     },
                         @endif
                         @endforeach
                 ];
+
             AmCharts.ready(function () {
 // PIE CHART
                 chart3 = new AmCharts.AmPieChart();
@@ -918,7 +919,7 @@
             AmCharts.ready(function () {
                 // PIE CHART
                 chart6 = new AmCharts.AmPieChart();
-                chart6.dataProvider = chartData3;
+                chart6.dataProvider = chartdata6;
                 chart6.titleField = "status";
                 chart6.valueField = "value";
                 chart6.outlineColor = "#FFFFFF";

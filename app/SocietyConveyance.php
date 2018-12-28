@@ -29,7 +29,7 @@ class SocietyConveyance extends Model
     ];
 
 
-    public function sr_scheme_name()
+    public function scheme_names()
     {
         return $this->hasOne('App\MasterTenantType', 'id','scheme_name');
     }

@@ -418,7 +418,16 @@ class REEController extends Controller
         $model = OlApplication::with('ol_application_master')->where('id',$applicatonId)->first();
         if ($model->ol_application_master->model == 'Premium'){
             
-            $calculationData = OlApplication::with(['premiumCalculationSheet','eeApplicationSociety'])->where('id',$applicatonId)->first();  
+            $calculationData = OlApplication::with(['eeApplicationSociety'])->where('id',$applicatonId)->first(); 
+            $fsi_calculation = OlFsiCalculationSheet::where('application_id',$applicatonId)->first();
+            $premium = OlApplicationCalculationSheetDetails::where('application_id',$applicatonId)->first();
+            
+            if ($fsi_calculation){
+                $calculationData->premiumCalculationSheet = $fsi_calculation;
+            }else {
+                $calculationData->premiumCalculationSheet = $premium;
+            }   
+
             $blade =  "premiun_offer_letter";
                      
         }else if($model->ol_application_master->model == 'Sharing') {
@@ -809,10 +818,10 @@ class REEController extends Controller
            $route = 'admin.common.'.$blade; 
            $calculationSheetDetails = $user->calculationSheetDetails;
         }
-
+        $folder = $this->getCurrentRoleFolderName();
         $status = $this->CommonController->getCurrentStatus($applicationId); 
         $reeNote = REENote::where('application_id',$applicationId)->orderBy('id','DESC')->first(); 
-        $ol_application->folder = $this->getCurrentRoleFolderName();
+        $ol_application->folder = $folder;
         $buldingNumber = OlCustomCalculationSheet::where('application_id',$applicationId)
             ->where('title','total_no_of_buildings')->value('amount');
        
@@ -2520,7 +2529,7 @@ class REEController extends Controller
         $this->CommonController->forwardOcApplicationToSociety($request);
         return redirect('/ree_oc_applications')->with('success','Issued Consent for OC has been successfully sent to society.');
         
-    }
+    } 
 
         //calculation sheet for 2.5 FSI
     public function fsiCalculationSheet(Request $request,$applicationId){
@@ -2536,6 +2545,7 @@ class REEController extends Controller
         
         $is_view = session()->get('role_name') == config('commanConfig.ree_junior'); 
         $status = $this->CommonController->getCurrentStatus($applicationId);  
+        $folder = $this->getCurrentRoleFolderName();
         
         if ($is_view && $status->status_id != config('commanConfig.applicationStatus.forwarded') && $status->status_id != config('commanConfig.applicationStatus.reverted')) {
             $route = 'admin.REE_department.fsi_calculation_sheet';
@@ -2543,7 +2553,7 @@ class REEController extends Controller
             $route = 'admin.REE_department.view_fsi_calculation_sheet';
         }              
 
-        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));                    
+        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','folder'));                    
     }
 
     public function saveFsiCalculationData(Request $request){
