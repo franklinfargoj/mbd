@@ -2529,7 +2529,7 @@ class REEController extends Controller
         $this->CommonController->forwardOcApplicationToSociety($request);
         return redirect('/ree_oc_applications')->with('success','Issued Consent for OC has been successfully sent to society.');
         
-    }
+    } 
 
         //calculation sheet for 2.5 FSI
     public function fsiCalculationSheet(Request $request,$applicationId){
@@ -2545,6 +2545,7 @@ class REEController extends Controller
         
         $is_view = session()->get('role_name') == config('commanConfig.ree_junior'); 
         $status = $this->CommonController->getCurrentStatus($applicationId);  
+        $folder = $this->getCurrentRoleFolderName();
         
         if ($is_view && $status->status_id != config('commanConfig.applicationStatus.forwarded') && $status->status_id != config('commanConfig.applicationStatus.reverted')) {
             $route = 'admin.REE_department.fsi_calculation_sheet';
@@ -2552,7 +2553,7 @@ class REEController extends Controller
             $route = 'admin.REE_department.view_fsi_calculation_sheet';
         }              
 
-        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));                    
+        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','folder'));                    
     }
 
     public function saveFsiCalculationData(Request $request){
