@@ -919,7 +919,7 @@
             AmCharts.ready(function () {
                 // PIE CHART
                 chart6 = new AmCharts.AmPieChart();
-                chart6.dataProvider = chartData3;
+                chart6.dataProvider = chartdata6;
                 chart6.titleField = "status";
                 chart6.valueField = "value";
                 chart6.outlineColor = "#FFFFFF";
