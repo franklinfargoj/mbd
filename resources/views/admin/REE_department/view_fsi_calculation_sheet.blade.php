@@ -1058,8 +1058,8 @@
                                                 (दार तिमाहीला परिगणनीय दराने) अधिक रकमेचा भरणा करावा लागेल
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
-                                                {{ isset($calculationSheetDetails->non_profit_duty)
-                                                ? $calculationSheetDetails->non_profit_duty : 0 }}
+                                                {{ isset($calculationSheetDetails->payment_of_remaining_installment)
+                                                ? $calculationSheetDetails->payment_of_remaining_installment : 0 }}
                                                 + interest
 
                                             </td>
