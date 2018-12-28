@@ -265,7 +265,7 @@ class SocietyTripatiteController extends Controller
 
         $document_ids = array_pluck($documents, 'id');
         $documents_uploaded = OlSocietyDocumentsStatus::with('document_name')->where('society_id', $society->id)->whereIn('document_id', $document_ids)->get();
-        $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->first();
+        $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->where('application_id', $ol_applications->id)->first();
         $documents_complusory = [];
         foreach ($documents as $key => $value) {
             if($value->is_optional == 0){
