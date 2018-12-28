@@ -246,7 +246,7 @@
                                                     Total
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" placeholder="0" readonly class="form-control form-control--custom txtbox"
+                                                    <input type="text" placeholder="0" readonly class="form-control form-control--custom txtbox"
                                                         name="permissible_proratata_area" id="permissible_proratata_area"
                                                         value="<?php if(isset($calculationSheetDetails->permissible_proratata_area)) { echo $calculationSheetDetails->permissible_proratata_area; }?>" />
 
@@ -278,7 +278,7 @@
                                                     Total
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
+                                                    <input type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
                                                         name="proratata_construction_area" id="proratata_construction_area"
                                                         value="<?php if(isset($calculationSheetDetails->proratata_construction_area)) { echo $calculationSheetDetails->proratata_construction_area; } ?>" />
 
@@ -891,7 +891,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
-                                                        name="amount_to_be_paid_to_municipal1" id="amount_to_be_paid_to_municipal1" value="<?php if(isset($calculationSheetDetails->infrastructure_charges)) { echo $calculationSheetDetails->infrastructure_charges; } ?>" />
+                                                        name="infrastructure_charges" id="amount_to_be_paid_to_municipal1" value="<?php if(isset($calculationSheetDetails->infrastructure_charges)) { echo $calculationSheetDetails->infrastructure_charges; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -902,7 +902,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly class="form-control form-control--custom txtbox" placeholder="0"
-                                                        name="offsite_infrastructure_charge_to_mhada1" id="offsite_infrastructure_charge_to_mhada1" value="<?php if(isset($calculationSheetDetails->remaining_mat_area)) { echo $calculationSheetDetails->remaining_mat_area; } ?>" />
+                                                        name="remaining_mat_area" id="offsite_infrastructure_charge_to_mhada1" value="<?php if(isset($calculationSheetDetails->remaining_mat_area)) { echo $calculationSheetDetails->remaining_mat_area; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -913,7 +913,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input style="border: none;" type="text" class="form-control form-control--custom txtbox" placeholder="0"
-                                                        name="non_profit_duty" id="non_profit_duty" />
+                                                        name="non_profit_duty" id="non_profit_duty" value="<?php if(isset($calculationSheetDetails->non_profit_duty)) { echo $calculationSheetDetails->non_profit_duty; } ?>"/>
 
                                                 </td>
                                             </tr>
@@ -972,10 +972,10 @@
                                                 <td style = "border-style: ridge;">
                                                     १/४ अधिमूल्यापोटी शुल्क (उर्वरितचटईक्षेत्राचे अधिमूल्य च्या
                                                     १/४)
-                                                </td>
+                                                </td> 
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input type="text" style="border: none;" readonly class="first_installment form-control form-control--custom txtbox" placeholder="0"
-                                                        name="non_profit_duty_installment" id="non_profit_duty_installment" />
+                                                        name="non_profit_duty_installment" id="non_profit_duty_installment" value="<?php if(isset($calculationSheetDetails->non_profit_duty_installment)) { echo $calculationSheetDetails->non_profit_duty_installment; } ?>"/>
 
                                                 </td>
                                             </tr>
@@ -1044,7 +1044,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input type="text" style="border: none;" readonly placeholder="0" class="first_installment form-control form-control--custom txtbox"
-                                                        name="water_usage_charges" id="water_usage_charges" value="<?php if(isset($calculationSheetDetails->basic_infrastructure_amount)) { echo $calculationSheetDetails->basic_infrastructure_amount; } ?>" />
+                                                        name="basic_infrastructure_amount" id="basic_infrastructure_amount" value="<?php if(isset($calculationSheetDetails->basic_infrastructure_amount)) { echo $calculationSheetDetails->basic_infrastructure_amount; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -1171,7 +1171,7 @@
                                                     रक्कम रु
                                                 </th>
                                             </tr>
-                                        </thead>
+                                        </thead> 
                                         <tbody>
                                             <tr>
                                                 <td style = "border-style: ridge;">1.</td>
@@ -1182,6 +1182,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input type="text" style="border: none;" readonly class="form-control form-control--custom txtbox" placeholder="0"
                                                         name="non_profit_duty_val" id="non_profit_duty_val"
+                                                        value="<?php if(isset($calculationSheetDetails->non_profit_duty_val)) { echo $calculationSheetDetails->non_profit_duty_val; } ?>"
                                                         />
 
 
@@ -1636,13 +1637,12 @@
     function nonProfitDuty()
     {
         var remaining_area_of_resident_area_balance = (!cleanNumber($("#remaining_area_of_resident_area_balance").val()) || isNaN(cleanNumber($("#remaining_area_of_resident_area_balance").val()))) ? 0 : cleanNumber($("#remaining_area_of_resident_area_balance").val());        
-
-        var amount = (!cleanNumber($("#amount_to_be_paid_to_municipal1").val()) || isNaN(cleanNumber($("#amount_to_be_paid_to_municipal1").val()))) ? 0 : cleanNumber($("#amount_to_be_paid_to_municipal1").val());        
+     
         var infrastructure = (!cleanNumber($("#offsite_infrastructure_charge_to_mhada1").val()) || isNaN(cleanNumber($("#offsite_infrastructure_charge_to_mhada1").val()))) ? 0 : cleanNumber($("#offsite_infrastructure_charge_to_mhada1").val());
 
-        var total = parseFloat(remaining_area_of_resident_area_balance) +parseFloat(amount)+ parseFloat(infrastructure);
-
+        var total = numberWithCommas((1 / 4 * infrastructure).toFixed(2));
         $("#non_profit_duty").attr('value', numberWithCommas(total));
+
         $("#non_profit_duty_installment").attr('value',  numberWithCommas(Math.ceil(1 / 4 * remaining_area_of_resident_area_balance)));
         $("#non_profit_duty_val").attr('value', numberWithCommas(Math.ceil(1 / 4 * remaining_area_of_resident_area_balance)));
 
