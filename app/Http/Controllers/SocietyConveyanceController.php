@@ -191,14 +191,16 @@ class SocietyConveyanceController extends Controller
                         $sc_excel_headers = config('commanConfig.sc_excel_headers');
 
                         foreach($excel_headers as $excel_headers_key => $excel_headers_val){
-                            $excel_headers_value = strtolower(str_replace(str_split('\\/- '), '_', $sc_excel_headers[$excel_headers_key]));
-                            if($excel_headers_value == $excel_headers_val){
-                                $count++;
-                            }else{
-                                $exploded = explode('_', $excel_headers_value);
-                                foreach($exploded as $exploded_key => $exploded_value){
-                                    if(!empty(strpos($excel_headers_val, $exploded_value))){
-                                        $count++;
+                            if(isset($sc_excel_headers[$excel_headers_key])){
+                                $excel_headers_value = strtolower(str_replace(str_split('\\/- '), '_', $sc_excel_headers[$excel_headers_key]));
+                                if($excel_headers_value == $excel_headers_val){
+                                    $count++;
+                                }else{
+                                    $exploded = explode('_', $excel_headers_value);
+                                    foreach($exploded as $exploded_key => $exploded_value){
+                                        if(!empty(strpos($excel_headers_val, $exploded_value))){
+                                            $count++;
+                                        }
                                     }
                                 }
                             }
@@ -310,8 +312,8 @@ class SocietyConveyanceController extends Controller
             $q->with('scheme_names');
         }, 'societyApplication', 'applicationLayout'])->where('id', $id)->first();
 //        dd($sc_application->sc_form_request);
-        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
-        $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
+//        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
+//        $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
 
         $sc = new SocietyConveyance;
         $fillable_field_names = $sc->getFillable();
@@ -362,14 +364,16 @@ class SocietyConveyanceController extends Controller
                         $sc_excel_headers = config('commanConfig.sc_excel_headers');
 
                         foreach ($excel_headers as $excel_headers_key => $excel_headers_val) {
-                            $excel_headers_value = strtolower(str_replace(str_split('\\/- '), '_', $sc_excel_headers[$excel_headers_key]));
-                            if ($excel_headers_value == $excel_headers_val) {
-                                $count++;
-                            } else {
-                                $exploded = explode('_', $excel_headers_value);
-                                foreach ($exploded as $exploded_key => $exploded_value) {
-                                    if (!empty(strpos($excel_headers_val, $exploded_value))) {
-                                        $count++;
+                            if(isset($sc_excel_headers[$excel_headers_key])) {
+                                $excel_headers_value = strtolower(str_replace(str_split('\\/- '), '_', $sc_excel_headers[$excel_headers_key]));
+                                if ($excel_headers_value == $excel_headers_val) {
+                                    $count++;
+                                } else {
+                                    $exploded = explode('_', $excel_headers_value);
+                                    foreach ($exploded as $exploded_key => $exploded_value) {
+                                        if (!empty(strpos($excel_headers_val, $exploded_value))) {
+                                            $count++;
+                                        }
                                     }
                                 }
                             }

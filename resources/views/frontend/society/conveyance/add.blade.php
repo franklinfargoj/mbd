@@ -37,7 +37,7 @@
                                                 @php echo $comm_func->form_fields($field_names[$i], 'textarea','' , '', $society_details->address, 'readonly', 'required') @endphp
                                                 {{--<textarea id="society_address" name="society_address" class="form-control form-control--custom form-control--fixed-height m-input" readonly>{{ $society_details->address }}</textarea>--}}
                                             @elseif(strpos($field_names[$i], 'date') != null)
-                                                @php echo $comm_func->form_fields($field_names[$i], 'date') @endphp
+                                                @php echo $comm_func->form_fields($field_names[$i], 'date', '', '', old($field_names[$i])) @endphp
                                             @elseif($field_names[$i] == 'society_name' || $field_names[$i] == 'society_no' || $field_names[$i] == 'society_registration_no')
                                                 @if($field_names[$i] == 'society_name')
                                                     @php echo $comm_func->form_fields($field_names[$i], 'text', '', '', $society_details->name, 'readonly', 'required'); @endphp
@@ -47,9 +47,9 @@
                                                     @php echo $comm_func->form_fields($field_names[$i], 'text', '', '', $society_details->building_no, 'readonly', 'required') @endphp
                                                 @endif
                                             @elseif($field_names[$i] == 'scheme_name')
-                                                @php echo $comm_func->form_fields($field_names[$i], 'select', $master_tenant_type, 'name', '', '', 'required') @endphp
+                                                @php echo $comm_func->form_fields($field_names[$i], 'select', $master_tenant_type, 'name', old($field_names[$i]), '', 'required') @endphp
                                             @else
-                                                @php echo $comm_func->form_fields($field_names[$i], 'text', '', '', '', '', 'required') @endphp
+                                                @php echo $comm_func->form_fields($field_names[$i], 'text', '', '', old($field_names[$i]), '', 'required') @endphp
                                                 {{--<input type="text" id="{{ $field_names[$i+1] }}" name="{{ $field_names[$i+1] }}" class="form-control form-control--custom m-input @if(strpos($field_names[$i+1], 'date') != null) m_datepicker @endif" @if($field_names[$i+1] == 'society_name' || $field_names[$i+1] == 'society_no') value="@if($field_names[$i+1] == 'society_name') {{ $society_details->name }} @else {{ $society_details->building_no }} @endif" readonly @endif>--}}
                                             @endif
                                             <span class="help-block" id="{{ $field_names[$i] }}-error">{{$errors->first($field_names[$i])}}</span>
@@ -62,7 +62,7 @@
                                                 @php echo  $comm_func->form_fields($field_names[$i+1], 'textarea','' , '', $society_details->address, 'readonly', 'required') @endphp
                                                 {{--<textarea id="society_address" name="society_address" class="form-control form-control--custom form-control--fixed-height m-input" readonly>{{ $society_details->address }}</textarea>--}}
                                             @elseif(strpos($field_names[$i+1], 'date') != null)
-                                                @php echo $comm_func->form_fields($field_names[$i+1], 'date') @endphp
+                                                @php echo $comm_func->form_fields($field_names[$i+1], 'date', '', '', old($field_names[$i+1])) @endphp
                                             @elseif($field_names[$i+1] == 'society_name' || $field_names[$i+1] == 'society_no' || $field_names[$i+1] == 'society_registration_no')
                                                 @if($field_names[$i+1] == 'society_name')
                                                     @php echo $comm_func->form_fields($field_names[$i+1], 'text', '', '', $society_details->name, 'readonly', 'required') @endphp
@@ -72,9 +72,9 @@
                                                     @php echo $comm_func->form_fields($field_names[$i+1], 'text', '', '', $society_details->building_no, 'readonly', 'required') @endphp
                                                 @endif
                                             @elseif($field_names[$i+1] == 'scheme_name')
-                                                @php echo $comm_func->form_fields($field_names[$i+1], 'select', $master_tenant_type, 'name', '', '', 'required') @endphp
+                                                @php echo $comm_func->form_fields($field_names[$i+1], 'select', $master_tenant_type, 'name', old($field_names[$i+1]), '', 'required') @endphp
                                             @else
-                                                @php echo $comm_func->form_fields($field_names[$i+1], 'text', '', '' ,'', '', 'required') @endphp
+                                                @php echo $comm_func->form_fields($field_names[$i+1], 'text', '', '', old($field_names[$i+1]), '', 'required') @endphp
                                                 {{--<input type="text" id="{{ $field_names[$i+1] }}" name="{{ $field_names[$i+1] }}" class="form-control form-control--custom m-input @if(strpos($field_names[$i+1], 'date') != null) m_datepicker @endif" @if($field_names[$i+1] == 'society_name' || $field_names[$i+1] == 'society_no') value="@if($field_names[$i+1] == 'society_name') {{ $society_details->name }} @else {{ $society_details->building_no }} @endif" readonly @endif>--}}
                                             @endif
                                             {{--<input type="hidden" name="application_master_id" value="{{ $id }}">--}}
@@ -97,7 +97,7 @@
                                 <label class="custom-file-label" for="test-upload">Choose
                                     file ...</label>
                             </div>
-                            <span class="help-block">@if(session('error')) {{ session('error') }} @endif {{$errors->first('template')}}</span>
+                            <span class="help-block" @if(session('error')) style="color:red" @endif>@if(session('error')) {{ session('error') }} @endif {{$errors->first('template')}}</span>
                         </div>
                     </div>
 

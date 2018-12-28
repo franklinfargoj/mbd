@@ -619,20 +619,20 @@
             //     }
             // });
 
-            // $('#no_dues_certi_upload').validate({
-            //     rules:{
-            //         no_dues_certificate: {
-            //             required:true,
-            //             extension:'pdf'
-            //         }
-            //     },
-            //     messages:{
-            //         no_dues_certificate: {
-            //             required: 'File is required to upload.',
-            //             extension: 'File only in pdf format is required.'
-            //         }
-            //     }
-            // });
+            $('#list_of_allottees').validate({
+                rules:{
+                    document_path: {
+                        required:true,
+                        extension:'xls'
+                    }
+                },
+                messages:{
+                    document_path: {
+                        required: 'File is required to upload.',
+                        extension: 'File only in xls format is required.'
+                    }
+                }
+            });
 
             $('.society_registered').delay("slow").slideUp("slow");
 
