@@ -635,7 +635,7 @@ class SocietyOfferLetterController extends Controller
             $select_user_ids[] = $value['user_id'];
         }
         $users = User::whereIn('id', $select_user_ids)->get();
-        
+
         if(count($users) > 0){
             foreach($users as $key => $user){
                 $i = 0;
@@ -644,15 +644,15 @@ class SocietyOfferLetterController extends Controller
                 $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
                 $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
                 $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
-                $insert_application_log_pending[$key]['to_user_id'] = $user->id;
-                $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
+                $insert_application_log_pending[$key]['to_user_id'] = null;
+                $insert_application_log_pending[$key]['to_role_id'] = null;
                 $insert_application_log_pending[$key]['remark'] = '';
                 $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
                 $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
                 $i++;
             }
         }
-        
+
         OlApplicationStatus::insert($insert_application_log_pending);
         $last_society_flag_id = OlApplicationStatus::where('society_flag', '1')->orderBy('id', 'desc')->first();
         $id = OlApplicationStatus::find($last_society_flag_id->id);
@@ -1344,7 +1344,7 @@ class SocietyOfferLetterController extends Controller
         }
         $ol_applications = $application;
         $documents_uploaded = OlSocietyDocumentsStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->get();
-        $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->first();
+        $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->where('application_id', null)->first();
         
         return view('frontend.society.view_society_uploaded_documents', compact('documents', 'optional_docs', 'docs_uploaded_count','docs_count', 'ol_applications','documents_uploaded', 'documents_comment', 'society'));
     }

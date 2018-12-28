@@ -88,46 +88,53 @@
                                                             @endif
                                     </span>
                                                 @else
-                                                    <form action="{{ route('upload_tripartite_docs') }}" method="post" enctype='multipart/form-data'
-                                                          id="upload_documents_form_{{ $document->id }}">
-                                                        @csrf
-                                                        <div class="custom-file">
-                                                            <input class="custom-file-input" name="document_name" type="file" class=""
-                                                                   id="test-upload_{{ $document->id }}" required>
-                                                            <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
-                                                            <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
-                                                                file ...</label>
-                                                            <span class="help-block">
-                                                @if(session('error_'.$document->id))
-                                                                    session('error_'.$document->id)
-                                                                @endif
-                                            </span>
-                                                        </div>
-                                                        <br>
-                                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                                    </form>
+                                                    @if($ol_applications->olApplicationStatus[0]->status_id == config('commanConfig.applicationStatus.pending'))
+                                                        <form action="{{ route('upload_tripartite_docs') }}" method="post" enctype='multipart/form-data'
+                                                              id="upload_documents_form_{{ $document->id }}">
+                                                            @csrf
+                                                            <div class="custom-file">
+                                                                <input class="custom-file-input" name="document_name" type="file" class=""
+                                                                       id="test-upload_{{ $document->id }}" required>
+                                                                <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
+                                                                <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
+                                                                    file ...</label>
+                                                                <span class="help-block">
+                                                    @if(session('error_'.$document->id))
+                                                                        session('error_'.$document->id)
+                                                                    @endif
+                                                </span>
+                                                            </div>
+                                                            <br>
+                                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                                        </form>
+                                                    @else
+                                                        -
+                                                    @endif
                                                 @endif
                                             @endforeach
                                         @else
-                                            -
-                                            {{--<form action="{{ route('upload_tripartite_docs') }}" method="post" enctype='multipart/form-data'--}}
-                                                  {{--id="upload_documents_form_{{ $document->id }}">--}}
-                                                {{--@csrf--}}
-                                                {{--<div class="custom-file @if(session('error_'.$document->id)) has-error @endif">--}}
-                                                    {{--<input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}"--}}
-                                                           {{--required>--}}
-                                                    {{--<input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">--}}
-                                                    {{--<label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose--}}
-                                                        {{--file ...</label>--}}
-                                                    {{--<span class="help-block text-danger">--}}
-                                                {{--@if(session('error_'.$document->id))--}}
-                                                            {{--{{session('error_'.$document->id)}}--}}
-                                                        {{--@endif--}}
-                                            {{--</span>--}}
-                                                {{--</div>--}}
-                                                {{--<br>--}}
-                                                {{--<button type="submit" class="btn btn-primary btn-custom" id="uploadBtn_{{ $document->id }}">Upload</button>--}}
-                                            {{--</form>--}}
+                                            @if($ol_applications->olApplicationStatus[0]->status_id == config('commanConfig.applicationStatus.pending'))
+                                                <form action="{{ route('upload_tripartite_docs') }}" method="post" enctype='multipart/form-data'
+                                                      id="upload_documents_form_{{ $document->id }}">
+                                                    @csrf
+                                                    <div class="custom-file @if(session('error_'.$document->id)) has-error @endif">
+                                                        <input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}"
+                                                               required>
+                                                        <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
+                                                        <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
+                                                            file ...</label>
+                                                        <span class="help-block text-danger">
+                                                    @if(session('error_'.$document->id))
+                                                                {{session('error_'.$document->id)}}
+                                                            @endif
+                                                </span>
+                                                    </div>
+                                                    <br>
+                                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn_{{ $document->id }}">Upload</button>
+                                                </form>
+                                            @else
+                                                -
+                                            @endif
                                         @endif
                                     </td>
                                 </tr>
