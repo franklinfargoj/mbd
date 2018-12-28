@@ -480,7 +480,16 @@ class TripartiteController extends Controller
         $SocietyOfferLetter = SocietyOfferLetter::find($society_id);
         $society_user_id = $SocietyOfferLetter->user_id;
         $society_user = User::where('id', $society_user_id)->get();
-        // dd($society_user);
+
+       // LA user find
+        $la_user_find=User::with(['roles'=>function($q){
+            $q->where('name',config('commanConfig.la_engineer'));
+        }])->whereHas('roles',function($q){
+            $q->where('name',config('commanConfig.la_engineer'));
+        })->first();
+        $la_user = User::where('id', $la_user_find->id)->get();
+
+
         $ignore_roles = array();
         $ignore_role = Role::whereIn('name', ['dyce_engineer', 'ee_engineer'])->get();
         if ($ignore_role) {
@@ -511,6 +520,11 @@ class TripartiteController extends Controller
             if(session()->get('role_name')==config('commanConfig.ree_branch_head'))
             {
                 $child = $child->merge($society_user);
+            }
+
+            if(session()->get('role_name')==config('commanConfig.co_engineer'))
+            {
+                $child = $child->merge($la_user);
             }
         }
         //dd($child);
