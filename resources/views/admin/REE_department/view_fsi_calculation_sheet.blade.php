@@ -783,8 +783,7 @@
                                                 १/४)
                                             </td> 
                                             <td class="text-center" style = "border-style: ridge;">
-                                                <input type="text" style="border: none;" readonly class="first_installment form-control form-control--custom txtbox" placeholder="0"
-                                                    name="non_profit_duty_installment" id="non_profit_duty_installment" readonly value="<?php if(isset($calculationSheetDetails->non_profit_duty_installment)) { echo $calculationSheetDetails->non_profit_duty_installment; } ?>"/>
+                                                <input type="text" style="border: none;" readonly class="first_installment form-control form-control--custom txtbox" placeholder="0" readonly value="<?php if(isset($calculationSheetDetails->non_profit_duty)) { echo $calculationSheetDetails->non_profit_duty; } ?>"/>
 
                                             </td>
                                         </tr>
@@ -983,7 +982,7 @@
                                             <td class="text-center" style = "border-style: ridge;">
                                                 <input type="text" style="border: none;" readonly class="form-control form-control--custom txtbox" placeholder="0"
                                                     name="non_profit_duty_val" id="non_profit_duty_val"
-                                                    readonly value="<?php if(isset($calculationSheetDetails->non_profit_duty_val)) { echo $calculationSheetDetails->non_profit_duty_val; } ?>"/>
+                                                    readonly value="<?php if(isset($calculationSheetDetails->non_profit_duty)) { echo $calculationSheetDetails->non_profit_duty; } ?>"/>
 
 
                                             </td>
@@ -1059,8 +1058,8 @@
                                                 (दार तिमाहीला परिगणनीय दराने) अधिक रकमेचा भरणा करावा लागेल
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
-                                                {{ isset($calculationSheetDetails->payment_of_remaining_installment)
-                                                ? $calculationSheetDetails->payment_of_remaining_installment : 0 }}
+                                                {{ isset($calculationSheetDetails->non_profit_duty)
+                                                ? $calculationSheetDetails->non_profit_duty : 0 }}
                                                 + interest
 
                                             </td>
