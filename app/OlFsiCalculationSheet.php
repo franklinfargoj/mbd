@@ -61,5 +61,8 @@ class OlFsiCalculationSheet extends Model
         'payment_of_remaining_installment',
         'amount_to_be_paid_to_board',
         'basic_infrastructure_amount',
+        'non_profit_duty',
+        'non_profit_duty_installment',
+        'non_profit_duty_val',
     ];    
 }
