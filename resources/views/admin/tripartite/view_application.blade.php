@@ -51,6 +51,13 @@
                         </div>
                         <div class="letter-form-footer d-flex font-weight-semi-bold mt-5">
                             <div class="ml-auto text-right">
+                            <p style="margin-top: 0; margin-bottom: 60px;">Thanking You,</p>
+                            <p style="display: block; margin-top: 5px; margin-bottom: 5px;">Best Regards</p>
+                            {{--<p style="display: block; margin-top: 5px; margin-bottom: 5px;">------- स.गृ.नि. संस्था मर्या.</p>--}}
+                        </div>
+                        </div>
+                        <!-- <div class="letter-form-footer d-flex font-weight-semi-bold mt-5">
+                            <div class="ml-auto text-right">
                                 <p class="mb-5">Thanking You,</p>
                                 <p>
                                 <span class="d-flex">अध्यक्ष <input class="letter-form-input letter-form-input--xl"
@@ -59,7 +66,7 @@
                                                                           type="text" id="" name="" value="" readonly></span>
                                 </p>
                             </div>
-                        </div>
+                        </div> -->
 {{--                        @if($sc_application->scApplicationLog->status_id == config('commanConfig.applicationStatus.pending'))--}}
                             <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                                 <div class="m-form__actions px-0">
