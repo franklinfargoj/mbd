@@ -212,7 +212,7 @@
 
                 <div class="m-portlet m-portlet--mobile m_panel">
                     <div class="m-portlet__body" style="padding-right: 0;">
-                            @if(session()->get('role_name') == config('commanConfig.estate_manager'))
+                            @if(session()->get('role_name') == config('commanConfig.estate_manager') && $data->srApplicationLog->status_id != config('commanConfig.conveyance_status.forwarded'))
                             <h3 class="section-title section-title--small mb-0">Generate No dues certificate:</h3>
                             <div class=" row-list">
                                 <div class="row">
@@ -238,7 +238,7 @@
                                 </div>
                             </div>
                             @endif
-                        <div class="w-100 row-list">
+                        <div class="w-100 @if($data->srApplicationLog->status_id != config('commanConfig.conveyance_status.forwarded')) row-list @endif">
                             <div class="">
                                 <div class="row">
                                     <div class="col-sm-6">
@@ -321,9 +321,12 @@
                                             <p>Click to download generated list of allottees in xls format</p>
                                             {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
 
-                                            @if(isset($bonafide_docs['renewal_bonafide_list']) && isset($bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path) && $bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path)
+                                            @if(isset($bonafide_docs['renewal_bonafide_list']) && isset($bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path) && $bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path && $data->srApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded'))
                                                 <a href="{{ config('commanConfig.storage_server').'/'.$bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
                                                 Download</a>
+                                            @elseif(isset($society_list_docs['list_of_members_from_society']))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$society_list_docs['list_of_members_from_society']->sr_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
+                                                    Download</a>
                                             @else
                                                 <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">* Note : List of Allottees is not available. </span>   
                                             @endif    
@@ -467,7 +470,7 @@
                                     <div style="padding-left: 15px;">
                                         <p style="font-weight: bold; font-size: 16px; margin-bottom: 10px;">Subject:</p>
                                         <div style="line-height: 2.0; padding-left: 20px;">
-                                        <p style="font-size: 15px;">It is to certify that Building No. {{$data->societyApplication->building_no}} consisting of <span style="font-weight: bold;">test</span> T/S under the <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span> Scheme at <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span> In favour of <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span>
+                                        <p style="font-size: 15px;">It is to certify that Building No. {{ $data->societyApplication->building_no }} consisting of <span style="font-weight: bold;">test</span> T/S under the <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span> Scheme at <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span> In favour of <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span>
                                             Co-op. Housing Society Ltd. Have paid all the dues in respect of above bldg./bldgs. Including the final sale price for the bldg. and premium of the land as
                                             follow:</p>
                                         </div>
