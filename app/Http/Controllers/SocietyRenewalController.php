@@ -103,12 +103,16 @@ class SocietyRenewalController extends Controller
                     return date(config('commanConfig.dateFormat'), strtotime($sr_applications->created_at));
                 })
                 ->editColumn('status', function ($sr_applications) {
-                    $status = explode('_', array_keys(config('commanConfig.renewal_status'), $sr_applications->srApplicationLog->status_id)[0]);
                     $status_display = '';
-                    foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
-                    $status_color = '';
-                    if($status_display == 'Sent To Society '){
-                        $status_display = 'Approved';
+                    if($sr_applications->application_status == config('commanConfig.renewal_status.Sent_society_to_pay_stamp_duety')){
+                        $status_display = 'Pay Stamp Duty';
+                    }else{
+                        $status = explode('_', array_keys(config('commanConfig.renewal_status'), $sr_applications->srApplicationLog->status_id)[0]);
+                        foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
+                        $status_color = '';
+                        if($status_display == 'Sent To Society ' ){
+                            $status_display = 'Approved';
+                        }
                     }
 
                     return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$sr_applications->srApplicationLog->status_id) .' m-badge--wide">'.$status_display.'</span>';
@@ -785,17 +789,22 @@ class SocietyRenewalController extends Controller
 
         foreach($document_ids as $key => $document_id){
             $document_lease[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id->document_name;
-            if($document_id->sr_agreement_document_status !== null){
-                $docs_uploaded_status = array_pluck($document_id->sr_agreement_document_status->toArray(), 'status_id');
-                foreach($document_status_master_seq as $document_status_master_seq_val){
-                    if(array_search($document_status_master_seq_val, $docs_uploaded_status) !== false){
-                        $document_id->sr_agreement_document_status = $document_id->sr_agreement_document_status[array_search($document_status_master_seq_val, $docs_uploaded_status)];
-                        $uploaded_document_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
-                        break;
-                    }
-                }
+            if($document_id->document_name == config('commanConfig.documents.society.renewal_stamp_duty_letter')) {
+                $document_id->sr_agreement_document_status = $document_id->sr_agreement_document_status[count($document_id->sr_agreement_document_status)-1];
+                $uploaded_document_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
             }else{
-                $documents_remaining_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
+                if ($document_id->sr_agreement_document_status !== null) {
+                    $docs_uploaded_status = array_pluck($document_id->sr_agreement_document_status->toArray(), 'status_id');
+                    foreach ($document_status_master_seq as $document_status_master_seq_val) {
+                        if (array_search($document_status_master_seq_val, $docs_uploaded_status) !== false) {
+                            $document_id->sr_agreement_document_status = $document_id->sr_agreement_document_status[array_search($document_status_master_seq_val, $docs_uploaded_status)];
+                            $uploaded_document_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
+                            break;
+                        }
+                    }
+                } else {
+                    $documents_remaining_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
+                }
             }
         }
 

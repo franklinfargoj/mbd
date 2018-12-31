@@ -452,7 +452,7 @@ class EMController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function uploadRenewalListOfAllottees(Request $request){
-        dd($request->all());
+
         if($request->file('document_path')) {
             $file = $request->file('document_path');
             $file_name = time() . $file->getFileName() . '.' . $file->getClientOriginalExtension();
