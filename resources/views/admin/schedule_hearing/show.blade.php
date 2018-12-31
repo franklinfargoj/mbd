@@ -83,7 +83,7 @@
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="case_template">Case Template:</label>
                             <div class="custom-file">
-                                <span><a href="{{ $hearing_data->hearingSchedule->case_template }}}" target="_blank" rel="noopener">Download</a></span>
+                                <span><a href="{{ $hearing_data->hearingSchedule->case_template }}" target="_blank" rel="noopener">Download</a></span>
                                 <span id="file_case_template_error" class="text-danger">@if (session('error')){{ session('error') }}@endif</span>
                             </div>
                         </div>

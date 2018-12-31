@@ -3,6 +3,7 @@
         <th>Sr. No.</th>
         <th>Case No.</th>
         <th>Case Year</th>
+        <th>Case Reg. Date</th>
         <th>Apellent Name</th>
         <th>Appelent Mobile No.</th>
         <th>Status</th>
@@ -15,6 +16,7 @@
             <td>{{ $i }}</td>
             <td>{{ $hearing['case_number'] }}</td>
             <td>{{ $hearing['case_year'] }}</td>
+            <td>{{ $hearing['office_date'] }}</td>
             <td>{{ $hearing['applicant_name'] }}</td>
             <td>{{ $hearing['applicant_mobile_no'] }}</td>
             @php
