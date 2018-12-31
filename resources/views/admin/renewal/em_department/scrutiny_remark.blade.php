@@ -224,11 +224,11 @@
                                                     <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message.draft_text')) }}</div>
                                                 </div>
                                             @endif
-                                            @if (session('error'))
-                                                <div class="alert alert-danger society_registered">
-                                                    <div class="text-center">{{ session('error') }}</div>
-                                                </div>
-                                            @endif
+                                            {{--@if (session('error'))--}}
+                                                {{--<div class="alert alert-danger society_registered">--}}
+                                                    {{--<div class="text-center">{{ session('error') }}</div>--}}
+                                                {{--</div>--}}
+                                            {{--@endif--}}
                                         </p>
                                         <p>Click to view generated No dues certificate in PDF format</p>
                                         {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
@@ -307,16 +307,16 @@
                                         <h5 class="section-title section-title--small mb-0">
                                         List of Allottees uploaded by Society:</h5>
                                         <p>
-                                            @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')))
-                                                <div class="alert alert-success society_registered">
-                                                    <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')) }}</div>
-                                                </div>
-                                            @endif
-                                            @if (session('error'))
-                                                <div class="alert alert-danger society_registered">
-                                                    <div class="text-center">{{ session('error') }}</div>
-                                                </div>
-                                            @endif
+                                            {{--@if (session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')))--}}
+                                                {{--<div class="alert alert-success society_registered">--}}
+                                                    {{--<div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')) }}</div>--}}
+                                                {{--</div>--}}
+                                            {{--@endif--}}
+                                            {{--@if (session('error'))--}}
+                                                {{--<div class="alert alert-danger society_registered">--}}
+                                                    {{--<div class="text-center">{{ session('error') }}</div>--}}
+                                                {{--</div>--}}
+                                            {{--@endif--}}
                                         </p>
                                             <p>Click to download generated list of allottees in xls format</p>
                                             {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
@@ -348,7 +348,7 @@
                                             <div class="alert alert-danger society_registered">
                                                 <div class="text-center">{{ session('error') }}</div>
                                             </div>
-                                            @endif
+                                        @endif
                                             </p>
                                             <form action="{{ route('em.save_renewal_list_of_allottees') }}" id="list_of_allottees" method="post" enctype="multipart/form-data">
                                                 @csrf
