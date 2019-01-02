@@ -121,10 +121,20 @@
 @section('datatablejs')
     <script>
         $('#society_registration_date').on( 'change',function(){
-            var flat_date = $('#first_flat_issue_date').val();
             var society_date = $('#society_registration_date').val();
-            console.log(flat_date);
-            if(society_date > flat_date){
+            var flat_date = $('#first_flat_issue_date').val();
+
+            var society_date_split = society_date.split("-");
+            var society_date_day = society_date_split[0];
+            var society_date_month = society_date_split[1];
+            var society_date_year = society_date_split[2];
+
+            var flat_date_split = flat_date.split("-");
+            var flat_date_day = flat_date_split[0];
+            var flat_date_month = flat_date_split[1];
+            var flat_date_year = flat_date_split[2];
+
+            if(society_date_day > flat_date_day && society_date_month > flat_date_month && society_date_year > flat_date_year){
                 $('#society_registration_date-error').html('<span style="color:red">Society registration date should not be greater than '+ flat_date +'</span>');
             }else{
                 $('#society_registration_date-error').html('');
