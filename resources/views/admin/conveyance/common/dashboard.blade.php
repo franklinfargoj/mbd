@@ -33,7 +33,7 @@
                          data-parent="#accordion">
                         <div class="row no-gutters hearing-row">
                             <div class="col-12 no-shadow">
-                                <div class="app-card-section-title">Lorem Ipsum</div>
+                                <div class="app-card-section-title">conveyance</div>
                             </div>
                             @foreach($conveyanceDashboard[0] as $header => $value)
                                 <div class="col-lg-3">
@@ -64,7 +64,7 @@
                         @if($pendingApplications && session()->get('role_name') == config('commanConfig.dyco_engineer'))
                             <div class="row no-gutters hearing-row">
                                 <div class="col-12 no-shadow">
-                                    <div class="app-card-section-title">Society Renewal</div>
+                                    <div class="app-card-section-title">Conveyance Subordinate Pendency</div>
                                 </div>
                                 @foreach($pendingApplications as $header => $value)
                                     <div class="col-lg-3">
@@ -106,7 +106,7 @@
             data-parent="#accordion">
             <div class="row no-gutters hearing-row">
                 <div class="col-12 no-shadow">
-                    <div class="app-card-section-title">Lorem Ipsum</div>
+                    <div class="app-card-section-title">Renewal</div>
                 </div>
                 @php $chart = 0; @endphp
             @foreach($renewalDashboard[0] as $header => $value)
@@ -135,7 +135,7 @@
                 @if($renewalPendingApplications && session()->get('role_name') == config('commanConfig.dyco_engineer'))
                     <div class="row no-gutters hearing-row">
                         <div class="col-12 no-shadow">
-                            <div class="app-card-section-title">Lorem Ipsum</div>
+                            <div class="app-card-section-title">Renewal Subordinate Pendency</div>
                         </div>
                         @foreach($renewalPendingApplications as $header => $value)
                             <div class="col-lg-3">
@@ -379,7 +379,22 @@
                 }
             }
         });
-    </script>    
+    </script>
+    <script>
+        $(".architect-accordion").on("click", function () {
+            var data = $('.architect-accordion').children().children().attr('aria-expanded');
+            if (!(data)) {
+                $('.architect-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+            }
+            else {
+                if (data == 'undefine' || data == 'false') {
+                    $('.architect-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                } else {
+                    $('.architect-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                }
+            }
+        });
+    </script>
     <script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>
     @if($chart2)

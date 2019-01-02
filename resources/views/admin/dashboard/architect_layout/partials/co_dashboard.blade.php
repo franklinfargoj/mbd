@@ -1,14 +1,14 @@
 <div class="hearing-accordion-wrapper">
-    <div class="m-portlet m-portlet--compact hearing-accordion mb-0">
+    <div class="m-portlet m-portlet--compact hearing-accordion architect-accordion mb-0">
         <div class="d-flex justify-content-between align-items-center">
             <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
                data-toggle="collapse" href="#co_layouts">
                 <span class="form-accordion-title">Layout Revision & Approval</span>
-                <span class="accordion-icon"></span>
+                <span class="accordion-icon architect-accordion-icon"></span>
             </a>
         </div>
     </div>
-    <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="co_layouts"
+    <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="co_layouts"
          data-parent="#accordion">
         <div class="row hearing-row">
             <div class="col">

@@ -451,6 +451,51 @@
             }
         });
     </script>
+    <script>
+        $(".architect-accordion").on("click", function () {
+            var data = $('.architect-accordion').children().children().attr('aria-expanded');
+            if (!(data)) {
+                $('.architect-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+            }
+            else {
+                if (data == 'undefine' || data == 'false') {
+                    $('.architect-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                } else {
+                    $('.architect-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                }
+            }
+        });
+    </script>
+    <script>
+        $(".layout-approval-accordion").on("click", function () {
+            var data = $('.layout-approval-accordion').children().children().attr('aria-expanded');
+            if (!(data)) {
+                $('.layout-approval-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+            }
+            else {
+                if (data == 'undefine' || data == 'false') {
+                    $('.layout-approval-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                } else {
+                    $('.layout-approval-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                }
+            }
+        });
+    </script>
+    <script>
+        $(".approval-accordion").on("click", function () {
+            var data = $('.approval-accordion').children().children().attr('aria-expanded');
+            if (!(data)) {
+                $('.approval-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+            }
+            else {
+                if (data == 'undefine' || data == 'false') {
+                    $('.approval-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                } else {
+                    $('.approval-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                }
+            }
+        });
+    </script>
     <script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>
     @if($chart)

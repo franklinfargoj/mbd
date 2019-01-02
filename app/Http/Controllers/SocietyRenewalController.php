@@ -103,12 +103,16 @@ class SocietyRenewalController extends Controller
                     return date(config('commanConfig.dateFormat'), strtotime($sr_applications->created_at));
                 })
                 ->editColumn('status', function ($sr_applications) {
-                    $status = explode('_', array_keys(config('commanConfig.renewal_status'), $sr_applications->srApplicationLog->status_id)[0]);
                     $status_display = '';
-                    foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
-                    $status_color = '';
-                    if($status_display == 'Sent To Society '){
-                        $status_display = 'Approved';
+                    if($sr_applications->application_status == config('commanConfig.renewal_status.Sent_society_to_pay_stamp_duety')){
+                        $status_display = 'Pay Stamp Duty';
+                    }else{
+                        $status = explode('_', array_keys(config('commanConfig.renewal_status'), $sr_applications->srApplicationLog->status_id)[0]);
+                        foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
+                        $status_color = '';
+                        if($status_display == 'Sent To Society ' ){
+                            $status_display = 'Approved';
+                        }
                     }
 
                     return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$sr_applications->srApplicationLog->status_id) .' m-badge--wide">'.$status_display.'</span>';
@@ -174,6 +178,10 @@ class SocietyRenewalController extends Controller
      */
     public function store(Request $request)
     {
+        $request->flash();
+        $error = array(
+            'error' => "Excel file headers doesn't match."
+        );
         if($request->file('template')) {
             $file = $request->file('template');
             $file_name = time() . $file->getFileName() . '.' . $file->getClientOriginalExtension();
@@ -193,14 +201,16 @@ class SocietyRenewalController extends Controller
                         $sc_excel_headers = config('commanConfig.sc_excel_headers');
 
                         foreach($excel_headers as $excel_headers_key => $excel_headers_val){
-                            $excel_headers_value = strtolower(str_replace(str_split('\\/- '), '_', $sc_excel_headers[$excel_headers_key]));
-                            if($excel_headers_value == $excel_headers_val){
-                                $count++;
-                            }else{
-                                $exploded = explode('_', $excel_headers_value);
-                                foreach($exploded as $exploded_key => $exploded_value){
-                                    if(!empty(strpos($excel_headers_val, $exploded_value))){
-                                        $count++;
+                            if(isset($sc_excel_headers[$excel_headers_key])){
+                                $excel_headers_value = strtolower(str_replace(str_split('\\/- '), '_', $sc_excel_headers[$excel_headers_key]));
+                                if($excel_headers_value == $excel_headers_val){
+                                    $count++;
+                                }else{
+                                    $exploded = explode('_', $excel_headers_value);
+                                    foreach($exploded as $exploded_key => $exploded_value){
+                                        if(!empty(strpos($excel_headers_val, $exploded_value))){
+                                            $count++;
+                                        }
                                     }
                                 }
                             }
@@ -269,14 +279,14 @@ class SocietyRenewalController extends Controller
                             }
                         }
                     }else{
-                        return redirect()->route('society_renewal.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
+                        return redirect()->route('society_renewal.create')->with('error', "Excel file headers doesn't match.")->withInput();
                     }
                 }else{
-                    return redirect()->route('society_renewal.create')->withErrors('error', "Excel file is empty.")->withInput();
+                    return redirect()->route('society_renewal.create')->with('error', "Excel file headers doesn't match.")->withInput();
                 }
             }
         }else{
-            return redirect()->route('society_renewal.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
+            return redirect()->route('society_renewal.create')->with('error', "Excel file headers doesn't match.")->withInput();
         }
     }
 
@@ -295,8 +305,10 @@ class SocietyRenewalController extends Controller
         }, 'societyApplication', 'applicationLayout', 'srApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();
+        $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
+        $documents_uploaded = RenewalDocumentStatus::where('application_id', $sc_application->id)->get();
 
-        return view('frontend.society.renewal.show_sr_application', compact('sc_application'));
+        return view('frontend.society.renewal.show_sr_application', compact('sc_application', 'documents', 'documents_uploaded'));
     }
 
     /**
@@ -325,8 +337,10 @@ class SocietyRenewalController extends Controller
         $comm_func = $this->CommonController;
         $layouts = MasterLayout::all();
         $master_tenant_type = MasterTenantType::all();
+        $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
+        $documents_uploaded = RenewalDocumentStatus::where('application_id', $sc_application->id)->get();
 
-        return view('frontend.society.renewal.edit', compact('layouts', 'field_names', 'society_details', 'comm_func', 'sc_application', 'id','master_tenant_type'));
+        return view('frontend.society.renewal.edit', compact('layouts', 'field_names', 'society_details', 'comm_func', 'sc_application', 'id','master_tenant_type', 'documents', 'documents_uploaded'));
     }
 
     /**
@@ -359,14 +373,16 @@ class SocietyRenewalController extends Controller
                         $sc_excel_headers = config('commanConfig.sc_excel_headers');
 
                         foreach ($excel_headers as $excel_headers_key => $excel_headers_val) {
-                            $excel_headers_value = strtolower(str_replace(str_split('\\/- '), '_', $sc_excel_headers[$excel_headers_key]));
-                            if ($excel_headers_value == $excel_headers_val) {
-                                $count++;
-                            } else {
-                                $exploded = explode('_', $excel_headers_value);
-                                foreach ($exploded as $exploded_key => $exploded_value) {
-                                    if (!empty(strpos($excel_headers_val, $exploded_value))) {
-                                        $count++;
+                            if(isset($sc_excel_headers[$excel_headers_key])) {
+                                $excel_headers_value = strtolower(str_replace(str_split('\\/- '), '_', $sc_excel_headers[$excel_headers_key]));
+                                if ($excel_headers_value == $excel_headers_val) {
+                                    $count++;
+                                } else {
+                                    $exploded = explode('_', $excel_headers_value);
+                                    foreach ($exploded as $exploded_key => $exploded_value) {
+                                        if (!empty(strpos($excel_headers_val, $exploded_value))) {
+                                            $count++;
+                                        }
                                     }
                                 }
                             }
@@ -465,7 +481,7 @@ class SocietyRenewalController extends Controller
         } ])->orderBy('id', 'desc')->first();
         $society_bank_details = SocietyBankDetails::where('society_id', $society->id)->first();
 //        dd($sc_application);
-        $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->application_master_id)->where('society_flag', '1')->where('document_name', '!=', 'stamp_renewal_application')->get();
+        $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->application_master_id)->where('society_flag', '1')->where('document_name', '!=', config('commanConfig.documents.society.stamp_renewal_application'))->get();
 //        $documents_uploaded =   RenewalDocumentStatus::where('application_id', $sc_application->id)->where('society_flag', 1)->get();
         foreach($documents as $document){
             if($document->sr_document_status != null){
@@ -657,8 +673,10 @@ class SocietyRenewalController extends Controller
         $sc_application = RenewalApplication::where('society_id', $society->id)->with(['srApplicationType', 'srApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         } ])->orderBy('id', 'desc')->first();
+        $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->application_master_id)->where('society_flag', '1')->where('document_name', '!=', config('commanConfig.documents.society.stamp_renewal_application'))->get();
+        $documents_uploaded = RenewalDocumentStatus::where('application_id', $sc_application->id)->get();
 
-        return view('frontend.society.renewal.sr_form_upload_show', compact('sc_application'));
+        return view('frontend.society.renewal.sr_form_upload_show', compact('sc_application', 'documents', 'documents_uploaded'));
     }
 
     /**
@@ -769,19 +787,24 @@ class SocietyRenewalController extends Controller
         $uploaded_document_ids = [];
         $documents_remaining_ids = [];
 
-        foreach($document_ids as $document_id){
+        foreach($document_ids as $key => $document_id){
             $document_lease[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id->document_name;
-            if($document_id->sr_agreement_document_status !== null){
-                $docs_uploaded_status = array_pluck($document_id->sr_agreement_document_status->toArray(), 'status_id');
-                foreach($document_status_master_seq as $document_status_master_seq_val){
-                    if(array_search($document_status_master_seq_val, $docs_uploaded_status) !== false){
-                        $document_id->sr_agreement_document_status = $document_id->sr_agreement_document_status[array_search($document_status_master_seq_val, $docs_uploaded_status)];
-                        $uploaded_document_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
-                        break;
-                    }
-                }
+            if($document_id->document_name == config('commanConfig.documents.society.renewal_stamp_duty_letter')) {
+                $document_id->sr_agreement_document_status = $document_id->sr_agreement_document_status[count($document_id->sr_agreement_document_status)-1];
+                $uploaded_document_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
             }else{
-                $documents_remaining_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
+                if ($document_id->sr_agreement_document_status !== null) {
+                    $docs_uploaded_status = array_pluck($document_id->sr_agreement_document_status->toArray(), 'status_id');
+                    foreach ($document_status_master_seq as $document_status_master_seq_val) {
+                        if (array_search($document_status_master_seq_val, $docs_uploaded_status) !== false) {
+                            $document_id->sr_agreement_document_status = $document_id->sr_agreement_document_status[array_search($document_status_master_seq_val, $docs_uploaded_status)];
+                            $uploaded_document_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
+                            break;
+                        }
+                    }
+                } else {
+                    $documents_remaining_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
+                }
             }
         }
 
@@ -867,7 +890,7 @@ class SocietyRenewalController extends Controller
         $society_flag = 1;
         $status = ApplicationStatusMaster::where('status_name', config('commanConfig.documents.society.Register'))->value('id');
 //        dd($field_names);
-//        dd($sc_registrar_details);
+//        dd($sc_registration_detail);
         return view('frontend.society.renewal.signed_sale_lease_deed', compact('sc_application', 'society_flag','status', 'sale_agreement_type_id', 'lease_agreement_type_id', 'field_names', 'comm_func', 'uploaded_document_ids', 'documents', 'documents_uploaded', 'status', 'sc_registration_detail'));
     }
 

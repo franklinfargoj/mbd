@@ -72,8 +72,10 @@ class EMClerkController extends Controller
 
             $html = '<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="society" name="society" required>
                                         <option value="" style="font-weight: normal;">Select Society</option>';
+                                        if(count($societies)) {
                                         foreach($societies as $key => $value){
                                         $html .= '<option value="'.encrypt($value->id).'">'.$value->society_name.'</option>';
+                                        }
                                         }
                                     $html .= '</select>';
             return $html;
@@ -89,9 +91,11 @@ class EMClerkController extends Controller
 
             $html = '<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="building" name="building" required>
                                         <option value="" style="font-weight: normal;">Select Building</option>';
+                                        if(count($buildings)) {
                                         foreach($buildings as $key => $value){
                                         $html .= '<option value="'.encrypt($value->id).'">'.$value->name.'</option>';
                                         }
+                                    }
                                     $html .= '</select>';
             return $html;
         } else {

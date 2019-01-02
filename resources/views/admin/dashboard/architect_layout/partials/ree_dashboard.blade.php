@@ -1,14 +1,14 @@
 <div class="hearing-accordion-wrapper">
-    <div class="m-portlet m-portlet--compact hearing-accordion mb-0">
+    <div class="m-portlet m-portlet--compact hearing-accordion architect-revision-accordion mb-0">
         <div class="d-flex justify-content-between align-items-center">
             <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
                data-toggle="collapse" href="#revision_layout_for_ree">
                 <span class="form-accordion-title">Revision in Layout</span>
-                <span class="accordion-icon"></span>
+                <span class="accordion-icon architect-revision-accordion-icon"></span>
             </a>
         </div>
     </div>
-    <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="revision_layout_for_ree"
+    <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="revision_layout_for_ree"
          data-parent="#accordion">
         <div class="row hearing-row">
             <div class="col">
@@ -36,16 +36,16 @@
     </div>
 </div>
 <div class="hearing-accordion-wrapper">
-    <div class="m-portlet m-portlet--compact hearing-accordion mb-0">
+    <div class="m-portlet m-portlet--compact approval-accordion mb-0">
         <div class="d-flex justify-content-between align-items-center">
             <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
                data-toggle="collapse" href="#approval_layout_for_ree">
                 <span class="form-accordion-title">Layout Sent for Approval</span>
-                <span class="accordion-icon"></span>
+                <span class="accordion-icon approval-accordion-icon"></span>
             </a>
         </div>
     </div>
-    <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="approval_layout_for_ree"
+    <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="approval_layout_for_ree"
          data-parent="#accordion">
         <div class="row hearing-row">
             <div class="col">
@@ -74,16 +74,16 @@
 </div>
 @if(session()->get('role_name')==config('commanConfig.ree_branch_head'))
 <div class="hearing-accordion-wrapper">
-    <div class="m-portlet m-portlet--compact hearing-accordion mb-0">
+    <div class="m-portlet m-portlet--compact layout-approval-accordion mb-0">
         <div class="d-flex justify-content-between align-items-center">
             <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
                data-toggle="collapse" href="#layout_forwarded_for_ee_head">
                 <span class="form-accordion-title">Layout Approval</span>
-                <span class="accordion-icon"></span>
+                <span class="accordion-icon layout-approval-accordion-icon"></span>
             </a>
         </div>
     </div>
-    <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="layout_forwarded_for_ee_head"
+    <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="layout_forwarded_for_ee_head"
          data-parent="#accordion">
         <div class="row hearing-row">
             <div class="col">

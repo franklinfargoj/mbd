@@ -120,6 +120,7 @@
                 <div class="tab-pane active show" id="scrutiny-history-tab">
                         <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                             <div class="portlet-body">
+                            <h5>Remarks :</h5>
                                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                                     <table class="table">
                                         <thead class="thead-default">

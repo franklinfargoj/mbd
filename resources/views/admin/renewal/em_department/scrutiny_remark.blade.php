@@ -212,7 +212,7 @@
 
                 <div class="m-portlet m-portlet--mobile m_panel">
                     <div class="m-portlet__body" style="padding-right: 0;">
-                            @if(session()->get('role_name') == config('commanConfig.estate_manager'))
+                            @if(session()->get('role_name') == config('commanConfig.estate_manager') && $data->srApplicationLog->status_id != config('commanConfig.conveyance_status.forwarded'))
                             <h3 class="section-title section-title--small mb-0">Generate No dues certificate:</h3>
                             <div class=" row-list">
                                 <div class="row">
@@ -224,11 +224,11 @@
                                                     <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message.draft_text')) }}</div>
                                                 </div>
                                             @endif
-                                            @if (session('error'))
-                                                <div class="alert alert-danger society_registered">
-                                                    <div class="text-center">{{ session('error') }}</div>
-                                                </div>
-                                            @endif
+                                            {{--@if (session('error'))--}}
+                                                {{--<div class="alert alert-danger society_registered">--}}
+                                                    {{--<div class="text-center">{{ session('error') }}</div>--}}
+                                                {{--</div>--}}
+                                            {{--@endif--}}
                                         </p>
                                         <p>Click to view generated No dues certificate in PDF format</p>
                                         {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
@@ -238,7 +238,7 @@
                                 </div>
                             </div>
                             @endif
-                        <div class="w-100 row-list">
+                        <div class="w-100 @if($data->srApplicationLog->status_id != config('commanConfig.conveyance_status.forwarded')) row-list @endif">
                             <div class="">
                                 <div class="row">
                                     <div class="col-sm-6">
@@ -305,25 +305,31 @@
                             <div class="row">
                                     <div class="col-md-6">
                                         <h5 class="section-title section-title--small mb-0">
-                                        List of Allottees uploaded by Society:</h5>
+                                        List of Allottees uploaded @if(isset($bonafide_docs['renewal_bonafide_list']) && isset($bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path) && Session::all()['role_name'] == config('commanConfig.estate_manager') && $data->srApplicationLog->status_id == config('commanConfig.conveyance_status.in_process')) by Society @endif:</h5>
                                         <p>
-                                            @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')))
-                                                <div class="alert alert-success society_registered">
-                                                    <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')) }}</div>
-                                                </div>
-                                            @endif
-                                            @if (session('error'))
-                                                <div class="alert alert-danger society_registered">
-                                                    <div class="text-center">{{ session('error') }}</div>
-                                                </div>
-                                            @endif
+                                            {{--@if (session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')))--}}
+                                                {{--<div class="alert alert-success society_registered">--}}
+                                                    {{--<div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')) }}</div>--}}
+                                                {{--</div>--}}
+                                            {{--@endif--}}
+                                            {{--@if (session('error'))--}}
+                                                {{--<div class="alert alert-danger society_registered">--}}
+                                                    {{--<div class="text-center">{{ session('error') }}</div>--}}
+                                                {{--</div>--}}
+                                            {{--@endif--}}
                                         </p>
                                             <p>Click to download generated list of allottees in xls format</p>
                                             {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
 
-                                            @if(isset($bonafide_docs['renewal_bonafide_list']) && isset($bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path) && $bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path)
+                                            @if(isset($bonafide_docs['renewal_bonafide_list']) && isset($bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path) && $data->srApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded'))
                                                 <a href="{{ config('commanConfig.storage_server').'/'.$bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
                                                 Download</a>
+                                            @elseif(isset($bonafide_docs['renewal_bonafide_list']) && isset($bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path) && Session::all()['role_name'] != config('commanConfig.estate_manager'))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
+                                                    Download</a>
+                                            @elseif(isset($society_list_docs['list_of_members_from_society']) && Session::all()['role_name'] == config('commanConfig.estate_manager'))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$society_list_docs['list_of_members_from_society']->sr_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
+                                                    Download</a>
                                             @else
                                                 <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">* Note : List of Allottees is not available. </span>   
                                             @endif    
@@ -345,7 +351,7 @@
                                             <div class="alert alert-danger society_registered">
                                                 <div class="text-center">{{ session('error') }}</div>
                                             </div>
-                                            @endif
+                                        @endif
                                             </p>
                                             <form action="{{ route('em.save_renewal_list_of_allottees') }}" id="list_of_allottees" method="post" enctype="multipart/form-data">
                                                 @csrf
@@ -467,7 +473,7 @@
                                     <div style="padding-left: 15px;">
                                         <p style="font-weight: bold; font-size: 16px; margin-bottom: 10px;">Subject:</p>
                                         <div style="line-height: 2.0; padding-left: 20px;">
-                                        <p style="font-size: 15px;">It is to certify that Building No. {{$data->societyApplication->building_no}} consisting of <span style="font-weight: bold;">test</span> T/S under the <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span> Scheme at <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span> In favour of <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span>
+                                        <p style="font-size: 15px;">It is to certify that Building No. {{ $data->societyApplication->building_no }} consisting of <span style="font-weight: bold;">test</span> T/S under the <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span> Scheme at <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span> In favour of <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span>
                                             Co-op. Housing Society Ltd. Have paid all the dues in respect of above bldg./bldgs. Including the final sale price for the bldg. and premium of the land as
                                             follow:</p>
                                         </div>
@@ -619,20 +625,20 @@
             //     }
             // });
 
-            // $('#no_dues_certi_upload').validate({
-            //     rules:{
-            //         no_dues_certificate: {
-            //             required:true,
-            //             extension:'pdf'
-            //         }
-            //     },
-            //     messages:{
-            //         no_dues_certificate: {
-            //             required: 'File is required to upload.',
-            //             extension: 'File only in pdf format is required.'
-            //         }
-            //     }
-            // });
+            $('#list_of_allottees').validate({
+                rules:{
+                    document_path: {
+                        required:true,
+                        extension:'xls'
+                    }
+                },
+                messages:{
+                    document_path: {
+                        required: 'File is required to upload.',
+                        extension: 'File only in xls format is required.'
+                    }
+                }
+            });
 
             $('.society_registered').delay("slow").slideUp("slow");
 

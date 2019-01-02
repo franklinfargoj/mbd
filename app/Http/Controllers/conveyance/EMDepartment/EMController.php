@@ -11,6 +11,7 @@ use App\Http\Controllers\Common\CommonController;
 use App\conveyance\scApplication;
 use App\conveyance\RenewalApplication;
 use App\conveyance\ScApplicationAgreements;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use File;
 use App\conveyance\SocietyConveyanceDocumentStatus;
@@ -220,7 +221,9 @@ class EMController extends Controller
         $no_dues_certificate_docs_defined = config('commanConfig.documents.em_renewal.no_dues_certificate');
         $bonafide_docs_defined = config('commanConfig.documents.em_renewal.bonafide');
         $covering_letter_docs_defined = config('commanConfig.documents.em_renewal.covering_letter');
-        $documents = $this->renewal_common->getDocumentIds(array_merge($no_dues_certificate_docs_defined, $bonafide_docs_defined, $covering_letter_docs_defined), $data->application_master_id);
+        $society_list_defined = config('commanConfig.documents.em_renewal.society_list');
+
+        $documents = $this->renewal_common->getDocumentIds(array_merge($no_dues_certificate_docs_defined, $bonafide_docs_defined, $covering_letter_docs_defined, $society_list_defined), $data->application_master_id, $data->id);
 
         foreach($documents as $document){
             if(in_array($document->document_name, $no_dues_certificate_docs_defined) == 1){
@@ -247,6 +250,14 @@ class EMController extends Controller
                     $covering_letter_docs[$document->document_name]['sr_document_status'] = '';
                 }
             }
+            if(in_array($document->document_name, $society_list_defined) == 1){
+                $society_list_docs[$document->document_name] = $document;
+                if($document->sr_document_status != null){
+                    $society_list_docs[$document->document_name]['sr_document_status'] = $document->sr_document_status;
+                }else{
+                    $society_list_docs[$document->document_name]['sr_document_status'] = '';
+                }
+            }
         }
 
         if(!empty($no_dues_certificate_docs['renewal_text_no_dues_certificate']['sr_document_status'])){
@@ -262,9 +273,9 @@ class EMController extends Controller
         //     $route = 'admin.renewal.em_department.scrutiny_remark';
         // }else{
         //     $route = 'admin.conveyance.common.view_em_scrutiny_remark';
-        // }       
+        // }
 
-        return view('admin.renewal.em_department.scrutiny_remark',compact('data', 'content', 'no_dues_certificate_docs', 'bonafide_docs', 'covering_letter_docs'));
+        return view('admin.renewal.em_department.scrutiny_remark',compact('data', 'content', 'no_dues_certificate_docs', 'bonafide_docs', 'covering_letter_docs', 'society_list_docs'));
     }
 
     /**
@@ -281,8 +292,9 @@ class EMController extends Controller
             $fileName = time().'no_dues_certificate_'.$id.'.pdf';
             $filePath = $folder_name."/".$fileName;
             $file_uploaded = $this->CommonController->ftpFileUpload($folder_name, $request->file('no_dues_certificate'), $filePath);
+
             if($file_uploaded){
-                $this->renewal_common->uploadDocumentStatus($request->applicationId, config('commanConfig.documents.em_renewal.no_dues_certificate.renewal_uploaded_no_dues_certificate'), $filePath);
+                $this->renewal_common->uploadDocumentStatus($request->applicationId, config('commanConfig.documents.em_renewal.no_dues_certificate')[2], $filePath);
 //                scApplication::where('id',$request->applicationId)->update([config('commanConfig.no_dues_certificate.db_columns.upload') => $file_uploaded]);
 
                 $message = config('commanConfig.no_dues_certificate.redirect_message.upload');
@@ -377,17 +389,19 @@ class EMController extends Controller
                         $sc_excel_headers = config('commanConfig.sc_excel_headers_em');
 
                         foreach($excel_headers as $excel_headers_key => $excel_headers_val){
-                            $excel_headers_value = strtolower(str_replace(str_split('\\/- '), '_', $sc_excel_headers[$excel_headers_key]));
-                            $excel_headers_value = str_replace(str_split('\\() '), '', $excel_headers_value);
+                            if(isset($sc_excel_headers[$excel_headers_key])) {
+                                $excel_headers_value = strtolower(str_replace(str_split('\\/- '), '_', $sc_excel_headers[$excel_headers_key]));
+                                $excel_headers_value = str_replace(str_split('\\() '), '', $excel_headers_value);
 
-                            if($excel_headers_value == $excel_headers_val){
-                                $count++;
-                            }else{
-                                $exploded = explode('_', $excel_headers_value);
+                                if ($excel_headers_value == $excel_headers_val) {
+                                    $count++;
+                                } else {
+                                    $exploded = explode('_', $excel_headers_value);
 
-                                foreach($exploded as $exploded_key => $exploded_value){
-                                    if(!empty(strpos($excel_headers_val, $exploded_value))){
-                                        $count++;
+                                    foreach ($exploded as $exploded_key => $exploded_value) {
+                                        if (!empty(strpos($excel_headers_val, $exploded_value))) {
+                                            $count++;
+                                        }
                                     }
                                 }
                             }
@@ -460,17 +474,19 @@ class EMController extends Controller
                         $sc_excel_headers = config('commanConfig.sc_excel_headers_em');
 
                         foreach($excel_headers as $excel_headers_key => $excel_headers_val){
-                            $excel_headers_value = strtolower(str_replace(str_split('\\/- '), '_', $sc_excel_headers[$excel_headers_key]));
-                            $excel_headers_value = str_replace(str_split('\\() '), '', $excel_headers_value);
+                            if(isset($sc_excel_headers[$excel_headers_key])){
+                                $excel_headers_value = strtolower(str_replace(str_split('\\/- '), '_', $sc_excel_headers[$excel_headers_key]));
+                                $excel_headers_value = str_replace(str_split('\\() '), '', $excel_headers_value);
 
-                            if($excel_headers_value == $excel_headers_val){
-                                $count++;
-                            }else{
-                                $exploded = explode('_', $excel_headers_value);
+                                if($excel_headers_value == $excel_headers_val){
+                                    $count++;
+                                }else{
+                                    $exploded = explode('_', $excel_headers_value);
 
-                                foreach($exploded as $exploded_key => $exploded_value){
-                                    if(!empty(strpos($excel_headers_val, $exploded_value))){
-                                        $count++;
+                                    foreach($exploded as $exploded_key => $exploded_value){
+                                        if(!empty(strpos($excel_headers_val, $exploded_value))){
+                                            $count++;
+                                        }
                                     }
                                 }
                             }

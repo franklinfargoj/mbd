@@ -41,7 +41,7 @@
                             <p style="margin-bottom:0; line-height:0.25;">Bandra (E),Mumbai 400 051.</p>
                             <!-- <p style="margin-bottom:0; line-height:0.25;">Mumbai - 400 083.</p> -->
                         </div>
-                    </div>
+                    </div> 
 
                     <!-- Header ends here -->
 
@@ -168,7 +168,185 @@
                                                 The built up area permitted as per statement below.
                                             </strong>
                                         </p>
-                                        <table style="width: 80%; border-collapse: collapse;" border="1">
+                <!-- Table 1 starts here -->
+                                    @if($custom == '1')
+                                    <div>
+                                        <h3 style="text-transform: uppercase; font-weight: bold; text-decoration: underline; text-align: center;">Table-1</h3>
+                                        <table style="width: 100%; text-align: center; border-collapse: collapse;">
+                                            <thead style="text-align: center;">
+                                                <tr>
+                                                    <th style="width: 4%; border: 1px solid #000; padding: 5px 10px">Sr.No</th>
+                                                    <th style="width: 65%; border: 1px solid #000; padding: 5px 10px">Particular</th>
+                                                    <th style="border: 35% solid #000; padding: 5px 10px">Amount in Rs.</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @php $i = 1; @endphp
+                                            @foreach($table1 as $value)
+                                                
+                                                <tr>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">{{$i}}</td>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">{{ isset($value['title']) ? $value['title'] : '' }}</td>
+                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">{{ isset($value['amount']) ? $value['amount'] : '' }} </td>
+                                                </tr> 
+                                            @php $i++; @endphp
+                                            @endforeach    
+                                            </tbody>
+                                        </table>
+                                    </div>                          
+                                    @else
+                                    <div>
+
+                                        <h3 style="text-transform: uppercase; font-weight: bold; text-decoration: underline; text-align: center;">Table-1</h3>
+                                        <table style="width: 100%; text-align: center; border-collapse: collapse;">
+                                            <thead style="text-align: center;">
+                                                <tr>
+                                                    <th style="width: 10%; border: 1px solid #000; padding: 5px 10px">Sr.No</th>
+                                                    <th style="width: 65%; border: 1px solid #000; padding: 5px 10px">Particular</th>
+                                                    <th style="width: 35%; border: 1px solid #000; padding: 5px 10px">Amount in Rs.</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">1.</td>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Scrutiny Fees (
+                                                        Residential Use )</td>
+                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">{{(isset($calculationData) ? $calculationData->scrutiny_fee : '')}} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">2.</td>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Debris Removal Rs.
+                                                        6600/- Per Bldg.</td>
+                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"><span style="font-weight: bold">{{(isset($calculationData) ? $calculationData->debraj_removal_fee : '')}} </span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">3.</td>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Layout approval
+                                                        fees (Rs. 1,000/- X 32 T/s)</td>
+                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"><span style="font-weight: bold"> {{ isset($calculationData) ? $calculationData->layout_approval_fee : '' }} </span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">4.</td>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Deposit Amount for
+                                                        Water Charges as per CE-II / A's Circular dated 02.06.2009</td>
+                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"><span style="font-weight: bold"> {{ isset($calculationData) ? $calculationData->water_usage_charges : '' }}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">5.</td>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Ready Reckoner
+                                                        Rate of 2018-19
+                                                        (CTS No. 351 (pt), Hariyali, Tagore Nagar)</td>
+                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"><span style="font-weight: bold">{{ isset($calculationData) ? $calculationData->redirekner_value : '' }}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">6.</td>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Rate of
+                                                        Construction </td>
+                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"><span style="font-weight: bold">{{ isset($calculationData) ? $calculationData->redirekner_construction_rate : '' }}</span></td>
+                                                </tr>
+                                                <tr> 
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">7.</td>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">LR /RC Ratio
+                                                        (55,900.00 / 27,500.00)</td>
+                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"><span style="font-weight: bold">{{ isset($calculationData) ? $calculationData->redirekner_val : '' }}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">8.</td>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Premium towards
+                                                        additional buildable area for use of <span style="font-weight: bold"> {{ isset($calculationData) ? $calculationData->remaining_area : '' }} m<sup>2</sup> </span> sq. mt. by charging Rs.
+                                                        ___________@ ___________ current Ready Reckoner Rate of 2018-19 (i.e. ___________ of Rs.<span style="font-weight: bold"> {{ isset($calculationData) ? $calculationData->calculated_dcr_rate_val : '' }}/-) </span> as per
+                                                        Table C-1, in DCR 33(5),dated 03.07.2017. </td>
+                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"><span style="font-weight: bold">{{ isset($calculationData) ? $calculationData->balance_of_remaining_area : '' }} </span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">9.</td>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Offsite
+                                                        infrastructure charges
+                                                        (RR Rate 2018-19 Rs. {{ isset($calculationData) ? $calculationData->redirekner_value : '' }} /- x 7%) x (Permissible BUA as per 3.0 FSI ___________ m2 +
+                                                        ___________ m<sup>2</sup> balance BUA of layout (Pro-rata ) - (Existing BUA <span style="font-weight: bold">{{ isset($calculationData) ? $calculationData->existing_construction_area : '' }} m<sup>2</sup></span>) =  (
+                                                        <span style="font-weight: bold">{{ (isset($calculationData) ? $calculationData->remaining_area : '') }} m<sup>2</sup></span> X <span style="font-weight: bold"> 
+
+                                                        {{ isset($calculationData) ? $calculationData->redirekner_value : '' }} X 7%)</span></td>
+                                                    
+                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"><span style="font-weight: bold">{{ isset($calculationData) ? $calculationData->infrastructure_fee_amount : '' }}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">10.</td>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Amount to be paid
+                                                        to MCGM
+                                                        (5/7 of Sr. No. 09)</td>
+                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">{{ isset($calculationData) ? $calculationData->amount_to_be_paid_to_municipal : '' }}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">11.</td>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Amount to be paid
+                                                        to MHADA (2/7 of Sr.No. 09)</td>
+                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">
+                                                    <span style="font-weight: bold">{{ isset($calculationData) ? $calculationData->offsite_infrastructure_charge_to_mhada : '' }}
+                                                    </span></td>
+                                                </tr>                            
+                                                <tr>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">For R.G. relocation Rs. <span style="font-weight: bold">{{ isset($calculationData) ? $calculationData->redirekner_value : '' }}
+                                                    </span>/- (10% of Rs <span style="font-weight: bold">{{ isset($calculationData) ? $calculationData->redirekner_value : '' }} </span> per m2 of R. R. 2017-18 ) *
+
+                                                     {{ isset($calculationData) ? $calculationData->area_of_rg_to_be_relocated : '' }}   </td>
+
+                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">
+                                                    <span style="font-weight: bold">{{ isset($calculationData) ? $calculationData->total_area_of_rg_to_be_relocated : '' }}
+                                                    </span></td>
+                                                </tr>                            
+                                                <tr>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Capitalization of lease rent annual 2.5%</td>
+                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">
+                                                    <span style="font-weight: bold">{{ isset($calculationData) ? $calculationData->groundrent_capitalization_yearly : '' }}
+                                                    </span></td>
+                                                </tr>                           
+                                                 <tr>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Advance Lease rent 8%</td>
+                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">
+                                                    <span style="font-weight: bold">{{ isset($calculationData) ? $calculationData->advance_groundrent_per_year : '' }}
+                                                    </span></td>
+                                                </tr>                            
+                                                <tr>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Nominal Lease rent</td>
+                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">
+                                                    <span style="font-weight: bold">{{ isset($calculationData) ? $calculationData->nominal_groundrent : '' }}
+                                                    </span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">12.</td>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Total Amount to be
+                                                        paid to MHADA <table style="width: 100%;">
+                                                            <tr>
+                                                                <td style="font-size: 12px;">( Sr.No.1+2+3+4+8+11)</td>
+                                                                <td style="text-align: right;">Say Amount</td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"><span style="font-weight: bold">{{ isset($calculationData) ? $calculationData->total_amount_in_rs : '' }} </span></td>
+                                                </tr>
+<!--                                                 <tr>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
+                                                    <td colspan="2" style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Rs.
+                                                        {{  converNumberToWord(isset($calculationData) ? str_replace( ',', '',$calculationData->total_amount_in_rs) : '' ) }}</td>
+                                                </tr> -->
+                                                <tr>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
+                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Total Amount to be
+                                                        paid to MCGM (Sr.No. 10)</td>
+                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"><span style="font-weight: bold"> {{ isset($calculationData) ? $calculationData->offsite_infrastructure_charges_to_municipal_corporation : '' }}</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    @endif                                    
+
+                <!-- Table 1 ends here -->                                                      
+<!--                                         <table style="width: 80%; border-collapse: collapse;" border="1">
                                             <tbody>
                                                 <tr valign="top">
                                                     <td>
@@ -370,7 +548,7 @@
                                                     </td>
                                                 </tr>
                                             </tbody>
-                                        </table>
+                                        </table> -->
                                     </td>
                                 </tr>
                                 <tr valign="top">

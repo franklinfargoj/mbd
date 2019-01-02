@@ -92,16 +92,18 @@ class HearingController extends Controller
             {
                 $config_array = array_flip(config('commanConfig.hearingStatus'));
                 $current_status = $hearing['hearing_status_log'][0]['hearing_status_id'];
-
                 $hearing_excel_data[] = [
                     'Sr. No.' => $i,
                     'Case No.' => $hearing['case_number'],
                     'Case Year' => $hearing['case_year'],
+                    'Case Reg Date' => date(config('commanConfig.dateFormat'), strtotime($hearing['office_date'])),
                     'Apellent Name' => $hearing['applicant_name'],
                     'Appelent Mobile No.' => $hearing['applicant_mobile_no'],
                     'Status' => (array_key_exists($current_status, $config_array)) ? ucwords(str_replace('_', ' ', $config_array[$current_status])) : "",
                 ];
+                $i++;
             }
+
             return Excel::create('hearing_'.date('Y_m_d_H_i_s'), function($excel) use($hearing_excel_data){
 
                 $excel->sheet('mySheet', function($sheet) use($hearing_excel_data)

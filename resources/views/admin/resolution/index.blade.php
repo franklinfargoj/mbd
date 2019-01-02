@@ -13,17 +13,26 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Resolution Listing</h3>
             {{ Breadcrumbs::render('resolution') }}
-            <div class="ml-auto">
-                <div class="btn-list">
-                    <!-- <button type="button" class="btn btn-transparent ml-auto" data-toggle="collapse" data-target="#filter">
-                        <img class="filter-icon" src="{{asset('/img/filter-icon.svg')}}">Filter
-                    </button> -->
-                    <!-- <button type="submit" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></button> -->
-<!--                     <a target="_blank" href="{{route('resolution.print',['published_from_date'=>app('request')->input('published_from_date'),'published_to_date'=>app('request')->input('published_to_date'),'resolution_type_id'=>app('request')->input('resolution_type_id'),'board_id'=>app('request')->input('board_id')])}}"
-                        class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
-                    <a class="btn btn-primary" href="{{route('resolution.create')}}">Add Resolution</a> -->
-                </div>
+            <div class="btn-list text-right ml-auto">
+                <a href="{{route('resolution.index',['excel'=>'excel'])}}" name="excel" value="excel" class="btn excel-icon">
+                    <img src="{{asset('/img/excel-icon.svg')}}">
+                </a>
+                <a target="_blank" href="{{route('resolution.print',['published_from_date'=>app('request')->input('published_from_date'),'published_to_date'=>app('request')->input('published_to_date'),'resolution_type_id'=>app('request')->input('resolution_type_id'),'board_id'=>app('request')->input('board_id')])}}"
+                class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
             </div>
+            {{--<div class="ml-auto">--}}
+                {{--<div class="btn-list">--}}
+
+
+                    {{--<!-- <button type="button" class="btn btn-transparent ml-auto" data-toggle="collapse" data-target="#filter">--}}
+                        {{--<img class="filter-icon" src="{{asset('/img/filter-icon.svg')}}">Filter--}}
+                    {{--</button> -->--}}
+                    {{--<button type="submit" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></button>--}}
+                    {{--<a target="_blank" href="{{route('resolution.print',['published_from_date'=>app('request')->input('published_from_date'),'published_to_date'=>app('request')->input('published_to_date'),'resolution_type_id'=>app('request')->input('resolution_type_id'),'board_id'=>app('request')->input('board_id')])}}"--}}
+                        {{--class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>--}}
+                    {{--<a class="btn btn-primary" href="{{route('resolution.create')}}">Add Resolution</a>--}}
+                {{--</div>--}}
+            {{--</div>--}}
         </div>
         <div id="filter" class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
