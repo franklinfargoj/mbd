@@ -19,6 +19,7 @@ use App\OlDemarcationVerificationDetails;
 use App\OlTitBitVerificationDetails;
 use App\OlRelocationVerificationDetails;
 use App\OlApplicationCalculationSheetDetails;
+use App\OlSharingCalculationSheetDetail;
 use App\OlFsiCalculationSheet;
 use App\OlCustomCalculationMasterModel;
 use App\OlCustomCalculationSheet;
@@ -1050,6 +1051,7 @@ class REEController extends Controller
     public function saveCustomCalculationData(Request $request){
 
         $applicationId = $request->application_id;
+        $society_id = OlApplication::where('id',$applicationId)->value('society_id');
         
         if ($request->total_no_of_buildings){
 
@@ -1062,6 +1064,7 @@ class REEController extends Controller
             }
 
             $buldingNumber->application_id =  $applicationId;      
+            $buldingNumber->society_id =  $society_id;      
             $buldingNumber->user_id =  Auth::id();      
             $buldingNumber->title =  'total_no_of_buildings';      
             $buldingNumber->amount =  $request->total_no_of_buildings; 
@@ -1139,6 +1142,7 @@ class REEController extends Controller
                     }
 
                     $calculationData->application_id = $applicationId;
+                    $calculationData->society_id     = $society_id;
                     $calculationData->user_id        = Auth::id();
                     $calculationData->parent_id      = $parentId;
                     $calculationData->title          = $data['title'];
@@ -1273,12 +1277,28 @@ class REEController extends Controller
 
     public function createEditNoc(Request $request,$applicatonId){
         
+        $custom = 0;
         $model = NocApplication::with('noc_application_master','eeApplicationSociety','request_form')->where('id',$applicatonId)->first();
 
+        //calculation table
+        $custom = OlCustomCalculationSheet::where('society_id',$model->society_id)->first();
+        $premium = OlApplicationCalculationSheetDetails::where('society_id',$model->society_id)->first(); 
+        $fsiCalculation = OlFsiCalculationSheet::where('society_id',$model->society_id)->first();                
+        // dd($model->noc_application_master->model);
         if ($model->noc_application_master->model == 'Premium'){
             $blade =  "premum_noc_letter";
+
+            if ($custom){
+                $calculationData = $custom;
+                $custom = 1;
+            }else if($fsiCalculation){
+                $calculationData = $fsiCalculation;
+            }else{
+                $calculationData = $premium;
+            }
         }elseif($model->noc_application_master->model == 'Sharing'){
             $blade =  "sharing_iod_noc_letter";
+            $calculationData = OlSharingCalculationSheetDetail::where('society_id',$model->society_id)->first();
         }
 
         if($model->draft_noc_text_path){
@@ -1289,7 +1309,10 @@ class REEController extends Controller
            $content = ""; 
         }
 
-        return view('admin.REE_department.'.$blade,compact('applicatonId','content','model'));
+        $table1Id = OlCustomCalculationMasterModel::where('name','Calculation_Table-A')->value('id');       
+        $table1 = OlCustomCalculationSheet::where('society_id',$model->society_id)
+        ->where('parent_id',$table1Id)->get()->toArray();
+        return view('admin.REE_department.'.$blade,compact('applicatonId','content','model','calculationData','custom','table1'));
     }
 
     public function saveDraftNoc(Request $request){
@@ -2559,7 +2582,9 @@ class REEController extends Controller
     public function saveFsiCalculationData(Request $request){
 
         $applicationId = $request->get('application_id'); 
+        $society_id = OlApplication::where('id',$applicationId)->value('society_id');
         $request->merge(['user_id' => Auth::Id()]);
+        $request->merge(['society_id' => $society_id]);
 
         DB::beginTransaction();
         try {
