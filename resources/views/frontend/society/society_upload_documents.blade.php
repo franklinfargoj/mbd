@@ -78,7 +78,7 @@
                                     @foreach($document->documents_uploaded as $document_uploaded)
                                     @if($document_uploaded['society_id'] == $society->id)
                                     <span>
-                                        <a href="{{ asset($document_uploaded['society_document_path']) }}" data-value='{{ $document->id }}'
+                                        <a href="{{ config('commanConfig.storage_server').$document_uploaded['society_document_path'] }}" data-value='{{ $document->id }}'
                                             class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
                                                 Download</button></a>
                                         <a href="{{ route('delete_uploaded_documents', $document->id) }}" data-value='{{ $document->id }}'
