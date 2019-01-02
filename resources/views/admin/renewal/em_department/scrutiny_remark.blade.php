@@ -305,7 +305,7 @@
                             <div class="row">
                                     <div class="col-md-6">
                                         <h5 class="section-title section-title--small mb-0">
-                                        List of Allottees uploaded by Society:</h5>
+                                        List of Allottees uploaded @if(isset($bonafide_docs['renewal_bonafide_list']) && isset($bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path) && Session::all()['role_name'] == config('commanConfig.estate_manager') && $data->srApplicationLog->status_id == config('commanConfig.conveyance_status.in_process')) by Society @endif:</h5>
                                         <p>
                                             {{--@if (session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')))--}}
                                                 {{--<div class="alert alert-success society_registered">--}}
@@ -321,10 +321,13 @@
                                             <p>Click to download generated list of allottees in xls format</p>
                                             {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
 
-                                            @if(isset($bonafide_docs['renewal_bonafide_list']) && isset($bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path) && $bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path && $data->srApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded'))
+                                            @if(isset($bonafide_docs['renewal_bonafide_list']) && isset($bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path) && $data->srApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded'))
                                                 <a href="{{ config('commanConfig.storage_server').'/'.$bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
                                                 Download</a>
-                                            @elseif(isset($society_list_docs['list_of_members_from_society']))
+                                            @elseif(isset($bonafide_docs['renewal_bonafide_list']) && isset($bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path) && Session::all()['role_name'] != config('commanConfig.estate_manager'))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
+                                                    Download</a>
+                                            @elseif(isset($society_list_docs['list_of_members_from_society']) && Session::all()['role_name'] == config('commanConfig.estate_manager'))
                                                 <a href="{{ config('commanConfig.storage_server').'/'.$society_list_docs['list_of_members_from_society']->sr_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
                                                     Download</a>
                                             @else
