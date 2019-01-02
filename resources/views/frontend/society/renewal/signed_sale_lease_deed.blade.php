@@ -107,9 +107,9 @@
                                                                             @endif
                                                                         @endif
                                                                         @if(isset($field_names[$i+1]))
-                                                                            @php if($field_names[$i+1] == 'document_path' ){ $type = 'file'; if(isset($sc_registration_detail)){ $type_1 = 'hidden'; } } @endphp
+                                                                            @php if($field_names[$i+1] == 'document_path' ){ $type_1 = 'file'; if(isset($sc_registration_detail)){ $type_1 = 'hidden'; } } @endphp
                                                                             @if($type_1 != 'hidden')
-                                                                                <div class="col-sm-4 offset-sm-1 form-group">
+                                                                                <div class="col-sm-4 offset-sm-@if($field_names[$i+1] == 'document_path') 0 @else 1 @endif form-group">
                                                                                     <label class="col-form-label" for="{{ $field_names[$i+1] }}">@php if($field_names[$i+1] == 'document_path_lease'){ echo 'Upload Lease Deed Agreement'; }else{ $labels = implode(' ', explode('_', $field_names[$i+1])); echo ucwords($labels); } @endphp:</label>
                                                                                     @php if(isset($sc_registration_detail) && isset($sc_registration_detail[$field_names[$i+1]])){ $value_1 = $sc_registration_detail[$field_names[$i+1]]; $readonly_1 = 'readonly'; }else{ $value_1 =''; $readonly_1 = ''; } echo $comm_func->form_fields($field_names[$i+1], $type_1,'' , '', $value_1, $readonly_1); @endphp
                                                                                     <span id="error_{{ $field_names[$i+1] }}" class="help-block">{{$errors->first($field_names[$i+1])}}</span>

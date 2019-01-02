@@ -11,6 +11,7 @@ use App\Http\Controllers\Common\CommonController;
 use App\conveyance\scApplication;
 use App\conveyance\RenewalApplication;
 use App\conveyance\ScApplicationAgreements;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use File;
 use App\conveyance\SocietyConveyanceDocumentStatus;
