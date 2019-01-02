@@ -64,5 +64,6 @@ class OlFsiCalculationSheet extends Model
         'non_profit_duty',
         'non_profit_duty_installment',
         'non_profit_duty_val',
+        'society_id',
     ];    
 }

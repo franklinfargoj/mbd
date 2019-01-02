@@ -127,7 +127,230 @@
                                 <td>
                                     <p><b>The built up area permitted is as per statement below.</b></p>
                                     <p><br></p>
-                                    <p>Statement A (Particulars of Area Sharing)</p>
+            <!-- Table 1 starts here -->
+
+            <div style="width: 100%;">
+                <h3 style="text-transform: uppercase; font-weight: bold; text-decoration: underline; text-align: center;">Statement A (Particulars of Area Sharing)</h3>
+                <table style="width: 100%; text-align: center; border-collapse: collapse; table-layout: fixed;">
+                    <thead style="text-align: center;">
+                        <tr>
+                            <th style="width: 8%; border: 1px solid #000; padding: 5px 10px">Sr.No</th>
+                            <th style="width: 65%; border: 1px solid #000; padding: 5px 10px">Particular</th>
+                            <th style="width: 35%; border: 1px solid #000; padding: 5px 10px;">Area in m <sup>2</sup></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
+                            <td colspan="2" style="border: 1px solid #000; padding: 5px 10px; text-align: center;">Table - A</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">1.</td>
+
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Plot area as per lease deed {{ isset($calculationData) ? $calculationData->area_of_total_plot : '' }}
+                            </td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? $calculationData->area_of_total_plot : '' }} m<sup>2</sup></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">2.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">FSI Permissible</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? $calculationData->permissible_carpet_area_coordinates : '' }}</td> 
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">3.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Permissible BUA  (_____ m<sup>2</sup>  X _____ )</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? $calculationData->permissible_construction_area : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">4.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Pro-rata BUA  (_____ m<sup>2</sup> Per T/s  X _____ T/s )</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? $calculationData->permissible_proratata_area : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">5.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Total Permissible BUA  (Sr.No.__ )</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? $calculationData->total_permissible_construction_area : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">6.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Existing Carpet Area</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? $calculationData->permissible_mattress_area : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">7.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Rehabilitation area entitlement (_____ + _____% = _____ per T/s)</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? $calculationData->revised_permissible_mattress_area : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">8.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">As per Revised DCR 33(5) dated 08.10.2013 & it's modification dated 03.07.2017,  a basic entitlement equivalent to the carpet area of the existing tenement plus _____% thereof, subject to a minimum carpet area of _____ m<sup>2</sup></td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? $calculationData->revised_increased_area_for_residential_use : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">9.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Total Rehabilitation  Carpet area (_____ m<sup>2</sup> X _____  Ts)</td>
+                            
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? $calculationData->total_rehabilitation_mattress_area : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">10.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Additional entitlement governed by size of plot</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> {{ isset($calculationData) ? $calculationData->total_additional_claims : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">11.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Total BUA for rehabilitation (_____ m<sup>2</sup> x _____)</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? $calculationData->total_rehabilitation_construction_area : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
+                            <td colspan="2" style="border: 1px solid #000; padding: 5px 10px; text-align: center;">
+                            Table - B</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">12.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Ready Reckoner Rate of 2017-18 CTS No. _____ (pt), </td>
+
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? $calculationData->lr_val : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">13.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Rate of Construction</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? $calculationData->rc_val : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">14.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">LR/RC Ratio (_____ = _____)</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? $calculationData->lr_rc_division_val : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">15.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Incentive FSI admissible against the FSI required for rehabilitation for LR/RC Ratio _____ as per table 'B' of DCR</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? $calculationData->dcr_b_val : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">16.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Incentive BUA (_____ m<sup>2</sup> x {{ ($calculationData) ? $calculationData->dcr_b_val : '_____' }}%)
+                        </td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? $calculationData->mattress_area_for_construction_area : '' }}</td>
+                        </tr>                        
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
+                            <td colspan="2" style="border: 1px solid #000; padding: 5px 10px; text-align: center;">Table - C</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">17.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Balance area for  sharing (_____ – (_____ + _____))</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? $calculationData->remaining_area : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">18.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">For LR/RC Ratio (_____/_____ = _____) as per table-C of DCR</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? $calculationData->lr_rc_division_val : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">19.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"> <div>Society share [_____  X {{ isset($calculationData) ? $calculationData->dcr_c_society_val : '_____' }}%]</div>
+
+                            <div>MHADA's share [_____  X {{ isset($calculationData) !="" ? $calculationData->dcr_c_mhada_val : '_____' }}%]</div></td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">
+
+                            <div>{{ isset($calculationData) ? $calculationData->society_share : '' }}</div>
+
+                            <div>{{ isset($calculationData) ? $calculationData->mhada_share : '' }}</div></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">20.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">MHADA's share with fungible ___% (_____ m<sup>2</sup> + _____%)</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">
+
+                            {{ isset($calculationData) ? $calculationData->mhada_share_with_fungib : '' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Table 1 ends here -->
+
+            <!-- Table 2 starts here -->
+
+            <div style="margin-top: 70px;">
+
+                <div style="text-align: center;">
+                    <h3 style="text-transform: uppercase; font-weight: bold; text-decoration: underline;">
+                    Statement B (Particulars of Payment)</h3>
+                </div>
+
+                <table style="width: 100%; text-align: center; border-collapse: collapse; table-layout: fixed;">
+                    <thead style="text-align: center;">
+                        <tr>
+                            <th style="width: 8%; border: 1px solid #000; padding: 5px 10px">Sr.No</th>
+                            <th style="width: 65%; border: 1px solid #000; padding: 5px 10px">Particular</th>
+                            <th style="width: 35%; border: 1px solid #000; padding: 5px 10px">Area in m <sup>2</sup></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
+                            <td colspan="2" style="border: 1px solid #000; padding: 5px 10px; text-align: center;">Table - A</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">1.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Scrutiny Fees/-  For Residential Rs. {{ isset($calculationData) ? $calculationData->scrutiny_fee : '_____' }}/-</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? $calculationData->scrutiny_fee : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">2.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Debris Removal Rs. _____/- Per Bldg.</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? $calculationData->debraj_removal_fee : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">3.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Layout approval fees  (Rs. 1,000/- X 32 T/s)</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) !="" ? $calculationData->layout_approval_fee : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">4.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Deposit Amount for Water Charges as per  CE-II /A's Circular dated 02.06.2009</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? $calculationData->water_usage_charges : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">5.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Offsite infrastructure charges (RR Rate 2017-18 Rs. _____/- x _____%) x (Permissible BUA as per _____ FSI {{ isset($calculationData) ? $calculationData->permissible_construction_area : '_____' }} m<sup>2</sup> + 
+
+                            {{ isset($calculationData) ? $calculationData->permissible_proratata_area : '_____' }} m<sup>2</sup> balance BUA of layout (Pro-rata ) – (Existing BUA _____ m<sup>2</sup>) (_____ m<sup>2</sup> X _____ X _____%)</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? $calculationData->off_site_infrastructure_fee : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">6.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Amount to be paid to MCGM  (5/7 of Sr. No. _____)</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? $calculationData->amount_to_be_paid_to_municipal : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">7.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Amount to be paid to MHADA (2/7 of Sr.No._____)</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? $calculationData->offsite_infrastructure_charge_to_mhada : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">8.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Total Amount to be paid to MHADA ( Sr.No.1+2+3+4+7) <div style="text-align: right;">Say Amount</div> </td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"><div></div><div>{{ isset($calculationData) ? $calculationData->total_amount_in_rs : '' }}</div></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
+                            <td colspan="2" style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Rs. {{  converNumberToWord(isset($calculationData) ? str_replace( ',', '',$calculationData->amount_to_b_paid_to_municipal_corporation) : '' ) }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Total Amount to be paid to MCGM (Sr.No._____)</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? str_replace( ',', '',$calculationData->amount_to_b_paid_to_municipal_corporation) : '' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Table 2 ends here -->                                    
+<!--                                     <p>Statement A (Particulars of Area Sharing)</p>
                                     <table border="1" style="width: 80%; border-collapse: collapse;">
                                         <colgroup>
                                             <col>
@@ -443,7 +666,7 @@
                                                 </td>
                                             </tr>
                                         </tbody>
-                                    </table>
+                                    </table> -->
                                     <p><br></p>
                                     <p><br></p>
                                 </td>
