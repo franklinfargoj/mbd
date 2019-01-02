@@ -38,7 +38,7 @@ class ArrearsServiceController extends Controller
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'year','name' => 'year','title' => 'Years'],
-            ['data' => 'tenant_type', 'name' => 'tenant_type','title' => 'Tenant Type'],
+            ['data' => 'tenant_type', 'name' => 'tenant_type','title' => 'Tenament Type'],
             ['data' => 'old_rate', 'name' => 'old_rate','title' => 'Old Rate'],
             ['data' => 'revise_rate', 'name' => 'revise_rate','title' => 'Revise Rate'],
             ['data' => 'interest_on_old_rate', 'name' => 'interest_on_old_rate','title' => 'Interest On Old Rate'],

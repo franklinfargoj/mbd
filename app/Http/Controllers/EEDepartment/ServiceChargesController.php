@@ -38,7 +38,7 @@ class ServiceChargesController extends Controller
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'year','name' => 'year','title' => 'Years'],
-            ['data' => 'tenant_type', 'name' => 'tenant_type','title' => 'Tenant Type'],
+            ['data' => 'tenant_type', 'name' => 'tenant_type','title' => 'Tenament Type'],
             ['data' => 'water_charges', 'name' => 'water_charges','title' => 'Water Charges'],
             ['data' => 'electric_city_charge', 'name' => 'electric_city_charge','title' => 'Electric City Charge'],
             ['data' => 'pump_man_and_repair_charges', 'name' => 'pump_man_and_repair_charges','title' => 'Pump Man & Repair Charges'],
