@@ -1066,6 +1066,7 @@ class SocietyOfferLetterController extends Controller
 
         $docs_uploaded_count = 0;
         $docs_count = 0;
+
         foreach($documents as $documents_key => $documents_val){
                 if(in_array($documents_key+1, $optional_docs) == false){
                     $docs_count++;
@@ -1453,7 +1454,7 @@ class SocietyOfferLetterController extends Controller
                 $time = time();
                 $name = File::name($request->file('document_name')->getClientOriginalName()) . '_' . $time . '.' . $extension;
                 $folder_name = "society_offer_letter_documents";
-                $path = config('commanConfig.storage_server').'/'.$folder_name.'/'.$name;
+                $path = '/'.$folder_name.'/'.$name;
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('document_name'),$name);
             }else{
                 return redirect()->back()->with('error_'.$request->input('document_id'), 'Invalid type of file uploaded (only pdf allowed)');

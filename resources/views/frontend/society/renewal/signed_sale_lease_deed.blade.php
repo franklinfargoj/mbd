@@ -97,7 +97,7 @@
                                                                 @if($type != 'hidden' || $type_1 != 'hidden')
                                                                     <div class="form-group m-form__group row">
                                                                         @if(isset($field_names[$i]))
-                                                                            @php if($field_names[$i] == 'document_path' ){ $type = 'file'; if(isset($sc_registration_detail)){ $type = 'hidden'; } } @endphp
+                                                                            @php if($field_names[$i] == 'document_path' ){ $type = 'file'; if(isset($sc_registration_detail) && $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.forwarded')){ $type = 'hidden'; } } @endphp
                                                                             @if($type != 'hidden')
                                                                                 <div class="col-sm-4 form-group">
                                                                                     <label class="col-form-label" for="{{ $field_names[$i] }}">@php if($field_names[$i] == 'document_path_lease'){ echo 'Upload Lease Deed Agreement'; }else{ $labels = implode(' ', explode('_', $field_names[$i])); echo ucwords($labels); } @endphp:</label>
@@ -107,7 +107,7 @@
                                                                             @endif
                                                                         @endif
                                                                         @if(isset($field_names[$i+1]))
-                                                                            @php if($field_names[$i+1] == 'document_path' ){ $type_1 = 'file'; if(isset($sc_registration_detail)){ $type_1 = 'hidden'; } } @endphp
+                                                                            @php if($field_names[$i+1] == 'document_path' ){ $type_1 = 'file'; if(isset($sc_registration_detail) && $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.forwarded')){ $type_1 = 'hidden'; } } @endphp
                                                                             @if($type_1 != 'hidden')
                                                                                 <div class="col-sm-4 offset-sm-@if($field_names[$i+1] == 'document_path') 0 @else 1 @endif form-group">
                                                                                     <label class="col-form-label" for="{{ $field_names[$i+1] }}">@php if($field_names[$i+1] == 'document_path_lease'){ echo 'Upload Lease Deed Agreement'; }else{ $labels = implode(' ', explode('_', $field_names[$i+1])); echo ucwords($labels); } @endphp:</label>

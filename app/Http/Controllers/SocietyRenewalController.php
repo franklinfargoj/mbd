@@ -106,6 +106,8 @@ class SocietyRenewalController extends Controller
                     $status_display = '';
                     if($sr_applications->application_status == config('commanConfig.renewal_status.Sent_society_to_pay_stamp_duety')){
                         $status_display = 'Pay Stamp Duty';
+                    }elseif($sr_applications->application_status == config('commanConfig.renewal_status.Send_society_for_registration_of_Lease_deed')){
+                        $status_display = 'Register Lease Deed';
                     }else{
                         $status = explode('_', array_keys(config('commanConfig.renewal_status'), $sr_applications->srApplicationLog->status_id)[0]);
                         foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
@@ -841,11 +843,11 @@ class SocietyRenewalController extends Controller
         );
         $document_status_req = array(
             config('commanConfig.documents.society.Stamped_Signed'),
-            config('commanConfig.documents.society.Stamped_Signed_by_dycdo')
+            config('commanConfig.documents.society.Stamped_Signed_by_dycdo'),
+            config('commanConfig.documents.society.Stamped')
         );
 
         $document_status_master = ApplicationStatusMaster::whereIn('status_name', $document_status_req)->get();
-
         foreach($document_status_master as $document_status_master_val){
             $document_status_master_seq[array_search($document_status_master_val->status_name, $document_status_req)] = $document_status_master_val;
         }
@@ -884,6 +886,7 @@ class SocietyRenewalController extends Controller
         $field_names = array_merge($field_names_registrar_details, $field_names_docs);
 
         $comm_func = $this->CommonController;
+
         $lease_agreement_type_id = $uploaded_document_ids['renewal_lease_deed_agreement']->sr_agreement_document_status->document_id;
         $sc_registration_detail = scRegistrationDetails::where('application_id', $id)->where('application_type_id', $application_type)->orderBy('id', 'desc')->first();
 
@@ -1025,7 +1028,7 @@ class SocietyRenewalController extends Controller
             try {
 
                 scRegistrationDetails::create($insert_registrar_details);
-                SocietyConveyanceDocumentStatus::create($insert_sc_document_details);
+                RenewalDocumentStatus::create($insert_sc_document_details);
                 RenewalApplication::where('id', $request->application_id)->update(['application_status' => config('commanConfig.renewal_status.Registered_lease_deed')]);
                 $inserted_application_log = $this->CommonController->sr_application_status_society($insert_log_arr, config('commanConfig.renewal_status.forwarded'), $sc_application, config('commanConfig.renewal_status.Registered_lease_deed'));
 
