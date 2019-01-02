@@ -11,7 +11,6 @@
             <h3 class="m-subheader__title">Dashboard</h3>
         </div>
     </div>
-
     <div class="hearing-accordion-wrapper">
         <div class="m-portlet m-portlet--compact ol-accordion mb-0">
             <div class="d-flex justify-content-between align-items-center">
@@ -24,11 +23,12 @@
         </div>
         <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="ree-offer-letter-summary"
             data-parent="#accordion">
-            <div class="row no-gutters hearing-row">
-                <div class="col-9 no-shadow">
-                    <div class="app-card-section-title">Offer Letter</div>
+            <div class="row no-gutters">
+                <div class="{{ (session()->get('role_name') == config('commanConfig.ee_junior_engineer') || session()->get('role_name') == config('commanConfig.dyce_jr_user')) ? 'col-9' : 'col-12' }} no-shadow">
+                    <div class="app-card-section-title">Offer Letter Subordinate Pendency</div>
                 </div>
-                <div class="col-3 no-shadow"></div>
+            </div>
+            <div class="row no-gutters hearing-row">
                 @foreach($dashboardData as $header => $value)
                 <div class="col-lg-3">
                     <div class="m-portlet app-card text-center">
@@ -47,10 +47,12 @@
             @if($chart)
             <div id="chartdiv" style="width: 100%; height: 350px; margin-top: 2px;"></div>
             @endif @if($dashboardData1)
-            <div class="row no-gutters hearing-row">
+            <div class="row no-gutters"> 
                 <div class="col-12 no-shadow">
                     <div class="app-card-section-title">Offer Letter Subordinate Pendency</div>
                 </div>
+            </div>
+            <div class="row no-gutters hearing-row">
                 @foreach($dashboardData1 as $header => $value)
                 <div class="col-lg-3">
                     <div class="m-portlet app-card text-center">
@@ -132,10 +134,12 @@
                     </div>
                     <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="ree-ol-reval-summary"
                          data-parent="#accordion">
-                        <div class="row no-gutters hearing-row">
-                            <div class="col-12 no-shadow">
+                         <div class="row no-gutters">
+                             <div class="col-12 no-shadow">
                                 <div class="app-card-section-title">Offer Letter Revalidation</div>
                             </div>
+                         </div>
+                        <div class="row no-gutters hearing-row">
                             @foreach($revalDashboardData as $header => $value)
                                 <div class="col-lg-3">
                                     <div class="m-portlet app-card text-center">
