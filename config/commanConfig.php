@@ -230,6 +230,9 @@ return [
              'covering_letter' => [
                  'renewal_em_covering_letter'
              ],
+             'society_list' => [
+                 'list_of_members_from_society'
+             ]
          ],
          'la_renewal' => [
              'Lease Deed Agreement' => 'renewal_Lease Deed Agreement'
