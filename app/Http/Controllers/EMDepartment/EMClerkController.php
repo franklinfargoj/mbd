@@ -113,9 +113,9 @@ class EMClerkController extends Controller
         $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
         //dd($colonies);
         
-        $societies = SocietyDetail::whereIn('colony_id', $colonies)->pluck('id');
+        $societies = SocietyDetail::whereIn('layout_id', $layouts)->pluck('id');
 
-        $societies_data = SocietyDetail::whereIn('colony_id', $colonies)->get();
+        $societies_data = SocietyDetail::whereIn('layout_id', $layouts)->get();
 
         $building_data = MasterBuilding::whereIn('society_id', $societies)->get();
 
@@ -199,7 +199,12 @@ class EMClerkController extends Controller
         $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('master_tenants.id', '=', decrypt($request->id))
             ->select('*','master_tenants.id as id','master_tenants.building_id as building_id')->first();
         //dd($tenant);
-        $year = date('Y');
+        $currentMonth = date('m');
+        if( $currentMonth <= 3) {
+            $year = date('Y') -1 ;
+        } else {
+            $year = date('Y');
+        }
         if(empty($tenant) || is_null($tenant)){
            return redirect()->back()->with('warning', 'Arrear Calculation is not done for user.');
         }
@@ -211,8 +216,8 @@ class EMClerkController extends Controller
         if(empty($rate_card) || is_null($rate_card)){          
            return redirect()->back()->with('warning', 'Arrear Calculation rate is not present for user building.');
         }
-
-        $society = SocietyDetail::where('id', '=', $rate_card->society_id)->first();
+        $building = MasterBuilding::find($tenant->building_id);
+        $society = SocietyDetail::where('id', '=', $building->society_id)->first();
 
         if(empty($society) || is_null($society)){          
            return redirect()->back()->with('warning', 'Society is not defined for building.');
@@ -220,9 +225,14 @@ class EMClerkController extends Controller
 
         for ($i = 1; $i <= 12; $i++) {
             $months[] = date("n", strtotime( date( 'Y-m-01' )." -$i months"));
-            $years[] = date("Y", strtotime( date( 'Y-m-01' )." -$i months"));
+            if( $currentMonth <= 3) {
+                $years[] = date("Y", strtotime( date( 'Y-m-01' )));
+            } else {
+                $years[] = date("Y", strtotime( date( 'Y-m-01' )." -$i months"));
+            }
         }
         $years = array_unique($years);        
+
         // return $months;
 
         if($request->row_id){
@@ -248,7 +258,7 @@ class EMClerkController extends Controller
         if ($datatables->getRequest()->ajax()) {    
 
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-          
+          // DB::enableQueryLog();
             $arrear = ArrearCalculation::leftjoin('arrears_charges_rates', function($join) use ($tenant,$year){
                                         $join->on('arrears_charges_rates.building_id', '=', 'arrear_calculation.building_id')
                                             ->where('arrears_charges_rates.year', '=', $year);
@@ -257,6 +267,8 @@ class EMClerkController extends Controller
                                     ->whereIn('arrear_calculation.month', $months)
                                     ->whereIn('arrear_calculation.year', $years)
                                     ->selectRaw('@rownum  := @rownum  + 1 AS rownum,arrears_charges_rates.*,arrear_calculation.*,arrear_calculation.year as year');
+
+                                    // print_r(DB::getQueryLog());exit;
             return $datatables->of($arrear)
             ->editColumn('month', function ($arrear){
                 return date('M', mktime(0, 0, 0, $arrear->month, 10));
@@ -404,6 +416,12 @@ class EMClerkController extends Controller
             } else {
                 $end_year = $request->ida_year;
             }
+
+            $currentYear = date('Y');
+            if($request->start_month <= 3 && $request->start_year == $currentYear) {
+                $request->start_year = $request->start_year -1;
+            }
+
             $isYearHaveCharges = true;
             for($i = $end_year; $i<= $request->start_year; $i++) {
                 $years[] = $i; 
