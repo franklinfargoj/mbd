@@ -379,7 +379,22 @@
                 }
             }
         });
-    </script>    
+    </script>
+    <script>
+        $(".architect-accordion").on("click", function () {
+            var data = $('.architect-accordion').children().children().attr('aria-expanded');
+            if (!(data)) {
+                $('.architect-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+            }
+            else {
+                if (data == 'undefine' || data == 'false') {
+                    $('.architect-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                } else {
+                    $('.architect-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                }
+            }
+        });
+    </script>
     <script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>
     @if($chart2)

@@ -582,6 +582,21 @@
         });
     </script>
     <script>
+        $(".architect-accordion").on("click", function () {
+            var data = $('.architect-accordion').children().children().attr('aria-expanded');
+            if (!(data)) {
+                $('.architect-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+            }
+            else {
+                if (data == 'undefine' || data == 'false') {
+                    $('.architect-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                } else {
+                    $('.architect-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                }
+            }
+        });
+    </script>
+    <script>
         $(".conveyance-accordion").on("click", function () {
             var data = $('.conveyance-accordion').children().children().attr('aria-expanded');
             if (!(data)) {
