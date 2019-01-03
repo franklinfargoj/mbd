@@ -534,7 +534,7 @@
                     <div style="width: 96%; float: left;">The society shall have to construct MHADA share with permissible fungible area & handover  it  to MHADA free of cost.</div>
                     <div style="clear: both;"></div>
                     <div style="width: 4%; float: left;">23.</div>
-                    <div style="width: 96%; float: left;">Appointment of the developer shall be as per 'ÍããÔã¶ã ãä¶ã¥ãÃ¾ã ‰ãŠ.ÔãØãð¾ããñ 207/¹ãÆ.‰ãŠ.554/14-Ôã,ÔãÖ‡ãŠãÀãè ¹ã¥ã¶ã Ìã ÌãÔ¨ããñ²ããñØã ãäÌã¼ããØã ãäª. 03.01.2009' </div>
+                    <div style="width: 96%; float: left;">Appointment of the developer shall be as per 'शासन निर्णय क्र।सगृयो २०७/प्र।क्र।५५४/१४-स,सहकारी पणन व वस्त्रोद्योग विभाग दि। ०३।०१।२००९ </div>
                     <div style="clear: both;"></div>
                     <div style="width: 4%; float: left;">24.</div>
                     <div style="width: 96%; float: left;">It is responsibility of the developer to construct MHADA share & rehab tenements as per min. specification provided by MHADA & the work should be completed within time limit.</div>

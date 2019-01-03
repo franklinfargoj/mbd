@@ -1287,6 +1287,11 @@ Breadcrumbs::for('renewal_ee_scrutiny', function ($trail,$id) {
     $trail->push('EE Scrutiny Remark', route('renewal.ee_scrutiny',$id));
 });
 
+Breadcrumbs::for('renewal_em_scrutiny', function ($trail,$id) {
+    $trail->parent('renewal');
+    $trail->push('Scrutiny Remark', route('em.renewal_scrutiny_remark',$id)); 
+});
+
 Breadcrumbs::for('renewal_draft_sale_lease', function ($trail,$id) {
     $trail->parent('renewal');
     $trail->push('Lease Agreement', route('renewal.prepare_renewal_agreement',$id));
