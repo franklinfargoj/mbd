@@ -130,7 +130,7 @@
         <!-- begin::Body -->
         <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body">
             @if(Session::has('role_name') == true)
-            @if(Session::all()['role_name'] == 'society')
+            @if(Session::all()['role_name'] == 'society' || Session::all()['role_name']=='appointing_architect')
             @include('frontend.layouts.sidebar')
             @else
             @include('admin.layouts.sidebar')
