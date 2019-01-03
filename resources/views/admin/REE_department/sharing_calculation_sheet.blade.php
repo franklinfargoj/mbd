@@ -77,7 +77,7 @@
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
                                                 src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("print_one");'
-                                                style="max-width: 22px"></a>
+                                                style="max-width: 22px" class="printBtn"></a>
                                     </div>
                                     <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                         <thead class="thead-default">
@@ -184,7 +184,8 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" readonly class="infra_fee form-control form-control--custom txtbox" placeholder="0"
                                                            type="text" name="area_of_​​subsistence_to_calculate" id="area_of_​​subsistence_to_calculate"
-                                                           value="<?php if(isset($calculationSheetDetails[0]->area_of_​​subsistence_to_calculate)) { echo $calculationSheetDetails[0]->area_of_​​subsistence_to_calculate; } ?>" />
+                                                           value="<?php 
+                                                           if(isset($calculationSheetDetails[0]->area_of_​​subsistence_to_calculate)) { echo $calculationSheetDetails[0]->area_of_​​subsistence_to_calculate; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -515,9 +516,7 @@
                                         <input name="society_id" type="hidden" value="{{ $ol_application->society_id }}" />
                                         <input name="redirect_tab" type="hidden" value="three" />
                                         <div class="d-flex justify-content-between align-items-center mb-4">
-                                            <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("print_two");'
-                                                    style="max-width: 22px"></a>
+                                            <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("print_two");' style="max-width: 22px" class="printBtn"></a>
                                         </div>
                                         <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                             <thead class="thead-default">
@@ -725,7 +724,7 @@
                                     <input name="redirect_tab" type="hidden" value="four" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("print_three");'
-                                                style="max-width: 22px"></a>
+                                                style="max-width: 22px" class="printBtn"></a>
                                     </div>
                                     <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                         <thead class="thead-default">
@@ -938,9 +937,8 @@
                                     <input name="society_id" type="hidden" value="{{ $ol_application->society_id }}" />
                                     <input name="redirect_tab" type="hidden" value="four" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("print_four");'
-                                                style="max-width: 22px"></a>
+                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("print_four");'
+                                                style="max-width: 22px" class="printBtn"></a>
                                     </div>
                                     <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                         <thead class="thead-default">
@@ -1362,6 +1360,7 @@
 
     function areaOfSubsistenceToCalculate()
     {
+        var area = (!cleanNumber($("#area_of_total_plot").val()) || isNaN(cleanNumber($("#area_of_total_plot").val()))) ? 0 : cleanNumber($("#area_of_total_plot").val());
 
         var sorted = $(".min_val_for_calculation").sort(
 
@@ -1369,6 +1368,9 @@
                 return cleanNumber(a.value) - cleanNumber(b.value)
             });
         var lowest = sorted[0].value;
+        if (lowest == ''){
+            lowest = area;
+        } 
 
         $("#area_of_​​subsistence_to_calculate").attr('value', numberWithCommas(lowest));
     }
@@ -1668,6 +1670,7 @@
 
         $(".txtbox").css("width","200px");
         $(".subtn").css("display","none");
+        $(".printBtn").css("display","none");
         var mywindow = window.open('', 'PRINT', 'height=600,width=600');
         mywindow.document.write('<html><head><title>Maharashtra Housing and development authority</title>');
 
@@ -1681,6 +1684,7 @@
         mywindow.print();
         mywindow.close();
         $(".subtn").css("display","block");
+        $(".printBtn").css("display","block"); 
 
         return true;
     }

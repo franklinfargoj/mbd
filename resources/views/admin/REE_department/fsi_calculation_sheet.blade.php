@@ -87,9 +87,7 @@
                                         <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                         <input name="redirect_tab" type="hidden" value="two" />
                                         <div class="d-flex justify-content-between align-items-center mb-4">
-                                            <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("print_one");'
-                                                    style="max-width: 22px"></a>
+                                            <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("print_one");' style="max-width: 22px" class="printBtn"></a>
                                         </div>
                                         <thead class="thead-default">
                                             <tr>
@@ -808,9 +806,8 @@
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="redirect_tab" type="hidden" value="three" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("two");'
-                                                style="max-width: 22px"></a>
+                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("two");'
+                                                style="max-width: 22px" class="printBtn"></a>
                                     </div>
                                     <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                         <thead class="thead-default">
@@ -947,9 +944,8 @@
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="redirect_tab" type="hidden" value="four" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("three");'
-                                                style="max-width: 22px"></a>
+                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("three");'
+                                                style="max-width: 22px" class="printBtn"></a>
                                     </div>
                                     <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
 
@@ -1154,9 +1150,8 @@
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="redirect_tab" type="hidden" value="five" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("four");'
-                                                style="max-width: 22px"></a>
+                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("four");'
+                                                style="max-width: 22px" class="printBtn"></a>
                                     </div>
                                     <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                         <thead class="thead-default">
@@ -1224,8 +1219,8 @@
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
                                 <div class="d-flex justify-content-between align-items-center mb-4">
-                                    <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                            src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("five");' style="max-width: 22px"></a>
+                                    <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto">
+                                    <img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("five");' style="max-width: 22px" class="printBtn"></a>
                                 </div>
                                 <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                     <thead class="thead-default">
@@ -1532,12 +1527,18 @@
 
     function areaOfSubsistenceToCalculate()
     { 
+        var area = (!cleanNumber($("#area_of_total_plot").val()) || isNaN(cleanNumber($("#area_of_total_plot").val()))) ? 0 : cleanNumber($("#area_of_total_plot").val());
+
         var sorted = $(".min_val_for_calculation").sort(
 
             function (a, b) {
                 return cleanNumber(a.value) - cleanNumber(b.value)
             });
         var lowest = sorted[0].value;
+        
+        if (lowest == ''){
+            lowest = area;
+        } 
 
         $("#area_of_subsistence_to_calculate").attr('value', numberWithCommas(lowest));
     }
@@ -1859,10 +1860,11 @@
         $("#payment_of_first_installment").attr('value',numberWithCommas(Math.ceil(first_installment)));
     });
 
-    function PrintElem(elem) {
+    function PrintElem(elem) { 
         
         $(".txtbox").css("width","200px");
         $(".subtn").css("display","none");
+        $(".printBtn").css("display","none");
         var printable = document.getElementById(elem).innerHTML;
 
        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
@@ -1878,6 +1880,7 @@
         mywindow.print();
         mywindow.close();
         $(".subtn").css("display","block");
+        $(".printBtn").css("display","block");
 
         return true;
     }

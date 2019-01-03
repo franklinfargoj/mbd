@@ -213,7 +213,7 @@
                         <tr>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">16.</td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Incentive BUA (_____ m<sup>2</sup> x {{ ($calculationData->sharingCalculationSheet) !="" ? $calculationData->sharingCalculationSheet->dcr_b_val : '_____' }}%)
-</td>
+                        </td>
                             <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ ($calculationData->sharingCalculationSheet) !="" ? $calculationData->sharingCalculationSheet->mattress_area_for_construction_area : '_____' }}</td>
                         </tr>                        
                         <tr>
