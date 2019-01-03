@@ -83,9 +83,7 @@
                                     <div id="print_one">
                                     <table id="one" class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                         <div class="d-flex justify-content-between align-items-center mb-4">
-                                            <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("print_one");'
-                                                    style="max-width: 22px"></a>
+                                            <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("print_one");' style="max-width: 22px" class="printBtn"></a>
                                         </div>
                                         <thead class="thead-default">
                                             <tr>
@@ -629,7 +627,7 @@
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
                                             src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("two");'
-                                            style="max-width: 22px"></a>
+                                            style="max-width: 22px" class="printBtn"></a>
                                 </div>
                                 <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                     <thead class="thead-default">
@@ -758,7 +756,7 @@
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
                                             src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("three");'
-                                            style="max-width: 22px"></a>
+                                            style="max-width: 22px" class="printBtn"></a>
                                 </div>
                                 <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
 
@@ -956,7 +954,7 @@
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
                                             src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("four");'
-                                            style="max-width: 22px"></a>
+                                            style="max-width: 22px" class="printBtn"></a>
                                 </div>
                                 <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                     <thead class="thead-default">
@@ -1020,7 +1018,7 @@
                             <div class="m-section__content mb-0 table-responsive">
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                            src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("five");' style="max-width: 22px"></a>
+                                            src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("five");' style="max-width: 22px" class="printBtn"></a>
                                 </div>
                                 <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                     <thead class="thead-default">
@@ -1267,6 +1265,7 @@
         
         $(".txtbox").css("width","200px");
         $(".subtn").css("display","none");
+        $(".printBtn").css("display","none");
         var printable = document.getElementById(elem).innerHTML;
 
        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
@@ -1282,6 +1281,7 @@
         mywindow.print();
         mywindow.close();
         $(".subtn").css("display","block");
+        $(".printBtn").css("display","block");
 
         return true;
     }    
