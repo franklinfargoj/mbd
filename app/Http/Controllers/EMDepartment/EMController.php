@@ -603,6 +603,7 @@ class EMController extends Controller
             ['data' => 'flat_no','name' => 'flat_no','title' => 'Flat No.'],
             ['data' => 'salutation','name' => 'salutation','title' => 'Salutation'],
             ['data' => 'first_name','name' => 'first_name','title' => 'First Name'],
+            ['data' => 'middle_name','name' => 'middle_name','title' => 'Middle Name'],
             ['data' => 'last_name','name' => 'last_name','title' => 'Last Name'],
             ['data' => 'use','name' => 'use','title' => 'Use'],
             ['data' => 'carpet_area','name' => 'carpet_area','title' => 'Carpet Area'],
