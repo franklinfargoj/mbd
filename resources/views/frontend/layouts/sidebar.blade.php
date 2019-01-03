@@ -20,7 +20,22 @@ $route=\Request::route()->getName();
         <div class="m-scrollable m-scroller ps ps--active-y" data-scrollbar-shown="true" data-scrollable="true"
             data-max-height="100vh">
             <ul class="m-menu__nav m-menu__nav--dropdown-submenu-arrow">
-
+                 @if(session()->get('permission') != "" && in_array('appointing_architect.index',
+                session()->get('permission')))
+                <li class="m-menu__item {{ ($route == 'appointing_architect.index' ? 'm-menu__item--active' : '') }}"
+                    aria-haspopup="true">
+                    <a href="{{ route('appointing_architect.index') }}" class="m-menu__link ">
+                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                        <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">
+                                    Applications
+                                </span>
+                            </span>
+                        </span>
+                    </a>
+                </li>
+                @endif
                 @if(session()->get('permission') != "" && in_array('resolution.index', session()->get('permission')))
                 <li class="m-menu__item {{ ($route == 'resolution.index' ? 'm-menu__item--active' : '') }}"
                     aria-haspopup="true">
