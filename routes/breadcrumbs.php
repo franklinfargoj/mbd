@@ -71,7 +71,7 @@ Breadcrumbs::for('village_edit', function ($trail,$id) {
 });
 
 Breadcrumbs::for('society_detail', function ($trail) {
-	$trail->push('Society Detail', route('society_detail.index'));
+	$trail->push('Society Detail', route('society.billing_level'));
 });
 
 Breadcrumbs::for('society_details', function ($trail,$id) {
