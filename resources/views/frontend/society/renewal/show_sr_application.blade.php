@@ -39,7 +39,7 @@
                     <!-- END: Subheader -->
                     <div class="m-content letter-form-content">
                         <div class="letter-form-subject">
-                            <p><span class="font-weight-semi-bold">विषय :- </span> <input class="letter-form-input" type="text" id="" name="layout_name" value="{{ $sc_application->applicationLayout[0]->layout_name }}"> येथील <input class="letter-form-input" type="text" id="" name="society_name" value="{{ $sc_application->societyApplication->name }}"> इमारतीचे अभिहस्तांतरण करणेबाबत गृहनिर्माण
+                            <p><span class="font-weight-semi-bold">विषय :- </span> <input class="letter-form-input" type="text" id="" name="layout_name" value="{{ $sc_application->applicationLayout[0]->layout_name }}" readonly> येथील <input class="letter-form-input" type="text" id="" name="society_name" value="{{ $sc_application->societyApplication->name }}" readonly> इमारतीचे अभिहस्तांतरण करणेबाबत गृहनिर्माण
                                 संस्थेच्या स्वयंपुनर्विकासाच्या प्रस्तावास मंजूरी मिळण्याबाबतचा अर्ज.</p>
                             <p class="font-weight-semi-bold">महोदय,</p>
                             <p>उपुक्त विषयांकित इमारतीचे अभिहस्तांतरण करणेसाठी खालील माहिती व कागदपत्रे सादर करण्यात येत
@@ -48,7 +48,7 @@
                                 <div class="form-group m-form__group row align-items-start">
                                     <div class="col-sm-4 application-fields">
                                         <label class="application-form-label" for="">१. वसाहितीचे नाव:</label>
-                                        <input type="text" id="" name="society_name" class="letter-form-input letter-form-input--100" value="{{ $sc_application->societyApplication->name }}">
+                                        <input type="text" id="" name="society_name" class="letter-form-input letter-form-input--100" value="{{ $sc_application->societyApplication->name }}" readonly>
                                     </div>
                                     <div class="col-sm-4 application-fields">
                                         <label class="application-form-label" for="">२. इमारत क्र:</label>
@@ -62,8 +62,7 @@
                                     </div>
                                     <div class="col-sm-4 application-fields">
                                         <label class="application-form-label" for="">४. प्रथम सदनिका वितरणाचा दिनांक:</label>
-                                        <input class="letter-form-input letter-form-input--100 m_datepicker" type="text" id="" name="first_flat_issue_date"
-                                               value="{{ date(config('commanConfig.dateFormat'), strtotime($sc_application->sr_form_request->first_flat_issue_date)) }}" readonly>
+                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name="first_flat_issue_date" value="{{ date(config('commanConfig.dateFormat'), strtotime($sc_application->sr_form_request->first_flat_issue_date)) }}" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row align-items-start">
@@ -93,7 +92,7 @@
                                     </div>
                                     <div class="col-sm-4 application-fields">
                                         <label class="application-form-label" for="">B. संस्था नोंदणी दिनांक:</label>
-                                        <input class="letter-form-input letter-form-input--100 m_datepicker" type="text" id=""
+                                        <input class="letter-form-input letter-form-input--100" type="text" id=""
                                                name="society_registration_date" value="{{ date(config('commanConfig.dateFormat'), strtotime($sc_application->sr_form_request->society_registration_date)) }}" readonly>
                                     </div>
                                 </div>
@@ -154,9 +153,9 @@
                                 <p class="mb-5">आपला विश्वासू,</p>
                                 <p>
                                 <span class="d-flex">अध्यक्ष <input class="letter-form-input letter-form-input--xl"
-                                                                    type="text" id="" name="" value=""></span>
+                                                                    type="text" id="" name="" value="" readonly></span>
                                     <span class="d-flex mt-3">सचिव <input class="letter-form-input letter-form-input--xl"
-                                                                          type="text" id="" name="" value=""></span>
+                                                                          type="text" id="" name="" value="" readonly></span>
                                 </p>
                             </div>
                         </div>
