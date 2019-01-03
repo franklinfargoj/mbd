@@ -606,14 +606,14 @@ class EMController extends Controller
             ['data' => 'last_name','name' => 'last_name','title' => 'Last Name'],
             ['data' => 'use','name' => 'use','title' => 'Use'],
             ['data' => 'carpet_area','name' => 'carpet_area','title' => 'Carpet Area'],
-            ['data' => 'tenant_type','name' => 'tenant_type','title' => 'Tenant Type'],
+            ['data' => 'tenanttype.name','name' => 'tenanttype.name','title' => 'Tenant Type'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false]
         ];
         $building_id = $id;
         $society_id = MasterBuilding::find(decrypt($id))->society_id;
         if ($datatables->getRequest()->ajax()) {
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-            $buildings = MasterTenant::selectRaw('@rownum  := @rownum  + 1 AS rownum,master_tenants.*')->where('building_id',decrypt($id));
+            $buildings = MasterTenant::selectRaw('@rownum  := @rownum  + 1 AS rownum,master_tenants.*')->where('building_id',decrypt($id))->with('tenanttype');
             return $datatables->of($buildings)
                 ->editColumn('actions', function ($buildings){
                     return "<div class='d-flex btn-icon-list'>
