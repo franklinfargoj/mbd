@@ -439,11 +439,11 @@ class EMController extends Controller
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
         
             if ($request->has('layout') && '' != $request->get('layout')) {
-                $societies = SocietyDetail::selectRaw('@rownum  := @rownum  + 1 AS rownum,lm_society_detail.*')->whereIn('colony_id', $colonies);
+                $societies = SocietyDetail::selectRaw('@rownum  := @rownum  + 1 AS rownum,lm_society_detail.*')->where('layout_id', decrypt($request->input('layout')));
             } else {
                  $societies = SocietyDetail::selectRaw('@rownum  := @rownum  + 1 AS rownum,lm_society_detail.*');
             }
-                
+            
             return $datatables->of($societies)
                 ->editColumn('actions', function ($societies){
 	                return "<div class='d-flex btn-icon-list'>
