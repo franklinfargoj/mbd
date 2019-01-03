@@ -20,16 +20,16 @@
                     </a>
                 </li>
                 
-                @if((($arrData['get_current_status']->status_id ==
+                @if(($arrData['get_current_status']->status_id ==
                 config('commanConfig.applicationStatus.in_process') ||
-                $arrData['get_current_status']->status_id !=
-                config('commanConfig.applicationStatus.reverted') &&
                 ($arrData['get_current_status']->status_id !=
-                config('commanConfig.applicationStatus.offer_letter_generation')) &&
+                config('commanConfig.applicationStatus.offer_letter_generation') &&
                 $arrData['get_current_status']->status_id !=
                 config('commanConfig.applicationStatus.offer_letter_approved') ) &&
                 $arrData['get_current_status']->status_id !=
-                config('commanConfig.applicationStatus.forwarded')))
+                config('commanConfig.applicationStatus.forwarded') &&
+                $arrData['get_current_status']->status_id !=
+                config('commanConfig.applicationStatus.reverted') ))
 
                 <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">

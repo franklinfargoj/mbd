@@ -86,7 +86,7 @@ class OlApplicationCalculationSheetDetailsController extends Controller
 
         return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));
     }
-
+ 
 
     public function showRevalCalculationDetails($id)
     {
