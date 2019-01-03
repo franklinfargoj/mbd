@@ -11,18 +11,9 @@
                     <div>
                         <p>
                         <p style="display: block; font-weight: bold; line-height: 0; margin-top: 5px; margin-bottom: 5px;">प्रति,</p>
-                        <table style="margin-left: -5px; margin-top: 5px; margin-bottom: 5px;">
-                            <tbody>
-                            <tr>
-                                <td style="font-size: 18px;">कार्यकारी अभियंता,</td>
-                                <td style="font-size: 18px;">EE</td>
-                                <td style="font-size: 18px;">विभाग,</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <p style="display: block; margin-top: 5px; margin-bottom: 5px;">उपमुख्य अधिकारी/ पूर्व / पश्चिम,</p>
                         <p style="display: block; margin-top: 5px; margin-bottom: 5px;">मुंबई गृहनिर्माण व क्षेत्रविकास मंडळ,</p>
-                        <p style="display: block; margin-top: 5px; margin-bottom: 5px;">गृहनिर्माण भवन, वांद्रे (पुर्व),</p>
-                        <p style="display: block; margin-top: 5px; margin-bottom: 5px;">मुंबई - ४०००५१.</p>
+                        <p style="display: block; margin-top: 5px; margin-bottom: 5px;">गृहनिर्माण भवन, बांद्रा (पूर्व), मुंबई - ५१.</p>
                         </p>
                     </div>
                 </div>
@@ -50,7 +41,7 @@
                                 <div>
                                     <div style="width: 50%; float: left;">
                                         <label  for="">३. योजनेचे नाव:</label>
-                                        <span style="font-weight: bold;"> &nbsp; {{ $sc_application->sr_form_request->scheme_name }} &nbsp; </span>
+                                        <span style="font-weight: bold;"> &nbsp; {{ $sc_application->sr_form_request->scheme_names->name }} &nbsp; </span>
                                     </div>
                                     <div style="width: 50%; float: left;">
                                         <label  for="">४. प्रथम सदनिका वितरणाचा दिनांक:</label>

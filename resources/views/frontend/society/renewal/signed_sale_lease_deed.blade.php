@@ -7,7 +7,7 @@
         <!-- BEGIN: Subheader -->
         <div class="m-subheader px-0">
             <div class="d-flex">
-                {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
+                 {{ Breadcrumbs::render('society_renewal_signed_sale_lease', $sc_application->id) }}
                 <div class="ml-auto btn-list">
                     <a href="javascript:void(0);" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                 </div>
