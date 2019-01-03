@@ -1258,51 +1258,82 @@ Breadcrumbs::for('conveyance_em_scrutiny', function ($trail,$id) {
 });
  
 //Renewal 
-Breadcrumbs::for('society_renewal',function($trail){
+Breadcrumbs::for('renewal',function($trail){
     $trail->push('Home',route('renewal.index'));
 });
 
 Breadcrumbs::for('renewal_view_application', function ($trail,$id) {
-    $trail->parent('society_renewal');
+    $trail->parent('renewal');
     $trail->push('View Application', route('renewal.view_application',$id));
 });
 
 Breadcrumbs::for('renewal_society_document', function ($trail,$id) {
-    $trail->parent('society_renewal');
+    $trail->parent('renewal');
     $trail->push('Society Document', route('renewal.view_documents',$id));
 });
 
 Breadcrumbs::for('renewal_forward_application', function ($trail,$id) {
-    $trail->parent('society_renewal');
+    $trail->parent('renewal');
     $trail->push('Forward Application', route('renewal.renewal_forward_application',$id));
 });
 
 Breadcrumbs::for('renewal_architect_scrutiny', function ($trail,$id) {
-    $trail->parent('society_renewal');
+    $trail->parent('renewal');
     $trail->push('Architect Scrutiny', route('renewal.architect_scrutiny',$id));
 });
 
 Breadcrumbs::for('renewal_ee_scrutiny', function ($trail,$id) {
-    $trail->parent('society_renewal');
+    $trail->parent('renewal');
     $trail->push('EE Scrutiny Remark', route('renewal.ee_scrutiny',$id));
 });
 
 Breadcrumbs::for('renewal_draft_sale_lease', function ($trail,$id) {
-    $trail->parent('society_renewal');
+    $trail->parent('renewal');
     $trail->push('Lease Agreement', route('renewal.prepare_renewal_agreement',$id));
 });
 
 Breadcrumbs::for('renewal_approve_sale_lease', function ($trail,$id) {
-    $trail->parent('society_renewal');
+    $trail->parent('renewal');
     $trail->push('Lease Agreement', route('renewal.approve_renewal_agreement',$id));
 });
 
 Breadcrumbs::for('renewal_stamp_lease', function ($trail,$id) {
-    $trail->parent('society_renewal');
+    $trail->parent('renewal');
     $trail->push('Lease Agreement', route('renewal.stamp_renewal_agreement',$id));
 });
 
+// Society renewal
+Breadcrumbs::for('society_renewal',function($trail){
+    $trail->push('Home',route('society_renewal.index'));
+});
 
+Breadcrumbs::for('society_renewal_view_application', function ($trail, $id) {
+    $trail->parent('society_renewal');
+    $trail->push('View Application', route('society_renewal.show', $id));
+});
+
+Breadcrumbs::for('society_renewal_edit_application', function ($trail, $id) {
+    $trail->parent('society_renewal');
+    $trail->push('Edit Application', route('society_renewal.edit', $id));
+});
+
+Breadcrumbs::for('society_renewal_documents_upload', function ($trail) {
+    $trail->parent('society_renewal');
+    $trail->push('Upload documents', route('sr_upload_docs'));
+});
+
+Breadcrumbs::for('society_renewal_sale_lease', function ($trail, $id) {
+    $trail->parent('society_renewal');
+    $trail->push('Lease deed Agreement', route('show_lease', $id));
+});
+
+Breadcrumbs::for('society_renewal_signed_sale_lease', function ($trail, $id) {
+    $trail->parent('society_renewal');
+    $trail->push('Signed Lease deed Agreement', route('show_signed_lease', $id));
+});
+
+
+//Tripartite Agreement
 Breadcrumbs::for('tripartite',function($trail){
     $trail->push('Home',route('tripartite.index'));
 });

@@ -104,7 +104,7 @@ class SocietyRenewalController extends Controller
                 })
                 ->editColumn('status', function ($sr_applications) {
                     $status_display = '';
-                    if($sr_applications->application_status == config('commanConfig.renewal_status.Sent_society_to_pay_stamp_duety')){
+                    if($sr_applications->application_status == config('commanConfig.renewal_status.Send_society_to_pay_stamp_duty')){
                         $status_display = 'Pay Stamp Duty';
                     }elseif($sr_applications->application_status == config('commanConfig.renewal_status.Send_society_for_registration_of_Lease_deed')){
                         $status_display = 'Register Lease Deed';

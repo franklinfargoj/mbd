@@ -540,6 +540,41 @@ class SocietyOfferLetterController extends Controller
         ];
     }
 
+    public function get_docs_count($application, $society){
+        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['documents_uploaded' => function($q) use ($society){
+            $q->where('society_id', $society->id)->get();
+        }])->get();
+        foreach ($documents as $key => $value) {
+            $document_ids[] = $value->id;
+        }
+        $documents_uploaded = OlSocietyDocumentsStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->with(['documents_uploaded'])->get();
+
+        $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->first();
+        if($application->application_master_id == '2' || $application->application_master_id == '13'){
+            $optional_docs = config('commanConfig.optional_docs_premium');
+        }
+        if($application->application_master_id == '6' || $application->application_master_id == '17'){
+            $optional_docs = config('commanConfig.optional_docs_sharing');
+        }
+
+        $docs_uploaded_count = 0;
+        $docs_count = 0;
+
+        foreach($documents as $documents_key => $documents_val){
+            if(in_array($documents_key+1, $optional_docs) == false){
+                $docs_count++;
+                if(count($documents_val->documents_uploaded) > 0){
+                    $docs_uploaded_count++;
+                }
+            }
+        }
+        $arr = array(
+            'docs_count' => $docs_count,
+            'docs_uploaded_count' => $docs_uploaded_count
+        );
+        return $arr;
+    }
+
     /**
      * Shows filled application forms.
      * Author: Amar Prajapati
@@ -1066,17 +1101,21 @@ class SocietyOfferLetterController extends Controller
 
         $docs_uploaded_count = 0;
         $docs_count = 0;
-
+        $i=0;
         foreach($documents as $documents_key => $documents_val){
-                if(in_array($documents_key+1, $optional_docs) == false){
-                    $docs_count++;
-                    if(count($documents_val->documents_uploaded) > 0){
-                        $docs_uploaded_count++;
-                    }
+            if(in_array($documents_key+1, $optional_docs) == false){
+                $docs_count++;
+                if(count($documents_val->documents_uploaded) > 0){
+                    $docs_uploaded_count++;
+                    $i++;
                 }
+            }
         }
 
-        return view('frontend.society.society_upload_documents', compact('documents','ol_applications',  'optional_docs', 'docs_count', 'docs_uploaded_count', 'documents_uploaded', 'society', 'application', 'documents_comment'));
+        $documents_arr['docs_count'] = $docs_count;
+        $documents_arr['docs_uploaded_count'] = $docs_uploaded_count;
+
+        return view('frontend.society.society_upload_documents', compact('documents','ol_applications',  'optional_docs', 'docs_count', 'docs_uploaded_count', 'documents_uploaded', 'society', 'application', 'documents_comment', 'documents_arr'));
     }
 
 
@@ -1949,8 +1988,9 @@ class SocietyOfferLetterController extends Controller
         $layouts = MasterLayout::all();
         $id = $ol_application->application_master_id;
         $ol_applications = $ol_application;
+        $documents_arr = $this->get_docs_count($ol_application, $society_details);
 
-        return view('frontend.society.show_ol_application_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id'));
+        return view('frontend.society.show_ol_application_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id', 'documents_arr'));
     }
 
 
@@ -2027,8 +2067,9 @@ class SocietyOfferLetterController extends Controller
         $layouts = MasterLayout::all();
         $id = $ol_application->application_master_id;
         $ol_applications = $ol_application;
+        $documents_arr = $this->get_docs_count($ol_application, $society_details);
 
-        return view('frontend.society.edit_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id'));
+        return view('frontend.society.edit_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id', 'documents_arr'));
     }
 
     public function editRevalOfferLetterApplication(){
@@ -2199,8 +2240,9 @@ class SocietyOfferLetterController extends Controller
             $q->where('society_flag', '1')->orderBy('id', 'desc');
         }])->first();
         $ol_applications = $application_details;
+        $documents_arr = $this->get_docs_count($ol_applications, $society);
 
-        return view('frontend.society.upload_download_offer_letter_application_form', compact('ol_applications', 'application_details'));
+        return view('frontend.society.upload_download_offer_letter_application_form', compact('ol_applications', 'application_details', 'documents_arr'));
     }
 
     public function showuploadRevalOfferLetterAfterSign(){
