@@ -542,7 +542,7 @@ class renewalCommonController extends Controller
             $toUsers = $request->to_child_id;
         }
         
-        if (session()->get('role_name') == config('commanConfig.ee_branch_head') && $request->to_role_id == $dycdoId) {
+        if ((session()->get('role_name') == config('commanConfig.ee_branch_head') || session()->get('role_name') == config('commanConfig.estate_manager')) && $request->to_role_id == $dycdoId) {
        
             $Tostatus = config('commanConfig.renewal_status.Draft_Renewal_of_Lease_deed');
             $Scstatus = $Tostatus;

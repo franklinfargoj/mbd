@@ -8,9 +8,9 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0">
         <div class="d-flex">
-            {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
+            {{ Breadcrumbs::render('renewal_em_scrutiny',$data->id) }}
             <div class="ml-auto btn-list">
-                <a href="javascript:void(0);" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
         </div>
         <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
@@ -297,6 +297,7 @@
                 </div>
             {{--</div>--}}
         </div>
+       
         <div class="tab-pane section-2" id="list-of-allottes" role="tabpanel">
         <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
@@ -327,7 +328,8 @@
                                             @elseif(isset($bonafide_docs['renewal_bonafide_list']) && isset($bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path) && Session::all()['role_name'] != config('commanConfig.estate_manager'))
                                                 <a href="{{ config('commanConfig.storage_server').'/'.$bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
                                                     Download</a>
-                                            @elseif(isset($society_list_docs['list_of_members_from_society']) && Session::all()['role_name'] == config('commanConfig.estate_manager'))
+
+                                            @elseif(isset($society_list_docs['list_of_members_from_society']->sr_document_status->document_path) && Session::all()['role_name'] == config('commanConfig.estate_manager'))
                                                 <a href="{{ config('commanConfig.storage_server').'/'.$society_list_docs['list_of_members_from_society']->sr_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
                                                     Download</a>
                                             @else
