@@ -355,7 +355,7 @@
                             var strResponse = $.parseJSON(response);
                             
 
-                            if (true == strResponse.result && null != strResponse.data && strResponse.data.length == Number(year_diff+1)) {
+                            if (true == strResponse.result && null != strResponse.data ) {
                                 old_rate_old = [];
                                 old_rate_diff = [];
                                 old_iod = [];
@@ -367,16 +367,16 @@
                                     old_iod[v.year] = Number(v.interest_on_differance);
                                     old_ior[v.year] = Number(v.interest_on_old_rate);
                                 });
-                                bill_month = bill_month - 1;
+                                // bill_month = bill_month - 1;
                                 var start_date = new Date(ior_year,ior_month,01);
                                 var end_date = new Date(bill_year,bill_month,01);
 
-                                var dates = dateRange(formatDate(start_date),formatDate(end_date));                    
+                                var dates = dateRange(ior_year+'-'+ior_month+'-'+01,bill_year+'-'+bill_month+'-'+01);                    
 
                                 var start_date_int = new Date(ida_year, ida_month, 01);
                                 var end_date_int = new Date(bill_year, bill_month, 01);
                                 
-                                var datesint = dateRange(formatDate(start_date_int),formatDate(end_date_int));
+                                var datesint = dateRange(ida_year+'-'+ida_month+'-'+01,bill_year+'-'+bill_month+'-'+01);                    
 
                                 console.log(dates);
 
@@ -666,6 +666,7 @@ function dateRange(startDate, endDate) {
       dates.push([i, displayMonth, '01'].join('-'));
     }
   }
+  dates.splice(-1,1);
   return dates;
 }
 

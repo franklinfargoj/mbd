@@ -38,7 +38,7 @@ class ServiceChargesController extends Controller
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'year','name' => 'year','title' => 'Years'],
-            ['data' => 'tenant_type', 'name' => 'tenant_type','title' => 'Tenant Type'],
+            ['data' => 'tenanttype.name', 'name' => 'tenanttype.name','title' => 'Tenament Type'],
             ['data' => 'water_charges', 'name' => 'water_charges','title' => 'Water Charges'],
             ['data' => 'electric_city_charge', 'name' => 'electric_city_charge','title' => 'Electric City Charge'],
             ['data' => 'pump_man_and_repair_charges', 'name' => 'pump_man_and_repair_charges','title' => 'Pump Man & Repair Charges'],
@@ -52,18 +52,9 @@ class ServiceChargesController extends Controller
 
         if ($datatables->getRequest()->ajax()) {
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-            $service_charges = ServiceChargesRate::selectRaw('@rownum  := @rownum  + 1 AS rownum,service_charges_rates.*')->where('society_id',$society->id)->where('building_id',$building->id);
+            $service_charges = ServiceChargesRate::selectRaw('@rownum  := @rownum  + 1 AS rownum,service_charges_rates.*')->where('society_id',$society->id)->where('building_id',$building->id)->with('tenanttype');
             return $datatables->of($service_charges)
-            ->editColumn('tenant_type', function ($service_charges){               
-               $master_tenant_type = DB::table('master_tenant_type')->get();
-               foreach ($master_tenant_type as $key => $value) {
-                  if($value->id == $service_charges->tenant_type){
-                    return $value->name;
-                  }
-               }
-            })
             ->editColumn('actions', function ($service_charges){
-
                return "<div class='d-flex btn-icon-list'><a href='".url('service_charges/'.encrypt($service_charges->id).'/edit')."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>Update</a></div>";
 
             })

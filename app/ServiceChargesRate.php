@@ -15,4 +15,8 @@ class ServiceChargesRate extends Model
      * @var array
     */
     protected $dates = ['deleted_at'];
+
+    public function tenanttype() {
+    	return $this->hasOne(MasterTenantType::class,'id','tenant_type');
+    }
 }

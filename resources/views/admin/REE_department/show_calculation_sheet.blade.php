@@ -15,7 +15,7 @@
     {{ session()->get('success') }}
 </div>
 @endif 
- 
+
 <!-- offer letter options for custom and offer letter with formula -->
 {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }}
 <div class="custom-wrapper" id="offer_letter_options">

@@ -19,4 +19,8 @@ class MasterTenant extends Model
     public function TransBillGenerate() {
         return $this->hasMany(TransBillGenerate::class,'tenant_id');
     }
+
+    public function tenanttype() {
+        return $this->hasOne(MasterTenantType::class,'id','tenant_type');
+    }
 }

@@ -90,8 +90,7 @@ $route_name=\Request::route()->getName();
                                     <table id="one" class="table mb-0 table--box-input table1" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                         <input name="redirect_tab" type="hidden" value="two" />
                                         <div class="d-flex justify-content-between align-items-center mb-4">
-                                            <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");'
-                                                    style="max-width: 22px"></a>
+                                            <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");' class="printBtn" style="max-width: 22px"></a>
                                         </div>
                                         <thead class="thead-default">
                                             <tr>
@@ -145,9 +144,9 @@ $route_name=\Request::route()->getName();
                             <div class="m-section__content mb-0 table-responsive">
                                     <input name="redirect_tab" type="hidden" value="three" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("two");'
-                                                style="max-width: 22px"></a>
+                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto">
+                                        <img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("two");'
+                                                style="max-width: 22px" class="printBtn"></a>
                                     </div>
                                     <table class="table mb-0 table--box-input table2" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                         <thead class="thead-default">
@@ -203,9 +202,9 @@ $route_name=\Request::route()->getName();
                             <div class="m-section__content mb-0 table-responsive">
                                     <input name="redirect_tab" type="hidden" value="four" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("three");'
-                                                style="max-width: 22px"></a>
+                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto">
+                                        <img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("three");'
+                                                style="max-width: 22px" class="printBtn"></a>
                                     </div>
                                     <table class="table mb-0 table--box-input table3" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                         <thead class="thead-default">
@@ -261,9 +260,9 @@ $route_name=\Request::route()->getName();
                             <div class="m-section__content mb-0 table-responsive">
                                     <input name="redirect_tab" type="hidden" value="five" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("four");'
-                                                style="max-width: 22px"></a>
+                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto">
+                                        <img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("four");'
+                                                style="max-width: 22px" class="printBtn"></a>
                                     </div>
                                     <table class="table mb-0 table--box-input table4" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                         <thead class="thead-default">
@@ -319,8 +318,7 @@ $route_name=\Request::route()->getName();
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
                                 <div class="d-flex justify-content-between align-items-center mb-4">
-                                    <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                            src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("five");' style="max-width: 22px"></a>
+                                    <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("five");' style="max-width: 22px" class="printBtn"></a>
                                 </div>
                                 <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                     <thead class="thead-default">
@@ -478,7 +476,7 @@ $route_name=\Request::route()->getName();
     }
 
     function PrintElem(elem) {
-
+        $(".printBtn").css("display","none");
         var printable = document.getElementById(elem).innerHTML;
 
        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
@@ -493,7 +491,7 @@ $route_name=\Request::route()->getName();
 
         mywindow.print();
         mywindow.close();
-
+        $(".printBtn").css("display","block");
         return true;
     }    
 </script>
