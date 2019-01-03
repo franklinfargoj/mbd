@@ -23,8 +23,19 @@
 
 <div class="custom-wrapper">
     <div class="col-md-12">
-        <div class="d-flex">
-            {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }}
+        <div class="d-flex"> 
+            @if($route_name=='co.show_calculation_sheet')
+            {{ Breadcrumbs::render('calculation_sheet_co',$ol_application->id) }}
+
+            @elseif($route_name=='vp.show_calculation_sheet')
+
+            {{ Breadcrumbs::render('calculation_sheet_vp',$ol_application->id) }}
+            @elseif($route_name=='cap.show_calculation_sheet')
+            {{ Breadcrumbs::render('calculation_sheet_cap',$ol_application->id) }}
+            @elseif($route_name=='ree.show_calculation_sheet')
+            {{ Breadcrumbs::render('REE_calculation',$ol_application->id) }}
+            @else
+            @endif
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>

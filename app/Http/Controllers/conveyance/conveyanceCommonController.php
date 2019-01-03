@@ -268,7 +268,7 @@ class conveyanceCommonController extends Controller
         }elseif((session()->get('role_name') == config('commanConfig.dycdo_engineer') && $request->to_role_id == $dycoId)){
             if ($applicationStatus == config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed')){
 
-                $Tostatus = config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety');
+                $Tostatus = config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty');
                 $Scstatus = $Tostatus;
 
             }elseif($applicationStatus == config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed')){
@@ -1189,7 +1189,7 @@ class conveyanceCommonController extends Controller
 
     public function pendingApplicationCount($roles){
 
-        $status = array(config('commanConfig.conveyance_status.in_process'),config('commanConfig.conveyance_status.Draft_sale_&_lease_deed'),config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed'),config('commanConfig.conveyance_status.Registered_sale_&_lease_deed'),config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety'),config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease'),config('commanConfig.conveyance_status.NOC_Issued'));
+        $status = array(config('commanConfig.conveyance_status.in_process'),config('commanConfig.conveyance_status.Draft_sale_&_lease_deed'),config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed'),config('commanConfig.conveyance_status.Registered_sale_&_lease_deed'),config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty'),config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease'),config('commanConfig.conveyance_status.NOC_Issued'));
 
         $count = scApplicationLog::where('is_active',1)
             ->whereIn('status_id',$status)
@@ -1219,7 +1219,7 @@ class conveyanceCommonController extends Controller
         $status['reverted']  = config('commanConfig.conveyance_status.reverted');
         $status['draft'] = config('commanConfig.conveyance_status.Draft_sale_&_lease_deed');
         $status['approve'] = config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed');
-        $status['stampDuty'] = config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety');
+        $status['stampDuty'] = config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty');
         $status['stamp'] = config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed');
         $status['stampSign'] = config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed');
         $status['sendForRegistration'] = config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease');
