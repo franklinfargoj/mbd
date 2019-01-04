@@ -243,26 +243,14 @@ class VPController extends Controller
                                             ->where('role_id', $ree_role_id->id)->get();
 
         $arrData['ree_role_name'] = strtoupper(str_replace('_', ' ', $ree_role_id->name));
-    
-        // remark and history
-        $this->CommonController->getEEForwardRevertLog($applicationData,$applicationId);
-        $this->CommonController->getDyceForwardRevertLog($applicationData,$applicationId);
-        $this->CommonController->getREEForwardRevertLog($applicationData,$applicationId);
-
         //remark and history
-        $eelogs   = $this->CommonController->getLogsOfEEDepartment($applicationId);
-        $dyceLogs = $this->CommonController->getLogsOfDYCEDepartment($applicationId);
-        $reeLogs  = $this->CommonController->getLogsOfREEDepartment($applicationId); 
-        $coLogs   = $this->CommonController->getLogsOfCODepartment($applicationId); 
-        $capLogs  = $this->CommonController->getLogsOfCAPDepartment($applicationId); 
-        $vpLogs   = $this->CommonController->getLogsOfVPDepartment($applicationId);            
+        $remarkHistory = $this->CommonController->getRemarkHistory($applicationId);            
 
-        return view('admin.vp_department.forward_application',compact('applicationData', 'arrData','ol_application','eelogs','dyceLogs','reeLogs','coLogs','capLogs','vpLogs'));
+        return view('admin.vp_department.forward_application',compact('applicationData', 'arrData','ol_application','remarkHistory'));
     } 
 
     public function sendForwardApplication(Request $request){
 //        $this->CommonController->forwardApplicationForm($request);
-//        dd($request->all());
         if($request->check_status == 1) {
             $forward_application = [[
                 'application_id' => $request->applicationId,

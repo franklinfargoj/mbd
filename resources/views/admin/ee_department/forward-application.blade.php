@@ -113,55 +113,57 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-content">
+            <div class="tab-content"> 
                 <div class="tab-pane active show" id="scrutiny-history-tab">
                     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                         <div class="portlet-body">
-                            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
+                            <div class="m-portlet__body m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                                 <div class="remark-body">
-                                    <div class="border-bottom pb-2">
+                                    <div class="pb-2">
                                         <h3 class="section-title section-title--small mb-2">
                                             Remark History:
                                         </h3>
                                     </div>
-                                </div>  
-                                <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
-                                  <thead>
-                                    <tr>
-                                      <th class="th-sm">Role Name</th>
-                                      <th class="th-sm">Date</th>
-                                      <th class="th-sm">Time</th>
-                                      <th class="th-sm">Action</th>
-                                      <th class="th-sm">Description</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                  @if($remarkHistory)
-                                      @foreach($remarkHistory as $log)
-
-                                        @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
-                                            @php $status = 'Forwarded'; @endphp
-                                        @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
-                                            @php $status = 'Reverted'; @endphp
-                                        @endif 
-
+                                </div>
+                                <div class="col-md-12 table-responsive">  
+                                    <table id="dtBasicExample" class="table">
+                                      <thead>
                                         <tr>
-                                            <td>{{isset($log->getRole->display_name) ? $log->getRole->display_name : ''}}</td>
-                                            <td>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",
-                                                        strtotime($log->created_at)) : '')}}</td>
-                                            <td>{{(isset($log) && $log->created_at != '' ? date("H:i",
-                                                        strtotime($log->created_at)) : '')}}</td>
-                                            <td>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}}</td>
-                                            <td>{{(isset($log) ? $log->remark : '')}}</td>
+                                          <th class="th-sm">Role Name</th>
+                                          <th class="th-sm">Date</th>
+                                          <th class="th-sm">Time</th>
+                                          <th class="th-sm">Action</th>
+                                          <th class="th-sm">Description</th>
                                         </tr>
-                                        @endforeach
-                                    @endif    
-                                  </tbody>
-                                </table>                                
+                                      </thead>
+                                      <tbody>
+                                      @if($remarkHistory)
+                                          @foreach($remarkHistory as $log)
+
+                                            @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                                @php $status = 'Forwarded'; @endphp
+                                            @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                                @php $status = 'Reverted'; @endphp
+                                            @endif 
+
+                                            <tr>
+                                                <td>{{isset($log->getRole->display_name) ? $log->getRole->display_name : ''}}</td>
+                                                <td>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",
+                                                            strtotime($log->created_at)) : '')}}</td>
+                                                <td>{{(isset($log) && $log->created_at != '' ? date("H:i",
+                                                            strtotime($log->created_at)) : '')}}</td>
+                                                <td>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}}</td>
+                                                <td>{{(isset($log) ? $log->remark : '')}}</td>
+                                            </tr>
+                                            @endforeach
+                                        @endif    
+                                      </tbody>
+                                    </table>
+                                </div>                             
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> 
 
                 <div class="tab-pane show" id="forward-application-tab">
                     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
@@ -300,6 +302,8 @@
 $(document).ready(function () {
   $('#dtBasicExample').DataTable();
   $('.dataTables_length').addClass('bs-select');
+
+  $('#dtBasicExample_wrapper > .row:first-child').remove();
 });  
 
 $('table').dataTable({searching: false, ordering:false, info: false});
