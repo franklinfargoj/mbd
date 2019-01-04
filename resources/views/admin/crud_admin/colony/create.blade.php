@@ -44,7 +44,7 @@
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="ward_id">Wards:<span class="star">*</span></label>
                             <div class="m-input-icon m-input-icon--right">
-                                <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="ward_id" name="ward_id">
+                                <select title="Select Wards" data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="ward_id" name="ward_id">
                                     @foreach($wards as $ward)
                                         <option value={{$ward->id}}>{{$ward->name}}</option>
                                     @endforeach
