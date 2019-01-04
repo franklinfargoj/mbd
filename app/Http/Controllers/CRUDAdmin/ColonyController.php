@@ -183,4 +183,19 @@ class ColonyController extends Controller
         $id = $request->id;
         return view('admin.crud_admin.colony.colonyDeleteReason', compact('id'))->render();
     }
+
+    public function loadWardsOfLayoutUsingAjax(Request $request)
+    {
+        $layout_id = $request->layout_id;
+
+        $wards = MasterWard::where('layout_id', $layout_id)->get();
+
+        $options = '<option value="">Select Ward</option>';
+
+        foreach ($wards as $ward) {
+            $options .= '<option value="' . $ward['id'] . '">' . $ward['name'] . '</option>';
+        }
+
+        return $options;
+    }
 }
