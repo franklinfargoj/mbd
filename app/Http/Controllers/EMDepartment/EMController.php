@@ -799,9 +799,24 @@ class EMController extends Controller
                 ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false]
             ];
             if ($datatables->getRequest()->ajax()) {
+
+                $currentMonth = date('m');
+                if($currentMonth < 4) {
+                    if($currentMonth == 1) {
+                        $data['month'] = 12;
+                        $data['year'] = date('Y') -1;
+                    } else {
+                        $data['month'] = date('m') -1;
+                        $data['year'] = date('Y') -1;
+                    }
+                } else {
+                    $data['month'] = date('m');
+                    $data['year'] = date('Y');
+                }
+
                 DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-                $buildings = MasterTenant::with(['TransBillGenerate' => function($query) use($buildingId){
-                    $query->where('building_id',$buildingId)->where('bill_month', '=', date('m'))->where('bill_year', '=', date('Y'));
+                $buildings = MasterTenant::with(['TransBillGenerate' => function($query) use($buildingId,$data){
+                    $query->where('building_id',$buildingId)->where('bill_month', '=', $data['month'])->where('bill_year', '=', $data['year']);
                 }])
                 ->where('building_id', '=', decrypt($request->input('building')))
                 ->selectRaw('@rownum  := @rownum  + 1 AS rownum,master_tenants.*');
@@ -845,8 +860,23 @@ class EMController extends Controller
             ];
             if ($datatables->getRequest()->ajax()) {
                 DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-                $buildings = MasterBuilding::with(['TransBillGenerate'=>function($query) use($society_id){
-                    $query->where('society_id', '=', $society_id)->where('bill_month', '=', date('m'))->where('bill_year', '=', date('Y'));
+
+                $currentMonth = date('m');
+                if($currentMonth < 4) {
+                    if($currentMonth == 1) {
+                        $data['month'] = 12;
+                        $data['year'] = date('Y') -1;
+                    } else {
+                        $data['month'] = date('m') -1;
+                        $data['year'] = date('Y') -1;
+                    }
+                } else {
+                    $data['month'] = date('m');
+                    $data['year'] = date('Y');
+                }
+
+                $buildings = MasterBuilding::with(['TransBillGenerate'=>function($query) use($society_id,$data){
+                    $query->where('society_id', '=', $society_id)->where('bill_month', '=',$data['month'])->where('bill_year', '=', $data['year']);
                 }])->with('tenant_count')->where('society_id', '=', decrypt($request->input('society')))
                 ->selectRaw('@rownum  := @rownum  + 1 AS rownum,master_buildings.*');
                 
@@ -1147,7 +1177,15 @@ class EMController extends Controller
 
             $data['building'] = MasterBuilding::find($request->building_id);
             $data['society'] = SocietyDetail::find($data['building']->society_id);
-            $data['serviceChargesRate'] = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$request->building_id)->where('year',date('Y'))->first();
+
+            $currentMonth = date('m');
+            if($currentMonth < 4) {
+                $year = date('Y') -1;
+            } else {
+                $year = date('Y');
+            }
+
+            $data['serviceChargesRate'] = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$request->building_id)->where('year',$year)->first();
 
          //  dd($data['serviceChargesRate']); 
             if(!$data['serviceChargesRate']){
@@ -1162,8 +1200,19 @@ class EMController extends Controller
                 return redirect()->back()->with('warning', 'Number of Tenants Is zero.');
             }
 
-            $data['month'] = date('m');
-            $data['year'] = date('Y');
+            $currentMonth = date('m');
+            if($currentMonth < 4) {
+                if($currentMonth == 1) {
+                    $data['month'] = 12;
+                    $data['year'] = date('Y') -1;
+                } else {
+                    $data['month'] = date('m') -1;
+                    $data['year'] = date('Y') -1;
+                }
+            } else {
+                $data['month'] = date('m');
+                $data['year'] = date('Y');
+            }
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
 
             $data['check'] = TransBillGenerate::where('building_id', '=', $request->building_id)
@@ -1190,7 +1239,13 @@ class EMController extends Controller
             $data['society'] = SocietyDetail::find($data['building']->society_id);
             $data['tenant'] = MasterTenant::where('building_id',$data['building']->id)->where('id',$request->tenant_id)->first();
 
-            $data['serviceChargesRate'] = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$request->building_id)->where('year',date('Y') )->first();
+            $currentMonth = date('m');
+            if($currentMonth < 4) {
+                $year = date('Y') -1;
+            } else {
+                $year = date('Y');
+            }
+            $data['serviceChargesRate'] = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$request->building_id)->where('year',$year )->first();
 
             if(!$data['serviceChargesRate']){
                 //dd($data);
@@ -1199,8 +1254,19 @@ class EMController extends Controller
 
             $data['arreasCalculation'] = ArrearCalculation::where('tenant_id',$request->tenant_id)->where('payment_status','0')->get();
 
-            $data['month'] = date('m');
-            $data['year'] = date('Y');
+            $currentMonth = date('m');
+            if($currentMonth < 4) {
+                if($currentMonth == 1) {
+                    $data['month'] = 12;
+                    $data['year'] = date('Y') -1;
+                } else {
+                    $data['month'] = date('m') -1;
+                    $data['year'] = date('Y') -1;
+                }
+            } else {
+                $data['month'] = date('m');
+                $data['year'] = date('Y');
+            }
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
 
             $data['check'] = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
@@ -1208,7 +1274,7 @@ class EMController extends Controller
                                     ->where('bill_year', '=', $data['year'])
                                     ->first();
             $data['regenate'] = false;                    
-            if($request->has('regenate') && true == $request->regenate) {
+            if($request->has('regenate') && true == $request->regenate || !empty($data['check'])) {
                 $data['regenate'] = true;
             }
             return view('admin.em_department.generate_tenant_bill',$data);
