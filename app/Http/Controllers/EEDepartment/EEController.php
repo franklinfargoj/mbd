@@ -474,7 +474,9 @@ class EEController extends Controller
         $capLogs  = $this->comman->getLogsOfCAPDepartment($application_id); 
         $vpLogs   = $this->comman->getLogsOfVPDepartment($application_id); 
 
-        return view('admin.ee_department.forward-application', compact('arrData', 'society_role_id','ol_application','eelogs','dyceLogs','reeLogs','coLogs','capLogs','vpLogs'));
+        $remarkHistory = $this->comman->getRemarkHistory($application_id);
+
+        return view('admin.ee_department.forward-application', compact('arrData', 'society_role_id','ol_application','eelogs','dyceLogs','reeLogs','coLogs','capLogs','vpLogs','remarkHistory'));
     }
 
     public function forwardApplication(Request $request)
