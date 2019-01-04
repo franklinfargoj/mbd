@@ -137,7 +137,7 @@
                                                                     @if(!(isset($sc_registrar_details['Lease Deed Agreement']) && count($sc_registrar_details['Lease Deed Agreement']) > 0))
                                                                         <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
                                                                     @endif
-                                                                    <a href="{{route('society_conveyance.index')}}" class="btn btn-secondary">Cancel</a>
+                                                                    <a href="{{route('society_renewal.index')}}" class="btn btn-secondary">Cancel</a>
                                                                 @endif
                                                             </div>
                                                         </div>
