@@ -20,10 +20,11 @@
 .txtbox {
     width :200px;
 </style>
-
+@php $route_name=\Request::route()->getName(); @endphp
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="d-flex"> 
+
             @if($route_name=='co.show_calculation_sheet')
             {{ Breadcrumbs::render('calculation_sheet_co',$ol_application->id) }}
 

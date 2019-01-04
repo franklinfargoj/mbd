@@ -466,17 +466,9 @@ class EEController extends Controller
 
         $arrData['dyce_role_name'] = strtoupper(str_replace('_', ' ', $dyce_role_id->name));
 
-        //remark and history
-        $eelogs   = $this->comman->getLogsOfEEDepartment($application_id);
-        $dyceLogs = $this->comman->getLogsOfDYCEDepartment($application_id);
-        $reeLogs  = $this->comman->getLogsOfREEDepartment($application_id); 
-        $coLogs   = $this->comman->getLogsOfCODepartment($application_id); 
-        $capLogs  = $this->comman->getLogsOfCAPDepartment($application_id); 
-        $vpLogs   = $this->comman->getLogsOfVPDepartment($application_id); 
-
         $remarkHistory = $this->comman->getRemarkHistory($application_id);
 
-        return view('admin.ee_department.forward-application', compact('arrData', 'society_role_id','ol_application','eelogs','dyceLogs','reeLogs','coLogs','capLogs','vpLogs','remarkHistory'));
+        return view('admin.ee_department.forward-application', compact('arrData', 'society_role_id','ol_application','remarkHistory'));
     }
 
     public function forwardApplication(Request $request)

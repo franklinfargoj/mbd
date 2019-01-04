@@ -238,20 +238,10 @@ class CAPController extends Controller
 
         $arrData['vp_role_name'] = strtoupper(str_replace('_', ' ', $vp_role_id->name));
     
-        // remark and history
-        $this->CommonController->getEEForwardRevertLog($applicationData,$applicationId);
-        $this->CommonController->getDyceForwardRevertLog($applicationData,$applicationId);
-        $this->CommonController->getREEForwardRevertLog($applicationData,$applicationId);
-
         //remark and history
-        $eelogs   = $this->CommonController->getLogsOfEEDepartment($applicationId);
-        $dyceLogs = $this->CommonController->getLogsOfDYCEDepartment($applicationId);
-        $reeLogs  = $this->CommonController->getLogsOfREEDepartment($applicationId); 
-        $coLogs   = $this->CommonController->getLogsOfCODepartment($applicationId); 
-        $capLogs  = $this->CommonController->getLogsOfCAPDepartment($applicationId); 
-        $vpLogs   = $this->CommonController->getLogsOfVPDepartment($applicationId);           
+        $remarkHistory = $this->CommonController->getRemarkHistory($applicationId);         
 
-        return view('admin.cap_department.forward_application',compact('applicationData', 'arrData','ol_application','eelogs','dyceLogs','reeLogs','coLogs','capLogs','vpLogs'));
+        return view('admin.cap_department.forward_application',compact('applicationData', 'arrData','ol_application','remarkHistory'));
     }
 
     public function sendForwardApplication(Request $request){

@@ -10,6 +10,7 @@
 </div>
 @endif
 
+
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
          <div class="m-subheader px-0 m-subheader--top">
@@ -30,7 +31,6 @@
                 </a>
             </li>
         </ul>
-    </div>
 <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('renewal.save_draft_sign_renewal_agreement')}}" enctype="multipart/form-data">
 @csrf
 <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
@@ -52,7 +52,7 @@
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download</h5>
-                                            <span class="hint-text">Click to download Lease deed agreement </span>
+                                            <span class="hint-text d-block mb-2">Click to download Lease deed agreement </span>
                                             <div class="mt-auto">
                                                 @if(isset($data->renewalAgreement->document_path))
                                                 <input type="hidden" name="oldLeaseFile" value="{{ isset($data->DraftSignAgreement->document_path) ? $data->DraftSignAgreement->document_path : '' }}">
@@ -117,11 +117,11 @@
 
     <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
     <div class="m-portlet m-portlet--mobile m_panel">
-        <div class="m-portlet__body">
+        <div class="m-portlet__body table--box-input">
             <h3 class="section-title section-title--small">Remark</h3>
             <div class="col-xs-12 row">
                 <div class="col-md-12">
-                    <textarea rows="4" cols="63" name="remark"></textarea>
+                    <textarea class="form-control form-control--custom form-control--textarea" rows="4" cols="63" name="remark"></textarea>
                     <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
                 </div>
             </div>
