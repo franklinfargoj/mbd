@@ -263,6 +263,7 @@ class SocietyOfferLetterController extends Controller
             ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application No.'],
+            ['data' => 'application_type','name' => 'application_type','title' => 'Application Type'],
             ['data' => 'application_master_id','name' => 'application_master_id','title' => 'Model'],
             ['data' => 'created_at','name' => 'created_date','title' => 'Submission Date', 'class' => 'datatable-date'],
             ['data' => 'status','name' => 'status','title' => 'Status'],
@@ -467,19 +468,19 @@ class SocietyOfferLetterController extends Controller
 
 
 
-                    if(isset($ol_applications->is_noc_application))
-                    {
-                        $app_type = "<br><span class='m-badge m-badge--danger'>Application for Noc</span>";
-                    }
-                    elseif($ol_applications->is_noc_cc_application)
-                    {
-                        $app_type = "<br><span class='m-badge m-badge--warning'>Application for Noc (CC)</span>";
-                    }
-//                    elseif(in_array($ol_applications->application_master_id,$reval_master_ids_arr))
-                    elseif(isset($ol_applications->ol_application_master))
-                    {
-                        $app_type = "<br><span class='m-badge m-badge--success'> Application for ".$ol_applications->ol_application_master->title."</span>";
-                    }
+//                    if(isset($ol_applications->is_noc_application))
+//                    {
+//                        $app_type = "<br><span class='m-badge m-badge--danger'>Application for Noc</span>";
+//                    }
+//                    elseif($ol_applications->is_noc_cc_application)
+//                    {
+//                        $app_type = "<br><span class='m-badge m-badge--warning'>Application for Noc (CC)</span>";
+//                    }
+////                    elseif(in_array($ol_applications->application_master_id,$reval_master_ids_arr))
+//                    elseif(isset($ol_applications->ol_application_master))
+//                    {
+//                        $app_type = "<br><span class='m-badge m-badge--success'> Application for ".$ol_applications->ol_application_master->title."</span>";
+//                    }
 //                    elseif(in_array($ol_applications->application_master_id,$oc_master_ids_arr))
 //                    {
 //                        $app_type = "<br><span class='m-badge m-badge--success'>Consent For OC</span>";
@@ -489,7 +490,10 @@ class SocietyOfferLetterController extends Controller
 //                        $app_type = "<br><span class='m-badge m-badge--success'>Application for Offer letter</span>";
 //                    }
 
-                    return $ol_applications->application_no . $app_type;
+                    return $ol_applications->application_no;
+                })
+                ->editColumn('application_type', function ($ol_applications) {
+                    return $ol_applications->ol_application_master->title;
                 })
                 ->editColumn('application_master_id', function ($ol_applications) {
                     return $ol_applications->ol_application_master->model;
@@ -515,7 +519,7 @@ class SocietyOfferLetterController extends Controller
                 ->editColumn('model', function ($ol_applications) {
                     return view('frontend.society.actions', compact('ol_applications', 'status_display'))->render();
                 })
-                ->rawColumns(['radio', 'application_no', 'application_master_id', 'created_at','status','model'])
+                ->rawColumns(['radio', 'application_no', 'application_type', 'application_master_id', 'created_at','status','model'])
                 ->make(true);
         }
 

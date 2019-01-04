@@ -170,12 +170,10 @@
                                             <label class="col-form-label">Remark</label>
                                             <div class="col-md-8 @if($errors->has('society_documents_comment')) has-error @endif">
                                                 <div class="input-icon right">
-                                                    <textarea name="remark" id="remark" class="form-control m-input">{{old('remark')}}</textarea>
+                                                    <textarea name="remark" id="remark" rows="5" cols="30" class="form-control form-control--custom">{{old('remark')}}</textarea>
                                                     <span class="help-block">{{$errors->first('remark')}}</span>
-                                                    <input type="hidden" name="user_id" id="user_id" class="form-control m-input"
-                                                        value="{{ $application->olApplicationStatus[0]->user_id }}">
-                                                    <input type="hidden" name="role_id" id="role_id" class="form-control m-input"
-                                                        value="{{ $application->olApplicationStatus[0]->role_id }}">
+                                                    <input type="hidden" name="user_id" id="user_id" class="form-control m-input" value="{{ $application->olApplicationStatus[0]->user_id }}">
+                                                    <input type="hidden" name="role_id" id="role_id" class="form-control m-input" value="{{ $application->olApplicationStatus[0]->role_id }}">
                                                 </div>
                                             </div>
                                         </div>
