@@ -26,8 +26,35 @@
                                 <span class="text-danger">{{$errors->first('name')}}</span>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="layout_id">Layouts:<span class="star">*</span></label>
+                            <div class="m-input-icon m-input-icon--right">
+                                <select title="Select Layout" data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout_id" name="layout_id">
+                                    @foreach($layouts as $layout)
+                                        <option value={{$layout->id}}>{{$layout->layout_name}}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger">{{$errors->first('layout')}}</span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="ward_id">Wards:<span class="star">*</span></label>
+                            <div class="m-input-icon m-input-icon--right">
+                                <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="ward_id" name="ward_id">
+                                    @foreach($wards as $ward)
+                                        <option value={{$ward->id}}>{{$ward->name}}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger">{{$errors->first('ward_id')}}</span>
+                            </div>
+                        </div>
 
                     </div>
+
                 </div>
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions px-0">
