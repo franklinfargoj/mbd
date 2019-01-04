@@ -12,7 +12,7 @@ use App\DeletedRoles;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Yajra\DataTables\DataTables;
-
+use App\MasterLayout;
 
 class WardController extends Controller
 {
@@ -79,7 +79,8 @@ class WardController extends Controller
      */
     public function create()
     {
-        return view('admin.crud_admin.wards.create');
+        $layouts = MasterLayout::get();
+        return view('admin.crud_admin.wards.create',compact('layouts'));
 
     }
     /**
@@ -91,10 +92,12 @@ class WardController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:master_wards,name',
-        ]);
+            'layout_id' => 'required'
+            ]);
         //create the new role
         $ward = new MasterWard();
         $ward->name = $request->input('name');
+        $ward->layout_id = $request->input('layout_id');
         $ward->save();
 
         return redirect()->route('ward.index')
@@ -110,8 +113,10 @@ class WardController extends Controller
     {
 //        dd($id);
         $ward = MasterWard::FindOrFail($id)->toArray();
+        $layouts = MasterLayout::get();
 
-        return view('admin.crud_admin.wards.show', compact( 'ward'));
+
+        return view('admin.crud_admin.wards.show', compact( 'ward','layouts'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -122,7 +127,8 @@ class WardController extends Controller
     public function edit($id)
     {
         $ward = MasterWard::FindOrFail($id)->toArray();
-        return view('admin.crud_admin.wards.edit',compact('ward'));
+        $layouts = MasterLayout::get();
+        return view('admin.crud_admin.wards.edit',compact('ward','layouts'));
     }
     /**
      * Update the specified resource in storage.
@@ -141,7 +147,12 @@ class WardController extends Controller
             $ward->name = $request->input('name');
         }
 
+        if($request->input('layout_id') != $ward['layout_id'] ){
+            $ward->layout_id = $request->input('layout_id');
+        }
+
         $ward->save();
+
         return redirect()->route('ward.index')
             ->with('success','Ward updated successfully');
     }
