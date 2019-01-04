@@ -1245,6 +1245,19 @@ class CommonController extends Controller
         return $vplogs;
     }
 
+    public function getRemarkHistory($applicationId)
+    {
+
+        // $roles = array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_branch_head'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.society_offer_letter'));
+
+        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+
+        // $eeRoles = Role::whereIn('name', $roles)->pluck('id');
+        $EElogs = OlApplicationStatus::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->whereIn('status_id', $status)->orderBy('id','DESC')->get();
+
+        return $EElogs;
+    }    
+
     //check if in layout detail all documents uploaded or not
     public function check_layout_details_complete_status($layout_id)
     {

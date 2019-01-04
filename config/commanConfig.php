@@ -268,7 +268,8 @@ return [
         '14' => 'purple', 
         '15' => 'success',
         '23' => 'success', 
-        '26'=>'info'
+        '26'=>'info',
+        '27'=>'success'
     ],
 
     'architect_applicationStatus' => [
