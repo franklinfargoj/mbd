@@ -16,6 +16,7 @@
         "maatwebsite/excel": "~2.1.0",
         "mpdf/mpdf": "^7.1",
         "niklasravnsborg/laravel-pdf": "^2.0",
+        "ntwindia/ntwindia": "^1.0",
         "phpoffice/phpword": "^0.15.0",
         "rguedes/pdfmerger": "^1.0",
         "thytanium/captcha": "2.*",
