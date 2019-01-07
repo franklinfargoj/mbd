@@ -47,7 +47,7 @@
 
                         </td>
                         <td class="text-center">
-                        <a href="{{ asset($data->society_document_path) }}" target="_blank">
+                        <a href="{{config('commanConfig.storage_server').'/'.$data->society_document_path }}" target="_blank">
                                 <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a></td>
                         <td class="text-center">
                             @if(isset($data->EE_document_path))

@@ -31,7 +31,7 @@
                     <th class="table-data--xs">EE दस्तावेज</th>
                     <th class="table-data--lg">टिप्पणी</th>
                 </thead>
-                <tbody>
+                <tbody> 
                     <?php $i=0; ?>
                     @foreach($societyDocuments[0]->societyDocuments as $data)
                     <tr>
@@ -47,7 +47,7 @@
                         </td>
                         <td class="text-center">
                             @if(isset($data->society_document_path))
-                            <a href="{{ asset($data->society_document_path) }}" target="_blank">
+                            <a href="{{ config('commanConfig.storage_server').'/'.$data->society_document_path }}" target="_blank">
                                 <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                             @endif
                         </td>

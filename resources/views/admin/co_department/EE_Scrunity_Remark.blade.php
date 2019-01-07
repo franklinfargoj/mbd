@@ -133,7 +133,7 @@
                                         <h3 class="section-title section-title--small">
                                             Document Scrutiny Sheet:
                                         </h3>
-                                    </div>
+                                    </div> 
                                 </div>
                                 <div class="m-section__content mb-0 table-responsive">
                                     <table class="table mb-0">
@@ -153,7 +153,7 @@
                                                 <td>{{($data->documents_Name[0]->name)}}</td>
                                                 <td class="text-center">
                                                     @if(isset($data->society_document_path))
-                                                    <a href="{{ asset($data->society_document_path) }}" target="_blank">
+                                                    <a href="{{config('commanConfig.storage_server').'/'.$data->society_document_path }}" target="_blank">
                                                         <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     @endif
                                                 </td>

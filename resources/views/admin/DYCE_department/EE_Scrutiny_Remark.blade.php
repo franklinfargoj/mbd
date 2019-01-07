@@ -154,12 +154,12 @@
                                             <?php $i=0; ?>
                                             @foreach($eeScrutinyData->eeApplicationSociety->societyDocuments
                                             as $data)
-                                            <tr>
+                                            <tr> 
                                                 <td>{{$i+1}}</td>
                                                 <td>{{($data->documents_Name[0]->name)}}</td>
                                                 <td class="text-center">
                                                     @if(isset($data->society_document_path))
-                                                    <a href="{{ asset($data->society_document_path) }}" target="_blank">
+                                                    <a href="{{config('commanConfig.storage_server').'/'.$data->society_document_path }}" target="_blank">
                                                         <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     @endif
                                                 </td>
