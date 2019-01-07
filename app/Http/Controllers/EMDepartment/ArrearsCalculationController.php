@@ -42,10 +42,20 @@ class ArrearsCalculationController extends Controller
 	        $building = MasterBuilding::where('society_id', $request->society_id)->find($request->building_id);
 	        $years 	  = ArrearsChargesRate::selectRaw('Distinct(year) as years')->where('society_id',$request->society_id)->where('building_id',$request->building_id)->pluck('years','years')->toArray();
 
-	        $select_year = date('Y');
-	        if($request->has('year') && '' != $request->year) {
+	        // $select_year = date('Y');
+	        // if($request->has('year') && '' != $request->year) {
+	        // 	$select_year = $request->year;
+	        // }
+
+	        $currentMonth = date('m');
+            if($currentMonth < 4) {
+                $select_year = date('Y') -1;
+            } elseif($request->has('year') && '' != $request->year) {
 	        	$select_year = $request->year;
-	        }
+	        }else {
+                $select_year = date('Y');
+            }
+
 	        $tenant = '';
 	        $columns = [
 	            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],

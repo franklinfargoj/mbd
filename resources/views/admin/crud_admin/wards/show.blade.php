@@ -25,6 +25,17 @@
                             <span class="text-danger">{{$errors->first('name')}}</span>
                         </div>
                     </div>
+                    <div class="col-sm-4 offset-sm-1 form-group">
+                        <label class="col-form-label" for="layout">Layouts:<span class="star">*</span></label>
+                        <div class="m-input-icon m-input-icon--right">
+                            <select disabled data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout">
+                                @foreach($layouts as $layout)
+                                    <option value={{$layout->id}}  {{($layout->id == $ward['layout_id']) ? 'selected' : '' }}>{{$layout->layout_name}}</option>
+                                @endforeach
+                            </select>
+                            <span class="text-danger">{{$errors->first('layout')}}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">

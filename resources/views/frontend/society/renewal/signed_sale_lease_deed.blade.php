@@ -7,7 +7,7 @@
         <!-- BEGIN: Subheader -->
         <div class="m-subheader px-0">
             <div class="d-flex">
-                {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
+                 {{ Breadcrumbs::render('society_renewal_signed_sale_lease', $sc_application->id) }}
                 <div class="ml-auto btn-list">
                     <a href="javascript:void(0);" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                 </div>
@@ -137,7 +137,7 @@
                                                                     @if(!(isset($sc_registrar_details['Lease Deed Agreement']) && count($sc_registrar_details['Lease Deed Agreement']) > 0))
                                                                         <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
                                                                     @endif
-                                                                    <a href="{{route('society_conveyance.index')}}" class="btn btn-secondary">Cancel</a>
+                                                                    <a href="{{route('society_renewal.index')}}" class="btn btn-secondary">Cancel</a>
                                                                 @endif
                                                             </div>
                                                         </div>

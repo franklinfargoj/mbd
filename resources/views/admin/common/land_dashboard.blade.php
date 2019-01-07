@@ -96,7 +96,7 @@
     <script>
         $(".architect-accordion").on("click", function () {
             var data = $('.architect-accordion').children().children().attr('aria-expanded');
-            alert(data);
+
             if (!(data)) {
                 $('.architect-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
             }

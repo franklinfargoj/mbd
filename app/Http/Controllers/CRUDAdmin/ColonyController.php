@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\CRUDAdmin;
 use App\DeletedColony;
 use App\MasterColony;
+use App\MasterLayout;
 use App\MasterWard;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -76,7 +77,9 @@ class ColonyController extends Controller
      */
     public function create()
     {
-        return view('admin.crud_admin.colony.create');
+        $layouts = MasterLayout::get();
+        $wards = MasterWard::get();
+        return view('admin.crud_admin.colony.create',compact('layouts','wards'));
 
     }
     /**
@@ -88,10 +91,12 @@ class ColonyController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:master_colonies,name',
+            'ward_id' => 'required'
         ]);
         //create the new role
         $colony = new MasterColony();
         $colony->name = $request->input('name');
+        $colony->ward_id = $request->input('ward_id');
         $colony->save();
 
         return redirect()->route('colony.index')
@@ -107,8 +112,9 @@ class ColonyController extends Controller
     {
 //        dd($id);
         $colony = MasterColony::FindOrFail($id)->toArray();
-
-        return view('admin.crud_admin.colony.show', compact( 'colony'));
+        $layouts = MasterLayout::get();
+        $wards = MasterWard::get();
+        return view('admin.crud_admin.colony.show', compact( 'colony','wards','layouts'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -119,7 +125,9 @@ class ColonyController extends Controller
     public function edit($id)
     {
         $colony = MasterColony::FindOrFail($id)->toArray();
-        return view('admin.crud_admin.colony.edit',compact('colony'));
+        $layouts = MasterLayout::get();
+        $wards = MasterWard::get();
+        return view('admin.crud_admin.colony.edit',compact('colony','wards','layouts'));
     }
     /**
      * Update the specified resource in storage.
@@ -131,12 +139,18 @@ class ColonyController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
+            'ward_id' => 'required'
         ]);
 
         $colony = MasterColony::FindOrFail($id);
         if($request->input('name') != $colony['name'] ){
             $colony->name = $request->input('name');
         }
+
+        if($request->input('ward_id') != $colony['ward_id'] ){
+            $colony->ward_id = $request->input('ward_id');
+        }
+
 
         $colony->save();
         return redirect()->route('colony.index')
@@ -168,5 +182,20 @@ class ColonyController extends Controller
     public function loadDeleteColonyUsingAjax(Request $request){
         $id = $request->id;
         return view('admin.crud_admin.colony.colonyDeleteReason', compact('id'))->render();
+    }
+
+    public function loadWardsOfLayoutUsingAjax(Request $request)
+    {
+        $layout_id = $request->layout_id;
+
+        $wards = MasterWard::where('layout_id', $layout_id)->get();
+
+        $options = '<option value="">Select Ward</option>';
+
+        foreach ($wards as $ward) {
+            $options .= '<option value="' . $ward['id'] . '">' . $ward['name'] . '</option>';
+        }
+
+        return $options;
     }
 }

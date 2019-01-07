@@ -64,10 +64,20 @@ class OlSharingCalculationSheetDetailsController extends Controller
 
         $dcr_rates = OlDcrRateMaster::all();
         // REE Note download
-
         $arrData['reeNote'] = REENote::where('application_id', $applicationId)->orderBy('id', 'desc')->first();
 
-        return view('admin.REE_department.sharing_calculation_sheet',compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));
+        $is_view = session()->get('role_name') == config('commanConfig.ree_junior'); 
+        $status = $this->CommonController->getCurrentStatus($applicationId);  
+    
+        if ($is_view && $status->status_id != config('commanConfig.applicationStatus.forwarded') && $status->status_id != config('commanConfig.applicationStatus.reverted')) {
+            $route = 'admin.REE_department.sharing_calculation_sheet';
+        }else {
+            $route = 'admin.common.sharingCalculationSheet';
+        }  
+        $REEController = new REEController();                         
+        $ol_application->folder = $REEController->getCurrentRoleFolderName();
+        
+        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));
 
     }
 

@@ -104,7 +104,7 @@ class SocietyRenewalController extends Controller
                 })
                 ->editColumn('status', function ($sr_applications) {
                     $status_display = '';
-                    if($sr_applications->application_status == config('commanConfig.renewal_status.Sent_society_to_pay_stamp_duety')){
+                    if($sr_applications->application_status == config('commanConfig.renewal_status.Send_society_to_pay_stamp_duty')){
                         $status_display = 'Pay Stamp Duty';
                     }elseif($sr_applications->application_status == config('commanConfig.renewal_status.Send_society_for_registration_of_Lease_deed')){
                         $status_display = 'Register Lease Deed';
@@ -132,7 +132,7 @@ class SocietyRenewalController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [4, "desc" ],
+            "order"=> [0, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page,
             // 'fixedHeader' => [
             //     'header' => true,
@@ -307,7 +307,8 @@ class SocietyRenewalController extends Controller
         }, 'societyApplication', 'applicationLayout', 'srApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();
-        $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
+
+        $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->application_master_id)->where('society_flag', '1')->where('document_name', '!=', config('commanConfig.documents.society.stamp_renewal_application'))->get();
         $documents_uploaded = RenewalDocumentStatus::where('application_id', $sc_application->id)->get();
 
         return view('frontend.society.renewal.show_sr_application', compact('sc_application', 'documents', 'documents_uploaded'));
@@ -339,7 +340,7 @@ class SocietyRenewalController extends Controller
         $comm_func = $this->CommonController;
         $layouts = MasterLayout::all();
         $master_tenant_type = MasterTenantType::all();
-        $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
+        $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->application_master_id)->where('society_flag', '1')->where('document_name', '!=', config('commanConfig.documents.society.stamp_renewal_application'))->get();
         $documents_uploaded = RenewalDocumentStatus::where('application_id', $sc_application->id)->get();
 
         return view('frontend.society.renewal.edit', compact('layouts', 'field_names', 'society_details', 'comm_func', 'sc_application', 'id','master_tenant_type', 'documents', 'documents_uploaded'));
@@ -618,7 +619,7 @@ class SocietyRenewalController extends Controller
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         } ])->orderBy('id', 'desc')->first();
 
-        $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->application_master_id)->get();
+        $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->application_master_id)->where('society_flag', '1')->where('document_name', '!=', config('commanConfig.documents.society.stamp_renewal_application'))->get();
         $documents_uploaded = RenewalDocumentStatus::where('application_id', $sc_application->id)->where('document_id', $id)->first();
 
         $path = $documents_uploaded->document_path;
@@ -875,7 +876,7 @@ class SocietyRenewalController extends Controller
             }
         }
 
-        $documents = SocietyConveyanceDocumentMaster::with(['sr_agreement_document_status', 'sr_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
+        $documents = SocietyConveyanceDocumentMaster::with(['sr_agreement_document_status', 'sr_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->application_master_id)->where('society_flag', '1')->where('document_name', '!=', config('commanConfig.documents.society.stamp_renewal_application'))->get();
         $documents_uploaded = RenewalDocumentStatus::where('application_id', $sc_application->id)->get();
 
         $sc_registration_details = new scRegistrationDetails;

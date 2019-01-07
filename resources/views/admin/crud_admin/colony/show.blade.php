@@ -25,6 +25,18 @@
                             <span class="text-danger">{{$errors->first('name')}}</span>
                         </div>
                     </div>
+
+                    <div class="col-sm-4 offset-sm-1 form-group">
+                        <label class="col-form-label" for="ward_id">Wards:<span class="star">*</span></label>
+                        <div class="m-input-icon m-input-icon--right">
+                            <select disabled data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="ward_id" name="ward_id">
+                                @foreach($wards as $ward)
+                                    <option value={{$ward->id}}  {{($ward->id == $colony['ward_id']) ? 'selected' : '' }}>{{$ward->name}}</option>
+                                @endforeach
+                            </select>
+                            <span class="text-danger">{{$errors->first('ward_id')}}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">

@@ -56,7 +56,7 @@ return [
        'sent_to_society' => 7,
        'Draft_sale_&_lease_deed' => 8,
        'Aproved_sale_&_lease_deed' => 9,
-       'Send_society_to_pay_stamp_duety' => 10,
+       'Send_society_to_pay_stamp_duty' => 10,
        'Stamped_sale_&_lease_deed' => 11,
        'Stamped_signed_sale_&_lease_deed' => 12,
        'Send_society_for_registration_of_sale_&_lease' => 13,
@@ -110,7 +110,7 @@ return [
         'pending' => 4,
         'Draft_sale_&_lease_deed' => 8,
         'Aproved_sale_&_lease_deed' => 9,
-        'Send_society_to_pay_stamp_duety' => 10,
+        'Send_society_to_pay_stamp_duty' => 10,
         'Stamped_sale_&_lease_deed' => 11,
         'Stamped_signed_sale_&_lease_deed' => 12,
         'Send_society_for_registration_of_sale_&_lease' => 13,
@@ -127,7 +127,7 @@ return [
         'Draft_Renewal_of_Lease_deed' => 18,
         'Aproved_Renewal_of_Lease' => 19,
         // 'NOC_Generation' => 20,
-        'Sent_society_to_pay_stamp_duety' => 10,
+        'Send_society_to_pay_stamp_duty' => 10,
         'Stamp_Renewal_of_Lease_deed' => 24,
         'Stamp_Sign_Renewal_of_Lease_deed' => 25,
         'Send_society_for_registration_of_Lease_deed' => 27,
@@ -268,7 +268,8 @@ return [
         '14' => 'purple', 
         '15' => 'success',
         '23' => 'success', 
-        '26'=>'info'
+        '26'=>'info',
+        '27'=>'success'
     ],
 
     'architect_applicationStatus' => [

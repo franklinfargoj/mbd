@@ -373,6 +373,7 @@ var SnippetLogin = function() {
                             required: !0
                         },
                         property_card_area: {
+                            number: true,
                             required: true
                         },
                         property_card_mhada_name: {
@@ -458,6 +459,7 @@ var SnippetLogin = function() {
                             required: !0
                         },
                         property_card_area: {
+                            number: true,
                             required: true
                         },
                         property_card_mhada_name: {

@@ -7,7 +7,7 @@
         <!-- BEGIN: Subheader -->
         <div class="m-subheader px-0">
             <div class="d-flex">
-                {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
+                {{ Breadcrumbs::render('society_renewal_sale_lease', $sc_application->id) }}
                 <div class="ml-auto btn-list">
                     <a href="javascript:void(0);" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                 </div>
@@ -93,8 +93,8 @@
                                                 </div>
                                             </div>
                                         @endif
-                                        @if($sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.pending') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Sent_society_to_pay_stamp_duety'))
-                                            <div class="col-sm-6 @if($sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.pending') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Sent_society_to_pay_stamp_duety')) border-left @endif">
+                                        @if($sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.pending') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Send_society_to_pay_stamp_duty'))
+                                            <div class="col-sm-6 @if($sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.pending') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Send_society_to_pay_stamp_duty')) border-left @endif">
                                                 <div class="d-flex flex-column h-100">
                                                     {{--<h5>Upload Lease Deed Agreement</h5>--}}
                                                     <span class="hint-text">Click on 'Upload' to upload Lease Deed Agreement</span>
@@ -164,7 +164,7 @@
                                                             {{--@if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.lease_deed_agreement'), $sc_agreement_comment) == false)--}}
                                                             {{--<button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>--}}
                                                             {{--@endif--}}
-                                                            @if(($sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.pending') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Sent_society_to_pay_stamp_duety') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Send_society_for_registration_of_sale_&_lease')))
+                                                            @if(($sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.pending') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Send_society_to_pay_stamp_duty') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Send_society_for_registration_of_sale_&_lease')))
                                                                 <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Submit</button>
                                                             @endif
                                                         </div>

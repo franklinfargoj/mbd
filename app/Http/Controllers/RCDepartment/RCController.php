@@ -297,10 +297,24 @@ class RCController extends Controller
        $request->tenant_id = decrypt($request->tenant_id);
        $request->building_id = decrypt($request->building_id);
 
+       $currentMonth = date('m');
+        if($currentMonth < 4) {
+            if($currentMonth == 1) {
+                $data['month'] = 12;
+                $data['year'] = date('Y') -1;
+            } else {
+                $data['month'] = date('m') -1;
+                $data['year'] = date('Y') -1;
+            }
+        } else {
+            $data['month'] = date('m');
+            $data['year'] = date('Y');
+        }
+
         $bill = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
                                    ->where('building_id', '=', $request->building_id)
-                                   ->where('bill_month', '=',  date('n'))
-                                   ->where('bill_year', '=', date('Y'))
+                                   ->where('bill_month', '=',  $data['month'])
+                                   ->where('bill_year', '=', $data['year'])
                                    ->with('tenant_detail')
                                    ->with('building_detail')
                                    ->with('society_detail')
@@ -600,8 +614,20 @@ class RCController extends Controller
             $data['month'] = date('m');
             $data['year'] = date('Y');
 
-            if($request->has('month') && !empty($request->month)) {
+            $currentMonth = date('m');
+            if($currentMonth < 4) {
+                if($currentMonth == 1) {
+                    $data['month'] = 12;
+                    $data['year'] = date('Y') -1;
+                } else {
+                    $data['month'] = date('m') -1;
+                    $data['year'] = date('Y') -1;
+                }
+            } elseif($request->has('month') && '' != $request->month) {
                 $data['month'] = $request->month;
+            } else {
+                $data['month'] = date('m');
+                $data['year'] = date('Y');
             }
 
             if($request->has('year') && !empty($request->year)) {
@@ -649,12 +675,28 @@ class RCController extends Controller
             $data['society'] = SocietyDetail::find($data['building']->society_id);
             $data['tenant'] = MasterTenant::where('building_id',$data['building']->id)->where('id',$request->tenant_id)->first();
 
-            $data['month'] = date('m');
-            $data['year'] = date('Y');
-
-            if($request->has('month') && !empty($request->month)) {
+            $currentMonth = date('m');
+            if($currentMonth < 4) {
+                if($currentMonth == 1) {
+                    $data['month'] = 12;
+                    $data['year'] = date('Y') -1;
+                } else {
+                    $data['month'] = date('m') -1;
+                    $data['year'] = date('Y') -1;
+                }
+            } elseif($request->has('month') && '' != $request->month) {
                 $data['month'] = $request->month;
+            } else {
+                $data['month'] = date('m');
+                $data['year'] = date('Y');
             }
+
+            // $data['month'] = date('m');
+            // $data['year'] = date('Y');
+
+            // if($request->has('month') && !empty($request->month)) {
+            //     $data['month'] = $request->month;
+            // }
 
             if($request->has('year') && !empty($request->year)) {
               $data['year'] = $request->year;

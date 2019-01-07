@@ -542,7 +542,7 @@ class renewalCommonController extends Controller
             $toUsers = $request->to_child_id;
         }
         
-        if (session()->get('role_name') == config('commanConfig.ee_branch_head') && $request->to_role_id == $dycdoId) {
+        if ((session()->get('role_name') == config('commanConfig.ee_branch_head') || session()->get('role_name') == config('commanConfig.estate_manager')) && $request->to_role_id == $dycdoId) {
        
             $Tostatus = config('commanConfig.renewal_status.Draft_Renewal_of_Lease_deed');
             $Scstatus = $Tostatus;
@@ -566,7 +566,7 @@ class renewalCommonController extends Controller
         }elseif((session()->get('role_name') == config('commanConfig.dycdo_engineer') && $request->to_role_id == $dycoId)){
             if ($applicationStatus == config('commanConfig.renewal_status.Aproved_Renewal_of_Lease')){
 
-                $Tostatus = config('commanConfig.renewal_status.Sent_society_to_pay_stamp_duety');
+                $Tostatus = config('commanConfig.renewal_status.Send_society_to_pay_stamp_duty');
                 $Scstatus = $Tostatus;
 
             }else if ($applicationStatus == config('commanConfig.renewal_status.Stamp_Sign_Renewal_of_Lease_deed')){
@@ -1220,7 +1220,7 @@ class renewalCommonController extends Controller
 
     public function pendingApplicationCount($roles){
 
-        $status = array(config('commanConfig.renewal_status.in_process'),config('commanConfig.renewal_status.Draft_Renewal_of_Lease_deed'),config('commanConfig.renewal_status.Aproved_Renewal_of_Lease'),config('commanConfig.renewal_status.Sent_society_to_pay_stamp_duety'),config('commanConfig.renewal_status.Registered_lease_deed'),config('commanConfig.renewal_status.Stamp_Renewal_of_Lease_deed'),config('commanConfig.renewal_status.Stamp_Sign_Renewal_of_Lease_deed'),config('commanConfig.renewal_status.Send_society_for_registration_of_Lease_deed'));
+        $status = array(config('commanConfig.renewal_status.in_process'),config('commanConfig.renewal_status.Draft_Renewal_of_Lease_deed'),config('commanConfig.renewal_status.Aproved_Renewal_of_Lease'),config('commanConfig.renewal_status.Send_society_to_pay_stamp_duty'),config('commanConfig.renewal_status.Registered_lease_deed'),config('commanConfig.renewal_status.Stamp_Renewal_of_Lease_deed'),config('commanConfig.renewal_status.Stamp_Sign_Renewal_of_Lease_deed'),config('commanConfig.renewal_status.Send_society_for_registration_of_Lease_deed'));
 
         $count = RenewalApplicationLog::where('is_active',1)
             ->whereIn('status_id',$status)
@@ -1250,7 +1250,7 @@ class renewalCommonController extends Controller
         $status['reverted']  = config('commanConfig.renewal_status.reverted');
         $status['draft']     = config('commanConfig.renewal_status.Draft_Renewal_of_Lease_deed');
         $status['approve']   = config('commanConfig.renewal_status.Aproved_Renewal_of_Lease');
-        $status['stampDuty'] = config('commanConfig.renewal_status.Sent_society_to_pay_stamp_duety');
+        $status['stampDuty'] = config('commanConfig.renewal_status.Send_society_to_pay_stamp_duty');
         $status['stamp']       = config('commanConfig.renewal_status.Stamp_Renewal_of_Lease_deed');
         $status['stampSign']       = config('commanConfig.renewal_status.Stamp_Sign_Renewal_of_Lease_deed');
         $status['sendForRegistration']  = config('commanConfig.renewal_status.Send_society_for_registration_of_Lease_deed');

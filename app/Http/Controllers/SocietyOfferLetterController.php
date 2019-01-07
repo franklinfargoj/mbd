@@ -263,6 +263,7 @@ class SocietyOfferLetterController extends Controller
             ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application No.'],
+            ['data' => 'application_type','name' => 'application_type','title' => 'Application Type'],
             ['data' => 'application_master_id','name' => 'application_master_id','title' => 'Model'],
             ['data' => 'created_at','name' => 'created_date','title' => 'Submission Date', 'class' => 'datatable-date'],
             ['data' => 'status','name' => 'status','title' => 'Status'],
@@ -467,19 +468,19 @@ class SocietyOfferLetterController extends Controller
 
 
 
-                    if(isset($ol_applications->is_noc_application))
-                    {
-                        $app_type = "<br><span class='m-badge m-badge--danger'>Application for Noc</span>";
-                    }
-                    elseif($ol_applications->is_noc_cc_application)
-                    {
-                        $app_type = "<br><span class='m-badge m-badge--warning'>Application for Noc (CC)</span>";
-                    }
-//                    elseif(in_array($ol_applications->application_master_id,$reval_master_ids_arr))
-                    elseif(isset($ol_applications->ol_application_master))
-                    {
-                        $app_type = "<br><span class='m-badge m-badge--success'> Application for ".$ol_applications->ol_application_master->title."</span>";
-                    }
+//                    if(isset($ol_applications->is_noc_application))
+//                    {
+//                        $app_type = "<br><span class='m-badge m-badge--danger'>Application for Noc</span>";
+//                    }
+//                    elseif($ol_applications->is_noc_cc_application)
+//                    {
+//                        $app_type = "<br><span class='m-badge m-badge--warning'>Application for Noc (CC)</span>";
+//                    }
+////                    elseif(in_array($ol_applications->application_master_id,$reval_master_ids_arr))
+//                    elseif(isset($ol_applications->ol_application_master))
+//                    {
+//                        $app_type = "<br><span class='m-badge m-badge--success'> Application for ".$ol_applications->ol_application_master->title."</span>";
+//                    }
 //                    elseif(in_array($ol_applications->application_master_id,$oc_master_ids_arr))
 //                    {
 //                        $app_type = "<br><span class='m-badge m-badge--success'>Consent For OC</span>";
@@ -489,7 +490,10 @@ class SocietyOfferLetterController extends Controller
 //                        $app_type = "<br><span class='m-badge m-badge--success'>Application for Offer letter</span>";
 //                    }
 
-                    return $ol_applications->application_no . $app_type;
+                    return $ol_applications->application_no;
+                })
+                ->editColumn('application_type', function ($ol_applications) {
+                    return $ol_applications->ol_application_master->title;
                 })
                 ->editColumn('application_master_id', function ($ol_applications) {
                     return $ol_applications->ol_application_master->model;
@@ -515,7 +519,7 @@ class SocietyOfferLetterController extends Controller
                 ->editColumn('model', function ($ol_applications) {
                     return view('frontend.society.actions', compact('ol_applications', 'status_display'))->render();
                 })
-                ->rawColumns(['radio', 'application_no', 'application_master_id', 'created_at','status','model'])
+                ->rawColumns(['radio', 'application_no', 'application_type', 'application_master_id', 'created_at','status','model'])
                 ->make(true);
         }
 
@@ -538,6 +542,41 @@ class SocietyOfferLetterController extends Controller
                 'class' => 'test_class'
             ]
         ];
+    }
+
+    public function get_docs_count($application, $society){
+        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['documents_uploaded' => function($q) use ($society){
+            $q->where('society_id', $society->id)->get();
+        }])->get();
+        foreach ($documents as $key => $value) {
+            $document_ids[] = $value->id;
+        }
+        $documents_uploaded = OlSocietyDocumentsStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->with(['documents_uploaded'])->get();
+
+        $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->first();
+        if($application->application_master_id == '2' || $application->application_master_id == '13'){
+            $optional_docs = config('commanConfig.optional_docs_premium');
+        }
+        if($application->application_master_id == '6' || $application->application_master_id == '17'){
+            $optional_docs = config('commanConfig.optional_docs_sharing');
+        }
+
+        $docs_uploaded_count = 0;
+        $docs_count = 0;
+
+        foreach($documents as $documents_key => $documents_val){
+            if(in_array($documents_key+1, $optional_docs) == false){
+                $docs_count++;
+                if(count($documents_val->documents_uploaded) > 0){
+                    $docs_uploaded_count++;
+                }
+            }
+        }
+        $arr = array(
+            'docs_count' => $docs_count,
+            'docs_uploaded_count' => $docs_uploaded_count
+        );
+        return $arr;
     }
 
     /**
@@ -1066,17 +1105,21 @@ class SocietyOfferLetterController extends Controller
 
         $docs_uploaded_count = 0;
         $docs_count = 0;
-
+        $i=0;
         foreach($documents as $documents_key => $documents_val){
-                if(in_array($documents_key+1, $optional_docs) == false){
-                    $docs_count++;
-                    if(count($documents_val->documents_uploaded) > 0){
-                        $docs_uploaded_count++;
-                    }
+            if(in_array($documents_key+1, $optional_docs) == false){
+                $docs_count++;
+                if(count($documents_val->documents_uploaded) > 0){
+                    $docs_uploaded_count++;
+                    $i++;
                 }
+            }
         }
 
-        return view('frontend.society.society_upload_documents', compact('documents','ol_applications',  'optional_docs', 'docs_count', 'docs_uploaded_count', 'documents_uploaded', 'society', 'application', 'documents_comment'));
+        $documents_arr['docs_count'] = $docs_count;
+        $documents_arr['docs_uploaded_count'] = $docs_uploaded_count;
+
+        return view('frontend.society.society_upload_documents', compact('documents','ol_applications',  'optional_docs', 'docs_count', 'docs_uploaded_count', 'documents_uploaded', 'society', 'application', 'documents_comment', 'documents_arr'));
     }
 
 
@@ -1949,8 +1992,9 @@ class SocietyOfferLetterController extends Controller
         $layouts = MasterLayout::all();
         $id = $ol_application->application_master_id;
         $ol_applications = $ol_application;
+        $documents_arr = $this->get_docs_count($ol_application, $society_details);
 
-        return view('frontend.society.show_ol_application_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id'));
+        return view('frontend.society.show_ol_application_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id', 'documents_arr'));
     }
 
 
@@ -2027,8 +2071,9 @@ class SocietyOfferLetterController extends Controller
         $layouts = MasterLayout::all();
         $id = $ol_application->application_master_id;
         $ol_applications = $ol_application;
+        $documents_arr = $this->get_docs_count($ol_application, $society_details);
 
-        return view('frontend.society.edit_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id'));
+        return view('frontend.society.edit_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id', 'documents_arr'));
     }
 
     public function editRevalOfferLetterApplication(){
@@ -2199,8 +2244,9 @@ class SocietyOfferLetterController extends Controller
             $q->where('society_flag', '1')->orderBy('id', 'desc');
         }])->first();
         $ol_applications = $application_details;
+        $documents_arr = $this->get_docs_count($ol_applications, $society);
 
-        return view('frontend.society.upload_download_offer_letter_application_form', compact('ol_applications', 'application_details'));
+        return view('frontend.society.upload_download_offer_letter_application_form', compact('ol_applications', 'application_details', 'documents_arr'));
     }
 
     public function showuploadRevalOfferLetterAfterSign(){

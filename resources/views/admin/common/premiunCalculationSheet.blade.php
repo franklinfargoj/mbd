@@ -17,7 +17,7 @@
   
 <div class="custom-wrapper">
     <div class="col-md-12">
-        <div class="d-flex">
+        <div class="d-flex"> 
       
             @if($route_name=='co.show_calculation_sheet')
             {{ Breadcrumbs::render('calculation_sheet_co',$ol_application->id) }}
@@ -91,9 +91,8 @@
                                         <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                         <input name="user_id" type="hidden" value="{{ $user->id }}" />
                                         <div class="d-flex justify-content-between align-items-center mb-4">
-                                            <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");'
-                                                    style="max-width: 22px"></a>
+                                            <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");'
+                                                    style="max-width: 22px" class="printBtn"></a>
                                         </div>
                                         <thead class="thead-default">
                                             <tr>
@@ -631,9 +630,8 @@
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("two");'
-                                                style="max-width: 22px"></a>
+                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("two");'
+                                                style="max-width: 22px" class="printBtn"></a>
                                     </div>
                                     <table class="table mb-0" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                         <thead class="thead-default">
@@ -764,9 +762,8 @@
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("three");'
-                                                style="max-width: 22px"></a>
+                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("three");'
+                                                style="max-width: 22px" class="printBtn"></a>
                                     </div>
                                     <table class="table mb-0" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
 
@@ -951,9 +948,8 @@
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("four");'
-                                                style="max-width: 22px"></a>
+                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("four");'
+                                                style="max-width: 22px" class="printBtn"></a>
                                     </div>
                                     <table class="table mb-0" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                         <thead class="thead-default">
@@ -1013,7 +1009,7 @@
                             <div class="m-section__content mb-0 table-responsive">
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                            src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("five");' style="max-width: 22px"></a>
+                                            src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("five");' style="max-width: 22px" class="printBtn"></a>
                                 </div>
                                 <table class="table mb-0" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                     <thead class="thead-default" >
@@ -1551,9 +1547,8 @@
         });
 
         function PrintElem(elem) {
-
+            $(".printBtn").css("display","none");
             var printable = document.getElementById(elem).innerHTML;
-
             var mywindow = window.open('', 'PRINT', 'height=400,width=600');
 
             mywindow.document.write('<html><head><title>Maharashtra Housing and development authority</title>');
@@ -1566,7 +1561,7 @@
 
             mywindow.print();
             mywindow.close();
-
+            $(".printBtn").css("display","block");
             return true;
         }
 

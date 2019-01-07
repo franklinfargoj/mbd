@@ -100,7 +100,7 @@ $route=\Request::route()->getName();
         </li>
     @endif
 
-    @if(isset($data->application_status) && ($data->application_status == config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed') || $data->application_status == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duety')) )    
+    @if(isset($data->application_status) && ($data->application_status == config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed') || $data->application_status == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty')) )    
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='conveyance.approved_sale_lease_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Approved Sale & Lease Deed" href="{{ route('conveyance.approved_sale_lease_agreement', encrypt($data->id)) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">

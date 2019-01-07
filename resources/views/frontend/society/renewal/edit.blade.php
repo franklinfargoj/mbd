@@ -95,10 +95,12 @@
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="template">Upload File:</label>
-                            <input class="custom-file-input" name="template" type="file"
-                                   id="test-upload">
-                            <label class="custom-file-label" for="test-upload">Choose
-                                file ...</label>
+                            <div class="custom-file">
+                                <input class="custom-file-input" name="template" type="file"
+                                       id="test-upload">
+                                <label class="custom-file-label" for="test-upload">Choose
+                                    file ...</label>
+                            </div>
                             <span class="help-block">@if(session('error')) {{ session('error') }} @endif {{$errors->first('template')}}</span>
                             <span><a href="{{ config('commanConfig.storage_server').'/'.$sc_application->sr_form_request->template_file }}">{{ str_replace('/', '', strrchr($sc_application->sr_form_request->template_file, '/')) }}</a></span>
                         </div>
@@ -109,7 +111,7 @@
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="btn-list">
-                                        <a href="{{url('/hearing')}}" class="btn btn-secondary">Cancel</a>
+                                        <a href="{{ route('society_renewal.index') }}" class="btn btn-secondary">Cancel</a>
                                         <button type="submit"  class="btn btn-primary">Update</button>
                                     </div>
                                 </div>

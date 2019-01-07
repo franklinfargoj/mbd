@@ -202,16 +202,8 @@ class REEController extends Controller
             $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
         }
 
-        //remark and history
-        $eelogs   = $this->CommonController->getLogsOfEEDepartment($applicationId);
-        $dyceLogs = $this->CommonController->getLogsOfDYCEDepartment($applicationId);
-        $reeLogs  = $this->CommonController->getLogsOfREEDepartment($applicationId); 
-        $coLogs   = $this->CommonController->getLogsOfCODepartment($applicationId); 
-        $capLogs  = $this->CommonController->getLogsOfCAPDepartment($applicationId); 
-        $vpLogs   = $this->CommonController->getLogsOfVPDepartment($applicationId); 
-
-          // dd($ol_application->offer_letter_document_path);
-        return view('admin.REE_department.forward_application',compact('applicationData','arrData','ol_application','eelogs','dyceLogs','reeLogs','coLogs','capLogs','vpLogs'));  
+        $remarkHistory = $this->CommonController->getRemarkHistory($applicationId);
+        return view('admin.REE_department.forward_application',compact('applicationData','arrData','ol_application','remarkHistory'));  
     }
 
 
@@ -843,7 +835,6 @@ class REEController extends Controller
         $dcr_rates = $user->dcr_rates;
         $blade = $user->blade;
         $arrData['reeNote'] = $user->areeNote;
-        // dd($blade);
         return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','folder'));
 
     }

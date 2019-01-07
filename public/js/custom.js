@@ -753,6 +753,61 @@ $(document).ready(function () {
     });
 
 
+    // Ward Layout
+    $("#addward").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules:{
+            name : 'required',
+            layout_id : 'required'
+        }
+    });
+
+    $("#editward").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules:{
+            rules:{
+                name : 'required',
+                layout_id : 'required'
+            }
+        }
+    });
+
+    $("#DeleteWardReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
+
+    // Colony Layout
+    $("#addcolony").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules:{
+            name : 'required',
+            ward_id : 'required'
+        }
+    });
+
+    $("#editcolony").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules:{
+            rules:{
+                name : 'required',
+                ward_id : 'required'
+            }
+        }
+    });
+
+    $("#DeleteColonyReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
+
+
 
     $("#appointing_architect_step1").validate({
         rules:{
