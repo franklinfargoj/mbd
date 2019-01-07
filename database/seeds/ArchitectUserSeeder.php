@@ -620,6 +620,17 @@ class ArchitectUserSeeder extends Seeder
                 'description'=>'post_prc_detail'
             ];
             $architect_permissions[]= [
+                'name'=>'delete_crz_remark',
+                'display_name'=>'delete_crz_remark',
+                'description'=>'delete_crz_remark'
+            ];
+            $architect_permissions[]= [
+                'name'=>'delete_dp_remark',
+                'display_name'=>'delete_dp_remark',
+                'description'=>'delete_dp_remark'
+            ];
+            
+            $architect_permissions[]= [
                 'name'=>'architect_layout_detail_prc_detail',
                 'display_name'=>'architect_layout_detail_prc_detail',
                 'description'=>'architect_layout_detail_prc_detail'

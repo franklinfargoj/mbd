@@ -9,147 +9,79 @@
     </div>
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="portlet-body">
-            {{--@if ($errors->any())
-            @foreach ($errors->all() as $error)
-            <div>{{$error}}</div>
-            @endforeach
-            @endif--}}
-            @if(Session::has('success'))
-            <div class="alert alert-success">
-                <p> {{ Session::get('success') }} </p>
-            </div>
-            @endif
-            @if(Session::has('error'))
-            <div class="alert alert-danger">
-                <p> {{ Session::get('error') }} </p>
-            </div>
-            @endif
-                <input type="hidden" name="architect_layout_detail_id" value="{{$ArchitectLayoutDetail->id}}">
-                <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
-                    <div class="m-subheader">
-                        <div class="d-flex align-items-center">
-                            <h3 class="section-title section-title--small">
-                                DP Remark
-                            </h3>
-                        </div>
-                        <div class="m-form__group row">
-                            <div class="col-lg-3 form-group">
-                                <label for="Upload_Cts_Plan">Letter</label>
-                            </div>
-                            <div class="col-lg-7 form-group">
+            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
+                <div class="m-subheader">
+                    <div class="d-flex align-items-center">
+                        <h3 class="section-title section-title--small">
+                            DP Remark
+                        </h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table text-center">
+                            <tr class="thead-default">
+                                <th>Letter</th>
+                                <th>DP Plan</th>
+                                <th>Comment</th>
+                            </tr>
+                            @forelse ($ArchitectLayoutDetail->ArchitectLayoutDetailDpRemark as $item)
+                            <tr>
+                                <td>
+                                    <a class="text-primary" target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->dp_letter}}">download</a>
+                                </td>
+                                <td>
+                                    <a class="text-primary" target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->dp_plan}}">download</a>
+                                </td>
+                                <td>
+                                    {{$item->dp_comment}}
+                                </td>
 
-                                <div class="custom-file">
-                                    @if($ArchitectLayoutDetail->dp_letter!="")
-                                    <a target="_blank" id="dp_remark_letter_uploaded_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->dp_letter}}">uploaded
-                                        file</a>
-                                    @endif
-                                    @if ($errors->has('dp_remark_letter'))
-                                    <span class="error">{{ $errors->first('dp_remark_letter') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        <div class="m-form__group row">
-                            <div class="col-lg-3 form-group">
-                                <label for="Upload_Cts_Plan">DP Plan</label>
-                            </div>
-                            <div class="col-lg-7 form-group">
-                                <div class="custom-file">
-                                    @if($ArchitectLayoutDetail->dp_plan!="")
-                                    <a target="_blank" id="dp_remark_plan_uploaded_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->dp_plan}}">uploaded
-                                        file</a>
-                                    @endif
-                                    @if ($errors->has('dp_remark_plan'))
-                                    <span class="error">{{ $errors->first('dp_remark_plan') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        <div class="m-form__group row">
-                            <div class="col-lg-3 form-group">
-                                <label for="Upload_Cts_Plan">Comments</label>
-                            </div>
-                            <div class="col-lg-7 form-group">
-                                <div class="custom-file">
-                                    <textarea disabled type="text" name="dp_comment" id="dp_comment" class="form-control form-control--custom form-control--fixed-height">{{old('dp_comment')?old('dp_comment'):$ArchitectLayoutDetail->dp_comment}}</textarea>
-                                    @if ($errors->has('dp_comment'))
-                                    <span class="error">{{ $errors->first('dp_comment') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
+                            </tr>
+                            @empty
+                            <tr class="thead-default">
+                                <td colspan="4"><span class="text-danger">No record found</span></td>
+                            </tr>
+                            @endforelse
+                        </table>
                     </div>
                 </div>
+            </div>
 
-                <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
-                    <div class="m-subheader">
-                        <div class="d-flex align-items-center">
-                            <h3 class="section-title section-title--small">
-                                CRZ Remark
-                            </h3>
-                        </div>
-                        <div class="m-form__group row">
-                            <div class="col-lg-3 form-group">
-                                <label for="Upload_Cts_Plan">Letter</label>
-                            </div>
-                            <div class="col-lg-7 form-group">
+            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
+                <div class="m-subheader">
+                    <div class="d-flex align-items-center">
+                        <h3 class="section-title section-title--small">
+                            CRZ Remark
+                        </h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table text-center">
+                            <tr class="thead-default">
+                                <th>Letter</th>
+                                <th>CRZ Plan</th>
+                                <th>Comment</th>
+                            </tr>
+                            @forelse ($ArchitectLayoutDetail->ArchitectLayoutDetailCrzRemark as $item)
+                            <tr>
+                                <td>
+                                    <a class="text-primary" target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->crz_letter}}">download</a>
+                                </td>
+                                <td>
+                                    <a class="text-primary" target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->crz_plan}}">download</a>
+                                </td>
+                                <td>
+                                    {{$item->crz_comment}}
+                                </td>
 
-                                <div class="custom-file">
-                                    @if($ArchitectLayoutDetail->crz_letter!="")
-                                    <a target="_blank" id="crz_remark_letter_uploaded_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->crz_letter}}">uploaded
-                                        file</a>
-                                    @endif
-                                    @if ($errors->has('crz_remark_letter'))
-                                    <span class="error">{{ $errors->first('crz_remark_letter') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        <div class="m-form__group row">
-                            <div class="col-lg-3 form-group">
-                                <label for="Upload_Cts_Plan">CRZ Plan</label>
-                            </div>
-                            <div class="col-lg-7 form-group">
-                                <div class="custom-file">
-                                   @if($ArchitectLayoutDetail->crz_plan!="")
-                                    <a target="_blank" id="crz_remark_plan_uploaded_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->crz_plan}}">uploaded
-                                        file</a>
-                                    @endif
-                                    @if ($errors->has('crz_remark_plan'))
-                                    <span class="error">{{ $errors->first('crz_remark_plan') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        <div class="m-form__group row">
-                            <div class="col-lg-3 form-group">
-                                <label for="Upload_Cts_Plan">Comments</label>
-                            </div>
-                            <div class="col-lg-7 form-group">
-                                <div class="custom-file">
-                                    <textarea disabled type="text" name="crz_comment" id="crz_comment" class="form-control form-control--custom form-control--fixed-height">{{old('crz_comment')?old('crz_comment'):$ArchitectLayoutDetail->crz_comment}}</textarea>
-                                    @if ($errors->has('crz_comment'))
-                                    <span class="error">{{ $errors->first('crz_comment') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
-                            <div class="m-form__actions px-0">
-                                <div class="row">
-                                    <div class="col-lg-3">
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="btn-list">
-                                        <a href="{{route('architect_layout_details.view',['layout_id'=>encrypt($ArchitectLayoutDetail->architect_layout_id)])}}"
-                                                        class="btn btn-primary btn-custom">Back</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            </tr>
+                            @empty
+                            <tr class="thead-default">
+                                <td colspan="4"><span class="text-danger">No record found</span></td>
+                            </tr>
+                            @endforelse
+                        </table>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
 </div>
