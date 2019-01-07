@@ -709,7 +709,7 @@ class REEController extends Controller
         $applicationData = OlApplication::with(['eeApplicationSociety'])
                 ->where('id',$applicationId)->orderBy('id','DESC')->first();
 
-        $this->CommonController->getREEForwardRevertLog($applicationData,$applicationId); 
+        // $this->CommonController->getREEForwardRevertLog($applicationData,$applicationId); 
        
        // get Co log
         $co = Role::where('name',config('commanConfig.co_engineer'))->value('id');
