@@ -102,12 +102,14 @@ class ColonyController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:master_colonies,name',
+            'layout_id' => 'required',
             'ward_id' => 'required'
         ]);
         //create the new role
         $colony = new MasterColony();
         $colony->name = $request->input('name');
         $colony->ward_id = $request->input('ward_id');
+        $colony->description = $request->input('description');
         $colony->save();
 
         return redirect()->route('colony.index')
