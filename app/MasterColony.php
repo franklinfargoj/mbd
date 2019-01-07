@@ -20,4 +20,10 @@ class MasterColony extends Model
     	return $this->belongsTo('App\MasterWard');	
     
     }
+
+    public function getWardName(){
+        return $this->hasOne('App\MasterWard', 'id','ward_id');
+
+    }
+
 }
