@@ -638,8 +638,10 @@ class SocietyController extends Controller
                 $lease_start_date = $lease_detail_val->lease_start_date;
                 $lease_period = '+'.$lease_detail_val->lease_period.' years';
                 $lease_end_date = date('Y-m-d', strtotime($lease_period, strtotime($lease_detail_val->lease_start_date)));
-                $current_date = date('Y-m-d', strtotime('+3 days'));
-                if(($society_datas_val->id == $lease_detail_val->society_id) && ($current_date == $lease_end_date)){
+//                $current_date = date('Y-m-d', strtotime('+3 days'));
+                $current_date = date('Y-m-d');
+                $notification_from_date = date('Y-m-d', strtotime('-3 days',strtotime($lease_end_date)));
+                if(($society_datas_val->id == $lease_detail_val->society_id) && ($current_date <= $lease_end_date && $current_date >= $notification_from_date)){
                     $society_data[] = $society_datas_val;
                     $lease_count++;
                 }
