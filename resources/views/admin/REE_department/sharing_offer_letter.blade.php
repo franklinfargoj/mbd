@@ -7,9 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
-
-
 <body>
+@php $ntw = new \NTWIndia\NTWIndia(); @endphp
     <form id="OfferLetterFRM" action="{{ route('ree.save_offer_letter')}}" method="post">
         @csrf
         <input type="hidden" id="applicationId" name="applicationId" value="{{$applicatonId}}">
@@ -319,7 +318,7 @@
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
-                            <td colspan="2" style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Rs. {{  converNumberToWord(($calculationData->sharingCalculationSheet) !="" ? str_replace( ',', '',$calculationData->sharingCalculationSheet->amount_to_b_paid_to_municipal_corporation) : '' ) }}</td>
+                            <td colspan="2" style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Rs. {{  $ntw->numToWord(($calculationData->sharingCalculationSheet) !="" ? str_replace( ',', '',$calculationData->sharingCalculationSheet->amount_to_b_paid_to_municipal_corporation) : '' ) }}</td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
@@ -372,12 +371,12 @@
 
                  Rs.{{ ($calculationData->sharingCalculationSheet) !="" ? $calculationData->sharingCalculationSheet->total_amount_in_rs : '_____' }}/- 
 
-                 (Rs. {{  converNumberToWord(($calculationData->sharingCalculationSheet) !="" ? str_replace( ',', '',$calculationData->sharingCalculationSheet->total_amount_in_rs) : '' ) }}) may be paid in the office of the Chief Accounts Officer/ Mumbai Board, Third Floor, Griha Nirman Bhavan, Bandra (E), Mumbai – 400051 by Demand Draft/ Pay Order within SIX months from the date of issue of this letter and produce certified Xerox copy of the receipt in this office.</p> 
+                 (Rs. {{  $ntw->numToWord(($calculationData->sharingCalculationSheet) !="" ? str_replace( ',', '',$calculationData->sharingCalculationSheet->total_amount_in_rs) : '' ) }}) may be paid in the office of the Chief Accounts Officer/ Mumbai Board, Third Floor, Griha Nirman Bhavan, Bandra (E), Mumbai – 400051 by Demand Draft/ Pay Order within SIX months from the date of issue of this letter and produce certified Xerox copy of the receipt in this office.</p> 
                 <p style="text-indent: 25px; margin-top: 5px; margin-bottom: 5px;">The society should pay Rs. 
 
                 {{ ($calculationData->sharingCalculationSheet) !="" ? $calculationData->sharingCalculationSheet->amount_to_b_paid_to_municipal_corporation : '_____' }}/- 
 
-                (In words Rs. {{  converNumberToWord(($calculationData->sharingCalculationSheet) !="" ? str_replace( ',', '',$calculationData->sharingCalculationSheet->amount_to_b_paid_to_municipal_corporation) : '' ) }}) in the office of the Executive Engineer, {{($calculationData->eeApplicationSociety->address ? $calculationData->eeApplicationSociety->address : '')}}., within SIX months from the date of issue of this letter  and produce certified Xerox copy of the receipt in this office.</p>                 
+                (In words Rs. {{  $ntw->numToWord(($calculationData->sharingCalculationSheet) !="" ? str_replace( ',', '',$calculationData->sharingCalculationSheet->amount_to_b_paid_to_municipal_corporation) : '' ) }}) in the office of the Executive Engineer, {{($calculationData->eeApplicationSociety->address ? $calculationData->eeApplicationSociety->address : '')}}., within SIX months from the date of issue of this letter  and produce certified Xerox copy of the receipt in this office.</p>                 
                 <p style="text-indent: 25px; margin-top: 5px; margin-bottom: 5px;">On receipt of the same & after execution of tripartite agreement as mentioned above  for surrender of constructed BUA as MHADA's share the NOC will be  processed under certain terms and condition, which may please, be noted.</p>                
                 <p style="margin-bottom: 5px; margin-top: 5px;">Encl.: Annexure-I </p>
                 <p style="margin-bottom: 5px; margin-top: 5px; font-weight: bold;">(Draft approved by CO/MB) </p>

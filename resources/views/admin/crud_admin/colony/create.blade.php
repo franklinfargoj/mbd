@@ -20,10 +20,18 @@
                 <div class="m-portlet__body m-portlet__body--spaced">
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="name">Colony Name:</label>
+                            <label class="col-form-label" for="name">Colony Name:<span class="star">*</span></label>
                             <div class="m-input-icon m-input-icon--right">
                                 <input type="text" id="name" name="name" class="form-control form-control--custom m-input"  value="{{ old('name') }}">
                                 <span class="text-danger">{{$errors->first('name')}}</span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="description">Colony Description:</label>
+                            <div class="m-input-icon m-input-icon--right">
+                                <input type="text" id="description" name="description" class="form-control form-control--custom m-input"  value="{{ old('description') }}">
+                                <span class="text-danger">{{$errors->first('description')}}</span>
                             </div>
                         </div>
                     </div>
@@ -34,17 +42,17 @@
                             <div class="m-input-icon m-input-icon--right">
                                 <select title="Select Layout" data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout_id" name="layout_id">
                                     @foreach($layouts as $layout)
-                                        <option value={{$layout->id}}>{{$layout->layout_name}}</option>
+                                        <option class="layout" value={{$layout->id}}>{{$layout->layout_name}}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger">{{$errors->first('layout')}}</span>
                             </div>
                         </div>
 
-                        <div class="col-sm-4 offset-sm-1 form-group">
+                        <div id="ward" class="col-sm-4 offset-sm-1 form-group" style="display: none">
                             <label class="col-form-label" for="ward_id">Wards:<span class="star">*</span></label>
                             <div class="m-input-icon m-input-icon--right">
-                                <select title="Select Wards" data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="ward_id" name="ward_id">
+                                <select title="Select Ward" data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="ward_id" name="ward_id">
                                     @foreach($wards as $ward)
                                         <option value={{$ward->id}}>{{$ward->name}}</option>
                                     @endforeach
@@ -71,5 +79,41 @@
             </form>
         </div>
     </div>
+@endsection
+@section('js')
+    <script>
+
+        loadWardsOfLayout();
+
+        $('#layout_id').change(function(){
+            $('#ward').show();
+            loadWardsOfLayout();
+            $('.m_selectpicker').selectpicker('refresh');
+        });
+
+        function loadWardsOfLayout()
+        {
+            var layout_id = $('#layout_id').val();
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type:"POST",
+                data:{
+                    layout_id:layout_id
+                },
+                url:"{{ route('loadWardsOfLayoutUsingAjax') }}",
+                success:function(res){
+
+                    $('#ward_id').html(res);
+                    $('.m_selectpicker').selectpicker('refresh');
+                }
+            });
+        }
+
+
+    </script>
+
 @endsection
 

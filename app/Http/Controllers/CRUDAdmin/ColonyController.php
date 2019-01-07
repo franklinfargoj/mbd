@@ -30,13 +30,18 @@ class ColonyController extends Controller
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'name','name' => 'name','title' => 'Name'],
+            ['data' => 'ward_id','name' => 'ward_id','title' => 'Ward Name'],
+            ['data' => 'layout_name','name' => 'layout_name','title' => 'Layout Name'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 //dd($datatables->getRequest()->ajax());
         if ($datatables->getRequest()->ajax()) {
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
 
-            $colony_data = MasterColony::all();
+            $colony_data = MasterColony::with(['getWardName' => function($q){
+                $q->with('getLayoutName')->get();
+            }])->get();
+
             return $datatables->of($colony_data)
                 ->editColumn('rownum', function ($colony_data) {
                     static $i = 0;
@@ -46,11 +51,17 @@ class ColonyController extends Controller
                 ->editColumn('name', function ($colony_data) {
                     return $colony_data->name;
                 })
+                ->editColumn('ward_id', function ($colony_data) {
+                    return $colony_data->getWardName->name;
+                })
+                ->editColumn('layout_name', function ($colony_data) {
+                    return $colony_data->getWardName->getLayoutName->layout_name;
+                })
                 ->editColumn('actions', function ($colony_data) {
                     return view('admin.crud_admin.colony.action', compact('colony_data'))->render();
                 })
 
-                ->rawColumns(['name','actions'])
+                ->rawColumns(['name','ward_id','layout_name','actions'])
                 ->make(true);
 
         }
@@ -91,12 +102,14 @@ class ColonyController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:master_colonies,name',
+            'layout_id' => 'required',
             'ward_id' => 'required'
         ]);
         //create the new role
         $colony = new MasterColony();
         $colony->name = $request->input('name');
         $colony->ward_id = $request->input('ward_id');
+        $colony->description = $request->input('description');
         $colony->save();
 
         return redirect()->route('colony.index')
@@ -182,5 +195,20 @@ class ColonyController extends Controller
     public function loadDeleteColonyUsingAjax(Request $request){
         $id = $request->id;
         return view('admin.crud_admin.colony.colonyDeleteReason', compact('id'))->render();
+    }
+
+    public function loadWardsOfLayoutUsingAjax(Request $request)
+    {
+        $layout_id = $request->layout_id;
+
+        $wards = MasterWard::where('layout_id', $layout_id)->get();
+
+        $options = '<option value="">Select Ward</option>';
+
+        foreach ($wards as $ward) {
+            $options .= '<option value="' . $ward['id'] . '">' . $ward['name'] . '</option>';
+        }
+
+        return $options;
     }
 }

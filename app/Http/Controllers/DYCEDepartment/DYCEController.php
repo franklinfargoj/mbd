@@ -214,19 +214,12 @@ class DYCEController extends Controller
 
         $arrData['ree_role_name']   = strtoupper(str_replace('_', ' ', $ree_id->name));
 
-        $this->CommonController->getEEForwardRevertLog($applicationData,$applicationId);
-
         //remark and history
-        $eelogs   = $this->CommonController->getLogsOfEEDepartment($applicationId);
-        $dyceLogs = $this->CommonController->getLogsOfDYCEDepartment($applicationId);
-        $reeLogs  = $this->CommonController->getLogsOfREEDepartment($applicationId); 
-        $coLogs   = $this->CommonController->getLogsOfCODepartment($applicationId); 
-        $capLogs  = $this->CommonController->getLogsOfCAPDepartment($applicationId); 
-        $vpLogs   = $this->CommonController->getLogsOfVPDepartment($applicationId);
+        $remarkHistory = $this->CommonController->getRemarkHistory($applicationId);
 
-        return view('admin.DYCE_department.forward_application',compact('applicationData', 'arrData','ol_application','eelogs','dyceLogs','reeLogs','coLogs','capLogs','vpLogs'));
+        return view('admin.DYCE_department.forward_application',compact('applicationData', 'arrData','ol_application','remarkHistory'));
     }
-
+ 
     // forward or revert forward Application
     public function sendForwardApplication(Request $request){
 

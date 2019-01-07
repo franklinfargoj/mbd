@@ -28,6 +28,13 @@
                                 <span class="text-danger">{{$errors->first('name')}}</span>
                             </div>
                         </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="description">Colony Description:</label>
+                            <div class="m-input-icon m-input-icon--right">
+                                <input type="text" id="description" name="description" class="form-control form-control--custom m-input"  value="{{ $colony['description'] }}">
+                                <span class="text-danger">{{$errors->first('description')}}</span>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group m-form__group row">
@@ -43,7 +50,7 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-4 offset-sm-1 form-group">
+                        <div id="ward" class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="ward_id">Wards:<span class="star">*</span></label>
                             <div class="m-input-icon m-input-icon--right">
                                 <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="ward_id" name="ward_id">
@@ -73,4 +80,38 @@
         </div>
     </div>
 @endsection
+@section('js')
+    <script>
+
+
+        $('#layout_id').change(function(){
+            $('#ward').show();
+            loadWardsOfLayout();
+            $('.m_selectpicker').selectpicker('refresh');
+        });
+
+        function loadWardsOfLayout()
+        {
+            var layout_id = $('#layout_id').val();
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type:"POST",
+                data:{
+                    layout_id : layout_id,
+                },
+                url:"{{ route('loadWardsOfLayoutUsingAjax') }}",
+                success:function(res){
+
+                    $('#ward_id').html(res);
+                    $('.m_selectpicker').selectpicker('refresh');
+                }
+            });
+        }
+    </script>
+
+@endsection
+
 

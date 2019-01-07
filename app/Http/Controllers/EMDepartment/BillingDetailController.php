@@ -50,7 +50,14 @@ class BillingDetailController extends Controller
     	// 	'2'  => 'Feb',
     	// ];
     	$years = [];
-    	$select_year = $data['arrear_year']  = date('Y');
+        $currentMonth = date('m');
+        if($currentMonth < 4) {
+            $year = date('Y') -1;
+        } else {
+            $year = date('Y');
+        }
+
+    	$select_year = $data['arrear_year']  = $year;
     	// $data['select_month'] = [date('m')];
     	// $data['real_select_month'] = date('m');
     	$society  = '';
