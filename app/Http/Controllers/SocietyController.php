@@ -677,7 +677,7 @@ class SocietyController extends Controller
                     return "<span>".trim($village_string,',')."</span>";
                 })
                 ->editColumn('society_name', function ($society_data) {
-                    return "<a href='".route('lease_detail.index', [$society_data->id])."'>$society_data->society_name</a>";
+                    return "<a href='".route('lease_detail.index', [encrypt($society_data->id)])."'>$society_data->society_name</a>";
                 })
                 ->editColumn('actions', function ($society_data) {
                     return view('admin.society_detail.actions', compact('society_data'))->render();
