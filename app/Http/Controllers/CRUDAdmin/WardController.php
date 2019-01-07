@@ -31,14 +31,17 @@ class WardController extends Controller
 
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
-            ['data' => 'name','name' => 'name','title' => 'Name'],
+            ['data' => 'name','name' => 'name','title' => 'Ward Name'],
+            ['data' => 'layout_id','name' => 'layout_id','title' => 'Layout Name'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 //dd($datatables->getRequest()->ajax());
         if ($datatables->getRequest()->ajax()) {
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
 
-            $ward_data = MasterWard::all();
+
+            $ward_data = MasterWard::with('getLayoutName')->get();
+
             return $datatables->of($ward_data)
                 ->editColumn('rownum', function ($ward_data) {
                     static $i = 0;
@@ -48,11 +51,14 @@ class WardController extends Controller
                 ->editColumn('name', function ($ward_data) {
                     return $ward_data->name;
                 })
+                ->editColumn('layout_id', function ($ward_data) {
+                    return $ward_data->getLayoutName->layout_name;
+                })
                 ->editColumn('actions', function ($ward_data) {
                     return view('admin.crud_admin.wards.action', compact('ward_data'))->render();
                 })
 
-                ->rawColumns(['name','actions'])
+                ->rawColumns(['name','layout_id','actions'])
                 ->make(true);
 
         }
