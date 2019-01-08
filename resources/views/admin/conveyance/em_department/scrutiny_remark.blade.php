@@ -3,14 +3,13 @@
     @include('admin.conveyance.'.$data->folder.'.action')
 @endsection
 @section('content')
-
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0">
         <div class="d-flex">
             {{ Breadcrumbs::render('conveyance_em_scrutiny',$data->id) }} 
             <div class="ml-auto btn-list">
-                <a href="javascript:void(0);" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
         </div>
         <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
@@ -385,7 +384,7 @@
                                         <p>Click to download Covering Letter in pdf format</p><p></p>
                                         {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
                                         @if(!empty($covering_letter_docs['em_covering_letter']->sc_document_status))
-                                            <a href="{{ $covering_letter_docs['em_covering_letter']->sc_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
+                                            <a href="{{ config('commanConfig.storage_server').'/'.$covering_letter_docs['em_covering_letter']->sc_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
                                                 Download</a>
                                         @endif
                                     </div>
@@ -451,7 +450,7 @@
                                     <div style="padding-left: 15px;">
                                         <p style="font-weight: bold; font-size: 16px; margin-bottom: 10px;">Subject:</p>
                                         <div style="line-height: 2.0; padding-left: 20px;">
-                                        <p style="font-size: 15px;">It is to certify that Building No. {{$data->societyApplication->building_no}} consisting of <span style="font-weight: bold;">test</span> T/S under the <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span> Scheme at <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span> In favour of <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span>
+                                        <p style="font-size: 15px;">It is to certify that Building No. {{ $data->societyApplication->building_no }} consisting of <span style="font-weight: bold;">test</span> T/S under the <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $data->sc_form_request->scheme_names->name }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span> Scheme at <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span> In favour of <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $data->societyApplication->name }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span>
                                             Co-op. Housing Society Ltd. Have paid all the dues in respect of above bldg./bldgs. Including the final sale price for the bldg. and premium of the land as
                                             follow:</p>
                                         </div>
@@ -626,7 +625,7 @@
                 messages:{
                     covering_letter: {
                         required: 'File is required to upload.',
-                        extension: 'File only in xls format is required.'
+                        extension: 'File only in pdf format is required.'
                     }
                 }
             });

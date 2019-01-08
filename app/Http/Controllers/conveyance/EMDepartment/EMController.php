@@ -86,7 +86,7 @@ class EMController extends Controller
                 }
             }
         }
-        
+//        dd($covering_letter_docs);
 
         if(!empty($no_dues_certificate_docs['text_no_dues_certificate']['sc_document_status'])){
             $content = $this->CommonController->getftpFileContent($no_dues_certificate_docs['text_no_dues_certificate']['sc_document_status']->document_path);

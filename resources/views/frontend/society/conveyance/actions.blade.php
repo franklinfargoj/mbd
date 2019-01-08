@@ -24,7 +24,7 @@ $status = $sc_application->scApplicationLog->status_id;
 </li>
 <li id="ree-actions" class="collapse show">
     <ul class="list-unstyled">
-        @if($status == '4' || $status == '3')
+        @if($status == config('commanConfig.conveyance_status.pending') || $status == config('commanConfig.conveyance_status.reverted'))
             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='society_conveyance.show')?'m-menu__item--active':''}}">
                 <a class="m-menu__link m-menu__toggle" title="View Application" href="{{ route('society_conveyance.show', encrypt($sc_application->id)) }}">
                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -64,7 +64,7 @@ $status = $sc_application->scApplicationLog->status_id;
                 </li>
             @endif
         @endif
-        @if($status == '2' || $status == '10' || $status == '13' || $status == config('commanConfig.conveyance_status.NOC_Issued'))
+        @if($status == config('commanConfig.conveyance_status.forwarded') || $sc_application->application_status == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty') || $sc_application->application_status == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease') || $sc_application->application_status == config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed') || $sc_application->application_status == config('commanConfig.conveyance_status.Registered_sale_&_lease_deed') || $sc_application->application_status == config('commanConfig.conveyance_status.NOC_Issued'))
             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='society_conveyance.show')?'m-menu__item--active':''}}">
                 <a class="m-menu__link m-menu__toggle" title="View Application" href="{{ route('society_conveyance.show', encrypt($sc_application->id)) }}">
                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -92,7 +92,7 @@ $status = $sc_application->scApplicationLog->status_id;
                     <span class="m-menu__link-text">Signed Application for Conveyance</span>
                 </a>
             </li>
-            @if($sc_application->application_status != config('commanConfig.conveyance_status.in_process') || $status == config('commanConfig.conveyance_status.NOC_Issued'))
+            @if($sc_application->application_status == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty') || $sc_application->application_status == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease') || $sc_application->application_status == config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed') || $sc_application->application_status == config('commanConfig.conveyance_status.Registered_sale_&_lease_deed') || $sc_application->application_status == config('commanConfig.conveyance_status.NOC_Issued'))
                 <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='show_sale_lease')?'m-menu__item--active':''}}">
                     <a class="m-menu__link m-menu__toggle" title="Sale & Lease deed Agreement" href="{{ route('show_sale_lease', encrypt($sc_application->id)) }}">
                         <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -103,7 +103,7 @@ $status = $sc_application->scApplicationLog->status_id;
                     </a>
                 </li>
             @endif
-            @if($sc_application->application_status != config('commanConfig.conveyance_status.in_process') || $status == config('commanConfig.conveyance_status.NOC_Issued'))
+            @if($sc_application->application_status == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease') || $sc_application->application_status == config('commanConfig.conveyance_status.Registered_sale_&_lease_deed') || $sc_application->application_status == config('commanConfig.conveyance_status.NOC_Issued'))
                 <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='show_signed_sale_lease')?'m-menu__item--active':''}}">
                     <a class="m-menu__link m-menu__toggle" title="Signed Sale & Lease deed Agreement" href="{{ route('show_signed_sale_lease', encrypt($sc_application->id)) }}">
                         <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">

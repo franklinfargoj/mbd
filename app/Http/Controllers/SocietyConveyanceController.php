@@ -101,12 +101,18 @@ class SocietyConveyanceController extends Controller
                 })
 
                 ->editColumn('status', function ($sc_applications) {
-                    $status = explode('_', array_keys(config('commanConfig.conveyance_status'), $sc_applications->scApplicationLog->status_id)[0]);
                     $status_display = '';
-                    foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
-                    $status_color = '';
-                    if($status_display == 'Sent To Society '){
-                        $status_display = 'Approved';
+                    if($sc_applications->application_status == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty')){
+                        $status_display = config('commanConfig.conveyance_status.society_stamp_duty');
+                    }elseif($sc_applications->application_status == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease')){
+                        $status_display = config('commanConfig.conveyance_status.society_register_sale_lease_deed');
+                    }else{
+                        $status = explode('_', array_keys(config('commanConfig.conveyance_status'), $sc_applications->scApplicationLog->status_id)[0]);
+                        foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
+                        $status_color = '';
+                        if($status_display == 'Sent To Society '){
+                            $status_display = 'Approved';
+                        }
                     }
 
                     return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$sc_applications->scApplicationLog->status_id) .' m-badge--wide">'.$status_display.'</span>';
@@ -330,7 +336,7 @@ class SocietyConveyanceController extends Controller
         $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
         $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
         $master_tenant_type = MasterTenantType::all();
-//        dd($sc_application->sc_form_request);
+
         return view('frontend.society.conveyance.edit', compact('layouts', 'field_names', 'society_details', 'comm_func', 'sc_application', 'id', 'documents', 'documents_uploaded', 'master_tenant_type'));
     }
 
@@ -477,7 +483,7 @@ class SocietyConveyanceController extends Controller
         unset($sc_bank_details_fields_name['society_id']);
         $sc_bank_details_fields = array_values(array_flip($sc_bank_details_fields_name));
         $comm_func = $this->CommonController;
-//        dd($sc_application->id);
+
         return view('frontend.society.conveyance.show_doc_bank_details', compact('documents', 'sc_application', 'society', 'documents_uploaded', 'sc_bank_details_fields', 'comm_func', 'society_bank_details'));
     }
 
@@ -578,7 +584,7 @@ class SocietyConveyanceController extends Controller
      */
     public function delete_sc_upload_docs($id)
     {
-        $id = encrypt($id);
+        $id = decrypt($id);
 
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $sc_application = scApplication::where('society_id', $society->id)->with(['scApplicationType', 'scApplicationLog' => function($q){
@@ -654,7 +660,9 @@ class SocietyConveyanceController extends Controller
      */
     public function generate_pdf(){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout'])->where('society_id', $society->id)->first();
+        $sc_application = scApplication::with(['sc_form_request' => function($q){
+            $q->with('scheme_names');
+        }, 'societyApplication', 'applicationLayout'])->where('society_id', $society->id)->first();
 
         $mpdf = new Mpdf();
         $mpdf->autoScriptToLang = true;
