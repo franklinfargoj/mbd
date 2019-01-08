@@ -37,7 +37,7 @@
                                                 id="test-upload" required="">
                                             <label class="custom-file-label" for="test-upload">Choose
                                                 file...</label>
-                                            <span class="help-block">
+                                            <span class="help-block text-danger">
                                                 @if(session('error_uploaded_file'))
                                                 {{session('error_uploaded_file')}}
                                                 @endif
