@@ -308,6 +308,51 @@ class SocietyController extends Controller
                 });
             })->download('csv');
         }
+
+        // lease count
+        $lease_detail = LeaseDetail::with('leaseSociety')->select('id', 'lease_start_date', 'lease_period')->get();
+
+        $lease_count = 0;
+        foreach($lease_detail as $lease_detail_val){
+            $lease_start_date = $lease_detail_val->lease_start_date;
+
+//            echo '<br/>';
+//            print_r($lease_start_date);
+
+            $lease_period = '+'.$lease_detail_val->lease_period.' years';
+
+//            echo '<br/>';
+//            print_r($lease_period);
+
+            $lease_end_date = date('Y-m-d', strtotime($lease_period, strtotime($lease_detail_val->lease_start_date)));
+
+//            echo '<br/>';
+//            print_r($lease_end_date);
+
+            $current_date = date('Y-m-d');
+
+//            echo '<br/>';
+//            print_r($current_date);
+
+            $notification_from_date = date('Y-m-d', strtotime('-3 days',strtotime($lease_end_date)));
+
+//            echo '<br/>';
+//            print_r($notification_from_date);
+
+//            echo '<br/>';
+//            print_r($current_date <= $lease_end_date && $current_date >= $notification_from_date);
+
+            if($current_date <= $lease_end_date && $current_date >= $notification_from_date){
+                $lease_count++;
+            }
+
+//            echo "<br/>=====";
+        }
+
+        session()->put('lease_end_date_count', $lease_count);
+
+
+
         if ($datatables->getRequest()->ajax()) {
 
             // DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));

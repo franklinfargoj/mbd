@@ -247,6 +247,47 @@ class LeaseDetailController extends Controller
             })->download('csv');
         }
 
+        $lease_detail = LeaseDetail::with('leaseSociety')->select('id', 'lease_start_date', 'lease_period')->get();
+
+        $lease_count = 0;
+        foreach($lease_detail as $lease_detail_val){
+            $lease_start_date = $lease_detail_val->lease_start_date;
+
+//            echo '<br/>';
+//            print_r($lease_start_date);
+
+            $lease_period = '+'.$lease_detail_val->lease_period.' years';
+
+//            echo '<br/>';
+//            print_r($lease_period);
+
+            $lease_end_date = date('Y-m-d', strtotime($lease_period, strtotime($lease_detail_val->lease_start_date)));
+
+//            echo '<br/>';
+//            print_r($lease_end_date);
+
+            $current_date = date('Y-m-d');
+
+//            echo '<br/>';
+//            print_r($current_date);
+
+            $notification_from_date = date('Y-m-d', strtotime('-3 days',strtotime($lease_end_date)));
+
+//            echo '<br/>';
+//            print_r($notification_from_date);
+
+//            echo '<br/>';
+//            print_r($current_date <= $lease_end_date && $current_date >= $notification_from_date);
+
+            if($current_date <= $lease_end_date && $current_date >= $notification_from_date){
+                $lease_count++;
+            }
+
+//            echo "<br/>=====";
+        }
+
+        session()->put('lease_end_date_count', $lease_count);
+
         if ($datatables->getRequest()->ajax()) {
 
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
@@ -449,7 +490,6 @@ class LeaseDetailController extends Controller
     }
 
     public function updateLatestLease(Request $request, $id){
-
         $id = decrypt($id);
 
         $lease_data = LeaseDetail::where('id', $id)->first();
@@ -462,13 +502,20 @@ class LeaseDetailController extends Controller
             'lease_rent' => $request->lease_rent,
             'lease_rent_start_month' => $request->lease_rent_start_month,
             'interest_per_lease_agreement' => $request->interest_per_lease_agreement,
-            'lease_renewal_date' => $request->lease_renewal_date,
+//            'lease_renewal_date' => $request->lease_renewal_date,
             'lease_renewed_period' => $request->lease_renewed_period,
             'rent_per_renewed_lease' => $request->rent_per_renewed_lease,
             'interest_per_renewed_lease_agreement' => $request->interest_per_renewed_lease_agreement,
             'month_rent_per_renewed_lease' => $request->month_rent_per_renewed_lease,
             'lease_status' => 1
         ];
+
+        $lease_start_date = $request->lease_start_date;
+        $lease_period = '+'.$request->lease_period.' years';
+        $lease_end_date = date('Y-m-d', strtotime($lease_period, strtotime($lease_start_date)));
+        $lease_end_date = date('Y-m-d', strtotime('+1 day', strtotime($lease_end_date)));
+
+        $lease_detail += ['lease_renewal_date' => $lease_end_date];
 
         LeaseDetail::where('id', $id)->update($lease_detail);
         // $village_id = SocietyDetail::where('id', $lease_data->society_id)->first();
