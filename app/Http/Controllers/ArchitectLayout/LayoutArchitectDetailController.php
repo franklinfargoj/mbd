@@ -143,7 +143,10 @@ class LayoutArchitectDetailController extends Controller
         $layout_id = decrypt($layout_id);
         $status = getLastStatusIdArchitectLayout($layout_id);
 
-        if ($status->status_id == config('commanConfig.architect_layout_status.sent_for_revision') || $status->status_id == config('commanConfig.architect_layout_status.forward') || $status->status_id = !config('commanConfig.architect_layout_status.approved') || $status->status_id == config('commanConfig.architect_layout_status.scrutiny_pending')) {
+        if ($status->status_id == config('commanConfig.architect_layout_status.sent_for_revision') || 
+            $status->status_id == config('commanConfig.architect_layout_status.forward') || 
+            $status->status_id =! config('commanConfig.architect_layout_status.approved') || 
+            $status->status_id == config('commanConfig.architect_layout_status.scrutiny_pending')) {
             //dd('ok');
             $add_detail = 0;
 
@@ -153,20 +156,20 @@ class LayoutArchitectDetailController extends Controller
             $ArchitectLayoutDetail = new ArchitectLayoutDetail;
             $ArchitectLayoutDetail->architect_layout_id = $layout_id;
             $ArchitectLayoutDetail->save();
-            $forward_application = [
-                [
-                    'architect_layout_id' => $layout_id,
-                    'user_id' => auth()->user()->id,
-                    'role_id' => session()->get('role_id'),
-                    'status_id' => config('commanConfig.architect_layout_status.sent_for_revision'),
-                    'to_user_id' => null,
-                    'to_role_id' => null,
-                    'open' => 1,
-                    'current_status' => 1,
-                    'remark' => null,
-                ],
-            ];
-            $this->common->forward_architect_layout($layout_id, $forward_application);
+            // $forward_application = [
+            //     [
+            //         'architect_layout_id' => $layout_id,
+            //         'user_id' => auth()->user()->id,
+            //         'role_id' => session()->get('role_id'),
+            //         'status_id' => config('commanConfig.architect_layout_status.sent_for_revision'),
+            //         'to_user_id' => null,
+            //         'to_role_id' => null,
+            //         'open' => 1,
+            //         'current_status' => 1,
+            //         'remark' => null,
+            //     ],
+            // ];
+            // $this->common->forward_architect_layout($layout_id, $forward_application);
             $set_blank_excel_layout = ArchitectLayout::find($layout_id);
             if ($set_blank_excel_layout) {
                 $set_blank_excel_layout->upload_layout_in_pdf_format = "";
@@ -188,13 +191,49 @@ class LayoutArchitectDetailController extends Controller
         return redirect(route('architect_layout_detail.edit', ['layout_detail_id' => encrypt($ArchitectLayoutDetail->id)]));
     }
 
+    public function send_for_revision(Request $request)
+    {
+        //dd($request->all());
+        $forward_application = [
+                [
+                    'architect_layout_id' => $request->layout_id,
+                    'user_id' => auth()->user()->id,
+                    'role_id' => session()->get('role_id'),
+                    'status_id' => config('commanConfig.architect_layout_status.sent_for_revision'),
+                    'to_user_id' => null,
+                    'to_role_id' => null,
+                    'open' => 1,
+                    'current_status' => 1,
+                    'remark' => null,
+                ],
+            ];
+            $this->common->forward_architect_layout($request->layout_id, $forward_application);
+            return redirect()->route('forward_architect_layout',['layout_id'=>encrypt($request->layout_id)]);
+    }
+
     public function edit_detail($layout_detail_id)
     {
         $layout_detail_id = decrypt($layout_detail_id);
         $ArchitectLayoutDetail = ArchitectLayoutDetail::with(['architect_layout', 'ee_reports', 'em_reports', 'ree_reports', 'land_reports', 'ArchitectLayoutDetailDpRemark', 'ArchitectLayoutDetailCrzRemark'])->where(['id' => $layout_detail_id])->first();
-        $ArchitectLayout = ArchitectLayout::with(['master_layout'])->where(['id' => $ArchitectLayoutDetail->architect_layout_id])->first();
-        //dd($ArchitectLayout);
-        return view('admin.architect_layout_detail.add', compact('ArchitectLayoutDetail', 'ArchitectLayout'));
+        $ArchitectLayout = ArchitectLayout::with(['master_layout','layout_details'])->where(['id' => $ArchitectLayoutDetail->architect_layout_id])->first();
+       // dd($ArchitectLayout->layout_details->count());
+
+        $add_detail=1;
+        $send_for_revision=0;
+        $status = getLastStatusIdArchitectLayout($ArchitectLayout->id);
+        if ($status->status_id == config('commanConfig.architect_layout_status.sent_for_revision') || 
+            $status->status_id == config('commanConfig.architect_layout_status.forward') || 
+            $status->status_id =! config('commanConfig.architect_layout_status.approved') || 
+            $status->status_id == config('commanConfig.architect_layout_status.scrutiny_pending')) {
+            //dd('ok');
+            $add_detail = 0;
+        }
+
+        if (count($this->common->check_layout_details_complete_status($ArchitectLayout->id)) == 0 && $add_detail == 1 && $ArchitectLayout->layout_details->count()>1) {
+            $send_for_revision=1;
+        }
+        //dd($send_for_revision);
+        return view('admin.architect_layout_detail.add', compact('ArchitectLayoutDetail', 'ArchitectLayout','send_for_revision'));
     }
 
     public function uploadLatestLayoutAjax(Request $request)

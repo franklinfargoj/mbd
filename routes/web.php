@@ -593,6 +593,7 @@ Route::get('architect_layouts','ArchitectLayout\LayoutArchitectController@index'
 Route::get('architect_layouts_layout_details','ArchitectLayout\LayoutArchitectController@architect_layouts_layout_details')->name('architect_layouts_layout_details.index');
 Route::get('add_architect_layouts','ArchitectLayout\LayoutArchitectController@add_layout')->name('architect_layout.add');
 
+Route::post('send_for_revision','ArchitectLayout\LayoutArchitectDetailController@send_for_revision')->name('architect_layout.send_for_revision');
 
 Route::get('check_layout_details_complete_status/{layout_detail_id}','ArchitectLayout\LayoutArchitectController@check_layout_details_complete_status')->name('check_layout_details_complete_status');
 
