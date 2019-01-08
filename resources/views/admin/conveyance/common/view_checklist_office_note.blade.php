@@ -56,7 +56,7 @@
                             </div>
                         </div>
                         <div class="m-section__content mb-0 table-responsive">
-                                <table id="one" class="table mb-0 table--box-input" style="padding-top: 10px;">
+                                <table id="one" class="table mb-0 table--box-input" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
                                                 src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("checklist");'
@@ -84,9 +84,9 @@
                                                     <td>{{ isset($value->name) ? $value->name : '' }}</td>
                                                     <td class="text-center">
                                                     @if($value->is_date == '1')    
-                                                        <input type="text" class="txtbox v_text form-control form-control--custom m-input m_datepicker" name="{{ isset($value->id) ? $value->id : '' }}"  value="{{ isset($value->checklistStatus) ? $value->checklistStatus->value : '' }}" aria-describedby="visit_date-error" aria-invalid="false" readonly disabled>
+                                                        <input type="text" class="txtbox v_text form-control form-control--custom m-input m_datepicker" name="{{ isset($value->id) ? $value->id : '' }}"  value="{{ isset($value->checklistStatus) ? $value->checklistStatus->value : '' }}" aria-describedby="visit_date-error" aria-invalid="false" readonly disabled style="border: none;">
                                                     @else
-                                                        <input type="text" name="{{ isset($value->id) ? $value->id : '' }}" class="form-control form-control--custom" value="{{ isset($value->checklistStatus) ? $value->checklistStatus->value : '' }}" readonly>    
+                                                        <input type="text" name="{{ isset($value->id) ? $value->id : '' }}" class="form-control form-control--custom" value="{{ isset($value->checklistStatus) ? $value->checklistStatus->value : '' }}" readonly style="border: none;">    
                                                     @endif 
                                                     </td>
                                                 </tr>  

@@ -493,13 +493,14 @@ class renewalCommonController extends Controller
         $data->status = $this->getCurrentStatus($applicationId,$data->application_master_id);
 
          // scrutiny logs       
-        $societyLogs   = $this->getLogsOfSociety($applicationId,$data->application_master_id);
-        $dycoLogs      = $this->getLogsOfDYCODepartment($applicationId,$data->application_master_id);
-        $eelogs        = $this->getLogsOfEEDepartment($applicationId,$data->application_master_id);
-        $emlogs        = $this->getLogsOfEMDepartment($applicationId,$data->application_master_id);
-        $Architectlogs = $this->getLogsOfArchitectDepartment($applicationId,$data->application_master_id);
-        $cologs        = $this->getLogsOfCODepartment($applicationId,$data->application_master_id);
+        // $societyLogs   = $this->getLogsOfSociety($applicationId,$data->application_master_id);
+        // $dycoLogs      = $this->getLogsOfDYCODepartment($applicationId,$data->application_master_id);
+        // $eelogs        = $this->getLogsOfEEDepartment($applicationId,$data->application_master_id);
+        // $emlogs        = $this->getLogsOfEMDepartment($applicationId,$data->application_master_id);
+        // $Architectlogs = $this->getLogsOfArchitectDepartment($applicationId,$data->application_master_id);
+        // $cologs        = $this->getLogsOfCODepartment($applicationId,$data->application_master_id);
 
+        $remarkHistory = $this->getRemarkHistory($applicationId,$data->application_master_id);
     if (session()->get('role_name') == config('commanConfig.dyco_engineer') || session()->get('role_name') == config('commanConfig.dycdo_engineer')){
 
             $route = 'admin.renewal.dyco_department.forward_application';
@@ -508,8 +509,18 @@ class renewalCommonController extends Controller
         $route = 'admin.renewal.common.forward_application';
       }    
                   
-        return view($route,compact('data','societyLogs','dycoLogs','eelogs','Architectlogs','cologs','emlogs'));         
-    }  
+        return view($route,compact('data','remarkHistory'));         
+    } 
+
+    public function getRemarkHistory($applicationId,$masterId)
+    {
+        $status = array(config('commanConfig.conveyance_status.forwarded'), config('commanConfig.conveyance_status.reverted'));
+
+        $logs  = RenewalApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)
+        ->where('application_master_id',$masterId)->orderBy('id','DESC')->whereIn('status_id', $status)->get();
+
+        return $logs;
+    }      
 
     public function getForwardApplicationData($applicationId){
 
@@ -523,7 +534,7 @@ class renewalCommonController extends Controller
     }
 
     // forward and revert application
-    public function saveForwardApplication(Request $request){
+    public function saveForwardApplication(Request $request) {
          // dd($request);
         $Scstatus = "";
         $data = RenewalApplication::where('id',$request->applicationId)->first();
@@ -649,83 +660,83 @@ class renewalCommonController extends Controller
     }
 
     // get logs of Society
-    public function getLogsOfSociety($applicationId,$masterId)
-    {
-        $roles = array(config('commanConfig.society_offer_letter'));
+    // public function getLogsOfSociety($applicationId,$masterId)
+    // {
+    //     $roles = array(config('commanConfig.society_offer_letter'));
 
-        $status = array(config('commanConfig.renewal_status.forwarded'), config('commanConfig.renewal_status.reverted'));
+    //     $status = array(config('commanConfig.renewal_status.forwarded'), config('commanConfig.renewal_status.reverted'));
 
-        $societyRoles = Role::whereIn('name', $roles)->pluck('id');
-        $ocietylogs  = RenewalApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('society_flag','=','1')->where('application_master_id',$masterId)->whereIn('role_id', $societyRoles)->whereIn('status_id', $status)->get();
+    //     $societyRoles = Role::whereIn('name', $roles)->pluck('id');
+    //     $ocietylogs  = RenewalApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('society_flag','=','1')->where('application_master_id',$masterId)->whereIn('role_id', $societyRoles)->whereIn('status_id', $status)->get();
 
-        return $ocietylogs;
-    }      
+    //     return $ocietylogs;
+    // }      
 
-    // get logs of DYCO dept
-    public function getLogsOfDYCODepartment($applicationId,$masterId)
-    {
+    // // get logs of DYCO dept
+    // public function getLogsOfDYCODepartment($applicationId,$masterId)
+    // {
 
-        $roles = array(config('commanConfig.dycdo_engineer'), config('commanConfig.dyco_engineer'));
-        $status = array(config('commanConfig.renewal_status.forwarded'), config('commanConfig.renewal_status.reverted'));
+    //     $roles = array(config('commanConfig.dycdo_engineer'), config('commanConfig.dyco_engineer'));
+    //     $status = array(config('commanConfig.renewal_status.forwarded'), config('commanConfig.renewal_status.reverted'));
 
-        $dycoRoles = Role::whereIn('name', $roles)->pluck('id');
-        $dycologs  = RenewalApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)
-        ->where('application_master_id',$masterId)->whereIn('role_id', $dycoRoles)->whereIn('status_id', $status)->get();
+    //     $dycoRoles = Role::whereIn('name', $roles)->pluck('id');
+    //     $dycologs  = RenewalApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)
+    //     ->where('application_master_id',$masterId)->whereIn('role_id', $dycoRoles)->whereIn('status_id', $status)->get();
 
-        return $dycologs;
-    } 
+    //     return $dycologs;
+    // } 
 
-    // get logs of EE dept
-    public function getLogsOfEEDepartment($applicationId,$masterId)
-    {
+    // // get logs of EE dept
+    // public function getLogsOfEEDepartment($applicationId,$masterId)
+    // {
 
-        $roles = array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'));
-        $status = array(config('commanConfig.renewal_status.forwarded'), config('commanConfig.renewal_status.reverted'));
+    //     $roles = array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'));
+    //     $status = array(config('commanConfig.renewal_status.forwarded'), config('commanConfig.renewal_status.reverted'));
 
-        $eeRoles = Role::whereIn('name', $roles)->pluck('id');
-        $eelogs  = RenewalApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $eeRoles)->whereIn('status_id', $status)->get();
+    //     $eeRoles = Role::whereIn('name', $roles)->pluck('id');
+    //     $eelogs  = RenewalApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $eeRoles)->whereIn('status_id', $status)->get();
 
-        return $eelogs;
-    }
+    //     return $eelogs;
+    // }
 
-    // get logs of EM dept
-    public function getLogsOfEMDepartment($applicationId,$masterId)
-    {
+    // // get logs of EM dept
+    // public function getLogsOfEMDepartment($applicationId,$masterId)
+    // {
 
-        $roles = array(config('commanConfig.estate_manager'));
-        $status = array(config('commanConfig.renewal_status.forwarded'), config('commanConfig.renewal_status.reverted'));
+    //     $roles = array(config('commanConfig.estate_manager'));
+    //     $status = array(config('commanConfig.renewal_status.forwarded'), config('commanConfig.renewal_status.reverted'));
 
-        $emRoles = Role::whereIn('name', $roles)->pluck('id');
-        $emlogs  = RenewalApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)
-        ->where('application_master_id',$masterId)->whereIn('role_id', $emRoles)->whereIn('status_id', $status)->get();
+    //     $emRoles = Role::whereIn('name', $roles)->pluck('id');
+    //     $emlogs  = RenewalApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)
+    //     ->where('application_master_id',$masterId)->whereIn('role_id', $emRoles)->whereIn('status_id', $status)->get();
 
-        return $emlogs;
-    }     
+    //     return $emlogs;
+    // }     
 
-    // get logs of Architect dept
-    public function getLogsOfArchitectDepartment($applicationId,$masterId)
-    {
+    // // get logs of Architect dept
+    // public function getLogsOfArchitectDepartment($applicationId,$masterId)
+    // {
 
-        $roles = array(config('commanConfig.junior_architect'), config('commanConfig.senior_architect'), config('commanConfig.architect'));
-        $status = array(config('commanConfig.renewal_status.forwarded'), config('commanConfig.renewal_status.reverted'));
+    //     $roles = array(config('commanConfig.junior_architect'), config('commanConfig.senior_architect'), config('commanConfig.architect'));
+    //     $status = array(config('commanConfig.renewal_status.forwarded'), config('commanConfig.renewal_status.reverted'));
 
-        $ArchitectRoles = Role::whereIn('name', $roles)->pluck('id');
-        $Architectlogs  = RenewalApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $ArchitectRoles)->whereIn('status_id', $status)->get();
+    //     $ArchitectRoles = Role::whereIn('name', $roles)->pluck('id');
+    //     $Architectlogs  = RenewalApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $ArchitectRoles)->whereIn('status_id', $status)->get();
 
-        return $Architectlogs;
-    }
+    //     return $Architectlogs;
+    // }
 
-    // get logs of CO and JTCO dept
-    public function getLogsOfCODepartment($applicationId,$masterId)
-    {
-        $roles = array(config('commanConfig.co_engineer'), config('commanConfig.joint_co'));
-        $status = array(config('commanConfig.renewal_status.forwarded'), config('commanConfig.renewal_status.reverted'));
+    // // get logs of CO and JTCO dept
+    // public function getLogsOfCODepartment($applicationId,$masterId)
+    // {
+    //     $roles = array(config('commanConfig.co_engineer'), config('commanConfig.joint_co'));
+    //     $status = array(config('commanConfig.renewal_status.forwarded'), config('commanConfig.renewal_status.reverted'));
 
-        $coRoles = Role::whereIn('name', $roles)->pluck('id');
-        $cologs  = RenewalApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $coRoles)->whereIn('status_id', $status)->get();
+    //     $coRoles = Role::whereIn('name', $roles)->pluck('id');
+    //     $cologs  = RenewalApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $coRoles)->whereIn('status_id', $status)->get();
 
-        return $cologs;
-    } 
+    //     return $cologs;
+    // } 
 
     public function SaveAgreementComments(Request $request){
 

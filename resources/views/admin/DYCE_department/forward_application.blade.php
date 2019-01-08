@@ -138,7 +138,7 @@
                                           <th class="th-sm">Action</th>
                                           <th class="th-sm">Description</th>
                                         </tr>
-                                      </thead>
+                                      </thead> 
                                       <tbody>
                                       @if($remarkHistory)
                                           @foreach($remarkHistory as $log)
@@ -259,7 +259,7 @@
                                     </form>
                                 </div>
                             </div>
-                        </div>
+                        </div> 
                     </div>
                 </div>
             </div>

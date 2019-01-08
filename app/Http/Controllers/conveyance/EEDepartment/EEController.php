@@ -45,9 +45,15 @@ class EEController extends Controller
         $applicationId = $request->application_id;
         $arrData = $request->all();
         unset($arrData['_token'],$arrData['pump_house'],$arrData['completion_date']);
+        if (isset($request->completion_date)){
+            $date = date('Y-m-d',strtotime($request->completion_date));
+        }else{
+            $date = '';
+        }
+
         ConveyanceSalePriceCalculation::updateOrCreate([ 'application_id' => $applicationId],$arrData);
         ConveyanceSalePriceCalculation::where('application_id',$applicationId)
-        ->update(['completion_date'             => date('Y-m-d',strtotime($request->completion_date)), 
+        ->update(['completion_date'             => $date, 
                   'pump_house'                  => $request->pump_house,
                   'chawl_no'                    => $request->chawl_no,
                   'consisting'                  => $request->consisting,
@@ -57,7 +63,7 @@ class EEController extends Controller
                   'construction_cost'           => $request->construction_cost,
                   'land_premiun_infrastructure' => $request->land_premiun_infrastructure
                 ]);
-
+        
         $applicationId = encrypt($applicationId);    
         return redirect("sale_price_calculation/" . $applicationId."#".$request->get('redirect_tab'));
 	} 
@@ -77,8 +83,7 @@ class EEController extends Controller
             	Storage::disk('ftp')->delete($request->oldFileName);
                 $path 	= $folder_name.'/'.$file_name;
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name);
-                ConveyanceSalePriceCalculation::where('application_id',$applicationId)
-                ->update(['demarcation_map' => $path]);
+                ConveyanceSalePriceCalculation::updateOrCreate([ 'application_id' => $applicationId],['demarcation_map' => $path]);
                 
                 $applicationId = encrypt($applicationId);
 
@@ -105,8 +110,10 @@ class EEController extends Controller
             	Storage::disk('ftp')->delete($request->oldFileName);
                 $path 	= $folder_name.'/'.$file_name;
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name);
-                ConveyanceSalePriceCalculation::where('application_id',$applicationId)
-                ->update(['ee_covering_letter' => $path]);
+                // ConveyanceSalePriceCalculation::where('application_id',$applicationId)
+                // ->update(['ee_covering_letter' => $path]);
+
+                ConveyanceSalePriceCalculation::updateOrCreate([ 'application_id' => $applicationId],['ee_covering_letter' => $path]);
                 
                 $applicationId = encrypt($applicationId);    
                 return redirect("sale_price_calculation/" . $applicationId."#".$request->get('redirect_tab'))->with('success','Covering Letter uploaded successfully.');                        
