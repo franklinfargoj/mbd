@@ -1167,83 +1167,83 @@ class CommonController extends Controller
         return $Architectlogs;
     }
 
-    // public function getLogsOfEEDepartment($applicationId)
-    // {
+    public function getLogsOfEEDepartment($applicationId)
+    {
 
-    //     $roles = array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_branch_head'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.society_offer_letter'));
+        $roles = array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_branch_head'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.society_offer_letter'));
 
-    //     $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
 
-    //     $eeRoles = Role::whereIn('name', $roles)->pluck('id');
-    //     $EElogs = OlApplicationStatus::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->whereIn('role_id', $eeRoles)->whereIn('status_id', $status)->get();
+        $eeRoles = Role::whereIn('name', $roles)->pluck('id');
+        $EElogs = OlApplicationStatus::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->whereIn('role_id', $eeRoles)->whereIn('status_id', $status)->get();
 
-    //     return $EElogs;
-    // }
+        return $EElogs;
+    }
 
-    // public function getLogsOfDYCEDepartment($applicationId)
-    // {
+    public function getLogsOfDYCEDepartment($applicationId)
+    {
 
-    //     $roles = array(config('commanConfig.dyce_branch_head'), config('commanConfig.dyce_jr_user'), config('commanConfig.dyce_deputy_engineer'));
+        $roles = array(config('commanConfig.dyce_branch_head'), config('commanConfig.dyce_jr_user'), config('commanConfig.dyce_deputy_engineer'));
 
-    //     $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
 
-    //     $dyceRoles = Role::whereIn('name', $roles)->pluck('id');
-    //     $dycelogs = OlApplicationStatus::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->whereIn('role_id', $dyceRoles)->whereIn('status_id', $status)->get();
+        $dyceRoles = Role::whereIn('name', $roles)->pluck('id');
+        $dycelogs = OlApplicationStatus::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->whereIn('role_id', $dyceRoles)->whereIn('status_id', $status)->get();
 
-    //     return $dycelogs;
-    // }
+        return $dycelogs;
+    }
 
-    // public function getLogsOfREEDepartment($applicationId)
-    // {
+    public function getLogsOfREEDepartment($applicationId)
+    {
 
-    //     $roles = array(config('commanConfig.ree_junior'), config('commanConfig.ree_branch_head'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'));
+        $roles = array(config('commanConfig.ree_junior'), config('commanConfig.ree_branch_head'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'));
 
-    //     $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
 
-    //     $reeRoles = Role::whereIn('name', $roles)->pluck('id');
-    //     $reelogs = OlApplicationStatus::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->whereIn('role_id', $reeRoles)->whereIn('status_id', $status)->get();
+        $reeRoles = Role::whereIn('name', $roles)->pluck('id');
+        $reelogs = OlApplicationStatus::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->whereIn('role_id', $reeRoles)->whereIn('status_id', $status)->get();
 
-    //     return $reelogs;
-    // }
+        return $reelogs;
+    }
 
-    // public function getLogsOfCODepartment($applicationId)
-    // {
+    public function getLogsOfCODepartment($applicationId)
+    {
 
-    //     $roles = config('commanConfig.co_engineer');
+        $roles = config('commanConfig.co_engineer');
 
-    //     $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
 
-    //     $coRoles = Role::where('name', $roles)->value('id');
-    //     $cologs = OlApplicationStatus::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('role_id', $coRoles)->whereIn('status_id', $status)->get();
+        $coRoles = Role::where('name', $roles)->value('id');
+        $cologs = OlApplicationStatus::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('role_id', $coRoles)->whereIn('status_id', $status)->get();
 
-    //     return $cologs;
-    // }
+        return $cologs;
+    }
 
-    // public function getLogsOfCAPDepartment($applicationId)
-    // {
+    public function getLogsOfCAPDepartment($applicationId)
+    {
 
-    //     $roles = config('commanConfig.cap_engineer');
+        $roles = config('commanConfig.cap_engineer');
 
-    //     $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
 
-    //     $capRoles = Role::where('name', $roles)->value('id');
-    //     $caplogs = OlApplicationStatus::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('role_id', $capRoles)->whereIn('status_id', $status)->get();
+        $capRoles = Role::where('name', $roles)->value('id');
+        $caplogs = OlApplicationStatus::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('role_id', $capRoles)->whereIn('status_id', $status)->get();
 
-    //     return $caplogs;
-    // }
+        return $caplogs;
+    }
 
-    // public function getLogsOfVPDepartment($applicationId)
-    // {
+    public function getLogsOfVPDepartment($applicationId)
+    {
 
-    //     $roles = config('commanConfig.vp_engineer');
+        $roles = config('commanConfig.vp_engineer');
 
-    //     $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
 
-    //     $vpRoles = Role::where('name', $roles)->value('id');
-    //     $vplogs = OlApplicationStatus::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('role_id', $vpRoles)->whereIn('status_id', $status)->get();
+        $vpRoles = Role::where('name', $roles)->value('id');
+        $vplogs = OlApplicationStatus::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('role_id', $vpRoles)->whereIn('status_id', $status)->get();
 
-    //     return $vplogs;
-    // }
+        return $vplogs;
+    }
 
     // get all remark and history
     public function getRemarkHistory($applicationId)

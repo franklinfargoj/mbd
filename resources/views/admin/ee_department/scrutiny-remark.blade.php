@@ -178,7 +178,7 @@
                                         <tbody>
 
                                            @php
-                                            $i = 1;
+                                            $i = 1; 
                                             @endphp
                                             @foreach($societyEEdocument[0]->societyDocuments as $document)
                                             
@@ -186,8 +186,8 @@
                                                 <td>{{ $i }}.</td>
                                                 <td>{{ $document->documents_Name[0]->name }}</td>
 
-                                                <td class="text-center">
-                                                <a download href="{{ asset($document->society_document_path) }}" target="_blank"><img
+                                                <td class="text-center"> 
+                                                <a download href="{{config('commanConfig.storage_server').'/'.$document->society_document_path }}" target="_blank"><img
                                                             class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a></td>
                                                 <td>
 
