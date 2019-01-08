@@ -1389,7 +1389,7 @@ class SocietyOfferLetterController extends Controller
         $ol_applications = $application;
         $documents_uploaded = OlSocietyDocumentsStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->get();
         $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->where('application_id', null)->first();
-        dd($ol_applications->olApplicationStatus[0]->remark);
+
         return view('frontend.society.view_society_uploaded_documents', compact('documents', 'optional_docs', 'docs_uploaded_count','docs_count', 'ol_applications','documents_uploaded', 'documents_comment', 'society'));
     }
 
