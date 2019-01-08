@@ -33,7 +33,7 @@
             </div>
             <div style="margin-top: 30px;">
                 <div style="float: right; text-align: right;">
-                    <p style="margin-top: 0; margin-bottom: 60px;">आपला विश्वासू</p>
+                    <p style="margin-top: 0; margin-bottom: 37.9px;">आपला विश्वासू</p>
                         <p style="display: block; margin-top: 5px; margin-bottom: 5px;">अध्यक्ष / सचिव / खजिनदार</p>
                         <p style="display: block; margin-top: 5px; margin-bottom: 5px;">------- स.गृ.नि. संस्था मर्या.</p>
                 </div>
