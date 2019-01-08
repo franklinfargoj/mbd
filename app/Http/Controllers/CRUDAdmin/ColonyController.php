@@ -124,10 +124,12 @@ class ColonyController extends Controller
     public function show($id)
     {
 //        dd($id);
-        $colony = MasterColony::FindOrFail($id)->toArray();
-        $layouts = MasterLayout::get();
-        $wards = MasterWard::get();
-        return view('admin.crud_admin.colony.show', compact( 'colony','wards','layouts'));
+
+        $colony_data = MasterColony::with(['getWardName' => function($q){
+            $q->with('getLayoutName')->get();
+        }])->FindOrFail($id)->toArray();
+
+        return view('admin.crud_admin.colony.show', compact( 'colony_data'));
     }
     /**
      * Show the form for editing the specified resource.
