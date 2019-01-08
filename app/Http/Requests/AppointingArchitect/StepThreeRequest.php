@@ -40,6 +40,7 @@ class StepThreeRequest extends FormRequest
             'reg_with_council_of_architecture_principle' => 'required',
             'reg_with_council_of_architecture_associate' => 'required',
             'reg_with_council_of_architecture_partner' => 'required',
+            'reg_with_council_of_architecture_coa_registration_no'=>'required',
             'reg_with_council_of_architecture_total_registered_persons' => 'required',
             'award_prizes_etc' => 'required',
             //'other_information' => 'required',
