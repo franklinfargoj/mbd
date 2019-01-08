@@ -149,9 +149,9 @@
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="portlet-body">
             <div class="m-portlet__body" style="padding-right: 0;">
-                <div class="col-sm-12">
+                <div class="col-sm-12 row">
                     <div class="d-flex flex-column h-100">
-                        <h5>Riders</h5>                           
+                        <h5>Riders</h5>
                             <input type="hidden" id="application_id" name="application_id" value="{{ $data->id }}">
                            <textarea rows="4" cols="63" name="riders">{{ isset($data->riders) ? $data->riders : '' }}</textarea>
                     </div>

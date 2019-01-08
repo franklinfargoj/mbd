@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="col-sm-4 application-fields">
                                         <label class="application-form-label" for="">४. प्रथम सदनिका वितरणाचा दिनांक:</label>
-                                        <input class="letter-form-input letter-form-input--100 m_datepicker" type="text" id="" name="first_flat_issue_date"
+                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name="first_flat_issue_date"
                                                value="{{ date(config('commanConfig.dateFormat'), strtotime($sc_application->sc_form_request->first_flat_issue_date)) }}" readonly>
                                     </div>
                                 </div>
@@ -92,7 +92,7 @@
                                     </div>
                                     <div class="col-sm-4 application-fields">
                                         <label class="application-form-label" for="">B. संस्था नोंदणी दिनांक:</label>
-                                        <input class="letter-form-input letter-form-input--100 m_datepicker" type="text" id=""
+                                        <input class="letter-form-input letter-form-input--100" type="text" id=""
                                                name="society_registration_date" value="{{ date(config('commanConfig.dateFormat'), strtotime($sc_application->sc_form_request->society_registration_date)) }}" readonly>
                                     </div>
                                 </div>
@@ -101,7 +101,7 @@
                                         {{--<label class="application-form-label" for="">८. अधिकृत सभासदांची यादी (पती व पत्नी संयुक्त नावे):</label>--}}
                                         {{--<p><a href="{{ route('sc_download') }}" class="btn btn-primary" target="_blank" rel="noopener">Download Template</a> </p>--}}
                                         {{----}}
-                                        {{--<input class="letter-form-input letter-form-input--100 m_datepicker" type="text" id=""--}}
+                                        {{--<input class="letter-form-input letter-form-input--100 " type="text" id=""--}}
                                         {{--name="" value="">--}}
                                     {{--</div>--}}
                                     {{--<div class="col-sm-6 application-fields">--}}
@@ -135,7 +135,7 @@
                                 {{--<div class="form-group m-form__group row">--}}
                                     {{--<div class="col-sm-4 application-fields">--}}
                                         {{--<label class="application-form-label" for="">१०. कार्यकारणी यादी</label>--}}
-                                        {{--<input class="letter-form-input letter-form-input--100 m_datepicker" type="text" id=""--}}
+                                        {{--<input class="letter-form-input letter-form-input--100 " type="text" id=""--}}
                                                {{--name="society_address" value="{{ $sc_application->societyApplication->address }}">--}}
                                     {{--</div>--}}
                                 {{--</div>--}}

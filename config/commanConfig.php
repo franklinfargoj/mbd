@@ -116,6 +116,8 @@ return [
         'Send_society_for_registration_of_sale_&_lease' => 13,
         'Registered_sale_&_lease_deed' => 14,
         'NOC_Issued' => 15,
+        'society_stamp_duty' => 'Pay Stamp Duty',
+        'society_register_sale_lease_deed' => 'Register Sale & Lease Deed'
     ],
 
     //renewal status
