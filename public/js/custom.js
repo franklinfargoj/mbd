@@ -786,6 +786,7 @@ $(document).ready(function () {
         //errorClass : "text-red",
         rules:{
             name : 'required',
+            layout_id : 'required',
             ward_id : 'required'
         }
     });
@@ -796,6 +797,7 @@ $(document).ready(function () {
         rules:{
             rules:{
                 name : 'required',
+                layout_id : 'required',
                 ward_id : 'required'
             }
         }

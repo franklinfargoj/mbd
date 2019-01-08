@@ -645,6 +645,8 @@ Route::post('delete_prc_detail','ArchitectLayout\LayoutArchitectDetailController
 Route::get('architect_layout_detail_dp_crz_remark_view/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@view_dp_crz_remark')->name('architect_detail_dp_crz_remark_view');
 Route::get('architect_layout_detail_dp_crz_remark_add/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@add_dp_crz_remark')->name('add_architect_detail_dp_crz_remark_add');
 Route::post('architect_layout_detail_dp_crz_remark_post','ArchitectLayout\LayoutArchitectDetailController@post_dp_crz_remark')->name('post_architect_detail_dp_crz_remark_add');
+Route::post('architect_layout_detail_delete_crz_remark','ArchitectLayout\LayoutArchitectDetailController@delete_crz_remark')->name('delete_crz_remark');
+Route::post('architect_layout_detail_delete_dp_remark','ArchitectLayout\LayoutArchitectDetailController@delete_dp_remark')->name('delete_dp_remark');
 //add and delete EE report
 Route::post('architect_layout_detail_post_ee_report','ArchitectLayout\LayoutArchitectDetailController@architectLyoutDetailPostEEDetails')->name('architect_layout_detail_post_ee_report');
 Route::post('architect_layout_detail_delete_ee_report','ArchitectLayout\LayoutArchitectDetailController@architectLyoutDetailDeleteEEDetail')->name('architect_layout_detail_delete_ee_report');

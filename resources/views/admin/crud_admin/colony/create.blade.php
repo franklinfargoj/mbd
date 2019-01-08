@@ -20,10 +20,18 @@
                 <div class="m-portlet__body m-portlet__body--spaced">
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="name">Colony Name:</label>
+                            <label class="col-form-label" for="name">Colony Name:<span class="star">*</span></label>
                             <div class="m-input-icon m-input-icon--right">
                                 <input type="text" id="name" name="name" class="form-control form-control--custom m-input"  value="{{ old('name') }}">
                                 <span class="text-danger">{{$errors->first('name')}}</span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="description">Colony Description:</label>
+                            <div class="m-input-icon m-input-icon--right">
+                                <input type="text" id="description" name="description" class="form-control form-control--custom m-input"  value="{{ old('description') }}">
+                                <span class="text-danger">{{$errors->first('description')}}</span>
                             </div>
                         </div>
                     </div>

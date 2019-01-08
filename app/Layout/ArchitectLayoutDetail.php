@@ -47,4 +47,14 @@ class ArchitectLayoutDetail extends Model
     {
         return $this->hasMany(\App\Layout\ArchitectLayoutDetailREEReport::class,'architect_layout_detail_id','id');
     }
+
+    public function ArchitectLayoutDetailDpRemark()
+    {
+        return $this->hasMany(\App\Layout\ArchitectLayoutDetailDpRemark::class,'architect_layout_detail_id','id');
+    }
+
+    public function ArchitectLayoutDetailCrzRemark()
+    {
+        return $this->hasMany(\App\Layout\ArchitectLayoutDetailCrzRemark::class,'architect_layout_detail_id','id');
+    }
 }

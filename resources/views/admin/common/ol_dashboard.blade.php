@@ -11,6 +11,7 @@
             <h3 class="m-subheader__title">Dashboard</h3>
         </div>
     </div>
+    @if( !((session()->get('role_name') == config('commanConfig.junior_architect')) || (session()->get('role_name') == config('commanConfig.architect')) || (session()->get('role_name') == config('commanConfig.senior_architect'))))
     <div class="hearing-accordion-wrapper">
         <div class="m-portlet m-portlet--compact ol-accordion mb-0">
             <div class="d-flex justify-content-between align-items-center">
@@ -71,6 +72,8 @@
             <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="ree-ol-pending-summary"
                 --}} {{--data-parent="#accordion">--}} {{----}} {{--
             </div>--}} {{--@endif--}} </div> </div>
+    @endif
+
                 <!-- Dashboard for Convayance Module -->
                 @if(in_array(session()->get('role_name'),$conveyanceRoles)) @if($conveyanceDashboard)
                 <div class="hearing-accordion-wrapper">

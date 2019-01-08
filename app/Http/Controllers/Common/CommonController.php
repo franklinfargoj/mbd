@@ -1259,7 +1259,7 @@ class CommonController extends Controller
     public function check_layout_details_complete_status($layout_id)
     {
         $required_details = array();
-        $details = ArchitectLayoutDetail::where(['architect_layout_id' => $layout_id])->orderBy('id', 'desc')->with(['cts_plan_details', 'pr_card_details', 'ee_reports', 'em_reports', 'land_reports', 'ree_reports'])->first();
+        $details = ArchitectLayoutDetail::where(['architect_layout_id' => $layout_id])->orderBy('id', 'desc')->with(['cts_plan_details', 'pr_card_details', 'ee_reports', 'em_reports', 'land_reports', 'ree_reports','ArchitectLayoutDetailDpRemark', 'ArchitectLayoutDetailCrzRemark'])->first();
         if ($details) {
             if ($details->latest_layout == "") {
                 $required_details[] = "latest layout is required";
@@ -1281,21 +1281,14 @@ class CommonController extends Controller
                 $required_details[] = "survey report is required";
             }
 
-            if ($details->dp_letter == "") {
-                $required_details[] = "dp letter is required";
+            if ($details->ArchitectLayoutDetailDpRemark->count()<=0) {
+                $required_details[] = "DP remark is required";
             }
 
-            if ($details->dp_plan == "") {
-                $required_details[] = "dp plan is required";
+            if ($details->ArchitectLayoutDetailCrzRemark->count()<=0) {
+                $required_details[] = "CRZ remark is required";
             }
-
-            if ($details->crz_letter == "") {
-                $required_details[] = "crz letter is required";
-            }
-
-            if ($details->crz_plan == "") {
-                $required_details[] = "crz plan is required";
-            }
+            
 
             if ($details->ee_reports->count() == 0) {
                 $required_details[] = "please upload ee reports";

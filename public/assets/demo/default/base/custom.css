@@ -2775,9 +2775,9 @@ label.site-visit-label {
     color: #f0791b;
 }
 
-.m-aside-menu .m-menu__nav .m-menu__item.m-menu__item--submenu:hover .radio-icon path,
-.m-aside-menu .m-menu__nav .m-menu__item.m-menu__item--submenu:focus .radio-icon path,
-.m-aside-menu .m-menu__nav .m-menu__item.m-menu__item--active .radio-icon path {
+.m-aside-menu .m-menu__nav .m-menu__item.m-menu__item--submenu:hover path,
+.m-aside-menu .m-menu__nav .m-menu__item.m-menu__item--submenu:focus path,
+.m-aside-menu .m-menu__nav .m-menu__item.m-menu__item--active path {
     fill: #f0791b;
 }
 

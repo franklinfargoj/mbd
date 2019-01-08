@@ -9,20 +9,21 @@ use App\Layout\ArchitectLayout;
 use App\Layout\ArchitectLayoutCourtMatterDispute;
 use App\Layout\ArchitectLayoutDetail;
 use App\Layout\ArchitectLayoutDetailCtsPlanDetail;
+use App\Layout\ArchitectLayoutDetailDpRemark;
 use App\Layout\ArchitectLayoutDetailEEReport;
 use App\Layout\ArchitectLayoutDetailEmReport;
 use App\Layout\ArchitectLayoutDetailLandReport;
 use App\Layout\ArchitectLayoutDetailPrCardDetail;
 use App\Layout\ArchitectLayoutDetailREEReport;
-use App\Layout\ArchitectLayoutStatusLog;
+use App\Layout\PrepareLayoutExcelLog;
+use App\OlApplication;
+use App\OlApplicationMaster;
 use Illuminate\Http\Request;
 use Storage;
 use Validator;
-use DB;
-use App\Layout\PrepareLayoutExcelLog;
-use App\OlApplicationMaster;
-use App\OlApplication;
 use Yajra\DataTables\DataTables;
+use App\Layout\ArchitectLayoutDetailCrzRemark;
+use App\Http\Requests\ArchitectLayout\ArchitectLayoutDetailCrzRemarkRequest;
 
 class LayoutArchitectDetailController extends Controller
 {
@@ -36,25 +37,25 @@ class LayoutArchitectDetailController extends Controller
 
     public function list_of_offer_letter_issued($layout_id)
     {
-        $layout_id=decrypt($layout_id);
-        $ArchitectLayout=ArchitectLayout::find($layout_id);
-        $request=new Request;
-        $datatables=new DataTables;
+        $layout_id = decrypt($layout_id);
+        $ArchitectLayout = ArchitectLayout::find($layout_id);
+        $request = new Request;
+        $datatables = new DataTables;
         $columns = [
-            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
-            ['data' => 'application_no','name' => 'application_no','title' => 'Application No.'],
-            ['data' => 'application_master_id','name' => 'application_master_id','title' => 'Model'],
-            ['data' => 'created_at','name' => 'created_date','title' => 'Submission Date', 'class' => 'datatable-date'],
-            ['data' => 'updated_at','name' => 'updated_at','title' => 'Issued Date', 'class' => 'datatable-date'],
-            ['data' => 'status','name' => 'status','title' => 'Status'],
-            ['data' => 'action','name' => 'action','title' => 'Action'],
+            ['data' => 'rownum', 'name' => 'rownum', 'title' => 'Sr No.', 'searchable' => false],
+            ['data' => 'application_no', 'name' => 'application_no', 'title' => 'Application No.'],
+            ['data' => 'application_master_id', 'name' => 'application_master_id', 'title' => 'Model'],
+            ['data' => 'created_at', 'name' => 'created_date', 'title' => 'Submission Date', 'class' => 'datatable-date'],
+            ['data' => 'updated_at', 'name' => 'updated_at', 'title' => 'Issued Date', 'class' => 'datatable-date'],
+            ['data' => 'status', 'name' => 'status', 'title' => 'Status'],
+            ['data' => 'action', 'name' => 'action', 'title' => 'Action'],
         ];
         if ($datatables->getRequest()->ajax()) {
-        $application_master_arr = OlApplicationMaster::Where('title', 'like', '%New - Offer Letter%')->orWhere('title', 'like', '%Revalidation Of Offer Letter%')->pluck('id')->toArray();
+            $application_master_arr = OlApplicationMaster::Where('title', 'like', '%New - Offer Letter%')->orWhere('title', 'like', '%Revalidation Of Offer Letter%')->pluck('id')->toArray();
 
-            $ol_applications = OlApplication::where('layout_id', session()->get('layout_id'))->with(['ol_application_master', 'olApplicationStatus' => function($q){
+            $ol_applications = OlApplication::where('layout_id', session()->get('layout_id'))->with(['ol_application_master', 'olApplicationStatus' => function ($q) {
                 $q->where('society_flag', '1')->orderBy('id', 'desc');
-            } ])->whereIn('application_master_id', $application_master_arr)->where('status_offer_letter',config('commanConfig.applicationStatus.sent_to_society'));
+            }])->whereIn('application_master_id', $application_master_arr)->where('status_offer_letter', config('commanConfig.applicationStatus.sent_to_society'));
             $ol_applications = $ol_applications->get();
 
             $reval_master_ids_arr = config('commanConfig.revalidation_master_ids');
@@ -64,21 +65,14 @@ class LayoutArchitectDetailController extends Controller
                     $i++;
                     return $i;
                 })
-                ->editColumn('application_no', function ($ol_applications) use($reval_master_ids_arr) {
-                    if(isset($ol_applications->is_noc_application))
-                    {
+                ->editColumn('application_no', function ($ol_applications) use ($reval_master_ids_arr) {
+                    if (isset($ol_applications->is_noc_application)) {
                         $app_type = "<br><span class='m-badge m-badge--danger'>Application for Noc</span>";
-                    }
-                    elseif($ol_applications->is_noc_cc_application)
-                    {
+                    } elseif ($ol_applications->is_noc_cc_application) {
                         $app_type = "<br><span class='m-badge m-badge--warning'>Application for Noc (CC)</span>";
-                    }
-                    elseif(in_array($ol_applications->application_master_id,$reval_master_ids_arr))
-                    {
+                    } elseif (in_array($ol_applications->application_master_id, $reval_master_ids_arr)) {
                         $app_type = "<br><span class='m-badge m-badge--success'>Revalidation Of Offer letter</span>";
-                    }
-                    else
-                    {
+                    } else {
                         $app_type = "<br><span class='m-badge m-badge--success'>Application for Offer letter</span>";
                     }
 
@@ -91,8 +85,7 @@ class LayoutArchitectDetailController extends Controller
                     return date(config('commanConfig.dateFormat'), strtotime($ol_applications->created_at));
                 })
                 ->editColumn('updated_at', function ($ol_applications) {
-                    if($ol_applications->status_offer_letter==7)
-                    {
+                    if ($ol_applications->status_offer_letter == 7) {
                         return date(config('commanConfig.dateFormat'), strtotime($ol_applications->created_at));
                     }
                     return '-';
@@ -100,64 +93,63 @@ class LayoutArchitectDetailController extends Controller
                 ->editColumn('status', function ($ol_applications) {
                     $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $ol_applications->olApplicationStatus[0]->status_id)[0]);
                     $status_display = '';
-                    foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
+                    foreach ($status as $status_value) {$status_display .= ucwords($status_value) . ' ';}
                     $status_color = '';
-                    if($status_display == 'Sent To Society'){
+                    if ($status_display == 'Sent To Society') {
                         $status_display = 'Approved';
                     }
-                    return '<div class="d-flex btn-icon-list"><span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$ol_applications->olApplicationStatus[0]->status_id) .' m-badge--wide">'.$status_display.'</span></div>';
+                    return '<div class="d-flex btn-icon-list"><span class="m-badge m-badge--' . config('commanConfig.applicationStatusColor.' . $ol_applications->olApplicationStatus[0]->status_id) . ' m-badge--wide">' . $status_display . '</span></div>';
                 })
                 ->editColumn('action', function ($ol_applications) {
-                    $certificate_link="-";
-                    if($ol_applications->status_offer_letter==7)
-                    {
-                        $certificate_link='<a class="d-flex flex-column Offer Letter align-items-center" title="Offer Letter Download" href="'.config('commanConfig.storage_server').'/'.$ol_applications->offer_letter_document_path.'"
-                        target="_blank" rel="noopener"><span class="btn-icon btn-icon--delete"><img src="'.asset('/img/download-icon.svg').'"></span>Download Offer Letter</a>';
+                    $certificate_link = "-";
+                    if ($ol_applications->status_offer_letter == 7) {
+                        $certificate_link = '<a class="d-flex flex-column Offer Letter align-items-center" title="Offer Letter Download" href="' . config('commanConfig.storage_server') . '/' . $ol_applications->offer_letter_document_path . '"
+                        target="_blank" rel="noopener"><span class="btn-icon btn-icon--delete"><img src="' . asset('/img/download-icon.svg') . '"></span>Download Offer Letter</a>';
                     }
-                    return '<div class="d-flex btn-icon-list">'.$certificate_link.'</div>';
+                    return '<div class="d-flex btn-icon-list">' . $certificate_link . '</div>';
                 })
-                // ->editColumn('model', function ($ol_applications) {
-                //     return view('frontend.society.actions', compact('ol_applications', 'status_display'))->render();
-                // })
-                ->rawColumns(['application_no', 'application_master_id', 'created_at','updated_at','status','action'])
+            // ->editColumn('model', function ($ol_applications) {
+            //     return view('frontend.society.actions', compact('ol_applications', 'status_display'))->render();
+            // })
+                ->rawColumns(['application_no', 'application_master_id', 'created_at', 'updated_at', 'status', 'action'])
                 ->make(true);
         }
 
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
-        return view('admin.architect_layout_detail.list_of_issued_offer_letters', compact('html', 'ol_applications', 'ol_application_count','ArchitectLayout'));
+        return view('admin.architect_layout_detail.list_of_issued_offer_letters', compact('html', 'ol_applications', 'ol_application_count', 'ArchitectLayout'));
     }
 
-    protected function getParameters() {
+    protected function getParameters()
+    {
         return [
             'serverSide' => true,
             'processing' => true,
-            'ordering'   =>'isSorted',
-            "order"=> [4, "desc" ],
+            'ordering' => 'isSorted',
+            "order" => [4, "desc"],
             "pageLength" => $this->list_num_of_records_per_page,
             // 'fixedHeader' => [
             //     'header' => true,
             //     'footer' => true
             // ]
             "filter" => [
-                'class' => 'test_class'
-            ]
+                'class' => 'test_class',
+            ],
         ];
     }
 
     public function add_detail($layout_id)
     {
-        $add_detail=1;
+        $add_detail = 1;
         $layout_id = decrypt($layout_id);
-        $status=getLastStatusIdArchitectLayout($layout_id);
+        $status = getLastStatusIdArchitectLayout($layout_id);
 
-        if($status->status_id==config('commanConfig.architect_layout_status.sent_for_revision') || $status->status_id==config('commanConfig.architect_layout_status.forward') || $status->status_id=!config('commanConfig.architect_layout_status.approved') || $status->status_id==config('commanConfig.architect_layout_status.scrutiny_pending'))
-        {
+        if ($status->status_id == config('commanConfig.architect_layout_status.sent_for_revision') || $status->status_id == config('commanConfig.architect_layout_status.forward') || $status->status_id = !config('commanConfig.architect_layout_status.approved') || $status->status_id == config('commanConfig.architect_layout_status.scrutiny_pending')) {
             //dd('ok');
-            $add_detail=0;
+            $add_detail = 0;
 
         }
         //dd($add_detail);
-        if (count($this->common->check_layout_details_complete_status($layout_id)) == 0 && $add_detail==1) {
+        if (count($this->common->check_layout_details_complete_status($layout_id)) == 0 && $add_detail == 1) {
             $ArchitectLayoutDetail = new ArchitectLayoutDetail;
             $ArchitectLayoutDetail->architect_layout_id = $layout_id;
             $ArchitectLayoutDetail->save();
@@ -169,24 +161,22 @@ class LayoutArchitectDetailController extends Controller
                     'status_id' => config('commanConfig.architect_layout_status.sent_for_revision'),
                     'to_user_id' => null,
                     'to_role_id' => null,
-                    'open'=>1,
-                    'current_status'=>1,
+                    'open' => 1,
+                    'current_status' => 1,
                     'remark' => null,
                 ],
             ];
-            $this->common->forward_architect_layout($layout_id,$forward_application);
-            $set_blank_excel_layout=ArchitectLayout::find($layout_id);
-            if($set_blank_excel_layout)
-            {
-                $set_blank_excel_layout->upload_layout_in_pdf_format="";
-                $set_blank_excel_layout->upload_layout_in_excel_format="";
-                $set_blank_excel_layout->upload_architect_note="";
-                $set_blank_excel_layout->layout_excel_status=0;
+            $this->common->forward_architect_layout($layout_id, $forward_application);
+            $set_blank_excel_layout = ArchitectLayout::find($layout_id);
+            if ($set_blank_excel_layout) {
+                $set_blank_excel_layout->upload_layout_in_pdf_format = "";
+                $set_blank_excel_layout->upload_layout_in_excel_format = "";
+                $set_blank_excel_layout->upload_architect_note = "";
+                $set_blank_excel_layout->layout_excel_status = 0;
                 $set_blank_excel_layout->save();
-                if($set_blank_excel_layout)
-                {
-                    $PrepareLayoutExcelLog=new PrepareLayoutExcelLog;
-                    $PrepareLayoutExcelLog->architect_layout_id=$layout_id;
+                if ($set_blank_excel_layout) {
+                    $PrepareLayoutExcelLog = new PrepareLayoutExcelLog;
+                    $PrepareLayoutExcelLog->architect_layout_id = $layout_id;
                     $PrepareLayoutExcelLog->save();
                 }
             }
@@ -201,7 +191,7 @@ class LayoutArchitectDetailController extends Controller
     public function edit_detail($layout_detail_id)
     {
         $layout_detail_id = decrypt($layout_detail_id);
-        $ArchitectLayoutDetail = ArchitectLayoutDetail::with(['architect_layout', 'ee_reports', 'em_reports', 'ree_reports', 'land_reports'])->where(['id' => $layout_detail_id])->first();
+        $ArchitectLayoutDetail = ArchitectLayoutDetail::with(['architect_layout', 'ee_reports', 'em_reports', 'ree_reports', 'land_reports', 'ArchitectLayoutDetailDpRemark', 'ArchitectLayoutDetailCrzRemark'])->where(['id' => $layout_detail_id])->first();
         $ArchitectLayout = ArchitectLayout::with(['master_layout'])->where(['id' => $ArchitectLayoutDetail->architect_layout_id])->first();
         //dd($ArchitectLayout);
         return view('admin.architect_layout_detail.add', compact('ArchitectLayoutDetail', 'ArchitectLayout'));
@@ -505,7 +495,7 @@ class LayoutArchitectDetailController extends Controller
             }
             $k++;
         }
-        return redirect()->route('architect_layout_detail.edit',['layout_detail_id'=>encrypt($request->architect_layout_detail_id),'#prc-tab'])->withSuccess('data added successfully!!');
+        return redirect()->route('architect_layout_detail.edit', ['layout_detail_id' => encrypt($request->architect_layout_detail_id), '#prc-tab'])->withSuccess('data added successfully!!');
         //return back()->withSuccess('Data added successfully');
 
     }
@@ -514,12 +504,11 @@ class LayoutArchitectDetailController extends Controller
     {
         $ArchitectLayoutDetailCtsPlanDetail = ArchitectLayoutDetailCtsPlanDetail::where('id', $request->cts_detail_id)->first();
         if ($ArchitectLayoutDetailCtsPlanDetail) {
-            if($ArchitectLayoutDetailCtsPlanDetail->delete())
-            {
-                return response()->json(['status'=>'success','message'=>'deleted successfully!!']);
+            if ($ArchitectLayoutDetailCtsPlanDetail->delete()) {
+                return response()->json(['status' => 'success', 'message' => 'deleted successfully!!']);
             }
         }
-        return response()->json(['status'=>'fail','message'=>'something went wrong']);
+        return response()->json(['status' => 'fail', 'message' => 'something went wrong']);
     }
 
     public function view_prc_detail($layout_detail_id)
@@ -578,7 +567,7 @@ class LayoutArchitectDetailController extends Controller
                 $i++;
             }
         }
-        return redirect()->route('architect_layout_detail.edit',['layout_detail_id'=>encrypt($request->architect_layout_detail_id),'#dp-remark-tab'])->withSuccess('data uploaded successfully!!');
+        return redirect()->route('architect_layout_detail.edit', ['layout_detail_id' => encrypt($request->architect_layout_detail_id), '#dp-remark-tab'])->withSuccess('data uploaded successfully!!');
         //return back()->withSuccess('Data added successfully');
     }
 
@@ -590,13 +579,14 @@ class LayoutArchitectDetailController extends Controller
             if (Storage::disk('ftp')->has($file)) {
                 Storage::disk('ftp')->delete($file);
             }
-            if($ArchitectLayoutDetailPrCardDetai->delete())
-            {
-                return response()->json(['status'=>'success','message'=>'deleted successfully!!']);
-            }else
-            return response()->json(['status'=>'fail','message'=>'something went wrong']);
+            if ($ArchitectLayoutDetailPrCardDetai->delete()) {
+                return response()->json(['status' => 'success', 'message' => 'deleted successfully!!']);
+            } else {
+                return response()->json(['status' => 'fail', 'message' => 'something went wrong']);
+            }
+
         }
-        return response()->json(['status'=>'fail','message'=>'something went wrong']);
+        return response()->json(['status' => 'fail', 'message' => 'something went wrong']);
     }
 
     public function view_dp_crz_remark($layout_detail_id)
@@ -615,89 +605,163 @@ class LayoutArchitectDetailController extends Controller
 
     public function post_dp_crz_remark(Request $request)
     {
+        //return $request->file('dp_remark_letter');
+        if ($request->remark_type == 'dp') {
         $validator = Validator::make($request->all(), (new ArchitectLayoutDetailCrzDpRemark)->rules());
+        }
+        if ($request->remark_type == 'crz') {
+            $validator = Validator::make($request->all(), (new ArchitectLayoutDetailCrzRemarkRequest)->rules());
+            }
         $dp_letter = "";
         $dp_plan = "";
         $crz_letter = "";
         $crz_plan = "";
 
-        $ArchitectLayoutDetail = ArchitectLayoutDetail::find($request->architect_layout_detail_id);
-        if ($ArchitectLayoutDetail->dp_letter == "" && !$request->hasFile('dp_remark_letter')) {
-            $validator->after(function ($validator) {
-                $validator->errors()->add('dp_remark_letter', 'Dp letter is required');
-            });
-        }
-        if ($ArchitectLayoutDetail->dp_plan == "" && !$request->hasFile('dp_remark_plan')) {
-            $validator->after(function ($validator) {
-                $validator->errors()->add('dp_remark_plan', 'DP Plan is required');
-            });
-        }
-        if ($ArchitectLayoutDetail->crz_letter == "" && !$request->hasFile('crz_remark_letter')) {
-            $validator->after(function ($validator) {
+        // $ArchitectLayoutDetail = ArchitectLayoutDetail::find($request->architect_layout_detail_id);
+        // if ($ArchitectLayoutDetail->dp_letter == "" && !$request->hasFile('dp_remark_letter')) {
+        //     $validator->after(function ($validator) {
+        //         $validator->errors()->add('dp_remark_letter', 'Dp letter is required');
+        //     });
+        // }
+        // if ($ArchitectLayoutDetail->dp_plan == "" && !$request->hasFile('dp_remark_plan')) {
+        //     $validator->after(function ($validator) {
+        //         $validator->errors()->add('dp_remark_plan', 'DP Plan is required');
+        //     });
+        // }
+        // if ($ArchitectLayoutDetail->crz_letter == "" && !$request->hasFile('crz_remark_letter')) {
+        //     $validator->after(function ($validator) {
 
-                $validator->errors()->add('crz_remark_letter', 'CRZ letter is required');
-            });
-        }
-        if ($ArchitectLayoutDetail->crz_plan == "" && !$request->hasFile('crz_remark_plan')) {
-            $validator->after(function ($validator) {
-                $validator->errors()->add('crz_remark_plan', 'CRZ Plan is required');
-            });
-        }
+        //         $validator->errors()->add('crz_remark_letter', 'CRZ letter is required');
+        //     });
+        // }
+        // if ($ArchitectLayoutDetail->crz_plan == "" && !$request->hasFile('crz_remark_plan')) {
+        //     $validator->after(function ($validator) {
+        //         $validator->errors()->add('crz_remark_plan', 'CRZ Plan is required');
+        //     });
+        // }
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
-        if ($request->hasFile('dp_remark_letter')) {
-            $extension = $request->file('dp_remark_letter')->getClientOriginalExtension();
-            $dir = 'architect_layout_details';
-            $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
-            $dp_letter = Storage::disk('ftp')->putFileAs($dir, $request->file('dp_remark_letter'), $filename);
+        if ($request->remark_type == 'dp') {
+            if ($request->hasFile('dp_remark_letter')) {
+                $extension = $request->file('dp_remark_letter')->getClientOriginalExtension();
+                $dir = 'architect_layout_details';
+                $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+                $dp_letter = Storage::disk('ftp')->putFileAs($dir, $request->file('dp_remark_letter'), $filename);
+            }
+            if ($request->hasFile('dp_remark_plan')) {
+                $extension = $request->file('dp_remark_plan')->getClientOriginalExtension();
+                $dir = 'architect_layout_details';
+                $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+                $dp_plan = Storage::disk('ftp')->putFileAs($dir, $request->file('dp_remark_plan'), $filename);
+            }
         }
-        if ($request->hasFile('dp_remark_plan')) {
-            $extension = $request->file('dp_remark_plan')->getClientOriginalExtension();
-            $dir = 'architect_layout_details';
-            $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
-            $dp_plan = Storage::disk('ftp')->putFileAs($dir, $request->file('dp_remark_plan'), $filename);
-        }
-        if ($request->hasFile('crz_remark_letter')) {
-            $extension = $request->file('crz_remark_letter')->getClientOriginalExtension();
-            $dir = 'architect_layout_details';
-            $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
-            $crz_letter = Storage::disk('ftp')->putFileAs($dir, $request->file('crz_remark_letter'), $filename);
-        }
-        if ($request->hasFile('crz_remark_plan')) {
-            $extension = $request->file('crz_remark_plan')->getClientOriginalExtension();
-            $dir = 'architect_layout_details';
-            $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
-            $crz_plan = Storage::disk('ftp')->putFileAs($dir, $request->file('crz_remark_plan'), $filename);
-        }
-        if ($dp_letter != "") {
-            $ArchitectLayoutDetail->dp_letter = $dp_letter;
-        }
-        if ($dp_plan != "") {
-            $ArchitectLayoutDetail->dp_plan = $dp_plan;
-        }
-        if ($crz_letter != "") {
-            $ArchitectLayoutDetail->crz_letter = $crz_letter;
-        }
-        if ($crz_plan != "") {
-            $ArchitectLayoutDetail->crz_plan = $crz_plan;
-        }
-        $ArchitectLayoutDetail->dp_comment = $request->dp_comment;
-        $ArchitectLayoutDetail->crz_comment = $request->crz_comment;
-        $ArchitectLayoutDetail->save();
-        if ($ArchitectLayoutDetail) {
-            return redirect()->route('architect_layout_detail.edit',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id),'#layouts_upload'])->withSuccess('data uploaded successfully!!');
-        } else {
-            return back()->withError('Something went wrong');
+        if ($request->remark_type == 'crz') {
+            if ($request->hasFile('crz_remark_letter')) {
+                $extension = $request->file('crz_remark_letter')->getClientOriginalExtension();
+                $dir = 'architect_layout_details';
+                $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+                $crz_letter = Storage::disk('ftp')->putFileAs($dir, $request->file('crz_remark_letter'), $filename);
+            }
+            if ($request->hasFile('crz_remark_plan')) {
+                $extension = $request->file('crz_remark_plan')->getClientOriginalExtension();
+                $dir = 'architect_layout_details';
+                $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+                $crz_plan = Storage::disk('ftp')->putFileAs($dir, $request->file('crz_remark_plan'), $filename);
+            }
         }
 
+        if ($request->remark_type == 'crz') {
+            $ArchitectLayoutDetailCrzRemark = new ArchitectLayoutDetailCrzRemark;
+            $ArchitectLayoutDetailCrzRemark->architect_layout_detail_id = $request->architect_layout_detail_id;
+            if ($crz_letter != "") {
+                $ArchitectLayoutDetailCrzRemark->crz_letter = $crz_letter;
+            }
+            if ($crz_plan != "") {
+                $ArchitectLayoutDetailCrzRemark->crz_plan = $crz_plan;
+            }
+            $ArchitectLayoutDetailCrzRemark->crz_comment = $request->crz_comment;
+
+            $ArchitectLayoutDetailCrzRemark->save();
+            if ($ArchitectLayoutDetailCrzRemark) {
+                return redirect()->route('architect_layout_detail.edit', ['layout_detail_id' => encrypt($ArchitectLayoutDetailCrzRemark->architect_layout_detail_id), '#dp-remark-tab'])->withSuccess('data uploaded successfully!!');
+            } else {
+                return back()->withError('Something went wrong');
+            }
+        }
+        if ($request->remark_type == 'dp') {
+            $ArchitectLayoutDetailDpRemark = new ArchitectLayoutDetailDpRemark;
+            $ArchitectLayoutDetailDpRemark->architect_layout_detail_id = $request->architect_layout_detail_id;
+            if ($dp_letter != "") {
+                $ArchitectLayoutDetailDpRemark->dp_letter = $dp_letter;
+            }
+            if ($dp_plan != "") {
+                $ArchitectLayoutDetailDpRemark->dp_plan = $dp_plan;
+            }
+            $ArchitectLayoutDetailDpRemark->dp_comment = $request->dp_comment;
+            $ArchitectLayoutDetailDpRemark->save();
+            if ($ArchitectLayoutDetailDpRemark) {
+                return redirect()->route('architect_layout_detail.edit', ['layout_detail_id' => encrypt($ArchitectLayoutDetailDpRemark->architect_layout_detail_id), '#dp-remark-tab'])->withSuccess('data uploaded successfully!!');
+            } else {
+                return back()->withError('Something went wrong');
+            }
+        }
+        return back();
+        //$ArchitectLayoutDetailDpRemark->crz_comment = $request->crz_comment;
+
+    }
+
+    public function delete_crz_remark(Request $request)
+    {
+        $ArchitectLayoutDetailCrzRemark = ArchitectLayoutDetailCrzRemark::find($request->crz_id);
+        if($ArchitectLayoutDetailCrzRemark)
+        {
+            $crz_letter = $ArchitectLayoutDetailCrzRemark->crz_letter;
+            if (Storage::disk('ftp')->has($crz_letter)) {
+                Storage::disk('ftp')->delete($crz_letter);
+            }
+            $crz_plan = $ArchitectLayoutDetailCrzRemark->crz_plan;
+            if (Storage::disk('ftp')->has($crz_plan)) {
+                Storage::disk('ftp')->delete($crz_plan);
+            }
+            if ($ArchitectLayoutDetailCrzRemark->delete()) {
+                return response()->json(['status' => 'success', 'message' => 'deleted successfully!!']);
+            } else {
+                return response()->json(['status' => 'fail', 'message' => 'something went wrong']);
+            }
+
+        }
+        return response()->json(['status' => 'fail', 'message' => 'something went wrong']);
+    }
+
+    public function delete_dp_remark(Request $request)
+    {
+        $ArchitectLayoutDetailDpRemark = ArchitectLayoutDetailDpRemark::find($request->dp_id);
+        if($ArchitectLayoutDetailDpRemark)
+        {
+            $dp_letter = $ArchitectLayoutDetailDpRemark->dp_letter;
+            if (Storage::disk('ftp')->has($dp_letter)) {
+                Storage::disk('ftp')->delete($dp_letter);
+            }
+            $dp_plan = $ArchitectLayoutDetailDpRemark->dp_plan;
+            if (Storage::disk('ftp')->has($dp_plan)) {
+                Storage::disk('ftp')->delete($dp_plan);
+            }
+            if ($ArchitectLayoutDetailDpRemark->delete()) {
+                return response()->json(['status' => 'success', 'message' => 'deleted successfully!!']);
+            } else {
+                return response()->json(['status' => 'fail', 'message' => 'something went wrong']);
+            }
+
+        }
+        return response()->json(['status' => 'fail', 'message' => 'something went wrong']);
     }
 
     public function view_court_case_or_dispute_on_land($layout_detail_id)
     {
         $layout_detail_id = decrypt($layout_detail_id);
         $ArchitectLayoutDetail = ArchitectLayoutDetail::find($layout_detail_id);
-        $courCassesOrDisputes = ArchitectLayoutCourtMatterDispute::where(['architect_layout_detail_id'=>$layout_detail_id])->get();
+        $courCassesOrDisputes = ArchitectLayoutCourtMatterDispute::where(['architect_layout_detail_id' => $layout_detail_id])->get();
         return view('admin.architect_layout_detail.view_court_case_or_dispute', compact('ArchitectLayoutDetail', 'courCassesOrDisputes'));
     }
 }

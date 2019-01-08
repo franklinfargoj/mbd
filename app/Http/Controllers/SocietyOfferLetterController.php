@@ -588,7 +588,7 @@ class SocietyOfferLetterController extends Controller
     public function ViewApplications($id){
         $ids = explode('_', $id);
         $data = OlApplicationMaster::with('ol_application_type', 'ol_application_id' , 'noc_application_ref' , 'noc_cc_application_ref')->where('model', ucfirst($ids[1]))->where('parent_id', $ids[0])->get();
-//        dd($data[0]->ol_application_id[0]->application_master_id);
+
         return view('frontend.society.application', compact('ids', 'data'));
     }
 
@@ -601,7 +601,7 @@ class SocietyOfferLetterController extends Controller
     public function show_form_self($id){
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $layouts = MasterLayout::all();
-        // dd($society_details);
+
         return view('frontend.society.show_form_self', compact('society_details', 'id', 'layouts'));
     }
 
@@ -838,7 +838,7 @@ class SocietyOfferLetterController extends Controller
     public function show_form_dev($id){
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $layouts = MasterLayout::all();
-        // dd($society_details);
+
         return view('frontend.society.show_form_dev', compact('society_details', 'id', 'layouts'));
     }
 
@@ -865,7 +865,7 @@ class SocietyOfferLetterController extends Controller
     public function show_offer_letter_application_dev($id){
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $layouts = MasterLayout::all();
-        // dd($society_details);
+
         return view('frontend.society.offer_letter_application_dev', compact('society_details', 'id', 'layouts'));
     }
 
@@ -1094,7 +1094,7 @@ class SocietyOfferLetterController extends Controller
             $document_ids[] = $value->id;
         }
         $documents_uploaded = OlSocietyDocumentsStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->with(['documents_uploaded'])->get();
-        
+
         $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->first();
         if($application->application_master_id == '2' || $application->application_master_id == '13'){
             $optional_docs = config('commanConfig.optional_docs_premium');
@@ -1307,7 +1307,7 @@ class SocietyOfferLetterController extends Controller
         
         OlApplicationStatus::create($input_forwarded);
         OlApplicationStatus::create($input_in_process);
-        return redirect()->route('upload_society_offer_letter_application');
+        return redirect()->route('society_offer_letter_dashboard');
     }
 
     public function addSocietyRevalDocumentsRemark(Request $request){
@@ -1389,7 +1389,7 @@ class SocietyOfferLetterController extends Controller
         $ol_applications = $application;
         $documents_uploaded = OlSocietyDocumentsStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->get();
         $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->where('application_id', null)->first();
-        
+
         return view('frontend.society.view_society_uploaded_documents', compact('documents', 'optional_docs', 'docs_uploaded_count','docs_count', 'ol_applications','documents_uploaded', 'documents_comment', 'society'));
     }
 

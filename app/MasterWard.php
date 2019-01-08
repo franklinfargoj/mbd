@@ -19,6 +19,11 @@ class MasterWard extends Model
 
     	return $this->belongsTo('App\MasterLayout');	
     
-    }    
+    }
+
+    public function getLayoutName()
+    {
+        return $this->hasOne('App\MasterLayout', 'id','layout_id');
+    }
 
 }

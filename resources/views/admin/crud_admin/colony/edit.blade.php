@@ -28,6 +28,13 @@
                                 <span class="text-danger">{{$errors->first('name')}}</span>
                             </div>
                         </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="description">Colony Description:</label>
+                            <div class="m-input-icon m-input-icon--right">
+                                <input type="text" id="description" name="description" class="form-control form-control--custom m-input"  value="{{ $colony['description'] }}">
+                                <span class="text-danger">{{$errors->first('description')}}</span>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group m-form__group row">
@@ -74,10 +81,8 @@
     </div>
 @endsection
 @section('js')
-    @if(!$colony['ward_id'])
     <script>
 
-        loadWardsOfLayout();
 
         $('#layout_id').change(function(){
             $('#ward').show();
@@ -95,7 +100,7 @@
                 },
                 type:"POST",
                 data:{
-                    layout_id:layout_id
+                    layout_id : layout_id,
                 },
                 url:"{{ route('loadWardsOfLayoutUsingAjax') }}",
                 success:function(res){
@@ -106,7 +111,6 @@
             });
         }
     </script>
-    @endif
 
 @endsection
 
