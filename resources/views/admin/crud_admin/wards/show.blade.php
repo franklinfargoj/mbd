@@ -21,20 +21,27 @@
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="name">Ward Name:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <input type="text" disabled id="name" name="name" class="form-control form-control--custom m-input"  value="{{ $ward['name'] }}">
+                            <input disabled type="text" id="name" name="name" class="form-control form-control--custom m-input"  value="{{ $ward['name'] }}">
                             <span class="text-danger">{{$errors->first('name')}}</span>
                         </div>
                     </div>
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="layout">Layouts:<span class="star">*</span></label>
+                        <label class="col-form-label" for="description">Ward Description:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <select disabled data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout">
-                                @foreach($layouts as $layout)
-                                    <option value={{$layout->id}}  {{($layout->id == $ward['layout_id']) ? 'selected' : '' }}>{{$layout->layout_name}}</option>
-                                @endforeach
-                            </select>
-                            <span class="text-danger">{{$errors->first('layout')}}</span>
+                            <input disabled type="text" id="description" name="description" class="form-control form-control--custom m-input"  value="{{ $ward['description'] }}">
+                            <span class="text-danger">{{$errors->first('description')}}</span>
                         </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label class="col-form-label" for="layout_id">Layouts:<span class="star">*</span></label>
+                    <div class="m-input-icon m-input-icon--right">
+                        <select disabled data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout_id" name="layout_id">
+                            @foreach($layouts as $layout)
+                                <option value={{$layout->id}}  {{($layout->id == $ward['layout_id']) ? 'selected' : '' }}>{{$layout->layout_name}}</option>
+                            @endforeach
+                        </select>
+                        <span class="text-danger">{{$errors->first('layout')}}</span>
                     </div>
                 </div>
             </div>

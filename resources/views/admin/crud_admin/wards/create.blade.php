@@ -28,17 +28,24 @@
                         </div>
 
                         <div class="col-sm-4 offset-sm-1 form-group">
-                            <label class="col-form-label" for="layout_id">Layouts:<span class="star">*</span></label>
+                            <label class="col-form-label" for="description">Ward Description:</label>
                             <div class="m-input-icon m-input-icon--right">
-                                <select title="Select Layout" data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout_id" name="layout_id">
-                                    @foreach($layouts as $layout)
-                                        <option value={{$layout->id}}>{{$layout->layout_name}}</option>
-                                    @endforeach
-                                </select>
-                                <span class="text-danger">{{$errors->first('layout')}}</span>
+                                <input type="text" id="description" name="description" class="form-control form-control--custom m-input"  value="{{ old('description') }}">
+                                <span class="text-danger">{{$errors->first('description')}}</span>
                             </div>
                         </div>
 
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label class="col-form-label" for="layout_id">Layouts:<span class="star">*</span></label>
+                        <div class="m-input-icon m-input-icon--right">
+                            <select title="Select Layout" data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout_id" name="layout_id">
+                                @foreach($layouts as $layout)
+                                    <option value={{$layout->id}}>{{$layout->layout_name}}</option>
+                                @endforeach
+                            </select>
+                            <span class="text-danger">{{$errors->first('layout')}}</span>
+                        </div>
                     </div>
                 </div>
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
