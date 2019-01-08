@@ -104,6 +104,7 @@ class WardController extends Controller
         $ward = new MasterWard();
         $ward->name = $request->input('name');
         $ward->layout_id = $request->input('layout_id');
+        $ward->description = $request->input('description');
         $ward->save();
 
         return redirect()->route('ward.index')
@@ -150,13 +151,15 @@ class WardController extends Controller
 
         $ward = MasterWard::FindOrFail($id);
         if($request->input('name') != $ward['name'] ){
-            $ward->name = $request->input('name');
-        }
+        $ward->name = $request->input('name');
+    }
 
         if($request->input('layout_id') != $ward['layout_id'] ){
             $ward->layout_id = $request->input('layout_id');
         }
-
+        if($request->input('description') != $ward['description'] ){
+            $ward->description = $request->input('description');
+        }
         $ward->save();
 
         return redirect()->route('ward.index')
