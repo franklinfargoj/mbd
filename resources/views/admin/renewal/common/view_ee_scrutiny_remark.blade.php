@@ -193,7 +193,7 @@
                         <div class="mt-3 table--box-input">
                             <label class="hint-text d-block t-remark">Change In  Structure:</label>
                             <textarea rows="5" cols="30" class="form-control form-control--custom" id="change_in_structure" name="change_in_structure" readonly> {{ isset($data->change_in_structure) ? $data->change_in_structure : '' }}</textarea>
-                            <span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">This feild is required</span>
+                            <span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">This field is required</span>
                         </div>              
                     </div>
                 </div>
@@ -208,7 +208,7 @@
                         <div class="mt-3 table--box-input">
                             <label class="hint-text d-block t-remark">Encroachment:</label>
                             <textarea rows="5" cols="30" class="form-control form-control--custom" id="encroachment" name="encroachment" readonly> {{ isset($data->encroachment) ? $data->encroachment : '' }}</textarea>
-                            <span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">This feild is required</span>
+                            <span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">This field is required</span>
                         </div>             
                     </div>
                 </div>
