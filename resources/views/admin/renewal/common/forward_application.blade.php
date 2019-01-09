@@ -179,7 +179,7 @@
                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                                 <div class="">
                                     <h3 class="section-title section-title--small">
-                                        Remark and Suggestions:
+                                        Remarks and Suggestions:
                                     </h3>
                                 </div>
                                 <div class="remarks-suggestions">
@@ -253,8 +253,7 @@
                                                     {{--<button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>
                                                     <button type="submit" class="btn btn-primary forwrdBtn">Sign & Forward</button>
                                                     <button type="submit" class="btn btn-primary forwrdBtn">Forward</button>--}}
-                                                    <button type="button" onclick=""
-                                                        class="btn btn-secondary">Cancel</button>
+                                                    <button type="button" onclick="window.location='{{ route("renewal.index") }}'" class="btn btn-secondary">Cancel</button>
                                                 </div>
                                         </div>
                                         <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">

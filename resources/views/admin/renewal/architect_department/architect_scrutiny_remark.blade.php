@@ -217,7 +217,7 @@
                         <div class="mt-3 table--box-input">
                             <label class="e_comments" for="comments">If Yes, Comments:</label>
                             <textarea rows="5" cols="30" class="form-control form-control--custom" id="sanctioned_comments" name="sanctioned_comments" >{{ isset($data->sanctioned_comments) ? $data->sanctioned_comments : '' }}</textarea>
-                      <!--       <span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">This feild is required</span> -->
+                      <!--       <span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">This field is required</span> -->
                         </div>             
                     </div>
                 </div>
@@ -246,7 +246,7 @@
                         <div class="mt-3 table--box-input">
                             <label class="e_comments" for="comments">If Yes, Comments:</label>
                             <textarea rows="5" cols="30" class="form-control form-control--custom" id="additional_fsi_comments" name="additional_fsi_comments" > {{ isset($data->additional_fsi_comments) ? $data->additional_fsi_comments : '' }}</textarea>
-                            <span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">This feild is required</span>
+                            <span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">This field is required</span>
                         </div>
                         <div class="mt-3">
                             <input type="submit" class="s_btn btn btn-primary" id="submitBtn" name="">
@@ -291,7 +291,7 @@ var isError = 0;
                 isError = 0;
             }                
         }else{
-            $("#file_error_"+id).text("This feild is required.");
+            $("#file_error_"+id).text("This field is required.");
            isError = 1; 
         }
         if (isError == 0){

@@ -22,7 +22,7 @@
                     <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#scrutiny-history-tab">
                         <i class="la la-cog"></i> Scrutiny History
                     </a>
-                </li>
+                </li> 
                 
                 @if($data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted'))
                 <li class="nav-item m-tabs__item">
@@ -175,7 +175,7 @@
                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                                 <div class="">
                                     <h3 class="section-title section-title--small">
-                                        Remark and Suggestions:
+                                        Remarks and Suggestions:
                                     </h3>
                                 </div>
                                 <div class="remarks-suggestions">

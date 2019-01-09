@@ -1204,7 +1204,7 @@ Breadcrumbs::for('conveyance_view_application', function ($trail,$id) {
 
 Breadcrumbs::for('conveyance_society_document', function ($trail,$id) {
     $trail->parent('society_conveyance');
-    $trail->push('Society Document', route('conveyance.view_documents',$id));
+    $trail->push('Society Documents', route('conveyance.view_documents',$id));
 });
 
 Breadcrumbs::for('conveyance_forward_application', function ($trail,$id) {
@@ -1269,8 +1269,8 @@ Breadcrumbs::for('renewal_view_application', function ($trail,$id) {
 
 Breadcrumbs::for('renewal_society_document', function ($trail,$id) {
     $trail->parent('renewal');
-    $trail->push('Society Document', route('renewal.view_documents',$id));
-});
+    $trail->push('Society Documents', route('renewal.view_documents',$id));
+}); 
 
 Breadcrumbs::for('renewal_forward_application', function ($trail,$id) {
     $trail->parent('renewal');
