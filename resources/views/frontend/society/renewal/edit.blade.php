@@ -123,3 +123,15 @@
         </div>
     </div>
 @endsection
+@section('datatablejs')
+    <script>
+        var society_date = $('#society_registration_date').val();
+        var flat_date = $('#first_flat_issue_date').val();
+
+        $('#society_registration_date').datepicker({
+            autoclose: true,
+            format: 'dd-mm-yyyy',
+            endDate: flat_date
+        });
+    </script>
+@endsection

@@ -93,7 +93,7 @@
                                                 <div>
                                                     <span class="hint-text">Click on 'Download' to download Sale Deed Agreement</span>
                                                     <p></p>
-                                                    <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['sale_deed_agreement']->sc_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download Sale Deed Agreement</a>
+                                                    <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['sale_deed_agreement']->sc_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download</a>
                                                 </div>
                                             </div>
                                         @endif
@@ -125,29 +125,22 @@
                                                             <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
                                                             <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['sale_deed_agreement']}}">
                                                         </div>
-                                                        <div class="mt-auto">
-                                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                                        </div>
-                                                    </form>
+                                                        {{--<div class="mt-auto">--}}
+                                                            {{--<button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>--}}
+                                                        {{--</div>--}}
+                                                    {{--</form>--}}
                                             </div>
                                         </div>
                                         @endif
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
-                    <div class="portlet-body">
-                        <div class="m-portlet__body" style="padding-right: 0;">
-                            <div class="w-100 row-list">
-                                <div class="">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="d-flex flex-column h-100">
-                                                <h5>Comments</h5>
-                                                <p>
+                            <div class="w-100">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="d-flex flex-column h-100">
+                                            @if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded')) <br/><h5>Comments</h5> @endif
+                                            {{--<p>--}}
                                                 @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))
                                                     <div class="alert alert-success society_registered">
                                                         <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')) }}</div>
@@ -157,23 +150,24 @@
                                                     <div class="alert alert-danger society_registered">
                                                         <div class="text-center">{{ session('error') }}</div>
                                                     </div>
+                                                @endif
+                                            {{--</p>--}}
+                                                {{--<form action="{{ route('upload_sale_lease') }}" id="sale_deed_agreement_comment" method="post" enctype="multipart/form-data">--}}
+                                                {{--@csrf--}}
+                                                <div class="mt-3 table--box-input">
+                                                    <textarea name="remark" rows="5" cols="30" id="remark" placeholder="Comments" class="form-control" @if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.sale_deed_agreement'), $sc_agreement_comment) == true && $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded')) readonly @endif>@if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.sale_deed_agreement'), $sc_agreement_comment) == true) {{ $sc_agreement_comment[config('commanConfig.scAgreements.sale_deed_agreement')]->remark }} @endif</textarea>
+                                                </div>
+                                                <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
+                                                <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['sale_deed_agreement']}}">
+                                                <div class="mt-auto"><br/>
+                                                    {{--@if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.sale_deed_agreement'), $sc_agreement_comment) == false && ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease')))--}}
+                                                    {{--<button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>--}}
+                                                    {{--@endif--}}
+                                                    @if(($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease')))
+                                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
                                                     @endif
-                                                    </p>
-                                                    <form action="{{ route('upload_sale_lease') }}" id="sale_deed_agreement_comment" method="post" enctype="multipart/form-data">
-                                                        @csrf
-                                                        <textarea name="remark" rows="5" cols="30" id="remark" class="form-control form-control--custom" @if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.sale_deed_agreement'), $sc_agreement_comment) == true) readonly @endif>@if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.sale_deed_agreement'), $sc_agreement_comment) == true) {{ $sc_agreement_comment[config('commanConfig.scAgreements.sale_deed_agreement')]->remark }} @endif</textarea>
-                                                        <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
-                                                        <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['sale_deed_agreement']}}">
-                                                        <div class="mt-auto"><br/>
-                                                            {{--@if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.sale_deed_agreement'), $sc_agreement_comment) == false && ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease')))--}}
-                                                                {{--<button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>--}}
-                                                            {{--@endif--}}
-                                                            @if(($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease')))
-                                                                <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                                            @endif
-                                                        </div>
-                                                    </form>
-                                            </div>
+                                                </div>
+                                                </form>
                                         </div>
                                     </div>
                                 </div>
@@ -181,6 +175,49 @@
                         </div>
                     </div>
                 </div>
+                {{--<div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">--}}
+                    {{--<div class="portlet-body">--}}
+                        {{--<div class="m-portlet__body" style="padding-right: 0;">--}}
+                            {{--<div class="w-100 row-list">--}}
+                                {{--<div class="">--}}
+                                    {{--<div class="row">--}}
+                                        {{--<div class="col-sm-12">--}}
+                                            {{--<div class="d-flex flex-column h-100">--}}
+                                                {{--<h5>Comments</h5>--}}
+                                                {{--<p>--}}
+                                                {{--@if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))--}}
+                                                    {{--<div class="alert alert-success society_registered">--}}
+                                                        {{--<div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')) }}</div>--}}
+                                                    {{--</div>--}}
+                                                {{--@endif--}}
+                                                {{--@if (session('error'))--}}
+                                                    {{--<div class="alert alert-danger society_registered">--}}
+                                                        {{--<div class="text-center">{{ session('error') }}</div>--}}
+                                                    {{--</div>--}}
+                                                    {{--@endif--}}
+                                                    {{--</p>--}}
+                                                    {{--<form action="{{ route('upload_sale_lease') }}" id="sale_deed_agreement_comment" method="post" enctype="multipart/form-data">--}}
+                                                        {{--@csrf--}}
+                                                        {{--<textarea name="remark" rows="5" cols="30" id="remark" class="form-control form-control--custom" @if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.sale_deed_agreement'), $sc_agreement_comment) == true) readonly @endif>@if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.sale_deed_agreement'), $sc_agreement_comment) == true) {{ $sc_agreement_comment[config('commanConfig.scAgreements.sale_deed_agreement')]->remark }} @endif</textarea>--}}
+                                                        {{--<input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">--}}
+                                                        {{--<input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['sale_deed_agreement']}}">--}}
+                                                        {{--<div class="mt-auto"><br/>--}}
+                                                            {{--@if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.sale_deed_agreement'), $sc_agreement_comment) == false && ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease')))--}}
+                                                                {{--<button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>--}}
+                                                            {{--@endif--}}
+                                                            {{--@if(($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease')))--}}
+                                                                {{--<button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>--}}
+                                                            {{--@endif--}}
+                                                        {{--</div>--}}
+                                                    {{--</form>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
             </div>
             <div class="tab-pane section-3" id="lease-deed-agreement" role="tabpanel">
                 <!-- Society Resolution div here -->
@@ -195,7 +232,7 @@
                                                 <div>
                                                     <span class="hint-text">Click on 'Download' to download Lease Deed Agreement</span>
                                                     <p></p>
-                                                    <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['lease_deed_agreement']->sc_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download Lease Deed Agreement</a>
+                                                    <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['lease_deed_agreement']->sc_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download</a>
                                                 </div>
                                             </div>
                                         @endif
@@ -227,55 +264,49 @@
                                                             <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
                                                             <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['lease_deed_agreement']}}">
                                                         </div>
-                                                        <div class="mt-auto">
-                                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                                        </div>
-                                                    </form>
+                                                        {{--<div class="mt-auto">--}}
+                                                            {{--<button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>--}}
+                                                        {{--</div>--}}
+                                                    {{--</form>--}}
                                             </div>
                                         </div>
                                         @endif
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
-                    <div class="portlet-body">
-                        <div class="m-portlet__body" style="padding-right: 0;">
-                            <div class="w-100 row-list">
+                            <div class="w-100">
                                 <div class="">
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="d-flex flex-column h-100">
-                                                <h5>Comments</h5>
-                                                <p>
-                                                @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))
-                                                    <div class="alert alert-success society_registered">
-                                                        <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')) }}</div>
-                                                    </div>
+                                            @if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded')) <br/><h5>Comments</h5> @endif
+                                            <p>
+                                            @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))
+                                                <div class="alert alert-success society_registered">
+                                                    <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')) }}</div>
+                                                </div>
+                                            @endif
+                                            @if (session('error'))
+                                                <div class="alert alert-danger society_registered">
+                                                    <div class="text-center">{{ session('error') }}</div>
+                                                </div>
                                                 @endif
-                                                @if (session('error'))
-                                                    <div class="alert alert-danger society_registered">
-                                                        <div class="text-center">{{ session('error') }}</div>
+                                                </p>
+                                                {{--<form action="{{ route('upload_sale_lease') }}" id="lease_deed_agreement_comment" method="post" enctype="multipart/form-data">--}}
+                                                    {{--@csrf--}}
+                                                    <textarea name="remark" rows="5" cols="30" id="remark" placeholder="Comments" class="form-control" @if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.lease_deed_agreement'), $sc_agreement_comment) == true && $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded')) readonly @endif>@if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.lease_deed_agreement'), $sc_agreement_comment) == true) {{ $sc_agreement_comment[config('commanConfig.scAgreements.lease_deed_agreement')]->remark }} @endif</textarea>
+                                                    <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
+                                                    <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['lease_deed_agreement']}}">
+                                                    <div class="mt-auto"><br/>
+                                                        {{--@if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.lease_deed_agreement'), $sc_agreement_comment) == false)--}}
+                                                        {{--<button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>--}}
+                                                        {{--@endif--}}
+                                                        @if(($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease')))
+                                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                                        @endif
                                                     </div>
-                                                @endif
-                                                    </p>
-                                                    <form action="{{ route('upload_sale_lease') }}" id="lease_deed_agreement_comment" method="post" enctype="multipart/form-data">
-                                                        @csrf
-                                                        <textarea name="remark" rows="5" cols="30" id="remark" class="form-control form-control--custom" @if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.lease_deed_agreement'), $sc_agreement_comment) == true) readonly @endif>@if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.lease_deed_agreement'), $sc_agreement_comment) == true) {{ $sc_agreement_comment[config('commanConfig.scAgreements.lease_deed_agreement')]->remark }} @endif</textarea>
-                                                        <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
-                                                        <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['lease_deed_agreement']}}">
-                                                        <div class="mt-auto"><br/>
-                                                            {{--@if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.lease_deed_agreement'), $sc_agreement_comment) == false)--}}
-                                                                {{--<button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>--}}
-                                                            {{--@endif--}}
-                                                            @if(($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease')))
-                                                                <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                                            @endif
-                                                        </div>
-                                                    </form>
-                                            </div>
+                                                </form>
+                                        </div>
                                         </div>
                                     </div>
                                 </div>
@@ -283,6 +314,49 @@
                         </div>
                     </div>
                 </div>
+                {{--<div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">--}}
+                    {{--<div class="portlet-body">--}}
+                        {{--<div class="m-portlet__body" style="padding-right: 0;">--}}
+                            {{--<div class="w-100 row-list">--}}
+                                {{--<div class="">--}}
+                                    {{--<div class="row">--}}
+                                        {{--<div class="col-sm-12">--}}
+                                            {{--<div class="d-flex flex-column h-100">--}}
+                                                {{--<h5>Comments</h5>--}}
+                                                {{--<p>--}}
+                                                {{--@if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))--}}
+                                                    {{--<div class="alert alert-success society_registered">--}}
+                                                        {{--<div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')) }}</div>--}}
+                                                    {{--</div>--}}
+                                                {{--@endif--}}
+                                                {{--@if (session('error'))--}}
+                                                    {{--<div class="alert alert-danger society_registered">--}}
+                                                        {{--<div class="text-center">{{ session('error') }}</div>--}}
+                                                    {{--</div>--}}
+                                                {{--@endif--}}
+                                                    {{--</p>--}}
+                                                    {{--<form action="{{ route('upload_sale_lease') }}" id="lease_deed_agreement_comment" method="post" enctype="multipart/form-data">--}}
+                                                        {{--@csrf--}}
+                                                        {{--<textarea name="remark" rows="5" cols="30" id="remark" class="form-control form-control--custom" @if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.lease_deed_agreement'), $sc_agreement_comment) == true) readonly @endif>@if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.lease_deed_agreement'), $sc_agreement_comment) == true) {{ $sc_agreement_comment[config('commanConfig.scAgreements.lease_deed_agreement')]->remark }} @endif</textarea>--}}
+                                                        {{--<input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">--}}
+                                                        {{--<input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['lease_deed_agreement']}}">--}}
+                                                        {{--<div class="mt-auto"><br/>--}}
+                                                            {{--@if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.lease_deed_agreement'), $sc_agreement_comment) == false)--}}
+                                                                {{--<button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>--}}
+                                                            {{--@endif--}}
+                                                            {{--@if(($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease')))--}}
+                                                                {{--<button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>--}}
+                                                            {{--@endif--}}
+                                                        {{--</div>--}}
+                                                    {{--</form>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
             </div>
             <div class="tab-pane section-4" id="society-resolution-undertaking" role="tabpanel">
                 <!-- Society Resolution div here -->
