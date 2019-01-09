@@ -308,6 +308,13 @@ class SocietyController extends Controller
                 });
             })->download('csv');
         }
+
+        // lease count
+        $lease_count = $this->getNotificationCount();
+        session()->put('lease_end_date_count', $lease_count);
+
+
+
         if ($datatables->getRequest()->ajax()) {
 
             // DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
@@ -359,7 +366,7 @@ class SocietyController extends Controller
                     return "<span>".trim($village_string,',')."</span>";
                 })
                 ->editColumn('society_name', function ($society_data) {
-                    return "<a href='".route('lease_detail.index', [encrypt($society_data->id)])."'>$society_data->society_name</a>";
+                    return $society_data->society_name;
                 })
                 ->editColumn('actions', function ($society_data) {
                     return view('admin.society_detail.actions', compact('society_data'))->render();
@@ -630,20 +637,49 @@ class SocietyController extends Controller
             })->download('csv');
         }
         $society_datas = SocietyDetail::orderBy('id', 'desc')->get();
-        $lease_detail = LeaseDetail::with('leaseSociety')->get();
+        $lease_detail = LeaseDetail::with('leaseSociety')->where('lease_status',1)->get();
         $society_data = [];
         $lease_count = 0;
         foreach($society_datas as $society_datas_key => $society_datas_val){
             foreach($lease_detail as $lease_detail_key => $lease_detail_val){
-                $lease_start_date = $lease_detail_val->lease_start_date;
-                $lease_period = '+'.$lease_detail_val->lease_period.' years';
-                $lease_end_date = date('Y-m-d', strtotime($lease_period, strtotime($lease_detail_val->lease_start_date)));
-//                $current_date = date('Y-m-d', strtotime('+3 days'));
-                $current_date = date('Y-m-d');
-                $notification_from_date = date('Y-m-d', strtotime('-3 days',strtotime($lease_end_date)));
-                if(($society_datas_val->id == $lease_detail_val->society_id) && ($current_date <= $lease_end_date && $current_date >= $notification_from_date)){
-                    $society_data[] = $society_datas_val;
-                    $lease_count++;
+//                $lease_start_date = $lease_detail_val->lease_start_date;
+//                $lease_period = '+'.$lease_detail_val->lease_period.' years';
+//                $lease_end_date = date('Y-m-d', strtotime($lease_period, strtotime($lease_detail_val->lease_start_date)));
+////                $current_date = date('Y-m-d', strtotime('+3 days'));
+//                $current_date = date('Y-m-d');
+//                $notification_from_date = date('Y-m-d', strtotime('-3 days',strtotime($lease_end_date)));
+
+                if ($lease_detail_val->lease_renewed_period) {
+
+                    $lease_start_date = $lease_detail_val->lease_renewal_date;
+                    $lease_period = '+' . $lease_detail_val->lease_renewed_period . ' years';
+                    $lease_end_date = date('Y-m-d', strtotime($lease_period, strtotime($lease_start_date)));
+                    $current_date = date('Y-m-d');
+                    $notification_from_date = date('Y-m-d', strtotime('-3 days', strtotime($lease_end_date)));
+                }
+                else{
+                    $lease_start_date = $lease_detail_val->lease_start_date;
+                    $lease_period = '+' . $lease_detail_val->lease_period . ' years';
+                    $lease_end_date = date('Y-m-d', strtotime($lease_period, strtotime($lease_start_date)));
+                    $current_date = date('Y-m-d');
+                    $notification_from_date = date('Y-m-d', strtotime('-3 days', strtotime($lease_end_date)));
+                }
+
+
+                if(($society_datas_val->id == $lease_detail_val->society_id)){
+                    if ($current_date >= $notification_from_date) {
+                        if ($lease_detail_val->lease_renewed_period){
+                            $notification_to_date = date('Y-m-d', strtotime('-1 day', strtotime($lease_detail_val->lease_renewal_date)));
+                            if ($current_date < $notification_to_date) {
+                                $society_data[] = $society_datas_val;
+                                $lease_count++;
+                            }
+                        }
+                        else {
+                            $society_data[] = $society_datas_val;
+                            $lease_count++;
+                        }
+                    }
                 }
             }
         }
@@ -677,7 +713,7 @@ class SocietyController extends Controller
                     return "<span>".trim($village_string,',')."</span>";
                 })
                 ->editColumn('society_name', function ($society_data) {
-                    return "<a href='".route('lease_detail.index', [encrypt($society_data->id)])."'>$society_data->society_name</a>";
+                    return $society_data->society_name;
                 })
                 ->editColumn('actions', function ($society_data) {
                     return view('admin.society_detail.actions', compact('society_data'))->render();
@@ -691,6 +727,50 @@ class SocietyController extends Controller
         $villages = VillageDetail::get();
 
         return view('admin.society_detail.index', compact('html','villages','header_data','getData', 'id'));
+    }
+
+
+
+    public function getNotificationCount(){
+        $lease_detail = LeaseDetail::with('leaseSociety')->where('lease_status',1)->get();
+
+//        dd($lease_detail);
+        $lease_count = 0;
+        foreach($lease_detail as $lease_detail_val) {
+            if ($lease_detail_val->lease_renewed_period) {
+
+                $lease_start_date = $lease_detail_val->lease_renewal_date;
+                $lease_period = '+' . $lease_detail_val->lease_renewed_period . ' years';
+                $lease_end_date = date('Y-m-d', strtotime($lease_period, strtotime($lease_start_date)));
+                $current_date = date('Y-m-d');
+                $notification_from_date = date('Y-m-d', strtotime('-3 days', strtotime($lease_end_date)));
+            }
+            else{
+                $lease_start_date = $lease_detail_val->lease_start_date;
+                $lease_period = '+' . $lease_detail_val->lease_period . ' years';
+                $lease_end_date = date('Y-m-d', strtotime($lease_period, strtotime($lease_start_date)));
+                $current_date = date('Y-m-d');
+                $notification_from_date = date('Y-m-d', strtotime('-3 days', strtotime($lease_end_date)));
+
+            }
+            if ($current_date >= $notification_from_date) {
+                if ($lease_detail_val->lease_renewed_period){
+                    $notification_to_date = date('Y-m-d', strtotime('-1 day', strtotime($lease_detail_val->lease_renewal_date)));
+                    if ($current_date < $notification_to_date) {
+                        $lease_count++;
+                    }
+                }
+                else {
+                    $lease_count++;
+                }
+            }
+        }
+//        echo "<br/>===>>>>";print_r($lease_count);
+//die();
+
+//        dd($lease_count);
+        return $lease_count;
+
     }
 }
 

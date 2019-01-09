@@ -51,7 +51,7 @@
                         <label class="col-form-label" for="lease_period">Lease Period(in Yrs.):</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="lease_period" name="lease_period" class="form-control form-control--custom m-input"
-                                value="{{ $arrData['lease_data']->lease_period }}">
+                               readonly value="{{ $arrData['lease_data']->lease_period }}">
                             <span class="help-block">{{$errors->first('lease_period')}}</span>
                         </div>
                     </div>
@@ -62,7 +62,9 @@
                         <label class="col-form-label" for="lease_start_date">Start date of lease:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="lease_start_date" name="lease_start_date" class="form-control form-control--custom m-input m_datepicker"
-                                readonly value="{{ $arrData['lease_data']->lease_start_date }}">
+                                disabled value="{{ $arrData['lease_data']->lease_start_date }}">
+                            <input type="hidden" id="lease_start_date" name="lease_start_date" class="form-control form-control--custom m-input m_datepicker"
+                                    value="{{ $arrData['lease_data']->lease_start_date }}">
                             <span class="help-block">{{$errors->first('lease_start_date')}}</span>
                         </div>
                     </div>

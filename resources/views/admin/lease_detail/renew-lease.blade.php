@@ -50,7 +50,7 @@
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="lease_period">Lease Period(in Yrs.):</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <input type="text" id="lease_period" name="lease_period" class="form-control form-control--custom m-input"
+                            <input readonly type="text" id="lease_period" name="lease_period" class="form-control form-control--custom m-input"
                                 value="{{ $arrData['lease_data']->lease_period }}">
                             <span class="help-block">{{$errors->first('lease_period')}}</span>
                         </div>
@@ -61,8 +61,10 @@
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="lease_start_date">Start date of lease:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <input type="text" id="lease_start_date" name="lease_start_date" class="form-control form-control--custom m-input m_datepicker"
-                                readonly value="{{ $arrData['lease_data']->lease_start_date }}">
+                            <input disabled type="text" id="lease_start_date" name="lease_start_date" class="form-control form-control--custom m-input m_datepicker"
+                                 value="{{ $arrData['lease_data']->lease_start_date }}">
+                            <input  type="hidden" id="lease_start_date" name="lease_start_date" class="form-control form-control--custom m-input m_datepicker"
+                                   value="{{ $arrData['lease_data']->lease_start_date }}">
                             <span class="help-block">{{$errors->first('lease_start_date')}}</span>
                         </div>
                     </div>
@@ -109,7 +111,7 @@
                         <label class="col-form-label" for="lease_renewal_date">Date of Renewal of lease:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="lease_renewal_date" name="lease_renewal_date" class="form-control form-control--custom m-input m_datepicker"
-                                readonly value="{{ date(config('commanConfig.dateFormat'), strtotime($arrData['lease_data']->lease_renewal_date)) }}">
+                                value="{{ date(config('commanConfig.dateFormat'), strtotime($arrData['lease_data']->lease_renewal_date)) }}">
                             <span class="help-block">{{$errors->first('lease_renewal_date')}}</span>
                         </div>
                     </div>
@@ -183,10 +185,21 @@
     <script>
         var lease_renewal_date = $('#lease_renewal_date').val();
         $("#lease_renewal_date").datepicker({
-            // startDate:lease_renewal_date,
+             startDate:lease_renewal_date,
             autoclose:true,
             format: 'dd-mm-yyyy',
-            endDate: lease_renewal_date,
+//            endDate: lease_renewal_date,
         });
+
+//        $('#lease_start_date').pickadate({
+//            selectMonths: true, // Creates a dropdown to control month
+//            selectYears: 50, // Creates a dropdown of 50 years to control year,
+//            max: lease_renewal_date,
+//            today: 'Today',
+//            clear: '',
+//            close: 'Ok',
+//            closeOnSelect: false // Close upon selecting a date,
+//        })
+
     </script>
 @endsection
