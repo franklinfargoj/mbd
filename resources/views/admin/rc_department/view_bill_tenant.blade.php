@@ -114,7 +114,7 @@
                                 }
                             }
                             if($lastBill && !empty($lastBill) && 0 < $lastBill->balance_amount) {
-                                $totalTemp =  $total_service + $lastBill->balance_amount;
+                                $totalTemp =  $total + $total_service + $lastBill->balance_amount;
                             }
                         @endphp
                         <tr><td>Amount : {{$totalTemp}} <input type="text" name="total_bill" value="{{$totalTemp}}" hidden></td> <td>Late fee charge : {{ $total_after_due}} </td></tr>
