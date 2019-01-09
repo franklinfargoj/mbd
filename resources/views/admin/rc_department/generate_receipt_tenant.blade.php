@@ -68,7 +68,7 @@
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="">Bill Amount of month:</label>
-                        <input type="text" name="bill_amount" class="form-control form-control--custom m-input" value="{{$bill->total_bill}}" readonly>
+                        <input type="text" name="bill_amount" class="form-control form-control--custom m-input" value="@if(strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($bill->due_date)))) {{$bill->total_bill}} @else  {{$bill->total_bill_after_due_date}} @endif" readonly>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -155,7 +155,7 @@
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Amount Balance:</label>
-                        <input type="text" id="balance_amount" name="balance_amount" class="form-control form-control--custom m-input" value="00" readonly>
+                        <input type="text" id="balance_amount" name="balance_amount" class="form-control form-control--custom m-input" value="@if(strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($bill->due_date)))) {{$bill->total_bill}} @else  {{$bill->total_bill_after_due_date}} @endif" readonly>
                         <span class="help-block"></span>
                     </div>
 
@@ -231,7 +231,7 @@
 
         function calc(amount){
            
-            var bill_amount = '<?php echo $bill->total_bill; ?>';
+            var bill_amount = '@if(strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($bill->due_date)))) {{$bill->total_bill}} @else  {{$bill->total_bill_after_due_date}} @endif';
             var balance = '<?php echo 0; ?>';
             var credit = '<?php echo 0; ?>'; 
             
@@ -241,12 +241,12 @@
                //console.log(amount);
                 var diff = bill_amount - amount;
                 if(diff < 0){
-                    credit = parseFloat(credit) + parseFloat(Math.abs(diff));
+                    credit = (parseFloat(credit) + parseFloat(Math.abs(diff))).toFixed(2);
                     //console.log(credit);
                     $('#balance_amount').val(balance);
                     $('#credit_amount').val(credit);
                 } else {
-                    balance = parseFloat(balance) + parseFloat(Math.abs(diff));
+                    balance = (parseFloat(balance) + parseFloat(Math.abs(diff))).toFixed(2);
                     //console.log(balance);
                     $('#credit_amount').val(credit);
                     $('#balance_amount').val(balance);

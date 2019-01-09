@@ -43,6 +43,7 @@ use App\SocietyDetail;
 use App\ServiceChargesRate;
 use App\ArrearCalculation;
 use App\TransBillGenerate;
+use App\TransPayment;
 
 class EMController extends Controller
 {
@@ -1273,10 +1274,28 @@ class EMController extends Controller
                                     ->where('bill_month', '=', $data['month'])
                                     ->where('bill_year', '=', $data['year'])
                                     ->first();
-            $data['regenate'] = false;                    
+            
+            $data['regenate'] = false;  
+            
+            if($data['month'] == 1) {
+                $lastBillMonth = 12;
+            } else {
+                $lastBillMonth = $data['month']-1;
+            }
+            $data['lastBill'] = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+                                    ->where('bill_month', '=', $lastBillMonth)
+                                    ->where('bill_year', '=', $data['year'])
+                                    ->orderBy('id','DESC')
+                                    ->first();
+
             if($request->has('regenate') && true == $request->regenate || !empty($data['check'])) {
+
                 $data['regenate'] = true;
             }
+            $data['transPayment'] = TransPayment::where('tenant_id', '=', $request->tenant_id)->where('building_id', '=', $request->building_id)->orderBy('id','DESC')->first();
+
+            // print_r($data['transPayment']);exit;
+            
             return view('admin.em_department.generate_tenant_bill',$data);
         }
     }
@@ -1295,6 +1314,7 @@ class EMController extends Controller
                 $check = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
                                     ->where('bill_month', '=', $request->bill_month)
                                     ->where('bill_year', '=', $request->bill_year)
+                                    ->orderBy('id','DESC')
                                     ->first();
             }
 
@@ -1322,7 +1342,56 @@ class EMController extends Controller
             $bill->consumer_number = $request->consumer_number;
             $bill->total_service_after_due = $request->total_service_after_due;
             $bill->late_fee_charge = $request->late_fee_charge;
+            $bill->total_bill_after_due_date = round($request->total_bill + $request->late_fee_charge,2);
+
+            
+            // $transPayment = TransPayment::where('bill_no',$check->id)->where('tenant_id',$request->tenant_id)->where('building_id',$request->building_id)->where('society_id',$request->society_id)->orderBy('id','DESC')->first();
+
+            $lastBillMonth = $request->bill_month;
+            $lastBillYear = $request->bill_year;
+
+            if($request->bill_month ==1) {
+                $lastBillMonth = 12;
+                $lastBillYear = $request->bill_year -1;
+            } else {
+                $lastBillMonth = $request->bill_month -1;
+            }
             $bill->status = 'Generated';
+
+            $lastBill = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+                                    ->where('bill_month', '=', $lastBillMonth)
+                                    ->where('bill_year', '=', $lastBillYear)
+                                    ->orderBy('id','DESC')
+                                    ->first();
+            if(!empty($lastBill)) {
+
+                if($lastBill->balance_amount > 0) {
+                    $bill->total_bill_after_due_date = round($request->total_bill + $request->late_fee_charge +$lastBill->balance_amount,2);
+                    $bill->balance_amount = round($lastBill->total_bill_after_due_date,2);
+                }
+
+                if($lastBill->credit_amount > 0 && $lastBill->credit_amount > $request->total_bill) {
+                    $bill->credit_amount = round($lastBill->credit_amount - $request->monthly_bill,2);
+                    $bill->total_bill_after_due_date = 0;
+                    $bill->status = 'paid';
+                }
+
+                if($lastBill->credit_amount > 0 && $lastBill->credit_amount < $request->total_bill) {
+                    $bill->total_bill = round($request->monthly_bill - $lastBill->credit_amount,2);
+                    $bill->balance_amount = $bill->total_bill_after_due_date = round($request->total_service_after_due - $lastBill->credit_amount,2);
+                    $bill->credit_amount = 0;
+                }
+            } else {
+                $bill->balance_amount = round($request->total_bill + $request->late_fee_charge,2);
+                $bill->credit_amount = 0;    
+            }
+            // if(!empty($transPayment)) {
+                
+            //     $bill->balance_amount = $transPayment->balance_amount + $request->total_bill;    
+            // }
+            // echo '<pre>';
+            // print_r($bill);exit;
+            
             $bill->save();
 
             return redirect()->back()->with('success', 'Bill Generated Successfully.')->with('regenate',false);

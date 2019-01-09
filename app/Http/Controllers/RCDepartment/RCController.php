@@ -572,6 +572,8 @@ class RCController extends Controller
 
                     $bill_status = TransBillGenerate::find($request->bill_no);
                     $bill_status->status = 'paid';
+                    $bill_status->balance_amount = $request->balance_amount;
+                    $bill_status->credit_amount = $request->credit_amount;
                     $bill_status->save(); 
 
                     // update Arrear of tenant user
@@ -713,6 +715,19 @@ class RCController extends Controller
 
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
             $data['is_download'] = $is_download;
+
+
+            if($data['month'] != 1) {
+                $lastBillMonth = $data['month'] -1;
+            } else {
+                $lastBillMonth = $data['month'];
+            }
+            $data['lastBill'] = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+                                    ->where('bill_month', '=', $lastBillMonth)
+                                    ->where('bill_year', '=', $data['year'])
+                                    ->orderBy('id','DESC')
+                                    ->first();
+                                    
             if(true == $is_download) {
                 // return view('admin.rc_department.download_tenant_bill', $data);
               $pdf = PDF::loadView('admin.rc_department.download_tenant_bill', $data);

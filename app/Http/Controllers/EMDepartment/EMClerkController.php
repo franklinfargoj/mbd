@@ -226,7 +226,7 @@ class EMClerkController extends Controller
         for ($i = 1; $i <= 12; $i++) {
             $months[] = date("n", strtotime( date( 'Y-m-01' )." -$i months"));
             if( $currentMonth <= 3) {
-                $years[] = date("Y", strtotime( date( 'Y-m-01' )));
+                $years[] = date("Y", strtotime( date( 'Y-m-01' )))-1;
             } else {
                 $years[] = date("Y", strtotime( date( 'Y-m-01' )." -$i months"));
             }
@@ -244,10 +244,10 @@ class EMClerkController extends Controller
 
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
-            ['data' => 'month','name' => 'month','title' => 'Month'],
-            ['data' => 'year','name' => 'year','title' => 'Year'],
+            ['data' => 'ac_month','name' => 'ac_month','title' => 'Month'],
+            ['data' => 'ac_year','name' => 'ac_year','title' => 'Year'],
             ['data' => 'old_rate', 'name' => 'old_rate','title' => 'Old Rate','searchable' => false],
-            ['data' => 'interest_on_old_rate', 'name' => 'interest_on_old_rate','title' => 'Intrest on Old Rate','searchable' => false],
+            ['data' => 'interest_on_old_rate', 'name' => 'interest_on_old_rate','title' => 'Interest on Old Rate','searchable' => false],
             ['data' => 'revise_rate', 'name' => 'revise_rate','title' => 'Revised Rate','searchable' => false],
             ['data' => 'interest_on_differance', 'name' => 'interest_on_differance','title' => 'Interest On Differance','searchable' => false],
             ['data' => 'payment_status', 'name' => 'payment_status','title' => 'Payment Status'],
@@ -266,12 +266,12 @@ class EMClerkController extends Controller
                                     ->where('tenant_id', '=', $tenant->id)
                                     ->whereIn('arrear_calculation.month', $months)
                                     ->whereIn('arrear_calculation.year', $years)
-                                    ->selectRaw('@rownum  := @rownum  + 1 AS rownum,arrears_charges_rates.*,arrear_calculation.*,arrear_calculation.year as year');
+                                    ->selectRaw('@rownum  := @rownum  + 1 AS rownum,arrears_charges_rates.*,arrear_calculation.*,arrear_calculation.year as ac_year,arrear_calculation.month as ac_month');
 
                                     // print_r(DB::getQueryLog());exit;
             return $datatables->of($arrear)
-            ->editColumn('month', function ($arrear){
-                return date('M', mktime(0, 0, 0, $arrear->month, 10));
+            ->editColumn('ac_month', function ($arrear){
+                return date('M', mktime(0, 0, 0, $arrear->ac_month, 10));
             })
             ->editColumn('payment_status', function ($arrear){
                 if($arrear->payment_status == null){
@@ -372,7 +372,7 @@ class EMClerkController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [1, "asc" ],
+            "order"=> [0, "asc" ],
             "searching" => false,
             // 'dom' => 'Bfrtip',
             // 'buttons' => ['copy', 'csv', 'excel', 'pdf', 'print'],

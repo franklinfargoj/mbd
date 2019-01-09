@@ -18,6 +18,12 @@
             @php $total = $total + $calculation->total_amount; @endphp
       @endforeach
     @endif  
+    @php
+        $tempBalance = $total;
+        if($lastBill && !empty($lastBill) && 0 < $lastBill->balance_amount) {
+            $tempBalance = $lastBill->balance_amount;
+        }
+    @endphp
     <div>
         <div>
             <h3>Bill for {{date("M", strtotime("2001-" . $month . "-01"))}}, {{$year}}</h3>
@@ -112,12 +118,25 @@
                         </table>
                     </td>
                 </tr>
+                @php
+                    $totalTemp = $total + $total_service;
+                    if($lastBill && !empty($lastBill) && 0 < $lastBill->credit_amount) {
+                        if($total + $total_service > $lastBill->credit_amount) {
+                            $totalTemp =  ($total + $total_service) - $lastBill->credit_amount;  
+                        } else {
+                            $totalTemp =  0;    
+                        }
+                    }
+                    if($lastBill && !empty($lastBill) && 0 < $lastBill->balance_amount) {
+                        $totalTemp =  $total_service + $lastBill->balance_amount;
+                    }
+                @endphp
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px;">
                         <table>
                             <tbody>
                                 <tr>
-                                    <td valign="top" style="font-weight: bold;">Amount : {{$total + $total_service}}</td>
+                                    <td valign="top" style="font-weight: bold;">Amount : {{$totalTemp}}</td>
                                     <td valign="top" style="text-align: right;"></td>
                                 </tr>
                             </tbody>
@@ -235,15 +254,21 @@
             <tbody>
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px;">Balance Amount</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$total}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$tempBalance}}</td>
                 </tr>
+                 @if($lastBill && !empty($lastBill) && 0 < $lastBill->credit_amount)
+                    <tr>
+                        <td valign="top" style="border: 1px solid #000; padding: 5px;">Credit Amount</td>
+                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$lastBill->credit_amount}}</td>
+                    </tr>
+                    @endif
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px;">Current month Bill amount before due date</td>
                     <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$total_service}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: right; font-weight: bold;">Grand Total</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;">{{$total + $total_service}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;">{{$totalTemp}}</td>
                 </tr>
             </tbody>
         </table>
