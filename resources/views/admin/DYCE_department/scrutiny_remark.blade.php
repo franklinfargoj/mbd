@@ -316,7 +316,7 @@
 						<div class="mt-3 table--box-input">
 							<label class="e_comments" for="encrochment_comments">If Yes, Comments:</label>
 							<textarea rows="5" cols="30" class="form-control form-control--custom" id="encrochment_comments" name="encrochment_comments" {{(!($is_view) ? 'readonly' : '' )}}>{{(isset($applicationData->encrochment_verification_comment) ? $applicationData->encrochment_verification_comment : '')}}</textarea>
-							<span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">This feild is required</span>
+							<span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">This field is required.</span>
 						</div>
 						<div class="mt-3">
                         @if($is_view && ($ol_application->log->status_id == config('commanConfig.applicationStatus.in_process')))

@@ -178,12 +178,12 @@
                     <div class="m-form__group form-group">
                         <div class="m-radio-inline">
                             <span class="mr-3">Is plan according to sanctioned OC ?</span>
-                            <label class="m-radio m-radio--primary">
+                            <label class="m-radio m-radio--primary" style="cursor: default">
                                 <input type="radio" class="radioBtn" name="is_sanctioned_oc" value="1" disabled checked
                                     {{ (isset($data) && $data->is_sanctioned_oc == '1') ? 'checked' : '' }}>Yes
                                     <span></span>
                             </label>
-                            <label class="m-radio m-radio--primary">
+                            <label class="m-radio m-radio--primary" style="cursor: default">
                                 <input type="radio" class="radioBtn" name="is_sanctioned_oc" disabled value="0"
                                     {{ (isset($data) && $data->is_sanctioned_oc == '0') ? 'checked' : '' }}>No
                                 <span></span>
@@ -204,14 +204,14 @@
             <div class="portlet-body">
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                     <div class="m-form__group form-group">
-                        <div class="m-radio-inline">
+                        <div class="m-radio-inline" >
                             <span class="mr-3">Is there any additional FSI ?</span>
-                            <label class="m-radio m-radio--primary">
+                            <label class="m-radio m-radio--primary" style="cursor: default">
                                 <input type="radio" class="radioBtn" name="is_additional_fsi" value="1" disabled checked
                                     {{ (isset($data) && $data->is_additional_fsi == '1') ? 'checked' : '' }}>Yes
                                     <span></span>
                             </label>
-                            <label class="m-radio m-radio--primary">
+                            <label class="m-radio m-radio--primary" style="cursor: default">
                                 <input type="radio" class="radioBtn" name="is_additional_fsi" disabled value="0"
                                     {{ (isset($data) && $data->is_additional_fsi == '0') ? 'checked' : '' }}>No
                                 <span></span>
@@ -220,7 +220,7 @@
                         <div class="mt-3 table--box-input">
                             <label class="e_comments" for="comments">If Yes, Comments:</label>
                             <textarea rows="5" cols="30" class="form-control form-control--custom" id="additional_fsi_comments" name="additional_fsi_comments" readonly> {{ isset($data->additional_fsi_comments) ? $data->additional_fsi_comments : '' }}</textarea>
-                            <span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">This feild is required</span>
+                            <span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">This field is required</span>
                         </div>           
                     </div>
                 </div>
