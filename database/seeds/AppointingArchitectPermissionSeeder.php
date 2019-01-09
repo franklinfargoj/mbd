@@ -66,6 +66,11 @@ class AppointingArchitectPermissionSeeder extends Seeder
                 'description' => 'appointing_architect.delete_award_prizes',
             ],
             [
+                'name'=>'appointing_architect.upload_award_certificate',
+                'display_name' => 'appointing_architect.upload_award_certificate',
+                'description' => 'appointing_architect.upload_award_certificate',
+            ],
+            [
                 'name' => 'appointing_architect.step4',
                 'display_name' => 'step4',
                 'description' => 'step4',

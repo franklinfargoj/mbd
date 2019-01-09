@@ -292,6 +292,8 @@ class EmploymentOfArchitectController extends Controller
 
     public function step3_post(StepThreeRequest $request, $id)
     {
+        $award_name=$request->award_name;
+        $award_id=$request->award_rewardz_id;
         $partner_id=$request->partner_id;
         $partner_details_name=$request->partner_details_name;
         $partner_details_reg_no=$request->partner_details_reg_no;
@@ -343,6 +345,25 @@ class EmploymentOfArchitectController extends Controller
                 }
                 $i++;
             }
+            $j=0;
+            foreach($award_name as $award_nam)
+            {
+                $award_data_array = array();
+                if (isset($award_id[$j])) {
+                    $award_data_array = [
+                        'eoa_application_id' => $application_id,
+                        'award_name' => $award_nam
+                    ];
+                    $this->awards_prizes->updateWhere($award_data_array, ['id' => $award_id[$j], 'eoa_application_id' => $application_id]);
+                } else {
+                    $award_data_array = [
+                        'eoa_application_id' => $application_id,
+                        'award_name' => $award_nam
+                    ];
+                    $this->awards_prizes->create($award_data_array);
+                }
+                $j++;
+            }
             return redirect()->route('appointing_architect.step4', ['id' => encrypt($application_id)]);
         } else {
             return back()->withError('Something went wrong');
@@ -380,6 +401,43 @@ class EmploymentOfArchitectController extends Controller
         } else {
             return response()->json(['status' => 1, 'description' => 'something went wrong']);
         }
+    }
+
+    public function upload_award_certificate(Request $request)
+    {
+        $response_array = array();
+        $file = $request->file('file');
+        if ($file->getClientMimeType() == 'application/pdf') {
+            $extension = $request->file('file')->getClientOriginalExtension();
+            $dir = 'appointing_architect_award_certificates';
+            $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+            $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('file'), $filename);
+            if ($storage) {
+                
+                //$ArchitectLayoutDetail = ArchitectLayoutDetail::find($request->architect_layout_detail_id);
+                if ($request->field_name == 'award_certificate') {
+                    $this->awards_prizes->updateWhere(['award_certificate'=>$storage], ['id' => $request->award_cartificate_id]);
+                }
+                if ($request->field_name == 'award_drawing') {
+                    $this->awards_prizes->updateWhere(['award_drawing'=>$storage], ['id' => $request->award_cartificate_id]);
+                }
+                $response_array = array(
+                    'status' => true,
+                    'file_path' => config('commanConfig.storage_server') . "/" . $storage,
+                );
+            } else {
+                $response_array = array(
+                    'status' => false,
+                );
+            }
+        } else {
+            $response_array = array(
+                'status' => false,
+                'message' => 'PDF file is required',
+            );
+        }
+
+        return response()->json($response_array);
     }
 
     public function step4($id)

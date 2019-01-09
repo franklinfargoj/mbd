@@ -345,14 +345,13 @@
                     @php $k=0; @endphp
                     @endif
                     <tbody>
-                        @for($j=0;$j<(1+$k);$j++)
-                         @php $id="" ;
-                         $id=$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->id:''):'';
+                        @for($j=0;$j<(1+$k);$j++) @php $id="" ; $id=$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->id:''):'';
                             @endphp
                             <tr class="clonemeAwardPrizes">
                                 <td>
                                     <div class="form-group">
-                                        <input type="hidden" name="award_rewardz_id[{{$j}}]" value="{{$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->id:''):''}}">
+                                        <input type="hidden" id="award_rewardz_id_{{$j}}" name="award_rewardz_id[{{$j}}]"
+                                            value="{{$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->id:''):''}}">
                                         <input placeholder="Award Name" required type="text" id="" name="award_name[{{$j}}]"
                                             class="form-control form-control--custom" value="{{$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->award_name:''):''}}">
                                     </div>
@@ -363,16 +362,15 @@
                                     $file=isset($application->award_prizes[$j])?$application->award_prizes[$j]->award_certificate:'';
                                     @endphp
                                     <div class="custom-file mb-0 form-group">
-                                        <input accept="pdf" title="please upload file with pdf extension" {{ $file!=""?"":"required" }} type="file" id="extract_certificate_{{$j}}" name="award_certificate[{{$j}}]" class="custom-file-input">
-                                        <label title="" class="custom-file-label" for="extract_certificate_{{$j}}">Choose File...</label>
+                                        <input data-file-type="award_certificate" accept="pdf" title="please upload file with pdf extension"
+                                            {{ $file!=""?"":"required" }} type="file" id="extract_certificate_{{$j}}"
+                                            name="award_certificate[{{$j}}]" class="custom-file-input" onChange="upload_certificate(this,'award_rewardz_id_{{$j}}','certificate_link_{{$j}}')">
+                                        <label title="" class="custom-file-label" for="extract_certificate_{{$j}}">Choose
+                                            File...</label>
                                         <span class="help-block"></span>
-                                        <a style="display:{{$file!=''?'block':'none'}}" target="_blank" class="btn-link"
-                                            href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
+                                        <a id="certificate_link_{{$j}}" style="display:{{$file!=''?'block':'none'}}"
+                                            target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
                                     </div>
-                                    {{-- <div class="form-group">
-                                        <input required type="text" id="" name="award_certificate[{{$j}}]" class="form-control form-control--custom"
-                                            value="{{$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->award_certificate:''):''}}">
-                                    </div> --}}
                                 </td>
                                 <td>
                                     @php
@@ -380,20 +378,16 @@
                                     $file=isset($application->award_prizes[$j])?$application->award_prizes[$j]->award_drawing:'';
                                     @endphp
                                     <div class="custom-file mb-0 form-group">
-                                        <input accept="pdf" title="please upload file with pdf extension"
+                                        <input data-file-type="award_drawing" accept="pdf" title="please upload file with pdf extension"
                                             {{ $file!=""?"":"required" }} type="file" id="extract_drawing_{{$j}}" name="award_drawing[{{$j}}]"
-                                            class="custom-file-input">
+                                            class="custom-file-input" onChange="upload_certificate(this,'award_rewardz_id_{{$j}}','drawing_link_{{$j}}')">
                                         <label title="" class="custom-file-label" for="extract_drawing_{{$j}}">Choose
                                             File...</label>
                                         <span class="help-block"></span>
 
-                                        <a style="display:{{$file!=''?'block':'none'}}" target="_blank" class="btn-link"
-                                            href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
+                                        <a id="drawing_link_{{$j}}" style="display:{{$file!=''?'block':'none'}}" target="_blank"
+                                            class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
                                     </div>
-                                    {{-- <div class="form-group">
-                                        <input required type="text" id="" name="award_drawing[{{$j}}]" class="form-control form-control--custom"
-                                            value="{{$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->award_drawing:''):''}}">
-                                    </div> --}}
                                 </td>
                                 <td>
                                     @if($j>0)
@@ -457,49 +451,95 @@
 @endsection
 @section('js')
 <script>
+    function upload_certificate(e, certificate_id, file_link_id) {
+        var file_id = e.getAttribute('id');
+        var form_data = new FormData();
+        var file_data = $('#' + file_id).prop('files')[0];
+        var award_cartificate_id = $('#' + certificate_id).val();
+        form_data.append('file', file_data);
+        form_data.append('award_cartificate_id', award_cartificate_id);
+        form_data.append('field_name', e.getAttribute('data-file-type'));
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-Token': '{{csrf_token()}}'
+            }
+        });
+        $.ajax({
+            url: "{{route('appointing_architect.upload_award_certificate')}}", // point to server-side PHP script
+            data: form_data,
+            type: 'POST',
+            contentType: false, // The content type used when sending data to the server.
+            cache: false, // To unable request pages to be cached
+            processData: false,
+            success: function (data) {
+                $(".loader").hide();
+                if (data.status == true) {
+                    $("#" + file_link_id).prop("href", data.file_path)
+                    $("#" + file_link_id).css("display", "block");
+                    $("#" + file_id).removeAttr('required');
+                    // $("#latest_layout_error").html('');
+                } else {
+                    // $("#latest_layout_error").html(data.message);
+                    //console.log(data.status+" "+data.message)
+                }
+            }
+        });
+    }
+
     $('#add-more_award').click(function (e) {
         e.preventDefault();
-        var application_id=$('input[name=application_id]').val();
+        var application_id = $('input[name=application_id]').val();
         var count = $('.clonemeAwardPrizes').length;
         var clone = $('table.award_prizes tr.clonemeAwardPrizes:first').clone().find('input').val('').end();
-        var uploadLabel = clone.find('.custom-file-label');
-
-
-        uploadLabel.each(function(index, label) {
-            var newCount = count;
-            if(label.getAttribute('for').indexOf('drawing') !== -1) {
-                label.setAttribute('for', 'extract_drawing_' + newCount);
-            }
-            if(label.getAttribute('for').indexOf('certificate') !== -1) {
-                label.setAttribute('for', 'extract_certificate_' + newCount);
-            }
-        });
-
 
         var uploadInput = clone.find('.custom-file-input');
-        uploadInput.each(function(index, input) {
+        clone.find('.custom-file-input').each(function (index, input) {
             var newCount = count;
-            if(input.getAttribute('id').indexOf('drawing') !== -1) {
+            if (input.getAttribute('id').indexOf('drawing') !== -1) {
                 input.setAttribute('id', 'extract_drawing_' + newCount);
-                input.setAttribute('name', 'award_drawing[' + newCount+']');
+                input.setAttribute('name', 'award_drawing[' + newCount + ']');
                 input.setAttribute('accept', 'pdf')
                 input.setAttribute('required', 'required');
             }
-            if(input.getAttribute('id').indexOf('certificate') !== -1) {
+            if (input.getAttribute('id').indexOf('certificate') !== -1) {
                 input.setAttribute('id', 'extract_certificate_' + newCount);
-                input.setAttribute('name', 'award_certificate[' + newCount+']');
+                input.setAttribute('name', 'award_certificate[' + newCount + ']');
                 input.setAttribute('accept', 'pdf')
                 input.setAttribute('required', 'required');
             }
         });
 
+        var uploadLabel = clone.find('.custom-file-label');
+        clone.find('#drawing_link_0')[0].setAttribute('id', 'drawing_link_[' + count +']');
+        clone.find('#certificate_link_0')[0].setAttribute('id', 'certificate_link_[' + count +']');
+        clone.find('.custom-file-label').each(function (index, label) {
+            var newCount = count;
+            if (label.getAttribute('for').indexOf('drawing') !== -1) {
+                label.setAttribute('for', 'extract_drawing_' + newCount);
+            }
+            if (label.getAttribute('for').indexOf('certificate') !== -1) {
+                label.setAttribute('for', 'extract_certificate_' + newCount);
+            }
 
-        clone.find('input[name="award_rewardz_id[0]"]')[0].setAttribute('name', 'award_rewardz_id[' + count + ']')
+            label.textContent = "Choose File...";
 
-        clone.find('input[name="award_name[0]"]')[0].setAttribute('aria-describedby','award_name['+count+']-error')
+            var customFileWrap = $(label.closest('.form-group'));
+
+
+            if (customFileWrap.hasClass('has-success')) {
+                customFileWrap.removeClass('has-success');
+            }
+        });
+
+        clone.find('input[name="award_rewardz_id[0]"]')[0].setAttribute('name', 'award_rewardz_id[' + count +
+            ']')
+
+        clone.find('input[name="award_name[0]"]')[0].setAttribute('aria-describedby', 'award_name[' + count +
+            ']-error')
         clone.find('input[name="award_name[0]"]')[0].setAttribute('name', 'award_name[' + count + ']')
-
-        clone.find("td:last").append("<h2 class='m--font-danger mb-0'><i title='Delete' class='fa fa-remove' onclick=''></i></h2>");
+        clone.find('.btn-link')[0].style.display = "none";
+        clone.find("td:last").append(
+            "<h2 class='m--font-danger mb-0'><i title='Delete' class='fa fa-remove' onclick=''></i></h2>");
 
         $.ajaxSetup({
             headers: {
@@ -510,19 +550,20 @@
         $.ajax({
             url: "{{route('appointing_architect.add_award_prizes')}}",
             method: 'POST',
-            data:{application_id:application_id},
+            data: {
+                application_id: application_id
+            },
             success: function (data) {
                 if (data.status == 0) {
-                    clone.find('input[name="award_rewardz_id['+count+']"]')[0].setAttribute('value', data.award_id)
-                    $('table.award_prizes').append(clone)
+                    clone.find('input[name="award_rewardz_id[' + count + ']"]')[0].setAttribute(
+                        'value', data.award_id)
+                    $('table.award_prizes').append(clone);
+                    showUploadedFile();
                 } else {
                     alert('something went wrong');
                 }
             }
         })
-        //$('table.award_prizes').append(clone);
-        // alert(count)
-        showUploadedFile();
     });
 
     function showUploadedFile() {
@@ -533,8 +574,6 @@
     $('#add-more').click(function (e) {
         e.preventDefault();
         var count = $('.cloneme').length;
-        // alert(count)
-        // count--;
         var clone = $('table.partners tr.cloneme:first').clone().find('input').val('').end();
         clone.find('input[name="partner_id[0]"]')[0].setAttribute('name', 'partner_id[' + count + ']');
         console.log("clone", clone.find('input[name="partner_details_name[0]"]')[0]);
@@ -554,7 +593,7 @@
     });
 
     $('.award_prizes').on('click', '.fa-remove', function () {
-         $(this).closest('tr').remove();
+        $(this).closest('tr').remove();
         var delete_id = $(this).closest('tr').find("input")[0].value;
         //alert(delete_id)
         if (delete_id != "") {
@@ -644,7 +683,7 @@
         }
 
     });
-    
+
     $.validator.prototype.checkForm = function () {
         //overriden in a specific page
         this.prepareForm();
@@ -662,130 +701,131 @@
     };
 
     $("#appointing_architect_step3").validate({
-        rules:{
+        rules: {
             "partner_details_name[]": "required",
             "partner_details_reg_no[]": "required",
-            "award_name[]":"required",
+            "award_name[]": "required",
             "award_certificate[]": "required",
             "award_certificate[]": {
-                required:true,
+                required: true,
                 extension: "pdf|doc|docx",
             },
             "award_drawing[]": "required",
             "award_drawing[]": {
-                required:true,
+                required: true,
                 extension: "pdf|doc|docx",
             },
-            category_of_panel:"required",
-            name_of_applicant:"required",
-            address:"required",
-            city:"required",
-            pin:{
-                required:true,
-                number:true
+            category_of_panel: "required",
+            name_of_applicant: "required",
+            address: "required",
+            city: "required",
+            pin: {
+                required: true,
+                number: true
             },
-            off:{
-                required:true,
-                number:true
+            off: {
+                required: true,
+                number: true
             },
-            res:{
-                required:true,
-                number:true
+            res: {
+                required: true,
+                number: true
             },
-            mobile:{
-                required:true,
-                number:true
+            mobile: {
+                required: true,
+                number: true
             },
-            fax:{
-                required:true,
-                number:true
+            fax: {
+                required: true,
+                number: true
             },
-            cash:{
-                required:true,
-                number:true
+            cash: {
+                required: true,
+                number: true
             },
-            pay_order_no:{
-                required:true,
-                number:true
+            pay_order_no: {
+                required: true,
+                number: true
             },
-            bank:"required",
-            branch:"required",
-            date_of_payment:"required",
-            receipt_no:{
-                required:true,
-                number:true
+            bank: "required",
+            branch: "required",
+            date_of_payment: "required",
+            receipt_no: {
+                required: true,
+                number: true
             },
-            receipt_date:"required",
-            details_of_establishment:"required",
-            branch_office_details:"required",
-            staff_architects:{
-                required:true,
-                number:true
+            receipt_date: "required",
+            details_of_establishment: "required",
+            branch_office_details: "required",
+            staff_architects: {
+                required: true,
+                number: true
             },
-            staff_engineers:{
-                required:true,
-                number:true
+            staff_engineers: {
+                required: true,
+                number: true
             },
-            staff_supporting_tech:{
-                required:true,
-                number:true
+            staff_supporting_tech: {
+                required: true,
+                number: true
             },
-            staff_supporting_nontech:{
-                required:true,
-                number:true
+            staff_supporting_nontech: {
+                required: true,
+                number: true
             },
-            staff_others:{
-                required:true,
-                number:true
+            staff_others: {
+                required: true,
+                number: true
             },
-            staff_total:{
-                required:true,
-                number:true
+            staff_total: {
+                required: true,
+                number: true
             },
-            is_cad_facility:"required",
-            cad_facility_no_of_computers:{
-                required: function(element) {
+            is_cad_facility: "required",
+            cad_facility_no_of_computers: {
+                required: function (element) {
                     return $('#is_cad_facility_yes').is(':checked')
-                  }
+                }
             },
-            cad_facility_no_of_printers:{
-                required: function(element) {
+            cad_facility_no_of_printers: {
+                required: function (element) {
                     return $('#is_cad_facility_yes').is(':checked')
-                  }
+                }
             },
-            cad_facility_no_of_plotters:{
-                required: function(element) {
+            cad_facility_no_of_plotters: {
+                required: function (element) {
                     return $('#is_cad_facility_yes').is(':checked')
-                  }
+                }
             },
-            cad_facility_no_of_operators:{
-                required: function(element) {
+            cad_facility_no_of_operators: {
+                required: function (element) {
                     return $('#is_cad_facility_yes').is(':checked')
-                  }
+                }
             },
-            reg_with_council_of_architecture_principle:{
-                required:true,
-                number:true
+            reg_with_council_of_architecture_principle: {
+                required: true,
+                number: true
             },
-            reg_with_council_of_architecture_associate:{
-                required:true,
-                number:true
+            reg_with_council_of_architecture_associate: {
+                required: true,
+                number: true
             },
-            reg_with_council_of_architecture_partner:{
-                required:true,
-                number:true
+            reg_with_council_of_architecture_partner: {
+                required: true,
+                number: true
             },
-            reg_with_council_of_architecture_total_registered_persons:{
-                required:true,
-                number:true
+            reg_with_council_of_architecture_total_registered_persons: {
+                required: true,
+                number: true
             },
-            reg_with_council_of_architecture_coa_registration_no:{
-                required:true,
-                number:true
+            reg_with_council_of_architecture_coa_registration_no: {
+                required: true,
+                number: true
             },
-            award_prizes_etc:"required"
+            award_prizes_etc: "required"
 
         }
     });
+
 </script>
 @endsection
