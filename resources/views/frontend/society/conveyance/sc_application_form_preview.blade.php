@@ -50,7 +50,7 @@
                                 <div style="">
                                     <div style="width: 50%; float: left;">
                                         <label  for="">३. योजनेचे नाव:</label>
-                                        <span style="font-weight: bold;"> &nbsp; {{ $sc_application->sc_form_request->scheme_name }} &nbsp; </span>
+                                        <span style="font-weight: bold;"> &nbsp; {{ $sc_application->sc_form_request->scheme_names->name }} &nbsp; </span>
                                     </div>
                                     <div style="width: 50%; float: left;">
                                         <label  for="">४. प्रथम सदनिका वितरणाचा दिनांक:</label>
@@ -64,17 +64,17 @@
                                 <div style="margin-bottom: 5px;">
                                     <div style="width: 50%; float: left;">
                                         <label  for="">A. निवासी:</label>
-                                        <span style="font-weight: bold;"> &nbsp; {{ $sc_application->sc_form_request->residential_flat }} &nbsp; </span>
+                                        <span style="font-weight: bold;"> &nbsp; {{ $sc_application->sc_form_request->no_of_residential_flat }} &nbsp; </span>
                                     </div>
                                     <div style="width: 50%; float: left;">
                                         <label  for="">B. अनिवासी:</label>
-                                        <span style="font-weight: bold;"> &nbsp; {{ $sc_application->sc_form_request->non_residential_flat }} &nbsp; </span>
+                                        <span style="font-weight: bold;"> &nbsp; {{ $sc_application->sc_form_request->no_of_non_residential_flat }} &nbsp; </span>
                                     </div>
                                 </div>
                                 <div style="">
                                     <div style="width: 50%; float: left;">
                                         <label  for="">C. एकूण:</label>
-                                        <span style="font-weight: bold;"> &nbsp;{{ $sc_application->sc_form_request->total_flat }} &nbsp; </span>
+                                        <span style="font-weight: bold;"> &nbsp;{{ $sc_application->sc_form_request->total_no_of_flat }} &nbsp; </span>
                                     </div>
                                 </div>
                                     <div style="clear: both;"></div>

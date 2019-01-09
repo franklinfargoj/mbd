@@ -85,7 +85,7 @@
                     <div class="m-portlet__body" style="padding-right: 0;">
                         <p>Click to download Covering Letter in pdf format</p>
                         @if(!empty($covering_letter_docs['em_covering_letter']->sc_document_status))
-                            <a href="{{ $covering_letter_docs['em_covering_letter']->sc_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
+                            <a href="{{ config('commanConfig.storage_server').'/'.$covering_letter_docs['em_covering_letter']->sc_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
                                 Download</a>
                         @else
                              <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;"> * Note : Covering Letter is not available. </span>       

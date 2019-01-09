@@ -425,94 +425,94 @@ class conveyanceCommonController extends Controller
     }  
 
     // get logs of Society
-    public function getLogsOfSociety($applicationId,$masterId)
-    {
-        $roles = array(config('commanConfig.society_offer_letter'));
+    // public function getLogsOfSociety($applicationId,$masterId)
+    // {
+    //     $roles = array(config('commanConfig.society_offer_letter'));
 
-        $status = array(config('commanConfig.conveyance_status.forwarded'), config('commanConfig.conveyance_status.reverted'));
+    //     $status = array(config('commanConfig.conveyance_status.forwarded'), config('commanConfig.conveyance_status.reverted'));
 
-        $societyRoles = Role::whereIn('name', $roles)->pluck('id');
-        $ocietylogs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('society_flag','=','1')->where('application_master_id',$masterId)->whereIn('role_id', $societyRoles)->whereIn('status_id', $status)->get();
-        return $ocietylogs;
-    }     
+    //     $societyRoles = Role::whereIn('name', $roles)->pluck('id');
+    //     $ocietylogs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('society_flag','=','1')->where('application_master_id',$masterId)->whereIn('role_id', $societyRoles)->whereIn('status_id', $status)->get();
+    //     return $ocietylogs;
+    // }     
 
-    // get logs of DYCO dept
-    public function getLogsOfDYCODepartment($applicationId,$masterId)
-    {
+    // // get logs of DYCO dept
+    // public function getLogsOfDYCODepartment($applicationId,$masterId)
+    // {
 
-        $roles = array(config('commanConfig.dycdo_engineer'), config('commanConfig.dyco_engineer'));
+    //     $roles = array(config('commanConfig.dycdo_engineer'), config('commanConfig.dyco_engineer'));
 
-        $status = array(config('commanConfig.conveyance_status.forwarded'), config('commanConfig.conveyance_status.reverted'));
+    //     $status = array(config('commanConfig.conveyance_status.forwarded'), config('commanConfig.conveyance_status.reverted'));
 
-        $dycoRoles = Role::whereIn('name', $roles)->pluck('id');
-        $dycologs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)
-        ->where('application_master_id',$masterId)->whereIn('role_id', $dycoRoles)->whereIn('status_id', $status)->get();
+    //     $dycoRoles = Role::whereIn('name', $roles)->pluck('id');
+    //     $dycologs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)
+    //     ->where('application_master_id',$masterId)->whereIn('role_id', $dycoRoles)->whereIn('status_id', $status)->get();
 
-        return $dycologs;
-    } 
+    //     return $dycologs;
+    // } 
 
-    // get logs of EE dept
-    public function getLogsOfEEDepartment($applicationId,$masterId)
-    {
+    // // get logs of EE dept
+    // public function getLogsOfEEDepartment($applicationId,$masterId)
+    // {
 
-        $roles = array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'));
+    //     $roles = array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'));
 
-        $status = array(config('commanConfig.conveyance_status.forwarded'), config('commanConfig.conveyance_status.reverted'));
+    //     $status = array(config('commanConfig.conveyance_status.forwarded'), config('commanConfig.conveyance_status.reverted'));
 
-        $eeRoles = Role::whereIn('name', $roles)->pluck('id');
-        $eelogs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $eeRoles)->whereIn('status_id', $status)->get();
+    //     $eeRoles = Role::whereIn('name', $roles)->pluck('id');
+    //     $eelogs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $eeRoles)->whereIn('status_id', $status)->get();
 
-        return $eelogs;
-    }
+    //     return $eelogs;
+    // }
 
-    // get logs of Architect dept
-    public function getLogsOfArchitectDepartment($applicationId,$masterId)
-    {
+    // // get logs of Architect dept
+    // public function getLogsOfArchitectDepartment($applicationId,$masterId)
+    // {
 
-        $roles = array(config('commanConfig.junior_architect'), config('commanConfig.senior_architect'), config('commanConfig.architect'));
-        $status = array(config('commanConfig.conveyance_status.forwarded'), config('commanConfig.conveyance_status.reverted'));
+    //     $roles = array(config('commanConfig.junior_architect'), config('commanConfig.senior_architect'), config('commanConfig.architect'));
+    //     $status = array(config('commanConfig.conveyance_status.forwarded'), config('commanConfig.conveyance_status.reverted'));
 
-        $ArchitectRoles = Role::whereIn('name', $roles)->pluck('id');
-        $Architectlogs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $ArchitectRoles)->whereIn('status_id', $status)->get();
+    //     $ArchitectRoles = Role::whereIn('name', $roles)->pluck('id');
+    //     $Architectlogs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $ArchitectRoles)->whereIn('status_id', $status)->get();
 
-        return $Architectlogs;
-    }
+    //     return $Architectlogs;
+    // }
 
-    // get logs of CO and JTCO dept
-    public function getLogsOfCODepartment($applicationId,$masterId)
-    {
-        $roles = array(config('commanConfig.co_engineer'), config('commanConfig.joint_co'));
-        $status = array(config('commanConfig.conveyance_status.forwarded'), config('commanConfig.conveyance_status.reverted'));
+    // // get logs of CO and JTCO dept
+    // public function getLogsOfCODepartment($applicationId,$masterId)
+    // {
+    //     $roles = array(config('commanConfig.co_engineer'), config('commanConfig.joint_co'));
+    //     $status = array(config('commanConfig.conveyance_status.forwarded'), config('commanConfig.conveyance_status.reverted'));
 
-        $coRoles = Role::whereIn('name', $roles)->pluck('id');
-        $cologs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $coRoles)->whereIn('status_id', $status)->get();
+    //     $coRoles = Role::whereIn('name', $roles)->pluck('id');
+    //     $cologs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $coRoles)->whereIn('status_id', $status)->get();
 
-        return $cologs;
-    }
+    //     return $cologs;
+    // }
 
-    // get logs of EM dept
-    public function getLogsOfEMDepartment($applicationId,$masterId)
-    {
-        $roles = array(config('commanConfig.estate_manager'));
-        $status = array(config('commanConfig.conveyance_status.forwarded'), config('commanConfig.conveyance_status.reverted'));
+    // // get logs of EM dept
+    // public function getLogsOfEMDepartment($applicationId,$masterId)
+    // {
+    //     $roles = array(config('commanConfig.estate_manager'));
+    //     $status = array(config('commanConfig.conveyance_status.forwarded'), config('commanConfig.conveyance_status.reverted'));
 
-        $emRoles = Role::whereIn('name', $roles)->pluck('id');
-        $emlogs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $emRoles)->whereIn('status_id', $status)->get();
+    //     $emRoles = Role::whereIn('name', $roles)->pluck('id');
+    //     $emlogs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $emRoles)->whereIn('status_id', $status)->get();
 
-        return $emlogs;
-    }
+    //     return $emlogs;
+    // }
 
-    // get logs of LA dept
-    public function getLogsOfLADepartment($applicationId,$masterId)
-    {
-        $roles = array(config('commanConfig.legal_advisor'));
-        $status = array(config('commanConfig.conveyance_status.forwarded'), config('commanConfig.conveyance_status.reverted'));
+    // // get logs of LA dept
+    // public function getLogsOfLADepartment($applicationId,$masterId)
+    // {
+    //     $roles = array(config('commanConfig.legal_advisor'));
+    //     $status = array(config('commanConfig.conveyance_status.forwarded'), config('commanConfig.conveyance_status.reverted'));
 
-        $laRoles = Role::whereIn('name', $roles)->pluck('id');
-        $lalogs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $laRoles)->whereIn('status_id', $status)->get();
+    //     $laRoles = Role::whereIn('name', $roles)->pluck('id');
+    //     $lalogs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $laRoles)->whereIn('status_id', $status)->get();
 
-        return $lalogs;
-    }        
+    //     return $lalogs;
+    // }        
 
     // get agreement as per agreement type id
     public function getScAgreement($typeId,$applicationId,$status){
@@ -617,18 +617,20 @@ class conveyanceCommonController extends Controller
     }
 
     //common forward page for DYCO dept, Architect 
-    public function commonForward(Request $request,$applicationId){
+    public function commonForward(Request $request,$applicationId){ 
       
       $applicationId = decrypt($applicationId);  
       $data          = $this->getForwardApplicationData($applicationId);
       $data->folder  = $this->getCurrentRoleFolderName();
-      $societyLogs   = $this->getLogsOfSociety($applicationId,$data->sc_application_master_id);
-      $dycoLogs      = $this->getLogsOfDYCODepartment($applicationId,$data->sc_application_master_id);
-      $eelogs        = $this->getLogsOfEEDepartment($applicationId,$data->sc_application_master_id);
-      $Architectlogs = $this->getLogsOfArchitectDepartment($applicationId,$data->sc_application_master_id);
-      $cologs        = $this->getLogsOfCODepartment($applicationId,$data->sc_application_master_id);
-      $emlogs        = $this->getLogsOfEMDepartment($applicationId,$data->sc_application_master_id);
-      $lalogs        = $this->getLogsOfLADepartment($applicationId,$data->sc_application_master_id);
+      // $societyLogs   = $this->getLogsOfSociety($applicationId,$data->sc_application_master_id);
+      // $dycoLogs      = $this->getLogsOfDYCODepartment($applicationId,$data->sc_application_master_id);
+      // $eelogs        = $this->getLogsOfEEDepartment($applicationId,$data->sc_application_master_id);
+      // $Architectlogs = $this->getLogsOfArchitectDepartment($applicationId,$data->sc_application_master_id);
+      // $cologs        = $this->getLogsOfCODepartment($applicationId,$data->sc_application_master_id);
+      // $emlogs        = $this->getLogsOfEMDepartment($applicationId,$data->sc_application_master_id);
+      // $lalogs        = $this->getLogsOfLADepartment($applicationId,$data->sc_application_master_id);
+
+      $remarkHistory = $this->getRemarkHistory($applicationId,$data->sc_application_master_id);
       $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
       $data->em_document = $this->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
       
@@ -648,8 +650,17 @@ class conveyanceCommonController extends Controller
         $route = 'admin.conveyance.common.forward_application';
       }
       
-      return view($route,compact('data','societyLogs','dycoLogs','eelogs','Architectlogs','cologs','emlogs','lalogs'));         
+      return view($route,compact('data','remarkHistory'));          
     }
+
+    public function getRemarkHistory($applicationId,$masterId)
+    {
+        $status = array(config('commanConfig.conveyance_status.forwarded'), config('commanConfig.conveyance_status.reverted'));
+
+        $logs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id',$applicationId)->where('application_master_id',$masterId)->orderBy('id','DESC')->whereIn('status_id', $status)->get();
+
+        return $logs;
+    }     
 
     public function saveForwardApplication(Request $request){
         $forwardData = $this->forwardApplication($request); 
