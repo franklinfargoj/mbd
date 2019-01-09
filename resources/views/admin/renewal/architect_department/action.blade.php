@@ -29,7 +29,7 @@ $route=\Request::route()->getName();
         </span>
     </a>
 </li>
-
+ 
 <li id="dyco-actions" class="collapse show">
     <ul class="list-unstyled">
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='renewal.view_application')?'m-menu__item--active':''}}">
