@@ -1088,6 +1088,9 @@ Route::prefix('appointing_architect')->group(function () {
         Route::post('delete_enclosure', 'EmploymentOfArchitectController@delete_enclosure')->name('appointing_architect.delete_enclosure');
         Route::get('step3/{id}', 'EmploymentOfArchitectController@step3')->name('appointing_architect.step3');
         Route::post('step3_post/{id}', 'EmploymentOfArchitectController@step3_post')->name('appointing_architect.step3_post');
+        Route::post('ajaxDeletepartners', 'EmploymentOfArchitectController@delete_partners')->name('appointing_architect.delete_partners');
+        Route::post('ajaxAddawardsPrizes', 'EmploymentOfArchitectController@add_award_prizes')->name('appointing_architect.add_award_prizes');
+        Route::post('ajaxDeleteawardsPrizes', 'EmploymentOfArchitectController@delete_award_prizes')->name('appointing_architect.delete_award_prizes');
         Route::get('step4/{id}', 'EmploymentOfArchitectController@step4')->name('appointing_architect.step4');
         Route::post('step4_post/{id}', 'EmploymentOfArchitectController@step4_post')->name('appointing_architect.step4_post');
         Route::post('ajaxDeleteImpProject', 'EmploymentOfArchitectController@delete_imp_project')->name('appointing_architect.delete_imp_project');

@@ -248,25 +248,31 @@
                     @php $k=0; @endphp
                     @endif
                     <tbody>
-                    @for($j=0;$j<(1+$k);$j++) 
-                    @php 
-                    $id="" ; 
-                    $id=$application->partners_details!=''?(isset($application->partners_details[$j])?$application->partners_details[$j]->id:''):'';
-                    @endphp
-                        <tr class="cloneme">
-                            <td>
-                                <input type="hidden" name="partner_id[{{$j}}]" value="{{$application->partners_details!=''?(isset($application->partners_details[$j])?$application->partners_details[$j]->id:''):''}}">
-                                <input required type="text" id="" name="partner_details_name[{{$j}}]"
-                                class="form-control form-control--custom m-input" value="{{$application->partners_details!=''?(isset($application->partners_details[$j])?$application->partners_details[$j]->name:''):''}}">
-                            </td>
-                            <td><input required type="text" id="" name="partner_details_reg_no[{{$j}}]"
-                                class="form-control form-control--custom m-input" value="{{$application->partners_details!=''?(isset($application->partners_details[$j])?$application->partners_details[$j]->registration_no:''):''}}"></td>
-                            <td><h2 class='m--font-danger mb-0'>
-                                    <i title='Delete' class='fa fa-remove' onclick=""></i>
-                                </h2>
-                            </td>
-                        </tr>
-                        @endfor
+                        @for($j=0;$j<(1+$k);$j++) @php $id="" ; $id=$application->partners_details!=''?(isset($application->partners_details[$j])?$application->partners_details[$j]->id:''):'';
+                            @endphp
+                            <tr class="cloneme">
+                                <td>
+                                    <div class="form-group">
+                                        <input type="hidden" name="partner_id[{{$j}}]" value="{{$application->partners_details!=''?(isset($application->partners_details[$j])?$application->partners_details[$j]->id:''):''}}">
+                                        <input required type="text" id="" name="partner_details_name[{{$j}}]" class="form-control form-control--custom"
+                                            value="{{$application->partners_details!=''?(isset($application->partners_details[$j])?$application->partners_details[$j]->name:''):''}}">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input required type="text" id="" name="partner_details_reg_no[{{$j}}]" class="form-control form-control--custom"
+                                            value="{{$application->partners_details!=''?(isset($application->partners_details[$j])?$application->partners_details[$j]->registration_no:''):''}}">
+                                    </div>
+                                </td>
+                                <td>
+                                    @if($j>0)
+                                    <h2 class='m--font-danger mb-0'>
+                                        <i title='Delete' class='fa fa-remove' onclick=""></i>
+                                    </h2>
+                                    @endif
+                                </td>
+                            </tr>
+                            @endfor
                     </tbody>
                 </table>
                 <table class="table">
@@ -305,6 +311,110 @@
                     <span class="text-danger">{{ $errors->first('award_prizes_etc') }}</span>
                     @endif
                 </div>
+            </div>
+            <div class="m-portlet__head px-0 m-portlet__head--top">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <span class="m-portlet__head-icon m--hide">
+                            <i class="la la-gear"></i>
+                        </span>
+                        <div class="d-flex">
+                            <h3 class="m-portlet__head-text">
+                                Awardz and Prizes
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group m-form__group row">
+                <table class="table award_prizes">
+                    <thead>
+                        <tr>
+                            <th>Award Name</th>
+                            <th>Award Certificate</th>
+                            <th>award drawings</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    @php
+                    $awards_prizes_count=$application->award_prizes->count();
+                    @endphp
+                    @if($awards_prizes_count>1)
+                    @php $k=($awards_prizes_count-1); @endphp
+                    @else
+                    @php $k=0; @endphp
+                    @endif
+                    <tbody>
+                        @for($j=0;$j<(1+$k);$j++)
+                         @php $id="" ;
+                         $id=$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->id:''):'';
+                            @endphp
+                            <tr class="clonemeAwardPrizes">
+                                <td>
+                                    <div class="form-group">
+                                        <input type="hidden" name="award_rewardz_id[{{$j}}]" value="{{$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->id:''):''}}">
+                                        <input placeholder="Award Name" required type="text" id="" name="award_name[{{$j}}]"
+                                            class="form-control form-control--custom" value="{{$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->award_name:''):''}}">
+                                    </div>
+                                </td>
+                                <td>
+                                    @php
+                                    $file="";
+                                    $file=isset($application->award_prizes[$j])?$application->award_prizes[$j]->award_certificate:'';
+                                    @endphp
+                                    <div class="custom-file mb-0 form-group">
+                                        <input accept="pdf" title="please upload file with pdf extension" {{ $file!=""?"":"required" }} type="file" id="extract_certificate_{{$j}}" name="award_certificate[{{$j}}]" class="custom-file-input">
+                                        <label title="" class="custom-file-label" for="extract_certificate_{{$j}}">Choose File...</label>
+                                        <span class="help-block"></span>
+                                        <a style="display:{{$file!=''?'block':'none'}}" target="_blank" class="btn-link"
+                                            href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
+                                    </div>
+                                    {{-- <div class="form-group">
+                                        <input required type="text" id="" name="award_certificate[{{$j}}]" class="form-control form-control--custom"
+                                            value="{{$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->award_certificate:''):''}}">
+                                    </div> --}}
+                                </td>
+                                <td>
+                                    @php
+                                    $file="";
+                                    $file=isset($application->award_prizes[$j])?$application->award_prizes[$j]->award_drawing:'';
+                                    @endphp
+                                    <div class="custom-file mb-0 form-group">
+                                        <input accept="pdf" title="please upload file with pdf extension"
+                                            {{ $file!=""?"":"required" }} type="file" id="extract_drawing_{{$j}}" name="award_drawing[{{$j}}]"
+                                            class="custom-file-input">
+                                        <label title="" class="custom-file-label" for="extract_drawing_{{$j}}">Choose
+                                            File...</label>
+                                        <span class="help-block"></span>
+
+                                        <a style="display:{{$file!=''?'block':'none'}}" target="_blank" class="btn-link"
+                                            href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
+                                    </div>
+                                    {{-- <div class="form-group">
+                                        <input required type="text" id="" name="award_drawing[{{$j}}]" class="form-control form-control--custom"
+                                            value="{{$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->award_drawing:''):''}}">
+                                    </div> --}}
+                                </td>
+                                <td>
+                                    @if($j>0)
+                                    <h2 class='m--font-danger mb-0'>
+                                        <i title='Delete' class='fa fa-remove' onclick=""></i>
+                                    </h2>
+                                    @endif
+                                </td>
+                            </tr>
+                            @endfor
+                    </tbody>
+                </table>
+                <table class="table">
+                    <tr>
+                        <td colspan="3" class="text-center">
+                            <button type="button" id="add-more_award" class="btn btn-primary add_award_prizes">Add</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Other Information:</label>
                     <input type="text" id="" name="other_information" class="form-control form-control--custom m-input"
@@ -347,8 +457,80 @@
 @endsection
 @section('js')
 <script>
+    $('#add-more_award').click(function (e) {
+        e.preventDefault();
+        var application_id=$('input[name=application_id]').val();
+        var count = $('.clonemeAwardPrizes').length;
+        var clone = $('table.award_prizes tr.clonemeAwardPrizes:first').clone().find('input').val('').end();
+        var uploadLabel = clone.find('.custom-file-label');
 
-$('#add-more').click(function (e) {
+
+        uploadLabel.each(function(index, label) {
+            var newCount = count;
+            if(label.getAttribute('for').indexOf('drawing') !== -1) {
+                label.setAttribute('for', 'extract_drawing_' + newCount);
+            }
+            if(label.getAttribute('for').indexOf('certificate') !== -1) {
+                label.setAttribute('for', 'extract_certificate_' + newCount);
+            }
+        });
+
+
+        var uploadInput = clone.find('.custom-file-input');
+        uploadInput.each(function(index, input) {
+            var newCount = count;
+            if(input.getAttribute('id').indexOf('drawing') !== -1) {
+                input.setAttribute('id', 'extract_drawing_' + newCount);
+                input.setAttribute('name', 'award_drawing[' + newCount+']');
+                input.setAttribute('accept', 'pdf')
+                input.setAttribute('required', 'required');
+            }
+            if(input.getAttribute('id').indexOf('certificate') !== -1) {
+                input.setAttribute('id', 'extract_certificate_' + newCount);
+                input.setAttribute('name', 'award_certificate[' + newCount+']');
+                input.setAttribute('accept', 'pdf')
+                input.setAttribute('required', 'required');
+            }
+        });
+
+
+        clone.find('input[name="award_rewardz_id[0]"]')[0].setAttribute('name', 'award_rewardz_id[' + count + ']')
+
+        clone.find('input[name="award_name[0]"]')[0].setAttribute('aria-describedby','award_name['+count+']-error')
+        clone.find('input[name="award_name[0]"]')[0].setAttribute('name', 'award_name[' + count + ']')
+
+        clone.find("td:last").append("<h2 class='m--font-danger mb-0'><i title='Delete' class='fa fa-remove' onclick=''></i></h2>");
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-Token': '{{csrf_token()}}'
+            }
+        });
+        var thisInstance = $(this);
+        $.ajax({
+            url: "{{route('appointing_architect.add_award_prizes')}}",
+            method: 'POST',
+            data:{application_id:application_id},
+            success: function (data) {
+                if (data.status == 0) {
+                    clone.find('input[name="award_rewardz_id['+count+']"]')[0].setAttribute('value', data.award_id)
+                    $('table.award_prizes').append(clone)
+                } else {
+                    alert('something went wrong');
+                }
+            }
+        })
+        //$('table.award_prizes').append(clone);
+        // alert(count)
+        showUploadedFile();
+    });
+
+    function showUploadedFile() {
+        $('.custom-file-input').change(function (e) {
+            $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
+        });
+    }
+    $('#add-more').click(function (e) {
         e.preventDefault();
         var count = $('.cloneme').length;
         // alert(count)
@@ -356,18 +538,52 @@ $('#add-more').click(function (e) {
         var clone = $('table.partners tr.cloneme:first').clone().find('input').val('').end();
         clone.find('input[name="partner_id[0]"]')[0].setAttribute('name', 'partner_id[' + count + ']');
         console.log("clone", clone.find('input[name="partner_details_name[0]"]')[0]);
+        clone.find('input[name="partner_details_name[0]"]')[0].setAttribute('aria-describedby',
+            'partner_details_name[' + count + ']-error')
+        clone.find('input[name="partner_details_name[0]"]')[0].setAttribute('name', 'partner_details_name[' +
+            count + ']')
 
-        var partnerDetailNameInput = clone.find('input[name="partner_details_name[0]"]')[0];
-        var partnerDetailsRegInput = clone.find('input[name="partner_details_reg_no[0]"]')[0]
+        clone.find('input[name="partner_details_reg_no[0]"]')[0].setAttribute('aria-describedby',
+            'partner_details_reg_no[' + count + ']-error')
+        clone.find('input[name="partner_details_reg_no[0]"]')[0].setAttribute('name', 'partner_details_reg_no[' +
+            count + ']')
 
-        partnerDetailNameInput.setAttribute('name', 'partner_details_name[' + count + ']');
-        partnerDetailNameInput.setAttribute('aria-describedby', 'partner_details_name[' +
-           count + ']-error');
+        clone.find("td:last").append(
+            "<h2 class='m--font-danger mb-0'><i title='Delete' class='fa fa-remove' onclick=''></i></h2>");
+        $('table.partners').append(clone);
+    });
 
-        partnerDetailsRegInput.setAttribute('name', 'partner_details_reg_no[' + count + ']');
-        partnerDetailsRegInput.setAttribute('aria-describedby', 'partner_details_reg_no['+count +']-error');
+    $('.award_prizes').on('click', '.fa-remove', function () {
+         $(this).closest('tr').remove();
+        var delete_id = $(this).closest('tr').find("input")[0].value;
+        //alert(delete_id)
+        if (delete_id != "") {
+            if (confirm('are you sure?')) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-Token': '{{csrf_token()}}'
+                    }
+                });
+                var thisInstance = $(this);
+                $.ajax({
+                    url: "{{route('appointing_architect.delete_award_prizes')}}",
+                    method: 'POST',
+                    data: {
+                        delete_award_id: delete_id
+                    },
+                    success: function (data) {
+                        if (data.status == 0) {
+                            thisInstance.closest('tr').remove();
+                        } else {
+                            alert('something went wrong');
+                        }
+                    }
+                })
+            }
+        } else {
+            $(this).closest('tr').remove();
+        }
 
-        $('table.partners tbody').append(clone);
     });
 
     var cas_facility = $('input[name=is_cad_facility]:checked').val();
@@ -396,8 +612,39 @@ $('#add-more').click(function (e) {
         $('#staff_total').val(total_staff)
     }
 
-    
+    $('.partners').on('click', '.fa-remove', function () {
+        // $(this).closest('tr').remove();
+        var delete_id = $(this).closest('tr').find("input")[0].value;
+        //alert(delete_id)
+        if (delete_id != "") {
+            if (confirm('are you sure?')) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-Token': '{{csrf_token()}}'
+                    }
+                });
+                var thisInstance = $(this);
+                $.ajax({
+                    url: "{{route('appointing_architect.delete_partners')}}",
+                    method: 'POST',
+                    data: {
+                        delete_partner_id: delete_id
+                    },
+                    success: function (data) {
+                        if (data.status == 0) {
+                            thisInstance.closest('tr').remove();
+                        } else {
+                            alert('something went wrong');
+                        }
+                    }
+                })
+            }
+        } else {
+            $(this).closest('tr').remove();
+        }
 
+    });
+    
     $.validator.prototype.checkForm = function () {
         //overriden in a specific page
         this.prepareForm();
@@ -416,12 +663,23 @@ $('#add-more').click(function (e) {
 
     $("#appointing_architect_step3").validate({
         rules:{
+            "partner_details_name[]": "required",
+            "partner_details_reg_no[]": "required",
+            "award_name[]":"required",
+            "award_certificate[]": "required",
+            "award_certificate[]": {
+                required:true,
+                extension: "pdf|doc|docx",
+            },
+            "award_drawing[]": "required",
+            "award_drawing[]": {
+                required:true,
+                extension: "pdf|doc|docx",
+            },
             category_of_panel:"required",
             name_of_applicant:"required",
             address:"required",
             city:"required",
-            "partner_details_name[]":"required",
-            "partner_details_reg_no[]":"required",
             pin:{
                 required:true,
                 number:true
@@ -529,6 +787,5 @@ $('#add-more').click(function (e) {
 
         }
     });
-
 </script>
 @endsection
