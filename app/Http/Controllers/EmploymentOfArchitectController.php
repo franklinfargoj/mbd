@@ -386,6 +386,7 @@ class EmploymentOfArchitectController extends Controller
         $add=$this->awards_prizes->create(['eoa_application_id'=>$request->application_id]);
         if($add)
         {
+
             return response()->json(['status' => 0,'award_id'=>$add->id ,'description' => 'added successfully']);
         }else
         {
@@ -396,7 +397,16 @@ class EmploymentOfArchitectController extends Controller
     public function delete_award_prizes(Request $request)
     {
         $id = $request->delete_award_id;
+        $delete = $this->awards_prizes->show($id);
+        $certificate = $delete->award_certificate;
+        $drawing = $delete->award_drawing;
         if ($this->awards_prizes->delete($id)) {
+            if (Storage::disk('ftp')->has($drawing)) {
+                Storage::disk('ftp')->delete($drawing);
+            }
+            if (Storage::disk('ftp')->has($certificate)) {
+                Storage::disk('ftp')->delete($certificate);
+            }
             return response()->json(['status' => 0, 'description' => 'deleted successfully']);
         } else {
             return response()->json(['status' => 1, 'description' => 'something went wrong']);

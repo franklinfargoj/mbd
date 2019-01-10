@@ -2,6 +2,20 @@
 @section('actions')
 @include('employment_of_architect.actions',compact('application'))
 @endsection
+@section('css')
+<style>
+    .loader {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url('/img/loading-spinner-blue.gif') 50% 50% no-repeat rgb(249,249,249);
+    opacity: .8;
+}
+</style>
+@endsection
 @section('content')
 
 <div class="col-md-12">
@@ -327,12 +341,13 @@
                 </div>
             </div>
             <div class="form-group m-form__group row">
+                <div class="loader" style="display:none;"></div>
                 <table class="table award_prizes">
                     <thead>
                         <tr>
                             <th>Award Name</th>
                             <th>Award Certificate</th>
-                            <th>award drawings</th>
+                            <th>Award Drawings</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -364,7 +379,7 @@
                                     <div class="custom-file mb-0 form-group">
                                         <input data-file-type="award_certificate" accept="pdf" title="please upload file with pdf extension"
                                             {{ $file!=""?"":"required" }} type="file" id="extract_certificate_{{$j}}"
-                                            name="award_certificate[{{$j}}]" class="custom-file-input" onChange="upload_certificate(this,'award_rewardz_id_{{$j}}','certificate_link_{{$j}}')">
+                                            name="award_certificate[{{$j}}]" class="custom-file-input" onChange="upload_certificate(this)">
                                         <label title="" class="custom-file-label" for="extract_certificate_{{$j}}">Choose
                                             File...</label>
                                         <span class="help-block"></span>
@@ -380,7 +395,7 @@
                                     <div class="custom-file mb-0 form-group">
                                         <input data-file-type="award_drawing" accept="pdf" title="please upload file with pdf extension"
                                             {{ $file!=""?"":"required" }} type="file" id="extract_drawing_{{$j}}" name="award_drawing[{{$j}}]"
-                                            class="custom-file-input" onChange="upload_certificate(this,'award_rewardz_id_{{$j}}','drawing_link_{{$j}}')">
+                                            class="custom-file-input" onChange="upload_certificate(this)">
                                         <label title="" class="custom-file-label" for="extract_drawing_{{$j}}">Choose
                                             File...</label>
                                         <span class="help-block"></span>
@@ -451,35 +466,65 @@
 @endsection
 @section('js')
 <script>
-    function upload_certificate(e, certificate_id, file_link_id) {
+    function upload_certificate(e) {
+        $(".loader").show();
         var file_id = e.getAttribute('id');
-        var form_data = new FormData();
+
+        var get_index=file_id.split('_');
+        get_index=get_index[get_index.length-1];
+
         var file_data = $('#' + file_id).prop('files')[0];
-        var award_cartificate_id = $('#' + certificate_id).val();
+        var award_cartificate_id = $('#' + 'award_rewardz_id_'+get_index).val();
+        var file_type=e.getAttribute('data-file-type');
+
+        var form_data = new FormData();
         form_data.append('file', file_data);
         form_data.append('award_cartificate_id', award_cartificate_id);
-        form_data.append('field_name', e.getAttribute('data-file-type'));
+        form_data.append('field_name', file_type);
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-Token': '{{csrf_token()}}'
             }
         });
         $.ajax({
-            url: "{{route('appointing_architect.upload_award_certificate')}}", // point to server-side PHP script
+            url: "{{route('appointing_architect.upload_award_certificate')}}",
             data: form_data,
             type: 'POST',
-            contentType: false, // The content type used when sending data to the server.
-            cache: false, // To unable request pages to be cached
+            contentType: false,
+            cache: false,
             processData: false,
             success: function (data) {
                 $(".loader").hide();
+                $('.custom-file-label').each(function (index, label) {
+                    var newCount = get_index;
+                    if (label.getAttribute('for').indexOf('drawing') !== -1) {
+                        label.setAttribute('for', 'extract_drawing_' + newCount);
+                    }
+                    if (label.getAttribute('for').indexOf('certificate') !== -1) {
+                        label.setAttribute('for', 'extract_certificate_' + newCount);
+                    }
+
+                    label.textContent = "Choose File...";
+                    var customFileWrap = $(label.closest('.form-group'));
+
+                    if (customFileWrap.hasClass('has-success')) {
+                        customFileWrap.removeClass('has-success');
+                    }
+                });
                 if (data.status == true) {
-                    $("#" + file_link_id).prop("href", data.file_path)
-                    $("#" + file_link_id).css("display", "block");
+                    if(file_type=='award_certificate')
+                    {
+                        $("#certificate_link_"+get_index).prop("href", data.file_path)
+                        $("#certificate_link_"+get_index).css("display", "block");
+                    }
+                    if(file_type=='award_drawing')
+                    {
+                        $("#drawing_link_"+get_index).prop("href", data.file_path)
+                        $("#drawing_link_"+get_index).css("display", "block");
+                    }
                     $("#" + file_id).removeAttr('required');
-                    // $("#latest_layout_error").html('');
                 } else {
-                    // $("#latest_layout_error").html(data.message);
                     //console.log(data.status+" "+data.message)
                 }
             }
@@ -490,80 +535,91 @@
         e.preventDefault();
         var application_id = $('input[name=application_id]').val();
         var count = $('.clonemeAwardPrizes').length;
-        var clone = $('table.award_prizes tr.clonemeAwardPrizes:first').clone().find('input').val('').end();
+        if(count<5)
+        {
+            var clone = $('table.award_prizes tr.clonemeAwardPrizes:first').clone().find('input').val('').end();
 
-        var uploadInput = clone.find('.custom-file-input');
-        clone.find('.custom-file-input').each(function (index, input) {
-            var newCount = count;
-            if (input.getAttribute('id').indexOf('drawing') !== -1) {
-                input.setAttribute('id', 'extract_drawing_' + newCount);
-                input.setAttribute('name', 'award_drawing[' + newCount + ']');
-                input.setAttribute('accept', 'pdf')
-                input.setAttribute('required', 'required');
-            }
-            if (input.getAttribute('id').indexOf('certificate') !== -1) {
-                input.setAttribute('id', 'extract_certificate_' + newCount);
-                input.setAttribute('name', 'award_certificate[' + newCount + ']');
-                input.setAttribute('accept', 'pdf')
-                input.setAttribute('required', 'required');
-            }
-        });
-
-        var uploadLabel = clone.find('.custom-file-label');
-        clone.find('#drawing_link_0')[0].setAttribute('id', 'drawing_link_[' + count +']');
-        clone.find('#certificate_link_0')[0].setAttribute('id', 'certificate_link_[' + count +']');
-        clone.find('.custom-file-label').each(function (index, label) {
-            var newCount = count;
-            if (label.getAttribute('for').indexOf('drawing') !== -1) {
-                label.setAttribute('for', 'extract_drawing_' + newCount);
-            }
-            if (label.getAttribute('for').indexOf('certificate') !== -1) {
-                label.setAttribute('for', 'extract_certificate_' + newCount);
-            }
-
-            label.textContent = "Choose File...";
-
-            var customFileWrap = $(label.closest('.form-group'));
-
-
-            if (customFileWrap.hasClass('has-success')) {
-                customFileWrap.removeClass('has-success');
-            }
-        });
-
-        clone.find('input[name="award_rewardz_id[0]"]')[0].setAttribute('name', 'award_rewardz_id[' + count +
-            ']')
-
-        clone.find('input[name="award_name[0]"]')[0].setAttribute('aria-describedby', 'award_name[' + count +
-            ']-error')
-        clone.find('input[name="award_name[0]"]')[0].setAttribute('name', 'award_name[' + count + ']')
-        clone.find('.btn-link')[0].style.display = "none";
-        clone.find("td:last").append(
-            "<h2 class='m--font-danger mb-0'><i title='Delete' class='fa fa-remove' onclick=''></i></h2>");
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-Token': '{{csrf_token()}}'
-            }
-        });
-        var thisInstance = $(this);
-        $.ajax({
-            url: "{{route('appointing_architect.add_award_prizes')}}",
-            method: 'POST',
-            data: {
-                application_id: application_id
-            },
-            success: function (data) {
-                if (data.status == 0) {
-                    clone.find('input[name="award_rewardz_id[' + count + ']"]')[0].setAttribute(
-                        'value', data.award_id)
-                    $('table.award_prizes').append(clone);
-                    showUploadedFile();
-                } else {
-                    alert('something went wrong');
+            //var uploadInput = clone.find('.custom-file-input');
+            clone.find('.custom-file-input').each(function (index, input) {
+                var newCount = count;
+                if (input.getAttribute('id').indexOf('drawing') !== -1) {
+                    input.setAttribute('id', 'extract_drawing_' + newCount);
+                    input.setAttribute('name', 'award_drawing[' + newCount + ']');
+                    input.setAttribute('accept', 'pdf')
+                    input.setAttribute('required', 'required');
                 }
-            }
-        })
+                if (input.getAttribute('id').indexOf('certificate') !== -1) {
+                    input.setAttribute('id', 'extract_certificate_' + newCount);
+                    input.setAttribute('name', 'award_certificate[' + newCount + ']');
+                    input.setAttribute('accept', 'pdf')
+                    input.setAttribute('required', 'required');
+                }
+            });
+
+        // var uploadLabel = clone.find('.custom-file-label');
+
+            clone.find('#drawing_link_0')[0].style.display = "none";
+            clone.find('#drawing_link_0')[0].setAttribute('id', 'drawing_link_' + count);
+
+            clone.find('#certificate_link_0')[0].style.display = "none";
+            clone.find('#certificate_link_0')[0].setAttribute('id', 'certificate_link_' + count);
+            
+            clone.find('.custom-file-label').each(function (index, label) {
+                var newCount = count;
+                if (label.getAttribute('for').indexOf('drawing') !== -1) {
+                    label.setAttribute('for', 'extract_drawing_' + newCount);
+                }
+                if (label.getAttribute('for').indexOf('certificate') !== -1) {
+                    label.setAttribute('for', 'extract_certificate_' + newCount);
+                }
+
+                label.textContent = "Choose File...";
+
+                var customFileWrap = $(label.closest('.form-group'));
+
+                if (customFileWrap.hasClass('has-success')) {
+                    customFileWrap.removeClass('has-success');
+                }
+            });
+
+            clone.find('input[name="award_rewardz_id[0]"]')[0].setAttribute('id', 'award_rewardz_id_' + count)
+            clone.find('input[name="award_rewardz_id[0]"]')[0].setAttribute('name', 'award_rewardz_id[' + count +
+                ']')
+            clone.find('input[name="award_name[0]"]')[0].setAttribute('aria-describedby', 'award_name[' + count +
+                ']-error')
+            clone.find('input[name="award_name[0]"]')[0].setAttribute('name', 'award_name[' + count + ']')
+            clone.find('.btn-link')[0].style.display = "none";
+            clone.find("td:last").append(
+                "<h2 class='m--font-danger mb-0'><i title='Delete' class='fa fa-remove' onclick=''></i></h2>");
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-Token': '{{csrf_token()}}'
+                }
+            });
+            var thisInstance = $(this);
+            $.ajax({
+                url: "{{route('appointing_architect.add_award_prizes')}}",
+                method: 'POST',
+                data: {
+                    application_id: application_id
+                },
+                success: function (data) {
+                    if (data.status == 0) {
+                        clone.find('input[name="award_rewardz_id[' + count + ']"]')[0].setAttribute(
+                            'value', data.award_id)
+                        $('table.award_prizes').append(clone);
+                        showUploadedFile();
+                    } else {
+                        alert('something went wrong');
+                    }
+                }
+            })
+        }else
+        {
+            alert('can not add more than 5 projects')
+        }
+        
     });
 
     function showUploadedFile() {
