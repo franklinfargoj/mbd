@@ -80,7 +80,7 @@
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="preceding_officer_name">Preceding Officer Name:</label>
+                        <label class="col-form-label" for="preceding_officer_name">Presiding Officer Name:</label>
                         <input type="text" id="preceding_officer_name" name="preceding_officer_name" class="form-control form-control--custom m-input"
                             value="{{ $arrData['hearing_data']->preceding_officer_name }}" readonly>
                         <span class="help-block">{{$errors->first('preceding_officer_name')}}</span>
