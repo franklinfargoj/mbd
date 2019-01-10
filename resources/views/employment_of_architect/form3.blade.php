@@ -326,7 +326,7 @@
                     @endif
                 </div>
             </div>
-            <div class="m-portlet__head px-0 m-portlet__head--top">
+            {{-- <div class="m-portlet__head px-0 m-portlet__head--top">
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <span class="m-portlet__head-icon m--hide">
@@ -339,7 +339,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="form-group m-form__group row">
                 <div class="loader" style="display:none;"></div>
                 <table class="table award_prizes">
@@ -878,7 +878,7 @@
                 required: true,
                 number: true
             },
-            award_prizes_etc: "required"
+            //award_prizes_etc: "required"
 
         }
     });
