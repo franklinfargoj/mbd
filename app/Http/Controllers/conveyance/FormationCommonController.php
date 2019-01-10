@@ -385,6 +385,7 @@ class FormationCommonController extends Controller
             'to_user_id' => $request->to_user_id,
             'to_role_id' => $request->to_role_id,
             'remark' => $request->remark,
+            'current_status'=>1,
             'application_master_id' => $masterId,
             'created_at' => Carbon::now(),
         ],
@@ -396,16 +397,26 @@ class FormationCommonController extends Controller
                 'to_user_id' => null,
                 'to_role_id' => null,
                 'remark' => $request->remark,
+                'current_status'=>1,
+                'open'=>1,
                 'application_master_id' => $masterId,
                 'created_at' => Carbon::now(),
             ],
         ];
-
-        SfApplicationStatusLog::insert($application);
-        if ($Scstatus != "") {
-            SfApplication::where('id', $request->applicationId)->where('sc_application_master_id', $masterId)
-                ->update(['application_status' => $Tostatus]);
-        }
+        \DB::transaction(function () use($request,$application,$masterId,$Tostatus,$Scstatus){
+            foreach($application as $application_log_statu)
+            {
+                SfApplicationStatusLog::where(['application_id'=>$request->applicationId,'open'=>1])->update(['open'=>0]);
+                SfApplicationStatusLog::where(['application_id'=>$request->applicationId,'current_status'=>1,'user_id'=>$application_log_statu['user_id']])->update(['current_status'=>0]);
+                $inserted_application_log = SfApplicationStatusLog::insert([$application_log_statu]);
+            }
+            if ($Scstatus != "") {
+                SfApplication::where('id', $request->applicationId)->where('sc_application_master_id', $masterId)
+                    ->update(['application_status' => $Tostatus]);
+            }
+        });
+        //SfApplicationStatusLog::insert($application);
+        
     }
 
     public function get_em_checklist_and_remarks_for_sf($application_id, $user_id)

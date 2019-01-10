@@ -1532,12 +1532,21 @@ class CommonController extends Controller
                 $insert_application_log[$status_in_words_1][$key]['to_role_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['remark'] = '';
                 $insert_application_log[$status_in_words_1][$key]['created_at'] = date('Y-m-d');
+                $insert_application_log[$status_in_words_1][$key]['open']=1;
+                $insert_application_log[$status_in_words_1][$key]['current_status']=1;
                 $application_log_status = array_merge($insert_application_log[$status_in_words], $insert_application_log[$status_in_words_1]);
             }
             $i++;
         }
-        $inserted_application_log = SfApplicationStatusLog::insert($application_log_status);
-        return $inserted_application_log;
+        DB::transaction(function () use($sc_application_last_id,$application_log_status){
+        foreach($application_log_status as $application_log_statu)
+        {
+            SfApplicationStatusLog::where(['application_id'=>$sc_application_last_id,'open'=>1])->update(['open'=>0]);
+            SfApplicationStatusLog::where(['application_id'=>$sc_application_last_id,'current_status'=>1,'user_id'=>$application_log_statu['user_id']])->update(['current_status'=>0]);
+            $inserted_application_log = SfApplicationStatusLog::insert([$application_log_statu]);
+        }
+        });
+       // return $inserted_application_log;
     }
 
     /**
