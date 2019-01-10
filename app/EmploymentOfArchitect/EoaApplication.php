@@ -51,6 +51,16 @@ class EoaApplication extends Model
         return $this->hasMany(\App\EmploymentOfArchitect\EoaApplicationEnclosure::class,'eoa_application_id','id');
     }
 
+    public function partners_details()
+    {
+        return $this->hasMany(\App\EmploymentOfArchitect\EoaApplicationPartnerDetail::class,'eoa_application_id','id');
+    }
+
+    public function award_prizes()
+    {
+        return $this->hasMany(\App\EmploymentOfArchitect\EoaApplicationAwardPrizeDetail::class,'eoa_application_id','id');
+    }
+
     public function imp_projects()
     {
         return $this->hasMany(\App\EmploymentOfArchitect\EoaApplicationImportantProjectDetail::class,'eoa_application_id','id');

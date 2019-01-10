@@ -38,7 +38,7 @@ $route=\Request::route()->getName();
                     <path fill="#fff" d="M387.178 166.631a5.929 5.929 0 0 0-.31-1.545c-.066-.191-.113-.37-.197-.555-.292-.632-.656-1.235-1.169-1.748L224.462 1.742c-.513-.513-1.11-.877-1.742-1.164-.185-.09-.376-.137-.573-.203a5.657 5.657 0 0 0-1.51-.298C220.5.066 220.38 0 220.249 0H55.79a5.969 5.969 0 0 0-5.967 5.967v425.139c0 3.3 2.673 5.967 5.967 5.967h325.493c3.3 0 5.967-2.667 5.967-5.967V167.001c0-.132-.066-.245-.072-.37zm-202.002 99.372l-79.491 39.847v.406l79.491 39.853v14.028L90.84 311.542v-10.979l94.336-48.594v14.034zm164.304 45.742l-94.336 48.385v-14.028l80.105-39.853v-.406l-80.105-39.847v-14.034l94.336 48.385v11.398zM226.21 161.034V20.365l70.337 70.331 70.337 70.331H226.21v.007z"/>
                 </svg>
             </span>
-                <span class="m-menu__link-text">View Applications</span>
+                <span class="m-menu__link-text">View Application</span>
             </a>
         </li>
 
@@ -54,7 +54,7 @@ $route=\Request::route()->getName();
         </li>
 
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='conveyance.architect_scrutiny_remark')?'m-menu__item--active':''}}">
-            <a class="m-menu__link m-menu__toggle" title="EE Documents" href="{{ route('conveyance.architect_scrutiny_remark', encrypt($data->id)) }}">
+            <a class="m-menu__link m-menu__toggle" title="Scrutiny & Remark" href="{{ route('conveyance.architect_scrutiny_remark', encrypt($data->id)) }}">
                 <span class="sidebar-icon sidebar-menu-icon--level-1">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 510 510">
                         <path fill="#fff" d="M0 387.6v96.9h96.9l280.5-283.05-96.9-96.9L0 387.6zm451.35-260.1c10.2-10.2 10.2-25.5 0-35.7L392.7 33.149c-10.2-10.2-25.5-10.2-35.7 0l-45.9 45.9 96.9 96.9 43.35-48.449zm-221.85 306l-51 51H510v-51H229.5z"/>

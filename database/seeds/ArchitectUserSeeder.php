@@ -499,6 +499,11 @@ class ArchitectUserSeeder extends Seeder
                 'description'=>'architect_layout.add'
             ];
             $architect_permissions[]=[
+                'name'=>'architect_layout.send_for_revision',
+                'display_name'=>'architect_layout.send_for_revision',
+                'description'=>'architect_layout.send_for_revision'
+            ];
+            $architect_permissions[]=[
                 'name'=>'uploadLatestLayoutAjax',
                 'display_name'=>'uploadLatestLayoutAjax',
                 'description'=>'uploadLatestLayoutAjax'
