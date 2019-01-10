@@ -12,8 +12,8 @@
                 <a href="{{route('appointing_architect.step9',['id'=>encrypt($application->id)])}}" class="btn btn-link"><i
                         class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>
                     @if($application->form_step==10 &&
-                    $application->ArchitectApplicationStatusForLoginListing->count()<=0) Edit @else Back
-                        @endif </a> </div> </div> </div> <div class="m-portlet m-portlet--compact form-accordion mt-4 m-portlet--forms-compact">
+                    $application->ArchitectApplicationStatusForLoginListing->count()<=0) Edit @else Back @endif </a> </div>
+                        </div> </div> <div class="m-portlet m-portlet--compact form-accordion mt-4 m-portlet--forms-compact">
                         <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
                             <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed"
                                 data-toggle="collapse" href="#form_1">
@@ -267,7 +267,7 @@
                             <span class="text-danger">{{ $errors->first('reg_with_council_of_architecture_partner') }}</span>
                             @endif
                         </div>
-                        <div class="col-sm-4 form-group">
+                        {{-- <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Total Registered Persons:</label>
                             <input type="text" id="" name="reg_with_council_of_architecture_total_registered_persons"
                                 class="form-control form-control--custom m-input" value="{{$application->reg_with_council_of_architecture_total_registered_persons}}">
@@ -275,7 +275,7 @@
                             <span class="text-danger">{{
                                 $errors->first('reg_with_council_of_architecture_total_registered_persons') }}</span>
                             @endif
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="m-portlet__head px-0 m-portlet__head--top">
                         <div class="m-portlet__head-caption">
@@ -285,19 +285,91 @@
                                 </span>
                                 <div class="d-flex">
                                     <h3 class="m-portlet__head-text">
-                                        Extra Details
+                                        Partner details
                                     </h3>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-group m-form__group row">
-                        <div class="col-sm-4 form-group">
+                        <table class="table partners">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Registration No</th>
+                                </tr>
+                            </thead>
+                            @php
+                            $project_count=$application->partners_details->count();
+                            @endphp
+                            @if($project_count>1)
+                            @php $k=($project_count-1); @endphp
+                            @else
+                            @php $k=0; @endphp
+                            @endif
+                            <tbody>
+                                @for($j=0;$j<(1+$k);$j++) @php $id="" ; $id=$application->partners_details!=''?(isset($application->partners_details[$j])?$application->partners_details[$j]->id:''):'';
+                                    @endphp
+                                    <tr class="cloneme">
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="hidden" name="partner_id[{{$j}}]" value="{{$application->partners_details!=''?(isset($application->partners_details[$j])?$application->partners_details[$j]->id:''):''}}">
+                                                <input required type="text" id="" name="partner_details_name[{{$j}}]"
+                                                    class="form-control form-control--custom" value="{{$application->partners_details!=''?(isset($application->partners_details[$j])?$application->partners_details[$j]->name:''):''}}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input required type="text" id="" name="partner_details_reg_no[{{$j}}]"
+                                                    class="form-control form-control--custom" value="{{$application->partners_details!=''?(isset($application->partners_details[$j])?$application->partners_details[$j]->registration_no:''):''}}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @endfor
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="m-portlet__head px-0 m-portlet__head--top">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <span class="m-portlet__head-icon m--hide">
+                                    <i class="la la-gear"></i>
+                                </span>
+                                {{-- <div class="d-flex">
+                                    <h3 class="m-portlet__head-text">
+                                        Extra Details
+                                    </h3>
+                                </div> --}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        {{-- <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Awards, Prizes Etc</label>
                             <input type="text" id="" name="award_prizes_etc" class="form-control form-control--custom m-input"
                                 value="{{$application->award_prizes_etc}}">
                             @if ($errors->has('award_prizes_etc'))
                             <span class="text-danger">{{ $errors->first('award_prizes_etc') }}</span>
+                            @endif
+                        </div> --}}
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="">COA registration no:</label>
+                            <input type="number" min="0" id="" name="reg_with_council_of_architecture_coa_registration_no"
+                                class="form-control form-control--custom m-input" value="{{$application->reg_with_council_of_architecture_coa_registration_no}}">
+                            @if ($errors->has('reg_with_council_of_architecture_coa_registration_no'))
+                            <span class="text-danger">{{
+                                $errors->first('reg_with_council_of_architecture_coa_registration_no')
+                                }}</span>
+                            @endif
+                        </div>
+
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="">Total Registered Persons:</label>
+                            <input type="number" min="0" id="" name="reg_with_council_of_architecture_total_registered_persons"
+                                class="form-control form-control--custom m-input" value="{{$application->reg_with_council_of_architecture_total_registered_persons}}">
+                            @if ($errors->has('reg_with_council_of_architecture_total_registered_persons'))
+                            <span class="text-danger">{{
+                                $errors->first('reg_with_council_of_architecture_total_registered_persons') }}</span>
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
@@ -309,6 +381,88 @@
                             @endif
                         </div>
                     </div>
+                    <div class="m-portlet__head px-0 m-portlet__head--top">
+                            <div class="m-portlet__head-caption">
+                                <div class="m-portlet__head-title">
+                                    <span class="m-portlet__head-icon m--hide">
+                                        <i class="la la-gear"></i>
+                                    </span>
+                                    <div class="d-flex">
+                                        <h3 class="m-portlet__head-text">
+                                            Awardz and Prizes
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <div class="loader" style="display:none;"></div>
+                            <table class="table award_prizes">
+                                <thead>
+                                    <tr>
+                                        <th>Award Name</th>
+                                        <th>Award Certificate</th>
+                                        <th>Award Drawings</th>
+                                    </tr>
+                                </thead>
+                                @php
+                                $awards_prizes_count=$application->award_prizes->count();
+                                @endphp
+                                @if($awards_prizes_count>1)
+                                @php $k=($awards_prizes_count-1); @endphp
+                                @else
+                                @php $k=0; @endphp
+                                @endif
+                                <tbody>
+                                    @for($j=0;$j<(1+$k);$j++) @php $id="" ; $id=$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->id:''):'';
+                                        @endphp
+                                        <tr class="clonemeAwardPrizes">
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="hidden" id="award_rewardz_id_{{$j}}" name="award_rewardz_id[{{$j}}]"
+                                                        value="{{$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->id:''):''}}">
+                                                    <input placeholder="Award Name" required type="text" id="" name="award_name[{{$j}}]"
+                                                        class="form-control form-control--custom" value="{{$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->award_name:''):''}}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                @php
+                                                $file="";
+                                                $file=isset($application->award_prizes[$j])?$application->award_prizes[$j]->award_certificate:'';
+                                                @endphp
+                                                <div class="custom-file mb-0 form-group">
+                                                    <input data-file-type="award_certificate" accept="pdf" title="please upload file with pdf extension"
+                                                        {{ $file!=""?"":"required" }} type="file" id="extract_certificate_{{$j}}"
+                                                        name="award_certificate[{{$j}}]" class="custom-file-input" onChange="upload_certificate(this)">
+                                                    <label title="" class="custom-file-label" for="extract_certificate_{{$j}}">Choose
+                                                        File...</label>
+                                                    <span class="help-block"></span>
+                                                    <a id="certificate_link_{{$j}}" style="display:{{$file!=''?'block':'none'}}"
+                                                        target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                @php
+                                                $file="";
+                                                $file=isset($application->award_prizes[$j])?$application->award_prizes[$j]->award_drawing:'';
+                                                @endphp
+                                                <div class="custom-file mb-0 form-group">
+                                                    <input data-file-type="award_drawing" accept="pdf" title="please upload file with pdf extension"
+                                                        {{ $file!=""?"":"required" }} type="file" id="extract_drawing_{{$j}}" name="award_drawing[{{$j}}]"
+                                                        class="custom-file-input" onChange="upload_certificate(this)">
+                                                    <label title="" class="custom-file-label" for="extract_drawing_{{$j}}">Choose
+                                                        File...</label>
+                                                    <span class="help-block"></span>
+            
+                                                    <a id="drawing_link_{{$j}}" style="display:{{$file!=''?'block':'none'}}" target="_blank"
+                                                        class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @endfor
+                                </tbody>
+                            </table>
+                        </div>
                 </div>
             </div>
 
