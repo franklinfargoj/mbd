@@ -274,7 +274,7 @@
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                        <input required type="text" id="" name="partner_details_reg_no[{{$j}}]" class="form-control form-control--custom"
+                                        <input required type="number" id="" name="partner_details_reg_no[{{$j}}]" class="form-control form-control--custom"
                                             value="{{$application->partners_details!=''?(isset($application->partners_details[$j])?$application->partners_details[$j]->registration_no:''):''}}">
                                     </div>
                                 </td>
@@ -764,7 +764,10 @@
     $("#appointing_architect_step3").validate({
         rules: {
             "partner_details_name[]": "required",
-            "partner_details_reg_no[]": "required",
+            "partner_details_reg_no[]": {
+                required:true,
+                number:true
+            },
             "award_name[]": "required",
             "award_certificate[]": "required",
             "award_certificate[]": {
