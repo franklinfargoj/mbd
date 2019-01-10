@@ -53,7 +53,7 @@
                                         <div>
                                             <span class="hint-text">Click on 'Download' to download Pay Stamp Duty Letter</span>
                                             <p></p>
-                                                <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['conveyance_stamp_duty_letter']->sc_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download Pay Stamp Duty Letter</a>
+                                                <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['conveyance_stamp_duty_letter']->sc_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download</a>
                                         </div>
                                     </div>
                                 @endif
@@ -371,7 +371,7 @@
                                             <div>
                                                 <span class="hint-text">Click on 'Download' to downaload Society Resolution</span>
                                                 <p></p>
-                                                <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['sc_resolution']->sc_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download Society Resolution</a>
+                                                <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['sc_resolution']->sc_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download</a>
                                             </div>
                                         </div>
                                     @endif
@@ -426,7 +426,7 @@
                                             <div>
                                                 <span class="hint-text">Click on 'download' to download Society Undertaking</span>
                                                 <p></p>
-                                                <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['sc_undertaking']->sc_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download Society Undertaking</a>
+                                                <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['sc_undertaking']->sc_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download</a>
                                             </div>
                                         </div>
                                     @endif
