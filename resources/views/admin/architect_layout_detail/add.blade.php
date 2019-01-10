@@ -966,9 +966,16 @@ $(window).on('popstate', function () {
                 <a class="nav-link m-tabs__link " data-toggle="tab" href="#prc-tab">PRC
                     {!!$ArchitectLayoutDetail->pr_card_details->count()>0?'<i class="fa fa-check"></i>':''!!}</a>
             </li>
-            <li class="nav-item m-tabs__item {{$ArchitectLayoutDetail->dp_letter!=''?'filled':''}}">
+            @php
+                $dp_crz_remark=0;
+                if($ArchitectLayoutDetail->ArchitectLayoutDetailDpRemark->count()>0 && $ArchitectLayoutDetail->ArchitectLayoutDetailCrzRemark->count()>0)
+                {
+                    $dp_crz_remark=1;
+                }
+            @endphp
+            <li class="nav-item m-tabs__item {{$dp_crz_remark==1?'filled':''}}">
                 <a class="nav-link m-tabs__link " data-toggle="tab" href="#dp-remark-tab">DP Remark, CRZ Remark and
-                    other {!!$ArchitectLayoutDetail->dp_letter!=''?'<i class="fa fa-check"></i>':''!!}</a>
+                    other {!!$dp_crz_remark==1?'<i class="fa fa-check"></i>':''!!}</a>
             </li>
         </ul>
     </div>
@@ -1331,8 +1338,8 @@ $(window).on('popstate', function () {
                                         <div class="form-group m-form__group row mb-0">
                                             <div class="col-lg-4 form-group">
                                                 <input type="hidden" class="ree_doc_name" id="ree_doc_name_1" name="ree_document_name[]"
-                                                    value="Proposal distribution">
-                                                <label>Proposal distribution</label>
+                                                    value="Pro Rata Distribution">
+                                                <label>Pro Rata Distribution</label>
                                                 <input type="hidden" id="ree_report_doc_id_1" value="{{isset($ArchitectLayoutDetail->ree_reports[1])?$ArchitectLayoutDetail->ree_reports[1]->id:''}}">
                                             </div>
                                             <div class="col-lg-4 form-group">
@@ -1592,6 +1599,13 @@ $(window).on('popstate', function () {
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                     <div class="m-subheader">
                         <div class="mt-auto">
+                            @if ($send_for_revision==1)
+                            <form method="post" action="{{route('architect_layout.send_for_revision')}}"> 
+                                    @csrf
+                                <input type="hidden" name="layout_id" value="{{$ArchitectLayoutDetail->architect_layout_id}}">
+                                <input type="submit" class="btn btn-primary btn-custom" name="send_for_revision" value="Send For Revision">
+                                </form>
+                            @endif
                             {{-- <a href="{{route('architect_layout_details.view',['layout_id'=>encrypt($ArchitectLayoutDetail->architect_layout_id)])}}"
                                 class="btn btn-primary btn-custom upload_note" id="uploadBtn">Save</a> --}}
                             <a href="{{route('architect_layout_details.view',['layout_id'=>encrypt($ArchitectLayoutDetail->architect_layout_id)])}}"
