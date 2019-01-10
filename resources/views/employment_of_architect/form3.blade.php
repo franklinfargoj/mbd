@@ -318,15 +318,23 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
+                    <label class="col-form-label" for="">Other Information:</label>
+                    <input type="text" id="" name="other_information" class="form-control form-control--custom m-input"
+                        value="{{$application->other_information}}">
+                    @if ($errors->has('other_information'))
+                    <span class="text-danger">{{ $errors->first('other_information') }}</span>
+                    @endif
+                </div>
+                {{-- <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Awards, Prizes Etc:</label>
                     <input type="text" id="" name="award_prizes_etc" class="form-control form-control--custom m-input"
                         value="{{$application->award_prizes_etc}}">
                     @if ($errors->has('award_prizes_etc'))
                     <span class="text-danger">{{ $errors->first('award_prizes_etc') }}</span>
                     @endif
-                </div>
+                </div> --}}
             </div>
-            {{-- <div class="m-portlet__head px-0 m-portlet__head--top">
+            <div class="m-portlet__head px-0 m-portlet__head--top">
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <span class="m-portlet__head-icon m--hide">
@@ -339,7 +347,7 @@
                         </div>
                     </div>
                 </div>
-            </div> --}}
+            </div>
             <div class="form-group m-form__group row">
                 <div class="loader" style="display:none;"></div>
                 <table class="table award_prizes">
@@ -423,7 +431,7 @@
                     </tr>
                 </table>
             </div>
-            <div class="form-group m-form__group row">
+            {{-- <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Other Information:</label>
                     <input type="text" id="" name="other_information" class="form-control form-control--custom m-input"
@@ -432,7 +440,7 @@
                     <span class="text-danger">{{ $errors->first('other_information') }}</span>
                     @endif
                 </div>
-            </div>
+            </div> --}}
             <div class="m-portlet__head px-0 m-portlet__head--top">
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
@@ -470,12 +478,12 @@
         $(".loader").show();
         var file_id = e.getAttribute('id');
 
-        var get_index=file_id.split('_');
-        get_index=get_index[get_index.length-1];
+        var get_index = file_id.split('_');
+        get_index = get_index[get_index.length - 1];
 
         var file_data = $('#' + file_id).prop('files')[0];
-        var award_cartificate_id = $('#' + 'award_rewardz_id_'+get_index).val();
-        var file_type=e.getAttribute('data-file-type');
+        var award_cartificate_id = $('#' + 'award_rewardz_id_' + get_index).val();
+        var file_type = e.getAttribute('data-file-type');
 
         var form_data = new FormData();
         form_data.append('file', file_data);
@@ -513,15 +521,13 @@
                     }
                 });
                 if (data.status == true) {
-                    if(file_type=='award_certificate')
-                    {
-                        $("#certificate_link_"+get_index).prop("href", data.file_path)
-                        $("#certificate_link_"+get_index).css("display", "block");
+                    if (file_type == 'award_certificate') {
+                        $("#certificate_link_" + get_index).prop("href", data.file_path)
+                        $("#certificate_link_" + get_index).css("display", "block");
                     }
-                    if(file_type=='award_drawing')
-                    {
-                        $("#drawing_link_"+get_index).prop("href", data.file_path)
-                        $("#drawing_link_"+get_index).css("display", "block");
+                    if (file_type == 'award_drawing') {
+                        $("#drawing_link_" + get_index).prop("href", data.file_path)
+                        $("#drawing_link_" + get_index).css("display", "block");
                     }
                     $("#" + file_id).removeAttr('required');
                 } else {
@@ -535,8 +541,7 @@
         e.preventDefault();
         var application_id = $('input[name=application_id]').val();
         var count = $('.clonemeAwardPrizes').length;
-        if(count<5)
-        {
+        if (count < 5) {
             var clone = $('table.award_prizes tr.clonemeAwardPrizes:first').clone().find('input').val('').end();
 
             //var uploadInput = clone.find('.custom-file-input');
@@ -556,14 +561,14 @@
                 }
             });
 
-        // var uploadLabel = clone.find('.custom-file-label');
+            // var uploadLabel = clone.find('.custom-file-label');
 
             clone.find('#drawing_link_0')[0].style.display = "none";
             clone.find('#drawing_link_0')[0].setAttribute('id', 'drawing_link_' + count);
 
             clone.find('#certificate_link_0')[0].style.display = "none";
             clone.find('#certificate_link_0')[0].setAttribute('id', 'certificate_link_' + count);
-            
+
             clone.find('.custom-file-label').each(function (index, label) {
                 var newCount = count;
                 if (label.getAttribute('for').indexOf('drawing') !== -1) {
@@ -590,7 +595,8 @@
             clone.find('input[name="award_name[0]"]')[0].setAttribute('name', 'award_name[' + count + ']')
             clone.find('.btn-link')[0].style.display = "none";
             clone.find("td:last").append(
-                "<h2 class='m--font-danger mb-0'><i title='Delete' class='fa fa-remove' onclick=''></i></h2>");
+                "<h2 class='m--font-danger mb-0'><i title='Delete' class='fa fa-remove' onclick=''></i></h2>"
+            );
 
             $.ajaxSetup({
                 headers: {
@@ -615,11 +621,10 @@
                     }
                 }
             })
-        }else
-        {
+        } else {
             alert('can not add more than 5 projects')
         }
-        
+
     });
 
     function showUploadedFile() {
