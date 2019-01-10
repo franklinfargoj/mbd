@@ -1599,17 +1599,19 @@ $(window).on('popstate', function () {
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                     <div class="m-subheader">
                         <div class="mt-auto">
-                            @if ($send_for_revision==1)
-                            <form method="post" action="{{route('architect_layout.send_for_revision')}}"> 
-                                    @csrf
-                                <input type="hidden" name="layout_id" value="{{$ArchitectLayoutDetail->architect_layout_id}}">
-                                <input type="submit" class="btn btn-primary btn-custom" name="send_for_revision" value="Send For Revision">
-                                </form>
-                            @endif
-                            {{-- <a href="{{route('architect_layout_details.view',['layout_id'=>encrypt($ArchitectLayoutDetail->architect_layout_id)])}}"
-                                class="btn btn-primary btn-custom upload_note" id="uploadBtn">Save</a> --}}
-                            <a href="{{route('architect_layout_details.view',['layout_id'=>encrypt($ArchitectLayoutDetail->architect_layout_id)])}}"
-                                class="btn btn-primary " id="uploadBtn">Back</a>
+                            <div class="d-flex">
+                                @if ($send_for_revision==1)
+                                <form method="post" action="{{route('architect_layout.send_for_revision')}}"> 
+                                        @csrf
+                                    <input type="hidden" name="layout_id" value="{{$ArchitectLayoutDetail->architect_layout_id}}">
+                                    <input type="submit" class="btn btn-primary btn-custom h-100" name="send_for_revision" value="Send For Revision">
+                                    </form>
+                                @endif
+                                {{-- <a href="{{route('architect_layout_details.view',['layout_id'=>encrypt($ArchitectLayoutDetail->architect_layout_id)])}}"
+                                    class="btn btn-primary btn-custom upload_note" id="uploadBtn">Save</a> --}}
+                                <a href="{{route('architect_layout_details.view',['layout_id'=>encrypt($ArchitectLayoutDetail->architect_layout_id)])}}"
+                                    class="btn btn-primary ml-3" id="uploadBtn">Back</a>
+                            </div>
                         </div>
                     </div>
                 </div>
