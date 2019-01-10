@@ -40,7 +40,7 @@ $route=\Request::route()->getName();
                 </svg>
             </span>
                 <span class="m-menu__link-text">View Application </span>
-            </a>
+            </a> 
         </li>
 
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='renewal.view_documents')?'m-menu__item--active':''}}">

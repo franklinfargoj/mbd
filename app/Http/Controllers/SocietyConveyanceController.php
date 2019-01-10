@@ -738,6 +738,7 @@ class SocietyConveyanceController extends Controller
         $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout', 'scApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();
+//        dd($sc_application->scApplicationLog->status_id);
         $documents_req = array(
             config('commanConfig.documents.society.conveyance_stamp_duty_letter'),
             config('commanConfig.documents.society.Sale Deed Agreement'),
@@ -770,7 +771,7 @@ class SocietyConveyanceController extends Controller
                 }
             }
         }
-
+//        dd($sc_agreement_comments);
         return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application', 'document_lease', 'documents', 'uploaded_document_ids', 'documents_remaining_ids', 'sc_agreement_comment', 'documents_uploaded'));
     }
 
@@ -853,7 +854,7 @@ class SocietyConveyanceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function upload_sale_lease(Request $request){
-//        dd($request->all());
+
         if($request->hasFile('document_path')) {
             $insert_arr = $request->all();
             $file = $request->file('document_path');
@@ -869,6 +870,19 @@ class SocietyConveyanceController extends Controller
                 $status = ApplicationStatusMaster::where('status_name', 'Stamped')->value('id');
             }
             $uploaded = $this->conveyance_common->uploadDocumentStatus($request->application_id, $request->document_name, $path, $status);
+
+            if(!empty($request->remark)){
+                $application_master_id = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->first();
+                $document_id = $this->conveyance_common->getDocumentId($request->document_name, $application_master_id->id);
+                $input = array(
+                    'application_id' => $request->application_id,
+                    'user_id' => Auth::user()->id,
+                    'role_id' => Session::get('role_id'),
+                    'agreement_type_id' => $document_id,
+                    'remark' => $request->remark
+                );
+                $inserted_data = ScAgreementComments::create($input);
+            }
 
             $documents_req = array(
                 config('commanConfig.documents.society.Sale Deed Agreement'),
