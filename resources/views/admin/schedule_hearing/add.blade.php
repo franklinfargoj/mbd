@@ -20,7 +20,7 @@
             <div class="m-portlet__body">
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="preceding_officer_name">Name of Preceding Officer:</label>
+                        <label class="col-form-label" for="preceding_officer_name">Name of Presiding Officer:</label>
                         <input type="text" id="preceding_officer_name" name="preceding_officer_name" class="form-control form-control--custom m-input"
                             value="{{ $arrData['hearing']->preceding_officer_name }}" readonly>
                         <span class="help-block">{{$errors->first('preceding_officer_name')}}</span>
