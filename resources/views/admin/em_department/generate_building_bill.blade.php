@@ -48,8 +48,8 @@
             <input type="hidden" name="regenate" value="{{$regenate}}">
             <input type="text" name="building_id" value="{{$building->id}}" hidden>
             <input type="text" name="society_id" value="{{$society->id}}" hidden>
-            <input type="text" name="bill_from" value="{{date('1-m-Y')}}" hidden>
-            <input type="text" name="bill_to" value="{{date('1-m-Y', strtotime('+1 month'))}}" hidden>
+            <input type="text" name="bill_from" value="{{date('1-m-Y', strtotime('-1 month'))}}" hidden>
+            <input type="text" name="bill_to" value="{{date('1-m-Y')}}" hidden>
             <input type="text" name="bill_month" value="{{$month}}" hidden>
             <input type="text" name="bill_year" value="{{$year}}" hidden>
             <input type="text" name="monthly_bill" value="{{$total_service}}" hidden>
@@ -161,10 +161,13 @@
                         @foreach($arreasCalculation as $calculation)
                             @php $total = $total + $calculation->total_amount; @endphp
                             <tr>
-                                <td class="text-center">{{$calculation->year}} <input name='arrear_id[]' type='text' value='{{$calculation->id}}' hidden></td>
-                                <td class="text-center">{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
-                                <td class="text-center">{{$calculation->total_amount}}</td>
-                                <td class="text-center">{{$calculation->old_intrest_amount + $calculation->difference_intrest_amount}}</td>
+                                <td>{{$calculation->year}} <input name='arrear_id[]' type='text' value='{{$calculation->id}}'
+                                        hidden> </td>
+                                <td>{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
+                                <td>{{$calculation->total_amount - $calculation->old_intrest_amount -
+                                    $calculation->difference_intrest_amount }}</td>
+                                <td>{{$calculation->old_intrest_amount +
+                                    $calculation->difference_intrest_amount}}</td>
                             </tr>
                         @endforeach
                         <tr>

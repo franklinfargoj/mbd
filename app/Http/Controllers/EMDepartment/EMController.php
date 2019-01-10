@@ -816,30 +816,30 @@ class EMController extends Controller
                 }
 
                 DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-                $buildings = MasterTenant::with(['TransBillGenerate' => function($query) use($buildingId,$data){
+                $tenants = MasterTenant::with(['TransBillGenerate' => function($query) use($buildingId,$data){
                     $query->where('building_id',$buildingId)->where('bill_month', '=', $data['month'])->where('bill_year', '=', $data['year']);
                 }])
                 ->where('building_id', '=', decrypt($request->input('building')))
                 ->selectRaw('@rownum  := @rownum  + 1 AS rownum,master_tenants.*');
 
-                return $datatables->of($buildings)
-                        ->editColumn('actions', function ($buildings) use($society_Id){
-                            if(count($buildings->TransBillGenerate)<=0) {
+                return $datatables->of($tenants)
+                        ->editColumn('actions', function ($tenants) use($society_Id){
+                            if(count($tenants->TransBillGenerate)<=0) {
                             return "<div class='d-flex btn-icon-list'>
-                            <a href='".route('billing_calculations', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-billing-details-icon.svg')."'></span>View Billing Details</a>
+                            <a href='".route('billing_calculations', ['tenant_id'=>encrypt($tenants->id),'building_id'=>encrypt($tenants->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-billing-details-icon.svg')."'></span>View Billing Details</a>
                         
-                            <a href='".route('generateTenantBill', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Generate Bill</a>
+                            <a href='".route('generateTenantBill', ['tenant_id'=>encrypt($tenants->id),'building_id'=>encrypt($tenants->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Generate Bill</a>
         
-                            <a href='".route('arrears_calculations', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>Arrear Calculation</a>
+                            <a href='".route('arrears_calculations', ['tenant_id'=>encrypt($tenants->id),'building_id'=>encrypt($tenants->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>Arrear Calculation</a>
             
                             </div>";
                             } else {
                                 return "<div class='d-flex btn-icon-list'>
-                                <a href='".route('billing_calculations', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-billing-details-icon.svg')."'></span>View Billing Details</a>
+                                <a href='".route('billing_calculations', ['tenant_id'=>encrypt($tenants->id),'building_id'=>encrypt($tenants->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-billing-details-icon.svg')."'></span>View Billing Details</a>
                             
-                                <a href='".route('generateTenantBill', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_Id),'regenate'=>true])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--regenerate'><img src='".asset('/img/regenerate-bill-icon.svg')."'></span>Regenerate Bill</a>
+                                <a href='".route('generateTenantBill', ['tenant_id'=>encrypt($tenants->id),'building_id'=>encrypt($tenants->building_id),'society_id'=>encrypt($society_Id),'regenate'=>true])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--regenerate'><img src='".asset('/img/regenerate-bill-icon.svg')."'></span>Regenerate Bill</a>
             
-                                <a href='".route('arrears_calculations', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>Arrear Calculation</a>
+                                <a href='".route('arrears_calculations', ['tenant_id'=>encrypt($tenants->id),'building_id'=>encrypt($tenants->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>Arrear Calculation</a>
                 
                                 </div>"; 
                             }
@@ -1193,7 +1193,23 @@ class EMController extends Controller
                 return redirect()->back()->with('warning', 'Service charge Rates Not added into system.');
             }
 
-            $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('payment_status','0')->orderby('year','month')->get();
+            $start    = new \DateTime($year.'-4-01');
+            $start->modify('first day of this month');
+            $end      = new \DateTime(date('Y').'-'.date('m').'-06');
+            $end->modify('first day of next month');
+            $interval = \DateInterval::createFromDateString('1 month');
+            $period   = new \DatePeriod($start, $interval, $end);
+
+            $months = [];
+            $years = [];
+            foreach ($period as $dt) {
+                $years[$dt->format("Y")] = $dt->format("Y");
+                $months[$dt->format("m")] = $dt->format("m");
+                // echo $dt->format("Y-m") . "<br>\n";
+            }
+            unset($months[count($months)-1]);
+
+            $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('payment_status','0')->whereIn('year',$years)->whereIn('month',$months)->orderby('year','month')->get();
                 
             $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
              //dd($data['number_of_tenants']->tenant_count()->first());
@@ -1415,11 +1431,35 @@ class EMController extends Controller
 
             $tenants = MasterTenant::where('building_id',$request->building_id)->get();
             $request->monthly_bill = $request->monthly_bill / $request->no_of_tenant;
+
+            $currentMonth = date('m');
+            if($currentMonth < 4) {
+                $year = date('Y') -1;
+            } else {
+                $year = date('Y');
+            }
+            
+            $start    = new \DateTime($year.'-4-01');
+            $start->modify('first day of this month');
+            $end      = new \DateTime(date('Y').'-'.date('m').'-06');
+            $end->modify('first day of next month');
+            $interval = \DateInterval::createFromDateString('1 month');
+            $period   = new \DatePeriod($start, $interval, $end);
+
+            $months = [];
+            $years = [];
+            foreach ($period as $dt) {
+                $years[$dt->format("Y")] = $dt->format("Y");
+                $months[$dt->format("m")] = $dt->format("m");
+                // echo $dt->format("Y-m") . "<br>\n";
+            }
+            unset($months[count($months)-1]);
+
             if($tenants){
                 foreach($tenants as $row => $key){
 
                     $consumer_number = 'BL-'.substr(sprintf('%08d', $request->building_id),0,8).'|'.substr(sprintf('%08d', $key->id),0,8);
-                    $arreasCalculation = ArrearCalculation::where('tenant_id',$key->id)->where('payment_status','0')->get();
+                    $arreasCalculation = ArrearCalculation::where('tenant_id',$key->id)->where('payment_status','0')->whereIn('year',$years)->whereIn('month',$months)->get();
                     $arrear_bill = 0;
                     $total_bill = 0;
                     $arrear_id = '';

@@ -76,7 +76,7 @@ class ArrearsCalculationController extends Controller
 	        }  
 	        if ($datatables->getRequest()->ajax()) {
 	            DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-	            $arrear_calculations = ArrearCalculation::selectRaw('@rownum  := @rownum  + 1 AS rownum,arrear_calculation.*')->where('society_id',$request->society_id)->where('building_id',$request->building_id);
+	            $arrear_calculations = ArrearCalculation::selectRaw('@rownum  := @rownum  + 1 AS rownum,arrear_calculation.*')->where('society_id',$request->society_id)->where('building_id',$request->building_id)->groupBy(['year','month','building_id','society_id']);
 
 	            $arrear_charges = ArrearsChargesRate::Where('year',$select_year)->where('society_id',$request->society_id)->where('building_id',$request->building_id)->first();
 

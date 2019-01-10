@@ -244,8 +244,22 @@ class RCController extends Controller
         $request->building_id = decrypt($request->building_id);
         $request->society_id = decrypt($request->society_id);
         
-        $Tenant_bill_id = DB::table('building_tenant_bill_association')->where('building_id', '=', $request->building_id)->where('bill_month', '=',  date('n'))->where('bill_year', '=', date('Y'))->orderBy('id','DESC')->first();
-
+        $currentMonth = date('m');
+        if($currentMonth < 4) {
+            if($currentMonth == 1) {
+                $data['month'] = 12;
+                $data['year'] = date('Y') -1;
+            } else {
+                $data['month'] = date('m') -1;
+                $data['year'] = date('Y') -1;
+            }
+        } else {
+            $data['month'] = date('m');
+            $data['year'] = date('Y');
+        }
+        
+        $Tenant_bill_id = DB::table('building_tenant_bill_association')->where('building_id', '=', $request->building_id)->where('bill_month', '=',  $data['month'])->where('bill_year', '=', $data['year'])->orderBy('id','DESC')->first();
+        // print_r($Tenant_bill_id);exit;
         if(empty($Tenant_bill_id) || is_null($Tenant_bill_id)){
            return redirect()->back()->with('success', 'Bill Generation is not done for Society. Contact Estate Manager for bill generation.');
         }
@@ -253,7 +267,7 @@ class RCController extends Controller
         $bill_ids =  explode(',',$Tenant_bill_id->bill_id);                          
         
         $bill = TransBillGenerate::findMany($bill_ids);
-        //dd($bill);
+        // dd($bill);
         if(!empty($bill)){
         $data = array('monthly_bill' => 0,'arrear_bill' => 0 , 'total_bill' => 0, 'total_service_after_due' => 0, 'late_fee_charge' => 0, 'arrear_id' => '', 'bill_year' => $bill[0]->bill_year, 'bill_month' => $bill[0]->bill_month, 'building_id' => $bill[0]->building_id, 'society_id' => $bill[0]->society_id, 'bill_date' => $bill[0]->bill_date, 'due_date' => $bill[0]->due_date, 'bill_from' => $bill[0]->bill_from, 'bill_to' => $bill[0]->bill_to, 'consumer_number' => $bill[0]->consumer_number);    
         } else {
@@ -617,7 +631,10 @@ class RCController extends Controller
             $data['year'] = date('Y');
 
             $currentMonth = date('m');
-            if($currentMonth < 4) {
+            if($request->has('month') && '' != $request->month) {
+                $data['month'] = $request->month;
+            }
+            elseif($currentMonth < 4) {
                 if($currentMonth == 1) {
                     $data['month'] = 12;
                     $data['year'] = date('Y') -1;
@@ -625,8 +642,6 @@ class RCController extends Controller
                     $data['month'] = date('m') -1;
                     $data['year'] = date('Y') -1;
                 }
-            } elseif($request->has('month') && '' != $request->month) {
-                $data['month'] = $request->month;
             } else {
                 $data['month'] = date('m');
                 $data['year'] = date('Y');
@@ -678,7 +693,10 @@ class RCController extends Controller
             $data['tenant'] = MasterTenant::where('building_id',$data['building']->id)->where('id',$request->tenant_id)->first();
 
             $currentMonth = date('m');
-            if($currentMonth < 4) {
+            if($request->has('month') && '' != $request->month) {
+                $data['month'] = $request->month;
+            }
+            elseif($currentMonth < 4) {
                 if($currentMonth == 1) {
                     $data['month'] = 12;
                     $data['year'] = date('Y') -1;
@@ -686,13 +704,12 @@ class RCController extends Controller
                     $data['month'] = date('m') -1;
                     $data['year'] = date('Y') -1;
                 }
-            } elseif($request->has('month') && '' != $request->month) {
-                $data['month'] = $request->month;
             } else {
                 $data['month'] = date('m');
                 $data['year'] = date('Y');
             }
 
+            // print_r($data['month']);exit;
             // $data['month'] = date('m');
             // $data['year'] = date('Y');
 
@@ -711,7 +728,12 @@ class RCController extends Controller
                 return redirect()->back()->with('warning', 'Service charge Rates Not added into system.');
             }
 
-            $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('year',$data['year'])->where('payment_status','0')->get();
+            if($request->has('month') && '' != $request->month) {
+                $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('year',$data['year'])->where('month','<=',$data['month'])->where('payment_status','0')->get();
+            } else {
+                $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('year',$data['year'])->where('payment_status','0')->get();
+            }
+            
 
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
             $data['is_download'] = $is_download;
@@ -794,7 +816,7 @@ class RCController extends Controller
      public function downloadReceipt(Request $request) {
         if($request->has('building_id') && '' != $request->building_id) {
           $request->building_id = decrypt($request->building_id);
-            $request->bill_no = decrypt($request->bill_no);
+          $request->bill_no = decrypt($request->bill_no);
           if($request->has('tenant_id') && !empty($request->tenant_id)) {
             $request->tenant_id = decrypt($request->tenant_id);
             if($request->flag) {
