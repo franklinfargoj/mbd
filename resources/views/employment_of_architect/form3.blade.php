@@ -342,7 +342,7 @@
                         </span>
                         <div class="d-flex">
                             <h3 class="m-portlet__head-text">
-                                Awardz and Prizes
+                                Awards and Prizes
                             </h3>
                         </div>
                     </div>
@@ -622,7 +622,7 @@
                 }
             })
         } else {
-            alert('can not add more than 5 projects')
+            alert('can not add more than 5 awards')
         }
 
     });
