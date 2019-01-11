@@ -168,11 +168,11 @@
             </tr>
             <tr>
                 <td valign="top" style="border: 1px solid #000; padding: 5px;">Balance Amount:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;">{{$bill[0]->balance_amount}}</td>
+                <td valign="top" style="border: 1px solid #000; padding: 5px;">{{$balance_amount}}</td>
             </tr>
             <tr>
                 <td valign="top" style="border: 1px solid #000; padding: 5px;">Credit Amount:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;">{{ $bill[0]->credit_amount}}</td>
+                <td valign="top" style="border: 1px solid #000; padding: 5px;">{{ $credit_amount}}</td>
             </tr>
         </tbody>
     </table>

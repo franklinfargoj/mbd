@@ -1230,6 +1230,7 @@ class EMController extends Controller
                 $data['month'] = date('m');
                 $data['year'] = date('Y');
             }
+
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
 
             $data['check'] = TransBillGenerate::where('building_id', '=', $request->building_id)
@@ -1241,6 +1242,19 @@ class EMController extends Controller
             if($request->has('regenate') && true == $request->regenate) {
                 $data['regenate'] = true;
             }
+
+             if($data['month'] == 1) {
+                $lastBillMonth = 12;
+            } else {
+                $lastBillMonth = $data['month']-1;
+            }
+            $data['lastBill'] = TransBillGenerate::where('building_id', '=', $request->building_id)
+                                    ->where('bill_month', '=', $lastBillMonth)
+                                    ->where('bill_year', '=', $data['year'])
+                                    ->orderBy('id','DESC')
+                                    ->get();
+//                                     echo '<pre>';
+// print_r($data['lastBill']);exit;                                    
             return view('admin.em_department.generate_building_bill',$data);
 
         }
@@ -1463,6 +1477,7 @@ class EMController extends Controller
                     $arrear_bill = 0;
                     $total_bill = 0;
                     $arrear_id = '';
+                    $arrearID = [];
                     if(!$arreasCalculation->isEmpty()){ 
                       foreach($arreasCalculation as $calculation){
                          $arrear_bill = $arrear_bill + $calculation->total_amount;
@@ -1470,7 +1485,7 @@ class EMController extends Controller
                       }
                       $arrear_id = implode(",",$arrearID);                      
                     }  
-
+                    
                     $total_bill  = $request->monthly_bill + $arrear_bill;
                     $total_after_due = $total_bill * 0.02; 
                     $total_service_after_due = $total_bill + $total_after_due; 

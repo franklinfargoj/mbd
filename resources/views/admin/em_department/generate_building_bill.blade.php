@@ -19,6 +19,17 @@
       @endforeach
     @endif  
 
+    @php
+    // dd($lastBill);
+        $tempBalance = $total;
+        if($lastBill && !empty($lastBill) ) {
+            foreach($lastBill as $lastbil) {
+                if( 0 < $lastbil->balance_amount ) {
+                    $tempBalance += $lastbil->balance_amount;
+                }
+            }
+        }
+    @endphp
 
 @if(session()->has('success'))
 <div class="alert alert-success display_msg">
@@ -86,7 +97,38 @@
                         <tr><td>Buidling Name : {{$building->name}} </td><td>Bill Period : {{date('1-M-Y', strtotime('-1 month'))}} to {{date('1-M-Y')}} </td></tr>
                         <tr><td>Address : @if(!empty($society)){{$society->society_address}}@endif </td><td>Bill Date : {{date('d-M-Y')}}  <input type="text" name="bill_date" value="{{date('d-m-Y')}}" hidden></td></tr>
                         <tr><td>Total Tenament : {{ $number_of_tenants->tenant_count()->first()->count }} </td><td>Due Date : {{date('d-M-Y', strtotime(date('Y-m-d'). ' + 5 days'))}} <input type="text" name="due_date" value="{{date('d-m-Y', strtotime(date('Y-m-d'). ' + 5 days'))}}" hidden> </td></tr>
-                        <tr><td>Amount : {{$total + $total_service}} <input type="text" name="total_bill" value="{{$total + $total_service}}" hidden> </td><td>Late fee charge : {{ $total_after_due}} </td></tr>
+
+                        @php
+                        $totalTemp = $total + $total_service;
+                        $credit = 0;
+                        if($lastBill && !empty($lastBill) ) {
+                            foreach($lastBill as $lastbil) {
+                                $credit += $lastbil->credit_amount;
+                            }
+                        }
+
+                        if($lastBill && !empty($lastBill) && 0 < $credit) {
+                            if($total + $total_service > $credit) {
+                                $totalTemp =  ($total + $total_service) - $credit;  
+                            } else {
+                                $totalTemp =  0;    
+                            }
+                        }
+
+
+                        $balance = 0;
+                        if($lastBill && !empty($lastBill)) {
+                            foreach($lastBill as $lastbil) {
+                                $balance += $lastbil->balance_amount;
+                            }
+                        }
+
+                        if($lastBill && !empty($lastBill) && 0 < $balance) {
+                            $totalTemp = $total+ $total_service + $balance;
+                        }
+                    @endphp
+
+                        <tr><td>Amount : {{$totalTemp}} <input type="text" name="total_bill" value="{{$totalTemp}}" hidden> </td><td>Late fee charge : {{ $total_after_due}} </td></tr>
                     </table>
                 </div>
                 <div class="form-group m-form__group row">
@@ -189,14 +231,28 @@
                         </tr>
                         <tr>
                             <td>Balance Amount</td>
-                            <td class="text-center">{{$total}}</td>
+                            <td class="text-center">{{$tempBalance}}</td>
                         </tr>
+                        @if($lastBill && !empty($lastBill))
+                        @php
+                            $credit_amount =0;
+                            foreach($lastBill as $lastbil) {
+                                $credit_amount += $lastbil->credit_amount;
+                            }
+                        @endphp
+                        @if(0 <$credit_amount)
+                        <tr>
+                            <td>Credit Amount</td>
+                            <td>{{$credit_amount}}</td>
+                        </tr>
+                        @endif
+                        @endif
                         <tr>
                             <td>Current month Bill amount before due date</td>
                             <td class="text-center">{{$total_service}}</td>
                         </tr>
                         <tr>
-                            <td><p class="pull-right">Total</p></td><td>{{$total + $total_service}}</td>
+                            <td><p class="pull-right">Total</p></td><td>{{$totalTemp}}</td>
                         </tr>
                     </table>
                 </div>
