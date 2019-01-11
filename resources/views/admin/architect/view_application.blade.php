@@ -13,7 +13,6 @@
             </div>
         </div>
     </div>
-
     <div class="m-portlet m-portlet--compact form-accordion mt-4">
         <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
             <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed"
@@ -26,8 +25,7 @@
             @include('employment_of_architect.partial_payment_details',compact('application'))
         </div>
     </div>
-
-    <div class="m-portlet m-portlet--compact form-accordion">
+    <div class="m-portlet m-portlet--compact form-accordion m-portlet--forms-compact">
         <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
             <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed"
                 data-toggle="collapse" href="#form_2">
@@ -62,7 +60,8 @@
             <div class="m-checkbox-list mt-5">
                 <label class="m-checkbox m-checkbox--primary">
                     <input {{$application->application_info_and_its_enclosures_verify==1?"checked":""}} type="checkbox"
-                        name="application_info_and_its_enclosures_verify" value="1"> Is verified by me and the same is
+                        name="application_info_and_its_enclosures_verify" value="1"> Is verified by me and the
+                    same is
                     correct by my knowledge
                     <span class=""></span>
                 </label>
@@ -73,7 +72,7 @@
         </div>
     </div>
 
-    <div class="m-portlet m-portlet--compact form-accordion">
+    <div class="m-portlet m-portlet--compact form-accordion m-portlet--forms-compact">
         <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
             <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed"
                 data-toggle="collapse" href="#form_3">
@@ -89,7 +88,7 @@
                     <span class="text-danger">{{ $errors->first('details_of_establishment') }}</span>
                     @endif
                 </div>
-                <div class="col-sm-4 offset-sm-1 form-group">
+                <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Branch Office Details:</label>
                     <input type="text" id="" name="branch_office_details" class="form-control form-control--custom m-input"
                         value="{{$application->branch_office_details}}">
@@ -119,7 +118,7 @@
                     <span class="text-danger">{{ $errors->first('staff_architects') }}</span>
                     @endif
                 </div>
-                <div class="col-sm-4 offset-sm-1 form-group">
+                <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Engineer:</label>
                     <input type="text" id="" name="staff_engineers" class="form-control form-control--custom m-input"
                         value="{{$application->staff_engineers}}">
@@ -127,8 +126,6 @@
                     <span class="text-danger">{{ $errors->first('staff_engineers') }}</span>
                     @endif
                 </div>
-            </div>
-            <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Supporting (Tech.):</label>
                     <input type="text" id="" name="staff_supporting_tech" class="form-control form-control--custom m-input"
@@ -137,7 +134,7 @@
                     <span class="text-danger">{{ $errors->first('staff_supporting_tech') }}</span>
                     @endif
                 </div>
-                <div class="col-sm-4 offset-sm-1 form-group">
+                <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Supporting (Non Tech.):</label>
                     <input type="text" id="" name="staff_supporting_nontech" class="form-control form-control--custom m-input"
                         value="{{$application->staff_supporting_nontech}}">
@@ -145,8 +142,6 @@
                     <span class="text-danger">{{ $errors->first('staff_supporting_nontech') }}</span>
                     @endif
                 </div>
-            </div>
-            <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Others:</label>
                     <input type="text" id="" name="staff_others" class="form-control form-control--custom m-input"
@@ -155,7 +150,7 @@
                     <span class="text-danger">{{ $errors->first('staff_others') }}</span>
                     @endif
                 </div>
-                <div class="col-sm-4 offset-sm-1 form-group">
+                <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Total:</label>
                     <input type="text" id="" name="staff_total" class="form-control form-control--custom m-input" value="{{$application->staff_total}}">
                     @if ($errors->has('staff_total'))
@@ -202,7 +197,7 @@
                     <span class="text-danger">{{ $errors->first('cad_facility_no_of_computers') }}</span>
                     @endif
                 </div>
-                <div class="col-sm-4 offset-sm-1 form-group">
+                <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">No of Printers:</label>
                     <input type="text" id="" name="cad_facility_no_of_printers" class="form-control form-control--custom m-input"
                         value="{{$application->cad_facility_no_of_printers}}">
@@ -210,8 +205,6 @@
                     <span class="text-danger">{{ $errors->first('cad_facility_no_of_printers') }}</span>
                     @endif
                 </div>
-            </div>
-            <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">No of Plotters:</label>
                     <input type="text" id="" name="cad_facility_no_of_plotters" class="form-control form-control--custom m-input"
@@ -220,7 +213,7 @@
                     <span class="text-danger">{{ $errors->first('cad_facility_no_of_plotters') }}</span>
                     @endif
                 </div>
-                <div class="col-sm-4 offset-sm-1 form-group">
+                <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Operators:</label>
                     <input type="number" min="0" id="" name="cad_facility_no_of_operators" class="form-control form-control--custom m-input"
                         value="{{$application->cad_facility_no_of_operators}}">
@@ -249,19 +242,19 @@
                     <input type="text" id="" name="reg_with_council_of_architecture_principle" class="form-control form-control--custom m-input"
                         value="{{$application->reg_with_council_of_architecture_principle}}">
                     @if ($errors->has('reg_with_council_of_architecture_principle'))
-                    <span class="text-danger">{{ $errors->first('reg_with_council_of_architecture_principle') }}</span>
+                    <span class="text-danger">{{ $errors->first('reg_with_council_of_architecture_principle')
+                        }}</span>
                     @endif
                 </div>
-                <div class="col-sm-4 offset-sm-1 form-group">
+                <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Associate:</label>
                     <input type="text" id="" name="reg_with_council_of_architecture_associate" class="form-control form-control--custom m-input"
                         value="{{$application->reg_with_council_of_architecture_associate}}">
                     @if ($errors->has('reg_with_council_of_architecture_associate'))
-                    <span class="text-danger">{{ $errors->first('reg_with_council_of_architecture_associate') }}</span>
+                    <span class="text-danger">{{ $errors->first('reg_with_council_of_architecture_associate')
+                        }}</span>
                     @endif
                 </div>
-            </div>
-            <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Partner:</label>
                     <input type="text" id="" name="reg_with_council_of_architecture_partner" class="form-control form-control--custom m-input"
@@ -270,13 +263,117 @@
                     <span class="text-danger">{{ $errors->first('reg_with_council_of_architecture_partner') }}</span>
                     @endif
                 </div>
-                <div class="col-sm-4 offset-sm-1 form-group">
+                {{-- <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Total Registered Persons:</label>
                     <input type="text" id="" name="reg_with_council_of_architecture_total_registered_persons" class="form-control form-control--custom m-input"
                         value="{{$application->reg_with_council_of_architecture_total_registered_persons}}">
                     @if ($errors->has('reg_with_council_of_architecture_total_registered_persons'))
                     <span class="text-danger">{{
                         $errors->first('reg_with_council_of_architecture_total_registered_persons') }}</span>
+                    @endif
+                </div> --}}
+            </div>
+            <div class="m-portlet__head px-0 m-portlet__head--top">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <span class="m-portlet__head-icon m--hide">
+                            <i class="la la-gear"></i>
+                        </span>
+                        <div class="d-flex">
+                            <h3 class="m-portlet__head-text">
+                                Partner details
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group m-form__group row">
+                <table class="table partners">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Registration No</th>
+                        </tr>
+                    </thead>
+                    @php
+                    $project_count=$application->partners_details->count();
+                    @endphp
+                    @if($project_count>1)
+                    @php $k=($project_count-1); @endphp
+                    @else
+                    @php $k=0; @endphp
+                    @endif
+                    <tbody>
+                        @for($j=0;$j<(1+$k);$j++) @php $id="" ; $id=$application->partners_details!=''?(isset($application->partners_details[$j])?$application->partners_details[$j]->id:''):'';
+                            @endphp
+                            <tr class="cloneme">
+                                <td>
+                                    <div class="form-group">
+                                        <input type="hidden" name="partner_id[{{$j}}]" value="{{$application->partners_details!=''?(isset($application->partners_details[$j])?$application->partners_details[$j]->id:''):''}}">
+                                        <input required type="text" id="" name="partner_details_name[{{$j}}]" class="form-control form-control--custom"
+                                            value="{{$application->partners_details!=''?(isset($application->partners_details[$j])?$application->partners_details[$j]->name:''):''}}">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input required type="text" id="" name="partner_details_reg_no[{{$j}}]" class="form-control form-control--custom"
+                                            value="{{$application->partners_details!=''?(isset($application->partners_details[$j])?$application->partners_details[$j]->registration_no:''):''}}">
+                                    </div>
+                                </td>
+                            </tr>
+                            @endfor
+                    </tbody>
+                </table>
+            </div>
+            <div class="m-portlet__head px-0 m-portlet__head--top">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <span class="m-portlet__head-icon m--hide">
+                            <i class="la la-gear"></i>
+                        </span>
+                        {{-- <div class="d-flex">
+                            <h3 class="m-portlet__head-text">
+                                Extra Details
+                            </h3>
+                        </div> --}}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group m-form__group row">
+                {{-- <div class="col-sm-4 form-group">
+                    <label class="col-form-label" for="">Awards, Prizes Etc</label>
+                    <input type="text" id="" name="award_prizes_etc" class="form-control form-control--custom m-input"
+                        value="{{$application->award_prizes_etc}}">
+                    @if ($errors->has('award_prizes_etc'))
+                    <span class="text-danger">{{ $errors->first('award_prizes_etc') }}</span>
+                    @endif
+                </div> --}}
+                <div class="col-sm-4 form-group">
+                    <label class="col-form-label" for="">COA registration no:</label>
+                    <input type="number" min="0" id="" name="reg_with_council_of_architecture_coa_registration_no"
+                        class="form-control form-control--custom m-input" value="{{$application->reg_with_council_of_architecture_coa_registration_no}}">
+                    @if ($errors->has('reg_with_council_of_architecture_coa_registration_no'))
+                    <span class="text-danger">{{
+                        $errors->first('reg_with_council_of_architecture_coa_registration_no')
+                        }}</span>
+                    @endif
+                </div>
+
+                <div class="col-sm-4 form-group">
+                    <label class="col-form-label" for="">Total Registered Persons:</label>
+                    <input type="number" min="0" id="" name="reg_with_council_of_architecture_total_registered_persons"
+                        class="form-control form-control--custom m-input" value="{{$application->reg_with_council_of_architecture_total_registered_persons}}">
+                    @if ($errors->has('reg_with_council_of_architecture_total_registered_persons'))
+                    <span class="text-danger">{{
+                        $errors->first('reg_with_council_of_architecture_total_registered_persons') }}</span>
+                    @endif
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label class="col-form-label" for="">Other Information:</label>
+                    <input type="text" id="" name="other_information" class="form-control form-control--custom m-input"
+                        value="{{$application->other_information}}">
+                    @if ($errors->has('other_information'))
+                    <span class="text-danger">{{ $errors->first('other_information') }}</span>
                     @endif
                 </div>
             </div>
@@ -288,34 +385,84 @@
                         </span>
                         <div class="d-flex">
                             <h3 class="m-portlet__head-text">
-                                Extra Details
+                                Awardz and Prizes
                             </h3>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="form-group m-form__group row">
-                <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Awards, Prizes Etc</label>
-                    <input type="text" id="" name="award_prizes_etc" class="form-control form-control--custom m-input"
-                        value="{{$application->award_prizes_etc}}">
-                    @if ($errors->has('award_prizes_etc'))
-                    <span class="text-danger">{{ $errors->first('award_prizes_etc') }}</span>
+                <div class="loader" style="display:none;"></div>
+                <table class="table award_prizes">
+                    <thead>
+                        <tr>
+                            <th>Award Name</th>
+                            <th>Award Certificate</th>
+                            <th>Award Drawings</th>
+                        </tr>
+                    </thead>
+                    @php
+                    $awards_prizes_count=$application->award_prizes->count();
+                    @endphp
+                    @if($awards_prizes_count>1)
+                    @php $k=($awards_prizes_count-1); @endphp
+                    @else
+                    @php $k=0; @endphp
                     @endif
-                </div>
-                <div class="col-sm-4 offset-sm-1 form-group">
-                    <label class="col-form-label" for="">Other Information:</label>
-                    <input type="text" id="" name="other_information" class="form-control form-control--custom m-input"
-                        value="{{$application->other_information}}">
-                    @if ($errors->has('other_information'))
-                    <span class="text-danger">{{ $errors->first('other_information') }}</span>
-                    @endif
-                </div>
+                    <tbody>
+                        @for($j=0;$j<(1+$k);$j++) @php $id="" ; $id=$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->id:''):'';
+                            @endphp
+                            <tr class="clonemeAwardPrizes">
+                                <td>
+                                    <div class="form-group">
+                                        <input type="hidden" id="award_rewardz_id_{{$j}}" name="award_rewardz_id[{{$j}}]"
+                                            value="{{$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->id:''):''}}">
+                                        <input placeholder="Award Name" required type="text" id="" name="award_name[{{$j}}]"
+                                            class="form-control form-control--custom" value="{{$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->award_name:''):''}}">
+                                    </div>
+                                </td>
+                                <td>
+                                    @php
+                                    $file="";
+                                    $file=isset($application->award_prizes[$j])?$application->award_prizes[$j]->award_certificate:'';
+                                    @endphp
+                                    <div class="custom-file mb-0 form-group">
+                                        <input data-file-type="award_certificate" accept="pdf" title="please upload file with pdf extension"
+                                            {{ $file!=""?"":"required" }} type="file" id="extract_certificate_{{$j}}"
+                                            name="award_certificate[{{$j}}]" class="custom-file-input" onChange="upload_certificate(this)">
+                                        <label title="" class="custom-file-label" for="extract_certificate_{{$j}}">Choose
+                                            File...</label>
+                                        <span class="help-block"></span>
+                                        <a id="certificate_link_{{$j}}" style="display:{{$file!=''?'block':'none'}}"
+                                            target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    @php
+                                    $file="";
+                                    $file=isset($application->award_prizes[$j])?$application->award_prizes[$j]->award_drawing:'';
+                                    @endphp
+                                    <div class="custom-file mb-0 form-group">
+                                        <input data-file-type="award_drawing" accept="pdf" title="please upload file with pdf extension"
+                                            {{ $file!=""?"":"required" }} type="file" id="extract_drawing_{{$j}}" name="award_drawing[{{$j}}]"
+                                            class="custom-file-input" onChange="upload_certificate(this)">
+                                        <label title="" class="custom-file-label" for="extract_drawing_{{$j}}">Choose
+                                            File...</label>
+                                        <span class="help-block"></span>
+
+                                        <a id="drawing_link_{{$j}}" style="display:{{$file!=''?'block':'none'}}" target="_blank"
+                                            class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endfor
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
-    <div class="m-portlet m-portlet--compact form-accordion">
+    <div class="m-portlet m-portlet--compact form-accordion m-portlet--forms-compact">
         <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
             <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed"
                 data-toggle="collapse" href="#form_4">
@@ -334,49 +481,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @php
-                            $project_count=$application->imp_projects->count();
-                            @endphp
-                            @if($project_count>5)
-                            @php $k=($project_count-5); @endphp
-                            @else
-                            @php $k=0; @endphp
-                            @endif
-                            @for($j=0;$j<(5+$k);$j++) @php $id="" ; $id=$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->id:''):'';
-                                @endphp
-                                <tr class="cloneme">
-                                    <td>
-                                        <input type="hidden" name="imp_project_id[]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->id:''):''}}">
-                                        <input name="name_of_client[]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->name_of_client:''):''}}"
-                                            placeholder="Name of Client" type="text" class="form-control form-control--custom">
-                                    </td>
-                                    <td>
-                                        <input name="location[]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->location:''):''}}"
-                                            placeholder="Location" type="text" class="form-control form-control--custom">
-                                    </td>
-                                    <td>
-                                        <input name="category_of_client[]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->category_of_client:''):''}}"
-                                            placeholder="Category of Client" type="text" class="form-control form-control--custom">
-                                    </td>
-                                </tr>
-                                @endfor --}}
-                                @foreach($application->imp_projects as $imp_project)
-                                <tr class="cloneme">
-                                    <td>
-                                        <input type="hidden" name="imp_project_id[]" value="{{$imp_project->id}}">
-                                        <input name="name_of_client[]" value="{{$imp_project->name_of_client}}"
-                                            placeholder="Name of Client" type="text" class="form-control form-control--custom">
-                                    </td>
-                                    <td>
-                                        <input name="location[]" value="{{$imp_project->location}}" placeholder="Location"
-                                            type="text" class="form-control form-control--custom">
-                                    </td>
-                                    <td>
-                                        <input name="category_of_client[]" value="{{$imp_project->category_of_client}}"
-                                            placeholder="Category of Client" type="text" class="form-control form-control--custom">
-                                    </td>
-                                </tr>
-                                @endforeach
+                            @foreach($application->imp_projects as $imp_project)
+                            <tr class="cloneme">
+                                <td>
+                                    <input type="hidden" name="imp_project_id[]" value="{{$imp_project->id}}">
+                                    <input name="name_of_client[]" value="{{$imp_project->name_of_client}}" placeholder="Name of Client"
+                                        type="text" class="form-control form-control--custom">
+                                </td>
+                                <td>
+                                    <input name="location[]" value="{{$imp_project->location}}" placeholder="Location"
+                                        type="text" class="form-control form-control--custom">
+                                </td>
+                                <td>
+                                    <input name="category_of_client[]" value="{{$imp_project->category_of_client}}"
+                                        placeholder="Category of Client" type="text" class="form-control form-control--custom">
+                                </td>
+                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -384,7 +505,7 @@
         </div>
     </div>
 
-    <div class="m-portlet m-portlet--compact form-accordion">
+    <div class="m-portlet m-portlet--compact form-accordion m-portlet--forms-compact">
         <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
             <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed"
                 data-toggle="collapse" href="#form_5">
@@ -447,7 +568,7 @@
         </div>
     </div>
 
-    <div class="m-portlet m-portlet--compact form-accordion">
+    <div class="m-portlet m-portlet--compact form-accordion m-portlet--forms-compact">
         <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
             <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed"
                 data-toggle="collapse" href="#form_6">
@@ -533,7 +654,7 @@
         <h3 class="section-title section-title--small">PROJECT SHEET DETAILS - WORK IN HAND</h3>
         @php $j=0; @endphp
         @foreach($work_in_hand as $work_in_ha)
-        <div class="m-portlet m-portlet--compact form-accordion">
+        <div class="m-portlet m-portlet--compact form-accordion m-portlet--forms-compact">
             <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
                 <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed"
                     data-toggle="collapse" href="#work_in_hand_{{$j+1}}">
@@ -549,90 +670,75 @@
                             value="{{$work_in_ha->name_of_project}}">
 
                     </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Location:</label>
                         <input type="text" id="" name="location" class="form-control form-control--custom m-input"
                             value="{{$work_in_ha->location}}">
                     </div>
-                </div>
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Name of Client:</label>
                         <input type="text" id="" name="name_of_client" class="form-control form-control--custom m-input"
                             value="{{$work_in_ha->name_of_client}}">
                     </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Address:</label>
                         <input type="text" id="" name="address" class="form-control form-control--custom m-input" value="{{$work_in_ha->address}}">
                     </div>
-                </div>
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Phone Number:</label>
                         <input type="text" id="" name="tel_no" class="form-control form-control--custom m-input" value="{{$work_in_ha->tel_no}}">
                     </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="extract">Upload copy of agreement:
                             <!--<span class="star">*</span>--></label>
                         <div class="custom-file">
                             @php
                             $file="";
-                            $file=$work_in_ha->copy_of_agreement!=""?$work_in_ha->copy_of_agreement:'';
+                            $file=isset($work_in_ha->copy_of_agreement)?$work_in_ha->copy_of_agreement:'';
                             @endphp
                             <a style="display:{{$file!=''?'block':'none'}}" target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
                         </div>
                     </div>
-                </div>
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Build Up Area in m<sup>2</sup>:</label>
                         <input type="text" id="" name="built_up_area_in_sq_m" class="form-control form-control--custom m-input"
                             value="{{$work_in_ha->built_up_area_in_sq_m}}">
                     </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Land Area in m<sup>2</sup>:</label>
                         <input type="text" id="" name="land_area_in_sq_m" class="form-control form-control--custom m-input"
                             value="{{$work_in_ha->land_area_in_sq_m}}">
                     </div>
-                </div>
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Estimated Value of Projects:</label>
                         <input type="text" id="" name="estimated_value_of_project" class="form-control form-control--custom m-input"
                             value="{{$work_in_ha->estimated_value_of_project}}">
                     </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Completed Value of Projects:</label>
                         <input type="text" id="" name="completed_value_of_project" class="form-control form-control--custom m-input"
                             value="{{$work_in_ha->completed_value_of_project}}">
                     </div>
-                </div>
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Date of Start:</label>
                         <input type="text" id="" name="date_of_start" class="form-control form-control--custom m_datepicker"
                             readonly value="{{$work_in_ha->date_of_start}}">
                     </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Date of Completion:</label>
                         <input type="text" id="" name="date_of_completion" class="form-control form-control--custom m_datepicker"
                             readonly value="{{$work_in_ha->date_of_completion}}">
-
                     </div>
-                </div>
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Whether Service Terminated by Client:</label>
                         <input type="text" id="" name="whether_service_terminated_by_client" class="form-control form-control--custom m-input"
                             value="{{$work_in_ha->whether_service_terminated_by_client}}">
                     </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Salient Features of Project:</label>
                         <input type="text" id="" name="salient_features_of_project" class="form-control form-control--custom m-input"
                             value="{{$work_in_ha->salient_features_of_project}}">
                     </div>
-                </div>
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Reasons for Delay (If any):</label>
                         <input type="text" id="" name="reason_for_delay_if_any" class="form-control form-control--custom m-input"
@@ -649,7 +755,7 @@
         <h3 class="section-title section-title--small">PROJECT SHEET DETAILS - WORK COMPLETED</h3>
         @php $j=0; @endphp
         @foreach($work_completed as $work_in_ha)
-        <div class="m-portlet m-portlet--compact form-accordion">
+        <div class="m-portlet m-portlet--compact form-accordion m-portlet--forms-compact">
             <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
                 <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed"
                     data-toggle="collapse" href="#work_completed_{{$j+1}}">
@@ -664,90 +770,75 @@
                             value="{{$work_in_ha->name_of_project}}">
 
                     </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Location:</label>
                         <input type="text" id="" name="location" class="form-control form-control--custom m-input"
                             value="{{$work_in_ha->location}}">
                     </div>
-                </div>
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Name of Client:</label>
                         <input type="text" id="" name="name_of_client" class="form-control form-control--custom m-input"
                             value="{{$work_in_ha->name_of_client}}">
                     </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Address:</label>
                         <input type="text" id="" name="address" class="form-control form-control--custom m-input" value="{{$work_in_ha->address}}">
                     </div>
-                </div>
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Phone Number:</label>
                         <input type="text" id="" name="tel_no" class="form-control form-control--custom m-input" value="{{$work_in_ha->tel_no}}">
                     </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="extract">Upload copy of agreement:
                             <!--<span class="star">*</span>--></label>
                         <div class="custom-file">
                             @php
                             $file="";
-                            $file=$work_in_ha->copy_of_agreement!=""?$work_in_ha->copy_of_agreement:'';
+                            $file=isset($work_in_ha->copy_of_agreement)?$work_in_ha->copy_of_agreement:'';
                             @endphp
                             <a style="display:{{$file!=''?'block':'none'}}" target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
                         </div>
                     </div>
-                </div>
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Build Up Area in m<sup>2</sup>:</label>
                         <input type="text" id="" name="built_up_area_in_sq_m" class="form-control form-control--custom m-input"
                             value="{{$work_in_ha->built_up_area_in_sq_m}}">
                     </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Land Area in m<sup>2</sup>:</label>
                         <input type="text" id="" name="land_area_in_sq_m" class="form-control form-control--custom m-input"
                             value="{{$work_in_ha->land_area_in_sq_m}}">
                     </div>
-                </div>
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Estimated Value of Projects:</label>
                         <input type="text" id="" name="estimated_value_of_project" class="form-control form-control--custom m-input"
                             value="{{$work_in_ha->estimated_value_of_project}}">
                     </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Completed Value of Projects:</label>
                         <input type="text" id="" name="completed_value_of_project" class="form-control form-control--custom m-input"
                             value="{{$work_in_ha->completed_value_of_project}}">
                     </div>
-                </div>
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Date of Start:</label>
                         <input type="text" id="" name="date_of_start" class="form-control form-control--custom m_datepicker"
                             readonly value="{{$work_in_ha->date_of_start}}">
                     </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Date of Completion:</label>
                         <input type="text" id="" name="date_of_completion" class="form-control form-control--custom m_datepicker"
                             readonly value="{{$work_in_ha->date_of_completion}}">
-
                     </div>
-                </div>
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Whether Service Terminated by Client:</label>
                         <input type="text" id="" name="whether_service_terminated_by_client" class="form-control form-control--custom m-input"
                             value="{{$work_in_ha->whether_service_terminated_by_client}}">
                     </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Salient Features of Project:</label>
                         <input type="text" id="" name="salient_features_of_project" class="form-control form-control--custom m-input"
                             value="{{$work_in_ha->salient_features_of_project}}">
                     </div>
-                </div>
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Reasons for Delay (If any):</label>
                         <input type="text" id="" name="reason_for_delay_if_any" class="form-control form-control--custom m-input"
@@ -760,7 +851,7 @@
         @endforeach
     </div>
 
-    <div class="m-portlet m-portlet--compact form-accordion">
+    <div class="m-portlet m-portlet--compact form-accordion m-portlet--forms-compact">
         <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
             <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed"
                 data-toggle="collapse" href="#form_9">
@@ -769,7 +860,8 @@
         </div>
         @csrf
         <input type="hidden" name="application_id" value="{{$application->id}}">
-        <div class="m-portlet__body m-portlet__body--spaced collapse form-count" id="form_9" data-parent="#accordion">
+        <div class="m-portlet__body m-portlet__body--table m-portlet__body--spaced collapse form-count" id="form_9"
+            data-parent="#accordion">
             <div class="">
                 <div class="table-responsive">
                     <table id="table-form-4" class="table table--box-input imp_projects">

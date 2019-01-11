@@ -98,7 +98,15 @@
 
                     <td>
                         @if($i==1 && (session()->get('role_name') == config('commanConfig.junior_architect')))
+                        @php $status=getLastStatusIdArchitectLayout($ArchitectLayout->id); @endphp
+                        @if($status!="")
+                        @if($status->status_id!=config('commanConfig.architect_layout_status.forward') &&
+                        $status->status_id!=config('commanConfig.architect_layout_status.reverted') )
                         <a class="btn-link" href="{{route('architect_layout_detail.edit',['layout_detail_id'=>encrypt($layout_detail->id)])}}">Edit</a>
+                        @else
+                        <center> - </center>
+                        @endif
+                        @endif
                         @else
                         <center> - </center>
                         @endif

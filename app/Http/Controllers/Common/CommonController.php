@@ -1492,7 +1492,12 @@ class CommonController extends Controller
             $i++;
         }
 
-        $inserted_application_log = scApplicationLog::insert($application_log_status);
+        try{
+
+            $inserted_application_log = scApplicationLog::insert($application_log_status);
+        }catch(\Exception $e){
+            dd($e->getMessage());
+        }
         return $inserted_application_log;
     }
 

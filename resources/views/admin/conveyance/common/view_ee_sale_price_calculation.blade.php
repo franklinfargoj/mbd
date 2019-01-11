@@ -168,7 +168,7 @@
                                     </tbody>
                                 </table>
                                 <div class="mt-3">
-                                    <p>The Schedule of the Property</p>
+                                    <p>9. The Schedule of the Property</p>
                                     <p>All the Piece or Parcel of land bearing Plot/ Building No 
                                      <input class="letter-form-input letter-form-input--md" type="text" name="building_no" value="{{ isset($data->ConveyanceSalePriceCalculation->building_no) ? $data->ConveyanceSalePriceCalculation->building_no : '' }}" readonly style="border: none;border-bottom: 1px solid #212529;">
                                      Admeasuring 
