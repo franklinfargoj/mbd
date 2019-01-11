@@ -221,13 +221,12 @@ class BoardController extends Controller
         })->where('role_id', $role_id->id)->get()->toArray();
 
 
-        $options = '<option value="">Select User</option>';
+        $options = '';
         if($request->department_id) {
             foreach ($users as $userData) {
                 $options .= '<option data-role="' . $userData['role_id'] . '" value="' . $userData['id'] . '">' . $userData['name'] . '</option>';
             }
         }
-
         return $options;
     }
 }
