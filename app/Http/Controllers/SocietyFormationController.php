@@ -375,7 +375,7 @@ class SocietyFormationController extends Controller
             $insert_arr = array(
                 'users' => $users,
             );
-            $inserted_application_log = $this->CommonController->sf_application_status_society($insert_arr, config('commanConfig.formation_status.forwarded'), $sf_application);
+         $this->CommonController->sf_application_status_society($insert_arr, config('commanConfig.formation_status.forwarded'), $sf_application);
         }
         return redirect()->route('society_formation.index');
     }
