@@ -411,13 +411,6 @@ $route_name=\Request::route()->getName();
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                     <div class="portlet-body">
                         <div class="m-portlet__body m-portlet__body--table">
-                            <div class="m-subheader">
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <h3 class="section-title">
-                                        Note
-                                    </h3>
-                                </div>
-                            </div>
                             <div class="m-section__content mb-0 table-responsive">
                                 <div class="container">
                                     <div class="row">

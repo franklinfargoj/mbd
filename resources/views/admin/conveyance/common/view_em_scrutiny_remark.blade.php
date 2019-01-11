@@ -19,12 +19,12 @@
             <li class="nav-item m-tabs__item em_tabs" id="section-1">
                 <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#scrutiny-summary-remark" role="tab"
                     aria-selected="false">
-                    <i class="la la-cog"></i> Scrutiny Summary & Remark
+                    <i class="la la-cog"></i> No Dues Certificate
                 </a>
             </li>
             <li class="nav-item m-tabs__item em_tabs" id="section-2">
                 <a class="nav-link m-tabs__link" data-toggle="tab" href="#list-of-allottes" role="tab" aria-selected="true">
-                    <i class="la la-bell-o"></i> List of Allottees
+                    <i class="la la-bell-o"></i> List of Bonafide Allottees
                 </a>
             </li>
             <li class="nav-item m-tabs__item em_tabs" id="section-3">

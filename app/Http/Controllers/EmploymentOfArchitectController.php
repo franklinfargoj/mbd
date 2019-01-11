@@ -11,6 +11,8 @@ use App\EmploymentOfArchitect\EoaApplicationImportantProjectDetail;
 use App\EmploymentOfArchitect\EoaApplicationImportantProjectWorkHandledDetail;
 use App\EmploymentOfArchitect\EoaApplicationImportantSeniorProfessionalDetail;
 use App\EmploymentOfArchitect\EoaApplicationProjectSheetDetail;
+use App\EmploymentOfArchitect\EoaApplicationPartnerDetail;
+use App\EmploymentOfArchitect\EoaApplicationAwardPrizeDetail;
 use App\Http\Requests\AppointingArchitect\RegisterUserRequest;
 use App\Http\Requests\AppointingArchitect\StepFiveRequest;
 use App\Http\Requests\AppointingArchitect\StepFourRequest;
@@ -31,7 +33,7 @@ use Yajra\DataTables\DataTables;
 
 class EmploymentOfArchitectController extends Controller
 {
-    protected $model, $user, $fee_payment, $enclosures, $list_num_of_records_per_page;
+    protected $model, $user, $fee_payment, $enclosures, $list_num_of_records_per_page,$partners,$awards_prizes;
 
     public $header_data = array(
         'menu' => 'Architect Application',
@@ -40,7 +42,7 @@ class EmploymentOfArchitectController extends Controller
         'side_menu' => 'architect_application',
     );
 
-    public function __construct(EoaApplication $EoaApplication, User $user, EoaApplicationFeePaymentDetail $EoaApplicationFeePaymentDetail, EoaApplicationEnclosure $EoaApplicationEnclosure, EoaApplicationImportantProjectDetail $EoaApplicationImportantProjectDetail, EoaApplicationImportantProjectWorkHandledDetail $EoaApplicationImportantProjectWorkHandledDetail, EoaApplicationImportantSeniorProfessionalDetail $EoaApplicationImportantSeniorProfessionalDetail, EoaApplicationProjectSheetDetail $EoaApplicationProjectSheetDetail, ArchitectApplicationMark $ArchitectApplicationMark)
+    public function __construct(EoaApplication $EoaApplication, User $user, EoaApplicationFeePaymentDetail $EoaApplicationFeePaymentDetail, EoaApplicationEnclosure $EoaApplicationEnclosure, EoaApplicationImportantProjectDetail $EoaApplicationImportantProjectDetail, EoaApplicationImportantProjectWorkHandledDetail $EoaApplicationImportantProjectWorkHandledDetail, EoaApplicationImportantSeniorProfessionalDetail $EoaApplicationImportantSeniorProfessionalDetail, EoaApplicationProjectSheetDetail $EoaApplicationProjectSheetDetail, ArchitectApplicationMark $ArchitectApplicationMark,EoaApplicationPartnerDetail $partners, EoaApplicationAwardPrizeDetail $awards_prizes)
     {
         // set the model
         $this->user = new Repository($user);
@@ -52,6 +54,8 @@ class EmploymentOfArchitectController extends Controller
         $this->imp_senior_professional = new Repository($EoaApplicationImportantSeniorProfessionalDetail);
         $this->project_sheet = new Repository($EoaApplicationProjectSheetDetail);
         $this->supporting_documents = new Repository($ArchitectApplicationMark);
+        $this->partners=new Repository($partners);
+        $this->awards_prizes=new Repository($awards_prizes);
         $this->list_num_of_records_per_page = config('commanConfig.list_num_of_records_per_page');
     }
 
@@ -277,12 +281,23 @@ class EmploymentOfArchitectController extends Controller
     public function step3($id)
     {
         $id = decrypt($id);
-        $application = $this->model->whereWithFirst(['fee_payment_details', 'enclosures'], ['id' => $id, 'user_id' => auth()->user()->id]);
+        $application = $this->model->whereWithFirst(['award_prizes'], ['id' => $id, 'user_id' => auth()->user()->id]);
+        $award_prizes_count=$application->award_prizes->count();
+        if($award_prizes_count==0)
+        {
+            $this->awards_prizes->create(['eoa_application_id'=>$application->id]);
+            $application = $this->model->whereWithFirst(['award_prizes'], ['id' => $id, 'user_id' => auth()->user()->id]);
+        }
         return view('employment_of_architect.form3', compact('application'));
     }
 
     public function step3_post(StepThreeRequest $request, $id)
     {
+        $award_name=$request->award_name;
+        $award_id=$request->award_rewardz_id;
+        $partner_id=$request->partner_id;
+        $partner_details_name=$request->partner_details_name;
+        $partner_details_reg_no=$request->partner_details_reg_no;
         $application_id = $request->application_id;
         $app_data = $this->model->show($application_id);
         $step3_data = [
@@ -303,15 +318,137 @@ class EmploymentOfArchitectController extends Controller
             'reg_with_council_of_architecture_associate' => $request->reg_with_council_of_architecture_associate,
             'reg_with_council_of_architecture_partner' => $request->reg_with_council_of_architecture_partner,
             'reg_with_council_of_architecture_total_registered_persons' => $request->reg_with_council_of_architecture_total_registered_persons,
+            'reg_with_council_of_architecture_coa_registration_no'=>$request->reg_with_council_of_architecture_coa_registration_no,
             'award_prizes_etc' => $request->award_prizes_etc,
             'other_information' => $request->other_information,
             'form_step' => ($app_data->form_step > 4 ? $app_data->form_step : 4),
         ];
         if ($this->model->updateWhere($step3_data, ['id' => $application_id])) {
+            //$this->partners->
+            $i=0;
+            foreach($partner_details_name as $partner_details_nam)
+            {
+                $partners_data_array = array();
+                if (isset($partner_id[$i])) {
+                    $partners_data_array = [
+                        'eoa_application_id' => $application_id,
+                        'name' => $partner_details_nam,
+                        'registration_no' => $partner_details_reg_no[$i],
+                    ];
+                    $this->partners->updateWhere($partners_data_array, ['id' => $partner_id[$i], 'eoa_application_id' => $application_id]);
+                } else {
+                    $partners_data_array = [
+                        'eoa_application_id' => $application_id,
+                        'name' => $partner_details_nam,
+                        'registration_no' => $partner_details_reg_no[$i],
+                    ];
+                    $this->partners->create($partners_data_array);
+                }
+                $i++;
+            }
+            $j=0;
+            foreach($award_name as $award_nam)
+            {
+                $award_data_array = array();
+                if (isset($award_id[$j])) {
+                    $award_data_array = [
+                        'eoa_application_id' => $application_id,
+                        'award_name' => $award_nam
+                    ];
+                    $this->awards_prizes->updateWhere($award_data_array, ['id' => $award_id[$j], 'eoa_application_id' => $application_id]);
+                } else {
+                    $award_data_array = [
+                        'eoa_application_id' => $application_id,
+                        'award_name' => $award_nam
+                    ];
+                    $this->awards_prizes->create($award_data_array);
+                }
+                $j++;
+            }
             return redirect()->route('appointing_architect.step4', ['id' => encrypt($application_id)]);
         } else {
             return back()->withError('Something went wrong');
         }
+    }
+
+    
+    public function delete_partners(Request $request)
+    {
+        $id = $request->delete_partner_id;
+        if ($this->partners->delete($id)) {
+            return response()->json(['status' => 0, 'description' => 'deleted successfully']);
+        } else {
+            return response()->json(['status' => 1, 'description' => 'something went wrong']);
+        }
+    }
+
+    public function add_award_prizes(Request $request)
+    {
+        $add=$this->awards_prizes->create(['eoa_application_id'=>$request->application_id]);
+        if($add)
+        {
+
+            return response()->json(['status' => 0,'award_id'=>$add->id ,'description' => 'added successfully']);
+        }else
+        {
+            return response()->json(['status' => 1, 'description' => 'something went wrong']);
+        }
+    }
+
+    public function delete_award_prizes(Request $request)
+    {
+        $id = $request->delete_award_id;
+        $delete = $this->awards_prizes->show($id);
+        $certificate = $delete->award_certificate;
+        $drawing = $delete->award_drawing;
+        if ($this->awards_prizes->delete($id)) {
+            if (Storage::disk('ftp')->has($drawing)) {
+                Storage::disk('ftp')->delete($drawing);
+            }
+            if (Storage::disk('ftp')->has($certificate)) {
+                Storage::disk('ftp')->delete($certificate);
+            }
+            return response()->json(['status' => 0, 'description' => 'deleted successfully']);
+        } else {
+            return response()->json(['status' => 1, 'description' => 'something went wrong']);
+        }
+    }
+
+    public function upload_award_certificate(Request $request)
+    {
+        $response_array = array();
+        $file = $request->file('file');
+        if ($file->getClientMimeType() == 'application/pdf') {
+            $extension = $request->file('file')->getClientOriginalExtension();
+            $dir = 'appointing_architect_award_certificates';
+            $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+            $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('file'), $filename);
+            if ($storage) {
+                
+                //$ArchitectLayoutDetail = ArchitectLayoutDetail::find($request->architect_layout_detail_id);
+                if ($request->field_name == 'award_certificate') {
+                    $this->awards_prizes->updateWhere(['award_certificate'=>$storage], ['id' => $request->award_cartificate_id]);
+                }
+                if ($request->field_name == 'award_drawing') {
+                    $this->awards_prizes->updateWhere(['award_drawing'=>$storage], ['id' => $request->award_cartificate_id]);
+                }
+                $response_array = array(
+                    'status' => true,
+                    'file_path' => config('commanConfig.storage_server') . "/" . $storage,
+                );
+            } else {
+                $response_array = array(
+                    'status' => false,
+                );
+            }
+        } else {
+            $response_array = array(
+                'status' => false,
+                'message' => 'PDF file is required',
+            );
+        }
+
+        return response()->json($response_array);
     }
 
     public function step4($id)

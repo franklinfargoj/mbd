@@ -29,6 +29,7 @@ use App\conveyance\scRegistrationDetails;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
 use App\ApplicationStatusMaster;
 use App\MasterTenantType;
+use DB;
 
 use Illuminate\Http\Request;
 
@@ -956,7 +957,6 @@ class SocietyConveyanceController extends Controller
         $insert_arr['status_id'] = ApplicationStatusMaster::where('status_name', $insert_arr['status_id'])->value('id');
 
         if($request->hasFile('document_path') || $request->hasFile('document_path_lease')) {
-
             if($request->hasFile('document_path_lease')){
                 $file = $request->file('document_path_lease');
             }else{
@@ -973,12 +973,16 @@ class SocietyConveyanceController extends Controller
             }
             $insert_arr['document_path'] = $path;
             unset($insert_arr['_token']);
+
             $sc_registration_details = new scRegistrationDetails;
             $sc_document_status = new SocietyConveyanceDocumentStatus;
+
             $registration_details = $sc_registration_details->getFillable();
             $sc_document_details = $sc_document_status->getFillable();
+
             $insert_registrar_details = array_slice($insert_arr, 0, count($registration_details));
             $insert_sc_document_detail = array_slice($insert_arr, count($registration_details), count($sc_document_details));
+
             foreach($sc_document_details as $key => $value){
                 $keys = array_keys($insert_sc_document_detail);
                 if(array_key_exists($value, $keys) == false){
@@ -988,12 +992,6 @@ class SocietyConveyanceController extends Controller
                 }
             }
 
-            scRegistrationDetails::create($insert_registrar_details);
-            SocietyConveyanceDocumentStatus::create($insert_sc_document_details);
-            $update_arr = array(
-                'application_status' => config('commanConfig.conveyance_status.Registered_sale_&_lease_deed')
-            );
-            $update_sc_application = scApplication::where('id', $request->application_id)->update($update_arr);
             $role_id = Role::where('name', config('commanConfig.dycdo_engineer'))->first();
             $users_record = scApplicationLog::where('application_id', $request->application_id)->where('society_flag', 0)->where('role_id', $role_id->id)->where('status_id', config('commanConfig.conveyance_status.forwarded'))->orderBy('id', 'desc')->first();
             $users = User::where('id', $users_record->user_id)->where('role_id', $users_record->role_id)->get();
@@ -1008,21 +1006,38 @@ class SocietyConveyanceController extends Controller
                 config('commanConfig.documents.society.Sale Deed Agreement'),
                 config('commanConfig.documents.society.Lease Deed Agreement')
             );
-            $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->value('id');
             $document_ids = $this->conveyance_common->getDocumentIds($documents_req, $application_type, $request->application_id);
             $uploaded_document_ids = [];
             $documents_remaining_ids = [];
             foreach($document_ids as $document_id){
                 $document_lease[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id->document_name;
-                if($document_id->sc_document_status !== null){
+                if($document_id->sc_document_status !== null && $document_id->sc_document_status->society_flag == 1){
                     $uploaded_document_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
                 }else{
                     $documents_remaining_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
                 }
             }
-            if(count($uploaded_document_ids) == 2 && count($documents_remaining_ids) == 0) {
-                $inserted_application_log = $this->CommonController->sc_application_status_society($insert_log_arr, config('commanConfig.conveyance_status.forwarded'), $sc_application, config('commanConfig.conveyance_status.Registered_sale_&_lease_deed'));
+
+            //Code added by Amar >>start
+            DB::beginTransaction();
+            try {
+                scRegistrationDetails::create($insert_registrar_details);
+                SocietyConveyanceDocumentStatus::create($insert_sc_document_details);
+                $update_arr = array(
+                    'application_status' => config('commanConfig.conveyance_status.Registered_sale_&_lease_deed')
+                );
+                $update_sc_application = scApplication::where('id', $request->application_id)->update($update_arr);
+                if(count($uploaded_document_ids) == 2 && count($documents_remaining_ids) == 0) {
+                    $inserted_application_log = $this->CommonController->sc_application_status_society($insert_log_arr, config('commanConfig.conveyance_status.forwarded'), $sc_application, config('commanConfig.conveyance_status.Registered_sale_&_lease_deed'));
+//                    return redirect()->back()->with('success', 'Application sent successfully.');
+                }
+                DB::commit();
+            }catch (\Exception $ex) {
+                DB::rollback();
+                return redirect()->back()->with('error_db', 'Something went wrong!');
             }
+            //Code added by Amar >>end
+
             return redirect()->back();
         }
     }
