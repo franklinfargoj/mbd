@@ -47,7 +47,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Display a listing of the resource.
-     *Author: Amar Prajapati
+     * Author: Amar Prajapati
      * @return \Illuminate\Http\Response
      */
     public function index(DataTables $datatables, Request $request)
@@ -146,7 +146,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *Author: Amar Prajapati
+     * Author: Amar Prajapati
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -173,7 +173,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *Author: Amar Prajapati
+     * Author: Amar Prajapati
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -286,7 +286,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Display the specified resource.
-     *Author: Amar Prajapati
+     * Author: Amar Prajapati
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -302,12 +302,16 @@ class SocietyConveyanceController extends Controller
         $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
         $master_tenant_type = MasterTenantType::all();
 
-        return view('frontend.society.conveyance.show_sc_application', compact('sc_application', 'documents', 'documents_uploaded', 'master_tenant_type'));
+        $noc = config('commanConfig.scAgreements.conveynace_uploaded_NOC');
+        $nocId = $this->conveyance_common->getScAgreementId($noc, $sc_application->sc_application_master_id);
+        $issued_noc = $this->conveyance_common->getScAgreement($nocId, $sc_application->id, NULL);
+
+        return view('frontend.society.conveyance.show_sc_application', compact('sc_application', 'documents', 'documents_uploaded', 'master_tenant_type', 'issued_noc'));
     }
 
     /**
      * Show the form for editing the specified resource.
-     *Author: Amar Prajapati
+     * Author: Amar Prajapati
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -343,7 +347,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *Author: Amar Prajapati
+     * Author: Amar Prajapati
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -436,7 +440,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *Author: Amar Prajapati
+     * Author: Amar Prajapati
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -447,7 +451,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Download excel.
-     *Author: Amar Prajapati
+     * Author: Amar Prajapati
      * @param  void
      * @return \Illuminate\Http\Response
      */
@@ -464,7 +468,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Show upload documents & bank details form.
-     *Author: Amar Prajapati
+     * Author: Amar Prajapati
      * @param  void
      * @return \Illuminate\Http\Response
      */
@@ -485,12 +489,16 @@ class SocietyConveyanceController extends Controller
         $sc_bank_details_fields = array_values(array_flip($sc_bank_details_fields_name));
         $comm_func = $this->CommonController;
 
-        return view('frontend.society.conveyance.show_doc_bank_details', compact('documents', 'sc_application', 'society', 'documents_uploaded', 'sc_bank_details_fields', 'comm_func', 'society_bank_details'));
+        $noc = config('commanConfig.scAgreements.conveynace_uploaded_NOC');
+        $nocId = $this->conveyance_common->getScAgreementId($noc, $sc_application->sc_application_master_id);
+        $issued_noc = $this->conveyance_common->getScAgreement($nocId, $sc_application->id, NULL);
+
+        return view('frontend.society.conveyance.show_doc_bank_details', compact('documents', 'sc_application', 'society', 'documents_uploaded', 'sc_bank_details_fields', 'comm_func', 'society_bank_details', 'issued_noc'));
     }
 
     /**
      * Uploads documents.
-     *Author: Amar Prajapati
+     * Author: Amar Prajapati
      * @param  void
      * @return \Illuminate\Http\Response
      */
@@ -579,7 +587,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Deletes uploaded documents.
-     *Author: Amar Prajapati
+     * Author: Amar Prajapati
      * @param  id
      * @return \Illuminate\Http\Response
      */
@@ -609,7 +617,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Saves society bank details.
-     *Author: Amar Prajapati
+     * Author: Amar Prajapati
      * @param  request
      * @return \Illuminate\Http\Response
      */
@@ -636,7 +644,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Shows society conveyance upload form.
-     *Author: Amar Prajapati
+     * Author: Amar Prajapati
      * @param  void
      * @return \Illuminate\Http\Response
      */
@@ -655,7 +663,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Shows society conveyance application form in pdf format.
-     *Author: Amar Prajapati
+     * Author: Amar Prajapati
      * @param  void
      * @return \Illuminate\Http\Response
      */
@@ -676,7 +684,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Uploads stamped society conveyance application form.
-     *Author: Amar Prajapati
+     * Author: Amar Prajapati
      * @param  request
      * @return \Illuminate\Http\Response
      */
@@ -730,7 +738,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Uploads stamped society conveyance application form.
-     *Author: Amar Prajapati
+     * Author: Amar Prajapati
      * @param  request
      * @return \Illuminate\Http\Response
      */
@@ -772,13 +780,16 @@ class SocietyConveyanceController extends Controller
                 }
             }
         }
-//        dd($sc_agreement_comments);
-        return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application', 'document_lease', 'documents', 'uploaded_document_ids', 'documents_remaining_ids', 'sc_agreement_comment', 'documents_uploaded'));
+        $noc = config('commanConfig.scAgreements.conveynace_uploaded_NOC');
+        $nocId = $this->conveyance_common->getScAgreementId($noc, $sc_application->sc_application_master_id);
+        $issued_noc = $this->conveyance_common->getScAgreement($nocId, $sc_application->id, NULL);
+
+        return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application', 'document_lease', 'documents', 'uploaded_document_ids', 'documents_remaining_ids', 'sc_agreement_comment', 'documents_uploaded', 'issued_noc'));
     }
 
     /**
      * Uploads stamped society conveyance application form.
-     *Author: Amar Prajapati
+     * Author: Amar Prajapati
      * @param  request
      * @return \Illuminate\Http\Response
      */
@@ -845,7 +856,11 @@ class SocietyConveyanceController extends Controller
             }
         }
 
-        return view('frontend.society.conveyance.signed_sale_lease_deed', compact('sc_application', 'society_flag','status', 'sale_agreement_type_id', 'lease_agreement_type_id', 'field_names', 'comm_func', 'documents', 'documents_uploaded', 'sc_registrar_details', 'sale_deed_agreement', 'lease_deed_agreement'));
+        $noc = config('commanConfig.scAgreements.conveynace_uploaded_NOC');
+        $nocId = $this->conveyance_common->getScAgreementId($noc, $sc_application->sc_application_master_id);
+        $issued_noc = $this->conveyance_common->getScAgreement($nocId, $sc_application->id, NULL);
+
+        return view('frontend.society.conveyance.signed_sale_lease_deed', compact('sc_application', 'society_flag','status', 'sale_agreement_type_id', 'lease_agreement_type_id', 'field_names', 'comm_func', 'documents', 'documents_uploaded', 'sc_registrar_details', 'sale_deed_agreement', 'lease_deed_agreement', 'issued_noc'));
     }
 
     /**
@@ -992,47 +1007,51 @@ class SocietyConveyanceController extends Controller
                 }
             }
 
-            $role_id = Role::where('name', config('commanConfig.dycdo_engineer'))->first();
-            $users_record = scApplicationLog::where('application_id', $request->application_id)->where('society_flag', 0)->where('role_id', $role_id->id)->where('status_id', config('commanConfig.conveyance_status.forwarded'))->orderBy('id', 'desc')->first();
-            $users = User::where('id', $users_record->user_id)->where('role_id', $users_record->role_id)->get();
-            $insert_log_arr = array(
-                'users' => $users
-            );
-            $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->value('id');
-            $sc_application = new scApplication();
-            $sc_application->id = $request->application_id;
-            $sc_application->sc_application_master_id = $application_type;
-            $documents_req = array(
-                config('commanConfig.documents.society.Sale Deed Agreement'),
-                config('commanConfig.documents.society.Lease Deed Agreement')
-            );
-            $document_ids = $this->conveyance_common->getDocumentIds($documents_req, $application_type, $request->application_id);
-            $uploaded_document_ids = [];
-            $documents_remaining_ids = [];
-            foreach($document_ids as $document_id){
-                $document_lease[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id->document_name;
-                if($document_id->sc_document_status !== null && $document_id->sc_document_status->society_flag == 1){
-                    $uploaded_document_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
-                }else{
-                    $documents_remaining_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
-                }
-            }
-
             //Code added by Amar >>start
             DB::beginTransaction();
             try {
                 scRegistrationDetails::create($insert_registrar_details);
                 SocietyConveyanceDocumentStatus::create($insert_sc_document_details);
-                $update_arr = array(
-                    'application_status' => config('commanConfig.conveyance_status.Registered_sale_&_lease_deed')
+
+                $role_id = Role::where('name', config('commanConfig.dycdo_engineer'))->first();
+                $users_record = scApplicationLog::where('application_id', $request->application_id)->where('society_flag', 0)->where('role_id', $role_id->id)->where('status_id', config('commanConfig.conveyance_status.forwarded'))->orderBy('id', 'desc')->first();
+                $users = User::where('id', $users_record->user_id)->where('role_id', $users_record->role_id)->get();
+                $insert_log_arr = array(
+                    'users' => $users
                 );
-                $update_sc_application = scApplication::where('id', $request->application_id)->update($update_arr);
-                if(count($uploaded_document_ids) == 2 && count($documents_remaining_ids) == 0) {
-                    $inserted_application_log = $this->CommonController->sc_application_status_society($insert_log_arr, config('commanConfig.conveyance_status.forwarded'), $sc_application, config('commanConfig.conveyance_status.Registered_sale_&_lease_deed'));
-//                    return redirect()->back()->with('success', 'Application sent successfully.');
+                $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->value('id');
+                $sc_application = new scApplication();
+                $sc_application->id = $request->application_id;
+                $sc_application->sc_application_master_id = $application_type;
+                $documents_req = array(
+                    config('commanConfig.documents.society.Sale Deed Agreement'),
+                    config('commanConfig.documents.society.Lease Deed Agreement')
+                );
+                $document_ids = $this->conveyance_common->getDocumentIds($documents_req, $application_type, $request->application_id);
+                $uploaded_document_ids = [];
+                $documents_remaining_ids = [];
+                foreach($document_ids as $document_id){
+                    $document_lease[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id->document_name;
+                    if($document_id->sc_document_status !== null && $document_id->sc_document_status->society_flag == 1){
+                        $uploaded_document_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
+                    }else{
+                        $documents_remaining_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
+                    }
                 }
-                DB::commit();
+                if(count($uploaded_document_ids) == 2 && count($documents_remaining_ids) == 0) {
+                    $update_arr = array(
+                        'application_status' => config('commanConfig.conveyance_status.Registered_sale_&_lease_deed')
+                    );
+                    $update_sc_application = scApplication::where('id', $request->application_id)->update($update_arr);
+                    $inserted_application_log = $this->CommonController->sc_application_status_society($insert_log_arr, config('commanConfig.conveyance_status.forwarded'), $sc_application, config('commanConfig.conveyance_status.Registered_sale_&_lease_deed'));
+                    DB::commit();
+                    return redirect()->back()->with('success', 'Application sent successfully.');
+                }else{
+                    DB::commit();
+                }
+
             }catch (\Exception $ex) {
+                dd($ex);
                 DB::rollback();
                 return redirect()->back()->with('error_db', 'Something went wrong!');
             }
