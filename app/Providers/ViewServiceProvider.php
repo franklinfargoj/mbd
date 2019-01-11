@@ -18,6 +18,9 @@ class ViewServiceProvider extends ServiceProvider
         View::composer(
             ['admin.common.land_dashboard','admin.common.ol_dashboard','admin.REE_department.dashboard','admin.co_department.dashboard','admin.conveyance.common.dashboard'], 'App\Http\View\Composers\DashboardComposer'
         );
+        View::composer(
+            ['admin.conveyance.common.dashboard'], 'App\Http\View\Composers\FormationDashboardComposer'
+        );
     }
 
     /**

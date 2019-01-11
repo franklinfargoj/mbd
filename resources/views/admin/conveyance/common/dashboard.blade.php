@@ -159,6 +159,12 @@
     </div>
     @endif
     @endif
+
+    @if((session()->get('role_name')==config('commanConfig.estate_manager'))||
+    (session()->get('role_name')==config('commanConfig.dyco_engineer')) ||
+    (session()->get('role_name')==config('commanConfig.dycdo_engineer')))
+    @include('admin.dashboard.society_formation.main',compact('formation_data'))
+    @endif
     <!-- end -->      
      @if((session()->get('role_name')==config('commanConfig.junior_architect'))||
     (session()->get('role_name')==config('commanConfig.senior_architect')) ||
