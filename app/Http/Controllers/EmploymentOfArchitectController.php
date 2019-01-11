@@ -286,6 +286,7 @@ class EmploymentOfArchitectController extends Controller
         if($award_prizes_count==0)
         {
             $this->awards_prizes->create(['eoa_application_id'=>$application->id]);
+            $application = $this->model->whereWithFirst(['award_prizes'], ['id' => $id, 'user_id' => auth()->user()->id]);
         }
         return view('employment_of_architect.form3', compact('application'));
     }

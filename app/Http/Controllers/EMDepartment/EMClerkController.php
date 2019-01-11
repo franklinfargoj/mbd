@@ -153,9 +153,7 @@ class EMClerkController extends Controller
           
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
           
-            $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('master_tenants.building_id', '=', decrypt($request->building))->selectRaw('@rownum  := @rownum  + 1 AS rownum, master_tenants.*, arrear_calculation.* ,master_tenants.id as id');
-
-            //dd($tenant);
+            $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('master_tenants.building_id', '=', decrypt($request->building))->selectRaw('@rownum  := @rownum  + 1 AS rownum, master_tenants.*, arrear_calculation.payment_status,arrear_calculation.total_amount ,master_tenants.id as mtid,arrear_calculation.id as acid')->groupBy(['tenant_id','building_id','society_id']);
 
             return $datatables->of($tenant)
             ->editColumn('payment_status', function ($tenant){
@@ -225,14 +223,14 @@ class EMClerkController extends Controller
 
         for ($i = 1; $i <= 12; $i++) {
             $months[] = date("n", strtotime( date( 'Y-m-01' )." -$i months"));
-            if( $currentMonth <= 3) {
-                $years[] = date("Y", strtotime( date( 'Y-m-01' )))-1;
-            } else {
+            // if( $currentMonth <= 3) {
+            //     $years[] = date("Y", strtotime( date( 'Y-m-01' )))-1;
+            // } else {
                 $years[] = date("Y", strtotime( date( 'Y-m-01' )." -$i months"));
-            }
+            // }
         }
         $years = array_unique($years);        
-
+        array_push($years, $year+1);
         // return $months;
 
         if($request->row_id){
