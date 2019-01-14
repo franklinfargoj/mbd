@@ -43,7 +43,7 @@ class CAPController extends Controller
             ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
             ['data' => 'eeApplicationSociety.building_no','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
             ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address', 'class' => 'datatable-address'],
-            // ['data' => 'model','name' => 'model','title' => 'Model'],
+            ['data' => 'model','name' => 'model','title' => 'Model'],
              ['data' => 'Status','name' => 'Status','title' => 'Status'],
             // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
@@ -76,6 +76,9 @@ class CAPController extends Controller
                 // ->editColumn('actions', function ($cap_application_data) use($request){
                 //    return view('admin.cap_department.action', compact('cap_application_data', 'request'))->render();
                 // })
+                ->editColumn('model', function ($listArray) {
+                    return $listArray->ol_application_master->model;
+                })                 
                 ->editColumn('Status', function ($listArray) use ($request) {
                     $status = $listArray->olApplicationStatusForLoginListing[0]->status_id;
 
