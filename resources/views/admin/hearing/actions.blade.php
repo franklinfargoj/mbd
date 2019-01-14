@@ -9,10 +9,11 @@
     @endphp
 @endif
 @php
+//dd(session()->get('permission'));
 $route="";
 $route=\Request::route()->getName();
+$login_user = session()->get('role_name');
 //dd($hearing_data);
-
 @endphp
 
 {{--<li class="m-menu__item {{($route=='hearing.dashboard')?'m-menu__item--active':''}}">--}}
@@ -70,11 +71,8 @@ $route=\Request::route()->getName();
         </li>
 
     @if($hearing_data->hearingStatusLog[0]->hearing_status_id != config('commanConfig.hearingStatus.case_closed'))
-
         @if(in_array('hearing.edit', session()->get('permission')))
 {{--            @php dd(config('commanConfig.hearingStatus.forwarded')); @endphp--}}
-            @if($hearing_data->hearingStatusLog[0]->hearing_status_id != config('commanConfig.hearingStatus.forwarded'))
-                    @if($hearing_data->hearingStatusLog[0]->hearing_status_id != config('commanConfig.hearingStatus.notice_send'))
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='hearing.edit')?'m-menu__item--active':''}}">
                             <a href="{{ route('hearing.edit', encrypt($hearing_data->id)) }}" class="m-menu__link m-menu__toggle">
                                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -82,12 +80,12 @@ $route=\Request::route()->getName();
                                     fill="#FFF" />
                             </svg>
                                         <span class="m-menu__link-text">
-                                            Edit Details
+                                            Edit Hearing
                                         </span>
                             </a>
                         </li>
-                    @endif
             @endif
+
                 @if($hearing_data->hearingSchedule)
                     <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='schedule_hearing.add')?'m-menu__item--active':''}}">
                         <a href="{{ route('schedule_hearing.show', encrypt($hearing_data->id)) }}" class="m-menu__link m-menu__toggle">
@@ -100,17 +98,19 @@ $route=\Request::route()->getName();
                         </a>
                     </li>
                 @else
-                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='schedule_hearing.add')?'m-menu__item--active':''}}">
-                        <a href="{{ route('schedule_hearing.add', encrypt($hearing_data->id)) }}" class="m-menu__link m-menu__toggle">
-                            <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
-                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                            fill="#FFF" />
-                    </svg>
-                                    <span class="m-menu__link-text">
-                                        Schedule Hearing
-                                    </span>
-                        </a>
-                    </li>
+                    @if(($login_user == config('commanConfig.co_pa')) || ($login_user == config('commanConfig.joint_co_pa')))
+                        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='schedule_hearing.add')?'m-menu__item--active':''}}">
+                            <a href="{{ route('schedule_hearing.add', encrypt($hearing_data->id)) }}" class="m-menu__link m-menu__toggle">
+                                <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                fill="#FFF" />
+                        </svg>
+                                        <span class="m-menu__link-text">
+                                            Schedule Hearing
+                                        </span>
+                            </a>
+                        </li>
+                    @endif
                     {{--<li class="m-menu__item m-menu__item--submenu">--}}
                         {{--<a href="#" class="m-menu__link m-menu__toggle">--}}
                             {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">--}}
@@ -143,23 +143,25 @@ $route=\Request::route()->getName();
                             </a>
                         </li>
                     @else
-                        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='fix_schedule.add')?'m-menu__item--active':''}}">
-                            <a href="{{ route('fix_schedule.add', encrypt($hearing_data->id))}}" class="m-menu__link m-menu__toggle">
-                                <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
-                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                            fill="#FFF" />
-                    </svg>
-                                        <span class="m-menu__link-text">
-                                            Prepone/ Postpone Hearing
-                                        </span>
-                            </a>
-                        </li>
+                         @if(($login_user == config('commanConfig.co_pa')) || ($login_user == config('commanConfig.joint_co_pa')))
+                            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='fix_schedule.add')?'m-menu__item--active':''}}">
+                                <a href="{{ route('fix_schedule.add', encrypt($hearing_data->id))}}" class="m-menu__link m-menu__toggle">
+                                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                              fill="#FFF" />
+                                    </svg>
+                                    <span class="m-menu__link-text">
+                                         Prepone/ Postpone Hearing
+                                    </span>
+                                </a>
+                            </li>
+                        @endif
                     @endif
                 @endif
 
 
             {{--<a href=""></i>Update Status</a> |--}}
-            @if($hearing_data->hearingSchedule)
+{{--            @if($hearing_data->hearingSchedule)--}}
             @if(count($hearing_data->hearingUploadCaseJudgement) > 0)
                 <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='upload_case_judgement.edit')?'m-menu__item--active':''}}">
                     <a href="{{ route('upload_case_judgement.edit', encrypt($hearing_data->id)) }}" class="m-menu__link m-menu__toggle">
@@ -173,20 +175,20 @@ $route=\Request::route()->getName();
                     </a>
                 </li>
             @else
-                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='upload_case_judgement.add')?'m-menu__item--active':''}}">
+                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='upload_case_judgement.add')?'m-menu__item--active':''}}">
                     <a href="{{ route('upload_case_judgement.add', encrypt($hearing_data->id))}}" class="m-menu__link m-menu__toggle">
                         <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
                     <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
                         fill="#FFF" />
-                </svg>
-                                <span class="m-menu__link-text">
-                                    Case Judgement
-                                </span>
-                    </a>
-                </li>
+                    </svg>
+                                    <span class="m-menu__link-text">
+                                        Case Judgement
+                                    </span>
+                        </a>
+                    </li>
             @endif
-            @endif
-        @endif
+            {{--@endif--}}
+
 
         @if(!$hearing_data->hearingSchedule)
         @if(count($hearing_data->hearingForwardCase))

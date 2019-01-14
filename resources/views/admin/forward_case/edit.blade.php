@@ -3,6 +3,15 @@
     @include('admin.hearing.actions',compact('hearing_data'))
 @endsection
 @section('content')
+@php
+    $login_user = session()->get('role_name');
+    if(($login_user == config('commanConfig.co_pa')) || ($login_user == config('commanConfig.joint_co_pa')))
+        $visiblity = '';
+    else
+        $visiblity = 'disabled';
+@endphp
+
+
     <div class="col-md-12">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
@@ -136,7 +145,7 @@
 
                                     <div class="col-sm-4 offset-sm-1 form-group">
                                         <label class="col-form-label" for="description">Description:</label>
-                                        <textarea readonly id="description" name="description" class="form-control form-control--custom form-control--fixed-height m-input">{{$forward_hearing_data['description']}}</textarea>
+                                        <textarea {{$visiblity}} id="description" name="description" class="form-control form-control--custom form-control--fixed-height m-input">{{$forward_hearing_data['description']}}</textarea>
                                         <span class="help-block">{{$errors->first('description')}}</span>
                                     </div>
                                 </div>
