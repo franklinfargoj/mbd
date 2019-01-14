@@ -161,7 +161,7 @@ $login_user = session()->get('role_name');
 
 
             {{--<a href=""></i>Update Status</a> |--}}
-{{--            @if($hearing_data->hearingSchedule)--}}
+            @if($hearing_data->hearingSchedule)
             @if(count($hearing_data->hearingUploadCaseJudgement) > 0)
                 <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='upload_case_judgement.edit')?'m-menu__item--active':''}}">
                     <a href="{{ route('upload_case_judgement.edit', encrypt($hearing_data->id)) }}" class="m-menu__link m-menu__toggle">
@@ -187,7 +187,7 @@ $login_user = session()->get('role_name');
                         </a>
                     </li>
             @endif
-            {{--@endif--}}
+            @endif
 
 
         @if(!$hearing_data->hearingSchedule)
