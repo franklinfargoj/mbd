@@ -86,6 +86,16 @@ class UploadCaseJudgementController extends Controller
 
         $parent_role_id = User::where('role_id', session()->get('parent'))->first();
 
+        $child_role_id = User::where('role_id', session()->get('child'))->first();
+
+        if((session()->get('role_name') == config('commanConfig.co_pa')) || (session()->get('user_name') == config('commanConfig.joint_co_pa'))){
+            $user_id = $parent_role_id->id;
+            $session_key = 'parent';
+        }else{
+            $user_id = $child_role_id->id;
+            $session_key = 'child';
+        }
+
         $hearing_status_log = [
             [
                 'hearing_id' => $request->hearing_id,
@@ -100,8 +110,8 @@ class UploadCaseJudgementController extends Controller
 
             [
                 'hearing_id' => $request->hearing_id,
-                'user_id' => $parent_role_id->id,
-                'role_id' => session()->get('parent'),
+                'user_id' => $user_id,
+                'role_id' => session()->get($session_key),
                 'hearing_status_id' => ($request->close_case == 1) ? config('commanConfig.hearingStatus.case_closed') : config('commanConfig.hearingStatus.case_under_judgement'),
                 'to_user_id' => NULL,
                 'to_role_id' => NULL,
@@ -192,6 +202,16 @@ class UploadCaseJudgementController extends Controller
 
         $parent_role_id = User::where('role_id', session()->get('parent'))->first();
 
+        $child_role_id = User::where('role_id', session()->get('child'))->first();
+
+        if((session()->get('role_name') == config('commanConfig.co_pa')) || (session()->get('user_name') == config('commanConfig.joint_co_pa'))){
+            $user_id = $parent_role_id->id;
+            $session_key = 'parent';
+        }else{
+            $user_id = $child_role_id->id;
+            $session_key = 'child';
+        }
+
         $hearing_status_log = [
             [
                 'hearing_id' => $request->hearing_id,
@@ -206,8 +226,8 @@ class UploadCaseJudgementController extends Controller
 
             [
                 'hearing_id' => $request->hearing_id,
-                'user_id' => $parent_role_id->id,
-                'role_id' => session()->get('parent'),
+                'user_id' => $user_id,
+                'role_id' => session()->get($session_key),
                 'hearing_status_id' => ($request->close_case == 1) ? config('commanConfig.hearingStatus.case_closed') : config('commanConfig.hearingStatus.case_under_judgement'),
                 'to_user_id' => NULL,
                 'to_role_id' => NULL,
@@ -215,7 +235,6 @@ class UploadCaseJudgementController extends Controller
                 'updated_at' => Carbon::now()
             ]
         ];
-
         HearingStatusLog::insert($hearing_status_log);
 //
         return redirect('/hearing')->with('success','Case Judgement document uploaded successfully');

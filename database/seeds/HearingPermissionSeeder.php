@@ -300,6 +300,11 @@ class HearingPermissionSeeder extends Seeder
                 'display_name' => 'Shows hearing dashboard',
                 'description' => 'Shows hearing dashboard'
             ],
+            [
+                'name' => 'forward_case.show',
+                'display_name' => 'Shows Forwarded Case data',
+                'description' => 'Shows Forwarded Case data'
+            ],
         ];
 
         $permission_role_joint_pa = [];
@@ -380,6 +385,36 @@ class HearingPermissionSeeder extends Seeder
                 'name' => 'hearing.dashboard',
                 'display_name' => 'Shows hearing dashboard',
                 'description' => 'Shows hearing dashboard'
+            ],
+            [
+                'name' => 'schedule_hearing.show',
+                'display_name' => 'Shows scheduled hearing data',
+                'description' => 'Shows scheduled hearing data'
+            ],
+            [
+                'name' => 'fix_schedule.edit',
+                'display_name' => 'Edit Pre/Post Schedule data',
+                'description' => 'Edit Pre/Post Schedule data'
+            ],
+            [
+                'name' => 'upload_case_judgement.add',
+                'display_name' => 'Upload Case Judgement data',
+                'description' => 'Upload Case Judgement Pre/Post Schedule data'
+            ],
+            [
+                'name' => 'upload_case_judgement.edit',
+                'display_name' => 'Edit Uploaded Case Judgement data',
+                'description' => 'Edit Uploaded Case Judgement Pre/Post Schedule data'
+            ],
+            [
+                'name' => 'upload_case_judgement.store',
+                'display_name' => 'Edit Uploaded Case Judgement data',
+                'description' => 'Edit Uploaded Case Judgement Pre/Post Schedule data'
+            ],
+            [
+                'name' => 'upload_case_judgement.update',
+                'display_name' => 'Edit Uploaded Case Judgement data',
+                'description' => 'Edit Uploaded Case Judgement Pre/Post Schedule data'
             ],
 
         ];
