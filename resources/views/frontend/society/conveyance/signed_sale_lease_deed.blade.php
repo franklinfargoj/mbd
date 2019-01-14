@@ -105,21 +105,21 @@
                                                             @if($type != 'hidden' || $type_1 != 'hidden')
                                                                 <div class="form-group m-form__group row">
                                                                     @if(isset($field_names[$i]))
-                                                                        @php if($field_names[$i] == 'document_path'){ $type = 'file'; } @endphp
+                                                                        @php if($field_names[$i] == 'document_path'){  $type = 'file'; if(isset($sc_registrar_details) && ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued'))){ $type = 'hidden'; } } @endphp
                                                                         @if($type != 'hidden')
                                                                             <div class="col-sm-4 form-group">
                                                                                 <label class="col-form-label" for="{{ $field_names[$i] }}">@php $labels = implode(' ', explode('_', $field_names[$i])); echo ucwords($labels); @endphp:</label>
-                                                                                @php if(isset($sc_registrar_details['Sale Deed Agreement']) && count($sc_registrar_details['Sale Deed Agreement']) > 0){ $value = $sc_registrar_details['Sale Deed Agreement'][$field_names[$i]]; if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded')){ $readonly = 'readonly'; }else{ $readonly = ''; } }else{ $value =''; $readonly = ''; } echo $comm_func->form_fields($field_names[$i], $type,'' , '', $value, $readonly); @endphp
+                                                                                @php if(isset($sc_registrar_details['Sale Deed Agreement']) && count($sc_registrar_details['Sale Deed Agreement']) > 0){ $value = $sc_registrar_details['Sale Deed Agreement'][$field_names[$i]]; if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued')){ $readonly = 'readonly'; }else{ $readonly = ''; } }else{ $value =''; $readonly = ''; } echo $comm_func->form_fields($field_names[$i], $type,'' , '', $value, $readonly); @endphp
                                                                                 <span id="error_{{ $field_names[$i] }}" class="help-block">{{$errors->first($field_names[$i])}}</span>
                                                                             </div>
                                                                         @endif
                                                                     @endif
                                                                     @if(isset($field_names[$i+1]))
-                                                                        @php if($field_names[$i+1] == 'document_path'){ $type_1 = 'file'; } @endphp
+                                                                        @php if($field_names[$i+1] == 'document_path'){  $type_1 = 'file'; if(isset($sc_registrar_details) && ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued'))){ $type_1 = 'hidden'; } } @endphp
                                                                         @if($type_1 != 'hidden')
-                                                                            <div class="col-sm-4 offset-sm-1 form-group">
+                                                                            <div class="col-sm-4 offset-sm-@if($field_names[$i+1] == 'document_path_lease') 0 @else 1 @endif form-group">
                                                                                 <label class="col-form-label" for="{{ $field_names[$i+1] }}">@php $labels = implode(' ', explode('_', $field_names[$i+1])); echo ucwords($labels); @endphp:</label>
-                                                                                @php if(isset($sc_registrar_details['Sale Deed Agreement']) && count($sc_registrar_details['Sale Deed Agreement']) > 0){ $value = $sc_registrar_details['Sale Deed Agreement'][$field_names[$i+1]]; if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded')){ $readonly = 'readonly'; }else{ $readonly = ''; } }else{ $value =''; $readonly = ''; } echo $comm_func->form_fields($field_names[$i+1], $type_1,'' , '', $value, $readonly); @endphp
+                                                                                @php if(isset($sc_registrar_details['Sale Deed Agreement']) && count($sc_registrar_details['Sale Deed Agreement']) > 0){ $value = $sc_registrar_details['Sale Deed Agreement'][$field_names[$i+1]]; if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued')){ $readonly = 'readonly'; }else{ $readonly = ''; } }else{ $value =''; $readonly = ''; } echo $comm_func->form_fields($field_names[$i+1], $type_1,'' , '', $value, $readonly); @endphp
                                                                                 <span id="error_{{ $field_names[$i+1] }}" class="help-block">{{$errors->first($field_names[$i+1])}}</span>
                                                                             </div>
                                                                         @endif
@@ -141,7 +141,7 @@
                                                         {{--</div>--}}
                                                         {{--</div>--}}
                                                         <div class="mt-3 btn-list">
-                                                            @if(!(isset($sc_registrar_details['Sale Deed Agreement']) && count($sc_registrar_details['Sale Deed Agreement']) > 0 && $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded')))
+                                                            @if(!(isset($sc_registrar_details['Sale Deed Agreement']) && count($sc_registrar_details['Sale Deed Agreement']) > 0 && ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued'))))
                                                                 <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
                                                             @endif
                                                             <a href="{{route('society_conveyance.index')}}" class="btn btn-secondary">Cancel</a>
@@ -222,7 +222,7 @@
                                                                 @if($type != 'hidden' || $type_1 != 'hidden')
                                                                     <div class="form-group m-form__group row">
                                                                         @if(isset($field_names[$i]))
-                                                                            @php if($field_names[$i] == 'document_path'){ $type = 'file'; $field_names[$i] = $field_names[$i].'_lease'; } @endphp
+                                                                            @php if($field_names[$i] == 'document_path'){ $type = 'file'; if(isset($sc_registrar_details) && ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued'))){ $type = 'hidden'; } $field_names[$i] = $field_names[$i].'_lease'; } @endphp
                                                                             @if($type != 'hidden')
                                                                                 <div class="col-sm-4 form-group">
                                                                                     <label class="col-form-label" for="{{ $field_names[$i] }}">@php if($field_names[$i] == 'document_path_lease'){ echo 'Upload Lease Deed Agreement'; }else{ $labels = implode(' ', explode('_', $field_names[$i])); echo ucwords($labels); } @endphp:</label>
@@ -232,9 +232,9 @@
                                                                             @endif
                                                                         @endif
                                                                         @if(isset($field_names[$i+1]))
-                                                                                @php if($field_names[$i+1] == 'document_path'){ $type_1 = 'file'; $field_names[$i+1] = $field_names[$i+1].'_lease'; } @endphp
+                                                                                @php if($field_names[$i+1] == 'document_path'){ $type_1 = 'file'; if(isset($sc_registrar_details) && ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued'))){ $type_1 = 'hidden'; } $field_names[$i+1] = $field_names[$i+1].'_lease'; } @endphp
                                                                             @if($type_1 != 'hidden')
-                                                                                <div class="col-sm-4 offset-sm-1 form-group">
+                                                                                <div class="col-sm-4 offset-sm- @if($field_names[$i+1] == 'document_path_lease') 0 @else 1 @endif form-group">
                                                                                     <label class="col-form-label" for="{{ $field_names[$i+1] }}">@php if($field_names[$i+1] == 'document_path_lease'){ echo 'Upload Lease Deed Agreement'; }else{ $labels = implode(' ', explode('_', $field_names[$i+1])); echo ucwords($labels); } @endphp:</label>
                                                                                     @php if(isset($sc_registrar_details['Lease Deed Agreement']) && count($sc_registrar_details['Lease Deed Agreement']) > 0){ $value = $sc_registrar_details['Lease Deed Agreement'][$field_names[$i+1]]; $readonly = 'readonly'; }else{ $value =''; $readonly = ''; } echo $comm_func->form_fields($field_names[$i+1], $type_1,'' , '', $value, $readonly); @endphp
                                                                                     <span id="error_{{ $field_names[$i+1] }}" class="help-block">{{$errors->first($field_names[$i+1])}}</span>
@@ -258,7 +258,7 @@
                                                                     {{--</div>--}}
                                                                 {{--</div>--}}
                                                                 <div class="mt-3 btn-list">
-                                                                @if(!(isset($sc_registrar_details['Lease Deed Agreement']) && count($sc_registrar_details['Lease Deed Agreement']) > 0 && $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded')))
+                                                                @if(!(isset($sc_registrar_details['Lease Deed Agreement']) && count($sc_registrar_details['Lease Deed Agreement']) > 0 && ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued'))))
                                                                     <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
                                                                 @endif
                                                                 <a href="{{route('society_conveyance.index')}}" class="btn btn-secondary">Cancel</a>

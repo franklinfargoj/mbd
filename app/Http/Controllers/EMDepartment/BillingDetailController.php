@@ -153,17 +153,19 @@ class BillingDetailController extends Controller
 
             }
 // echo'<pre>';
-//             print_r($data['billIds']);
-//             print_r($data['bill_no']);
-//             exit;
+            // print_r($data['bills']);
+            // print_r($data['billIds']);
+            // exit;
             $amount_paid = [];
             if(!empty($data['billIds'])) {
                 if($request->has('tenant_id') && !empty($request->tenant_id)) {
-                    $amount_paid = TransBillGenerate::selectRaw('sum(total_bill) as total_bill,tenant_id')->whereIn('id',$data['billIds'])->where('status','paid')->groupBy('building_id')->pluck('total_bill','tenant_id')->toArray();
+                    $amount_paid = TransBillGenerate::Join('trans_payment', 'trans_payment.bill_no', '=', 'trans_bill_generate.id')->selectRaw('sum(amount_paid) as total_bill,trans_bill_generate.tenant_id as tenant_id')->whereIn('trans_bill_generate.id',$data['billIds'])->where('status','paid')->groupBy('trans_bill_generate.building_id')->pluck('total_bill','tenant_id')->toArray();
                 } else {
-                    $amount_paid = TransBillGenerate::selectRaw('sum(total_bill) as total_bill,building_id')->whereIn('id',$data['billIds'])->where('status','paid')->groupBy('building_id')->pluck('total_bill','building_id')->toArray();
+                    $amount_paid = TransBillGenerate::Join('trans_payment', 'trans_payment.bill_no', '=', 'trans_bill_generate.id')->selectRaw('sum(trans_payment.amount_paid) as total_bill,trans_payment.building_id as building_id')->whereIn('trans_bill_generate.id',$data['billIds'])->groupBy('trans_payment.building_id')->pluck('total_bill','building_id')->toArray();
                 }
             }
+ // print_r($amount_paid);
+ //            exit;
 
              $columns = [
                 ['data' => 'Month,Year','name' => 'Month,Year','title' => 'Month,Year','orderable'=>false],
@@ -200,7 +202,13 @@ class BillingDetailController extends Controller
 
         	if ($datatables->getRequest()->ajax()) {
 
-                $arreas_calculations = $arreas_calculations->selectRaw('Sum(old_intrest_amount) as old_intrest_amount,Sum(difference_amount) as difference_amount, Sum(difference_intrest_amount) as difference_intrest_amount,tenant_id,building_id,oir_year,oir_month,ida_year,ida_month,month,year')->orderBy('id','DESC')->get();
+                if($request->has('tenant_id') && !empty($request->tenant_id)) {
+                    $arreas_calculations = $arreas_calculations->selectRaw('old_intrest_amount,difference_amount, difference_intrest_amount,tenant_id,building_id,oir_year,oir_month,ida_year,ida_month,month,year')->orderBy('id','DESC')->get();
+                } else {
+                    $arreas_calculations = $arreas_calculations->selectRaw('Sum(old_intrest_amount) as old_intrest_amount,Sum(difference_amount) as difference_amount, Sum(difference_intrest_amount) as difference_intrest_amount,tenant_id,building_id,oir_year,oir_month,ida_year,ida_month,month,year')->orderBy('id','DESC')->get();
+                }
+                // echo '<pre>';
+                // print_r($arreas_calculations);exit;
                 return $datatables->of($arreas_calculations)
                     ->editColumn('Month,Year', function ($arreas_calculations) {
                         if(isset($arreas_calculations->month)) {
@@ -288,24 +296,37 @@ class BillingDetailController extends Controller
                             }  
                         }
                     })
-                    ->editColumn('balance_amount', function ($arreas_calculations) use($arrear_charges){
+                    ->editColumn('balance_amount', function ($arreas_calculations) use($arrear_charges,$tenant,$building){
                         if(isset($arreas_calculations->month) && isset($arreas_calculations->year)) {
                             $date1 = new \DateTime($arreas_calculations->year.'-'.$arreas_calculations->month.'-1');
                             $date2 = new \DateTime($arreas_calculations->oir_year.'-'.$arreas_calculations->oir_month.'-1');
 
                             $monthDiff = $date1->diff($date2);
                             $monthDiff = ($monthDiff->format('%y') * 12) + $monthDiff->format('%m');
-                       
+                            
                             if($monthDiff>0){
-                                return $arrear_charges->old_rate * $monthDiff + $arreas_calculations->difference_amount* $monthDiff;
+                                if(empty($tenant)) {
+                                    return $arrear_charges->old_rate *$building->tenant_count()->first()->count + $arreas_calculations->difference_amount* $monthDiff*$building->tenant_count()->first()->count;
+                                } else {
+                                    return $arrear_charges->old_rate * $monthDiff + $arreas_calculations->difference_amount* $monthDiff;
+                                }
                             } else {
-                                return $arrear_charges->old_rate + $arreas_calculations->difference_amount;
+                                if(empty($tenant)) {
+                                    // return $arreas_calculations->difference_amount;
+                                    return $arrear_charges->old_rate*$building->tenant_count()->first()->count + $arreas_calculations->difference_amount;
+                                } else {
+                                    return $arrear_charges->old_rate + $arreas_calculations->difference_amount;
+                                }
                             }
                          }
                     })
-                    ->editColumn('interest_amount', function ($arreas_calculations) {
+                    ->editColumn('interest_amount', function ($arreas_calculations) use($building,$tenant){
                         if(isset($arreas_calculations->old_intrest_amount) && isset($arreas_calculations->difference_intrest_amount)) {
-                            return $arreas_calculations->old_intrest_amount + $arreas_calculations->difference_intrest_amount;
+                            if(empty($tenant)) {
+                                return ($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount);
+                            } else {
+                                return $arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount;
+                            }
                         }
                     })
                     ->editColumn('grand_total', function ($arreas_calculations) use($tenant,$total_service_charges,$building,$arrear_charges) {
@@ -317,13 +338,17 @@ class BillingDetailController extends Controller
                             $monthDiff = ($monthDiff->format('%y') * 12) + $monthDiff->format('%m');
 
                             if($monthDiff>0) {
-                                if(!empty($tenant)) {
-                                    return ($total_service_charges*$building->tenant_count()->first()->count)+($arrear_charges->old_rate * $monthDiff) + ($arreas_calculations->difference_amount* $monthDiff )+ $arreas_calculations->old_intrest_amount + $arreas_calculations->difference_intrest_amount;
+                                if(empty($tenant)) {
+                                    return ($total_service_charges*$building->tenant_count()->first()->count)+($arrear_charges->old_rate * $monthDiff*$building->tenant_count()->first()->count) + ($arreas_calculations->difference_amount* $monthDiff )+ ($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount);
                                 } else {
                                     return $total_service_charges+($arrear_charges->old_rate  * $monthDiff) + ($arreas_calculations->difference_amount* $monthDiff)+$arreas_calculations->old_intrest_amount + $arreas_calculations->difference_intrest_amount;
                                 }
                             } else {
-                                return $total_service_charges+$arrear_charges->old_rate + $arreas_calculations->difference_amount+$arreas_calculations->old_intrest_amount + $arreas_calculations->difference_intrest_amount;
+                                if(empty($tenant)) {
+                                    return ($total_service_charges*$building->tenant_count()->first()->count)+($arrear_charges->old_rate *$building->tenant_count()->first()->count)+ $arreas_calculations->difference_amount+($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount);
+                                } else {
+                                    return $total_service_charges+$arrear_charges->old_rate + $arreas_calculations->difference_amount+$arreas_calculations->old_intrest_amount + $arreas_calculations->difference_intrest_amount;
+                                }
                             }
                         }
                     })
@@ -349,11 +374,16 @@ class BillingDetailController extends Controller
                             $button = "<div class='d-flex btn-icon-list'>
                                 <a href='".$url."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>Donwload Bill</a>";
                             if(!empty($reciepts) && array_key_exists($arreas_calculations->tenant_id, $reciepts) && !empty($tenant)) {
+                                $transBill = TransBillGenerate::find($reciepts[$arreas_calculations->tenant_id]);
+                                
+                                if(!empty($transBill) && $transBill->bill_month == $arreas_calculations->month) {
+
                                 $url = (!empty($tenant))?
                                     route('downloadReceipt', ['building_id'=>encrypt($building->id),'bill_no'=>encrypt($reciepts[$arreas_calculations->tenant_id]),'tenant_id'=> encrypt($tenant->id)])
                                     :route('downloadReceipt', ['building_id'=>encrypt($building->id),'society_id'=>encrypt($building->society_id),
                                         'bill_no'=>encrypt($reciepts[$arreas_calculations->tenant_id])]);
                                 $button.= "<a href='".$url."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Download Receipt</a></div>";
+                                }
 
                             } else if(!empty($reciepts) && array_key_exists($arreas_calculations->building_id, $reciepts) && !empty($tenant)) {
                                     $url = (!empty($tenant))?

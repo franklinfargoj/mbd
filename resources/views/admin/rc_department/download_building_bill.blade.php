@@ -214,7 +214,7 @@
                     <tr>
                         <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$calculation->year}}</td>
                         <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
-                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$calculation->total_amount}}</td>
+                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$calculation->total_amount- $calculation->old_intrest_amount - $calculation->difference_intrest_amount}}</td>
                         <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$calculation->old_intrest_amount + $calculation->difference_intrest_amount}}</td>
                     </tr>
                 @endforeach
