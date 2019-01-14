@@ -112,17 +112,6 @@ class TripartiteDashboardController extends Controller
                         ; break;
                 }
             }
-            if($phase == 2){
-                switch ( $status )
-                {
-
-                    case config('commanConfig.applicationStatus.forwarded'): $offerLetterForwardedForIssueingToSociety += 1; break;
-                    case config('commanConfig.applicationStatus.offer_letter_approved'): $offerLetterApprovedNotIssuedToSociety += 1; break;
-                    case config('commanConfig.applicationStatus.sent_to_society'): $offerLetterIssuedToSociety += 1; break;
-                    default:
-                        ; break;
-                }
-            }
 
         }
 
