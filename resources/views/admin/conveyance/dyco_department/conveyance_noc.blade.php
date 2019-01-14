@@ -77,7 +77,7 @@
                 <div class="m-subheader" style="padding: 0;">
                     <div class="d-flex align-items-center justify-content-center">
                         <h4 class="section-title">
-                            Letter to Pay Stamp  Duty
+                            Noc Issue
                         </h4>
                     </div>
                 </div>     
@@ -106,7 +106,7 @@
                             <div class="col-sm-6 border-left">
                                 <div class="d-flex flex-column h-100 two-cols">
                                     <h5>Send to Society</h5>
-                                    <span class="hint-text">Send to NOC Society </span>
+                                    <span class="hint-text">Send NOC to Society </span>
                                     <div class="mt-auto">
                                         <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.send_to_society')}}" enctype="multipart/form-data">
                                         @csrf
