@@ -11,6 +11,7 @@
 @php
 $route="";
 $route=\Request::route()->getName();
+//dd($hearing_data);
 
 @endphp
 
@@ -158,6 +159,7 @@ $route=\Request::route()->getName();
 
 
             {{--<a href=""></i>Update Status</a> |--}}
+            @if($hearing_data->hearingSchedule)
             @if(count($hearing_data->hearingUploadCaseJudgement) > 0)
                 <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='upload_case_judgement.edit')?'m-menu__item--active':''}}">
                     <a href="{{ route('upload_case_judgement.edit', encrypt($hearing_data->id)) }}" class="m-menu__link m-menu__toggle">
@@ -183,8 +185,10 @@ $route=\Request::route()->getName();
                     </a>
                 </li>
             @endif
+            @endif
         @endif
 
+        @if(!$hearing_data->hearingSchedule)
         @if(count($hearing_data->hearingForwardCase))
             @if($hearing_data->hearingStatusLog[0]->hearing_status_id == config('commanConfig.hearingStatus.forwarded'))
                     <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='forward_case.show')?'m-menu__item--active':''}}">
@@ -206,7 +210,7 @@ $route=\Request::route()->getName();
                                       fill="#FFF" />
                             </svg>
                             <span class="m-menu__link-text">
-                                Forward Case
+                                Forwarded Case
                                 </span>
                         </a>
                     </li>
@@ -223,6 +227,7 @@ $route=\Request::route()->getName();
                     </span>
                 </a>
             </li>
+        @endif
         @endif
 
         @if(in_array('send_notice_to_appellant.edit', session()->get('permission')))

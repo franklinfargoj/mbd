@@ -6,6 +6,7 @@ use App\ApplicationType;
 use App\Board;
 use App\DeletedHearing;
 use App\Department;
+use App\ForwardCase;
 use App\Hearing;
 use App\HearingSchedule;
 use App\HearingStatus;
@@ -346,6 +347,7 @@ class HearingController extends Controller
         $arrData['status'] = HearingStatus::all();
         $hearing_data = $arrData['hearing'];
 //         dd($hearing_data);
+
         return view('admin.hearing.edit', compact('header_data', 'arrData', 'hearing_data'));
     }
 

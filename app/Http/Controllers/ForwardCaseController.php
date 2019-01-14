@@ -135,7 +135,9 @@ class ForwardCaseController extends Controller
         $arrData['department'] = Department::where('status', 1)->get();
         $hearing_data = $arrData['hearing'];
 //        dd($hearing_data);
-        return view('admin.forward_case.edit', compact('header_data', 'arrData', 'hearing_data'));
+        $forward_hearing_data = ForwardCase::where('hearing_id',$id)->first()->toArray();
+//        dd($arrData['department']);
+        return view('admin.forward_case.edit', compact('header_data', 'arrData', 'hearing_data','forward_hearing_data'));
     }
 
     public function update(Request $request, $id)
