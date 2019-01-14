@@ -1,0 +1,1 @@
+<span>Heyaaaa!!!!!!!!!!! {{ $tripartite_data['name'] }}</span>

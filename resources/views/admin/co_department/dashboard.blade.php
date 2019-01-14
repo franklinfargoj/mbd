@@ -115,7 +115,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
                        data-toggle="collapse" href="#co-ol-summary">
-                        <span class="form-accordion-title">CO Offer Letter Summary</span>
+                        <span class="form-accordion-title">Application for Redevelopment</span>
                         <span class="accordion-icon ol-accordion-icon"></span>
                     </a>
                 </div>
@@ -503,7 +503,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 @section('js')
     <script>
@@ -934,7 +933,7 @@
             AmCharts.ready(function () {
                 // PIE CHART
                 chart6 = new AmCharts.AmPieChart();
-                chart6.dataProvider = chartdata6;
+                chart6.dataProvider = chartData6;
                 chart6.titleField = "status";
                 chart6.valueField = "value";
                 chart6.outlineColor = "#FFFFFF";
