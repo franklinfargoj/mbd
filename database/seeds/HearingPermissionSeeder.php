@@ -300,6 +300,11 @@ class HearingPermissionSeeder extends Seeder
                 'display_name' => 'Shows hearing dashboard',
                 'description' => 'Shows hearing dashboard'
             ],
+            [
+                'name' => 'forward_case.show',
+                'display_name' => 'Shows Forwarded Case data',
+                'description' => 'Shows Forwarded Case data'
+            ],
         ];
 
         $permission_role_joint_pa = [];

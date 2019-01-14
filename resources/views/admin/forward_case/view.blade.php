@@ -119,7 +119,7 @@
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="description">Description:</label>
-                        <textarea id="description" name="description" class="form-control form-control--custom form-control--fixed-height m-input">{{ $arrData['hearing']->hearingForwardCase[0]->description }}</textarea>
+                        <textarea disabled id="description" name="description" class="form-control form-control--custom form-control--fixed-height m-input">{{ $arrData['hearing']->hearingForwardCase[0]->description }}</textarea>
                         <span class="help-block">{{$errors->first('description')}}</span>
                     </div>
                 </div>
