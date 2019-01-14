@@ -12,6 +12,11 @@ class RtiForwardApplication extends Model
     	'application_id',
     	'board_id',
     	'department_id',
-    	'remarks'
+		'remarks',
+		'to_role_id',
+		'to_user_id',
+		'role_id',
+		'user_id',
+		'status_id'
 	);
 }

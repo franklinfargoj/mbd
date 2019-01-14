@@ -53,7 +53,7 @@
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group m-form__group row">
-                                    <div class="col-sm-6">
+                                    {{-- <div class="col-sm-6">
                                         <div class="d-flex align-items-center @if($errors->has('status')) has-error @endif">
                                             <label class="col-form-label field-name">Update Status:</label>
                                             <input type="hidden" name="application_no" value="{{ $rti_applicant->unique_id }}">
@@ -66,7 +66,7 @@
                                             </select>
                                             <span class="help-block">{{$errors->first('status')}}</span>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-sm-6">
                                         <div class="d-flex align-items-center @if($errors->has('rti_info_file')) has-error @endif">
                                             <label class="col-form-label field-name">Upload Information:</label>

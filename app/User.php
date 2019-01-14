@@ -42,4 +42,9 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\LayoutUser', 'user_id','id');
     }
+    
+    public function department()
+    {
+        return $this->hasOne(\App\Department::class,'rti_department_users','user_id','department_id');
+    }
 }

@@ -46,5 +46,8 @@ class RtiForm extends Model
     // public function status(){
     //     return $this->belongsTo(RtiStatus::class, 'rti_status_id');
     // }
+    public function rti_forward_status(){
+    	return $this->hasMany(RtiForwardApplication::class, 'application_id','id')->orderBy('id','desc');
+    }
 
 }

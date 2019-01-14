@@ -9,6 +9,9 @@ use App\MasterRtiStatus;
 use App\RtiStatus;
 use App\Http\Requests\rti\RtiFormSubmitRequest;
 use Illuminate\Http\Request;
+use App\RtiForwardApplication;
+use App\User;
+use App\RtiDepartmentUser;
 
 
 class RtiFrontEndController extends Controller
@@ -134,22 +137,52 @@ class RtiFrontEndController extends Controller
         //     $input['info_post_type'] = '0';
         //     $input['poverty_line_proof'] = '';
         // }
-                
-        $last_id = RtiForm::create($input);
-        $last_inserted_id = $last_id->id;
-        $rti_status_id = MasterRtiStatus::where('status_title', config('commanConfig.rti_form_status'))->value('id');
-        $updated_status = array(
-            'status_id' => $rti_status_id,
-            'application_id' => $last_inserted_id
-        );
-
-        $last_updated_status_id = RtiStatus::create($updated_status);
-
-        $update_id['rti_status_id'] = $last_updated_status_id->id;
-
-        RtiForm::where('id', $last_inserted_id)->update($update_id);
-
+        //dd($request->input('board_id'));
+        $to_user=$this->get_user_by_department($request->input('department_id'));
+        
+        \DB::transaction(function() use($request,$input,$to_user)
+        {
+            $last_id = RtiForm::create($input);
+           // dd($last_id);
+            $last_inserted_id = $last_id->id;
+            $rti_status_id = MasterRtiStatus::where('status_title', config('commanConfig.rti_form_status'))->value('id');
+            $updated_status = array(
+                'status_id' => $rti_status_id,
+                'application_id' => $last_inserted_id
+            );
+    
+            $last_updated_status_id = RtiStatus::create($updated_status);
+    
+            $update_id['rti_status_id'] = $last_updated_status_id->id;
+    
+            RtiForm::where('id', $last_inserted_id)->update($update_id);
+            //dd($to_user->role_id);
+            $input = array(
+                'application_id' => $last_inserted_id,
+                'board_id' => $request->input('board_id'),
+                'department_id' => $request->input('department_id'),
+                'remarks' => $request->input('rti_remarks'),
+                'user_id'=>$to_user->id,
+                'role_id'=>$to_user->role_id,
+                'to_user_id'=>null,
+                'to_role_id'=>null,
+                'status_id'=>config('commanConfig.rti_status.in_process')
+            );
+    
+            RtiForwardApplication::insert($input);
+        });
+       
+        
         return redirect()->route('rti_frontend.edit', $input['frontend_user_id']);
+    }
+
+    public function get_user_by_department($deparment_id)
+    {
+        $user_id=RtiDepartmentUser::where(['department_id'=>$deparment_id])->first();
+        if($user_id)
+        {
+            return User::find($user_id->user_id);
+        }
     }
 
     /**
