@@ -359,7 +359,14 @@ return [
         'closed'=>4,
         'forwarded'=>5
     ],
-
+    'rti_statusColor' => [
+        '1' => 'metal',
+        '2' => 'info',
+        '3' => 'danger',
+        '4' => 'success',
+        '5'=>'info'
+        // 'final' => 5
+    ],
     'sc_excel_headers' => [
         'Sr No', 'Tenament No', 'Tenament Name', 'Residential/Non-Residential'
     ],

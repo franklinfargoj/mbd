@@ -105,7 +105,15 @@ class RtiFormController extends Controller
 
             if($request->status)
             {
-                $rti_applicants = $rti_applicants->where('status', $request->status);
+                $rti_applicants = $rti_applicants->where(DB::raw($request->status), '=', function ($q) {
+                    $q->from('rti_forward_application')
+                        ->select('status_id')
+                        ->where('application_id', '=', DB::raw('rti_form.id'))
+                        ->where('user_id', auth()->user()->id)
+                        ->where('role_id', auth()->user()->role_id)
+                        ->limit(1)
+                        ->orderBy('id', 'desc');
+                });
             }
 
             if($request->date_of_submission)
@@ -140,12 +148,13 @@ class RtiFormController extends Controller
                     $status=$rti_applicants->rti_forward_status!=""?$rti_applicants->rti_forward_status[0]->status_id:' - ';
                     $config_array = array_flip(config('commanConfig.rti_status'));
                     $value = ucwords(str_replace('_', ' ', $config_array[$status]));
-                    return $value;
+                    return '<span class="m-badge m-badge--' . config('commanConfig.rti_statusColor.' . $status) . ' m-badge--wide">' . $value . '</span>';
+                    //return $value;
                 })
                 ->editColumn('actions', function ($rti_applicants) {
                    // return view('admin.rti_form.actions', compact('rti_applicants'))->render();
                 })
-                ->rawColumns(['radio', 'board_name','status','actions'])
+                ->rawColumns(['radio', 'board_name','status','actions','rti_status_id'])
                 ->make(true);
         }
 
@@ -199,8 +208,8 @@ class RtiFormController extends Controller
         $update_meeting_schedule_id['status'] = config('commanConfig.rti_status.meeting_is_scheduled');
         $input = array(
             'application_id' => $id,
-            // 'board_id' => $request->input('board'),
-            // 'department_id' => $request->input('department'),
+            'board_id' => null,
+            'department_id' => null,
             'remarks' => null,
             'user_id'=>auth()->user()->id,
             'role_id'=>auth()->user()->role_id,
@@ -208,7 +217,6 @@ class RtiFormController extends Controller
             'to_role_id'=>null,
             'status_id'=>config('commanConfig.rti_status.meeting_is_scheduled')
         );
-            
         // dd('ok');
         $last_inserted_id = RtiForwardApplication::create($input);
         RtiForm::where('unique_id', $request->input('application_no'))->where('id', $id)->update($update_meeting_schedule_id);
@@ -310,8 +318,8 @@ class RtiFormController extends Controller
         );
         $input = array(
             'application_id' => $id,
-            // 'board_id' => $request->input('board'),
-            // 'department_id' => $request->input('department'),
+            'board_id' => null,
+            'department_id' => null,
             'remarks' => null,
             'user_id'=>auth()->user()->id,
             'role_id'=>auth()->user()->role_id,
@@ -322,9 +330,7 @@ class RtiFormController extends Controller
             
         // dd('ok');
         $last_inserted_id = RtiForwardApplication::create($input);
-
         $last_updated_status_id = RtiStatus::create($updated_status);
-
         $update_id['rti_status_id'] = $last_updated_status_id->id;
         $update_id['rti_send_info_id'] = $last_inserted_id->id;
         $update_id['status'] = config('commanConfig.rti_status.closed');
