@@ -20,6 +20,7 @@ use Yajra\DataTables\DataTables;
 use Config;
 use DB;
 use App\RtiFronendUser;
+use App\User;
 use PDF;
 
 class RtiFormController extends Controller
@@ -96,7 +97,11 @@ class RtiFormController extends Controller
         ];
         if ($datatables->getRequest()->ajax()) {
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-            $rti_applicants = RtiForm::with(['rti_schedule_meetings','master_rti_status']);
+            $rti_applicants = RtiForm::with(['rti_schedule_meetings','master_rti_status','rti_forward_status'=>function($q){
+                $q->where('user_id',auth()->user()->id)->where('role_id',auth()->user()->role_id);
+            }])->whereHas('rti_forward_status',function($q){
+                $q->where('user_id',auth()->user()->id)->where('role_id',auth()->user()->role_id);
+            });
 
             if($request->status)
             {
@@ -132,7 +137,10 @@ class RtiFormController extends Controller
                     return $rti_applicants->rti_schedule_meetings!=""?$rti_applicants->rti_schedule_meetings->meeting_scheduled_date:' - ';
                 })
                 ->editColumn('rti_status_id', function ($rti_applicants) {
-                    return $rti_applicants->master_rti_status!=""?$rti_applicants->master_rti_status->status_title->status_title:' - ';
+                    $status=$rti_applicants->rti_forward_status!=""?$rti_applicants->rti_forward_status[0]->status_id:' - ';
+                    $config_array = array_flip(config('commanConfig.rti_status'));
+                    $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                    return $value;
                 })
                 ->editColumn('actions', function ($rti_applicants) {
                    // return view('admin.rti_form.actions', compact('rti_applicants'))->render();
@@ -161,12 +169,19 @@ class RtiFormController extends Controller
 
     public function show_schedule_meeting_form($id)
     {
+        
+        $readonly=0;
         $rti_applicant = RtiForm::find($id);
+        $latest_status=getCurrentStatusOfRtiApplicationForCurrentUSer($rti_applicant->id);
+        if($latest_status->status_id==config('commanConfig.rti_status.closed') || $latest_status->status_id==config('commanConfig.rti_status.forwarded'))
+        {
+            $readonly=1;
+        }
         $rti_meetings_scheduled = RtiScheduleMeeting::where('application_no', $rti_applicant->unique_id)->orderBy('id','desc')->first();
         if($rti_meetings_scheduled){
             $rti_meetings_scheduled = $rti_meetings_scheduled;
         }
-        return view('admin.rti_form.schedule_meeting', compact('rti_applicant', 'rti_meetings_scheduled'));
+        return view('admin.rti_form.schedule_meeting', compact('readonly','rti_applicant', 'rti_meetings_scheduled'));
     }
 
     public function schedule_meeting(Request $request, $id)
@@ -181,6 +196,21 @@ class RtiFormController extends Controller
         $applicant_exist = RtiScheduleMeeting::where('application_no', $request->input('application_no'))->get();
         $last_inserted_id = RtiScheduleMeeting::create($input);
         $update_meeting_schedule_id['rti_schedule_meeting_id'] = $last_inserted_id->id;
+        $update_meeting_schedule_id['status'] = config('commanConfig.rti_status.meeting_is_scheduled');
+        $input = array(
+            'application_id' => $id,
+            // 'board_id' => $request->input('board'),
+            // 'department_id' => $request->input('department'),
+            'remarks' => null,
+            'user_id'=>auth()->user()->id,
+            'role_id'=>auth()->user()->role_id,
+            'to_user_id'=>null,
+            'to_role_id'=>null,
+            'status_id'=>config('commanConfig.rti_status.meeting_is_scheduled')
+        );
+            
+        // dd('ok');
+        $last_inserted_id = RtiForwardApplication::create($input);
         RtiForm::where('unique_id', $request->input('application_no'))->where('id', $id)->update($update_meeting_schedule_id);
         return redirect('rti_applicants');
     }
@@ -230,10 +260,16 @@ class RtiFormController extends Controller
     }
 
     public function show_send_info_form($id){
+        $readonly=0;
         $rti_applicant = RtiForm::with('users', 'rti_send_info')->where('id', $id)->orderBY('id','desc')->first();
+        $latest_status=getCurrentStatusOfRtiApplicationForCurrentUSer($rti_applicant->id);
+        if($latest_status->status_id==config('commanConfig.rti_status.closed') || $latest_status->status_id==config('commanConfig.rti_status.forwarded'))
+        {
+            $readonly=1;
+        }
         $rti_statuses = MasterRtiStatus::all();
         $rti_applicant = $rti_applicant;
-        return view('admin.rti_form.send_info_to_applicant', compact('rti_statuses', 'rti_applicant'));
+        return view('admin.rti_form.send_info_to_applicant', compact('readonly','rti_statuses', 'rti_applicant'));
     }
 
     public function send_info(Request $request, $id){
@@ -243,17 +279,20 @@ class RtiFormController extends Controller
         ]);
         $input = array(
             'application_id' => $id,
-            'rti_status_id' => $request->input('status'),
+            'rti_status_id' =>config('commanConfig.rti_status.closed'),
             'comment' => $request->input('rti_comment'),
         );
-        $uploadPath = '/uploads/rti_send_info_files';
-        $destinationPath = public_path($uploadPath);
+        $uploadPath = 'rti_send_info_files';
+        if (!(\Storage::disk('ftp')->has($uploadPath))) {
+            \Storage::disk('ftp')->makeDirectory($uploadPath, $mode = 0777, true, true);
+        }
 
         if($request->file('rti_info_file'))
         {
             $file = $request->file('rti_info_file');
             $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
-            if($file->move($destinationPath, $file_name))
+            $storage = Storage::disk('ftp')->putFileAs($uploadPath, $request->file('rti_info_file'), $file_name);
+            if($storage!="")
             {
                 $input['filepath'] = $uploadPath.'/';
                 $input['filename'] = $file_name;
@@ -266,15 +305,30 @@ class RtiFormController extends Controller
         $last_inserted_id = RtiSendInfo::create($input);
 
         $updated_status = array(
-            'status_id' => $request->input('status'),
+            'status_id' => config('commanConfig.rti_status.closed'),
             'application_id' => $id
         );
+        $input = array(
+            'application_id' => $id,
+            // 'board_id' => $request->input('board'),
+            // 'department_id' => $request->input('department'),
+            'remarks' => null,
+            'user_id'=>auth()->user()->id,
+            'role_id'=>auth()->user()->role_id,
+            'to_user_id'=>null,
+            'to_role_id'=>null,
+            'status_id'=>config('commanConfig.rti_status.closed')
+        );
+            
+        // dd('ok');
+        $last_inserted_id = RtiForwardApplication::create($input);
+
         $last_updated_status_id = RtiStatus::create($updated_status);
 
         $update_id['rti_status_id'] = $last_updated_status_id->id;
         $update_id['rti_send_info_id'] = $last_inserted_id->id;
-        $update_id['status'] = $request->input('status');
-        RtiForm::where('unique_id', $request->input('application_no'))->where('id', $id)->update($update_id);
+        $update_id['status'] = config('commanConfig.rti_status.closed');
+        RtiForm::where('id', $id)->update($update_id);
         return redirect('rti_applicants');
     }
 
@@ -286,21 +340,53 @@ class RtiFormController extends Controller
         return view('admin.rti_form.forward_application', compact('rti_statuses', 'rti_applicant', 'boards', 'departments'));
     }
 
+    public function get_user_by_department($deparment_id)
+    {
+        return User::whereHas('department',function($q) use($deparment_id){
+            $q->where('department_id',$deparment_id);
+        })->first();
+    }
+
     public function forward_application(Request $request, $id){
+        
         $request->validate([
             'rti_remarks' => 'required',
         ]);
-        $input = array(
-            'application_id' => $id,
-            'board_id' => $request->input('board'),
-            'department_id' => $request->input('department'),
-            'remarks' => $request->input('rti_remarks')
-        );
-        $last_inserted_id = RtiForwardApplication::create($input);
-        $update_id['rti_forward_application_id'] = $last_inserted_id->id;
-        $update_id['board_id'] = $request->input('board');
-        $update_id['department_id'] = $request->input('department');
-        RtiForm::where('unique_id', $request->input('application_no'))->where('id', $id)->update($update_id);
+        $to_user=$this->get_user_by_department($request->input('department'));
+        if($to_user==null)
+        {
+            return redirect()->back()->with('error','No user found in selected department');
+        }
+        $input = [
+            [
+                'application_id' => $id,
+                'board_id' => null,
+                'department_id' => null,
+                'remarks' => $request->input('rti_remarks'),
+                'user_id'=>auth()->user()->id,
+                'role_id'=>auth()->user()->role_id,
+                'to_user_id'=>$to_user->id,
+                'to_role_id'=>$to_user->role_id,
+                'status_id'=>config('commanConfig.rti_status.forwarded')
+            ],
+            [
+                'application_id' => $id,
+                'board_id' => $request->input('board'),
+                'department_id' => $request->input('department'),
+                'remarks' => null,
+                'user_id'=>$to_user->id,
+                'role_id'=>$to_user->role_id,
+                'to_user_id'=>null,
+                'to_role_id'=>null,
+                'status_id'=>config('commanConfig.rti_status.in_process')
+            ]
+        ];
+        // dd('ok');
+        $last_inserted_id = RtiForwardApplication::insert($input);
+        // $update_id['rti_forward_application_id'] = $last_inserted_id->id;
+        // $update_id['board_id'] = $request->input('board');
+        // $update_id['department_id'] = $request->input('department');
+        //RtiForm::where('unique_id', $request->input('application_no'))->where('id', $id)->update($update_id);
         return redirect('rti_applicants');
     }
 
