@@ -235,18 +235,21 @@ class RtiFormController extends Controller
 
     public function download_applicant_form($id)
     {
-        
-        if(RtiForm::find($id))
-        {
-            $application_form_data=RtiForm::find($id);
-            $boards = Board::all();
+        $boards = Board::all();
             $departments = Department::all();
-            //$pdf = PDF::loadView('admin.rti_form.download_applicant_form', array('boards'=>$boards, 'departments'=>$departments,'application_form_data'=>$application_form_data)); // or PDF::loadHtml($html);
-            //return $pdf->download($filename); // or
-            $pdf = PDF::loadView('admin.rti_form.download_applicant_form', array('boards'=>$boards, 'departments'=>$departments,'application_form_data'=>$application_form_data));
-            return $pdf->download($application_form_data->unique_id.date('YmdHis').'.pdf');
-            //return view('admin.rti_form.download_applicant_form', compact('id', 'boards', 'departments','application_form_data'));
-        }
+        $rti_applicant = RtiForm::with(['users','master_rti_status'])->where('id', $id)->first();
+        return view('admin.rti_form.view_application_form',compact('boards','departments','rti_applicant','id'));
+        // if(RtiForm::find($id))
+        // {
+        //     $application_form_data=RtiForm::find($id);
+        //     $boards = Board::all();
+        //     $departments = Department::all();
+        //     //$pdf = PDF::loadView('admin.rti_form.download_applicant_form', array('boards'=>$boards, 'departments'=>$departments,'application_form_data'=>$application_form_data)); // or PDF::loadHtml($html);
+        //     //return $pdf->download($filename); // or
+        //     $pdf = PDF::loadView('admin.rti_form.download_applicant_form', array('boards'=>$boards, 'departments'=>$departments,'application_form_data'=>$application_form_data));
+        //     return $pdf->download($application_form_data->unique_id.date('YmdHis').'.pdf');
+        //     //return view('admin.rti_form.download_applicant_form', compact('id', 'boards', 'departments','application_form_data'));
+        // }
     }
 
     public function show_update_status_form($id){
