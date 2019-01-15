@@ -22,7 +22,7 @@
                     <div class="row field-row">
                         <div class="col-sm-6 field-col">
                             <div class="d-flex">
-                                <span class="field-name">Username:</span>
+                                <span class="field-name">Applicant Name:</span>
                                 <span class="field-value">{{ $rti_applicant->users->name }}</span>
                             </div>
                         </div>
