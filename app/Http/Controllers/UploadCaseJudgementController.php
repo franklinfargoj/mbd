@@ -88,7 +88,7 @@ class UploadCaseJudgementController extends Controller
 
         $child_role_id = User::where('role_id', session()->get('child'))->first();
 
-        if((session()->get('role_name') == config('commanConfig.co_pa')) || (session()->get('user_name') == config('commanConfig.joint_co_pa'))){
+        if((session()->get('role_name') == config('commanConfig.co_pa')) || (session()->get('role_name') == config('commanConfig.joint_co_pa'))){
             $user_id = $parent_role_id->id;
             $session_key = 'parent';
         }else{
@@ -204,7 +204,7 @@ class UploadCaseJudgementController extends Controller
 
         $child_role_id = User::where('role_id', session()->get('child'))->first();
 
-        if((session()->get('role_name') == config('commanConfig.co_pa')) || (session()->get('user_name') == config('commanConfig.joint_co_pa'))){
+        if((session()->get('role_name') == config('commanConfig.co_pa')) || (session()->get('role_name') == config('commanConfig.joint_co_pa'))){
             $user_id = $parent_role_id->id;
             $session_key = 'parent';
         }else{

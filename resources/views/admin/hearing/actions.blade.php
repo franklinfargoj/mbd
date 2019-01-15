@@ -114,7 +114,7 @@
             @endif
 
 
-            @if($hearing_data['hearingStatusLog']['0']['hearing_status_id'] == config('commanConfig.hearingStatus.scheduled_meeting'))
+            @if($hearing_data['hearingStatusLog']['0']['hearing_status_id'] == config('commanConfig.hearingStatus.scheduled_meeting') || $hearing_data['hearingStatusLog']['0']['hearing_status_id'] == config('commanConfig.hearingStatus.case_under_judgement'))
                 <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='schedule_hearing.add')?'m-menu__item--active':''}}">
                     <a href="{{ route('schedule_hearing.show', encrypt($hearing_data->id)) }}"
                        class="m-menu__link m-menu__toggle">
@@ -170,38 +170,72 @@
                 @endif
             @endif
 
-
-            @if($hearing_data->hearingSchedule)
-                @if(count($hearing_data->hearingUploadCaseJudgement) > 0)
-                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='upload_case_judgement.edit')?'m-menu__item--active':''}}">
-                        <a href="{{ route('upload_case_judgement.edit', encrypt($hearing_data->id)) }}"
-                           class="m-menu__link m-menu__toggle">
-                            <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                 viewBox="0 0 510 510">
-                                <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                      fill="#FFF"/>
-                            </svg>
-                            <span class="m-menu__link-text">
+            @if($hearing_data['hearingStatusLog']['0']['hearing_status_id'] == config('commanConfig.hearingStatus.case_under_judgement'))
+                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='upload_case_judgement.edit')?'m-menu__item--active':''}}">
+                    <a href="{{ route('upload_case_judgement.edit', encrypt($hearing_data->id)) }}"
+                       class="m-menu__link m-menu__toggle">
+                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                             viewBox="0 0 510 510">
+                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                  fill="#FFF"/>
+                        </svg>
+                        <span class="m-menu__link-text">
                                     Case Judgement
                                 </span>
-                        </a>
-                    </li>
-                @else
-                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='upload_case_judgement.add')?'m-menu__item--active':''}}">
-                        <a href="{{ route('upload_case_judgement.add', encrypt($hearing_data->id))}}"
-                           class="m-menu__link m-menu__toggle">
-                            <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                 viewBox="0 0 510 510">
-                                <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                      fill="#FFF"/>
-                            </svg>
-                            <span class="m-menu__link-text">
+                    </a>
+                </li>
+            @endif
+
+            @if($hearing_data['hearingStatusLog']['0']['hearing_status_id'] == config('commanConfig.hearingStatus.scheduled_meeting'))
+                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='upload_case_judgement.add')?'m-menu__item--active':''}}">
+                    <a href="{{ route('upload_case_judgement.add', encrypt($hearing_data->id))}}"
+                       class="m-menu__link m-menu__toggle">
+                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                             viewBox="0 0 510 510">
+                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                  fill="#FFF"/>
+                        </svg>
+                        <span class="m-menu__link-text">
                                         Case Judgement
                                     </span>
-                        </a>
-                    </li>
-                @endif
+                    </a>
+                </li>
             @endif
+
+
+
+
+            {{--@if($hearing_data->hearingSchedule)--}}
+                {{--@if($hearing_data['hearingStatusLog']['0']['hearing_status_id'] == config('commanConfig.hearingStatus.case_under_judgement'))--}}
+                    {{--<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='upload_case_judgement.edit')?'m-menu__item--active':''}}">--}}
+                        {{--<a href="{{ route('upload_case_judgement.edit', encrypt($hearing_data->id)) }}"--}}
+                           {{--class="m-menu__link m-menu__toggle">--}}
+                            {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"--}}
+                                 {{--viewBox="0 0 510 510">--}}
+                                {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"--}}
+                                      {{--fill="#FFF"/>--}}
+                            {{--</svg>--}}
+                            {{--<span class="m-menu__link-text">--}}
+                                    {{--Case Judgement--}}
+                                {{--</span>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
+                {{--@else--}}
+                    {{--<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='upload_case_judgement.add')?'m-menu__item--active':''}}">--}}
+                        {{--<a href="{{ route('upload_case_judgement.add', encrypt($hearing_data->id))}}"--}}
+                           {{--class="m-menu__link m-menu__toggle">--}}
+                            {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"--}}
+                                 {{--viewBox="0 0 510 510">--}}
+                                {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"--}}
+                                      {{--fill="#FFF"/>--}}
+                            {{--</svg>--}}
+                            {{--<span class="m-menu__link-text">--}}
+                                        {{--Case Judgement--}}
+                                    {{--</span>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
+                {{--@endif--}}
+            {{--@endif--}}
 
 
             @if($hearing_data['hearingStatusLog']['0']['hearing_status_id'] == config('commanConfig.hearingStatus.pending'))
