@@ -12,6 +12,7 @@ use App\HearingSchedule;
 use App\HearingStatus;
 use App\HearingStatusLog;
 use App\Http\Requests\hearing\EditHearingRequest;
+use App\PrePostSchedule;
 use App\User;
 use Carbon\Carbon;
 use DB;
@@ -239,6 +240,8 @@ class HearingController extends Controller
      */
     public function store(AddHearingRequest $request)
     {
+//        dd(session()->all());
+
         $data = [
             'preceding_officer_name' => $request->preceding_officer_name,
             'case_year' => $request->case_year,
@@ -263,6 +266,17 @@ class HearingController extends Controller
             'role_id' => session()->get('role_id'),
             'user_id' => Auth::user()->id
         ];
+
+
+        if(session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.co_pa')){
+            $department_id = Department::where('department_name', config('commanConfig.hearing_department.co'))->value('id');
+            $data['department_id'] = $department_id;
+        }
+        elseif(session()->get('role_name') == config('commanConfig.joint_co_pa') || session()->get('role_name') == config('commanConfig.joint_co')){
+            $department_id = Department::where('department_name', config('commanConfig.hearing_department.joint_co'))->value('id');
+            $data['department_id'] = $department_id;
+
+        }
         $hearing = Hearing::create($data);
         $hearing->update(['case_number' => $hearing->id]);
         $parent_role_id = User::where('role_id', session()->get('parent'))->first();
@@ -388,6 +402,16 @@ class HearingController extends Controller
             'user_id' => Auth::user()->id
         ];
 
+        if(session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.co_pa')){
+            $department_id = Department::where('department_name', config('commanConfig.hearing_department.co'))->value('id');
+            $data['department_id'] = $department_id;
+        }
+        elseif(session()->get('role_name') == config('commanConfig.joint_co_pa') || session()->get('role_name') == config('commanConfig.joint_co')){
+            $department_id = Department::where('department_name', config('commanConfig.hearing_department.joint_co'))->value('id');
+            $data['department_id'] = $department_id;
+
+        }
+
         $hearing->update($data);
 
         /*$hearing_status_log = [
@@ -489,11 +513,55 @@ class HearingController extends Controller
 
         $today = Carbon::now()->format('d-m-Y');
 
-        $todaysHearing = HearingSchedule::with(['Hearing'])->where('preceding_date',$today)->get()->toArray();
+//        $todaysHearing = HearingSchedule::with(['Hearing'])->where('preceding_date',$today)->get()->toArray();
 
-//        $todaysHearing = Hearing::with(['HearingSchedule' => function($q) use ($today) {
-//            $q->where('preceding_date',$today)->get();
-//        }])->where('user_id',$user_id)->get()->toArray();
+//        dd($PrePostSchedule);
+        if(session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.co_pa')){
+            $department_id = Department::where('department_name', config('commanConfig.hearing_department.co'))->value('id');
+            //$data['department_id'] = $department_id;
+        }
+        elseif(session()->get('role_name') == config('commanConfig.joint_co_pa') || session()->get('role_name') == config('commanConfig.joint_co')){
+            $department_id = Department::where('department_name', config('commanConfig.hearing_department.joint_co'))->value('id');
+            //$data['department_id'] = $department_id;
+        }
+
+//        dd($department_id);
+
+        $todaysHearing = Hearing::with(['hearingSchedule'=> function($q) use ($today){
+            $q->where('preceding_date',$today);
+        },'hearingPrePostSchedule'=> function($q) use ($today){
+            $q->orderBy('id','desc')->limit(1);
+        }])->where('department_id',$department_id)->get()->toArray();
+
+//dd($todaysHearing);
+
+
+
+
+
+
+        $todays_hearing_count = 0;
+        $hearing= array();
+        foreach($todaysHearing as $key => $todayHearing){
+            if($todayHearing['hearing_schedule']){
+                if($todayHearing['hearing_pre_post_schedule']){
+                    if($todayHearing['hearing_pre_post_schedule']['0']['date'] == $today){
+                        $todays_hearing_count += 1;
+                        $hearing[] = $todayHearing;
+                    }
+                }
+                else{
+                    if($todayHearing['hearing_schedule']['preceding_date'] == $today)
+                    {
+                        $todays_hearing_count += 1;
+                        $hearing[] = $todayHearing;
+                    }
+                }
+            }
+        }
+
+        $todaysHearing = $hearing;
+//dd($todaysHearing);
 
         // conveyance dashboard
         $conveyanceCommonController = new conveyanceCommonController();
@@ -507,6 +575,6 @@ class HearingController extends Controller
         $renewalRoles     = $renewal->getRenewalRoles();
         $renewalPendingApplications = $renewal->getApplicationPendingAtDepartment();           
 
-        return view('admin.hearing.dashboard',compact('todaysHearing','dashboardData','conveyanceDashboard','conveyanceRoles','pendingApplications','renewalDashboard','renewalRoles','renewalPendingApplications'));
+        return view('admin.hearing.dashboard',compact('todaysHearing','todays_hearing_count','dashboardData','conveyanceDashboard','conveyanceRoles','pendingApplications','renewalDashboard','renewalRoles','renewalPendingApplications'));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\CODepartment;
 
+use App\Department;
 use App\Hearing;
 use App\HearingSchedule;
 use App\Role;
@@ -1063,9 +1064,50 @@ class COController extends Controller
 
         $today = Carbon::now()->format('d-m-Y');
 
-        $todaysHearing = HearingSchedule::with(['Hearing'])->where('preceding_date',$today)->get()->toArray();
 
-        return view('admin.co_department.dashboard',compact('dashboardData','revalDashboardData','revalDashboardData1','hearingDashboardData','todaysHearing','dashboardData1','conveyanceDashboard','conveyanceRoles','pendingApplications','nocApplication','nocforCCApplication'));
+//        dd(session()->get('role_name'));
+        if(session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.co_pa')){
+            $department_id = Department::where('department_name', config('commanConfig.hearing_department.co'))->value('id');
+            //$data['department_id'] = $department_id;
+        }
+        elseif(session()->get('role_name') == config('commanConfig.joint_co_pa') || session()->get('role_name') == config('commanConfig.joint_co')){
+            $department_id = Department::where('department_name', config('commanConfig.hearing_department.joint_co'))->value('id');
+            //$data['department_id'] = $department_id;
+        }
+
+//        dd($department_id);
+
+        $todaysHearing = Hearing::with(['hearingSchedule'=> function($q) use ($today){
+            $q->where('preceding_date',$today);
+        },'hearingPrePostSchedule'=> function($q) use ($today){
+            $q->orderBy('id','desc')->limit(1);
+        }])->where('department_id',$department_id)->get()->toArray();
+
+//dd($todaysHearing);
+
+        $todays_hearing_count = 0;
+        $hearing= array();
+        foreach($todaysHearing as $key => $todayHearing){
+            if($todayHearing['hearing_schedule']){
+                if($todayHearing['hearing_pre_post_schedule']){
+                    if($todayHearing['hearing_pre_post_schedule']['0']['date'] == $today){
+                        $todays_hearing_count += 1;
+                        $hearing[] = $todayHearing;
+                    }
+                }
+                else{
+                    if($todayHearing['hearing_schedule']['preceding_date'] == $today)
+                    {
+                        $todays_hearing_count += 1;
+                        $hearing[] = $todayHearing;
+                    }
+                }
+            }
+        }
+
+        $todaysHearing = $hearing;
+
+        return view('admin.co_department.dashboard',compact('dashboardData','todays_hearing_count','revalDashboardData','revalDashboardData1','hearingDashboardData','todaysHearing','dashboardData1','conveyanceDashboard','conveyanceRoles','pendingApplications','nocApplication','nocforCCApplication'));
     }
 
     public function getApplicationData($role_id,$user_id){

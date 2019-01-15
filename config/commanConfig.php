@@ -330,6 +330,16 @@ return [
 
     'joint_co_pa' => 'Joint Co PA',
     'co_pa' => 'Co PA',
+
+
+    // hearing Department
+    'hearing_department' => [
+       'co' => 'Co',
+       'joint_co' => 'Joint CO'
+    ],
+
+
+
     'hearingStatus' => [
         'pending' => 1,
         'scheduled_meeting' => 2,

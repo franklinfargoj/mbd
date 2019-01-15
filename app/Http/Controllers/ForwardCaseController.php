@@ -50,6 +50,15 @@ class ForwardCaseController extends Controller
             'description' => $request->description,
         ];
 
+//        if(session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.co_pa')){
+//            $department_id = Department::where('department_name', config('commanConfig.hearing_department.co'))->value('id');
+//        }
+//        elseif(session()->get('role_name') == config('commanConfig.joint_co_pa') || session()->get('role_name') == config('commanConfig.joint_co')){
+//            $department_id = Department::where('department_name', config('commanConfig.hearing_department.joint_co'))->value('id');
+//        }
+
+        Hearing::where('id',$request->hearing_id)->update(['department_id'=>$request->department]);
+
         ForwardCase::create($data);
 
 //        dd(session()->all());
