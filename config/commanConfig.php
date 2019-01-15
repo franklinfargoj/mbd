@@ -348,8 +348,17 @@ return [
         'notice_send' => 5,
         'case_closed' => 6,
     ],
-
+    'rti_officer'=>'RTI',
+    'rti_appellate'=>'Rti_Appellate',
     'rti_form_status' => 'Send RTI Officer',
+
+    'rti_status'=>[
+        'sent_to_rti_officer'=>1,
+        'in_process'=>2,
+        'meeting_is_scheduled'=>3,
+        'closed'=>4,
+        'forwarded'=>5
+    ],
 
     'sc_excel_headers' => [
         'Sr No', 'Tenament No', 'Tenament Name', 'Residential/Non-Residential'

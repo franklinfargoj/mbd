@@ -164,10 +164,10 @@ var SnippetLogin = function() {
                      
                 t.validate({
                     rules:{
-                        board_name:{
+                        department_id:{
                             required:true
                         },
-                        department_name:{
+                        board_id:{
                             required:true
                         },
                         name:{

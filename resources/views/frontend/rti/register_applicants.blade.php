@@ -40,7 +40,7 @@
                                         <input class="form-control m-input" type="hidden" name="user_id" value="{{ $id }}">
                                         <select class="form-control form-control--custom m-bootstrap-select m_selectpicker m-input"
                                             name="board_id">
-                                            <option value="0">Select Board</option>
+                                            <option value="">Select Board</option>
                                             @foreach($boards as $board_value)
                                             <option {{old('board_id')==$board_value->id?'selected':''}} value="{{ $board_value->id }}">{{
                                                 $board_value->board_name }}</option>
@@ -53,7 +53,7 @@
                                         <label for="" class="col-form-label">Department</label>
                                         <select class="form-control form-control--custom m-bootstrap-select m_selectpicker m-input"
                                             name="department_id">
-                                            <option value="0">Select Department</option>
+                                            <option value="">Select Department</option>
                                             @foreach($departments as $department_value)
                                             <option {{old('department_id')==$department_value->id?'selected':''}} value="{{ $department_value->id }}">{{
                                                 $department_value->department_name }}</option>
