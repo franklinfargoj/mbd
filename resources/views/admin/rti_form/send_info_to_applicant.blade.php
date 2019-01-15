@@ -49,8 +49,10 @@
                             </div>
                         </div>
                         <div class="col-sm-12 field-col">
+                            @if($readonly!=1)
                             <form id="rti_schedule_meeting" role="form" method="post" class="form-horizontal" action="{{ url('/rti_sent_info/'.$rti_applicant->id) }}"
                                 enctype="multipart/form-data">
+                            @endif
                                 @csrf
                                 <div class="form-group m-form__group row">
                                     {{-- <div class="col-sm-6">
@@ -73,11 +75,11 @@
                                             <div class="custom-file">
                                                 <input type="hidden" name="uploaded_file" value="{{$rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->filename:''}}">
                                                 <input type="hidden" name="uploaded_file_path" value="{{$rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->filepath:''}}">
-                                                <input type="file" name="rti_info_file" id="rti_info_file" class="custom-file-input"
+                                                <input {{$readonly==1?'disabled':''}} type="file" name="rti_info_file" id="rti_info_file" class="custom-file-input"
                                                     value="{{ old('rti_info_file', $rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->filename:'' ) }}">
                                                 <label class="custom-file-label" for="rti_info_file">Choose file...</label>
                                                 <span class="text-danger">{{$errors->first('rti_info_file')}}</span>
-                                                <a target="_blank" class="d-block btn btn-link custom-file-download" href="{{$rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->filepath.$rti_applicant->rti_send_info->filename:''}}">{{$rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->filename:''}}</a>
+                                                <a target="_blank" class="d-block btn btn-link custom-file-download" href="{{$rti_applicant->rti_send_info!=""?config('commanConfig.storage_server').'/'.$rti_applicant->rti_send_info->filepath.$rti_applicant->rti_send_info->filename:''}}">{{$rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->filename:''}}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -86,11 +88,12 @@
                                     <div class="col-sm-6">
                                         <div class="d-flex align-items-center @if($errors->has('rti_comment')) has-error @endif">
                                             <label class="col-form-label field-name">Comment</label>
-                                            <textarea name="rti_comment" id="rti_comment" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('rti_comment', $rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->comment:'' ) }}</textarea>
+                                            <textarea {{$readonly==1?'disabled':''}} name="rti_comment" id="rti_comment" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('rti_comment', $rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->comment:'' ) }}</textarea>
                                             <span class="text-danger">{{$errors->first('rti_comment')}}</span>
                                         </div>
                                     </div>
                                 </div>
+                                @if($readonly!=1)
                                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                                     <div class="m-form__actions px-0">
                                         <div class="row">
@@ -104,6 +107,7 @@
                                     </div>
                                 </div>
                             </form>
+                            @endif
                         </div>
                     </div>
                 </div>

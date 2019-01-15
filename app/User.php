@@ -45,6 +45,6 @@ class User extends Authenticatable
     
     public function department()
     {
-        return $this->hasOne(\App\Department::class,'rti_department_users','user_id','department_id');
+        return $this->belongsTo(\App\RtiDepartmentUser::class,'id','user_id');
     }
 }

@@ -338,7 +338,8 @@ return [
         'notice_send' => 5,
         'case_closed' => 6,
     ],
-
+    'rti_officer'=>'RTI',
+    'rti_appellate'=>'Rti_Appellate',
     'rti_form_status' => 'Send RTI Officer',
 
     'rti_status'=>[

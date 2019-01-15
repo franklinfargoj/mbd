@@ -15,10 +15,11 @@
                         <div class="m-login__signin">
                             <div class="m-login__head mb-5">
                                 <div class="d-flex justify-content-between align-items-center">
-                                  <h3 class="section-title mb-0 text-center">
-                                      RTI Application Response
-                                  </h3>
-                                  <a href="{{route('rti_frontend.index')}}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                                    <h3 class="section-title mb-0 text-center">
+                                        RTI Application Response
+                                    </h3>
+                                    <a href="{{route('rti_frontend.index')}}" class="btn btn-link"><i class="fa fa-long-arrow-left"
+                                            style="padding-right: 8px;"></i>Back</a>
                                 </div>
                             </div>
                             <div class="container-fluid">
@@ -52,7 +53,8 @@
                                         <div class="d-flex">
                                             <span class="field-name">Update Status:</span>
                                             <span class="field-value">{{
-                                                ($user_details->master_rti_status!="") ? $user_details->master_rti_status->status_title->status_title: '
+                                                ($user_details->current_status!="") ?
+                                                $user_details->current_status->status_title: '
                                                 - ' }}
                                             </span>
                                         </div>
@@ -60,18 +62,44 @@
                                     <div class="col-sm-6 field-col">
                                         <div class="d-flex">
                                             <span class="field-name">Download Application Form:</span>
-                                            @if($user_details->rti_send_info!="") 
-                                            <a target="_blank" href="{{asset($user_details->rti_send_info->filepath.$user_details->rti_send_info->filename)}}" class="field-value btn btn-link px-0">Download</a>
+                                            @if($user_details->rti_send_info!="")
+                                            <a target="_blank" href="{{config('commanConfig.storage_server').'/'.$user_details->rti_send_info->filepath.$user_details->rti_send_info->filename}}"
+                                                class="field-value btn btn-link px-0">Download</a>
                                             @else
-                                              -
+                                            -
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 field-col">
+                                    <div class="col-sm-6 field-col">
                                         <div class="d-flex">
                                             <span class="field-name">RTI Subject:</span>
                                             <span class="field-value">{{ $user_details->info_subject }}</span>
                                         </div>
+                                    </div>
+                                    <div class="col-sm-6 field-col">
+                                        @if ($user_details->appeal_by_applicant==0 && $user_details->status==config('commanConfig.rti_status.closed'))
+                                        <form method="post" action="{{route('rti_frontend.appelle')}}">
+                                            @csrf
+                                        <input type="hidden" name="application_id" value="{{$user_details->id}}">
+                                        <div class="d-flex">
+                                            <span class="field-name">
+                                                <select title="please select department" required class="form-control m-input" name="department_id">
+                                                    <option value="">Select Department</option>
+                                                    @foreach($departments as $department)
+                                                    <option value="{{ $department->id }}">{{$department->department_name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </span>
+                                            <span class="field-value">
+                                                <input class="btn btn-primary" type="submit" name="appelle" value="Appeal">
+                                            </span>
+                                        </div>
+                                        </form>
+                                        @else
+                                            @if ($user_details->appeal_by_applicant==1)
+                                            <span class="text-success">Appealed</span>
+                                            @endif
+                                        @endif
                                     </div>
                                     <div class="col-sm-12 field-col">
                                         <div class="d-flex">
