@@ -667,8 +667,8 @@ class TripartiteController extends Controller
         $society_flag = 0;
         $is_reverted_to_society = 0;
         $is_approved_agreement = 0;
-        $data = OlApplication::where('id', $request->applicationId)->first();
-        $applicationStatus = $data->application_status;
+        $sc_application = OlApplication::where('id', $request->applicationId)->first();
+
         if ($request->check_status == 1) {
 
             if ($request->to_role_id == $this->get_society_role_from_user_id($request->to_user_id)) {
@@ -730,6 +730,7 @@ class TripartiteController extends Controller
             'remark' => $request->remark,
             'created_at' => Carbon::now(),
             'is_active' => 1,
+            'phase' => ($sc_application->current_status_id == config('commanConfig.applicationStatus.approved_tripartite_agreement') || $sc_application->current_status_id = config('commanConfig.applicationStatus.draft_tripartite_agreement'))? 1 : 0
         ],
             [
                 'application_id' => $request->applicationId,
@@ -742,6 +743,7 @@ class TripartiteController extends Controller
                 'remark' => $request->remark,
                 'created_at' => Carbon::now(),
                 'is_active' => 1,
+                'phase' => ($sc_application->current_status_id == config('commanConfig.applicationStatus.approved_tripartite_agreement') || $sc_application->current_status_id = config('commanConfig.applicationStatus.draft_tripartite_agreement'))? 1 : 0
             ],
         ];
 
