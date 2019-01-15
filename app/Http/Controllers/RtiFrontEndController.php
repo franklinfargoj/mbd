@@ -86,6 +86,8 @@ class RtiFrontEndController extends Controller
 
     public function saveRtiFrontendForm(RtiFormSubmitRequest $request)
     {
+        // $to_user=$this->get_user_by_department($request->input('department_id'));
+        // dd($to_user);
         //dd($request->input());
         // $input = $request->except(['_token']);
         // $time = date("Ymd").time();
@@ -119,7 +121,7 @@ class RtiFrontEndController extends Controller
         
         if($request->hasFile('poverty_line_proof_file'))
         {
-
+            
             $uploadPath = 'rti/poverty_files';
             if (!(\Storage::disk('ftp')->has($uploadPath))) {
                 \Storage::disk('ftp')->makeDirectory($uploadPath, $mode = 0777, true, true);
@@ -193,11 +195,10 @@ class RtiFrontEndController extends Controller
 
     public function get_user_by_department($deparment_id)
     {
-        $user_id=RtiDepartmentUser::where(['department_id'=>$deparment_id])->first();
-        if($user_id)
-        {
-            return User::find($user_id->user_id);
-        }
+        $role_id=Role::where('name',config('commanConfig.rti_officer'))->first();
+        return $appellate_user=User::with(['department'])->whereHas('department',function($q) use($deparment_id){
+            $q->where('department_id',$deparment_id);
+        })->where('role_id',$role_id->id)->first();
     }
 
     public function get_appellate_user_by_department($deparment_id)

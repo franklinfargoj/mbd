@@ -164,12 +164,12 @@ class RTIPermissionSeeder extends Seeder
                     $permission_id = $get_permission->id;
                 } else {
                     $permission_id = Permission::insertGetId($lm_per);
-                    $permission_role[] = [
+                    $permission_role = [
                         'permission_id' => $permission_id,
                         'role_id' => $role_id,
                     ];
 
-                    PermissionRole::insert($permission_role);
+                    PermissionRole::insert([$permission_role]);
                 }
             }
 

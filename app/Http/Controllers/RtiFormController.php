@@ -21,6 +21,7 @@ use Config;
 use DB;
 use App\RtiFronendUser;
 use App\User;
+use App\Role;
 use PDF;
 
 class RtiFormController extends Controller
@@ -348,9 +349,10 @@ class RtiFormController extends Controller
 
     public function get_user_by_department($deparment_id)
     {
-        return User::whereHas('department',function($q) use($deparment_id){
+        $role_id=Role::where('name',config('commanConfig.rti_officer'))->first();
+        return $appellate_user=User::with(['department'])->whereHas('department',function($q) use($deparment_id){
             $q->where('department_id',$deparment_id);
-        })->first();
+        })->where('role_id',$role_id->id)->first();
     }
 
     public function forward_application(Request $request, $id){
@@ -359,6 +361,9 @@ class RtiFormController extends Controller
             'rti_remarks' => 'required',
         ]);
         $to_user=$this->get_user_by_department($request->input('department'));
+        // dump(auth()->user()->id);
+        // dump(auth()->user()->role_id);
+       // dd($to_user);
         if($to_user==null)
         {
             return redirect()->back()->with('error','No user found in selected department');
@@ -387,7 +392,7 @@ class RtiFormController extends Controller
                 'status_id'=>config('commanConfig.rti_status.in_process')
             ]
         ];
-        // dd('ok');
+        // dd($input);
         $last_inserted_id = RtiForwardApplication::insert($input);
         // $update_id['rti_forward_application_id'] = $last_inserted_id->id;
         // $update_id['board_id'] = $request->input('board');
