@@ -74,9 +74,8 @@
                             <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
                                 <table id="one" class="table mb-0 table--box-input" border="1" style="border-collapse: collapse; border-spacing: 0;"> 
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("calculation");'
-                                                style="max-width: 22px"></a>
+                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto">
+                                        <img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("calculation");' class="printbtn" style="max-width: 22px"></a>
                                     </div>
                                     <thead class="thead-default">
                                         <tr>
@@ -336,11 +335,12 @@
 @endsection
 
 @section('js')
-    <script>
+    <script> 
 
     function PrintElem(elem) {
 
         $("#"+elem+"_btn").css("display","none");
+        $(".printbtn").css("display","none");
         var printable = document.getElementById(elem).innerHTML;
 
        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
@@ -355,6 +355,7 @@
 
         mywindow.print();
         mywindow.close();
+        $(".printbtn").css("display","block");
         $("#"+elem+"_btn").css("display","block");
 
         return true;

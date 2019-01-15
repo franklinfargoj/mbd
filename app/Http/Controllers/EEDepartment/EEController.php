@@ -63,7 +63,7 @@ class EEController extends Controller
             ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
             ['data' => 'eeApplicationSociety.building_no', 'name' => 'eeApplicationSociety.building_no', 'title' => 'Building No'],
             ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address','class' => 'datatable-address'],
-           ['data' => 'model','name' => 'model','title' => 'Model'],
+            ['data' => 'model','name' => 'model','title' => 'Model'],
             ['data' => 'Status','name' => 'current_status_id','title' => 'Status'],
             // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];

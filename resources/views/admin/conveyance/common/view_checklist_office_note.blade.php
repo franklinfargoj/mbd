@@ -60,7 +60,7 @@
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
                                                 src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("checklist");'
-                                                style="max-width: 22px"></a>
+                                                style="max-width: 22px" class="printbtn"></a>
                                     </div>
                                     <thead class="thead-default">
                                         <tr>
@@ -164,7 +164,7 @@
     });  
 
     function PrintElem(elem) {
-
+        $(".printbtn").css("display","none");
         var printable = document.getElementById(elem).innerHTML;
 
        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
@@ -179,6 +179,7 @@
 
         mywindow.print();
         mywindow.close();
+        $(".printbtn").css("display","block");
         return true;
     }    
   </script>
