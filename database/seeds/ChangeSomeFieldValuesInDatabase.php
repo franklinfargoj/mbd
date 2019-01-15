@@ -305,7 +305,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         // removing hearing co email and role
         $hearing_co = \App\User::where('email','hearingco@gmail.com')->value('id');
         if($hearing_co ){
-            \App\User::where(['email','hearingco@gmail.com'])->delete();
+            \App\User::where('email','hearingco@gmail.com')->delete();
         }
 
         $hearing_co_role = Role::where('name','Co')->value('id');
