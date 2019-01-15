@@ -6,11 +6,13 @@ use App\ApplicationType;
 use App\Board;
 use App\DeletedHearing;
 use App\Department;
+use App\ForwardCase;
 use App\Hearing;
 use App\HearingSchedule;
 use App\HearingStatus;
 use App\HearingStatusLog;
 use App\Http\Requests\hearing\EditHearingRequest;
+use App\PrePostSchedule;
 use App\User;
 use Carbon\Carbon;
 use DB;
@@ -238,6 +240,8 @@ class HearingController extends Controller
      */
     public function store(AddHearingRequest $request)
     {
+//        dd(session()->all());
+
         $data = [
             'preceding_officer_name' => $request->preceding_officer_name,
             'case_year' => $request->case_year,
@@ -262,6 +266,17 @@ class HearingController extends Controller
             'role_id' => session()->get('role_id'),
             'user_id' => Auth::user()->id
         ];
+
+
+        if(session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.co_pa')){
+            $department_id = Department::where('department_name', config('commanConfig.hearing_department.co'))->value('id');
+            $data['department_id'] = $department_id;
+        }
+        elseif(session()->get('role_name') == config('commanConfig.joint_co_pa') || session()->get('role_name') == config('commanConfig.joint_co')){
+            $department_id = Department::where('department_name', config('commanConfig.hearing_department.joint_co'))->value('id');
+            $data['department_id'] = $department_id;
+
+        }
         $hearing = Hearing::create($data);
         $hearing->update(['case_number' => $hearing->id]);
         $parent_role_id = User::where('role_id', session()->get('parent'))->first();
@@ -303,29 +318,31 @@ class HearingController extends Controller
      */
     public function show($id)
     {
+//        dd('ddd');
+        $id = decrypt($id);
 //        $header_data = $this->header_data;
-//        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingStatusLog' => function($q){
-//            $q->where('user_id', Auth::user()->id)
-//                ->where('role_id', session()->get('role_id'));
-//        }])
-//                        ->where('id', $id)
-//                        ->first();
-//        $hearing_data = $arrData['hearing'];
+        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingStatusLog' => function($q){
+            $q->where('user_id', Auth::user()->id)
+                ->where('role_id', session()->get('role_id'));
+        }])
+                        ->where('id', $id)
+                        ->first();
+        $hearing_data = $arrData['hearing'];
 ////         dd($arrData['hearing']->hearingStatusLog[0]->hearing_status_id);
 ////         dd($hearing_data->hearingApplicationType->application_type);
 //        $status = $arrData['hearing']->hearingStatusLog[0]->hearing_status_id;
 //        $config_array = array_flip(config('commanConfig.hearingStatus'));
 //        $status_value = ucwords(str_replace('_', ' ', $config_array[$status]));
 //        dd($value);
-        $id = decrypt($id);
-        $header_data = $this->header_data;
-        $arrData['hearing'] = Hearing::FindOrFail($id);
+
+//        $header_data = $this->header_data;
+//        $arrData['hearing'] = Hearing::FindOrFail($id);
         $arrData['application_type'] = ApplicationType::all();
         $arrData['department'] = Department::all();
         $arrData['board'] = Board::where('status', 1)->get();
         $arrData['status'] = HearingStatus::all();
-        $hearing_data = $arrData['hearing'];
-//        dd($hearing_data);
+//        $hearing_data = $arrData['hearing'];
+//        dd($hearing_data['hearingStatusLog']['0']['hearing_status_id']);
         return view('admin.hearing.show', compact('header_data', 'arrData', 'hearing_data', 'status_value'));
     }
 
@@ -346,6 +363,7 @@ class HearingController extends Controller
         $arrData['status'] = HearingStatus::all();
         $hearing_data = $arrData['hearing'];
 //         dd($hearing_data);
+
         return view('admin.hearing.edit', compact('header_data', 'arrData', 'hearing_data'));
     }
 
@@ -383,6 +401,16 @@ class HearingController extends Controller
             'role_id' => session()->get('role_id'),
             'user_id' => Auth::user()->id
         ];
+
+        if(session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.co_pa')){
+            $department_id = Department::where('department_name', config('commanConfig.hearing_department.co'))->value('id');
+            $data['department_id'] = $department_id;
+        }
+        elseif(session()->get('role_name') == config('commanConfig.joint_co_pa') || session()->get('role_name') == config('commanConfig.joint_co')){
+            $department_id = Department::where('department_name', config('commanConfig.hearing_department.joint_co'))->value('id');
+            $data['department_id'] = $department_id;
+
+        }
 
         $hearing->update($data);
 
@@ -485,11 +513,55 @@ class HearingController extends Controller
 
         $today = Carbon::now()->format('d-m-Y');
 
-        $todaysHearing = HearingSchedule::with(['Hearing'])->where('preceding_date',$today)->get()->toArray();
+//        $todaysHearing = HearingSchedule::with(['Hearing'])->where('preceding_date',$today)->get()->toArray();
 
-//        $todaysHearing = Hearing::with(['HearingSchedule' => function($q) use ($today) {
-//            $q->where('preceding_date',$today)->get();
-//        }])->where('user_id',$user_id)->get()->toArray();
+//        dd($PrePostSchedule);
+        if(session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.co_pa')){
+            $department_id = Department::where('department_name', config('commanConfig.hearing_department.co'))->value('id');
+            //$data['department_id'] = $department_id;
+        }
+        elseif(session()->get('role_name') == config('commanConfig.joint_co_pa') || session()->get('role_name') == config('commanConfig.joint_co')){
+            $department_id = Department::where('department_name', config('commanConfig.hearing_department.joint_co'))->value('id');
+            //$data['department_id'] = $department_id;
+        }
+
+//        dd($department_id);
+
+        $todaysHearing = Hearing::with(['hearingSchedule'=> function($q) use ($today){
+            $q->where('preceding_date',$today);
+        },'hearingPrePostSchedule'=> function($q) use ($today){
+            $q->orderBy('id','desc')->limit(1);
+        }])->where('department_id',$department_id)->get()->toArray();
+
+//dd($todaysHearing);
+
+
+
+
+
+
+        $todays_hearing_count = 0;
+        $hearing= array();
+        foreach($todaysHearing as $key => $todayHearing){
+            if($todayHearing['hearing_schedule']){
+                if($todayHearing['hearing_pre_post_schedule']){
+                    if($todayHearing['hearing_pre_post_schedule']['0']['date'] == $today){
+                        $todays_hearing_count += 1;
+                        $hearing[] = $todayHearing;
+                    }
+                }
+                else{
+                    if($todayHearing['hearing_schedule']['preceding_date'] == $today)
+                    {
+                        $todays_hearing_count += 1;
+                        $hearing[] = $todayHearing;
+                    }
+                }
+            }
+        }
+
+        $todaysHearing = $hearing;
+//dd($todaysHearing);
 
         // conveyance dashboard
         $conveyanceCommonController = new conveyanceCommonController();
@@ -503,6 +575,6 @@ class HearingController extends Controller
         $renewalRoles     = $renewal->getRenewalRoles();
         $renewalPendingApplications = $renewal->getApplicationPendingAtDepartment();           
 
-        return view('admin.hearing.dashboard',compact('todaysHearing','dashboardData','conveyanceDashboard','conveyanceRoles','pendingApplications','renewalDashboard','renewalRoles','renewalPendingApplications'));
+        return view('admin.hearing.dashboard',compact('todaysHearing','todays_hearing_count','dashboardData','conveyanceDashboard','conveyanceRoles','pendingApplications','renewalDashboard','renewalRoles','renewalPendingApplications'));
     }
 }

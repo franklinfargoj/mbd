@@ -71,7 +71,7 @@ class REEController extends Controller
             ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
             ['data' => 'eeApplicationSociety.building_no','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
             ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address','class' => 'datatable-address', 'searchable' => false],
-            // ['data' => 'model','name' => 'model','title' => 'Model'],
+            ['data' => 'model','name' => 'model','title' => 'Model'],
             ['data' => 'Status','name' => 'Status','title' => 'Status'],
             // ['data' => 'Model','name' => 'Model','title' => 'Model'],
             // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
@@ -106,6 +106,9 @@ class REEController extends Controller
             // ->editColumn('actions', function ($ree_application_data) use($request){
             //    return view('admin.REE_department.action', compact('ree_application_data', 'request'))->render();
             // }) 
+                ->editColumn('model', function ($listArray) {
+                    return $listArray->ol_application_master->model;
+                })            
             ->editColumn('Status', function ($listArray) use ($request) {
                 $status = $listArray->olApplicationStatusForLoginListing[0]->status_id;
 

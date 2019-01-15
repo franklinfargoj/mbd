@@ -11,18 +11,9 @@
                     <div>
                         <p>
                         <p style="display: block; font-weight: bold; line-height: 0; margin-top: 5px; margin-bottom: 5px;">प्रति,</p>
-                        <table style="margin-left: -5px; margin-top: 5px; margin-bottom: 5px;">
-                            <tbody>
-                            <tr>
-                                <td style="font-size: 18px;">कार्यकारी अभियंता,</td>
-                                <td style="font-size: 18px;">EE</td>
-                                <td style="font-size: 18px;">विभाग,</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <p style="display: block; margin-top: 5px; margin-bottom: 5px;">उपमुख्य अधिकारी/ पूर्व / पश्चिम,</p>
                         <p style="display: block; margin-top: 5px; margin-bottom: 5px;">मुंबई गृहनिर्माण व क्षेत्रविकास मंडळ,</p>
-                        <p style="display: block; margin-top: 5px; margin-bottom: 5px;">गृहनिर्माण भवन, वांद्रे (पुर्व),</p>
-                        <p style="display: block; margin-top: 5px; margin-bottom: 5px;">मुंबई - ४०००५१.</p>
+                        <p style="display: block; margin-top: 5px; margin-bottom: 5px;">गृहनिर्माण भवन, बांद्रा (पूर्व), मुंबई - ५१.</p>
                         </p>
                     </div>
                 </div>
@@ -144,8 +135,9 @@
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <div style="font-size: 16px;">
+                    <div style="width: 100%;">
+                        <div style="width: 80%">&nbsp;</div>
+                        <div style="width: 20%; font-size: 16px; float: right; text-align: center;">
                             <p style="font-size: 16px;" >आपला विश्वासू,</p>
                             <p style="font-size: 16px;" >
                                 <span >अध्यक्ष <span style="font-weight: bold;"> &nbsp; test &nbsp;</span></span>
@@ -155,7 +147,7 @@
                             </p>
                         </div>
                     </div>
-                    <div >
+                    <div>
                         <div >
                             <div >
                                 <div >

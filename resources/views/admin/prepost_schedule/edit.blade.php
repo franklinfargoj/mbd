@@ -1,8 +1,16 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
 @section('actions')
     @include('admin.hearing.actions',compact('hearing_data'))
 @endsection
 @section('content')
+    @php
+        $login_user = session()->get('role_name');
+        if(($login_user == config('commanConfig.co_pa')) || ($login_user == config('commanConfig.joint_co_pa')))
+            $visiblity = '';
+        else
+            $visiblity = 'disabled';
+    @endphp
+
 <div class="m-subheader px-0 m-subheader--top">
     <div class="d-flex align-items-center">
         <h3 class="m-subheader__title m-subheader__title--separator">Prepone/ Postpone Hearing</h3>
@@ -24,13 +32,13 @@
                         <div class="m-radio-inline">
                             <label class="m-radio m-radio--primary">
                                 <input type="radio" name="pre_post_status" value="1"
-                                    {{ ($arrData['schedule_prepost_data']->hearingSchedule->prePostSchedule[0]->pre_post_status == 1) ? "checked" : "" }}>
+                                   {{$visiblity}} {{ ($arrData['schedule_prepost_data']->hearingSchedule->prePostSchedule[0]->pre_post_status == 1) ? "checked" : "" }}>
                                 Prepone
                                 <span></span>
                             </label>
                             <label class="m-radio m-radio--primary">
                                 <input type="radio" name="pre_post_status" value="0"
-                                    {{ ($arrData['schedule_prepost_data']->hearingSchedule->prePostSchedule[0]->pre_post_status == 0) ? "checked" : "" }}>
+                                   {{$visiblity}} {{ ($arrData['schedule_prepost_data']->hearingSchedule->prePostSchedule[0]->pre_post_status == 0) ? "checked" : "" }}>
                                 Postpone
                                 <span class="help-block"></span>
                             </label>
@@ -42,13 +50,13 @@
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="case_year">Case Year:</label>
                         <input type="text" id="case_year" name="case_year" class="form-control form-control--custom m-input"
-                            value="{{ $arrData['schedule_prepost_data']->case_year }}" readonly>
+                            value="{{ $arrData['schedule_prepost_data']->case_year }}" {{$visiblity}}>
                         <span class="help-block">{{$errors->first('case_year')}}</span>
                     </div>
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="case_number">Case Number:</label>
                         <input type="text" id="case_number" name="case_number" class="form-control form-control--custom m-input"
-                            value="{{ $arrData['schedule_prepost_data']->id }}" readonly>
+                            value="{{ $arrData['schedule_prepost_data']->id }}" {{$visiblity}}>
                         <span class="help-block">{{$errors->first('case_number')}}</span>
                     </div>
                 </div>
@@ -57,14 +65,14 @@
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="appellant_name">Apellent Name:</label>
                         <input type="text" id="appellant_name" name="appellant_name" class="form-control form-control--custom m-input"
-                            value="{{ $arrData['schedule_prepost_data']->applicant_name }}" readonly>
+                            value="{{ $arrData['schedule_prepost_data']->applicant_name }}" {{$visiblity}}>
                         <span class="help-block">{{$errors->first('appellant_name')}}</span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="respondent_name">Respondent Name:</label>
                         <input type="text" id="respondent_name" name="respondent_name" class="form-control form-control--custom m-input"
-                            value="{{ $arrData['schedule_prepost_data']->respondent_name }}" readonly>
+                            value="{{ $arrData['schedule_prepost_data']->respondent_name }}" {{$visiblity}}>
                         <span class="help-block">{{$errors->first('respondent_name')}}</span>
                     </div>
                 </div>
@@ -74,14 +82,14 @@
                         <label class="col-form-label" for="first_hearing_date">First Hearing Date:</label>
                         <input type="text" id="first_hearing_date" name="first_hearing_date" class="form-control form-control--custom"
                             class="form-control form-control--custom m-input" value="{{ $arrData['schedule_prepost_data']->hearingSchedule->preceding_date }}"
-                            readonly>
+                                {{$visiblity}}>
                         <span class="help-block">{{$errors->first('first_hearing_date')}}</span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="preceding_officer_name">Preceding Officer Name:</label>
+                        <label class="col-form-label" for="preceding_officer_name">Presiding Officer Name:</label>
                         <input type="text" id="preceding_officer_name" name="preceding_officer_name" class="form-control form-control--custom m-input"
-                            value="{{ $arrData['schedule_prepost_data']->preceding_officer_name }}" readonly>
+                            value="{{ $arrData['schedule_prepost_data']->preceding_officer_name }}" {{$visiblity}}>
                         <span class="help-block">{{$errors->first('preceding_officer_name')}}</span>
                     </div>
                 </div>
@@ -90,13 +98,13 @@
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="date">Select Date:</label>
                         <input type="text" id="date" name="date" class="form-control form-control--custom m_datepicker"
-                            class="form-control form-control--custom m-input" value="{{ $arrData['schedule_prepost_data']->hearingSchedule->prePostSchedule[0]->date }}">
+                               {{$visiblity}} class="form-control form-control--custom m-input" value="{{ $arrData['schedule_prepost_data']->hearingSchedule->prePostSchedule[0]->date }}">
                         <span class="help-block">{{$errors->first('date')}}</span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="description">Description:</label>
-                        <textarea id="description" name="description" class="form-control form-control--custom form-control--fixed-height m-input">{{ $arrData['schedule_prepost_data']->hearingSchedule->prePostSchedule[0]->description }}</textarea>
+                        <textarea {{$visiblity}} id="description" name="description" class="form-control form-control--custom form-control--fixed-height m-input">{{ $arrData['schedule_prepost_data']->hearingSchedule->prePostSchedule[0]->description }}</textarea>
                         <span class="help-block">{{$errors->first('description')}}</span>
                     </div>
                 </div>
@@ -107,7 +115,9 @@
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="btn-list">
+                                @if(($login_user == config('commanConfig.co_pa')) || ($login_user == config('commanConfig.joint_co_pa')))
                                 <button type="submit" class="btn btn-primary">Save</button>
+                                @endif
                                 <a href="{{url('/hearing')}}" class="btn btn-secondary">Cancel</a>
                             </div>
                         </div>

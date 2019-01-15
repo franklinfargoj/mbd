@@ -23,7 +23,7 @@ $chart4 = 0;
             <div class="d-flex justify-content-between align-items-center">
                 <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100 collapsed"
                     data-toggle="collapse" href="#todays-hearing">
-                    <span class="form-accordion-title">Today's Hearing ({{count($todaysHearing)}})</span>
+                    <span class="form-accordion-title">Today's Hearing ({{$todays_hearing_count}})</span>
                     @if($todaysHearing)
                     <span class="accordion-icon"></span>
                     @endif
@@ -41,30 +41,30 @@ $chart4 = 0;
                 <div class="col-lg-3">
                     <div class="m-portlet app-card text-center">
                         <h2 class="app-heading">Case Year</h2>
-                        <h2 class="app-no mb-0">{{$hearing['hearing'][0]['case_year']}}</h2>
+                        <h2 class="app-no mb-0">{{$hearing['case_year']}}</h2>
                     </div>
                 </div>
                 <div class="col-lg-3">
                     <div class="m-portlet app-card text-center">
                         <h2 class="app-heading">Case NO</h2>
-                        <h2 class="app-no mb-0">{{$hearing['hearing'][0]['id']}}</h2>
+                        <h2 class="app-no mb-0">{{$hearing['id']}}</h2>
                     </div>
                 </div>
                 <div class="col-lg-3">
                     <div class="m-portlet app-card text-center">
                         <h2 class="app-heading">Hearing Time</h2>
-                        <h2 class="app-no mb-0">{{$hearing['preceding_time']}}</h2>
+                        <h2 class="app-no mb-0">{{$hearing['hearing_schedule']['preceding_time']}}</h2>
                     </div>
                 </div>
                 <div class="col-lg-3">
                     <div class="m-portlet app-card text-center">
                         <h2 class="app-heading">Applicant Name</h2>
-                        <h2 class="app-no mb-0">{{$hearing['hearing'][0]['applicant_name']}}</h2>
+                        <h2 class="app-no mb-0">{{$hearing['applicant_name']}}</h2>
                     </div>
                 </div>
                 <div class="col-lg-3">
                     <div class="m-portlet app-card text-center">
-                        <a href="{{route('hearing.show',encrypt($hearing['hearing_id']))}}" class="app-no app-no--view mb-0">View
+                        <a href="{{route('hearing.show',encrypt($hearing['id']))}}" class="app-no app-no--view mb-0">View
                             Details</a>
                     </div>
                 </div>

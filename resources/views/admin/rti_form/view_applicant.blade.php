@@ -22,7 +22,7 @@
                     <div class="row field-row">
                         <div class="col-sm-6 field-col">
                             <div class="d-flex">
-                                <span class="field-name">Username:</span>
+                                <span class="field-name">Applicant Name:</span>
                                 <span class="field-value">{{ $rti_applicant->users->name }}</span>
                             </div>
                         </div>
@@ -42,7 +42,7 @@
                         <div class="col-sm-6 field-col">
                             <div class="d-flex">
                                 <span class="field-name">Applicant is below poverty line:</span>
-                                <span class="field-value"><a class="btn-link" target="_blank" href="{{asset('uploads/poverty_files/'.$rti_applicant->poverty_line_proof)}}">{{$rti_applicant->poverty_line_proof}}</a></span>
+                                <span class="field-value"><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$rti_applicant->poverty_line_proof}}">download</a></span>
                             </div>
                         </div>    
                         @endif                   

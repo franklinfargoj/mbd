@@ -50,6 +50,15 @@ class ForwardCaseController extends Controller
             'description' => $request->description,
         ];
 
+//        if(session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.co_pa')){
+//            $department_id = Department::where('department_name', config('commanConfig.hearing_department.co'))->value('id');
+//        }
+//        elseif(session()->get('role_name') == config('commanConfig.joint_co_pa') || session()->get('role_name') == config('commanConfig.joint_co')){
+//            $department_id = Department::where('department_name', config('commanConfig.hearing_department.joint_co'))->value('id');
+//        }
+
+        Hearing::where('id',$request->hearing_id)->update(['department_id'=>$request->department]);
+
         ForwardCase::create($data);
 
 //        dd(session()->all());
@@ -135,7 +144,9 @@ class ForwardCaseController extends Controller
         $arrData['department'] = Department::where('status', 1)->get();
         $hearing_data = $arrData['hearing'];
 //        dd($hearing_data);
-        return view('admin.forward_case.edit', compact('header_data', 'arrData', 'hearing_data'));
+        $forward_hearing_data = ForwardCase::where('hearing_id',$id)->first()->toArray();
+//        dd($arrData['department']);
+        return view('admin.forward_case.edit', compact('header_data', 'arrData', 'hearing_data','forward_hearing_data'));
     }
 
     public function update(Request $request, $id)

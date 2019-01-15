@@ -267,7 +267,8 @@ return [
         '11' => 'purple', 
         '12' => 'purple', 
         '13' => 'success', 
-        '14' => 'purple', 
+        '13' => 'success',
+        '14' => 'purple',
         '15' => 'success',
         '23' => 'success', 
         '26'=>'info',
@@ -329,6 +330,16 @@ return [
 
     'joint_co_pa' => 'Joint Co PA',
     'co_pa' => 'Co PA',
+
+
+    // hearing Department
+    'hearing_department' => [
+       'co' => 'Co',
+       'joint_co' => 'Joint CO'
+    ],
+
+
+
     'hearingStatus' => [
         'pending' => 1,
         'scheduled_meeting' => 2,
@@ -337,9 +348,25 @@ return [
         'notice_send' => 5,
         'case_closed' => 6,
     ],
-
+    'rti_officer'=>'RTI',
+    'rti_appellate'=>'Rti_Appellate',
     'rti_form_status' => 'Send RTI Officer',
 
+    'rti_status'=>[
+        'sent_to_rti_officer'=>1,
+        'in_process'=>2,
+        'meeting_is_scheduled'=>3,
+        'closed'=>4,
+        'forwarded'=>5
+    ],
+    'rti_statusColor' => [
+        '1' => 'metal',
+        '2' => 'info',
+        '3' => 'danger',
+        '4' => 'success',
+        '5'=>'info'
+        // 'final' => 5
+    ],
     'sc_excel_headers' => [
         'Sr No', 'Tenament No', 'Tenament Name', 'Residential/Non-Residential'
     ],
