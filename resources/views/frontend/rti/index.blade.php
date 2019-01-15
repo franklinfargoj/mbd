@@ -16,10 +16,16 @@
 
     <!--begin::Body-->
     <div class="m-login__body">
+       
         <!--begin::Signin-->
         <div class="m-login__container m-login__container--sign-in m-login__container--rounded-fields">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi">
                 <div class="">
+                    @if(session()->has('success'))
+                    <div class="alert alert-success">
+                        {{ session()->get('success') }}
+                    </div>
+                  @endif
                     <div class="m-login__title text-center">
                         <h3>Check Application Status</h3>
                     </div>

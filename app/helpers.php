@@ -2,6 +2,7 @@
 
 use App\Layout\ArchitectLayoutStatusLog;
 use App\ArchitectApplicationStatusLog;
+use App\RtiForwardApplication;
 
 function getArchitectApplicationStatus()
 {
@@ -25,4 +26,9 @@ function getLastStatusIdArchitectApplication($id)
 	return ArchitectApplicationStatusLog::where(['user_id'=>Auth::user()->id,'role_id'=>session()->get('role_id'),'architect_application_id'=>$id])->orderBy('id', 'desc')->first();
 }
 
+function getCurrentStatusOfRtiApplicationForCurrentUSer($application_id)
+{
+	return RtiForwardApplication::where(['user_id'=>Auth::user()->id,'role_id'=>session()->get('role_id'),'application_id'=>$application_id])->orderBy('id', 'desc')->first();
+	
+}
 ?>

@@ -17,4 +17,9 @@ class Department extends Model
     {
         return $this->hasMany('App\BoardDepartment');
     }
+
+    public function rti_user()
+    {
+        return $this->hasOne(\App\User::class,'rti_department_users','user_id','department_id');
+    }
 }

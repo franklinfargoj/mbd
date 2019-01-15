@@ -97,7 +97,7 @@ Route::post('getDepartmentUser', 'BoardController@getDepartmentUser')->name('get
 
 
 Route::resource('/rti_frontend', 'RtiFrontEndController');
-
+Route::post('rti_frontend/appelle','RtiFrontEndController@rti_appelle')->name('rti_frontend.appelle');
 Route::post('rti_frontend/create_application','RtiFrontEndController@saveRtiFrontendForm')->name('rti_frontend_application');
 Route::post('rti_frontend/view_application','RtiFrontEndController@show_rti_application_status')->name('rti_frontend_application_status');
 
