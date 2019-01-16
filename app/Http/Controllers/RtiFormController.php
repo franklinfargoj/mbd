@@ -358,14 +358,27 @@ class RtiFormController extends Controller
         })->where('role_id',$role_id->id)->first();
     }
 
+    public function get_appellate_user_by_department($deparment_id)
+    {
+       $role_id=Role::where('name',config('commanConfig.rti_appellate'))->first();
+       return $appellate_user=User::with(['department'])->whereHas('department',function($q) use($deparment_id){
+        $q->where('department_id',$deparment_id);
+    })->where('role_id',$role_id->id)->first();
+    
+    }
+
     public function forward_application(Request $request, $id){
         
         $request->validate([
             'rti_remarks' => 'required',
         ]);
-        $to_user=$this->get_user_by_department($request->input('department'));
-        // dump(auth()->user()->id);
-        // dump(auth()->user()->role_id);
+        if(auth()->user()->roles[0]->name==config('commanConfig.rti_appellate'))
+        {
+            $to_user=$this->get_appellate_user_by_department($request->input('department'));
+        }else
+        {
+            $to_user=$this->get_user_by_department($request->input('department'));
+        }
        // dd($to_user);
         if($to_user==null)
         {

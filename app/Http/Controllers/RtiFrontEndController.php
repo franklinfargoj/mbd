@@ -270,7 +270,7 @@ class RtiFrontEndController extends Controller
     public function rti_appelle(Request $request)
     {
        $appellate_user=$this->get_appellate_user_by_department($request->department_id);
-       //dd($appellate_user);
+       //dd(config('commanConfig.rti_status.sent_to_rti_officer'));
        $input = array(
             'application_id' => $request->application_id,
             'board_id' => null,
@@ -286,7 +286,7 @@ class RtiFrontEndController extends Controller
         {
         RtiForwardApplication::insert($input);
         RtiAppeal::insert(['application_id' => $request->application_id,'user_id'=>$appellate_user->id,'role_id'=>$appellate_user->role_id]);
-        RtiForm::where(['id'=>$request->application_id])->update(['appeal_by_applicant'=>1]);
+        RtiForm::where(['id'=>$request->application_id])->update(['appeal_by_applicant'=>1,'status'=>config('commanConfig.rti_status.send_to_appellate')]);
         });
         return redirect()->route('rti_frontend.index')->with('success','Appealed Successfully!!!');
     }

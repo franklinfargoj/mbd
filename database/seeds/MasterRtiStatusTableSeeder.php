@@ -37,7 +37,12 @@ class MasterRtiStatusTableSeeder extends Seeder
 	        	'status_title' => 'Forwarded',
 	        	'created_at' => \Carbon\Carbon::now(),
 	        	'updated_at' => \Carbon\Carbon::now()
-	        ]
+			],
+			[
+				'status_title'=>'Sent To Appellate',
+	        	'created_at' => \Carbon\Carbon::now(),
+	        	'updated_at' => \Carbon\Carbon::now()
+			]
 		];
 		
 		
