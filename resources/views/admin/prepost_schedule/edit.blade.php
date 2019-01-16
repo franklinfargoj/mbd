@@ -105,7 +105,7 @@
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="time">Select Time:</label>
                         <input type="text" id="time" name="time" class="form-control form-control--custom m-input"
-                               value="{{ $arrData['schedule_prepost_data']->hearingSchedule->prePostSchedule[0]->time }}">
+                               {{$visiblity}} value="{{ $arrData['schedule_prepost_data']->hearingSchedule->prePostSchedule[0]->time }}">
                         <span class="help-block">{{$errors->first('time')}}</span>
                     </div>
                 </div>
