@@ -349,7 +349,7 @@ return [
         'case_closed' => 6,
     ],
     'rti_officer'=>'RTI',
-    'rti_appellate'=>'Rti_Appellate',
+    'rti_appellate'=>'RTI_Appellate',
     'rti_form_status' => 'Send RTI Officer',
 
     'rti_status'=>[
@@ -357,7 +357,8 @@ return [
         'in_process'=>2,
         'meeting_is_scheduled'=>3,
         'closed'=>4,
-        'forwarded'=>5
+        'forwarded'=>5,
+        'send_to_appellate'=>6
     ],
     'rti_statusColor' => [
         '1' => 'metal',
