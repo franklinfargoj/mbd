@@ -16,7 +16,8 @@ class HearingSchedule extends Model
         'case_template',
         'update_status',
         'update_supporting_documents',
-        'hearing_id'
+        'hearing_id',
+        'user_id'
     ];
 
     public function prePostSchedule()

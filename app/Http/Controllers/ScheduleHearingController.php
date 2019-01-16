@@ -61,11 +61,11 @@ class ScheduleHearingController extends Controller
      */
     public function store(HearingScheduleRequest $request)
     {
-//        dd($request->all());
         $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
         $time = time();
 
         $input['hearing_id'] = $request->hearing_id;
+        $input['user_id'] = Auth::Id();
         $input['preceding_date'] = $request->preceding_date;
         $input['preceding_number'] = $request->preceding_number;
         $input['preceding_time'] = $request->preceding_time;
