@@ -12,6 +12,7 @@ class ForwardCase extends Model
         'board_id',
         'department_id',
         'description',
-        'hearing_id'
+        'hearing_id',
+        'user_id'
     ];
 }

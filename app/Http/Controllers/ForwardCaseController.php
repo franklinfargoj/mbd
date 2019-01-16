@@ -37,7 +37,7 @@ class ForwardCaseController extends Controller
 
     public function store(Request $request)
     {
-
+        $user_id = User::where('role_id',session()->get('role_id'))->value('id');
         $this->validate($request, [
             'board' => "required",
             'department' => "required",
@@ -49,6 +49,7 @@ class ForwardCaseController extends Controller
             'department_id' => $request->department,
             'hearing_id' => $request->hearing_id,
             'description' => $request->description,
+            'user_id' => $user_id
         ];
 
 //        if(session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.co_pa')){
@@ -161,6 +162,8 @@ class ForwardCaseController extends Controller
 
     public function update(Request $request, $id)
     {
+        $user_id = User::where('role_id',session()->get('role_id'))->value('id');
+
         $this->validate($request, [
             'board' => "required",
             'department' => "required",
@@ -172,6 +175,7 @@ class ForwardCaseController extends Controller
             'department_id' => $request->department,
             'hearing_id' => $request->hearing_id,
             'description' => $request->description,
+            'user_id' => $user_id
         ];
 
         ForwardCase::create($data);
