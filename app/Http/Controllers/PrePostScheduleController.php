@@ -40,11 +40,11 @@ class PrePostScheduleController extends Controller
     {
 
         $id = decrypt($id);
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
         $header_data = $this->header_data;
 //        $arrData['schedule_hearing_data'] = Hearing::with('hearingSchedule')->where('id', $id)->first();
-        $arrData['hearing_data'] = Hearing::with(['hearingStatus', 'hearingPrePostSchedule', 'hearingApplicationType', 'hearingStatusLog' => function($q){
-            $q->where('user_id', Auth::user()->id)
-                ->where('role_id', session()->get('role_id'));
+        $arrData['hearing_data'] = Hearing::with(['hearingStatus', 'hearingPrePostSchedule', 'hearingApplicationType', 'hearingStatusLog' => function($q) use($department_id){
+            $q->where('department_id', $department_id);
         }])
             ->where('id', $id)
             ->first();
@@ -127,12 +127,12 @@ class PrePostScheduleController extends Controller
     public function edit($id)
     {
         $id = decrypt($id);
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
         $header_data = $this->header_data;
 //        $arrData['schedule_prepost_data'] = PrePostSchedule::FindOrFail($id);
         $arrData['schedule_prepost_data'] = Hearing::with(['hearingSchedule.prePostSchedule'])->where('id', $id)->first();
-        $hearing_data = Hearing::with(['hearingStatus', 'hearingPrePostSchedule', 'hearingApplicationType', 'hearingStatusLog' => function($q){
-            $q->where('user_id', Auth::user()->id)
-                ->where('role_id', session()->get('role_id'));
+        $hearing_data = Hearing::with(['hearingStatus', 'hearingPrePostSchedule', 'hearingApplicationType', 'hearingStatusLog' => function($q) use($department_id){
+            $q->where('department_id', $department_id);
         }])
             ->where('id', $id)
             ->first();
