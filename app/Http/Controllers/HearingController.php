@@ -705,13 +705,9 @@ class HearingController extends Controller
 
     public function getHearingLogs($hearing_id){
 
-        $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q) use($hearing_id) {
-            $q->where('hearing_id', $hearing_id);
-        }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
-            ->whereHas('hearingStatusLog' ,function($q) use($hearing_id){
-                $q->where('hearing_id', $hearing_id);
-            })->first();   
+        $hearing_data = Hearing::with('hearingSchedule1.userDetails','hearingSchedule1.userDetails.roleDetails','hearingUploadCaseJudgement','hearingUploadCaseJudgement.userDetails','hearingUploadCaseJudgement.userDetails.roleDetails','hearingPrePostSchedule.userDetails','hearingPrePostSchedule.userDetails.roleDetails')
+                        ->where('id', $hearing_id)->orderBy('id','DESC')->first();
 
-        dd($hearing_data);         
+            return $hearing_data;             
     }
 }

@@ -8,6 +8,7 @@ use App\HearingStatus;
 use App\HearingStatusLog;
 use App\Http\Requests\hearing_schedule\HearingScheduleRequest;
 use App\Http\Controllers\Common\CommonController;
+use App\Http\Controllers\HearingController;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -50,7 +51,10 @@ class ScheduleHearingController extends Controller
         $arrData['hearing'] = Hearing::FindOrFail($id);
         $arrData['status'] = HearingStatus::all();
         $hearing_data = $arrData['hearing'];
-        return view('admin.schedule_hearing.add', compact('header_data', 'arrData', 'hearing_data'));
+        $HearingController = new HearingController();
+        $hearingLogs = $HearingController->getHearingLogs($id);
+      
+        return view('admin.schedule_hearing.add', compact('header_data', 'arrData', 'hearing_data','hearingLogs'));
     }
 
     /**
@@ -155,8 +159,10 @@ class ScheduleHearingController extends Controller
             ->where('id', $id)
             ->first();
         $hearing_data = $arrData['hearing'];
+        $HearingController = new HearingController();
+        $hearingLogs = $HearingController->getHearingLogs($id);        
 //        dd($hearing_data);
-        return view('admin.schedule_hearing.show', compact('hearing_data', 'arrData'));
+        return view('admin.schedule_hearing.show', compact('hearing_data', 'arrData','hearingLogs'));
     }
 
     /**

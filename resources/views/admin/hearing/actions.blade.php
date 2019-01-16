@@ -116,7 +116,7 @@
 
 
             @if($hearing_data['hearingStatusLog']['0']['hearing_status_id'] == config('commanConfig.hearingStatus.scheduled_meeting') || $hearing_data['hearingStatusLog']['0']['hearing_status_id'] == config('commanConfig.hearingStatus.case_under_judgement'))
-                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='schedule_hearing.add')?'m-menu__item--active':''}}">
+                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='schedule_hearing.show')?'m-menu__item--active':''}}">
                     <a href="{{ route('schedule_hearing.show', encrypt($hearing_data->id)) }}"
                        class="m-menu__link m-menu__toggle">
                         <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"

@@ -17,4 +17,8 @@ class PrePostSchedule extends Model
         'hearing_schedule_id',
         'user_id',
     ];
+
+    public function userDetails(){
+        return $this->hasOne('App\User', 'id', 'user_id');
+    }     
 }
