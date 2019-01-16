@@ -1,3 +1,4 @@
+
 @if($hearing_data->hearingStatusLog[0]->hearing_status_id == config('commanConfig.hearingStatus.forwarded') || $hearing_data->hearingStatusLog[0]->hearing_status_id == config('commanConfig.hearingStatus.case_closed'))
     @php
         $style = 'pointer-events: none;
@@ -236,7 +237,6 @@
                     {{--</li>--}}
                 {{--@endif--}}
             {{--@endif--}}
-
 
             @if($hearing_data['hearingStatusLog']['0']['hearing_status_id'] == config('commanConfig.hearingStatus.pending'))
                 <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='forward_case.create')?'m-menu__item--active':''}}">

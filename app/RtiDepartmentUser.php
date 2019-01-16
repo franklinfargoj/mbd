@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class RtiDepartmentUser extends Model
 {
-    protected $table="rti_department_users";
+    protected $table="department_users";
 }

@@ -23,6 +23,7 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
 use App\Http\Controllers\conveyance\renewalCommonController;
+use App\RtiDepartmentUser;
 use Config;
 
 class HearingController extends Controller
@@ -62,6 +63,7 @@ class HearingController extends Controller
         $header_data = $this->header_data;
         $getData = $request->all();
         $hearing_status = HearingStatus::all();
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
 
         $columns = [
             ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
@@ -75,21 +77,24 @@ class HearingController extends Controller
             // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
+                // dd($hearing_data);
+
         if($request->excel)
         {
             //dd('ok');
             $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q){
-                $q->where('user_id', Auth::user()->id)
-                    ->where('role_id', session()->get('role_id'));
+                $q->where('department_id', $department_id);
+                    // ->where('role_id', session()->get('role_id'));
             }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
                 ->whereHas('hearingStatusLog' ,function($q){
-                    $q->where('user_id', Auth::user()->id)
-                        ->where('role_id', session()->get('role_id'));
+                    $q->where('department_id', $department_id);
+                        // ->where('role_id', session()->get('role_id'));
                 })->get()->toArray();
 
             $hearing_excel_data = [];
 
             $i = 1;
+
             foreach ($hearing_data as $hearing)
             {
                 $config_array = array_flip(config('commanConfig.hearingStatus'));
@@ -119,14 +124,21 @@ class HearingController extends Controller
 
 //            DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
 
-            $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q){
-                $q->where('user_id', Auth::user()->id)
-                    ->where('role_id', session()->get('role_id'));
+            $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q) use($department_id) {
+                $q->where('department_id', $department_id);
             }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
-                ->whereHas('hearingStatusLog' ,function($q){
-                    $q->where('user_id', Auth::user()->id)
-                        ->where('role_id', session()->get('role_id'));
-                });
+                ->whereHas('hearingStatusLog' ,function($q) use($department_id){
+                    $q->where('department_id', $department_id);
+                });            
+
+            //     $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q){
+            //     $q->where('user_id', Auth::user()->id)
+            //         ->where('role_id', session()->get('role_id'));
+            // }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
+            //     ->whereHas('hearingStatusLog' ,function($q){
+            //         $q->where('user_id', Auth::user()->id)
+            //             ->where('role_id', session()->get('role_id'));
+            //     });
 //            dd($hearing_data);
 
             if($request->office_date_from)
@@ -160,6 +172,7 @@ class HearingController extends Controller
             {
                 $listArray =  $hearing_data;
             }
+
             return $datatables->of($listArray)
                 ->editColumn('radio', function ($hearing_data) {
                     $url = route('hearing.show', encrypt($hearing_data->id));
@@ -241,6 +254,7 @@ class HearingController extends Controller
     public function store(AddHearingRequest $request)
     {
 //        dd(session()->all());
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
 
         $data = [
             'preceding_officer_name' => $request->preceding_officer_name,
@@ -260,23 +274,23 @@ class HearingController extends Controller
             'office_tehsil' => $request->office_tehsil,
             'office_village' => $request->office_village,
             'office_remark' => $request->office_remark,
-            /*'department_id' => $request->department,
-            'board_id' => $request->board_id,*/
+            'department_id' => $department_id,
+            // 'board_id' => $request->board_id,
             'hearing_status_id' => config('commanConfig.hearingStatus.pending'),
             'role_id' => session()->get('role_id'),
             'user_id' => Auth::user()->id
         ];
 
+        // if(session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.co_pa')){
+        //     $department_id = Department::where('department_name', config('commanConfig.hearing_department.co'))->value('id');
+        //     $data['department_id'] = $department_id;
+        // }
+        // elseif(session()->get('role_name') == config('commanConfig.joint_co_pa') || session()->get('role_name') == config('commanConfig.joint_co')){
+        //     $department_id = Department::where('department_name', config('commanConfig.hearing_department.joint_co'))->value('id');
+        //     $data['department_id'] = $department_id;
 
-        if(session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.co_pa')){
-            $department_id = Department::where('department_name', config('commanConfig.hearing_department.co'))->value('id');
-            $data['department_id'] = $department_id;
-        }
-        elseif(session()->get('role_name') == config('commanConfig.joint_co_pa') || session()->get('role_name') == config('commanConfig.joint_co')){
-            $department_id = Department::where('department_name', config('commanConfig.hearing_department.joint_co'))->value('id');
-            $data['department_id'] = $department_id;
+        // }
 
-        }
         $hearing = Hearing::create($data);
         $hearing->update(['case_number' => $hearing->id]);
         $parent_role_id = User::where('role_id', session()->get('parent'))->first();
@@ -286,6 +300,7 @@ class HearingController extends Controller
                 'hearing_id' => $hearing->id,
                 'user_id' => Auth::user()->id,
                 'role_id' => session()->get('role_id'),
+                'department_id' => $department_id,
                 'hearing_status_id' => config('commanConfig.hearingStatus.pending'),
                 'to_user_id' => NULL,
                 'to_role_id' => NULL,
@@ -293,16 +308,16 @@ class HearingController extends Controller
                 'updated_at' => Carbon::now()
             ],
 
-            [
-                'hearing_id' => $hearing->id,
-                'user_id' => $parent_role_id->id,
-                'role_id' => session()->get('parent'),
-                'hearing_status_id' => config('commanConfig.hearingStatus.pending'),
-                'to_user_id' => NULL,
-                'to_role_id' => NULL,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ]
+            // [
+            //     'hearing_id' => $hearing->id,
+            //     'user_id' => $parent_role_id->id,
+            //     'role_id' => session()->get('parent'),
+            //     'hearing_status_id' => config('commanConfig.hearingStatus.pending'),
+            //     'to_user_id' => NULL,
+            //     'to_role_id' => NULL,
+            //     'created_at' => Carbon::now(),
+            //     'updated_at' => Carbon::now()
+            // ]
         ];
 
         HearingStatusLog::insert($hearing_status_log);
@@ -318,12 +333,11 @@ class HearingController extends Controller
      */
     public function show($id)
     {
-//        dd('ddd');
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
         $id = decrypt($id);
 //        $header_data = $this->header_data;
-        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingStatusLog' => function($q){
-            $q->where('user_id', Auth::user()->id)
-                ->where('role_id', session()->get('role_id'));
+        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingStatusLog' => function($q) use($department_id){
+            $q->where('department_id', $department_id);
         }])
                         ->where('id', $id)
                         ->first();
@@ -343,6 +357,7 @@ class HearingController extends Controller
         $arrData['status'] = HearingStatus::all();
 //        $hearing_data = $arrData['hearing'];
 //        dd($hearing_data['hearingStatusLog']['0']['hearing_status_id']);
+
         return view('admin.hearing.show', compact('header_data', 'arrData', 'hearing_data', 'status_value'));
     }
 
