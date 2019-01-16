@@ -59,9 +59,9 @@ class PrePostScheduleController extends Controller
      */
     public function store(PrePostScheduleRequest $request)
     {
-        dd("hi");
         $data = [
             'date' => $request->date,
+            'time' => $request->time,
             'description' => $request->description,
             'pre_post_status' => $request->pre_post_status,
             'hearing_schedule_id' => $request->hearing_schedule_id,
@@ -151,6 +151,7 @@ class PrePostScheduleController extends Controller
 
         $data = [
             'date' => $request->date,
+            'time' => $request->time,
             'description' => $request->description,
             'pre_post_status' => $request->pre_post_status,
             'hearing_schedule_id' => $request->hearing_schedule_id,

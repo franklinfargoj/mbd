@@ -141,8 +141,8 @@
 
     <script>
 
-        $("#preceding_time").on("click", function () {
-            $('#preceding_time').timepicker();
+        $("#time").on("click", function () {
+            $('#time').timepicker();
         });
 
     </script>
