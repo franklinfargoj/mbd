@@ -728,34 +728,50 @@ class HearingPermissionSeeder extends Seeder
 
         //entry in department_users table
         
-        if (isset($department_id) && isset($joint_co_role_id)){
-            
-            $RtiDepartmentUser = new RtiDepartmentUser;
-            $RtiDepartmentUser->department_id = $department_id;
-            $RtiDepartmentUser->user_id = $joint_co_role_id; 
-            $RtiDepartmentUser->save();   
+        if (isset($department_id) && isset($joint_co_user_id)){
+
+            $data = RtiDepartmentUser::where('department_id',$department_id)->where('user_id',$joint_co_user_id)->first();
+    
+            if (!isset($data)){
+                $RtiDepartmentUser = new RtiDepartmentUser;
+                $RtiDepartmentUser->department_id = $department_id;
+                $RtiDepartmentUser->user_id = $joint_co_user_id; 
+                $RtiDepartmentUser->save();                   
+            }            
         } 
        
-        if (isset($department_id) && isset($joint_co_pa_role_id)){
-            
-            $RtiDepartmentUser1 = new RtiDepartmentUser;
-            $RtiDepartmentUser1->department_id = $department_id;
-            $RtiDepartmentUser1->user_id = $joint_co_pa_role_id; 
-            $RtiDepartmentUser1->save();   
+        if (isset($department_id) && isset($joint_co_pa_user_id)){
+
+            $data1 = RtiDepartmentUser::where('department_id',$department_id)->where('user_id',$joint_co_pa_user_id)->first();
+
+            if (!isset($data1)) {
+                $RtiDepartmentUser1 = new RtiDepartmentUser;
+                $RtiDepartmentUser1->department_id = $department_id;
+                $RtiDepartmentUser1->user_id = $joint_co_pa_user_id; 
+                $RtiDepartmentUser1->save();                
+            }            
         }        
         if (isset($department_id1) && isset($co_user_id)){
+
+            $data2 = RtiDepartmentUser::where('department_id',$department_id1)->where('user_id',$co_user_id)->first();
             
-            $RtiDepartmentUser = new RtiDepartmentUser;
-            $RtiDepartmentUser->department_id = $department_id1;
-            $RtiDepartmentUser->user_id = $co_user_id; 
-            $RtiDepartmentUser->save();   
+            if (!isset($data2)) {
+                $RtiDepartmentUser2 = new RtiDepartmentUser;
+                $RtiDepartmentUser2->department_id = $department_id1;
+                $RtiDepartmentUser2->user_id = $co_user_id; 
+                $RtiDepartmentUser2->save();                   
+            }
         }        
         if (isset($department_id1) && isset($co_pa_user_id)){
             
-            $RtiDepartmentUser = new RtiDepartmentUser;
-            $RtiDepartmentUser->department_id = $department_id1;
-            $RtiDepartmentUser->user_id = $co_pa_user_id; 
-            $RtiDepartmentUser->save();   
+            $data3 = RtiDepartmentUser::where('department_id',$department_id1)->where('user_id',$co_pa_user_id)->first();
+
+            if (!isset($data3)) {
+                $RtiDepartmentUser3 = new RtiDepartmentUser;
+                $RtiDepartmentUser3->department_id = $department_id1;
+                $RtiDepartmentUser3->user_id = $co_pa_user_id; 
+                $RtiDepartmentUser3->save();                   
+            } 
         }        
     }
 }

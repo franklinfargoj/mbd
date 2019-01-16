@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use File;
 use Illuminate\Support\Facades\Auth;
+use App\RtiDepartmentUser;
 use Storage;
 
 class ScheduleHearingController extends Controller
@@ -61,6 +62,7 @@ class ScheduleHearingController extends Controller
     public function store(HearingScheduleRequest $request)
     {
 //        dd($request->all());
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
         $time = time();
 
         $input['hearing_id'] = $request->hearing_id;
@@ -112,23 +114,24 @@ class ScheduleHearingController extends Controller
                 'hearing_id' => $request->hearing_id,
                 'user_id' => Auth::user()->id,
                 'role_id' => session()->get('role_id'),
-                'hearing_status_id' => config('commanConfig.hearingStatus.scheduled_meeting'),
-                'to_user_id' => NULL,
-                'to_role_id' => NULL,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ],
-
-            [
-                'hearing_id' => $request->hearing_id,
-                'user_id' => $parent_role_id->id,
-                'role_id' => session()->get('parent'),
+                'department_id' => $department_id,
                 'hearing_status_id' => config('commanConfig.hearingStatus.scheduled_meeting'),
                 'to_user_id' => NULL,
                 'to_role_id' => NULL,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]
+
+            // [
+            //     'hearing_id' => $request->hearing_id,
+            //     'user_id' => $parent_role_id->id,
+            //     'role_id' => session()->get('parent'),
+            //     'hearing_status_id' => config('commanConfig.hearingStatus.scheduled_meeting'),
+            //     'to_user_id' => NULL,
+            //     'to_role_id' => NULL,
+            //     'created_at' => Carbon::now(),
+            //     'updated_at' => Carbon::now()
+            // ]
         ];
 
         HearingStatusLog::insert($hearing_status_log);
