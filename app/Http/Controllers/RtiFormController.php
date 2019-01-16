@@ -187,11 +187,13 @@ class RtiFormController extends Controller
         {
             $readonly=1;
         }
+        $meeting_history=RtiScheduleMeeting::where('application_no', $rti_applicant->unique_id)->orderBy('id','desc')->get();
+        //dd($meeting_hostory);
         $rti_meetings_scheduled = RtiScheduleMeeting::where('application_no', $rti_applicant->unique_id)->orderBy('id','desc')->first();
         if($rti_meetings_scheduled){
             $rti_meetings_scheduled = $rti_meetings_scheduled;
         }
-        return view('admin.rti_form.schedule_meeting', compact('readonly','rti_applicant', 'rti_meetings_scheduled'));
+        return view('admin.rti_form.schedule_meeting', compact('meeting_history','readonly','rti_applicant', 'rti_meetings_scheduled'));
     }
 
     public function schedule_meeting(Request $request, $id)
@@ -201,7 +203,8 @@ class RtiFormController extends Controller
             'meeting_scheduled_date' => $request->input('meeting_scheduled_date'),
             'meeting_venue' => $request->input('meeting_venue'),
             'meeting_time' => $request->input('meeting_time'),
-            'contact_person_name' => $request->input('contact_person_name')
+            'contact_person_name' => $request->input('contact_person_name'),
+            'user_id'=>auth()->user()->id
         );
         $applicant_exist = RtiScheduleMeeting::where('application_no', $request->input('application_no'))->get();
         $last_inserted_id = RtiScheduleMeeting::create($input);
@@ -273,14 +276,16 @@ class RtiFormController extends Controller
 
     public function show_send_info_form($id){
         $readonly=0;
-        $rti_applicant = RtiForm::with('users', 'rti_send_info')->where('id', $id)->orderBY('id','desc')->first();
+        $rti_applicant = RtiForm::with(['users', 'rti_send_info','sent_info_hostory'=>function($q){
+            return $q->orderBy('id','desc');
+        }])->where('id', $id)->orderBY('id','desc')->first();
         $latest_status=getCurrentStatusOfRtiApplicationForCurrentUSer($rti_applicant->id);
         if($latest_status->status_id==config('commanConfig.rti_status.closed') || $latest_status->status_id==config('commanConfig.rti_status.forwarded'))
         {
             $readonly=1;
         }
         $rti_statuses = MasterRtiStatus::all();
-        $rti_applicant = $rti_applicant;
+        //dd($rti_applicant);
         return view('admin.rti_form.send_info_to_applicant', compact('readonly','rti_statuses', 'rti_applicant'));
     }
 
@@ -291,6 +296,7 @@ class RtiFormController extends Controller
         ]);
         $input = array(
             'application_id' => $id,
+            'user_id'=>auth()->user()->id,
             'rti_status_id' =>config('commanConfig.rti_status.closed'),
             'comment' => $request->input('rti_comment'),
         );
