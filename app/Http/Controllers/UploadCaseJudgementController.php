@@ -38,10 +38,10 @@ class UploadCaseJudgementController extends Controller
     public function create($id)
     {
         $id = decrypt($id);
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
         $header_data = $this->header_data;
-        $arrData['hearing_data'] = Hearing::with(['hearingStatus', 'hearingPrePostSchedule', 'hearingApplicationType', 'hearingStatusLog' => function($q){
-            $q->where('user_id', Auth::user()->id)
-                ->where('role_id', session()->get('role_id'));
+        $arrData['hearing_data'] = Hearing::with(['hearingStatus', 'hearingPrePostSchedule', 'hearingApplicationType', 'hearingStatusLog' => function($q) use($department_id){
+            $q->where('department_id', $department_id);
         }])
             ->where('id', $id)
             ->first();
@@ -64,6 +64,7 @@ class UploadCaseJudgementController extends Controller
         ]);
 
         $data = [
+            'user_id' => Auth::user()->id,
             'hearing_id' => $request->hearing_id,
             'description' => $request->description,
             'case_year' => $request->case_year,
@@ -148,10 +149,10 @@ class UploadCaseJudgementController extends Controller
     public function edit($id)
     {
         $id = decrypt($id);
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
         $header_data = $this->header_data;
-        $arrData['hearing_data'] = Hearing::with(['hearingStatus', 'hearingPrePostSchedule', 'hearingApplicationType', 'hearingStatusLog' => function($q){
-            $q->where('user_id', Auth::user()->id)
-                ->where('role_id', session()->get('role_id'));
+        $arrData['hearing_data'] = Hearing::with(['hearingStatus', 'hearingPrePostSchedule', 'hearingApplicationType', 'hearingStatusLog' => function($q) use($department_id){
+            $q->where('department_id', $department_id);
         }])
             ->where('id', $id)
             ->first();
@@ -176,6 +177,7 @@ class UploadCaseJudgementController extends Controller
         ]);
 
         $data = [
+            'user_id' => Auth::user()->id,
             'hearing_id' => $request->hearing_id,
             'description' => $request->description,
             'case_year' => $request->case_year,

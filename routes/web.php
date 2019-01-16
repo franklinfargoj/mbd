@@ -136,6 +136,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     //Hearing Admin
     Route::get('hearing-dashboard', 'HearingController@Dashboard')->name('hearing.dashboard');
+    Route::get('hearing_logs/{id}', 'HearingController@getHearingLogs')->name('hearing.logs');
     Route::resource('/hearing', 'HearingController');
     Route::post('loadDeleteReasonOfHearingUsingAjax', 'HearingController@loadDeleteReasonOfHearingUsingAjax')->name('loadDeleteReasonOfHearingUsingAjax');
 //Route::get('/hearing/delete/{id}', 'HearingController@destroy')->name('hearing.delete');

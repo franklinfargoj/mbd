@@ -60,6 +60,7 @@ class PrePostScheduleController extends Controller
     public function store(PrePostScheduleRequest $request)
     {
         $data = [
+            'user_id' => Auth::user()->id,
             'date' => $request->date,
             'time' => $request->time,
             'description' => $request->description,
@@ -150,6 +151,7 @@ class PrePostScheduleController extends Controller
 //        $pre_post_schedule = PrePostSchedule::FindOrFail($id);
 
         $data = [
+            'user_id' => Auth::user()->id,
             'date' => $request->date,
             'time' => $request->time,
             'description' => $request->description,
