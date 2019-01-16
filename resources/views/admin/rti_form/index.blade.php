@@ -37,7 +37,7 @@
                             <div class="form-group m-form__group">
                                 <div class="btn-list">
                                     <button type="submit" class="btn m-btn--pill m-btn--custom btn-primary">Search</button>
-                                    <button type="reset" class="btn m-btn--pill m-btn--custom btn-metal">Reset</button>
+                                <a href="{{route('rti_applicants')}}" class="btn m-btn--pill m-btn--custom btn-metal">Reset</a>
                                 </div>
                             </div>
                         </div>

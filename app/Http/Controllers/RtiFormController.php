@@ -21,6 +21,7 @@ use Config;
 use DB;
 use App\RtiFronendUser;
 use App\User;
+use App\Role;
 use PDF;
 
 class RtiFormController extends Controller
@@ -105,7 +106,15 @@ class RtiFormController extends Controller
 
             if($request->status)
             {
-                $rti_applicants = $rti_applicants->where('status', $request->status);
+                $rti_applicants = $rti_applicants->where(DB::raw($request->status), '=', function ($q) {
+                    $q->from('rti_forward_application')
+                        ->select('status_id')
+                        ->where('application_id', '=', DB::raw('rti_form.id'))
+                        ->where('user_id', auth()->user()->id)
+                        ->where('role_id', auth()->user()->role_id)
+                        ->limit(1)
+                        ->orderBy('id', 'desc');
+                });
             }
 
             if($request->date_of_submission)
@@ -140,12 +149,13 @@ class RtiFormController extends Controller
                     $status=$rti_applicants->rti_forward_status!=""?$rti_applicants->rti_forward_status[0]->status_id:' - ';
                     $config_array = array_flip(config('commanConfig.rti_status'));
                     $value = ucwords(str_replace('_', ' ', $config_array[$status]));
-                    return $value;
+                    return '<span class="m-badge m-badge--' . config('commanConfig.rti_statusColor.' . $status) . ' m-badge--wide">' . $value . '</span>';
+                    //return $value;
                 })
                 ->editColumn('actions', function ($rti_applicants) {
                    // return view('admin.rti_form.actions', compact('rti_applicants'))->render();
                 })
-                ->rawColumns(['radio', 'board_name','status','actions'])
+                ->rawColumns(['radio', 'board_name','status','actions','rti_status_id'])
                 ->make(true);
         }
 
@@ -199,8 +209,8 @@ class RtiFormController extends Controller
         $update_meeting_schedule_id['status'] = config('commanConfig.rti_status.meeting_is_scheduled');
         $input = array(
             'application_id' => $id,
-            // 'board_id' => $request->input('board'),
-            // 'department_id' => $request->input('department'),
+            'board_id' => null,
+            'department_id' => null,
             'remarks' => null,
             'user_id'=>auth()->user()->id,
             'role_id'=>auth()->user()->role_id,
@@ -208,7 +218,6 @@ class RtiFormController extends Controller
             'to_role_id'=>null,
             'status_id'=>config('commanConfig.rti_status.meeting_is_scheduled')
         );
-            
         // dd('ok');
         $last_inserted_id = RtiForwardApplication::create($input);
         RtiForm::where('unique_id', $request->input('application_no'))->where('id', $id)->update($update_meeting_schedule_id);
@@ -226,18 +235,21 @@ class RtiFormController extends Controller
 
     public function download_applicant_form($id)
     {
-        
-        if(RtiForm::find($id))
-        {
-            $application_form_data=RtiForm::find($id);
-            $boards = Board::all();
+        $boards = Board::all();
             $departments = Department::all();
-            //$pdf = PDF::loadView('admin.rti_form.download_applicant_form', array('boards'=>$boards, 'departments'=>$departments,'application_form_data'=>$application_form_data)); // or PDF::loadHtml($html);
-            //return $pdf->download($filename); // or
-            $pdf = PDF::loadView('admin.rti_form.download_applicant_form', array('boards'=>$boards, 'departments'=>$departments,'application_form_data'=>$application_form_data));
-            return $pdf->download($application_form_data->unique_id.date('YmdHis').'.pdf');
-            //return view('admin.rti_form.download_applicant_form', compact('id', 'boards', 'departments','application_form_data'));
-        }
+        $rti_applicant = RtiForm::with(['users','master_rti_status'])->where('id', $id)->first();
+        return view('admin.rti_form.view_application_form',compact('boards','departments','rti_applicant','id'));
+        // if(RtiForm::find($id))
+        // {
+        //     $application_form_data=RtiForm::find($id);
+        //     $boards = Board::all();
+        //     $departments = Department::all();
+        //     //$pdf = PDF::loadView('admin.rti_form.download_applicant_form', array('boards'=>$boards, 'departments'=>$departments,'application_form_data'=>$application_form_data)); // or PDF::loadHtml($html);
+        //     //return $pdf->download($filename); // or
+        //     $pdf = PDF::loadView('admin.rti_form.download_applicant_form', array('boards'=>$boards, 'departments'=>$departments,'application_form_data'=>$application_form_data));
+        //     return $pdf->download($application_form_data->unique_id.date('YmdHis').'.pdf');
+        //     //return view('admin.rti_form.download_applicant_form', compact('id', 'boards', 'departments','application_form_data'));
+        // }
     }
 
     public function show_update_status_form($id){
@@ -310,8 +322,8 @@ class RtiFormController extends Controller
         );
         $input = array(
             'application_id' => $id,
-            // 'board_id' => $request->input('board'),
-            // 'department_id' => $request->input('department'),
+            'board_id' => null,
+            'department_id' => null,
             'remarks' => null,
             'user_id'=>auth()->user()->id,
             'role_id'=>auth()->user()->role_id,
@@ -322,9 +334,7 @@ class RtiFormController extends Controller
             
         // dd('ok');
         $last_inserted_id = RtiForwardApplication::create($input);
-
         $last_updated_status_id = RtiStatus::create($updated_status);
-
         $update_id['rti_status_id'] = $last_updated_status_id->id;
         $update_id['rti_send_info_id'] = $last_inserted_id->id;
         $update_id['status'] = config('commanConfig.rti_status.closed');
@@ -342,9 +352,10 @@ class RtiFormController extends Controller
 
     public function get_user_by_department($deparment_id)
     {
-        return User::whereHas('department',function($q) use($deparment_id){
+        $role_id=Role::where('name',config('commanConfig.rti_officer'))->first();
+        return $appellate_user=User::with(['department'])->whereHas('department',function($q) use($deparment_id){
             $q->where('department_id',$deparment_id);
-        })->first();
+        })->where('role_id',$role_id->id)->first();
     }
 
     public function forward_application(Request $request, $id){
@@ -353,6 +364,9 @@ class RtiFormController extends Controller
             'rti_remarks' => 'required',
         ]);
         $to_user=$this->get_user_by_department($request->input('department'));
+        // dump(auth()->user()->id);
+        // dump(auth()->user()->role_id);
+       // dd($to_user);
         if($to_user==null)
         {
             return redirect()->back()->with('error','No user found in selected department');
@@ -381,7 +395,7 @@ class RtiFormController extends Controller
                 'status_id'=>config('commanConfig.rti_status.in_process')
             ]
         ];
-        // dd('ok');
+        // dd($input);
         $last_inserted_id = RtiForwardApplication::insert($input);
         // $update_id['rti_forward_application_id'] = $last_inserted_id->id;
         // $update_id['board_id'] = $request->input('board');

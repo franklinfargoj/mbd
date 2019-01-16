@@ -22,7 +22,7 @@
                     <div class="row field-row">
                         <div class="col-sm-6 field-col">
                             <div class="d-flex">
-                                <span class="field-name">Username:</span>
+                                <span class="field-name">Applicant Name:</span>
                                 <span class="field-value">{{ $rti_applicant->users->name }}</span>
                             </div>
                         </div>
@@ -34,8 +34,8 @@
                         </div>
                         <div class="col-sm-6 field-col">
                             <div class="d-flex">
-                                <span class="field-name">Download Application Form:</span>
-                                <span class="field-value"><a target="_blank" href="{{route('download_applicant_form',['id'=>$rti_applicant->id])}}" class="btn btn-link">Download</a></span>
+                                <span class="field-name">View Application Form:</span>
+                                <span class="field-value"><a href="{{route('download_applicant_form',['id'=>$rti_applicant->id])}}" class="btn btn-link">View</a></span>
                             </div>
                         </div> 
                         @if($rti_applicant->poverty_line_proof!="")
