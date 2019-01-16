@@ -34,12 +34,6 @@ class TripartiteDashboardComposer
      */
     public function compose(View $view)
     {
-        dd($this->tripartite_dashboard->getDashboardHeaders());
-        $data = array(
-            'name' => 'ap'
-        );
-//        dd($data);
-
-        $view->with('tripartite_data', $data);
+        $view->with('tripartite_data', $this->tripartite_dashboard->getDashboardHeaders()->getData());
     }
 }

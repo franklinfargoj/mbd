@@ -312,5 +312,22 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         if($hearing_co_role){
             Role::where('name','Co')->delete();
         }
+
+        if($hearing_co_role){
+            $hearing_user_role = \App\RoleUser::where('role_id',$hearing_co_role)->where('user_id',$hearing_co)->get();
+            if($hearing_user_role){
+                \App\RoleUser::where('role_id',$hearing_co_role)->where('user_id',$hearing_co)->delete();
+            }
+        }
+
+        //update copa parent
+        $copa = Role::where('name','Co PA')->value('id');
+
+        $co = Role::where('name','co_engineer')->value('id');
+        if($copa)
+            Role::where('id',$copa)->update(['parent_id' => $co]);
+
+
+
     }
 }
