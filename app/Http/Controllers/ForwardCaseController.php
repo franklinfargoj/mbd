@@ -8,6 +8,7 @@ use App\ForwardCase;
 use App\Hearing;
 use App\HearingStatusLog;
 use App\Role;
+use App\RtiDepartmentUser;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -36,7 +37,7 @@ class ForwardCaseController extends Controller
 
     public function store(Request $request)
     {
-//        dd($request->all());
+
         $this->validate($request, [
             'board' => "required",
             'department' => "required",
@@ -78,47 +79,56 @@ class ForwardCaseController extends Controller
         $parent_role_id = Role::where('id', $request->role_id)->get(['parent_id'])->first();
         $parent_user_id = User::where('role_id', $parent_role_id->parent_id)->get(['id'])->first();
 
+
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
+
+        $to_department_id = $request->department;
+
+
         $hearing_status_log = [
             [
                 'hearing_id' => $request->hearing_id,
                 'user_id' => Auth::user()->id,
                 'role_id' => session()->get('role_id'),
                 'hearing_status_id' => config('commanConfig.hearingStatus.forwarded'),
+                'department_id' => $department_id,
                 'to_user_id' => $request->user,
                 'to_role_id' => $request->role_id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
-            [
-                'hearing_id' => $request->hearing_id,
-                'user_id' => $user_id->id,
-                'role_id' => $role_id,
-                'hearing_status_id' => config('commanConfig.hearingStatus.forwarded'),
-                'to_user_id' => NULL,
-                'to_role_id' => NULL,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ],
+//            [
+//                'hearing_id' => $request->hearing_id,
+//                'user_id' => $user_id->id,
+//                'role_id' => $role_id,
+//                'hearing_status_id' => config('commanConfig.hearingStatus.forwarded'),
+//                'department_id' => $department_id,
+//                'to_user_id' => NULL,
+//                'to_role_id' => NULL,
+//                'created_at' => Carbon::now(),
+//                'updated_at' => Carbon::now()
+//            ],
             [
                 'hearing_id' => $request->hearing_id,
                 'user_id' => $request->user,
                 'role_id' => $request->role_id,
                 'hearing_status_id' => config('commanConfig.hearingStatus.pending'),
+                'department_id' => $to_department_id,
                 'to_user_id' => NULL,
                 'to_role_id' => NULL,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
-            [
-                'hearing_id' => $request->hearing_id,
-                'user_id' => $parent_user_id->id,
-                'role_id' => $parent_role_id->parent_id,
-                'hearing_status_id' => config('commanConfig.hearingStatus.pending'),
-                'to_user_id' => NULL,
-                'to_role_id' => NULL,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ]
+//            [
+//                'hearing_id' => $request->hearing_id,
+//                'user_id' => $parent_user_id->id,
+//                'role_id' => $parent_role_id->parent_id,
+//                'hearing_status_id' => config('commanConfig.hearingStatus.pending'),
+//                'to_user_id' => NULL,
+//                'to_role_id' => NULL,
+//                'created_at' => Carbon::now(),
+//                'updated_at' => Carbon::now()
+//            ]
         ];
 
         HearingStatusLog::insert($hearing_status_log);
@@ -170,13 +180,13 @@ class ForwardCaseController extends Controller
     }
 
     public function show($id){
+
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
+
         $id = decrypt($id);
         $header_data = $this->header_data;
-        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingForwardCase' => function($q){
-            $q->orderBy('created_at', 'desc');
-        }, 'hearingStatusLog' => function($q){
-            $q->where('user_id', Auth::user()->id)
-                ->where('role_id', session()->get('role_id'));
+        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingStatusLog' => function($q) use($department_id){
+            $q->where('department_id', $department_id);
         }])
             ->where('id', $id)
             ->first();

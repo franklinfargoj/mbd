@@ -53,7 +53,7 @@
                 @if($chart)
                     <div id="chartdiv" style="width: 100%; height: 350px; margin-top: 2px;"></div>
                 @endif
-                @include('admin.tripartite.partial.ree_dashboard')
+                {{--@include('admin.tripartite.partial.ree_dashboard')--}}
                 {{--<div class="row no-gutters hearing-row">--}}
                     {{--<div class="col-12 no-shadow">--}}
                         {{--<div class="app-card-section-title">Tripartite Agreement</div>--}}
