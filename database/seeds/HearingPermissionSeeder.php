@@ -6,6 +6,7 @@ use App\RoleUser;
 use App\User;
 use App\Permission;
 use App\PermissionRole;
+use App\RtiDepartmentUser;
 
 class HearingPermissionSeeder extends Seeder
 {
@@ -724,5 +725,37 @@ class HearingPermissionSeeder extends Seeder
         {
             \App\LayoutUser::insert(['user_id' => $joint_co_user_id, 'layout_id' => $layout_id->id]);
         }
+
+        //entry in department_users table
+        
+        if (isset($department_id) && isset($joint_co_role_id)){
+            
+            $RtiDepartmentUser = new RtiDepartmentUser;
+            $RtiDepartmentUser->department_id = $department_id;
+            $RtiDepartmentUser->user_id = $joint_co_role_id; 
+            $RtiDepartmentUser->save();   
+        } 
+       
+        if (isset($department_id) && isset($joint_co_pa_role_id)){
+            
+            $RtiDepartmentUser1 = new RtiDepartmentUser;
+            $RtiDepartmentUser1->department_id = $department_id;
+            $RtiDepartmentUser1->user_id = $joint_co_pa_role_id; 
+            $RtiDepartmentUser1->save();   
+        }        
+        if (isset($department_id1) && isset($co_user_id)){
+            
+            $RtiDepartmentUser = new RtiDepartmentUser;
+            $RtiDepartmentUser->department_id = $department_id1;
+            $RtiDepartmentUser->user_id = $co_user_id; 
+            $RtiDepartmentUser->save();   
+        }        
+        if (isset($department_id1) && isset($co_pa_user_id)){
+            
+            $RtiDepartmentUser = new RtiDepartmentUser;
+            $RtiDepartmentUser->department_id = $department_id1;
+            $RtiDepartmentUser->user_id = $co_pa_user_id; 
+            $RtiDepartmentUser->save();   
+        }        
     }
 }
