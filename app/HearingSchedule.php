@@ -30,4 +30,8 @@ class HearingSchedule extends Model
     {
         return $this->hasMany('App\Hearing', 'id', 'hearing_id');
     }
+
+    public function userDetails(){
+        return $this->hasOne('App\User', 'id', 'user_id');
+    }    
 }

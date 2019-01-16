@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\RtiDepartmentUser;
+use App\Http\Controllers\HearingController;
 
 class PrePostScheduleController extends Controller
 {
@@ -37,6 +38,7 @@ class PrePostScheduleController extends Controller
      */
     public function create($id)
     {
+
         $id = decrypt($id);
         $header_data = $this->header_data;
 //        $arrData['schedule_hearing_data'] = Hearing::with('hearingSchedule')->where('id', $id)->first();
@@ -134,7 +136,11 @@ class PrePostScheduleController extends Controller
             ->where('id', $id)
             ->first();
 //        dd($hearing_data);
-        return view('admin.prepost_schedule.edit', compact('header_data', 'arrData', 'hearing_data'));
+
+        $HearingController = new HearingController();
+        $hearingLogs = $HearingController->getHearingLogs($id);  
+
+        return view('admin.prepost_schedule.edit', compact('header_data', 'arrData', 'hearing_data','hearingLogs'));
     }
 
     /**

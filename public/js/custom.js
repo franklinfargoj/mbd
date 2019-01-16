@@ -1053,3 +1053,5 @@ function geturl(view_route){
     });    
 
 $('#billing_calculations').DataTable( { searching:false,dom: 'Bfrtip', buttons: [ 'excel', 'print' ] } );
+
+

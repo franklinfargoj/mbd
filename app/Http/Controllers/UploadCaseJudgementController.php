@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use File;
 use Illuminate\Support\Facades\Auth;
 use App\RtiDepartmentUser;
+use App\Http\Controllers\HearingController;
+use App\Http\Controllers\Common\CommonController;
 use Storage;
 
 class UploadCaseJudgementController extends Controller
@@ -46,8 +48,10 @@ class UploadCaseJudgementController extends Controller
             ->where('id', $id)
             ->first();
         $hearing_data = $arrData['hearing_data'];
+        $HearingController = new HearingController();
+        $hearingLogs = $HearingController->getHearingLogs($id);        
 //        dd($hearing_data);
-        return view('admin.upload_case_judgement.add', compact('header_data', 'arrData', 'hearing_data'));
+        return view('admin.upload_case_judgement.add', compact('header_data', 'arrData', 'hearing_data','hearingLogs'));
     }
 
     /**
@@ -76,7 +80,14 @@ class UploadCaseJudgementController extends Controller
             $extension = $request->file('upload_judgement_case')->getClientOriginalExtension();
             if ($extension == "pdf") {
                 $name = File::name($request->file('upload_judgement_case')->getClientOriginalName()) . '_' . $time . '.' . $extension;
-                $path = Storage::putFileAs('/upload_judgement_case', $request->file('upload_judgement_case'), $name, 'public');
+                // $path = Storage::putFileAs('/upload_judgement_case', $request->file('upload_judgement_case'), $name, 'public');
+                
+                $folder_name = 'upload_judgement_case';
+                $file = $request->file('upload_judgement_case');
+
+                $CommonController = new CommonController();
+                $path = $CommonController->ftpFileUpload($folder_name,$file,$name);
+
                 $data['upload_judgement_case'] = $path;
                 $data['judgement_case_filename'] = File::name($request->file('upload_judgement_case')->getClientOriginalName()). '.' . $extension;
             } else {
@@ -160,7 +171,10 @@ class UploadCaseJudgementController extends Controller
         $arrData['hearing_status'] = HearingStatusLog::where('hearing_id', $id)->orderBy('id', 'desc')->first();
         $hearing_data = $arrData['hearing_data'];
 
-        return view('admin.upload_case_judgement.edit', compact('header_data', 'arrData', 'hearing_data'));
+        $HearingController = new HearingController();
+        $hearingLogs = $HearingController->getHearingLogs($id);         
+
+        return view('admin.upload_case_judgement.edit', compact('header_data', 'arrData', 'hearing_data','hearingLogs'));
     }
 
     /**
@@ -189,7 +203,13 @@ class UploadCaseJudgementController extends Controller
             $extension = $request->file('upload_judgement_case')->getClientOriginalExtension();
             if ($extension == "pdf") {
                 $name = File::name($request->file('upload_judgement_case')->getClientOriginalName()) . '_' . $time . '.' . $extension;
-                $path = Storage::putFileAs('/upload_judgement_case', $request->file('upload_judgement_case'), $name, 'public');
+                // $path = Storage::putFileAs('/upload_judgement_case', $request->file('upload_judgement_case'), $name, 'public');
+                $folder_name = 'upload_judgement_case';
+                $file = $request->file('upload_judgement_case');
+
+                $CommonController = new CommonController();
+                $path = $CommonController->ftpFileUpload($folder_name,$file,$name);
+
                 $data['upload_judgement_case'] = $path;
                 $data['judgement_case_filename'] = File::name($request->file('upload_judgement_case')->getClientOriginalName()). '.' . $extension;
             } else {
