@@ -82,6 +82,7 @@
     </div>
 </div>
 
+@if(count($hearingLogs->hearingUploadCaseJudgement) > 0)
 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
     <div class="portlet-body">
         <div class="m-portlet__body m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
@@ -106,7 +107,7 @@
                     </tr>
                   </thead>                         
                       <tbody>
-                      @if($hearingLogs)
+
                         @foreach($hearingLogs->hearingUploadCaseJudgement as $log)                      
                           <tr>
                             <td> 1</td>
@@ -122,13 +123,13 @@
                             </td>
                           </tr>   
                         @endforeach
-                      @endif
                     </tbody>
                 </table>
             </div>                             
         </div>
     </div>
 </div>
+@endif
 
 @include('admin.hearing.delete_hearing')
 @endsection

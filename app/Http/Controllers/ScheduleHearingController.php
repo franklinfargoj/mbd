@@ -152,10 +152,10 @@ class ScheduleHearingController extends Controller
     public function show($id)
     {
         $id = decrypt($id);
-        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingSchedule', 'hearingStatusLog' => function($q){
-            $q->where('user_id', Auth::user()->id)
-                ->where('role_id', session()->get('role_id'));
-        }])
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
+        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingSchedule', 'hearingStatusLog' => function($q) use($department_id){
+            $q->where('department_id', $department_id);
+        }]) 
             ->where('id', $id)
             ->first();
         $hearing_data = $arrData['hearing'];

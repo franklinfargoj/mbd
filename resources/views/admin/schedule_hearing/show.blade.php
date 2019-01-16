@@ -158,8 +158,6 @@
                         </tr>
                       </thead>                         
                           <tbody>
-
-                          @if($hearingLogs)
                             @foreach($hearingLogs->hearingSchedule1 as $log)
                               <tr>
                                 <td> 1</td>
