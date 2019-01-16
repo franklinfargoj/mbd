@@ -21,7 +21,7 @@
             <td>{{ $hearing['applicant_mobile_no'] }}</td>
             @php
                 $config_array = array_flip(config('commanConfig.hearingStatus'));
-                $current_status = $hearing['hearing_status_log'][0]['hearing_status_id'];
+                $current_status = $hearing['hearingStatusLog']['0']['hearing_status_id'];
             @endphp
             <td>{{ (array_key_exists($current_status, $config_array)) ? ucwords(str_replace('_', ' ', $config_array[$current_status])) : "" }}</td>
         </tr>

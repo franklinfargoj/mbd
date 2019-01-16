@@ -11,6 +11,7 @@ class PrePostSchedule extends Model
     protected $fillable = [
         'hearing_id',
         'date',
+        'time',
         'description',
         'pre_post_status',
         'hearing_schedule_id',

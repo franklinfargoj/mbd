@@ -64,6 +64,7 @@ class PrePostScheduleController extends Controller
         $data = [
             'user_id' => Auth::user()->id,
             'date' => $request->date,
+            'time' => $request->time,
             'description' => $request->description,
             'pre_post_status' => $request->pre_post_status,
             'hearing_schedule_id' => $request->hearing_schedule_id,
@@ -158,6 +159,7 @@ class PrePostScheduleController extends Controller
         $data = [
             'user_id' => Auth::user()->id,
             'date' => $request->date,
+            'time' => $request->time,
             'description' => $request->description,
             'pre_post_status' => $request->pre_post_status,
             'hearing_schedule_id' => $request->hearing_schedule_id,

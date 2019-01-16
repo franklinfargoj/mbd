@@ -42,16 +42,72 @@ class HearingController extends Controller
 
     public function print_data(Request $request)
     {
-        $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q){
-            $q->where('user_id', Auth::user()->id)
-                ->where('role_id', session()->get('role_id'));
+        $getData = [
+            'office_date_from' =>session()->get('office_date_from'),
+            'office_date_to' =>session()->get('office_date_to'),
+            'hearing_status_id' =>session()->get('hearing_status_id')
+
+        ];
+
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
+
+        $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q) use($department_id) {
+            $q->where('department_id', $department_id);
         }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
-            ->whereHas('hearingStatusLog' ,function($q){
-                $q->where('user_id', Auth::user()->id)
-                    ->where('role_id', session()->get('role_id'));
-            })->get()->toArray();
-        return view('admin.hearing.print_data',compact('hearing_data'));
-    }
+            ->whereHas('hearingStatusLog' ,function($q) use($department_id){
+                $q->where('department_id', $department_id);
+            });
+
+        //     $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q){
+        //     $q->where('user_id', Auth::user()->id)
+        //         ->where('role_id', session()->get('role_id'));
+        // }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
+        //     ->whereHas('hearingStatusLog' ,function($q){
+        //         $q->where('user_id', Auth::user()->id)
+        //             ->where('role_id', session()->get('role_id'));
+        //     });
+//            dd($hearing_data);
+
+        if($getData['office_date_from'])
+        {
+            $hearing_data = $hearing_data->whereDate('office_date', '>=', date('Y-m-d', strtotime($request->office_date_from)));
+        }
+
+        if($getData['office_date_to'])
+        {
+
+            $hearing_data = $hearing_data->whereDate('office_date', '<=', date('Y-m-d', strtotime($request->office_date_to)));
+        }
+//            if($request->hearing_status_id){
+//                $hearing_data = $hearing_data->whereDate('office_date', '<=', date('Y-m-d', strtotime($request->office_date_to)));
+//
+//            }
+
+        $hearing_data = $hearing_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', case_year, hearing.id as id, case_number, department_id,  office_date, applicant_name')->orderBy('id', 'desc');
+
+        $hearing_data = $hearing_data->select()->get();
+
+//        dd($hearing_data);
+        $listArray = [];
+
+        if($getData['hearing_status_id'])
+        {
+            foreach ($hearing_data as $hearing)
+            {
+                if($hearing->hearingStatusLog[0]->hearing_status_id == $getData['hearing_status_id'])
+                {
+                    $listArray[] = $hearing;
+                }
+            }
+        }
+        else
+        {
+            $listArray =  $hearing_data;
+        }
+
+        $hearing_data = $listArray;
+//        dd($hearing_data);
+        return view('admin.hearing.print_data',compact('hearing_data'));    }
 
     /**
      * Display a listing of the resource.
@@ -81,15 +137,59 @@ class HearingController extends Controller
 
         if($request->excel)
         {
-            //dd('ok');
-            $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q){
+            $getData = [
+                'office_date_from' =>session()->get('office_date_from'),
+                'office_date_to' =>session()->get('office_date_to'),
+                'hearing_status_id' =>session()->get('hearing_status_id')
+
+            ];
+
+            $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
+
+            $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q) use($department_id) {
                 $q->where('department_id', $department_id);
-                    // ->where('role_id', session()->get('role_id'));
             }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
-                ->whereHas('hearingStatusLog' ,function($q){
+                ->whereHas('hearingStatusLog' ,function($q) use($department_id){
                     $q->where('department_id', $department_id);
-                        // ->where('role_id', session()->get('role_id'));
-                })->get()->toArray();
+                });
+
+            if($getData['office_date_from'])
+            {
+                $hearing_data = $hearing_data->whereDate('office_date', '>=', date('Y-m-d', strtotime($request->office_date_from)));
+            }
+
+            if($getData['office_date_to'])
+            {
+
+                $hearing_data = $hearing_data->whereDate('office_date', '<=', date('Y-m-d', strtotime($request->office_date_to)));
+            }
+//            if($request->hearing_status_id){
+//                $hearing_data = $hearing_data->whereDate('office_date', '<=', date('Y-m-d', strtotime($request->office_date_to)));
+//
+//            }
+
+            $hearing_data = $hearing_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', case_year, hearing.id as id, case_number, department_id,  office_date, applicant_name')->orderBy('id', 'desc');
+
+            $hearing_data = $hearing_data->select()->get();
+
+            $listArray = [];
+
+            if($getData['hearing_status_id'])
+            {
+                foreach ($hearing_data as $hearing)
+                {
+                    if($hearing->hearingStatusLog[0]->hearing_status_id == $getData['hearing_status_id'])
+                    {
+                        $listArray[] = $hearing;
+                    }
+                }
+            }
+            else
+            {
+                $listArray =  $hearing_data;
+            }
+
+            $hearing_data = $listArray;
 
             $hearing_excel_data = [];
 
@@ -98,7 +198,7 @@ class HearingController extends Controller
             foreach ($hearing_data as $hearing)
             {
                 $config_array = array_flip(config('commanConfig.hearingStatus'));
-                $current_status = $hearing['hearing_status_log'][0]['hearing_status_id'];
+                $current_status = $hearing['hearingStatusLog'][0]['hearing_status_id'];
                 $hearing_excel_data[] = [
                     'Sr. No.' => $i,
                     'Case No.' => $hearing['case_number'],
@@ -143,14 +243,19 @@ class HearingController extends Controller
 
             if($request->office_date_from)
             {
+                session()->put('office_date_from',$request->office_date_from);
                 $hearing_data = $hearing_data->whereDate('office_date', '>=', date('Y-m-d', strtotime($request->office_date_from)));
             }
 
             if($request->office_date_to)
             {
-
+                session()->put('office_date_from',$request->office_date_to);
                 $hearing_data = $hearing_data->whereDate('office_date', '<=', date('Y-m-d', strtotime($request->office_date_to)));
             }
+//            if($request->hearing_status_id){
+//                $hearing_data = $hearing_data->whereDate('office_date', '<=', date('Y-m-d', strtotime($request->office_date_to)));
+//
+//            }
 
             $hearing_data = $hearing_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', case_year, hearing.id as id, case_number, department_id,  office_date, applicant_name')->orderBy('id', 'desc');
 
@@ -160,6 +265,7 @@ class HearingController extends Controller
 
             if($request->hearing_status_id)
             {
+                session()->put('hearing_status_id',$request->hearing_status_id);
                 foreach ($hearing_data as $hearing)
                 {
                     if($hearing->hearingStatusLog[0]->hearing_status_id == $request->hearing_status_id)
@@ -172,6 +278,8 @@ class HearingController extends Controller
             {
                 $listArray =  $hearing_data;
             }
+
+//            dd(count($listArray));
 
             return $datatables->of($listArray)
                 ->editColumn('radio', function ($hearing_data) {
@@ -479,16 +587,18 @@ class HearingController extends Controller
      */
     public function Dashboard() {
 
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
+
         $role_id = session()->get('role_id');
         $user_id = Auth::id();
 
-        $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q) use ($user_id,$role_id){
-            $q->where('user_id', $user_id)
-                ->where('role_id', $role_id);
+        $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q) use ($department_id){
+            $q->where('department_id', $department_id);
+            // ->where('role_id', session()->get('role_id'));
         }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
-            ->whereHas('hearingStatusLog' ,function($q) use ($user_id,$role_id) {
-                $q->where('user_id', $user_id)
-                    ->where('role_id', $role_id);
+            ->whereHas('hearingStatusLog' ,function($q) use ($department_id){
+                $q->where('department_id', $department_id);
+                // ->where('role_id', session()->get('role_id'));
             })->get()->toArray();
 
         $totalPendingHearing = $totalClosedHearing = $totalScheduledHearing = $totalUnderJudgementHearing = $totalForwardedHearing = 0;
