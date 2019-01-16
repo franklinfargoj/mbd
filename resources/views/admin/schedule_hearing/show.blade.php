@@ -158,9 +158,10 @@
                         </tr>
                       </thead>                         
                           <tbody>
+                          @php $i = 1; @endphp
                             @foreach($hearingLogs->hearingSchedule1 as $log)
                               <tr>
-                                <td> 1</td>
+                                <td> {{$i}}</td>
                                 <td> {{ isset($log->preceding_date) ? $log->preceding_date : '' }}</td>
                                 <td> {{ isset($log->preceding_time) ? $log->preceding_time : '' }}</td>
                                 <td> {{ isset($log->userDetails->name) ? $log->userDetails->name : '' }}</td>
@@ -170,7 +171,8 @@
                                 <a href="{{ asset($log->case_template) }}" target="_blank">
                                 <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                 </td>
-                              </tr>  
+                              </tr> 
+                              @php $i++; @endphp 
                             @endforeach
                         </tbody>
                     </table>
