@@ -12,7 +12,7 @@
          data-parent="#accordion">
         <div class="row no-gutters hearing-row">
             <div class="col-9 no-shadow">
-                <div class="app-card-section-title">Society Renewal</div>
+                <div class="app-card-section-title">Revision in Layout</div>
             </div>
             <div class="col-3 no-shadow"></div>
             <div class="col-lg-3">
