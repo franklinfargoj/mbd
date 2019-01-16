@@ -133,6 +133,7 @@
         </div>
     </div>
 
+@if(count($hearingLogs->hearingSchedule1) > 0)
     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
         <div class="portlet-body">
             <div class="m-portlet__body m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
@@ -157,9 +158,9 @@
                         </tr>
                       </thead>                         
                           <tbody>
+
                           @if($hearingLogs)
                             @foreach($hearingLogs->hearingSchedule1 as $log)
-                            
                               <tr>
                                 <td> 1</td>
                                 <td> {{ isset($log->preceding_date) ? $log->preceding_date : '' }}</td>
@@ -173,13 +174,13 @@
                                 </td>
                               </tr>  
                             @endforeach
-                          @endif
                         </tbody>
                     </table>
                 </div>                             
             </div>
         </div>
     </div>
+@endif
     
 @endsection
 
