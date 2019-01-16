@@ -166,11 +166,11 @@
                           <th class="th-sm">Case Template</th>
                         </tr>
                       </thead>                         
-                          <tbody>
-                          
+                          <tbody> 
+                            @php $i = 1; @endphp
                             @foreach($hearingLogs->hearingSchedule1 as $log)
                               <tr>
-                                <td> 1</td>
+                                <td> {{$i}}</td>
                                 <td> {{ isset($log->preceding_date) ? $log->preceding_date : '' }}</td>
                                 <td> {{ isset($log->preceding_time) ? $log->preceding_time : '' }}</td>
                                 <td> {{ isset($log->userDetails->name) ? $log->userDetails->name : '' }}</td>
@@ -181,6 +181,7 @@
                                 <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                 </td>
                               </tr>  
+                              @php $i++; @endphp
                             @endforeach
                           
                         </tbody>

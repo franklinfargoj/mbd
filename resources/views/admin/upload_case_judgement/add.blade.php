@@ -105,14 +105,14 @@
                       <th class="th-sm">Description</th>
                       <th class="th-sm">Case Template</th>
                     </tr>
-                  </thead>                         
+                  </thead>                          
                       <tbody>
-
+                        @php $i = 1; @endphp
                         @foreach($hearingLogs->hearingUploadCaseJudgement as $log)                      
                           <tr>
-                            <td> 1</td>
-                            <td> {{ isset($log->date) ? $log->date : '' }}</td>
-                            <td> {{ isset($log->time) ? $log->time : '' }}</td>
+                            <td> {{$i}}</td>
+                            <td> {{ isset($log->created_at) ? date("d-m-Y",strtotime($log->created_at)) : '' }}</td>
+                            <td> {{ isset($log->created_at) ? date("H:i",strtotime($log->created_at)) : '' }}</td>
                             <td> {{ isset($log->userDetails->name) ? $log->userDetails->name : '' }}</td>
                             <td> {{ isset($log->userDetails->roleDetails->name) ? $log->userDetails->roleDetails->name : '' }}</td>
                             <td> {{ isset($log->description) ? $log->description : '' }}</td>
@@ -122,6 +122,7 @@
                             @endif
                             </td>
                           </tr>   
+                          @php $i++; @endphp
                         @endforeach
                     </tbody>
                 </table>

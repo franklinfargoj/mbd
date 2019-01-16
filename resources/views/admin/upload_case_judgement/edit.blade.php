@@ -105,11 +105,11 @@
                     </tr>
                   </thead>                         
                       <tbody>
+                      @php $i = 1; @endphp
                         @foreach($hearingLogs->hearingUploadCaseJudgement as $log) 
 
                           <tr>
-                            <td> 1</td>
-
+                            <td>{{$i}}</td>
                             <td> {{ isset($log->created_at) ? date("d-m-Y",strtotime($log->created_at)) : '' }}</td>
                             <td> {{ isset($log->created_at) ? date("H:i",strtotime($log->created_at)) : '' }}</td>
                             <td> {{ isset($log->userDetails->name) ? $log->userDetails->name : '' }}</td>
@@ -120,7 +120,8 @@
                             <a href="{{ config('commanConfig.storage_server').'/'.$log->upload_judgement_case }}" target="_blank"> <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                             @endif
                             </td>
-                          </tr>   
+                          </tr>  
+                          @php $i++; @endphp 
                         @endforeach
                     </tbody>
                 </table>
