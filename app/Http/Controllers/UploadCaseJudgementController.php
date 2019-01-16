@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use File;
 use Illuminate\Support\Facades\Auth;
+use App\RtiDepartmentUser;
 use Storage;
 
 class UploadCaseJudgementController extends Controller
@@ -84,6 +85,7 @@ class UploadCaseJudgementController extends Controller
         }
         UploadCaseJudgement::create($data);
 
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
         $parent_role_id = User::where('role_id', session()->get('parent'))->first();
 
         $child_role_id = User::where('role_id', session()->get('child'))->first();
@@ -101,23 +103,24 @@ class UploadCaseJudgementController extends Controller
                 'hearing_id' => $request->hearing_id,
                 'user_id' => Auth::user()->id,
                 'role_id' => session()->get('role_id'),
-                'hearing_status_id' => ($request->close_case == 1) ? config('commanConfig.hearingStatus.case_closed') : config('commanConfig.hearingStatus.case_under_judgement'),
-                'to_user_id' => NULL,
-                'to_role_id' => NULL,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ],
-
-            [
-                'hearing_id' => $request->hearing_id,
-                'user_id' => $user_id,
-                'role_id' => session()->get($session_key),
+                'department_id' => $department_id,
                 'hearing_status_id' => ($request->close_case == 1) ? config('commanConfig.hearingStatus.case_closed') : config('commanConfig.hearingStatus.case_under_judgement'),
                 'to_user_id' => NULL,
                 'to_role_id' => NULL,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]
+
+            // [
+            //     'hearing_id' => $request->hearing_id,
+            //     'user_id' => $user_id,
+            //     'role_id' => session()->get($session_key),
+            //     'hearing_status_id' => ($request->close_case == 1) ? config('commanConfig.hearingStatus.case_closed') : config('commanConfig.hearingStatus.case_under_judgement'),
+            //     'to_user_id' => NULL,
+            //     'to_role_id' => NULL,
+            //     'created_at' => Carbon::now(),
+            //     'updated_at' => Carbon::now()
+            // ]
         ];
 
         HearingStatusLog::insert($hearing_status_log);
@@ -199,7 +202,7 @@ class UploadCaseJudgementController extends Controller
         }
 
         UploadCaseJudgement::create($data);
-
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
         $parent_role_id = User::where('role_id', session()->get('parent'))->first();
 
         $child_role_id = User::where('role_id', session()->get('child'))->first();
@@ -217,6 +220,7 @@ class UploadCaseJudgementController extends Controller
                 'hearing_id' => $request->hearing_id,
                 'user_id' => Auth::user()->id,
                 'role_id' => session()->get('role_id'),
+                'department_id' => $department_id,
                 'hearing_status_id' => ($request->close_case == 1) ? config('commanConfig.hearingStatus.case_closed') : config('commanConfig.hearingStatus.case_under_judgement'),
                 'to_user_id' => NULL,
                 'to_role_id' => NULL,
@@ -224,16 +228,16 @@ class UploadCaseJudgementController extends Controller
                 'updated_at' => Carbon::now()
             ],
 
-            [
-                'hearing_id' => $request->hearing_id,
-                'user_id' => $user_id,
-                'role_id' => session()->get($session_key),
-                'hearing_status_id' => ($request->close_case == 1) ? config('commanConfig.hearingStatus.case_closed') : config('commanConfig.hearingStatus.case_under_judgement'),
-                'to_user_id' => NULL,
-                'to_role_id' => NULL,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ]
+            // [
+            //     'hearing_id' => $request->hearing_id,
+            //     'user_id' => $user_id,
+            //     'role_id' => session()->get($session_key),
+            //     'hearing_status_id' => ($request->close_case == 1) ? config('commanConfig.hearingStatus.case_closed') : config('commanConfig.hearingStatus.case_under_judgement'),
+            //     'to_user_id' => NULL,
+            //     'to_role_id' => NULL,
+            //     'created_at' => Carbon::now(),
+            //     'updated_at' => Carbon::now()
+            // ]
         ];
         HearingStatusLog::insert($hearing_status_log);
 //
