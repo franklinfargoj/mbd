@@ -592,4 +592,16 @@ class HearingController extends Controller
 
         return view('admin.hearing.dashboard',compact('todaysHearing','todays_hearing_count','dashboardData','conveyanceDashboard','conveyanceRoles','pendingApplications','renewalDashboard','renewalRoles','renewalPendingApplications'));
     }
+
+    public function getHearingLogs($hearing_id){
+
+        $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q) use($hearing_id) {
+            $q->where('hearing_id', $hearing_id);
+        }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
+            ->whereHas('hearingStatusLog' ,function($q) use($hearing_id){
+                $q->where('hearing_id', $hearing_id);
+            })->first();   
+
+        dd($hearing_data);         
+    }
 }

@@ -14,5 +14,6 @@ class PrePostSchedule extends Model
         'description',
         'pre_post_status',
         'hearing_schedule_id',
+        'user_id',
     ];
 }
