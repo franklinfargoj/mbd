@@ -50,12 +50,12 @@
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="case_year">Case Year:</label>
                         <input type="text" id="case_year" name="case_year" class="form-control form-control--custom m-input"
-                            value="{{ $arrData['schedule_prepost_data']->case_year }}" {{$visiblity}}>
+                          readonly value="{{ $arrData['schedule_prepost_data']->case_year }}" {{$visiblity}}>
                         <span class="help-block">{{$errors->first('case_year')}}</span>
                     </div>
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="case_number">Case Number:</label>
-                        <input type="text" id="case_number" name="case_number" class="form-control form-control--custom m-input"
+                        <input readonly type="text" id="case_number" name="case_number" class="form-control form-control--custom m-input"
                             value="{{ $arrData['schedule_prepost_data']->id }}" {{$visiblity}}>
                         <span class="help-block">{{$errors->first('case_number')}}</span>
                     </div>
@@ -64,14 +64,14 @@
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="appellant_name">Apellent Name:</label>
-                        <input type="text" id="appellant_name" name="appellant_name" class="form-control form-control--custom m-input"
+                        <input readonly type="text" id="appellant_name" name="appellant_name" class="form-control form-control--custom m-input"
                             value="{{ $arrData['schedule_prepost_data']->applicant_name }}" {{$visiblity}}>
                         <span class="help-block">{{$errors->first('appellant_name')}}</span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="respondent_name">Respondent Name:</label>
-                        <input type="text" id="respondent_name" name="respondent_name" class="form-control form-control--custom m-input"
+                        <input readonly type="text" id="respondent_name" name="respondent_name" class="form-control form-control--custom m-input"
                             value="{{ $arrData['schedule_prepost_data']->respondent_name }}" {{$visiblity}}>
                         <span class="help-block">{{$errors->first('respondent_name')}}</span>
                     </div>
@@ -80,7 +80,7 @@
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="first_hearing_date">First Hearing Date:</label>
-                        <input type="text" id="first_hearing_date" name="first_hearing_date" class="form-control form-control--custom"
+                        <input readonly type="text" id="first_hearing_date" name="first_hearing_date" class="form-control form-control--custom"
                             class="form-control form-control--custom m-input" value="{{ $arrData['schedule_prepost_data']->hearingSchedule->preceding_date }}"
                                 {{$visiblity}}>
                         <span class="help-block">{{$errors->first('first_hearing_date')}}</span>
@@ -88,7 +88,7 @@
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="preceding_officer_name">Presiding Officer Name:</label>
-                        <input type="text" id="preceding_officer_name" name="preceding_officer_name" class="form-control form-control--custom m-input"
+                        <input readonly type="text" id="preceding_officer_name" name="preceding_officer_name" class="form-control form-control--custom m-input"
                             value="{{ $arrData['schedule_prepost_data']->preceding_officer_name }}" {{$visiblity}}>
                         <span class="help-block">{{$errors->first('preceding_officer_name')}}</span>
                     </div>
