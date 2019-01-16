@@ -1,4 +1,4 @@
-@extends('admin.layouts.sidebarAction')
+@extends('admin.layouts.app')
 @section('actions')
     @include('admin.hearing.actions',compact('hearing_data'))
 @endsection
@@ -80,7 +80,7 @@
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="preceding_officer_name">Presiding Officer Name:</label>
+                        <label class="col-form-label" for="preceding_officer_name">Preceding Officer Name:</label>
                         <input type="text" id="preceding_officer_name" name="preceding_officer_name" class="form-control form-control--custom m-input"
                             value="{{ $arrData['hearing_data']->preceding_officer_name }}" readonly>
                         <span class="help-block">{{$errors->first('preceding_officer_name')}}</span>
@@ -94,13 +94,21 @@
                             class="form-control form-control--custom m-input" value="{{ old('date') }}">
                         <span class="help-block">{{$errors->first('date')}}</span>
                     </div>
-
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="description">Description:</label>
-                        <textarea id="description" name="description" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('description') }}</textarea>
-                        <span class="help-block">{{$errors->first('description')}}</span>
+                        <label class="col-form-label" for="time">Preceding Time:</label>
+                        <input type="text" id="time" name="time" class="form-control form-control--custom m-input"
+                               value="{{ old('time') }}">
+                        <span class="help-block">{{$errors->first('time')}}</span>
                     </div>
+
                 </div>
+            <div class="form-group m-form__group row">
+                <div class="col-sm-4 form-group">
+                    <label class="col-form-label" for="description">Description:</label>
+                    <textarea id="description" name="description" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('description') }}</textarea>
+                    <span class="help-block">{{$errors->first('description')}}</span>
+                </div>
+            </div>
 
             </div>
             <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
@@ -118,4 +126,15 @@
         </form>
     </div>
 </div>
+@endsection
+@section('js')
+    <script src="{{asset('/js/mdtimepicker.min.js')}}" type="text/javascript"></script>
+
+    <script>
+        $(function () {
+            $('#time').timepicker();
+        });
+
+
+    </script>
 @endsection

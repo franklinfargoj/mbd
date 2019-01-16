@@ -103,13 +103,20 @@
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
+                        <label class="col-form-label" for="preceding_time">Select Time:</label>
+                        <input type="text" id="preceding_time" name="preceding_time" class="form-control form-control--custom m-input"
+                               value="{{ $arrData['schedule_prepost_data']->hearingSchedule->prePostSchedule[0]->time }}">
+                        <span class="help-block">{{$errors->first('preceding_time')}}</span>
+                    </div>
+                </div>
+
+                <div class="form-group m-form__group row">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="description">Description:</label>
                         <textarea {{$visiblity}} id="description" name="description" class="form-control form-control--custom form-control--fixed-height m-input">{{ $arrData['schedule_prepost_data']->hearingSchedule->prePostSchedule[0]->description }}</textarea>
                         <span class="help-block">{{$errors->first('description')}}</span>
                     </div>
                 </div>
-
-            </div>
             <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                 <div class="m-form__actions px-0">
                     <div class="row">
@@ -124,9 +131,21 @@
                     </div>
                 </div>
             </div>
+            </div>
         </form>
     </div>
 </div>
+@endsection
+@section('js')
+    <script src="{{asset('/js/mdtimepicker.min.js')}}" type="text/javascript"></script>
+
+    <script>
+
+        $("#preceding_time").on("click", function () {
+            $('#preceding_time').timepicker();
+        });
+
+    </script>
 @endsection
 @include('admin.hearing.delete_hearing')
 
