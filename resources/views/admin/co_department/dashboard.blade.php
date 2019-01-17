@@ -166,6 +166,8 @@
                         <div id="chartdiv1" style="width: 100%; height: 350px; margin-top: 2px;"></div>
                     @endif
                 @endif
+
+                @include('admin.tripartite.partial.co_dashboard')
             </div>
         </div>
 

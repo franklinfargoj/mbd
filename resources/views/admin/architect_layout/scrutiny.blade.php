@@ -20,7 +20,7 @@
                 </li>
 
                 <li class="nav-item m-tabs__item">
-                    <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
+                    <a class="nav-link m-tabs__link show" data-toggle="tab" href="#checklist-remark-tab">
                         <i class="la la-cog"></i> Checklist & Remarks
                     </a>
                 </li>
@@ -105,7 +105,7 @@
                     </div>
                 </div>
 
-                <div class="tab-pane show" id="forward-application-tab">
+                <div class="tab-pane show" id="checklist-remark-tab">
                     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                         <div class="portlet-body">
                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
@@ -113,6 +113,16 @@
                                     {{-- <h3 class="section-title section-title--small">
                                         Checklist & Remarks
                                     </h3> --}}
+                                    @if(Session::has('ckecklist_success'))
+                                    <div class="alert alert-success">
+                                        <p> {{ Session::get('ckecklist_success') }} </p>
+                                    </div>
+                                    @endif
+                                    @if(Session::has('error'))
+                                    <div class="alert alert-danger">
+                                        <p> {{ Session::get('error') }} </p>
+                                    </div>
+                                    @endif
                                 </div>
                                 <div class="remarks-suggestions scrutiny-checklist_and_remarks">
                                     <div id="wrapper">

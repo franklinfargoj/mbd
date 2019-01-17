@@ -730,7 +730,7 @@ class TripartiteController extends Controller
             'remark' => $request->remark,
             'created_at' => Carbon::now(),
             'is_active' => 1,
-            'phase' => ($sc_application->current_status_id == config('commanConfig.applicationStatus.approved_tripartite_agreement') || $sc_application->current_status_id = config('commanConfig.applicationStatus.draft_tripartite_agreement'))? 1 : 0
+            'phase' => ($sc_application->current_status_id == config('commanConfig.applicationStatus.approved_tripartite_agreement') || $sc_application->current_status_id == config('commanConfig.applicationStatus.draft_tripartite_agreement'))? 1 : 0
         ],
             [
                 'application_id' => $request->applicationId,
@@ -743,7 +743,7 @@ class TripartiteController extends Controller
                 'remark' => $request->remark,
                 'created_at' => Carbon::now(),
                 'is_active' => 1,
-                'phase' => ($sc_application->current_status_id == config('commanConfig.applicationStatus.approved_tripartite_agreement') || $sc_application->current_status_id = config('commanConfig.applicationStatus.draft_tripartite_agreement'))? 1 : 0
+                'phase' => ($sc_application->current_status_id == config('commanConfig.applicationStatus.approved_tripartite_agreement') || $sc_application->current_status_id == config('commanConfig.applicationStatus.draft_tripartite_agreement'))? 1 : 0
             ],
         ];
 

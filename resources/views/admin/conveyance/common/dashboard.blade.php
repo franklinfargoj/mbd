@@ -8,6 +8,7 @@
         $chart1 = 0;
         $chart2 = 0;
         $chart3 = 0;
+        $chart_tripartite = 0;
     @endphp
     <div class="container-fluid">
         <div class="m-subheader px-0 m-subheader--top">
@@ -87,6 +88,43 @@
                 </div>
         @endif
     @endif
+        <div class="hearing-accordion-wrapper">
+            <div class="m-portlet m-portlet--compact redevelopment-accordion mb-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
+                       data-toggle="collapse" href="#redevelopment_dashboard">
+                        <span class="form-accordion-title">Applications for Redevelopment</span>
+                        <span class="accordion-icon redevelopment-accordion-icon"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="redevelopment_dashboard"
+                 data-parent="#accordion">
+                @include('admin.tripartite.partial.la_dashboard')
+                @if($pendingApplications && session()->get('role_name') == config('commanConfig.dyco_engineer'))
+                    <div class="row no-gutters hearing-row">
+                        <div class="col-12 no-shadow">
+                            <div class="app-card-section-title">Conveyance Subordinate Pendency</div>
+                        </div>
+                        @foreach($pendingApplications as $header => $value)
+                            <div class="col-lg-3">
+                                <div class="m-portlet app-card text-center">
+                                    <h2 class="app-heading">{{$header}}</h2>
+                                    <div class="app-card-footer">
+                                        <h2 class="app-no mb-0">{{$value}}</h2>
+                                        @php $chart3 += $value; @endphp
+                                        {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    @if($chart3)
+                        <div id="pending_conveyance_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
+                    @endif
+                @endif
+            </div>
+        </div>
     <!-- end -->
 
         <!-- Dashboard for Renewal Module  --> 
@@ -373,6 +411,21 @@
     </script>
 
     <script>
+        $(".redevelopment-accordion").on("click", function () {
+            var data = $('.redevelopment-accordion').children().children().attr('aria-expanded');
+            if (!(data)) {
+                $('.redevelopment-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+            } else {
+                if (data == 'undefine' || data == 'false') {
+                    $('.redevelopment-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                } else {
+                    $('.redevelopment-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                }
+            }
+        });
+    </script>
+
+    <script>
         $(".renewal-accordion").on("click", function () {
             var data = $('.renewal-accordion').children().children().attr('aria-expanded');
             if (!(data)) {
@@ -569,7 +622,48 @@
         });
         @endif
     </script>
-    @endif           
+    @endif
 
+    @if($chart_tripartite)
+        <script>
+            var chart_tripartite;
+            var legend;
 
+                    @if($tripartite_data['dashboardData'][0])
+            var chartDatatripartite = [
+                            @foreach($tripartite_data['dashboardData'][0] as $header => $value)     {
+                            @if(!($header == 'Total No of Applications'))
+                            "status": '{{$header}}',
+                        "value": '{{$value[0]}}',
+                            @endif
+                    },
+                        @endforeach
+
+                ];
+            //    console.log(chartData1);
+
+            AmCharts.ready(function () {
+                // PIE CHART
+                chart_tripartite = new AmCharts.AmPieChart();
+                chart_tripartite.dataProvider = chartDatatripartite;
+                chart_tripartite.titleField = "status";
+                chart_tripartite.valueField = "value";
+                chart_tripartite.outlineColor = "#FFFFFF";
+                chart_tripartite.outlineAlpha = 0.8;
+                chart_tripartite.outlineThickness = 2;
+                chart_tripartite.balloonText =
+                    "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+                // this makes the chart 3D
+                chart_tripartite.depth3D = 15;
+                chart_tripartite.angle = 30;
+                chart_tripartite.colors = ["#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999",
+                    "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"
+                ]
+                //
+                // WRITE
+                chart_tripartite.write("tripartite_chart");
+            });
+            @endif
+        </script>
+    @endif
 @endsection

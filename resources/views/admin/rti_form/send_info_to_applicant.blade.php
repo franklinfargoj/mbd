@@ -114,8 +114,45 @@
             </div>
         </div>
     </div>
+    <div class="m-portlet m-portlet--mobile">
+            <h3 class="section-title section-title--small">
+                History:
+            </h3>
+        <table id="dtBasicExample" class="table">
+            <thead>
+                </tr>
+                <th>File</th>
+                <th>Comment</th>
+                <th>User</th>
+                <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($rti_applicant->sent_info_hostory as $info)
+                <tr>
+                    <td><a target="_blank" class="btn btn-link" href="{{config('commanConfig.storage_server').'/'.$info->filepath.$info->filename}}">download</td>
+                    <td>{{$info->comment}}</td>
+                    <td>{{$info->user!=""?$info->user->name:''}}</td>
+                    <td>{{$info->user!=""?$info->user->roles[0]->name:''}}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 </div>
 @endsection
+{{-- @section('js')
+<script src="{{asset('/js/mdtimepicker.min.js')}}" type="text/javascript"></script>
+<script>
+    $(function () {
+        $("#meeting_scheduled_date").datepicker({
+            dateFormat: "yy-mm-dd"
+        });
+        $('#meeting_time').mdtimepicker();
+    });
+
+</script>
+@endsection --}}
 @section('js')
 <script src="{{asset('/js/mdtimepicker.min.js')}}" type="text/javascript"></script>
 <script>
@@ -124,6 +161,19 @@
             dateFormat: "yy-mm-dd"
         });
         $('#meeting_time').mdtimepicker();
+    });
+
+    $(document).ready(function () {
+        $('#dtBasicExample').DataTable();
+        $('.dataTables_length').addClass('bs-select');
+
+        $('#dtBasicExample_wrapper > .row:first-child').remove();
+    });
+
+    $('table').dataTable({
+        searching: false,
+        ordering: false,
+        info: false
     });
 
 </script>
