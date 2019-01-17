@@ -192,7 +192,8 @@ class BillingDetailController extends Controller
                             old_intrest_amount,
                             difference_intrest_amount,
                             bill_month,
-                            bill_year
+                            bill_year,
+                            bill_no
                             from (SELECT
                                 DISTINCT(trans_bill_generate.tenant_id),
                                 service_charges_rates.water_charges,
@@ -217,7 +218,8 @@ class BillingDetailController extends Controller
                                 trans_bill_generate.arrear_bill,
                                 trans_bill_generate.total_bill,
                                 trans_bill_generate.bill_month,
-                                trans_bill_generate.bill_year
+                                trans_bill_generate.bill_year,
+                                trans_payment.id as bill_no
                             FROM
                                 `trans_bill_generate`
                             INNER JOIN
@@ -459,7 +461,7 @@ class BillingDetailController extends Controller
                     ->editColumn('amount_paid', function ($arreas_calculations) use($request) {
                         if($request->has('tenant_id') && !empty($request->tenant_id)) {
                             if(count($arreas_calculations->trans_payment)) {
-                               return  $arreas_calculations->trans_payment->amount_paid;
+                               return  $arreas_calculations->trans_payment->first()->amount_paid;
                             }
                         } else {
                             return $arreas_calculations->amount_paid;
@@ -485,7 +487,7 @@ class BillingDetailController extends Controller
 
                             if(count($arreas_calculations->trans_payment)) {
 
-                                $url = route('downloadReceipt', ['building_id'=>encrypt($building->id),'bill_no'=>encrypt($reciepts[$arreas_calculations->tenant_id]),'tenant_id'=> encrypt($request->tenant_id)]);
+                                $url = route('downloadReceipt', ['building_id'=>encrypt($building->id),'bill_no'=>encrypt($arreas_calculations->trans_payment->first()->id),'tenant_id'=> encrypt($request->tenant_id)]);
                                 $button.= "<a href='".$url."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Download Receipt</a></div>";
                             }
                         } else {
@@ -495,7 +497,7 @@ class BillingDetailController extends Controller
                                 $button = "<div class='d-flex btn-icon-list'>
                                     <a href='".$url."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>Donwload Bill</a>";
                                 if($arreas_calculations->total_bill != $arreas_calculations->balance_amount) {
-                                    $url = route('downloadReceipt', ['building_id'=>encrypt($building->id),'society_id'=>encrypt($building->society_id),'bill_no'=>encrypt($reciepts[$arreas_calculations->building_id])]);   
+                                    $url = route('downloadReceipt', ['building_id'=>encrypt($building->id),'society_id'=>encrypt($building->society_id),'bill_no'=>encrypt($arreas_calculations->bill_no)]);   
 
                                     $button.= "<a href='".$url."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Download Receipt</a></div>";
                                 }

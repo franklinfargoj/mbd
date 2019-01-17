@@ -358,11 +358,11 @@ class RCController extends Controller
             } else {
                 $year = date('Y',strtotime($request->from_date));
             }
-            $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
+            $number_of_tenants = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
 
             $serviceChargesRate = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$request->building_id)->where('year',$year)->first();
             
-            $totalServiceCharge = ($serviceChargesRate->water_charges+$serviceChargesRate->pump_man_and_repair_charges+$serviceChargesRate->external_expender_charge+$serviceChargesRate->na_assessment+$serviceChargesRate->other+$serviceChargesRate->lease_rent+$serviceChargesRate->administrative_charge+$serviceChargesRate->electric_city_charge)*$data['number_of_tenants']->tenant_count()->first()->count;
+            $totalServiceCharge = ($serviceChargesRate->water_charges+$serviceChargesRate->pump_man_and_repair_charges+$serviceChargesRate->external_expender_charge+$serviceChargesRate->na_assessment+$serviceChargesRate->other+$serviceChargesRate->lease_rent+$serviceChargesRate->administrative_charge+$serviceChargesRate->electric_city_charge)*$number_of_tenants->tenant_count()->first()->count;
             
             if(count($receipt) <= 0 ){
             $bill = TransBillGenerate::where('status', '!=', 'paid')->findMany($bill_ids);
