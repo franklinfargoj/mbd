@@ -3,6 +3,15 @@
     @include('admin.hearing.actions',compact('hearing_data'))
 @endsection
 @section('content')
+@php
+    $login_user = session()->get('role_name');
+        if(($login_user == config('commanConfig.co_pa')) || ($login_user == config('commanConfig.joint_co_pa')))
+            $visiblity = '';
+        else
+            $visiblity = 'disabled';
+@endphp
+
+
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
@@ -37,14 +46,14 @@
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="case_year">Case Year:</label>
-                        <input type="text" id="case_year" name="case_year" class="form-control form-control--custom m-input"
-                            value="{{ $arrData['hearing']->case_year }}" readonly>
+                        <input disabled type="text" id="case_year" name="case_year" class="form-control form-control--custom m-input"
+                            value="{{ $arrData['hearing']->case_year }}" >
                         <span class="help-block">{{$errors->first('case_year')}}</span>
                     </div>
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="case_number">Case Number:</label>
-                        <input type="text" id="case_number" name="case_number" class="form-control form-control--custom m-input"
-                            value="{{ $arrData['hearing']->id }}" readonly>
+                        <input disabled type="text" id="case_number" name="case_number" class="form-control form-control--custom m-input"
+                            value="{{ $arrData['hearing']->id }}">
                         <span class="help-block">{{$errors->first('case_number')}}</span>
                     </div>
                 </div>
@@ -52,15 +61,15 @@
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="appellant_name">Apellent Name:</label>
-                        <input type="text" id="appellant_name" name="appellant_name" class="form-control form-control--custom m-input"
-                            value="{{ $arrData['hearing']->applicant_name }}" readonly>
+                        <input disabled type="text" id="appellant_name" name="appellant_name" class="form-control form-control--custom m-input"
+                            value="{{ $arrData['hearing']->applicant_name }}">
                         <span class="help-block">{{$errors->first('appellant_name')}}</span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="respondent_name">Respondent Name:</label>
-                        <input type="text" id="respondent_name" name="respondent_name" class="form-control form-control--custom m-input"
-                            value="{{ $arrData['hearing']->respondent_name }}" readonly>
+                        <input disabled type="text" id="respondent_name" name="respondent_name" class="form-control form-control--custom m-input"
+                            value="{{ $arrData['hearing']->respondent_name }}">
                         <span class="help-block">{{$errors->first('respondent_name')}}</span>
                     </div>
                 </div>
@@ -97,14 +106,14 @@
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label">Preceding Date:</label>
-                        <input type="text" class="form-control form-control--custom m-input m_datepicker" value="{{ $arrData['hearing']->hearingSchedule->preceding_date }}"
-                            readonly>
+                        <input disabled type="text" class="form-control form-control--custom m-input m_datepicker" value="{{ $arrData['hearing']->hearingSchedule->preceding_date }}"
+                            >
                         <span class="help-block"></span>
                     </div>
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="preceding_time">Preceding Time:</label>
-                        <input type="text" id="preceding_time" name="preceding_time" class="form-control form-control--custom m-input"
-                            value="{{$arrData['hearing']->hearingSchedule->preceding_time }}" readonly />
+                        <input disabled type="text" id="preceding_time" name="preceding_time" class="form-control form-control--custom m-input"
+                            value="{{$arrData['hearing']->hearingSchedule->preceding_time }}"/>
                         <span class="help-block">{{$errors->first('preceding_time')}}</span>
                     </div>
                 </div>
@@ -113,7 +122,7 @@
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="upload_notice">Upload Notice:</label>
                         <div class="custom-file">
-                            <input type="file" id="upload_notice" name="upload_notice" class="form-control form-control--custom"
+                            <input  {{$visiblity}} type="file" id="upload_notice" name="upload_notice" class="form-control form-control--custom"
                             style="display: none">
                             <label title="{{$arrData['hearing']->hearingSendNoticeToAppellant[0]->upload_notice_filename }}" class="custom-file-label" for="upload_notice">{{$arrData['hearing']->hearingSendNoticeToAppellant[0]->upload_notice_filename }}</label>
                             <span class="help-block">{{$errors->first('upload_notice')}}</span>
@@ -122,7 +131,7 @@
                     </div>
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="comment">Comment:</label>
-                        <textarea id="comment" name="comment" class="form-control form-control--custom form-control--fixed-height m-input">{{ $arrData['hearing']->hearingSendNoticeToAppellant[0]->comment }}</textarea>
+                        <textarea {{$visiblity}} id="comment" name="comment" class="form-control form-control--custom form-control--fixed-height m-input">{{ $arrData['hearing']->hearingSendNoticeToAppellant[0]->comment }}</textarea>
                         <span class="help-block">{{$errors->first('comment')}}</span>
                     </div>
                 </div>
@@ -133,7 +142,9 @@
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="btn-list">
+                                @if($visiblity == '')
                                 <button type="submit" class="btn btn-primary">Save</button>
+                                @endif
                                 <a href="{{url('/hearing')}}" class="btn btn-secondary">Cancel</a>
                             </div>
                         </div>

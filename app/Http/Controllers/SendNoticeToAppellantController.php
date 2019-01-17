@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Hearing;
 use App\HearingStatusLog;
+use App\RtiDepartmentUser;
 use App\SendNoticeToAppellant;
 use App\User;
 use Carbon\Carbon;
@@ -38,6 +39,7 @@ class SendNoticeToAppellantController extends Controller
 
     public function store(Request $request)
     {
+//        dd('asd');
         $this->validate($request, [
             'upload_notice' => "required|mimes:pdf",
             'comment' => "required",
@@ -65,6 +67,7 @@ class SendNoticeToAppellantController extends Controller
         SendNoticeToAppellant::create($data);
 
         $parent_role_id = User::where('role_id', session()->get('parent'))->first();
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
 
         $hearing_status_log = [
             [
@@ -72,22 +75,24 @@ class SendNoticeToAppellantController extends Controller
                 'user_id' => Auth::user()->id,
                 'role_id' => session()->get('role_id'),
                 'hearing_status_id' => config('commanConfig.hearingStatus.notice_send'),
+                'department_id' => $department_id,
                 'to_user_id' => NULL,
                 'to_role_id' => NULL,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
 
-            [
-                'hearing_id' => $request->hearing_id,
-                'user_id' => $parent_role_id->id,
-                'role_id' => session()->get('parent'),
-                'hearing_status_id' => config('commanConfig.hearingStatus.notice_send'),
-                'to_user_id' => NULL,
-                'to_role_id' => NULL,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ]
+//            [
+//                'hearing_id' => $request->hearing_id,
+//                'user_id' => $parent_role_id->id,
+//                'role_id' => session()->get('parent'),
+//                'hearing_status_id' => config('commanConfig.hearingStatus.notice_send'),
+//                'department_id' => $department_id,
+//                'to_user_id' => NULL,
+//                'to_role_id' => NULL,
+//                'created_at' => Carbon::now(),
+//                'updated_at' => Carbon::now()
+//            ]
         ];
 
         HearingStatusLog::insert($hearing_status_log);
@@ -99,11 +104,9 @@ class SendNoticeToAppellantController extends Controller
     {
         $id = decrypt($id);
         $header_data = $this->header_data;
-        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingForwardCase' => function($q){
-            $q->orderBy('created_at', 'desc')->first();
-        }, 'hearingStatusLog' => function($q){
-            $q->where('user_id', Auth::user()->id)
-                ->where('role_id', session()->get('role_id'));
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
+        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingSchedule', 'hearingStatusLog' => function($q) use($department_id){
+            $q->where('department_id', $department_id);
         }])
             ->where('id', $id)
             ->first();
@@ -145,6 +148,7 @@ class SendNoticeToAppellantController extends Controller
         SendNoticeToAppellant::create($data);
 
         $parent_role_id = User::where('role_id', session()->get('parent'))->first();
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
 
         $hearing_status_log = [
             [
@@ -152,22 +156,23 @@ class SendNoticeToAppellantController extends Controller
                 'user_id' => Auth::user()->id,
                 'role_id' => session()->get('role_id'),
                 'hearing_status_id' => config('commanConfig.hearingStatus.notice_send'),
+                'department_id' => $department_id,
                 'to_user_id' => NULL,
                 'to_role_id' => NULL,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
 
-            [
-                'hearing_id' => $request->hearing_id,
-                'user_id' => $parent_role_id->id,
-                'role_id' => session()->get('parent'),
-                'hearing_status_id' => config('commanConfig.hearingStatus.notice_send'),
-                'to_user_id' => NULL,
-                'to_role_id' => NULL,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ]
+//            [
+//                'hearing_id' => $request->hearing_id,
+//                'user_id' => $parent_role_id->id,
+//                'role_id' => session()->get('parent'),
+//                'hearing_status_id' => config('commanConfig.hearingStatus.notice_send'),
+//                'to_user_id' => NULL,
+//                'to_role_id' => NULL,
+//                'created_at' => Carbon::now(),
+//                'updated_at' => Carbon::now()
+//            ]
         ];
 
         HearingStatusLog::insert($hearing_status_log);

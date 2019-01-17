@@ -37,14 +37,14 @@
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="case_year">Case Year:</label>
-                        <input type="text" id="case_year" name="case_year" class="form-control form-control--custom m-input"
-                            value="{{ $arrData['hearing']->case_year }}" readonly>
+                        <input disabled type="text" id="case_year" name="case_year" class="form-control form-control--custom m-input"
+                            value="{{ $arrData['hearing']->case_year }}">
                         <span class="help-block">{{$errors->first('case_year')}}</span>
                     </div>
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="case_number">Case Number:</label>
-                        <input type="text" id="case_number" name="case_number" class="form-control form-control--custom m-input"
-                            value="{{ $arrData['hearing']->id }}" readonly>
+                        <input disabled type="text" id="case_number" name="case_number" class="form-control form-control--custom m-input"
+                            value="{{ $arrData['hearing']->id }}">
                         <span class="help-block">{{$errors->first('case_number')}}</span>
                     </div>
                 </div>
@@ -52,15 +52,15 @@
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="appellant_name">Apellent Name:</label>
-                        <input type="text" id="appellant_name" name="appellant_name" class="form-control form-control--custom m-input"
-                            value="{{ $arrData['hearing']->applicant_name }}" readonly>
+                        <input disabled type="text" id="appellant_name" name="appellant_name" class="form-control form-control--custom m-input"
+                            value="{{ $arrData['hearing']->applicant_name }}">
                         <span class="help-block">{{$errors->first('appellant_name')}}</span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="respondent_name">Respondent Name:</label>
-                        <input type="text" id="respondent_name" name="respondent_name" class="form-control form-control--custom m-input"
-                            value="{{ $arrData['hearing']->respondent_name }}" readonly>
+                        <input disabled type="text" id="respondent_name" name="respondent_name" class="form-control form-control--custom m-input"
+                            value="{{ $arrData['hearing']->respondent_name }}">
                         <span class="help-block">{{$errors->first('respondent_name')}}</span>
                     </div>
                 </div>
@@ -98,13 +98,13 @@
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label">Preceding Date:</label>
                         <input type="text" class="form-control form-control--custom m-input" value="{{ $arrData['hearing']->hearingSchedule->preceding_date }}"
-                            readonly>
+                            disabled>
                         <span class="help-block"></span>
                     </div>
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="preceding_time">Preceding Time:</label>
                         <input type="text" id="preceding_time" name="preceding_time" class="form-control form-control--custom m-input"
-                            value="{{$arrData['hearing']->hearingSchedule->preceding_time }}" readonly />
+                            value="{{$arrData['hearing']->hearingSchedule->preceding_time }}" disabled />
                         <span class="help-block">{{$errors->first('preceding_time')}}</span>
                     </div>
                 </div>
