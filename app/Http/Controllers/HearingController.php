@@ -197,8 +197,38 @@ class HearingController extends Controller
 
             foreach ($hearing_data as $hearing)
             {
-                $config_array = array_flip(config('commanConfig.hearingStatus'));
-                $current_status = $hearing['hearingStatusLog'][0]['hearing_status_id'];
+//                $config_array = array_flip(config('commanConfig.hearingStatus'));
+//                $current_status = $hearing['hearingStatusLog'][0]['hearing_status_id'];
+
+                $status = $hearing['hearingStatusLog'][0]['hearing_status_id'];
+
+                if($getData['hearing_status_id'])
+                {
+                    if($getData['hearing_status_id'] == $status){
+                        $config_array = array_flip(config('commanConfig.hearingStatus'));
+                        $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+
+                        if($value == 'Scheduled Meeting' && count($hearing['hearingSchedule']['prePostSchedule']) > 0) {
+                            if ($hearing['hearingSchedule']['prePostSchedule'][0]['pre_post_status'] == 1) {
+                                $value = $value . ' Preponed';
+                            }else{
+                                $value = $value . ' Postponed';
+                            }
+                        }
+                    }
+                }else{
+                    $config_array = array_flip(config('commanConfig.hearingStatus'));
+                    $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+
+                    if($value == 'Scheduled Meeting' && count($hearing['hearingSchedule']['prePostSchedule']) > 0) {
+                        if ($hearing['hearingSchedule']['prePostSchedule'][0]['pre_post_status'] == 1) {
+                            $value = $value . ' Preponed';
+                        }else{
+                            $value = $value . ' Postponed';
+                        }
+                    }
+                }
+
                 $hearing_excel_data[] = [
                     'Sr. No.' => $i,
                     'Case No.' => $hearing['case_number'],
@@ -206,7 +236,7 @@ class HearingController extends Controller
                     'Case Reg Date' => date(config('commanConfig.dateFormat'), strtotime($hearing['office_date'])),
                     'Apellent Name' => $hearing['applicant_name'],
                     'Appelent Mobile No.' => $hearing['applicant_mobile_no'],
-                    'Status' => (array_key_exists($current_status, $config_array)) ? ucwords(str_replace('_', ' ', $config_array[$current_status])) : "",
+                    'Status' => $value,
                 ];
                 $i++;
             }
@@ -245,12 +275,16 @@ class HearingController extends Controller
             {
                 session()->put('office_date_from',$request->office_date_from);
                 $hearing_data = $hearing_data->whereDate('office_date', '>=', date('Y-m-d', strtotime($request->office_date_from)));
+            }else{
+                session()->forget('office_date_from');
             }
 
             if($request->office_date_to)
             {
                 session()->put('office_date_from',$request->office_date_to);
                 $hearing_data = $hearing_data->whereDate('office_date', '<=', date('Y-m-d', strtotime($request->office_date_to)));
+            }else{
+                session()->forget('office_date_from');
             }
 //            if($request->hearing_status_id){
 //                $hearing_data = $hearing_data->whereDate('office_date', '<=', date('Y-m-d', strtotime($request->office_date_to)));
@@ -276,6 +310,7 @@ class HearingController extends Controller
             }
         else
             {
+                session()->forget('hearing_status_id');
                 $listArray =  $hearing_data;
             }
 
