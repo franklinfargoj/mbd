@@ -12,6 +12,11 @@ class SendNoticeToAppellant extends Model
         'hearing_id',
         'upload_notice',
         'comment',
+        'user_id',
         'upload_notice_filename'
     ];
+
+    public function userDetails(){
+        return $this->hasOne('App\User', 'id', 'user_id');
+    }
 }

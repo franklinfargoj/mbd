@@ -154,5 +154,65 @@
         </form>
     </div>
 </div>
+@if(count($hearingLogs->hearingSendNoticeToAppellant) > 0)
+    <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
+        <div class="portlet-body">
+            <div class="m-portlet__body m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
+                <div class="remark-body">
+                    <div class="pb-2">
+                        <h3 class="section-title section-title--small mb-2">
+                            History:
+                        </h3>
+                    </div>
+                </div>
+                <div class="col-md-12 table-responsive">
+                    <table id="dtBasicExample" class="table">
+                        <thead>
+                        <tr>
+                            <th class="th-sm">sr.</th>
+                            <th class="th-sm">Date</th>
+                            <th class="th-sm">Time</th>
+                            <th class="th-sm">User</th>
+                            <th class="th-sm">Role</th>
+                            <th class="th-sm">Comment</th>
+                            <th class="th-sm">Notice</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @php $i = 1; @endphp
+                        @foreach($hearingLogs->hearingSendNoticeToAppellant as $log)
+                            <tr>
+                                <td> {{$i}}</td>
+                                <td> {{ isset($log->created_at) ? date("d-m-Y",strtotime($log->created_at)) : '' }}</td>
+                                <td> {{ isset($log->created_at) ? date("H:i",strtotime($log->created_at)) : '' }}</td>
+                                <td> {{ isset($log->userDetails->name) ? $log->userDetails->name : '' }}</td>
+                                <td> {{ isset($log->userDetails->roleDetails->name) ? $log->userDetails->roleDetails->name : '' }}</td>
+                                <td> {{ isset($log->comment) ? $log->comment : '' }}</td>
+                                <td>
+                                    @if($log->upload_notice)
+                                        <a href="{{ config('commanConfig.storage_server').'/'.$log->upload_notice }}" target="_blank"> <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
+                                    @endif
+                                </td>
+                            </tr>
+                            @php $i++; @endphp
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+
 @include('admin.hearing.delete_hearing')
 @endsection
+<script>
+    $(document).ready(function () {
+        $('#dtBasicExample').DataTable();
+        $('.dataTables_length').addClass('bs-select');
+
+        $('#dtBasicExample_wrapper > .row:first-child').remove();
+    });
+
+    $('table').dataTable({searching: false, ordering:false, info: false});
+</script>

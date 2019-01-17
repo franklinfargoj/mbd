@@ -33,8 +33,10 @@ class SendNoticeToAppellantController extends Controller
             ->where('id', $id)
             ->first();
         $hearing_data = $arrData['hearing'];
+        $HearingController = new HearingController();
+        $hearingLogs = $HearingController->getHearingLogs($id);
 
-        return view('admin.send_notice_to_appellant.create', compact('header_data', 'arrData', 'hearing_data'));
+        return view('admin.send_notice_to_appellant.create', compact('header_data','hearingLogs', 'arrData', 'hearing_data'));
     }
 
     public function store(Request $request)
@@ -48,6 +50,7 @@ class SendNoticeToAppellantController extends Controller
         $data = [
             'hearing_id' => $request->hearing_id,
             'comment' => $request->comment,
+            'user_id' => Auth::id(),
         ];
 
         $time = time();
@@ -111,8 +114,11 @@ class SendNoticeToAppellantController extends Controller
             ->where('id', $id)
             ->first();
         $hearing_data = $arrData['hearing'];
+        $HearingController = new HearingController();
+        $hearingLogs = $HearingController->getHearingLogs($id);
+
 //        dd($arrData['hearing']->hearingSendNoticeToAppellant);
-        return view('admin.send_notice_to_appellant.edit', compact('header_data', 'arrData', 'hearing_data'));
+        return view('admin.send_notice_to_appellant.edit', compact('header_data', 'hearingLogs','arrData', 'hearing_data'));
     }
 
     public function update(Request $request, $id)
@@ -124,6 +130,7 @@ class SendNoticeToAppellantController extends Controller
         $data = [
             'hearing_id' => $request->hearing_id,
             'comment' => $request->comment,
+            'user_id' => Auth::id(),
         ];
 
         $time = time();
