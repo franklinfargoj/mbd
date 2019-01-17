@@ -459,7 +459,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
 
         //tripartite start
-
+        Route::get('tripartite_dashboard', 'TripartiteDashboardController@getDashboardHeaders')->name('tripartite_dashboard');
         Route::get('/show_tripatite_self/{id}', 'SocietyTripatiteController@show_tripatite_self')->name('show_tripatite_self');
         Route::post('/save_tripatite_self', 'SocietyTripatiteController@save_tripatite_self')->name('save_tripatite_self');
         Route::get('/show_tripatite_dev/{id}', 'SocietyTripatiteController@show_tripatite_dev')->name('show_tripatite_dev');
