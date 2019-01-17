@@ -97,7 +97,7 @@ Route::post('getDepartmentUser', 'BoardController@getDepartmentUser')->name('get
 
 
 Route::resource('/rti_frontend', 'RtiFrontEndController');
-
+Route::post('rti_frontend/appelle','RtiFrontEndController@rti_appelle')->name('rti_frontend.appelle');
 Route::post('rti_frontend/create_application','RtiFrontEndController@saveRtiFrontendForm')->name('rti_frontend_application');
 Route::post('rti_frontend/view_application','RtiFrontEndController@show_rti_application_status')->name('rti_frontend_application_status');
 
@@ -458,7 +458,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
 
         //tripartite start
-
+        Route::get('tripartite_dashboard', 'TripartiteDashboardController@getDashboardHeaders')->name('tripartite_dashboard');
         Route::get('/show_tripatite_self/{id}', 'SocietyTripatiteController@show_tripatite_self')->name('show_tripatite_self');
         Route::post('/save_tripatite_self', 'SocietyTripatiteController@save_tripatite_self')->name('save_tripatite_self');
         Route::get('/show_tripatite_dev/{id}', 'SocietyTripatiteController@show_tripatite_dev')->name('show_tripatite_dev');

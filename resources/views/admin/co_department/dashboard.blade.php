@@ -25,7 +25,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100 collapsed"
                        data-toggle="collapse" href="#todays-hearing">
-                        <span class="form-accordion-title">Today's Hearing ({{count($todaysHearing)}})</span>
+                        <span class="form-accordion-title">Today's Hearing ({{$todays_hearing_count}})</span>
                         @if($todaysHearing)
                             <span class="accordion-icon"></span>
                         @endif
@@ -43,30 +43,31 @@
                         <div class="col-lg-3">
                             <div class="m-portlet app-card text-center">
                                 <h2 class="app-heading">Case Year</h2>
-                                <h2 class="app-no mb-0">{{$hearing['hearing'][0]['case_year']}}</h2>
+                                <h2 class="app-no mb-0">{{$hearing['case_year']}}</h2>
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <div class="m-portlet app-card text-center">
                                 <h2 class="app-heading">Case NO</h2>
-                                <h2 class="app-no mb-0">{{$hearing['hearing'][0]['id']}}</h2>
+                                <h2 class="app-no mb-0">{{$hearing['id']}}</h2>
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <div class="m-portlet app-card text-center">
                                 <h2 class="app-heading">Hearing Time</h2>
-                                <h2 class="app-no mb-0">{{$hearing['preceding_time']}}</h2>
+                                <h2 class="app-no mb-0">{{$hearing['hearing_schedule']['preceding_time']}}</h2>
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <div class="m-portlet app-card text-center">
                                 <h2 class="app-heading">Applicant Name</h2>
-                                <h2 class="app-no mb-0">{{$hearing['hearing'][0]['applicant_name']}}</h2>
+                                <h2 class="app-no mb-0">{{$hearing['applicant_name']}}</h2>
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <div class="m-portlet app-card text-center">
-                                <a href="{{route('hearing.show',encrypt($hearing['hearing_id']))}}" class="app-no app-no--view mb-0">View Details</a>
+                                <a href="{{route('hearing.show',encrypt($hearing['id']))}}" class="app-no app-no--view mb-0">View
+                                    Details</a>
                             </div>
                         </div>
                     </div>
@@ -115,7 +116,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
                        data-toggle="collapse" href="#co-ol-summary">
-                        <span class="form-accordion-title">CO Offer Letter Summary</span>
+                        <span class="form-accordion-title">Application for Redevelopment</span>
                         <span class="accordion-icon ol-accordion-icon"></span>
                     </a>
                 </div>
@@ -165,6 +166,8 @@
                         <div id="chartdiv1" style="width: 100%; height: 350px; margin-top: 2px;"></div>
                     @endif
                 @endif
+
+                @include('admin.tripartite.partial.co_dashboard')
             </div>
         </div>
 
@@ -503,7 +506,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 @section('js')
     <script>
@@ -934,7 +936,7 @@
             AmCharts.ready(function () {
                 // PIE CHART
                 chart6 = new AmCharts.AmPieChart();
-                chart6.dataProvider = chartdata6;
+                chart6.dataProvider = chartData6;
                 chart6.titleField = "status";
                 chart6.valueField = "value";
                 chart6.outlineColor = "#FFFFFF";

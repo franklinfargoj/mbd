@@ -76,6 +76,7 @@
                         <div id="chartdiv1" style="width: 100%; height: 350px; margin-top: 2px;"></div>
                     @endif
                 @endif
+                @include('admin.tripartite.partial.ree_dashboard')
             </div>
         </div>
 
@@ -652,6 +653,49 @@
             });
         </script>
     @endif
+
+    {{--@if($chart_tripartite)--}}
+        {{--<script>--}}
+            {{--var chart_tripartite;--}}
+            {{--var legend;--}}
+
+                    {{--@if($tripartite_data['dashboardData'][0])--}}
+            {{--var chartDatatripartite = [--}}
+                            {{--@foreach($tripartite_data['dashboardData'][0] as $header => $value)     {--}}
+                            {{--@if(!($header == 'Total No of Applications'))--}}
+                            {{--"status": '{{$header}}',--}}
+                        {{--"value": '{{$value[0]}}',--}}
+                            {{--@endif--}}
+                    {{--},--}}
+                        {{--@endforeach--}}
+
+                {{--];--}}
+            {{--//    console.log(chartData1);--}}
+
+            {{--AmCharts.ready(function () {--}}
+                {{--// PIE CHART--}}
+                {{--chart_tripartite = new AmCharts.AmPieChart();--}}
+                {{--chart_tripartite.dataProvider = chartDatatripartite;--}}
+                {{--chart_tripartite.titleField = "status";--}}
+                {{--chart_tripartite.valueField = "value";--}}
+                {{--chart_tripartite.outlineColor = "#FFFFFF";--}}
+                {{--chart_tripartite.outlineAlpha = 0.8;--}}
+                {{--chart_tripartite.outlineThickness = 2;--}}
+                {{--chart_tripartite.balloonText =--}}
+                    {{--"[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";--}}
+                {{--// this makes the chart 3D--}}
+                {{--chart_tripartite.depth3D = 15;--}}
+                {{--chart_tripartite.angle = 30;--}}
+                {{--chart_tripartite.colors = ["#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999",--}}
+                    {{--"#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"--}}
+                {{--]--}}
+                {{--//--}}
+                {{--// WRITE--}}
+                {{--chart_tripartite.write("tripartite_chart");--}}
+            {{--});--}}
+            {{--@endif--}}
+        {{--</script>--}}
+    {{--@endif--}}
 
     <script>
         var noc_chart;

@@ -20,7 +20,7 @@
                     <div class="col-lg-12">
                       <label class="col-form-label">Board</label>
                       <select class="form-control m-input" name="option">
-                        <option value="0">Select Board</option>
+                        <option value="">Select Board</option>
                         @foreach($boards as $board)
                         <option value="{{ $board->id }}">{{$board->board_name}}</option>
                         @endforeach
@@ -31,7 +31,7 @@
                     <div class="col-lg-12">
                       <label class="col-form-label">Department</label>
                       <select class="form-control m-input" name="option">
-                        <option value="0">Select Department</option>
+                        <option value="">Select Department</option>
                         @foreach($departments as $department)
                         <option value="{{ $department->id }}">{{$department->department_name}}</option>
                         @endforeach

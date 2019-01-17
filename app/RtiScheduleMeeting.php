@@ -11,6 +11,12 @@ class RtiScheduleMeeting extends Model
     	'meeting_scheduled_date',
     	'meeting_venue',
     	'meeting_time',
-    	'contact_person_name'
-    ];
+		'contact_person_name',
+		'user_id'
+	];
+	
+	public function user()
+	{
+		return $this->belongsTo(\App\User::class,'user_id','id');
+	}
 }

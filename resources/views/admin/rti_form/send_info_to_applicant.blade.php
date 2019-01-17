@@ -49,11 +49,13 @@
                             </div>
                         </div>
                         <div class="col-sm-12 field-col">
+                            @if($readonly!=1)
                             <form id="rti_schedule_meeting" role="form" method="post" class="form-horizontal" action="{{ url('/rti_sent_info/'.$rti_applicant->id) }}"
                                 enctype="multipart/form-data">
+                            @endif
                                 @csrf
                                 <div class="form-group m-form__group row">
-                                    <div class="col-sm-6">
+                                    {{-- <div class="col-sm-6">
                                         <div class="d-flex align-items-center @if($errors->has('status')) has-error @endif">
                                             <label class="col-form-label field-name">Update Status:</label>
                                             <input type="hidden" name="application_no" value="{{ $rti_applicant->unique_id }}">
@@ -66,18 +68,18 @@
                                             </select>
                                             <span class="help-block">{{$errors->first('status')}}</span>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-sm-6">
                                         <div class="d-flex align-items-center @if($errors->has('rti_info_file')) has-error @endif">
                                             <label class="col-form-label field-name">Upload Information:</label>
                                             <div class="custom-file">
                                                 <input type="hidden" name="uploaded_file" value="{{$rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->filename:''}}">
                                                 <input type="hidden" name="uploaded_file_path" value="{{$rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->filepath:''}}">
-                                                <input type="file" name="rti_info_file" id="rti_info_file" class="custom-file-input"
+                                                <input {{$readonly==1?'disabled':''}} type="file" name="rti_info_file" id="rti_info_file" class="custom-file-input"
                                                     value="{{ old('rti_info_file', $rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->filename:'' ) }}">
                                                 <label class="custom-file-label" for="rti_info_file">Choose file...</label>
                                                 <span class="text-danger">{{$errors->first('rti_info_file')}}</span>
-                                                <a target="_blank" class="d-block btn btn-link custom-file-download" href="{{$rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->filepath.$rti_applicant->rti_send_info->filename:''}}">{{$rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->filename:''}}</a>
+                                                <a target="_blank" class="d-block btn btn-link custom-file-download" href="{{$rti_applicant->rti_send_info!=""?config('commanConfig.storage_server').'/'.$rti_applicant->rti_send_info->filepath.$rti_applicant->rti_send_info->filename:''}}">{{$rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->filename:''}}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -86,11 +88,12 @@
                                     <div class="col-sm-6">
                                         <div class="d-flex align-items-center @if($errors->has('rti_comment')) has-error @endif">
                                             <label class="col-form-label field-name">Comment</label>
-                                            <textarea name="rti_comment" id="rti_comment" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('rti_comment', $rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->comment:'' ) }}</textarea>
+                                            <textarea {{$readonly==1?'disabled':''}} name="rti_comment" id="rti_comment" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('rti_comment', $rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->comment:'' ) }}</textarea>
                                             <span class="text-danger">{{$errors->first('rti_comment')}}</span>
                                         </div>
                                     </div>
                                 </div>
+                                @if($readonly!=1)
                                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                                     <div class="m-form__actions px-0">
                                         <div class="row">
@@ -104,14 +107,52 @@
                                     </div>
                                 </div>
                             </form>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="m-portlet m-portlet--mobile">
+            <h3 class="section-title section-title--small">
+                History:
+            </h3>
+        <table id="dtBasicExample" class="table">
+            <thead>
+                </tr>
+                <th>File</th>
+                <th>Comment</th>
+                <th>User</th>
+                <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($rti_applicant->sent_info_hostory as $info)
+                <tr>
+                    <td><a target="_blank" class="btn btn-link" href="{{config('commanConfig.storage_server').'/'.$info->filepath.$info->filename}}">download</td>
+                    <td>{{$info->comment}}</td>
+                    <td>{{$info->user!=""?$info->user->name:''}}</td>
+                    <td>{{$info->user!=""?$info->user->roles[0]->name:''}}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 </div>
 @endsection
+{{-- @section('js')
+<script src="{{asset('/js/mdtimepicker.min.js')}}" type="text/javascript"></script>
+<script>
+    $(function () {
+        $("#meeting_scheduled_date").datepicker({
+            dateFormat: "yy-mm-dd"
+        });
+        $('#meeting_time').mdtimepicker();
+    });
+
+</script>
+@endsection --}}
 @section('js')
 <script src="{{asset('/js/mdtimepicker.min.js')}}" type="text/javascript"></script>
 <script>
@@ -120,6 +161,19 @@
             dateFormat: "yy-mm-dd"
         });
         $('#meeting_time').mdtimepicker();
+    });
+
+    $(document).ready(function () {
+        $('#dtBasicExample').DataTable();
+        $('.dataTables_length').addClass('bs-select');
+
+        $('#dtBasicExample_wrapper > .row:first-child').remove();
+    });
+
+    $('table').dataTable({
+        searching: false,
+        ordering: false,
+        info: false
     });
 
 </script>

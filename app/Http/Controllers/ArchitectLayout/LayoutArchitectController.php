@@ -890,7 +890,7 @@ class LayoutArchitectController extends Controller
             }
             $j++;
         }
-        return back()->withSuccess('Check list & Remarks updated');
+        return redirect()->route('architect_layout_get_scrtiny',['layout_id'=>encrypt($request->architect_layout_id),'#checklist-remark-tab'])->withCkecklistSuccess('Check list & Remarks updated');
     }
 
     //upload em checklist and remark files
@@ -972,7 +972,8 @@ class LayoutArchitectController extends Controller
             }
             $j++;
         }
-        return back()->withSuccess('Check list & Remarks updated');
+        return redirect()->route('architect_layout_get_scrtiny',['layout_id'=>encrypt($request->architect_layout_id),'#checklist-remark-tab'])->withCkecklistSuccess('Check list & Remarks updated');
+        //return back()->withSuccess('Check list & Remarks updated');
     }
 
     //upload ee checklist and remark files
@@ -1062,7 +1063,8 @@ class LayoutArchitectController extends Controller
                 }
                 $j++;
             }
-            return back()->withSuccess('Check list & Remarks updated');
+            return redirect()->route('architect_layout_get_scrtiny',['layout_id'=>encrypt($request->architect_layout_id),'#checklist-remark-tab'])->withCkecklistSuccess('Check list & Remarks updated');
+            //return back()->withSuccess('Check list & Remarks updated');
         } else {
             return back()->withError('something went wrong');
         }
@@ -1153,7 +1155,8 @@ class LayoutArchitectController extends Controller
                 }
                 $j++;
             }
-            return back()->withSuccess('Check list & Remarks updated');
+            return redirect()->route('architect_layout_get_scrtiny',['layout_id'=>encrypt($request->architect_layout_id),'#checklist-remark-tab'])->withCkecklistSuccess('Check list & Remarks updated');
+            //return back()->withSuccess('Check list & Remarks updated');
         } else {
             return back()->withError('something went wrong');
         }

@@ -1,6 +1,6 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-    @include('admin.rti_form.actions',compact('rti_applicant'))
+@include('admin.rti_form.actions',compact('rti_applicant'))
 @endsection
 @section('content')
 <div class="col-md-12">
@@ -12,6 +12,11 @@
     </div>
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="portlet-body">
+            @if(session()->has('error'))
+            <div class="alert alert-danger">
+                {{ session()->get('error') }}
+            </div>
+            @endif
             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                 <div class="m-subheader">
                     <div class="d-flex align-items-center">
@@ -62,9 +67,11 @@
                                             <label class="col-form-label field-name">Department:</label>
                                             <select name="department" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input">
                                                 @foreach($departments as $department)
+                                                @if(auth()->user()->department->department_id!=$department['id'])
                                                 <option value="{{ $department['id'] }}"
                                                     {{ ($department['id'] == ($rti_applicant->rti_forward_application!=""?$rti_applicant->rti_forward_application->department_id:"") ?'selected':'' )}}>{{
                                                     $department['department_name'] }}</option>
+                                                @endif
                                                 @endforeach
                                             </select>
                                             <span class="help-block">{{$errors->first('department')}}</span>
