@@ -24,7 +24,7 @@ class SendNoticeToAppellantController extends Controller
     {
         $id = decrypt($id);
         $header_data = $this->header_data;
-        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingForwardCase' => function($q){
+        $arrData['hearing'] = Hearing::with(['hearingStatus','hearingSchedule','hearingSchedule.prePostSchedule' , 'hearingApplicationType', 'hearingForwardCase' => function($q){
             $q->orderBy('created_at', 'desc');
         }, 'hearingStatusLog' => function($q){
             $q->where('user_id', Auth::user()->id)
@@ -33,6 +33,18 @@ class SendNoticeToAppellantController extends Controller
             ->where('id', $id)
             ->first();
         $hearing_data = $arrData['hearing'];
+
+        if(count($hearing_data['hearingSchedule']['prePostSchedule']) > 0){
+            $hearing_data['preceding_date'] = $hearing_data['hearingSchedule']['prePostSchedule']['0']['date'];
+            $hearing_data['preceding_time'] = $hearing_data['hearingSchedule']['prePostSchedule']['0']['time'];
+
+        }else{
+            $hearing_data['preceding_date'] = $hearing_data['hearingSchedule']['preceding_date'];
+            $hearing_data['preceding_time'] = $hearing_data['hearingSchedule']['preceding_time'];
+        }
+
+//        dd($hearing_data);
+
         $HearingController = new HearingController();
         $hearingLogs = $HearingController->getHearingLogs($id);
 
@@ -116,6 +128,16 @@ class SendNoticeToAppellantController extends Controller
         $hearing_data = $arrData['hearing'];
         $HearingController = new HearingController();
         $hearingLogs = $HearingController->getHearingLogs($id);
+
+        if(count($hearing_data['hearingSchedule']['prePostSchedule']) > 0){
+            $hearing_data['preceding_date'] = $hearing_data['hearingSchedule']['prePostSchedule']['0']['date'];
+            $hearing_data['preceding_time'] = $hearing_data['hearingSchedule']['prePostSchedule']['0']['time'];
+
+        }else{
+            $hearing_data['preceding_date'] = $hearing_data['hearingSchedule']['preceding_date'];
+            $hearing_data['preceding_time'] = $hearing_data['hearingSchedule']['preceding_time'];
+        }
+//        dd($hearing_data);
 
 //        dd($arrData['hearing']->hearingSendNoticeToAppellant);
         return view('admin.send_notice_to_appellant.edit', compact('header_data', 'hearingLogs','arrData', 'hearing_data'));

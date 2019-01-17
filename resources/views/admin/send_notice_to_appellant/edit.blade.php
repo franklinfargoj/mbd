@@ -106,14 +106,14 @@
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label">Preceding Date:</label>
-                        <input disabled type="text" class="form-control form-control--custom m-input m_datepicker" value="{{ $arrData['hearing']->hearingSchedule->preceding_date }}"
+                        <input disabled type="text" class="form-control form-control--custom m-input m_datepicker" value="{{ $hearing_data['preceding_date'] }}"
                             >
                         <span class="help-block"></span>
                     </div>
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="preceding_time">Preceding Time:</label>
                         <input disabled type="text" id="preceding_time" name="preceding_time" class="form-control form-control--custom m-input"
-                            value="{{$arrData['hearing']->hearingSchedule->preceding_time }}"/>
+                            value="{{$hearing_data['preceding_time'] }}"/>
                         <span class="help-block">{{$errors->first('preceding_time')}}</span>
                     </div>
                 </div>
