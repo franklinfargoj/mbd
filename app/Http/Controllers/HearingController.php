@@ -309,30 +309,26 @@ class HearingController extends Controller
                             $config_array = array_flip(config('commanConfig.hearingStatus'));
                             $value = ucwords(str_replace('_', ' ', $config_array[$status]));
 
-//                            $value =(($listArray['hearingSchedule'][0]['prePostSchedule']) == null);
-//                            if($value == 'Scheduled Meeting' && (isset($listArray['hearingSchedule'][0]['prePostSchedule']))){
-//                                if ($listArray['hearingSchedule']['prePostSchedule']['0']['pre_post_status'] == 1) {
-//                                    $value = $value . ' Preponed';
-//                                } else{
-//                                    $value = $value . ' Postponed';
-//                                }
-//                            }
+                            if($value == 'Scheduled Meeting' && count($listArray['hearingSchedule']['prePostSchedule']) > 0) {
+                                if ($listArray['hearingSchedule']['prePostSchedule'][0]['pre_post_status'] == 1) {
+                                    $value = $value . ' Preponed';
+                                }else{
+                                    $value = $value . ' Postponed';
+                                }
+                            }
                             return $value;
                         }
                     }else{
                         $config_array = array_flip(config('commanConfig.hearingStatus'));
                         $value = ucwords(str_replace('_', ' ', $config_array[$status]));
-//                        dd($listArray['hearingSchedule']['prePostSchedule'][0]);
-//                        if($value == 'Scheduled Meeting' && $listArray['hearingSchedule']['prePostSchedule'] != null) {
-////                            if ($listArray['hearingSchedule']['prePostSchedule'][0]['pre_post_status'] == 1) {
-////                                $value = $value . ' Preponed';
-//////                            } elseif($listArray['hearingSchedule']['pre_post_schedule']['0']['pre_post_status'] == 0) {
-//////                                $value = $value . ' Postponed';
-////                            }else{
-////                                $value = $value . ' Postponed';
-////                            }
-//                        }
-//                        $value = (($listArray['hearingSchedule'][0]['prePostSchedule']) == null);
+
+                        if($value == 'Scheduled Meeting' && count($listArray['hearingSchedule']['prePostSchedule']) > 0) {
+                            if ($listArray['hearingSchedule']['prePostSchedule'][0]['pre_post_status'] == 1) {
+                                $value = $value . ' Preponed';
+                            }else{
+                                $value = $value . ' Postponed';
+                            }
+                        }
                         return $value;
                     }
 
