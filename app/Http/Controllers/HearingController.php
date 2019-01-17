@@ -229,7 +229,7 @@ class HearingController extends Controller
             }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
                 ->whereHas('hearingStatusLog' ,function($q) use($department_id){
                     $q->where('department_id', $department_id);
-                });            
+                });
 
             //     $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q){
             //     $q->where('user_id', Auth::user()->id)
@@ -270,16 +270,16 @@ class HearingController extends Controller
                 {
                     if($hearing->hearingStatusLog[0]->hearing_status_id == $request->hearing_status_id)
                     {
-                    $listArray[] = $hearing;
+                        $listArray[] = $hearing;
                     }
                 }
             }
-            else
+        else
             {
                 $listArray =  $hearing_data;
             }
 
-//            dd(count($listArray));
+//            dd($listArray);
 
             return $datatables->of($listArray)
                 ->editColumn('radio', function ($hearing_data) {
@@ -308,11 +308,31 @@ class HearingController extends Controller
                         if($request->hearing_status_id == $status){
                             $config_array = array_flip(config('commanConfig.hearingStatus'));
                             $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+
+//                            $value =(($listArray['hearingSchedule'][0]['prePostSchedule']) == null);
+//                            if($value == 'Scheduled Meeting' && (isset($listArray['hearingSchedule'][0]['prePostSchedule']))){
+//                                if ($listArray['hearingSchedule']['prePostSchedule']['0']['pre_post_status'] == 1) {
+//                                    $value = $value . ' Preponed';
+//                                } else{
+//                                    $value = $value . ' Postponed';
+//                                }
+//                            }
                             return $value;
                         }
                     }else{
                         $config_array = array_flip(config('commanConfig.hearingStatus'));
                         $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+//                        dd($listArray['hearingSchedule']['prePostSchedule'][0]);
+//                        if($value == 'Scheduled Meeting' && $listArray['hearingSchedule']['prePostSchedule'] != null) {
+////                            if ($listArray['hearingSchedule']['prePostSchedule'][0]['pre_post_status'] == 1) {
+////                                $value = $value . ' Preponed';
+//////                            } elseif($listArray['hearingSchedule']['pre_post_schedule']['0']['pre_post_status'] == 0) {
+//////                                $value = $value . ' Postponed';
+////                            }else{
+////                                $value = $value . ' Postponed';
+////                            }
+//                        }
+//                        $value = (($listArray['hearingSchedule'][0]['prePostSchedule']) == null);
                         return $value;
                     }
 
@@ -601,7 +621,7 @@ class HearingController extends Controller
                 // ->where('role_id', session()->get('role_id'));
             })->get()->toArray();
 
-        $totalPendingHearing = $totalClosedHearing = $totalScheduledHearing = $totalUnderJudgementHearing = $totalForwardedHearing = 0;
+        $totalPendingHearing = $totalClosedHearing = $totalNoticeSendHearing = $totalScheduledHearing = $totalUnderJudgementHearing = $totalForwardedHearing = 0;
 
         foreach ($hearing_data as $hearing){
 
@@ -614,6 +634,7 @@ class HearingController extends Controller
                 case config('commanConfig.hearingStatus.case_under_judgement'): $totalUnderJudgementHearing += 1 ; break;
                 case config('commanConfig.hearingStatus.forwarded'): $totalForwardedHearing += 1; break;
                 case config('commanConfig.hearingStatus.case_closed'): $totalClosedHearing +=1 ; break;
+                case config('commanConfig.hearingStatus.notice_send'): $totalNoticeSendHearing +=1 ; break;
                 default:
                     ; break;
             }
@@ -635,6 +656,8 @@ class HearingController extends Controller
         $dashboardData['Total Number of Forwarded Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.forwarded');
         $dashboardData['Total Number of Closed Cases'][0] = $totalClosedHearing;
         $dashboardData['Total Number of Closed Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.case_closed');
+        $dashboardData['Total Number of Notice Sent Cases'][0] = $totalNoticeSendHearing;
+        $dashboardData['Total Number of Notice Sent Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.notice_send');
 
         $today = Carbon::now()->format('d-m-Y');
 
