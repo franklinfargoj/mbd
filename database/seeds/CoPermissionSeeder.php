@@ -33,10 +33,15 @@ class CoPermissionSeeder extends Seeder
                 'description' => 'society_EE_documents',
             ],
             [
-                'name' => 'co.EE_Scrutiny_Remark',
-                'display_name' => 'EE_Scrutiny_Remark',
-                'description' => 'EE_Scrutiny_Remark',
-            ],
+                'name'=>'common.EE_Scrutiny_Remark',
+                'display_name'=>'EE Scrutiny Remark',
+                'description'=>'EE Scrutiny Remark'
+            ],             
+            // [
+            //     'name' => 'co.EE_Scrutiny_Remark',
+            //     'display_name' => 'EE_Scrutiny_Remark',
+            //     'description' => 'EE_Scrutiny_Remark',
+            // ],
             [
                 'name' => 'co.scrutiny_remark',
                 'display_name' => 'scrutiny_remark',

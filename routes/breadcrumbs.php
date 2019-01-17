@@ -512,7 +512,7 @@ Breadcrumbs::for('society_reval_documents_ree', function ($trail,$id) {
 
 Breadcrumbs::for('EE_scrutiny_ree', function ($trail,$id) {
     $trail->parent('ree');
-    $trail->push('EE scrutiny', route('ree.EE_Scrutiny_Remark',$id));
+    $trail->push('EE scrutiny', route('common.EE_Scrutiny_Remark',$id));
 });
 
 Breadcrumbs::for('DYCE_scrutiny_ree', function ($trail,$id) {
@@ -807,7 +807,7 @@ Breadcrumbs::for('society_EE_documents', function ($trail,$id) {
 
 Breadcrumbs::for('EE_Scrutiny_Remark-dyce', function ($trail,$id) {
     $trail->parent('dyce');
-    $trail->push('EE Scrutiny Remark', route('dyce.EE_Scrutiny_Remark',$id));
+    $trail->push('EE Scrutiny Remark', route('common.EE_Scrutiny_Remark',$id));
 });
 
 Breadcrumbs::for('scrutiny_remark-dyce', function ($trail,$id) {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Common;
 use App\ArchitectApplication;
 use App\conveyance\scApplicationLog;
 use App\conveyance\RenewalApplicationLog;
+use Illuminate\Http\Request;
 use App\DashboardHeader;
 use App\EENote;
 use App\Http\Controllers\Controller;
@@ -2049,6 +2050,8 @@ class CommonController extends Controller
             $folder = 'cap_department';
         }  else if (session()->get('role_name') == config('commanConfig.vp_engineer')) {
             $folder = 'vp_department';
+        }else if (session()->get('role_name') == config('commanConfig.dyce_jr_user') || session()->get('role_name') == config('commanConfig.dyce_branch_head') || session()->get('role_name') == config('commanConfig.dyce_deputy_engineer')) {
+            $folder = 'DYCE_department';
         }
         return $folder;
 
@@ -3903,5 +3906,17 @@ class CommonController extends Controller
         }
         return null;
     }
+
+    // EE - Scrutiny & Remark page
+    public function eeScrutinyRemark(Request $request,$applicationId){
+        
+        $applicationId = decrypt($applicationId);
+        $ol_application = $this->getOlApplication($applicationId);
+        $eeScrutinyData = $this->getEEScrutinyRemark($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+        $folder = $this->getCurrentRoleFolderName();
+
+        return view('admin.common.view_ee_scrutiny_remark',compact('eeScrutinyData','ol_application','folder'));
+    }    
 
 }
