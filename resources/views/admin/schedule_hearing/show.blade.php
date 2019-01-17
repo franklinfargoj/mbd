@@ -216,4 +216,4 @@ $(document).ready(function () {
 $('table').dataTable({searching: false, ordering:false, info: false});         
 
     </script>
-@endsection
+@endsection 
