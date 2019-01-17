@@ -1508,6 +1508,7 @@ class EMController extends Controller
                                     'total_service_after_due' => $total_service_after_due,
                                     'late_fee_charge' => $total_after_due,
                                     'status' => 'Generated',
+                                    'balance_amount' => $total_bill,
                                 ];
                         $bill[] = TransBillGenerate::insertGetId($data);
                 }

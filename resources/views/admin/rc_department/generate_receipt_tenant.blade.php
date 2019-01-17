@@ -14,6 +14,12 @@
             </div>
         </div>
     </div>
+    @if(session()->has('warning'))
+    <div class="alert alert-danger display_msg">
+        {{ session()->get('warning') }}
+    </div>
+    @endif
+
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
         <form method="post" action="{{route('payment_receipt_tenant')}}">
             {{ csrf_field() }}

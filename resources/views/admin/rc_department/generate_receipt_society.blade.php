@@ -15,6 +15,12 @@
             <h3 class="m-subheader__title">Generate Receipt</h3>
         </div>
     </div>
+    @if(session()->has('warning'))
+    <div class="alert alert-danger display_msg">
+        {{ session()->get('warning') }}
+    </div>
+    @endif
+
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
         <form method="post" action="{{route('payment_receipt_society')}}">
             {{ csrf_field() }}
