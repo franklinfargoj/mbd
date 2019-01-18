@@ -14,7 +14,7 @@ class MasterRtiStatusTableSeeder extends Seeder
     {
 		$status=[
 			[
-	        	'status_title' => 'Send To RTI Officer',
+	        	'status_title' => 'Send RTI Officer',
 	        	'created_at' => \Carbon\Carbon::now(),
 	        	'updated_at' => \Carbon\Carbon::now()
 			],

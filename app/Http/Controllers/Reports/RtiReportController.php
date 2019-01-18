@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Reports;
 use App\Http\Controllers\Controller;
 use App\Repositories\RtiFormModel;
 use Illuminate\Http\Request;
+use App\MasterRtiStatus;
 
 class RtiReportController extends Controller
 {
@@ -45,10 +46,11 @@ class RtiReportController extends Controller
     public function reports_status(Request $request)
     {
         $data=array();
+        $rti_statuses = MasterRtiStatus::all();
         $getData=$request->all();
         $data['report_status']=$this->rti->deaprtment_reports($request);
         //dd($data);
-        return view('admin.reports.rti.reports_status',compact('data','getData'));
+        return view('admin.reports.rti.reports_status',compact('data','getData','rti_statuses'));
     }
 
     public function pending_rti(Request $request)
