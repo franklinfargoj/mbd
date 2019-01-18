@@ -100,7 +100,9 @@
             </div>
             <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="redevelopment_dashboard"
                  data-parent="#accordion">
-                @include('admin.tripartite.partial.la_dashboard')
+                @if(session()->get('role_name') == config('commanConfig.legal_advisor'))
+                    @include('admin.tripartite.partial.la_dashboard')
+                @endif
                 @if($pendingApplications && session()->get('role_name') == config('commanConfig.dyco_engineer'))
                     <div class="row no-gutters hearing-row">
                         <div class="col-12 no-shadow">
