@@ -126,6 +126,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('rti_reports_department','Reports\RtiReportController@reports_department')->name('rti_reports_department');
     Route::get('rti_reports_status','Reports\RtiReportController@reports_status')->name('rti_reports_status');
     Route::get('pending_rti','Reports\RtiReportController@pending_rti')->name('pending_rti');
+    Route::get('period_wise_pendancy','Reports\RtiReportController@period_wise_pendancy')->name('rti.period_wise_pendancy');
+    Route::get('rti-dashboard', 'Reports\RtiReportController@Dashboard')->name('rti.dashboard');
     
     // Resolution routes
     
