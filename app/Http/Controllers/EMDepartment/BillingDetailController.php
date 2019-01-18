@@ -219,7 +219,7 @@ class BillingDetailController extends Controller
                                 trans_bill_generate.total_bill,
                                 trans_bill_generate.bill_month,
                                 trans_bill_generate.bill_year,
-                                trans_payment.id as bill_no
+                                group_concat(trans_payment.bill_no separator ",") as bill_no
                             FROM
                                 `trans_bill_generate`
                             INNER JOIN
