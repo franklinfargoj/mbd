@@ -216,6 +216,38 @@
                     {{--</select>--}}
                     {{--<span class="help-block">{{$errors->first('hearing_status_id')}}</span>--}}
                     {{--</div>--}}
+                    <div class="col-sm-4 offset-sm-1 form-group">
+                        {{--<label class="col-form-label" for="status">Heaing Status:</label>--}}
+                        {{--<select disabled class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"--}}
+                                {{--id="status"--}}
+                                {{--name="status">--}}
+                            {{--@foreach($arrData['status'] as $hearing_status)--}}
+                                {{--<option value="{{ $hearing_status->id  }}"--}}
+                                        {{--{{ ($hearing_status->id == $hearing_data['hearingStatusLog']['0']['hearing_status_id']) ? "selected" : "" }}>{{--}}
+                        {{--$hearing_status->status_title}}</option>--}}
+                            {{--@endforeach--}}
+                        {{--</select>--}}
+                        {{--<span class="help-block">{{$errors->first('status')}}</span>--}}
+                        @php
+                        $status= $hearing_data['hearingStatusLog']['0']['hearing_status_id'];
+                        $config_array = array_flip(config('commanConfig.hearingStatus'));
+                        $hearing_status = ucwords(str_replace('_', ' ', $config_array[$status]));
+
+                        if($hearing_status == 'Scheduled Meeting' && count($hearing_data['hearingSchedule']['prePostSchedule']) > 0) {
+                            if ($hearing_data['hearingSchedule']['prePostSchedule'][0]['pre_post_status'] == 1) {
+                                $hearing_status = $hearing_status . ' Preponed';
+                            }else{
+                                $hearing_status = $hearing_status . ' Postponed';
+                            }
+                        }
+
+                        @endphp
+                        <label class="col-form-label" for="status">Hearing Status:</label>
+                        <input type="text" id="status" name="status" class="form-control form-control--custom m-input"
+                               value="{{$hearing_status}}" disabled>
+                        <span class="help-block">{{$errors->first('status')}}</span>
+
+                    </div>
                 </div>
 
                 {{--<div class="form-group m-form__group row">--}}

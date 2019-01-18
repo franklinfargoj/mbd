@@ -28,10 +28,15 @@ class VpPermission extends Seeder
                 'description'  => 'index'
             ],
             [
-                'name'         => 'vp.EE_scrutiny_remark',
-                'display_name' => 'scrutiny_remark',
-                'description'  => 'scrutiny_remark'
-            ],
+                'name'=>'common.EE_Scrutiny_Remark',
+                'display_name'=>'EE Scrutiny Remark',
+                'description'=>'EE Scrutiny Remark'
+            ],             
+            // [
+            //     'name'         => 'vp.EE_scrutiny_remark',
+            //     'display_name' => 'scrutiny_remark',
+            //     'description'  => 'scrutiny_remark'
+            // ],
             [
                 'name'         => 'vp.society_EE_documents',
                 'display_name' => 'society_EE_documents',
