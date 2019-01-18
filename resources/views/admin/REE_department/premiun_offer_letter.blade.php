@@ -269,13 +269,14 @@
                             <tr>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
                                 <td colspan="2" style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Rs.
-                                    {{  $ntw->numToWord(($calculationData->premiumCalculationSheet) !="" ? str_replace( ',', '',$calculationData->premiumCalculationSheet->total_amount_in_rs) : '' ) }}</td>
+                                    {{  $ntw->numToWord((($calculationData->premiumCalculationSheet) != "" && ($calculationData->premiumCalculationSheet->total_amount_in_rs) != "") ? str_replace( ',', '',$calculationData->premiumCalculationSheet->total_amount_in_rs) : 0 ) }}</td>
                             </tr>
                             <tr>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Total Amount to be
                                     paid to MCGM (Sr.No. 10)</td>
-                                <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"><span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation : '')}}</span></td>
+                                <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"><span style="font-weight: bold"> {{(($calculationData->premiumCalculationSheet != "" 
+                                && $calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation != "") ? str_replace(',', '',$calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation) : 0)}}</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -439,13 +440,13 @@
                         of NOC for said building if applicable.</p>
                     <p style="margin-bottom: 5px; margin-top: 5px;">16) Your society will abide by all terms and conditions
                         as may be given under NOC letter.</p>
-                    <p style="margin-bottom: 5px; margin-top: 5px;">An amount of Rs. <span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation : '')}} /- </span>(Rs.  {{  $ntw->numToWord(($calculationData->premiumCalculationSheet) !="" ? str_replace( ',', '',$calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation) : '' ) }}) may be paid in the office of the Assistant
+                    <p style="margin-bottom: 5px; margin-top: 5px;">An amount of Rs. <span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation : 0)}} /- </span>(Rs.  {{  $ntw->numToWord(($calculationData->premiumCalculationSheet !="" && $calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation) !="" ? str_replace( ',', '',$calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation) : 0 ) }}) may be paid in the office of the Assistant
                         Accounts Officer/ Mumbai Board, Third Floor, Griha Nirman Bhavan, Bandra (E), Mumbai – 400051 by
                         Demand Draft/ Pay Order within <span style="font-weight: bold"> SIX months </span> from the date of issue of this letter and produce
                         certified Xerox copy of the receipt in this office.</p>
 
                     <p style="margin-bottom: 5px; margin-top: 5px;">Your society should pay offsite infrastructure charges
-                        as per modified DCR 33(5) clause (5) an amount of Rs. <span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation : '')}} /- </span> (In words Rs. {{  $ntw->numToWord(($calculationData->premiumCalculationSheet) !="" ? str_replace( ',', '',$calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation) : '' ) }}) payable to MCGM, in the office of the Executive
+                        as per modified DCR 33(5) clause (5) an amount of Rs. <span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation : 0)}} /- </span> (In words Rs. {{  $ntw->numToWord(($calculationData->premiumCalculationSheet !="" && $calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation !="") ? str_replace( ',', '',$calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation) : 0 ) }}) payable to MCGM, in the office of the Executive
                         Engineer, Building Permission Cell, Greater Mumbai, MHADA, Bandra (E),Mumbai 400 051., within <span style="font-weight: bold"> SIX
                         months </span> from the date of issue of this letter and produce certified Xerox copy of the receipt in
                         this office.</p>
@@ -474,7 +475,7 @@
                 <div style="margin-top: 30px; line-height: 1.5;">
                     <p style="margin-bottom: 5px; margin-top: 5px;"><span style="font-weight: bold;">Copy to The Executive
                             Engineer, </span>Building Permission Cell, Greater Mumbai, MHADA, Bandra (E),Mumbai 400 051.You
-                        are requested to accept the payment of<span style="font-weight: bold"> Rs. {{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation : '')}} /- </span></span>/- towards offsite infrastructure charges
+                        are requested to accept the payment of<span style="font-weight: bold"> Rs. {{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation : 0)}} /- </span></span>/- towards offsite infrastructure charges
                         payable to MCGM.</p>
                     <p style="margin-bottom: 5px; margin-top: 5px;"><span style="font-weight: bold;">Copy to Architect for
                             information: </span>{{($calculationData->premiumCalculationSheet != "" ? $calculationData->eeApplicationSociety->name_of_architect : '')}}, {{($calculationData->premiumCalculationSheet != "" ? $calculationData->eeApplicationSociety->architect_address : '')}} for information.</p>
