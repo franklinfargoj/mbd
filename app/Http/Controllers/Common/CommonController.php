@@ -878,17 +878,17 @@ class CommonController extends Controller
     //     return $applicationData;
     // }
 
-    // public function getREEForwardRevertLog($applicationData, $applicationId)
-    // {
+    public function getREEForwardRevertLog($applicationData, $applicationId)
+    {
 
-    //     $ree_branch_head = Role::where('name', config('commanConfig.ree_branch_head'))->value('id');
-    //     $ree_jr_user = Role::where('name', config('commanConfig.ree_junior'))
-    //         ->value('id');
-    //     $applicationData->reeForwardLog = OlApplicationStatus::where('application_id', $applicationId)->where('role_id', $ree_branch_head)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
+        $ree_branch_head = Role::where('name', config('commanConfig.ree_branch_head'))->value('id');
+        $ree_jr_user = Role::where('name', config('commanConfig.ree_junior'))
+            ->value('id');
+        $applicationData->reeForwardLog = OlApplicationStatus::where('application_id', $applicationId)->where('role_id', $ree_branch_head)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
 
-    //     $applicationData->reeRevertLog = OlApplicationStatus::where('application_id', $applicationId)->where('role_id', $ree_jr_user)->where('status_id', config('commanConfig.applicationStatus.reverted'))->orderBy('id', 'desc')->first();
-    //     return $applicationData;
-    // }
+        $applicationData->reeRevertLog = OlApplicationStatus::where('application_id', $applicationId)->where('role_id', $ree_jr_user)->where('status_id', config('commanConfig.applicationStatus.reverted'))->orderBy('id', 'desc')->first();
+        return $applicationData;
+    }
 
     public function downloadCapNote($applicationId)
     {
