@@ -99,6 +99,31 @@ class RTIPermissionSeeder extends Seeder
                 'display_name' => 'RTI Frontend Application status',
                 'description' => 'RTI Frontend Application status',
             ],
+            [
+                'name'=>'rti_statstics_reports',
+                'display_name'=>'rti_statstics_reports',
+                'description'=>'rti_statstics_reports'
+            ],
+            [
+                'name'=>'rti_submitted_reports_by_users',
+                'display_name'=>'rti_submitted_reports_by_users',
+                'description'=>'rti_submitted_reports_by_users'
+            ],
+            [
+                'name'=>'rti_reports_department',
+                'display_name'=>'rti_reports_department',
+                'description'=>'rti_reports_department'
+            ],
+            [
+                'name'=>'rti_reports_status',
+                'display_name'=>'rti_reports_status',
+                'description'=>'rti_reports_status'
+            ],
+            [
+                'name'=>'pending_rti',
+                'display_name'=>'pending_rti',
+                'description'=>'pending_rti'
+            ]
         ];
 
         $departments=Department::all();
