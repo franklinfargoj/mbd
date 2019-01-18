@@ -27,7 +27,7 @@ $route=\Request::route()->getName();
                 <i class="m-menu__ver-arrow la la-angle-right"></i>
             </span>
         </span>
-    </a>
+    </a> 
 <li id="co-actions" class="collapse show">
     <ul class="list-unstyled">
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='co.view_application')?'m-menu__item--active':''}}"><a class="m-menu__link m-menu__toggle" title="View Application"
