@@ -752,7 +752,7 @@ class TripartiteController extends Controller
                 OlApplication::where('id', $request->applicationId)->update(['is_reverted_to_society' => $is_reverted_to_society]);
             }
             if ($is_approved_agreement != 0) {
-                OlApplication::where('id', $request->applicationId)->update(['current_status_id' => $is_approved_agreement]);
+                OlApplication::where('id', $request->applicationId)->update(['current_status_id' => $is_approved_agreement,'is_approve_offer_letter'=>($is_approved_agreement==config('commanConfig.applicationStatus.approved_tripartite_agreement')?1:0)]);
             }
             OlApplicationStatus::where('application_id',$request->applicationId)
                     ->whereIn('user_id', [auth()->user()->id,$request->to_user_id ])
