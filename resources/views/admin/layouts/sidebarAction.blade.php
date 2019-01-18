@@ -41,6 +41,16 @@
     <!--end::Base Styles -->
     <link rel="shortcut icon" href="{{asset('/assets/demo/default/media/img/logo/favicon.ico')}}" />
     @yield('css')
+    <style type="text/css">
+        @media print {
+            textarea{
+                overflow-y: hidden !important;
+            }
+            .hide-print {
+                display: none !important;
+            }
+        }
+    </style>
 </head>
 <!-- end::Head -->
 <!-- begin::Body -->
@@ -49,7 +59,7 @@
     <!-- begin:: Page -->
     <div class="m-grid m-grid--hor m-grid--root m-page">
         <!-- BEGIN: Header -->
-        <header id="m_header" class="m-grid__item    m-header " m-minimize-offset="200" m-minimize-mobile-offset="200">
+        <header id="m_header" class="m-grid__item m-header " m-minimize-offset="200" m-minimize-mobile-offset="200">
             <div class="m-container m-container--fluid m-container--full-height">
                 <div class="m-stack m-stack--ver m-stack--desktop">
                     <!-- BEGIN: Brand -->
@@ -73,7 +83,7 @@
                             </div>
                             <!-- BEGIN: Horizontal Menu -->
                             <!-- END: Topbar -->
-                            <div class="d-flex align-items-center justify-content-end">
+                            <div class="d-flex align-items-center justify-content-end hide-print">
                                 <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push"
                                     data-dropdown-toggle="hover" aria-expanded="true">
                                     <a href="#" class="m-portlet__nav-link m-dropdown__toggle">

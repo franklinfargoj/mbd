@@ -43,10 +43,15 @@ class ReePermissionSeeder extends Seeder
                 'description' => 'society EE documents',
             ],
             [
-                'name' => 'ree.EE_Scrutiny_Remark',
-                'display_name' => 'EE Scrutiny Remark',
-                'description' => 'EE Scrutiny Remark',
-            ],
+                'name'=>'common.EE_Scrutiny_Remark',
+                'display_name'=>'EE Scrutiny Remark',
+                'description'=>'EE Scrutiny Remark'
+            ],            
+            // [
+            //     'name' => 'ree.EE_Scrutiny_Remark',
+            //     'display_name' => 'EE Scrutiny Remark',
+            //     'description' => 'EE Scrutiny Remark',
+            // ],
             [
                 'name' => 'ree.dyce_scrutiny_remark',
                 'display_name' => 'dyce scrutiny remark',

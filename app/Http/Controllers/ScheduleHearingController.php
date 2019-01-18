@@ -8,11 +8,13 @@ use App\HearingStatus;
 use App\HearingStatusLog;
 use App\Http\Requests\hearing_schedule\HearingScheduleRequest;
 use App\Http\Controllers\Common\CommonController;
+use App\Http\Controllers\HearingController;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use File;
 use Illuminate\Support\Facades\Auth;
+use App\RtiDepartmentUser;
 use Storage;
 
 class ScheduleHearingController extends Controller
@@ -49,7 +51,10 @@ class ScheduleHearingController extends Controller
         $arrData['hearing'] = Hearing::FindOrFail($id);
         $arrData['status'] = HearingStatus::all();
         $hearing_data = $arrData['hearing'];
-        return view('admin.schedule_hearing.add', compact('header_data', 'arrData', 'hearing_data'));
+        $HearingController = new HearingController();
+        $hearingLogs = $HearingController->getHearingLogs($id);
+      
+        return view('admin.schedule_hearing.add', compact('header_data', 'arrData', 'hearing_data','hearingLogs'));
     }
 
     /**
@@ -60,10 +65,11 @@ class ScheduleHearingController extends Controller
      */
     public function store(HearingScheduleRequest $request)
     {
-//        dd($request->all());
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
         $time = time();
 
         $input['hearing_id'] = $request->hearing_id;
+        $input['user_id'] = Auth::Id();
         $input['preceding_date'] = $request->preceding_date;
         $input['preceding_number'] = $request->preceding_number;
         $input['preceding_time'] = $request->preceding_time;
@@ -112,23 +118,24 @@ class ScheduleHearingController extends Controller
                 'hearing_id' => $request->hearing_id,
                 'user_id' => Auth::user()->id,
                 'role_id' => session()->get('role_id'),
-                'hearing_status_id' => config('commanConfig.hearingStatus.scheduled_meeting'),
-                'to_user_id' => NULL,
-                'to_role_id' => NULL,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ],
-
-            [
-                'hearing_id' => $request->hearing_id,
-                'user_id' => $parent_role_id->id,
-                'role_id' => session()->get('parent'),
+                'department_id' => $department_id,
                 'hearing_status_id' => config('commanConfig.hearingStatus.scheduled_meeting'),
                 'to_user_id' => NULL,
                 'to_role_id' => NULL,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]
+
+            // [
+            //     'hearing_id' => $request->hearing_id,
+            //     'user_id' => $parent_role_id->id,
+            //     'role_id' => session()->get('parent'),
+            //     'hearing_status_id' => config('commanConfig.hearingStatus.scheduled_meeting'),
+            //     'to_user_id' => NULL,
+            //     'to_role_id' => NULL,
+            //     'created_at' => Carbon::now(),
+            //     'updated_at' => Carbon::now()
+            // ]
         ];
 
         HearingStatusLog::insert($hearing_status_log);
@@ -145,15 +152,17 @@ class ScheduleHearingController extends Controller
     public function show($id)
     {
         $id = decrypt($id);
-        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingSchedule', 'hearingStatusLog' => function($q){
-            $q->where('user_id', Auth::user()->id)
-                ->where('role_id', session()->get('role_id'));
-        }])
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
+        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingSchedule', 'hearingStatusLog' => function($q) use($department_id){
+            $q->where('department_id', $department_id);
+        }]) 
             ->where('id', $id)
             ->first();
         $hearing_data = $arrData['hearing'];
+        $HearingController = new HearingController();
+        $hearingLogs = $HearingController->getHearingLogs($id);        
 //        dd($hearing_data);
-        return view('admin.schedule_hearing.show', compact('hearing_data', 'arrData'));
+        return view('admin.schedule_hearing.show', compact('hearing_data', 'arrData','hearingLogs'));
     }
 
     /**

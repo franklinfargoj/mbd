@@ -11,8 +11,14 @@ class PrePostSchedule extends Model
     protected $fillable = [
         'hearing_id',
         'date',
+        'time',
         'description',
         'pre_post_status',
         'hearing_schedule_id',
+        'user_id',
     ];
+
+    public function userDetails(){
+        return $this->hasOne('App\User', 'id', 'user_id');
+    }     
 }

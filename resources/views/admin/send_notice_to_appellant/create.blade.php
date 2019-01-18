@@ -37,14 +37,14 @@
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="case_year">Case Year:</label>
-                        <input type="text" id="case_year" name="case_year" class="form-control form-control--custom m-input"
-                            value="{{ $arrData['hearing']->case_year }}" readonly>
+                        <input disabled type="text" id="case_year" name="case_year" class="form-control form-control--custom m-input"
+                            value="{{ $arrData['hearing']->case_year }}">
                         <span class="help-block">{{$errors->first('case_year')}}</span>
                     </div>
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="case_number">Case Number:</label>
-                        <input type="text" id="case_number" name="case_number" class="form-control form-control--custom m-input"
-                            value="{{ $arrData['hearing']->id }}" readonly>
+                        <input disabled type="text" id="case_number" name="case_number" class="form-control form-control--custom m-input"
+                            value="{{ $arrData['hearing']->id }}">
                         <span class="help-block">{{$errors->first('case_number')}}</span>
                     </div>
                 </div>
@@ -52,15 +52,15 @@
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="appellant_name">Apellent Name:</label>
-                        <input type="text" id="appellant_name" name="appellant_name" class="form-control form-control--custom m-input"
-                            value="{{ $arrData['hearing']->applicant_name }}" readonly>
+                        <input disabled type="text" id="appellant_name" name="appellant_name" class="form-control form-control--custom m-input"
+                            value="{{ $arrData['hearing']->applicant_name }}">
                         <span class="help-block">{{$errors->first('appellant_name')}}</span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="respondent_name">Respondent Name:</label>
-                        <input type="text" id="respondent_name" name="respondent_name" class="form-control form-control--custom m-input"
-                            value="{{ $arrData['hearing']->respondent_name }}" readonly>
+                        <input disabled type="text" id="respondent_name" name="respondent_name" class="form-control form-control--custom m-input"
+                            value="{{ $arrData['hearing']->respondent_name }}">
                         <span class="help-block">{{$errors->first('respondent_name')}}</span>
                     </div>
                 </div>
@@ -97,14 +97,14 @@
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label">Preceding Date:</label>
-                        <input type="text" class="form-control form-control--custom m-input" value="{{ $arrData['hearing']->hearingSchedule->preceding_date }}"
-                            readonly>
+                        <input type="text" class="form-control form-control--custom m-input" value="{{ $hearing_data['preceding_date'] }}"
+                            disabled>
                         <span class="help-block"></span>
                     </div>
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="preceding_time">Preceding Time:</label>
                         <input type="text" id="preceding_time" name="preceding_time" class="form-control form-control--custom m-input"
-                            value="{{$arrData['hearing']->hearingSchedule->preceding_time }}" readonly />
+                            value="{{$hearing_data['preceding_time'] }}" disabled />
                         <span class="help-block">{{$errors->first('preceding_time')}}</span>
                     </div>
                 </div>
@@ -141,5 +141,68 @@
         </form>
     </div>
 </div>
+@if(count($hearingLogs->hearingSendNoticeToAppellant) > 0)
+    <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
+        <div class="portlet-body">
+            <div class="m-portlet__body m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
+                <div class="remark-body">
+                    <div class="pb-2">
+                        <h3 class="section-title section-title--small mb-2">
+                            History:
+                        </h3>
+                    </div>
+                </div>
+                <div class="col-md-12 table-responsive">
+                    <table id="dtBasicExample" class="table">
+                        <thead>
+                        <tr>
+                            <th class="th-sm">sr.</th>
+                            <th class="th-sm">Date</th>
+                            <th class="th-sm">Time</th>
+                            <th class="th-sm">User</th>
+                            <th class="th-sm">Role</th>
+                            <th class="th-sm">Comment</th>
+                            <th class="th-sm">Notice</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @php $i = 1; @endphp
+                        @foreach($hearingLogs->hearingSendNoticeToAppellant as $log)
+                            <tr>
+                                <td> {{$i}}</td>
+                                <td> {{ isset($log->created_at) ? date("d-m-Y",strtotime($log->created_at)) : '' }}</td>
+                                <td> {{ isset($log->created_at) ? date("H:i",strtotime($log->created_at)) : '' }}</td>
+                                <td> {{ isset($log->userDetails->name) ? $log->userDetails->name : '' }}</td>
+                                <td> {{ isset($log->userDetails->roleDetails->name) ? $log->userDetails->roleDetails->name : '' }}</td>
+                                <td> {{ isset($log->comment) ? $log->comment : '' }}</td>
+                                <td>
+                                    @if($log->upload_notice)
+                                        <a href="{{ config('commanConfig.storage_server').'/'.$log->upload_notice }}" target="_blank"> <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
+                                    @endif
+                                </td>
+                            </tr>
+                            @php $i++; @endphp
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+
+
 @include('admin.hearing.delete_hearing')
+@endsection
+@section('js')
+<script>
+    $(document).ready(function () {
+    $('#dtBasicExample').DataTable();
+    $('.dataTables_length').addClass('bs-select');
+
+    $('#dtBasicExample_wrapper > .row:first-child').remove();
+    });
+
+    $('table').dataTable({searching: false, ordering:false, info: false});
+</script>
 @endsection

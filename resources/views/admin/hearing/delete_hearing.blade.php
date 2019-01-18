@@ -31,5 +31,15 @@
                 });
             });
         });
-    </script>
+
+    $(document).ready(function () {
+      $('#dtBasicExample').DataTable();
+      $('.dataTables_length').addClass('bs-select');
+
+      $('#dtBasicExample_wrapper > .row:first-child').remove();
+    });  
+
+    $('table').dataTable({searching: false, ordering:false, info: false});    
+
+    </script>    
 @endsection
