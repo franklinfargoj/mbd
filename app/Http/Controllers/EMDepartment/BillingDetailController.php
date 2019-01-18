@@ -240,6 +240,7 @@ class BillingDetailController extends Controller
                                 `trans_payment`.`building_id` = `trans_bill_generate`.`building_id` AND `trans_payment`.`society_id` = `trans_bill_generate`.`society_id`
                             WHERE
                                 `trans_bill_generate`.`society_id` = '.$request->society_id.' AND `trans_bill_generate`.`building_id` = '.$request->building_id.' AND `bill_year` IN ('.implode(',',$select_year).') AND `trans_bill_generate`.`deleted_at` IS NULL
+                            GROUP BY trans_bill_generate.tenant_id
                             ) l');
                 }
                  // $arreas_calculations = $arreas_calculations->toSql();   

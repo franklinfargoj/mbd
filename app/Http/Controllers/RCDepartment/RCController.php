@@ -450,7 +450,7 @@ class RCController extends Controller
                             }
                             // $balance = $value->total_bill - $paid_amt;
                           }
-                          
+                          $value->balance_amount = $balance;
                           $value->save();
 
                         $data[] =  [
