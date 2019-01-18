@@ -450,7 +450,7 @@ class RCController extends Controller
                             }
                             // $balance = $value->total_bill - $paid_amt;
                           }
-                          
+                          $value->balance_amount = $balance;
                           $value->save();
 
                         $data[] =  [
@@ -536,10 +536,14 @@ class RCController extends Controller
                 //dd($receipt);
                 $data['bill_amount'] = 0;
                 $data['amount_paid'] = 0;
+                $data['balance_amount'] = 0;
+                $data['credit_amount'] = 0;
                 foreach ($receipt as $key => $value) {
                   $value->id = $request->bill_no;   
                   $data['bill_amount'] += $value->bill_amount;
-                  $data['amount_paid'] += $value->amount_paid;    
+                  $data['amount_paid'] += $value->amount_paid;
+                  $data['credit_amount'] += $value->credit_amount;    
+                  $data['balance_amount'] += $value->balance_amount;    
                 }
 
                 $data['building'] = MasterBuilding::find($request->building_id);
@@ -901,16 +905,27 @@ class RCController extends Controller
                 // dd($receipt);
         $data['bill_amount'] = 0;
         $data['amount_paid'] = 0;
+        $data['credit_amount'] = 0;
+        $data['balance_amount'] = 0;
         foreach ($receipt as $key => $value) {
           $value->id = $request->bill_no;   
           $data['bill_amount'] += $value->bill_amount;
-          $data['amount_paid'] += $value->amount_paid;    
+          $data['amount_paid'] += $value->amount_paid; 
+          $data['credit_amount'] += $value->credit_amount;    
+          $data['balance_amount'] += $value->balance_amount;   
         }
-        $except_tenaments = TransBillGenerate::whereIn('id',$bill_ids)->where('status','!=','paid')->pluck('tenant_id')->toArray();
-
+        $transexcept_tenaments = TransBillGenerate::whereIn('id',$bill_ids)->get();
+        $except_tenaments = [];
+        if(count($transexcept_tenaments)) {
+            foreach($transexcept_tenaments as $transTenant) {
+                if($transTenant->total_bill != $transTenant->balance_amount) {
+                    $except_tenaments[] = $transTenant->tenant_id;
+                }
+            }
+        }
         
 
-        $data['tenants'] = MasterTenant::where('building_id',$request->building_id)->whereNotIn('id', $except_tenaments)->get();
+        $data['tenants'] = MasterTenant::where('building_id',$request->building_id)->whereIn('id', $except_tenaments)->get();
 
         $data['bill'] = $receipt;
         // echo '<pre>';
