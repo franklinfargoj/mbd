@@ -121,6 +121,12 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('rti_sent_info/{id}','RtiFormController@send_info')->name('rti_sent_info_data');
     Route::get('rti_forward_application/{id}','RtiFormController@show_forward_application_form')->name('rti_forwarded_application');
     Route::post('rti_forwarded_application/{id}','RtiFormController@forward_application')->name('rti_forwarded_application_data');
+    Route::get('rti_statstics_reports','Reports\RtiReportController@rti_statstics_reports')->name('rti_statstics_reports');
+    Route::get('rti_submitted_reports_by_users','Reports\RtiReportController@rti_submitted_reports_by_users')->name('rti_submitted_reports_by_users');
+    Route::get('rti_reports_department','Reports\RtiReportController@reports_department')->name('rti_reports_department');
+    Route::get('rti_reports_status','Reports\RtiReportController@reports_status')->name('rti_reports_status');
+    Route::get('pending_rti','Reports\RtiReportController@pending_rti')->name('pending_rti');
+    
     // Resolution routes
     
     Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
