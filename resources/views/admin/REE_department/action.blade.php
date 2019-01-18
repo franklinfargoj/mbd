@@ -90,7 +90,7 @@ $route=\Request::route()->getName();
                     </svg>
                 </span>
                 <span class="m-menu__link-text">View Calculation Sheet</span></a>
-        </li>
+        </li> 
         @elseif($ol_application->model->ol_application_master->model == 'Premium')
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ree_applications.calculation_sheet_options')?'m-menu__item--active':''}}"
             aria-haspopup="true">

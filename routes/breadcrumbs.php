@@ -398,7 +398,7 @@ Breadcrumbs::for('society_noc_cc_documents_co', function ($trail,$id) {
 
 Breadcrumbs::for('EE_scrutiny_co', function ($trail,$id) {
     $trail->parent('co');
-    $trail->push('EE_scrutiny', route('co.EE_Scrutiny_Remark',$id));
+    $trail->push('EE_scrutiny', route('common.EE_Scrutiny_Remark',$id));
 });
 
 Breadcrumbs::for('scrutiny-remark-noc_co', function ($trail,$id) {

@@ -13,6 +13,9 @@
         @elseif (session()->get('role_name') == config('commanConfig.ree_junior') || session()->get('role_name') == config('commanConfig.ree_deputy_engineer') || session()->get('role_name') == config('commanConfig.ree_assistant_engineer') || session()->get('role_name') == config('commanConfig.ree_branch_head'))  
         
             {{ Breadcrumbs::render('EE_scrutiny_ree',$ol_application->id) }}  
+
+        @elseif(session()->get('role_name') == config('commanConfig.co_engineer'))
+            {{ Breadcrumbs::render('EE_scrutiny_co',$ol_application->id) }}    
         @endif    
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
