@@ -13,10 +13,16 @@ class RtiSendInfo extends Model
     	'rti_status_id',
     	'comment',
     	'filepath',
-    	'filename'
+        'filename',
+        'user_id'
     ];
     public function status_title()
     {
     	return $this->belongsTo(MasterRtiStatus::class,'rti_status_id','id');
     }
+
+    public function user()
+	{
+		return $this->belongsTo(\App\User::class,'user_id','id');
+	}
 }

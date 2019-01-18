@@ -2,7 +2,7 @@
     <div class="col-12 no-shadow">
         <div class="app-card-section-title"> Tripartite Agreement</div>
     </div>
-    @php $chart_tripartite = 0; $chart_tripartite_subordinate = 0; @endphp
+    @php $chart_tripartite = 0; @endphp
     @foreach($tripartite_data['dashboardData'][0] as $header => $value)
         <div class="col-lg-3">
             <div class="m-portlet app-card text-center">
@@ -22,27 +22,6 @@
 </div>
 @if($chart_tripartite)
     <div id="tripartite_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
-@endif
-@if($tripartite_data['dashboardData_head'])
-    <div class="row no-gutters hearing-row">
-        <div class="col-12 no-shadow">
-            <div class="app-card-section-title"> Tripartite Agreement Subordinate Pendency</div>
-        </div>
-        @foreach($tripartite_data['dashboardData_head'] as $header => $value)
-            <div class="col-lg-3">
-                <div class="m-portlet app-card text-center">
-                    <h2 class="app-heading">{{ $header }}</h2>
-                    <div class="app-card-footer">
-                        <h2 class="app-no mb-0">{{  $value }}</h2>
-                        @php $chart_tripartite_subordinate += $value;@endphp
-                    </div>
-                </div>
-            </div>
-        @endforeach
-    </div>
-@endif
-@if($chart_tripartite_subordinate)
-    <div id="tripartite_chart_subordinate" style="width: 100%; height: 350px; margin-top: 2px;"></div>
 @endif
 <script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>
@@ -84,49 +63,6 @@
             //
             // WRITE
             chart_tripartite.write("tripartite_chart");
-        });
-        @endif
-    </script>
-@endif
-@if($chart_tripartite_subordinate)
-    <script>
-        var chart_tripartite_subordinate;
-        var legend;
-
-                @if($tripartite_data['dashboardData'][0])
-        var chartDatatripartite = [
-                        @foreach($tripartite_data['dashboardData_head'] as $header => $value)     {
-                        @if(!($header == 'Total No of Applications'))
-                        "status": '{{$header}}',
-                    "value": '{{$value}}',
-                        @endif
-                },
-                    @endforeach
-
-            ];
-        //    console.log(chartData1);
-
-        AmCharts.ready(function () {
-            // PIE CHART
-            chart_tripartite_subordinate = new AmCharts.AmPieChart();
-            chart_tripartite_subordinate.dataProvider = chartDatatripartite;
-            chart_tripartite_subordinate.titleField = "status";
-            chart_tripartite_subordinate.valueField = "value";
-            chart_tripartite_subordinate.outlineColor = "#FFFFFF";
-            chart_tripartite_subordinate.outlineAlpha = 0.8;
-            chart_tripartite_subordinate.outlineThickness = 2;
-            chart_tripartite_subordinate.balloonText =
-                "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
-            // this makes the chart 3D
-            chart_tripartite_subordinate.depth3D = 15;
-            chart_tripartite_subordinate.angle = 30;
-            chart_tripartite_subordinate.colors = ["#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#754DEB", "#DDDDDD", "#999999",
-                "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"
-            ]
-            chart_tripartite_subordinate.fontSize = 15;
-            //
-            // WRITE
-            chart_tripartite_subordinate.write("tripartite_chart_subordinate");
         });
         @endif
     </script>

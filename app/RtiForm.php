@@ -27,6 +27,11 @@ class RtiForm extends Model
     	return $this->belongsTo(RtiSendInfo::class, 'id','application_id');
     }
 
+    public function sent_info_hostory()
+    {
+        return $this->hasMany(RtiSendInfo::class, 'application_id','id');
+    }
+
     public function rti_forward_application(){
     	return $this->belongsTo(RtiForwardApplication::class, 'rti_forward_application_id');
     }

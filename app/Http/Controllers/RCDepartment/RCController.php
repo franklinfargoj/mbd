@@ -353,7 +353,17 @@ class RCController extends Controller
            $bill_ids =  explode(',',$Tenant_bill_id->bill_id); 
            
            $receipt = TransPayment::with('dd_details')->with('bill_details')->whereIn('bill_no', $bill_ids)->where('building_id', '=', $request->building_id)->where('society_id', '=', $request->society_id)->get();
-           
+            if(date('m',strtotime($request->from_date)) < 4 ) {
+                $year = date('Y',strtotime($request->from_date)) -1;
+            } else {
+                $year = date('Y',strtotime($request->from_date));
+            }
+            $number_of_tenants = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
+
+            $serviceChargesRate = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$request->building_id)->where('year',$year)->first();
+            
+            $totalServiceCharge = ($serviceChargesRate->water_charges+$serviceChargesRate->pump_man_and_repair_charges+$serviceChargesRate->external_expender_charge+$serviceChargesRate->na_assessment+$serviceChargesRate->other+$serviceChargesRate->lease_rent+$serviceChargesRate->administrative_charge+$serviceChargesRate->electric_city_charge)*$number_of_tenants->tenant_count()->first()->count;
+            
             if(count($receipt) <= 0 ){
             $bill = TransBillGenerate::where('status', '!=', 'paid')->findMany($bill_ids);
                 if($request->payment_mode == 'dd' && $request->dd_no != ''){
@@ -380,7 +390,11 @@ class RCController extends Controller
                 } else {
                     $amount_paid = 0;
                 }
-                echo '<pre>';
+                
+                if( $amount_paid < $totalServiceCharge) {
+                    return redirect()->back()->with('warning', 'You need to pay atleast basic service charges.');
+                }
+                
                 foreach ($bill as $key => $value) {
                     if(in_array( $value->tenant_id, $request->except_tenaments)){
                       $Akey = array_search($value->tenant_id, $request->except_tenaments);
@@ -424,11 +438,11 @@ class RCController extends Controller
                             $balance = 0;
                             $credit_amt = 0;
                             if($value->total_bill > $request->tenant_credit_amt[$Akey]) {
-                                print_r('hi');
+                                
                                 $balance = $value->total_bill - $request->tenant_credit_amt[$Akey];
                                 $value->balance_amount = $balance;
                             } elseif($value->total_bill < $request->tenant_credit_amt[$Akey]) {
-                                print_r('hi123');
+                                
                                 $credit_amt = $request->tenant_credit_amt[$Akey] - $value->total_bill ;    
                                 $value->credit_amount = $credit_amt;
                             } else {
@@ -558,6 +572,13 @@ class RCController extends Controller
         if($request->bill_no){
             
             $receipt = TransPayment::with('dd_details')->with('bill_details')->where('bill_no', '=', $request->bill_no)->first();
+            if(date('m',strtotime($request->from_date)) < 4 ) {
+                $year = date('Y',strtotime($request->from_date)) -1;
+            } else {
+                $year = date('Y',strtotime($request->from_date));
+            }
+            $serviceChargesRate = ServiceChargesRate::where('building_id',$request->building_id)->where('society_id',$request->society_id)->where('year',$year)->first();
+            $totalServiceCharge = $serviceChargesRate->water_charges+$serviceChargesRate->pump_man_and_repair_charges+$serviceChargesRate->external_expender_charge+$serviceChargesRate->na_assessment+$serviceChargesRate->other+$serviceChargesRate->lease_rent+$serviceChargesRate->administrative_charge+$serviceChargesRate->electric_city_charge;
 
             if(!$receipt){
 
@@ -585,7 +606,11 @@ class RCController extends Controller
                 } else {
                     $amount_paid = 0;
                 }
-
+                
+                if( $amount_paid < $totalServiceCharge) {
+                    return redirect()->back()->with('warning', 'You need to pay atleast basic service charges.');
+                }
+                
                 $bill = new TransPayment;
                 $bill->bill_no = $request->bill_no;
                 $bill->tenant_id = $request->tenant_id;
@@ -767,7 +792,14 @@ class RCController extends Controller
                                     ->where('bill_year', '=', $data['year'])
                                     ->orderBy('id','DESC')
                                     ->first();
-                                    
+            // $data['currentBill'] = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+            //                         ->where('bill_month', '=',$data['month'])
+            //                         ->where('bill_year', '=', $data['year'])
+            //                         ->orderBy('id','DESC')
+            //                         ->first();
+
+            // echo '<pre>';
+            // print_r($data['currentBill']);exit;
             if(true == $is_download) {
                 // return view('admin.rc_department.download_tenant_bill', $data);
               $pdf = PDF::loadView('admin.rc_department.download_tenant_bill', $data);

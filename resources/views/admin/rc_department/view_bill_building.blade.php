@@ -177,7 +177,7 @@
                                 <tr>
                                     <td class="text-center">{{$calculation->year}}</td>
                                     <td class="text-center">{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
-                                    <td class="text-center">{{$calculation->total_amount}}</td>
+                                    <td class="text-center">{{$calculation->total_amount-($calculation->old_intrest_amount + $calculation->difference_intrest_amount)}}</td>
                                     <td class="text-center">{{$calculation->old_intrest_amount + $calculation->difference_intrest_amount}}</td>
                                 </tr>
                             @endforeach
