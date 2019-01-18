@@ -15,13 +15,22 @@ class RtiReportController extends Controller
         $this->rti=$rti;
     }
 
+    public function Dashboard(Request $request)
+    {
+        $data=array();
+        $data['total_no_of_applications']=$this->rti->all($request);
+        $data['number_of_rti_cases_closed']=$this->rti->all($request,config('commanConfig.rti_status.closed'));
+        $data['pending_rti_count']=$this->rti->pending_rti_count($request,config('commanConfig.rti_status.closed'));
+        return view('admin.reports.rti.dashboard',compact('data'));
+    }
+
     public function rti_statstics_reports(Request $request)
     {
         $getData=$request->all();
         $data=array();
         $data['total_no_of_applications']=$this->rti->all($request);
         $data['number_of_rti_cases_closed']=$this->rti->all($request,config('commanConfig.rti_status.closed'));
-
+        $data['pending_rti_count']=$this->rti->pending_rti_count($request,config('commanConfig.rti_status.closed'));
         return view('admin.reports.rti.statstics',compact('data','getData'));
     }
 
@@ -60,5 +69,15 @@ class RtiReportController extends Controller
         $data['pending_rti']=$this->rti->pending_rti($request);
         //dd($data);
         return view('admin.reports.rti.pending_rti',compact('data','getData'));
+    }
+
+    public function period_wise_pendancy(Request $request)
+    {
+        $data=array();
+        $rti_statuses = MasterRtiStatus::all();
+        $getData=$request->all();
+        $data['report_status']=$this->rti->deaprtment_reports($request);
+        //dd($data);
+        return view('admin.reports.rti.period_wise_pendancy_report',compact('data','getData','rti_statuses'));
     }
 }

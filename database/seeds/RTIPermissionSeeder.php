@@ -123,6 +123,16 @@ class RTIPermissionSeeder extends Seeder
                 'name'=>'pending_rti',
                 'display_name'=>'pending_rti',
                 'description'=>'pending_rti'
+            ],
+            [
+                'name'=>'rti.period_wise_pendancy',
+                'display_name'=>'rti.period_wise_pendancy',
+                'description'=>'rti.period_wise_pendancy'
+            ],
+            [
+                'name'=>'rti.dashboard',
+                'display_name'=>'rti.dashboard',
+                'description'=>'rti.dashboard'
             ]
         ];
 

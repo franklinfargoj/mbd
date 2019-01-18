@@ -12,7 +12,7 @@
         <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
-                    <form class="form-group m-form__group row align-items-center mb-0" method="get" action="{{ route('rti_reports_status') }}">
+                    <form class="form-group m-form__group row align-items-center mb-0" method="get" action="{{ route('rti.period_wise_pendancy') }}">
                         <div class="col-md-3">
                             <div class="form-group m-form__group">
                                 <select name="status" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input">
@@ -25,7 +25,7 @@
                                 </select>
                             </div>
                         </div>
-                        {{-- <div class="col-md-2">
+                        <div class="col-md-2">
                             <div class="form-group m-form__group">
                                 <input type="text" name="from_date" id="from_date" class="form-control form-control--custom m-input m_datepicker"
                                     value="{{ isset($getData['from_date'])? $getData['from_date'] : '' }}" placeholder="From Date">
@@ -36,12 +36,12 @@
                                 <input type="text" name="to_date" id="to_date" class="form-control form-control--custom m-input m_datepicker"
                                     value="{{ isset($getData['to_date'])? $getData['to_date'] : '' }}" placeholder="To Date">
                             </div>
-                        </div> --}}
+                        </div>
                         <div class="col">
                             <div class="form-group m-form__group">
                                 <div class="btn-list">
                                     <button type="submit" class="btn m-btn--pill m-btn--custom btn-primary">Search</button>
-                                    <a href="{{route('rti_reports_status')}}" class="btn m-btn--pill m-btn--custom btn-metal">Reset</a>
+                                    <a href="{{route('rti.period_wise_pendancy')}}" class="btn m-btn--pill m-btn--custom btn-metal">Reset</a>
                                 </div>
                             </div>
                         </div>

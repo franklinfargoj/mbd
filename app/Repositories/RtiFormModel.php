@@ -28,6 +28,28 @@ class RtiFormModel{
         return $rti_form->count();
     }
 
+    public function pending_rti_count($request,$status)
+    {
+        $rti_form=RtiForm::with(['rti_forward_status']);
+
+        if($request->from_date)
+        {
+            $rti_form=$rti_form->where('created_at','>=',date('Y-m-d',strtotime($request->from_date))." 00:00:01");
+        }
+        
+        if($request->to_date)
+        {
+            $rti_form=$rti_form->where('created_at','<=',date('Y-m-d',strtotime($request->to_date))." 23:59:59");
+        }
+
+        if($status!="")
+        {
+            $rti_form=$rti_form->where('status','!=',$status);
+        }
+
+        return $rti_form->count();
+    }
+
     public function report_submitted_by_users($request)
     {
         $rti_form=RtiForm::with(['rti_forward_status','users']);
@@ -55,6 +77,11 @@ class RtiFormModel{
         if($request->to_date)
         {
             $rti_form=$rti_form->where('created_at','<=',date('Y-m-d',strtotime($request->to_date))." 23:59:59");
+        }
+
+        if($request->status)
+        {
+            $rti_form=$rti_form->where('status','=',$request->status);
         }
 
         return $rti_form->get();

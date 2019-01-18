@@ -59,7 +59,7 @@
                     </tr>
                     <tr>
                         <td>{{$data['total_no_of_applications']}}</td>
-                        <td>{{$data['total_no_of_applications']}}</td>
+                        <td>{{$data['pending_rti_count']}}</td>
                         <td>{{$data['number_of_rti_cases_closed']}}</td>
                     </tr>
                </table>
