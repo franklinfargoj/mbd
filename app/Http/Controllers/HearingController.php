@@ -731,14 +731,14 @@ class HearingController extends Controller
             $hearing= array();
             foreach($todaysHearing as $key => $todayHearing){
                 if($todayHearing['hearing_schedule']){
-                    if(in_array($todayHearing['hearing_schedule']['user_id'],$isHearingUsers)){
+//                    if(in_array($todayHearing['hearing_schedule']['user_id'],$isHearingUsers)){
                         if($todayHearing['hearing_pre_post_schedule']){
-                            if(in_array($todayHearing['hearing_pre_post_schedule']['0']['user_id'],$isHearingUsers)){
+//                            if(in_array($todayHearing['hearing_pre_post_schedule']['0']['user_id'],$isHearingUsers)){
                                 if($todayHearing['hearing_pre_post_schedule']['0']['date'] == $today){
                                     $todays_hearing_count += 1;
                                     $hearing[] = $todayHearing;
                                 }
-                            }
+//                            }
                         }
                         else{
                             if($todayHearing['hearing_schedule']['preceding_date'] == $today)
@@ -747,7 +747,7 @@ class HearingController extends Controller
                                 $hearing[] = $todayHearing;
                             }
                         }
-                    }
+//                    }
                 }
             }
             $todaysHearing = $hearing;
