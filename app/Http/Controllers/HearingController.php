@@ -694,7 +694,6 @@ class HearingController extends Controller
 
 //        $todaysHearing = HearingSchedule::with(['Hearing'])->where('preceding_date',$today)->get()->toArray();
 
-//        dd($PrePostSchedule);
         if(session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.co_pa')){
             $department_id = Department::where('department_name', config('commanConfig.hearing_department.co'))->value('id');
             //$data['department_id'] = $department_id;
@@ -703,44 +702,57 @@ class HearingController extends Controller
             $department_id = Department::where('department_name', config('commanConfig.hearing_department.joint_co'))->value('id');
             //$data['department_id'] = $department_id;
         }
+//        dd($PrePostSchedule);
+//        if(session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.co_pa')){
+//            $department_id = Department::where('department_name', config('commanConfig.hearing_department.co'))->value('id');
+//            //$data['department_id'] = $department_id;
+//        }
+//        elseif(session()->get('role_name') == config('commanConfig.joint_co_pa') || session()->get('role_name') == config('commanConfig.joint_co')){
+//            $department_id = Department::where('department_name', config('commanConfig.hearing_department.joint_co'))->value('id');
+//            //$data['department_id'] = $department_id;
+//        }
 
 //        dd($department_id);
 
-        $todaysHearing = Hearing::with(['hearingSchedule'=> function($q) use ($today){
-            $q->where('preceding_date',$today);
-        },'hearingPrePostSchedule'=> function($q) use ($today){
-            $q->orderBy('id','desc')->limit(1);
-        }])->where('department_id',$department_id)->get()->toArray();
+        $isHearingUsers = RtiDepartmentUser::where('department_id',$department_id)->pluck('user_id')->toArray();
+
+//        dd(in_array($user_id,$isHearingUsers));
+
+            $todaysHearing = Hearing::with(['hearingSchedule'=> function($q) use ($today ){
+                $q->where('preceding_date',$today);
+            },'hearingPrePostSchedule'=> function($q) use ($today){
+                $q->orderBy('id','desc')->limit(1);
+            }])->where('department_id',$department_id)->get()->toArray();
 
 //dd($todaysHearing);
 
 
-
-
-
-
-        $todays_hearing_count = 0;
-        $hearing= array();
-        foreach($todaysHearing as $key => $todayHearing){
-            if($todayHearing['hearing_schedule']){
-                if($todayHearing['hearing_pre_post_schedule']){
-                    if($todayHearing['hearing_pre_post_schedule']['0']['date'] == $today){
-                        $todays_hearing_count += 1;
-                        $hearing[] = $todayHearing;
-                    }
-                }
-                else{
-                    if($todayHearing['hearing_schedule']['preceding_date'] == $today)
-                    {
-                        $todays_hearing_count += 1;
-                        $hearing[] = $todayHearing;
+            $todays_hearing_count = 0;
+            $hearing= array();
+            foreach($todaysHearing as $key => $todayHearing){
+                if($todayHearing['hearing_schedule']){
+                    if(in_array($todayHearing['hearing_schedule']['user_id'],$isHearingUsers)){
+                        if($todayHearing['hearing_pre_post_schedule']){
+                            if(in_array($todayHearing['hearing_pre_post_schedule']['0']['user_id'],$isHearingUsers)){
+                                if($todayHearing['hearing_pre_post_schedule']['0']['date'] == $today){
+                                    $todays_hearing_count += 1;
+                                    $hearing[] = $todayHearing;
+                                }
+                            }
+                        }
+                        else{
+                            if($todayHearing['hearing_schedule']['preceding_date'] == $today)
+                            {
+                                $todays_hearing_count += 1;
+                                $hearing[] = $todayHearing;
+                            }
+                        }
                     }
                 }
             }
-        }
+            $todaysHearing = $hearing;
 
-        $todaysHearing = $hearing;
-//dd($todaysHearing);
+//        dd($todaysHearing);
 
         // conveyance dashboard
         $conveyanceCommonController = new conveyanceCommonController();
