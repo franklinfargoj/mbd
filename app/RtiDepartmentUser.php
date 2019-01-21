@@ -6,9 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RtiDepartmentUser extends Model
 {
-    protected $table="rti_department_users";
-
-
+    protected $table="department_users";
     public function master_department()
     {
         return $this->belongsTo(\App\Department::class,'department_id','id');

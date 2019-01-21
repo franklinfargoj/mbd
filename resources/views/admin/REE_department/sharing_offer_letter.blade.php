@@ -318,7 +318,7 @@
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
-                            <td colspan="2" style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Rs. {{  $ntw->numToWord(($calculationData->sharingCalculationSheet) !="" ? str_replace( ',', '',$calculationData->sharingCalculationSheet->amount_to_b_paid_to_municipal_corporation) : '' ) }}</td>
+                            <td colspan="2" style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Rs. {{  $ntw->numToWord(($calculationData->sharingCalculationSheet) !="" ? str_replace( ',', '',$calculationData->sharingCalculationSheet->amount_to_b_paid_to_municipal_corporation) : 0 ) }}</td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>

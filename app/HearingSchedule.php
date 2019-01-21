@@ -16,7 +16,8 @@ class HearingSchedule extends Model
         'case_template',
         'update_status',
         'update_supporting_documents',
-        'hearing_id'
+        'hearing_id',
+        'user_id'
     ];
 
     public function prePostSchedule()
@@ -29,4 +30,8 @@ class HearingSchedule extends Model
     {
         return $this->hasMany('App\Hearing', 'id', 'hearing_id');
     }
+
+    public function userDetails(){
+        return $this->hasOne('App\User', 'id', 'user_id');
+    }    
 }

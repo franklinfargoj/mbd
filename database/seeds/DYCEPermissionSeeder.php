@@ -39,11 +39,11 @@ class DYCEPermissionSeeder extends Seeder
                 'display_name' => 'society_EE_documents',
                 'description'  => 'society_EE_documents'
             ],
-            [
-                'name'         => 'dyce.EE_Scrutiny_Remark',
-                'display_name' => 'EE_Scrutiny_Remark',
-                'description'  => 'EE_Scrutiny_Remark'
-            ],
+            // [
+            //     'name'         => 'dyce.EE_Scrutiny_Remark',
+            //     'display_name' => 'EE_Scrutiny_Remark',
+            //     'description'  => 'EE_Scrutiny_Remark'
+            // ],
             [
                 'name'         => 'dyce.forward_application',
                 'display_name' => 'forward_application',
@@ -68,6 +68,11 @@ class DYCEPermissionSeeder extends Seeder
                 'name'=>'dashboard',
                 'display_name'=>'dashboard',
                 'description'=>'Dashboard'
+            ],            
+            [
+                'name'=>'common.EE_Scrutiny_Remark',
+                'display_name'=>'EE Scrutiny Remark',
+                'description'=>'EE Scrutiny Remark'
             ]
         ];
 

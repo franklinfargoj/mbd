@@ -47,4 +47,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(\App\RtiDepartmentUser::class,'id','user_id');
     }
+
+    public function roleDetails()
+    {
+        return $this->hasOne('App\Role', 'id', 'role_id');
+    }    
 }
