@@ -1338,6 +1338,32 @@ Breadcrumbs::for('society_renewal_signed_sale_lease', function ($trail, $id) {
 });
 
 
+//Society Tripartite Agreement
+Breadcrumbs::for('society_tripartite',function($trail){
+    $trail->push('Home',route('society_tripartite.index'));
+});
+
+Breadcrumbs::for('society_tripartite_view_application', function ($trail, $id) {
+    $trail->parent('society_tripartite');
+    $trail->push('View Application', route('tripartite_application_form_preview', $id));
+});
+
+Breadcrumbs::for('society_tripartite_edit_application', function ($trail, $id) {
+    $trail->parent('society_tripartite');
+    $trail->push('Edit Application', route('tripartite_application_form_edit', $id));
+});
+
+Breadcrumbs::for('society_tripartite_documents_upload', function ($trail) {
+    $trail->parent('society_tripartite');
+    $trail->push('Upload documents', route('display_tripartite_docs'));
+});
+
+Breadcrumbs::for('society_tripartite_agreement', function ($trail, $id) {
+    $trail->parent('society_tripartite');
+    $trail->push('Tripartite Agreement', route('show_tripartite_agreement', $id));
+});
+
+
 //Tripartite Agreement
 Breadcrumbs::for('tripartite',function($trail){
     $trail->push('Home',route('tripartite.index'));
