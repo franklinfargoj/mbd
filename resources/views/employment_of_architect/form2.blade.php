@@ -63,14 +63,17 @@
             </div>
 
             <div class="m-checkbox-list mt-2">
-                <label class="m-checkbox m-checkbox--primary">
-                    <input {{$application->application_info_and_its_enclosures_verify==1?"checked":""}} type="checkbox" name="application_info_and_its_enclosures_verify" value="1"> Above mentioned details is verified by me & correct
-                    as per my knowledge
-                    <span class=""></span>
-                </label>
-                @if ($errors->has('application_info_and_its_enclosures_verify'))
-                    <span class="text-danger">{{ $errors->first('application_info_and_its_enclosures_verify') }}</span>
-                @endif
+                <div class="d-flex">
+                    <span class="star">*</span>
+                    <label class="m-checkbox m-checkbox--primary ml-3">
+                        <input {{$application->application_info_and_its_enclosures_verify==1?"checked":""}} type="checkbox" name="application_info_and_its_enclosures_verify" value="1"> Above mentioned details is verified by me & correct
+                        as per my knowledge
+                        <span class=""></span>
+                    </label>
+                    @if ($errors->has('application_info_and_its_enclosures_verify'))
+                        <span class="text-danger">{{ $errors->first('application_info_and_its_enclosures_verify') }}</span>
+                    @endif
+                </div>
             </div>
             <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                 <div class="m-form__actions px-0">

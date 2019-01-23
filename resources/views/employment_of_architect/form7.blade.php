@@ -58,7 +58,7 @@
                     id="form_{{$j+1}}" data-parent="#accordion">
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Name of Project:</label>
+                            <label class="col-form-label" for="">Name of Project<span class="star">*</span></label>
                             <input required type="text" id="" name="name_of_project" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->name_of_project:old('name_of_project')}}">
                             @if ($errors->has('name_of_project') && $prev_form_number==$j+1)
@@ -67,7 +67,7 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Location:</label>
+                            <label class="col-form-label" for="">Location<span class="star">*</span></label>
                             <input required type="text" id="" name="location" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->location:old('location')}}">
                             @if ($errors->has('location') && $prev_form_number==$j+1)
@@ -76,7 +76,7 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Name of Client:</label>
+                            <label class="col-form-label" for="">Name of Client<span class="star">*</span></label>
                             <input required type="text" id="" name="name_of_client" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->name_of_client:old('name_of_client')}}">
                             @if ($errors->has('name_of_client') && $prev_form_number==$j+1)
@@ -85,7 +85,7 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Address:</label>
+                            <label class="col-form-label" for="">Address<span class="star">*</span></label>
                             <input required type="text" id="" name="address" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->address:old('address')}}">
                             @if ($errors->has('address') && $prev_form_number==$j+1)
@@ -94,7 +94,7 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Phone Number:</label>
+                            <label class="col-form-label" for="">Phone Number<span class="star">*</span></label>
                             <input onkeypress="return isNumberKey(event)" required type="text" id="" name="tel_no" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->tel_no:old('tel_no')}}">
                             @if ($errors->has('tel_no') && $prev_form_number==$j+1)
@@ -118,7 +118,7 @@
                             </div>
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Build Up Area in m<sup>2</sup>:</label>
+                            <label class="col-form-label" for="">Build Up Area in m<sup>2</sup><span class="star">*</span></label>
                             <input onkeypress="return isNumberKey(event)" required type="text" id="" name="built_up_area_in_sq_m" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->built_up_area_in_sq_m:old('built_up_area_in_sq_m')}}">
                             @if ($errors->has('built_up_area_in_sq_m') && $prev_form_number==$j+1)
@@ -127,7 +127,7 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Land Area in m<sup>2</sup>:</label>
+                            <label class="col-form-label" for="">Land Area in m<sup>2</sup><span class="star">*</span></label>
                             <input onkeypress="return isNumberKey(event)" required type="text" id="" name="land_area_in_sq_m" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->land_area_in_sq_m:old('land_area_in_sq_m')}}">
                             @if ($errors->has('land_area_in_sq_m') && $prev_form_number==$j+1)
@@ -136,7 +136,7 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Estimated Value of Projects in Rs:</label>
+                            <label class="col-form-label" for="">Estimated Value of Projects in Rs<span class="star">*</span></label>
                             <input onkeypress="return isNumberKey(event)" required type="text" id="" name="estimated_value_of_project" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->estimated_value_of_project:old('estimated_value_of_project')}}">
                             @if ($errors->has('estimated_value_of_project') && $prev_form_number==$j+1)
@@ -145,7 +145,7 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Completed Value of Projects in Rs:</label>
+                            <label class="col-form-label" for="">Completed Value of Projects in Rs<span class="star">*</span></label>
                             <input required onkeypress="return isNumberKey(event)" type="text" id="" name="completed_value_of_project" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->completed_value_of_project:old('completed_value_of_project')}}">
                             @if ($errors->has('completed_value_of_project') && $prev_form_number==$j+1)
@@ -154,7 +154,7 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Date of Start:</label>
+                            <label class="col-form-label" for="">Date of Start<span class="star">*</span></label>
                             <input required type="text" id="" name="date_of_start" class="form-control form-control--custom m_datepicker"
                                 readonly value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->date_of_start:old('date_of_start')}}">
                             @if ($errors->has('date_of_start') && $prev_form_number==$j+1)
@@ -163,7 +163,7 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Date of Completion:</label>
+                            <label class="col-form-label" for="">Date of Completion<span class="star">*</span></label>
                             <input required type="text" id="" name="date_of_completion" class="form-control form-control--custom m_datepicker"
                                 readonly value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->date_of_completion:old('date_of_completion')}}">
                             @if ($errors->has('date_of_completion') && $prev_form_number==$j+1)
@@ -172,7 +172,7 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Whether Service Terminated by Client:</label>
+                            <label class="col-form-label" for="">Whether Service Terminated by Client<span class="star">*</span></label>
                             <input required type="text" id="" name="whether_service_terminated_by_client" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->whether_service_terminated_by_client:old('whether_service_terminated_by_client')}}">
                             @if ($errors->has('whether_service_terminated_by_client') && $prev_form_number==$j+1)
@@ -181,7 +181,7 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Salient Features of Project:</label>
+                            <label class="col-form-label" for="">Salient Features of Project<span class="star">*</span></label>
                             <input required type="text" id="" name="salient_features_of_project" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->salient_features_of_project:old('salient_features_of_project')}}">
                             @if ($errors->has('salient_features_of_project') && $prev_form_number==$j+1)
@@ -190,7 +190,7 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Reasons for Delay (If any):</label>
+                            <label class="col-form-label" for="">Reasons for Delay (If any)<span class="star">*</span></label>
                             <input required type="text" id="" name="reason_for_delay_if_any" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->reason_for_delay_if_any:old('reason_for_delay_if_any')}}">
                             @if ($errors->has('reason_for_delay_if_any') && $prev_form_number==$j+1)

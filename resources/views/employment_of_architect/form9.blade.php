@@ -28,8 +28,8 @@
                         <table id="table-form-4" class="table table--box-input imp_projects">
                             <thead class="thead-default">
                                 <tr>
-                                    <th>Name of Document</th>
-                                    <th>Attachment</th>
+                                    <th>Name of Document<span class="star">*</span></th>
+                                    <th>Attachment<span class="star">*</span></th>
                                 </tr>
                             </thead>
                             <tbody>
