@@ -599,10 +599,12 @@ class SocietyOfferLetterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show_form_self($id){
+        $ids = explode('_', $id);
+        $id = $ids[0];
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $layouts = MasterLayout::all();
 
-        return view('frontend.society.show_form_self', compact('society_details', 'id', 'layouts'));
+        return view('frontend.society.show_form_self', compact('society_details', 'id', 'ids', 'layouts'));
     }
 
     public function show_reval_self($id){
@@ -836,10 +838,12 @@ class SocietyOfferLetterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show_form_dev($id){
+        $ids = explode('_', $id);
+        $id = $ids[0];
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $layouts = MasterLayout::all();
 
-        return view('frontend.society.show_form_dev', compact('society_details', 'id', 'layouts'));
+        return view('frontend.society.show_form_dev', compact('society_details', 'id', 'ids', 'layouts'));
     }
 
     public function show_reval_dev($id){
