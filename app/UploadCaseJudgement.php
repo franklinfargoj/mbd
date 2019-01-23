@@ -13,10 +13,13 @@ class UploadCaseJudgement extends Model
         'upload_judgement_case',
         'description',
         'judgement_case_filename',
+        'scheduled_hearing_id',
+        'pre_post_hearing_id',
         'user_id'
     ];
 
     public function userDetails(){
         return $this->hasOne('App\User', 'id', 'user_id');
-    }     
+    }
+
 }
