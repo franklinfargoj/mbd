@@ -80,7 +80,7 @@
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="preceding_officer_name">Presiding Officer Name:</label>
+                        <label class="col-form-label" for="preceding_officer_name">Preceding Officer Name:</label>
                         <input type="text" id="preceding_officer_name" name="preceding_officer_name" class="form-control form-control--custom m-input"
                             value="{{ $arrData['hearing_data']->preceding_officer_name }}" readonly>
                         <span class="help-block">{{$errors->first('preceding_officer_name')}}</span>
@@ -94,13 +94,21 @@
                             class="form-control form-control--custom m-input" value="{{ old('date') }}">
                         <span class="help-block">{{$errors->first('date')}}</span>
                     </div>
-
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="description">Description:</label>
-                        <textarea id="description" name="description" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('description') }}</textarea>
-                        <span class="help-block">{{$errors->first('description')}}</span>
+                        <label class="col-form-label" for="time">Preceding Time:</label>
+                        <input type="text" id="time" name="time" class="form-control form-control--custom m-input"
+                               value="{{ old('time') }}">
+                        <span class="help-block">{{$errors->first('time')}}</span>
                     </div>
+
                 </div>
+            <div class="form-group m-form__group row">
+                <div class="col-sm-4 form-group">
+                    <label class="col-form-label" for="description">Description:</label>
+                    <textarea id="description" name="description" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('description') }}</textarea>
+                    <span class="help-block">{{$errors->first('description')}}</span>
+                </div>
+            </div>
 
             </div>
             <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
@@ -118,4 +126,67 @@
         </form>
     </div>
 </div>
+
+@if(count($hearingLogs->hearingPrePostSchedule) > 0)
+    <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
+        <div class="portlet-body">
+            <div class="m-portlet__body m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
+                <div class="remark-body">
+                    <div class="pb-2">
+                        <h3 class="section-title section-title--small mb-2">
+                            History:
+                        </h3>
+                    </div>
+                </div>
+                <div class="col-md-12 table-responsive">
+                    <table id="dtBasicExample" class="table" style="font-size: 14px">
+                        <thead>
+                        <tr>
+                            <th class="th-sm">sr.</th>
+                            <th class="th-sm">Date</th>
+                            <th class="th-sm">Time</th>
+                            <th class="th-sm">User</th>
+                            <th class="th-sm">Role</th>
+                            <th class="th-sm">Description</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @php $i = 1; @endphp
+                        @foreach($hearingLogs->hearingPrePostSchedule as $log)
+                            <tr>
+                                <td> {{$i}}</td>
+                                <td> {{ isset($log->date) ? $log->date : '' }}</td>
+                                <td> {{ isset($log->time) ? $log->time : '' }}</td>
+                                <td> {{ isset($log->userDetails->name) ? $log->userDetails->name : '' }}</td>
+                                <td> {{ isset($log->userDetails->roleDetails->name) ? $log->userDetails->roleDetails->name : '' }}</td>
+                                <td> {{ isset($log->description) ? $log->description : '' }}</td>
+                            </tr>
+                            @php $i++; @endphp
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+
+@endsection
+@section('js')
+    <script src="{{asset('/js/mdtimepicker.min.js')}}" type="text/javascript"></script>
+
+    <script>
+        $(function () {
+            $('#time').timepicker();
+        });
+
+        $(document).ready(function () {
+            $('#dtBasicExample').DataTable();
+            $('.dataTables_length').addClass('bs-select');
+
+            $('#dtBasicExample_wrapper > .row:first-child').remove();
+        });
+
+        $('table').dataTable({searching: false, ordering:false, info: false});
+    </script>
 @endsection

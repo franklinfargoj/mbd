@@ -121,6 +121,14 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('rti_sent_info/{id}','RtiFormController@send_info')->name('rti_sent_info_data');
     Route::get('rti_forward_application/{id}','RtiFormController@show_forward_application_form')->name('rti_forwarded_application');
     Route::post('rti_forwarded_application/{id}','RtiFormController@forward_application')->name('rti_forwarded_application_data');
+    Route::get('rti_statstics_reports','Reports\RtiReportController@rti_statstics_reports')->name('rti_statstics_reports');
+    Route::get('rti_submitted_reports_by_users','Reports\RtiReportController@rti_submitted_reports_by_users')->name('rti_submitted_reports_by_users');
+    Route::get('rti_reports_department','Reports\RtiReportController@reports_department')->name('rti_reports_department');
+    Route::get('rti_reports_status','Reports\RtiReportController@reports_status')->name('rti_reports_status');
+    Route::get('pending_rti','Reports\RtiReportController@pending_rti')->name('pending_rti');
+    Route::get('period_wise_pendancy','Reports\RtiReportController@period_wise_pendancy')->name('rti.period_wise_pendancy');
+    Route::get('rti-dashboard', 'Reports\RtiReportController@Dashboard')->name('rti.dashboard');
+    
     // Resolution routes
     
     Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
@@ -136,6 +144,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     //Hearing Admin
     Route::get('hearing-dashboard', 'HearingController@Dashboard')->name('hearing.dashboard');
+    Route::get('hearing_logs/{id}', 'HearingController@getHearingLogs')->name('hearing.logs');
     Route::resource('/hearing', 'HearingController');
     Route::post('loadDeleteReasonOfHearingUsingAjax', 'HearingController@loadDeleteReasonOfHearingUsingAjax')->name('loadDeleteReasonOfHearingUsingAjax');
 //Route::get('/hearing/delete/{id}', 'HearingController@destroy')->name('hearing.delete');
@@ -288,10 +297,14 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('view_calculations/{tenant_id}/{year}','AccountDepartment\AccountController@viewCalculations')->name('view_calculations');
     Route::get('payment_details/{tenant_id}','AccountDepartment\AccountController@paymentDetails')->name('payment_details');
 
+    //common if offer letter
+
+    Route::get('ee_scrutiny_remark/{id}','Common\CommonController@eeScrutinyRemark')->name('common.EE_Scrutiny_Remark');
+
 	//DYCE Department routes
 	Route::resource('dyce','DYCEDepartment\DYCEController');
 	Route::get('society_EE_documents/{id}','DYCEDepartment\DYCEController@societyEEDocuments')->name('dyce.society_EE_documents');
-	Route::get('ee_scrutiny_remark/{id}','DYCEDepartment\DYCEController@eeScrutinyRemark')->name('dyce.EE_Scrutiny_Remark');
+	
 
     Route::get('scrutiny_remark/{id}','DYCEDepartment\DYCEController@dyceScrutinyRemark')->name('dyce.scrutiny_remark');
 
@@ -305,7 +318,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('society_ee_document/{id}','REEDepartment\REEController@societyEEDocuments')->name('ree.society_EE_documents');
     Route::get('society_reval_document/{id}','REEDepartment\REEController@societyRevalDocuments')->name('ree.society_reval_documents');
 
-    Route::get('EE_scrutiny_remark/{id}','REEDepartment\REEController@eeScrutinyRemark')->name('ree.EE_Scrutiny_Remark');
+    // Route::get('EE_scrutiny_remark/{id}','REEDepartment\REEController@eeScrutinyRemark')->name('ree.EE_Scrutiny_Remark');
 
     Route::get('dyce_Scrutiny_Remark/{id}','REEDepartment\REEController@dyceScrutinyRemark')->name('ree.dyce_scrutiny_remark');
 
@@ -1269,3 +1282,13 @@ Route::get('approve_consent_oc/{id}','CODepartment\COController@approveConsentfo
 Route::post('issue_oc_letter_to_ree','CODepartment\COController@approveconsentOctoRee')->name('co.issue_oc_letter_to_ree');
 Route::get('co-forward-application-oc/{id}','CODepartment\COController@forwardOcApplication')->name('co-forward-application-oc');
 Route::post('save_forward_oc_Application','CODepartment\COController@sendForwardOcApplication')->name('co.forward_oc_application_data');
+
+
+
+
+//import the societies.
+
+Route::get('import',function() {
+    return view('admin.import');
+});
+Route::post('importSociety','ImportController@import');

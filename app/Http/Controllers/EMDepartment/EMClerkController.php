@@ -153,17 +153,18 @@ class EMClerkController extends Controller
           
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
           
-            $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('master_tenants.building_id', '=', decrypt($request->building))->selectRaw('@rownum  := @rownum  + 1 AS rownum, master_tenants.*, arrear_calculation.payment_status,arrear_calculation.total_amount ,master_tenants.id as mtid,arrear_calculation.id as acid')->groupBy(['tenant_id','building_id','society_id']);
-
+            $tenant = MasterTenant::with('arrear')->where('master_tenants.building_id', '=', decrypt($request->building))->selectRaw('@rownum  := @rownum  + 1 AS rownum, master_tenants.*,master_tenants.id as mtid');
+            // print_r($tenant);exit;
             return $datatables->of($tenant)
             ->editColumn('payment_status', function ($tenant){
-                if($tenant->payment_status == null){
+                if(!empty($tenant->arrear->last()) &&  $tenant->arrear->last()->payment_status == null){
                      return 'Not Calculated';
-                } elseif ($tenant->payment_status == 0) {
+                } elseif (!empty($tenant->arrear->last()) &&  $tenant->arrear->last()->payment_status == 0) {
                      return 'Not Paid';
-                } elseif ($tenant->payment_status == 1) {
+                } elseif (!empty($tenant->arrear->last()) &&  $tenant->arrear->last()->payment_status == 1) {
                     return 'Paid';
-                }                               
+                }    
+                
             })
             ->editColumn('total_amount', function ($tenant){
                 if($tenant->total_amount == null){

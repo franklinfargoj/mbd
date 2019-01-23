@@ -308,11 +308,7 @@
                 "php",
                 "queryobject"
             ],
-<<<<<<< HEAD
             "time": "2018-12-31T03:27:51+00:00"
-=======
-            "time": "2018-12-14T04:51:13+00:00"
->>>>>>> Bhavna_DYCE_Application
         },
         {
             "name": "doctrine/event-manager",
@@ -573,11 +569,7 @@
             ],
             "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
             "homepage": "https://github.com/dompdf/dompdf",
-<<<<<<< HEAD
             "time": "2018-12-14T02:40:31+00:00"
-=======
-            "time": "2017-11-26T14:49:08+00:00"
->>>>>>> Bhavna_DYCE_Application
         },
         {
             "name": "dragonmantank/cron-expression",
@@ -733,16 +725,16 @@
         },
         {
             "name": "fideloper/proxy",
-            "version": "4.0.0",
+            "version": "4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fideloper/TrustedProxy.git",
-                "reference": "cf8a0ca4b85659b9557e206c90110a6a4dba980a"
+                "reference": "177c79a2d1f9970f89ee2fb4c12b429af38b6dfb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fideloper/TrustedProxy/zipball/cf8a0ca4b85659b9557e206c90110a6a4dba980a",
-                "reference": "cf8a0ca4b85659b9557e206c90110a6a4dba980a",
+                "url": "https://api.github.com/repos/fideloper/TrustedProxy/zipball/177c79a2d1f9970f89ee2fb4c12b429af38b6dfb",
+                "reference": "177c79a2d1f9970f89ee2fb4c12b429af38b6dfb",
                 "shasum": ""
             },
             "require": {
@@ -783,7 +775,7 @@
                 "proxy",
                 "trusted proxy"
             ],
-            "time": "2018-02-07T20:20:57+00:00"
+            "time": "2019-01-10T14:06:47+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -1494,16 +1486,16 @@
         },
         {
             "name": "mpdf/mpdf",
-            "version": "v7.1.7",
+            "version": "v7.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mpdf/mpdf.git",
-                "reference": "ac60286a7dc5250c293afebd2bd9414e58a02466"
+                "reference": "5a124ed382cf9241597c7ba12f98a756daa7f8df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mpdf/mpdf/zipball/ac60286a7dc5250c293afebd2bd9414e58a02466",
-                "reference": "ac60286a7dc5250c293afebd2bd9414e58a02466",
+                "url": "https://api.github.com/repos/mpdf/mpdf/zipball/5a124ed382cf9241597c7ba12f98a756daa7f8df",
+                "reference": "5a124ed382cf9241597c7ba12f98a756daa7f8df",
                 "shasum": ""
             },
             "require": {
@@ -1558,7 +1550,7 @@
                 "php",
                 "utf-8"
             ],
-            "time": "2018-11-29T18:21:32+00:00"
+            "time": "2019-01-08T11:38:17+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -1663,16 +1655,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.1.1",
+            "version": "v4.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "8aae5b59b83bb4d0dbf07b0a835f2680a658f610"
+                "reference": "594bcae1fc0bccd3993d2f0d61a018e26ac2865a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/8aae5b59b83bb4d0dbf07b0a835f2680a658f610",
-                "reference": "8aae5b59b83bb4d0dbf07b0a835f2680a658f610",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/594bcae1fc0bccd3993d2f0d61a018e26ac2865a",
+                "reference": "594bcae1fc0bccd3993d2f0d61a018e26ac2865a",
                 "shasum": ""
             },
             "require": {
@@ -1688,7 +1680,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.1-dev"
+                    "dev-master": "4.2-dev"
                 }
             },
             "autoload": {
@@ -1710,7 +1702,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2018-10-10T09:24:14+00:00"
+            "time": "2019-01-12T16:31:37+00:00"
         },
         {
             "name": "niklasravnsborg/laravel-pdf",
@@ -2523,11 +2515,7 @@
                 "pdf",
                 "php"
             ],
-<<<<<<< HEAD
             "time": "2019-01-04T09:47:31+00:00"
-=======
-            "time": "2016-04-22T09:30:57+00:00"
->>>>>>> Bhavna_DYCE_Application
         },
         {
             "name": "sabberworm/php-css-parser",
@@ -2748,11 +2736,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-<<<<<<< HEAD
             "time": "2019-01-04T15:13:53+00:00"
-=======
-            "time": "2018-11-27T07:40:44+00:00"
->>>>>>> Bhavna_DYCE_Application
         },
         {
             "name": "symfony/contracts",
@@ -2873,11 +2857,7 @@
             ],
             "description": "Symfony CssSelector Component",
             "homepage": "https://symfony.com",
-<<<<<<< HEAD
             "time": "2019-01-03T09:07:35+00:00"
-=======
-            "time": "2018-11-11T19:52:12+00:00"
->>>>>>> Bhavna_DYCE_Application
         },
         {
             "name": "symfony/debug",
@@ -2933,11 +2913,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-<<<<<<< HEAD
             "time": "2019-01-03T09:07:35+00:00"
-=======
-            "time": "2018-11-28T18:24:18+00:00"
->>>>>>> Bhavna_DYCE_Application
         },
         {
             "name": "symfony/event-dispatcher",
@@ -3001,11 +2977,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-<<<<<<< HEAD
             "time": "2019-01-05T16:37:49+00:00"
-=======
-            "time": "2018-12-01T08:52:38+00:00"
->>>>>>> Bhavna_DYCE_Application
         },
         {
             "name": "symfony/finder",
@@ -3054,11 +3026,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-<<<<<<< HEAD
             "time": "2019-01-03T09:07:35+00:00"
-=======
-            "time": "2018-11-11T19:52:12+00:00"
->>>>>>> Bhavna_DYCE_Application
         },
         {
             "name": "symfony/http-foundation",
@@ -3112,11 +3080,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
-<<<<<<< HEAD
             "time": "2019-01-05T16:37:49+00:00"
-=======
-            "time": "2018-11-26T10:55:26+00:00"
->>>>>>> Bhavna_DYCE_Application
         },
         {
             "name": "symfony/http-kernel",
@@ -3205,11 +3169,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
-<<<<<<< HEAD
             "time": "2019-01-06T16:19:23+00:00"
-=======
-            "time": "2018-12-06T17:39:52+00:00"
->>>>>>> Bhavna_DYCE_Application
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -3256,7 +3216,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -3538,11 +3498,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-<<<<<<< HEAD
             "time": "2019-01-03T14:48:52+00:00"
-=======
-            "time": "2018-11-20T16:22:05+00:00"
->>>>>>> Bhavna_DYCE_Application
         },
         {
             "name": "symfony/routing",
@@ -3619,11 +3575,7 @@
                 "uri",
                 "url"
             ],
-<<<<<<< HEAD
             "time": "2019-01-03T09:07:35+00:00"
-=======
-            "time": "2018-12-03T22:08:12+00:00"
->>>>>>> Bhavna_DYCE_Application
         },
         {
             "name": "symfony/translation",
@@ -3696,11 +3648,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-<<<<<<< HEAD
             "time": "2019-01-03T09:07:35+00:00"
-=======
-            "time": "2018-12-06T10:45:32+00:00"
->>>>>>> Bhavna_DYCE_Application
         },
         {
             "name": "symfony/var-dumper",
@@ -3776,11 +3724,7 @@
                 "debug",
                 "dump"
             ],
-<<<<<<< HEAD
             "time": "2019-01-03T09:07:35+00:00"
-=======
-            "time": "2018-11-25T12:50:42+00:00"
->>>>>>> Bhavna_DYCE_Application
         },
         {
             "name": "thytanium/captcha",
@@ -3968,11 +3912,7 @@
                 "env",
                 "environment"
             ],
-<<<<<<< HEAD
             "time": "2018-10-30T17:29:25+00:00"
-=======
-            "time": "2018-07-29T20:33:41+00:00"
->>>>>>> Bhavna_DYCE_Application
         },
         {
             "name": "yajra/laravel-datatables-html",
@@ -4102,11 +4042,7 @@
                 "jquery",
                 "laravel"
             ],
-<<<<<<< HEAD
             "time": "2019-01-05T02:12:47+00:00"
-=======
-            "time": "2018-11-23T08:05:22+00:00"
->>>>>>> Bhavna_DYCE_Application
         },
         {
             "name": "zendframework/zend-escaper",
@@ -5068,16 +5004,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.5.1",
+            "version": "7.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "c23d78776ad415d5506e0679723cb461d71f488f"
+                "reference": "7c89093bd00f7d5ddf0ab81dee04f801416b4944"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c23d78776ad415d5506e0679723cb461d71f488f",
-                "reference": "c23d78776ad415d5506e0679723cb461d71f488f",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/7c89093bd00f7d5ddf0ab81dee04f801416b4944",
+                "reference": "7c89093bd00f7d5ddf0ab81dee04f801416b4944",
                 "shasum": ""
             },
             "require": {
@@ -5148,7 +5084,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-12-12T07:20:32+00:00"
+            "time": "2019-01-15T08:19:08+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -5802,11 +5738,7 @@
                 "check",
                 "validate"
             ],
-<<<<<<< HEAD
             "time": "2018-12-25T11:19:39+00:00"
-=======
-            "time": "2018-01-29T19:49:41+00:00"
->>>>>>> Bhavna_DYCE_Application
         }
     ],
     "aliases": [],

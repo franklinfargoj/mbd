@@ -116,6 +116,23 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
             $data->save();
         }
 
+        //Appellate role
+        $Rti_role_id =Role::where('name','RTI_Appellate')->value('id');
+        if($Rti_role_id){
+            $data = Role::findOrFail($Rti_role_id);
+            $data->dashboard ='/rti-dashboard';
+            $data->redirect_to ='/rti_applicants';
+            $data->save();
+        }
+        //Rti role
+        $Appellate_role_id =Role::where('name','RTI')->value('id');
+        if($Appellate_role_id){
+            $data = Role::findOrFail($Appellate_role_id);
+            $data->dashboard ='/rti-dashboard';
+            $data->redirect_to ='/rti_applicants';
+            $data->save();
+        }
+
         // Changing dashboard route of ree role to '/ree_dashboard'
 
         $ree_head_role_id = Role::where('name', '=', 'ree_engineer')->value('id');
@@ -255,7 +272,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         // RTI Manager
         $rti_manager = Role::where('name', 'RTI')->value('id');
         if($rti_manager)
-            Role::where('id',$rti_manager)->update(['dashboard' => '/rti_applicants']);
+            Role::where('id',$rti_manager)->update(['dashboard' => '/rti-dashboard']);
 
         // Sap
         $sap = Role::where('name' , 'senior_architect_planner')->value('id');

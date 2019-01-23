@@ -184,13 +184,13 @@ class DYCEController extends Controller
     }
 
     // EE - Scrutiny & Remark page
-    public function eeScrutinyRemark(Request $request,$applicationId){
+    // public function eeScrutinyRemark(Request $request,$applicationId){
 
-        $applicationId = decrypt($applicationId);
-        $ol_application = $this->CommonController->getOlApplication($applicationId);
-        $eeScrutinyData = $this->CommonController->getEEScrutinyRemark($applicationId);
-        return view('admin.DYCE_department.EE_Scrutiny_Remark',compact('eeScrutinyData','ol_application'));
-    }
+    //     $applicationId = decrypt($applicationId);
+    //     $ol_application = $this->CommonController->getOlApplication($applicationId);
+    //     $eeScrutinyData = $this->CommonController->getEEScrutinyRemark($applicationId);
+    //     return view('admin.DYCE_department.EE_Scrutiny_Remark',compact('eeScrutinyData','ol_application'));
+    // } 
 
     // Forward Application page
     public function forwardApplication(Request $request, $applicationId){

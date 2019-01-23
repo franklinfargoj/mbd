@@ -7,18 +7,24 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Common\CommonController;
 use App\OlApplication;
 use App\Role;
+use App\OlApplicationStatus;
 
 class TripartiteDashboardController extends Controller
 {
     public function __construct()
     {
         $this->CommonController = new CommonController();
-        $this->list_num_of_records_per_page = config('commanConfig.list_num_of_records_per_page');
-        $this->society_level_billing = config('commanConfig.SOCIETY_LEVEL_BILLING');
     }
 
 
 
+    /*
+     * Function for getting dashboard headders along with counts
+     *
+     * Author: Amar Prajapati.
+     *
+     * @return array
+     */
     public function getDashboardHeaders(){
         $role_id = session()->get('role_id');
 
@@ -51,23 +57,78 @@ class TripartiteDashboardController extends Controller
         }
 
         $dashboardData_head = NULL;
-
-        if($role_id == $reeHeadId){
-            $dashboardData_head = $this->CommonController->getTotalCountsOfApplicationsPending();
+        if($role_id == $reeHeadId || in_array(auth()->user()->role_id, $co) == true){
+            $dashboardData_head = $this->getTotalCountsOfApplicationsPending();
         }
-        //Noc dashboard -- Sayan
 
-//        $nocModuleController = new SocietyNocController();
-//        $nocApplication = $nocModuleController->getApplicationListDashboard('REE');
-
-//        dd($dashboardData);
-        //Noc for CC dashboard -- Sayan
-
-//        $nocforCCModuleController = new SocietyNocforCCController();
-//        $nocforCCApplication = $nocforCCModuleController->getApplicationListDashboard('REE');
         return view('admin.REE_department.dashboard',compact('dashboardData','dashboardData_head'));
     }
 
+    /*
+     * Function for getting counts of pending applicatons
+     *
+     * Author: Amar Prajapati.
+     *
+     * @return array
+     */
+    public function getTotalCountsOfApplicationsPending(){
+
+        $coRoleData = $this->CommonController->getCORoles();
+        $laRoleData = $this->CommonController->getLARoles();
+        $reeRoleData = $this->CommonController->getREERoles();
+
+        $roles = Role::whereIn('name',[config('commanConfig.co_engineer'), config('commanConfig.legal_advisor')])->pluck('id','name');
+
+        $new_tripartite_master_ids = config('commanConfig.tripartite_master_ids');
+        $coTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($new_tripartite_master_ids){
+            $q->whereIn('application_master_id', $new_tripartite_master_ids);
+        })->where('is_active', 1)
+            ->where('status_id',config('commanConfig.applicationStatus.in_process'))
+            ->whereIn('role_id',$coRoleData)
+            ->get()->count();
+
+        $laTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($new_tripartite_master_ids){
+            $q->whereIn('application_master_id', $new_tripartite_master_ids);
+        })->where('is_active', 1)
+            ->where('status_id',config('commanConfig.applicationStatus.in_process'))
+            ->whereIn('role_id',$laRoleData)
+            ->get()->count();
+
+        $reeTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($new_tripartite_master_ids){
+            $q->whereIn('application_master_id', $new_tripartite_master_ids);
+        })->where('is_active', 1)
+            ->where('status_id', config('commanConfig.applicationStatus.in_process'))
+            ->whereIn('role_id', $reeRoleData)
+            ->get()->count();
+
+        $societyTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) {
+            $q->where('is_reverted_to_society', 0)
+                ->whereIn('current_status_id', [config('commanConfig.applicationStatus.sent_for_stamp_duty_registration'), config('commanConfig.applicationStatus.approved_tripartite_agreement')]);
+        })->where('is_active', 1)
+            ->whereIn('status_id', [config('commanConfig.applicationStatus.pending'), config('commanConfig.applicationStatus.approved_tripartite_agreement')])
+            ->where('society_flag', 1)
+            ->get()->count();
+
+        $totalPendingApplications = $coTotalPendingCount + $laTotalPendingCount + $reeTotalPendingCount + $societyTotalPendingCount;
+
+
+        $dashboardData1 = array();
+        $dashboardData1['Total Number of Applications Pending'] = $totalPendingApplications;
+        $dashboardData1['Applications Pending at LA'] = $laTotalPendingCount;
+        $dashboardData1['Applications Pending at REE'] = $reeTotalPendingCount;
+        $dashboardData1['Applications Pending at CO'] = $coTotalPendingCount;
+        $dashboardData1['Applications sent to Society'] = $societyTotalPendingCount;
+
+        return $dashboardData1;
+    }
+
+    /*
+     * Function for getting application data
+     *
+     * Author: Amar Prajapati.
+     *
+     * @return array
+     */
     public function getApplicationData($role_id,$user_id){
 
         $new_offer_letter_master_ids = config('commanConfig.tripartite_master_ids');
@@ -91,6 +152,13 @@ class TripartiteDashboardController extends Controller
     }
 
 
+    /*
+     * Function for getting all the counts as per status
+     *
+     * Author: Amar Prajapati.
+     *
+     * @return array
+     */
     public function getApplicationStatusCount($applicationData){
 
         $totalForwarded = $totalReverted = $totalPending = $totalInProcess = $inProcess = $send_for_compliance = 0 ;
@@ -119,8 +187,8 @@ class TripartiteDashboardController extends Controller
                 switch ( $status )
                 {
                     case config('commanConfig.applicationStatus.in_process'): $totalPending += 1; $tripartiteagreementGeneration += 1; break;
-                    case (config('commanConfig.applicationStatus.forwarded') /*&& $application['drafted_offer_letter']*/) : ($application['ol_application_status'][0]['get_role_name']['name'] == config('commanConfig.legal_advisor'))? $totalTripartitieAgreementforwardtoLA +=1 : $totalForwarded +=1 ; $totalTripartitieAgreementSentForApproval += 1; break;
-                    case config('commanConfig.applicationStatus.approved_tripartite_agreement') : $totalDraftTripartitieAgreementGenereated += 1 ; break;
+                    case (config('commanConfig.applicationStatus.forwarded') /*&& $application['drafted_offer_letter']*/) : ($application['ol_application_status'][0]['get_role_name']['name'] == config('commanConfig.co_engineer'))? $totalTripartitieAgreementforwardtoLA +=1 : $totalTripartitieAgreementSentForApproval += 1; break;
+                    case config('commanConfig.applicationStatus.approved_tripartite_agreement') : ($application['is_approve_offer_letter'] == 1)? $tripartitieagreementIssuedToSociety +=1 : $tripartitieagreementApprovedNotIssuedToSociety += 1 ; break;
                     case config('commanConfig.applicationStatus.sent_for_stamp_duty_registration'): $send_for_compliance += 1 ; break;
                     default:
                         ; break;
@@ -149,12 +217,18 @@ class TripartiteDashboardController extends Controller
             ],
         ];
 
-//        dd($count);
         return $count;
 
     }
 
 
+    /*
+     * Function for getting REE dashboard headers alongwith the counts
+     *
+     * Author: Amar Prajapati.
+     *
+     * @return array
+     */
     public function getREEDashboardData($role_id, $ree, $statusCount)
     {
         switch ($role_id) {
@@ -169,17 +243,20 @@ class TripartiteDashboardController extends Controller
                 $dashboardData['Proposals Sent For Approval to REE Deputy'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 
                 $dashboardData['Draft Tripartite Agreement Generated'][0] = $statusCount['totalDraftTripartitieAgreementGenereated'];
-                $dashboardData['Draft Tripartite Agreement Generated'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.draft_tripartite_generated');
+                $dashboardData['Draft Tripartite Agreement Generated'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.draft_tripartite_agreement');
 
                 $dashboardData['Tripartite Agreement Sent for Approval to REE Deputy'][0] = $statusCount['totalTripartitieAgreementSentForApproval'];
 //                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
                 $dashboardData['Tripartite Agreement Sent for Approval to REE Deputy'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 
                 $dashboardData['Tripartite Agreement Approved but Not Issued to Society'][0] = $statusCount['tripartitieagreementApprovedNotIssuedToSociety'];
-                $dashboardData['Tripartite Agreement Approved but Not Issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.draft_tripartite_approved');
+                $dashboardData['Tripartite Agreement Approved but Not Issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.approved_tripartite_agreement');
 
                 $dashboardData['Tripartite Agreement Forwarded for Issuing to Society'][0] = $statusCount['tripartitieagreementForwardedForIssueingToSociety'];
                 $dashboardData['Tripartite Agreement Forwarded for Issuing to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+
+                $dashboardData['Tripartite Agreement Approved'][0] = $statusCount['tripartitieagreementIssuedToSociety'];
+                $dashboardData['Tripartite Agreement Approved'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.approved_tripartite_agreement');
 
                 break;
             case ($ree['REE deputy Engineer']):
@@ -193,16 +270,19 @@ class TripartiteDashboardController extends Controller
                 $dashboardData['Proposals Sent For Approval to REE Assistant'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 
                 $dashboardData['Draft Tripartite Agreement Generated'][0] = $statusCount['totalDraftTripartitieAgreementGenereated'];
-                $dashboardData['Draft Tripartite Agreement Generated'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.draft_tripartite_generated');
+                $dashboardData['Draft Tripartite Agreement Generated'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.draft_tripartite_agreement');
 
                 $dashboardData['Tripartite Agreement Sent for Approval to REE Assistant'][0] = $statusCount['totalTripartitieAgreementSentForApproval'];
                 $dashboardData['Tripartite Agreement Sent for Approval to REE Assistant'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 
                 $dashboardData['Tripartite Agreement Approved but Not Issued to Society'][0] = $statusCount['tripartitieagreementApprovedNotIssuedToSociety'];
-                $dashboardData['Tripartite Agreement Approved but Not Issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.draft_tripartite_approved');
+                $dashboardData['Tripartite Agreement Approved but Not Issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.approved_tripartite_agreement');
 
                 $dashboardData['Tripartite Agreement Forwarded for Issuing to Society'][0] = $statusCount['tripartitieagreementForwardedForIssueingToSociety'];
                 $dashboardData['Tripartite Agreement Forwarded for Issuing to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+
+                $dashboardData['Tripartite Agreement Approved'][0] = $statusCount['tripartitieagreementIssuedToSociety'];
+                $dashboardData['Tripartite Agreement Approved'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.approved_tripartite_agreement');
 
                 break;
             case ($ree['REE Assistant Engineer']):
@@ -216,17 +296,20 @@ class TripartiteDashboardController extends Controller
                 $dashboardData['Proposals Sent For Approval to REE Head'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 
                 $dashboardData['Draft Tripartite Agreement Generated'][0] = $statusCount['totalDraftTripartitieAgreementGenereated'];
-                $dashboardData['Draft Tripartite Agreement Generated'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.draft_tripartite_generated');
+                $dashboardData['Draft Tripartite Agreement Generated'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.draft_tripartite_agreement');
 
                 $dashboardData['Tripartite Agreement Sent for Approval to REE Head'][0] = $statusCount['totalTripartitieAgreementSentForApproval'];
 //                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
                 $dashboardData['Tripartite Agreement Sent for Approval to REE Head'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 
                 $dashboardData['Tripartite Agreement Approved but Not Issued to Society'][0] = $statusCount['tripartitieagreementApprovedNotIssuedToSociety'];
-                $dashboardData['Tripartite Agreement Approved but Not Issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.draft_tripartite_approved');
+                $dashboardData['Tripartite Agreement Approved but Not Issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.approved_tripartite_agreement');
 
                 $dashboardData['Tripartite Agreement Forwarded for Issuing to Society'][0] = $statusCount['tripartitieagreementForwardedForIssueingToSociety'];
                 $dashboardData['Tripartite Agreement Forwarded for Issuing to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+
+                $dashboardData['Tripartite Agreement Approved'][0] = $statusCount['tripartitieagreementIssuedToSociety'];
+                $dashboardData['Tripartite Agreement Approved'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.approved_tripartite_agreement');
 
                 break;
             case ($ree['ree_engineer']):
@@ -243,17 +326,20 @@ class TripartiteDashboardController extends Controller
                 $dashboardData['Proposals Sent For Approval to CO'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 
                 $dashboardData['Draft Tripartite Agreement Generated'][0] = $statusCount['totalDraftTripartitieAgreementGenereated'];
-                $dashboardData['Draft Tripartite Agreement Generated'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.draft_tripartite_generated');
+                $dashboardData['Draft Tripartite Agreement Generated'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.draft_tripartite_agreement');
 
                 $dashboardData['Tripartite Agreement Sent for Approval to CO'][0] = $statusCount['totalTripartitieAgreementSentForApproval'];
 //                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
                 $dashboardData['Tripartite Agreement Sent for Approval to CO'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 
                 $dashboardData['Tripartite Agreement Approved but Not Issued to Society'][0] = $statusCount['tripartitieagreementApprovedNotIssuedToSociety'];
-                $dashboardData['Tripartite Agreement Approved but Not Issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.draft_tripartite_approved');
+                $dashboardData['Tripartite Agreement Approved but Not Issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.approved_tripartite_agreement');
 
                 $dashboardData['Tripartite Agreement Forwarded for Issuing to Society'][0] = $statusCount['tripartitieagreementForwardedForIssueingToSociety'];
                 $dashboardData['Tripartite Agreement Forwarded for Issuing to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+
+                $dashboardData['Tripartite Agreement Approved'][0] = $statusCount['tripartitieagreementIssuedToSociety'];
+                $dashboardData['Tripartite Agreement Approved'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.approved_tripartite_agreement');
 
                 break;
             default:
@@ -266,6 +352,13 @@ class TripartiteDashboardController extends Controller
         return $dashboardData;
     }
 
+    /*
+     * Function for getting CO dashboard headers alongwith the counts
+     *
+     * Author: Amar Prajapati.
+     *
+     * @return array
+     */
     public function getCODashboardData($role_id, $ree, $statusCount)
     {
         $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
@@ -275,17 +368,19 @@ class TripartiteDashboardController extends Controller
         $dashboardData['Applications Pending'][1] = 'pending';
 
         $dashboardData['Proposals Sent For Approval'][0] = $statusCount['totalForwarded'];
-        $dashboardData['Proposals Sent For Approval'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+        $dashboardData['Proposals Sent For Approval'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
 
         $dashboardData['Draft Tripartite Agreement Generated'][0] = $statusCount['totalDraftTripartitieAgreementGenereated'];
-        $dashboardData['Draft Tripartite Agreement Generated'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.draft_tripartite_generated');
+        $dashboardData['Draft Tripartite Agreement Generated'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.draft_tripartite_agreement');
 
         $dashboardData['Tripartite Agreement forwarded to LA'][0] = $statusCount['tripartitie_agreement_forward_to_la'];
         $dashboardData['Tripartite Agreement forwarded to LA'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 
         $dashboardData['Agreement Approved'][0] = $statusCount['tripartitieagreementApprovedNotIssuedToSociety'];
-        $dashboardData['Agreement Approved'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.draft_tripartite_approved');
+        $dashboardData['Agreement Approved'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.approved_tripartite_agreement');
 
+        $dashboardData['Tripartite Agreement Approved but Not Issued to Society'][0] = $statusCount['tripartitieagreementApprovedNotIssuedToSociety'];
+        $dashboardData['Tripartite Agreement Approved but Not Issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.approved_tripartite_agreement');
 //        $dashboardData['Tripartite Agreement Forwarded for Issuing to Society'][0] = $statusCount['tripartitieagreementForwardedForIssueingToSociety'];
 //        $dashboardData['Tripartite Agreement Forwarded for Issuing to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 
@@ -294,6 +389,13 @@ class TripartiteDashboardController extends Controller
         return $dashboardData;
     }
 
+    /*
+     * Function for getting LA dashboard headers alongwith the counts
+     *
+     * Author: Amar Prajapati.
+     *
+     * @return array
+     */
     public function getLADashboardData($role_id, $ree, $statusCount)
     {
         $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];

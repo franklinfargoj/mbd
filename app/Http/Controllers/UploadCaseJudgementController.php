@@ -10,6 +10,9 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use File;
 use Illuminate\Support\Facades\Auth;
+use App\RtiDepartmentUser;
+use App\Http\Controllers\HearingController;
+use App\Http\Controllers\Common\CommonController;
 use Storage;
 
 class UploadCaseJudgementController extends Controller
@@ -37,16 +40,18 @@ class UploadCaseJudgementController extends Controller
     public function create($id)
     {
         $id = decrypt($id);
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
         $header_data = $this->header_data;
-        $arrData['hearing_data'] = Hearing::with(['hearingStatus', 'hearingPrePostSchedule', 'hearingApplicationType', 'hearingStatusLog' => function($q){
-            $q->where('user_id', Auth::user()->id)
-                ->where('role_id', session()->get('role_id'));
+        $arrData['hearing_data'] = Hearing::with(['hearingStatus', 'hearingPrePostSchedule', 'hearingApplicationType', 'hearingStatusLog' => function($q) use($department_id){
+            $q->where('department_id', $department_id);
         }])
             ->where('id', $id)
             ->first();
         $hearing_data = $arrData['hearing_data'];
+        $HearingController = new HearingController();
+        $hearingLogs = $HearingController->getHearingLogs($id);        
 //        dd($hearing_data);
-        return view('admin.upload_case_judgement.add', compact('header_data', 'arrData', 'hearing_data'));
+        return view('admin.upload_case_judgement.add', compact('header_data', 'arrData', 'hearing_data','hearingLogs'));
     }
 
     /**
@@ -63,6 +68,7 @@ class UploadCaseJudgementController extends Controller
         ]);
 
         $data = [
+            'user_id' => Auth::user()->id,
             'hearing_id' => $request->hearing_id,
             'description' => $request->description,
             'case_year' => $request->case_year,
@@ -74,7 +80,14 @@ class UploadCaseJudgementController extends Controller
             $extension = $request->file('upload_judgement_case')->getClientOriginalExtension();
             if ($extension == "pdf") {
                 $name = File::name($request->file('upload_judgement_case')->getClientOriginalName()) . '_' . $time . '.' . $extension;
-                $path = Storage::putFileAs('/upload_judgement_case', $request->file('upload_judgement_case'), $name, 'public');
+                // $path = Storage::putFileAs('/upload_judgement_case', $request->file('upload_judgement_case'), $name, 'public');
+                
+                $folder_name = 'upload_judgement_case';
+                $file = $request->file('upload_judgement_case');
+
+                $CommonController = new CommonController();
+                $path = $CommonController->ftpFileUpload($folder_name,$file,$name);
+
                 $data['upload_judgement_case'] = $path;
                 $data['judgement_case_filename'] = File::name($request->file('upload_judgement_case')->getClientOriginalName()). '.' . $extension;
             } else {
@@ -84,6 +97,7 @@ class UploadCaseJudgementController extends Controller
         }
         UploadCaseJudgement::create($data);
 
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
         $parent_role_id = User::where('role_id', session()->get('parent'))->first();
 
         $child_role_id = User::where('role_id', session()->get('child'))->first();
@@ -101,23 +115,24 @@ class UploadCaseJudgementController extends Controller
                 'hearing_id' => $request->hearing_id,
                 'user_id' => Auth::user()->id,
                 'role_id' => session()->get('role_id'),
-                'hearing_status_id' => ($request->close_case == 1) ? config('commanConfig.hearingStatus.case_closed') : config('commanConfig.hearingStatus.case_under_judgement'),
-                'to_user_id' => NULL,
-                'to_role_id' => NULL,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ],
-
-            [
-                'hearing_id' => $request->hearing_id,
-                'user_id' => $user_id,
-                'role_id' => session()->get($session_key),
+                'department_id' => $department_id,
                 'hearing_status_id' => ($request->close_case == 1) ? config('commanConfig.hearingStatus.case_closed') : config('commanConfig.hearingStatus.case_under_judgement'),
                 'to_user_id' => NULL,
                 'to_role_id' => NULL,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]
+
+            // [
+            //     'hearing_id' => $request->hearing_id,
+            //     'user_id' => $user_id,
+            //     'role_id' => session()->get($session_key),
+            //     'hearing_status_id' => ($request->close_case == 1) ? config('commanConfig.hearingStatus.case_closed') : config('commanConfig.hearingStatus.case_under_judgement'),
+            //     'to_user_id' => NULL,
+            //     'to_role_id' => NULL,
+            //     'created_at' => Carbon::now(),
+            //     'updated_at' => Carbon::now()
+            // ]
         ];
 
         HearingStatusLog::insert($hearing_status_log);
@@ -145,10 +160,10 @@ class UploadCaseJudgementController extends Controller
     public function edit($id)
     {
         $id = decrypt($id);
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
         $header_data = $this->header_data;
-        $arrData['hearing_data'] = Hearing::with(['hearingStatus', 'hearingPrePostSchedule', 'hearingApplicationType', 'hearingStatusLog' => function($q){
-            $q->where('user_id', Auth::user()->id)
-                ->where('role_id', session()->get('role_id'));
+        $arrData['hearing_data'] = Hearing::with(['hearingStatus', 'hearingPrePostSchedule', 'hearingApplicationType', 'hearingStatusLog' => function($q) use($department_id){
+            $q->where('department_id', $department_id);
         }])
             ->where('id', $id)
             ->first();
@@ -156,7 +171,10 @@ class UploadCaseJudgementController extends Controller
         $arrData['hearing_status'] = HearingStatusLog::where('hearing_id', $id)->orderBy('id', 'desc')->first();
         $hearing_data = $arrData['hearing_data'];
 
-        return view('admin.upload_case_judgement.edit', compact('header_data', 'arrData', 'hearing_data'));
+        $HearingController = new HearingController();
+        $hearingLogs = $HearingController->getHearingLogs($id);         
+
+        return view('admin.upload_case_judgement.edit', compact('header_data', 'arrData', 'hearing_data','hearingLogs'));
     }
 
     /**
@@ -173,6 +191,7 @@ class UploadCaseJudgementController extends Controller
         ]);
 
         $data = [
+            'user_id' => Auth::user()->id,
             'hearing_id' => $request->hearing_id,
             'description' => $request->description,
             'case_year' => $request->case_year,
@@ -184,7 +203,13 @@ class UploadCaseJudgementController extends Controller
             $extension = $request->file('upload_judgement_case')->getClientOriginalExtension();
             if ($extension == "pdf") {
                 $name = File::name($request->file('upload_judgement_case')->getClientOriginalName()) . '_' . $time . '.' . $extension;
-                $path = Storage::putFileAs('/upload_judgement_case', $request->file('upload_judgement_case'), $name, 'public');
+                // $path = Storage::putFileAs('/upload_judgement_case', $request->file('upload_judgement_case'), $name, 'public');
+                $folder_name = 'upload_judgement_case';
+                $file = $request->file('upload_judgement_case');
+
+                $CommonController = new CommonController();
+                $path = $CommonController->ftpFileUpload($folder_name,$file,$name);
+
                 $data['upload_judgement_case'] = $path;
                 $data['judgement_case_filename'] = File::name($request->file('upload_judgement_case')->getClientOriginalName()). '.' . $extension;
             } else {
@@ -199,7 +224,7 @@ class UploadCaseJudgementController extends Controller
         }
 
         UploadCaseJudgement::create($data);
-
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
         $parent_role_id = User::where('role_id', session()->get('parent'))->first();
 
         $child_role_id = User::where('role_id', session()->get('child'))->first();
@@ -217,6 +242,7 @@ class UploadCaseJudgementController extends Controller
                 'hearing_id' => $request->hearing_id,
                 'user_id' => Auth::user()->id,
                 'role_id' => session()->get('role_id'),
+                'department_id' => $department_id,
                 'hearing_status_id' => ($request->close_case == 1) ? config('commanConfig.hearingStatus.case_closed') : config('commanConfig.hearingStatus.case_under_judgement'),
                 'to_user_id' => NULL,
                 'to_role_id' => NULL,
@@ -224,16 +250,16 @@ class UploadCaseJudgementController extends Controller
                 'updated_at' => Carbon::now()
             ],
 
-            [
-                'hearing_id' => $request->hearing_id,
-                'user_id' => $user_id,
-                'role_id' => session()->get($session_key),
-                'hearing_status_id' => ($request->close_case == 1) ? config('commanConfig.hearingStatus.case_closed') : config('commanConfig.hearingStatus.case_under_judgement'),
-                'to_user_id' => NULL,
-                'to_role_id' => NULL,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ]
+            // [
+            //     'hearing_id' => $request->hearing_id,
+            //     'user_id' => $user_id,
+            //     'role_id' => session()->get($session_key),
+            //     'hearing_status_id' => ($request->close_case == 1) ? config('commanConfig.hearingStatus.case_closed') : config('commanConfig.hearingStatus.case_under_judgement'),
+            //     'to_user_id' => NULL,
+            //     'to_role_id' => NULL,
+            //     'created_at' => Carbon::now(),
+            //     'updated_at' => Carbon::now()
+            // ]
         ];
         HearingStatusLog::insert($hearing_status_log);
 //
