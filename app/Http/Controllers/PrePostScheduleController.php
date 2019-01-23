@@ -49,8 +49,10 @@ class PrePostScheduleController extends Controller
             ->where('id', $id)
             ->first();
         $hearing_data = $arrData['hearing_data'];
+        $HearingController = new HearingController();
+        $hearingLogs = $HearingController->getHearingLogs($id);
 //        dd($hearing_data->id);
-        return view('admin.prepost_schedule.add', compact('header_data', 'arrData', 'hearing_data'));
+        return view('admin.prepost_schedule.add', compact('hearingLogs','header_data', 'arrData', 'hearing_data'));
     }
 
     /**

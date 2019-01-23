@@ -1282,3 +1282,13 @@ Route::get('approve_consent_oc/{id}','CODepartment\COController@approveConsentfo
 Route::post('issue_oc_letter_to_ree','CODepartment\COController@approveconsentOctoRee')->name('co.issue_oc_letter_to_ree');
 Route::get('co-forward-application-oc/{id}','CODepartment\COController@forwardOcApplication')->name('co-forward-application-oc');
 Route::post('save_forward_oc_Application','CODepartment\COController@sendForwardOcApplication')->name('co.forward_oc_application_data');
+
+
+
+
+//import the societies.
+
+Route::get('import',function() {
+    return view('admin.import');
+});
+Route::post('importSociety','ImportController@import');

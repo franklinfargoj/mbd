@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Repositories\RtiFormModel;
 use Illuminate\Http\Request;
 use App\MasterRtiStatus;
+use App\RtiForm;
+use DB;
 
 class RtiReportController extends Controller
 {
@@ -21,6 +23,7 @@ class RtiReportController extends Controller
         $data['total_no_of_applications']=$this->rti->all($request);
         $data['number_of_rti_cases_closed']=$this->rti->all($request,config('commanConfig.rti_status.closed'));
         $data['pending_rti_count']=$this->rti->pending_rti_count($request,config('commanConfig.rti_status.closed'));
+        $data['todays_rti_meetings']=$this->rti->todays_rti_meetings();
         return view('admin.reports.rti.dashboard',compact('data'));
     }
 
@@ -76,7 +79,7 @@ class RtiReportController extends Controller
         $data=array();
         $rti_statuses = MasterRtiStatus::all();
         $getData=$request->all();
-        $data['report_status']=$this->rti->deaprtment_reports($request);
+        $data['report_status']=$this->rti->period_wise_pendancy($request);
         //dd($data);
         return view('admin.reports.rti.period_wise_pendancy_report',compact('data','getData','rti_statuses'));
     }

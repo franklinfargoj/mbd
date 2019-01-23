@@ -186,7 +186,7 @@ class RtiFrontEndController extends Controller
                 'status_id'=>config('commanConfig.rti_status.in_process')
             );
     
-            RtiForwardApplication::insert($input);
+            RtiForwardApplication::create($input);
         });
        
         
@@ -284,7 +284,7 @@ class RtiFrontEndController extends Controller
         );
         \DB::transaction(function() use($request,$input,$appellate_user)
         {
-        RtiForwardApplication::insert($input);
+        RtiForwardApplication::create($input);
         RtiAppeal::insert(['application_id' => $request->application_id,'user_id'=>$appellate_user->id,'role_id'=>$appellate_user->role_id]);
         RtiForm::where(['id'=>$request->application_id])->update(['appeal_by_applicant'=>1,'status'=>config('commanConfig.rti_status.send_to_appellate')]);
         });

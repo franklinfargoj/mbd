@@ -108,7 +108,7 @@ class LoginController extends Controller
         ]);
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-//            return redirect('/home');
+            return redirect('/home');
               if (is_numeric(explode('/', explode('.', Session::get('_previous')['url'])[0])[2]) == true) {
                   // Authentication passed...
                   return redirect('/home');
@@ -134,7 +134,7 @@ class LoginController extends Controller
               }
 
         } else {
-//            return back()->with('error', "Please enter valid credentials");
+            return back()->with('error', "Please enter valid credentials");
 //                        dd(Session::get('_previous')['url']);
 //                        dd(explode('.', explode('/', "http://mhada.php-dev.in/login-user")[2])[0]);
               if (is_numeric(explode('.', explode('/', URL::previous())[2])[0]) == true) {

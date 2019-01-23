@@ -784,7 +784,19 @@ $route=\Request::route()->getName();
                         </span>
                     </a>
                 </li> -->
-                                </ul>
+                 {{--<li class="m-menu__item" id="society_profile">--}}
+                     {{--<a href="javascript:void(0);" class="m-menu__link m-menu__toggle">--}}
+                         {{--<i class="m-menu__link-icon flaticon-user"></i>--}}
+                         {{--<span class="m-menu__link-title">--}}
+                            {{--<span class="m-menu__link-wrap">--}}
+                                {{--<span class="m-menu__link-text">--}}
+                                    {{--Profile--}}
+                                {{--</span>--}}
+                            {{--</span>--}}
+                        {{--</span>--}}
+                     {{--</a>--}}
+                 {{--</li>--}}
+            </ul>
         </div>
     </div>
     <!-- END: Aside Menu -->
