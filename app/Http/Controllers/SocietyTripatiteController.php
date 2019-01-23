@@ -257,8 +257,7 @@ class SocietyTripatiteController extends Controller
         $ol_applications = OlApplication::where('id', $id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->first();
-//        dd(config('commanConfig.applicationStatus.approved_tripartite_agreement'));
-//        dd($ol_applications->olApplicationStatus[0]->status_id);
+
         $documents = OlSocietyDocumentsMaster::where('application_id', $ol_applications->application_master_id)->where('is_admin', 0)->with(['documents_uploaded' => function($q) use ($society){
             $q->where('society_id', $society->id)->get();
         }])->get();
@@ -533,8 +532,8 @@ class SocietyTripatiteController extends Controller
             $q->where('society_flag', '1')->orderBy('id', 'desc');
         }])->first();
         $tripartite_agreement = $this->CommonController->get_tripartite_agreements($ol_applications->id, config('commanConfig.tripartite_agreements.drafted'));
-//        dd($tripartite_agreement);
-        return view('frontend.society.tripatite.show_tripartite_agreement', compact('society', 'ol_applications', 'tripartite_agreement'));
+
+        return view('frontend.society.tripatite.show_tripartite_agreement', compact('society', 'ol_applications', 'tripartite_agreement', 'id'));
     }
 
     /**
