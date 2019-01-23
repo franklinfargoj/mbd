@@ -121,7 +121,8 @@
     <!-- END: Header -->
     <!-- begin::Body -->
     <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body">
-        @include('frontend.layouts.sidebar')
+        @include('admin.layouts.actions_sidebar')
+        {{-- @include('frontend.layouts.sidebar') --}}
         <div class="col-md-12">
             <div class="m-grid__item m-grid__item--fluid m-wrapper">
                 @section('content')

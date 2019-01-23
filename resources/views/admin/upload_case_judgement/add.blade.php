@@ -3,7 +3,6 @@
     @include('admin.hearing.actions',compact('hearing_data'))
 @endsection
 @section('content')
- 
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
@@ -18,7 +17,12 @@
             action="{{route('upload_case_judgement.store')}}" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="hearing_id" value="{{ $arrData['hearing_data']->id }}">
-            <div class="m-portlet__body m-portlet__body--spaced">
+            @if(count($hearing_data->hearingSchedule->prePostSchedule) > 0)
+                <input type="hidden" name="pre_post_hearing_id" value="{{ $hearing_data->hearingSchedule->prePostSchedule['0']->id }}">
+            @else
+                <input type="hidden" name="scheduled_hearing_id" value="{{ $hearing_data->hearingSchedule->id }}">
+            @endif
+                <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="case_year">Case Year:</label>

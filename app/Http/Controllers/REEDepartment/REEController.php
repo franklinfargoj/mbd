@@ -1398,6 +1398,7 @@ class REEController extends Controller
 
         // Get Application last Status
         // dd($arrData);*/
+        //dd($arrData['society_detail']);registration_no
         $arrData['get_last_status'] = NocApplicationStatus::where([
                 'application_id' =>  $application_id,
                 'user_id' => Auth::user()->id,
