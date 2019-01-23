@@ -22,7 +22,7 @@
                                         <h5>Download Tripartite Application</h5>
                                         <span class="hint-text">Download submitted application in .pdf format</span>
                                         <div class="mt-auto">
-                                            <a title="Donwload Offer Letter Application" href="{{ route('society_tripartite_application_download', $ol_applications->id) }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Tripartite Application</a>
+                                            <a title="Donwload Tripartite Application" href="{{ route('society_tripartite_application_download', $ol_applications->id) }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Tripartite Application</a>
                                         </div>
                                     </div>
                                 </div>
