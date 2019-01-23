@@ -101,16 +101,16 @@
                         The NOC is granted as per policy laid down by the MHADA vide MHADA Resolution Nos. 6260 Dt.04/06/2007, A. R. No. 6397 dated 5/05/2009 , A. R. No. 6422 dated 07.08.2009 and A.R. no. 6749, Dt. 11/07/2017 and circular dated 16/06/2011 &amp; 21/12/2011 subject to following conditions. The other additional terms and conditions as per Annexure-I shall also apply &amp; are appended separately.
                     </p>
                     <center>
-                        <table style="width: 80%; border-collapse: collapse;" border="1">
+                        <table style="width: 720px; border-collapse: collapse;" border="1">
                             <tbody>
                                 <tr valign="top">
-                                    <td>
+                                    <td style="width: 50px;">
                                         <ol start="1">
                                             <li>
                                             </li>
                                         </ol>
                                     </td>
-                                    <td>
+                                    <td style="width: 670px;">
                                         <p lang="en-US" align="justify">
                                             The work of redevelopment should be carried out as per plans submitted to this office along with detailed proposal, as per prior approval of EE,BP Cell, Greater Mumbai / MHADA.
                                         </p>
