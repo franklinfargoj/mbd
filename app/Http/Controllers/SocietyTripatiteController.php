@@ -36,6 +36,8 @@ class SocietyTripatiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show_tripatite_self($id){
+        $ids = explode('_', $id);
+        $id = $ids[0];
         $society_details = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $ol_form_request_fields = new OlRequestForm;
 
@@ -47,7 +49,7 @@ class SocietyTripatiteController extends Controller
         $layouts = MasterLayout::all();
         $comm_func = $this->CommonController;
 
-        return view('frontend.society.tripatite.show_tripatite_self', compact('society_details', 'id', 'layouts', 'form_fields', 'layouts', 'comm_func'));
+        return view('frontend.society.tripatite.show_tripatite_self', compact('society_details', 'id', 'ids', 'layouts', 'form_fields', 'layouts', 'comm_func'));
     }
 
     /**
@@ -173,6 +175,8 @@ class SocietyTripatiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show_tripatite_dev($id){
+        $ids = explode('_', $id);
+        $id = $ids[0];
         $society_details = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $ol_form_request_fields = new OlRequestForm;
 
@@ -184,7 +188,7 @@ class SocietyTripatiteController extends Controller
         $layouts = MasterLayout::all();
         $comm_func = $this->CommonController;
 
-        return view('frontend.society.tripatite.show_tripatite_dev', compact('society_details', 'id', 'layouts', 'form_fields', 'layouts', 'comm_func'));
+        return view('frontend.society.tripatite.show_tripatite_dev', compact('society_details', 'id', 'ids', 'layouts', 'form_fields', 'layouts', 'comm_func'));
     }
 
     /**
