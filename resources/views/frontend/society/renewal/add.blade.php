@@ -134,17 +134,30 @@
             var flat_date_month = flat_date_split[1];
             var flat_date_year = flat_date_split[2];
 
-            if(society_date_day > flat_date_day && society_date_month > flat_date_month && society_date_year > flat_date_year){
+            // if(society_date_day > flat_date_day && society_date_month > flat_date_month && society_date_year > flat_date_year){
+            //     $('#society_registration_date-error').html('<span style="color:red">Society registration date should not be greater than '+ flat_date +'</span>');
+            // }else{
+            //     $('#society_registration_date-error').html('');
+            // }
+            if(society_date > flat_date){
                 $('#society_registration_date-error').html('<span style="color:red">Society registration date should not be greater than '+ flat_date +'</span>');
             }else{
                 $('#society_registration_date-error').html('');
             }
-            // $('#society_registration_date').datepicker({
-            //     format: 'dd-mm-yyyy',
-            //     autoclose:true,
-            //     endDate: date,
-            // });
+            // $("#society_registration_date").datepicker(
+            //     'option', 'maxDate', flat_date
+            // );
         });
+        // $("#society_registration_date").datepicker();
+
+        // $("#first_flat_issue_date").datepicker({
+        //     minDate: 0,
+        //     onSelect: function(date) {
+        //         $("#society_registration_date").datepicker('option', 'minDate', date);
+        //     }
+        // });
+        //
+        // $("#society_registration_date").datepicker({});
 
         $('#save_sc_application').validate({
             rules:{
