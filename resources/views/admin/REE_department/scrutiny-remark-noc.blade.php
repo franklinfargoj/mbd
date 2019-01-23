@@ -58,6 +58,13 @@
                         </div>
                         <div class="col-sm-6 field-col">
                            <div class="d-flex">
+                              <span class="field-name">Society registration no:</span>
+                              <span class="field-value">{{
+                              $arrData['society_detail']->eeApplicationSociety->registration_no }}</span>
+                           </div>
+                        </div>
+                        <div class="col-sm-6 field-col">
+                           <div class="d-flex">
                               <span class="field-name">Society Name:</span>
                               <span class="field-value">{{
                               $arrData['society_detail']->eeApplicationSociety->name }}</span>
