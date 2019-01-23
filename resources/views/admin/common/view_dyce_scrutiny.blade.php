@@ -191,7 +191,7 @@
 
         <!-- Demarkation verification -->
         <div class="m-portlet m-portlet--mobile m_panel">
-            <div class="m-portlet__body">
+            <div class="m-portlet__body margin_top" >
                 <h3 class="section-title section-title--small">
                     Demarkation Verification:
                 </h3>
@@ -240,9 +240,8 @@
 @section('js')
 <script>
     //print function
-    function test() {
+    function test() { 
         window.print();
-        document.title ='';
     }
 
     $('.printBtn').on('click', test) 
