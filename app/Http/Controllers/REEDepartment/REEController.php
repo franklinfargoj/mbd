@@ -1332,6 +1332,7 @@ class REEController extends Controller
         if (!(Storage::disk('ftp')->has($folder_name))) {            
             Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
         } 
+        // return $pdf->stream();
         Storage::disk('ftp')->put($filePath, $pdf->output());
         $file = $pdf->output();
 
