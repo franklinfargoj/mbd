@@ -67,9 +67,9 @@ $route=\Request::route()->getName();
             </a>
         </li>
 
-        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ree.dyce_scrutiny_remark')?'m-menu__item--active':''}}"
+        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='common.dyce_scrutiny_remark')?'m-menu__item--active':''}}"
             aria-haspopup="true">
-            <a class="m-menu__link m-menu__toggle" title="DyCE Scrutiny & Remarks" href="{{route('ree.dyce_scrutiny_remark',encrypt($ol_application->id))}}">
+            <a class="m-menu__link m-menu__toggle" title="DyCE Scrutiny & Remarks" href="{{route('common.dyce_scrutiny_remark',encrypt($ol_application->id))}}">
                 <span class="sidebar-icon sidebar-menu-icon--level-1">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 510 510">
                         <path fill="#fff" d="M0 387.6v96.9h96.9l280.5-283.05-96.9-96.9L0 387.6zm451.35-260.1c10.2-10.2 10.2-25.5 0-35.7L392.7 33.149c-10.2-10.2-25.5-10.2-35.7 0l-45.9 45.9 96.9 96.9 43.35-48.449zm-221.85 306l-51 51H510v-51H229.5z"/>

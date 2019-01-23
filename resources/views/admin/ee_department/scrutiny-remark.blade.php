@@ -27,17 +27,17 @@
         </div>
         <div id="tabbed-content" class="">
             <ul id="top-tabs" class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom tabs hide-print">
-                <li class="nav-item m-tabs__item active ee_tabs" data-target="#document-scrunity" id="section-1">
+                <li class="nav-item m-tabs__item active ee_tabs v-tabs" data-target="#document-scrunity" id="section-1">
                     <a class="nav-link m-tabs__link">
                         <i class="la la-cog"></i> Document Scrutiny
                     </a>
                 </li>
-                <li class="nav-item m-tabs__item ee_tabs" data-target="#checklist-scrunity" id="section-2">
+                <li class="nav-item m-tabs__item ee_tabs ch-tab" data-target="#checklist-scrunity" id="section-2">
                     <a class="nav-link m-tabs__link">
                         <i class="la la-cog"></i> Checklist Scrutiny
                     </a>
                 </li>
-                <li class="nav-item m-tabs__item ee_tabs" data-target="#ee-note" id="section-3">
+                <li class="nav-item m-tabs__item ee_tabs v-tabs" data-target="#ee-note" id="section-3">
                     <a class="nav-link m-tabs__link">
                         <i class="la la-cog"></i> EE Note
                     </a>
@@ -54,7 +54,7 @@
                                     </h3>
                                     <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto">
                                     <img src="{{asset('/img/print-icon.svg')}}" 
-                                            style="max-width: 22px" class="printBtn hide-print"></a>
+                                            style="max-width: 22px;display:none" class="printBtn hide-print"></a>
                                 </div>
 
                                 <div class="row field-row" >
@@ -1142,6 +1142,7 @@
 
 //function is to keep tabs selected after refreshing page
 
+
     $(document).ready(function () {
 
         var id = Cookies.get('sectionId');
@@ -1150,8 +1151,10 @@
             $(".m-tabs__item").removeClass('active');
             $("#" + id).addClass('active');
             $("." + id).addClass('active');
+        }
 
-            // Cookies.set('sectionId', 'undefined');
+        if (id == 'section-2'){
+           $(".printBtn").css("display","block"); 
         }
         //nested tabs
         var nestedTab = Cookies.get('nestedTab');
@@ -1159,7 +1162,8 @@
             $(".nested_t").removeClass('active');
             $("#" + nestedTab).addClass('active');
             $(".tab-pane").removeClass('active');
-            $("." + nestedTab).addClass('active'); 
+            $("." + nestedTab).addClass('active');
+             
 
             // Cookies.set('nestedTab', 'undefined');
         }
@@ -1185,13 +1189,22 @@
     function selectNextTab(id){
         Cookies.set('nestedTab', id);        
     }
-
+    
+    //print function
     function test() {
         window.print();
         document.title ='';
     }
 
     $('.printBtn').on('click', test);
+
+    $(".ch-tab").click(function(){
+        $(".printBtn").css("display","block");
+    }); 
+
+    $(".v-tabs").click(function(){
+        $(".printBtn").css("display","none");
+    });
  
 </script>
 @endsection

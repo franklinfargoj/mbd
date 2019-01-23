@@ -3917,6 +3917,17 @@ class CommonController extends Controller
         $folder = $this->getCurrentRoleFolderName();
 
         return view('admin.common.view_ee_scrutiny_remark',compact('eeScrutinyData','ol_application','folder'));
-    }    
+    }
+
+    // DyCE Scrutiny & Remark page
+    public function dyceScrutinyRemark(Request $request,$applicationId){
+
+        $applicationId = decrypt($applicationId);
+        $ol_application = $this->getOlApplication($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+        $applicationData = $this->getDyceScrutinyRemark($applicationId);
+        $folder = $this->getCurrentRoleFolderName();
+        return view('admin.common.view_dyce_scrutiny',compact('ol_application','applicationData','folder'));
+    }        
 
 }

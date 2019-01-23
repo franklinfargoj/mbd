@@ -42,10 +42,15 @@ class CapPermissionSeeder extends Seeder
                 'display_name' => 'society_EE_documents',
                 'description' => 'society_EE_documents',
             ],
+            // [
+            //     'name' => 'cap.dyce_Scrutiny_Remark',
+            //     'display_name' => 'EE_Scrutiny_Remark',
+            //     'description' => 'EE_Scrutiny_Remark',
+            // ],
             [
-                'name' => 'cap.dyce_Scrutiny_Remark',
-                'display_name' => 'EE_Scrutiny_Remark',
-                'description' => 'EE_Scrutiny_Remark',
+                'name' => 'common.dyce_scrutiny_remark',
+                'display_name' => 'dyce scrutiny remark',
+                'description' => 'dyce scrutiny remark',
             ],
             [
                 'name' => 'cap.forward_application',

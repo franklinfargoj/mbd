@@ -24,7 +24,7 @@
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center hide-print">
             <h3 class="m-subheader__title m-subheader__title--separator">DyCE Scrutiny & Remark</h3>
             {{ Breadcrumbs::render('scrutiny_remark-dyce',$ol_application->id) }}
             <div class="ml-auto btn-list">
@@ -36,10 +36,12 @@
         <div class="portlet-body">
             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                 <div class="m-subheader">
-                    <div class="">
+                    <div class="d-flex">
                         <h3 class="section-title section-title--small">
                             Society Details:
                         </h3>
+                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto">
+                        <img src="{{asset('/img/print-icon.svg')}}" style="max-width: 22px" class="printBtn hide-print"></a>
                     </div>
                     <div class="row field-row">
                         <div class="col-sm-6 field-col">
@@ -153,7 +155,7 @@
             										<label class="site-visit-label">Name of Officer:</label>
             										<input type="text" class="txtbox form-control form-control--custom m_input" name="officer_name[]" id="officer_name"
             											value="{{$officerName}}">
-            										<i class="fa fa-close icon2 d-icon" id="icon_{{$i}}" onclick="removeOfficerName(this.id)"></i>
+            										<i class="fa fa-close icon2 d-icon hide-print" id="icon_{{$i}}" onclick="removeOfficerName(this.id)"></i>
             									</div>
                                             </div>
                                             @endif
@@ -166,7 +168,7 @@
     										<div class="position-relative" >
     											<input type="text" class="txtbox form-control form-control--custom m_input" name="officer_name[]" id="officer_name" >
                                                 
-                                                <i class="fa fa-close icon d-icon close-icon" id="icon_0" onclick="removeOfficerName(this.id)" style="visibility: hidden"></i>
+                                                <i class="fa fa-close icon d-icon close-icon hide-print" id="icon_0" onclick="removeOfficerName(this.id)" style="visibility: hidden"></i>
     										</div>									
     									</div>
                                     </div> 
@@ -206,7 +208,7 @@
                                     </div>    
 								</div>
                             </div>
-                            <div class="col-md-12 all_documents">
+                            <div class="col-md-12 all_documents hide-print">
                             @if($is_view)
                                 <?php $i=2;?>
                                 @if(isset($applicationData->visitDocuments))
@@ -320,7 +322,7 @@
 						</div>
 						<div class="mt-3">
                         @if($is_view && ($ol_application->log->status_id == config('commanConfig.applicationStatus.in_process')))
-							<button type="button" class="s_btn btn btn-primary" id="submitBtn" name="">Save</button>
+							<button type="button" class="s_btn btn btn-primary hide-print" id="submitBtn" name="">Save</button>
                         @endif    
 
 						</div>				
@@ -464,6 +466,14 @@ var isError = 0;
         }
 
     });
+
+    //print function
+    function test() {
+        window.print();
+        document.title ='';
+    }
+
+    $('.printBtn').on('click', test)    
 
 </script>
 @endsection

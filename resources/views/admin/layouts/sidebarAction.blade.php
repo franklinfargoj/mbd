@@ -49,6 +49,9 @@
             .hide-print {
                 display: none !important;
             }
+            .margin_top{
+                margin-top:150px;
+            }
         }
     </style>
 </head>
