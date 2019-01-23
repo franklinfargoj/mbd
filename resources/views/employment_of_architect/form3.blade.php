@@ -48,7 +48,7 @@
             {{-- @include('employment_of_architect.partial_personal_details',compact('application')) --}}
             <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Consultant's details of Establishment:</label>
+                    <label class="col-form-label" for="">Consultant's details of Establishment<span class="star">*</span></label>
                     <input type="text" id="" name="details_of_establishment" class="form-control form-control--custom m-input"
                         value="{{$application->details_of_establishment}}">
                     @if ($errors->has('details_of_establishment'))
@@ -56,7 +56,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Consultant's Branch Details:</label>
+                    <label class="col-form-label" for="">Consultant's Branch Details<span class="star">*</span></label>
                     <input type="text" id="" name="branch_office_details" class="form-control form-control--custom m-input"
                         value="{{$application->branch_office_details}}">
                     @if ($errors->has('branch_office_details'))
@@ -78,7 +78,7 @@
             </div>
             <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">No of Architects:</label>
+                    <label class="col-form-label" for="">No of Architects<span class="star">*</span></label>
                     <input onchange="get_total_staff()" onkeyup="get_total_staff()" type="number" min="0" id="staff_architects"
                         name="staff_architects" class="form-control form-control--custom m-input" value="{{$application->staff_architects}}">
                     @if ($errors->has('staff_architects'))
@@ -86,7 +86,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">No of Engineer:</label>
+                    <label class="col-form-label" for="">No of Engineer<span class="star">*</span></label>
                     <input onchange="get_total_staff()" onkeyup="get_total_staff()" type="number" min="0" id="staff_engineers"
                         name="staff_engineers" class="form-control form-control--custom m-input" value="{{$application->staff_engineers}}">
                     @if ($errors->has('staff_engineers'))
@@ -94,7 +94,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">No of Supporting (Tech.):</label>
+                    <label class="col-form-label" for="">No of Supporting (Tech.)<span class="star">*</span></label>
                     <input onchange="get_total_staff()" onkeyup="get_total_staff()" type="number" min="0" id="staff_supporting_tech"
                         name="staff_supporting_tech" class="form-control form-control--custom m-input" value="{{$application->staff_supporting_tech}}">
                     @if ($errors->has('staff_supporting_tech'))
@@ -102,7 +102,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">No of Supporting (Non Tech.):</label>
+                    <label class="col-form-label" for="">No of Supporting (Non Tech.)<span class="star">*</span></label>
                     <input onchange="get_total_staff()" onkeyup="get_total_staff()" type="number" min="0" id="staff_supporting_nontech"
                         name="staff_supporting_nontech" class="form-control form-control--custom m-input" value="{{$application->staff_supporting_nontech}}">
                     @if ($errors->has('staff_supporting_nontech'))
@@ -110,7 +110,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Others:</label>
+                    <label class="col-form-label" for="">Others<span class="star">*</span></label>
                     <input onchange="get_total_staff()" onkeyup="get_total_staff()" type="number" min="0" id="staff_others"
                         name="staff_others" class="form-control form-control--custom m-input" value="{{$application->staff_others}}">
                     @if ($errors->has('staff_others'))
@@ -118,7 +118,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Total:</label>
+                    <label class="col-form-label" for="">Total<span class="star">*</span></label>
                     <input readonly type="number" min="0" id="staff_total" name="staff_total" class="form-control form-control--custom m-input"
                         value="{{$application->staff_total}}">
                     @if ($errors->has('staff_total'))
@@ -158,7 +158,7 @@
             </div>
             <div class="form-group m-form__group row  cad_facality">
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">No of Computers:</label>
+                    <label class="col-form-label" for="">No of Computers<span class="star">*</span></label>
                     <input type="number" min="0" id="" name="cad_facility_no_of_computers" class="form-control form-control--custom m-input"
                         value="{{$application->cad_facility_no_of_computers}}">
                     @if ($errors->has('cad_facility_no_of_computers'))
@@ -166,7 +166,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">No of Printers:</label>
+                    <label class="col-form-label" for="">No of Printers<span class="star">*</span></label>
                     <input type="number" min="0" id="" name="cad_facility_no_of_printers" class="form-control form-control--custom m-input"
                         value="{{$application->cad_facility_no_of_printers}}">
                     @if ($errors->has('cad_facility_no_of_printers'))
@@ -174,7 +174,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">No of Plotters:</label>
+                    <label class="col-form-label" for="">No of Plotters<span class="star">*</span></label>
                     <input type="number" min="0" id="" name="cad_facility_no_of_plotters" class="form-control form-control--custom m-input"
                         value="{{$application->cad_facility_no_of_plotters}}">
                     @if ($errors->has('cad_facility_no_of_plotters'))
@@ -182,7 +182,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">No of Operators:</label>
+                    <label class="col-form-label" for="">No of Operators<span class="star">*</span></label>
                     <input type="number" min="0" id="" name="cad_facility_no_of_operators" class="form-control form-control--custom m-input"
                         value="{{$application->cad_facility_no_of_operators}}">
                     @if ($errors->has('cad_facility_no_of_operators'))
@@ -206,7 +206,7 @@
             </div>
             <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">No of Principle:</label>
+                    <label class="col-form-label" for="">No of Principle<span class="star">*</span></label>
                     <input type="number" min="0" id="" name="reg_with_council_of_architecture_principle" class="form-control form-control--custom m-input"
                         value="{{$application->reg_with_council_of_architecture_principle}}">
                     @if ($errors->has('reg_with_council_of_architecture_principle'))
@@ -214,7 +214,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">No of Associate:</label>
+                    <label class="col-form-label" for="">No of Associate<span class="star">*</span></label>
                     <input type="number" min="0" id="" name="reg_with_council_of_architecture_associate" class="form-control form-control--custom m-input"
                         value="{{$application->reg_with_council_of_architecture_associate}}">
                     @if ($errors->has('reg_with_council_of_architecture_associate'))
@@ -222,7 +222,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">No of Partner:</label>
+                    <label class="col-form-label" for="">No of Partner<span class="star">*</span></label>
                     <input type="number" min="0" id="" name="reg_with_council_of_architecture_partner" class="form-control form-control--custom m-input"
                         value="{{$application->reg_with_council_of_architecture_partner}}">
                     @if ($errors->has('reg_with_council_of_architecture_partner'))
@@ -248,8 +248,8 @@
                 <table class="table partners">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Registration No</th>
+                            <th>Name<span class="star">*</span></th>
+                            <th>Registration No<span class="star">*</span></th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -299,7 +299,7 @@
             </div>
             <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">COA registration no:</label>
+                    <label class="col-form-label" for="">COA registration no<span class="star">*</span></label>
                     <input type="number" min="0" id="" name="reg_with_council_of_architecture_coa_registration_no"
                         class="form-control form-control--custom m-input" value="{{$application->reg_with_council_of_architecture_coa_registration_no}}">
                     @if ($errors->has('reg_with_council_of_architecture_coa_registration_no'))
@@ -309,7 +309,7 @@
                 </div>
 
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Total Registered Persons:</label>
+                    <label class="col-form-label" for="">Total Registered Persons<span class="star">*</span></label>
                     <input type="number" min="0" id="" name="reg_with_council_of_architecture_total_registered_persons"
                         class="form-control form-control--custom m-input" value="{{$application->reg_with_council_of_architecture_total_registered_persons}}">
                     @if ($errors->has('reg_with_council_of_architecture_total_registered_persons'))
@@ -318,7 +318,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Other Information:</label>
+                    <label class="col-form-label" for="">Other Information</label>
                     <input type="text" id="" name="other_information" class="form-control form-control--custom m-input"
                         value="{{$application->other_information}}">
                     @if ($errors->has('other_information'))
@@ -353,9 +353,9 @@
                 <table class="table award_prizes">
                     <thead>
                         <tr>
-                            <th>Award Name</th>
-                            <th>Award Certificate</th>
-                            <th>Award Drawings</th>
+                            <th>Award Name<span class="star">*</span></th>
+                            <th>Award Certificate<span class="star">*</span></th>
+                            <th>Award Drawings<span class="star">*</span></th>
                             <th>Action</th>
                         </tr>
                     </thead>

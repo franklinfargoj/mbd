@@ -34,9 +34,9 @@
                         <table id="table-form-4" class="table table--box-input imp_projects">
                             <thead class="thead-default">
                                 <tr>
-                                    <th>Name of Client</th>
-                                    <th>Location</th>
-                                    <th>Category of Client</th>
+                                    <th>Name of Client<span class="star">*</span></th>
+                                    <th>Location<span class="star">*</span></th>
+                                    <th>Category of Client<span class="star">*</span></th>
                                 </tr>
                             </thead>
                             <tbody>

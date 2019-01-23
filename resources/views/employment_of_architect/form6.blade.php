@@ -34,11 +34,11 @@
                         <table id="table-form-4" class="table table--box-input imp_projects">
                             <thead class="thead-default">
                                 <tr>
-                                    <th>Category</th>
-                                    <th>Name</th>
-                                    <th>Qualifications</th>
-                                    <th>Year of Qualification</th>
-                                    <th>Length of Service Firm Total <br>( Year's & Month's)</th>
+                                    <th>Category<span class="star">*</span></th>
+                                    <th>Name<span class="star">*</span></th>
+                                    <th>Qualifications<span class="star">*</span></th>
+                                    <th>Year of Qualification<span class="star">*</span></th>
+                                    <th>Length of Service Firm Total <br>( Year's & Month's)<span class="star">*</span></th>
                                 </tr>
                             </thead>
                             <tbody>

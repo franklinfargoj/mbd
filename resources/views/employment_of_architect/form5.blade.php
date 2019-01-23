@@ -28,12 +28,12 @@
                         <table id="table-form-4" class="table table--box-input imp_projects">
                             <thead class="thead-default">
                                 <tr>
-                                    <th>Name of Client</th>
-                                    <th>No. of Dwelling Units / Flats</th>
-                                    <th>Land Area in Sq. mt</th>
-                                    <th>Built Up Area in Sq. mt</th>
-                                    <th>Value of Works in Rs. (Lakhs)</th>
-                                    <th>Year of Start/Completion</th>
+                                    <th>Name of Client<span class="star">*</span></th>
+                                    <th>No. of Dwelling Units / Flats<span class="star">*</span></th>
+                                    <th>Land Area in Sq. mt<span class="star">*</span></th>
+                                    <th>Built Up Area in Sq. mt<span class="star">*</span></th>
+                                    <th>Value of Works in Rs. (Lakhs)<span class="star">*</span></th>
+                                    <th>Year of Start/Completion<span class="star">*</span></th>
                                 </tr>
                             </thead>
                             <tbody>

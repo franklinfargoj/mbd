@@ -131,8 +131,8 @@
 @endsection
 @section('js')
 <script type="text/javascript">
-    $(document).ready(function(){
-        $('.society_registered').delay("slow").slideUp("slow");
-    });
+    // $(document).ready(function(){
+    //     $('.society_registered').delay("slow").slideUp("slow");
+    // });
 </script>
 @endsection
