@@ -661,8 +661,7 @@
                 @endif
             @endif
         @endif
-
-        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='upload_case_judgement.edit')?'m-menu__item--active':''}}">
+        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='hearing.log')?'m-menu__item--active':''}}">
             <a href="{{ route('hearing.log', $hearing_data->id) }}"
                class="m-menu__link m-menu__toggle">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
