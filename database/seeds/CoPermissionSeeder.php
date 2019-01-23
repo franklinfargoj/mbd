@@ -42,10 +42,15 @@ class CoPermissionSeeder extends Seeder
             //     'display_name' => 'EE_Scrutiny_Remark',
             //     'description' => 'EE_Scrutiny_Remark',
             // ],
+            // [
+            //     'name' => 'co.scrutiny_remark',
+            //     'display_name' => 'scrutiny_remark',
+            //     'description' => 'scrutiny_remark',
+            // ],
             [
-                'name' => 'co.scrutiny_remark',
-                'display_name' => 'scrutiny_remark',
-                'description' => 'scrutiny_remark',
+                'name' => 'common.dyce_scrutiny_remark',
+                'display_name' => 'dyce scrutiny remark',
+                'description' => 'dyce scrutiny remark',
             ],
             [
                 'name' => 'co.forward_application',

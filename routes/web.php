@@ -301,6 +301,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('ee_scrutiny_remark/{id}','Common\CommonController@eeScrutinyRemark')->name('common.EE_Scrutiny_Remark');
 
+     Route::get('dyce_Scrutiny_Remark/{id}','Common\CommonController@dyceScrutinyRemark')->name('common.dyce_scrutiny_remark');
+
 	//DYCE Department routes
 	Route::resource('dyce','DYCEDepartment\DYCEController');
 	Route::get('society_EE_documents/{id}','DYCEDepartment\DYCEController@societyEEDocuments')->name('dyce.society_EE_documents');
@@ -320,7 +322,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     // Route::get('EE_scrutiny_remark/{id}','REEDepartment\REEController@eeScrutinyRemark')->name('ree.EE_Scrutiny_Remark');
 
-    Route::get('dyce_Scrutiny_Remark/{id}','REEDepartment\REEController@dyceScrutinyRemark')->name('ree.dyce_scrutiny_remark');
+    Route::get('dyce_Scrutiny_Remark_ree/{id}','REEDepartment\REEController@dyceScrutinyRemark')->name('ree.dyce_scrutiny_remark');
 
     Route::get('ree_forward_application/{id}','REEDepartment\REEController@forwardApplication')->name('ree.forward_application');
 
