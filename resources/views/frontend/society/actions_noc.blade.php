@@ -131,6 +131,7 @@ $status = isset($noc_applications->nocApplicationStatus[0]->status_id)?$noc_appl
         $('#architect').hide();
         $('#revalidation').hide();
         $('#apply_sc').hide();
+		$('#estate_conveyances').hide();
     });
 </script>
 @endsection

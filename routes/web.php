@@ -1293,4 +1293,5 @@ Route::post('save_forward_oc_Application','CODepartment\COController@sendForward
 Route::get('import',function() {
     return view('admin.import');
 });
+
 Route::post('importSociety','ImportController@import');
