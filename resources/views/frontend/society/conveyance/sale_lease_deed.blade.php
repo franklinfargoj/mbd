@@ -164,7 +164,7 @@
                                                     {{--<button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>--}}
                                                     {{--@endif--}}
                                                     @if(($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease')))
-                                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload & Submit</button>
                                                     @endif
                                                 </div>
                                                 </form>
@@ -302,7 +302,7 @@
                                                         {{--<button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>--}}
                                                         {{--@endif--}}
                                                         @if(($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease')))
-                                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload & Submit</button>
                                                         @endif
                                                     </div>
                                                 </form>
@@ -424,7 +424,7 @@
                                     @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['sc_undertaking']))
                                         <div class="col-sm-6">
                                             <div>
-                                                <span class="hint-text">Click on 'download' to download Society Undertaking</span>
+                                                <span class="hint-text">Click on 'Download' to download Society Undertaking</span>
                                                 <p></p>
                                                 <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['sc_undertaking']->sc_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download</a>
                                             </div>
