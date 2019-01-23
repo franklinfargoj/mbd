@@ -771,6 +771,8 @@ class HearingController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getAllHearingLogs($hearing_id){
+
+        $hearing_id = decrypt($hearing_id);
         $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
 
         $hearing_data = Hearing::with([
