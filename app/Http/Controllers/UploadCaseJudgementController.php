@@ -42,12 +42,17 @@ class UploadCaseJudgementController extends Controller
         $id = decrypt($id);
         $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
         $header_data = $this->header_data;
-        $arrData['hearing_data'] = Hearing::with(['hearingStatus', 'hearingPrePostSchedule', 'hearingApplicationType', 'hearingStatusLog' => function($q) use($department_id){
+        $arrData['hearing_data'] = Hearing::with(['hearingStatus', 'hearingPrePostSchedule', 'hearingApplicationType',
+            'hearingSchedule',
+            'hearingSchedule.prePostSchedule',
+            'hearingStatusLog' => function($q) use($department_id){
             $q->where('department_id', $department_id);
         }])
             ->where('id', $id)
             ->first();
         $hearing_data = $arrData['hearing_data'];
+//        dd($hearing_data);
+
         $HearingController = new HearingController();
         $hearingLogs = $HearingController->getHearingLogs($id);        
 //        dd($hearing_data);
@@ -75,6 +80,11 @@ class UploadCaseJudgementController extends Controller
             'case_number' => $request->case_number,
         ];
 
+        if(isset($request->pre_post_hearing_id))
+            $data['pre_post_hearing_id'] = $request->pre_post_hearing_id;
+        else
+            $data['scheduled_hearing_id'] = $request->scheduled_hearing_id;
+
         $time = time();
         if($request->hasFile('upload_judgement_case')) {
             $extension = $request->file('upload_judgement_case')->getClientOriginalExtension();
@@ -98,17 +108,17 @@ class UploadCaseJudgementController extends Controller
         UploadCaseJudgement::create($data);
 
         $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
-        $parent_role_id = User::where('role_id', session()->get('parent'))->first();
+//        $parent_role_id = User::where('role_id', session()->get('parent'))->first();
+//
+//        $child_role_id = User::where('role_id', session()->get('child'))->first();
 
-        $child_role_id = User::where('role_id', session()->get('child'))->first();
-
-        if((session()->get('role_name') == config('commanConfig.co_pa')) || (session()->get('role_name') == config('commanConfig.joint_co_pa'))){
-            $user_id = $parent_role_id->id;
-            $session_key = 'parent';
-        }else{
-            $user_id = $child_role_id->id;
-            $session_key = 'child';
-        }
+//        if((session()->get('role_name') == config('commanConfig.co_pa')) || (session()->get('role_name') == config('commanConfig.joint_co_pa'))){
+//            $user_id = $parent_role_id->id;
+//            $session_key = 'parent';
+//        }else{
+//            $user_id = $child_role_id->id;
+//            $session_key = 'child';
+//        }
 
         $hearing_status_log = [
             [
@@ -162,14 +172,16 @@ class UploadCaseJudgementController extends Controller
         $id = decrypt($id);
         $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
         $header_data = $this->header_data;
-        $arrData['hearing_data'] = Hearing::with(['hearingStatus', 'hearingPrePostSchedule', 'hearingApplicationType', 'hearingStatusLog' => function($q) use($department_id){
-            $q->where('department_id', $department_id);
-        }])
+        $arrData['hearing_data'] = Hearing::with(['hearingStatus', 'hearingPrePostSchedule', 'hearingApplicationType',
+            'hearingSchedule',
+            'hearingSchedule.prePostSchedule',
+            'hearingStatusLog' => function($q) use($department_id){
+                $q->where('department_id', $department_id);
+            }])
             ->where('id', $id)
             ->first();
         $hearing_data = $arrData['hearing_data'];
         $arrData['hearing_status'] = HearingStatusLog::where('hearing_id', $id)->orderBy('id', 'desc')->first();
-        $hearing_data = $arrData['hearing_data'];
 
         $HearingController = new HearingController();
         $hearingLogs = $HearingController->getHearingLogs($id);         
@@ -197,6 +209,11 @@ class UploadCaseJudgementController extends Controller
             'case_year' => $request->case_year,
             'case_number' => $request->case_number,
         ];
+
+        if(isset($request->pre_post_hearing_id))
+            $data['pre_post_hearing_id'] = $request->pre_post_hearing_id;
+        else
+            $data['scheduled_hearing_id'] = $request->scheduled_hearing_id;
 
         $time = time();
         if($request->hasFile('upload_judgement_case')) {

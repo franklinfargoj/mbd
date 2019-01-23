@@ -763,4 +763,28 @@ class HearingController extends Controller
 
             return $hearing_data;
     }
+
+    public function getAllHearingLogs($hearing_id){
+//        die('hearing log');
+
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
+
+        $hearing_data = Hearing::with([
+            'hearingSchedule1',
+            'hearingSchedule1.scheduledCaseJudagementDetails',
+            'hearingSchedule1.prePostSchedule',
+            'hearingSchedule1.prePostSchedule.prePostCaseJudagementDetails',
+            'hearingStatusLog' => function($q) use($department_id){
+                $q->where('department_id', $department_id);
+            }
+            ])
+            ->where('id', $hearing_id)
+            ->orderBy('id', 'desc')
+            ->first();
+
+//        dd($hearing_data);
+        return view('admin.hearing.hearing_log',compact('hearing_data'));
+
+    }
+
 }
