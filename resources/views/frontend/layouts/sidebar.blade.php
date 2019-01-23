@@ -302,7 +302,7 @@ $route=\Request::route()->getName();
                 @if(session()->get('permission') && (in_array('society_offer_letter.index',
                 session()->get('permission'))))
                 {{--<ul id="society_ol_sidebar">--}}
-                    <li class="m-menu__item {{ ((Request::segment(2)=='application' && Request::segment(3) == '1_premium') || (Request::segment(2)=='application' && Request::segment(3) == '1_sharing') || (Request::segment(2)=='application' && Request::segment(3) == '12_premium') || (Request::segment(2)=='application' && Request::segment(3) == '12_sharing') || $route == 'society_offer_letter_dashboard')? '':'collapsed' }}"
+                    <li class="m-menu__item {{ ((Request::segment(2)=='application' && Request::segment(3) == '1_premium') || (Request::segment(2)=='application' && Request::segment(3) == '1_sharing') || (Request::segment(2)=='application' && Request::segment(3) == '12_premium') || (Request::segment(2)=='application' && Request::segment(3) == '12_sharing') || $route == 'society_offer_letter_dashboard' || $route == 'show_form_self' || $route == 'show_form_dev')? '':'collapsed' }}"
                         data-toggle="collapse" id="society_ol_sidebar" data-target="#redevelopment">
                         <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
                             <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -316,7 +316,7 @@ $route=\Request::route()->getName();
                             </span>
                         </a>
                     </li>
-                    <li id="redevelopment" class="collapse {{ ((Request::segment(2)=='application' && Request::segment(3) == '1_premium') || (Request::segment(2)=='application' && Request::segment(3) == '1_sharing') || (Request::segment(2)=='application' && Request::segment(3) == '12_premium') || (Request::segment(2)=='application' && Request::segment(3) == '12_sharing') || $route == 'society_offer_letter_dashboard')? 'show':'' }}">
+                    <li id="redevelopment" class="collapse {{ ((Request::segment(2)=='application' && Request::segment(3) == '1_premium') || (Request::segment(2)=='application' && Request::segment(3) == '1_sharing') || (Request::segment(2)=='application' && Request::segment(3) == '12_premium') || (Request::segment(2)=='application' && Request::segment(3) == '12_sharing') || $route == 'society_offer_letter_dashboard' || $route == 'show_form_self' || $route == 'show_form_dev')? 'show':'' }}">
                         <ul class="list-unstyled">
                             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ((Request::segment(2)=='application' && Request::segment(3) == '1_premium') || (Request::segment(2)=='application' && Request::segment(3) == '1_sharing'))? '':'collapsed' }}"
                                 data-toggle="collapse" data-target="#self-redevelopment">
@@ -334,9 +334,9 @@ $route=\Request::route()->getName();
                                     </span>
                                 </a>
                             </li>
-                            <li id="self-redevelopment" class="collapse {{ ((Request::segment(2)=='application' && Request::segment(3) == '1_premium') || (Request::segment(2)=='application' && Request::segment(3) == '1_sharing'))? 'show':'' }}">
+                            <li id="self-redevelopment" class="collapse {{ ((Request::segment(2)=='application' && Request::segment(3) == '1_premium') || (Request::segment(2)=='application' && Request::segment(3) == '1_sharing') || (isset($ids) && $ids[1] == 'sharing' && $route == 'show_form_self') || (isset($ids) && $ids[1] == 'premium' && $route == 'show_form_self'))? 'show':'' }}">
                                 <ul class="list-unstyled">
-                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ (Request::segment(2)=='application' && Request::segment(3) == '1_premium')?'m-menu__item--active':''}}">
+                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ((Request::segment(2)=='application' && Request::segment(3) == '1_premium') || (isset($ids) && $ids[1] == 'premium' && $route == 'show_form_self'))?'m-menu__item--active':''}}">
                                         <a href="{{ route('society_detail.application', Session::get('applications_tab')['self_pre_parent']) }}"
                                             class="m-menu__link m-menu__toggle">
                                             <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
@@ -351,7 +351,7 @@ $route=\Request::route()->getName();
                                             </span>
                                         </a>
                                     </li>
-                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ (Request::segment(2)=='application' && Request::segment(3) == '1_sharing')?'m-menu__item--active':''}}">
+                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ((Request::segment(2)=='application' && Request::segment(3) == '1_sharing') || (isset($ids) && $ids[1] == 'sharing' && $route == 'show_form_self'))?'m-menu__item--active':''}}">
                                         <a href="{{ route('society_detail.application', Session::get('applications_tab')['self_share_parent']) }}"
                                             class="m-menu__link m-menu__toggle">
                                             <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
@@ -368,7 +368,7 @@ $route=\Request::route()->getName();
                                     </li>
                                 </ul>
                             </li>
-                            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 collapsed" data-toggle="collapse"
+                            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ((Request::segment(2)=='application' && Request::segment(3) == '12_premium') || (Request::segment(2)=='application' && Request::segment(3) == '12_sharing'))? '':'collapsed' }}" data-toggle="collapse"
                                 data-target="#dev-redevelopment">
                                 <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">
                                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -384,9 +384,9 @@ $route=\Request::route()->getName();
                                     </span>
                                 </a>
                             </li>
-                            <li id="dev-redevelopment" class="collapse {{ ((Request::segment(2)=='application' && Request::segment(3) == '12_premium') || (Request::segment(2)=='application' && Request::segment(3) == '12_sharing'))? 'show':'' }}">
+                            <li id="dev-redevelopment" class="collapse {{ ((Request::segment(2)=='application' && Request::segment(3) == '12_premium') || (Request::segment(2)=='application' && Request::segment(3) == '12_sharing') || (isset($ids) && $ids[1] == 'premium' && $route == 'show_form_dev') || (isset($ids) && $ids[1] == 'sharing' && $route == 'show_form_dev'))? 'show':'' }}">
                                 <ul class="list-unstyled">
-                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ (Request::segment(2)=='application' && Request::segment(3) == '12_premium')? '':'collapsed' }} {{(Request::segment(2)=='application' && Request::segment(3) == '12_premium')?'m-menu__item--active':''}}">
+                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ (Request::segment(2)=='application' && Request::segment(3) == '12_premium')? '':'collapsed' }} {{((Request::segment(2)=='application' && Request::segment(3) == '12_premium') || (isset($ids) && $ids[1] == 'premium' && $route == 'show_form_dev'))?'m-menu__item--active':''}}">
                                         <a href="{{ route('society_detail.application', Session::get('applications_tab')['dev_pre_parent']) }}"
                                             class="m-menu__link m-menu__toggle">
                                             <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
@@ -401,7 +401,7 @@ $route=\Request::route()->getName();
                                             </span>
                                         </a>
                                     </li>
-                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ (Request::segment(2)=='application' && Request::segment(3) == '12_sharing')? '':'collapsed' }} {{(Request::segment(2)=='application' && Request::segment(3) == '12_sharing')?'m-menu__item--active':''}}">
+                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ (Request::segment(2)=='application' && Request::segment(3) == '12_sharing')? '':'collapsed' }} {{((Request::segment(2)=='application' && Request::segment(3) == '12_sharing') || (isset($ids) && $ids[1] == 'sharing' && $route == 'show_form_dev'))?'m-menu__item--active':''}}">
                                         <a href="{{ route('society_detail.application', Session::get('applications_tab')['dev_share_parent']) }}"
                                             class="m-menu__link m-menu__toggle">
                                             <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"

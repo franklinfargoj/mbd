@@ -84,7 +84,7 @@
                     {{--@else--}}
                         {{--<p><a href="{{ route($application->route_name, $application->id) }}">{{ $application->title }}</a></p>--}}
                     {{--@endif--}}
-                    <p><a href="{{ route($application->route_name, $application->id) }}">{{ $application->title }}</a></p>
+                    <p><a href="{{ route($application->route_name, $application->id.'_'.$ids[1]) }}">{{ $application->title }}</a></p>
                 @endforeach
             </div>
         </div>
