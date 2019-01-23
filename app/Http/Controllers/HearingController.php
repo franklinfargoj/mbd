@@ -633,7 +633,7 @@ class HearingController extends Controller
 
     /**
      * Show the hearing dashboard.
-     *
+     * Author : Prajakta Sisale.
      * @return \Illuminate\Http\Response
      */
     public function Dashboard() {
@@ -764,16 +764,24 @@ class HearingController extends Controller
             return $hearing_data;
     }
 
+    /**
+     * Show hearing log data.
+     * Author : Prajakta Sisale.
+     * @param  int  $hearing_id
+     * @return \Illuminate\Http\Response
+     */
     public function getAllHearingLogs($hearing_id){
-//        die('hearing log');
-
         $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
 
         $hearing_data = Hearing::with([
             'hearingSchedule1',
             'hearingSchedule1.scheduledCaseJudagementDetails',
+            'hearingSchedule1.userDetails',
+            'hearingSchedule1.userDetails.roleDetails',
             'hearingSchedule1.prePostSchedule',
             'hearingSchedule1.prePostSchedule.prePostCaseJudagementDetails',
+            'hearingSchedule1.prePostSchedule.userDetails',
+            'hearingSchedule1.prePostSchedule.userDetails.roleDetails',
             'hearingStatusLog' => function($q) use($department_id){
                 $q->where('department_id', $department_id);
             }
@@ -781,8 +789,6 @@ class HearingController extends Controller
             ->where('id', $hearing_id)
             ->orderBy('id', 'desc')
             ->first();
-
-//        dd($hearing_data);
         return view('admin.hearing.hearing_log',compact('hearing_data'));
 
     }
