@@ -524,7 +524,7 @@ class EmPermissionSeeder extends Seeder
 
         if ($em_cl_user_id == NULL)
             $em_cl_user_id = User::insertGetId([
-                'name' => 'Amit Kadam',
+                'name' => 'Em Clerk',
                 'email' => 'em_clerk@gmail.com',
                 'password' => bcrypt('user123'),
                 'role_id' => $em_cl_role_id,

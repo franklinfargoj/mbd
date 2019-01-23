@@ -150,7 +150,7 @@ class RCUserSeeder extends Seeder
             $rc_user_id = $rc_user->id;
         } else {
             $rc_user_id = User::insertGetId([
-                'name' => 'Amit Kadam',
+                'name' => 'R C',
                 'email' => 'rc@gmail.com',
                 'password' => bcrypt('user123'),
                 'role_id' => $rc_role_id,
