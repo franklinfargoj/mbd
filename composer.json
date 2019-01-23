@@ -22,7 +22,8 @@
         "thytanium/captcha": "2.*",
         "unisharp/laravel-ckeditor": "^4.7",
         "yajra/laravel-datatables-html": "^3.2",
-        "yajra/laravel-datatables-oracle": "^8.3"
+        "yajra/laravel-datatables-oracle": "^8.3",
+        "laravelcollective/html": "^5.4"
     },
     "require-dev": {
         "filp/whoops": "^2.0",
