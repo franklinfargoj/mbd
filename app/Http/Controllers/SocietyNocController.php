@@ -59,10 +59,12 @@ class SocietyNocController extends Controller
     }
 
     public function show_form_self_noc($id){
+        $ids = explode('_', $id);
+        $id = $ids[0];
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $layouts = MasterLayout::all();
         // dd($society_details);
-        return view('frontend.society.show_form_self_noc', compact('society_details', 'id', 'layouts'));
+        return view('frontend.society.show_form_self_noc', compact('society_details', 'id', 'ids', 'layouts'));
     }
 
     public function save_noc_application_self(Request $request){

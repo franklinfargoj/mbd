@@ -618,10 +618,12 @@ class SocietyOfferLetterController extends Controller
 
 
     public function show_oc_self($id){
+        $ids = explode('_', $id);
+        $id = $ids[0];
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $layouts = MasterLayout::all();
         // dd($society_details);
-        return view('frontend.society.show_oc_self', compact('society_details', 'id', 'layouts'));
+        return view('frontend.society.show_oc_self', compact('society_details', 'id', 'ids', 'layouts'));
     }
 
     /**
@@ -858,10 +860,12 @@ class SocietyOfferLetterController extends Controller
     }
 
     public function show_oc_dev($id){
+        $ids = explode('_', $id);
+        $id = $ids[0];
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $layouts = MasterLayout::all();
         // dd($society_details);
-        return view('frontend.society.show_oc_dev', compact('society_details', 'id', 'layouts'));
+        return view('frontend.society.show_oc_dev', compact('society_details', 'id', 'ids', 'layouts'));
     }
 
     /**
