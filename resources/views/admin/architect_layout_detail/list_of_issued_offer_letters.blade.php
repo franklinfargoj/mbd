@@ -7,8 +7,8 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title m-subheader__title--separator">Society Applications</h3> <!-- applications_tab_noc -->
-            {{ Breadcrumbs::render('architect_layout_details',$ArchitectLayout->id) }}
+            <h3 class="m-subheader__title m-subheader__title--separator">Society Applications - {{$ArchitectLayout->master_layout!=""?$ArchitectLayout->master_layout->layout_name:''}}</h3></h3> <!-- applications_tab_noc -->
+            {{ Breadcrumbs::render('list_off_issued_offer_letter',$ArchitectLayout->id) }}
         </div>
     </div>
     <!-- END: Subheader -->

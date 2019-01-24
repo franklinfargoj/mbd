@@ -25,7 +25,7 @@
     </div>
     <div class="form-group m-form__group row">
         <div class="col-sm-4 form-group">
-        <label class="col-form-label" for="">Name of the Applicanto<span class="star">*</span></label>
+        <label class="col-form-label" for="">Name of the Applicant<span class="star">*</span></label>
             <input type="text" id="" name="name_of_applicant" class="form-control form-control--custom m-input" value="{{old('name_of_applicant')?old('name_of_applicant'):$application->name_of_applicant}}">
             @if ($errors->has('name_of_applicant'))
             <span class="text-danger">{{ $errors->first('name_of_applicant') }}</span>

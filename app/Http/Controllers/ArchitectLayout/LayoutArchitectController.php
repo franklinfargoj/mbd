@@ -446,8 +446,9 @@ class LayoutArchitectController extends Controller
 
     public function post_forward_layout(Request $request)
     {
-        $k=count($request->to_user_id);
-        if ($request->check_status == 1) {
+        
+        if ($request->check_status == 1 && $request->to_user_id!=null) {
+            $k=count($request->to_user_id);
             $j=0;
             foreach ($request->to_user_id as $user) {
                 $j++;
@@ -480,6 +481,7 @@ class LayoutArchitectController extends Controller
             }
         } else {
             $j=0;
+            $k=count($request->to_child_id);
             foreach ($request->to_child_id as $user) {
                 $j++;
                 $user_data = User::find($user);

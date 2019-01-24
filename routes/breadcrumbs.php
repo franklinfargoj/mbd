@@ -1114,6 +1114,11 @@ Breadcrumbs::for('architect_layout_details', function ($trail,$id) {
     $trail->push('View Details', route('architect_layout_details.view',['layout_id'=>$id]));
 });
 
+Breadcrumbs::for('list_off_issued_offer_letter', function ($trail,$id) {
+    $trail->parent('architect_layout');
+    $trail->push('List of Offer Letter Issued', route('list_of_offer_letter_issued',['layout_id'=>$id]));
+});
+
 Breadcrumbs::for('architect_layout_scrutiny_remarks', function ($trail,$id) {
     $trail->parent('architect_layout');
     $trail->push('Scrutiny & Remark', route('architect_layout_get_scrtiny',['layout_id'=>$id]));
