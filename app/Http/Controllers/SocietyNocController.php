@@ -61,10 +61,16 @@ class SocietyNocController extends Controller
     public function show_form_self_noc($id){
         $ids = explode('_', $id);
         $id = $ids[0];
+        $ol_application = OlApplicationMaster::with(['ol_application_type' => function($q){ $q->orderBy('id', 'desc'); }])->where('id', $id)->get();
+        if($ol_application[0]->ol_application_type[0]->route_name == null && strrchr($ol_application[0]->ol_application_type[0]->title, 'Self')){
+            $self_type = 1;
+        }else{
+            $dev_type = 1;
+        }
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $layouts = MasterLayout::all();
         // dd($society_details);
-        return view('frontend.society.show_form_self_noc', compact('society_details', 'id', 'ids', 'layouts'));
+        return view('frontend.society.show_form_self_noc', compact('society_details', 'id', 'self_type', 'dev_type', 'ids', 'layouts'));
     }
 
     public function save_noc_application_self(Request $request){
