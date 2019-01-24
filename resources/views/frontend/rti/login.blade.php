@@ -27,7 +27,8 @@
       <link href="{{asset('/assets/demo/default/base/style.bundle.css')}}" rel="stylesheet" type="text/css" />
       <link href="{{asset('/assets/demo/default/base/custom.css')}}" rel="stylesheet" type="text/css" />
       <!--end::Base Styles -->
-      <link rel="shortcut icon" href="{{asset('/assets/demo/default/media/img/logo/favicon.ico')}}" />      
+      <link rel="shortcut icon" href="{{ asset('/img/fav-icon-new.png')}}" />
+      
    </head>
    <!-- end::Head -->
    <!-- end::Body -->

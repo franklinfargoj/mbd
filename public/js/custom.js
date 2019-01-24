@@ -819,7 +819,9 @@ $(document).ready(function () {
             city:"required",
             pin:{
                 required:true,
-                number:true
+                number:true,
+                minlength: 6,
+                maxlength: 6,
             },
             off:{
                 required:true,
@@ -831,7 +833,9 @@ $(document).ready(function () {
             },
             mobile:{
                 required:true,
-                number:true
+                number:true,
+                minlength: 10,
+                maxlength: 10,
             },
             fax:{
                 required:true,
@@ -864,7 +868,9 @@ $(document).ready(function () {
             city:"required",
             pin:{
                 required:true,
-                number:true
+                number:true,
+                minlength: 6,
+                maxlength: 6,
             },
             off:{
                 required:true,
@@ -876,7 +882,9 @@ $(document).ready(function () {
             },
             mobile:{
                 required:true,
-                number:true
+                number:true,
+                minlength: 10,
+                maxlength: 10,
             },
             fax:{
                 required:true,

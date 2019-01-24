@@ -599,10 +599,12 @@ class SocietyOfferLetterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show_form_self($id){
+        $ids = explode('_', $id);
+        $id = $ids[0];
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $layouts = MasterLayout::all();
 
-        return view('frontend.society.show_form_self', compact('society_details', 'id', 'layouts'));
+        return view('frontend.society.show_form_self', compact('society_details', 'id', 'ids', 'layouts'));
     }
 
     public function show_reval_self($id){
@@ -836,10 +838,12 @@ class SocietyOfferLetterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show_form_dev($id){
+        $ids = explode('_', $id);
+        $id = $ids[0];
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $layouts = MasterLayout::all();
 
-        return view('frontend.society.show_form_dev', compact('society_details', 'id', 'layouts'));
+        return view('frontend.society.show_form_dev', compact('society_details', 'id', 'ids', 'layouts'));
     }
 
     public function show_reval_dev($id){
@@ -1357,8 +1361,9 @@ class SocietyOfferLetterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function viewSocietyDocuments(){
-        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();      
-        $application = OlApplication::where('society_id', $society->id)->with(['olApplicationStatus' => function($q){
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $master_ids = config('commanConfig.new_offer_letter_master_ids');
+        $application = OlApplication::where('society_id', $society->id)->whereIn('application_master_id', $master_ids)->with(['olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->first();
         
@@ -1481,8 +1486,9 @@ class SocietyOfferLetterController extends Controller
         $uploadPath = '/uploads/society_offer_letter_documents';
         $destinationPath = public_path($uploadPath);
 
-        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();      
-        $application = OlApplication::where('society_id', $society->id)->first();
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $master_ids = config('commanConfig.new_offer_letter_master_ids');
+        $application = OlApplication::where('society_id', $society->id)->whereIn('application_master_id', $master_ids)->first();
 
         $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('id', $request->input('document_id'))->with(['documents_uploaded' => function($q) use ($society){
                     $q->where('society_id', $society->id)->get();
@@ -1986,7 +1992,8 @@ class SocietyOfferLetterController extends Controller
     public function showOfferLetterApplication(){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
-        $ol_application = OlApplication::where('user_id', Auth::user()->id)->where('society_id', $society->id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
+        $master_ids = config('commanConfig.new_offer_letter_master_ids');
+        $ol_application = OlApplication::where('user_id', Auth::user()->id)->where('society_id', $society->id)->whereIn('application_master_id', $master_ids)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc');
         }])->first();
         $layouts = MasterLayout::all();
@@ -2067,7 +2074,8 @@ class SocietyOfferLetterController extends Controller
     public function editOfferLetterApplication(){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
-        $ol_application = OlApplication::where('user_id', Auth::user()->id)->with(['request_form', 'applicationMasterLayout'])->first();
+        $master_ids = config('commanConfig.new_offer_letter_master_ids');
+        $ol_application = OlApplication::where('user_id', Auth::user()->id)->with(['request_form', 'applicationMasterLayout'])->whereIn('application_master_id', $master_ids)->first();
         $layouts = MasterLayout::all();
         $id = $ol_application->application_master_id;
         $ol_applications = $ol_application;
@@ -2181,7 +2189,8 @@ class SocietyOfferLetterController extends Controller
     public function generate_pdf(){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
-        $ol_application = OlApplication::where('user_id', Auth::user()->id)->with(['request_form', 'applicationMasterLayout'])->first();
+        $master_ids = config('commanConfig.new_offer_letter_master_ids');
+        $ol_application = OlApplication::where('user_id', Auth::user()->id)->whereIn('application_master_id', $master_ids)->with(['request_form', 'applicationMasterLayout'])->first();
         $layouts = MasterLayout::all(); 
         $id = $ol_application->application_master_id;
 
@@ -2240,7 +2249,8 @@ class SocietyOfferLetterController extends Controller
      */
     public function showuploadOfferLetterAfterSign(){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $application_details = OlApplication::where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+        $master_ids = config('commanConfig.new_offer_letter_master_ids');
+        $application_details = OlApplication::where('society_id', $society->id)->whereIn('application_master_id', $master_ids)->with(['ol_application_master', 'olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc');
         }])->first();
         $ol_applications = $application_details;

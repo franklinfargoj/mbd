@@ -33,5 +33,14 @@ class HearingSchedule extends Model
 
     public function userDetails(){
         return $this->hasOne('App\User', 'id', 'user_id');
-    }    
+    }
+
+    public function scheduledCaseJudagementDetails(){
+        return $this->hasOne('App\UploadCaseJudgement', 'scheduled_hearing_id', 'id')                    ->orderBy('id', 'desc');
+
+    }
+
+    public function prePostCaseJudagementDetails(){
+        return $this->hasOne('App\UploadCaseJudgement', 'pre_post_hearing_id', 'id');
+    }
 }

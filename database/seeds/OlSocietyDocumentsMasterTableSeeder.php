@@ -635,7 +635,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $app,
                     'language_id'   => $english_lang[0]['id'],
-                    'name' => "other",
+                    'name' => "Other",
                     'is_optional'=>0,
                     'is_admin' => 0
                 ]

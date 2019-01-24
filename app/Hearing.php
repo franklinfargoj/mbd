@@ -66,7 +66,7 @@ class Hearing extends Model
 
     public function hearingSchedule()
     {
-        return $this->hasOne('App\HearingSchedule', 'hearing_id', 'id');
+        return $this->hasOne('App\HearingSchedule', 'hearing_id', 'id')->orderBy('id', 'desc');
     }
 
     public function hearingForwardCase()
@@ -98,6 +98,6 @@ class Hearing extends Model
     }
     public function hearingSchedule1()
     {
-        return $this->hasMany('App\HearingSchedule', 'hearing_id', 'id');
+        return $this->hasMany('App\HearingSchedule', 'hearing_id', 'id')->orderBy('id', 'desc');
     }    
 }

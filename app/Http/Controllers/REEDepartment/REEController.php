@@ -1332,6 +1332,7 @@ class REEController extends Controller
         if (!(Storage::disk('ftp')->has($folder_name))) {            
             Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
         } 
+        // return $pdf->stream();
         Storage::disk('ftp')->put($filePath, $pdf->output());
         $file = $pdf->output();
 
@@ -1398,6 +1399,7 @@ class REEController extends Controller
 
         // Get Application last Status
         // dd($arrData);*/
+        //dd($arrData['society_detail']);registration_no
         $arrData['get_last_status'] = NocApplicationStatus::where([
                 'application_id' =>  $application_id,
                 'user_id' => Auth::user()->id,

@@ -20,5 +20,9 @@ class PrePostSchedule extends Model
 
     public function userDetails(){
         return $this->hasOne('App\User', 'id', 'user_id');
-    }     
+    }
+
+    public function prePostCaseJudagementDetails(){
+        return $this->hasOne('App\UploadCaseJudgement', 'pre_post_hearing_id', 'id');
+    }
 }

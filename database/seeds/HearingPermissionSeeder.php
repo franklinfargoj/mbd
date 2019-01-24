@@ -311,6 +311,11 @@ class HearingPermissionSeeder extends Seeder
                 'display_name' => 'Shows hearing logs',
                 'description' => 'Shows hearing logs'
             ],
+            [
+                'name' => 'hearing.log',
+                'display_name' => 'Shows hearing case logs',
+                'description' => 'Shows hearing case logs'
+            ],
         ];
 
         $permission_role_joint_pa = [];
@@ -431,6 +436,11 @@ class HearingPermissionSeeder extends Seeder
                 'name' => 'send_notice_to_appellant.edit',
                 'display_name' => 'Edit Send Notice data',
                 'description' => 'Edit Send Notice data'
+            ],
+            [
+                'name' => 'hearing.log',
+                'display_name' => 'Shows hearing case logs',
+                'description' => 'Shows hearing case logs'
             ],
 
         ];

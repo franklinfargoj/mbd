@@ -9,7 +9,7 @@ use App\MasterColony;
 use App\SocietyDetail;
 use App\MasterBuilding;
 use App\MasterTenant;
-use Validator,Excel;
+use Validator,Excel,Input;
 
 class ImportController extends Controller
 {
