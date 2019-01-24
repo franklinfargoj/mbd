@@ -185,10 +185,17 @@ class LayoutArchitectController extends Controller
 
     public function add_layout()
     {
-        $layout_user=LayoutUser::where(['user_id'=>auth()->user()->id])->first();
+        $layouts_ids=array();
+        $layout_user=LayoutUser::where(['user_id'=>auth()->user()->id])->get();
+        //dd($layout_user);
+        foreach($layout_user as $layout)
+        {
+            $layouts_ids[]=$layout->layout_id;
+        }
+        //dd($layouts_ids);
         if($layout_user)
         {
-            $layouts = MasterLayout::where(['id'=>$layout_user->layout_id])->get();
+            $layouts = MasterLayout::whereIn('id',$layouts_ids)->get();
         }else
         {
             $layouts = MasterLayout::all();

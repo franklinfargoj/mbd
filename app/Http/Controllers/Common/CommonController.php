@@ -286,11 +286,17 @@ class CommonController extends Controller
             $ArchitectLayoutLayoutdetailsQuery->whereBetween('added_date', [date('Y-m-d', strtotime($request->submitted_at_from)), date('Y-m-d', strtotime($request->submitted_at_to))]);
         }
         $LayoutUser=\App\LayoutUser::where(['user_id'=>auth()->user()->id])->first();
+        $layouts_ids=array();
+        $LayoutUser=\App\LayoutUser::where(['user_id'=>auth()->user()->id])->get();
+        foreach($LayoutUser as $layout)
+        {
+            $layouts_ids[]=$layout->layout_id;
+        }
         if($LayoutUser)
         {
             if(!in_array(session()->get('role_name'),$this->roles_will_see_all_architect_layouts()))
             {
-            $ArchitectLayoutLayoutdetails = $ArchitectLayoutLayoutdetailsQuery->where('layout_name',$LayoutUser->layout_id);
+            $ArchitectLayoutLayoutdetails = $ArchitectLayoutLayoutdetailsQuery->whereIn('layout_name',$layouts_ids);
             }
         }
         
@@ -330,13 +336,17 @@ class CommonController extends Controller
             //dd($request->title);
             $ArchitectLayoutRevisionRequestsQuery->where('layout_no', $request->title);
         }
-
-        $LayoutUser=\App\LayoutUser::where(['user_id'=>auth()->user()->id])->first();
+        $layouts_ids=array();
+        $LayoutUser=\App\LayoutUser::where(['user_id'=>auth()->user()->id])->get();
+        foreach($LayoutUser as $layout)
+        {
+            $layouts_ids[]=$layout->layout_id;
+        }
         if($LayoutUser)
         {
             if(!in_array(session()->get('role_name'),$this->roles_will_see_all_architect_layouts()))
             {
-                $ArchitectLayoutRevisionRequestsQuery = $ArchitectLayoutRevisionRequestsQuery->where('layout_name',$LayoutUser->layout_id);
+                $ArchitectLayoutRevisionRequestsQuery = $ArchitectLayoutRevisionRequestsQuery->whereIn('layout_name',$layouts_ids);
             }   
         }
         // query replaced for optimization
