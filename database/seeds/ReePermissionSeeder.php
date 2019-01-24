@@ -657,22 +657,22 @@ class ReePermissionSeeder extends Seeder
                     \App\LayoutUser::insert(['user_id' => $ree_user_id, 'layout_id' => $layout_id]);
                 }
 
-                if (\App\LayoutUser::where(['user_id' => $ree_as_user_id, 'layout_id' => $layout_id])->first()) {
+                if (\App\LayoutUser::where(['user_id' => $ree_as_user_id])->first()) {
 
                 } else {
-                    \App\LayoutUser::insert(['user_id' => $ree_as_user_id, 'layout_id' => $layout_id]);
+                    \App\LayoutUser::insert(['user_id' => $ree_as_user_id]);
                 }
 
-                if (\App\LayoutUser::where(['user_id' => $ree_deputy_user_id, 'layout_id' => $layout_id])->first()) {
+                if (\App\LayoutUser::where(['user_id' => $ree_deputy_user_id])->first()) {
 
                 } else {
-                    \App\LayoutUser::insert(['user_id' => $ree_deputy_user_id, 'layout_id' => $layout_id]);
+                    \App\LayoutUser::insert(['user_id' => $ree_deputy_user_id]);
                 }
 
-                if (\App\LayoutUser::where(['user_id' => $ree_Jr_user_id, 'layout_id' => $layout_id])->first()) {
+                if (\App\LayoutUser::where(['user_id' => $ree_Jr_user_id])->first()) {
 
                 } else {
-                    \App\LayoutUser::insert(['user_id' => $ree_Jr_user_id, 'layout_id' => $layout_id]);
+                    \App\LayoutUser::insert(['user_id' => $ree_Jr_user_id]);
                 }
             }
         }

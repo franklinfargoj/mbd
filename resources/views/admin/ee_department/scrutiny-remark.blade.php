@@ -74,7 +74,14 @@
                                                 date(config('commanConfig.dateFormat'),
                                                 strtotime($arrData['society_detail']->submitted_at)) : ''}}</span>
                                         </div>
-                                    </div>
+                                    </div> 
+                                    <div class="col-sm-6 field-col">
+                                        <div class="d-flex">
+                                            <span class="field-name">Society Registration No:</span>
+                                            <span class="field-value">{{
+                                                $arrData['society_detail']->eeApplicationSociety->registration_no }}</span>
+                                        </div>
+                                    </div>                                    
                                     <div class="col-sm-6 field-col">
                                         <div class="d-flex">
                                             <span class="field-name">Society Name:</span>

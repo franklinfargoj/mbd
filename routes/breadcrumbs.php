@@ -269,16 +269,16 @@ Breadcrumbs::for('society_reval_documents_cap', function ($trail,$id) {
 Breadcrumbs::for('society_EE_documents_cap', function ($trail,$id) {
     $trail->parent('cap');
     $trail->push('society EE documents', route('cap.society_EE_documents',$id));
-});
+}); 
 
 Breadcrumbs::for('EE_scrutiny_cap', function ($trail,$id) {
     $trail->parent('cap');
-    $trail->push('EE scrutiny', route('cap.EE_scrutiny_remark',$id));
+    $trail->push('EE scrutiny', route('common.EE_Scrutiny_Remark',$id));
 });
 
 Breadcrumbs::for('DYCE_scrutiny_cap', function ($trail,$id) {
     $trail->parent('cap');
-    $trail->push('DYCE scrutiny', route('cap.dyce_Scrutiny_Remark',$id));
+    $trail->push('DYCE scrutiny', route('common.dyce_scrutiny_remark',$id));
 });
 
 // Breadcrumbs::for('REE_calculation_cap', function ($trail,$id) {
@@ -327,12 +327,12 @@ Breadcrumbs::for('society_EE_documents_vp', function ($trail,$id) {
 
 Breadcrumbs::for('EE_scrutiny_vp', function ($trail,$id) {
     $trail->parent('vp');
-    $trail->push('EE_scrutiny', route('vp.EE_scrutiny_remark',$id));
+    $trail->push('EE_scrutiny', route('common.EE_Scrutiny_Remark',$id));
 });
 
 Breadcrumbs::for('DYCE_scrutiny_vp', function ($trail,$id) {
     $trail->parent('vp');
-    $trail->push('DYCE_scrutiny', route('vp.dyce_Scrutiny_Remark',$id));
+    $trail->push('DYCE_scrutiny', route('common.dyce_scrutiny_remark',$id));
 });
 
 // Breadcrumbs::for('REE_calculation_cap', function ($trail,$id) {
@@ -415,7 +415,7 @@ Breadcrumbs::for('scrutiny-remark-noc_cc_co', function ($trail,$id) {
 
 Breadcrumbs::for('DYCE_scrutiny_co', function ($trail,$id) {
     $trail->parent('co');
-    $trail->push('DYCE_scrutiny', route('co.scrutiny_remark',$id));
+    $trail->push('DYCE_scrutiny', route('common.dyce_scrutiny_remark',$id));
 });
 
 Breadcrumbs::for('Approve_offer_letter', function ($trail,$id) {
@@ -517,7 +517,7 @@ Breadcrumbs::for('EE_scrutiny_ree', function ($trail,$id) {
 
 Breadcrumbs::for('DYCE_scrutiny_ree', function ($trail,$id) {
     $trail->parent('ree');
-    $trail->push('DYCE scrutiny', route('ree.dyce_scrutiny_remark',$id));
+    $trail->push('DYCE scrutiny', route('common.dyce_scrutiny_remark',$id));
 });
 
 Breadcrumbs::for('calculation_sheet', function ($trail,$id) {

@@ -830,7 +830,6 @@ class CommonController extends Controller
     public function getForwardApplicationParentData()
     {
         $user = User::with(['roles.parent.parentUser'])->where('users.id', Auth::user()->id)->first();
-
         $roles = array_get($user, 'roles');
         $parent = array_get($roles[0], 'parent');
         $arrData['parentData'] = array_get($parent, 'parentUser');
