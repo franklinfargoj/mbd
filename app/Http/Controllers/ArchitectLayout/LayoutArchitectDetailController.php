@@ -75,8 +75,8 @@ class LayoutArchitectDetailController extends Controller
                     } else {
                         $app_type = "<br><span class='m-badge m-badge--success'>Application for Offer letter</span>";
                     }
-
-                    return $ol_applications->application_no . $app_type;
+                    return $ol_applications->application_no;
+                    //return $ol_applications->application_no . $app_type;
                 })
                 ->editColumn('application_master_id', function ($ol_applications) {
                     return $ol_applications->ol_application_master->model;
@@ -151,7 +151,6 @@ class LayoutArchitectDetailController extends Controller
             $add_detail = 0;
 
         }
-        //dd($add_detail);
         if (count($this->common->check_layout_details_complete_status($layout_id)) == 0 && $add_detail == 1) {
             $ArchitectLayoutDetail = new ArchitectLayoutDetail;
             $ArchitectLayoutDetail->architect_layout_id = $layout_id;
@@ -228,8 +227,8 @@ class LayoutArchitectDetailController extends Controller
             //dd('ok');
             $add_detail = 0;
         }
-
-        if (count($this->common->check_layout_details_complete_status($ArchitectLayout->id)) == 0 && $add_detail == 1 && $ArchitectLayout->layout_details->count()>1) {
+        //if (count($this->common->check_layout_details_complete_status($ArchitectLayout->id)) == 0 && $add_detail == 1 && $ArchitectLayout->layout_details->count()>1) {
+        if ($add_detail == 1 && $ArchitectLayout->layout_details->count()>=1) {
             $send_for_revision=1;
         }
         //dd($send_for_revision);

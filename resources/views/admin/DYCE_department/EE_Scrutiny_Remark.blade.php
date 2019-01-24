@@ -63,6 +63,13 @@
                                 </div>
                                 <div class="col-sm-6 field-col">
                                     <div class="d-flex">
+                                        <span class="field-name">Society Registration No:</span>
+                                        <span class="field-value">{{(isset($eeScrutinyData->eeApplicationSociety->registration_no)
+                                            ? $eeScrutinyData->eeApplicationSociety->registration_no : '')}}</span>
+                                    </div>
+                                </div>                                
+                                <div class="col-sm-6 field-col">
+                                    <div class="d-flex">
                                         <span class="field-name">Society Name:</span>
                                         <span class="field-value">{{(isset($eeScrutinyData->eeApplicationSociety->name)
                                             ? $eeScrutinyData->eeApplicationSociety->name : '')}}</span>

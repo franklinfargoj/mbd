@@ -7,9 +7,9 @@
         <!-- BEGIN: Subheader -->
         <div class="m-subheader px-0">
             <div class="d-flex">
-                {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
+                 {{ Breadcrumbs::render('society_tripartite_agreement', $id) }}
                 <div class="ml-auto btn-list">
-                    <a href="javascript:void(0);" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                    <a href="{{  }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                 </div>
             </div>
             @if (session('success'))

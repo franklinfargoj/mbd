@@ -166,15 +166,15 @@ class REEController extends Controller
     //     return view('admin.REE_department.EE_Scrunity_Remark',compact('ol_application','eeScrutinyData'));
     // }   
 
-    // DyCE Scrutiny & Remark page
-    public function dyceScrutinyRemark(Request $request,$applicationId){
+    // // DyCE Scrutiny & Remark page
+    // public function dyceScrutinyRemark(Request $request,$applicationId){
 
-        $applicationId = decrypt($applicationId);
-        $ol_application = $this->CommonController->getOlApplication($applicationId);
-        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
-        $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);
-        return view('admin.REE_department.dyce_scrunity_remark',compact('ol_application','applicationData'));
-    }
+    //     $applicationId = decrypt($applicationId);
+    //     $ol_application = $this->CommonController->getOlApplication($applicationId);
+    //     $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+    //     $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);
+    //     return view('admin.REE_department.dyce_scrunity_remark',compact('ol_application','applicationData'));
+    // }
 
     // Forward Application page
     public function forwardApplication(Request $request, $applicationId){
@@ -1332,6 +1332,7 @@ class REEController extends Controller
         if (!(Storage::disk('ftp')->has($folder_name))) {            
             Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
         } 
+        // return $pdf->stream();
         Storage::disk('ftp')->put($filePath, $pdf->output());
         $file = $pdf->output();
 

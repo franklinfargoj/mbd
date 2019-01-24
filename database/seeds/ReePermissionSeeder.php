@@ -6,6 +6,8 @@ use App\Role;
 use App\RoleUser;
 use App\User;
 use Illuminate\Database\Seeder;
+use \App\MasterLayout;
+use \App\LayoutUser;
 
 class ReePermissionSeeder extends Seeder
 {
@@ -52,8 +54,13 @@ class ReePermissionSeeder extends Seeder
             //     'display_name' => 'EE Scrutiny Remark',
             //     'description' => 'EE Scrutiny Remark',
             // ],
+            // [
+            //     'name' => 'ree.dyce_scrutiny_remark',
+            //     'display_name' => 'dyce scrutiny remark',
+            //     'description' => 'dyce scrutiny remark',
+            // ],            
             [
-                'name' => 'ree.dyce_scrutiny_remark',
+                'name' => 'common.dyce_scrutiny_remark',
                 'display_name' => 'dyce scrutiny remark',
                 'description' => 'dyce scrutiny remark',
             ],
@@ -643,33 +650,60 @@ class ReePermissionSeeder extends Seeder
             // Layout User Mapping
            // $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
 
-            $layouts = \App\MasterLayout::pluck('id')->toArray();
+            // $layouts = \App\MasterLayout::pluck('id')->toArray();
 
-            foreach($layouts as $layout_id) {
-                if (\App\LayoutUser::where(['user_id' => $ree_user_id, 'layout_id' => $layout_id])->first()) {
+            // foreach($layouts as $layout_id) {
+            //     if (\App\LayoutUser::where(['user_id' => $ree_user_id, 'layout_id' => $layout_id])->first()) {
+
+            //     } else {
+            //         \App\LayoutUser::insert(['user_id' => $ree_user_id, 'layout_id' => $layout_id]);
+            //     }
+
+            //     if (\App\LayoutUser::where(['user_id' => $ree_as_user_id])->first()) {
+                
+            //     } else {
+            //         dd($ree_as_user_id);
+            //         \App\LayoutUser::insert(['user_id' => $ree_as_user_id,'layout_id' => ]);
+            //     }
+
+            //     if (\App\LayoutUser::where(['user_id' => $ree_deputy_user_id])->first()) {
+
+            //     } else {
+            //         \App\LayoutUser::insert(['user_id' => $ree_deputy_user_id]);
+            //     }
+
+            //     if (\App\LayoutUser::where(['user_id' => $ree_Jr_user_id])->first()) {
+
+            //     } else {
+            //         \App\LayoutUser::insert(['user_id' => $ree_Jr_user_id]);
+            //     }
+            // }
+
+            $layout_id = MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
+
+            if ($layout_id) {
+                if (LayoutUser::where(['user_id' => $ree_user_id, 'layout_id' => $layout_id->id])->first()) {
 
                 } else {
-                    \App\LayoutUser::insert(['user_id' => $ree_user_id, 'layout_id' => $layout_id]);
-                }
-
-                if (\App\LayoutUser::where(['user_id' => $ree_as_user_id, 'layout_id' => $layout_id])->first()) {
-
-                } else {
-                    \App\LayoutUser::insert(['user_id' => $ree_as_user_id, 'layout_id' => $layout_id]);
-                }
-
-                if (\App\LayoutUser::where(['user_id' => $ree_deputy_user_id, 'layout_id' => $layout_id])->first()) {
+                    LayoutUser::insert(['user_id' => $ree_user_id, 'layout_id' => $layout_id->id]);
+                }                
+                if (LayoutUser::where(['user_id' => $ree_as_user_id, 'layout_id' => $layout_id->id])->first()) {
 
                 } else {
-                    \App\LayoutUser::insert(['user_id' => $ree_deputy_user_id, 'layout_id' => $layout_id]);
-                }
-
-                if (\App\LayoutUser::where(['user_id' => $ree_Jr_user_id, 'layout_id' => $layout_id])->first()) {
+                    LayoutUser::insert(['user_id' => $ree_as_user_id, 'layout_id' => $layout_id->id]);
+                }                
+                if (LayoutUser::where(['user_id' => $ree_deputy_user_id, 'layout_id' => $layout_id->id])->first()) {
 
                 } else {
-                    \App\LayoutUser::insert(['user_id' => $ree_Jr_user_id, 'layout_id' => $layout_id]);
+                    LayoutUser::insert(['user_id' => $ree_deputy_user_id, 'layout_id' => $layout_id->id]);
+                }                
+                if (LayoutUser::where(['user_id' => $ree_Jr_user_id, 'layout_id' => $layout_id->id])->first()) {
+
+                } else {
+                    LayoutUser::insert(['user_id' => $ree_Jr_user_id, 'layout_id' => $layout_id->id]);
                 }
-            }
+
+            }            
         }
     }
 }

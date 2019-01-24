@@ -39,7 +39,7 @@
     <link href="{{asset('/plugins/datatables/datatables.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('/assets/demo/default/base/print.css')}}" media = "print" rel="stylesheet" type="text/css" />
     <!--end::Base Styles -->
-    <link rel="shortcut icon" href="{{asset('/assets/demo/default/media/img/logo/favicon.ico')}}" />
+    <link rel="shortcut icon" href="{{ asset('/img/fav-icon-new.png')}}" />
     @yield('css')
     <style type="text/css">
         @media print {
@@ -48,6 +48,9 @@
             }
             .hide-print {
                 display: none !important;
+            }
+            .margin_top{
+                margin-top:150px;
             }
         }
     </style>

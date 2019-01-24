@@ -15,27 +15,33 @@
             {{ Breadcrumbs::render('EE_scrutiny_ree',$ol_application->id) }}  
 
         @elseif(session()->get('role_name') == config('commanConfig.co_engineer'))
-            {{ Breadcrumbs::render('EE_scrutiny_co',$ol_application->id) }}    
+            {{ Breadcrumbs::render('EE_scrutiny_co',$ol_application->id) }}  
+
+         @elseif(session()->get('role_name') == config('commanConfig.cap_engineer'))
+            {{ Breadcrumbs::render('EE_scrutiny_cap',$ol_application->id) }}
+         
+         @elseif(session()->get('role_name') == config('commanConfig.vp_engineer')) 
+            {{ Breadcrumbs::render('EE_scrutiny_vp',$ol_application->id) }}      
         @endif    
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
-        </div>
+        </div> 
         <div id="tabbed-content" class="">
             <div class="m-portlet__head">
                 <div class="m-portlet__head-tools">
                     <ul id="top-tabs" class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom tabs hide-print">
-                        <li class="nav-item m-tabs__item active" data-target="#document-scrunity">
+                        <li class="nav-item m-tabs__item active v-tabs" data-target="#document-scrunity">
                             <a class="nav-link m-tabs__link">
                                 <i class="la la-cog"></i> Document Scrutiny
                             </a>
                         </li>
-                        <li class="nav-item m-tabs__item" data-target="#checklist-scrunity">
+                        <li class="nav-item m-tabs__item" id="checklist_scrunity" data-target="#checklist-scrunity">
                             <a class="nav-link m-tabs__link">
                                 <i class="la la-cog"></i> Checklist Scrutiny
                             </a>
                         </li>
-                        <li class="nav-item m-tabs__item" data-target="#ee-note">
+                        <li class="nav-item m-tabs__item v-tabs" data-target="#ee-note">
                             <a class="nav-link m-tabs__link">
                                 <i class="la la-cog"></i> EE Note
                             </a>
@@ -53,7 +59,7 @@
                                 </h3>
                                 <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto">
                                     <img src="{{asset('/img/print-icon.svg')}}" 
-                                            style="max-width: 22px" class="printBtn hide-print"></a>
+                                            style="max-width: 22px;display:none" class="printBtn hide-print"></a>
                             </div>
                             <div class="row field-row">
                                 <div class="col-sm-6 field-col">
@@ -76,11 +82,18 @@
                                 </div>
                                 <div class="col-sm-6 field-col">
                                     <div class="d-flex">
+                                        <span class="field-name">Society Registration No:</span>
+                                        <span class="field-value">{{(isset($eeScrutinyData->eeApplicationSociety->registration_no)
+                                            ? $eeScrutinyData->eeApplicationSociety->registration_no : '')}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 field-col">
+                                    <div class="d-flex">
                                         <span class="field-name">Society Name:</span>
                                         <span class="field-value">{{(isset($eeScrutinyData->eeApplicationSociety->name)
                                             ? $eeScrutinyData->eeApplicationSociety->name : '')}}</span>
                                     </div>
-                                </div>
+                                </div>                                
                                 <div class="col-sm-6 field-col">
                                     <div class="d-flex">
                                         <span class="field-name">Society Address:</span>
@@ -735,6 +748,14 @@
     }
 
     $('.printBtn').on('click', test);
+
+    $("#checklist_scrunity").click(function(){
+        $(".printBtn").css("display","block");
+    });    
+
+    $(".v-tabs").click(function(){
+        $(".printBtn").css("display","none");
+    });
     
 </script>
 @endsection    

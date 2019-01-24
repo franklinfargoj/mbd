@@ -40,7 +40,8 @@ class CourtCaseOrDisputeOnLandController extends Controller
             $ArchitectLayoutCourtMatterDispute->description = $request->description;
             $ArchitectLayoutCourtMatterDispute->save();
             if ($ArchitectLayoutCourtMatterDispute) {
-                return back()->withSuccess('Details Added Successfully!!!');
+                
+                return redirect()->route('architect_layout_detail_court_case_or_dispute_on_land.index',['layout_detail_id'=>encrypt($ArchitectLayoutCourtMatterDispute->architect_layout_detail_id)])->withSuccess('Details Added Successfully!!!');
             }
             return back()->withError('Something Went Wrong');
         } else {
@@ -77,7 +78,8 @@ class CourtCaseOrDisputeOnLandController extends Controller
                     $ArchitectLayoutCourtMatterDispute->document_file = $storage;
                     $ArchitectLayoutCourtMatterDispute->save();
                 }
-                return back()->withSuccess('Details Added Successfully!!!');
+                return redirect()->route('architect_layout_detail_court_case_or_dispute_on_land.index',['layout_detail_id'=>encrypt($ArchitectLayoutCourtMatterDispute->architect_layout_detail_id)])->withSuccess('Details Updated Successfully!!!');
+                //return back()->withSuccess('Details Added Successfully!!!');
             }
             return back()->withError('Something Went Wrong');
         }

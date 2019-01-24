@@ -269,16 +269,16 @@ Breadcrumbs::for('society_reval_documents_cap', function ($trail,$id) {
 Breadcrumbs::for('society_EE_documents_cap', function ($trail,$id) {
     $trail->parent('cap');
     $trail->push('society EE documents', route('cap.society_EE_documents',$id));
-});
+}); 
 
 Breadcrumbs::for('EE_scrutiny_cap', function ($trail,$id) {
     $trail->parent('cap');
-    $trail->push('EE scrutiny', route('cap.EE_scrutiny_remark',$id));
+    $trail->push('EE scrutiny', route('common.EE_Scrutiny_Remark',$id));
 });
 
 Breadcrumbs::for('DYCE_scrutiny_cap', function ($trail,$id) {
     $trail->parent('cap');
-    $trail->push('DYCE scrutiny', route('cap.dyce_Scrutiny_Remark',$id));
+    $trail->push('DYCE scrutiny', route('common.dyce_scrutiny_remark',$id));
 });
 
 // Breadcrumbs::for('REE_calculation_cap', function ($trail,$id) {
@@ -327,12 +327,12 @@ Breadcrumbs::for('society_EE_documents_vp', function ($trail,$id) {
 
 Breadcrumbs::for('EE_scrutiny_vp', function ($trail,$id) {
     $trail->parent('vp');
-    $trail->push('EE_scrutiny', route('vp.EE_scrutiny_remark',$id));
+    $trail->push('EE_scrutiny', route('common.EE_Scrutiny_Remark',$id));
 });
 
 Breadcrumbs::for('DYCE_scrutiny_vp', function ($trail,$id) {
     $trail->parent('vp');
-    $trail->push('DYCE_scrutiny', route('vp.dyce_Scrutiny_Remark',$id));
+    $trail->push('DYCE_scrutiny', route('common.dyce_scrutiny_remark',$id));
 });
 
 // Breadcrumbs::for('REE_calculation_cap', function ($trail,$id) {
@@ -415,7 +415,7 @@ Breadcrumbs::for('scrutiny-remark-noc_cc_co', function ($trail,$id) {
 
 Breadcrumbs::for('DYCE_scrutiny_co', function ($trail,$id) {
     $trail->parent('co');
-    $trail->push('DYCE_scrutiny', route('co.scrutiny_remark',$id));
+    $trail->push('DYCE_scrutiny', route('common.dyce_scrutiny_remark',$id));
 });
 
 Breadcrumbs::for('Approve_offer_letter', function ($trail,$id) {
@@ -517,7 +517,7 @@ Breadcrumbs::for('EE_scrutiny_ree', function ($trail,$id) {
 
 Breadcrumbs::for('DYCE_scrutiny_ree', function ($trail,$id) {
     $trail->parent('ree');
-    $trail->push('DYCE scrutiny', route('ree.dyce_scrutiny_remark',$id));
+    $trail->push('DYCE scrutiny', route('common.dyce_scrutiny_remark',$id));
 });
 
 Breadcrumbs::for('calculation_sheet', function ($trail,$id) {
@@ -1114,6 +1114,11 @@ Breadcrumbs::for('architect_layout_details', function ($trail,$id) {
     $trail->push('View Details', route('architect_layout_details.view',['layout_id'=>$id]));
 });
 
+Breadcrumbs::for('list_off_issued_offer_letter', function ($trail,$id) {
+    $trail->parent('architect_layout');
+    $trail->push('List of Offer Letter Issued', route('list_of_offer_letter_issued',['layout_id'=>$id]));
+});
+
 Breadcrumbs::for('architect_layout_scrutiny_remarks', function ($trail,$id) {
     $trail->parent('architect_layout');
     $trail->push('Scrutiny & Remark', route('architect_layout_get_scrtiny',['layout_id'=>$id]));
@@ -1340,7 +1345,7 @@ Breadcrumbs::for('society_renewal_signed_sale_lease', function ($trail, $id) {
 
 //Society Tripartite Agreement
 Breadcrumbs::for('society_tripartite',function($trail){
-    $trail->push('Home',route('society_tripartite.index'));
+    $trail->push('Home',route('society_offer_letter_dashboard'));
 });
 
 Breadcrumbs::for('society_tripartite_view_application', function ($trail, $id) {
@@ -1353,9 +1358,9 @@ Breadcrumbs::for('society_tripartite_edit_application', function ($trail, $id) {
     $trail->push('Edit Application', route('tripartite_application_form_edit', $id));
 });
 
-Breadcrumbs::for('society_tripartite_documents_upload', function ($trail) {
+Breadcrumbs::for('society_tripartite_documents_upload', function ($trail, $id) {
     $trail->parent('society_tripartite');
-    $trail->push('Upload documents', route('display_tripartite_docs'));
+    $trail->push('Upload documents', route('display_tripartite_docs', $id));
 });
 
 Breadcrumbs::for('society_tripartite_agreement', function ($trail, $id) {
