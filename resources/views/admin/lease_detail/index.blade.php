@@ -19,12 +19,12 @@
                 <div class="col-md-12">
                     <form role="form" id="eeForm" method="get" action="">
                         <div class="row align-items-center mb-0">
-                            <div class="col-md-3">
-                                <div class="form-group m-form__group">
-                                    <input type="text" id="society_name" name="society_name" class="form-control form-control--custom m-input"
-                                           placeholder="Society Name" value="{{ isset($getData['society_name'])? $getData['society_name'] : '' }}">
-                                </div>
-                            </div>
+                            {{--<div class="col-md-3">--}}
+                                {{--<div class="form-group m-form__group">--}}
+                                    {{--<input type="text" id="society_name" name="society_name" class="form-control form-control--custom m-input"--}}
+                                           {{--placeholder="Society Name" value="{{ isset($getData['society_name'])? $getData['society_name'] : '' }}">--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
                             <div class="col-md-3">
                                 <div class="form-group m-form__group">
                                     <input type="text" id="lease_date_from" name="lease_date_from" class="form-control form-control--custom m-input m_datepicker"
