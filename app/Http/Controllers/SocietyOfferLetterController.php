@@ -2562,4 +2562,12 @@ class SocietyOfferLetterController extends Controller
         }
         return redirect()->route('society_offer_letter_dashboard');
     }
+
+
+    public function society_applications(){
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $ol_applications = OlApplication::where('society_id', $society->id)->get();
+        
+        dd($ol_applications);
+    }
 }
