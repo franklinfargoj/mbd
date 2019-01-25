@@ -1306,6 +1306,7 @@ class REEController extends Controller
         $table1Id = OlCustomCalculationMasterModel::where('name','Calculation_Table-A')->value('id');       
         $table1 = OlCustomCalculationSheet::where('society_id',$model->society_id)
         ->where('parent_id',$table1Id)->get()->toArray();
+        
         return view('admin.REE_department.'.$blade,compact('applicatonId','content','model','calculationData','custom','table1'));
     }
 
