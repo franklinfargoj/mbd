@@ -66,4 +66,9 @@ class SocietyDetail extends Model
         return $this->belongsTo('App\MasterColony');    
     
     }
+
+    public function societyLease()
+    {
+        return $this->hasMany('App\LeaseDetail', 'society_id')->orderBy('id','desc');
+    }
 }

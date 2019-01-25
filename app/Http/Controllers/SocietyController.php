@@ -74,6 +74,25 @@ class SocietyController extends Controller
             $society_data = $society_data->where('survey_number', 'like', '%'.$getData['sr_no'].'%');
         }
 
+        $current_date = date('Y-m-d');
+
+        if(isset($getData['lease_status'])){
+            if($getData['lease_status'] == 1)
+            {
+                session()->put('lease_status',$getData['lease_status']);
+
+                $society_data = $society_data->whereHas('societyLease',function($q) use($current_date){
+                    $q->where('lease_renewal_date','>', $current_date)->where('lease_status',1);
+                });
+
+            }
+            elseif($getData['lease_status'] == 0) {
+                session()->put('lease_status',$getData['lease_status']);
+                $society_data = $society_data->whereHas('societyLease',function($q) use($current_date){
+                    $q->where('lease_renewal_date','<', $current_date)->where('lease_status',1);
+                });
+            }
+        }
 
         $society_data = $society_data->selectRaw( DB::raw('lm_society_detail.id,
             lm_society_detail.society_name,
@@ -184,14 +203,17 @@ class SocietyController extends Controller
         if($request->excel)
         {
             $getData = [
-                'society_name' =>session()->get('society_name'),
-                'sr_no' =>session()->get('sr_no'),
-                'village' =>session()->get('village')
+                'society_name'=> session()->get('society_name'),
+                'sr_no'       => session()->get('sr_no'),
+                'village'     => session()->get('village'),
+                'lease_status'=> session()->get('lease_status'),
 
             ];
 
             $society_data = SocietyDetail::join('other_land','lm_society_detail.other_land_id', '=', 'other_land.id')
-            ->join('village_societies','village_societies.society_id','=','lm_society_detail.id');
+            ->join('village_societies','village_societies.society_id','=','lm_society_detail.id')
+            ->join('lm_lease_detail','lm_lease_detail.society_id','=','lm_society_detail.id');
+
 
             if($getData['society_name'])
             {
@@ -211,6 +233,25 @@ class SocietyController extends Controller
                 $society_data = $society_data->where('survey_number', 'like', '%'.$getData['sr_no'].'%');
             }
 
+            $current_date = date('Y-m-d');
+
+            if(isset($getData['lease_status'])){
+                if($getData['lease_status'] == 1)
+                {
+                    session()->put('lease_status',$getData['lease_status']);
+
+                    $society_data = $society_data->whereHas('societyLease',function($q) use($current_date){
+                        $q->where('lease_renewal_date','>', $current_date)->where('lease_status',1);
+                    });
+
+                }
+                elseif($getData['lease_status'] == 0) {
+                    session()->put('lease_status',$getData['lease_status']);
+                    $society_data = $society_data->whereHas('societyLease',function($q) use($current_date){
+                        $q->where('lease_renewal_date','<', $current_date)->where('lease_status',1);
+                    });
+                }
+            }
 
             $society_data = $society_data->selectRaw( DB::raw('lm_society_detail.id,
             lm_society_detail.society_name,
@@ -314,14 +355,34 @@ class SocietyController extends Controller
         session()->put('lease_end_date_count', $lease_count);
 
 
+//        $current_date = date('Y-m-d');
+//
+//        if($request->lease_status == 1)
+//        {
+//            session()->put('lease_status',$request->lease_status);
+//
+//            $society_data = $society_data->whereHas('societyLease',function($q) use($request ,$current_date){
+//                $q->where('lease_renewal_date','>', $current_date)->where('lease_status',1);
+//            });
+//
+//        }
+//        elseif($request->lease_status == 0) {
+//            session()->put('lease_status',$request->lease_status);
+//            $society_data = $society_data->whereHas('societyLease',function($q) use($request ,$current_date){
+//                $q->where('lease_renewal_date','<', $current_date)->where('lease_status',1);
+//            });
+//        }
+//        else
+//        {
+//            session()->forget('lease_status');
+//        }
 
         if ($datatables->getRequest()->ajax()) {
 
             // DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
             $society_data = SocietyDetail::orderBy('id', 'desc');
 
-//            dd($society_data->toArray());
-
+//        dd($society_data);
             if($request->society_name)
             {
                 session()->put('society_name',$request->society_name);
@@ -330,7 +391,6 @@ class SocietyController extends Controller
                 session()->forget('society_name');
             }
 
-//
             if($request->village)
             {
                 session()->put('village',$request->village);
@@ -349,7 +409,32 @@ class SocietyController extends Controller
                 session()->forget('sr_no');
             }
 
+            $current_date = date('Y-m-d');
+
+            if(isset($request->lease_status)){
+                if($request->lease_status == 1)
+                {
+                    session()->put('lease_status',$request->lease_status);
+
+                    $society_data = $society_data->whereHas('societyLease',function($q) use($request ,$current_date){
+                        $q->where('lease_renewal_date','>', $current_date)->where('lease_status',1);
+                    });
+
+                }
+                elseif($request->lease_status == 0) {
+                    session()->put('lease_status',$request->lease_status);
+                    $society_data = $society_data->whereHas('societyLease',function($q) use($request ,$current_date){
+                        $q->where('lease_renewal_date','<', $current_date)->where('lease_status',1);
+                    });
+                }
+            }else
+            {
+                session()->forget('lease_status');
+            }
+
+
             $society_data = $society_data->get();
+
             return $datatables->of($society_data)
 
                 ->editColumn('rownum', function ($society_data) {
