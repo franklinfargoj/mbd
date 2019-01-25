@@ -439,6 +439,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     // Route::post('save_forward_Application','CODepartment\COController@sendForwardApplication')->name('co.forward_application_data');
 
     Route::group(['prefix'=>'society'], function() {
+
+        Route::get('/profile','Common\CommonController@profile')->name('society.profile');
+
         //Society Offer Letter
         Route::get('/application/{id}','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
         Route::post('society_offer_letter/forgot_password', 'SocietyOfferLetterController@forgot_password')->name('society_offer_letter_forgot_password');
@@ -469,6 +472,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         Route::get('society_offer_letter_application_download', 'SocietyOfferLetterController@generate_pdf')->name('society_offer_letter_application_download');
         Route::get('upload_society_offer_letter_application', 'SocietyOfferLetterController@showuploadOfferLetterAfterSign')->name('upload_society_offer_letter_application');
         Route::post('upload_society_offer_letter', 'SocietyOfferLetterController@uploadOfferLetterAfterSign')->name('upload_society_offer_letter');
+
+        Route::get('society_applications', 'SocietyOfferLetterController@society_applications')->name('society_applications');
         //route for society Application Page
 
         //Society Offer Letter END
