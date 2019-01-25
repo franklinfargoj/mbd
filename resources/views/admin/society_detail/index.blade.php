@@ -12,7 +12,6 @@
                 <a target="_blank" href="{{route('society_detail.print')}}" class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
             </div>
         </div>
-
         <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
@@ -35,8 +34,8 @@
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                             {{--data-live-search="true"--}} id="lease_status" name="lease_status">
                                         <option value="" style="font-weight: normal;">Select Lease Status</option>
-                                        <option value="1" style="font-weight: normal;">Active</option>
-                                        <option value="0" style="font-weight: normal;">Expired</option>
+                                        <option value="1" style="font-weight: normal;" {{ isset($getData['lease_status']) ? (($getData['lease_status'] == 1)? 'selected' : '') : '' }}>Active</option>
+                                        <option value="0" style="font-weight: normal;" {{ isset($getData['lease_status']) ? (($getData['lease_status'] == 0)? 'selected' : '') : '' }} >Expired</option>
 
                                         {{--@foreach($villages as $village)--}}
                                         {{--<option value="{{$village->id}}" {{ isset($getData['village'])? (($getData['village'] == $village->id ) ? 'selected' : '') : '' }} >{{$village->village_name}}</option>--}}

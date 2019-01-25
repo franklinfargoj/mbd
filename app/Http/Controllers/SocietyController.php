@@ -460,7 +460,7 @@ class SocietyController extends Controller
                 ->make(true);
         }
         $villages = VillageDetail::get();
-
+//        dd($getData);
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
         return view('admin.society_detail.index', compact('html','header_data','villages','getData', 'id'));
