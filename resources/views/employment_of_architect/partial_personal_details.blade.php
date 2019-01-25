@@ -74,7 +74,7 @@
             @endif
         </div>
         <div class="col-sm-4 form-group">
-            <label class="col-form-label" for="">Fax No<span class="star">*</span></label>
+            <label class="col-form-label" for="">Fax No</label>
             <input type="text" id="" name="fax" class="form-control form-control--custom m-input" value="{{old('fax')?old('fax'):$application->fax}}">
             @if ($errors->has('fax'))
             <span class="text-danger">{{ $errors->first('fax') }}</span>
