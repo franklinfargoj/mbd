@@ -31,7 +31,7 @@ class StepOneRequest extends FormRequest
             'pin' => 'required',
             'mobile' => 'required',
             'off' => 'required',
-            'fax' => 'required',
+            //'fax' => 'required',
             'res' => 'required',
             'cash'=>'required',
             'pay_order_no'=>'required',

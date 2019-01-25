@@ -3269,10 +3269,6 @@ label.site-visit-label {
     cursor: pointer;
 }
 
-.form-step-tab.active span {
-    color: #767678;
-}
-
 .form-step-tab.active + .form-step-tab.active {
     border-left: 1px solid white;
     z-index: 5;
@@ -3303,6 +3299,7 @@ label.site-visit-label {
     position: absolute;
     top: calc(100% + 8px);
     left: 50%;
+    color: #000000;
     -webkit-transform: translate(-50%);
         -ms-transform: translate(-50%);
             transform: translate(-50%);
