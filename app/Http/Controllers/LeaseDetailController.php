@@ -131,8 +131,10 @@ class LeaseDetailController extends Controller
     {
         $lease_count = $this->getNotificationCount();
         session()->put('lease_end_date_count', $lease_count);
-
         $id = decrypt($id);
+
+        $society_name = SocietyDetail::where('id',$id)->value('society_name');
+
         $header_data = $this->header_data;
         $getData = $request->all();
 
@@ -327,7 +329,7 @@ class LeaseDetailController extends Controller
         }
 
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
-        return view('admin.lease_detail.index', compact('html','header_data','getData', 'count', 'id', 'village_id'));
+        return view('admin.lease_detail.index', compact('society_name','html','header_data','getData', 'count', 'id', 'village_id'));
     }
 
     protected function getParameters() {
