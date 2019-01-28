@@ -204,7 +204,27 @@ Breadcrumbs::for('documents_uploaded', function ($trail) {
 
 Breadcrumbs::for('documents_upload', function ($trail) {
     $trail->push('Listing', route('society_offer_letter_dashboard'));
-    $trail->push('Upload documents', route('documents_upload'));
+    $trail->push('Upload documents (Offer Letter)', route('documents_upload'));
+});
+
+Breadcrumbs::for('noc_documents_upload', function ($trail) {
+    $trail->push('Listing', route('society_offer_letter_dashboard'));
+    $trail->push('Upload documents (NOC)', route('documents_upload_noc'));
+});
+
+Breadcrumbs::for('oc_documents_upload', function ($trail) {
+    $trail->push('Listing', route('society_offer_letter_dashboard'));
+    $trail->push('Upload documents (Concent For OC)', route('oc_documents_upload'));
+});
+
+Breadcrumbs::for('noc_cc_documents_upload', function ($trail) {
+    $trail->push('Listing', route('society_offer_letter_dashboard'));
+    $trail->push('Upload documents (NOC for CC)', route('documents_upload_noc_cc'));
+});
+
+Breadcrumbs::for('revalidation_documents_upload', function ($trail) {
+    $trail->push('Listing', route('society_offer_letter_dashboard'));
+    $trail->push('Upload documents (Revalidation)', route('reval_documents_upload'));
 });
 
 Breadcrumbs::for('society_application', function ($trail) {
@@ -215,12 +235,22 @@ Breadcrumbs::for('society_application', function ($trail) {
 
 Breadcrumbs::for('society_offer_application_create', function ($trail, $id) {
     $trail->parent('society_dashboard');
-    $trail->push('Application form for Redevelopment', route('show_form_dev', $id));
+    $trail->push('Application form (Offer Letter)', route('show_form_dev', $id));
+});
+
+Breadcrumbs::for('society_revalidation_create', function ($trail, $id) {
+    $trail->parent('society_dashboard');
+    $trail->push('Application form (Revalidation)', route('show_reval_self', $id));
+});
+
+Breadcrumbs::for('society_tripatite_create', function ($trail, $id) {
+    $trail->parent('society_dashboard');
+    $trail->push('Application form (Tripatite)', route('show_tripatite_self', $id));
 });
 
 Breadcrumbs::for('society_oc_application_create', function ($trail, $id) {
     $trail->parent('society_dashboard');
-    $trail->push('Application form for Consent For OC', route('show_oc_self', $id));
+    $trail->push('Application form (Consent For OC)', route('show_oc_self', $id));
 });
 
 Breadcrumbs::for('society_noc_application_create', function ($trail, $id) {
@@ -236,6 +266,11 @@ Breadcrumbs::for('society_noc_cc_application_create', function ($trail, $id) {
 Breadcrumbs::for('society_offer_letter_edit', function ($trail) {
     $trail->parent('society_dashboard');
     $trail->push('Redevelopment Application Form(Offer Letter)', route('society_offer_letter_edit'));
+});
+
+Breadcrumbs::for('society_revalidation_edit', function ($trail) {
+    $trail->parent('society_dashboard');
+    $trail->push('Redevelopment Application Form(Revalidation)', route('society_reval_offer_letter_edit'));
 });
 
 Breadcrumbs::for('society_oc_edit', function ($trail) {
@@ -1350,17 +1385,17 @@ Breadcrumbs::for('society_tripartite',function($trail){
 
 Breadcrumbs::for('society_tripartite_view_application', function ($trail, $id) {
     $trail->parent('society_tripartite');
-    $trail->push('View Application', route('tripartite_application_form_preview', $id));
+    $trail->push('View Application (Tripartite)', route('tripartite_application_form_preview', $id));
 });
 
 Breadcrumbs::for('society_tripartite_edit_application', function ($trail, $id) {
     $trail->parent('society_tripartite');
-    $trail->push('Edit Application', route('tripartite_application_form_edit', $id));
+    $trail->push('Edit Application (Tripartite)', route('tripartite_application_form_edit', $id));
 });
 
 Breadcrumbs::for('society_tripartite_documents_upload', function ($trail, $id) {
     $trail->parent('society_tripartite');
-    $trail->push('Upload documents', route('display_tripartite_docs', $id));
+    $trail->push('Upload documents (Tripartite)', route('display_tripartite_docs', $id));
 });
 
 Breadcrumbs::for('society_tripartite_agreement', function ($trail, $id) {

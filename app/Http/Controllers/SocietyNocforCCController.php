@@ -548,6 +548,7 @@ class SocietyNocforCCController extends Controller
     }
 
    	public function viewSocietyDocuments(){
+       
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();      
         $application = NocCCApplication::where('society_id', $society->id)->with(['nocApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
