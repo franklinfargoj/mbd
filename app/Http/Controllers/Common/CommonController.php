@@ -860,32 +860,32 @@ class CommonController extends Controller
         return $arrData;
     }
 
-    // public function getEEForwardRevertLog($applicationData, $applicationId)
-    // {
+    public function getEEForwardRevertLog($applicationData, $applicationId)
+    {
 
-    //     $ee_branch_head = Role::where('name', config('commanConfig.ee_branch_head'))
-    //         ->value('id');
-    //     // $ee_jr_user = Role::where('name',config('commanConfig.ee_junior_engineer'))
-    //     // ->value('id');
-    //     $applicationData->eeForwardLog = OlApplicationStatus::where('application_id', $applicationId)->where('role_id', $ee_branch_head)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
+        $ee_branch_head = Role::where('name', config('commanConfig.ee_branch_head'))
+            ->value('id');
+        // $ee_jr_user = Role::where('name',config('commanConfig.ee_junior_engineer'))
+        // ->value('id');
+        $applicationData->eeForwardLog = OlApplicationStatus::where('application_id', $applicationId)->where('role_id', $ee_branch_head)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
 
-    //     $applicationData->eeRevertLog = OlApplicationStatus::where('application_id', $applicationId)->where('role_id', $ee_branch_head)->where('status_id', config('commanConfig.applicationStatus.reverted'))->where('society_flag', 1)->orderBy('id', 'desc')->first();
+        $applicationData->eeRevertLog = OlApplicationStatus::where('application_id', $applicationId)->where('role_id', $ee_branch_head)->where('status_id', config('commanConfig.applicationStatus.reverted'))->where('society_flag', 1)->orderBy('id', 'desc')->first();
 
-    //     return $applicationData;
-    // }
+        return $applicationData;
+    }
 
-    // public function getDyceForwardRevertLog($applicationData, $applicationId)
-    // {
+    public function getDyceForwardRevertLog($applicationData, $applicationId)
+    {
 
-    //     $dyce_branch_head = Role::where('name', config('commanConfig.dyce_branch_head'))
-    //         ->value('id');
-    //     $dyce_jr_user = Role::where('name', config('commanConfig.dyce_jr_user'))
-    //         ->value('id');
-    //     $applicationData->dyceForwardLog = OlApplicationStatus::where('application_id', $applicationId)->where('role_id', $dyce_branch_head)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
+        $dyce_branch_head = Role::where('name', config('commanConfig.dyce_branch_head'))
+            ->value('id');
+        $dyce_jr_user = Role::where('name', config('commanConfig.dyce_jr_user'))
+            ->value('id');
+        $applicationData->dyceForwardLog = OlApplicationStatus::where('application_id', $applicationId)->where('role_id', $dyce_branch_head)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
 
-    //     $applicationData->dyceRevertLog = OlApplicationStatus::where('application_id', $applicationId)->where('role_id', $dyce_jr_user)->where('status_id', config('commanConfig.applicationStatus.reverted'))->orderBy('id', 'desc')->first();
-    //     return $applicationData;
-    // }
+        $applicationData->dyceRevertLog = OlApplicationStatus::where('application_id', $applicationId)->where('role_id', $dyce_jr_user)->where('status_id', config('commanConfig.applicationStatus.reverted'))->orderBy('id', 'desc')->first();
+        return $applicationData;
+    }
 
     public function getREEForwardRevertLog($applicationData, $applicationId)
     {

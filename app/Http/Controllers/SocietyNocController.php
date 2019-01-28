@@ -79,7 +79,7 @@ class SocietyNocController extends Controller
         $validatedData = $request->validate([
             'demand_draft_amount' => 'required|numeric|digits_between:0,8',
             'demand_draft_bank' => 'required|regex:/^[\pL\s\-]+$/u',
-            'offer_letter_number' => 'required|numeric|digits_between:0,10',
+            'offer_letter_number' => 'required|regex:/^[\w-]*$/',
             'demand_draft_number' => 'required|numeric|digits_between:6,19',
             'demand_draft_date' => 'different:offer_letter_date'
         ]);
