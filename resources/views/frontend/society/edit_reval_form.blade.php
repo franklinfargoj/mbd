@@ -7,13 +7,11 @@
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title m-subheader__title--separator">Redevelopment Application Form</h3>
-                {{ Breadcrumbs::render('society_revalidation_edit') }}
-
+                {{ Breadcrumbs::render('society_revalidation_edit') }}&nbsp;({{ $ol_applications->ol_application_master->model }})
             </div>
         </div>
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
-
             <form id="save_offer_letter_application_dev" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{ route('society_reval_offer_letter_update') }}">
                 @csrf
                 <div class="m-portlet__body m-portlet__body--spaced">

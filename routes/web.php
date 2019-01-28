@@ -102,6 +102,11 @@ Route::post('rti_frontend/create_application','RtiFrontEndController@saveRtiFron
 Route::post('rti_frontend/view_application','RtiFrontEndController@show_rti_application_status')->name('rti_frontend_application_status');
 
 Route::post('upload_ee_note','EEDepartment\EEController@uploadEENote')->name('ee.upload_ee_note');
+
+//User Profile
+Route::get('/profile','Common\CommonController@profile')->name('admin.profile');
+Route::post('/update_profile','Common\CommonController@update_profile')->name('admin.update_profile');
+
 Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']], function() {
 
     // RTI Routes
@@ -440,7 +445,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::group(['prefix'=>'society'], function() {
 
+        //Society user profile
         Route::get('/profile','Common\CommonController@profile')->name('society.profile');
+        Route::post('/update_profile','Common\CommonController@update_profile')->name('society.update_profile');
 
         //Society Offer Letter
         Route::get('/application/{id}','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');

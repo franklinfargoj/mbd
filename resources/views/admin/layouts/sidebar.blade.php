@@ -1192,6 +1192,20 @@ $route=\Request::route()->getName();
                         </span>
                     </a>
                 </li> -->
+                @if(auth()->user())
+                    <li class="m-menu__item @if($route == 'admin.profile') m-menu__item--active @endif" aria-haspopup="true">
+                        <a href="{{ route('admin.profile') }}" class="m-menu__link">
+                            <i class="m-menu__link-icon flaticon-user"></i>
+                            <span class="m-menu__link-title">
+                                <span class="m-menu__link-wrap">
+                                    <span class="m-menu__link-text">
+                                        Profile
+                                    </span>
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </div>
     </div>
