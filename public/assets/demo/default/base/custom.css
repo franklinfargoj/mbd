@@ -878,7 +878,7 @@ table.dataTable tbody tr:nth-child(even):focus {
     -webkit-transition: 0.3s all ease;
     -o-transition: 0.3s all ease;
     transition: 0.3s all ease;
-    cursor: pointer;
+    /*cursor: pointer;*/
     color: #868e96;
 }
 

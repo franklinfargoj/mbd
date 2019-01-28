@@ -18,11 +18,11 @@
                <i class="la la-cog"></i> Scrutiny History
                </a>
             </li>
-            @if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.in_process') ||
+            @if(isset($arrData['get_current_status']) && ($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.in_process') ||
             ($arrData['get_current_status']->status_id ==
             config('commanConfig.applicationStatus.NOC_Generation')) || ($arrData['get_current_status']->status_id ==
             config('commanConfig.applicationStatus.NOC_Issued') && session()->get('role_name') !=
-            config('commanConfig.ree_branch_head')))
+            config('commanConfig.ree_branch_head'))))
             <li class="nav-item m-tabs__item">
                <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                <i class="la la-cog"></i> Forward Application
@@ -281,7 +281,7 @@
                               value="1">
                            <div class="m-form__group form-group">
                               <div class="m-radio-inline">
-                                 @if($arrData['get_current_status']->status_id
+                                 @if(isset($arrData['get_current_status']) && $arrData['get_current_status']->status_id
                                  !=
                                  config('commanConfig.applicationStatus.NOC_Issued') && !($noc_application->noc_generation_status
                                  == '0'

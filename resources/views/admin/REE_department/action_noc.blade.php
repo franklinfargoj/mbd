@@ -14,7 +14,7 @@ $route=\Request::route()->getName();
             </span>
         </span>
     </a>   
-</li>
+</li> 
 
 <li class="m-menu__item" data-toggle="collapse" data-target="#ree-actions">
     <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">

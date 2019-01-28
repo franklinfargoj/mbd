@@ -655,7 +655,7 @@
                                         </div>
                                         <div class="table-checklist m-portlet__body m-portlet__body--table">
                                             <div class="table-responsive">
-                                                <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
+                                                <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;margin-top: 30px">
                                                     <thead class="thead-default">
                                                         <th style="width:10%">#</th>
                                                         <th class="table-data--xl" style="width:50%">मुद्दा / तपशील</th>

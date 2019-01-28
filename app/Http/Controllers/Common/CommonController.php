@@ -2358,7 +2358,7 @@ class CommonController extends Controller
     public function getCurrentLoggedInChildNoc($application_id)
     {
         $child_role_id = Role::where('id', session()->get('role_id'))->get(['child_id']);
-        $result = json_decode($child_role_id[0]->child_id);
+        $result []= json_decode($child_role_id[0]->child_id);
         $status_user = NocApplicationStatus::where(['application_id' => $application_id, 'society_flag' => 0])->pluck('user_id')->toArray();
 
         $final_child = User::with('roles')->whereIn('id', array_unique($status_user))->whereIn('role_id', $result)->get();

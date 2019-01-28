@@ -18,7 +18,7 @@
                     <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#scrutiny-history-tab">
                         <i class="la la-cog"></i> Scrutiny History
                     </a>
-                </li>
+                </li> 
                 
                 @if(($arrData['get_current_status']->status_id ==
                 config('commanConfig.applicationStatus.in_process') ||
