@@ -40,146 +40,113 @@
             9<span>Supporting Documents</span></a>
     </div>
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view m-portlet--forms-compact">
-        <h3 class="section-title section-title--small">EMPANELMENT OF ARCHITECT/CONSULTANT WITH MHADA</h3>
-        <form id="appointing_architect_step2" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
-            action="{{route('appointing_architect.step2_post',['id'=>encrypt($application->id)])}}" enctype="multipart/form-data">
-            @csrf
-            <input type="hidden" name="application_id" value="{{$application->id}}">
-            {{-- @include('employment_of_architect.partial_personal_details',compact('application'))
-            @include('employment_of_architect.partial_payment_details',compact('application')) --}}
-            {{-- <div class="m-portlet__head px-0 m-portlet__head--top">
-                <div class="m-portlet__head-caption">
-                    <div class="m-portlet__head-title">
-                        <span class="m-portlet__head-icon m--hide">
-                            <i class="la la-gear"></i>
-                        </span>
-                        <h3 class="m-portlet__head-text">
-                            Enclosures
-                        </h3>
-                    </div>
-                </div>
-            </div> --}}
-            @php
-            $enclosuers_count=0;
-            $enclosuers_count=$application->enclosures->count();
-            $enclosuers_count=$enclosuers_count>4?$enclosuers_count:4;
-            @endphp
-            <div class="loader" style="display:none;"></div>
-            <table class="table enclosuers">
-                <thead>
-                    <tr>
-                        <th>Enclosure Name</th>
-                        <th>Upload File</th>
-                    </tr>
-                    <thead>
-                    <tbody>
-                        @for($i=0;$i<$enclosuers_count;$i++) <tr class="cloneme">
-                            <td>
-                                <div class="custom-file mb-0 form-group">
-                                    {{-- <label class="mb-0 mr-4 font-weight-semi-bold sr_no" for="">{{$i+1}}.</label> --}}
-                                    <input type="hidden" id="enclosure_id_{{$i}}" name="enclosure_id[{{$i}}]" value="{{isset($application->enclosures[$i])?$application->enclosures[$i]->id:''}}">
-                                    <input type="text" id="" name="enclosures[{{$i}}]" class="form-control form-control--custom m-input w-100"
-                                        value="{{isset($application->enclosures[$i])?$application->enclosures[$i]->enclosure:''}}">
-                                    <span class="help-block"></span>
-                                    
-                                </div>
-                            </td>
-                            <td class="position-relative">
-                                @php
-                                $file="";
-                                $file=isset($application->enclosures)?$application->enclosures[$i]->file:'';
-                                @endphp
-                                <div class="custom-file mb-0 form-group">
-                                    <input data-file-type="enclosures" accept="pdf" title="please upload file with pdf extension"
-                                         type="file" id="extract_enclosure_file_{{$i}}"
-                                        name="enclosure_file[{{$i}}]" class="custom-file-input" onChange="upload_enclosure_file(this)">
-                                    <label title="" class="custom-file-label" for="extract_enclosure_file_{{$i}}">Choose
-                                        File...</label>
-                                    <span class="help-block"></span>
-                                </div>
-                                <a id="enclosure_file_link_{{$i}}" style="display:{{$file!=''?'block':'none'}}"
-                                    target="_blank" class="btn-link download-row" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
-                               @if($i>3)
-                                <h2 class='m--font-danger remove-row'><i title='Delete' class='fa fa-remove'></i></h2>
-                                @endif
-                            </td>
-                            </tr>
-                            @endfor
-                    </tbody>
-            </table>
-            {{-- @php
-            $enclosuers_count=0;
-            $enclosuers_count=$application->enclosures->count();
-            $enclosuers_count=$enclosuers_count>4?$enclosuers_count:4;
-            @endphp
-            <div class="enclosuers col-md-6">
-                @for($i=0;$i<$enclosuers_count;$i++) <div class="cloneme">
-                    <div class="input-row-list">
-                        <div class="d-flex align-items-end">
-                            <label class="mb-0 mr-4 font-weight-semi-bold sr_no" for="">{{$i+1}}.</label>
-                            <input type="hidden" name="enclosure_id[{{$i}}]" value="{{isset($application->enclosures[$i])?$application->enclosures[$i]->id:''}}">
-                            <input type="text" id="" name="enclosures[{{$i}}]" class="form-control form-control--custom m-input w-100"
-                                value="{{isset($application->enclosures[$i])?$application->enclosures[$i]->enclosure:''}}">
+        <div class="m-portlet__body m-portlet__body--table">
+            <h3 class="section-title section-title--small">EMPANELMENT OF ARCHITECT/CONSULTANT WITH MHADA</h3>
+            <form id="appointing_architect_step2" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
+                action="{{route('appointing_architect.step2_post',['id'=>encrypt($application->id)])}}" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="application_id" value="{{$application->id}}">
+                {{-- @include('employment_of_architect.partial_personal_details',compact('application'))
+                @include('employment_of_architect.partial_payment_details',compact('application')) --}}
+                {{-- <div class="m-portlet__head px-0 m-portlet__head--top">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                Enclosures
+                            </h3>
                         </div>
-                        <span class="help-block"></span>
-                        @if($i>3)
-                        <h2 class='m--font-danger'><i title='Delete' class='fa fa-remove'></i></h2>
+                    </div>
+                </div> --}}
+                @php
+                $enclosuers_count=0;
+                $enclosuers_count=$application->enclosures->count();
+                $enclosuers_count=$enclosuers_count>4?$enclosuers_count:4;
+                @endphp
+                <div class="form-group m-form__group row">
+                    <div class="loader" style="display:none;"></div>
+                    <table class="table enclosuers">
+                        <thead>
+                            <tr>
+                                <th>Enclosure Name</th>
+                                <th>Upload File</th>
+                            </tr>
+                            <thead>
+                            <tbody>
+                                @for($i=0;$i<$enclosuers_count;$i++) <tr class="cloneme">
+                                    <td>
+                                        <div class="form-group">
+                                            {{-- <label class="mb-0 mr-4 font-weight-semi-bold sr_no" for="">{{$i+1}}.</label>
+                                            --}}
+                                            <input type="hidden" id="enclosure_id_{{$i}}" name="enclosure_id[{{$i}}]"
+                                                value="{{isset($application->enclosures[$i])?$application->enclosures[$i]->id:''}}">
+                                            <input type="text" id="" name="enclosures[{{$i}}]" class="form-control form-control--custom m-input w-100"
+                                                value="{{isset($application->enclosures[$i])?$application->enclosures[$i]->enclosure:''}}">
+                                            <span class="help-block"></span>
+
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @php
+                                        $file="";
+                                        $file=isset($application->enclosures)?$application->enclosures[$i]->file:'';
+                                        @endphp
+                                        <div class="custom-file mb-0 form-group">
+                                            <input data-file-type="enclosures" accept="pdf" title="please upload file with pdf extension"
+                                                type="file" id="extract_enclosure_file_{{$i}}" name="enclosure_file[{{$i}}]"
+                                                class="custom-file-input" onChange="upload_enclosure_file(this)">
+                                            <label title="" class="custom-file-label" for="extract_enclosure_file_{{$i}}">Choose
+                                                File...</label>
+                                            <span class="help-block"></span>
+                                        </div>
+                                        <a id="enclosure_file_link_{{$i}}" style="display:{{$file!=''?'block':'none'}}"
+                                            target="_blank" class="btn-link download-row" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
+                                        @if($i>3)
+                                        <h2 class='m--font-danger remove-row'><i title='Delete' class='fa fa-remove'></i></h2>
+                                        @endif
+                                    </td>
+                                    </tr>
+                                    @endfor
+                            </tbody>
+                    </table>
+                </div>
+                <div class="form-group mt-3">
+                    <a id="add-more" class="btn--add-delete add">add more<a>
+                </div>
+
+                <div class="m-checkbox-list mt-2">
+                    <div class="d-flex">
+                        <span class="star">*</span>
+                        <label class="m-checkbox m-checkbox--primary ml-3">
+                            <input {{$application->application_info_and_its_enclosures_verify==1?"checked":""}} type="checkbox"
+                                name="application_info_and_its_enclosures_verify" value="1"> Above mentioned details is
+                            verified by
+                            me & correct
+                            as per my knowledge
+                            <span class=""></span>
+                        </label>
+                        @if ($errors->has('application_info_and_its_enclosures_verify'))
+                        <span class="text-danger">{{ $errors->first('application_info_and_its_enclosures_verify') }}</span>
                         @endif
                     </div>
-                    <div class="input-row-list">
-                        @php
-                        $file="";
-                        $file=isset($application->enclosures)?$application->enclosures[$i]->file:'';
-                        @endphp
-                        <div class="d-flex align-items-end">
-                            <input data-file-type="enclosures" accept="pdf" title="please upload file with pdf extension"
-                                {{ $file!=""?"":"required" }} type="file" id="extract_enclosure_file_{{$i}}" name="enclosure_file[{{$i}}]"
-                                class="custom-file-input" onChange="upload_enclosure_file(this)">
-                            <label title="" class="custom-file-label" for="extract_enclosure_file_{{$i}}">Choose
-                                File...</label>
-                            <span class="help-block"></span>
-
-                            <a id="enclosure_file_link_{{$i}}" style="display:{{$file!=''?'block':'none'}}" target="_blank"
-                                class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
+                </div>
+                <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                    <div class="m-form__actions px-0">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="btn-list">
+                                    <button type="submit" id="" class="btn btn-primary">Save</button>
+                                    <a href="" class="btn btn-secondary">Cancel</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-            </div>
-            @endfor
-    </div> --}}
-    <div class="form-group mt-3">
-        <a id="add-more" class="btn--add-delete add">add more<a>
-    </div>
-
-    <div class="m-checkbox-list mt-2">
-        <div class="d-flex">
-            <span class="star">*</span>
-            <label class="m-checkbox m-checkbox--primary ml-3">
-                <input {{$application->application_info_and_its_enclosures_verify==1?"checked":""}} type="checkbox"
-                    name="application_info_and_its_enclosures_verify" value="1"> Above mentioned details is verified by
-                me & correct
-                as per my knowledge
-                <span class=""></span>
-            </label>
-            @if ($errors->has('application_info_and_its_enclosures_verify'))
-            <span class="text-danger">{{ $errors->first('application_info_and_its_enclosures_verify') }}</span>
-            @endif
-        </div>
-    </div>
-    <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
-        <div class="m-form__actions px-0">
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="btn-list">
-                        <button type="submit" id="" class="btn btn-primary">Save</button>
-                        <a href="" class="btn btn-secondary">Cancel</a>
-                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
-    </form>
-</div>
 </div>
 
 @endsection
@@ -244,18 +211,20 @@
             e.preventDefault();
             var application_id = $('input[name=application_id]').val();
             var count = $('.cloneme').length;
-           // alert(count)
+            // alert(count)
             var clone = $('.enclosuers .cloneme:first').clone().find('input').val('').end();
             clone.find('input[name="enclosure_id[0]"]')[0].setAttribute('id', 'enclosure_id_' + count)
-            clone.find('input[name="enclosure_id[0]"]')[0].setAttribute('name', 'enclosure_id[' + count +']')
-            clone.find('input[name="enclosures[0]"]')[0].setAttribute('name', 'enclosures[' + count +']')
-                clone.find('.custom-file-input').each(function (index, input) {
+            clone.find('input[name="enclosure_id[0]"]')[0].setAttribute('name', 'enclosure_id[' + count +
+                ']')
+            clone.find('input[name="enclosures[0]"]')[0].setAttribute('name', 'enclosures[' + count +
+                ']')
+            clone.find('.custom-file-input').each(function (index, input) {
                 var newCount = count;
                 if (input.getAttribute('id').indexOf('enclosure_file') !== -1) {
                     input.setAttribute('id', 'extract_enclosure_file_' + newCount);
                     input.setAttribute('name', 'enclosure_file[' + newCount + ']');
                     input.setAttribute('accept', 'pdf')
-                   // input.setAttribute('required', 'required');
+                    // input.setAttribute('required', 'required');
                 }
             });
 
@@ -281,7 +250,7 @@
             });
             //clone.find('.sr_no').html(count + '.')
             clone.find("td:last").append(
-                "<h2 class='m--font-danger'><i title='Delete' class='fa fa-remove'></i></h2>");
+                "<h2 class='m--font-danger remove-row'><i title='Delete' class='fa fa-remove'></i></h2>");
             $('.enclosuers').append(clone);
             $.ajaxSetup({
                 headers: {
@@ -342,7 +311,7 @@
         })
     })
 
-    
+
 
     function showUploadedFile() {
         $('.custom-file-input').change(function (e) {

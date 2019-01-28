@@ -290,13 +290,7 @@
                             @endfor
                     </tbody>
                 </table>
-                <table class="table">
-                    <tr>
-                        <td colspan="3" class="text-center">
-                            <button type="button" id="add-more" class="btn btn-primary add_partner">Add</button>
-                        </td>
-                    </tr>
-                </table>
+                <a href="javascript:void()" id="add-more" class="btn--add-delete add">add more</a>
             </div>
             <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
@@ -424,13 +418,7 @@
                             @endfor
                     </tbody>
                 </table>
-                <table class="table">
-                    <tr>
-                        <td colspan="3" class="text-center">
-                            <button type="button" id="add-more_award" class="btn btn-primary add_award_prizes">Add</button>
-                        </td>
-                    </tr>
-                </table>
+                <a href="javascript:void()" id="add-more_award" class="btn--add-delete add_award_prizes">add more</a>
             </div>
             {{-- <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
