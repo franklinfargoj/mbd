@@ -613,6 +613,16 @@ class SocietyPermissionSeeder extends Seeder
                 'display_name' => 'Uploads Tripartite Agreement',
                 'description'  => 'Uploads Tripartite Agreement form'
             ],
+            [
+                'name' => 'society_applications',
+                'display_name' => 'Displays society applications',
+                'description'  => 'Displays society applications'
+            ],
+            [
+                'name' => 'society.profile',
+                'display_name' => 'Updates user profile',
+                'description'  => 'Updates user profile'
+            ]
         ];
         
         if(count($society)==0){

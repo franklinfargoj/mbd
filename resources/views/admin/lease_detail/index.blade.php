@@ -5,7 +5,7 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title m-subheader__title--separator">Lease Details</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">{{ ucfirst($society_name)}} Society Lease Details</h3>
             {{ Breadcrumbs::render('lease_detail',encrypt($id)) }}
             <div class="ml-auto btn-list">
                 {{--<a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>--}}
@@ -19,12 +19,12 @@
                 <div class="col-md-12">
                     <form role="form" id="eeForm" method="get" action="">
                         <div class="row align-items-center mb-0">
-                            <div class="col-md-3">
-                                <div class="form-group m-form__group">
-                                    <input type="text" id="society_name" name="society_name" class="form-control form-control--custom m-input"
-                                           placeholder="Society Name" value="{{ isset($getData['society_name'])? $getData['society_name'] : '' }}">
-                                </div>
-                            </div>
+                            {{--<div class="col-md-3">--}}
+                                {{--<div class="form-group m-form__group">--}}
+                                    {{--<input type="text" id="society_name" name="society_name" class="form-control form-control--custom m-input"--}}
+                                           {{--placeholder="Society Name" value="{{ isset($getData['society_name'])? $getData['society_name'] : '' }}">--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
                             <div class="col-md-3">
                                 <div class="form-group m-form__group">
                                     <input type="text" id="lease_date_from" name="lease_date_from" class="form-control form-control--custom m-input m_datepicker"

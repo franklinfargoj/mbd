@@ -1444,6 +1444,7 @@ class CommonController extends Controller
         }else{
             $fields = array(
                 'text' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.' '.$required.'>',
+                'password' => '<input type="password" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.' '.$required.'>',
                 'hidden' => '<input type="hidden" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.' '.$required.'>',
                 'date' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input m_datepicker" value="'.$value.'" '.$readonly.' '.$required.'>',
                 'textarea' => '<textarea id="'.$name.'" name="'.$name.'" class="form-control form-control--custom form-control--fixed-height m-input"'.$readonly.' '.$required.'>'.$value.'</textarea>',
@@ -3937,6 +3938,32 @@ class CommonController extends Controller
         $applicationData = $this->getDyceScrutinyRemark($applicationId);
         $folder = $this->getCurrentRoleFolderName();
         return view('admin.common.view_dyce_scrutiny',compact('ol_application','applicationData','folder'));
-    }        
+    }
+
+    /**
+     * Updates profile of logged in users.
+     * Author: Amar Prajapati
+     * @param void
+     * @return \Illuminate\Http\Response
+     */
+    public function profile(){
+//        dd(auth()->user());
+        $users = auth()->user();
+        $user_profile = new User;
+        $field_names = $user_profile->getFillable();
+        $field_names = array_flip($field_names);
+        $non_req_fields_arr = array('address', 'role_id', 'uploaded_note_path');
+        $non_req_fields = array_flip($non_req_fields_arr);
+        $append_fields = array('confirm_password');
+        foreach($non_req_fields as $key => $value){
+            if(in_array($key, $field_names)){
+                unset($field_names[$key]);
+            }
+        }
+        $field_names = array_flip($field_names);
+        $field_names = array_merge($field_names, $append_fields);
+        $comm_func = $this;
+        return view('frontend.profile', compact('field_names', 'non_req_fields_arr', 'users', 'comm_func'));
+    }
 
 }

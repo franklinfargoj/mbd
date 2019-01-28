@@ -40,6 +40,7 @@
             9<span>Supporting Documents</span></a>
     </div>
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view m-portlet--forms-compact">
+        <div class="m-portlet__body m-portlet__body--table">
         {{-- <h3 class="section-title section-title--small">ARCHITECT/CONSULTANT</h3> --}}
         <form id="appointing_architect_step3" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
             action="{{route('appointing_architect.step3_post',['id'=>encrypt($application->id)])}}" enctype="multipart/form-data">
@@ -468,6 +469,7 @@
                 </div>
             </div>
         </form>
+        </div>
     </div>
 </div>
 
