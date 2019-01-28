@@ -22,7 +22,7 @@
                                         <h5>Download Conveyance Application</h5>
                                         <span class="hint-text">Download submitted application in .pdf format</span>
                                         <div class="mt-auto">
-                                            <a title="Donwload Offer Letter Application" href="{{ route('sc_form_download') }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Offer Letter Application</a>
+                                            <a title="Donwload Conveyance Application" href="{{ route('sc_form_download') }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Conveyance Application</a>
                                         </div>
                                     </div>
                                 </div>

@@ -620,6 +620,11 @@ class SocietyPermissionSeeder extends Seeder
             ],
             [
                 'name' => 'society.profile',
+                'display_name' => 'Profile',
+                'description'  => 'Updates user profile'
+            ],
+            [
+                'name' => 'society.update_profile',
                 'display_name' => 'Updates user profile',
                 'description'  => 'Updates user profile'
             ]

@@ -286,23 +286,12 @@ $route=\Request::route()->getName();
                     </a>
                 </li>--}}
 
-                {{--<li class="m-menu__item m-menu__item--active" aria-haspopup="true">
-                    <a href="" class="m-menu__link ">
-                        <i class="m-menu__link-icon flaticon-line-graph"></i>
-                        <span class="m-menu__link-title">
-                            <span class="m-menu__link-wrap">
-                                <span class="m-menu__link-text">
-                                    Profile
-                                </span>
-                            </span>
-                        </span>
-                    </a>
-                </li>--}}
+
 
                 @if(session()->get('permission') && (in_array('society_offer_letter.index',
                 session()->get('permission'))))
                 {{--<ul id="society_ol_sidebar">--}}
-                    <li class="m-menu__item {{ ((Request::segment(2)=='application' && Request::segment(3) == '1_premium') || (Request::segment(2)=='application' && Request::segment(3) == '1_sharing') || (Request::segment(2)=='application' && Request::segment(3) == '12_premium') || (Request::segment(2)=='application' && Request::segment(3) == '12_sharing') || $route == 'society_offer_letter_dashboard' || $route == 'show_form_self' || $route == 'show_form_dev' || $route == 'show_tripatite_self' || $route == 'show_tripatite_dev' || $route == 'show_reval_self' || $route == 'show_reval_dev' || $route == 'show_oc_self' || $route == 'show_oc_dev' || $route == 'show_form_self_noc' || $route == 'show_form_dev_noc' || $route = 'show_form_self_noc_cc')? '':'collapsed' }}"
+                    <li class="m-menu__item {{ ((Request::segment(2)=='application' && Request::segment(3) == '1_premium') || (Request::segment(2)=='application' && Request::segment(3) == '1_sharing') || (Request::segment(2)=='application' && Request::segment(3) == '12_premium') || (Request::segment(2)=='application' && Request::segment(3) == '12_sharing') || $route == 'society_offer_letter_dashboard' || $route == 'show_form_self' || $route == 'show_form_dev' || $route == 'show_tripatite_self' || $route == 'show_tripatite_dev' || $route == 'show_reval_self' || $route == 'show_reval_dev' || $route == 'show_oc_self' || $route == 'show_oc_dev' || $route == 'show_form_self_noc' || $route == 'show_form_dev_noc' || $route == 'show_form_self_noc_cc')? '':'collapsed' }}"
                         data-toggle="collapse" id="society_ol_sidebar" data-target="#redevelopment">
                         <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
                             <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -316,7 +305,7 @@ $route=\Request::route()->getName();
                             </span>
                         </a>
                     </li>
-                    <li id="redevelopment" class="collapse {{ ((Request::segment(2)=='application' && Request::segment(3) == '1_premium') || (Request::segment(2)=='application' && Request::segment(3) == '1_sharing') || (Request::segment(2)=='application' && Request::segment(3) == '12_premium') || (Request::segment(2)=='application' && Request::segment(3) == '12_sharing') || $route == 'society_offer_letter_dashboard' || $route == 'show_form_self' || $route == 'show_form_dev' || $route == 'show_tripatite_self' || $route == 'show_tripatite_dev' || $route == 'show_reval_self' || $route == 'show_reval_dev' || $route == 'show_oc_self' || $route == 'show_oc_dev' || ($route == 'show_form_self_noc' && isset($self_type)) || $route == 'show_form_dev_noc' || $route = 'show_form_self_noc_cc')? 'show':'' }}">
+                    <li id="redevelopment" class="collapse {{ ((Request::segment(2)=='application' && Request::segment(3) == '1_premium') || (Request::segment(2)=='application' && Request::segment(3) == '1_sharing') || (Request::segment(2)=='application' && Request::segment(3) == '12_premium') || (Request::segment(2)=='application' && Request::segment(3) == '12_sharing') || $route == 'society_offer_letter_dashboard' || $route == 'show_form_self' || $route == 'show_form_dev' || $route == 'show_tripatite_self' || $route == 'show_tripatite_dev' || $route == 'show_reval_self' || $route == 'show_reval_dev' || $route == 'show_oc_self' || $route == 'show_oc_dev' || ($route == 'show_form_self_noc' && isset($self_type)) || $route == 'show_form_dev_noc' || $route == 'show_form_self_noc_cc')? 'show':'' }}">
                         <ul class="list-unstyled">
                             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ((Request::segment(2)=='application' && Request::segment(3) == '1_premium') || (Request::segment(2)=='application' && Request::segment(3) == '1_sharing') || (isset($ids) && $ids[1] == 'sharing' && $route == 'show_form_self') || (isset($ids) && $ids[1] == 'premium' && $route == 'show_form_self') || (isset($ids) && $ids[1] == 'sharing' && $route == 'show_tripatite_self') || (isset($ids) && $ids[1] == 'premium' && $route == 'show_reval_self') || (isset($ids) && $ids[1] == 'sharing' && $route == 'show_reval_self') || (isset($ids) && $ids[1] == 'premium' && $route == 'show_oc_self') || (isset($ids) && $ids[1] == 'premium' && $route == 'show_form_self_noc' && isset($self_type)) || (isset($ids) && $ids[1] == 'premium' && $route == 'show_form_self_noc_cc' && isset($self_type)) || (isset($ids) && $ids[1] == 'sharing' && $route == 'show_oc_self') || (isset($ids) && $ids[1] == 'sharing' && $route == 'show_form_self_noc' && isset($self_type)) || (isset($ids) && $ids[1] == 'sharing' && $route == 'show_form_self_noc_cc' && isset($self_type)))? '':'collapsed' }}"
                                 data-toggle="collapse" data-target="#self-redevelopment">
@@ -784,18 +773,20 @@ $route=\Request::route()->getName();
                         </span>
                     </a>
                 </li> -->
-                 {{--<li class="m-menu__item" id="society_profile">--}}
-                     {{--<a href="javascript:void(0);" class="m-menu__link m-menu__toggle">--}}
-                         {{--<i class="m-menu__link-icon flaticon-user"></i>--}}
-                         {{--<span class="m-menu__link-title">--}}
-                            {{--<span class="m-menu__link-wrap">--}}
-                                {{--<span class="m-menu__link-text">--}}
-                                    {{--Profile--}}
-                                {{--</span>--}}
-                            {{--</span>--}}
-                        {{--</span>--}}
-                     {{--</a>--}}
-                 {{--</li>--}}
+                 {{--<li class="m-menuama--}}
+{{--                     @php dd($route); @endphp--}}
+                 <li class="m-menu__item @if($route == 'society.profile') m-menu__item--active @endif" aria-haspopup="true">
+                     <a href="{{ route('society.profile') }}" class="m-menu__link">
+                         <i class="m-menu__link-icon flaticon-user"></i>
+                         <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">
+                                Profile
+                            </span>
+                        </span>
+                    </span>
+                     </a>
+                 </li>
             </ul>
         </div>
     </div>

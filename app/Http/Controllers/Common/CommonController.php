@@ -3947,14 +3947,14 @@ class CommonController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function profile(){
-//        dd(auth()->user());
         $users = auth()->user();
+//        dd($users);
         $user_profile = new User;
         $field_names = $user_profile->getFillable();
         $field_names = array_flip($field_names);
         $non_req_fields_arr = array('address', 'role_id', 'uploaded_note_path');
         $non_req_fields = array_flip($non_req_fields_arr);
-        $append_fields = array('confirm_password');
+        $append_fields = array('confirm_password', 'id');
         foreach($non_req_fields as $key => $value){
             if(in_array($key, $field_names)){
                 unset($field_names[$key]);
@@ -3964,6 +3964,57 @@ class CommonController extends Controller
         $field_names = array_merge($field_names, $append_fields);
         $comm_func = $this;
         return view('frontend.profile', compact('field_names', 'non_req_fields_arr', 'users', 'comm_func'));
+    }
+
+
+    /**
+     * Updates profile of logged in users.
+     * Author: Amar Prajapati
+     * @param void
+     * @return \Illuminate\Http\Response
+     */
+    public function update_profile(Request $request){
+        $validated_fields = SocietyOfferLetter::validate($request);
+        $errors = $validated_fields->errors();
+        $id = decrypt($request->id);
+
+        if($validated_fields->fails()){
+            $request->flash();
+            if($request->is_email_check != null){
+                return $errors;
+            }
+            else{
+                $input = array(
+                    'name' => $request->input('name'),
+                    'password' => bcrypt($request->input('new_password')),
+                    'mobile_no' => $request->input('mobile_no'),
+                );
+                if($input['password'] == null){
+                    unset($input['password']);
+                }
+                //Code added by Amar Prajapati >>start
+                DB::beginTransaction();
+                try {
+
+                    User::where('id', $id)->update($input);
+                    if(session()->all()['role_name'] == config('commanConfig.society_offer_letter')){
+                        $input['contact_no'] = $input['mobile_no'];
+                        unset($input['mobile_no']);
+                        SocietyOfferLetter::where('id', $id)->update($input);
+                    }
+
+                    DB::commit();
+                } catch (\Exception $ex) {
+                    DB::rollback();
+                    return redirect()->route('society.profile')->with('error', 'Something went wrong!');
+                }
+                //Code added by Amar Prajapati >>end
+
+                return redirect()->back()->with('success', 'Profile updated successfully!');
+            }
+        }else{
+
+        }
     }
 
 }

@@ -473,6 +473,16 @@ class EmPermissionSeeder extends Seeder
                 'display_name'=>'Uploads List of Bonafide Allottees',
                 'description'=>'Uploads List of Bonafide Allottees'
             ],
+            [
+                'name' => 'admin.profile',
+                'display_name' => 'Profile',
+                'description'  => 'Updates user profile'
+            ],
+            [
+                'name' => 'admin.update_profile',
+                'display_name' => 'Updates user profile',
+                'description'  => 'Updates user profile'
+            ]
         ];
 
         $permission_role = [];
