@@ -224,18 +224,12 @@
                                              </label>
                                           </td>
                                           <td>
-                                             @php
-                                             if($each_question->remarks_applicable == 1)
-                                             {
-                                             @endphp
+                                             @if($each_question->remarks_applicable == 1)
                                              <textarea {{$disabled}} class="form-control form-control--custom form-control--textarea"
-                                             name="remark[{{$i}}]" id="remark-one">{{ isset($arrData['scrutiny_answers_to_questions'][$each_question->id]) ? $arrData['scrutiny_answers_to_questions'][$each_question->id]['remark'] : '' }}
-                                             </textarea>
-                                             @php
-                                             }else{
-                                             echo 'Not Applicable';
-                                             }
-                                             @endphp
+                                             name="remark[{{$i}}]" id="remark-one">{{ isset($arrData['scrutiny_answers_to_questions'][$each_question->id]) ? $arrData['scrutiny_answers_to_questions'][$each_question->id]['remark'] : '' }}</textarea>
+                                             @else
+                                             {{'Not Applicable'}};
+                                             @endif
                                           </td>
                                        </tr>
                                        @php
@@ -246,8 +240,7 @@
                                           <td colspan="2">Additional Remarks (If any)</td>
                                           <td colspan="3">
                                              <textarea {{$disabled}} class="form-control form-control--custom form-control--textarea"
-                                             name="ee_additional_remarks" id="remark-one">{{ isset($oc_application->ee_additional_remarks) ? $oc_application->ee_additional_remarks : '' }}
-                                             </textarea>
+                                             name="ee_additional_remarks" id="remark-one">{{ isset($oc_application->ee_additional_remarks) ? $oc_application->ee_additional_remarks : '' }}</textarea>
                                           </td>
                                        </tr>
                                     </tbody>
