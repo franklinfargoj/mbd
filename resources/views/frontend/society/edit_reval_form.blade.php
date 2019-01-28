@@ -7,7 +7,7 @@
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title m-subheader__title--separator">Redevelopment Application Form</h3>
-                {{ Breadcrumbs::render('society_offer_letter_edit') }}
+                {{ Breadcrumbs::render('society_revalidation_edit') }}
 
             </div>
         </div>
