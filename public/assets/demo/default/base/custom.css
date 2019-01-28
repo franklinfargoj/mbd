@@ -1747,6 +1747,7 @@ table.dataTable tbody tr:nth-child(even):focus {
     margin-bottom: 10px;
     max-width: none;
     width: 100%;
+    height: 36px;
     position: relative;
 }
 
@@ -1763,6 +1764,7 @@ table.dataTable tbody tr:nth-child(even):focus {
 .custom-file-input {
     opacity: 0;
     width: 100%;
+    height: 100%;
 }
 
 .custom-file-label,
@@ -1780,6 +1782,7 @@ table.dataTable tbody tr:nth-child(even):focus {
     cursor: pointer;
     border-bottom: 1px solid #ced4da;
     width: 100%;
+    height: 100%;
     padding-right: 80px;
     white-space: nowrap;
     -o-text-overflow: ellipsis;
@@ -3380,6 +3383,12 @@ label.site-visit-label {
     cursor: pointer;
     font-size: 1.2rem;
 }
+
+/* .download-row {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+} */
 
 /* Appointing Architect ends here */
 
