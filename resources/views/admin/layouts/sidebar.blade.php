@@ -408,22 +408,6 @@ $route=\Request::route()->getName();
                             </span>
                         </span>
                     </a>
-                    {{-- <div class="m-menu__submenu" m-hidden-height="160" style=""><span class="m-menu__arrow"></span>
-                        <ul class="m-menu__subnav">
-
-                            <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
-                                <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle"><img class="radio-icon"
-                                        src="{{ asset('/img/radio-icon.svg')}}"><span class="m-menu__link-text">Land
-                                        Detail
-                                        {{$route}}</span></img></a>
-                            </li>
-                            <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
-                                <a href="{{route('society_detail.index')}}" class="m-menu__link m-menu__toggle"><img
-                                        class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}"><span class="m-menu__link-text">Society
-                                        Detail</span></i></a>
-                            </li>
-                        </ul>
-                    </div> --}}
                 </li>
                 <li id="land-module-actions" class="collapse {{($route!='architect_layout.index' && $route!='architect_layouts_layout_details.index')?'show':''}}">
                     <ul class="list-unstyled">
@@ -448,21 +432,6 @@ $route=\Request::route()->getName();
 
 
                             </a>
-                            <!-- <div class="m-menu__submenu" m-hidden-height="160" style=""><span class="m-menu__arrow"></span>
-                    <ul class="m-menu__subnav">
-
-                        <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
-                            <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle"><img class="radio-icon"
-                                    src="{{ asset('/img/radio-icon.svg')}}"><span class="m-menu__link-text">Land Detail
-                                    {{$route}}</span></i></a>
-                        </li>
-                        <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
-                            <a href="{{route('society_detail.index')}}" class="m-menu__link m-menu__toggle"><img class="radio-icon"
-                                    src="{{ asset('/img/radio-icon.svg')}}"><span class="m-menu__link-text">Society
-                                    Detail</span></i></a>
-                        </li>
-                    </ul>
-                </div> -->
                         </li>
                         <li id="village-actions" class="collapse m-menu__item--level-3 {{($route=='village_detail.index' || $route=='village_detail.edit'|| $route=='village_detail.show' || $route=='village_detail.create')?  'show' :''}}">
                             <ul class="list-unstyled">
@@ -501,21 +470,6 @@ $route=\Request::route()->getName();
                                     </span>
                                 </span>
                             </a>
-                            <!-- <div class="m-menu__submenu" m-hidden-height="160" style=""><span class="m-menu__arrow"></span>
-                <ul class="m-menu__subnav">
-
-                    <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
-                        <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle"><img class="radio-icon"
-                                src="{{ asset('/img/radio-icon.svg')}}"><span class="m-menu__link-text">Land Detail
-                                {{$route}}</span></i></a>
-                    </li>
-                    <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
-                        <a href="{{route('society_detail.index')}}" class="m-menu__link m-menu__toggle"><img class="radio-icon"
-                                src="{{ asset('/img/radio-icon.svg')}}"><span class="m-menu__link-text">Society
-                                Detail</span></i></a>
-                    </li>
-                </ul>
-            </div> -->
                         </li>
                         <li id="society-actions" class="collapse m-menu__item--level-3 {{ ($route=='society_detail.index' || $route=='society_detail.show' || $route=='society_detail.edit' || $route=='society_detail.show_end_date_lease' || $route=='society_detail.create')? 'show':'' }}">
                             <ul class="list-unstyled">
@@ -542,9 +496,9 @@ $route=\Request::route()->getName();
                         </li>
 
                         @if(\Illuminate\Support\Facades\Request::is('lease_detail/*') ||
-                        (strpos($route,'village_detail') !== false) || (strpos($route,'renew-lease') !== false) ||
+                        /*(strpos($route,'village_detail') !== false) ||*/ (strpos($route,'renew-lease') !== false) /*||
                         (strpos($route,'architect_layout') !== false) || (strpos($route,'society_detail') !== false) ||
-                        $route =='land.dashboard')
+                        $route =='land.dashboard'*/)
                         <li class="m-menu__item m-menu__item--level-2 {{($route=='lease_detail.index' || $route=='view-lease.view' || $route=='edit-lease.edit' || $route=='lease_detail.create')? '' : 'collapsed'}}"
                             data-toggle="collapse" data-target="#lease-actions">
                             <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">
@@ -568,15 +522,6 @@ $route=\Request::route()->getName();
                         <li id="lease-actions" class="collapse m-menu__item--level-3 {{($route=='lease_detail.index' || $route=='view-lease.view' || $route=='edit-lease.edit' || $route=='lease_detail.create' || strpos($route,'renew-lease') !== false)? 'show' : ''}}">
                             <ul class="list-unstyled">
 
-
-                                {{--@if(\Illuminate\Support\Facades\Request::is('village_detail')--}}
-                                {{--|| \Illuminate\Support\Facades\Request::is('village_detail/*'))--}}
-                                {{--@endif--}}
-
-                                {{--@if(\Illuminate\Support\Facades\Request::is('society_detail')--}}
-                                {{--|| \Illuminate\Support\Facades\Request::is('society_detail/*'))--}}
-                                {{--@endif--}}
-                                {{--@php dd($route); @endphp--}}
                                 @if((strpos($route,'village_detail') !== false)
                                 || (strpos($route,'lease_detail') !== false)
                                 || (strpos($route,'society_detail') !== false)
@@ -1247,6 +1192,20 @@ $route=\Request::route()->getName();
                         </span>
                     </a>
                 </li> -->
+                @if(auth()->user())
+                    <li class="m-menu__item @if($route == 'admin.profile') m-menu__item--active @endif" aria-haspopup="true">
+                        <a href="{{ route('admin.profile') }}" class="m-menu__link">
+                            <i class="m-menu__link-icon flaticon-user"></i>
+                            <span class="m-menu__link-title">
+                                <span class="m-menu__link-wrap">
+                                    <span class="m-menu__link-text">
+                                        Profile
+                                    </span>
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </div>
     </div>

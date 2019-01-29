@@ -2083,7 +2083,7 @@ class SocietyOfferLetterController extends Controller
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
         $master_ids = config('commanConfig.new_offer_letter_master_ids');
-        $ol_application = OlApplication::where('user_id', Auth::user()->id)->with(['request_form', 'applicationMasterLayout'])->whereIn('application_master_id', $master_ids)->first();
+        $ol_application = OlApplication::where('user_id', Auth::user()->id)->with(['request_form', 'applicationMasterLayout', 'ol_application_master'])->whereIn('application_master_id', $master_ids)->first();
         $layouts = MasterLayout::all();
         $id = $ol_application->application_master_id;
         $ol_applications = $ol_application;
@@ -2095,7 +2095,7 @@ class SocietyOfferLetterController extends Controller
     public function editRevalOfferLetterApplication(){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
-        $ol_application = OlApplication::where('user_id', Auth::user()->id)->with(['request_form', 'applicationMasterLayout'])->orderBy('id','desc')->first();
+        $ol_application = OlApplication::where('user_id', Auth::user()->id)->with(['request_form', 'ol_application_master', 'applicationMasterLayout'])->orderBy('id','desc')->first();
         $layouts = MasterLayout::all();
         $id = $ol_application->application_master_id;
         $ol_applications = $ol_application;
@@ -2106,7 +2106,7 @@ class SocietyOfferLetterController extends Controller
     public function editOcApplication(){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
-        $oc_application = OcApplication::where('user_id', Auth::user()->id)->with(['request_form', 'applicationMasterLayout'])->orderBy('id','desc')->first();
+        $oc_application = OcApplication::where('user_id', Auth::user()->id)->with(['request_form', 'ol_application_master', 'applicationMasterLayout'])->orderBy('id','desc')->first();
         $layouts = MasterLayout::all();
         $id = $oc_application->application_master_id;
         $oc_applications = $oc_application;
@@ -2561,5 +2561,13 @@ class SocietyOfferLetterController extends Controller
             }
         }
         return redirect()->route('society_offer_letter_dashboard');
+    }
+
+
+    public function society_applications(){
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $ol_applications = OlApplication::where('society_id', $society->id)->get();
+        
+        dd($ol_applications);
     }
 }

@@ -242,24 +242,35 @@ class EmploymentOfArchitectController extends Controller
     {
         $id = decrypt($id);
         $application = $this->model->whereWithFirst(['fee_payment_details', 'enclosures'], ['id' => $id, 'user_id' => auth()->user()->id]);
+        $enclosuer=$application->enclosures->count();
+        if($enclosuer==0)
+        {
+            for($i=0;$i<4;$i++)
+            {
+                $this->enclosures->create(['eoa_application_id'=>$application->id]);
+            }
+            $application = $this->model->whereWithFirst(['fee_payment_details', 'enclosures'], ['id' => $id, 'user_id' => auth()->user()->id]);
+        }
+        
         //dd($application->enclosures[0]);
         return view('employment_of_architect.form2', compact('application'));
     }
 
     public function step2_post(StepTwoRequest $request, $id)
     {
-
+        //dd($request->all());
         $application_id = $request->application_id;
         $app_data = $this->model->show($application_id);
         $enclosure_id = $request->enclosure_id;
+        $enclosures=$request->enclosures;
         $j = 0;
-        foreach ($request->enclosures as $enclosure) {
+        foreach ($request->enclosure_id as $enclosure) {
             $enclosures_array = array();
             if (isset($enclosure_id[$j])) {
-                $enclosures_array = array('eoa_application_id' => $application_id, 'enclosure' => $enclosure);
+                $enclosures_array = array('eoa_application_id' => $application_id, 'enclosure' => $enclosures[$j]);
                 $this->enclosures->updateWhere($enclosures_array, ['id' => $enclosure_id[$j], 'eoa_application_id' => $application_id]);
             } else {
-                $enclosures_array = array('eoa_application_id' => $application_id, 'enclosure' => $enclosure);
+                $enclosures_array = array('eoa_application_id' => $application_id, 'enclosure' => $enclosures[$j]);
                 $this->enclosures->create($enclosures_array);
             }
             $j++;
@@ -268,12 +279,63 @@ class EmploymentOfArchitectController extends Controller
         return redirect()->route('appointing_architect.step3', ['id' => encrypt($application_id)]);
     }
 
+    public function upload_enclosure_file(Request $request)
+    {
+        //dd($request->all());
+        $response_array = array();
+        $file = $request->file('file');
+        if ($file->getClientMimeType() == 'application/pdf') {
+            $extension = $request->file('file')->getClientOriginalExtension();
+            $dir = 'appointing_architect_enclosures';
+            $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+            $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('file'), $filename);
+            if ($storage) {
+                
+                //$ArchitectLayoutDetail = ArchitectLayoutDetail::find($request->architect_layout_detail_id);
+                if ($request->field_name == 'enclosures') {
+                    $this->enclosures->updateWhere(['file'=>$storage], ['id' => $request->enclosure_id]);
+                }
+                $response_array = array(
+                    'status' => true,
+                    'file_path' => config('commanConfig.storage_server') . "/" . $storage,
+                );
+            } else {
+                $response_array = array(
+                    'status' => false,
+                );
+            }
+        } else {
+            $response_array = array(
+                'status' => false,
+                'message' => 'PDF file is required',
+            );
+        }
+
+        return response()->json($response_array);
+    }
+
     public function delete_enclosure(Request $request)
     {
-        $id = $request->delete_imp_project_id;
+        $id = $request->delete_enclosure;
+        $delete = $this->enclosures->show($id);
         if ($this->enclosures->delete($id)) {
+            if (Storage::disk('ftp')->has($delete->file)) {
+                Storage::disk('ftp')->delete($delete->file);
+            }
             return response()->json(['status' => 0, 'description' => 'deleted successfully']);
         } else {
+            return response()->json(['status' => 1, 'description' => 'something went wrong']);
+        }
+    }
+
+    public function add_enclosure(Request $request)
+    {
+        $add=$this->enclosures->create(['eoa_application_id'=>$request->application_id]);
+        if($add)
+        {
+            return response()->json(['status' => 0,'enclosure_id'=>$add->id ,'description' => 'added successfully']);
+        }else
+        {
             return response()->json(['status' => 1, 'description' => 'something went wrong']);
         }
     }

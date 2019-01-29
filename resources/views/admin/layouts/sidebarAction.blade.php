@@ -49,6 +49,9 @@
             .hide-print {
                 display: none !important;
             }
+            .show-print{
+                display: block !important;
+            }
             .margin_top{
                 margin-top:150px;
             }
