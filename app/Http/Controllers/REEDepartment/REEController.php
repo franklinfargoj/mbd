@@ -461,7 +461,11 @@ class REEController extends Controller
         ->where('parent_id',$table1Id)->get()->toArray();
         $summary = $this->getSummaryData($applicatonId);
 
-        return view('admin.REE_department.'.$blade,compact('applicatonId','calculationData','content','table1','custom','summary'));
+
+        $role_id = Role::where('name', '=', config('commanConfig.ree_branch_head'))->value('id');
+        $ree_head = User::where('role_id',$role_id)->value('name');
+
+        return view('admin.REE_department.'.$blade,compact('applicatonId','calculationData','content','table1','custom','summary','ree_head'));
     }
 
     public function editRevalOfferLetter(Request $request,$applicatonId){

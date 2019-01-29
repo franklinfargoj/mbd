@@ -451,7 +451,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6" style="margin-top: 50px">
+                                            <div class="col-sm-6 margin_top">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
                                                         <label for="investigation_officer">तपासणी अधिकाऱ्यांचे नाव:</label>
@@ -594,7 +594,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6" style="margin-top: 50px">
+                                            <div class="col-sm-6 margin_top">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
                                                         <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
@@ -745,7 +745,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6" style="margin-top: 50px">
+                                            <div class="col-sm-6 margin_top">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
                                                         <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
