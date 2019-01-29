@@ -5,7 +5,7 @@ $route=\Request::route()->getName();
 @endphp
 {{--@php dd(Session::get('sr_application_count') > 0); @endphp--}}
 <button class="m-aside-left-close  m-aside-left-close--skin-dark " id="m_aside_left_close_btn"><i class="la la-close"></i></button>
-<div id="m_aside_left" class="m-grid__item  m-aside-left  m-aside-left--skin-dark ">
+<div class="m-grid__item  m-aside-left  m-aside-left--skin-dark ">
     <!-- BEGIN: Aside Menu -->
     @php
     $land_permission = ['village_detail.index', 'village_detail.create', 'village_detail.edit',
@@ -16,9 +16,9 @@ $route=\Request::route()->getName();
     ];
     @endphp
 
-    <div id="m_ver_menu" class="m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark" style="position: relative;">
-        <div class="m-scrollable m-scroller ps ps--active-y" data-scrollbar-shown="true" data-scrollable="true"
-            data-max-height="100vh">
+    <div class="m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark" style="position: relative;">
+        <div class="sidebar-wrapper">
+            
             <ul class="m-menu__nav m-menu__nav--dropdown-submenu-arrow">
                  @if(session()->get('permission') != "" && in_array('appointing_architect.index',
                 session()->get('permission')))
@@ -505,7 +505,7 @@ $route=\Request::route()->getName();
                                                     </span>
                                                 </a>
                                     </li>
-                                    <li id="estate_conveyance" class="collapse {{ ($route == 'society_conveyance.index' || $route == 'society_conveyance.create' || $route=='society_formation.index' || $route=='society_formation.list' || $route=='society_renewal.create' || $route=='society_renewal.index')? 'show':'' }}">
+                                    <li id="estate_conveyance" class="collapse {{ ($route == 'society_conveyance.index' || $route == 'society_conveyance.create' || $route=='society_formation.index' || $route=='society_formation.list' || $route=='society_renewal.create' || $route=='society_renewal.index' || $route == 'society_formation.create')? 'show':'' }}">
                                         <ul class="list-unstyled">
                                             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route == 'society_conveyance.index' || $route == 'society_conveyance.create')? '':'collapsed' }}"
                                                 data-toggle="collapse" data-target="#conveyance">
@@ -573,7 +573,7 @@ $route=\Request::route()->getName();
                                                 </a>
                                             </li> --}}
 
-                                            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route == 'society_formation.list')? '':'collapsed' }}"
+                                            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route == 'society_formation.list' || $route == 'society_formation.create')? '':'collapsed' }}"
                                                 data-toggle="collapse" data-target="#formation">
                                                 <a href="{{ route('society_formation.list') }}" class="m-menu__link m-menu__toggle">
                                                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
@@ -589,7 +589,7 @@ $route=\Request::route()->getName();
                                                     </span>
                                                 </a>
                                             </li>
-                                            <li id="formation" class="collapse {{ ($route == 'society_formation.list' || $route == 'society_formation.index')? 'show':'' }}">
+                                            <li id="formation" class="collapse {{ ($route == 'society_formation.list' || $route == 'society_formation.index' || $route == 'society_formation.create')? 'show':'' }}">
                                                 <ul class="list-unstyled">
                                                     <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ($route == 'society_formation.list') ? 'm-menu__item--active':''}}">
                                                         <a href="{{ route('society_formation.list') }}" class="m-menu__link m-menu__toggle">
@@ -605,7 +605,7 @@ $route=\Request::route()->getName();
                                                             </span>
                                                         </a>
                                                     </li>
-                                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ($route == 'society_formation.index') ? 'm-menu__item--active':''}}">
+                                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ($route == 'society_formation.index' || $route == 'society_formation.create') ? 'm-menu__item--active':''}}">
                                                         <a href="{{ route('society_formation.index') }}" class="m-menu__link m-menu__toggle">
                                                             <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg"
                                                                 width="16" height="16" viewBox="0 0 510 510">

@@ -24,7 +24,7 @@ class OlRgRelocationVerificationQuestion extends Seeder
                 ],
                 [
                     'language_id'   => $languageId,
-                    'question' => "अभिन्यासानुसार सदर करमणूकीचे मैदान Sंheme R।G। आहे कि D।P। R।G। आहे याबाबत नमुद करावे."
+                    'question' => "अभिन्यासानुसार सदर करमणूकीचे मैदान Scheme R.G. आहे कि D.P. R.G. आहे याबाबत नमुद करावे."
                 ],                 [
                     'language_id'   => $languageId,
                     'question' => "करमणूकीच्या मैदानाच्या प्रस्तावित स्थलांतरणाबाबत लगतच्या संस्थांची संमती घेतलेली आहे काय ?"

@@ -16,6 +16,39 @@
             </div>
         </div>
 
+        {{-- <div class="d-flex flex-wrap db-wrapper">
+            <div class="db__card">
+                <div class="db__card__img-wrap">
+                    <img src="" class="db__card__img" alt="">
+                </div>
+                <p class="db__card__title">Application for Redevelopment</p>
+            </div>
+            <div class="db__card">
+                <div class="db__card__img-wrap">
+                    <img src="" class="db__card__img" alt="">
+                </div>
+                <p class="db__card__title">Application for Redevelopment</p>
+            </div>
+            <div class="db__card">
+                <div class="db__card__img-wrap">
+                    <img src="" class="db__card__img" alt="">
+                </div>
+                <p class="db__card__title">Application for Redevelopment</p>
+            </div>
+            <div class="db__card">
+                <div class="db__card__img-wrap">
+                    <img src="" class="db__card__img" alt="">
+                </div>
+                <p class="db__card__title">Application for Redevelopment</p>
+            </div>
+            <div class="db__card">
+                <div class="db__card__img-wrap">
+                    <img src="" class="db__card__img" alt="">
+                </div>
+                <p class="db__card__title">Application for Redevelopment</p>
+            </div>
+        </div> --}}
+
         <div class="hearing-accordion-wrapper">
             <div class="m-portlet m-portlet--compact ol-accordion mb-0">
                 <div class="d-flex justify-content-between align-items-center">
