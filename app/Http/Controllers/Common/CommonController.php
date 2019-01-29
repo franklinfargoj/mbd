@@ -860,32 +860,32 @@ class CommonController extends Controller
         return $arrData;
     }
 
-    // public function getEEForwardRevertLog($applicationData, $applicationId)
-    // {
+    public function getEEForwardRevertLog($applicationData, $applicationId)
+    {
 
-    //     $ee_branch_head = Role::where('name', config('commanConfig.ee_branch_head'))
-    //         ->value('id');
-    //     // $ee_jr_user = Role::where('name',config('commanConfig.ee_junior_engineer'))
-    //     // ->value('id');
-    //     $applicationData->eeForwardLog = OlApplicationStatus::where('application_id', $applicationId)->where('role_id', $ee_branch_head)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
+        $ee_branch_head = Role::where('name', config('commanConfig.ee_branch_head'))
+            ->value('id');
+        // $ee_jr_user = Role::where('name',config('commanConfig.ee_junior_engineer'))
+        // ->value('id');
+        $applicationData->eeForwardLog = OlApplicationStatus::where('application_id', $applicationId)->where('role_id', $ee_branch_head)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
 
-    //     $applicationData->eeRevertLog = OlApplicationStatus::where('application_id', $applicationId)->where('role_id', $ee_branch_head)->where('status_id', config('commanConfig.applicationStatus.reverted'))->where('society_flag', 1)->orderBy('id', 'desc')->first();
+        $applicationData->eeRevertLog = OlApplicationStatus::where('application_id', $applicationId)->where('role_id', $ee_branch_head)->where('status_id', config('commanConfig.applicationStatus.reverted'))->where('society_flag', 1)->orderBy('id', 'desc')->first();
 
-    //     return $applicationData;
-    // }
+        return $applicationData;
+    }
 
-    // public function getDyceForwardRevertLog($applicationData, $applicationId)
-    // {
+    public function getDyceForwardRevertLog($applicationData, $applicationId)
+    {
 
-    //     $dyce_branch_head = Role::where('name', config('commanConfig.dyce_branch_head'))
-    //         ->value('id');
-    //     $dyce_jr_user = Role::where('name', config('commanConfig.dyce_jr_user'))
-    //         ->value('id');
-    //     $applicationData->dyceForwardLog = OlApplicationStatus::where('application_id', $applicationId)->where('role_id', $dyce_branch_head)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
+        $dyce_branch_head = Role::where('name', config('commanConfig.dyce_branch_head'))
+            ->value('id');
+        $dyce_jr_user = Role::where('name', config('commanConfig.dyce_jr_user'))
+            ->value('id');
+        $applicationData->dyceForwardLog = OlApplicationStatus::where('application_id', $applicationId)->where('role_id', $dyce_branch_head)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
 
-    //     $applicationData->dyceRevertLog = OlApplicationStatus::where('application_id', $applicationId)->where('role_id', $dyce_jr_user)->where('status_id', config('commanConfig.applicationStatus.reverted'))->orderBy('id', 'desc')->first();
-    //     return $applicationData;
-    // }
+        $applicationData->dyceRevertLog = OlApplicationStatus::where('application_id', $applicationId)->where('role_id', $dyce_jr_user)->where('status_id', config('commanConfig.applicationStatus.reverted'))->orderBy('id', 'desc')->first();
+        return $applicationData;
+    }
 
     public function getREEForwardRevertLog($applicationData, $applicationId)
     {
@@ -1444,6 +1444,7 @@ class CommonController extends Controller
         }else{
             $fields = array(
                 'text' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.' '.$required.'>',
+                'password' => '<input type="password" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.' '.$required.'>',
                 'hidden' => '<input type="hidden" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.' '.$required.'>',
                 'date' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input m_datepicker" value="'.$value.'" '.$readonly.' '.$required.'>',
                 'textarea' => '<textarea id="'.$name.'" name="'.$name.'" class="form-control form-control--custom form-control--fixed-height m-input"'.$readonly.' '.$required.'>'.$value.'</textarea>',
@@ -2358,7 +2359,7 @@ class CommonController extends Controller
     public function getCurrentLoggedInChildNoc($application_id)
     {
         $child_role_id = Role::where('id', session()->get('role_id'))->get(['child_id']);
-        $result = json_decode($child_role_id[0]->child_id);
+        $result []= json_decode($child_role_id[0]->child_id);
         $status_user = NocApplicationStatus::where(['application_id' => $application_id, 'society_flag' => 0])->pluck('user_id')->toArray();
 
         $final_child = User::with('roles')->whereIn('id', array_unique($status_user))->whereIn('role_id', $result)->get();
@@ -3937,6 +3938,83 @@ class CommonController extends Controller
         $applicationData = $this->getDyceScrutinyRemark($applicationId);
         $folder = $this->getCurrentRoleFolderName();
         return view('admin.common.view_dyce_scrutiny',compact('ol_application','applicationData','folder'));
-    }        
+    }
+
+    /**
+     * Updates profile of logged in users.
+     * Author: Amar Prajapati
+     * @param void
+     * @return \Illuminate\Http\Response
+     */
+    public function profile(){
+        $users = auth()->user();
+//        dd($users);
+        $user_profile = new User;
+        $field_names = $user_profile->getFillable();
+        $field_names = array_flip($field_names);
+        $non_req_fields_arr = array('address', 'role_id', 'uploaded_note_path');
+        $non_req_fields = array_flip($non_req_fields_arr);
+        $append_fields = array('confirm_password', 'id');
+        foreach($non_req_fields as $key => $value){
+            if(in_array($key, $field_names)){
+                unset($field_names[$key]);
+            }
+        }
+        $field_names = array_flip($field_names);
+        $field_names = array_merge($field_names, $append_fields);
+        $comm_func = $this;
+        return view('frontend.profile', compact('field_names', 'non_req_fields_arr', 'users', 'comm_func'));
+    }
+
+
+    /**
+     * Updates profile of logged in users.
+     * Author: Amar Prajapati
+     * @param void
+     * @return \Illuminate\Http\Response
+     */
+    public function update_profile(Request $request){
+        $validated_fields = SocietyOfferLetter::validate($request);
+        $errors = $validated_fields->errors();
+        $id = decrypt($request->id);
+
+        if($validated_fields->fails()){
+            $request->flash();
+            if($request->is_email_check != null){
+                return $errors;
+            }
+            else{
+                $input = array(
+                    'name' => $request->input('name'),
+                    'password' => bcrypt($request->input('new_password')),
+                    'mobile_no' => $request->input('mobile_no'),
+                );
+                if($input['password'] == null){
+                    unset($input['password']);
+                }
+                //Code added by Amar Prajapati >>start
+                DB::beginTransaction();
+                try {
+
+                    User::where('id', $id)->update($input);
+                    if(session()->all()['role_name'] == config('commanConfig.society_offer_letter')){
+                        $input['contact_no'] = $input['mobile_no'];
+                        unset($input['mobile_no']);
+                        SocietyOfferLetter::where('id', $id)->update($input);
+                    }
+
+                    DB::commit();
+                } catch (\Exception $ex) {
+                    DB::rollback();
+                    return redirect()->route('society.profile')->with('error', 'Something went wrong!');
+                }
+                //Code added by Amar Prajapati >>end
+
+                return redirect()->back()->with('success', 'Profile updated successfully!');
+            }
+        }else{
+
+        }
+    }
 
 }

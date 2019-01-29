@@ -155,7 +155,6 @@
                 </div>
             </div>
             <div class="tab-content">
-
                 <div class="panel active" id="document-scrunity">
                     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                         <div class="portlet-body">
@@ -285,25 +284,27 @@
                     </div>
                 </div>
 
+                <center><u><p style="font-size:18px;font-weight:500px;display:none;" class="show-print" id="selected_tab">Consent Verification</p></u></center>
                 <div class="panel" id="checklist-scrunity">
                     <ul id="scrunity-tabs" class="nav nav-pills nav-justified hide-print" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active show" data-toggle="pill" href="#verification">
+                            <a class="nav-link active show nested_t" data-toggle="pill" href="#verification" data-tab="Consent Verification">
                                 Consent Verification</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="pill" href="#demarcation">
+                            <a class="nav-link nested_t" data-toggle="pill" href="#demarcation" data-tab="Demarcation">
                                 Demarcation</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="pill" href="#tit-bit">
+                            <a class="nav-link nested_t" data-toggle="pill" href="#tit-bit" data-tab="Tit-Bit">
                                 Tit-Bit</a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link" data-toggle="pill" href="#relocation">
+                            <a class="nav-link nested_t" data-toggle="pill" href="#relocation" data-tab="R.G. Relocation">
                                 R.G. Relocation</a>
                         </li>
                     </ul>
+
                     <div class="m-portlet m-portlet--no-top-shadow">
                         <div class="tab-pane--nested-tabs__inner">
                             <form class="form--custom" action="" method="post">
@@ -362,7 +363,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6" style="margin-top: 50px">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
                                                         <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
@@ -460,7 +461,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6" style="margin-top: 50px">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
                                                         <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
@@ -556,7 +557,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6" style="margin-top: 50px">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
                                                         <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
@@ -654,7 +655,7 @@
                                         </div>
                                         <div class="table-checklist m-portlet__body m-portlet__body--table">
                                             <div class="table-responsive">
-                                                <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
+                                                <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;margin-top: 30px">
                                                     <thead class="thead-default">
                                                         <th style="width:10%">#</th>
                                                         <th class="table-data--xl" style="width:50%">मुद्दा / तपशील</th>
@@ -755,6 +756,11 @@
 
     $(".v-tabs").click(function(){
         $(".printBtn").css("display","none");
+    });
+
+    $(".nested_t").click(function(){
+        var selected_tab = $(this).attr('data-tab');
+        $("#selected_tab").html(selected_tab);
     });
     
 </script>

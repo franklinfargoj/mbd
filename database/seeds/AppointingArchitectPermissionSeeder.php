@@ -36,6 +36,16 @@ class AppointingArchitectPermissionSeeder extends Seeder
                 'description' => 'step2',
             ],
             [
+                'name'=>'appointing_architect.add_enclosure',
+                'display_name'=>'appointing_architect.add_enclosure',
+                'description'=>'appointing_architect.add_enclosure'
+            ],
+            [
+                'name'=>'appointing_architect.upload_enclosure_file',
+                'display_name'=>'appointing_architect.upload_enclosure_file',
+                'description'=>'appointing_architect.upload_enclosure_file'
+            ],
+            [
                 'name' => 'appointing_architect.step2_post',
                 'display_name' => 'step2_post',
                 'description' => 'step2_post',

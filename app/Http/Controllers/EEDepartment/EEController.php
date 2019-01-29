@@ -442,7 +442,7 @@ class EEController extends Controller
         $arrData['society_detail'] = OlApplication::with('eeApplicationSociety')->where('id', $application_id)->first();
 
         $parentData = $this->comman->getForwardApplicationParentData();
-        dd($parentData);
+        // dd($parentData);
         $arrData['parentData'] = $parentData['parentData'];
         $arrData['role_name'] = $parentData['role_name'];
 //        $arrData['application_status'] = $this->comman->getCurrentApplicationStatus($application_id);

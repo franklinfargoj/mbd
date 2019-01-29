@@ -8,6 +8,7 @@
     <title>Document</title>
 </head>
 <body>
+
 @php $ntw = new \NTWIndia\NTWIndia(); @endphp
     <form id="OfferLetterFRM" action="{{ route('ree.save_offer_letter')}}" method="post">
         @csrf
@@ -386,7 +387,7 @@
                     <div style="margin-bottom: 5px; margin-top: 5px; font-weight: bold; float: left; width: 30%;">
                         <div style="text-align: center;">
                             <span style="display: block;">Sd/-</span>
-                            <span style="display: block;">(Bhushan R. Desai)</span>
+                            <span style="display: block;"> {{ isset($ree_head) ? $ree_head : ''  }}</span>
                             <span style="display: block; font-weight: bold;">Resident Executive Engineer.</span>
                             <span style="display: block; font-weight: bold;">M. H. & A. D. Board</span>
                         </div>
@@ -653,7 +654,7 @@
                         <div style="margin-bottom: 5px; margin-top: 5px; font-weight: bold; float: left; width: 30%;">
                             <div style="text-align: center;">
                                 <span style="display: block;">Sd/-</span>
-                                <span style="display: block;">(Bhushan R. Desai)</span>
+                                <span style="display: block;">{{ isset($ree_head) ? $ree_head : ''  }}</span>
                                 <span style="display: block; font-weight: bold;">Resident Executive Engineer.</span>
                                 <span style="display: block; font-weight: bold;">M. H. & A. D. Board</span>
                             </div>

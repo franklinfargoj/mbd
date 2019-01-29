@@ -104,7 +104,7 @@ class SocietyTripatiteController extends Controller
     public function tripartite_application_form_edit($id){
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
-        $ol_applications = OlApplication::where('id', $id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
+        $ol_applications = OlApplication::where('id', $id)->with(['request_form', 'ol_application_master', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->first();
         $ol_form_request_fields = new OlRequestForm;

@@ -879,7 +879,7 @@ table.dataTable tbody tr:nth-child(even):focus {
     -webkit-transition: 0.3s all ease;
     -o-transition: 0.3s all ease;
     transition: 0.3s all ease;
-    cursor: pointer;
+    /*cursor: pointer;*/
     color: #868e96;
 }
 
@@ -1748,6 +1748,7 @@ table.dataTable tbody tr:nth-child(even):focus {
     margin-bottom: 10px;
     max-width: none;
     width: 100%;
+    height: 36px;
     position: relative;
 }
 
@@ -1764,6 +1765,7 @@ table.dataTable tbody tr:nth-child(even):focus {
 .custom-file-input {
     opacity: 0;
     width: 100%;
+    height: 100%;
 }
 
 .custom-file-label,
@@ -1781,6 +1783,7 @@ table.dataTable tbody tr:nth-child(even):focus {
     cursor: pointer;
     border-bottom: 1px solid #ced4da;
     width: 100%;
+    height: 100%;
     padding-right: 80px;
     white-space: nowrap;
     -o-text-overflow: ellipsis;
@@ -3309,10 +3312,6 @@ label.site-visit-label {
     cursor: pointer;
 }
 
-.form-step-tab.active span {
-    color: #767678;
-}
-
 .form-step-tab.active + .form-step-tab.active {
     border-left: 1px solid white;
     z-index: 5;
@@ -3343,6 +3342,7 @@ label.site-visit-label {
     position: absolute;
     top: calc(100% + 8px);
     left: 50%;
+    color: #000000;
     -webkit-transform: translate(-50%);
         -ms-transform: translate(-50%);
             transform: translate(-50%);
@@ -3423,6 +3423,12 @@ label.site-visit-label {
     cursor: pointer;
     font-size: 1.2rem;
 }
+
+/* .download-row {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+} */
 
 /* Appointing Architect ends here */
 

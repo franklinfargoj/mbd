@@ -4,7 +4,7 @@
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title m-subheader__title--separator">Self Redevelopment</h3>
-                {{ Breadcrumbs::render('society_offer_application_create', $id) }}
+                {{ Breadcrumbs::render('society_tripatite_create', $id) }}
 
             </div>
         </div>

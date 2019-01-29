@@ -23,10 +23,10 @@
             <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="land-summary"
                  data-parent="#accordion">
                 <div class="row no-gutters hearing-row">
-                    <div class="col-9 no-shadow">
+                    <div class="col-12 no-shadow">
                         <div class="app-card-section-title">Land Details</div>
                     </div>
-                    <div class="col-3 no-shadow"></div>
+                    {{--<div class="col-3 no-shadow"></div>--}}
                     @php $chart = 0;@endphp
                     @foreach($dashboardData as $header => $value)
                         <div class="col-lg-3">

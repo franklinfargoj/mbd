@@ -40,6 +40,7 @@
             9<span>Supporting Documents</span></a>
     </div>
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view m-portlet--forms-compact">
+        <div class="m-portlet__body m-portlet__body--table">
         {{-- <h3 class="section-title section-title--small">ARCHITECT/CONSULTANT</h3> --}}
         <form id="appointing_architect_step3" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
             action="{{route('appointing_architect.step3_post',['id'=>encrypt($application->id)])}}" enctype="multipart/form-data">
@@ -289,13 +290,7 @@
                             @endfor
                     </tbody>
                 </table>
-                <table class="table">
-                    <tr>
-                        <td colspan="3" class="text-center">
-                            <button type="button" id="add-more" class="btn btn-primary add_partner">Add</button>
-                        </td>
-                    </tr>
-                </table>
+                <a href="javascript:void()" id="add-more" class="btn--add-delete add">add more</a>
             </div>
             <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
@@ -423,13 +418,7 @@
                             @endfor
                     </tbody>
                 </table>
-                <table class="table">
-                    <tr>
-                        <td colspan="3" class="text-center">
-                            <button type="button" id="add-more_award" class="btn btn-primary add_award_prizes">Add</button>
-                        </td>
-                    </tr>
-                </table>
+                <a href="javascript:void()" id="add-more_award" class="btn--add-delete add_award_prizes">add more</a>
             </div>
             {{-- <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
@@ -468,6 +457,7 @@
                 </div>
             </div>
         </form>
+        </div>
     </div>
 </div>
 

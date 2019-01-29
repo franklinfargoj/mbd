@@ -839,10 +839,10 @@ $(document).ready(function () {
                 minlength: 10,
                 maxlength: 10,
             },
-            fax:{
-                required:true,
-                number:true
-            },
+            // fax:{
+            //     required:true,
+            //     number:true
+            // },
             cash:{
                 required:true,
                 number:true

@@ -377,23 +377,23 @@
                             </div>
                         </div>
                     </div>
-
+                    <center><u><p style="font-size:18px;font-weight:500px;display:none;" class="show-print" id="selected_tab">Consent Verification</p></u></center>
                     <div class="panel section-2" id="checklist-scrunity">
                         <ul id="scrunity-tabs" class="nav nav-pills nav-justified hide-print" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active show nested_t" data-toggle="pill" href="#verification" id="nested_tab_1" next_tab = "nested_tab_2">
+                                <a class="nav-link active show nested_t" data-toggle="pill" href="#verification" id="nested_tab_1" next_tab = "nested_tab_2" data-tab="Consent Verification">
                                     Consent Verification</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link nested_t" data-toggle="pill" href="#demarcation" id="nested_tab_2" next_tab = "nested_tab_3">
+                                <a class="nav-link nested_t" data-toggle="pill" href="#demarcation" id="nested_tab_2" next_tab = "nested_tab_3" data-tab="Demarcation">
                                     Demarcation</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link nested_t" data-toggle="pill" href="#tit-bit" id="nested_tab_3" next_tab = "nested_tab_4">
+                                <a class="nav-link nested_t" data-toggle="pill" href="#tit-bit" id="nested_tab_3" next_tab = "nested_tab_4" data-tab="Tit-Bit">
                                     Tit-Bit</a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link nested_t" data-toggle="pill" href="#relocation" id="nested_tab_4" next_tab = "nested_tab_1">
+                                <a class="nav-link nested_t" data-toggle="pill" href="#relocation" id="nested_tab_4" next_tab = "nested_tab_1" data-tab="R.G. Relocation">
                                     R.G. Relocation</a>
                             </li>
                         </ul>
@@ -451,11 +451,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 margin_top">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="investigation_officer">तपासणी अधिकाऱ्यांचे
-                                                            नाव:</label>
+                                                        <label for="investigation_officer">तपासणी अधिकाऱ्यांचे नाव:</label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
@@ -595,7 +594,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 margin_top">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
                                                         <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
@@ -746,7 +745,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 margin_top">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
                                                         <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
@@ -900,7 +899,7 @@
                                         </div> 
                                         <div class="table-checklist m-portlet__body m-portlet__body--table table--box-input">
                                             <div class="table-responsive">
-                                                <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
+                                                <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;margin-top: 10px">
                                                     <thead class="thead-default">
                                                         <th style="width:10%">#</th>
                                                         <th class="table-data--xl" style="width:50%">मुद्दा / तपशील</th>
@@ -1165,11 +1164,14 @@
         }
         //nested tabs
         var nestedTab = Cookies.get('nestedTab');
+
         if (nestedTab != undefined && nestedTab != 'undefined') {
             $(".nested_t").removeClass('active');
             $("#" + nestedTab).addClass('active');
             $(".tab-pane").removeClass('active');
             $("." + nestedTab).addClass('active');
+            var tab = $("#"+nestedTab).attr('data-tab');
+            $("#selected_tab").html(tab);
              
 
             // Cookies.set('nestedTab', 'undefined');
@@ -1212,6 +1214,11 @@
     $(".v-tabs").click(function(){
         $(".printBtn").css("display","none");
     });
+
+    $(".nested_t").click(function(){
+        var selected_tab = $(this).attr('data-tab');
+        $("#selected_tab").html(selected_tab);
+    });    
  
 </script>
 @endsection

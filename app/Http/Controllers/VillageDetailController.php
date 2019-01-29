@@ -599,14 +599,32 @@ lm_village_detail.updated_at'))->get();
     public function dashboard(){
 //        dd('land dashboard');
 
+        // data of society with lease and without lease
+        $current_date = date('Y-m-d');
+
+        $society_data_with_active_lease= SocietyDetail::whereHas('societyLease',function($q) use($current_date){
+            $q->where('lease_renewal_date','>', $current_date)->where('lease_status',1);
+        })->orderBy('id', 'desc')->get()->count();
+
+        $society_data_with_expired_lease= SocietyDetail::whereHas('societyLease',function($q) use($current_date){
+            $q->where('lease_renewal_date','<', $current_date)->where('lease_status',1);
+        })->orderBy('id', 'desc')->get()->count();
+
+
         $dashboardData = array();
         $dashboardData['Total Number of Lands'][0] = VillageDetail::get()->count();
         $dashboardData['Total Number of Lands'][1] = session()->get('redirect_to');
         $dashboardData['Total Number of Societies'][0] = SocietyDetail::get()->count();
         $dashboardData['Total Number of Societies'][1] = route('society_detail.index');
-        $dashboardData['Total Number of Leases'][0] = LeaseDetail::get()->count();
-        $dashboardData['Total Number of Leases'][1] = route('lease_detail.index',0);
+//        $dashboardData['Total Number of Leases'][0] = LeaseDetail::get()->count();
+//        $dashboardData['Total Number of Leases'][1] = route('lease_detail.index',0);
+        $dashboardData['Total Number of Societies with Active Lease'][0] = $society_data_with_active_lease;
+        $dashboardData['Total Number of Societies with Active Lease'][1] = route('society_detail.index').'?society_name=&sr_no=&lease_status=1&village=';
 
+        $dashboardData['Total Number of Societies with Expired Lease'][0] = $society_data_with_expired_lease;
+        $dashboardData['Total Number of Societies with Expired Lease'][1] = route('society_detail.index').'?society_name=&sr_no=&lease_status=0&village=';
+
+        //?society_name=&sr_no=&lease_status=1&village=
         return view('admin.common.land_dashboard',compact('dashboardData'));
 
     }
