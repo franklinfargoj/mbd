@@ -7,7 +7,7 @@
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title m-subheader__title--separator">Consent For OC Application Form</h3>
-                {{ Breadcrumbs::render('society_oc_edit') }}&nbsp;({{ $ol_applications->ol_application_master->model }})
+                {{ Breadcrumbs::render('society_oc_edit') }}&nbsp;({{ $oc_applications->ol_application_master->model }})
 
             </div>
         </div>

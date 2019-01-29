@@ -357,13 +357,12 @@ class SocietyOfferLetterController extends Controller
 
             $application_master_arr = OlApplicationMaster::Where('title', 'like', '%New - Offer Letter%')->orWhere('title', 'like', '%Revalidation Of Offer Letter%')->pluck('id')->toArray();
 
-            $ol_applications = OlApplication::where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
-                $q->where('society_flag', '1')->orderBy('id', 'desc');
-            } ])->whereIn('application_master_id', $application_master_arr);
+//            $ol_applications = OlApplication::where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+//                $q->where('society_flag', '1')->orderBy('id', 'desc');
+//            } ])->whereIn('application_master_id', $application_master_arr);
             $ol_applications = OlApplication::where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
                 $q->where('society_flag', '1')->orderBy('id', 'desc');
             } ]);
-
 
            $oc_applications = OcApplication::where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
                 $q->where('society_flag', '1')->orderBy('id', 'desc');
@@ -2566,8 +2565,39 @@ class SocietyOfferLetterController extends Controller
 
     public function society_applications(){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $ol_applications = OlApplication::where('society_id', $society->id)->get();
-        
+
+        $ol_applications = OlApplication::where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        } ]);
+
+        $sc_applications = scApplication::where('society_id', $society->id)->with(['scApplicationType' => function($q){
+            $q->where('application_type', config('commanConfig.applicationType.Conveyance'))->first();
+        }, 'scApplicationLog' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+        } ])->orderBy('id', 'desc');
+
+        $sr_applications = RenewalApplication::where('society_id', $society->id)->with(['srApplicationType' => function($q){
+            $q->where('application_type', config('commanConfig.applicationType.Renewal'))->first();
+        }, 'srApplicationLog' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+        } ])->orderBy('id', 'desc');
+
+        $oc_applications = OcApplication::where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        } ]);
+
+        $noc_applications = NocolApplication::select('*')->where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        } ]);
+
+        $noc_applications = $noc_applications->addSelect(DB::raw("'1' as is_noc_application"));
+
+        $noc_cc_applications = NocCColApplication::select('*')->where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        } ]);
+
+        $noc_cc_applications = $noc_cc_applications->addSelect(DB::raw("'1' as is_noc_cc_application"));
+
         dd($ol_applications);
     }
 }
