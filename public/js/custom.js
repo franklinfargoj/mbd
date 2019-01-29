@@ -14,6 +14,8 @@
 
 $(document).ready(function () {
 
+    $(".sidebar-wrapper").overlayScrollbars({ });
+
     //trigger radio on table row click
     $('.m_selectpicker').selectpicker();
     
