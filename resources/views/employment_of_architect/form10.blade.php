@@ -48,18 +48,55 @@
                             </div>
                         </div>
                     </div>
-                    @php $i=0; @endphp
-                    @foreach($application->enclosures as $enclosure)
-                    <div class="input-row-list">
-                        <div class="d-flex align-items-end">
-                            <label class="mb-0 mr-4 font-weight-semi-bold" for="">{{$i+1}}.</label>
-                            <input type="text" id="" name="enclosures[]" class="form-control form-control--custom m-input w-100"
-                                value="{{$enclosure->enclosure}}">
-                        </div>
-                        <span class="help-block"></span>
+                    @php
+                    $enclosuers_count=0;
+                    $enclosuers_count=$application->enclosures->count();
+                    $enclosuers_count=$enclosuers_count>4?$enclosuers_count:4;
+                    @endphp
+                    <div class="form-group m-form__group row">
+                        <div class="loader" style="display:none;"></div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Enclosure Name</th>
+                                    <th>Upload File</th>
+                                </tr>
+                                <thead>
+                                <tbody>
+                                    @for($i=0;$i<$enclosuers_count;$i++) <tr class="cloneme">
+                                        <td>
+                                            <div class="form-group">
+                                                {{-- <label class="mb-0 mr-4 font-weight-semi-bold sr_no" for="">{{$i+1}}.</label>
+                                                --}}
+                                                <input type="hidden" id="enclosure_id_{{$i}}" name="enclosure_id[{{$i}}]"
+                                                    value="{{isset($application->enclosures[$i])?$application->enclosures[$i]->id:''}}">
+                                                <input type="text" id="" name="enclosures[{{$i}}]" class="form-control form-control--custom m-input w-100"
+                                                    value="{{isset($application->enclosures[$i])?$application->enclosures[$i]->enclosure:''}}">
+                                                <span class="help-block"></span>
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @php
+                                            $file="";
+                                            $file=isset($application->enclosures)?$application->enclosures[$i]->file:'';
+                                            @endphp
+                                            <div class="custom-file mb-0 form-group">
+                                                <input data-file-type="enclosures" accept="pdf" title="please upload file with pdf extension"
+                                                    type="file" id="extract_enclosure_file_{{$i}}" name="enclosure_file[{{$i}}]"
+                                                    class="custom-file-input" onChange="upload_enclosure_file(this)">
+                                                <label title="" class="custom-file-label" for="extract_enclosure_file_{{$i}}">Choose
+                                                    File...</label>
+                                                <span class="help-block"></span>
+                                            </div>
+                                            <a id="enclosure_file_link_{{$i}}" style="display:{{$file!=''?'block':'none'}}"
+                                                target="_blank" class="btn-link download-row" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
+                                        </td>
+                                        </tr>
+                                        @endfor
+                                </tbody>
+                        </table>
                     </div>
-                    @php $i=$i+1; @endphp
-                    @endforeach
                     <div class="m-checkbox-list mt-5">
                         <label class="m-checkbox m-checkbox--primary">
                             <input {{$application->application_info_and_its_enclosures_verify==1?"checked":""}} type="checkbox"
@@ -382,87 +419,87 @@
                         </div>
                     </div>
                     <div class="m-portlet__head px-0 m-portlet__head--top">
-                            <div class="m-portlet__head-caption">
-                                <div class="m-portlet__head-title">
-                                    <span class="m-portlet__head-icon m--hide">
-                                        <i class="la la-gear"></i>
-                                    </span>
-                                    <div class="d-flex">
-                                        <h3 class="m-portlet__head-text">
-                                            Awardz and Prizes
-                                        </h3>
-                                    </div>
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <span class="m-portlet__head-icon m--hide">
+                                    <i class="la la-gear"></i>
+                                </span>
+                                <div class="d-flex">
+                                    <h3 class="m-portlet__head-text">
+                                        Awardz and Prizes
+                                    </h3>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group m-form__group row">
-                            <div class="loader" style="display:none;"></div>
-                            <table class="table award_prizes">
-                                <thead>
-                                    <tr>
-                                        <th>Award Name</th>
-                                        <th>Award Certificate</th>
-                                        <th>Award Drawings</th>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="loader" style="display:none;"></div>
+                        <table class="table award_prizes">
+                            <thead>
+                                <tr>
+                                    <th>Award Name</th>
+                                    <th>Award Certificate</th>
+                                    <th>Award Drawings</th>
+                                </tr>
+                            </thead>
+                            @php
+                            $awards_prizes_count=$application->award_prizes->count();
+                            @endphp
+                            @if($awards_prizes_count>1)
+                            @php $k=($awards_prizes_count-1); @endphp
+                            @else
+                            @php $k=0; @endphp
+                            @endif
+                            <tbody>
+                                @for($j=0;$j<(1+$k);$j++) @php $id="" ; $id=$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->id:''):'';
+                                    @endphp
+                                    <tr class="clonemeAwardPrizes">
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="hidden" id="award_rewardz_id_{{$j}}" name="award_rewardz_id[{{$j}}]"
+                                                    value="{{$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->id:''):''}}">
+                                                <input placeholder="Award Name" required type="text" id="" name="award_name[{{$j}}]"
+                                                    class="form-control form-control--custom" value="{{$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->award_name:''):''}}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @php
+                                            $file="";
+                                            $file=isset($application->award_prizes[$j])?$application->award_prizes[$j]->award_certificate:'';
+                                            @endphp
+                                            <div class="custom-file mb-0 form-group">
+                                                <input data-file-type="award_certificate" accept="pdf" title="please upload file with pdf extension"
+                                                    {{ $file!=""?"":"required" }} type="file" id="extract_certificate_{{$j}}"
+                                                    name="award_certificate[{{$j}}]" class="custom-file-input" onChange="upload_certificate(this)">
+                                                <label title="" class="custom-file-label" for="extract_certificate_{{$j}}">Choose
+                                                    File...</label>
+                                                <span class="help-block"></span>
+                                                <a id="certificate_link_{{$j}}" style="display:{{$file!=''?'block':'none'}}"
+                                                    target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @php
+                                            $file="";
+                                            $file=isset($application->award_prizes[$j])?$application->award_prizes[$j]->award_drawing:'';
+                                            @endphp
+                                            <div class="custom-file mb-0 form-group">
+                                                <input data-file-type="award_drawing" accept="pdf" title="please upload file with pdf extension"
+                                                    {{ $file!=""?"":"required" }} type="file" id="extract_drawing_{{$j}}"
+                                                    name="award_drawing[{{$j}}]" class="custom-file-input" onChange="upload_certificate(this)">
+                                                <label title="" class="custom-file-label" for="extract_drawing_{{$j}}">Choose
+                                                    File...</label>
+                                                <span class="help-block"></span>
+
+                                                <a id="drawing_link_{{$j}}" style="display:{{$file!=''?'block':'none'}}"
+                                                    target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
+                                            </div>
+                                        </td>
                                     </tr>
-                                </thead>
-                                @php
-                                $awards_prizes_count=$application->award_prizes->count();
-                                @endphp
-                                @if($awards_prizes_count>1)
-                                @php $k=($awards_prizes_count-1); @endphp
-                                @else
-                                @php $k=0; @endphp
-                                @endif
-                                <tbody>
-                                    @for($j=0;$j<(1+$k);$j++) @php $id="" ; $id=$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->id:''):'';
-                                        @endphp
-                                        <tr class="clonemeAwardPrizes">
-                                            <td>
-                                                <div class="form-group">
-                                                    <input type="hidden" id="award_rewardz_id_{{$j}}" name="award_rewardz_id[{{$j}}]"
-                                                        value="{{$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->id:''):''}}">
-                                                    <input placeholder="Award Name" required type="text" id="" name="award_name[{{$j}}]"
-                                                        class="form-control form-control--custom" value="{{$application->award_prizes!=''?(isset($application->award_prizes[$j])?$application->award_prizes[$j]->award_name:''):''}}">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                @php
-                                                $file="";
-                                                $file=isset($application->award_prizes[$j])?$application->award_prizes[$j]->award_certificate:'';
-                                                @endphp
-                                                <div class="custom-file mb-0 form-group">
-                                                    <input data-file-type="award_certificate" accept="pdf" title="please upload file with pdf extension"
-                                                        {{ $file!=""?"":"required" }} type="file" id="extract_certificate_{{$j}}"
-                                                        name="award_certificate[{{$j}}]" class="custom-file-input" onChange="upload_certificate(this)">
-                                                    <label title="" class="custom-file-label" for="extract_certificate_{{$j}}">Choose
-                                                        File...</label>
-                                                    <span class="help-block"></span>
-                                                    <a id="certificate_link_{{$j}}" style="display:{{$file!=''?'block':'none'}}"
-                                                        target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                @php
-                                                $file="";
-                                                $file=isset($application->award_prizes[$j])?$application->award_prizes[$j]->award_drawing:'';
-                                                @endphp
-                                                <div class="custom-file mb-0 form-group">
-                                                    <input data-file-type="award_drawing" accept="pdf" title="please upload file with pdf extension"
-                                                        {{ $file!=""?"":"required" }} type="file" id="extract_drawing_{{$j}}" name="award_drawing[{{$j}}]"
-                                                        class="custom-file-input" onChange="upload_certificate(this)">
-                                                    <label title="" class="custom-file-label" for="extract_drawing_{{$j}}">Choose
-                                                        File...</label>
-                                                    <span class="help-block"></span>
-            
-                                                    <a id="drawing_link_{{$j}}" style="display:{{$file!=''?'block':'none'}}" target="_blank"
-                                                        class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        @endfor
-                                </tbody>
-                            </table>
-                        </div>
+                                    @endfor
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 

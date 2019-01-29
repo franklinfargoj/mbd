@@ -1115,6 +1115,8 @@ Route::prefix('appointing_architect')->group(function () {
         Route::get('step2/{id}', 'EmploymentOfArchitectController@step2')->name('appointing_architect.step2');
         Route::post('step2_post/{id}', 'EmploymentOfArchitectController@step2_post')->name('appointing_architect.step2_post');
         Route::post('delete_enclosure', 'EmploymentOfArchitectController@delete_enclosure')->name('appointing_architect.delete_enclosure');
+        Route::post('add_enclosure', 'EmploymentOfArchitectController@add_enclosure')->name('appointing_architect.add_enclosure');
+        Route::post('upload_enclosure_file', 'EmploymentOfArchitectController@upload_enclosure_file')->name('appointing_architect.upload_enclosure_file');
         Route::get('step3/{id}', 'EmploymentOfArchitectController@step3')->name('appointing_architect.step3');
         Route::post('step3_post/{id}', 'EmploymentOfArchitectController@step3_post')->name('appointing_architect.step3_post');
         Route::post('ajaxDeletepartners', 'EmploymentOfArchitectController@delete_partners')->name('appointing_architect.delete_partners');

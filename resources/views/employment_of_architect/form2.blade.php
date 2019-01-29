@@ -112,7 +112,7 @@
                             </tbody>
                     </table>
                 </div>
-                <div class="form-group mt-3">
+                <div class="form-group">
                     <a id="add-more" class="btn--add-delete add">add more<a>
                 </div>
 
