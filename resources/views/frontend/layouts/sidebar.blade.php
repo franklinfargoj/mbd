@@ -505,7 +505,7 @@ $route=\Request::route()->getName();
                                                     </span>
                                                 </a>
                                     </li>
-                                    <li id="estate_conveyance" class="collapse {{ ($route == 'society_conveyance.index' || $route == 'society_conveyance.create' || $route=='society_formation.index' || $route=='society_formation.list' || $route=='society_renewal.create' || $route=='society_renewal.index')? 'show':'' }}">
+                                    <li id="estate_conveyance" class="collapse {{ ($route == 'society_conveyance.index' || $route == 'society_conveyance.create' || $route=='society_formation.index' || $route=='society_formation.list' || $route=='society_renewal.create' || $route=='society_renewal.index' || $route == 'society_formation.create')? 'show':'' }}">
                                         <ul class="list-unstyled">
                                             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route == 'society_conveyance.index' || $route == 'society_conveyance.create')? '':'collapsed' }}"
                                                 data-toggle="collapse" data-target="#conveyance">
@@ -573,7 +573,7 @@ $route=\Request::route()->getName();
                                                 </a>
                                             </li> --}}
 
-                                            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route == 'society_formation.list')? '':'collapsed' }}"
+                                            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route == 'society_formation.list' || $route == 'society_formation.create')? '':'collapsed' }}"
                                                 data-toggle="collapse" data-target="#formation">
                                                 <a href="{{ route('society_formation.list') }}" class="m-menu__link m-menu__toggle">
                                                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
@@ -589,7 +589,7 @@ $route=\Request::route()->getName();
                                                     </span>
                                                 </a>
                                             </li>
-                                            <li id="formation" class="collapse {{ ($route == 'society_formation.list' || $route == 'society_formation.index')? 'show':'' }}">
+                                            <li id="formation" class="collapse {{ ($route == 'society_formation.list' || $route == 'society_formation.index' || $route == 'society_formation.create')? 'show':'' }}">
                                                 <ul class="list-unstyled">
                                                     <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ($route == 'society_formation.list') ? 'm-menu__item--active':''}}">
                                                         <a href="{{ route('society_formation.list') }}" class="m-menu__link m-menu__toggle">
@@ -605,7 +605,7 @@ $route=\Request::route()->getName();
                                                             </span>
                                                         </a>
                                                     </li>
-                                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ($route == 'society_formation.index') ? 'm-menu__item--active':''}}">
+                                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ($route == 'society_formation.index' || $route == 'society_formation.create') ? 'm-menu__item--active':''}}">
                                                         <a href="{{ route('society_formation.index') }}" class="m-menu__link m-menu__toggle">
                                                             <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg"
                                                                 width="16" height="16" viewBox="0 0 510 510">
