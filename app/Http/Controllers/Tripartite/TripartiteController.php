@@ -461,17 +461,18 @@ class TripartiteController extends Controller
         $approved_by_co = 0;
         if (session()->get('role_name') == config('commanConfig.ree_branch_head')) {
             $tripartite_agrement['drafted_tripartite_agreement'] = $this->get_tripartite_agreements($applicationId, config('commanConfig.tripartite_agreements.drafted'));
-            //dd($tripartite_agrement['drafted_tripartite_agreement']->status_id);
-            $approved_by_co = ($this->get_document_status_by_name('Approved') == $tripartite_agrement['drafted_tripartite_agreement']->status_id) ? 1 : 0;
-            if ($approved_by_co == 1) {
-                $parent = $society_user;
-            } else {
-                $parent = $parent->merge($society_user);
-                //$parent = $parent;
-            }
 
+            if ($tripartite_agrement['drafted_tripartite_agreement']){
+                $approved_by_co = ($this->get_document_status_by_name('Approved') == $tripartite_agrement['drafted_tripartite_agreement']->status_id) ? 1 : 0;
+                if ($approved_by_co == 1) {
+                    $parent = $society_user;
+                } else {
+                    $parent = $parent->merge($society_user);
+                    //$parent = $parent;
+                }                
+            }
         }
-        //dd($parent);
+        
         return $parent;
     }
 
