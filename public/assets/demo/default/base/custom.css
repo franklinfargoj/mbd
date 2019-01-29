@@ -2750,7 +2750,7 @@ label.site-visit-label {
 }
 
 .os-theme-dark > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
-    background: rgba(0,0,0,0.15);
+    background: rgba(0,0,0,0.15) !important;
 }
 
 .m-menu__link {
