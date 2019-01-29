@@ -65,7 +65,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
-                    'name' => "७० % सभासदांची पुनर्विकासाकरीता वैयक्तीक संमती पत्र"
+                    'name' => "५१ % सभासदांची पुनर्विकासाकरीता वैयक्तीक संमती पत्र"
                 ],
                 [
                     'application_id'   => $application[0]['id'],
@@ -401,7 +401,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application3[0]['id'],
                     'language_id'   => $language3[0]['id'],
-                    'name' => "७० % सभासदांची पुनर्विकासाकरीता वैयक्तीक संमती पत्र"
+                    'name' => "५१ % सभासदांची पुनर्विकासाकरीता वैयक्तीक संमती पत्र"
                 ],
                 [
                     'application_id'   => $application3[0]['id'],
