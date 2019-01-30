@@ -25,6 +25,7 @@
 				<link href="{{asset('/frontend/css/vendors.bundle.css')}}" rel="stylesheet" type="text/css" />
 				<link href="{{asset('/frontend/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
 				<link href="{{asset('assets/vendors/base/vendors.bundle.css')}}" rel="stylesheet" type="text/css" />
+                <link href="{{asset('/css/overlay-scrollbars.min.css')}}" rel="stylesheet" type="text/css" />
 				<link href="{{asset('assets/demo/default/base/custom.css')}}" rel="stylesheet" type="text/css" />
 		        <!--end::Base Styles -->
 

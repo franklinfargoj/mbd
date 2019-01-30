@@ -98,11 +98,13 @@ class ArchitectApplicationController extends Controller
                 })
                 ->editColumn('grand_total', function ($architect_applications) {
                     $total_marks=0;
+                    $out_of=1;
                     foreach($architect_applications->marks as $mark)
                     {
                         $total_marks=$total_marks+$mark->marks;
+                        $out_of++;
                     }
-                    return  ($architect_applications->application_marks+$total_marks)==0?'-':($architect_applications->application_marks+$total_marks);
+                    return  round(($architect_applications->application_marks+$total_marks)==0?'-':($architect_applications->application_marks+$total_marks)/$out_of);
                 })
                 ->editColumn('Status', function ($architect_applications) {
 
@@ -113,7 +115,7 @@ class ArchitectApplicationController extends Controller
                     if ($architect_applications->application_status == 'Final' && $status == 1) {
                         return $architect_applications->application_status;
                     }
-                    return '<span class="m-badge m-badge--' . config('commanConfig.architect_applicationStatusColor.' . $status) . ' m-badge--wide">' . $value . ($architect_applications->application_status == 'None' ? '' : ' & ' . $architect_applications->application_status) . '</span>';
+                    return '<span class="m-badge m-badge--' . config('commanConfig.architect_applicationStatusColor.' . $status) . ' m-badge--wide">' .($architect_applications->application_status == 'None' ? '' : $architect_applications->application_status.' & ' ). $value . '</span>';
                     //return $value . ($architect_applications->application_status == 'None' ? '' : ' & ' . $architect_applications->application_status);
                 })
                 ->editColumn('view', function ($architect_applications) use($is_commitee,$is_view){

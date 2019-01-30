@@ -156,7 +156,7 @@
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Date of Start<span class="star">*</span></label>
                             <input required type="text" id="" name="date_of_start" class="form-control form-control--custom m_datepicker"
-                                readonly value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->date_of_start:old('date_of_start')}}">
+                                readonly value="{{isset($application->project_sheets[$j])?date('d-m-Y',strtotime($application->project_sheets[$j]->date_of_start)):old('date_of_start')}}">
                             @if ($errors->has('date_of_start') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('date_of_start')
                                 }}</span>
@@ -165,7 +165,7 @@
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Date of Completion<span class="star">*</span></label>
                             <input required type="text" id="" name="date_of_completion" class="form-control form-control--custom m_datepicker"
-                                readonly value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->date_of_completion:old('date_of_completion')}}">
+                                readonly value="{{isset($application->project_sheets[$j])?date('d-m-Y',strtotime($application->project_sheets[$j]->date_of_completion)):old('date_of_completion')}}">
                             @if ($errors->has('date_of_completion') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('date_of_completion')
                                 }}</span>
