@@ -2579,57 +2579,59 @@ class SocietyOfferLetterController extends Controller
 //            ['data' => 'model','name' => 'model','title' => 'Model','searchable' => false,'orderable'=>false],
         ];
 
+        $ol_applications = OlApplication::where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        } ]);
+
+        $ol_applications = $ol_applications->get();
+
+        $sc_applications = scApplication::where('society_id', $society->id)->with(['scApplicationType' => function($q){
+            $q->where('application_type', config('commanConfig.applicationType.Conveyance'))->first();
+        }, 'scApplicationLog' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+        } ])->orderBy('id', 'desc');
+
+        $sc_applications = $sc_applications->get();
+        $ol_applications = $ol_applications->toBase()->merge($sc_applications);
+
+        $sr_applications = RenewalApplication::where('society_id', $society->id)->with(['srApplicationType' => function($q){
+            $q->where('application_type', config('commanConfig.applicationType.Renewal'))->first();
+        }, 'srApplicationLog' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+        } ])->orderBy('id', 'desc');
+
+        $sr_applications = $sr_applications->get();
+        $ol_applications = $ol_applications->toBase()->merge($sr_applications);
+
+        $oc_applications = OcApplication::where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        } ]);
+
+        $oc_applications = $oc_applications->get();
+        $ol_applications = $ol_applications->toBase()->merge($oc_applications);
+
+        $noc_applications = NocolApplication::select('*')->where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        } ]);
+
+        $noc_applications = $noc_applications->addSelect(DB::raw("'1' as is_noc_application"));
+        $noc_applications = $noc_applications->get();
+        $ol_applications = $ol_applications->toBase()->merge($noc_applications);
+
+        $noc_cc_applications = NocCColApplication::select('*')->where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        } ]);
+
+        $noc_cc_applications = $noc_cc_applications->addSelect(DB::raw("'1' as is_noc_cc_application"));
+        $noc_cc_applications = $noc_cc_applications->get();
+        $ol_applications = $ol_applications->toBase()->merge($noc_cc_applications);
+
+        $reval_master_ids_arr = config('commanConfig.revalidation_master_ids');
+        $oc_master_ids_arr = config('commanConfig.oc_master_ids');
+        dd($ol_applications->toArray());
+
         if ($datatables->getRequest()->ajax()) {
 
-            $ol_applications = OlApplication::where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
-                $q->where('society_flag', '1')->orderBy('id', 'desc');
-            } ]);
-
-            $ol_applications = $ol_applications->get();
-
-            $sc_applications = scApplication::where('society_id', $society->id)->with(['scApplicationType' => function($q){
-                $q->where('application_type', config('commanConfig.applicationType.Conveyance'))->first();
-            }, 'scApplicationLog' => function($q){
-                $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
-            } ])->orderBy('id', 'desc');
-
-            $sc_applications = $sc_applications->get();
-            $ol_applications = $ol_applications->toBase()->merge($sc_applications);
-
-            $sr_applications = RenewalApplication::where('society_id', $society->id)->with(['srApplicationType' => function($q){
-                $q->where('application_type', config('commanConfig.applicationType.Renewal'))->first();
-            }, 'srApplicationLog' => function($q){
-                $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
-            } ])->orderBy('id', 'desc');
-
-            $sr_applications = $sr_applications->get();
-            $ol_applications = $ol_applications->toBase()->merge($sr_applications);
-
-            $oc_applications = OcApplication::where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
-                $q->where('society_flag', '1')->orderBy('id', 'desc');
-            } ]);
-
-            $oc_applications = $oc_applications->get();
-            $ol_applications = $ol_applications->toBase()->merge($oc_applications);
-
-            $noc_applications = NocolApplication::select('*')->where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
-                $q->where('society_flag', '1')->orderBy('id', 'desc');
-            } ]);
-
-            $noc_applications = $noc_applications->addSelect(DB::raw("'1' as is_noc_application"));
-            $noc_applications = $noc_applications->get();
-            $ol_applications = $ol_applications->toBase()->merge($noc_applications);
-
-            $noc_cc_applications = NocCColApplication::select('*')->where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
-                $q->where('society_flag', '1')->orderBy('id', 'desc');
-            } ]);
-
-            $noc_cc_applications = $noc_cc_applications->addSelect(DB::raw("'1' as is_noc_cc_application"));
-            $noc_cc_applications = $noc_cc_applications->get();
-            $ol_applications = $ol_applications->toBase()->merge($noc_cc_applications);
-
-            $reval_master_ids_arr = config('commanConfig.revalidation_master_ids');
-            $oc_master_ids_arr = config('commanConfig.oc_master_ids');
 
             return $datatables->of($ol_applications)
                 ->editColumn('radio', function ($ol_applications) use($reval_master_ids_arr, $oc_master_ids_arr) {
