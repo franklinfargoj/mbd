@@ -19,7 +19,7 @@
 <style>
 .txtbox {
     width :200px;
-</style>
+</style> 
 
 <div class="custom-wrapper">
     <div class="col-md-12">
@@ -1563,11 +1563,7 @@
     { 
         var dcr_rate = $("#dcr_rate").val();
         var lr_rc_range = getLRRCRange();
-        var dcr_rate_in_percentage = getDCRPercentage(lr_rc_range,dcr_rate);
-        
-        // console.log(dcr_rate);        
-        // console.log(lr_rc_range);        
-        // console.log(dcr_rate_in_percentage);        
+        var dcr_rate_in_percentage = getDCRPercentage(lr_rc_range,dcr_rate);     
         
         var redirekner_value = (!cleanNumber($("#redirekner_value").val()) || isNaN(cleanNumber($("#redirekner_value").val()))) ? 0 : cleanNumber($("#redirekner_value").val());
         // var dcr_rate_in_percentage = (!$("input[type=radio][name=dcr_rate_in_percentage]:checked").val() || isNaN($("input[type=radio][name=dcr_rate_in_percentage]:checked").val())) ? 0 : $("input[type=radio][name=dcr_rate_in_percentage]:checked").val();

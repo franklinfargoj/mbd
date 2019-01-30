@@ -2804,6 +2804,10 @@ label.site-visit-label {
     height: 100%;
 }
 
+.m-aside-menu .m-menu__nav .m-menu__item--level-3 .m-menu__link .sidebar-icon {
+    left: 60px;
+}
+
 .m-menu__item--active .sidebar-icon path {
     fill: #f0791b;
 }
