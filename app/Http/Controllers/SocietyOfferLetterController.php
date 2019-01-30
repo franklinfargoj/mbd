@@ -45,6 +45,7 @@ use App\SocietyConveyance;
 use App\OcApplication;
 use App\OcSocietyDocumentsComment;
 use App\conveyance\RenewalApplication;
+use App\conveyance\scApplication;
 
 class SocietyOfferLetterController extends Controller
 {
@@ -372,7 +373,7 @@ class SocietyOfferLetterController extends Controller
             {
                 $ol_applications = $ol_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
 
-               $oc_applications = $oc_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
+                $oc_applications = $oc_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
             }
 
             $ol_applications = $ol_applications->get();
@@ -2563,41 +2564,260 @@ class SocietyOfferLetterController extends Controller
     }
 
 
-    public function society_applications(){
+    public function society_applications(DataTables $datatables, Request $request){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
 
-        $ol_applications = OlApplication::where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
-            $q->where('society_flag', '1')->orderBy('id', 'desc');
-        } ]);
+        $columns = [
+            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
+            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
+            ['data' => 'application_no','name' => 'application_no','title' => 'Application No.'],
+            ['data' => 'application_type','name' => 'application_type','title' => 'Application Type'],
+            ['data' => 'application_master_id','name' => 'application_master_id','title' => 'Model'],
+            ['data' => 'created_at','name' => 'created_date','title' => 'Submission Date', 'class' => 'datatable-date'],
+            ['data' => 'status','name' => 'status','title' => 'Status'],
+//            ['data' => 'model','name' => 'model','title' => 'Model','searchable' => false,'orderable'=>false],
+        ];
 
-        $sc_applications = scApplication::where('society_id', $society->id)->with(['scApplicationType' => function($q){
-            $q->where('application_type', config('commanConfig.applicationType.Conveyance'))->first();
-        }, 'scApplicationLog' => function($q){
-            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
-        } ])->orderBy('id', 'desc');
+        if ($datatables->getRequest()->ajax()) {
 
-        $sr_applications = RenewalApplication::where('society_id', $society->id)->with(['srApplicationType' => function($q){
-            $q->where('application_type', config('commanConfig.applicationType.Renewal'))->first();
-        }, 'srApplicationLog' => function($q){
-            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
-        } ])->orderBy('id', 'desc');
+            $ol_applications = OlApplication::where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+                $q->where('society_flag', '1')->orderBy('id', 'desc');
+            } ]);
 
-        $oc_applications = OcApplication::where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
-            $q->where('society_flag', '1')->orderBy('id', 'desc');
-        } ]);
+            $ol_applications = $ol_applications->get();
 
-        $noc_applications = NocolApplication::select('*')->where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
-            $q->where('society_flag', '1')->orderBy('id', 'desc');
-        } ]);
+            $sc_applications = scApplication::where('society_id', $society->id)->with(['scApplicationType' => function($q){
+                $q->where('application_type', config('commanConfig.applicationType.Conveyance'))->first();
+            }, 'scApplicationLog' => function($q){
+                $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+            } ])->orderBy('id', 'desc');
 
-        $noc_applications = $noc_applications->addSelect(DB::raw("'1' as is_noc_application"));
+            $sc_applications = $sc_applications->get();
+            $ol_applications = $ol_applications->toBase()->merge($sc_applications);
 
-        $noc_cc_applications = NocCColApplication::select('*')->where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
-            $q->where('society_flag', '1')->orderBy('id', 'desc');
-        } ]);
+            $sr_applications = RenewalApplication::where('society_id', $society->id)->with(['srApplicationType' => function($q){
+                $q->where('application_type', config('commanConfig.applicationType.Renewal'))->first();
+            }, 'srApplicationLog' => function($q){
+                $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+            } ])->orderBy('id', 'desc');
 
-        $noc_cc_applications = $noc_cc_applications->addSelect(DB::raw("'1' as is_noc_cc_application"));
+            $sr_applications = $sr_applications->get();
+            $ol_applications = $ol_applications->toBase()->merge($sr_applications);
 
-        dd($ol_applications);
+            $oc_applications = OcApplication::where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+                $q->where('society_flag', '1')->orderBy('id', 'desc');
+            } ]);
+
+            $oc_applications = $oc_applications->get();
+            $ol_applications = $ol_applications->toBase()->merge($oc_applications);
+
+            $noc_applications = NocolApplication::select('*')->where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+                $q->where('society_flag', '1')->orderBy('id', 'desc');
+            } ]);
+
+            $noc_applications = $noc_applications->addSelect(DB::raw("'1' as is_noc_application"));
+            $noc_applications = $noc_applications->get();
+            $ol_applications = $ol_applications->toBase()->merge($noc_applications);
+
+            $noc_cc_applications = NocCColApplication::select('*')->where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+                $q->where('society_flag', '1')->orderBy('id', 'desc');
+            } ]);
+
+            $noc_cc_applications = $noc_cc_applications->addSelect(DB::raw("'1' as is_noc_cc_application"));
+            $noc_cc_applications = $noc_cc_applications->get();
+            $ol_applications = $ol_applications->toBase()->merge($noc_cc_applications);
+
+            $reval_master_ids_arr = config('commanConfig.revalidation_master_ids');
+            $oc_master_ids_arr = config('commanConfig.oc_master_ids');
+
+            return $datatables->of($ol_applications)
+                ->editColumn('radio', function ($ol_applications) use($reval_master_ids_arr, $oc_master_ids_arr) {
+                    $url = route('society_offer_letter_preview');
+                    $reval_url = route('society_reval_offer_letter_preview');
+                    $oc_url= route('society_oc_preview');
+                    $url_noc = route('society_noc_preview');
+                    $url_noc_cc = route('society_noc_cc_preview');
+                    $url_tripartite = route('tripartite_application_form_preview', $ol_applications->id);
+//                    dd($ol_applications->ol_application_master);
+
+//                    if(isset($ol_applications->is_noc_application))
+//                    {
+//                        return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url_noc.'" name="ol_applications_id"><span></span></label>';
+//                    }
+//                    elseif($ol_applications->is_noc_cc_application)
+//                    {
+//                        return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url_noc_cc.'" name="ol_applications_id"><span></span></label>';
+//                    }
+//                    elseif(in_array($ol_applications->application_master_id,$reval_master_ids_arr))
+//                    {
+//                        return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$reval_url .'" name="ol_applications_id"><span></span></label>';
+//
+//                    }
+//                    elseif(in_array($ol_applications->application_master_id,$oc_master_ids_arr))
+//                    {
+//                        return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$oc_url .'" name="ol_applications_id"><span></span></label>';
+//
+//                    }
+//                    elseif(in_array($ol_applications->application_master_id,config('commanConfig.tripartite_master_ids')))
+//                    {
+//                        return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url_tripartite .'" name="ol_applications_id"><span></span></label>';
+//
+//                    }
+//                    else{
+//
+//                        return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="ol_applications_id"><span></span></label>';
+//                    }
+                })
+                ->editColumn('rownum', function ($ol_applications) {
+                    static $i = 0;
+                    $i++;
+                    return $i;
+                })
+                ->editColumn('application_no', function ($ol_applications) use($reval_master_ids_arr, $oc_master_ids_arr) {
+
+
+
+//                    if(isset($ol_applications->is_noc_application))
+//                    {
+//                        $app_type = "<br><span class='m-badge m-badge--danger'>Application for Noc</span>";
+//                    }
+//                    elseif($ol_applications->is_noc_cc_application)
+//                    {
+//                        $app_type = "<br><span class='m-badge m-badge--warning'>Application for Noc (CC)</span>";
+//                    }
+////                    elseif(in_array($ol_applications->application_master_id,$reval_master_ids_arr))
+//                    elseif(isset($ol_applications->ol_application_master))
+//                    {
+//                        $app_type = "<br><span class='m-badge m-badge--success'> Application for ".$ol_applications->ol_application_master->title."</span>";
+//                    }
+//                    elseif(in_array($ol_applications->application_master_id,$oc_master_ids_arr))
+//                    {
+//                        $app_type = "<br><span class='m-badge m-badge--success'>Consent For OC</span>";
+//                    }
+//                    else
+//                    {
+//                        $app_type = "<br><span class='m-badge m-badge--success'>Application for Offer letter</span>";
+//                    }
+
+                    return $ol_applications->application_no;
+                })
+                ->editColumn('application_type', function ($ol_applications) {
+                    if(isset($ol_applications->ol_application_master)){
+                        return $ol_applications->ol_application_master->title;
+                    }
+                    elseif(isset($ol_applications->srApplicationType)){
+                        return $ol_applications->srApplicationType->application_type;
+                    }
+                    elseif(isset($ol_applications->scApplicationType)){
+                        return $ol_applications->scApplicationType->application_type;
+                    }
+                })
+                ->editColumn('application_master_id', function ($ol_applications) {
+                    if(isset($ol_applications->ol_application_master)) {
+                        return $ol_applications->ol_application_master->model;
+                    }else{
+                        return '-';
+                    }
+                })
+                ->editColumn('created_at', function ($ol_applications) {
+                    return date(config('commanConfig.dateFormat'), strtotime($ol_applications->created_at));
+                })
+                ->editColumn('status', function ($ol_applications) {
+                    if(isset($ol_applications->ol_application_master)){
+                        return $this->get_society_applications_status(config('commanConfig.application_names.ree_offer_letter'), $ol_applications);
+                    }
+                    elseif(isset($ol_applications->srApplicationType)){
+                        return $this->get_society_applications_status(config('commanConfig.application_names.renewal'), $ol_applications);
+                    }
+                    elseif(isset($ol_applications->scApplicationType)){
+                        return $this->get_society_applications_status(config('commanConfig.application_names.conveyance'), $ol_applications);
+                    }
+                })
+                ->editColumn('model', function ($ol_applications) {
+//                    dd($ol_applications->olApplicationStatus[0]->status_id);
+//                    return view('frontend.society.actions', compact('ol_applications', 'status_display'))->render();
+                })
+                ->rawColumns(['radio', 'application_no', 'application_type', 'application_master_id', 'created_at','status','model'])
+                ->make(true);
+        }
+
+//        $self_parent = OlApplicationMaster::where('title', 'Self Redevelopment')->value('id');
+//        $dev_parent = OlApplicationMaster::where('title', 'Redevelopment Through Developer')->value('id');
+//
+//        $getRequest = $request->all();
+//        $applications_tab = array(
+//            'self_pre_parent' => $self_parent.'_premium',
+//            'self_share_parent' => $self_parent.'_sharing',
+//            'dev_pre_parent' => $dev_parent.'_premium',
+//            'dev_share_parent' => $dev_parent.'_sharing',
+////            'dev_parent' => $dev_parent,
+////            'self_premium' => $self_premium,
+////            'self_sharing' => $self_sharing,
+////            'dev_premium' => $dev_premium,
+////            'dev_sharing' => $dev_sharing,
+////            'self_reval_premium' => $self_reval_premium,
+////            'self_reval_sharing' => $self_reval_sharing,
+////            'dev_reval_premium' => $dev_reval_premium,
+////            'dev_reval_sharing' => $dev_reval_sharing
+//        );
+//
+//
+//        Session::put('applications_tab', $applications_tab);
+
+
+
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        return view('frontend.society.dashboard', compact('html', 'ol_applications', 'ol_application_count'));
+    }
+
+    public function get_society_applications_status($application_type, $ol_applications){
+        switch($application_type){
+            case config('commanConfig.application_names.ree_offer_letter'):
+                $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $ol_applications->olApplicationStatus[0]->status_id)[0]);
+                $status_display = '';
+                foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
+                $status_color = '';
+                if($status_display == 'Sent To Society '){
+                    $status_display = 'Approved';
+                }
+
+                if($status_display == 'Pending ' && $ol_applications->is_approve_offer_letter){
+                    $status_display = 'Approved';
+                }
+
+                return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$ol_applications->olApplicationStatus[0]->status_id) .' m-badge--wide">'.$status_display.'</span>';
+            case config('commanConfig.application_names.conveyance'):
+                $status_display = '';
+                if($ol_applications->application_status == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty')){
+                    $status_display = config('commanConfig.conveyance_status.society_stamp_duty');
+                }elseif($ol_applications->application_status == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease')){
+                    $status_display = config('commanConfig.conveyance_status.society_register_sale_lease_deed');
+                }else{
+                    $status = explode('_', array_keys(config('commanConfig.conveyance_status'), $ol_applications->scApplicationLog->status_id)[0]);
+                    foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
+                    $status_color = '';
+                    if($status_display == 'Sent To Society '){
+                        $status_display = 'Approved';
+                    }
+                }
+
+                return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$ol_applications->scApplicationLog->status_id) .' m-badge--wide">'.$status_display.'</span>';
+            case config('commanConfig.application_names.renewal'):
+                $status_display = '';
+                if($ol_applications->application_status == config('commanConfig.renewal_status.Send_society_to_pay_stamp_duty')){
+                    $status_display = 'Pay Stamp Duty';
+                }elseif($ol_applications->application_status == config('commanConfig.renewal_status.Send_society_for_registration_of_Lease_deed')){
+                    $status_display = 'Register Lease Deed';
+                }else{
+                    $status = explode('_', array_keys(config('commanConfig.renewal_status'), $ol_applications->srApplicationLog->status_id)[0]);
+                    foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
+                    $status_color = '';
+                    if($status_display == 'Sent To Society ' ){
+                        $status_display = 'Approved';
+                    }
+                }
+
+                return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$ol_applications->srApplicationLog->status_id) .' m-badge--wide">'.$status_display.'</span>';
+        }
     }
 }
