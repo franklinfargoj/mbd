@@ -41,7 +41,7 @@
                             <tr>
                                 <th width="30%">Document Name</th>
                                 <th width="20%">Document</th>
-                                <th width="20%">Marks</th>
+                                <th width="20%">Marks (out of 100)</th>
                                 <th width="30%">Remark</th>
                             </tr>
                         </thead>

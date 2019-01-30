@@ -37,7 +37,7 @@
                                     <th>Category<span class="star">*</span></th>
                                     <th>Name<span class="star">*</span></th>
                                     <th>Qualifications<span class="star">*</span></th>
-                                    <th>Year of Qualification<span class="star">*</span></th>
+                                    <th>Year of Passing<span class="star">*</span></th>
                                     <th>Length of Service Firm Total <br>( Year's & Month's)<span class="star">*</span></th>
                                 </tr>
                             </thead>
@@ -76,7 +76,7 @@
                                             @endforeach
                                         </select>
                                     </td>
-                                    <td><input required name="year_of_qualification[{{$j}}]" placeholder="Year of Qualification"
+                                    <td><input required name="year_of_qualification[{{$j}}]" placeholder="Year of Passing"
                                             type="number" class="form-control form-control--custom" value="{{$application->imp_senior_professionals!=''?(isset($application->imp_senior_professionals[$j])?$application->imp_senior_professionals[$j]->year_of_qualification:''):''}}"></td>
                                     <td>
                                         <div class="d-flex justify-content-end">

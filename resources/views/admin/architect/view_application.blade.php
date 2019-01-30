@@ -45,18 +45,54 @@
                     </div>
                 </div>
             </div>
-            @php $i=0; @endphp
-            @foreach($application->enclosures as $enclosure)
-            <div class="input-row-list">
-                <div class="d-flex align-items-end">
-                    <label class="mb-0 mr-4 font-weight-semi-bold" for="">{{$i+1}}.</label>
-                    <input type="text" id="" name="enclosures[]" class="form-control form-control--custom m-input w-100"
-                        value="{{$enclosure->enclosure}}">
-                </div>
-                <span class="help-block"></span>
+            @php
+            $enclosuers_count=0;
+            $enclosuers_count=$application->enclosures->count();
+            $enclosuers_count=$enclosuers_count>4?$enclosuers_count:4;
+            @endphp
+            <div class="form-group m-form__group row">
+                <div class="loader" style="display:none;"></div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Enclosure Name</th>
+                            <th>Upload File</th>
+                        </tr>
+                        <thead>
+                        <tbody>
+                            @for($i=0;$i<$enclosuers_count;$i++) <tr class="cloneme">
+                                <td>
+                                    <div class="form-group">
+                                        {{-- <label class="mb-0 mr-4 font-weight-semi-bold sr_no" for="">{{$i+1}}.</label>
+                                        --}}
+                                        <input type="hidden" id="enclosure_id_{{$i}}" name="enclosure_id[{{$i}}]" value="{{isset($application->enclosures[$i])?$application->enclosures[$i]->id:''}}">
+                                        <input type="text" id="" name="enclosures[{{$i}}]" class="form-control form-control--custom m-input w-100"
+                                            value="{{isset($application->enclosures[$i])?$application->enclosures[$i]->enclosure:''}}">
+                                        <span class="help-block"></span>
+
+                                    </div>
+                                </td>
+                                <td>
+                                    @php
+                                    $file="";
+                                    $file=isset($application->enclosures)?$application->enclosures[$i]->file:'';
+                                    @endphp
+                                    <div class="custom-file mb-0 form-group">
+                                        <input data-file-type="enclosures" accept="pdf" title="please upload file with pdf extension"
+                                            type="file" id="extract_enclosure_file_{{$i}}" name="enclosure_file[{{$i}}]"
+                                            class="custom-file-input" onChange="upload_enclosure_file(this)">
+                                        <label title="" class="custom-file-label" for="extract_enclosure_file_{{$i}}">Choose
+                                            File...</label>
+                                        <span class="help-block"></span>
+                                    </div>
+                                    <a id="enclosure_file_link_{{$i}}" style="display:{{$file!=''?'block':'none'}}"
+                                        target="_blank" class="btn-link download-row" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
+                                </td>
+                                </tr>
+                                @endfor
+                        </tbody>
+                </table>
             </div>
-            @php $i=$i+1; @endphp
-            @endforeach
             <div class="m-checkbox-list mt-5">
                 <label class="m-checkbox m-checkbox--primary">
                     <input {{$application->application_info_and_its_enclosures_verify==1?"checked":""}} type="checkbox"

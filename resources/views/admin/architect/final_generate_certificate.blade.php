@@ -119,7 +119,7 @@
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                         <div class="">
-                            <h3 class="section-title section-title--small">Send to Candidate:</h3>
+                            <h3 class="section-title section-title--small">Send to Applicant:</h3>
                         </div>
                         <div class="remarks-suggestions">
                             <div class="mt-3 table--box-input">

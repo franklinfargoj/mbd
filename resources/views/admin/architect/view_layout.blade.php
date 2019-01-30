@@ -43,7 +43,7 @@
             @if($is_commitee==true)
                 @if($status_id['status_id']!=config('commanConfig.architect_applicationStatus.forward'))
                     @if($app->application_status!=config('commanConfig.architect_application_status.final'))
-                    <button type="submit" name="final" value="final" class="btn btn--unstyled p-0 btn--icon-wrap d-flex align-items-center flex-column">
+                    <button onclick="return confirm('You are going to finalize application number {{$architect_applications->application_number}}?')" type="submit" name="final" value="final" class="btn btn--unstyled p-0 btn--icon-wrap d-flex align-items-center flex-column">
                         <span class="btn-icon btn-icon--delete">
                             <img src="{{ asset('/img/shortlist-add-icon.svg')}}">
                         </span>Add to Final list
