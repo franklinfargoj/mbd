@@ -374,6 +374,7 @@ class TripartiteController extends Controller
 
         $societyData['ree_Jr_id'] = (session()->get('role_name') == config('commanConfig.ree_junior'));
         $societyData['ree_branch_head'] = (session()->get('role_name') == config('commanConfig.ree_branch_head'));
+       
         return view('admin.tripartite.tripartite_agreement', compact('approved_by_co', 'stamped_and_signed', 'stamped_by_society', 'societyData', 'applicationLog', 'ol_application', 'tripatiet_remark_history', 'tripartite_agrement', 'content'));
     }
 
