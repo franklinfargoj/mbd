@@ -194,8 +194,8 @@
                                     </div>                                
                                 @endif
                                 @if($is_view)
-                                    <div class="col-md-6 add_more_div" style="left: 173px;top: -40px;">
-                                        <a class="add_more" id="add_more_text" onclick="addMoreText(this);" style="{{ 
+                                    <div class="col-md-6 add_more_div" style="left: 173px;top: -40px;"> 
+                                        <a class="add_more hide-print" id="add_more_text" onclick="addMoreText(this);" style="{{ 
                                             (isset($applicationData->SiteVisitorOfficers) && count($applicationData->SiteVisitorOfficers) >= 3) ? 'display: none' : '' }}">add more </a>
                                     </div>
                                 @endif    
