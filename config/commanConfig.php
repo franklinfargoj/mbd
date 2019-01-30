@@ -46,6 +46,12 @@ return [
 
     'selection_commitee' => 'selection_commitee',
 
+    'application_names' => [
+        'ree_offer_letter' => 'ree_offer_letter',
+        'conveyance' => 'conveyance',
+        'renewal' => 'renewal'
+    ],
+
    'applicationStatus' => [
        'in_process' => 1,
        'forwarded' => 2,
