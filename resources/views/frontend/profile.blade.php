@@ -36,7 +36,7 @@
                                 @if($type != 'hidden')
                                     <div class="col-sm-4 form-group">
                                         <label class="col-form-label" for="{{ $field_names[$i] }}">@php $labels = implode(' ', explode('_', $field_names[$i])); echo ucwords($labels); @endphp:</label>
-                                        @if($field_names[$i] != 'email') @php echo $comm_func->form_fields($field_names[$i], $type, '', '', $value, '', 'required') @endphp @else @php echo $value; @endphp @endif
+                                        @if($field_names[$i] != 'email') @php echo $comm_func->form_fields($field_names[$i], $type, '', '', $value, '') @endphp @else @php echo $value; @endphp @endif
                                         <span class="help-block" id="{{ $field_names[$i] }}-error">{{$errors->first($field_names[$i])}}</span>
                                     </div>
                                 @endif
@@ -50,7 +50,7 @@
                                     @if($type_1 != 'hidden')
                                         <div class="col-sm-4 offset-sm-1 form-group">
                                             <label class="col-form-label" for="{{ $field_names[$i+1] }}">@php $labels = implode(' ', explode('_', $field_names[$i+1])); echo ucwords($labels); @endphp:</label>
-                                            @if($field_names[$i+1] != 'email') @php echo $comm_func->form_fields($field_names[$i+1], $type_1, '', '', $value_1, '', 'required') @endphp @else <p> <b> @php echo $value_1; @endphp </b> </p> @endif
+                                            @if($field_names[$i+1] != 'email') @php echo $comm_func->form_fields($field_names[$i+1], $type_1, '', '', $value_1, '') @endphp @else <p> <b> @php echo $value_1; @endphp </b> </p> @endif
                                             <input type="hidden" name="id" value="{{ encrypt($users->id) }}">
                                             <span class="help-block" id="{{ $field_names[$i+1] }}-error">{{$errors->first($field_names[$i+1])}}</span>
                                         </div>
@@ -123,12 +123,12 @@
                     maxlength: 10,
                 },
                 new_password: {
-                    required: true,
+                    // required: true,
                     minlength:6,
                     maxlength:10
                 },
                 confirm_password: {
-                    required: true,
+                    // required: true,
                     minlength:6,
                     maxlength:10,
                     equalTo: "#new_password",

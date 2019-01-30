@@ -3989,9 +3989,10 @@ class CommonController extends Controller
                     'password' => bcrypt($request->input('new_password')),
                     'mobile_no' => $request->input('mobile_no'),
                 );
-                if($input['password'] == null){
+                if($request->input('new_password') == null){
                     unset($input['password']);
                 }
+
                 //Code added by Amar Prajapati >>start
                 DB::beginTransaction();
                 try {
