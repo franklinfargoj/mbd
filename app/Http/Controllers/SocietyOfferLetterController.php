@@ -2009,6 +2009,7 @@ class SocietyOfferLetterController extends Controller
         $ol_applications = $ol_application;
         $documents_arr = $this->get_docs_count($ol_application, $society_details);
 
+//        dd($society_details->name);
         return view('frontend.society.show_ol_application_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id', 'documents_arr'));
     }
 
