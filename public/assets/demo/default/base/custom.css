@@ -1950,7 +1950,7 @@ input:disabled + label:after {
     padding: 2px 0;
     height: 16px;
     margin: 0 5px;
-    width: 0;
+    width: auto;
     text-align: center;
 }
 
