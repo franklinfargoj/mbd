@@ -12,6 +12,7 @@ class OlApplication extends Model
         'language_id',
         'society_id',
         'layout_id',
+        'department_id',
         'request_form_id',
         'application_master_id',
         'application_no',
@@ -76,6 +77,11 @@ class OlApplication extends Model
     public function premiumCalculationSheet(){
 
         return $this->hasOne(OlApplicationCalculationSheetDetails::class, 'application_id', 'id');   
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(EEDivision::class,'department_id','id');
     }
 
     public function sharingCalculationSheet(){

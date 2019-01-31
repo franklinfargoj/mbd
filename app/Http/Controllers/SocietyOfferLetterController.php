@@ -645,6 +645,7 @@ class SocietyOfferLetterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function save_offer_letter_application_self(Request $request){
+        //dd($request->all());
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $input = array(
             'society_id' => $society_details->id,
@@ -659,6 +660,7 @@ class SocietyOfferLetterController extends Controller
         $insert_application = array(
             'user_id' => Auth::user()->id,
             'language_id' => '1',
+            'department_id'=>$request->input('department_name'),
             'society_id' => $society_details->id,
             'layout_id' => $request->input('layout_id'),
             'request_form_id' => $last_inserted_id->id,
@@ -2150,6 +2152,7 @@ class SocietyOfferLetterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function updateOfferLetterApplication(Request $request){
+        //dd($request->input('department_name'));
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $update_input = array(
             'date_of_meeting' => date('Y-m-d', strtotime($request->date_of_meeting)),
@@ -2158,6 +2161,7 @@ class SocietyOfferLetterController extends Controller
             'developer_name' => $request->developer_name,
         );
         OlRequestForm::where('society_id', $society->id)->where('id', $request->request_form_id)->update($update_input);
+        OlApplication::where('society_id', $society->id)->update(['department_id'=>$request->input('department_name')]);
         return redirect()->route('society_offer_letter_preview');
     }
 
