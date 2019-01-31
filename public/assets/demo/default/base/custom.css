@@ -1950,7 +1950,7 @@ input:disabled + label:after {
     padding: 2px 0;
     height: 16px;
     margin: 0 5px;
-    width: 0;
+    width: auto;
     text-align: center;
 }
 
@@ -2802,6 +2802,10 @@ label.site-visit-label {
 .sidebar-menu-icon svg {
     width: 100%;
     height: 100%;
+}
+
+.m-aside-menu .m-menu__nav .m-menu__item--level-3 .m-menu__link .sidebar-icon {
+    left: 60px;
 }
 
 .m-menu__item--active .sidebar-icon path {

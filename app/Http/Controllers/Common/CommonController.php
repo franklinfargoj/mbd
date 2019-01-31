@@ -55,6 +55,7 @@ use App\EmploymentOfArchitect\EoaApplication;
 use App\conveyance\SfApplicationStatusLog;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
 use App\Http\Controllers\conveyance\renewalCommonController;
+use App\ArchitectApplicationStatusLog;
 
 class CommonController extends Controller
 {
@@ -1066,6 +1067,18 @@ class CommonController extends Controller
 
         $architectRoles = Role::whereIn('name', $roles)->pluck('id');
         $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
+        //dd($Architectlogs);
+        return $Architectlogs;
+    }
+
+    public function getLogOfAppointingArchitectApplication($application_id)
+    {
+        $roles = array(config('commanConfig.junior_architect'), config('commanConfig.senior_architect'), config('commanConfig.architect'));
+
+        $status = array(config('commanConfig.architect_applicationStatus.forward'),config('commanConfig.architect_applicationStatus.reverted'));
+
+        $architectRoles = Role::whereIn('name', $roles)->pluck('id');
+        $Architectlogs = ArchitectApplicationStatusLog::with('getRoleName')->where('architect_application_id', $application_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
         //dd($Architectlogs);
         return $Architectlogs;
     }
@@ -3989,9 +4002,10 @@ class CommonController extends Controller
                     'password' => bcrypt($request->input('new_password')),
                     'mobile_no' => $request->input('mobile_no'),
                 );
-                if($input['password'] == null){
+                if($request->input('new_password') == null){
                     unset($input['password']);
                 }
+
                 //Code added by Amar Prajapati >>start
                 DB::beginTransaction();
                 try {

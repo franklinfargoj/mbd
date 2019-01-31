@@ -29,6 +29,7 @@
             </div>
         </div>
         <!-- END: Subheader -->
+       
         <div class="m-content letter-form-content">
             <div class="letter-form-subject">
                 <p><span class="font-weight-semi-bold">विषय :- </span>इमारत क्र. <input type="hidden" name="application_master_id" value="{{ $id }}" readonly><input class="letter-form-input" type="text" id="" name="building_no" value="{{ $society_details->building_no }}" readonly>, <input class="letter-form-input" type="text" id="" name="name" value="{{ $society_details->name }}" readonly> सहकारी गृहनिर्माण संस्थेच्या @if($id == '2' || $id == '6')स्वयंपुनर्विकासाच्या@endif @if($id == '13' || $id == '17')पुनर्विकासाच्या@endif प्रस्तावास मंजूरी मिळण्याबाबतचा अर्ज.</p>

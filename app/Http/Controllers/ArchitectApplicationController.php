@@ -416,6 +416,33 @@ class ArchitectApplicationController extends Controller
         }
     }
 
+    public function get_master_log_of_architect($data_logs)
+    {
+        $master_log=array();
+        foreach($data_logs as $data_log)
+        {
+            foreach($data_log as $log)
+            {
+                if($log->status_id == config('commanConfig.architect_applicationStatus.forward'))
+                {
+                $status = 'Forwarded';
+                }
+                else
+                {
+                    $status='';
+                }
+                $master_log[$log->id]['role_id']=(isset($log) && $log->changed_at != '' ? $log->getCurrentRole->name : '');
+                $master_log[$log->id]['date']=(isset($log) && $log->changed_at != '' ? date("d-m-Y",strtotime($log->changed_at)) : '');
+                $master_log[$log->id]['time']=(isset($log) && $log->changed_at != '' ? date("H:i",strtotime($log->changed_at)) : '');
+                $master_log[$log->id]['action']=$status.' to '.(isset($log->getRoleName->display_name)?$log->getRoleName->display_name : '');
+                $master_log[$log->id]['description']=(isset($log)? $log->remark : '');
+            }
+        }
+        ksort($master_log);
+        return $master_log;
+        
+    }
+
     public function getForwardApplication($encryptedId)
     {
         $ArchitectApplication = EoaApplication::find(decrypt($encryptedId));
@@ -424,6 +451,10 @@ class ArchitectApplicationController extends Controller
         $parentData = $this->CommonController->getForwardApplicationArchitectParentData();
         $arrData['parentData'] = $parentData['parentData'];
         $arrData['role_name'] = $parentData['role_name'];
+        
+        $architectlogs = $this->CommonController->getLogOfAppointingArchitectApplication($ArchitectApplication->id);
+        $master_log=$this->get_master_log_of_architect(array($architectlogs));
+        //dd($master_log);
 
         if (session()->get('role_name') != config('commanConfig.junior_architect')) {
             $status_user = EoaApplication::where(['id' => decrypt($encryptedId)])->pluck('id')->toArray();
@@ -444,7 +475,7 @@ class ArchitectApplicationController extends Controller
             $arrData['commitee_role_name'] = strtoupper(str_replace('_', ' ', $commitee_role_id->name));
         }
 
-        return view('admin.architect.forward_application', compact('arrData','ArchitectApplication'));
+        return view('admin.architect.forward_application', compact('master_log','arrData','ArchitectApplication'));
     }
 
     public function forward_application(Request $request)

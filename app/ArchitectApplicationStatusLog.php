@@ -31,5 +31,15 @@ class ArchitectApplicationStatusLog extends Model
         return $this->belongsTo(EoaApplication::class,'architect_application_id','id');
     }
 
+    public function getCurrentRole()
+    {
+        return $this->hasOne('App\Role', 'id','role_id');
+    }
+
+    public function getRoleName()
+    {
+        return $this->hasOne('App\Role', 'id','to_role_id');
+    }
+
     
 }
