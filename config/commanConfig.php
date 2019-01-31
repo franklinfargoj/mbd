@@ -483,5 +483,14 @@ return [
             'draft_text' => 'drafted',
             'upload' => 'uploaded',
         ]
+    ],
+
+    'preview_routes_without_id' => [
+        'society_offer_letter_preview',
+        'society_reval_offer_letter_preview',
+        'society_oc_preview',
+        'society_noc_preview',
+        'society_noc_cc_preview'
     ]
+
 ];

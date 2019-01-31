@@ -37,4 +37,8 @@ class NocolApplication extends Model
     public function ol_application_master(){
        return $this->hasOne(OlApplicationMaster::class, 'id', 'application_master_id'); 
     }
+
+    public function application_master(){
+        return $this->hasOne(OlApplicationMaster::class, 'id', 'application_master_id');
+    }
 }

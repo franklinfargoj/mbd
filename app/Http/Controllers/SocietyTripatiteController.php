@@ -102,6 +102,7 @@ class SocietyTripatiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function tripartite_application_form_edit($id){
+        $id = decrypt($id);
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
         $ol_applications = OlApplication::where('id', $id)->with(['request_form', 'ol_application_master', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
@@ -241,6 +242,8 @@ class SocietyTripatiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function tripartite_application_form_preview($id){
+        $id = decrypt($id);
+
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
         $ol_applications = OlApplication::where('id', $id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
@@ -256,6 +259,7 @@ class SocietyTripatiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function display_tripartite_docs($id){
+        $id = decrypt($id);
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
         $ol_applications = OlApplication::where('id', $id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
@@ -381,7 +385,7 @@ class SocietyTripatiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function delete_tripartite_docs($id){
-//        dd($id);
+        $id = decrypt($id);
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $delete_document_details = OlSocietyDocumentsStatus::with('document_name')->where('society_id', $society->id)->where('document_id', $id)->first();
         $documents = OlSocietyDocumentsMaster::where('application_id', $delete_document_details->document_name->application_id)->where('is_admin', 0)->with(['documents_uploaded' => function($q) use ($society){
@@ -441,7 +445,7 @@ class SocietyTripatiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function showuploadTripartiteAfterSign($id){
-
+        $id = decrypt($id);
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $ol_applications = OlApplication::where('society_id', $society->id)->where('id', $id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
@@ -458,6 +462,7 @@ class SocietyTripatiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function generate_pdf($id){
+        $id = decrypt($id);
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
         $ol_applications = OlApplication::where('user_id', auth()->user()->id)->where('id', $id)->with(['request_form', 'applicationMasterLayout'])->first();
@@ -531,6 +536,7 @@ class SocietyTripatiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show_tripartite_agreement($id){
+        $id = decrypt($id);
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $ol_applications = OlApplication::where('society_id', $society->id)->where('id', $id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc');
