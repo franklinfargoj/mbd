@@ -158,39 +158,7 @@ $route=\Request::route()->getName();
                     </a>
                 </li>
                 @endif
-                @if(session()->get('role_name')==config('commanConfig.co_engineer') ||session()->get('role_name')==config('commanConfig.ee_branch_head') || session()->get('role_name')==config('commanConfig.ree_branch_head') || session()->get('role_name')==config('commanConfig.dyce_branch_head'))
-                <li class="m-menu__item {{$route=='redevelopement.period_wise_pendency_report'?'':'collapsed'}}"
-                data-toggle="collapse" data-target="#redevelopment-report">
-                    <a href="{{ route('redevelopement.period_wise_pendency_report') }}" class="m-menu__link m-menu__toggle">
-                        <span class="m-menu__link-title">
-                            <span class="m-menu__link-wrap">
-                                <span class="m-menu__link-text">
-                                    <img class="sidebar-icon" src="{{ asset('/img/sidebar/architect-layouts-icon.svg')}}">Reports
-                                </span>
-                                <i class="m-menu__ver-arrow la la-angle-right"></i>
-                            </span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li id="redevelopment-report" class="collapse {{($route=='redevelopement.period_wise_pendency_report')?'show':''}}">
-                    <ul class="list-unstyled">
-                        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='redevelopement.period_wise_pendency_report')?'m-menu__item--active':''}}"
-                            aria-haspopup="true">
-                            <a href="{{ route('redevelopement.period_wise_pendency_report') }}" class="m-menu__link m-menu__toggle">
-                                <i class="m-menu__link-icon flaticon-line-graph"></i>
-                                <span class="m-menu__link-title">
-                                    <span class="m-menu__link-wrap">
-                                        <span class="m-menu__link-text">
-                                            Periodwise Pendency Report
-                                        </span>
-                                    </span>
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                @endif
+               
                 @if(session()->get('permission') && in_array('rti_applicants', session()->get('permission')))
                 {{-- <li class="m-menu__item {{$route=='rti_applicants'?'m-menu__item--active':''}}">
                     <a href="{{url('/rti_applicants')}}" class="m-menu__link m-menu__toggle">
@@ -1012,9 +980,43 @@ $route=\Request::route()->getName();
                                     </a>
                                 </li>
                         @endif
+                        
             </ul>
             <!-- comment-->
         </li>
+        @if(session()->get('role_name')==config('commanConfig.co_engineer') ||session()->get('role_name')==config('commanConfig.ee_branch_head') || session()->get('role_name')==config('commanConfig.ree_branch_head') || session()->get('role_name')==config('commanConfig.dyce_branch_head'))
+                        <li class="m-menu__item {{$route=='redevelopement.period_wise_pendency_report'?'':'collapsed'}}"
+                        data-toggle="collapse" data-target="#redevelopment-report">
+                            <a href="{{ route('redevelopement.period_wise_pendency_report') }}" class="m-menu__link m-menu__toggle">
+                                <span class="m-menu__link-title">
+                                    <span class="m-menu__link-wrap">
+                                        <span class="m-menu__link-text">
+                                            <img class="sidebar-icon" src="{{ asset('/img/sidebar/architect-layouts-icon.svg')}}">Reports
+                                        </span>
+                                        <i class="m-menu__ver-arrow la la-angle-right"></i>
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
+                        
+                        <li id="redevelopment-report" class="collapse {{($route=='redevelopement.period_wise_pendency_report')?'show':''}}">
+                            <ul class="list-unstyled">
+                                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='redevelopement.period_wise_pendency_report')?'m-menu__item--active':''}}"
+                                    aria-haspopup="true">
+                                    <a href="{{ route('redevelopement.period_wise_pendency_report') }}" class="m-menu__link m-menu__toggle">
+                                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                        <span class="m-menu__link-title">
+                                            <span class="m-menu__link-wrap">
+                                                <span class="m-menu__link-text">
+                                                    Periodwise Pendency Report
+                                                </span>
+                                            </span>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        @endif
                 @if(Session::all()['role_name'] == 'ee_engineer')
                 {{-- <li class="m-menu__item {{($route=='society_detail.billing_level')?'m-menu__item--active':''}}">
                     <a href="#" class="m-menu__link m-menu__toggle">
