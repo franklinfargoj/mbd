@@ -347,6 +347,16 @@ class EEUserSeeder extends Seeder
                 'name'=>'renewal.view_documents',
                 'display_name'=>'view renewal society documents',
                 'description'=>'view renewal society documents'
+            ],            
+            [
+                'name'=>'delete_ee_note',
+                'display_name'=>'delete ee note',
+                'description'=>'delete ee note'
+            ],            
+            [
+                'name'=>'ee_variation_report',
+                'display_name'=>'generate ee variation report',
+                'description'=>'generate ee variation report'
             ]                                                  
         ];
 

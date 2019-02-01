@@ -73,7 +73,12 @@ class DYCEPermissionSeeder extends Seeder
                 'name'=>'common.EE_Scrutiny_Remark',
                 'display_name'=>'EE Scrutiny Remark',
                 'description'=>'EE Scrutiny Remark'
-            ]
+            ],
+            [
+                'name'=>'ee_variation_report',
+                'display_name'=>'generate ee variation report',
+                'description'=>'generate ee variation report'
+            ]            
         ];
 
         // DYCE branch head

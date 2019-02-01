@@ -56,6 +56,7 @@ use App\conveyance\SfApplicationStatusLog;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
 use App\Http\Controllers\conveyance\renewalCommonController;
 use App\ArchitectApplicationStatusLog;
+use App\OlConsentVerificationDetails;
 
 class CommonController extends Controller
 {
@@ -81,7 +82,7 @@ class CommonController extends Controller
             ->where('id', $applicationId)->first();
 
         $eeScrutinyData->eeNote = EENote::where('application_id', $applicationId)
-            ->orderBy('id', 'desc')->first();
+            ->orderBy('id', 'desc')->get();
 
         $this->getVerificationDetails($eeScrutinyData, $applicationId);
         $this->getChecklistDetails($eeScrutinyData, $applicationId);
@@ -3938,8 +3939,9 @@ class CommonController extends Controller
         $eeScrutinyData = $this->getEEScrutinyRemark($applicationId);
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         $folder = $this->getCurrentRoleFolderName();
-
-        return view('admin.common.view_ee_scrutiny_remark',compact('eeScrutinyData','ol_application','folder'));
+        $consentCount = OlConsentVerificationDetails::where('application_id',$applicationId)->count();
+       
+        return view('admin.common.view_ee_scrutiny_remark',compact('eeScrutinyData','ol_application','folder','consentCount'));
     }
 
     // DyCE Scrutiny & Remark page

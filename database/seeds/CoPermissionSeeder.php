@@ -431,6 +431,11 @@ class CoPermissionSeeder extends Seeder
                 'display_name'=>'co.forward_noc_cc_application_data',
                 'description'=>'co.forward_noc_cc_application_data'
             ],
+            [
+                'name'=>'ee_variation_report',
+                'display_name'=>'generate ee variation report',
+                'description'=>'generate ee variation report'
+            ]            
         ];
         $ree_role_id = Role::where('name', 'ree_engineer')->value('id');
         if ($ree_role_id == null) {

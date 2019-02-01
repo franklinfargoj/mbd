@@ -159,7 +159,12 @@ class VpPermission extends Seeder
                 'name' => 'vp.forward_reval_application_data',
                 'display_name' => 'Forward Revalidation Application Data',
                 'description' => 'Forward Revalidation Application Data',
-            ]
+            ],
+            [
+                'name'=>'ee_variation_report',
+                'display_name'=>'generate ee variation report',
+                'description'=>'generate ee variation report'
+            ]            
         ];
 
         $vp_manager = Role::where('name', '=', 'vp_engineer')->first();

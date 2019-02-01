@@ -17,6 +17,7 @@ use App\OlSocietyDocumentsMaster;
 use App\OlSocietyDocumentsStatus;
 use App\OlTitBitVerificationDetails;
 use App\OlTitBitVerificationQuestionMaster;
+use App\OlDemarcationLandArea;
 use App\OcApplication;
 use App\OcApplicationStatusLog;
 use App\OcSrutinyQuestionMaster;
@@ -36,6 +37,7 @@ use Config;
 use DB;
 use File;
 use Storage;
+use Mpdf\Mpdf;
 
 class EEController extends Controller
 {
@@ -661,7 +663,7 @@ class EEController extends Controller
 
         // EE Note download
 
-        $arrData['eeNote'] = EENote::where('application_id', $application_id)->orderBy('id', 'desc')->first();
+        $arrData['eeNote'] = EENote::where('application_id', $application_id)->orderBy('id', 'desc')->get();
 
         // Get Application last Status
         // dd($arrData);
@@ -837,6 +839,11 @@ class EEController extends Controller
             ];
         }
 
+        $landArr = $request->land;
+        // dd($landArr);
+        OlDemarcationLandArea::updateOrCreate(['application_id'=>$request->application_id],$landArr);
+        // $data = OlDemarcationLandArea::where('application_id',$request->application_id)->first();
+
         OlDemarcationVerificationDetails::insert($ee_demarcation);
 
         return redirect()->back();
@@ -912,25 +919,25 @@ class EEController extends Controller
 
     public function uploadEENote(Request $request){
         $applicationId   = $request->application_id;
-        $uploadPath      = '/uploads/ee_note';
-        $destinationPath = public_path($uploadPath);
-
         if ($request->file('ee_note')){
 
             $file = $request->file('ee_note');
             $extension = $file->getClientOriginalExtension();
+            $name = $file->getClientOriginalName();
             $file_name = time().'ee_note.'.$extension;
             $folder_name = "ee_note";
             $path = $folder_name."/".$file_name;
 
             if($extension == "pdf") {
 
-                $fileUpload = $this->comman->ftpFileUpload($folder_name,$request->file('ee_note'),$file_name);
+                $fileUpload = $this->comman->ftpFileUpload($folder_name,$file,$file_name);
 
                     $fileData[] = array('document_path' => $path,
                         'application_id' => $applicationId,
+                        'document_name' => $name,
                         'user_id' => Auth::user()->id,
                         'role_id' => session()->get('role_id'));
+
 
                 $data = EENote::insert($fileData);
                 return back()->with('success', 'EE Note uploaded successfully');
@@ -940,6 +947,18 @@ class EEController extends Controller
                 return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
             }
         }
+    }
+
+    public function deleteEENote(Request $request){
+        // dd($request);
+        if (isset($request->oldFile) && isset($request->id)){
+            Storage::disk('ftp')->delete($request->oldFile);
+            EENote::where('id',$request->id)->delete(); 
+            $status = 'success';           
+        }else{
+             $status = 'error';
+        }
+        return $status;
     } 
 
     public function viewApplication(Request $request, $applicationId){
@@ -1009,5 +1028,28 @@ class EEController extends Controller
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
         return view('admin.ee_department.society_detail', compact('html','society'));
+    }
+
+    public function generateEEVariationReport(Request $request,$id){
+        $report = [];
+        $ConsentData = OlConsentVerificationDetails::with('consentQuestions')->where('application_id',$id)
+        ->get(); 
+        if ($ConsentData){
+            foreach($ConsentData as $data){
+                if (isset($data->consentQuestions->expected_answer)){
+                    if ($data->answer != $data->consentQuestions->expected_answer){
+                        $report [] = $data;
+                    }
+                }
+            }  
+        }
+        $view =  view('admin.ee_department.variation_report', compact('report')); 
+
+        $pdf = new Mpdf();
+        $pdf->autoScriptToLang = true;
+        $pdf->autoLangToFont = true;
+
+        $pdf->WriteHTML($view);  
+        $pdf->Output('abc.pdf', 'D');
     }
 }

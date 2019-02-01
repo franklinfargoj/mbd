@@ -363,7 +363,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6" style="margin-top: 50px">
+                                            <div class="col-sm-6 margin_top">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
                                                         <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
@@ -388,7 +388,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="table-checklist m-portlet__body m-portlet__body--table">
+                                        
+                                    @if($consentCount > 0)
+                                        <a class="btn btn-primary hide-print" href="{{ route('ee_variation_report',$ol_application->id)}}"> Generate Variation Report</a>
+                                    @endif  
+                                        <div class="table-checklist m-portlet__body m-portlet__body--table" style="margin-top: 10px">
                                             <div class="table-responsive">
                                                 <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                                     <thead class="thead-default">
@@ -461,7 +465,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6" style="margin-top: 50px">
+                                            <div class="col-sm-6 margin_top">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
                                                         <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
@@ -557,7 +561,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6" style="margin-top: 50px">
+                                            <div class="col-sm-6 margin_top">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
                                                         <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
@@ -717,14 +721,25 @@
                             <div class="m-section__content mb-0 table-responsive">
                                 <div class="d-flex flex-column h-100">
                                     <h5>Download EE Note</h5>
-<!--                                     <span class="hint-text">Download EE Note uploaded
-                                        by EE</span> -->
                                     <div class="mt-3">
-                                        @if(isset($eeScrutinyData->eeNote->document_path))
-                                        <a href="{{ config('commanConfig.storage_server').'/'.$eeScrutinyData->eeNote->document_path }}" target="_blank">
+                                        @if(isset($eeScrutinyData->eeNote))
+                                            @foreach($eeScrutinyData->eeNote as $note)
+                                            <div class="mt-auto"> 
+                                            <span> 
+                                            @php
+                                            if($note->document_name){
+                                                $fileName = explode(".",$note->document_name)[0]; 
+                                            }elseif($note->document_path){
+                                                $fileName = explode(".",explode('/',$note->document_path)[1])[0];
+                                            }
+                                            @endphp 
 
-                                            <button class="btn btn-primary">Download</button>
-                                        </a>
+                                            {{ isset($fileName) ? $fileName : ''}} : 
+                                            </span>
+                                             <a download href="{{ config('commanConfig.storage_server').'/'.$note->document_path}} " target="_blank" download>
+                                                                    Download </a>
+                                            </div>
+                                            @endforeach
                                         @else
                                         <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
                                             * Note : EE note not available. </span>
