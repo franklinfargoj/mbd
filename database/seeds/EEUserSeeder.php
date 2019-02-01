@@ -347,7 +347,17 @@ class EEUserSeeder extends Seeder
                 'name'=>'renewal.view_documents',
                 'display_name'=>'view renewal society documents',
                 'description'=>'view renewal society documents'
-            ]                                                  
+            ],
+            [
+                'name'=>'redevelopement.period_wise_pendency_report',
+                'display_name'=>'redevelopement.period_wise_pendency_report',
+                'description'=>'redevelopement.period_wise_pendency_report'
+            ],
+            [
+                'name'=>'redevelopement_pending_reports',
+                'display_name'=>'redevelopement_pending_reports',
+                'description'=>'redevelopement_pending_reports'
+            ]                                    
         ];
 
         // Role
