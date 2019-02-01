@@ -35,7 +35,7 @@
     <link href="{{asset('/assets/vendors/base/vendors.bundle.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('/assets/demo/default/base/style.bundle.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('/css/mdtimepicker.min.css')}}" rel="stylesheet" type="text/css" />
-
+    <link href="{{asset('/css/overlay-scrollbars.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('/assets/demo/default/base/custom.css')}}" rel="stylesheet" type="text/css" />
     <!--end::Base Styles -->
     <link rel="shortcut icon" href="{{ asset('/img/fav-icon-new.png')}}" />
@@ -182,6 +182,7 @@
         });
     })
 </script>
+    <script type="text/javascript" src="{{ asset('/js/overlay-scrollbars.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/custom.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/bootstrap-select.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/assets/demo/default/custom/components/forms/validation/form-widgets.js') }}"></script>

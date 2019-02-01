@@ -491,6 +491,12 @@ return [
         'society_oc_preview',
         'society_noc_preview',
         'society_noc_cc_preview'
+    ],
+    'pendency_report_periods'=>[
+        '0-30'=>'0-30 days',
+        '31-60'=>'31-60 days',
+        '61-90'=>'61-90 days',
+        '91-120'=>'91-120 days'
     ]
 
 ];

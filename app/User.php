@@ -42,6 +42,11 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\LayoutUser', 'user_id','id');
     }
+
+    public function Layouts()
+    {
+        return $this->hasMany('App\LayoutUser', 'user_id','id');
+    }
     
     public function department()
     {
