@@ -1124,7 +1124,7 @@
                                                                             <a class="btn-link" download href="{{ config('commanConfig.storage_server').'/'.$note->document_path}} " target="_blank" download>
                                                                     Download </a> 
                                                                         </td>
-                                                                        <td class="text-center">
+                                                                        <td class="text-center" style="{{$style}}">
                                                                             <i class="fa fa-close icon2 d-icon hide-print" id="{{ isset($note->id) ? $note->id : '' }}" onclick="removeDocuments(this.id)"></i>
                                                                             <input type="hidden" name= "oldFile" id="oldFile_{{$note->id}}" value="{{ isset($note->document_path) ? $note->document_path : '' }}"> 
                                                                         </td>
