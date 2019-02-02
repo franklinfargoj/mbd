@@ -109,6 +109,11 @@ Route::post('/update_profile','Common\CommonController@update_profile')->name('a
 
 Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']], function() {
 
+    //Reports
+
+    Route::get('redevelopement_period_wise_pendency_report','Reports\RedevelopementController@period_wise_pendency')->name('redevelopement.period_wise_pendency_report');
+    Route::get('redevelopement_pending_reports','Reports\RedevelopementController@redevelopement_pending_reports')->name('redevelopement_pending_reports');
+    //Reports end
     // RTI Routes
 
 //    Route::get('rti_form','RtiFormController@showFrontendForm')->name('rti_form');
@@ -222,7 +227,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('/consent-verfication', 'EEDepartment\EEController@consentVerification')->name('consent-verfication');
     Route::post('/ee-demarcation', 'EEDepartment\EEController@eeDemarcation')->name('ee-demarcation');
     Route::post('/ee-tit-bit', 'EEDepartment\EEController@titBit')->name('ee-tit-bit');
-    Route::post('/ee-rg-relocation', 'EEDepartment\EEController@rgRelocation')->name('ee-rg-relocation');    
+    Route::post('/ee-rg-relocation', 'EEDepartment\EEController@rgRelocation')->name('ee-rg-relocation'); 
+     Route::post('/delete_ee_note', 'EEDepartment\EEController@deleteEENote')->name('delete_ee_note');    
+     Route::get('/ee_variation_report/{id}', 'EEDepartment\EEController@generateEEVariationReport')->name('ee_variation_report');    
 
 
    // EM Department Routes

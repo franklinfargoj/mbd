@@ -16,13 +16,16 @@ class SocietyConveyanceApplicationTypeSeeder extends Seeder
 
         $sc_applications = [
             [
-                'application_type' => 'Conveyance'
+                'application_type' => 'Conveyance',
+                'preview_route' => 'society_conveyance.show'
             ],
             [
-                'application_type' => 'Renewal'
+                'application_type' => 'Renewal',
+                'preview_route' => 'society_renewal.show'
             ],
             [
-                'application_type' => 'Formation'
+                'application_type' => 'Formation',
+                'preview_route' => 'society_formation.view_application'
             ]
         ];
 
@@ -32,7 +35,11 @@ class SocietyConveyanceApplicationTypeSeeder extends Seeder
             foreach($sc_applications as $sc_applications_key => $sc_applications_val){
                 $sc_application = scApplicationType::where('application_type', $sc_applications_val['application_type'])->first();
                 if($sc_application){
-                    continue;
+                    if($sc_application->preview_route == null){
+                        scApplicationType::where('id', $sc_application->id)->update($sc_applications_val);
+                    }else{
+                        continue;
+                    }
                 }else{
                     scApplicationType::insert($sc_applications_val);
                 }

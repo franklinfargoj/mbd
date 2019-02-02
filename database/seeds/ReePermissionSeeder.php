@@ -459,6 +459,21 @@ class ReePermissionSeeder extends Seeder
                 'display_name'=>'save fsi calculation data',
                 'description'=>'save fsi calculation data'
             ],
+            [
+                'name'=>'ee_variation_report',
+                'display_name'=>'generate ee variation report',
+                'description'=>'generate ee variation report'
+            ],
+            [            
+                'name'=>'redevelopement.period_wise_pendency_report',
+                'display_name'=>'redevelopement.period_wise_pendency_report',
+                'description'=>'redevelopement.period_wise_pendency_report'
+            ],
+            [
+                'name'=>'redevelopement_pending_reports',
+                'display_name'=>'redevelopement_pending_reports',
+                'description'=>'redevelopement_pending_reports'
+            ]   
         ];
 
         // Role

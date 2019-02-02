@@ -781,12 +781,24 @@ $route=\Request::route()->getName();
                      <a href="{{ route('society.profile') }}" class="m-menu__link">
                          <i class="m-menu__link-icon flaticon-user"></i>
                          <span class="m-menu__link-title">
-                        <span class="m-menu__link-wrap">
-                            <span class="m-menu__link-text">
-                                Profile
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">
+                                    Profile
+                                </span>
                             </span>
                         </span>
-                    </span>
+                     </a>
+                 </li>
+                 <li class="m-menu__item @if ($route == 'society_applications') m-menu__item--active @endif" aria-haspopup="true">
+                     <a href="{{ route('society_applications') }}" class="m-menu__link">
+                         <i class="m-menu__link-icon flaticon-line-graph"></i>
+                         <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">
+                                    List of Applications
+                                </span>
+                            </span>
+                        </span>
                      </a>
                  </li>
             </ul>

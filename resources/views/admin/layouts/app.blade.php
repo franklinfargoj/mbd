@@ -87,7 +87,7 @@
                                         <!-- <i class="la la-plus m--hide"></i>
                                     <i class="la la-ellipsis-h"></i> -->
                                         <i class="m-nav__link-icon fa fa-user" style="padding-right: 5px;"></i>
-                                        My Account
+                                        {{auth()->user()->name}}
                                     </a>
                                     <div class="m-dropdown__wrapper">
                                         <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>

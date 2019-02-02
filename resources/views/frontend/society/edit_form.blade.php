@@ -30,7 +30,13 @@
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="preceding_officer_name">Department:</label>
-                            <input type="text" id="department_name" name="department_name" class="form-control form-control--custom m-input" value="EE" readonly>
+                            {{-- <input type="text" id="department_name" name="department_name" class="form-control form-control--custom m-input" value="EE" readonly> --}}
+                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" data-live-search="true" id="department_name" name="department_name" required>
+                                <option value="">Select</option>
+                                @foreach($ee_divisions as $ee_division)
+                                    <option {{($ol_application->department!=''?$ol_application->department->id:'')==$ee_division->id?'selected':''}} value="{{ $ee_division->id }}">{{ $ee_division->division }}</option>
+                                @endforeach
+                            </select>
                             <input type="hidden" name="application_master_id" value="{{ $id }}">
                             <input type="hidden" name="request_form_id" value="{{ $ol_application->request_form->id }}">
                             <span class="help-block">{{$errors->first('department_name')}}</span>

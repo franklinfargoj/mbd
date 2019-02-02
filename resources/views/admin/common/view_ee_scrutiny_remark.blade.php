@@ -363,7 +363,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6" style="margin-top: 50px">
+                                            <div class="col-sm-6 margin_top">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
                                                         <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
@@ -388,7 +388,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="table-checklist m-portlet__body m-portlet__body--table">
+                                        
+                                    @if($consentCount > 0)
+                                        <a class="btn btn-primary hide-print" href="{{ route('ee_variation_report',$ol_application->id)}}"> Generate Variation Report</a>
+                                    @endif  
+                                        <div class="table-checklist m-portlet__body m-portlet__body--table" style="margin-top: 10px">
                                             <div class="table-responsive">
                                                 <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                                     <thead class="thead-default">
@@ -461,7 +465,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6" style="margin-top: 50px">
+                                            <div class="col-sm-6 margin_top">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
                                                         <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
@@ -486,6 +490,7 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="table-checklist m-portlet__body m-portlet__body--table">
                                             <div class="table-responsive">
                                                 <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
@@ -497,8 +502,62 @@
                                                         <th style="width:30%">शेरा</th>
                                                     </thead>
                                                     <tbody>
-                                                        <?php $i = 1; ?>
+                                                        <?php $i = 2; ?>
+                                                        <tr>
+                                                        <td>1</td>
+                                                        <td colspan="4">
+                                                            <span>एकूण भूखंडाचे क्षेत्रफळ </span>
+                                                            <table style="width: 100%;margin-top: 10px">
+                                                                <tr>
+                                                                    <th>#</th>
+                                                                    <th style="width: 55%;">Area</th>
+                                                                    <th style="width: 45%;">Value</th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>a)</td>
+                                                                    <td>भाडेपट्टा करारनामा नुसार क्षेत्रफळ</td>
+                                                                    <td><input type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->lease_agreement_area) ? $landDetails->lease_agreement_area : '' }}" name="land[lease_agreement_area]" id="lease_agreement_area" placeholder="" readonly></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>b)</td>
+                                                                    <td>अभिन्यासातील भूखंडाचे क्षेत्रफळ </td>
+                                                                    <td><input type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->stag_plot_area) ? $landDetails->stag_plot_area : '' }}" name="land[stag_plot_area]" 
+                                                                    id="stag_plot_area" placeholder="" readonly></td>
+                                                                </tr>                                    
+                                                                <tr>
+                                                                     <td>c)</td>    
+                                                                    <td>टिट बिट भूखंडाचे क्षेत्रफळ </td>
+                                                                    <td><input type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->tit_bit_area) ? $landDetails->tit_bit_area : '' }}" name="land[tit_bit_area]" id="tit_bit_area" placeholder="" readonly></td>
+                                                                </tr>
+                                                                <tr>
+                                                                     <td>d)</td>    
+                                                                    <td>आर जी भूखंडाचे क्षेत्रफळ</td>
+                                                                    <td><input type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->rg_plot_area) ? $landDetails->rg_plot_area : '' }}" name="land[rg_plot_area]" id="rg_plot_area" placeholder="" readonly></td>
+                                                                </tr>
+                                                                <tr>
+                                                                     <td>e)</td>    
+                                                                    <td>पि जि भूखंडाचे क्षेत्रफळ </td>
+                                                                    <td><input type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->pg_plot_area) ? $landDetails->pg_plot_area : '' }}" name="land[pg_plot_area]" id="pg_plot_area" placeholder="" readonly></td>
+                                                                </tr>
+                                                                <tr>
+                                                                     <td>f)</td>    
+                                                                    <td>Road setback  area</td>
+                                                                    <td><input type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->road_setback_area) ? $landDetails->road_setback_area : '' }}" name="land[road_setback_area]" id="road_setback_area" placeholder="" readonly></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>g)</td>    
+                                                                    <td>Encroachment area</td>
+                                                                    <td><input type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->encroachment_area) ? $landDetails->encroachment_area : '' }}" name="land[encroachment_area]" id="encroachment_area" placeholder="" readonly></td>
+                                                                </tr>
+                                                                <tr>
+                                                                     <td>h)</td>    
+                                                                    <td>इतर क्षेत्रफळ </td>
+                                                                    <td><input type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->another_area) ? $landDetails->another_area : '' }}" name="land[another_area]" id="another_area" placeholder="" readonly></td>
 
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                        </tr>
                                                         @foreach($eeScrutinyData->DemarkQuetions as $data)
                                                         <tr>
                                                             <td>{{$i}}</td>
@@ -557,7 +616,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6" style="margin-top: 50px">
+                                            <div class="col-sm-6 margin_top">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
                                                         <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
@@ -715,20 +774,43 @@
                         <div class="m-portlet__body m-portlet__body--table">
 
                             <div class="m-section__content mb-0 table-responsive">
-                                <div class="d-flex flex-column h-100">
-                                    <h5>Download EE Note</h5>
-<!--                                     <span class="hint-text">Download EE Note uploaded
-                                        by EE</span> -->
-                                    <div class="mt-3">
-                                        @if(isset($eeScrutinyData->eeNote->document_path))
-                                        <a href="{{ config('commanConfig.storage_server').'/'.$eeScrutinyData->eeNote->document_path }}" target="_blank">
+                            <div class="col-sm-8">
+                                    <div class="d-flex flex-column h-100">
+                                        <h5>Download EE Note</h5>
+                                        <div class="mt-3">
+                                            @if(isset($eeScrutinyData->eeNote))
+                                                <div class="table-responsive">
+                                                <table class="mt-2 table"> 
+                                                <tbody>                                        
+                                                @foreach($eeScrutinyData->eeNote as $note)
+                                                <tr>
+                                                    <td> 
+                                                <!-- <div class="mt-auto">  -->
+                                                <!-- <span>  -->
+                                                @php
+                                                if($note->document_name){
+                                                    $fileName = explode(".",$note->document_name)[0]; 
+                                                }elseif($note->document_path){
+                                                    $fileName = explode(".",explode('/',$note->document_path)[1])[0];
+                                                }
+                                                @endphp 
 
-                                            <button class="btn btn-primary">Download</button>
-                                        </a>
-                                        @else
-                                        <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                            * Note : EE note not available. </span>
-                                        @endif
+                                                {{ isset($fileName) ? $fileName : ''}} : 
+                                                </td>
+                                                <td class="text-center">
+                                                    <a download class="btn-link" href="{{ config('commanConfig.storage_server').'/'.$note->document_path}} " target="_blank" download>
+                                                                        Download </a>
+                
+                                                </td>
+                                            </tr>
+                                                @endforeach
+                                                </tbody>    
+                                            </table>
+                                            @else
+                                            <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                                * Note : EE note not available. </span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>

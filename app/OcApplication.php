@@ -69,6 +69,10 @@ class OcApplication extends Model
         return $this->hasOne(OlApplicationMaster::class, 'id', 'application_master_id');
     }
 
+    public function application_master(){
+        return $this->hasOne(OlApplicationMaster::class, 'id', 'application_master_id');
+    }
+
     public function oc_application_status(){
         return $this->hasOne(OcApplicationStatusLog::class, 'id', 'current_status_id');
     }

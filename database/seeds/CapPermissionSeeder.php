@@ -164,7 +164,12 @@ class CapPermissionSeeder extends Seeder
                 'name' => 'cap.forward_reval_application_data',
                 'display_name' => 'Forward Revalidation Application Data',
                 'description' => 'Forward Revalidation Application Data',
-            ]
+            ],
+            [
+                'name'=>'ee_variation_report',
+                'display_name'=>'generate ee variation report',
+                'description'=>'generate ee variation report'
+            ]            
         ];
 
         $cap_manager = Role::where('name', '=', 'cap_engineer')->first();

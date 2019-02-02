@@ -2,8 +2,27 @@
 @section('actions')
 @include('admin.ee_department.action',compact('ol_application'))
 @endsection
+
+@section('css')
+<!-- <style> -->
+<link href="{{asset('/frontend/css/dyce_scrutiny.css')}}" rel="stylesheet" type="text/css" />
+
+<style>
+    .loader {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url('/img/loading-spinner-blue.gif') 50% 50% no-repeat rgb(249,249,249);
+    opacity: .8;
+}
+</style>
+@endsection
 @section('content')
 
+<div class="loader" style="display:none;"></div>
 @if(session()->has('success'))
 <div class="alert alert-success display_msg">
     {{ session()->get('success') }}
@@ -476,8 +495,12 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="table-checklist m-portlet__body m-portlet__body--table table--box-input">
+                                        </div>  
+                                    @if(count($arrData['consent_verification_details_data']) > 0)
+                                        <a class="btn btn-primary hide-print" id="{{ $arrData['society_detail']->id }}" href="{{ route('ee_variation_report',$arrData['society_detail']->id)}}"> Generate Variation Report</a>
+                                    @endif    
+
+                                        <div class="table-checklist m-portlet__body m-portlet__body--table table--box-input" style="margin-top: 10px">
                                             <div class="table-responsive">
                                                 <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                                     <thead class="thead-default">
@@ -632,10 +655,65 @@
                                                     </thead>
                                                     <tbody>
                                                         @php
-                                                        $i = 1;
+                                                        $i = 2;
                                                         @endphp
 
                                                         <input type="hidden" name="application_id" value="{{ $arrData['society_detail']->id }}">
+                                                        <tr>
+                                                        <td>1</td>
+                                                        <td colspan="4">
+                                                            <span>एकूण भूखंडाचे क्षेत्रफळ </span>
+                                                            <table style="width: 100%;margin-top: 10px">
+                                                                <tr>
+                                                                    <th>#</th>
+                                                                    <th style="width: 55%;">Area</th>
+                                                                    <th style="width: 45%;">Value</th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>a)</td>
+                                                                    <td>भाडेपट्टा करारनामा नुसार क्षेत्रफळ</td>
+                                                                    <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->lease_agreement_area) ? $landDetails->lease_agreement_area : '' }}" name="land[lease_agreement_area]" id="lease_agreement_area" placeholder=""></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>b)</td>
+                                                                    <td>अभिन्यासातील भूखंडाचे क्षेत्रफळ </td>
+                                                                    <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->stag_plot_area) ? $landDetails->stag_plot_area : '' }}" name="land[stag_plot_area]" 
+                                                                    id="stag_plot_area" placeholder=""></td>
+                                                                </tr>                                    
+                                                                <tr>
+                                                                     <td>c)</td>    
+                                                                    <td>टिट बिट भूखंडाचे क्षेत्रफळ </td>
+                                                                    <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->tit_bit_area) ? $landDetails->tit_bit_area : '' }}" name="land[tit_bit_area]" id="tit_bit_area" placeholder=""></td>
+                                                                </tr>
+                                                                <tr>
+                                                                     <td>d)</td>    
+                                                                    <td>आर जी भूखंडाचे क्षेत्रफळ</td>
+                                                                    <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->rg_plot_area) ? $landDetails->rg_plot_area : '' }}" name="land[rg_plot_area]" id="rg_plot_area" placeholder=""></td>
+                                                                </tr>
+                                                                <tr>
+                                                                     <td>e)</td>    
+                                                                    <td>पि जि भूखंडाचे क्षेत्रफळ </td>
+                                                                    <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->pg_plot_area) ? $landDetails->pg_plot_area : '' }}" name="land[pg_plot_area]" id="pg_plot_area" placeholder=""></td>
+                                                                </tr>
+                                                                <tr>
+                                                                     <td>f)</td>    
+                                                                    <td>Road setback  area</td>
+                                                                    <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->road_setback_area) ? $landDetails->road_setback_area : '' }}" name="land[road_setback_area]" id="road_setback_area" placeholder=""></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>g)</td>    
+                                                                    <td>Encroachment area</td>
+                                                                    <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->encroachment_area) ? $landDetails->encroachment_area : '' }}" name="land[encroachment_area]" id="encroachment_area" placeholder=""></td>
+                                                                </tr>
+                                                                <tr>
+                                                                     <td>h)</td>    
+                                                                    <td>इतर क्षेत्रफळ </td>
+                                                                    <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->another_area) ? $landDetails->another_area : '' }}" name="land[another_area]" id="another_area" placeholder=""></td>
+
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                        </tr>
                                                         @foreach($arrData['demarcation_question'] as
                                                         $demarcation_question)
 
@@ -995,53 +1073,70 @@
                                             </h3>
                                         </div>
                                     </div>
-                                    <div class="m-section__content mb-0 table-responsive">
+                                    <div class="col-sm-6" style="{{ $display }}">
+                                        <div class="d-flex flex-column h-100 two-cols">
+                                            <h5>Upload Note</h5>
+                                            <span class="hint-text">Click on 'Upload' to upload EE
+                                                -
+                                                Note</span>
+                                            <form action="{{ route('ee.upload_ee_note') }}" method="post"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                <input type="hidden" name="application_id" value="{{ $arrData['society_detail']->id }}">
+                                                <div class="custom-file">
+                                                    <input class="custom-file-input" name="ee_note" type="file"
+                                                        id="test-upload" required="">
+                                                    <label class="custom-file-label" for="test-upload">Choose
+                                                        file...</label>
+                                                </div>
+                                                <span class="text-danger" id="file_error"></span>
+                                                <div class="mt-auto">
+                                                    <button type="submit" style="{{ $style }}" class="btn btn-primary btn-custom upload_note"
+                                                        id="uploadBtn">Upload</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="m-section__content mb-0 table-responsive" style="margin-top: 30px">
                                         <div class="container">
                                             <div class="row">
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-8">
                                                     <div class="d-flex flex-column h-100 two-cols">
                                                         <h5>Download EE Note</h5>
-                                                        <div class="mt-auto">
+                                                            @if(isset($arrData['eeNote']))
+                                                                <div class="table-responsive">
+                                                                <table class="mt-2 table"> 
+                                                                <tbody>
 
-                                                            @if(isset($arrData['eeNote']->document_path))
+                                                                @foreach($arrData['eeNote'] as $note)  
+                                                                    <tr>
+                                                                        <td>                                                                    @php
+                                                                    if($note->document_name){
+                                                                        $fileName = explode(".",$note->document_name)[0]; 
+                                                                    }elseif($note->document_path){
+                                                                        $fileName = explode(".",explode('/',$note->document_path)[1])[0];
+                                                                    }
+                                                                    @endphp 
 
-                                                            <a download href="{{ config('commanConfig.storage_server').'/'.$arrData['eeNote']->document_path}} " target="_blank">
-                                                                <button class="btn btn-primary">
+                                                                    {{ isset($fileName) ? $fileName : ''}} : 
+                                                                        </td>
+                                                                        <td class="text-center">
+                                                                            <a class="btn-link" download href="{{ config('commanConfig.storage_server').'/'.$note->document_path}} " target="_blank" download>
+                                                                    Download </a> 
+                                                                        </td>
+                                                                        <td class="text-center" style="{{$style}}">
+                                                                            <i class="fa fa-close icon2 d-icon hide-print" id="{{ isset($note->id) ? $note->id : '' }}" onclick="removeDocuments(this.id)"></i>
+                                                                            <input type="hidden" name= "oldFile" id="oldFile_{{$note->id}}" value="{{ isset($note->document_path) ? $note->document_path : '' }}"> 
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+                                                                </tbody>    
+                                                                </table>
 
-                                                                    Download</button>
-                                                            </a>
                                                             @else
                                                             <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
                                                                 * Note : EE note not available. </span>
                                                             @endif
-
-
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6 border-left" style="{{ $display }}">
-                                                    <div class="d-flex flex-column h-100 two-cols">
-                                                        <h5>Upload Note</h5>
-                                                        <span class="hint-text">Click on 'Upload' to upload EE
-                                                            -
-                                                            Note</span>
-                                                        <form action="{{ route('ee.upload_ee_note') }}" method="post"
-                                                            enctype="multipart/form-data">
-                                                            @csrf
-                                                            <input type="hidden" name="application_id" value="{{ $arrData['society_detail']->id }}">
-                                                            <div class="custom-file">
-                                                                <input class="custom-file-input" name="ee_note" type="file"
-                                                                    id="test-upload" required="">
-                                                                <label class="custom-file-label" for="test-upload">Choose
-                                                                    file...</label>
-                                                            </div>
-                                                            <span class="text-danger" id="file_error"></span>
-                                                            <div class="mt-auto">
-                                                                <button type="submit" style="{{ $style }}" class="btn btn-primary btn-custom upload_note"
-                                                                    id="uploadBtn">Upload</button>
-                                                            </div>
-                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1218,7 +1313,34 @@
     $(".nested_t").click(function(){
         var selected_tab = $(this).attr('data-tab');
         $("#selected_tab").html(selected_tab);
-    });    
+    });
+
+    function removeDocuments(id) {
+     
+        var oldFile = $("#oldFile_"+id).val();
+        var form_data = new FormData();
+        form_data.append('id', id);
+        form_data.append('oldFile', oldFile);
+        form_data.append('_token', document.getElementsByName("_token")[0].value);
+        $(".loader").show();
+   
+            $.ajax({
+                url: "/delete_ee_note",
+                data: form_data,
+                type: 'POST',
+                contentType: false,
+                cache: false, 
+                processData: false,
+                success: function(data) {
+                    console.log(data);
+                    $(".loader").hide();
+                    if (data == 'success'){
+                        location.reload();
+                        // $(".upload_doc_"+id).css("display","none");
+                    }
+                }
+            })        
+    }        
  
 </script>
 @endsection

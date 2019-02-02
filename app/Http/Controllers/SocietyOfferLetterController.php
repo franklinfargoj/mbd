@@ -202,36 +202,36 @@ class SocietyOfferLetterController extends Controller
     }
 
     // function used to Aunthonticate society user
-    public function UserAuthentication(Request $request){
-        // dd($request);
-       $validateData = $request->validate([
-        'capture_text' => 'required|captcha',
-        ]);        
-        $email    = $request->input('email');
-        $password = $request->input('password');
-        if (Auth::attempt(['email' => $email, 'password' => $password])) {
-            // echo "Login SuccessFull<br/>";
-            dd(Auth::user());
-            // exit;
-        } else {
-            echo "Login Failed Wrong Data Passed";exit;
-        }
-        
-        $db_password = SocietyOfferLetter::where('email',$email)->first();
-        if ($password == ($db_password->password)){
-            
-            dd($db_password);
-            if ($SocietyUser){
-                $response['sucess'] = "Authenticate User";  
-                // Session::
-                return redirect()->route('society_offer_letter_dashboard');
-            }else{
-                return Redirect::back()->withErrors(['Authontication Failed']);
-            }
-        }else{
-            return Redirect::back()->withErrors(['Enter Email and Password']);
-        }
-    }
+//    public function UserAuthentication(Request $request){
+//        // dd($request);
+//       $validateData = $request->validate([
+//        'capture_text' => 'required|captcha',
+//        ]);
+//        $email    = $request->input('email');
+//        $password = $request->input('password');
+//        if (Auth::attempt(['email' => $email, 'password' => $password])) {
+//            // echo "Login SuccessFull<br/>";
+//            dd(Auth::user());
+//            // exit;
+//        } else {
+//            echo "Login Failed Wrong Data Passed";exit;
+//        }
+//
+//        $db_password = SocietyOfferLetter::where('email',$email)->first();
+//        if ($password == ($db_password->password)){
+//
+//            dd($db_password);
+//            if ($SocietyUser){
+//                $response['sucess'] = "Authenticate User";
+//                // Session::
+//                return redirect()->route('society_offer_letter_dashboard');
+//            }else{
+//                return Redirect::back()->withErrors(['Authontication Failed']);
+//            }
+//        }else{
+//            return Redirect::back()->withErrors(['Enter Email and Password']);
+//        }
+//    }
 
 
     /**
@@ -645,6 +645,7 @@ class SocietyOfferLetterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function save_offer_letter_application_self(Request $request){
+        //dd($request->all());
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $input = array(
             'society_id' => $society_details->id,
@@ -659,6 +660,7 @@ class SocietyOfferLetterController extends Controller
         $insert_application = array(
             'user_id' => Auth::user()->id,
             'language_id' => '1',
+            'department_id'=>$request->input('department_name'),
             'society_id' => $society_details->id,
             'layout_id' => $request->input('layout_id'),
             'request_form_id' => $last_inserted_id->id,
@@ -904,6 +906,7 @@ class SocietyOfferLetterController extends Controller
         $insert_application = array(
             'user_id' => Auth::user()->id,
             'language_id' => '1',
+            'department_id'=>$request->input('department_name'),
             'society_id' => $society_details->id,
             'layout_id' => $request->input('layout_id'),
             'request_form_id' => $last_inserted_id->id,
@@ -2150,6 +2153,7 @@ class SocietyOfferLetterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function updateOfferLetterApplication(Request $request){
+        //dd($request->input('department_name'));
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $update_input = array(
             'date_of_meeting' => date('Y-m-d', strtotime($request->date_of_meeting)),
@@ -2158,6 +2162,7 @@ class SocietyOfferLetterController extends Controller
             'developer_name' => $request->developer_name,
         );
         OlRequestForm::where('society_id', $society->id)->where('id', $request->request_form_id)->update($update_input);
+        OlApplication::where('society_id', $society->id)->update(['department_id'=>$request->input('department_name')]);
         return redirect()->route('society_offer_letter_preview');
     }
 
@@ -2579,69 +2584,67 @@ class SocietyOfferLetterController extends Controller
 //            ['data' => 'model','name' => 'model','title' => 'Model','searchable' => false,'orderable'=>false],
         ];
 
-        $ol_applications = OlApplication::where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
-            $q->where('society_flag', '1')->orderBy('id', 'desc');
-        } ]);
-
-        $ol_applications = $ol_applications->get();
-
-        $sc_applications = scApplication::where('society_id', $society->id)->with(['scApplicationType' => function($q){
-            $q->where('application_type', config('commanConfig.applicationType.Conveyance'))->first();
-        }, 'scApplicationLog' => function($q){
-            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
-        } ])->orderBy('id', 'desc');
-
-        $sc_applications = $sc_applications->get();
-        $ol_applications = $ol_applications->toBase()->merge($sc_applications);
-
-        $sr_applications = RenewalApplication::where('society_id', $society->id)->with(['srApplicationType' => function($q){
-            $q->where('application_type', config('commanConfig.applicationType.Renewal'))->first();
-        }, 'srApplicationLog' => function($q){
-            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
-        } ])->orderBy('id', 'desc');
-
-        $sr_applications = $sr_applications->get();
-        $ol_applications = $ol_applications->toBase()->merge($sr_applications);
-
-        $oc_applications = OcApplication::where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
-            $q->where('society_flag', '1')->orderBy('id', 'desc');
-        } ]);
-
-        $oc_applications = $oc_applications->get();
-        $ol_applications = $ol_applications->toBase()->merge($oc_applications);
-
-        $noc_applications = NocolApplication::select('*')->where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
-            $q->where('society_flag', '1')->orderBy('id', 'desc');
-        } ]);
-
-        $noc_applications = $noc_applications->addSelect(DB::raw("'1' as is_noc_application"));
-        $noc_applications = $noc_applications->get();
-        $ol_applications = $ol_applications->toBase()->merge($noc_applications);
-
-        $noc_cc_applications = NocCColApplication::select('*')->where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
-            $q->where('society_flag', '1')->orderBy('id', 'desc');
-        } ]);
-
-        $noc_cc_applications = $noc_cc_applications->addSelect(DB::raw("'1' as is_noc_cc_application"));
-        $noc_cc_applications = $noc_cc_applications->get();
-        $ol_applications = $ol_applications->toBase()->merge($noc_cc_applications);
-
-        $reval_master_ids_arr = config('commanConfig.revalidation_master_ids');
-        $oc_master_ids_arr = config('commanConfig.oc_master_ids');
-        dd($ol_applications->toArray());
-
         if ($datatables->getRequest()->ajax()) {
 
+            $ol_applications = OlApplication::where('society_id', $society->id)->with(['application_master', 'ol_application_master', 'olApplicationStatus' => function($q){
+                $q->where('society_flag', '1')->orderBy('id', 'desc');
+            } ]);
+
+            $ol_applications = $ol_applications->get();
+
+            $sc_applications = scApplication::where('society_id', $society->id)->with(['application_master', 'scApplicationType' => function($q){
+                $q->where('application_type', config('commanConfig.applicationType.Conveyance'))->first();
+            }, 'scApplicationLog' => function($q){
+                $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+            } ])->orderBy('id', 'desc');
+
+            $sc_applications = $sc_applications->get();
+            $ol_applications = $ol_applications->toBase()->merge($sc_applications);
+
+            $sr_applications = RenewalApplication::where('society_id', $society->id)->with(['application_master', 'srApplicationType' => function($q){
+                $q->where('application_type', config('commanConfig.applicationType.Renewal'))->first();
+            }, 'srApplicationLog' => function($q){
+                $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+            } ])->orderBy('id', 'desc');
+
+            $sr_applications = $sr_applications->get();
+            $ol_applications = $ol_applications->toBase()->merge($sr_applications);
+
+            $oc_applications = OcApplication::where('society_id', $society->id)->with(['application_master', 'ol_application_master', 'olApplicationStatus' => function($q){
+                $q->where('society_flag', '1')->orderBy('id', 'desc');
+            } ]);
+
+            $oc_applications = $oc_applications->get();
+            $ol_applications = $ol_applications->toBase()->merge($oc_applications);
+
+            $noc_applications = NocolApplication::select('*')->where('society_id', $society->id)->with(['application_master', 'ol_application_master', 'olApplicationStatus' => function($q){
+                $q->where('society_flag', '1')->orderBy('id', 'desc');
+            } ]);
+
+            $noc_applications = $noc_applications->addSelect(DB::raw("'1' as is_noc_application"));
+            $noc_applications = $noc_applications->get();
+            $ol_applications = $ol_applications->toBase()->merge($noc_applications);
+
+            $noc_cc_applications = NocCColApplication::select('*')->where('society_id', $society->id)->with(['application_master', 'ol_application_master', 'olApplicationStatus' => function($q){
+                $q->where('society_flag', '1')->orderBy('id', 'desc');
+            } ]);
+
+            $noc_cc_applications = $noc_cc_applications->addSelect(DB::raw("'1' as is_noc_cc_application"));
+            $noc_cc_applications = $noc_cc_applications->get();
+            $ol_applications = $ol_applications->toBase()->merge($noc_cc_applications);
+
+            $reval_master_ids_arr = config('commanConfig.revalidation_master_ids');
+            $oc_master_ids_arr = config('commanConfig.oc_master_ids');
 
             return $datatables->of($ol_applications)
                 ->editColumn('radio', function ($ol_applications) use($reval_master_ids_arr, $oc_master_ids_arr) {
-                    $url = route('society_offer_letter_preview');
-                    $reval_url = route('society_reval_offer_letter_preview');
-                    $oc_url= route('society_oc_preview');
-                    $url_noc = route('society_noc_preview');
-                    $url_noc_cc = route('society_noc_cc_preview');
-                    $url_tripartite = route('tripartite_application_form_preview', $ol_applications->id);
-//                    dd($ol_applications->ol_application_master);
+
+                    if(in_array($ol_applications->application_master->preview_route, config('commanConfig.preview_routes_without_id'))){
+                        $url = route($ol_applications->application_master->preview_route);
+                    }else{
+                        $url = route($ol_applications->application_master->preview_route, encrypt($ol_applications->id));
+                    }
+                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name=""><span></span></label>';
 
 //                    if(isset($ol_applications->is_noc_application))
 //                    {
