@@ -906,6 +906,7 @@ class SocietyOfferLetterController extends Controller
         $insert_application = array(
             'user_id' => Auth::user()->id,
             'language_id' => '1',
+            'department_id'=>$request->input('department_name'),
             'society_id' => $society_details->id,
             'layout_id' => $request->input('layout_id'),
             'request_form_id' => $last_inserted_id->id,

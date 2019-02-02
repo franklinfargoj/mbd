@@ -435,7 +435,17 @@ class CoPermissionSeeder extends Seeder
                 'name'=>'ee_variation_report',
                 'display_name'=>'generate ee variation report',
                 'description'=>'generate ee variation report'
-            ]            
+            ], 
+            [           
+                'name'=>'redevelopement.period_wise_pendency_report',
+                'display_name'=>'redevelopement.period_wise_pendency_report',
+                'description'=>'redevelopement.period_wise_pendency_report'
+            ],
+            [
+                'name'=>'redevelopement_pending_reports',
+                'display_name'=>'redevelopement_pending_reports',
+                'description'=>'redevelopement_pending_reports'
+            ]   
         ];
         $ree_role_id = Role::where('name', 'ree_engineer')->value('id');
         if ($ree_role_id == null) {

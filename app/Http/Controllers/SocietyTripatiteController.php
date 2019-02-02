@@ -58,7 +58,6 @@ class SocietyTripatiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function save_tripatite_self(Request $request){
-//        dd($request->application_master_id);
         $ol_request_form_details = new OlRequestForm;
         $ol_request_form_details = $ol_request_form_details->getFillable();
         $ol_request_form['society_id'] = $request->society_id;
