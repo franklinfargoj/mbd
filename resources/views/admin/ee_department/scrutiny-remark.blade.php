@@ -672,42 +672,43 @@
                                                                 <tr>
                                                                     <td>a)</td>
                                                                     <td>भाडेपट्टा करारनामा नुसार क्षेत्रफळ</td>
-                                                                    <td><input type="text" class="form-control form-control--custom" required="" value="" name="land[lease_agreement_area]" id="lease_agreement_area" placeholder=""></td>
+                                                                    <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->lease_agreement_area) ? $landDetails->lease_agreement_area : '' }}" name="land[lease_agreement_area]" id="lease_agreement_area" placeholder=""></td>
                                                                 </tr>
-                                                                <tr>    
-                                                                     <td>b)</td>
+                                                                <tr>
+                                                                    <td>b)</td>
                                                                     <td>अभिन्यासातील भूखंडाचे क्षेत्रफळ </td>
-                                                                    <td><input type="text" class="form-control form-control--custom" required="" value="" name="land[​​staggering_plot_area]" id="​​staggering_plot_area" placeholder=""></td>
-                                                                </tr>
+                                                                    <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->stag_plot_area) ? $landDetails->stag_plot_area : '' }}" name="land[stag_plot_area]" 
+                                                                    id="stag_plot_area" placeholder=""></td>
+                                                                </tr>                                    
                                                                 <tr>
                                                                      <td>c)</td>    
                                                                     <td>टिट बिट भूखंडाचे क्षेत्रफळ </td>
-                                                                    <td><input type="text" class="form-control form-control--custom" required="" value="" name="land[tit_bit_area]" id="tit_bit_area" placeholder=""></td>
+                                                                    <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->tit_bit_area) ? $landDetails->tit_bit_area : '' }}" name="land[tit_bit_area]" id="tit_bit_area" placeholder=""></td>
                                                                 </tr>
                                                                 <tr>
                                                                      <td>d)</td>    
                                                                     <td>आर जी भूखंडाचे क्षेत्रफळ</td>
-                                                                    <td><input type="text" class="form-control form-control--custom" required="" value="" name="land[rg_plot_area]" id="rg_plot_area" placeholder=""></td>
+                                                                    <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->rg_plot_area) ? $landDetails->rg_plot_area : '' }}" name="land[rg_plot_area]" id="rg_plot_area" placeholder=""></td>
                                                                 </tr>
                                                                 <tr>
                                                                      <td>e)</td>    
                                                                     <td>पि जि भूखंडाचे क्षेत्रफळ </td>
-                                                                    <td><input type="text" class="form-control form-control--custom" required="" value="" name="land[pg_plot_area]" id="pg_plot_area" placeholder=""></td>
+                                                                    <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->pg_plot_area) ? $landDetails->pg_plot_area : '' }}" name="land[pg_plot_area]" id="pg_plot_area" placeholder=""></td>
                                                                 </tr>
                                                                 <tr>
                                                                      <td>f)</td>    
                                                                     <td>Road setback  area</td>
-                                                                    <td><input type="text" class="form-control form-control--custom" required="" value="" name="land[road_setback_area]" id="road_setback_area" placeholder=""></td>
+                                                                    <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->road_setback_area) ? $landDetails->road_setback_area : '' }}" name="land[road_setback_area]" id="road_setback_area" placeholder=""></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>g)</td>    
                                                                     <td>Encroachment area</td>
-                                                                    <td><input type="text" class="form-control form-control--custom" required="" value="" name="land[encroachment_area]" id="encroachment_area" placeholder=""></td>
+                                                                    <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->encroachment_area) ? $landDetails->encroachment_area : '' }}" name="land[encroachment_area]" id="encroachment_area" placeholder=""></td>
                                                                 </tr>
                                                                 <tr>
                                                                      <td>h)</td>    
                                                                     <td>इतर क्षेत्रफळ </td>
-                                                                    <td><input type="text" class="form-control form-control--custom" required="" value="" name="land[another_area]" id="another_area" placeholder=""></td>
+                                                                    <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->another_area) ? $landDetails->another_area : '' }}" name="land[another_area]" id="another_area" placeholder=""></td>
 
                                                                 </tr>
                                                             </table>

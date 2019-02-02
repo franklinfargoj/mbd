@@ -20,6 +20,7 @@ use App\Layout\ArchitectLayoutLmScrtinyQuestionMaster;
 use App\Layout\ArchitectLayoutReeScrtinyQuestionDetail;
 use App\Layout\ArchitectLayoutReeScrtinyQuestionMaster;
 use App\Layout\ArchitectLayoutStatusLog;
+use App\OlDemarcationLandArea;
 use App\MasterLayout;
 use App\OlApplication;
 use App\NocApplication;
@@ -3940,8 +3941,9 @@ class CommonController extends Controller
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         $folder = $this->getCurrentRoleFolderName();
         $consentCount = OlConsentVerificationDetails::where('application_id',$applicationId)->count();
+        $landDetails = OlDemarcationLandArea::where('application_id',$applicationId)->first();
        
-        return view('admin.common.view_ee_scrutiny_remark',compact('eeScrutinyData','ol_application','folder','consentCount'));
+        return view('admin.common.view_ee_scrutiny_remark',compact('eeScrutinyData','ol_application','folder','consentCount','landDetails'));
     }
 
     // DyCE Scrutiny & Remark page

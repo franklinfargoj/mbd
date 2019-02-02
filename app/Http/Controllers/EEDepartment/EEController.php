@@ -673,7 +673,9 @@ class EEController extends Controller
                 'role_id' => session()->get('role_id')
             ])->orderBy('id', 'desc')->first();
 
-        return view('admin.ee_department.scrutiny-remark', compact('arrData','ol_application','societyDocuments','societyEEdocument'));
+        $landDetails = OlDemarcationLandArea::where('application_id',$application_id)->first();
+
+        return view('admin.ee_department.scrutiny-remark', compact('arrData','ol_application','societyDocuments','societyEEdocument','landDetails'));
     }
 
     public function addDocumentScrutiny(Request $request)
@@ -840,9 +842,7 @@ class EEController extends Controller
         }
 
         $landArr = $request->land;
-        // dd($landArr);
         OlDemarcationLandArea::updateOrCreate(['application_id'=>$request->application_id],$landArr);
-        // $data = OlDemarcationLandArea::where('application_id',$request->application_id)->first();
 
         OlDemarcationVerificationDetails::insert($ee_demarcation);
 
@@ -1045,11 +1045,14 @@ class EEController extends Controller
         }
         $view =  view('admin.ee_department.variation_report', compact('report')); 
 
+        $header_file = view('admin.REE_department.offer_letter_header');        
+        $footer_file = view('admin.REE_department.offer_letter_footer');
+
         $pdf = new Mpdf();
         $pdf->autoScriptToLang = true;
         $pdf->autoLangToFont = true;
 
-        $pdf->WriteHTML($view);  
-        $pdf->Output('abc.pdf', 'D');
+        $pdf->WriteHTML($header_file.$view.$footer_file);  
+        $pdf->Output('variation_report.pdf', 'D');
     }
 }
