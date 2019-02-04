@@ -1,5 +1,9 @@
 /* theme classes over ride starts here */
 
+.datepicker tbody tr>td.day.disabled {
+    color: #d2d2d2;
+}
+
 .m-aside-menu .m-menu__nav .m-menu__item > .m-menu__link .m-menu__link-title {
     display: block;
 }
