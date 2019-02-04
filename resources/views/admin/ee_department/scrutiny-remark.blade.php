@@ -35,6 +35,19 @@
 </div>
 @endif
 
+@php
+$layoutName = $noticeDetails = $investDate = '';
+if ($ol_application->getLayout){
+  $layoutName = $ol_application->getLayout->layout_name;  
+}
+
+if($latest){
+    $noticeDetails = $latest->details_of_notice;
+    $investDate = $latest->date_of_investigation;
+    $officierName = $latest->investigation_officer_name;
+}
+@endphp
+
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="d-flex hide-print">
@@ -445,6 +458,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="col-sm-6">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
@@ -452,7 +466,7 @@
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input type="text" {{$disabled}} class="form-control form-control--custom"
-                                                            name="layout" id="name" value="{{ isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->layout : ''}}"
+                                                            name="layout" id="name" value="{{ isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->layout : $layoutName }}"
                                                             required>
                                                     </div>
                                                 </div>
@@ -464,7 +478,7 @@
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
-                                                            value="{{ isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->details_of_notice : '' }}"
+                                                            value="{{ isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->details_of_notice : $noticeDetails }}"
                                                             name="details_of_notice" id="notice_detail" placeholder=""
                                                             required>
                                                     </div>
@@ -477,7 +491,7 @@
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
-                                                            value="{{ isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->investigation_officer_name : ''}}"
+                                                            value="{{ isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->investigation_officer_name : $officierName}}"
                                                             name="investigation_officer_name" id="investigation_officer"
                                                             required>
                                                     </div>
@@ -490,7 +504,7 @@
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom m_datepicker"
-                                                            value="{{isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->date_of_investigation : '' }}"
+                                                            value="{{isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->date_of_investigation : $investDate }}"
                                                             name="date_of_investigation" required placeholder="">
                                                     </div>
                                                 </div>
@@ -600,7 +614,7 @@
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
-                                                            required value="{{ isset($arrData['demarcation_checkist_data']) ? $arrData['demarcation_checkist_data']->layout : ''}}"
+                                                            required value="{{ isset($arrData['demarcation_checkist_data']) ? $arrData['demarcation_checkist_data']->layout : $layoutName}}"
                                                             name="layout" id="name">
                                                     </div>
                                                 </div>
@@ -612,7 +626,7 @@
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
-                                                            required value="{{ isset($arrData['demarcation_checkist_data']) ? $arrData['demarcation_checkist_data']->details_of_notice : '' }}"
+                                                            required value="{{ isset($arrData['demarcation_checkist_data']) ? $arrData['demarcation_checkist_data']->details_of_notice : $noticeDetails }}"
                                                             name="details_of_notice" id="building-no" placeholder="">
                                                     </div>
                                                 </div>
@@ -624,7 +638,7 @@
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
-                                                            required value="{{ isset($arrData['demarcation_checkist_data']) ? $arrData['demarcation_checkist_data']->investigation_officer_name : ''}}"
+                                                            required value="{{ isset($arrData['demarcation_checkist_data']) ? $arrData['demarcation_checkist_data']->investigation_officer_name : $officierName}}"
                                                             name="investigation_officer_name" id="name">
                                                     </div>
                                                 </div>
@@ -636,7 +650,7 @@
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom m_datepicker"
-                                                            required value="{{isset($arrData['demarcation_checkist_data']) ? $arrData['demarcation_checkist_data']->date_of_investigation : '' }}"
+                                                            required value="{{isset($arrData['demarcation_checkist_data']) ? $arrData['demarcation_checkist_data']->date_of_investigation : $investDate }}"
                                                             name="date_of_investigation" id="demarcation_date" placeholder="">
                                                     </div>
                                                 </div>
@@ -806,7 +820,7 @@
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
-                                                            required value="{{ isset($arrData['tit_bit_checkist_data']) ? $arrData['tit_bit_checkist_data']->layout : ''}}"
+                                                            required value="{{ isset($arrData['tit_bit_checkist_data']) ? $arrData['tit_bit_checkist_data']->layout : $layoutName }}"
                                                             name="layout" id="name">
                                                     </div>
                                                 </div>
@@ -818,7 +832,7 @@
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
-                                                            required value="{{ isset($arrData['tit_bit_checkist_data']) ? $arrData['tit_bit_checkist_data']->details_of_notice : '' }}"
+                                                            required value="{{ isset($arrData['tit_bit_checkist_data']) ? $arrData['tit_bit_checkist_data']->details_of_notice : $noticeDetails }}"
                                                             name="details_of_notice" id="building-no" placeholder="">
                                                     </div>
                                                 </div>
@@ -830,7 +844,7 @@
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
-                                                            required value="{{ isset($arrData['tit_bit_checkist_data']) ? $arrData['tit_bit_checkist_data']->investigation_officer_name : ''}}"
+                                                            required value="{{ isset($arrData['tit_bit_checkist_data']) ? $arrData['tit_bit_checkist_data']->investigation_officer_name : $officierName}}"
                                                             name="investigation_officer_name" id="name">
                                                     </div>
                                                 </div>
@@ -842,7 +856,7 @@
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom m_datepicker"
-                                                            required value="{{isset($arrData['tit_bit_checkist_data']) ? $arrData['tit_bit_checkist_data']->date_of_investigation : '' }}"
+                                                            required value="{{isset($arrData['tit_bit_checkist_data']) ? $arrData['tit_bit_checkist_data']->date_of_investigation : $investDate }}"
                                                             name="date_of_investigation" id="tit_bit_date" placeholder="">
                                                     </div>
                                                 </div>
@@ -957,7 +971,7 @@
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
-                                                            required value="{{ isset($arrData['rg_checkist_data']) ? $arrData['rg_checkist_data']->layout : ''}}"
+                                                            required value="{{ isset($arrData['rg_checkist_data']) ? $arrData['rg_checkist_data']->layout : $layoutName}}"
                                                             name="layout" id="name">
                                                     </div>
                                                 </div>
@@ -970,7 +984,7 @@
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
                                                             name="details_of_notice" id="building-no" placeholder=""
-                                                            required value="{{ isset($arrData['rg_checkist_data']) ? $arrData['rg_checkist_data']->details_of_notice : '' }}">
+                                                            required value="{{ isset($arrData['rg_checkist_data']) ? $arrData['rg_checkist_data']->details_of_notice : $noticeDetails }}">
                                                     </div>
                                                 </div>
                                             </div>

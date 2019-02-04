@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 <style type="text/css" media="print">
-    #printdiv {
+    #printdiv { 
         size: auto;
         margin: 0mm;
     }
@@ -51,7 +51,30 @@
             <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
         </div>
     </div>
+     <div class="col-md-12">
        <iframe src="{{ config('commanConfig.storage_server').'/'.isset($ol_application->application_path) ? $ol_application->application_path : '' }}" width="1000" height="600"></iframe>
+    </div>   
+
+    @if($ol_application->comments) 
+    <div class="col-md-12">
+        <div class="m-portlet m-portlet--creative m-portlet--first m-portlet--bordered-semi mb-0">
+            <div class="m-portlet__body m-portlet__body--table">
+                <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
+                    <div class="">
+                        <h3 class="section-title section-title--small">Society Comments :</h3>
+                    </div>
+                        <div class="remarks-suggestions table--box-input">
+                            <div class="mt-3">
+                                <label for="society_documents_comment">Additional Information</label>
+                                    <textarea name="society_documents_comment" rows="5" cols="30" id="society_documents_comment" class="form-control form-control--custom" readonly>{{ $ol_application->comments->society_documents_comment }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>  
+    </div> 
+    @endif       
 </div>
 
 @endsection
