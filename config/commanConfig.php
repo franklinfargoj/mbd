@@ -497,6 +497,14 @@ return [
         '31-60'=>'31-60 days',
         '61-90'=>'61-90 days',
         '91-120'=>'91-120 days'
+    ],
+    'sms_settings'=>[
+        'loginID'=>'t1mhada',
+        'password'=>'Mh@d@18',
+        'senderid'=>'MHADAB',
+        'route_id'=>2,
+        'Unicode'=>0,
+        'IP'=>'180.149.241.179'
     ]
 
 ];
