@@ -58,6 +58,7 @@ use App\Http\Controllers\conveyance\conveyanceCommonController;
 use App\Http\Controllers\conveyance\renewalCommonController;
 use App\ArchitectApplicationStatusLog;
 use App\OlConsentVerificationDetails;
+use App\OlSocietyDocumentsComment;
 
 class CommonController extends Controller
 {
@@ -65,7 +66,6 @@ class CommonController extends Controller
     // society and EE documents
     public function getSocietyEEDocuments($applicationId)
     {
-
         $societyId = OlApplication::where('id', $applicationId)->value('society_id');
         $societyDocuments = SocietyOfferLetter::with(['societyDocuments.documents_Name'
             , 'documentComments' => function ($q) {
@@ -934,7 +934,7 @@ class CommonController extends Controller
 
         $ol_application = OlApplication::where('id', $applicationId)->with(['request_form', 'applicationMasterLayout', 'eeApplicationSociety'])->first();
         $ol_application->layouts = MasterLayout::all();
-
+       
         return $ol_application;
     }
 
@@ -1048,7 +1048,7 @@ class CommonController extends Controller
     public function getOlApplication($applicationId)
     {
 
-        $ol_application = OlApplication::where('id', $applicationId)->with(['request_form', 'applicationMasterLayout', 'eeApplicationSociety', 'ol_application_master'])->first();
+        $ol_application = OlApplication::where('id', $applicationId)->with(['request_form', 'applicationMasterLayout', 'eeApplicationSociety', 'ol_application_master','getLayout'])->first();
 
         return $ol_application;
     }
@@ -4033,6 +4033,13 @@ class CommonController extends Controller
         }else{
 
         }
+    }
+
+    public function getSocietyDocumentComments($societyId){
+        
+        $comments = OlSocietyDocumentsComment::where('society_id',$societyId)
+        ->orderBy('id','desc')->first();
+        return $comments;
     }
 
 }

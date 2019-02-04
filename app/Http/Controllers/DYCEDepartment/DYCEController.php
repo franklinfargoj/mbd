@@ -237,7 +237,7 @@ class DYCEController extends Controller
         $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->downloadOfferLetter($applicationId);
         $ol_application->folder = 'DYCE_department';
-
+        $ol_application->comments = $this->CommonController->getSocietyDocumentComments($ol_application->society_id);
         return view('admin.common.offer_letter', compact('ol_application'));
     }    
 }
