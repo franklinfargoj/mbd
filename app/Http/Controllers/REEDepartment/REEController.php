@@ -1312,8 +1312,11 @@ class REEController extends Controller
         $table1Id = OlCustomCalculationMasterModel::where('name','Calculation_Table-A')->value('id');       
         $table1 = OlCustomCalculationSheet::where('society_id',$model->society_id)
         ->where('parent_id',$table1Id)->get()->toArray();
+
+        $roleId = Role::where('name', '=', config('commanConfig.ree_branch_head'))->value('id');
+        $reeHead = User::where('role_id',$roleId)->value('name');
         
-        return view('admin.REE_department.'.$blade,compact('applicatonId','content','model','calculationData','custom','table1'));
+        return view('admin.REE_department.'.$blade,compact('applicatonId','content','model','calculationData','custom','table1','reeHead'));
     }
 
     public function saveDraftNoc(Request $request){
@@ -1324,14 +1327,14 @@ class REEController extends Controller
         $content = str_replace('_', "", $_POST['ckeditorText']);
         $folder_name = 'Draft_noc';
 
-        /*$header_file = view('admin.REE_department.offer_letter_header');        
-        $footer_file = view('admin.REE_department.offer_letter_footer');*/
-        $header_file = '';
-        $footer_file = '';
+        $header_file = view('admin.REE_department.offer_letter_header');        
+        $footer_file = view('admin.REE_department.offer_letter_footer');
 
-        $pdf = \App::make('dompdf.wrapper');
+        $pdf = new Mpdf();
+        $pdf->autoScriptToLang = true;
+        $pdf->autoLangToFont = true; 
 
-        $pdf->loadHTML($header_file.$content.$footer_file);
+        $pdf->WriteHTML($header_file.$content.$footer_file);
 
         $fileName = time().'draft_noc_'.$id.'.pdf';
         $filePath = $folder_name."/".$fileName;
@@ -1340,8 +1343,8 @@ class REEController extends Controller
             Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
         } 
         // return $pdf->stream();
-        Storage::disk('ftp')->put($filePath, $pdf->output());
-        $file = $pdf->output();
+        Storage::disk('ftp')->put($filePath, $pdf->output($fileName, 'S'));
+        // $file = $pdf->output();
 
         $folder_name1 = 'text_noc';
 
