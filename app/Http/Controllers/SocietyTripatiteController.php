@@ -264,10 +264,10 @@ class SocietyTripatiteController extends Controller
         $ol_applications = OlApplication::where('id', $id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->first();
-
         $documents = OlSocietyDocumentsMaster::where('application_id', $ol_applications->application_master_id)->where('is_admin', 0)->with(['documents_uploaded' => function($q) use ($society){
             $q->where('society_id', $society->id)->get();
         }])->get();
+//        dd($documents);
 
         $document_ids = array_pluck($documents, 'id');
         $documents_uploaded = OlSocietyDocumentsStatus::with('document_name')->where('society_id', $society->id)->whereIn('document_id', $document_ids)->get();
@@ -434,7 +434,7 @@ class SocietyTripatiteController extends Controller
         );
 //        dd($society->id);
         OlSocietyDocumentsComment::where('society_id', $society->id)->where('application_id', $request->application_id)->update($input);
-        return redirect()->route('upload_society_tripartite_application', $request->application_id);
+        return redirect()->route('upload_society_tripartite_application', encrypt($request->application_id));
     }
 
     /**
