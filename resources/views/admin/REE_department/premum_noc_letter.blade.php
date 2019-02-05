@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>NOC</title>
 </head>
-
+    
 <body>
     <div class="m_portlet">
         <form id="OfferLetterFRM" action="{{ route('ree.save_draft_noc')}}" method="post">
@@ -54,14 +54,14 @@
                                 <tr>
                                     <td valign="top" style="border: 1px solid #000; text-align: center; padding: 5px;">Sub:</td>
                                     <td valign="top" style="border: 1px solid #000; padding: 5px;">
-                                        N. O. C. for proposed redevelopment of existing Building No. <span style="font-weight: bold;"> {{($model->eeApplicationSociety->building_no ? $model->eeApplicationSociety->building_no : '')}} </span>, known as <span style="font-weight: bold;"> {{($model->eeApplicationSociety->name ? $model->eeApplicationSociety->name : '')}} ( {{($model->eeApplicationSociety->address ? $model->eeApplicationSociety->address : '')}} )</span> under DCR 33(5) dated 08.10.2013 & it's modification dtd. 03.07.2017.
+                                        N. O. C. for proposed redevelopment of existing Building No. <span style="font-weight: bold;"> {{($model->eeApplicationSociety->building_no ? $model->eeApplicationSociety->building_no : '________')}} </span>, known as <span style="font-weight: bold;"> {{($model->eeApplicationSociety->name ? $model->eeApplicationSociety->name : '')}} ( {{($model->eeApplicationSociety->address ? $model->eeApplicationSociety->address : '________')}} )</span> under DCR 33(5) dated 08.10.2013 & it's modification dtd. 03.07.2017.
                                     </td>
                                 </tr>
                                 <tr>
                                     <td valign="top" style="border: 1px solid #000; text-align: center; padding: 5px;">Ref:</td>
                                     <td valign="top" style="border: 1px solid #000; padding: 5px;">
-                                        <span style="display: block; margin-bottom: 4px;">1. This Office Offer letter No.  <span style="font-weight: bold;">{{($model->request_form->offer_letter_number ?$model->request_form->offer_letter_number:'')}}</span>, Dated <span style="font-weight: bold;">{{($model->request_form->offer_letter_date ? date('d-m-Y',strtotime($model->request_form->offer_letter_date)) : '')}} </span></span>
-                                        <span style="display: block;">2. Society's letter dated <span style="font-weight: bold;"> {{($model->request_form->created_at ? date('d-m-Y',strtotime($model->request_form->created_at)) : '')}}. </span></span>
+                                        <span style="display: block; margin-bottom: 4px;">1. This Office Offer letter No.  <span style="font-weight: bold;">{{($model->request_form->offer_letter_number ?$model->request_form->offer_letter_number:'________')}}</span>, Dated <span style="font-weight: bold;">{{($model->request_form->offer_letter_date ? date('d-m-Y',strtotime($model->request_form->offer_letter_date)) : '________')}} </span></span>
+                                        <span style="display: block;">2. Society's letter dated <span style="font-weight: bold;"> {{($model->request_form->created_at ? date('d-m-Y',strtotime($model->request_form->created_at)) : '________')}}. </span></span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -80,20 +80,19 @@
                         Allotment of additional BUA approved and allotted by this NOC is as under:
                     </p>
                     <ol type="i">
-                        <li>
+                        <li> 
                             <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                The above allotment is on sub-divided plot as per lease deed admeasuring about <strong>882.92 </strong>m<sup>2</sup> (Lease Area). The total built up area should be permitted up to existing BUA 1,588.86 m<sup>2</sup> + 3,655.90 m2 (for residential use) [i.e. 1,059.90 m<sup>2</sup> in the form of additional BUA + 2,596.00 m<sup>2</sup> in the form of balance built up area of layout (Pro-rata)] to be allotted now thus total BUA = <strong>5,244.76 </strong>m<sup>2</sup> only.
+                                The above allotment is on sub-divided plot as per lease deed admeasuring about <strong>{{ isset($calculationData) ? $calculationData->area_as_per_lease_agreement : '________' }} m<sup>2</sup></strong> (Lease Area). The total built up area should be permitted up to existing BUA <strong>{{ isset($calculationData) ? $calculationData->existing_construction_area : '________'}} m<sup>2</sup></strong> + <strong>{{ isset($calculationData) ? $calculationData->proratata_construction_area : '________'}} m<sup>2</sup></strong> (for residential use) [i.e. ________ m<sup>2</sup> in the form of additional BUA + ___________ m<sup>2</sup> in the form of balance built up area of layout (Pro-rata)] to be allotted now thus total BUA = <strong>{{ isset($calculationData) ? $calculationData->total_permissible_construction_area : '________'}} m<sup>2</sup></strong> only.
                             </p>
                         </li>
                         <li>
                             <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                Allotment of total BUA of <strong>5,244.76 </strong>m<sup>2</sup> (for residential use) is permitted for I.O.D./ I.O.A. purpose only.
+                                Allotment of total BUA of <strong>{{ isset($calculationData) ? $calculationData->total_permissible_construction_area : '________'}} m<sup>2</sup></strong> (for residential use) is permitted for I.O.D./ I.O.A. purpose only.
                             </p>
                         </li>
                         <li>
                             <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                Since the Society has paid first installment i.e. 25 % amount of premium towards additional built up area of 3,655.90 <strong> </strong>m2 as per A.R. Resolution 6749, Dt. 11.07.2017, hence Commencement certificate shall be issued for<strong>2,502.835 </strong>m<sup>2 </sup>(for Residential use) <sup> </sup>[i.e. <strong>913.975 </strong>m<sup>2 </sup>permitted through this NOC. (Proportionate to the first installment paid by the Society as per offer letter under reference no. 1) and 1,588.86 m
-                                <sup>2</sup> Existing Built up area.
+                                Since the Society has paid first installment i.e. 25 % amount of premium towards additional built up area of <strong>{{ isset($calculationData) ? $calculationData->proratata_construction_area : '________'}} m<sup>2</sup></strong> as per A.R. Resolution 6749, Dt. 11.07.2017, hence Commencement certificate shall be issued for<strong>________ </strong>m<sup>2 </sup>(for Residential use) <sup> </sup>[i.e. <strong>________ </strong>m<sup>2 </sup>permitted through this NOC. (Proportionate to the first installment paid by the Society as per offer letter under reference no. 1) and <strong>{{ isset($calculationData) ? $calculationData->existing_construction_area : '________'}} m<sup>2</sup></strong> Existing Built up area.
                             </p>
                         </li>
                     </ol>
@@ -171,7 +170,7 @@
                 <!-- Table 1 starts here -->
                                     @if($custom == '1')
                                     <div>
-                                        <h3 style="text-transform: uppercase; font-weight: bold; text-decoration: underline; text-align: center;">Table-1</h3>
+                                        <h3 align="center" style="text-transform: uppercase; font-weight: bold; text-decoration: underline;">Table-1</h3>
                                         <table style="width: 100%; text-align: center; border-collapse: collapse;">
                                             <thead style="text-align: center;">
                                                 <tr>
@@ -705,8 +704,8 @@
                                     </td>
                                     <td >
                                         <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            This NOC is issued for the purpose of IOD/ IOA and approval of plans for BUA of <strong>5,244.76 </strong> m
-                                            <sup>2</sup> as shown in condition No. 5 of this letter. The Commencement Certificate shall be issued for BUA <strong>2,502.835 </strong>m<sup>2 </sup>(for Residential use)<sup> </sup>[i.e. <strong>913.975 </strong>m<sup>2 </sup>(for Residential use) permitted through this NOC. (Proportionate to the first installment paid by the Society as per offer letter under reference no. 1) and 1,588.86 m <sup>2</sup> Existing Built up area.]
+                                            This NOC is issued for the purpose of IOD/ IOA and approval of plans for BUA of <strong>___________ m
+                                            <sup>2</sup></strong>  as shown in condition No. 5 of this letter. The Commencement Certificate shall be issued for BUA <strong>___________ m<sup>2 </sup></strong>(for Residential use)<sup> </sup>[i.e. <strong>___________ m<sup>2 </sup> </strong>(for Residential use) permitted through this NOC. (Proportionate to the first installment paid by the Society as per offer letter under reference no. 1) and <strong>___________ m <sup>2</sup></strong>  Existing Built up area.]
                                         </p>
                                     </td>
                                 </tr>
@@ -777,7 +776,7 @@
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
                         <strong>(Draft approved by CO/MB) </strong>
                     </p>
-                    <table style="width: 80%; border-collapse: collapse;">
+                    <table style="width: 80%; border-collapse: collapse;" align="right">
                         <tbody>
                             <tr valign="top">
                                 <td width="226">
@@ -785,7 +784,7 @@
                                         Sd/-
                                     </p>
                                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="right">
-                                        (Bhushan R. Desai)
+                                        ({{ isset($reeHead) ? $reeHead : '________'}})
                                     </p>
                                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="right">
                                         <strong>Resident Executive Engineer.</strong>
@@ -801,17 +800,17 @@
                         <strong>\</strong>
                     </p>
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                        <strong>Copy to:</strong> The Secretary, The Secretary, Building No.<strong>144</strong>, known as Nehru Nagar <strong>ASHAPURTI</strong> CHSL bearing CTS No. 2( pt), Nehru Nagar, Kurla (E), Mumbai – 400 024. ENCL.- ANNEXURE – I.
+                        <strong>Copy to:</strong> The Secretary, The Secretary, Building No.<strong>{{($model->eeApplicationSociety->building_no ? $model->eeApplicationSociety->building_no : '')}} </strong>, known {{($model->eeApplicationSociety->name ? $model->eeApplicationSociety->name : '')}} ( {{($model->eeApplicationSociety->address ? $model->eeApplicationSociety->address : '')}} ). ENCL.- ANNEXURE – I.
                     </p>
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
                         <strong>Copy to </strong>
-                        <strong>Licensed Surveyor</strong> : Shree Sagar K. Sharma, 102, Rashmi Tower, Near Jain Temple, J.B. Nagar, Andheri (East),Mumbai 400 059 For information.
+                        <strong>Licensed Surveyor</strong> : _______________________.
                     </p>
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
                         Copy forwarded to information and necessary action in the matter to the: -
                     </p>
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                        1. Executive Engineer, Housing Kurla Division.
+                        1. Executive Engineer, Housing ___________ Division.
                     </p>
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
                         i) He is directed to take necessary action as per demarcation &amp; as per prevailing policy of MHADA.
@@ -820,15 +819,15 @@
                         ii) He is directed to recover all the dues from the society concerned to Estate Department &amp; intimate the same to this office.
                     </p>
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                        iii) He is directed to recover any dues, land revenue, audit remarks concerned to Land Department if any pending with the society &amp; intimate the same to this office.
+                        iii) He is directed to recover any dues, land revenue, audit remarks concerned to Land Department if any pending with the society &amp; intimate the same to this office. 
                     </p>
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
                         2. Copy to Architect / Layout cell / M.B.
                     </p>
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                        3. Copy to Shri.Jadhav/Sr.Clerk for MIS record.
+                        3. Copy to Sr.Clerk for MIS record.
                     </p>
-                    <table style="width: 100%; border-collapse: collapse;">
+                    <table style="width: 100%; border-collapse: collapse;" align="right">
                         <tbody>
                             <tr valign="top">
                                 <td width="226">
@@ -836,7 +835,7 @@
                                         Sd/-
                                     </p>
                                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="right">
-                                        (Bhushan R. Desai)
+                                        ({{ isset($reeHead) ? $reeHead : '________'}})
                                     </p>
                                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="right">
                                         <strong>Resident Executive Engineer.</strong>
@@ -1130,12 +1129,12 @@
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
                         <strong>(Draft approved by CO/MB)</strong>
                     </p>
-                    <table style="width: 100%; border-collapse: collapse;">
+                    <table style="width: 100%; border-collapse: collapse;" align="right">
                         <tbody>
                             <tr valign="top">
                                 <td width="100%">
                                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="right">
-                                        (Bhushan R. Desai)
+                                        ({{ isset($reeHead) ? $reeHead : '________'}})
                                     </p>
                                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="right">
                                         <strong>Resident Executive Engineer.</strong>
@@ -1165,10 +1164,5 @@
         height: 700,
         allowedContent: true
     });
-    $(document)
-        // $("#OfferLetterFRM").submit(function(){
-        //     $("#header_start").css("display","block !important");
-        //     alert();
-        // });
 </script>
 <script>
