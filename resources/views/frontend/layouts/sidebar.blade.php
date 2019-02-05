@@ -807,5 +807,5 @@ $route=\Request::route()->getName();
     <!-- END: Aside Menu -->
 </div>
 <!-- END: Left Aside -->
-@section('js')
-@endsection
+{{--@section('js')--}}
+{{--@endsection--}}

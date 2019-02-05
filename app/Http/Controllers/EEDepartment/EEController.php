@@ -674,8 +674,10 @@ class EEController extends Controller
             ])->orderBy('id', 'desc')->first();
 
         $landDetails = OlDemarcationLandArea::where('application_id',$application_id)->first();
+        $latest = OlChecklistScrutiny::where('application_id',$application_id)
+        ->orderBy('id','desc')->first();
 
-        return view('admin.ee_department.scrutiny-remark', compact('arrData','ol_application','societyDocuments','societyEEdocument','landDetails'));
+        return view('admin.ee_department.scrutiny-remark', compact('arrData','ol_application','societyDocuments','societyEEdocument','landDetails','latest'));
     }
 
     public function addDocumentScrutiny(Request $request)
@@ -967,6 +969,7 @@ class EEController extends Controller
         $ol_application = $this->comman->downloadOfferLetter($applicationId);
         $ol_application->folder = 'ee_department';
         $ol_application->status = $this->comman->getCurrentStatus($applicationId);
+        $ol_application->comments = $this->comman->getSocietyDocumentComments($ol_application->society_id);
         return view('admin.common.offer_letter', compact('ol_application'));
     }    
 
@@ -1031,7 +1034,7 @@ class EEController extends Controller
     }
 
     public function generateEEVariationReport(Request $request,$id){
-        $report = [];
+        $report = $validReport = [];
         $ConsentData = OlConsentVerificationDetails::with('consentQuestions')->where('application_id',$id)
         ->get(); 
         if ($ConsentData){
@@ -1039,11 +1042,16 @@ class EEController extends Controller
                 if (isset($data->consentQuestions->expected_answer)){
                     if ($data->answer != $data->consentQuestions->expected_answer){
                         $report [] = $data;
+                    }else{
+                       $validReport [] = $data;  
                     }
+                }else{
+                    $validReport [] = $data;
                 }
             }  
         }
-        $view =  view('admin.ee_department.variation_report', compact('report')); 
+     
+        $view =  view('admin.ee_department.variation_report', compact('report','validReport')); 
 
         $header_file = view('admin.REE_department.offer_letter_header');        
         $footer_file = view('admin.REE_department.offer_letter_footer');

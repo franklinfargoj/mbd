@@ -92,4 +92,7 @@ class OlApplication extends Model
     public function application_master(){
         return $this->hasOne(OlApplicationMaster::class, 'id', 'application_master_id');
     }
+    public function getLayout(){
+        return $this->hasOne(MasterLayout::class, 'id','layout_id');   
+    }
 }

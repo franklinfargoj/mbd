@@ -143,7 +143,10 @@ class SocietyOfferLetterController extends Controller
                 'architect_address' => $request->input('society_architect_address'),
                 'remember_token' => $request->input('_token'),
                 'last_login_at' => date('Y-m-d'),
-                'optional_email' => $request->input('optional_society_email')
+                'optional_email' => $request->input('optional_society_email'),
+                'society_wing_no' => $request->input('society_wing_no'),
+                'secretary_name' => $request->input('secretary_name'),
+                'chairman_name' => $request->input('chairman_name')
             );
             SocietyOfferLetter::create($society_offer_letter_details);
             
@@ -428,7 +431,7 @@ class SocietyOfferLetterController extends Controller
                     $oc_url= route('society_oc_preview');
                     $url_noc = route('society_noc_preview');
                     $url_noc_cc = route('society_noc_cc_preview');
-                    $url_tripartite = route('tripartite_application_form_preview', $ol_applications->id);
+                    $url_tripartite = route('tripartite_application_form_preview', encrypt($ol_applications->id));
 //                    dd($ol_applications->ol_application_master);
 
                     if(isset($ol_applications->is_noc_application))
@@ -1098,7 +1101,8 @@ class SocietyOfferLetterController extends Controller
      */
     public function displaySocietyDocuments(){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $application = OlApplication::where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+        $master_ids = config('commanConfig.new_offer_letter_master_ids');
+        $application = OlApplication::where('society_id', $society->id)->whereIn('application_master_id', $master_ids)->with(['ol_application_master', 'olApplicationStatus' => function($q){
                 $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
             } ])->orderBy('id', 'desc')->first();
         $ol_applications = $application;
@@ -1111,6 +1115,7 @@ class SocietyOfferLetterController extends Controller
         $documents_uploaded = OlSocietyDocumentsStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->with(['documents_uploaded'])->get();
 
         $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->first();
+
         if($application->application_master_id == '2' || $application->application_master_id == '13'){
             $optional_docs = config('commanConfig.optional_docs_premium');
         }
