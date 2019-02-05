@@ -32,7 +32,10 @@ class SocietyOfferLetter extends Authenticatable
         'architect_address',
         'remember_token',
         'last_login_at',
-        'user_id'
+        'user_id',
+        'society_wing_no',
+        'secretary_name',
+        'chairman_name'
     ];
 
 

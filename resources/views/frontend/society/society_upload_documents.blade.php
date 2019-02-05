@@ -14,21 +14,7 @@
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--creative m-portlet--first m-portlet--bordered-semi mb-0">
-        <!-- <div class="m-portlet__head main-sub-title">
-            <div class="m-portlet__head-caption">
-                <div class="m-portlet__head-title">
-                    <span class="m-portlet__head-icon m--hide">
-                        <i class="flaticon-statistics"></i>
-                    </span>
-                    <h2 class="m-portlet__head-label m-portlet__head-label--custom">
-                        <span>
-                            Upload Attachments
-                        </span>
-                    </h2>
-                </div>
-            </div>
-        </div> -->
-           
+        <p style="color:red">*Upload all the compulsory documents for submitting application.</p>
         <div class="m-portlet__body m-portlet__body--table">
             <div class="m-section mb-0">
                 <div class="m-section__content mb-0 table-responsive">
@@ -214,7 +200,7 @@
                                 <div class="mt-3">
                                     <label for="society_documents_comment">Additional Information:</label>
                                     <div class="@if($errors->has('society_documents_comment')) has-error @endif">
-                                        <textarea name="society_documents_comment" rows="5" cols="30" id="society_documents_comment" class="form-control form-control--custom">{{old('society_documents_comment')}}</textarea>
+                                        <textarea name="society_documents_comment" rows="5" cols="30" id="society_documents_comment" class="form-control form-control--custom">@if(!empty($documents_comment) && isset($documents_comment->society_documents_comment)){{ $documents_comment->society_documents_comment }}@endif</textarea>
                                         <span class="help-block">{{$errors->first('society_documents_comment')}}</span>
                                     </div>
                                 </div>
@@ -236,3 +222,6 @@
 @endif
 @endif
 @endsection
+{{--@section('')--}}
+
+{{--@endsection--}}
