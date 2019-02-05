@@ -44,10 +44,10 @@ class SmsHitEventListener
         $buffer = curl_exec($curl_handle);
         curl_close($curl_handle);
         if (empty($buffer)){
-            print "Nothing returned from url.<p>";
+            //dd("Nothing returned from url.");
         }
         else{
-            dump($buffer);
+            //dd($buffer);
         }
     }
 }

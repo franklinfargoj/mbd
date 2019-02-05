@@ -183,17 +183,20 @@
             success: function (data) {
                 $(".loader").hide();
                 $('.custom-file-label').each(function (index, label) {
-                    var newCount = get_index;
-                    if (label.getAttribute('for').indexOf('enclosure') !== -1) {
-                        label.setAttribute('for', 'extract_enclosure_' + newCount);
-                    }
+                    if(index==get_index)
+                    {
+                        var newCount = get_index;
+                        if (label.getAttribute('for').indexOf('enclosure') !== -1) {
+                            label.setAttribute('for', 'extract_enclosure_' + newCount);
 
-                    label.textContent = "Choose File...";
-                    var customFileWrap = $(label.closest('.form-group'));
+                            label.textContent = "Choose File...";
+                            var customFileWrap = $(label.closest('.form-group'));
 
-                    if (customFileWrap.hasClass('has-success')) {
-                        customFileWrap.removeClass('has-success');
-                    }
+                            if (customFileWrap.hasClass('has-success')) {
+                                customFileWrap.removeClass('has-success');
+                            }
+                        }
+                    } 
                 });
                 if (data.status == true) {
                     if (file_type == 'enclosures') {

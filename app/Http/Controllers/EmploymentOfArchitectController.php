@@ -30,6 +30,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Storage;
 use Yajra\DataTables\DataTables;
+use App\Events\SmsHitEvent;
 
 class EmploymentOfArchitectController extends Controller
 {
@@ -102,7 +103,7 @@ class EmploymentOfArchitectController extends Controller
             } else {
                 RoleUser::create($role_user);
             }
-
+            event(new SmsHitEvent($request->mobile_no,'Congratulations! You have registered successfully on MHADA portal. Login using valid login credentials to apply for MHADA Architect panel'));
             return redirect()->route('appointing_architect.login')->with('registered', 'Registered successfully!');
         }
         return redirect()->route('appointing_architect.login')->with('error', 'Something went wrong!');
@@ -933,6 +934,9 @@ class EmploymentOfArchitectController extends Controller
 
     public function send_to_architect(Request $request)
     {
+        //application_number
+        $data=$this->model->show($request->app_id);
+        //dd($data->user->mobile_no);
         $get_user = User::where(['email' => 'junior_architect@gmail.com'])->first();
         if ($get_user) {
             $forward_application = [
@@ -958,6 +962,7 @@ class EmploymentOfArchitectController extends Controller
                 ],
             ];
             if (ArchitectApplicationStatusLog::insert($forward_application)) {
+                event(new SmsHitEvent($data->user->mobile_no,'Congratulations! You have successfully submitted application for MHADA Architect panel. your application number is '.$data->application_number));
                 return redirect()->route('appointing_architect.index');
             }
         } else {
