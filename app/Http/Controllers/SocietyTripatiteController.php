@@ -58,6 +58,7 @@ class SocietyTripatiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function save_tripatite_self(Request $request){
+
         $ol_request_form_details = new OlRequestForm;
         $ol_request_form_details = $ol_request_form_details->getFillable();
         $ol_request_form['society_id'] = $request->society_id;
@@ -66,6 +67,7 @@ class SocietyTripatiteController extends Controller
                 $ol_request_form[$key] = $ol_request_form_detail;
             }
         }
+
         $ol_request_form_id = OlRequestForm::create($ol_request_form);
         $input_arr_ol_applications = array(
             'user_id' => auth()->user()->id,
@@ -87,12 +89,16 @@ class SocietyTripatiteController extends Controller
             $select_user_ids[] = $value['user_id'];
         }
         $users = User::whereIn('id', $select_user_ids)->get();
+
         $insert_arr = array(
             'users' => $users
         );
 
         $this->CommonController->tripartite_application_status_society($insert_arr, config('commanConfig.applicationStatus.pending'), $ol_application);
-        return redirect()->route('tripartite_application_form_preview', $ol_application->id);
+
+        $id = encrypt($ol_application->id);
+
+        return redirect()->route('tripartite_application_form_preview', $id);
     }
 
     /**
@@ -166,7 +172,9 @@ class SocietyTripatiteController extends Controller
 
         $this->CommonController->tripartite_application_status_society($insert_arr, config('commanConfig.applicationStatus.pending'), $ol_application_data);
 
-        return redirect()->route('tripartite_application_form_preview', $ol_application_data->id);
+        $id = encrypt($ol_application_data->id); 
+
+        return redirect()->route('tripartite_application_form_preview', $id);
     }
 
     /**
@@ -218,6 +226,7 @@ class SocietyTripatiteController extends Controller
         );
         $ol_application = OlApplication::create($input_arr_ol_applications);
 
+
         $role_id = Role::where('name', config('commanConfig.ree_junior'))->first();
         $user_ids = RoleUser::where('role_id', $role_id->id)->get();
         $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
@@ -229,9 +238,10 @@ class SocietyTripatiteController extends Controller
         $insert_arr = array(
             'users' => $users
         );
+        $id = encrypt($ol_application->id);
 
         $this->CommonController->tripartite_application_status_society($insert_arr, config('commanConfig.applicationStatus.pending'), $ol_application);
-        return redirect()->route('tripartite_application_form_preview', $ol_application->id);
+        return redirect()->route('tripartite_application_form_preview', $id);
     }
 
 
@@ -241,7 +251,8 @@ class SocietyTripatiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function tripartite_application_form_preview($id){
-        $id = decrypt($id);
+        // dd("hi");
+         $id = decrypt($id);
 
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
@@ -258,6 +269,7 @@ class SocietyTripatiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function display_tripartite_docs($id){
+        // dd($id);
         $id = decrypt($id);
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
