@@ -293,7 +293,7 @@
                         '</div>'+
                     '</div>'+
                     '<div class="col-lg-2 form-group mt-2">'+
-                    '<i class="fa fa-close btn--add-delete removeEE" id="delete_ee_doc_'+count+'" onclick="delete_ee_doc(\'ee_report_doc_id_'+count+'\',\'delete_ee_doc_'+count+'\')"></i>'+
+                    '<i class="fa fa-close btn--remove-delete removeEE" id="delete_ee_doc_'+count+'" onclick="delete_ee_doc(\'ee_report_doc_id_'+count+'\',\'delete_ee_doc_'+count+'\')"></i>'+
                     '</div>'+
                 '</div>'+
             '</div>');
@@ -332,7 +332,7 @@ $('.add_em_report').click(function () {
                         '</div>'+
                     '</div>'+
                     '<div class="col-lg-2 form-group mt-2">'+
-                    '<i class="fa fa-close btn--add-delete removeEM" id="delete_em_doc_'+count+'" onclick="delete_em_doc(\'em_report_doc_id_'+count+'\',\'delete_em_doc_'+count+'\')"></i>'+
+                    '<i class="fa fa-close btn--remove-delete removeEM" id="delete_em_doc_'+count+'" onclick="delete_em_doc(\'em_report_doc_id_'+count+'\',\'delete_em_doc_'+count+'\')"></i>'+
                     '</div>'+
                 '</div>'+
             '</div>');
@@ -371,7 +371,7 @@ $('.add_ree_report').click(function () {
                         '</div>'+
                     '</div>'+
                     '<div class="col-lg-2 form-group mt-2">'+
-                    '<i class="fa fa-close btn--add-delete removeREE" id="delete_ree_doc_'+count+'" onclick="delete_ree_doc(\'ree_report_doc_id_'+count+'\',\'delete_ree_doc_'+count+'\')"></i>'+
+                    '<i class="fa fa-close btn--remove-delete removeREE" id="delete_ree_doc_'+count+'" onclick="delete_ree_doc(\'ree_report_doc_id_'+count+'\',\'delete_ree_doc_'+count+'\')"></i>'+
                     '</div>'+
                 '</div>'+
             '</div>');
@@ -698,7 +698,7 @@ function showUploadedFileName() {
             $('.addCTS').click(function() {
                 var count=$(".optionBoxCTS > div").length;
                     //count++;
-                $('.blockCTS:last').after('<div class="blockCTS position-relative form-group"><input placeholder="CTS no" type="text" name="cts_no['+count+']" class="form-control form-control--custom" required><a href="#" class="fa fa-close btn--add-delete remove"></a></div>');
+                $('.blockCTS:last').after('<div class="blockCTS position-relative form-group"><input placeholder="CTS no" type="text" name="cts_no['+count+']" class="form-control form-control--custom" required><a href="#" class="fa fa-close btn--remove-delete remove"></a></div>');
             });
             $('.optionBoxCTS').on('click','.remove',function() {
                 $(this).parent().remove();
@@ -754,7 +754,7 @@ function showUploadedFileName() {
                                     '</div>'+
                                 '</div>'+
                                 '<div class="col-lg-2 form-group mt-2">'+
-                                    '<a href="javascript:void()" class="remove"><i class="fa fa-close btn--add-delete"></i></a>'+
+                                    '<a href="javascript:void()" class="remove"><i class="fa fa-close btn--remove-delete"></i></a>'+
                                 '</div>'+
                             '</div>'+
                     '</div>'
@@ -1179,7 +1179,7 @@ $(window).on('popstate', function () {
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 form-group mt-2">
-                                                <i class="fa fa-close btn--add-delete" id="delete_ee_doc_{{$i}}"
+                                                <i class="fa fa-close btn--remove-delete" id="delete_ee_doc_{{$i}}"
                                                     onclick="delete_ee_doc('ee_report_doc_id_{{$i}}','delete_ee_doc_{{$i}}')"></i>
                                             </div>
                                         </div>
@@ -1280,7 +1280,7 @@ $(window).on('popstate', function () {
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 form-group mt-2">
-                                                <i class="fa fa-close btn--add-delete" id="delete_em_doc_{{$i}}"
+                                                <i class="fa fa-close btn--remove-delete" id="delete_em_doc_{{$i}}"
                                                     onclick="delete_em_doc('em_report_doc_id_{{$i}}','delete_em_doc_{{$i}}')"></i>
                                             </div>
                                         </div>
@@ -1381,7 +1381,7 @@ $(window).on('popstate', function () {
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 form-group mt-2">
-                                                <i class="fa fa-close btn--add-delete" id="delete_ree_doc_{{$i}}"
+                                                <i class="fa fa-close btn--remove-delete" id="delete_ree_doc_{{$i}}"
                                                     onclick="delete_ree_doc('ree_report_doc_id_{{$i}}','delete_ree_doc_{{$i}}')"></i>
                                             </div>
                                         </div>

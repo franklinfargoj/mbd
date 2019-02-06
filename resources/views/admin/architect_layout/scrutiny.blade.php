@@ -210,7 +210,7 @@
                 '</div>' +
                 '</div>' +
                 '<div class="col-lg-2 form-group mt-2">' +
-                '<a href="" class="removeChecklistAndRemark"><i class="fa fa-close btn--add-delete"></i></a>' +
+                '<a href="javascript:void()" class="removeChecklistAndRemark"><i class="fa fa-close btn--remove-delete"></i></a>' +
                 '</div>' +
                 '</div>'
             );
