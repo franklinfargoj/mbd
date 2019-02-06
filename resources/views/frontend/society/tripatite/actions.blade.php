@@ -2,7 +2,6 @@
     $route="";
     $route=\Request::route()->getName();
 $status = $ol_applications->olApplicationStatus[0]->status_id;
-//dd($ol_applications);
 @endphp
 <li class="m-menu__item">
     <a class="m-menu__link m-menu__toggle" title="List of Applications" href="{{ route('society_offer_letter_dashboard') }}">

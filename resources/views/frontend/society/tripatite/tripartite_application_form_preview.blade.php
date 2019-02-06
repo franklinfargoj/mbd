@@ -1,4 +1,4 @@
-@extends('frontend.layouts.sidebarAction')
+<!-- .@extends('frontend.layouts.sidebarAction') -->
 @section('actions')
     @include('frontend.society.tripatite.actions',compact('ol_applications'))
 @endsection
@@ -75,7 +75,7 @@
                                             Back
                                         </a>
                                         <span style="float:right;margin-right: 20px">
-                                        <a href="{{ route('display_tripartite_docs', $id) }}" class="btn btn-primary">
+                                        <a href="{{ route('display_tripartite_docs', encrypt($id)) }}" class="btn btn-primary">
                                             Next
                                         </a>
                                     @endif

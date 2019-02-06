@@ -57,7 +57,7 @@
                 <!-- Subject ends here -->
                 Sir,
                 <p><br></p>
-                <p>The applicant has complied with all requisites for obtaining No Objection Certificate (NOC) for IOD only, for redevelopment of their building under subject. There is no objection of this office to his undertaking construction as per the proposal of the said society under certain terms and conditions, on the plot admeasuring about <b>646.00 m</b><sup><b>2</b></sup> as per lease area.</p>
+                <p>The applicant has complied with all requisites for obtaining No Objection Certificate (NOC) for IOD only, for redevelopment of their building under subject. There is no objection of this office to his undertaking construction as per the proposal of the said society under certain terms and conditions, on the plot admeasuring about <strong>{{ isset($calculationData) ? $calculationData->area_of_total_plot : '________' }} m<sup>2</sup></strong> as per lease area.</p>
                 <p><sup></sup>The NOC is granted as per policy laid down under DCR 33(5), dated 08.10.2013 &amp; it's modification dated 03.07.2017 subject to following conditions. The other additional terms and conditions as per Annexure-I shall also apply &amp; are appended separately.</p>
                 <p><br></p>
                 <center>
@@ -129,11 +129,6 @@
                                 </td>
                                 <td style="border-bottom: none;">
                                     <p style="padding-left: 5px; padding-right: 5px;"><b>The built up area permitted is as per statement below.</b></p>
-                                    <p><br></p>
-            <!-- Table 1 starts here -->
-
-                
-            </div>
                                 </td>
                             </tr>
                             </tbody>
@@ -361,7 +356,7 @@
                                 </td>
                                 <td>
                                     <p><br></p>
-                                    <p style="padding-left: 5px; padding-right: 5px;">Total permissible area for sharing is 971.60 m2. Out of this net built up share 582.96 m2 <b>(with fungible 786.99 m2)</b> shall be handed over to MHADA free of cost in form of constructed residential tenements of carpet area upto 45.00 m2 each.</p>
+                                    <p style="padding-left: 5px; padding-right: 5px;">Total permissible area for sharing is <strong>{{ isset($calculationData) ? $calculationData->remaining_area : '________' }} m<sup>2</sup></strong>. Out of this net built up share  <strong>{{ isset($calculationData) ? $calculationData->mhada_share : '________' }} m<sup>2</sup></strong> (with fungible <strong>{{ isset($calculationData) ? $calculationData->mhada_share_with_fungib : '________' }} m<sup>2</sup></strong>) shall be handed over to MHADA free of cost in form of constructed residential tenements of carpet area upto ________ <sup> m2 </sup> each.</p>
                                     <p><br></p>
                                 </td>
                             </tr>
@@ -706,7 +701,7 @@
                                     </ol>
                                 </td>
                                 <td>
-                                    <p style="padding-left: 5px; padding-right: 5px;">The society shall have to follow the Co-Op Dept.'s G.R. No. ÔãØãð¾ããñ 2007 / ¹ãÆ.‰ãŠ. 554/14-Ôã, ãäª. 3 •ãã¶ãñÌããÀãè 2009 for redevelopment.</p>
+                                    <p style="padding-left: 5px; padding-right: 5px;">The society shall have to follow the Co-Op Dept.'s G.R. No. सगृयो २००७ / प्र. क्र. ५५४/१४-स, दि. ३ जानेवारी २००९ for redevelopment.</p>
                                     <p><br></p>
                                 </td>
                             </tr>
@@ -739,7 +734,7 @@
                                     </ol>
                                 </td>
                                 <td>
-                                    <p style="padding-left: 5px; padding-right: 5px;">It is mandatory for society/developer to execute the agreement for surrender of 582.96 m2 <b>(with fungible 786.99 m2)</b> BUA free of cost to MHADA. The said agreement executed between parties after issue of I.O.D. and before issue of final NOC.</p>
+                                    <p style="padding-left: 5px; padding-right: 5px;">It is mandatory for society/developer to execute the agreement for surrender of <strong>{{ isset($calculationData) ? $calculationData->mhada_share : '________' }} m<sup>2</sup></strong>(with fungible <strong>{{ isset($calculationData) ? $calculationData->mhada_share_with_fungib : '________' }} m<sup>2</sup></strong>) BUA free of cost to MHADA. The said agreement executed between parties after issue of I.O.D. and before issue of final NOC.</p>
                                     <p><br></p>
                                 </td>
                             </tr>
@@ -750,7 +745,7 @@
                                     </ol>
                                 </td>
                                 <td>
-                                    <p style="padding-left: 5px; padding-right: 5px;">Constructed area to be surrendered should comprise of tenements having carpet area up to 45.00 m2 accordingly you have to submit the plans to the authority prior to NOC.</p>
+                                    <p style="padding-left: 5px; padding-right: 5px;">Constructed area to be surrendered should comprise of tenements having carpet area up to ________ m2 accordingly you have to submit the plans to the authority prior to NOC.</p>
                                     <p><br></p>
                                 </td>
                             </tr>
@@ -761,7 +756,7 @@
                                     </ol>
                                 </td>
                                 <td>
-                                    <p style="padding-left: 5px; padding-right: 5px;">The society will have to submit attested Xerox copy of minute book for resolution redevelopment of the society bldg., with 3.00 FSI before NOC for C.C.</p>
+                                    <p style="padding-left: 5px; padding-right: 5px;">The society will have to submit attested Xerox copy of minute book for resolution redevelopment of the society bldg., with <strong>{{ isset($calculationData) ? $calculationData->permissible_carpet_area_coordinates : '________' }} </strong> FSI before NOC for C.C.</p>
                                     <p><br></p>
                                 </td>
                             </tr>
@@ -772,7 +767,7 @@
                                     </ol>
                                 </td>
                                 <td>
-                                    <p style="padding-left: 5px; padding-right: 5px;">The further IOD for redevelopment shall be issued after payment of Offsite infrastructure charges of Rs.59,75,574/- to MCGM as intimated in the offer letter No. CO/MB/REE/NOC/F-976/573/2018, Dated – 28.03.2018.</p>
+                                    <p style="padding-left: 5px; padding-right: 5px;">The further IOD for redevelopment shall be issued after payment of Offsite infrastructure charges of <strong> {{ isset($calculationData) ? $calculationData->off_site_infrastructure_fee : '________' }} Rs.</strong> to MCGM as intimated in the offer letter No. <strong> {{($model->request_form->offer_letter_number ?$model->request_form->offer_letter_number:'')}} </strong> Dated – <strong>{{($model->request_form->offer_letter_date ? date('d-m-Y',strtotime($model->request_form->offer_letter_date)) : '')}}</strong>.</p>
                                 </td>
                             </tr>
                         </tbody>
@@ -780,50 +775,31 @@
                 </center>
                 <p><br></p>
                 <p style="padding-left: 5px; padding-right: 5px;">It is, therefore, directed that the proposed work should be carried out strictly adhering to the terms and conditions as mentioned above. In case of any breach to above condition &amp; other terms and conditions annexed herewith, the NOC will stand cancelled.</p>
-                <p>Now, MHADA is considering the proposal for amendment of the layout for 3.0 FSI. Further 3.0 FSI is granted to the applicant on the notionally sub-divided area, hence the proposal should be considered for 3.0 FSI and all the directives given in the DCR 33(5), dated 08.10.2013 &amp; it's modification dated 03.07.2017 shall be applicable to the applicant.</p>
+                <p>Now, MHADA is considering the proposal for amendment of the layout for <strong>{{ isset($calculationData) ? $calculationData->permissible_carpet_area_coordinates : '________' }} </strong> FSI. Further <strong>{{ isset($calculationData) ? $calculationData->permissible_carpet_area_coordinates : '________' }} </strong> FSI is granted to the applicant on the notionally sub-divided area, hence the proposal should be considered for <strong>{{ isset($calculationData) ? $calculationData->permissible_carpet_area_coordinates : '________' }} </strong> FSI and all the directives given in the DCR 33(5), dated 08.10.2013 &amp; it's modification dated 03.07.2017 shall be applicable to the applicant.</p>
                 <p>Encl.: Annexure-I</p>
-                <p><br></p>
+            
                 <p><b>(Draft approved by CO/MB)</b></p>
-                <p><br></p>
-                <p><br></p>
-                <p><br></p>
                 <table style="width: 100%; border-collapse: collapse;">
-                    <colgroup>
-                        <col>
-                        <col>
-                        <col>
-                        <col>
-                        <col>
-                    </colgroup>
                     <tbody>
                         <tr valign="top">
                             <td align="right">
-                                <p><br></p>
                                 <p>Sd/-</p>
-                                <p>(Bhushan R. Desai)</p>
+                                <p>({{ isset($reeHead) ? $reeHead : '________'}})</p>
                                 <p><b>Resident Executive Engineer.</b></p>
                                 <p><b>M. H. &amp; A. D. Board</b></p>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <p><br></p>
-                <p><br></p>
-                <p><br></p>
-                <p><br></p>
-                <p><br></p>
-                <p><br></p>
-                <p><br></p>
-                <p><br></p>
-                <p><br></p>
-                <p><b>Copy to</b> : The Secretary,Bldg.No. <b>91</b>, known as Kannamwar Nagar <b>VIKRANT</b> Co-op Hsg. Society bearing CTS No. 356 (Pt.) at village Hariyali, Kannamwar Nagar,Vikhroli (E), Mumbai – 400 083</p>
-                <p><br></p>
-                <p><b>Copy to Architect</b>: M/s. Aditi Dhabholkar, 304, Horizon, Nepture Living Point, L.B.S. Marg, Bhandup (West) Mumbai -400 078 for information.</p>
-                <p><br></p>
-                <p><br></p>
+                
+                <p><b>Copy to</b> : The Secretary,Bldg.No.<strong>{{($model->eeApplicationSociety->building_no ? $model->eeApplicationSociety->building_no : '')}}</strong>, known as 
+                <strong> {{($model->eeApplicationSociety->name ? $model->eeApplicationSociety->name : '')}} ( {{($model->eeApplicationSociety->address ? $model->eeApplicationSociety->address : '')}} )</strong></p>
+                
+                <p><b>Copy to Architect</b>: <strong>{{ isset($model->eeApplicationSociety) ? $model->eeApplicationSociety->name_of_architect : '' }} , {{ isset($model->eeApplicationSociety) ? $model->eeApplicationSociety->architect_address: '' }} </strong> for information.</p>
+
                 <p><b>Copy forwarded for information and necessary action in the matter to: -</b></p>
                 <p>1) Architect, Layout Cell, Mumbai Board</p>
-                <p>2) Executive Engineer Kurla Division</p>
+                <p>2) Executive Engineer ________ Division</p>
                 <ol type="i">
                     <li>
                         <p>He is directed to take necessary action as per demarcation &amp; as per prevailing policy of MHADA.</p>
@@ -837,23 +813,16 @@
                 </ol>
                 <p>3) Chief Accounts Office/M.B.</p>
                 <p>He is directed to recover the amount of offer letter on time &amp; furnish certified copy to this office. As well as check above calculation of offer letter thoroughly. If any changes/irregularities found in the said offer letter intimate to this office accordingly.</p>
-                <p style="top:30px">4) Shri. Mane / Sr. Clerk for MIS record.</p>
+                <p style="top:30px">4) Sr. Clerk for MIS record.</p>
                 <p><b>(Draft approved by CO/MB)</b></p>
                 <p><br></p>
                 <table style="width: 100%; border-collapse: collapse;">
-                    <colgroup>
-                        <col>
-                        <col>
-                        <col>
-                        <col>
-                        <col>
-                    </colgroup>
                     <tbody>
                         <tr valign="top">
                             <td align="right">
                                 <p><br></p>
                                 <p>Sd/-</p>
-                                <p>(Bhushan R. Desai)</p>
+                                <p>({{ isset($reeHead) ? $reeHead : '________'}})</p>
                                 <p><b>Resident Executive Engineer.</b></p>
                                 <p><b>M. H. &amp; A. D. Board</b></p>
                             </td>
@@ -861,7 +830,7 @@
                     </tbody>
                 </table>
                 <p><br></p>
-                <p><b>ANNEXURE–I</b></p>
+                <p align="center"><b>ANNEXURE–I</b></p>
                 <p><b>(Conditions made applicable to NOC granted vide No. CO /MB /REE/NOC /F-976/ /2018, Date :______________________)</b></p>
                 <h2 align="center" lang="en-IN">TERMS AND CONDITIONS</h2>
                 <p>The additional build able area is granted as per policy laid down by MHADA vied NOC mentioned above as per DCR 33(5), dated 08.10.2013 &amp; it's modification dated 03.07.2017 &amp; MHADA's resolution no.5998 dated:09/01/2004 and amended A.R.No.6041, dt.29/7/2004, A.R. No. 6260 Dt. 04/06/2007, A. R. 6349 dated 25/11/2008, A. R. No. 6383 dated 24/02/2009, A. R. No. 6397 dated 5/05/2009 &amp; A.R. No. 6422 dated 07.08.2009 are subject to following terms and conditions.</p>
@@ -1067,29 +1036,19 @@
                                 </ol>
                             </td>
                             <td>
-                                <p style="padding-left: 5px; padding-right: 5px;">The Pro-rata premium for approval of revised layout under DCR 33 (5) with 3.0 FSI shall also be payable by society as and when communicated to you.</p>
+                                <p style="padding-left: 5px; padding-right: 5px;">The Pro-rata premium for approval of revised layout under DCR 33 (5) with <strong>{{ isset($calculationData) ? $calculationData->permissible_carpet_area_coordinates : '________' }} </strong> FSI shall also be payable by society as and when communicated to you.</p>
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <p><b>(Draft approved by CO/MB)</b></p>
-                <p><br></p>
-                <p><br></p>
-                <p><br></p>
                 <table style="width: 100%; border-collapse: collapse;">
-                    <colgroup>
-                        <col>
-                        <col>
-                        <col>
-                        <col>
-                        <col>
-                    </colgroup>
                     <tbody>
                         <tr valign="top">
                             <td align="right">
                                 <p><br></p>
                                 <p>Sd/-</p>
-                                <p>(Bhushan R. Desai)</p>
+                                <p>({{ isset($reeHead) ? $reeHead : '________'}})</p>
                                 <p><b>Resident Executive Engineer.</b></p>
                                 <p><b>M. H. &amp; A. D. Board</b></p>
                             </td>
@@ -1117,10 +1076,4 @@
         height: 700,
         allowedContent: true
     });
-    $(document)
-    // $("#OfferLetterFRM").submit(function(){
-    //     $("#header_start").css("display","block !important");
-    //     alert();
-    // });
-
 </script>
