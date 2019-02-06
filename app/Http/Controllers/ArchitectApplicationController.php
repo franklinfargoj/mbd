@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Storage;
 use Mpdf\Mpdf;
+use App\Events\SmsHitEvent;
 
 class ArchitectApplicationController extends Controller
 {
@@ -538,6 +539,7 @@ class ArchitectApplicationController extends Controller
         ];
         //dd($forward_application);
         if (ArchitectApplicationStatusLog::insert($forward_application)) {
+            event(new SmsHitEvent($EoaApplication->user->mobile_no,'Congratulation! you have selected on MHADA Architect Panel. Login with valid login credentials to download your certificate.'));
             return redirect()->route('architect_application');
         }else
         {

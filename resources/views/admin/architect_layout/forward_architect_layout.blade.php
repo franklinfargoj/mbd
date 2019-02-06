@@ -33,12 +33,11 @@
             </ul>
 
             <div class="tab-content">
-
                 <div class="tab-pane active show" id="scrutiny-history-tab">
                     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                         <div class="portlet-body">
-                            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
-                                <table class="table">
+                            <div  class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
+                                <table class="table" id="dtBasicExample">
                                     <thead class="thead-default">
                                         <tr>
                                             <th>Role</th>
@@ -76,9 +75,39 @@
                         <div class="portlet-body">
                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                                 <div class="">
-                                    <h3 class="section-title section-title--small">
-                                        Remark and Suggestions:
-                                    </h3>
+                                        @php
+                                        $visible_layout_and_excel=0;
+                                             //get latest detail
+                                        $latest_architect_layout_detail_id = \App\Layout\ArchitectLayoutDetail::where(['architect_layout_id' => $ArchitectLayout->id])->orderBy('id', 'desc')->first();
+                                        if($latest_architect_layout_detail_id)
+                                        {
+                                            $ee_report_count=\App\Layout\ArchitectLayoutScrutinyEEReport::where(['architect_layout_detail_id'=>$latest_architect_layout_detail_id->id])->count();
+                                            if($ee_report_count>0)
+                                            {
+                                                $visible_layout_and_excel=1;
+                                            }
+                                            $ree_report_count=\App\Layout\ArchitectLayoutScrutinyREEReport::where(['architect_layout_detail_id'=>$latest_architect_layout_detail_id->id])->count();
+                                            if($ree_report_count>0)
+                                            {
+                                                $visible_layout_and_excel=1;
+                                            }
+                                            $em_report_count=\App\Layout\ArchitectLayoutScrutinyEMReport::where(['architect_layout_detail_id'=>$latest_architect_layout_detail_id->id])->count();
+                                            if($em_report_count>0)
+                                            {
+                                                $visible_layout_and_excel=1;
+                                            }
+                                            $lm_report_count=\App\Layout\ArchitectLayoutScrutinyLandReport::where(['architect_layout_detail_id'=>$latest_architect_layout_detail_id->id])->count();
+                                            if($lm_report_count>0)
+                                            {
+                                                $visible_layout_and_excel=1;
+                                            }
+                                        }
+                                        @endphp
+                                         @if($visible_layout_and_excel>0)
+                                         @if(session()->get('role_name')==config('commanConfig.junior_architect'))
+                                            <span class="text-danger">Note :- Please make sure to upload layout and excel report</span>
+                                         @endif
+                                         @endif
                                 </div>
                                 <div class="remarks-suggestions">
                                     <form action="{{route('post_forward_architect_layout')}}" id="forwardApplication"
@@ -119,7 +148,7 @@
                                                 $multiple="";
                                                 }
                                                 @endphp
-                                                <div class="col-lg-4 col-md-9 col-sm-12">
+                                                <div class="col-lg-12 col-md-9 col-sm-12">
                                                     <select required class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                                         name="to_user_id[]" id="to_user_id" {{$multiple}}>
                                                         @if($arrData['parentData'])
@@ -285,6 +314,18 @@
         });
     });
 
+    $(document).ready(function () {
+            $('#dtBasicExample').DataTable();
+            $('.dataTables_length').addClass('bs-select');
+    
+            $('#dtBasicExample_wrapper > .row:first-child').remove();
+        });
+    
+        $('table').dataTable({
+            searching: false,
+            ordering: false,
+            info: false
+        });
 </script>
 
 @endsection
