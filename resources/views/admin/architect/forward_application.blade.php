@@ -89,6 +89,7 @@
 
             <div class="tab-pane show" id="forward-application-tab">
                 <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
+                    {{-- <span class="text-danger">Note:-Click on forward to send application for verification </span> --}}
                     <form action="{{route('architect.post_forward_application')}}" id="forwardApplication" method="post">
                         @csrf
                         <input type="hidden" name="application_id" value="{{ $arrData['architect_details']->id }}">

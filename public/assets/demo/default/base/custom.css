@@ -1372,6 +1372,24 @@ table.dataTable tbody tr:nth-child(even):focus {
     color: #f0791b !important;
 }
 
+.btn--delete-delete {
+    /* color: #a51f1f !important;
+    cursor: pointer; */
+    color: #fff !important;
+    cursor: pointer;
+    text-transform: capitalize;
+    /* font-weight: bold; */
+    /* font-size: 32px; */
+    padding: 12px 28px 12px 42px;
+    background: #f07a2f;
+    border-radius: 40px;
+    font-weight: 500;
+    box-shadow: 0 3px 7px 0 rgba(244, 139, 95, 0.6);
+    position: relative;
+    line-height: 1;
+    display: inline-block;
+}
+
 .btn--add-delete {
     /* color: #a51f1f !important;
     cursor: pointer; */
