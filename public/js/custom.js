@@ -6,22 +6,32 @@
 //       location.hash = hash;
 //     }
 //   });
-  
+
 //   var hash = window.location.hash;
 //   if (hash) {
 //     $('.nav-link[href="' + hash + '"]').tab('show');
 // }
 
-$(document).ready(function () {
+$(document).ready(function() {
+    $(".form-control--custom")
+        .on("change focus blur", function(e) {
+            $(this)
+                .parents(".form-group")
+                .toggleClass("focused", e.type === "focus" || this.value.length > 0);
+        })
+        .trigger("blur");
 
-    $(".sidebar-wrapper").overlayScrollbars({ });
+    $(".sidebar-wrapper").overlayScrollbars({});
 
     //trigger radio on table row click
-    $('.m_selectpicker').selectpicker();
-    
-    $("#dataTableBuilder tr").click(function(){
-        $(this).find("input[type='radio']").first()[0].click()
-    })
+    $(".m_selectpicker").selectpicker();
+
+    $("#dataTableBuilder tr").click(function() {
+        $(this)
+            .find("input[type='radio']")
+            .first()[0]
+            .click();
+    });
 
     //trigger accordion link on parent click
 
@@ -51,15 +61,14 @@ $(document).ready(function () {
 
     // calculate input width dynamically
 
-    var formInputs = document.querySelectorAll('.letter-form-input');
+    var formInputs = document.querySelectorAll(".letter-form-input");
     formInputs.forEach(function(input) {
         var width = input.scrollWidth;
-        input.style.setProperty('width', width + 20 + 'px');
+        input.style.setProperty("width", width + 20 + "px");
     });
 
     //toggle password
-    $(".toggle-password").click(function () {
-
+    $(".toggle-password").click(function() {
         $(this).toggleClass("fa-eye fa-eye-slash");
         var input = $($(this).attr("toggle"));
         if (input.attr("type") == "password") {
@@ -78,8 +87,8 @@ $(document).ready(function () {
             rightArrow: '<i class="la la-angle-right"></i>'
         },
         autoclose: true,
-        format: 'dd-mm-yyyy'
-    })
+        format: "dd-mm-yyyy"
+    });
 
     // Custom select box for data tables
 
@@ -88,8 +97,11 @@ $(document).ready(function () {
 
     // Show uploaded file name inside label
 
-    $('.custom-file-input').change(function (e) {
-        $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
+    $(".custom-file-input").change(function(e) {
+        $(this)
+            .parents(".custom-file")
+            .find(".custom-file-label")
+            .text(e.target.files[0].name);
     });
 
     // store the currently selected tab in the hash value
@@ -128,36 +140,34 @@ $(document).ready(function () {
     //     });
     // }
 
-    
-
     //Tabbed Content
 
-    var tabs = document.querySelector('.tabs');
-    var tabsList = document.querySelectorAll('.tabs li');
-    var panels = document.querySelectorAll('.panel');
+    var tabs = document.querySelector(".tabs");
+    var tabsList = document.querySelectorAll(".tabs li");
+    var panels = document.querySelectorAll(".panel");
     if (tabs) {
-        tabs.addEventListener('click', function (e) {
-            if (e.target.tagName == 'A') {
+        tabs.addEventListener("click", function(e) {
+            if (e.target.tagName == "A") {
                 var targetPanel = document.querySelector(e.target.parentElement.dataset.target);
-                Array.from(tabsList).forEach(function (item) {
+                Array.from(tabsList).forEach(function(item) {
                     if (item.classList.contains("active")) {
                         item.classList.remove("active");
                     }
                 });
                 e.target.parentElement.classList.add("active");
-                Array.from(panels).forEach(function (panel) {
+                Array.from(panels).forEach(function(panel) {
                     if (panel == targetPanel) {
-                        panel.classList.add('active');
+                        panel.classList.add("active");
                     } else {
-                        panel.classList.remove('active');
+                        panel.classList.remove("active");
                     }
                 });
             }
         });
     }
 
-    $('.show_actions').on('click', function(){
-        var view_route = $(this).attr('data-value');
+    $(".show_actions").on("click", function() {
+        var view_route = $(this).attr("data-value");
         window.location = view_route;
     });
 
@@ -173,7 +183,7 @@ $(document).ready(function () {
         // errorElement: "span",
         //errorClass : "text-red",
         rules: {
-            department_name: "required",
+            department_name: "required"
         }
     });
 
@@ -190,7 +200,7 @@ $(document).ready(function () {
             file: "required",
             language: "required",
             published_date: "required",
-            revision_log_message: "required",
+            revision_log_message: "required"
         }
     });
 
@@ -206,7 +216,7 @@ $(document).ready(function () {
             description: "required",
             language: "required",
             published_date: "required",
-            revision_log_message: "required",
+            revision_log_message: "required"
             //   file: {
             //     extension : "pdf",
             //     required  : function(element) {
@@ -216,7 +226,7 @@ $(document).ready(function () {
             //                       return false;
             //                   }
             //                 }
-            //   },      
+            //   },
         },
         messages: {
             file: {
@@ -257,12 +267,12 @@ $(document).ready(function () {
             },
             office_date: "required",
             office_tehsil: {
-                required : true,
+                required: true,
                 lettersonly: true
             },
             office_village: {
-                required : true,
-                lettersonly : true,
+                required: true,
+                lettersonly: true
             },
             office_remark: "required",
             department_id: "required",
@@ -301,20 +311,18 @@ $(document).ready(function () {
             },
             office_date: "required",
             office_tehsil: {
-                required : true,
+                required: true,
                 lettersonly: true
             },
             office_village: {
-                required : true,
-                lettersonly : true,
+                required: true,
+                lettersonly: true
             },
             office_remark: "required",
             department_id: "required",
             hearing_status_id: "required"
         }
     });
-
-
 
     $("#createHearingSchedule").validate({
         rules: {
@@ -333,14 +341,14 @@ $(document).ready(function () {
             file_update_supporting_documents: {
                 required: true,
                 extension: "pdf"
-            },
+            }
         }
     });
 
     $("#prePostSchedule").validate({
         rules: {
             date: "required",
-            description: "required",
+            description: "required"
         }
     });
 
@@ -350,7 +358,7 @@ $(document).ready(function () {
             upload_judgement_case: {
                 required: true,
                 extension: "pdf"
-            },
+            }
         },
         messages: {
             upload_judgement_case: {
@@ -361,7 +369,7 @@ $(document).ready(function () {
 
     $("#editUploadCaseJudgement").validate({
         rules: {
-            description: "required",
+            description: "required"
         }
     });
 
@@ -380,7 +388,7 @@ $(document).ready(function () {
                 required: true,
                 extension: "pdf"
             },
-            comment: "required",
+            comment: "required"
         },
         messages: {
             upload_notice: {
@@ -391,11 +399,9 @@ $(document).ready(function () {
 
     $("#editSendNoticeToAppellant").validate({
         rules: {
-            comment: "required",
+            comment: "required"
         }
     });
-
-
 
     if ($("#frontEndRegisterForm").length > 0) {
         $("#frontEndRegisterForm").validate({
@@ -410,7 +416,7 @@ $(document).ready(function () {
                 },
                 email: {
                     required: true,
-                    email: true,
+                    email: true
                 }
             }
         });
@@ -429,7 +435,7 @@ $(document).ready(function () {
                 },
                 email: {
                     required: true,
-                    email: true,
+                    email: true
                 }
             }
         });
@@ -440,7 +446,7 @@ $(document).ready(function () {
             rules: {
                 question: "required",
                 answer: "required",
-                status: "required",
+                status: "required"
             }
         });
     }
@@ -461,16 +467,16 @@ $(document).ready(function () {
             },
             applicant_below_poverty_line: "required",
             poverty_line_proof_file: {
-                required: "#rtiPovertyLineRadios:checked",
+                required: "#rtiPovertyLineRadios:checked"
             }
         },
-        errorPlacement: function (error, element) {
+        errorPlacement: function(error, element) {
             console.log(error);
             console.log(element);
         }
     });
 
-    $(document).on('change', "input[name='info_post_or_person']", function () {
+    $(document).on("change", "input[name='info_post_or_person']", function() {
         if ($("input[name='info_post_or_person']:checked").val() == 1) {
             $("#infoPostTypeFormgroup").show();
         } else {
@@ -478,7 +484,7 @@ $(document).ready(function () {
         }
     });
 
-    $(document).on('change', "input[name='applicant_below_poverty_line']", function () {
+    $(document).on("change", "input[name='applicant_below_poverty_line']", function() {
         if ($("input[name='applicant_below_poverty_line']:checked").val() == 1) {
             $("#povertyLineProofFile").show();
         } else {
@@ -488,7 +494,7 @@ $(document).ready(function () {
 
     $("#DeleteVillageReason").validate({
         rules: {
-            delete_message: "required",
+            delete_message: "required"
         }
     });
 
@@ -500,13 +506,16 @@ $(document).ready(function () {
 
     if (dataRecords) {
         dataRecords.parentElement.removeChild(dataRecords);
-        dataPaginate.parentElement.parentElement.classList.add("align-items-center")
+        dataPaginate.parentElement.parentElement.classList.add("align-items-center");
         dataPaginate.parentElement.classList.add("d-flex", "justify-content-end");
         dataPaginate.parentElement.insertBefore(dataRecords, dataPaginate);
 
-        $(dataRecordsLabel).contents().filter(function() {
-            return this.nodeType === 3; 
-        }).remove();
+        $(dataRecordsLabel)
+            .contents()
+            .filter(function() {
+                return this.nodeType === 3;
+            })
+            .remove();
     }
 
     // Insert SearchBox
@@ -516,17 +525,20 @@ $(document).ready(function () {
 
     if (dataSearch) {
         var dataSearchLabel = document.querySelector("#dataTableBuilder_filter label");
-        $('#dataTableBuilder_wrapper input[type="search"]').attr('placeholder', 'Search');
-        
+        $('#dataTableBuilder_wrapper input[type="search"]').attr("placeholder", "Search");
+
         dataSearchBoxPlacement.appendChild(dataSearch);
 
-        if(!dataSearch.previousElementSibling.classList.contains("btn-list")) {
+        if (!dataSearch.previousElementSibling.classList.contains("btn-list")) {
             dataSearch.classList.add("ml-auto");
         }
 
-        $(dataSearchLabel).contents().filter(function() {
-            return this.nodeType === 3; 
-        }).remove();
+        $(dataSearchLabel)
+            .contents()
+            .filter(function() {
+                return this.nodeType === 3;
+            })
+            .remove();
     }
 
     // console.log("input", dataSearch.querySelector("label input"));
@@ -548,7 +560,7 @@ $(document).ready(function () {
             name: "required",
             display_name: "required",
             description: "required",
-            redirect_to: "required",
+            redirect_to: "required"
         }
     });
 
@@ -559,16 +571,15 @@ $(document).ready(function () {
             name: "required",
             display_name: "required",
             description: "required",
-            redirect_to: "required",
+            redirect_to: "required"
         }
     });
 
     $("#DeleteRoleReason").validate({
         rules: {
-            delete_message: "required",
+            delete_message: "required"
         }
     });
-
 
     // application status validations
 
@@ -576,7 +587,7 @@ $(document).ready(function () {
         // errorElement: "span",
         //errorClass : "text-red",
         rules: {
-            status_name: "required",
+            status_name: "required"
         }
     });
 
@@ -584,13 +595,13 @@ $(document).ready(function () {
         // errorElement: "span",
         //errorClass : "text-red",
         rules: {
-            status_name: "required",
+            status_name: "required"
         }
     });
 
     $("#DeleteApplicationStatusReason").validate({
         rules: {
-            delete_message: "required",
+            delete_message: "required"
         }
     });
 
@@ -600,7 +611,7 @@ $(document).ready(function () {
         // errorElement: "span",
         //errorClass : "text-red",
         rules: {
-            status_title: "required",
+            status_title: "required"
         }
     });
 
@@ -608,13 +619,13 @@ $(document).ready(function () {
         // errorElement: "span",
         //errorClass : "text-red",
         rules: {
-            status_title: "required",
+            status_title: "required"
         }
     });
 
     $("#DeleteHearingStatusReason").validate({
         rules: {
-            delete_message: "required",
+            delete_message: "required"
         }
     });
 
@@ -624,7 +635,7 @@ $(document).ready(function () {
         // errorElement: "span",
         //errorClass : "text-red",
         rules: {
-            status_title: "required",
+            status_title: "required"
         }
     });
 
@@ -632,13 +643,13 @@ $(document).ready(function () {
         // errorElement: "span",
         //errorClass : "text-red",
         rules: {
-            status_title: "required",
+            status_title: "required"
         }
     });
 
     $("#DeleteRTIStatusReason").validate({
         rules: {
-            delete_message: "required",
+            delete_message: "required"
         }
     });
 
@@ -651,7 +662,7 @@ $(document).ready(function () {
             layout_name: "required",
             // division: "required",
             board: "required",
-            is_active: "required",
+            is_active: "required"
         }
     });
 
@@ -662,13 +673,13 @@ $(document).ready(function () {
             layout_name: "required",
             // division: "required",
             board: "required",
-            is_active: "required",
+            is_active: "required"
         }
     });
 
     $("#DeleteLayoutReason").validate({
         rules: {
-            delete_message: "required",
+            delete_message: "required"
         }
     });
 
@@ -676,54 +687,52 @@ $(document).ready(function () {
     $("#adduser").validate({
         // errorElement: "span",
         //errorClass : "text-red",
-        rules:{
-            name:"required",
-            email:{
+        rules: {
+            name: "required",
+            email: {
                 required: true,
-                email: true,
+                email: true
             },
-            mobile_no:{
+            mobile_no: {
                 required: true,
                 minlength: 10,
                 maxlength: 10,
                 number: true
             },
-            address:"required",
-            password:"required",
-            password_confirmation:"required",
-            service_start_date:"required",
-            service_end_date:"required",
-            role_id:"required"
-
+            address: "required",
+            password: "required",
+            password_confirmation: "required",
+            service_start_date: "required",
+            service_end_date: "required",
+            role_id: "required"
         }
     });
 
     $("#edituser").validate({
         // errorElement: "span",
         //errorClass : "text-red",
-        rules:{
-            name:"required",
-            email:{
+        rules: {
+            name: "required",
+            email: {
                 required: true,
-                email: true,
+                email: true
             },
-            mobile_no:{
+            mobile_no: {
                 required: true,
                 minlength: 10,
                 maxlength: 10,
                 number: true
             },
-            address:"required",
-            service_start_date:"required",
-            service_end_date:"required",
-            role_id:"required"
-
+            address: "required",
+            service_start_date: "required",
+            service_end_date: "required",
+            role_id: "required"
         }
     });
 
     $("#DeleteUserReason").validate({
         rules: {
-            delete_message: "required",
+            delete_message: "required"
         }
     });
 
@@ -731,54 +740,53 @@ $(document).ready(function () {
     $("#adduserlayout").validate({
         // errorElement: "span",
         //errorClass : "text-red",
-        rules:{
-            user_id : 'required',
-            layout_id : 'required'
+        rules: {
+            user_id: "required",
+            layout_id: "required"
         }
     });
 
     $("#edituserlayout").validate({
         // errorElement: "span",
         //errorClass : "text-red",
-        rules:{
-            rules:{
-                user_id : 'required',
-                layout_id : 'required'
+        rules: {
+            rules: {
+                user_id: "required",
+                layout_id: "required"
             }
         }
     });
 
     $("#DeleteUserReason").validate({
         rules: {
-            delete_message: "required",
+            delete_message: "required"
         }
     });
-
 
     // Ward Layout
     $("#addward").validate({
         // errorElement: "span",
         //errorClass : "text-red",
-        rules:{
-            name : 'required',
-            layout_id : 'required'
+        rules: {
+            name: "required",
+            layout_id: "required"
         }
     });
 
     $("#editward").validate({
         // errorElement: "span",
         //errorClass : "text-red",
-        rules:{
-            rules:{
-                name : 'required',
-                layout_id : 'required'
+        rules: {
+            rules: {
+                name: "required",
+                layout_id: "required"
             }
         }
     });
 
     $("#DeleteWardReason").validate({
         rules: {
-            delete_message: "required",
+            delete_message: "required"
         }
     });
 
@@ -786,153 +794,146 @@ $(document).ready(function () {
     $("#addcolony").validate({
         // errorElement: "span",
         //errorClass : "text-red",
-        rules:{
-            name : 'required',
-            layout_id : 'required',
-            ward_id : 'required'
+        rules: {
+            name: "required",
+            layout_id: "required",
+            ward_id: "required"
         }
     });
 
     $("#editcolony").validate({
         // errorElement: "span",
         //errorClass : "text-red",
-        rules:{
-            rules:{
-                name : 'required',
-                layout_id : 'required',
-                ward_id : 'required'
+        rules: {
+            rules: {
+                name: "required",
+                layout_id: "required",
+                ward_id: "required"
             }
         }
     });
 
     $("#DeleteColonyReason").validate({
         rules: {
-            delete_message: "required",
+            delete_message: "required"
         }
     });
 
-
-
     $("#appointing_architect_step1").validate({
-        rules:{
-            category_of_panel:"required",
-            name_of_applicant:"required",
-            address:"required",
-            city:"required",
-            pin:{
-                required:true,
-                number:true,
+        rules: {
+            category_of_panel: "required",
+            name_of_applicant: "required",
+            address: "required",
+            city: "required",
+            pin: {
+                required: true,
+                number: true,
                 minlength: 6,
-                maxlength: 6,
+                maxlength: 6
             },
-            off:{
-                required:true,
-                number:true
+            off: {
+                required: true,
+                number: true
             },
-            res:{
-                required:true,
-                number:true
+            res: {
+                required: true,
+                number: true
             },
-            mobile:{
-                required:true,
-                number:true,
+            mobile: {
+                required: true,
+                number: true,
                 minlength: 10,
-                maxlength: 10,
+                maxlength: 10
             },
             // fax:{
             //     required:true,
             //     number:true
             // },
-            cash:{
-                required:true,
-                number:true
+            cash: {
+                required: true,
+                number: true
             },
-            pay_order_no:{
-                required:true,
-                number:true
+            pay_order_no: {
+                required: true,
+                number: true
             },
-            bank:"required",
-            branch:"required",
-            date_of_payment:"required",
-            receipt_no:{
-                required:true,
-                number:true
+            bank: "required",
+            branch: "required",
+            date_of_payment: "required",
+            receipt_no: {
+                required: true,
+                number: true
             },
-            receipt_date:"required"
+            receipt_date: "required"
         }
     });
 
     $("#appointing_architect_step2").validate({
-        rules:{
-            category_of_panel:"required",
-            name_of_applicant:"required",
-            address:"required",
-            city:"required",
-            pin:{
-                required:true,
-                number:true,
+        rules: {
+            category_of_panel: "required",
+            name_of_applicant: "required",
+            address: "required",
+            city: "required",
+            pin: {
+                required: true,
+                number: true,
                 minlength: 6,
-                maxlength: 6,
+                maxlength: 6
             },
-            off:{
-                required:true,
-                number:true
+            off: {
+                required: true,
+                number: true
             },
-            res:{
-                required:true,
-                number:true
+            res: {
+                required: true,
+                number: true
             },
-            mobile:{
-                required:true,
-                number:true,
+            mobile: {
+                required: true,
+                number: true,
                 minlength: 10,
-                maxlength: 10,
+                maxlength: 10
             },
-            fax:{
-                required:true,
-                number:true
+            fax: {
+                required: true,
+                number: true
             },
-            cash:{
-                required:true,
-                number:true
+            cash: {
+                required: true,
+                number: true
             },
-            pay_order_no:{
-                required:true,
-                number:true
+            pay_order_no: {
+                required: true,
+                number: true
             },
-            bank:"required",
-            branch:"required",
-            date_of_payment:"required",
-            receipt_no:{
-                required:true,
-                number:true
+            bank: "required",
+            branch: "required",
+            date_of_payment: "required",
+            receipt_no: {
+                required: true,
+                number: true
             },
-            receipt_date:"required",
-            application_info_and_its_enclosures_verify:"required"
+            receipt_date: "required",
+            application_info_and_its_enclosures_verify: "required"
         }
-    })
-
-    
-
-    
+    });
 
     $("#appointing_architect_signup").validate({
-        rules:{
-            name:"required",
-            email:{
+        rules: {
+            name: "required",
+            email: {
                 required: true,
-                email: true,
+                email: true
             },
-            mobile_no:{
+            mobile_no: {
                 required: true,
                 minlength: 10,
                 maxlength: 10,
                 number: true
             },
-            address:"required",
-            password:"required",
-            confirm_password:"required"
-            
+            address: "required",
+            password: "required",
+            confirm_password: "required"
         }
     });
 
@@ -989,9 +990,7 @@ $(document).ready(function () {
     //     // $('#sign_up_form_society_offer_letter').submit();
     //     console.log('hi');
     // }, 500);
-
 });
-
 
 // function generateDataTable(url)
 // {
@@ -1005,7 +1004,6 @@ $(document).ready(function () {
 //         }]
 //     });
 // }
-
 
 // var verificationTab = document.querySelector("#verification");
 // var demarcationTab = document.querySelector("#demarcation");
@@ -1034,7 +1032,6 @@ $(document).ready(function () {
 //     }
 // });
 
-
 // tabbed content inner
 
 // const tabsInner = document.querySelector('.tabs-inner');
@@ -1052,16 +1049,16 @@ $(document).ready(function () {
 //     });
 //   }
 // });
-function geturl(view_route){
-        console.log(view_route);
-       // var view_route = $(this).attr('data-value');
-        window.location = view_route; 
-    }
+function geturl(view_route) {
+    console.log(view_route);
+    // var view_route = $(this).attr('data-value');
+    window.location = view_route;
+}
 
-    $(document).ready(function () {
-        $(".display_msg").delay(5000).slideUp(300);
-    });    
+$(document).ready(function() {
+    $(".display_msg")
+        .delay(5000)
+        .slideUp(300);
+});
 
-$('#billing_calculations').DataTable( { searching:false,dom: 'Bfrtip', buttons: [ 'excel', 'print' ] } );
-
-
+$("#billing_calculations").DataTable({ searching: false, dom: "Bfrtip", buttons: ["excel", "print"] });

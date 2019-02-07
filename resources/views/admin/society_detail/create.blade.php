@@ -27,14 +27,13 @@
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
-        <form id="addSocietyDetail" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
+        <form id="addSocietyDetail" role="form" method="post" class="m-form floating-labels-form m-form--rows m-form--label-align-right"
             action="{{route('society_detail.store')}}">
             @csrf
             <div class="m-portlet__body m-portlet__body--spaced">
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
+                <div class="m-form__group row align-items-end">
+                    <div class="col-sm-4 form-group focused">
                         <label class="col-form-label" for="villages-select">Villages:<span class="star">*</span></label>
-                        <div class="m-input-icon m-input-icon--right">
                             <select title="Select Village" data-live-search="true" id="villages-select" multiple class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                     name="villages[]">
                                 @foreach($arrData['villages'] as $village)
@@ -42,43 +41,31 @@
                                 @endforeach
                             </select>
                             <span class="text-danger">{{$errors->first('villages')}}</span>
-                        </div>
                     </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group focused">
                         <label class="col-form-label" for="layout">Layouts:<span class="star">*</span></label>
-                        <div class="m-input-icon m-input-icon--right">
                             <select title="Select Layout" data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout">
                                 @foreach($arrData['layouts'] as $layout)
                                 <option value={{$layout->id}}>{{$layout->layout_name}}</option>
                                  @endforeach
                             </select>
                             <span class="text-danger">{{$errors->first('layout')}}</span>
-                        </div>
                     </div>
 
-                </div>
-
-
-
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="society_name">Society Name:<span class="star">*</span></label>
-                        <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="society_name" name="society_name" class="form-control form-control--custom m-input"
                                 value="{{ old('society_name') }}">
                             <span class="text-danger">{{$errors->first('society_name')}}</span>
-                        </div>
                     </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="society_reg_no">Society Reg. No.:<span class="star">*</span></label>
-                        <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="society_reg_no" name="society_reg_no" class="form-control form-control--custom m-input"
                                    value="{{ old('society_reg_no') }}">
                             <span class="text-danger">{{$errors->first('society_reg_no')}}</span>
-                        </div>
                     </div>
 
-                    {{--<div class="col-sm-4 offset-sm-1 form-group">--}}
+                    {{--<div class="col-sm-4 form-group">--}}
                         {{--<label class="col-form-label" for="district">District:</label>--}}
                         {{--<div class="m-input-icon m-input-icon--right">--}}
                             {{--<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="district" name="district">--}}
@@ -94,7 +81,7 @@
                         {{--</div>--}}
                     {{--</div>--}}
 
-                    {{--<div class="col-sm-4 offset-sm-1 form-group">--}}
+                    {{--<div class="col-sm-4 form-group">--}}
                         {{--<label class="col-form-label" for="district">District:</label>--}}
                         {{--<div class="m-input-icon m-input-icon--right">--}}
                             {{--<input type="text" id="district" name="district" class="form-control form-control--custom m-input"--}}
@@ -102,19 +89,15 @@
                             {{--<span class="help-block">{{$errors->first('district')}}</span>--}}
                         {{--</div>--}}
                     {{--</div>--}}
-                </div>
 
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="district">District:<span class="star">*</span></label>
-                        <div class="m-input-icon m-input-icon--right">
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="district" name="district">
                                 <option value="Andheri">Andheri</option>
                                 <option value="Bandra">Bandra</option>
                                 <option value="Dadar">Dadar</option>
                             </select>
                             <span class="text-danger">{{$errors->first('district')}}</span>
-                        </div>
                         {{--<div class="m-input-icon m-input-icon--right">--}}
                         {{--<input type="text" id="district" name="district" class="form-control form-control--custom m-input"  value="{{ old('district') }}">--}}
                         {{--<span class="help-block">{{$errors->first('district')}}</span>--}}
@@ -129,7 +112,7 @@
                         {{--</div>--}}
                     {{--</div>--}}
 
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="taluka">Taluka:<span class="star">*</span></label>
                         <div class="m-input-icon m-input-icon--right">
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="taluka" name="taluka">
@@ -144,9 +127,7 @@
                         {{--<span class="help-block">{{$errors->first('taluka')}}</span>--}}
                         {{--</div>--}}
                     </div>
-                </div>
 
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="survey_number">Survey Number:<span class="star">*</span></label>
                         <div class="m-input-icon m-input-icon--right">
@@ -156,7 +137,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="cts_number">CTS Number:<span class="star">*</span></label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="cts_number" name="cts_number" class="form-control form-control--custom m-input"
@@ -164,8 +145,6 @@
                             <span class="text-danger">{{$errors->first('cts_number')}}</span>
                         </div>
                     </div>
-                </div>
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="society_address">Society Address:<span class="star">*</span></label>
                         <div class="m-input-icon m-input-icon--right">
@@ -174,7 +153,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="area">Area (sq. m.):<span class="star">*</span></label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="area" name="area" class="form-control form-control--custom m-input"
@@ -182,8 +161,6 @@
                             <span class="text-danger">{{$errors->first('area')}}</span>
                         </div>
                     </div>
-                </div>
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="chairman">Name of Chairman:</label>
                         <div class="m-input-icon m-input-icon--right">
@@ -192,16 +169,14 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="chairman_mob_no">Chairman's Mobile No:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="chairman_mob_no" name="chairman_mob_no" class="form-control form-control--custom m-input" value="{{ old('chairman_mob_no') }}">
                             <span class="text-danger">{{$errors->first('chairman_mob_no')}}</span>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="secretary">Name of Secretary:</label>
                         <div class="m-input-icon m-input-icon--right">
@@ -210,16 +185,14 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="secretary_mob_no">Secretary's Mobile No:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="secretary_mob_no" name="secretary_mob_no" class="form-control form-control--custom m-input" value="{{ old('secretary_mob_no') }}">
                             <span class="text-danger">{{$errors->first('secretary_mob_no')}}</span>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="society_email_id">Society's Email Id:</label>
                         <div class="m-input-icon m-input-icon--right">
@@ -229,7 +202,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="date_on_service_tax">Date mentioned on service tax letters:<span class="star">*</span></label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="date_on_service_tax" name="date_on_service_tax" class="form-control form-control--custom m-input m_datepicker"
@@ -237,9 +210,7 @@
                             <span class="text-danger">{{$errors->first('date_on_service_tax')}}</span>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="surplus_charges">Surplus Charges(in Rs.):<span class="star">*</span></label>
                         <div class="m-input-icon m-input-icon--right">
@@ -249,7 +220,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="surplus_charges_last_date">Last date of paying surplus
                             charges:<span class="star">*</span></label>
                         <div class="m-input-icon m-input-icon--right">
@@ -258,12 +229,9 @@
                             <span class="text-danger">{{$errors->first('surplus_charges_last_date')}}</span>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="other_land_id">Others:<span class="star">*</span></label>
-                        <div class="m-input-icon m-input-icon--right">
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                     id="other_land_id" name="other_land_id">
                                 @foreach($arrData['other_land'] as $other_land_details)
@@ -271,10 +239,9 @@
                                 @endforeach
                             </select>
                             <span class="text-danger">{{$errors->first('other_land_id')}}</span>
-                        </div>
                     </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="society_conveyed">Is Society Conveyed ?<span class="star">*</span></label>
+                    <div class="col-sm-4 form-group">
+                        <label class="col-form-label position-static" for="society_conveyed">Is Society Conveyed ?<span class="star">*</span></label>
                         <div class="m-radio-inline">
                             <label class="m-radio m-radio--primary">
                                 <input type="radio" class="society_conveyed" name="society_conveyed" value="1"> Yes
@@ -286,15 +253,12 @@
                             </label>
                         </div>
                     </div>
-                </div>
-                <div class="form-group m-form__group row hide">
                     <div class="col-sm-4 form-group hide">
                         <label class="col-form-label" for="date_of_conveyance">Date of Conveyance:<span class="star">*</span></label>
                         <input type="text" id="date_of_conveyance" name="date_of_conveyance" class="form-control form-control--custom m-input m_datepicker"  value="{{ old('date_of_conveyance') }}">
                         <span class="text-danger">{{$errors->first('date_of_conveyance')}}</span>
                     </div>
-
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group hide">
                         <label class="col-form-label" for="area_of_conveyance">Area of Conveyance (sq. m.):<span class="star">*</span></label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="area_of_conveyance" name="area_of_conveyance" class="form-control form-control--custom m-input"
@@ -304,7 +268,6 @@
                     </div>
 
                 </div>
-
 
                 {{--<div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
@@ -323,7 +286,7 @@
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions px-0">
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-4 mb-0">
                                 <div class="btn-list">
                                     <button type="submit" id="add_society" class="btn btn-primary">Save</button>
                                     <a href="{{url('/society_detail/')}}" class="btn btn-secondary">Cancel</a>
