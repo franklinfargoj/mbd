@@ -70,6 +70,10 @@ Breadcrumbs::for('village_edit', function ($trail,$id) {
 	$trail->push('Edit Land', route('village_detail.edit',$id));
 });
 
+Breadcrumbs::for('society_detail_land', function ($trail) {
+	$trail->push('Society Detail', route('society_detail.index'));
+});
+
 Breadcrumbs::for('society_detail', function ($trail) {
 	$trail->push('Society Detail', route('society.billing_level'));
 });
@@ -95,17 +99,17 @@ Breadcrumbs::for('service_charges', function ($trail,$id,$building_id) {
 });
 
 Breadcrumbs::for('society_create', function ($trail) {
-	$trail->parent('society_detail');
+	$trail->parent('society_detail_land');
 	$trail->push('Add Society', route('society_detail.create'));
 });
 
 Breadcrumbs::for('society_detail_edit', function ($trail,$id) {
-	$trail->parent('society_detail',$id);
+	$trail->parent('society_detail_land',$id);
 	$trail->push('Edit Society', route('society_detail.edit',$id));
 });
 
 Breadcrumbs::for('society_detail_view', function ($trail,$id) {
-	$trail->parent('society_detail',$id);
+	$trail->parent('society_detail_land',$id);
 	$trail->push('View Society', route('society_detail.show',$id));
 });
 
