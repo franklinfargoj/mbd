@@ -1243,7 +1243,7 @@ class EMController extends Controller
                 $data['regenate'] = true;
             }
 
-             if($data['month'] == 1) {
+            if($data['month'] == 1) {
                 $lastBillMonth = 12;
             } else {
                 $lastBillMonth = $data['month']-1;
