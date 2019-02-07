@@ -185,7 +185,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-4 form-group">
+                    <div class="col-sm-4 form-group extract_upload">
                         <label class="col-form-label position-static" for="extract">7/12 Extract:<span class="star">*</span></label>
                         <div class="custom-file mb-0">
                             <input class="custom-file-input" name="extract" type="file"
@@ -195,8 +195,8 @@
                             <span class="help-block">{{$errors->first('extract')}}</span>
                         </div>
                     </div>
-                    <div class="col-sm-4 form-group extract_upload">
-                    </div>
+                    {{-- <div class="col-sm-4 form-group ">
+                    </div> --}}
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label transition-none" for="remark">Remark:<span class="star">*</span></label>
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="remark" name="remark">
