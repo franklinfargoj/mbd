@@ -195,8 +195,7 @@
                             <span class="help-block">{{$errors->first('extract')}}</span>
                         </div>
                     </div>
-                    {{-- <div class="col-sm-4 form-group ">
-                    </div> --}}
+                    
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label transition-none" for="remark">Remark:<span class="star">*</span></label>
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="remark" name="remark">
