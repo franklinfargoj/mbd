@@ -484,6 +484,61 @@
                         }
                     }
                 });
+
+                $(".architect-approval-layout-accordion").on("click", function () {
+                    var data = $('.architect-approval-layout-accordion').children().children().attr('aria-expanded');
+                    if (!(data)) {
+                        $('.architect-approval-layout-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                    }
+                    else {
+                        if (data == 'undefine' || data == 'false') {
+                            $('.architect-approval-layout-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                        } else {
+                            $('.architect-approval-layout-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                        }
+                    }
+                });
+                $(".architect-layout-pendencies-accordion").on("click", function () {
+                    var data = $('.architect-layout-pendencies-accordion').children().children().attr('aria-expanded');
+                    if (!(data)) {
+                        $('.architect-layout-pendencies-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                    }
+                    else {
+                        if (data == 'undefine' || data == 'false') {
+                            $('.architect-layout-pendencies-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                        } else {
+                            $('.architect-layout-pendencies-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                        }
+                    }
+                });
+               
+                $(".architect-layout-approval-ee-accordion").on("click", function () {
+                    var data = $('.architect-layout-approval-ee-accordion').children().children().attr('aria-expanded');
+                    if (!(data)) {
+                        $('.architect-layout-approval-ee-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                    }
+                    else {
+                        if (data == 'undefine' || data == 'false') {
+                            $('.architect-layout-approval-ee-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                        } else {
+                            $('.architect-layout-approval-ee-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                        }
+                    }
+                });
+               
+                 $(".vp-layout-approval-accordion").on("click", function () {
+                    var data = $('.vp-layout-approval-accordion').children().children().attr('aria-expanded');
+                    if (!(data)) {
+                        $('.vp-layout-approval-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                    }
+                    else {
+                        if (data == 'undefine' || data == 'false') {
+                            $('.vp-layout-approval-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                        } else {
+                            $('.vp-layout-approval-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                        }
+                    }
+                });
             </script>
 
             <script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>

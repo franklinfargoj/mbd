@@ -612,6 +612,45 @@
                 }
             }
         });
+        $(".architect-layout-approval-co-accordion").on("click", function () {
+            var data = $('.architect-layout-approval-co-accordion').children().children().attr('aria-expanded');
+            if (!(data)) {
+                $('.architect-layout-approval-co-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+            }
+            else {
+                if (data == 'undefine' || data == 'false') {
+                    $('.architect-layout-approval-co-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                } else {
+                    $('.architect-layout-approval-co-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                }
+            }
+        });
+        $(".architect-layout-revision-co-accordion").on("click", function () {
+            var data = $('.architect-layout-revision-co-accordion').children().children().attr('aria-expanded');
+            if (!(data)) {
+                $('.architect-layout-revision-co-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+            }
+            else {
+                if (data == 'undefine' || data == 'false') {
+                    $('.architect-layout-revision-co-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                } else {
+                    $('.architect-layout-revision-co-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                }
+            }
+        });
+        $(".vp-layout-approval-accordion-icon").on("click", function () {
+            var data = $('.vp-layout-approval-accordion-icon').children().children().attr('aria-expanded');
+            if (!(data)) {
+                $('.vp-layout-approval-accordion-icon-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+            }
+            else {
+                if (data == 'undefine' || data == 'false') {
+                    $('.vp-layout-approval-accordion-icon-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                } else {
+                    $('.vp-layout-approval-accordion-icon-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                }
+            }
+        });
     </script>
     <script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>

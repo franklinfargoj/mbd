@@ -10,7 +10,7 @@
     </div>
     <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="revision_layout_for_ree"
          data-parent="#accordion">
-        <div class="row hearing-row">
+        <div class="row no-gutters hearing-row">
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Total No of Application Sent For Revision</h2>
@@ -47,7 +47,7 @@
     </div>
     <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="approval_layout_for_ree"
          data-parent="#accordion">
-        <div class="row hearing-row">
+        <div class="row no-gutters hearing-row">
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Total No of Application Sent For Approval</h2>
@@ -85,7 +85,7 @@
     </div>
     <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="layout_forwarded_for_ee_head"
          data-parent="#accordion">
-        <div class="row hearing-row">
+        <div class="row no-gutters hearing-row">
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Total No of Application Sent For Approval</h2>

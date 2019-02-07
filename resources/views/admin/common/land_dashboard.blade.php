@@ -108,6 +108,20 @@
                 }
             }
         });
+
+        $(".architect-land-accordion").on("click", function () {
+                    var data = $('.architect-land-accordion').children().children().attr('aria-expanded');
+                    if (!(data)) {
+                        $('.architect-land-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                    }
+                    else {
+                        if (data == 'undefine' || data == 'false') {
+                            $('.architect-land-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                        } else {
+                            $('.architect-land-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                        }
+                    }
+                });
     </script>
 
     {{--<script>--}}
