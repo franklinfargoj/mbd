@@ -29,7 +29,8 @@ class OlConsentVerificationQuestion extends Seeder
                 'expected_answer'   => 1,
             ],                 [
                 'language_id'   => $languageId,
-                'question' => "नसल्यास एकूण मान्यता प्राप्त ५१ % सभासदांची पुनर्विकासास सहमती आहे काय ?"
+                'question' => "नसल्यास एकूण मान्यता प्राप्त ५१ % सभासदांची पुनर्विकासास सहमती आहे काय ?",
+                'expected_answer'   => 0,
             ],                 [
                 'language_id'   => $languageId,
                 'question' => "सर्व मान्यता प्राप्त सभासदांनी ओळखपत्र, भागधारक प्रमाणपत्र इत्यादी कागदपत्रे सादर केलेले आहेत काय ?",
