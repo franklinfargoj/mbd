@@ -1109,10 +1109,13 @@ class SocietyOfferLetterController extends Controller
         $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['documents_uploaded' => function($q) use ($society){
             $q->where('society_id', $society->id)->get();
         }])->get();
+    
         foreach ($documents as $key => $value) {
             $document_ids[] = $value->id;
         }
         $documents_uploaded = OlSocietyDocumentsStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->with(['documents_uploaded'])->get();
+
+        // dd($documents);
 
         $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->first();
 

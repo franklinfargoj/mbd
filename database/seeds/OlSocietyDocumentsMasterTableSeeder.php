@@ -65,7 +65,8 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
-                    'name' => "५१ % सभासदांची पुनर्विकासाकरीता वैयक्तीक संमती पत्र"
+                    'name' => "५१ % सभासदांची पुनर्विकासाकरीता वैयक्तीक संमती पत्र",
+                    'is_multiple' => 1
                 ],
                 [
                     'application_id'   => $application[0]['id'],
@@ -174,7 +175,8 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application1[0]['id'],
                     'language_id'   => $language1[0]['id'],
-                    'name' => "५१ % सभासदांची पुनर्विकासाकरीता वैयक्तीक संमती पत्र"
+                    'name' => "५१ % सभासदांची पुनर्विकासाकरीता वैयक्तीक संमती पत्र",
+                    'is_multiple' => 1
                 ],
                 [
                     'application_id'   => $application1[0]['id'],
@@ -291,7 +293,8 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application2[0]['id'],
                     'language_id'   => $language2[0]['id'],
-                    'name' => "५१ % सभासदांची पुनर्विकासाकरीता वैयक्तीक संमती पत्र"
+                    'name' => "५१ % सभासदांची पुनर्विकासाकरीता वैयक्तीक संमती पत्र",
+                    'is_multiple' => 1
                 ],
                 [
                     'application_id'   => $application2[0]['id'],
@@ -401,7 +404,8 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application3[0]['id'],
                     'language_id'   => $language3[0]['id'],
-                    'name' => "५१ % सभासदांची पुनर्विकासाकरीता वैयक्तीक संमती पत्र"
+                    'name' => "५१ % सभासदांची पुनर्विकासाकरीता वैयक्तीक संमती पत्र",
+                    'is_multiple' => 1
                 ],
                 [
                     'application_id'   => $application3[0]['id'],

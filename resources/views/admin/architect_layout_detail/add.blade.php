@@ -293,7 +293,7 @@
                         '</div>'+
                     '</div>'+
                     '<div class="col-lg-2 form-group mt-2">'+
-                    '<i class="fa fa-close btn--add-delete removeEE" id="delete_ee_doc_'+count+'" onclick="delete_ee_doc(\'ee_report_doc_id_'+count+'\',\'delete_ee_doc_'+count+'\')"></i>'+
+                    '<i class="fa fa-close btn--remove-delete removeEE" id="delete_ee_doc_'+count+'" onclick="delete_ee_doc(\'ee_report_doc_id_'+count+'\',\'delete_ee_doc_'+count+'\')"></i>'+
                     '</div>'+
                 '</div>'+
             '</div>');
@@ -332,7 +332,7 @@ $('.add_em_report').click(function () {
                         '</div>'+
                     '</div>'+
                     '<div class="col-lg-2 form-group mt-2">'+
-                    '<i class="fa fa-close btn--add-delete removeEM" id="delete_em_doc_'+count+'" onclick="delete_em_doc(\'em_report_doc_id_'+count+'\',\'delete_em_doc_'+count+'\')"></i>'+
+                    '<i class="fa fa-close btn--remove-delete removeEM" id="delete_em_doc_'+count+'" onclick="delete_em_doc(\'em_report_doc_id_'+count+'\',\'delete_em_doc_'+count+'\')"></i>'+
                     '</div>'+
                 '</div>'+
             '</div>');
@@ -371,7 +371,7 @@ $('.add_ree_report').click(function () {
                         '</div>'+
                     '</div>'+
                     '<div class="col-lg-2 form-group mt-2">'+
-                    '<i class="fa fa-close btn--add-delete removeREE" id="delete_ree_doc_'+count+'" onclick="delete_ree_doc(\'ree_report_doc_id_'+count+'\',\'delete_ree_doc_'+count+'\')"></i>'+
+                    '<i class="fa fa-close btn--remove-delete removeREE" id="delete_ree_doc_'+count+'" onclick="delete_ree_doc(\'ree_report_doc_id_'+count+'\',\'delete_ree_doc_'+count+'\')"></i>'+
                     '</div>'+
                 '</div>'+
             '</div>');
@@ -698,7 +698,7 @@ function showUploadedFileName() {
             $('.addCTS').click(function() {
                 var count=$(".optionBoxCTS > div").length;
                     //count++;
-                $('.blockCTS:last').after('<div class="blockCTS position-relative form-group"><input placeholder="CTS no" type="text" name="cts_no['+count+']" class="form-control form-control--custom" required><a href="#" class="fa fa-close btn--add-delete remove"></a></div>');
+                $('.blockCTS:last').after('<div class="blockCTS position-relative form-group"><input placeholder="CTS no" type="text" name="cts_no['+count+']" class="form-control form-control--custom" required><a href="#" class="fa fa-close btn--remove-delete remove"></a></div>');
             });
             $('.optionBoxCTS').on('click','.remove',function() {
                 $(this).parent().remove();
@@ -754,7 +754,7 @@ function showUploadedFileName() {
                                     '</div>'+
                                 '</div>'+
                                 '<div class="col-lg-2 form-group mt-2">'+
-                                    '<a href="#" class="remove"><i class="fa fa-close btn--add-delete"></i></a>'+
+                                    '<a href="javascript:void()" class="remove"><i class="fa fa-close btn--remove-delete"></i></a>'+
                                 '</div>'+
                             '</div>'+
                     '</div>'
@@ -1179,7 +1179,7 @@ $(window).on('popstate', function () {
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 form-group mt-2">
-                                                <i class="fa fa-close btn--add-delete" id="delete_ee_doc_{{$i}}"
+                                                <i class="fa fa-close btn--remove-delete" id="delete_ee_doc_{{$i}}"
                                                     onclick="delete_ee_doc('ee_report_doc_id_{{$i}}','delete_ee_doc_{{$i}}')"></i>
                                             </div>
                                         </div>
@@ -1280,7 +1280,7 @@ $(window).on('popstate', function () {
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 form-group mt-2">
-                                                <i class="fa fa-close btn--add-delete" id="delete_em_doc_{{$i}}"
+                                                <i class="fa fa-close btn--remove-delete" id="delete_em_doc_{{$i}}"
                                                     onclick="delete_em_doc('em_report_doc_id_{{$i}}','delete_em_doc_{{$i}}')"></i>
                                             </div>
                                         </div>
@@ -1381,7 +1381,7 @@ $(window).on('popstate', function () {
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 form-group mt-2">
-                                                <i class="fa fa-close btn--add-delete" id="delete_ree_doc_{{$i}}"
+                                                <i class="fa fa-close btn--remove-delete" id="delete_ree_doc_{{$i}}"
                                                     onclick="delete_ree_doc('ree_report_doc_id_{{$i}}','delete_ree_doc_{{$i}}')"></i>
                                             </div>
                                         </div>
@@ -1447,7 +1447,138 @@ $(window).on('popstate', function () {
                 </div>
             </div>
         </div>
-        <div class="m-portlet m-portlet--mobile m_panel" id="layouts_upload">
+
+        <ul  class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom nav-tabs--steps">
+                <li class="nav-item m-tabs__item " data-target="#document-scrunity">
+                    <a class="nav-link m-tabs__link active" data-toggle="tab" href="#old-approved-layout">Old Approved Layout
+                        <i class="fa fa-check"></i>
+                    </a>
+                </li>
+                <li class="nav-item m-tabs__item">
+                    <a class="nav-link m-tabs__link " data-toggle="tab" href="#latest-layout">Latest Layout
+                        <i class="fa fa-check"></i>
+                    </a>
+                </li>
+                <li class="nav-item m-tabs__item">
+                    <a class="nav-link m-tabs__link " data-toggle="tab" href="#last-submitted-layout-for-approval">Last submitted layout for approval
+                        <i class="fa fa-check"></i>
+                    </a>
+                </li>
+                <li class="nav-item m-tabs__item">
+                    <a class="nav-link m-tabs__link " data-toggle="tab" href="#survey-report">Survey report
+                        <i class="fa fa-check"></i>
+                    </a>
+                </li>
+            </ul>
+    
+            <div class="tab-content">
+                <div class="tab-pane active show" id="old-approved-layout">
+                    <div class="m-portlet m-portlet--mobile m_panel">
+                        <div class="portlet-body">
+                            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
+                                <div class="m-subheader">
+                                    <div class="col-sm-6">
+                                        <div class="d-flex align-items-center">
+                                            <h3 class="section-title section-title--small">
+                                                Old Approved Layout:
+                                            </h3>
+                                        </div>
+                                        <div class="custom-file">
+                                            <input type="hidden" id="old_approved_layout_field_name" id="old_approved_layout_field_name"
+                                                value="old_approved_layout">
+                                            <input class="custom-file-input" type="file" id="old_approved_layout" name="old_approved_layout">
+                                            <label class="custom-file-label" for="old_approved_layout">Choose file...</label>
+                                        </div>
+                                        <a class="btn-link" target="_blank" id="old_approved_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->old_approved_layout}}"
+                                            style="display:{{$ArchitectLayoutDetail->old_approved_layout!=''?'block':'none'}};">download</a>
+                                        <span class="text-danger" id="old_approved_layout_error"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="latest-layout">
+                    <div class="m-portlet m-portlet--mobile m_panel">
+                        <div class="portlet-body">
+                            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
+                                <div class="m-subheader">
+                                    <div class="col-sm-6">
+                                        <div class="d-flex align-items-center">
+                                            <h3 class="section-title section-title--small">
+                                                Latest Layout:
+                                            </h3>
+                                        </div>
+                                        <div class="custom-file">
+                                            <input type="hidden" id="latest_layout_field_name" value="latest_layout">
+                                            <input class="custom-file-input" name="latest_layout" type="file" id="latest_layout"
+                                                required="">
+                                            <label class="custom-file-label" for="latest_layout">Choose file...</label>
+                                        </div>
+                                        <a class="btn-link" target="_blank" id="latest_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->latest_layout}}"
+                                            style="display:{{$ArchitectLayoutDetail->latest_layout!=''?'block':'none'}};">download</a>
+                                        <span class="text-danger" id="latest_layout_error"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="last-submitted-layout-for-approval">
+                    <div class="m-portlet m-portlet--mobile m_panel">
+                        <div class="portlet-body">
+                            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
+                                <div class="m-subheader">
+                                    <div class="col-sm-6">
+                                        <div class="d-flex align-items-center">
+                                            <h3 class="section-title section-title--small">
+                                                Last submitted layout for approval:
+                                            </h3>
+                                        </div>
+                                        <div class="custom-file">
+                                            <input type="hidden" id="last_submitted_layout_field_name" id="last_submitted_layout_field_name"
+                                                value="last_submitted_layout_for_approval">
+                                            <input class="custom-file-input" name="last_submitted_layout" type="file" id="last_submitted_layout"
+                                                required="">
+                                            <label class="custom-file-label" for="last_submitted_layout">Choose file...</label>
+                                        </div>
+                                        <a class="btn-link" target="_blank" id="last_submitted_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->last_submitted_layout_for_approval}}"
+                                            style="display:{{$ArchitectLayoutDetail->last_submitted_layout_for_approval!=''?'block':'none'}};">download</a>
+                                        <span class="text-danger" id="last_submitted_layout_file_error"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="survey-report">
+                    <div class="m-portlet m-portlet--mobile m_panel">
+                        <div class="portlet-body">
+                            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
+                                <div class="m-subheader">
+                                    <div class="col-sm-6">
+                                        <div class="d-flex align-items-center">
+                                            <h3 class="section-title section-title--small">
+                                                Survey report:
+                                            </h3>
+                                        </div>
+                                        <div class="custom-file">
+                                            <input type="hidden" id="survey_report_field_name" value="survey_report">
+                                            <input class="custom-file-input" name="survey_report" type="file" id="survey_report"
+                                                required="">
+                                            <label class="custom-file-label" for="survey_report">Choose file...</label>
+                                        </div>
+                                        <a class="btn-link" target="_blank" id="survey_report_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->latest_layout}}"
+                                            style="display:{{$ArchitectLayoutDetail->survey_report!=''?'block':'none'}};">download</a>
+                                        <span class="text-danger" id="survey_report_file_error"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{-- <div class="m-portlet m-portlet--mobile m_panel" id="layouts_upload">
             <div class="portlet-body">
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                     <div class="m-subheader">
@@ -1485,11 +1616,6 @@ $(window).on('popstate', function () {
                                 <span class="text-danger" id="latest_layout_error"></span>
                             </div>
                         </div>
-
-                        <!-- <div class="mt-auto">0].name)
-                                    <button type="submit" style="btn btn-primary" class="btn btn-primary btn-custom upload_note"
-                                        id="uploadBtn">Upload</button>
-                                </div> -->
                     </div>
                     <div class="m-subheader">
                         <div class="row">
@@ -1527,14 +1653,10 @@ $(window).on('popstate', function () {
                                 <span class="text-danger" id="survey_report_file_error"></span>
                             </div>
                         </div>
-                        <!-- <div class="mt-auto">
-                            <button type="submit" style="btn btn-primary" class="btn btn-primary btn-custom upload_note"
-                                id="uploadBtn">Upload</button>
-                        </div> -->
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
 
 

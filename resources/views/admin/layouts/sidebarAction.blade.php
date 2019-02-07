@@ -89,6 +89,9 @@
                                 <img class="login-logo" src="{{asset('assets/app/media/img/logos/mhada-logo.png')}}">
                             </div>
                             <!-- BEGIN: Horizontal Menu -->
+                            @if(session()->get('role_name')==config('commanConfig.appointing_architect'))
+                            <div class="mt-3"><h5>APPLICATION FOR EMPANELMENT OF ARCHITECT</h5></div>
+                            @endif
                             <!-- END: Topbar -->
                             <div class="d-flex align-items-center justify-content-end hide-print">
                                 <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push"

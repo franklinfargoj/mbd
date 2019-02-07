@@ -18,6 +18,7 @@ use Config;
 use App\OlSocietyDocumentsMaster;
 use App\OlSocietyDocumentsStatus;
 use App\OlSocietyDocumentsComment;
+use App\OlApplicationMaster;
 use File;
 use Storage;
 use Mpdf\Mpdf;
@@ -124,7 +125,9 @@ class SocietyTripatiteController extends Controller
         $layouts = MasterLayout::all();
         $comm_func = $this->CommonController;
 
-        return view('frontend.society.tripatite.edit_tripatite_application', compact('society', 'society_details', 'ol_applications', 'layouts', 'comm_func', 'form_fields', 'id', 'form_fields_values'));
+        $title = OlApplicationMaster::where('id',$ol_applications->ol_application_master->parent_id)->value('title');
+
+        return view('frontend.society.tripatite.edit_tripatite_application', compact('society', 'society_details', 'ol_applications', 'layouts', 'comm_func', 'form_fields', 'id', 'form_fields_values','title'));
     }
 
     /**

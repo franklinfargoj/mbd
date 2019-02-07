@@ -1372,6 +1372,30 @@ table.dataTable tbody tr:nth-child(even):focus {
     color: #f0791b !important;
 }
 
+.btn--remove-delete {
+    /* color: #a51f1f !important;
+    cursor: pointer; */
+    color: red !important;
+    cursor: pointer;
+    text-transform: capitalize;
+    /* font-weight: bold; */
+    /* font-size: 32px; */
+    border-radius: 40px;
+    font-weight: 500;
+    position: relative;
+    line-height: 1;
+    display: inline-block;
+}
+
+.position-relative .btn--remove-delete {
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+    left: 102%;
+}
+
 .btn--add-delete {
     /* color: #a51f1f !important;
     cursor: pointer; */

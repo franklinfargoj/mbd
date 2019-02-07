@@ -36,7 +36,7 @@
                 <form method="post" action="{{route('save_evaluate_marks')}}">
                     @csrf
                     <input type="hidden" name="application_id" value="{{$ArchitectApplication->id}}">
-                    <table class="table mb-0 table--box-input">
+                    <table class="table mb-0 table--box-input evaluate_rows">
                         <thead class="thead-default">
                             <tr>
                                 <th width="30%">Document Name</th>
@@ -46,8 +46,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php $i = 0; @endphp
-                            <tr>
+                            @php $i = 0; $j=1; @endphp
+                            <tr class="rows_in_marks">
                                 <td>Application form</td>
                                 <td><a class="btn-link" target="_blank" href="{{route('view_architect_application',['id'=>encrypt($ArchitectApplication->id)])}}">view</a></td>
                                 <td class="text-center">
@@ -67,8 +67,8 @@
                             </tr>
                             @php $i=$ArchitectApplication->application_marks; @endphp
                             @forelse($application as $row)
-                            @php $i = $i + $row->marks; @endphp
-                            <tr>
+                            @php $i = $i + $row->marks;  $j++;@endphp
+                            <tr class="rows_in_marks">
                                 <td>{{$row->document_name}}</td>
                                 <td><a class="btn-link" target="_blank" href="{{ config('commanConfig.storage_server')."/" .$row->document_path}}">download</a></td>
                                 <td class="text-center">
@@ -95,7 +95,7 @@
                             <tr>
                                 <td class="font-weight-semi-bold">Grand total</td>
                                 <td>&nbsp;</td>
-                                <td class="text-center"><span class="grand_total">{{ $i }}<span></td>
+                            <td class="text-center"><span class="grand_total">{{ $i }}<span>/{{$j*100}}</td>
                                 <td>&nbsp;</td>
                             </tr>
                         </tbody>
@@ -126,7 +126,7 @@
     $(".marks").each(function(){
         sum += +$(this).val();
     });
-    $(".grand_total").html(sum);
+    $(".grand_total").html(sum+"/"+$(".evaluate_rows tbody>tr.rows_in_marks").length*100);
     console.log(sum)
 });
 
