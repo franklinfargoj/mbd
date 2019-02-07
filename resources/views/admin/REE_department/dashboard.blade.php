@@ -10,13 +10,13 @@
         $chart3 = 0;
     @endphp
     <div class="container-fluid">
-        <div class="m-subheader px-0 m-subheader--top">
+        {{-- <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title">Dashboard</h3>
             </div>
         </div>
 
-        {{-- <div class="d-flex flex-wrap db-wrapper">
+        <div class="d-flex flex-wrap db-wrapper">
             <div class="db__card">
                 <div class="db__card__img-wrap">
                     <img src="" class="db__card__img" alt="">
@@ -27,25 +27,73 @@
                 <div class="db__card__img-wrap">
                     <img src="" class="db__card__img" alt="">
                 </div>
-                <p class="db__card__title">Application for Redevelopment</p>
+                <p class="db__card__title">Application for Revalidation of Offer Letter</p>
             </div>
             <div class="db__card">
                 <div class="db__card__img-wrap">
                     <img src="" class="db__card__img" alt="">
                 </div>
-                <p class="db__card__title">Application for Redevelopment</p>
+                <p class="db__card__title">Application for NOC</p>
             </div>
             <div class="db__card">
                 <div class="db__card__img-wrap">
                     <img src="" class="db__card__img" alt="">
                 </div>
-                <p class="db__card__title">Application for Redevelopment</p>
+                <p class="db__card__title">Layout Sent for Approval</p>
             </div>
             <div class="db__card">
                 <div class="db__card__img-wrap">
                     <img src="" class="db__card__img" alt="">
                 </div>
-                <p class="db__card__title">Application for Redevelopment</p>
+                <p class="db__card__title">Revision in Layout</p>
+            </div>
+        </div>
+
+        <div class="m-subheader px-0 m-subheader--top">
+            <div class="d-flex align-items-center">
+                <h3 class="m-subheader__title">Application For Offer Letter</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="m-portlet db-table">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <th style="width: 6%;">Sr. No</th>
+                                <th style="width: 54%;">Stages</th>
+                                <th style="width: 20%;">Count</th>
+                                <th style="width: 20%;">Action</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">1.</td>
+                                    <td>Total number of applications</td>
+                                    <td><span class="count-circle">40</span></td>
+                                    <td><button class="btn btn-action">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">2.</td>
+                                    <td>Applications Pending</td>
+                                    <td><span class="count-circle">05</span></td>
+                                    <td><button class="btn btn-action">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">3.</td>
+                                    <td>Applications send for revisions</td>
+                                    <td><span class="count-circle">10</span></td>
+                                    <td><button class="btn btn-action">View</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="m-portlet">
+                    test7
+                </div>
             </div>
         </div> --}}
 
