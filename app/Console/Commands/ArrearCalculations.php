@@ -100,7 +100,7 @@ class ArrearCalculations extends Command
                 $building = MasterBuilding::find($tenant->building_id);
                 $society = SocietyDetail::find($building->society_id);
 
-                $arrear_calculation = ArrearCalculation::where('tenant_id',$tenant->id)->where('building_id',$building->id)->where('society_id',$society->id)->where('month',$bill_month)->where('year',$bill_year)->first();
+                $arrear_calculation = ArrearCalculation::where('tenant_id',$tenant->id)->where('building_id',$building->id)->where('society_id',$society->id)->where('month',$ior_month)->where('year',$bill_year)->first();
 
                 if(empty($arrear_calculation)) {
                     $arrear_calculation = new ArrearCalculation;
@@ -110,7 +110,7 @@ class ArrearCalculations extends Command
                 $arrear_calculation->building_id     = $building->id;
                 $arrear_calculation->society_id      = $society->id;
                 $arrear_calculation->year            = $bill_year;
-                $arrear_calculation->month           = $bill_month;
+                $arrear_calculation->month           = $ior_month;
                 $arrear_calculation->oir_year        = $ior_year;
                 $arrear_calculation->oir_month       = $ior_month;
                 $arrear_calculation->ida_year        = $ida_year;
@@ -122,7 +122,7 @@ class ArrearCalculations extends Command
                 $arrear_calculation->difference_intrest_amount = $intrest_on_difference;
                 $arrear_calculation->save();
 
-                $strTxnData .= 'Arrear Calculation is done for tenant name => '.$tenant->first_name.' tenant id => '.$tenant->id.' Form building => '.$building->building_name.' For society => '.$society->society_name."\n";
+                $strTxnData .= 'Arrear Calculation is done for tenant name => '.$tenant->first_name.' tenant id => '.$tenant->id.' Form building => '.$building->name.' For society => '.$society->society_name."\n";
             }            
         }
 

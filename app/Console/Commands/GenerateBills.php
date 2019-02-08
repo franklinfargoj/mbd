@@ -14,7 +14,7 @@ use App\ArrearTenantPayment;
 use App\ArrearCalculation;
 use App\ServiceChargesRate;
 use App\TransBillGenerate;
-use DB;
+use DB,File;
 
 class GenerateBills extends Command
 {
@@ -57,10 +57,11 @@ class GenerateBills extends Command
         
         $societies = SocietyDetail::where('society_bill_level', '=', '1')->pluck('id')->toArray();
         $buildings = MasterBuilding::whereIn('society_id',$societies)->get();
+        $strTxnData = '';
 
         if(!empty($buildings)) {
             foreach($buildings as $building) {
-                    
+                $society = SocietyDetail::find($building->society_id);
                 $number_of_tenants = MasterBuilding::with('tenant_count')->where('id',$building->id)->first();
                  
                 if(!$number_of_tenants->tenant_count()->first()) {
@@ -88,13 +89,16 @@ class GenerateBills extends Command
                         if($currentMonth == 1) {
                             $data['month'] = 12;
                             $data['year'] = date('Y') -1;
+                            $bill_year = date('Y') -1;
                         } else {
                             $data['month'] = date('m') -1;
                             $data['year'] = date('Y') -1;
+                            $bill_year = date('Y');
                         }
                     } else {
                         $data['month'] = date('m');
                         $data['year'] = date('Y');
+                        $bill_year = date('Y');
                     }
 
                     if($data['month'] == 1) {
@@ -106,7 +110,6 @@ class GenerateBills extends Command
                     $bill_from  = date('1-m-Y', strtotime('-1 month'));
                     $bill_to    = date('1-m-Y');
                     $bill_month = $data['month'];
-                    $bill_year  = $data['year'];
                     $no_of_tenant = $number_of_tenants->tenant_count()->first()->count;
                     $bill_date = date('d-m-Y');
                     $due_date = date('d-m-Y', strtotime(date('Y-m-d'). ' + 5 days'));
@@ -188,14 +191,22 @@ class GenerateBills extends Command
                                 $bill[] = TransBillGenerate::insertGetId($data);
                             }
                         }
+                        $strTxnData .= 'Bill generated for building => '.$building->name.' For society => '.$society->society_name."\n";                            
                         if(isset($bill)){
                             $ids = implode(",",$bill);
                             $association = DB::table('building_tenant_bill_association')->insert(['building_id' => $building->id, 'bill_id' => $ids, 'bill_month' => $bill_month, 'bill_year' => $bill_year]);
                         }   
+                        
                 }  else {
                     $this->info(' Bill Already Generated on '.$check->bill_date);
                 }
             }
+
+            $file = 'monthly_building_bill_file.txt';
+            $destinationPath = public_path().'/uploads/';
+
+            if (!is_dir($destinationPath)) {  mkdir($destinationPath,0777,true);  }
+            File::put($destinationPath.'/'.$file,$strTxnData);
         }    
     }
     
@@ -203,25 +214,28 @@ class GenerateBills extends Command
         $societies = SocietyDetail::where('society_bill_level', '=', '2')->pluck('id');
         $buildings = MasterBuilding::whereIn('society_id',$societies)->pluck('id');
         $tenants   = MasterTenant::whereIn('building_id',[4])->get();
-
+        
         $currentMonth = date('m');
         if($currentMonth < 4) {
             if($currentMonth == 1) {
                 $data['month'] = 12;
                 $data['year'] = date('Y') -1;
+                $bill_year = date('Y');
             } else {
                 $data['month'] = date('m') -1;
                 $data['year'] = date('Y') -1;
+                $bill_year = date('Y');
             }
         } else {
             $data['month'] = date('m');
             $data['year'] = date('Y');
+            $bill_year = date('Y');
         }
 
-
+        $strTxnData = '';
         if(!empty($tenants)) {
             foreach ($tenants as $tenant) {
-                echo 'tenant id'.$tenant->id;
+                // echo 'tenant id'.$tenant->id;
                 $building = MasterBuilding::find($tenant->building_id);
                 $society = SocietyDetail::find($building->society_id);
                 $currentMonth = date('m');
@@ -235,8 +249,14 @@ class GenerateBills extends Command
                 if(!$serviceChargesRate){
                     $this->info('Service charge Rates Not added into system.');
                 } else {
+                    $realMonth = date('m');
+                    if($realMonth == 1) {
+                        $realMonth = 12;
+                    } else {
+                        $realMonth = $realMonth - 1;
+                    }
 
-                    $arreasCalculation = ArrearCalculation::where('tenant_id',$tenant->id)->where('payment_status','0')->get();
+                    $arreasCalculation = ArrearCalculation::where('tenant_id',$tenant->id)->where('month',$realMonth)->where('payment_status','0')->get();
                     $arrear_ids = [];
                     $arrear_id  = '';
 
@@ -249,10 +269,9 @@ class GenerateBills extends Command
                         $arrear_id = implode(",",$arrear_ids);
                     }
 
-                    $bill_from = date('d-m-Y',strtotime(date('1-'.$data['month'].'-'.$data['year'])));
-                    $bill_to   = date('d-m-Y',strtotime("+1 month", strtotime(date('1-'.$data['month'].'-'.$data['year']))));
+                    $bill_from = date('1-m-Y', strtotime('-1 month'));
+                    $bill_to   = date('1-m-Y');
                     $bill_month= $data['month'];
-                    $bill_year = $data['year'];
                     $bill_date = date('d-m-Y');
                     $due_date  = date('d-m-Y', strtotime(date('Y-m-d'). ' + 5 days'));
 
@@ -338,10 +357,9 @@ class GenerateBills extends Command
                                                 ->orderBy('id','DESC')
                                                 ->first();
                         if(!empty($lastBill)) {
-
-                            if($lastBill->balance_amount > 0) {
-                                $bill->total_bill_after_due_date = round($total_bill + $total_after_duee +$lastBill->balance_amount,2);
-                                $bill->balance_amount = round($lastBill->total_bill_after_due_date,2);
+                            if($lastBill->balance_amount >= 0) {
+                                $bill->total_bill_after_due_date = round($total_bill + $total_after_due,2);
+                                $bill->balance_amount = round($total_bill,2);
                             }
 
                             if($lastBill->credit_amount > 0 && $lastBill->credit_amount > $total_bill) {
@@ -356,17 +374,25 @@ class GenerateBills extends Command
                                 $bill->credit_amount = 0;
                             }
                         } else {
-                            $bill->balance_amount = round($total_bill + $total_after_due,2);
+                            $bill->balance_amount = round($total_bill,2);
                             $bill->credit_amount = 0;    
                         }
                         
                         $bill->save();
+                        $strTxnData .= 'Bill generated for tenant name => '.$tenant->first_name.' tenant id => '.$tenant->id.' Form building => '.$building->name.' For society => '.$society->society_name."\n";
+
                         $this->info('Bill Generated Successfully');
                     } else {
                         $this->info('Bill Already Generated on '.$check->bill_date); 
                     }
                 }
             }
+
+            $file = 'monthly_tenant_bill_file.txt';
+            $destinationPath = public_path().'/uploads/';
+
+            if (!is_dir($destinationPath)) {  mkdir($destinationPath,0777,true);  }
+            File::put($destinationPath.'/'.$file,$strTxnData);
         }
     }
 }

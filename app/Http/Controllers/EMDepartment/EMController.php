@@ -1282,8 +1282,14 @@ class EMController extends Controller
                 //dd($data);
                 return redirect()->back()->with('warning', 'Service charge Rates Not added into system.');
             }
+            $realMonth = date('m');
+            if($realMonth == 1) {
+                $realMonth = 12;
+            } else {
+                $realMonth = $realMonth - 1;
+            }
 
-            $data['arreasCalculation'] = ArrearCalculation::where('tenant_id',$request->tenant_id)->where('payment_status','0')->get();
+            $data['arreasCalculation'] = ArrearCalculation::where('tenant_id',$request->tenant_id)->where('month',$realMonth)->where('payment_status','0')->get();
 
             $currentMonth = date('m');
             if($currentMonth < 4) {
@@ -1412,7 +1418,7 @@ class EMController extends Controller
                     $bill->credit_amount = 0;
                 }
             } else {
-                $bill->balance_amount = round($request->total_bill + $request->late_fee_charge,2);
+                $bill->balance_amount = round($request->total_bill,2);
                 $bill->credit_amount = 0;    
             }
             // if(!empty($transPayment)) {
