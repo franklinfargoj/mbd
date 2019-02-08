@@ -286,7 +286,7 @@ return [
         'scrutiny_pending' => 2,
         'forward' => 3,
          'approved' => 4,
-        // 'final' => 5
+         'pending' => 5
     ],
     'architect_applicationStatusColor' => [
         '1' => 'metal',
