@@ -25,67 +25,61 @@
                     <table class="table mb-0">
                         <thead class="thead-default">
                             <tr>
-                                <th>
-                                    #
-                                </th>
-                                <th>
-                                    Document Name
-                                </th>
-                                <th>
-                                    Status
-                                </th>
-                                <th>
-                                    Actions
-                                </th>
+                                <th> # </th>
+                                <th> Document Name </th>
+                                <th> Status </th>
+                                <th> Actions </th>
                             </tr>
                         </thead>
                         <tbody>
                             @php $i=1; @endphp
-                            @foreach($documents as $document)
-                            <tr>
-                                <td>{{ $i }}</td>
-                                <td>
-                                    {{ $document->name }}<span class="compulsory-text">@if(in_array($i, $optional_docs))<small><span style="color: green;">(Optional
-                                            Document)</span></small> @else <small>(Compulsory Document)</small> @endif</span>
-                                </td>
-                                <td class="text-center">
-                                    <h2 class="m--font-danger">
+                            @if($documents)
+                                @foreach($documents as $document)
+                                    <tr>
+                                        <td>{{ $i }}</td>
+                                        <td>
+                                            {{ $document->name }}<span class="compulsory-text">
+                                            @if(in_array($i, $optional_docs))<small><span style="color: green;">(Optional
+                                                    Document)</span></small> @else <small>(Compulsory Document)</small> @endif</span>
+                                        </td>
                                         @if(count($document->documents_uploaded) > 0 )
-                                        @foreach($document->documents_uploaded as $document_uploaded)
-                                        @if($document_uploaded['society_id'] == $society->id)
-                                        <i class="fa fa-check"></i>
+                                            <td class="text-center">
+                                                <h2 class="m--font-danger">
+                                                    <i class="fa fa-check"></i>
+                                                </h2>
+                                            </td> 
+                                            <td> 
+                                            
+                                            @if($document->is_multiple == 1)
+                                                <a href="{{ route('upload_multiple_documents',[encrypt($society->id),encrypt($document->id)]) }}" class="app-card__details mb-0">
+                                                    click to upload documents</a>
+                                            @else 
+                                                @foreach($document->documents_uploaded as $doc)
+                                                <span>
+                                                    <a href="{{ config('commanConfig.storage_server').$doc->society_document_path }}" data-value='{{ $document->id }}' class="btn btn-primary btn-custom" download target="_blank" rel="noopener"> Download</a>
+                                                </span>
+                                                @endforeach        
+                                            @endif        
+                                            </td>
                                         @else
-                                        <i class="fa fa-remove"></i>
+                                            <td class="text-center">
+                                                <h2 class="m--font-danger">
+                                                    <i class="fa fa-remove"></i>
+                                                </h2>
+                                            </td>
+                                            <td></td>
                                         @endif
-                                        @endforeach
-                                        @else
-                                        <i class="fa fa-remove"></i>
-                                        @endif
-                                    </h2>
-                                </td>
-                                <td>
-                                    @if(count($document->documents_uploaded) > 0 )
-                                    @foreach($document->documents_uploaded as $document_uploaded)
-                                    @if($document_uploaded['society_id'] == $society->id)
-                                    <span>
-                                        <a href="{{ config('commanConfig.storage_server').$document_uploaded['society_document_path'] }}" data-value='{{ $document->id }}' class="btn btn-primary btn-custom" download target="_blank" rel="noopener">
-                                                Download</a>
-                                    </span>
-                                    @endif
-                                    @endforeach
-                                    @else
-
-                                    @endif
-                                </td>
-                            </tr>
-                            @php $i++; @endphp
-                            @endforeach
+                                    </tr>
+                                @php $i++; @endphp
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+   
     @if($docs_count == $docs_uploaded_count)
     <div class="m-portlet m-portlet--bordered-semi mb-0">
         <div class="">

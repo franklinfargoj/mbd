@@ -34,11 +34,11 @@ class DYCEPermissionSeeder extends Seeder
                 'display_name' => 'scrutiny_remark',
                 'description'  => 'scrutiny_remark'
             ],
-            [
-                'name'         => 'dyce.society_EE_documents',
-                'display_name' => 'society_EE_documents',
-                'description'  => 'society_EE_documents'
-            ],
+            // [
+            //     'name'         => 'dyce.society_EE_documents',
+            //     'display_name' => 'society_EE_documents',
+            //     'description'  => 'society_EE_documents'
+            // ],
             // [
             //     'name'         => 'dyce.EE_Scrutiny_Remark',
             //     'display_name' => 'EE_Scrutiny_Remark',
@@ -88,6 +88,16 @@ class DYCEPermissionSeeder extends Seeder
                 'name'=>'redevelopement_pending_reports',
                 'display_name'=>'redevelopement_pending_reports',
                 'description'=>'redevelopement_pending_reports'
+            ],            
+            [
+                'name'=>'common.view_society_EE_documents',
+                'display_name'=>'view society EE documents',
+                'description'=>'view society EE documents'
+            ],            
+            [
+                'name'=>'view_multiple_document',
+                'display_name'=>'view multiple document',
+                'description'=>'view multiple document'
             ]   
         ];
 
