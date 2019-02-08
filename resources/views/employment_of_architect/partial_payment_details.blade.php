@@ -10,7 +10,7 @@
         </div>
     </div>
 </div>
-<div class="form-group m-form__group row">
+<div class="m-form__group row align-items-end">
     <div class="col-sm-4 form-group">
         <label class="col-form-label" for="">Cash Paid<span class="star">*</span></label>
         <input type="text" id="" name="cash" class="form-control form-control--custom m-input" value="{{old('cash')?old('cash'):($application->fee_payment_details!=""?$application->fee_payment_details->cash:"")}}">
@@ -59,7 +59,7 @@
         </div>
     </div>
 </div>
-<div class="form-group m-form__group row">
+<div class="m-form__group row">
     <div class="col-sm-4 form-group">
         <label class="col-form-label" for="">Receipt No<span class="star">*</span></label>
         <input type="text" id="" name="receipt_no" class="form-control form-control--custom m-input" value="{{old('receipt_no')?old('receipt_no'):($application->fee_payment_details!=""?$application->fee_payment_details->receipt_no:"")}}">

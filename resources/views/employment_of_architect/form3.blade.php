@@ -42,12 +42,12 @@
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view m-portlet--forms-compact">
         <div class="m-portlet__body m-portlet__body--table">
         {{-- <h3 class="section-title section-title--small">ARCHITECT/CONSULTANT</h3> --}}
-        <form id="appointing_architect_step3" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
+        <form id="appointing_architect_step3" role="form" method="post" class="m-form m-form--rows m-form--label-align-right floating-labels-form"
             action="{{route('appointing_architect.step3_post',['id'=>encrypt($application->id)])}}" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="application_id" value="{{$application->id}}">
             {{-- @include('employment_of_architect.partial_personal_details',compact('application')) --}}
-            <div class="form-group m-form__group row">
+            <div class="m-form__group row align-items-end">
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Consultant's details of Establishment<span class="star">*</span></label>
                     <input type="text" id="" name="details_of_establishment" class="form-control form-control--custom m-input"
@@ -77,7 +77,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group m-form__group row">
+            <div class="m-form__group row align-items-end">
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">No of Architects<span class="star">*</span></label>
                     <input onchange="get_total_staff()" onkeyup="get_total_staff()" type="number" min="0" id="staff_architects"
@@ -157,7 +157,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group m-form__group row  cad_facality">
+            <div class="m-form__group row  cad_facality align-items-end">
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">No of Computers<span class="star">*</span></label>
                     <input type="number" min="0" id="" name="cad_facility_no_of_computers" class="form-control form-control--custom m-input"
@@ -205,7 +205,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group m-form__group row">
+            <div class="m-form__group row align-items-end">
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">No of Principle<span class="star">*</span></label>
                     <input type="number" min="0" id="" name="reg_with_council_of_architecture_principle" class="form-control form-control--custom m-input"
@@ -292,7 +292,7 @@
                 </table>
                 <a href="javascript:void()" id="add-more" class="btn--add-delete add">add more</a>
             </div>
-            <div class="form-group m-form__group row">
+            <div class="m-form__group row align-items-end mhada-label-top">
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">COA registration no<span class="star">*</span></label>
                     <input type="number" min="0" id="" name="reg_with_council_of_architecture_coa_registration_no"

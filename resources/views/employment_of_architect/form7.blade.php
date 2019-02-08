@@ -48,7 +48,7 @@
                 <h2 class='m--font-danger ml-3 mb-0'><i title='Delete' class='fa fa-remove'></i></h2>
                 @endif
             </div>
-            <form role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step7_post',['id'=>encrypt($application->id)])}}"
+            <form role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box floating-labels-form" action="{{route('appointing_architect.step7_post',['id'=>encrypt($application->id)])}}"
                 enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="form_number" value="{{$j+1}}">
@@ -56,7 +56,7 @@
                 <input type="hidden" name="project_sheet_detail_id" value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->id:''}}">
                 <div class="m-portlet__body m-portlet__body--spaced collapse form-count {{$prev_form_number==$j+1?'show':''}}"
                     id="form_{{$j+1}}" data-parent="#accordion">
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row align-items-end">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Name of Project<span class="star">*</span></label>
                             <input required type="text" id="" name="name_of_project" class="form-control form-control--custom m-input"
@@ -102,8 +102,8 @@
                                 }}</span>
                             @endif
                         </div>
-                        <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="extract">Upload copy of agreement:
+                        <div class="col-sm-4 form-group focused">
+                            <label class="col-form-label mhada-label-index" for="extract">Upload copy of agreement:
                                 <!--<span class="star">*</span>--></label>
                             <div class="custom-file">
                                     @php

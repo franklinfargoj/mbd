@@ -50,7 +50,7 @@
     @include('admin.dashboard.architect_layout.partials.architect_dashboard',compact('data'))
     @endif
     @if(session()->get('role_name')==config('commanConfig.land_manager'))
-    @include('admin.dashboard.architect_layout.partials.lm_dashboard',compact('data'))
+    @include('admin.dashboard.architect_layout.partials.lm_dashboard',compact('architect_data'))
     @endif
     @if(session()->get('role_name')==config('commanConfig.estate_manager'))
     @include('admin.dashboard.architect_layout.partials.em_dashboard',compact('data'))

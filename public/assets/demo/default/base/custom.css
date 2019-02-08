@@ -298,7 +298,7 @@ a[title="JavaScript charts"] {
 
 .m-portlet--forms-compact .m-portlet__head--top {
     margin-top: 20px;
-    padding-bottom: 10px;
+    padding-bottom: 25px;
 }
 
 .m-portlet--forms-compact .m-form__actions {
@@ -3072,10 +3072,10 @@ label.site-visit-label {
     padding-bottom: 1rem;
 } */
 
-.floating-labels-form .star {
+/*.floating-labels-form .star {
     display: none;
 }
-
+*/
 .floating-labels-form .form-group .col-form-label {
     position: absolute;
     left: 30px;
@@ -3507,4 +3507,16 @@ label.site-visit-label {
 
 .m-portlet .dt-buttons {
     display: none;
+}
+
+.mhada-panel-top{
+    padding-bottom: 20px !important;
+}
+
+.mhada-label-top{
+    margin-top: 70px;
+}
+
+.mhada-label-index{
+    z-index: 9 !important;
 }
