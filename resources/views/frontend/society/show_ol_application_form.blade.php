@@ -3,6 +3,22 @@
     @include('frontend.society.actions',compact('ol_applications'))
 @endsection
 @section('content')
+
+<div class="col-md-12">
+    <div class="m-subheader px-0 m-subheader--top">
+        <div class="d-flex align-items-center">
+            <h3 class="m-subheader__title m-subheader__title--separator">Application</h3>
+            {{ Breadcrumbs::render('society_tripartite_view_application', $id) }} (Offer Letter)
+            <div class="ml-auto btn-list">
+                <a href="{{ route('society_offer_letter_dashboard') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                {{--<a href="#" target="_blank" id="download_application_form" class="btn print-icon" rel="noopener"--}}
+                   {{--onclick="printContent('printdiv')"><img src="{{asset('/img/print-icon.svg')}}" title="print"></a>--}}
+            </div>
+        </div>
+    </div>
+
+    <div class="m-portlet">
+    
     <form class="letter-form" action="{{ route('save_offer_letter_application_dev') }}" method="post" id="save_offer_letter_application_dev">
     @csrf
     <!-- BEGIN: Subheader -->
@@ -62,4 +78,6 @@
             </div>
         @endif
     </form>
+    </div>
+   </div> 
 @endsection

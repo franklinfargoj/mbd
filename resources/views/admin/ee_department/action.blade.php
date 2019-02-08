@@ -42,7 +42,7 @@ $route=\Request::route()->getName();
             </a>
         </li>
  
-        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='document-submitted')?'m-menu__item--active':''}}">
+        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='document-submitted' || $route == 'view_multiple_document')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" href="{{ route('document-submitted', encrypt($ol_application->id)) }}">
                 <span class="sidebar-icon sidebar-menu-icon--level-1">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 470">

@@ -47,10 +47,11 @@
                                                 <h2 class="m--font-danger">
                                                     <i class="fa fa-check"></i>
                                                 </h2>
-                                            </td>
+                                            </td> 
                                             <td> 
+                                            
                                             @if($document->is_multiple == 1)
-                                                <a href="{{ route('upload_multiple_documents',[$society->id,$document->id]) }}" class="app-card__details mb-0">
+                                                <a href="{{ route('upload_multiple_documents',[encrypt($society->id),encrypt($document->id)]) }}" class="app-card__details mb-0">
                                                     click to upload documents</a>
                                             @else 
                                                 @foreach($document->documents_uploaded as $doc)
@@ -78,6 +79,7 @@
             </div>
         </div>
     </div>
+   
     @if($docs_count == $docs_uploaded_count)
     <div class="m-portlet m-portlet--bordered-semi mb-0">
         <div class="">

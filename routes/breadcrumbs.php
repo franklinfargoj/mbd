@@ -413,7 +413,7 @@ Breadcrumbs::for('co_noc_cc', function ($trail) {
 
 Breadcrumbs::for('society_EE_documents_co', function ($trail,$id) {
     $trail->parent('co');
-    $trail->push('society_EE_documents', route('co.society_EE_documents',$id));
+    $trail->push('society_EE_documents', route('common.view_society_EE_documents',$id));
 });
 
 Breadcrumbs::for('society_reval_documents_co', function ($trail,$id) {
@@ -527,7 +527,7 @@ Breadcrumbs::for('ree_noc_cc', function ($trail) {
 
 Breadcrumbs::for('society_EE_documents_ree', function ($trail,$id) {
     $trail->parent('ree');
-    $trail->push('society EE documents', route('ree.society_EE_documents',$id));
+    $trail->push('society EE documents', route('common.view_society_EE_documents',$id));
 });
 
 Breadcrumbs::for('society_noc_documents_ree', function ($trail,$id) {
@@ -837,7 +837,7 @@ Breadcrumbs::for('dyce', function ($trail) {
 
 Breadcrumbs::for('society_EE_documents', function ($trail,$id) {
     $trail->parent('dyce');
-    $trail->push('society EE documents', route('dyce.society_EE_documents',$id));
+    $trail->push('society EE documents', route('common.view_society_EE_documents',$id));
 });
 
 Breadcrumbs::for('EE_Scrutiny_Remark-dyce', function ($trail,$id) {
@@ -1385,7 +1385,7 @@ Breadcrumbs::for('society_tripartite',function($trail){
 
 Breadcrumbs::for('society_tripartite_view_application', function ($trail, $id) {
     $trail->parent('society_tripartite');
-    $trail->push('View Application (Tripartite)', route('tripartite_application_form_preview', $id));
+    $trail->push('View Application', route('tripartite_application_form_preview', $id));
 });
 
 Breadcrumbs::for('society_tripartite_edit_application', function ($trail, $id) {

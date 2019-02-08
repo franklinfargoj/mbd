@@ -147,33 +147,13 @@ class REEController extends Controller
         ];
     } 
 
-    public function societyEEDocuments(Request $request,$applicationId){
+    // public function societyEEDocuments(Request $request,$applicationId){
         
-        $applicationId = decrypt($applicationId);
-        $ol_application = $this->CommonController->getOlApplication($applicationId);
-        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
-        $societyDocuments = $this->CommonController->getSocietyEEDocuments($applicationId);
-       return view('admin.REE_department.society_EE_documents',compact('ol_application','societyDocuments'));
-    }
-
-    // EE - Scrutiny & Remark page
-    // public function eeScrutinyRemark(Request $request,$applicationId){
-
     //     $applicationId = decrypt($applicationId);
     //     $ol_application = $this->CommonController->getOlApplication($applicationId);
     //     $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
-    //     $eeScrutinyData = $this->CommonController->getEEScrutinyRemark($applicationId);
-    //     return view('admin.REE_department.EE_Scrunity_Remark',compact('ol_application','eeScrutinyData'));
-    // }   
-
-    // // DyCE Scrutiny & Remark page
-    // public function dyceScrutinyRemark(Request $request,$applicationId){
-
-    //     $applicationId = decrypt($applicationId);
-    //     $ol_application = $this->CommonController->getOlApplication($applicationId);
-    //     $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
-    //     $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);
-    //     return view('admin.REE_department.dyce_scrunity_remark',compact('ol_application','applicationData'));
+    //     $societyDocuments = $this->CommonController->getSocietyEEDocuments($applicationId);
+    //    return view('admin.REE_department.society_EE_documents',compact('ol_application','societyDocuments'));
     // }
 
     // Forward Application page

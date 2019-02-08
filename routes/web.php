@@ -329,15 +329,20 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('view_calculations/{tenant_id}/{year}','AccountDepartment\AccountController@viewCalculations')->name('view_calculations');
     Route::get('payment_details/{tenant_id}','AccountDepartment\AccountController@paymentDetails')->name('payment_details');
 
-    //common if offer letter
+    //common in offer letter
 
     Route::get('ee_scrutiny_remark/{id}','Common\CommonController@eeScrutinyRemark')->name('common.EE_Scrutiny_Remark');
 
      Route::get('dyce_Scrutiny_Remark/{id}','Common\CommonController@dyceScrutinyRemark')->name('common.dyce_scrutiny_remark');
 
-	//DYCE Department routes
-	Route::resource('dyce','DYCEDepartment\DYCEController');
-	Route::get('society_EE_documents/{id}','DYCEDepartment\DYCEController@societyEEDocuments')->name('dyce.society_EE_documents');
+     // Route::get('society_documents/{id}','Common\CommonController@documentSubmittedBySociety')->name('common.society_documents');
+	Route::get('view_society_EE_documents/{id}','Common\CommonController@societyEEDocuments')->name('common.view_society_EE_documents');
+
+     Route::get('view_multiple_document/{id}/{document_id}','Common\CommonController@viewMultipleDocuments')->name('view_multiple_document');
+
+
+    //DYCE Department routes
+    Route::resource('dyce','DYCEDepartment\DYCEController');
 	
 
     Route::get('scrutiny_remark/{id}','DYCEDepartment\DYCEController@dyceScrutinyRemark')->name('dyce.scrutiny_remark');
@@ -349,7 +354,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     // REE Department Routes
 
     Route::resource('ree_applications', 'REEDepartment\REEController');
-    Route::get('society_ee_document/{id}','REEDepartment\REEController@societyEEDocuments')->name('ree.society_EE_documents');
+    // Route::get('society_ee_document/{id}','REEDepartment\REEController@societyEEDocuments')->name('ree.society_EE_documents');
     Route::get('society_reval_document/{id}','REEDepartment\REEController@societyRevalDocuments')->name('ree.society_reval_documents');
 
     // Route::get('EE_scrutiny_remark/{id}','REEDepartment\REEController@eeScrutinyRemark')->name('ree.EE_Scrutiny_Remark');
@@ -399,7 +404,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('co_reval_applications','CODepartment\COController@revalidationApplicationList')->name('co_applications.reval');
     Route::get('view_reval_application_co/{id}','CODepartment\COController@viewRevalApplication')->name('co.view_reval_application');
 
-    Route::get('society_ee_documents/{id}','CODepartment\COController@societyEEDocuments')->name('co.society_EE_documents');
+    // Route::get('society_ee_documents/{id}','CODepartment\COController@societyEEDocuments')->name('co.society_EE_documents');
     Route::get('co_society_reval_document/{id}','CODepartment\COController@societyRevalDocuments')->name('co.society_reval_documents');
 
     Route::get('reval_calculation_sheet_co/{id}','CODepartment\COController@showRevalCalculationSheet')->name('co.show_reval_calculation_sheet');
@@ -903,7 +908,6 @@ Route::get('view_application_ee/{id}','EEDepartment\EEController@viewApplication
 
 Route::get('view_application_vp/{id}','VPDepartment\VPController@viewApplication')->name('vp.view_application');
 Route::get('calculation_sheet_vp/{id}','REEDepartment\REEController@showCalculationSheet')->name('vp.show_calculation_sheet');
-
 
 Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
 

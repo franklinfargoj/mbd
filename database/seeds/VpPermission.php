@@ -164,6 +164,16 @@ class VpPermission extends Seeder
                 'name'=>'ee_variation_report',
                 'display_name'=>'generate ee variation report',
                 'description'=>'generate ee variation report'
+            ],
+            [
+                'name'=>'common.view_society_EE_documents',
+                'display_name'=>'view society EE documents',
+                'description'=>'view society EE documents'
+            ],            
+            [
+                'name'=>'view_multiple_document',
+                'display_name'=>'view multiple document',
+                'description'=>'view multiple document'
             ]            
         ];
 

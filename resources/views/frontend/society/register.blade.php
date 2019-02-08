@@ -82,7 +82,7 @@
                                                 <div class="form-group m-form__group @if($errors->has('society_email')) has-error @endif">
                                                     <!-- <label for="" class="col-form-label">Confirm Password</label> -->
                                                     <input class="form-control form-control--custom m-input" type="email"
-                                                           placeholder="Email Address" name="society_email" value="{{ old('society_email') }}">
+                                                           placeholder="Email / Username" name="society_email" value="{{ old('society_email') }}">
                                                     <span id="society_email" class="text-danger">{{$errors->first('society_email')}}</span>
                                                 </div>
                                             </div>
@@ -95,6 +95,44 @@
                                                     <span id="optional_society_email" class="text-danger">{{$errors->first('optional_society_email')}}</span>
                                                 </div>
                                             </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group m-form__group @if($errors->has('society_password')) has-error @endif">
+                                                    <!-- <label for="" class="col-form-label">Password</label> -->
+                                                    <input class="form-control form-control--custom m-input" type="password"
+                                                        placeholder="Password" name="society_password" id="password"
+                                                        value="{{ old('society_password') }}" title="">
+                                                    <a class="input-hint" href="#" data-toggle="tooltip" data-placement="top" title="Password should be minimum 6 & maximum 10 characters."><i class="fa fa-info-circle" style="color: orange;float: right;"></i></a>
+                                                    <span class="help-block">{{$errors->first('society_password')}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group m-form__group @if($errors->has('conf_society_password')) has-error @endif">
+                                                    <!-- <label for="" class="col-form-label">Password</label> -->
+                                                    <input class="form-control form-control--custom m-input" type="password"
+                                                        placeholder="Confirm Password" name="conf_society_password"
+                                                        value="{{ old('conf_society_password') }}" title="">
+                                                    {{--<a class="input-hint" href="#" data-toggle="tooltip" data-placement="top" title="Password should be minimum 6 & maximum 10 characters."><i class="fa fa-info-circle" style="color: orange;float: right;"></i></a>--}}
+                                                    <span class="help-block">{{$errors->first('conf_society_password')}}</span>
+                                                </div>
+                                            </div> 
+                                            <div class="col-sm-6">
+                                                <div class="form-group m-form__group @if($errors->has('secretary_name')) has-error @endif">
+                                                    <!-- <label for="" class="col-form-label">Confirm Password</label> -->
+                                                    <input class="form-control form-control--custom m-input" type="text"
+                                                           placeholder="Secretary Name" name="secretary_name"
+                                                           value="{{ old('secretary_name') }}">
+                                                    <span class="help-block">{{$errors->first('secretary_name')}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group m-form__group @if($errors->has('chairman_name')) has-error @endif">
+                                                    <!-- <label for="" class="col-form-label">Confirm Password</label> -->
+                                                    <input class="form-control form-control--custom m-input" type="text"
+                                                           placeholder="Chairman Mobile Number" name="chairman_name"
+                                                           value="{{ old('chairman_name') }}">
+                                                    <span class="text-danger">{{$errors->first('chairman_name')}}</span>
+                                                </div>
+                                            </div>                                                                                       
                                             <div class="col-sm-6">
                                                 <div class="form-group m-form__group @if($errors->has('society_architect_name')) has-error @endif">
                                                     <!-- <label for="" class="col-form-label">Confirm Password</label> -->
@@ -120,44 +158,6 @@
                                                         placeholder="Architect Address" name="society_architect_address"
                                                         value="{{ old('society_architect_address') }}"></textarea>
                                                     <span class="text-danger">{{$errors->first('society_architect_address')}}</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group m-form__group @if($errors->has('society_password')) has-error @endif">
-                                                    <!-- <label for="" class="col-form-label">Password</label> -->
-                                                    <input class="form-control form-control--custom m-input" type="password"
-                                                        placeholder="Password" name="society_password" id="password"
-                                                        value="{{ old('society_password') }}" title="">
-                                                    <a class="input-hint" href="#" data-toggle="tooltip" data-placement="top" title="Password should be minimum 6 & maximum 10 characters."><i class="fa fa-info-circle" style="color: orange;float: right;"></i></a>
-                                                    <span class="help-block">{{$errors->first('society_password')}}</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group m-form__group @if($errors->has('conf_society_password')) has-error @endif">
-                                                    <!-- <label for="" class="col-form-label">Password</label> -->
-                                                    <input class="form-control form-control--custom m-input" type="password"
-                                                        placeholder="Confirm Password" name="conf_society_password"
-                                                        value="{{ old('conf_society_password') }}" title="">
-                                                    {{--<a class="input-hint" href="#" data-toggle="tooltip" data-placement="top" title="Password should be minimum 6 & maximum 10 characters."><i class="fa fa-info-circle" style="color: orange;float: right;"></i></a>--}}
-                                                    <span class="help-block">{{$errors->first('conf_society_password')}}</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group m-form__group @if($errors->has('secretary_name')) has-error @endif">
-                                                    <!-- <label for="" class="col-form-label">Confirm Password</label> -->
-                                                    <input class="form-control form-control--custom m-input" type="text"
-                                                           placeholder="Secretary Name" name="secretary_name"
-                                                           value="{{ old('secretary_name') }}">
-                                                    <span class="help-block">{{$errors->first('secretary_name')}}</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group m-form__group @if($errors->has('chairman_name')) has-error @endif">
-                                                    <!-- <label for="" class="col-form-label">Confirm Password</label> -->
-                                                    <input class="form-control form-control--custom m-input" type="text"
-                                                           placeholder="Chairman Mobile Number" name="chairman_name"
-                                                           value="{{ old('chairman_name') }}">
-                                                    <span class="text-danger">{{$errors->first('chairman_name')}}</span>
                                                 </div>
                                             </div>
                                         </div>
