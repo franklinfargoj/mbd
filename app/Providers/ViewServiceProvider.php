@@ -27,6 +27,9 @@ class ViewServiceProvider extends ServiceProvider
         View::composer(
             ['*'],'App\Http\View\Composers\EEDivisionComposer'
         );
+        View::composer(
+            ['*'],'App\Http\View\Composers\AppointingArchitectComposer'
+        );
     }
 
     /**
