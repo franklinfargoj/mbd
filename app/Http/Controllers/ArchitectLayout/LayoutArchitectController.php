@@ -97,8 +97,8 @@ class LayoutArchitectController extends Controller
         }
 
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
-
-        return view('admin.architect_layout.index', compact('html', 'header_data', 'getData'));
+        //dd($html);
+        return view('admin.architect_layout.index', compact('html', 'getData'));
     }
 
     public function architect_layouts_layout_details(Request $request, Datatables $datatables)
@@ -164,7 +164,7 @@ class LayoutArchitectController extends Controller
 
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
-        return view('admin.architect_layout.index', compact('html', 'header_data', 'getData'));
+        return view('admin.architect_layout.index', compact('html', 'getData'));
     }
 
     public function genRand()
