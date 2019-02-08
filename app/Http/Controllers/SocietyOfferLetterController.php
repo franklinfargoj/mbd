@@ -1247,7 +1247,6 @@ class SocietyOfferLetterController extends Controller
             'society_id' => $society->id,
             'society_documents_comment' => $comments,
         );
-        
         OlSocietyDocumentsComment::where('society_id', $society->id)->update($input);
         return redirect()->route('upload_society_offer_letter_application');
     }
@@ -2833,5 +2832,72 @@ class SocietyOfferLetterController extends Controller
 
                 return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$ol_applications->srApplicationLog->status_id) .' m-badge--wide">'.$status_display.'</span>';
         }
+    } 
+
+    public function uploadMultipleDocuments(Request $request,$societyId,$documentId){
+
+        $ol_applications = OlApplication::where('user_id', Auth::user()->id)->where('society_id', 
+            $societyId)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){$q->where('society_flag', '1')->orderBy('id', 'desc');
+        }])->first();
+
+        // $ol_applications = OlApplication::where('society_id', $societyId)->first();
+        $documents = OlSocietyDocumentsStatus::where('document_id',$documentId)
+        ->where('society_id', $societyId)->orderBy('id','desc')->get();
+        $ol_applications->status = $this->getSocietyStatusLog($ol_applications->id);
+        
+        return view('frontend.society.upload_multiple_documents',compact('ol_applications','documentId','documents'));    
+    }
+
+    public function saveDocuments(Request $request){
+
+        $file = $request->file('file');
+        $societyId = $request->societyId;
+        $documentId = $request->documentId;
+        $folderName = "society_offer_letter_documents";
+        try{
+            if ($file->getClientMimeType() == 'application/pdf') {
+
+                $extension = $request->file('file')->getClientOriginalExtension();
+                $fileName = time().'_member_'.$societyId.'.'.$extension;
+                $this->CommonController->ftpFileUpload($folderName,$file,$fileName); 
+
+                $Documents = new OlSocietyDocumentsStatus();
+                $Documents->society_id = $societyId;
+                $Documents->document_id = $documentId;
+                $Documents->member_name = $request->memberName;
+                $Documents->society_document_path = $folderName.'/'.$fileName;
+                $Documents->save();
+                $response['status'] = 'success';  
+            }else{
+                $response['status'] = 'error';   
+            }
+        }catch(Exception $e){
+            $response['status'] = 'error'; 
+        }
+
+        return response(json_encode($response), 200);   
+    }
+
+    public function deleteDocuments(Request $request){
+
+        try{
+            if (isset($request->oldFile) && isset($request->id)){
+                Storage::disk('ftp')->delete($request->oldFile);
+                OlSocietyDocumentsStatus::where('id',$request->id)->delete(); 
+                $response['status'] = 'success';           
+            }else{
+                $response['status'] = 'error';
+            }
+        }catch(Exception $e){
+            $response['status'] = 'error';
+        }
+        return response(json_encode($response), 200);       
+    }
+
+    public function getSocietyStatusLog($applicationId){
+        
+        $status = OlApplicationStatus::where('application_id',$applicationId)
+        ->where('society_flag',1)->orderBy('id','desc')->first();
+        return $status;
     }
 }

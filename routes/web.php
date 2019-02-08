@@ -493,6 +493,11 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         Route::post('add_uploaded_documents_remark', 'SocietyOfferLetterController@addSocietyDocumentsRemark')->name('add_uploaded_documents_remark');
         Route::get('documents_uploaded', 'SocietyOfferLetterController@viewSocietyDocuments')->name('documents_uploaded');
         Route::post('uploaded_documents', 'SocietyOfferLetterController@uploadSocietyDocuments')->name('uploaded_documents');
+        Route::get('/upload_multiple_documents/{societyId}/{documentId}', 'SocietyOfferLetterController@uploadMultipleDocuments')->name('upload_multiple_documents');
+
+        Route::post('/save_documents', 'SocietyOfferLetterController@saveDocuments')->name('save_documents'); 
+        Route::post('/delete_documents', 'SocietyOfferLetterController@deleteDocuments')->name('delete_documents'); 
+
         Route::get('delete_uploaded_documents/{id}', 'SocietyOfferLetterController@deleteSocietyDocuments')->name('delete_uploaded_documents');
         Route::post('add_uploaded_documents_comment', 'SocietyOfferLetterController@addSocietyDocumentsComment')->name('add_documents_comment');
         Route::get('society_offer_letter_download', 'SocietyOfferLetterController@displayOfferLetterApplication')->name('society_offer_letter_download');

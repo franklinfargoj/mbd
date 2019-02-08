@@ -21,100 +21,86 @@
                     <table class="table mb-0">
                         <thead class="thead-default">
                             <tr>
-                                <th>
-                                    #
-                                </th>
-                                <th>
-                                    Document Name
-                                </th>
-                                <th>
-                                    Status
-                                </th>
-                                <th>
-                                    Actions
-                                </th>
+                                <th> # </th>
+                                <th> Document Name </th>
+                                <th> Status </th>
+                                <th> Actions </th>
                             </tr>
                         </thead>
                         <tbody>
+                        
                             @php $i=1; @endphp
                             @foreach($documents as $document)
-                            <tr>
-                                <td>{{ $i }}</td>
-                                <td>
-                                    {{ $document->name }}<span class="compulsory-text">@if(in_array($i, $optional_docs))<small><span style="color: green;">(Optional
-                                            Document)</span></small> @else <small>(Compulsory Document)</small> @endif</span>
-                                </td>
-                                <td class="text-center">
-                                    <h2 class="m--font-danger">
-                                        @if(count($document->documents_uploaded) > 0 )
-                                        @foreach($document->documents_uploaded as $document_uploaded)
-                                        @if($document_uploaded['society_id'] == $society->id)
-                                        <i class="fa fa-check"></i>
-                                        @else
-                                        <i class="fa fa-remove"></i>
-                                        @endif
-                                        @endforeach
-                                        @else
-                                        <i class="fa fa-remove"></i>
-                                        @endif
-                                    </h2>
-                                </td>
-                                <td>
+                                <tr>
+                                    <td>{{ $i }}</td>
+                                    <td>
+                                        {{ $document->name }}<span class="compulsory-text">
+                                        @if(in_array($i, $optional_docs))<small>
+                                        <span style="color: green;">
+                                        (Optional Document)</span></small> 
+                                        @else <small>(Compulsory Document)</small> @endif</span>
+                                    </td>
                                     @if(count($document->documents_uploaded) > 0 )
-                                    @foreach($document->documents_uploaded as $document_uploaded)
-                                    @if($document_uploaded['society_id'] == $society->id)
-                                    <span>
-                                        <a href="{{ config('commanConfig.storage_server').$document_uploaded['society_document_path'] }}" data-value='{{ $document->id }}'
-                                            class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
-                                                Download</button></a>
-                                        <a href="{{ route('delete_uploaded_documents', $document->id) }}" data-value='{{ $document->id }}'
-                                            class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
-                                                <i class="fa fa-trash"></i></button></a>
-                                    </span>
+                                        <td class="text-center">
+                                            <h2 class="m--font-danger">
+                                                 <i class="fa fa-check"></i>
+                                            </h2>
+                                        </td>    
+                                        <td>  
+                                            @if($document->is_multiple == 1)
+                                                <input type="hidden" name="documentId" id="documentId"
+                                                value="{{ isset($document->id) ? $document->id : '' }}"> 
+                                                <a href="{{ route('upload_multiple_documents',[$society->id,$document->id]) }}" class="app-card__details mb-0">
+                                                click to upload documents</a>
+                                            @else 
+                                                @foreach($document->documents_uploaded as $document_uploaded)
+                                                    <span>
+                                                        <a href="{{ config('commanConfig.storage_server').$document_uploaded['society_document_path'] }}" data-value='{{ $document->id }}'
+                                                            class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
+                                                                Download</button></a>
+                                                        <a href="{{ route('delete_uploaded_documents', $document->id) }}" data-value='{{ $document->id }}'
+                                                            class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
+                                                                <i class="fa fa-trash"></i></button></a>
+                                                    </span>          
+                                                @endforeach
+                                            @endif    
+                                        </td>    
                                     @else
-                                    <form action="{{ route('uploaded_documents') }}" method="post" enctype='multipart/form-data'
-                                        id="upload_documents_form_{{ $document->id }}">
-                                        @csrf
-                                        <div class="custom-file">
-                                            <input class="custom-file-input" name="document_name" type="file" class=""
-                                                id="test-upload_{{ $document->id }}" required>
-                                            <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
-                                            <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
-                                                file ...</label>
-                                            <span class="help-block">
-                                                @if(session('error_'.$document->id))
-                                                session('error_'.$document->id)
-                                                @endif
-                                            </span>
-                                        </div>
-                                        <br>
-                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                    </form>
-                                    @endif
-                                    @endforeach
-                                    @else
-                                    <form action="{{ route('uploaded_documents') }}" method="post" enctype='multipart/form-data'
-                                        id="upload_documents_form_{{ $document->id }}">
-                                        @csrf
-                                        <div class="custom-file @if(session('error_'.$document->id)) has-error @endif">
-                                            <input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}"
-                                                required>
-                                            <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
-                                            <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
-                                                file ...</label>
-                                            <span class="help-block text-danger">
-                                                @if(session('error_'.$document->id))
-                                                {{session('error_'.$document->id)}}
-                                                @endif
-                                            </span>
-                                        </div>
-                                        <br>
-                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn_{{ $document->id }}">Upload</button>
-                                    </form>
-                                    @endif
-                                </td>
-                            </tr>
-                            @php $i++; @endphp
+                                        <td class="text-center">
+                                            <h2 class="m--font-danger">
+                                                <i class="fa fa-remove"></i>
+                                            </h2>
+                                        </td> 
+                                        <td>
+                                            @if($document->is_multiple == 1)
+                                        
+                                                <input type="hidden" name="documentId" id="documentId"
+                                                value="{{ isset($document->id) ? $document->id : '' }}">
+                                                <a href="{{ route('upload_multiple_documents',[$society->id,$document->id]) }}" class="app-card__details mb-0">
+                                                click to upload documents</a>
+                                            @else
+                                                <form action="{{ route('uploaded_documents') }}" method="post" enctype='multipart/form-data' id="upload_documents_form_{{ $document->id }}">
+                                                @csrf
+                                                    <div class="custom-file">
+                                                        <input class="custom-file-input" name="document_name" type="file" class=""
+                                                            id="test-upload_{{ $document->id }}" required>
+                                                        <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
+                                                        <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
+                                                            file ...</label>
+                                                        <span class="help-block">
+                                                            @if(session('error_'.$document->id))
+                                                            session('error_'.$document->id)
+                                                            @endif
+                                                        </span>
+                                                    </div>
+                                                    <br>
+                                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                                </form>
+                                            @endif
+                                        </td>
+                                    @endif  
+                                </tr>
+                                @php $i++; @endphp
                             @endforeach
                         </tbody>
                     </table>
@@ -122,6 +108,7 @@
             </div>
         </div>
     </div>
+
     @if(!empty($docs_count) && !empty($docs_uploaded_count))
     @if($docs_count == $docs_uploaded_count)
     <div class="m-portlet">
@@ -221,7 +208,106 @@
 @endif
 @endif
 @endif
-@endsection
-{{--@section('')--}}
 
-{{--@endsection--}}
+  <!-- Modal for upload multiple documents-->
+<div class="modal fade" id="uploadDocModel" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:800px !important">
+        <div class="modal-content" style="width: 700px;">
+            <div class="modal-header" >
+              <h4 class="modal-title">Upload documents</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div style="margin-left: 30px;">
+                <div class="col-sm-10" style="margin-top: 25px;">
+                    <div class="form-group row">
+                        <div class="col-sm-4 d-flex align-items-center">
+                            <label for="name">Name of Member:</label>
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control form-control--custom" name="memberName" id="memberName" value="">
+                        </div>
+                    </div>
+                </div>  
+                <div class="col-sm-10">
+                    <div class="form-group row">
+                        <div class="col-sm-4 d-flex align-items-center">
+                            <label for="name">Upload Document:</label>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="custom-file ">
+                                <input class="custom-file-input file_upload" name="document_name" type="file" id="test-upload" required="">
+                                <label class="custom-file-label" for="test-upload">Choose
+                                    file ...</label>
+                                <span class="help-block text-danger"> </span>
+                            </div>                        
+                        </div>
+                    </div> 
+                </div> 
+            </div>  
+            <div class="table-responsive">
+                <table class="mt-2 table" id="document"> 
+                    <tbody>
+                        <tr>
+                            <td>  ASDF                                                                  
+                            </td>
+                            <td class="text-center">
+                                <a class="btn-link" href="{{ route('society_offer_letter_preview') }}" target="_blank">
+                        Download </a> 
+                            </td>
+                            <td class="text-center" style="">
+                                <i class="fa fa-close icon2 d-icon hide-print" ></i>
+                                <input type="hidden" name= "oldFile" id="oldFile" value=""> 
+                            </td>
+                        </tr>
+                    </tbody>    
+                </table>
+            </div>                    
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+@section('actions_js')
+<script type="text/javascript">
+    $(".file_upload").change(function(){
+        var myfile = $(this).val();
+        var ext = myfile.split('.').pop();
+        var fileData = $(this).prop('files')[0];
+        var societyId = '<?php echo $society->id; ?>';
+        var documentId = $("#documentId").val();
+        var memberName = $("#memberName").val();
+        
+        var form_data = new FormData();
+        form_data.append('file', fileData);   
+        form_data.append('societyId', societyId);  
+        form_data.append('documentId', documentId);  
+        form_data.append('memberName', memberName);  
+        form_data.append('_token', document.getElementsByName("_token")[0].value);
+  
+        $.ajax({
+            url: "/society/upload_multiple_documents",
+            data: form_data,
+            dataType : "json",
+            type: 'POST',
+            contentType: false, 
+            cache: false,
+            processData: false,
+            success: function(response) {
+                $('#document tr').remove();
+                $.each(response.data, function(key, value){
+                    var a = $('<tr>').append($('<td>').append(value.member_name)).append($('<td>').append(value.member_name)).append($('<td>').append(value.member_name));
+                    $('#document').append(a);    
+                });
+                $(".loader").hide();
+                // if(data == 'success')
+                    // $("#file_error_"+id).css("display","none");
+            }
+        });               
+
+    });
+</script>
+@endsection
+
+
