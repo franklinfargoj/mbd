@@ -219,6 +219,7 @@
                 @if((session()->get('role_name')==config('commanConfig.junior_architect'))||
     (session()->get('role_name')==config('commanConfig.senior_architect')) ||
     (session()->get('role_name')==config('commanConfig.architect')))
+    @include('admin.dashboard.appointing_architect.dashboard',compact('appointing_architect_data'))
     @include('admin.dashboard.architect_layout.partials.architect_dashboard',compact('architect_data'))
     @endif
     @if(session()->get('role_name')==config('commanConfig.land_manager'))
@@ -481,6 +482,34 @@
                             $('.architect-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
                         } else {
                             $('.architect-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                        }
+                    }
+                });
+
+                $(".appointing-architect-accordion").on("click", function () {
+                    var data = $('.appointing-architect-accordion').children().children().attr('aria-expanded');
+                    if (!(data)) {
+                        $('.appointing-architect-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                    }
+                    else {
+                        if (data == 'undefine' || data == 'false') {
+                            $('.appointing-architect-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                        } else {
+                            $('.appointing-architect-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                        }
+                    }
+                });
+
+                $(".appointing-architect-pendencies-accordion").on("click", function () {
+                    var data = $('.appointing-architect-pendencies-accordion').children().children().attr('aria-expanded');
+                    if (!(data)) {
+                        $('.appointing-architect-pendencies-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                    }
+                    else {
+                        if (data == 'undefine' || data == 'false') {
+                            $('.appointing-architect-pendencies-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                        } else {
+                            $('.appointing-architect-pendencies-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
                         }
                     }
                 });

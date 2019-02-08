@@ -282,7 +282,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         // Selection Commitee
         $slection_commitee = Role::where('name' ,'selection_commitee')->value('id');
         if($slection_commitee)
-            Role::where('id',$slection_commitee)->update(['dashboard' => '/architect_application']);
+            Role::where('id',$slection_commitee)->update(['dashboard' => '/appointing_architect_dashboard']);
 
         // Society
         $society = Role::where('name', 'society')->value('id');

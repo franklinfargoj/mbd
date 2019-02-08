@@ -10,6 +10,10 @@ use DB;
 use App\Role;
 class AppointingArchitectController extends Controller
 {
+    public function index()
+    {
+        return view('admin.dashboard.appointing_architect.main');
+    }
     public function total_number_of_application()
     {
        // $status = array(config('commanConfig.architect_layout_status.new_application'), config('commanConfig.architect_layout_status.approved'));

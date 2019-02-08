@@ -1119,7 +1119,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('architect_layout_dashboard','Dashboard\ArchitectLayoutDashboardController@dashboard')->name('architect_layout_dashboard');
     // Land Dashboard
     Route::get('/land_dashboard','VillageDetailController@dashboard')->name('land.dashboard');
-
+    //selection comitte dashboard
+    Route::get('appointing_architect_dashboard','Dashboard\AppointingArchitectController@index')->name('appointing_architect_dashboard');
 });
 
 Route::get('/calculation', function () {

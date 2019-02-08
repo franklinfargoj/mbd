@@ -45,6 +45,7 @@ class AppointingArchitectComposer
             $data['pending_at_architect'] = $this->architect_dashboard->pending_at_user(array(config('commanConfig.architect')));
             $data['pending_at_selection_committee']= $this->architect_dashboard->pending_at_user(array(config('commanConfig.selection_commitee')));
         }
+        //dd($data);
         $view->with('appointing_architect_data', $data);
     }
 
