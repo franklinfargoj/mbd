@@ -19,7 +19,7 @@
     </div>
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view m-portlet--forms-compact">
         <h3 class="section-title section-title--small mb-0">APPLICATION FORM FOR EMPANELMENT OF ARCHITECT</h3>
-        <form action="{{route('appointing_architect.step1_post',['id'=>encrypt($application->id)])}}" id="appointing_architect_step1" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
+        <form action="{{route('appointing_architect.step1_post',['id'=>encrypt($application->id)])}}" id="appointing_architect_step1" role="form" method="post" class="m-form m-form--rows m-form--label-align-right floating-labels-form"
             action="" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="application_id" value="{{$application->id}}">

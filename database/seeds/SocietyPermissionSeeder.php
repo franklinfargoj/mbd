@@ -627,6 +627,21 @@ class SocietyPermissionSeeder extends Seeder
                 'name' => 'society.update_profile',
                 'display_name' => 'Updates user profile',
                 'description'  => 'Updates user profile'
+            ],            
+            [
+                'name' => 'upload_multiple_documents',
+                'display_name' => 'Updates multiple documents',
+                'description'  => 'Updates multiple documents'
+            ],
+            [
+                'name' => 'save_documents',
+                'display_name' => 'save documents',
+                'description'  => 'save documents'
+            ],            
+            [
+                'name' => 'delete_documents',
+                'display_name' => 'delete documents',
+                'description'  => 'delete documents'
             ]
         ];
         

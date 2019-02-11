@@ -1,5 +1,5 @@
 <div class="m-portlet__body m-portlet__body--spaced">
-    <div class="form-group m-form__group row">
+    <div class=" m-form__group row align-items-end mhada-panel-top">
         <div class="col-sm-12 form-group">
             <label class="col-form-label" for="">Category of panel applied for</label>
         </div>
@@ -23,7 +23,7 @@
             @endif
         </div>
     </div>
-    <div class="form-group m-form__group row">
+    <div class=" m-form__group row align-items-end mhada-panel-top">
         <div class="col-sm-4 form-group">
         <label class="col-form-label" for="">Name of the Applicant<span class="star">*</span></label>
             <input type="text" id="" name="name_of_applicant" class="form-control form-control--custom m-input" value="{{old('name_of_applicant')?old('name_of_applicant'):$application->name_of_applicant}}">

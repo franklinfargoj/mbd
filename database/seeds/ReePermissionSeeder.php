@@ -39,11 +39,11 @@ class ReePermissionSeeder extends Seeder
                 'display_name' => 'Calculation Sheet',
                 'description' => 'Application calculation sheet',
             ],
-            [
-                'name' => 'ree.society_EE_documents',
-                'display_name' => 'society EE documents',
-                'description' => 'society EE documents',
-            ],
+            // [
+            //     'name' => 'ree.society_EE_documents',
+            //     'display_name' => 'society EE documents',
+            //     'description' => 'society EE documents',
+            // ],
             [
                 'name'=>'common.EE_Scrutiny_Remark',
                 'display_name'=>'EE Scrutiny Remark',
@@ -473,6 +473,16 @@ class ReePermissionSeeder extends Seeder
                 'name'=>'redevelopement_pending_reports',
                 'display_name'=>'redevelopement_pending_reports',
                 'description'=>'redevelopement_pending_reports'
+            ],
+            [
+                'name'=>'common.view_society_EE_documents',
+                'display_name'=>'view society EE documents',
+                'description'=>'view society EE documents'
+            ],            
+            [
+                'name'=>'view_multiple_document',
+                'display_name'=>'view multiple document',
+                'description'=>'view multiple document'
             ]   
         ];
 

@@ -431,9 +431,26 @@ class EEController extends Controller
         $applicationId = decrypt($applicationId);
         $ol_application = $this->comman->getOlApplication($applicationId);    
         $societyDocument = $this->comman->getSocietyEEDocuments($applicationId);
+        $id = '';
+        
+        if ($societyDocuments){
+            foreach($societyDocument[0]->societyDocuments as $data){
+                if ($data->documents_Name[0]->is_multiple == 1){
+
+                    if ($id != $data->document_id){
+                        $documents [] = $data;
+                        $id = $data->document_id;
+                    }
+
+                }else{
+                    $documents[] = $data;
+                }
+            }            
+        }
+
         $ol_application->status = $this->comman->getCurrentStatus($applicationId);
 
-        return view('admin.ee_department.documentSubmitted', compact('societyDocument','ol_application'));
+        return view('admin.ee_department.documentSubmitted', compact('societyDocument','ol_application','documents'));
     }
 
     public function getForwardApplicationForm($application_id){

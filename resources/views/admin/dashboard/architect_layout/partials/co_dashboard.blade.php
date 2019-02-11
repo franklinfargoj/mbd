@@ -10,7 +10,7 @@
     </div>
     <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="co_layouts"
          data-parent="#accordion">
-        <div class="row hearing-row">
+        <div class="row no-gutters hearing-row">
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Total No of Layouts  </h2>
@@ -37,18 +37,18 @@
 </div>
 
 <div class="hearing-accordion-wrapper">
-    <div class="m-portlet m-portlet--compact hearing-accordion mb-0">
+    <div class="m-portlet m-portlet--compact hearing-accordion architect-layout-revision-co-accordion mb-0">
         <div class="d-flex justify-content-between align-items-center">
             <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
                 data-toggle="collapse" href="#layout-approval-co">
                 <span class="form-accordion-title">Layout Approval</span>
-                <span class="accordion-icon"></span>
+                <span class="accordion-icon architect-layout-revision-co-accordion-icon"></span>
             </a>
         </div>
     </div>
-    <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="layout-approval-co"
+    <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="layout-approval-co"
         data-parent="#accordion">
-        <div class="row hearing-row">
+        <div class="row no-gutters hearing-row">
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Total No of Layout for revision</h2>
@@ -110,18 +110,18 @@
 </div>
 
 <div class="hearing-accordion-wrapper">
-    <div class="m-portlet m-portlet--compact hearing-accordion mb-0">
+    <div class="m-portlet m-portlet--compact hearing-accordion architect-layout-approval-co-accordion mb-0">
         <div class="d-flex justify-content-between align-items-center">
             <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
                 data-toggle="collapse" href="#layout_forwarded_for_approval_co">
                 <span class="form-accordion-title">Layout Forwarded for Approval</span>
-                <span class="accordion-icon"></span>
+                <span class="accordion-icon architect-layout-approval-co-accordion-icon"></span>
             </a>
         </div>
     </div>
-    <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="layout_forwarded_for_approval_co"
+    <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="layout_forwarded_for_approval_co"
         data-parent="#accordion">
-        <div class="row hearing-row">
+        <div class="row no-gutters hearing-row">
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Total number of applications forwarded for approval</h2>

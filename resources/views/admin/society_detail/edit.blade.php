@@ -194,7 +194,7 @@
                     </div>
 
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="date_on_service_tax">Date mentioned on service tax letters:<span class="star">*</span></label>
+                        <label class="col-form-label" for="date_on_service_tax">Date mentioned on service tax letter:<span class="star">*</span></label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="date_on_service_tax" name="date_on_service_tax" class="form-control form-control--custom m-input m_datepicker"
                                    value="{{ date(config('commanConfig.dateFormat'), strtotime($arrData['society_data']->date_on_service_tax)) }}">

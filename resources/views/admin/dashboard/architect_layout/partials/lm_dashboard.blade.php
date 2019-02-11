@@ -1,10 +1,10 @@
 <div class="hearing-accordion-wrapper">
-    <div class="m-portlet m-portlet--compact hearing-accordion architect-accordion mb-0">
+    <div class="m-portlet m-portlet--compact architect-land-accordion mb-0">
         <div class="d-flex justify-content-between align-items-center">
             <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
                data-toggle="collapse" href="#layout_forwarded_for_approval">
                 <span class="form-accordion-title">Revision in Layout</span>
-                <span class="accordion-icon architect-accordion-icon"></span>
+                <span class="accordion-icon architect-land-accordion-icon"></span>
             </a>
         </div>
     </div>

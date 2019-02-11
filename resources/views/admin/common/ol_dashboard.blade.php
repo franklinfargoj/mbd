@@ -219,31 +219,32 @@
                 @if((session()->get('role_name')==config('commanConfig.junior_architect'))||
     (session()->get('role_name')==config('commanConfig.senior_architect')) ||
     (session()->get('role_name')==config('commanConfig.architect')))
-    @include('admin.dashboard.architect_layout.partials.architect_dashboard',compact('data'))
+    @include('admin.dashboard.appointing_architect.dashboard',compact('appointing_architect_data'))
+    @include('admin.dashboard.architect_layout.partials.architect_dashboard',compact('architect_data'))
     @endif
     @if(session()->get('role_name')==config('commanConfig.land_manager'))
-    @include('admin.dashboard.architect_layout.partials.lm_dashboard',compact('data'))
+    @include('admin.dashboard.architect_layout.partials.lm_dashboard',compact('architect_data'))
     @endif
     @if(session()->get('role_name')==config('commanConfig.estate_manager'))
-    @include('admin.dashboard.architect_layout.partials.em_dashboard',compact('data'))
+    @include('admin.dashboard.architect_layout.partials.em_dashboard',compact('architect_data'))
     @endif
     @if (in_array(session()->get('role_name'),array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'))))
-    @include('admin.dashboard.architect_layout.partials.ee_dashboard',compact('data'))
+    @include('admin.dashboard.architect_layout.partials.ee_dashboard',compact('architect_data'))
     @endif
     @if (in_array(session()->get('role_name'),array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head'))))
-    @include('admin.dashboard.architect_layout.partials.ree_dashboard',compact('data'))
+    @include('admin.dashboard.architect_layout.partials.ree_dashboard',compact('architect_data'))
     @endif
     @if(in_array(session()->get('role_name'),array(config('commanConfig.co_engineer'))))
-    @include('admin.dashboard.architect_layout.partials.co_dashboard',compact('data'))
+    @include('admin.dashboard.architect_layout.partials.co_dashboard',compact('architect_data'))
     @endif
     @if(in_array(session()->get('role_name'),array(config('commanConfig.senior_architect_planner'))))
-    @include('admin.dashboard.architect_layout.partials.sap_dashboard',compact('data'))
+    @include('admin.dashboard.architect_layout.partials.sap_dashboard',compact('architect_data'))
     @endif
     @if(in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'))))
-    @include('admin.dashboard.architect_layout.partials.cap_dashboard',compact('data'))
+    @include('admin.dashboard.architect_layout.partials.cap_dashboard',compact('architect_data'))
     @endif
     @if(in_array(session()->get('role_name'),array(config('commanConfig.vp_engineer'))))
-    @include('admin.dashboard.architect_layout.partials.vp_dashboard',compact('data'))
+    @include('admin.dashboard.architect_layout.partials.vp_dashboard',compact('architect_data'))
     @endif
             </div>
 
@@ -481,6 +482,89 @@
                             $('.architect-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
                         } else {
                             $('.architect-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                        }
+                    }
+                });
+
+                $(".appointing-architect-accordion").on("click", function () {
+                    var data = $('.appointing-architect-accordion').children().children().attr('aria-expanded');
+                    if (!(data)) {
+                        $('.appointing-architect-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                    }
+                    else {
+                        if (data == 'undefine' || data == 'false') {
+                            $('.appointing-architect-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                        } else {
+                            $('.appointing-architect-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                        }
+                    }
+                });
+
+                $(".appointing-architect-pendencies-accordion").on("click", function () {
+                    var data = $('.appointing-architect-pendencies-accordion').children().children().attr('aria-expanded');
+                    if (!(data)) {
+                        $('.appointing-architect-pendencies-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                    }
+                    else {
+                        if (data == 'undefine' || data == 'false') {
+                            $('.appointing-architect-pendencies-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                        } else {
+                            $('.appointing-architect-pendencies-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                        }
+                    }
+                });
+
+                $(".architect-approval-layout-accordion").on("click", function () {
+                    var data = $('.architect-approval-layout-accordion').children().children().attr('aria-expanded');
+                    if (!(data)) {
+                        $('.architect-approval-layout-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                    }
+                    else {
+                        if (data == 'undefine' || data == 'false') {
+                            $('.architect-approval-layout-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                        } else {
+                            $('.architect-approval-layout-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                        }
+                    }
+                });
+                $(".architect-layout-pendencies-accordion").on("click", function () {
+                    var data = $('.architect-layout-pendencies-accordion').children().children().attr('aria-expanded');
+                    if (!(data)) {
+                        $('.architect-layout-pendencies-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                    }
+                    else {
+                        if (data == 'undefine' || data == 'false') {
+                            $('.architect-layout-pendencies-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                        } else {
+                            $('.architect-layout-pendencies-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                        }
+                    }
+                });
+               
+                $(".architect-layout-approval-ee-accordion").on("click", function () {
+                    var data = $('.architect-layout-approval-ee-accordion').children().children().attr('aria-expanded');
+                    if (!(data)) {
+                        $('.architect-layout-approval-ee-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                    }
+                    else {
+                        if (data == 'undefine' || data == 'false') {
+                            $('.architect-layout-approval-ee-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                        } else {
+                            $('.architect-layout-approval-ee-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
+                        }
+                    }
+                });
+               
+                 $(".vp-layout-approval-accordion").on("click", function () {
+                    var data = $('.vp-layout-approval-accordion').children().children().attr('aria-expanded');
+                    if (!(data)) {
+                        $('.vp-layout-approval-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                    }
+                    else {
+                        if (data == 'undefine' || data == 'false') {
+                            $('.vp-layout-approval-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
+                        } else {
+                            $('.vp-layout-approval-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
                         }
                     }
                 });

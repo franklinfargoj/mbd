@@ -26,11 +26,14 @@
                         <span class="help-block">{{$errors->first('board_id')}}</span>
                     </div>
 
+
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="sr_no">Land Survey No:<span class="star">*</span></label>
                         <input type="text" id="sr_no" name="sr_no" class="form-control form-control--custom m-input" value="{{ old('sr_no') }}">
                         <span class="help-block">{{$errors->first('sr_no')}}</span>
                     </div>
+
+
 
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="village_name">Village Name:<span class="star">*</span></label>
@@ -195,8 +198,7 @@
                             <span class="help-block">{{$errors->first('extract')}}</span>
                         </div>
                     </div>
-                    {{-- <div class="col-sm-4 form-group ">
-                    </div> --}}
+                    
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label transition-none" for="remark">Remark:<span class="star">*</span></label>
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="remark" name="remark">
