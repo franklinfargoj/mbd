@@ -1204,12 +1204,13 @@ class EMController extends Controller
             $years = [];
             foreach ($period as $dt) {
                 $years[$dt->format("Y")] = $dt->format("Y");
-                $months[$dt->format("m")] = $dt->format("m");
+                $months[$dt->format("n")] = $dt->format("n");
                 // echo $dt->format("Y-m") . "<br>\n";
             }
             unset($months[count($months)-1]);
-
+            
             $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('payment_status','0')->whereIn('year',$years)->whereIn('month',$months)->orderby('year','month')->get();
+
                 
             $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
              //dd($data['number_of_tenants']->tenant_count()->first());

@@ -143,7 +143,7 @@ class GenerateBills extends Command
                         $years = [];
                         foreach ($period as $dt) {
                             $years[$dt->format("Y")] = $dt->format("Y");
-                            $months[$dt->format("m")] = $dt->format("m");
+                            $months[$dt->format("n")] = $dt->format("n");
                         }
                         unset($months[count($months)-1]);
                         $bill = [];
