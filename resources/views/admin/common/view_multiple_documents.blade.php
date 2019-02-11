@@ -22,6 +22,7 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center"> 
+        
             <h3 class="m-subheader__title m-subheader__title--separator">Document Submitted By Society</h3>
             @if (session()->get('role_name') == config('commanConfig.ee_junior_engineer') || session()->get('role_name') == config('commanConfig.ee_branch_head') || session()->get('role_name') == config('commanConfig.ee_deputy_engineer'))
                 {{ Breadcrumbs::render('document-submitted',$ol_application->id) }}
@@ -36,6 +37,14 @@
 
             @elseif(session()->get('role_name') == config('commanConfig.co_engineer'))    
                 {{ Breadcrumbs::render('society_EE_documents_co',$ol_application->id) }}
+
+            @elseif(session()->get('role_name') == config('commanConfig.cap_engineer'))
+
+            {{ Breadcrumbs::render('society_EE_documents_cap',$ol_application->id) }} 
+
+            @elseif(session()->get('role_name') == config('commanConfig.vp_engineer')) 
+
+            {{ Breadcrumbs::render('society_EE_documents_vp',$ol_application->id) }}   
             @endif
             <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
         </div>
