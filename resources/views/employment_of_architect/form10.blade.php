@@ -11,8 +11,11 @@
             <div class="ml-auto btn-list">
                 <a href="{{route('appointing_architect.step9',['id'=>encrypt($application->id)])}}" class="btn btn-link"><i
                         class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>
+                    @php
+                        $status_id=\App\ArchitectApplicationStatusLog::where(['user_id'=>auth()->user()->id,'role_id'=>session()->get('role_id')])->orderBy('id','desc')->get()[0]->status_id;
+                    @endphp
                     @if($application->form_step==10 &&
-                    $application->ArchitectApplicationStatusForLoginListing->count()<=0) Edit @else Back @endif </a> </div>
+                    $status_id!=config('commanConfig.architect_applicationStatus.forward')) Edit @else Back @endif </a> </div>
                         </div> </div> <div class="m-portlet m-portlet--compact form-accordion mt-4 m-portlet--forms-compact">
                         <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
                             <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed"
