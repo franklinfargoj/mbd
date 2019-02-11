@@ -32,7 +32,8 @@
                                 </thead>
                                 <tbody>
                                 <?php $i=0; ?>
-                                @foreach($societyDocument[0]->societyDocuments as $data)
+                                @foreach($documents as $data)
+
                                     <tr>
                                         <td>{{ $i+1}}.</td>
                                         <td>{{(isset($data->documents_Name[0]->name) ? $data->documents_Name[0]->name : '')}}
@@ -45,9 +46,14 @@
                                         
                                         </td>  
                                         <td class="text-center">
-                                        @if(isset($data->society_document_path))
-                                            <a href="{{config('commanConfig.storage_server').'/'.$data->society_document_path }}" target="_blank">
-                                            <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
+                                        @if($data->documents_Name[0]->is_multiple == 1)
+                                            <a href="{{ route('view_multiple_document',[encrypt($ol_application->id),encrypt($data->document_id)]) }}" class="app-card__details mb-0">
+                                                    view documents</a>
+                                        @else
+                                            @if(isset($data->society_document_path))
+                                                <a href="{{config('commanConfig.storage_server').'/'.$data->society_document_path }}" target="_blank">
+                                                <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
+                                            @endif
                                         @endif
                                         </td>
                                     </tr>

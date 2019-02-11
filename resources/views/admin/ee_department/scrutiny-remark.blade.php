@@ -36,7 +36,7 @@
 @endif
 
 @php
-$layoutName = $noticeDetails = $investDate = '';
+$layoutName = $noticeDetails = $investDate = $officierName = '';
 if ($ol_application->getLayout){
   $layoutName = $ol_application->getLayout->layout_name;  
 }

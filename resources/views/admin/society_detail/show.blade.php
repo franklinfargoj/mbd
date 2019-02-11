@@ -159,7 +159,7 @@
                 </div>
 
                 <div class="col-sm-4 form-group focused">
-                    <label class="col-form-label" for="date_on_service_tax">Date mentioned on service tax letters:</label>
+                    <label class="col-form-label" for="date_on_service_tax">Date mentioned on service tax letter:</label>
                         <input disabled type="text" id="date_on_service_tax" name="date_on_service_tax" class="form-control form-control--custom m-input m_datepicker"
                                value="{{ date(config('commanConfig.dateFormat'), strtotime($arrData['society_data']->date_on_service_tax)) }}">
                         <span class="help-block">{{$errors->first('date_on_service_tax')}}</span>

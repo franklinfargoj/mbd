@@ -175,13 +175,32 @@ class DYCEController extends Controller
     } 
 
     // society and EE documents
-    public function societyEEDocuments(Request $request,$applicationId){
+    // public function societyEEDocuments(Request $request,$applicationId){
 
-        $applicationId = decrypt($applicationId);
-        $ol_application = $this->CommonController->getOlApplication($applicationId);
-        $societyDocuments = $this->CommonController->getSocietyEEDocuments($applicationId);
-       return view('admin.DYCE_department.society_EE_documents',compact('societyDocuments','ol_application')); 
-    }
+    //     $id = '';
+    //     $applicationId = decrypt($applicationId);
+    //     $ol_application = $this->CommonController->getOlApplication($applicationId);
+    //     $societyDocuments = $this->CommonController->getSocietyEEDocuments($applicationId);
+        
+    //     if ($societyDocuments){
+    //         foreach($societyDocuments[0]->societyDocuments as $data){
+    //             if ($data->documents_Name[0]->is_multiple == 1){
+
+    //                 if ($id != $data->document_id){
+    //                     $documents [] = $data;
+    //                     $id = $data->document_id;
+    //                 }
+
+    //             }else{
+    //                 $documents[] = $data;
+    //             }
+    //         }                    
+    //     }
+
+    //     $folder = $this->CommonControllergetCurrentRoleFolderName();
+
+    //    return view('admin.common.view_society_ee_documents',compact('societyDocuments','ol_application','documents','folder')); 
+    // }
 
     // EE - Scrutiny & Remark page
     // public function eeScrutinyRemark(Request $request,$applicationId){

@@ -2077,6 +2077,8 @@ class CommonController extends Controller
             $folder = 'vp_department';
         }else if (session()->get('role_name') == config('commanConfig.dyce_jr_user') || session()->get('role_name') == config('commanConfig.dyce_branch_head') || session()->get('role_name') == config('commanConfig.dyce_deputy_engineer')) {
             $folder = 'DYCE_department';
+        }else if (session()->get('role_name') == config('commanConfig.ee_junior_engineer') || session()->get('role_name') == config('commanConfig.ee_branch_head') || session()->get('role_name') == config('commanConfig.ee_deputy_engineer')){
+            $folder = 'ee_department';
         }
         return $folder;
 
@@ -4040,6 +4042,47 @@ class CommonController extends Controller
         $comments = OlSocietyDocumentsComment::where('society_id',$societyId)
         ->orderBy('id','desc')->first();
         return $comments;
+    }
+
+    public function societyEEDocuments(Request $request,$applicationId){
+
+        $id = '';
+        $applicationId = decrypt($applicationId);
+        $ol_application = $this->getOlApplication($applicationId);
+        $societyDocuments = $this->getSocietyEEDocuments($applicationId);
+        
+        if ($societyDocuments){
+            foreach($societyDocuments[0]->societyDocuments as $data){
+                if ($data->documents_Name[0]->is_multiple == 1){
+
+                    if ($id != $data->document_id){
+                        $documents [] = $data;
+                        $id = $data->document_id;
+                    }
+
+                }else{
+                    $documents[] = $data;
+                }
+            }                    
+        }
+
+        $folder = $this->getCurrentRoleFolderName();
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+
+       return view('admin.common.view_society_ee_documents',compact('societyDocuments','ol_application','documents','folder')); 
+    }    
+
+    public function viewMultipleDocuments(Request $request,$applicationId,$documentId){
+        
+        $documentId = decrypt($documentId);
+        $applicationId = decrypt($applicationId);
+        $ol_application = $this->getOlApplication($applicationId); 
+        $documents = OlSocietyDocumentsStatus::where('document_id',$documentId)
+        ->where('society_id',$ol_application->society_id)->orderBy('id','desc')->get();
+        $folder = $this->getCurrentRoleFolderName();
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+        
+        return view('admin.common.view_multiple_documents',compact('ol_application','documents','folder'));
     }
 
 }

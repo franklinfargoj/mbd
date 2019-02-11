@@ -5,7 +5,7 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Society Details</h3>
-            {{ Breadcrumbs::render('society_detail') }}
+            {{ Breadcrumbs::render('society_detail_land') }}
             <div class="btn-list text-right ml-auto">
                 <a href="{{route('society_detail.index',['excel'=>'excel'])}}" name="excel" value="excel" class="btn excel-icon"><img
                         src="{{asset('/img/excel-icon.svg')}}"></a>

@@ -61,6 +61,11 @@ class SelectionCommiteeSeeder extends Seeder
                 'name'=>'view_architect_application',
                 'display_name'=>'view_architect_application',
                 'description'=>'view_architect_application'
+            ],
+            [
+                'name'=>'appointing_architect_dashboard',
+                'display_name'=>'appointing_architect_dashboard',
+                'description'=>'appointing_architect_dashboard'
             ]
             
         ];
@@ -68,12 +73,19 @@ class SelectionCommiteeSeeder extends Seeder
             {
                 $selection_commitee_id=Role::where(['name'=>'selection_commitee'])->first();
                 $selection_commitee_id=$selection_commitee_id->id;
+                $dashboard_path=Role::where(['name'=>'selection_commitee','dashboard' => '/architect_application'])->first();
+                if($dashboard_path)
+                {
+                    //dd($dashboard_path);
+                    $dashboard_path->dashboard='/appointing_architect_dashboard';
+                    $dashboard_path->save();
+                }
             }else
             {
                 $selection_commitee_id=Role::insertGetId([
                     'name' => 'selection_commitee',
                     'redirect_to' => '/architect_application',
-                    'dashboard' => '/architect_application',
+                    'dashboard' => '/appointing_architect_dashboard',
                     'parent_id' => NULL,
                     'display_name' => 'Selection Commitee',
                     'description' => 'Selection Commitee'

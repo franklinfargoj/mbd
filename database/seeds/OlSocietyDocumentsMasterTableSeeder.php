@@ -18,6 +18,8 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
 
         $application = OlApplicationMaster::select('id')->where(['title'=>'New - Offer Letter','model'=>'Premium', 'parent_id' => '1'])->get();
         $language = LanguageMaster::select('id')->where(['language'=>'marathi'])->get();
+        $Englang = LanguageMaster::where(['language'=>'English'])->value('id');
+        
         $data = OlSocietyDocumentsMaster::where(['application_id'=>'2'])->get();
         if(count($data) == 0){
             $dcrRateArr= [
@@ -130,6 +132,11 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
                     'name' => "उपनिबंधक यांचेसमक्ष सर्वसाधारण सभेमध्ये विकासकाची नियुक्ती झाल्याबाबतचे पत्र"
+                ],                
+                [
+                    'application_id'   => $application[0]['id'],
+                    'language_id'   => $Englang,
+                    'name' => "AGM Attendance Letter"
                 ]
             ];
 
@@ -235,6 +242,11 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $application1[0]['id'],
                     'language_id'   => $language1[0]['id'],
                     'name' => "डी.पी.रिमार्क"
+                ],
+                [
+                    'application_id'   => $application1[0]['id'],
+                    'language_id'   => $Englang,
+                    'name' => "AGM Attendance Letter"
                 ]
             ];
 
@@ -358,6 +370,11 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $application2[0]['id'],
                     'language_id'   => $language2[0]['id'],
                     'name' => "उपनिबंधक यांचेसमक्ष सर्वसाधारण सभेमध्ये विकासकाची नियुक्ती झाल्याबाबतचे पत्र"
+                ],
+                [
+                    'application_id'   => $application2[0]['id'],
+                    'language_id'   => $Englang,
+                    'name' => "AGM Attendance Letter"
                 ]
             ];
 
@@ -464,6 +481,11 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $application3[0]['id'],
                     'language_id'   => $language3[0]['id'],
                     'name' => "डी.पी.रिमार्क"
+                ],
+                [
+                    'application_id'   => $application3[0]['id'],
+                    'language_id'   => $Englang,
+                    'name' => "AGM Attendance Letter"
                 ]
             ];
 

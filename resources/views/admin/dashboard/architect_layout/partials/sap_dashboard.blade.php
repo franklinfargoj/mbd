@@ -10,7 +10,7 @@
     </div>
     <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="sap_layouts"
          data-parent="#accordion">
-        <div class="row hearing-row">
+        <div class="row no-gutters hearing-row">
             <div class="col">
                 <div class="m-portlet app-card text-center">
                     <h2 class="app-heading">Total No of Layout for Approval</h2>
