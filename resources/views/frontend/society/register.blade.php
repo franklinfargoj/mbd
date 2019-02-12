@@ -128,7 +128,7 @@
                                                 <div class="form-group m-form__group @if($errors->has('chairman_name')) has-error @endif">
                                                     <!-- <label for="" class="col-form-label">Confirm Password</label> -->
                                                     <input class="form-control form-control--custom m-input" type="text"
-                                                           placeholder="Chairman Mobile Number" name="chairman_name"
+                                                           placeholder="Chairman Name" name="chairman_name"
                                                            value="{{ old('chairman_name') }}">
                                                     <span class="text-danger">{{$errors->first('chairman_name')}}</span>
                                                 </div>

@@ -46,6 +46,7 @@ use App\OcApplication;
 use App\OcSocietyDocumentsComment;
 use App\conveyance\RenewalApplication;
 use App\conveyance\scApplication;
+use App\Events\SmsHitEvent;
 
 class SocietyOfferLetterController extends Controller
 {
@@ -148,7 +149,12 @@ class SocietyOfferLetterController extends Controller
                 'secretary_name' => $request->input('secretary_name'),
                 'chairman_name' => $request->input('chairman_name')
             );
-            SocietyOfferLetter::create($society_offer_letter_details);
+            SocietyOfferLetter::create($society_offer_letter_details); 
+            $mobileNo = $request->input('society_contact_no');
+            $msgText = 'Congratulations! You have registered successfully on MHADA Mumbai portal. Now you can login to apply for various MHADA Mumbai board services, using valid login credentials.';
+            $response = event(new SmsHitEvent($mobileNo,$msgText));
+
+            $this->CommonController->saveMsgSentDetails($mobileNo,$msgText,$last_inserted_id->id);
             
             return redirect()->route('society_offer_letter.index')->with('registered', 'Society registered successfully!');
         }
@@ -2342,7 +2348,9 @@ class SocietyOfferLetterController extends Controller
     public function uploadOfferLetterAfterSign(Request $request){
 
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+
         $application_name = OlApplication::where('society_id', $society->id)->with('ol_application_master')->get();
+
         $society_remark = OlSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id', 'desc')->first();
         if($request->file('offer_letter_application_form'))
         {
@@ -2363,16 +2371,19 @@ class SocietyOfferLetterController extends Controller
                 $role_id = Role::where('name', 'ee_junior_engineer')->first();
                 $application = OlApplication::where('society_id', $society->id)->where('id', $request->input('id'))->first();
 
+                $model = OlApplicationMaster::where('id',$application->application_master_id)->first();
+
                 $user_ids = RoleUser::where('role_id', $role_id->id)->get();
 
                 $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
                 foreach ($layout_user_ids as $key => $value) {
                     $select_user_ids[] = $value['user_id'];
                 }
-                $users = User::whereIn('id', $select_user_ids)->get();
+                $users = User::with('roleDetails')->whereIn('id', $select_user_ids)->get();
 
                 if(count($users) > 0) {
                     foreach ($users as $key => $user) {
+                
                         $i = 0;
                         $insert_application_log_forwarded[$key]['application_id'] = $application->id;
                         $insert_application_log_forwarded[$key]['society_flag'] = 1;
@@ -2397,18 +2408,27 @@ class SocietyOfferLetterController extends Controller
                         $insert_application_log_in_process[$key]['is_active'] = 1;
                         $insert_application_log_in_process[$key]['created_at'] = date('Y-m-d H-i-s');
                         $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d H-i-s');
+                      
+                        $this->sendApplicationMsg($user,$application,$model,$society);
                         $i++;
                     }
                 }
 
+                $application_name = OlApplication::where('society_id', $society->id)->with('ol_application_master')->get();
                 //Code added by Prajakta >>start
                 DB::beginTransaction();
                 try {
 
                     OlApplicationStatus::where('application_id',$application->id)->update(array('is_active' => 0,'phase' => 0));
 
-
                     OlApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
+
+                    $mobileNo = $society->contact_no; 
+                    $msgText = 'Congratulations! You have successfully submitted application for '.$model->title.'('.$model->model.'), Your application number is '.$application->application_no.'.'; 
+
+                    $response = event(new SmsHitEvent($mobileNo,$msgText));
+
+                    $response = $this->CommonController->saveMsgSentDetails($mobileNo,$msgText,$society->user_id); 
 
                     DB::commit();
                 } catch (\Exception $ex) {
@@ -2421,6 +2441,23 @@ class SocietyOfferLetterController extends Controller
             }
         }
         return redirect()->route('society_offer_letter_dashboard');
+    }
+
+    public function sendApplicationMsg($user,$application){
+        dd($application->layout_id);
+        $head = $this->CommonController->getDepartmentHead($user->roleDetails->name,$application->layout_id);
+        if ($head){
+            foreach($head as $user){
+                dd($user->mobile_no);
+
+                $mobileNo = $user->mobile_no; 
+                $msgText = 'Your department have received new application for <application type>, of society <Society name> with application ID <application Number>'; 
+
+                $response = event(new SmsHitEvent($mobileNo,$msgText));
+
+                $response = $this->CommonController->saveMsgSentDetails($mobileNo,$msgText,$society->user_id);                
+            }
+        }
     }
 
     public function uploadRevalOfferLetterAfterSign(Request $request){
