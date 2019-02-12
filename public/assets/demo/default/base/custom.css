@@ -3521,3 +3521,21 @@ label.site-visit-label {
 .mhada-label-index{
     z-index: 9 !important;
 }
+
+
+.signup-wrapper .floating-labels-form div[class^="col-"], .floating-labels-form div[class*="col-"]{
+    margin-bottom: 0;
+}
+
+.signup-wrapper .floating-labels-form .form-group .col-form-label{
+    top: 8px;
+}
+
+.signup-wrapper .floating-labels-form .form-group.focused .col-form-label {
+    top: -10px;
+}
+
+.signup-wrapper .floating-labels-form .row{
+    margin-bottom: 0;
+}
+
