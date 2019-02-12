@@ -28,7 +28,7 @@
                                         @csrf
 
                                         <div class="row">
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('society_name')) has-error @endif">
                                                     <label for="" class="col-form-label">Society Name</label>
                                                     <input class="form-control form-control--custom m-input" type="text"
@@ -36,7 +36,7 @@
                                                     <span class="text-danger">{{$errors->first('society_name')}}</span>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('society_building_no')) has-error @endif">
                                                     <label for="" class="col-form-label">Society Building No</label>
                                                     <input class="form-control form-control--custom m-input" type="text"
@@ -45,7 +45,7 @@
                                                     <span id="society_building_no" class="text-danger">{{$errors->first('society_building_no')}}</span>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('society_wing_no')) has-error @endif">
                                                     <label for="" class="col-form-label">Society Wing No</label>
                                                     <input class="form-control form-control--custom m-input" type="text"
@@ -55,7 +55,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('society_contact_no')) has-error @endif">
                                                     <label for="" class="col-form-label">Society Contact No</label>
                                                     <input class="form-control form-control--custom m-input" type="text"
@@ -65,7 +65,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('society_registration_no')) has-error @endif">
                                                     <label for="" class="col-form-label">Society Registration No</label>
                                                     <input class="form-control form-control--custom m-input" type="text"
@@ -75,7 +75,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-12">
+                                            <div class="col-sm-12 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('society_address')) has-error @endif">
                                                     <label for="" class="col-form-label">Society Address</label>
                                                     <textarea class="form-control form-control--custom form-control--fixed-height m-input"
@@ -84,19 +84,19 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('society_email')) has-error @endif">
                                                     <label for="" class="col-form-label">Email Address</label>
                                                     <input class="form-control form-control--custom m-input" type="email"
 
-                                                           placeholder="Email / Username" name="society_email" value="{{ old('society_email') }}">
+                                                           placeholder="" name="society_email" value="{{ old('society_email') }}">
 
                                                            <!-- placeholder="" name="society_email" value="{{ old('society_email') }}"> -->
                                                     <span id="society_email" class="text-danger">{{$errors->first('society_email')}}</span>
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('optional_society_email')) has-error @endif">
                                                     <label for="" class="col-form-label">Optional Email Address</label>
                                                     <input class="form-control form-control--custom m-input" type="email"
@@ -106,7 +106,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('society_architect_name')) has-error @endif">
                                                     <label for="" class="col-form-label">Architect Name</label>
                                                     <input class="form-control form-control--custom m-input" type="text"
@@ -116,7 +116,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('society_architect_mobile_no')) has-error @endif">
                                                     <label for="" class="col-form-label">Architect Mobile Number</label>
                                                     <input class="form-control form-control--custom m-input" type="text"
@@ -126,7 +126,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-12">
+                                            <div class="col-sm-12 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('society_architect_address')) has-error @endif">
                                                     <label for="" class="col-form-label">Architect Address</label>
                                                     <textarea class="form-control form-control--custom form-control--fixed-height m-input"
@@ -136,7 +136,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('society_password')) has-error @endif">
                                                     <label for="" class="col-form-label">Password</label>
                                                     <input class="form-control form-control--custom m-input" type="password"
@@ -147,7 +147,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('conf_society_password')) has-error @endif">
                                                     <label for="" class="col-form-label">Confirm Password</label>
                                                     <input class="form-control form-control--custom m-input" type="password"
@@ -156,10 +156,9 @@
                                                     {{--<a class="input-hint" href="#" data-toggle="tooltip" data-placement="top" title="Password should be minimum 6 & maximum 10 characters."><i class="fa fa-info-circle" style="color: orange;float: right;"></i></a>--}}
                                                     <span class="help-block">{{$errors->first('conf_society_password')}}</span>
                                                 </div>
-                                                </div> 
-                                            </div>
-                                            
-                                            <div class="col-sm-6">
+                                                </div>
+
+                                            <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('secretary_name')) has-error @endif">
                                                     <label for="" class="col-form-label">Secretary Name</label>
                                                     <input class="form-control form-control--custom m-input" type="text"
@@ -168,7 +167,7 @@
                                                     <span class="help-block">{{$errors->first('secretary_name')}}</span>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('chairman_name')) has-error @endif">
                                                     <label for="" class="col-form-label">Chairman Mobile Number</label>
                                                     <input class="form-control form-control--custom m-input" type="text"
@@ -177,34 +176,38 @@
                                                     <span class="text-danger">{{$errors->first('chairman_name')}}</span>
                                                 </div>
                                             </div>                                                                                       
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('society_architect_name')) has-error @endif">
-                                                    <!-- <label for="" class="col-form-label">Confirm Password</label> -->
+                                                    <label for="" class="col-form-label">Architect Name</label>
                                                     <input class="form-control form-control--custom m-input" type="text"
-                                                           placeholder="Architect Name" name="society_architect_name"
+                                                           placeholder="" name="society_architect_name"
                                                            value="{{ old('society_architect_name') }}">
                                                     <span class="help-block">{{$errors->first('society_architect_name')}}</span>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('society_architect_mobile_no')) has-error @endif">
-                                                    <!-- <label for="" class="col-form-label">Confirm Password</label> -->
+                                                    <label for="" class="col-form-label">Architect Mobile Number</label>
                                                     <input class="form-control form-control--custom m-input" type="text"
-                                                           placeholder="Architect Mobile Number" name="society_architect_mobile_no"
+                                                           placeholder="" name="society_architect_mobile_no"
                                                            value="{{ old('society_architect_mobile_no') }}">
                                                     <span class="text-danger">{{$errors->first('society_architect_mobile_no')}}</span>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-12">
+                                            <div class="col-sm-12 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('society_architect_address')) has-error @endif">
-                                                    <!-- <label for="" class="col-form-label">Password</label> -->
+                                                    <label for="" class="col-form-label">Architect Address</label>
                                                     <textarea class="form-control form-control--custom form-control--fixed-height m-input"
-                                                        placeholder="Architect Address" name="society_architect_address"
+                                                        placeholder="" name="society_architect_address"
                                                         value="{{ old('society_architect_address') }}"></textarea>
                                                     <span class="text-danger">{{$errors->first('society_architect_address')}}</span>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> 
+                                            </div>
+                                            <!-- yoo -->
+                                            
+                                            
                                         <div class="m-login__form-action d-flex justify-content-center btn-list">
                                             <button id="m_login_signup_submit_society_offer_letter" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn">
                                                 Sign Up

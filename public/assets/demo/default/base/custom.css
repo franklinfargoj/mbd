@@ -3523,19 +3523,19 @@ label.site-visit-label {
 }
 
 
-.signup-wrapper .floating-labels-form div[class^="col-"], .floating-labels-form div[class*="col-"]{
-    margin-bottom: 0;
+.signup-wrapper .mhada-sign-up{
+    margin-bottom: 0 !important;
 }
 
-.signup-wrapper .floating-labels-form .form-group .col-form-label{
-    top: 8px;
+.signup-wrapper .mhada-sign-up label{
+    top: 8px !important;
 }
 
-.signup-wrapper .floating-labels-form .form-group.focused .col-form-label {
-    top: -10px;
+.signup-wrapper .mhada-sign-up .form-group.focused .col-form-label {
+    top: -10px !important;
 }
 
-.signup-wrapper .floating-labels-form .row{
-    margin-bottom: 0;
+.signup-wrapper .mhada-sign-up .row{
+    margin-bottom: 0 !important;
 }
 
