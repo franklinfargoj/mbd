@@ -50,7 +50,7 @@
                         </div>
                         @if($j!=0)
                         <div class="col-lg-2 form-group mt-2">
-                            <i class="fa fa-close btn--add-delete" id="" class="remove" onclick="deletePrCardDetail(this,{{$pr_card_detail->id}})"></i>
+                            <i class="fa fa-close btn--remove-delete" id="" class="remove" onclick="deletePrCardDetail(this,{{$pr_card_detail->id}})"></i>
                         </div>
                         @endif
                     </div>
