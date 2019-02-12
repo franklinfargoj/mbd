@@ -51,10 +51,10 @@
             @php 
                 $time = strtotime(date('1-'.$month.'-'.$year)); 
             @endphp
-            <input type="text" name="bill_from" value="{{date('d-m-Y',$time)}}" hidden>
-            <input type="text" name="bill_to" value="{{ date('d-m-Y',strtotime("+1 month", $time))}}" hidden>
+            <input type="text" name="bill_from" value="{{date('1-m-Y', strtotime('-1 month'))}}" hidden>
+            <input type="text" name="bill_to" value="{{ date('1-m-Y')}}" hidden>
             <input type="text" name="bill_month" value="{{$month}}" hidden>
-            <input type="text" name="bill_year" value="{{$year}}" hidden>
+            <input type="text" name="bill_year" value="{{date('Y')}}" hidden>
             <input type="text" name="monthly_bill" value="{{$total_service}}" hidden>
             <input type="text" name="arrear_bill" value="{{$total}}" hidden>
             <input type="text" name="total_service_after_due" value="{{$total_service_after_due}}" hidden>
