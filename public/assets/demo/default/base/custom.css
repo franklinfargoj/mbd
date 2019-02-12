@@ -3064,7 +3064,7 @@ label.site-visit-label {
 
 .floating-labels-form div[class^="col-"],
 .floating-labels-form div[class*="col-"] {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 /* .floating-labels-form .form-control--custom {
