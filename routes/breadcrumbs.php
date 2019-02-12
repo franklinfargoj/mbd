@@ -1444,6 +1444,10 @@ Breadcrumbs::for('renewal_stamp_sign_lease', function ($trail,$id) {
 });
 
 
+Breadcrumbs::for('admin_profile',function($trail){
+    $trail->push('Profile',route('admin.profile'));
+});
+
 
 
 
