@@ -3094,7 +3094,8 @@ label.site-visit-label {
     background: #fff;
     padding-left: 10px;
     padding-right: 10px;
-    font-weight: 600;
+    font-weight: 500;
+    font-size: 11px;
 }
 
 .floating-labels-form--disabled .form-group.focused .col-form-label {

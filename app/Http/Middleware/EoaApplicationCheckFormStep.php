@@ -25,7 +25,13 @@ class EoaApplicationCheckFormStep
             {
                 if($EoaApplication->ArchitectApplicationStatusForLoginListing->count()>0)
                 {
-                    return redirect()->route('appointing_architect.index');
+                    $status_id=\App\ArchitectApplicationStatusLog::where(['user_id'=>auth()->user()->id,'role_id'=>session()->get('role_id')])->orderBy('id','desc')->get()[0]->status_id;
+                    if($status_id==config('commanConfig.architect_applicationStatus.forward'))
+                    {
+                        return redirect()->route('appointing_architect.index');
+                    }else {
+                        
+                    }
                 }
                 $form_step=$EoaApplication->form_step;
                 if($request->route()->getName()=='appointing_architect.step1' || $request->route()->getName()=='appointing_architect.step1_post')

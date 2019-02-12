@@ -433,7 +433,7 @@ class EEController extends Controller
         $societyDocument = $this->comman->getSocietyEEDocuments($applicationId);
         $id = '';
         
-        if ($societyDocuments){
+        if ($societyDocument){
             foreach($societyDocument[0]->societyDocuments as $data){
                 if ($data->documents_Name[0]->is_multiple == 1){
 

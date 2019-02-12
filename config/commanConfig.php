@@ -285,14 +285,15 @@ return [
         'new_application' => 1,
         'scrutiny_pending' => 2,
         'forward' => 3,
-         'approved' => 4,
-         'pending' => 5
+        'approved' => 4,
+        'pending' => 5
     ],
     'architect_applicationStatusColor' => [
         '1' => 'metal',
         '2' => 'danger',
         '3' => 'info',
         '4' => 'success',
+        '5' => 'danger',
         // 'final' => 5
     ],
     'architect_layout_status' => [

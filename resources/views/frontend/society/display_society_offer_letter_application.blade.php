@@ -31,8 +31,10 @@
                 <p style="text-indent: 80px;">यानुसार आपणांस विनंती करण्यात येते की, अभिन्यासातील अनुज्ञेय प्रोराटा क्षेत्रफळाचे वितरण संस्थेस करावे व संस्थेस वितरण करण्यात येणाऱ्या अतिरिक्त बांधकाम क्षेत्रफळाकरीता भरणा करावे लागणारे अधिमुल्य म्हाडाच्या धोरणानुसार ४ समान हप्त्यात देण्यात यावे.</p>
                 <p style="text-indent: 80px;">सदर प्रस्तावावर उचित कार्यवाही करुन देकारपत्र जारी करण्याची कार्यवाही करण्यात यावी, ही विनंती.</p>
             </div>
-            <div>
-                <p><b> Remark By Society :</b> {{ $comment->society_documents_comment}} </p>
+
+            <div> 
+                <p><b> Remark By Society :</b> <span> {{ isset($comment) ? $comment->society_documents_comment : 'N.A'}} </span></p>
+              
             </div>
             <div style="margin-top: 30px;">
                 <div style="float: right; text-align: right;">

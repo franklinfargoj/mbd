@@ -31,6 +31,7 @@ use Illuminate\Http\Request;
 use Storage;
 use Yajra\DataTables\DataTables;
 use App\Events\SmsHitEvent;
+use DB;
 
 class EmploymentOfArchitectController extends Controller
 {
@@ -119,12 +120,35 @@ class EmploymentOfArchitectController extends Controller
     {
 
         if (count($this->model->whereAll(['user_id' => auth()->user()->id])) <= 0) {
-            $app = $this->model->getModel();
-            $app->user_id = auth()->user()->id;
-            $app->application_number = $this->genRand();
-            $app->save();
-            $app->application_number=str_pad($app->id, 5, '0', STR_PAD_LEFT);
-            $app->save();
+           // dd('ok');
+            DB::beginTransaction();
+            try {
+                $app = $this->model->getModel();
+                $app->user_id = auth()->user()->id;
+                $app->application_number = $this->genRand();
+                $app->save();
+                $app->application_number=str_pad($app->id, 5, '0', STR_PAD_LEFT);
+                $app->save();
+                //dd($app);
+                $forward_application=[
+                    [
+                        'architect_application_id' => $app->id,
+                        'user_id' => auth()->user()->id,
+                        'role_id' => session()->get('role_id'),
+                        'status_id' => config('commanConfig.architect_applicationStatus.pending'),
+                        'to_user_id' => null,
+                        'to_role_id' => null,
+                        'remark' => '',
+                        'changed_at' => Carbon::now(),
+                    ],
+                ];
+                ArchitectApplicationStatusLog::insert($forward_application);
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollback();
+                //die($e->getMessage());
+                die('Something Went Wrong');
+            }
             return redirect()->route('appointing_architect.step1', ['id' => encrypt($app->id)]);
         }
         $header_data = $this->header_data;
@@ -153,7 +177,8 @@ class EmploymentOfArchitectController extends Controller
                     if ($architect_applications->ArchitectApplicationStatusForLoginListing->count() > 0) {
                         $status_id = \App\ArchitectApplicationStatusLog::where(['user_id' => auth()->user()->id, 'role_id' => session()->get('role_id')])->orderBy('id', 'desc')->get()[0]->status_id;
                         $config_array = array_flip(config('commanConfig.architect_applicationStatus'));
-                        return $value = ucwords(str_replace('_', ' ', $config_array[$status_id]=='forward'?'forwarded':$config_array[$status_id]));
+                        $value = ucwords(str_replace('_', ' ', $config_array[$status_id]=='forward'?'forwarded':$config_array[$status_id]));
+                        return '<span class="m-badge m-badge--' . config('commanConfig.architect_applicationStatusColor.' . $status_id) . ' m-badge--wide">' .($architect_applications->application_status == 'None' ? '' : $architect_applications->application_status.' & ' ). $value . '</span>';
                     } else {
                         return 'New Application & details pending';
                     }
@@ -193,6 +218,7 @@ class EmploymentOfArchitectController extends Controller
     {
         $id = decrypt($id);
         $application = $this->model->whereWithFirst(['fee_payment_details'], ['id' => $id, 'user_id' => auth()->user()->id]);
+        //dd($application);
         return view('employment_of_architect.form1', compact('application'));
     }
 
