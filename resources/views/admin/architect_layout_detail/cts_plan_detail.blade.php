@@ -20,7 +20,7 @@
                                 <div class="custom-file">
                                     <input {{ $ArchitectLayoutDetail->cts_plan!=""?"":"required" }} accept="pdf" title="please upload file with pdf extension" class="custom-file-input" name="cts_plan_file" type="file" id="cts_plan_file">
                                     <label class="custom-file-label" for="cts_plan_file">Choose file...</label>
-                                    <a class="btn-link" target="_blank" id="cts_plan" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->cts_plan}}"
+                                    <a class="btn-link mhada-pdf-icon" target="_blank" id="cts_plan" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->cts_plan}}"
                                         style="display:{{$ArchitectLayoutDetail->cts_plan!=''?'block':'none'}};"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                 </div>
                             </div>
