@@ -210,4 +210,17 @@ class UserLayoutController extends Controller
         $id = $request->id;
         return view('admin.crud_admin.user_layout.userLayoutDeleteReason', compact('id'))->render();
     }
+
+    public function getLayout(Request $request){
+        
+        $userId = $request->userId;
+        $roleId = User::where('id',$userId)->value('role_id');
+        $layout = LayoutUser::with(['user' => function ($query) use($roleId){
+            $query->where('role_id',$roleId);
+        }])->whereHas('user', function($query) use($roleId){
+            $query->where('role_id',$roleId);
+        })->pluck('layout_id');
+        dd($layout);
+        //  
+    }
 }
