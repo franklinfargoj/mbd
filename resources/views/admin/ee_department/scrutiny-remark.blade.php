@@ -576,7 +576,9 @@ if($latest){
                                                 </table>
                                             </div>
                                         </div>
-                                        <button type="submit" style="{{ $style }}" class="btn btn-primary saveBtn hide-print" next_tab = "nested_tab_2">Save</button>
+                                        <div class="col-md-12 mt-3" style="text-align: center;">
+                                            <button type="submit" style="{{ $style }}" class="btn btn-primary saveBtn hide-print" next_tab = "nested_tab_2">Save</button>
+                                        </div>
                                     </form>
                                 </div>
                                 <div class="tab-pane nested_tab_2" id="demarcation">
@@ -646,7 +648,7 @@ if($latest){
                                             <div id="scrunity-check-date" class="col-sm-6">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="building-no">स्थळ पाहणी दिनांक: <span class="star">*</span></label>
+                                                        <label for="building-no">स्थळ पाहणी दिनांक:<span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom m_datepicker"
@@ -782,7 +784,9 @@ if($latest){
                                                 </table>
                                             </div>
                                         </div>
+                                        <div class="col-md-12 mt-3" style="text-align: center;">
                                         <button type="submit" style="{{ $style }}" class="btn btn-primary saveBtn hide-print" next_tab = "nested_tab_3">Save</button>
+                                        </div>
                                     </form>
                                 </div>
                                 <div class="tab-pane nested_tab_3" id="tit-bit">
@@ -792,7 +796,7 @@ if($latest){
                                             <div class="col-sm-6">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="name">संस्थेचे नाव: <span class="star">*</span></label>
+                                                        <label for="name">संस्थेचे नाव:</label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input type="text" class="form-control form-control--custom"
@@ -804,7 +808,7 @@ if($latest){
                                             <div class="col-sm-6">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="building-no">इमारत क्र: <span class="star">*</span></label>
+                                                        <label for="building-no">इमारत क्र: </label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input type="text" class="form-control form-control--custom"
@@ -852,7 +856,7 @@ if($latest){
                                             <div id="scrunity-check-date" class="col-sm-6">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="building-no">स्थळ पाहणी दिनांक: <span class="star">*</span></label>
+                                                        <label for="building-no">स्थळ पाहणी दिनांक:<span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom m_datepicker"
@@ -933,7 +937,9 @@ if($latest){
                                                 </table>
                                             </div>
                                         </div>
-                                        <button type="submit" style="{{ $style }}" class="btn btn-primary saveBtn hide-print" next_tab = "nested_tab_4">Save</button>
+                                        <div class="col-md-12 mt-3" style="text-align: center;">
+                                            <button type="submit" style="{{ $style }}" class="btn btn-primary saveBtn hide-print" next_tab = "nested_tab_4">Save</button>
+                                        </div>
                                     </form>
                                 </div>
                                 <div class="tab-pane nested_tab_4" id="relocation">
@@ -943,8 +949,8 @@ if($latest){
                                             <div class="col-sm-6">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="name">संस्थेचे नाव: <span class="star">*</span></label>
-                                                    </div>
+                                                        <label for="name">संस्थेचे नाव:</label>
+                                                    </div> 
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
                                                             disabled value="{{ $arrData['society_detail']->eeApplicationSociety->name }}"
@@ -955,7 +961,7 @@ if($latest){
                                             <div class="col-sm-6">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="building-no">इमारत क्र: <span class="star">*</span></label>
+                                                        <label for="building-no">इमारत क्र: </label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
@@ -1056,7 +1062,9 @@ if($latest){
                                                 </table>
                                             </div>
                                         </div>
-                                        <button type="submit" style="{{ $style }}" class="btn btn-primary saveBtn hide-print" next_tab = "nested_tab_1">Save</button>
+                                        <div class="col-md-12 mt-3" style="text-align: center;">
+                                            <button type="submit" style="{{ $style }}" class="btn btn-primary saveBtn hide-print" next_tab = "nested_tab_1">Save</button>
+                                        </div>
                                     </form>
                                 </div>
                             </div>

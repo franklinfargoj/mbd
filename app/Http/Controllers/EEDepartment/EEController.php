@@ -454,14 +454,14 @@ class EEController extends Controller
     }
 
     public function getForwardApplicationForm($application_id){
-
+        
         $application_id = decrypt($application_id);
         $ol_application = $this->comman->getOlApplication($application_id);
         $ol_application->status = $this->comman->getCurrentStatus($application_id);
         $arrData['society_detail'] = OlApplication::with('eeApplicationSociety')->where('id', $application_id)->first();
 
         $parentData = $this->comman->getForwardApplicationParentData();
-        // dd($parentData);
+        
         $arrData['parentData'] = $parentData['parentData'];
         $arrData['role_name'] = $parentData['role_name'];
 //        $arrData['application_status'] = $this->comman->getCurrentApplicationStatus($application_id);

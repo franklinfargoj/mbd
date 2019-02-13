@@ -666,6 +666,8 @@ class SocietyOfferLetterController extends Controller
             'updated_at' => null
         );
         $last_inserted_id = OlRequestForm::create($input);
+        $applicationNo = $this->generateApplicationNumber();
+        
         $insert_application = array(
             'user_id' => Auth::user()->id,
             'language_id' => '1',
@@ -674,13 +676,14 @@ class SocietyOfferLetterController extends Controller
             'layout_id' => $request->input('layout_id'),
             'request_form_id' => $last_inserted_id->id,
             'application_master_id' => $request->input('application_master_id'),
-            'application_no' => mt_rand(10,100).time(),
+            'application_no' => $applicationNo,
             'application_path' => 'test',
             'submitted_at' => date('Y-m-d'),
             'current_status_id' => '1',
             'is_encrochment' => '0',
             'is_approve_offer_letter' => '0',
         );
+        
         $last_id = OlApplication::create($insert_application);
         $role_id = Role::where('name', 'ee_junior_engineer')->first();
         
@@ -2943,5 +2946,13 @@ class SocietyOfferLetterController extends Controller
         $status = OlApplicationStatus::where('application_id',$applicationId)
         ->where('society_flag',1)->orderBy('id','desc')->first();
         return $status;
+    }
+
+    public function generateApplicationNumber(){
+
+        $id = OlApplication::orderBy('id','desc')->value('id');
+        $id++;
+        $applicationId = 'Offer-0000'.$id;
+        return $applicationId;
     }
 }

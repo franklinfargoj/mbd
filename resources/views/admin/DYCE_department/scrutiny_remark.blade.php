@@ -171,7 +171,7 @@
                                     @else
                                     <div class="officer_name_0">
     									<div class="d-flex align-items-center mb-5">
-    										<label class="site-visit-label">Name of Officer:</label>
+    										<label class="site-visit-label">Name of Officer: <span class="star">*</span></label>
     										<div class="position-relative" >
     											<input type="text" class="txtbox form-control form-control--custom m_input" name="officer_name[]" id="officer_name" >
                                                 
@@ -186,7 +186,7 @@
                                 @else
                                     <div class="officer_name">
                                         <div class="d-flex align-items-center mb-5">
-                                            <label class="site-visit-label">Name of Officer:</label>
+                                            <label class="site-visit-label">Name of Officer: </label>
                                             <div class="position-relative">
                                                 <span class="field-value" style="word-break: break-all;">{{$applicationData->site_visit_officers}}</span>
                                             </div>                                  
@@ -208,7 +208,7 @@
 										readonly>
 								</div>
 								<div class="d-flex align-items-center mb-5">
-									<label class="site-visit-label">Date of site visit:</label>
+									<label class="site-visit-label">Date of site visit: <span class="star">*</span></label>
                                     <div class="position-relative">
 									<input type="text" class="txtbox v_text form-control form-control--custom m-input {{($is_view ? 'm_datepicker' : '' )}}"
 										name="visit_date" id="visit_date" value="{{(isset($applicationData->date_of_site_visit) ? date('d-m-Y',strtotime($applicationData->date_of_site_visit)) : '')}}" {{(!($is_view) ? 'readonly' : '' )}}>
@@ -222,7 +222,7 @@
                                     @foreach($applicationData->visitDocuments as $documents)
                                      
                                     <div class="align-items-center mb-5 upload_doc_{{$i}}">
-                                        <label class="site-visit-label">Upload Site Photos:</label>
+                                        <label class="site-visit-label">Upload Site Photos: </label>
                                         <div class="custom-file custom-file--fixed mb-0 position-relative">
                                             <input type="file" class="file custom-file-input file_ext upload_file_{{$i}}" name="document[]" id="test-upload_{{$i}}">
                                             <label class="custom-file-label" for="test-upload_{{$i}}" id="file_label_{{$i}}">{{isset(explode('/',$documents->document_path)[1]) ? explode('/',$documents->document_path)[1] : ''}}</label>
@@ -241,8 +241,9 @@
                                 }else{
                                     $required = '';
                                 } @endphp
+
                                 <div class="align-items-center mb-5 upload_doc_1">
-                                    <label class="site-visit-label">Upload Site Photos:</label>
+                                    <label class="site-visit-label">Upload Site Photos: <span class="star">*</span></label>
                                     <div class="custom-file custom-file--fixed mb-0 position-relative">
                                         <input type="file" class="file custom-file-input file_ext upload_file_1" name="document[]" id="test-upload_1" {{ $required }}>
                                         <label class="custom-file-label" for="test-upload_1" id="file_label_1">Choose file ...</label>
@@ -257,9 +258,10 @@
                                 @php $fileName = explode('/',$data->document_path)[1];
                                      $imgIcon = explode('.',$fileName)[1];
                                 @endphp        
+
                                     <div class="col-xs-12 field-col">
                                         <div class="d-flex">
-                                            <span style="width: 170px;">Upload Site Photos:</span>
+                                            <span style="width: 170px;">Upload Site Photos: </span>
                                             <a href="{{config('commanConfig.storage_server').'/'.$data->document_path}}" target="_blank">
                                             @if($imgIcon == 'pdf')
                                              <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}">
@@ -290,7 +292,7 @@
 					</div>
 					<div class="remarks-suggestions">
 						<div class="mt-3 table--box-input">
-							<label for="demarkation_comments">Comments:</label>
+							<label for="demarkation_comments">Comments: <span class="star">*</span></label>
 							<textarea id="demarkation_comments" rows="5" cols="30" class="form-control form-control--custom" name="demarkation_comments" {{(!($is_view) ? 'readonly' : '' )}}>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
 						</div>
 					</div>
@@ -323,7 +325,7 @@
 							</label>
 						</div>
 						<div class="mt-3 table--box-input">
-							<label class="e_comments" for="encrochment_comments">If Yes, Comments:</label>
+							<label class="e_comments" for="encrochment_comments">If Yes, Comments: <span class="star">*</span></label>
 							<textarea rows="5" cols="30" class="form-control form-control--custom" id="encrochment_comments" name="encrochment_comments" {{(!($is_view) ? 'readonly' : '' )}}>{{(isset($applicationData->encrochment_verification_comment) ? $applicationData->encrochment_verification_comment : '')}}</textarea>
 							<span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">This field is required.</span>
 						</div>
