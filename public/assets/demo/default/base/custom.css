@@ -3547,6 +3547,7 @@ label.site-visit-label {
     margin-bottom: 0 !important;
 }
 
+<<<<<<< HEAD
 #societyForm .p-m-0{
     margin-bottom: 0 !important;
 }
@@ -3573,4 +3574,8 @@ label.site-visit-label {
 
 #update_profile .mhada-lease-margin{
     margin-bottom: -30px;
+}
+
+.m-badge{
+    font-weight: 500;
 }

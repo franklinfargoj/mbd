@@ -16,15 +16,18 @@
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile">
             <form id="adduserlayout" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{route('user_layouts.store')}}" enctype="multipart/form-data">
-                @csrf
+                @csrf 
+
                 <div class="m-portlet__body m-portlet__body--spaced">
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="user_id">Users:<span class="star">*</span></label>
-                            <select data-live-search="true" title="Please Select User" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="user_id" name="user_id">
+                            <select data-live-search="true" title="Please Select User" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="user_id" value="" name="user_id" onchange="getLayout(this)">
+                            @if($users)
                                 @foreach($users as $user)
-                                    <option value="{{$user['id']  }}">{{ $user['name']}}</option>
+                                    <option value="{{$user['id']}}">{{ $user['name']}} ({{isset($user['role_details']) ? $user['role_details']['display_name'] : ''}} )</option>
                                 @endforeach
+                            @endif    
                             </select>
                             <span class="error">{{$errors->first('user_id')}}</span>
 
@@ -57,5 +60,31 @@
             </form>
         </div>
     </div>
+@endsection
+@section('js')
+<script>
+    function getLayout(data){ 
+        
+        var userId = data.value;
+        var form_data = new FormData();
+        form_data.append('userId', userId);
+        form_data.append('_token', document.getElementsByName("_token")[0].value);
+
+        $.ajax({
+            url: "/crudadmin/get_layout",
+            data: form_data,
+            type: 'post',
+            contentType: false,
+            cache: false, 
+            processData: false,
+            success: function(data) {
+                // $(".loader").hide();
+                // if (data == 'success'){
+                //     $(".upload_doc_"+id).css("display","none");
+                // }
+            }
+        })         
+    }
+</script>
 @endsection
 

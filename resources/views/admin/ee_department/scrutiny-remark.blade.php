@@ -462,7 +462,7 @@ if($latest){
                                             <div class="col-sm-6">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="name">अभिन्यास (Layout):</label>
+                                                        <label for="name">अभिन्यास (Layout):<span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input type="text" {{$disabled}} class="form-control form-control--custom"
@@ -474,7 +474,7 @@ if($latest){
                                             <div class="col-sm-6">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="notice_detail">नोटीस चा तपशील:</label>
+                                                        <label for="notice_detail">नोटीस चा तपशील: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
@@ -487,7 +487,7 @@ if($latest){
                                             <div class="col-sm-6 margin_top">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="investigation_officer">तपासणी अधिकाऱ्यांचे नाव:</label>
+                                                        <label for="investigation_officer">तपासणी अधिकाऱ्यांचे नाव: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
@@ -500,7 +500,7 @@ if($latest){
                                             <div id="scrunity-check-date" class="col-sm-6">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="m_datepicker">तपासणी दिनांक:</label>
+                                                        <label for="m_datepicker">तपासणी दिनांक: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom m_datepicker"
@@ -610,7 +610,7 @@ if($latest){
                                             <div class="col-sm-6">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="name">अभिन्यास (Layout):</label>
+                                                        <label for="name">अभिन्यास (Layout):<span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
@@ -622,7 +622,7 @@ if($latest){
                                             <div class="col-sm-6">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="building-no">नोटीस चा तपशील:</label>
+                                                        <label for="building-no">नोटीस चा तपशील: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
@@ -634,7 +634,7 @@ if($latest){
                                             <div class="col-sm-6 margin_top">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
+                                                        <label for="name">तपासणी अधिकाऱ्यांचे नाव: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
@@ -646,7 +646,7 @@ if($latest){
                                             <div id="scrunity-check-date" class="col-sm-6">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="building-no">स्थळ पाहणी दिनांक:</label>
+                                                        <label for="building-no">स्थळ पाहणी दिनांक: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom m_datepicker"
@@ -685,43 +685,43 @@ if($latest){
                                                                 </tr>
                                                                 <tr>
                                                                     <td>a)</td>
-                                                                    <td>भाडेपट्टा करारनामा नुसार क्षेत्रफळ</td>
+                                                                    <td>भाडेपट्टा करारनामा नुसार क्षेत्रफळ <span class="star">*</span></td>
                                                                     <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->lease_agreement_area) ? $landDetails->lease_agreement_area : '' }}" name="land[lease_agreement_area]" id="lease_agreement_area" placeholder=""></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>b)</td>
-                                                                    <td>अभिन्यासातील भूखंडाचे क्षेत्रफळ </td>
+                                                                    <td>अभिन्यासातील भूखंडाचे क्षेत्रफळ <span class="star">*</span></td>
                                                                     <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->stag_plot_area) ? $landDetails->stag_plot_area : '' }}" name="land[stag_plot_area]" 
                                                                     id="stag_plot_area" placeholder=""></td>
                                                                 </tr>                                    
                                                                 <tr>
                                                                      <td>c)</td>    
-                                                                    <td>टिट बिट भूखंडाचे क्षेत्रफळ </td>
+                                                                    <td>टिट बिट भूखंडाचे क्षेत्रफळ  <span class="star">*</span></td>
                                                                     <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->tit_bit_area) ? $landDetails->tit_bit_area : '' }}" name="land[tit_bit_area]" id="tit_bit_area" placeholder=""></td>
                                                                 </tr>
                                                                 <tr>
                                                                      <td>d)</td>    
-                                                                    <td>आर जी भूखंडाचे क्षेत्रफळ</td>
+                                                                    <td>आर जी भूखंडाचे क्षेत्रफळ <span class="star">*</span></td>
                                                                     <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->rg_plot_area) ? $landDetails->rg_plot_area : '' }}" name="land[rg_plot_area]" id="rg_plot_area" placeholder=""></td>
                                                                 </tr>
                                                                 <tr>
                                                                      <td>e)</td>    
-                                                                    <td>पि जि भूखंडाचे क्षेत्रफळ </td>
+                                                                    <td>पि जि भूखंडाचे क्षेत्रफळ <span class="star">*</span></td>
                                                                     <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->pg_plot_area) ? $landDetails->pg_plot_area : '' }}" name="land[pg_plot_area]" id="pg_plot_area" placeholder=""></td>
                                                                 </tr>
                                                                 <tr>
                                                                      <td>f)</td>    
-                                                                    <td>Road setback  area</td>
+                                                                    <td>Road setback  area <span class="star">*</span></td>
                                                                     <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->road_setback_area) ? $landDetails->road_setback_area : '' }}" name="land[road_setback_area]" id="road_setback_area" placeholder=""></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>g)</td>    
-                                                                    <td>Encroachment area</td>
+                                                                    <td>Encroachment area <span class="star">*</span></td>
                                                                     <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->encroachment_area) ? $landDetails->encroachment_area : '' }}" name="land[encroachment_area]" id="encroachment_area" placeholder=""></td>
                                                                 </tr>
                                                                 <tr>
                                                                      <td>h)</td>    
-                                                                    <td>इतर क्षेत्रफळ </td>
+                                                                    <td>इतर क्षेत्रफळ  <span class="star">*</span></td>
                                                                     <td><input {{$disabled}} type="text" class="form-control form-control--custom" required="" value="{{ isset($landDetails->another_area) ? $landDetails->another_area : '' }}" name="land[another_area]" id="another_area" placeholder=""></td>
 
                                                                 </tr>
@@ -792,7 +792,7 @@ if($latest){
                                             <div class="col-sm-6">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="name">संस्थेचे नाव:</label>
+                                                        <label for="name">संस्थेचे नाव: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input type="text" class="form-control form-control--custom"
@@ -804,7 +804,7 @@ if($latest){
                                             <div class="col-sm-6">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="building-no">इमारत क्र:</label>
+                                                        <label for="building-no">इमारत क्र: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input type="text" class="form-control form-control--custom"
@@ -816,7 +816,7 @@ if($latest){
                                             <div class="col-sm-6">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="name">अभिन्यास (Layout):</label>
+                                                        <label for="name">अभिन्यास (Layout):<span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
@@ -828,7 +828,7 @@ if($latest){
                                             <div class="col-sm-6">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="building-no">नोटीस चा तपशील:</label>
+                                                        <label for="building-no">नोटीस चा तपशील: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
@@ -840,7 +840,7 @@ if($latest){
                                             <div class="col-sm-6 margin_top">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
+                                                        <label for="name">तपासणी अधिकाऱ्यांचे नाव: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
@@ -852,7 +852,7 @@ if($latest){
                                             <div id="scrunity-check-date" class="col-sm-6">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="building-no">स्थळ पाहणी दिनांक:</label>
+                                                        <label for="building-no">स्थळ पाहणी दिनांक: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom m_datepicker"
@@ -943,7 +943,7 @@ if($latest){
                                             <div class="col-sm-6">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="name">संस्थेचे नाव:</label>
+                                                        <label for="name">संस्थेचे नाव: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
@@ -955,7 +955,7 @@ if($latest){
                                             <div class="col-sm-6">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="building-no">इमारत क्र:</label>
+                                                        <label for="building-no">इमारत क्र: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
@@ -967,7 +967,7 @@ if($latest){
                                             <div class="col-sm-6">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="name">अभिन्यास (Layout):</label>
+                                                        <label for="name">अभिन्यास (Layout):<span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"
@@ -979,7 +979,7 @@ if($latest){
                                             <div class="col-sm-6">
                                                 <div class="form-group row">
                                                     <div class="col-sm-4 d-flex align-items-center">
-                                                        <label for="building-no">नोटीस चा तपशील:</label>
+                                                        <label for="building-no">नोटीस चा तपशील: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom"

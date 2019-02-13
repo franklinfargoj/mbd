@@ -86,7 +86,7 @@
 
                                             <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('society_email')) has-error @endif">
-                                                    <label for="EmailAddress" class="col-form-label">Email Address</label>
+                                                    <label for="EmailAddress" class="col-form-label">Email Address / Username</label>
                                                     <input id="EmailAddress" class="form-control form-control--custom m-input" type="email"
 
                                                            placeholder="" name="society_email" value="{{ old('society_email') }}">
@@ -106,7 +106,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-6 mhada-sign-up">
+<!--                                             <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('society_architect_name')) has-error @endif">
                                                     <label for="ArchitectName" class="col-form-label">Architect Name</label>
                                                     <input id="ArchitectName" class="form-control form-control--custom m-input" type="text"
@@ -134,12 +134,12 @@
                                                         value="{{ old('society_architect_address') }}"></textarea>
                                                     <span class="text-danger">{{$errors->first('society_architect_address')}}</span>
                                                 </div>
-                                            </div>
+                                            </div> -->
 
                                             <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('society_password')) has-error @endif">
-                                                    <label for="Password" class="col-form-label">Password</label>
-                                                    <input id="Password" class="form-control form-control--custom m-input" type="password"
+                                                    <label for="password" class="col-form-label">Password</label>
+                                                    <input id="password" class="form-control form-control--custom m-input" type="password"
                                                         placeholder="" name="society_password" id="password"
                                                         value="{{ old('society_password') }}" title="">
                                                     <a class="input-hint" href="#" data-toggle="tooltip" data-placement="top" title="Password should be minimum 6 & maximum 10 characters."><i class="fa fa-info-circle" style="color: orange;float: right;"></i></a>
@@ -169,7 +169,7 @@
                                             </div>
                                             <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('chairman_name')) has-error @endif">
-                                                    <label for="ChairmanMobileNumber" class="col-form-label">Chairman Mobile Number</label>
+                                                    <label for="ChairmanMobileNumber" class="col-form-label">Chairman Name</label>
                                                     <input id="ChairmanMobileNumber" class="form-control form-control--custom m-input" type="text"
                                                            placeholder="" name="chairman_name"
                                                            value="{{ old('chairman_name') }}">
