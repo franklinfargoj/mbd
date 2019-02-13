@@ -777,8 +777,10 @@ $route=\Request::route()->getName();
                 </li> -->
                  {{--<li class="m-menuama--}}
 {{--                     @php dd($route); @endphp--}}
-                 <li class="m-menu__item @if($route == 'society.profile') m-menu__item--active @endif" aria-haspopup="true">
-                     <a href="{{ route('society.profile') }}" class="m-menu__link">
+
+                @if(session()->get('role_name')==config('commanConfig.appointing_architect'))
+                 <li class="m-menu__item @if($route == 'admin.profile') m-menu__item--active @endif" aria-haspopup="true">
+                     <a href="{{ route('admin.profile') }}" class="m-menu__link">
                          <i class="m-menu__link-icon flaticon-user"></i>
                          <span class="m-menu__link-title">
                             <span class="m-menu__link-wrap">
@@ -789,18 +791,34 @@ $route=\Request::route()->getName();
                         </span>
                      </a>
                  </li>
+                 @else 
+                 <li class="m-menu__item @if($route == 'society.profile') m-menu__item--active @endif" aria-haspopup="true">
+                        <a href="{{ route('society.profile') }}" class="m-menu__link">
+                            <i class="m-menu__link-icon flaticon-user"></i>
+                            <span class="m-menu__link-title">
+                               <span class="m-menu__link-wrap">
+                                   <span class="m-menu__link-text">
+                                       Profile
+                                   </span>
+                               </span>
+                           </span>
+                        </a>
+                    </li>
+                 @endif
+                 @if(session()->get('role_name')!=config('commanConfig.appointing_architect'))
                  <li class="m-menu__item @if ($route == 'society_applications') m-menu__item--active @endif" aria-haspopup="true">
                      <a href="{{ route('society_applications') }}" class="m-menu__link">
                          <i class="m-menu__link-icon flaticon-line-graph"></i>
                          <span class="m-menu__link-title">
                             <span class="m-menu__link-wrap">
                                 <span class="m-menu__link-text">
-                                    List of Applications
+                                    List of Applications 
                                 </span>
                             </span>
                         </span>
                      </a>
                  </li>
+                 @endif
             </ul>
         </div>
     </div>
