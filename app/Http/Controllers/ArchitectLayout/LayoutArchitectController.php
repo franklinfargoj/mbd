@@ -552,7 +552,10 @@ class LayoutArchitectController extends Controller
             $ArchitectLayout->sent_for_scrutiny_status = 1;
             $ArchitectLayout->save();
         }
-
+        if(session()->get('role_name') == config('commanConfig.vp_engineer') || $request->check_status == 1)
+        {
+            return redirect(route('architect_layouts_layout_details.index'));
+        }
         return redirect(route('architect_layout.index'));
     }
 

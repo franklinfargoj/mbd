@@ -201,7 +201,7 @@
                     </div>
                     <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                         <div class="m-form__actions px-0">
-                            <div class="row">
+                            <div class="row mhada-pt">
                                 <div class="col-sm-one4">
                                     <div class="btnone-list">
                                         <input type="submit" id="" class="btn btn-primary" name="Save">

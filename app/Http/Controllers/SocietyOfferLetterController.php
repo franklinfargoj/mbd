@@ -2409,7 +2409,7 @@ class SocietyOfferLetterController extends Controller
                         $insert_application_log_in_process[$key]['created_at'] = date('Y-m-d H-i-s');
                         $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d H-i-s');
                       
-                        $this->sendApplicationMsg($user,$application,$model,$society);
+                        // $this->sendApplicationMsg($user,$application,$model,$society);
                         $i++;
                     }
                 }
@@ -2443,22 +2443,22 @@ class SocietyOfferLetterController extends Controller
         return redirect()->route('society_offer_letter_dashboard');
     }
 
-    public function sendApplicationMsg($user,$application){
-        dd($application->layout_id);
-        $head = $this->CommonController->getDepartmentHead($user->roleDetails->name,$application->layout_id);
-        if ($head){
-            foreach($head as $user){
-                dd($user->mobile_no);
+    // public function sendApplicationMsg($user,$application){
+    //     dd($application->layout_id);
+    //     $head = $this->CommonController->getDepartmentHead($user->roleDetails->name,$application->layout_id);
+    //     if ($head){
+    //         foreach($head as $user){
+    //             dd($user->mobile_no);
 
-                $mobileNo = $user->mobile_no; 
-                $msgText = 'Your department have received new application for <application type>, of society <Society name> with application ID <application Number>'; 
+    //             $mobileNo = $user->mobile_no; 
+    //             $msgText = 'Your department have received new application for <application type>, of society <Society name> with application ID <application Number>'; 
 
-                $response = event(new SmsHitEvent($mobileNo,$msgText));
+    //             $response = event(new SmsHitEvent($mobileNo,$msgText));
 
-                $response = $this->CommonController->saveMsgSentDetails($mobileNo,$msgText,$society->user_id);                
-            }
-        }
-    }
+    //             $response = $this->CommonController->saveMsgSentDetails($mobileNo,$msgText,$society->user_id);                
+    //         }
+    //     }
+    // }
 
     public function uploadRevalOfferLetterAfterSign(Request $request){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();

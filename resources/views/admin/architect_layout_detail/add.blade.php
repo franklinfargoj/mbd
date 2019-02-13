@@ -304,7 +304,7 @@
                         '<div class="custom-file">'+
                             '<input type="file" id="ee_extract_'+count+'" name="ee_report_'+count+'" class="custom-file-input" onchange="getEEReportData(this.id,\'ee_doc_name_'+count+'\',\'ee_doc_error_'+count+'\',\'ee_report_uploaded_file_'+count+'\',\'ee_report_doc_id_'+count+'\',true)">'+
                             '<label title="" class="custom-file-label" for="ee_extract_'+count+'">Choose file</label>'+
-                            '<a class="btn-link" target="_blank" style="display:none;" id="ee_report_uploaded_file_'+count+'" href="">download</a>'+
+                            '<a class="btn-link" target="_blank" style="display:none;" id="ee_report_uploaded_file_'+count+'" href=""><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>'+
                             '<span class="text-danger" id="ee_doc_error_'+count+'"></span>'+
                         '</div>'+
                     '</div>'+
@@ -343,7 +343,7 @@ $('.add_em_report').click(function () {
                         '<div class="custom-file">'+
                             '<input type="file" id="em_extract_'+count+'" name="em_report_'+count+'" class="custom-file-input" onchange="getEMReportData(this.id,\'em_doc_name_'+count+'\',\'em_doc_error_'+count+'\',\'em_report_uploaded_file_'+count+'\',\'em_report_doc_id_'+count+'\',true)">'+
                             '<label title="" class="custom-file-label" for="em_extract_'+count+'">Choose file</label>'+
-                            '<a class="btn-link" target="_blank" style="display:none;" id="em_report_uploaded_file_'+count+'" href="">download</a>'+
+                            '<a class="btn-link" target="_blank" style="display:none;" id="em_report_uploaded_file_'+count+'" href=""><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>'+
                             '<span class="text-danger" id="em_doc_error_'+count+'"></span>'+
                         '</div>'+
                     '</div>'+
@@ -382,7 +382,7 @@ $('.add_ree_report').click(function () {
                         '<div class="custom-file">'+
                             '<input type="file" id="ree_extract_'+count+'" name="ree_report_'+count+'" class="custom-file-input" onchange="getREEReportData(this.id,\'ree_doc_name_'+count+'\',\'ree_doc_error_'+count+'\',\'ree_report_uploaded_file_'+count+'\',\'ree_report_doc_id_'+count+'\',true)">'+
                             '<label title="" class="custom-file-label" for="ree_extract_'+count+'">Choose file</label>'+
-                            '<a class="btn-link" target="_blank" style="display:none;" id="ree_report_uploaded_file_'+count+'" href="">download</a>'+
+                            '<a class="btn-link" target="_blank" style="display:none;" id="ree_report_uploaded_file_'+count+'" href=""><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>'+
                             '<span class="text-danger" id="ree_doc_error_'+count+'"></span>'+
                         '</div>'+
                     '</div>'+
@@ -1135,7 +1135,7 @@ $(window).on('popstate', function () {
                                                     <label title="" class="custom-file-label" for="ee_extract">Choose
                                                         file</label>
                                                     <a class="btn-link" target="_blank" style="display:{{($ee_report_1!=null) ?'block':'none'}}"
-                                                        id="ee_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.($ee_report_1!=null?$ee_report_1->upload_file:'')}}">download</a>
+                                                        id="ee_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.($ee_report_1!=null?$ee_report_1->upload_file:'')}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     <span class="text-danger" id="ee_doc_error"></span>
                                                 </div>
                                             </div>
@@ -1163,7 +1163,7 @@ $(window).on('popstate', function () {
                                                     <label title="" class="custom-file-label" for="ee_extract_1">Choose
                                                         file</label>
                                                     <a class="btn-link" target="_blank" style="display:{{($ee_report_2!=null)?'block':'none'}}"
-                                                        id="ee_report_uploaded_file_1" href="{{config('commanConfig.storage_server').'/'.(($ee_report_2!=null)?$ee_report_2->upload_file:'')}}">download</a>
+                                                        id="ee_report_uploaded_file_1" href="{{config('commanConfig.storage_server').'/'.(($ee_report_2!=null)?$ee_report_2->upload_file:'')}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     <span class="text-danger" id="ee_doc_error_1"></span>
                                                 </div>
                                             </div>
@@ -1190,7 +1190,7 @@ $(window).on('popstate', function () {
                                                     <label title="" class="custom-file-label" for="ee_extract_2">Choose
                                                         file</label>
                                                     <a class="btn-link" target="_blank" style="display:{{($ee_report_3!=null)?'block':'none'}}"
-                                                        id="ee_report_uploaded_file_2" href="{{config('commanConfig.storage_server').'/'.($ee_report_3!=null?$ee_report_3->upload_file:'')}}">download</a>
+                                                        id="ee_report_uploaded_file_2" href="{{config('commanConfig.storage_server').'/'.($ee_report_3!=null?$ee_report_3->upload_file:'')}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     <span class="text-danger" id="ee_doc_error_2"></span>
                                                 </div>
                                             </div>
@@ -1217,7 +1217,7 @@ $(window).on('popstate', function () {
                                                     <label title="" class="custom-file-label" for="ee_extract_{{$i}}">Choose
                                                         file</label>
                                                     <a class="btn-link" target="_blank" style="display:{{isset($ee_report->upload_file)?'block':'none'}}"
-                                                        id="ee_report_uploaded_file_{{$i}}" href="{{config('commanConfig.storage_server').'/'.(isset($ee_report->upload_file)?$ee_report->upload_file:'')}}">download</a>
+                                                        id="ee_report_uploaded_file_{{$i}}" href="{{config('commanConfig.storage_server').'/'.(isset($ee_report->upload_file)?$ee_report->upload_file:'')}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     <span class="text-danger" id="ee_doc_error_{{$i}}"></span>
                                                 </div>
                                             </div>
@@ -1270,7 +1270,7 @@ $(window).on('popstate', function () {
                                                     <label title="" class="custom-file-label" for="em_extract">Choose
                                                         file</label>
                                                     <a class="btn-link" target="_blank" style="display:{{$em_report_1!=null?'block':'none'}}"
-                                                        id="em_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.($em_report_1!=null?$em_report_1->upload_file:'')}}">download</a>
+                                                        id="em_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.($em_report_1!=null?$em_report_1->upload_file:'')}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     <span class="text-danger" id="em_doc_error"></span>
                                                 </div>
                                             </div>
@@ -1297,7 +1297,7 @@ $(window).on('popstate', function () {
                                                     <label title="" class="custom-file-label" for="em_extract_1">Choose
                                                         file</label>
                                                     <a class="btn-link" target="_blank" style="display:{{$em_report_2!=null?'block':'none'}}"
-                                                        id="em_report_uploaded_file_1" href="{{config('commanConfig.storage_server').'/'.($em_report_2!=null?$em_report_2->upload_file:'')}}">download</a>
+                                                        id="em_report_uploaded_file_1" href="{{config('commanConfig.storage_server').'/'.($em_report_2!=null?$em_report_2->upload_file:'')}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     <span class="text-danger" id="em_doc_error_1"></span>
                                                 </div>
                                             </div>
@@ -1324,7 +1324,7 @@ $(window).on('popstate', function () {
                                                     <label title="" class="custom-file-label" for="em_extract_{{$i}}">Choose
                                                         file</label>
                                                     <a class="btn-link" target="_blank" style="display:{{isset($em_report->upload_file)?'block':'none'}}"
-                                                        id="em_report_uploaded_file_{{$i}}" href="{{config('commanConfig.storage_server').'/'.(isset($em_report->upload_file)?$em_report->upload_file:'')}}">download</a>
+                                                        id="em_report_uploaded_file_{{$i}}" href="{{config('commanConfig.storage_server').'/'.(isset($em_report->upload_file)?$em_report->upload_file:'')}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     <span class="text-danger" id="em_doc_error_{{$i}}"></span>
                                                 </div>
                                             </div>
@@ -1377,7 +1377,7 @@ $(window).on('popstate', function () {
                                                     <label title="" class="custom-file-label" for="ree_extract">Choose
                                                         file</label>
                                                     <a class="btn-link" target="_blank" style="display:{{$ree_report_1!=null?'block':'none'}}"
-                                                        id="ree_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.($ree_report_1!=null?$ree_report_1->upload_file:'')}}">download</a>
+                                                        id="ree_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.($ree_report_1!=null?$ree_report_1->upload_file:'')}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     <span class="text-danger" id="ree_doc_error"></span>
                                                 </div>
                                             </div>
@@ -1404,7 +1404,7 @@ $(window).on('popstate', function () {
                                                     <label title="" class="custom-file-label" for="ree_extract_1">Choose
                                                         file</label>
                                                     <a class="btn-link" target="_blank" style="display:{{$ree_report_2!=null?'block':'none'}}"
-                                                        id="ree_report_uploaded_file_1" href="{{config('commanConfig.storage_server').'/'.($ree_report_2!=null?$ree_report_2->upload_file:'')}}">download</a>
+                                                        id="ree_report_uploaded_file_1" href="{{config('commanConfig.storage_server').'/'.($ree_report_2!=null?$ree_report_2->upload_file:'')}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     <span class="text-danger" id="ree_doc_error_1"></span>
                                                 </div>
                                             </div>
@@ -1431,7 +1431,7 @@ $(window).on('popstate', function () {
                                                     <label title="" class="custom-file-label" for="ree_extract_{{$i}}">Choose
                                                         file</label>
                                                     <a class="btn-link" target="_blank" style="display:{{isset($ree_report->upload_file)?'block':'none'}}"
-                                                        id="ree_report_uploaded_file_{{$i}}" href="{{config('commanConfig.storage_server').'/'.(isset($ree_report->upload_file)?$ree_report->upload_file:'')}}">download</a>
+                                                        id="ree_report_uploaded_file_{{$i}}" href="{{config('commanConfig.storage_server').'/'.(isset($ree_report->upload_file)?$ree_report->upload_file:'')}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     <span class="text-danger" id="ree_doc_error_{{$i}}"></span>
                                                 </div>
                                             </div>
@@ -1481,7 +1481,7 @@ $(window).on('popstate', function () {
                                                     <label title="" class="custom-file-label" for="land_extract">Choose
                                                         file</label>
                                                     <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->land_reports[0])?'block':'none'}}"
-                                                        id="land_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->land_reports[0])?$ArchitectLayoutDetail->land_reports[0]->upload_file:'')}}">download</a>
+                                                        id="land_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->land_reports[0])?$ArchitectLayoutDetail->land_reports[0]->upload_file:'')}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     <span class="text-danger" id="land_doc_error"></span>
                                                 </div>
                                             </div>
@@ -1545,7 +1545,7 @@ $(window).on('popstate', function () {
                                             <label class="custom-file-label" for="old_approved_layout">Choose file...</label>
                                         </div>
                                         <a class="btn-link" target="_blank" id="old_approved_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->old_approved_layout}}"
-                                            style="display:{{$ArchitectLayoutDetail->old_approved_layout!=''?'block':'none'}};">download</a>
+                                            style="display:{{$ArchitectLayoutDetail->old_approved_layout!=''?'block':'none'}};"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                         <span class="text-danger" id="old_approved_layout_error"></span>
                                     </div>
                                 </div>
@@ -1571,7 +1571,7 @@ $(window).on('popstate', function () {
                                             <label class="custom-file-label" for="latest_layout">Choose file...</label>
                                         </div>
                                         <a class="btn-link" target="_blank" id="latest_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->latest_layout}}"
-                                            style="display:{{$ArchitectLayoutDetail->latest_layout!=''?'block':'none'}};">download</a>
+                                            style="display:{{$ArchitectLayoutDetail->latest_layout!=''?'block':'none'}};"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                         <span class="text-danger" id="latest_layout_error"></span>
                                     </div>
                                 </div>
@@ -1598,7 +1598,7 @@ $(window).on('popstate', function () {
                                             <label class="custom-file-label" for="last_submitted_layout">Choose file...</label>
                                         </div>
                                         <a class="btn-link" target="_blank" id="last_submitted_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->last_submitted_layout_for_approval}}"
-                                            style="display:{{$ArchitectLayoutDetail->last_submitted_layout_for_approval!=''?'block':'none'}};">download</a>
+                                            style="display:{{$ArchitectLayoutDetail->last_submitted_layout_for_approval!=''?'block':'none'}};"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                         <span class="text-danger" id="last_submitted_layout_file_error"></span>
                                     </div>
                                 </div>
@@ -1624,7 +1624,7 @@ $(window).on('popstate', function () {
                                             <label class="custom-file-label" for="survey_report">Choose file...</label>
                                         </div>
                                         <a class="btn-link" target="_blank" id="survey_report_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->latest_layout}}"
-                                            style="display:{{$ArchitectLayoutDetail->survey_report!=''?'block':'none'}};">download</a>
+                                            style="display:{{$ArchitectLayoutDetail->survey_report!=''?'block':'none'}};"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                         <span class="text-danger" id="survey_report_file_error"></span>
                                     </div>
                                 </div>
@@ -1651,7 +1651,7 @@ $(window).on('popstate', function () {
                                     <label class="custom-file-label" for="old_approved_layout">Choose file...</label>
                                 </div>
                                 <a class="btn-link" target="_blank" id="old_approved_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->old_approved_layout}}"
-                                    style="display:{{$ArchitectLayoutDetail->old_approved_layout!=''?'block':'none'}};">download</a>
+                                    style="display:{{$ArchitectLayoutDetail->old_approved_layout!=''?'block':'none'}};"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                 <span class="text-danger" id="old_approved_layout_error"></span>
                             </div>
                             <div class="col-sm-6">
@@ -1667,7 +1667,7 @@ $(window).on('popstate', function () {
                                     <label class="custom-file-label" for="latest_layout">Choose file...</label>
                                 </div>
                                 <a class="btn-link" target="_blank" id="latest_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->latest_layout}}"
-                                    style="display:{{$ArchitectLayoutDetail->latest_layout!=''?'block':'none'}};">download</a>
+                                    style="display:{{$ArchitectLayoutDetail->latest_layout!=''?'block':'none'}};"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                 <span class="text-danger" id="latest_layout_error"></span>
                             </div>
                         </div>
@@ -1688,7 +1688,7 @@ $(window).on('popstate', function () {
                                     <label class="custom-file-label" for="last_submitted_layout">Choose file...</label>
                                 </div>
                                 <a class="btn-link" target="_blank" id="last_submitted_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->last_submitted_layout_for_approval}}"
-                                    style="display:{{$ArchitectLayoutDetail->last_submitted_layout_for_approval!=''?'block':'none'}};">download</a>
+                                    style="display:{{$ArchitectLayoutDetail->last_submitted_layout_for_approval!=''?'block':'none'}};"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                 <span class="text-danger" id="last_submitted_layout_file_error"></span>
                             </div>
                             <div class="col-sm-6">
@@ -1704,7 +1704,7 @@ $(window).on('popstate', function () {
                                     <label class="custom-file-label" for="survey_report">Choose file...</label>
                                 </div>
                                 <a class="btn-link" target="_blank" id="survey_report_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->latest_layout}}"
-                                    style="display:{{$ArchitectLayoutDetail->survey_report!=''?'block':'none'}};">download</a>
+                                    style="display:{{$ArchitectLayoutDetail->survey_report!=''?'block':'none'}};"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                 <span class="text-danger" id="survey_report_file_error"></span>
                             </div>
                         </div>

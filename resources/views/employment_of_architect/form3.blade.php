@@ -65,7 +65,7 @@
                     @endif
                 </div>
             </div>
-            <div class="m-portlet__head px-0 m-portlet__head--top">
+            <div class="m-portlet__head px-0 m-portlet__head--top mhada-header-mt">
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <span class="m-portlet__head-icon m--hide">
@@ -127,7 +127,7 @@
                     @endif
                 </div>
             </div>
-            <div class="m-portlet__head px-0 m-portlet__head--top">
+            <div class="m-portlet__head px-0 m-portlet__head--top mhada-header-mt">
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <span class="m-portlet__head-icon m--hide">
@@ -182,7 +182,7 @@
                     <span class="text-danger">{{ $errors->first('cad_facility_no_of_plotters') }}</span>
                     @endif
                 </div>
-                <div class="col-sm-4 form-group">
+                <div class="col-sm-4 form-group mhada-mb">
                     <label class="col-form-label" for="cad_facility_no_of_operators">No of Operators<span class="star">*</span></label>
                     <input type="number" min="0" id="cad_facility_no_of_operators" name="cad_facility_no_of_operators" class="form-control form-control--custom m-input"
                         value="{{$application->cad_facility_no_of_operators}}">
@@ -231,7 +231,7 @@
                     @endif
                 </div>
             </div>
-            <div class="m-portlet__head px-0 m-portlet__head--top">
+            <div class="m-portlet__head px-0 m-portlet__head--top mhada-header-mt">
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <span class="m-portlet__head-icon m--hide">
@@ -245,7 +245,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group m-form__group row">
+            <div class="form-group m-form__group row mhada-lr-p">
                 <table class="table partners">
                     <thead>
                         <tr>
@@ -329,7 +329,7 @@
                     @endif
                 </div> --}}
             </div>
-            <div class="m-portlet__head px-0 m-portlet__head--top">
+            <div class="m-portlet__head px-0 m-portlet__head--top mhada-header-mt">
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <span class="m-portlet__head-icon m--hide">
@@ -343,7 +343,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group m-form__group row">
+            <div class="form-group m-form__group row mhada-lr-p">
                 <div class="loader" style="display:none;"></div>
                 <table class="table award_prizes">
                     <thead>
@@ -446,7 +446,7 @@
             </div>
             <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                 <div class="m-form__actions px-0">
-                    <div class="row">
+                    <div class="row mb-0 mhada-pt">
                         <div class="col-sm-4">
                             <div class="btn-list">
                                 <button type="submit" id="" class="btn btn-primary">Save</button>

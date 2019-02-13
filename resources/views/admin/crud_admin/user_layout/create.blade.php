@@ -22,7 +22,7 @@
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="user_id">Users:<span class="star">*</span></label>
-                            <select data-live-search="true" title="Please Select User" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="user_id" name="user_id">
+                            <select data-live-search="true" title="Please Select User" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="user_id" value="" name="user_id" onchange="getLayout(this)">
                             @if($users)
                                 @foreach($users as $user)
                                     <option value="{{$user['id']}}">{{ $user['name']}} ({{isset($user['role_details']) ? $user['role_details']['display_name'] : ''}} )</option>
@@ -36,9 +36,7 @@
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="layout_id">Layout:<span class="star">*</span></label>
                             <select data-live-search="true" title="Please Select Layout" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout_id" name="layout_id">
-                                @foreach($layouts as $layout)
-                                    <option value="{{ $layout['id']  }}">{{ $layout['layout_name'] }}</option>
-                                @endforeach
+                             <option selected disabled>Select</option>
                             </select>
                             <span class="error">{{$errors->first('layout_id')}}</span>
 
@@ -60,5 +58,42 @@
             </form>
         </div>
     </div>
+@endsection
+@section('js')
+<script>
+    function getLayout(data){ 
+        
+        var userId = data.value;
+        var form_data = new FormData();
+        form_data.append('userId', userId);
+        form_data.append('_token', document.getElementsByName("_token")[0].value);
+
+        $.ajax({
+            url: "/crudadmin/get_layout",
+            data: form_data,
+            type: 'post',
+            contentType: false,
+            cache: false,  
+            processData: false,
+            success: function(response) {
+                var result = JSON.parse(response);
+                
+                if (result.status == 'success'){
+                    $("#layout_id option").remove();
+                    $.each(result.data, function(key,value){
+                        console.log(value.layout_name);
+                        $("#layout_id").append('<option value="'+value.id+'">'+value.layout_name+'</option>').selectpicker('refresh');
+                    });
+                }else{
+                    alert("Something went wrong, Please contact Admin!");
+                }
+                // $(".loader").hide();
+                // if (data == 'success'){
+                //     $(".upload_doc_"+id).css("display","none");
+                // }
+            }
+        })         
+    }
+</script>
 @endsection
 
