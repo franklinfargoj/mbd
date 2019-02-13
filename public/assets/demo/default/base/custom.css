@@ -297,8 +297,8 @@ a[title="JavaScript charts"] {
 }
 
 .m-portlet--forms-compact .m-portlet__head--top {
-    margin-top: 20px;
-    padding-bottom: 25px;
+    margin-top: 10px;
+    padding-bottom: 20px;
 }
 
 .m-portlet--forms-compact .m-form__actions {
@@ -3578,4 +3578,32 @@ label.site-visit-label {
 
 .m-badge{
     font-weight: 500;
+}
+
+.mhada-pb{
+    padding-bottom: 20px;
+}
+
+#appointing_architect_step1 .mhada-lease-margin{
+    margin-bottom: -30px;
+}
+
+.m-portlet--forms-compact .m-portlet__head--top.mhada-pb{
+    padding-top: 20px;
+}
+
+.mhada-header-mt{
+    padding-top: 25px !important;
+}
+
+.mhada-pt{
+    padding-top: 40px !important;
+}
+
+.mhada-lr-p{
+    padding: 0 15px !important;
+}
+
+.mhada-mb{
+    margin-bottom: 50px !important;
 }

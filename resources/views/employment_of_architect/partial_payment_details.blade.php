@@ -10,7 +10,7 @@
         </div>
     </div>
 </div>
-<div class="m-form__group row align-items-end">
+<div class="m-form__group row align-items-end mhada-lease-margin">
     <div class="col-sm-4 form-group">
         <label class="col-form-label" for="cash">Cash Paid<span class="star">*</span></label>
         <input type="text" id="cash" name="cash" class="form-control form-control--custom m-input" value="{{old('cash')?old('cash'):($application->fee_payment_details!=""?$application->fee_payment_details->cash:"")}}">
@@ -47,7 +47,7 @@
         @endif
     </div>
 </div>
-<div class="m-portlet__head px-0 m-portlet__head--top">
+<div class="m-portlet__head px-0 m-portlet__head--top mhada-pb">
     <div class="m-portlet__head-caption">
         <div class="m-portlet__head-title">
             <span class="m-portlet__head-icon m--hide">
@@ -59,7 +59,7 @@
         </div>
     </div>
 </div>
-<div class="m-form__group row">
+<div class="m-form__group row mb-0">
     <div class="col-sm-4 form-group">
         <label class="col-form-label" for="receipt_no">Receipt No<span class="star">*</span></label>
         <input type="text" id="receipt_no" name="receipt_no" class="form-control form-control--custom m-input" value="{{old('receipt_no')?old('receipt_no'):($application->fee_payment_details!=""?$application->fee_payment_details->receipt_no:"")}}">
