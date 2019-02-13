@@ -38,6 +38,10 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">View CTS Plan Details -
                 {{$ArchitectLayoutDetail->architect_layout->master_layout!=""?$ArchitectLayoutDetail->architect_layout->master_layout->layout_name:''}}</h3>
+                <div class="ml-auto btn-list">
+                        <a href="{{route('architect_layout_details.view',['layout_id'=>encrypt($ArchitectLayoutDetail->architect_layout_id),'#court-case-or-dispute-on-land-section'])}}" class="btn btn-link"><i class="fa fa-long-arrow-left"
+                            style="padding-right: 8px;"></i>Back</a>
+                </div>
         </div>
     </div>
     <div class="m-portlet m-portlet--mobile m_panel">
@@ -67,8 +71,7 @@
                             <input type="hidden" name="architect_layout_detail_id" value="{{$ArchitectLayoutDetail->id}}">
                             <div class="custom-file">
                                 <a target="_blank" id="cts_plan" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->cts_plan}}"
-                                    style="display:{{$ArchitectLayoutDetail->cts_plan!=''?'block':'none'}};">uploaded
-                                    file</a>
+                                    style="display:{{$ArchitectLayoutDetail->cts_plan!=''?'block':'none'}};"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                             </div>
                         </div>
                     </div>
@@ -96,10 +99,10 @@
                                 @endif
 
                             </div>
-                            <div class="mt-auto">
+                            {{-- <div class="mt-5">
                                 <a href="{{route('architect_layout_details.view',['layout_id'=>encrypt($ArchitectLayoutDetail->architect_layout_id)])}}"
                                     class="btn btn-primary btn-custom">Back</a>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     </form>
