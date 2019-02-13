@@ -15,18 +15,20 @@
         <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
-                    <form role="form" id="villageForm" method="get" action="{{route('village_detail.index')}}">
+                    <form role="form" id="villageForm" class="floating-labels-form" method="get" action="{{route('village_detail.index')}}">
                         <div class="row align-items-center mb-0">
-                            <div class="col-md-3">
+                            <div class="col-md-3 p-m-0">
                                 <div class="form-group m-form__group">
+                                    <label for="village_name" class="col-form-label">Village Name</label>
                                     <input type="text" id="village_name" name="village_name" class="form-control form-control--custom m-input"
-                                           placeholder="Village Name" value="{{ isset($getData['village_name'])? $getData['village_name'] : '' }}">
+                                           placeholder="" value="{{ isset($getData['village_name'])? $getData['village_name'] : '' }}">
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 p-m-0">
                                 <div class="form-group m-form__group">
+                                    <label for="sr_no" class="col-form-label">Survey Number</label>
                                     <input type="text" id="sr_no" name="sr_no" class="form-control form-control--custom m-input"
-                                           placeholder="Survey Number" value="{{ isset($getData['sr_no'])? $getData['sr_no'] : '' }}">
+                                           placeholder="" value="{{ isset($getData['sr_no'])? $getData['sr_no'] : '' }}">
                                 </div>
                             </div>
                             {{--<div class="col-md-2">--}}
@@ -36,8 +38,8 @@
                                 {{--</div>--}}
                             {{--</div>--}}
 
-                            <div class="col-md-3">
-                                <div class="form-group m-form__group">
+                            <div class="col-md-3 p-m-0">
+                                <div class="form-group m-form__group focused">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                             id="villageLandSource" name="villageLandSource">
                                         <option value="" style="font-weight: normal;">Select Land</option>

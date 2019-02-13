@@ -3064,7 +3064,7 @@ label.site-visit-label {
 
 .floating-labels-form div[class^="col-"],
 .floating-labels-form div[class*="col-"] {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 /* .floating-labels-form .form-control--custom {
@@ -3521,3 +3521,29 @@ label.site-visit-label {
 .mhada-label-index{
     z-index: 9 !important;
 }
+
+
+.signup-wrapper .mhada-sign-up{
+    margin-bottom: 0 !important;
+}
+
+.signup-wrapper .mhada-sign-up label.col-form-label{
+    top: 8px !important;
+}
+
+.signup-wrapper .mhada-sign-up .form-group.focused label.col-form-label {
+    top: -7px !important;
+}
+
+.signup-wrapper .mhada-sign-up .row{
+    margin-bottom: 0 !important;
+}
+
+.signup-wrapper .floating-labels-form .row{
+    margin-bottom: 0 !important;
+}
+
+#villageForm .p-m-0{
+    margin-bottom: 0 !important;
+}
+
