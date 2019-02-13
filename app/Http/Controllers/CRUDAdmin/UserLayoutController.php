@@ -213,14 +213,23 @@ class UserLayoutController extends Controller
 
     public function getLayout(Request $request){
         
-        $userId = $request->userId;
-        $roleId = User::where('id',$userId)->value('role_id');
-        $layout = LayoutUser::with(['user' => function ($query) use($roleId){
-            $query->where('role_id',$roleId);
-        }])->whereHas('user', function($query) use($roleId){
-            $query->where('role_id',$roleId);
-        })->pluck('layout_id');
-        dd($layout);
-        //  
+        try{
+            $userId = $request->userId;
+            $roleId = User::where('id',$userId)->value('role_id');
+            $layoutIds = LayoutUser::with(['user' => function ($query) use($roleId){
+                $query->where('role_id',$roleId);
+            }])->whereHas('user', function($query) use($roleId){
+                $query->where('role_id',$roleId);
+            })->pluck('layout_id');
+
+            $layout = MasterLayout::whereNotIn('id',$layoutIds)->get(); 
+            $response['status'] = 'success';          
+            $response['data'] = $layout;          
+
+        }catch(Exception $e){
+            $response['status'] = 'error';
+            $response['data'] = '';
+        }
+        return response(json_encode($response), 200);
     }
 }
