@@ -36,9 +36,7 @@
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="layout_id">Layout:<span class="star">*</span></label>
                             <select data-live-search="true" title="Please Select Layout" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout_id" name="layout_id">
-                                @foreach($layouts as $layout)
-                                    <option value="{{ $layout['id']  }}">{{ $layout['layout_name'] }}</option>
-                                @endforeach
+                             <option selected disabled>Select</option>
                             </select>
                             <span class="error">{{$errors->first('layout_id')}}</span>
 
@@ -75,9 +73,20 @@
             data: form_data,
             type: 'post',
             contentType: false,
-            cache: false, 
+            cache: false,  
             processData: false,
-            success: function(data) {
+            success: function(response) {
+                var result = JSON.parse(response);
+                
+                if (result.status == 'success'){
+                    $("#layout_id option").remove();
+                    $.each(result.data, function(key,value){
+                        console.log(value.layout_name);
+                        $("#layout_id").append('<option value="'+value.id+'">'+value.layout_name+'</option>').selectpicker('refresh');
+                    });
+                }else{
+                    alert("Something went wrong, Please contact Admin!");
+                }
                 // $(".loader").hide();
                 // if (data == 'success'){
                 //     $(".upload_doc_"+id).css("display","none");
