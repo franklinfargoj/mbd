@@ -16,10 +16,10 @@
                 @forelse ($ArchitectLayoutDetail->ArchitectLayoutDetailDpRemark as $item)
                 <tr>
                     <td>
-                        <a class="text-primary" target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->dp_letter}}">download</a>
+                        <a class="text-primary" target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->dp_letter}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                     </td>
                     <td>
-                        <a class="text-primary" target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->dp_plan}}">download</a>
+                        <a class="text-primary" target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->dp_plan}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                     </td>
                     <td>
                         {{$item->dp_comment}}
@@ -106,10 +106,10 @@
                 @forelse ($ArchitectLayoutDetail->ArchitectLayoutDetailCrzRemark as $item)
                 <tr>
                     <td>
-                        <a class="text-primary" target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->crz_letter}}">download</a>
+                        <a class="text-primary" target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->crz_letter}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                     </td>
                     <td>
-                        <a class="text-primary" target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->crz_plan}}">download</a>
+                        <a class="text-primary" target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->crz_plan}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                     </td>
                     <td>
                         {{$item->crz_comment}}

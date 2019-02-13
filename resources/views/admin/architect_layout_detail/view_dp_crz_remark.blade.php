@@ -5,6 +5,10 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">View DP Remark & CRZ Remark Details -
                 {{$ArchitectLayoutDetail->architect_layout->master_layout!=""?$ArchitectLayoutDetail->architect_layout->master_layout->layout_name:''}}</h3>
+                <div class="ml-auto btn-list">
+                        <a href="{{route('architect_layout_details.view',['layout_id'=>encrypt($ArchitectLayoutDetail->architect_layout_id)])}}" class="btn btn-link"><i class="fa fa-long-arrow-left"
+                            style="padding-right: 8px;"></i>Back</a>
+                </div>
         </div>
     </div>
     <div class="m-portlet m-portlet--mobile m_panel">
@@ -26,10 +30,10 @@
                             @forelse ($ArchitectLayoutDetail->ArchitectLayoutDetailDpRemark as $item)
                             <tr>
                                 <td>
-                                    <a class="text-primary" target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->dp_letter}}">download</a>
+                                    <a class="text-primary" target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->dp_letter}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                 </td>
                                 <td>
-                                    <a class="text-primary" target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->dp_plan}}">download</a>
+                                    <a class="text-primary" target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->dp_plan}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                 </td>
                                 <td>
                                     {{$item->dp_comment}}
@@ -63,10 +67,10 @@
                             @forelse ($ArchitectLayoutDetail->ArchitectLayoutDetailCrzRemark as $item)
                             <tr>
                                 <td>
-                                    <a class="text-primary" target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->crz_letter}}">download</a>
+                                    <a class="text-primary" target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->crz_letter}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                 </td>
                                 <td>
-                                    <a class="text-primary" target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->crz_plan}}">download</a>
+                                    <a class="text-primary" target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->crz_plan}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                 </td>
                                 <td>
                                     {{$item->crz_comment}}
