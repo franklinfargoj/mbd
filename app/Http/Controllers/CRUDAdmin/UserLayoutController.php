@@ -92,7 +92,7 @@ class UserLayoutController extends Controller
      */
     public function create()
     {
-        $users = User::get()->toArray();
+        $users = User::with('roleDetails')->get()->toArray();
         $layouts = MasterLayout::get()->toArray();
         return view('admin.crud_admin.user_layout.create',compact('users','layouts'));
 
@@ -105,8 +105,9 @@ class UserLayoutController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validate($request, [
-            'user_id' => 'required|unique:layout_user,user_id',
+            'user_id' => 'required',
             'layout_id' => 'required',
         ]);
         //create the new layout

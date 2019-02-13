@@ -16,7 +16,7 @@
                 <div class="m-portlet__body m-portlet__body--spaced">
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="preceding_officer_name">Department:</label>
+                             <label class="col-form-label" for="preceding_officer_name">Department: <span class="star">*</span></label>
                             {{-- <input type="text" id="department_name" name="department_name" class="form-control form-control--custom m-input" value="EE" readonly> --}}
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" data-live-search="true" id="department_name" name="department_name" required>
                                 <option value="">Select</option>
@@ -29,7 +29,8 @@
                     </div>
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="application_type_id">Layout:</label>
+                            <label class="col-form-label" for="application_type_id">Layout:
+                             <span class="star">*</span></label>
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" data-live-search="true" id="layouts" name="layout_id" required>
                                 @foreach($layouts as $layout)
                                     <option value="{{ $layout['id'] }}">{{ $layout['layout_name'] }}</option>
@@ -39,7 +40,8 @@
                             <input type="hidden" name="application_master_id" value="{{ $id }}" required>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
-                            <label class="col-form-label" for="case_year">Building No:</label>
+                            <label class="col-form-label" for="case_year">Building No:
+                            </label>
                             <input type="text" id="building_no" name="building_no" class="form-control form-control--custom m-input" value="{{ $society_details->building_no }}" readonly>
                             <span class="help-block">{{$errors->first('building_no')}}</span>
                         </div>
@@ -47,7 +49,8 @@
 
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="name">Society Name:</label>
+                            <label class="col-form-label" for="name">Society Name:
+                            </label>
                             <input type="text" id="name" name="name" class="form-control form-control--custom m-input" value="{{ $society_details->name }}" readonly>
                             <span class="help-block">{{$errors->first('name')}}</span>
                         </div>
@@ -60,12 +63,12 @@
 
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="date_of_meeting">Date of Resolution:</label>
+                            <label class="col-form-label" for="date_of_meeting">Date of Resolution: <span class="star">*</span></label>
                             <input type="text" id="m_datepicker" name="date_of_meeting" data-date-end-date="+0d" class="form-control form-control--custom m-input m_datepicker" value="{{ old('date_of_meeting') }}" required>
                             <span class="help-block">{{$errors->first('date_of_meeting')}}</span>
-                        </div>
+                        </div> 
                         <div class="col-sm-4 offset-sm-1 form-group">
-                            <label class="col-form-label" for="resolution_no">Resolution No:</label>
+                            <label class="col-form-label" for="resolution_no">Resolution No: <span class="star">*</span></label>
                             <input type="text" id="resolution_no" name="resolution_no" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('resolution_no') }}" required>
                             <span class="help-block">{{$errors->first('resolution_no')}}</span>
                         </div>
