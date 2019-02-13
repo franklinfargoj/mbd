@@ -1062,3 +1062,35 @@ $(document).ready(function() {
 });
 
 $("#billing_calculations").DataTable({ searching: false, dom: "Bfrtip", buttons: ["excel", "print"] });
+
+
+
+// var big_logo = asset('/img/logo-big.png');
+//
+// changeLogo();
+//     $(window).resize(changeLogo);
+//
+//     function changeLogo() {
+//         if($(window).width() > 576) {
+//             $('.login-logo').attr('src', {{asset('/img/logo-big.png')}};
+//         } else {
+//             $('.login-logo').attr('src', {{asset('/img/logo-short.png')}};
+//         }
+//     }
+//
+// $( "div.mhada-alert" ).fadeIn( 300 ).delay( 2500 ).fadeOut( 400 );
+//
+// var tab = document.querySelectorAll(".tab");
+// var tabs = document.querySelectorAll(".tabs")
+//
+// for(var i = 0; i < tab.length; i++){
+// 	console.log(tab[i]);
+// 	tabs.forEach(function(tabs){
+// 		if(tab == tabs){
+// 			tab.classList.add('tabs active')
+// 		}else{
+// 			tab.classList.remove('active')
+// 		}
+// 	});
+// };
+
