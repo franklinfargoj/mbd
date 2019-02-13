@@ -26,7 +26,7 @@
                 <div class="m-portlet__body m-portlet__body--spaced">
                     @for($i=0; $i < count($field_names); $i++)
                         @if($i != 0) @php $i++; @endphp @endif
-                        <div class="form-group m-form__group row">
+                        <div class="form-group m-form__group row mhada-lease-margin">
                             @if(isset($field_names[$i]))
                             @if($field_names[$i] == 'password' || $field_names[$i] == 'confirm_password') @php if($field_names[$i] == 'password'){ $field_names[$i] = 'new_password'; } $type = 'password'; $value = ''; @endphp @else @php $type = 'text'; @endphp @endif
                                 @if($field_names[$i] == 'id') @php $value = encrypt($users->id); $type = 'hidden'; @endphp @php echo $comm_func->form_fields($field_names[$i], $type, '', '', $value, '', 'required') @endphp @endif
@@ -48,7 +48,7 @@
                                     @if($field_names[$i+1] == 'email') @php $value_1 = $users->email; @endphp @endif
                                     @if($field_names[$i+1] == 'mobile_no') @php $value_1 = $users->mobile_no; @endphp @endif
                                     @if($type_1 != 'hidden')
-                                        <div class="col-sm-4 offset-sm-1 form-group">
+                                        <div class="col-sm-4 form-group">
                                             <label class="col-form-label" for="{{ $field_names[$i+1] }}">@php $labels = implode(' ', explode('_', $field_names[$i+1])); echo ucwords($labels); @endphp:</label>
                                             @if($field_names[$i+1] != 'email') @php echo $comm_func->form_fields($field_names[$i+1], $type_1, '', '', $value_1, '') @endphp @else <p> <b> @php echo $value_1; @endphp </b> </p> @endif
                                             <input type="hidden" name="id" value="{{ encrypt($users->id) }}">

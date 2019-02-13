@@ -40,6 +40,7 @@
 
                             <div class="col-md-3 p-m-0">
                                 <div class="form-group m-form__group focused">
+                                    <label for="villageLandSource" class="col-form-label mhada-multiple-label">Select Land</label>
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                             id="villageLandSource" name="villageLandSource">
                                         <option value="" style="font-weight: normal;">Select Land</option>

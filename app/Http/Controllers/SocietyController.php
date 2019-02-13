@@ -463,7 +463,7 @@ class SocietyController extends Controller
 //        dd($getData);
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
-        return view('admin.society_detail.index', compact('html','header_data','villages','getData', 'id'));
+        return view('admin.society_detail.index', compact('html','header_data','villages','getData'));
     }
 
     protected function getParameters() {

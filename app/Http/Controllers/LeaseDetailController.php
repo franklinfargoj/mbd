@@ -329,7 +329,7 @@ class LeaseDetailController extends Controller
         }
 
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
-        return view('admin.lease_detail.index', compact('society_name','html','header_data','getData', 'count', 'id', 'village_id'));
+        return view('admin.lease_detail.index', compact('society_name','html','header_data','getData', 'count', 'id'));
     }
 
     protected function getParameters() {
@@ -353,7 +353,7 @@ class LeaseDetailController extends Controller
         $header_data = $this->header_data;
         $arrData['month_data'] = MasterMonth::all();
 
-        return view('admin.lease_detail.create', compact('header_data', 'arrData', 'id', 'village_id'));
+        return view('admin.lease_detail.create', compact('header_data', 'arrData', 'id'));
     }
 
     /**
@@ -405,9 +405,9 @@ class LeaseDetailController extends Controller
 
         else
             $arrData['lease_data'] = LeaseDetail::where( ['lease_status' => 1])->first();
-        $count = count($arrData['lease_data']);
+        // $count = count($arrData['lease_data']);
 //        dd($count);
-        return view('admin.lease_detail.renew-lease', compact('header_data', 'arrData', 'id', 'village_id', 'count'));
+        return view('admin.lease_detail.renew-lease', compact('header_data', 'arrData', 'id'/*, 'village_id', 'count'*/));
     }
 
     public function updateLease(Request $request, $id)

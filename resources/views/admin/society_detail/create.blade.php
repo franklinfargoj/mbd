@@ -32,8 +32,8 @@
             @csrf
             <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="m-form__group row align-items-end">
-                    <div class="col-sm-4 form-group focused">
-                        <label class="col-form-label" for="villages-select">Villages:<span class="star">*</span></label>
+                    <div class="col-sm-4 form-group">
+                        <label class="col-form-label mhada-multiple-label" for="villages-select" style="">Villages:<span class="star">*</span></label>
                             <select title="Select Village" data-live-search="true" id="villages-select" multiple class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                     name="villages[]">
                                 @foreach($arrData['villages'] as $village)

@@ -12,12 +12,12 @@
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
-        <form id="renewLeaseDetail" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
+        <form id="renewLeaseDetail" role="form" method="post" class="m-form m-form--rows m-form--label-align-right floating-labels-form"
             action="{{route('renew-lease.update-lease', encrypt($id))}}">
             @csrf
             <input type="hidden" name="society_id" value="{{ $id }}">
             <div class="m-portlet__body m-portlet__body--spaced">
-                <div class="form-group m-form__group row">
+                <div class="form-group m-form__group row mhada-lease-margin">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="lease_rule_other">Lease rule 16 & other:</label>
                         <div class="m-input-icon m-input-icon--right">
@@ -27,7 +27,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="lease_basis">School/society/ others on lease basis:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="lease_basis" name="lease_basis" class="form-control form-control--custom m-input"
@@ -35,9 +35,7 @@
                             <span class="help-block">{{$errors->first('lease_basis')}}</span>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="area">Area(Sq.m.):</label>
                         <div class="m-input-icon m-input-icon--right">
@@ -46,8 +44,12 @@
                             <span class="help-block">{{$errors->first('area')}}</span>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                <div class="form-group m-form__group row mhada-lease-margin">
+                    
+
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="lease_period">Lease Period(in Yrs.):</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input readonly type="text" id="lease_period" name="lease_period" class="form-control form-control--custom m-input"
@@ -55,9 +57,7 @@
                             <span class="help-block">{{$errors->first('lease_period')}}</span>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="lease_start_date">Start date of lease:</label>
                         <div class="m-input-icon m-input-icon--right">
@@ -69,7 +69,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="lease_rent">Land rent / lease rent(in Rs.):</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="lease_rent" name="lease_rent" class="form-control form-control--custom m-input"
@@ -79,7 +79,7 @@
                     </div>
                 </div>
 
-                <div class="form-group m-form__group row">
+                <div class="form-group m-form__group row mhada-lease-margin">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="lease_rent_start_month">Month to start collection of lease
                             rent:</label>
@@ -95,7 +95,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="interest_per_lease_agreement">Interest as per Lease
                             agreement, in %:</label>
                         <div class="m-input-icon m-input-icon--right">
@@ -104,9 +104,7 @@
                             <span class="help-block">{{$errors->first('interest_per_lease_agreement')}}</span>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="lease_renewal_date">Date of Renewal of lease:</label>
                         <div class="m-input-icon m-input-icon--right">
@@ -115,8 +113,11 @@
                             <span class="help-block">{{$errors->first('lease_renewal_date')}}</span>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                <div class="form-group m-form__group row mhada-lease-margin">
+
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="lease_renewed_period">Period of renewed Lease:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="lease_renewed_period" name="lease_renewed_period" class="form-control form-control--custom m-input"
@@ -124,9 +125,6 @@
                             <span class="help-block">{{$errors->first('lease_renewed_period')}}</span>
                         </div>
                     </div>
-                </div>
-
-                <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="rent_per_renewed_lease">Lease rent as per renewed lease:</label>
                         <div class="m-input-icon m-input-icon--right">
@@ -136,7 +134,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="interest_per_renewed_lease_agreement">Interest as per
                             renewed Lease agreement, in %:</label>
                         <div class="m-input-icon m-input-icon--right">
@@ -147,7 +145,7 @@
                     </div>
                 </div>
 
-                <div class="form-group m-form__group row">
+                <div class="form-group m-form__group row mhada-lease-margin">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="month_rent_per_renewed_lease">Month to start collection of
                             lease rent as per renewed lease:</label>

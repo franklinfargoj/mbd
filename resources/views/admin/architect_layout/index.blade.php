@@ -23,23 +23,23 @@
                 <div class="col-md-12">
                     <form role="form" id="eeForm" class="floating-labels-form" method="get" action="{{ route($route_name) }}">
                         <div class="row align-items-center mb-0">
-                            <div class="col-md-2">
+                            <div class="col-md-2 mb-0">
                                 <div class="form-group m-form__group">
-                                    <label for="" class="col-form-label">Layout No</label>
+                                    <label for="title" class="col-form-label">Layout No</label>
                                     <input type="text" id="title" name="title" class="form-control form-control--custom m-input"
                                         placeholder="" value="{{ isset($getData['title'])? $getData['title'] : '' }}">
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 mb-0">
                                 <div class="form-group m-form__group">
-                                    <label for="" class="col-form-label">From Date</label>
+                                    <label for="submitted_at_from" class="col-form-label">From Date</label>
                                     <input type="text" id="submitted_at_from" name="submitted_at_from" class="form-control form-control--custom m-input m_datepicker"
                                         placeholder="" value="{{ isset($getData['submitted_at_from'])? $getData['submitted_at_from'] : '' }}">
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 mb-0">
                                 <div class="form-group m-form__group">
-                                    <label for="" class="col-form-label">To Date</label>
+                                    <label for="submitted_at_to" class="col-form-label">To Date</label>
                                     <input type="text" id="submitted_at_to" name="submitted_at_to" class="form-control form-control--custom m-input m_datepicker"
                                         placeholder="" value="{{ isset($getData['submitted_at_to'])? $getData['submitted_at_to'] : '' }}">
                                 </div>
@@ -49,8 +49,9 @@
                             $status = isset($getData['update_status'])? $getData['update_status'] : '';
                             @endphp
 
-                            <div class="col-md-3">
-                                <div class="form-group m-form__group">
+                            <div class="col-md-3 mb-0">
+                                <div class="form-group m-form__group focused">
+                                    <label for="submitted_at_to" class="col-form-label mhada-multiple-label">Select Status</label>
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                         id="update_status" name="update_status">
                                         <option value="" style="font-weight: normal;">Select Status</option>

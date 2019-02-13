@@ -13,12 +13,12 @@
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
 
-        <form id="addLeaseDetail" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
+        <form id="addLeaseDetail" role="form" method="post" class="m-form m-form--rows m-form--label-align-right floating-labels-form"
             action="{{route('lease_detail.store')}}">
             @csrf
             <input type="hidden" name="society_id" value="{{ $id }}">
             <div class="m-portlet__body m-portlet__body--spaced">
-                <div class="form-group m-form__group row">
+                <div class="m-form__group row mhada-lease-margin">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="lease_rule_other">Lease rule 16 & other:</label>
                         <div class="m-input-icon m-input-icon--right">
@@ -38,7 +38,7 @@
                     </div>
                 </div>
 
-                <div class="form-group m-form__group row">
+                <div class="m-form__group row mhada-lease-margin">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="area">Area(Sq.m.):</label>
                         <div class="m-input-icon m-input-icon--right">
@@ -58,7 +58,7 @@
                     </div>
                 </div>
 
-                <div class="form-group m-form__group row">
+                <div class="m-form__group row mhada-lease-margin">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="lease_start_date">Start date of lease:</label>
                         <div class="m-input-icon m-input-icon--right">
@@ -78,7 +78,7 @@
                     </div>
                 </div>
 
-                <div class="form-group m-form__group row">
+                <div class="m-form__group row mhada-lease-margin">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="lease_rent_start_month">Month to start collection of lease
                             rent:</label>

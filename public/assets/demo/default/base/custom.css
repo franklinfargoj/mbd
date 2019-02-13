@@ -977,8 +977,8 @@ table.dataTable tbody tr:nth-child(even):focus {
 }
 
 .m-portlet--compact {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .row--filter {
@@ -3545,4 +3545,32 @@ label.site-visit-label {
 
 #villageForm .p-m-0{
     margin-bottom: 0 !important;
+}
+
+#societyForm .p-m-0{
+    margin-bottom: 0 !important;
+}
+
+.mhada-multiple-label{
+    opacity: 1;
+    top: -19px !important;
+    color: #f0971b;
+    background: #fff;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-weight: 500;
+    font-size: 11px;
+}
+
+#addLeaseDetail .mhada-lease-margin{
+    margin-bottom: -30px;
+}
+
+
+#renewLeaseDetail .mhada-lease-margin{
+    margin-bottom: -30px;
+}
+
+#update_profile .mhada-lease-margin{
+    margin-bottom: -30px;
 }

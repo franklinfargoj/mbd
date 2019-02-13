@@ -15,22 +15,25 @@
         <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
-                    <form role="form" id="societyForm" method="get" action="{{route('society_detail.index')}}">
+                    <form role="form" id="societyForm" class="floating-labels-form" method="get" action="{{route('society_detail.index')}}">
                         <div class="row align-items-center mb-0">
-                            <div class="col-md-3">
+                            <div class="col-md-3 p-m-0">
                                 <div class="form-group m-form__group">
+                                    <label for="society_name" class="col-form-label">Society Name</label>
                                     <input type="text" id="society_name" name="society_name" class="form-control form-control--custom m-input"
-                                           placeholder="Society Name" value="{{ isset($getData['society_name'])? $getData['society_name'] : '' }}">
+                                           placeholder="" value="{{ isset($getData['society_name'])? $getData['society_name'] : '' }}">
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 p-m-0">
                                 <div class="form-group m-form__group">
+                                    <label for="sr_no" class="col-form-label">Survey Number</label>
                                     <input type="text" id="sr_no" name="sr_no" class="form-control form-control--custom m-input"
-                                           placeholder="Survey Number" value="{{ isset($getData['sr_no'])? $getData['sr_no'] : '' }}">
+                                           placeholder="" value="{{ isset($getData['sr_no'])? $getData['sr_no'] : '' }}">
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 p-m-0">
                                 <div class="form-group m-form__group">
+                                    <label for="" class="col-form-label mhada-multiple-label">Lease Status</label>
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                             {{--data-live-search="true"--}} id="lease_status" name="lease_status">
                                         <option value="" style="font-weight: normal;">Select Lease Status</option>
@@ -43,8 +46,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 p-m-0">
                                 <div class="form-group m-form__group">
+                                    <label for="" class="col-form-label mhada-multiple-label">Select Village</label>
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                             data-live-search="true" id="village" name="village">
                                         <option value="" style="font-weight: normal;">Select Village</option>
