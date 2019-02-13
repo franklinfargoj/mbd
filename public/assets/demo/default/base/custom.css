@@ -3547,3 +3547,6 @@ label.site-visit-label {
     margin-bottom: 0 !important;
 }
 
+.m-badge{
+    font-weight: 500;
+}
