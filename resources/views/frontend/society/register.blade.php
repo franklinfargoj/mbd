@@ -138,8 +138,8 @@
 
                                             <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('society_password')) has-error @endif">
-                                                    <label for="Password" class="col-form-label">Password</label>
-                                                    <input id="Password" class="form-control form-control--custom m-input" type="password"
+                                                    <label for="password" class="col-form-label">Password</label>
+                                                    <input id="password" class="form-control form-control--custom m-input" type="password"
                                                         placeholder="" name="society_password" id="password"
                                                         value="{{ old('society_password') }}" title="">
                                                     <a class="input-hint" href="#" data-toggle="tooltip" data-placement="top" title="Password should be minimum 6 & maximum 10 characters."><i class="fa fa-info-circle" style="color: orange;float: right;"></i></a>
