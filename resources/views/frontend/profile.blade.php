@@ -4,7 +4,7 @@
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title m-subheader__title{{----separator--}}">Profile</h3>
-                {{--                {{ Breadcrumbs::render('society_offer_application_create', $id) }}--}}
+                {{ Breadcrumbs::render('admin_profile') }}
             </div>
             <p class="sub-title">
                 @if (session('success'))
@@ -21,7 +21,7 @@
         </div>
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
-            <form id="update_profile" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action=" @if(session()->all(['role_name']) == config('commanConfig.society_offer_letter')) {{ route('society.update_profile') }} @else {{ route('admin.update_profile') }} @endif " enctype="multipart/form-data">
+            <form id="update_profile" role="form" method="post" class="m-form m-form--rows m-form--label-align-right floating-labels-form" action=" @if(session()->all(['role_name']) == config('commanConfig.society_offer_letter')) {{ route('society.update_profile') }} @else {{ route('admin.update_profile') }} @endif " enctype="multipart/form-data">
                 @csrf
                 <div class="m-portlet__body m-portlet__body--spaced">
                     @for($i=0; $i < count($field_names); $i++)

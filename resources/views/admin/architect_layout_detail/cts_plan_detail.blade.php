@@ -41,7 +41,7 @@
                                         <input required placeholder="CTS no" type="text" name="cts_no[{{$j}}]" class="form-control form-control--custom"
                                             value="{{ $cts_plan_detail->cts_no }}" >
                                         @if($j>0)
-                                        <i onclick="deleteCtsDetail(this,{{$cts_plan_detail->id}})" class="fa fa-close btn--add-delete remove"></i>
+                                        <i onclick="deleteCtsDetail(this,{{$cts_plan_detail->id}})" class="fa fa-close btn--remove-delete remove"></i>
                                         @endif
                                     </div>
                                     @php $j++; @endphp
@@ -57,7 +57,7 @@
 
                                 </div>
                                 <div class="row">
-                                    <div class="col-12 form-group">
+                                    <div class="col-12 form-group mt-2">
                                         <a class="btn--add-delete addCTS" href="javascript:void(0)">add more<a>
                                     </div>
                                 </div>
