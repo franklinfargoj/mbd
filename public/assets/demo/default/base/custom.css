@@ -3527,19 +3527,23 @@ label.site-visit-label {
     margin-bottom: 0 !important;
 }
 
-.signup-wrapper .mhada-sign-up label{
+.signup-wrapper .mhada-sign-up label.col-form-label{
     top: 8px !important;
 }
 
-.signup-wrapper .mhada-sign-up .form-group.focused .col-form-label {
-    top: -10px !important;
+.signup-wrapper .mhada-sign-up .form-group.focused label.col-form-label {
+    top: -7px !important;
 }
 
 .signup-wrapper .mhada-sign-up .row{
     margin-bottom: 0 !important;
 }
 
-.star{
-    color:red;
+.signup-wrapper .floating-labels-form .row{
+    margin-bottom: 0 !important;
+}
+
+#villageForm .p-m-0{
+    margin-bottom: 0 !important;
 }
 
