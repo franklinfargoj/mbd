@@ -156,6 +156,7 @@
                 }
             }
         });
+        //showUploadedFileName();
     });
     
     //old approved layout
@@ -198,6 +199,7 @@
                 }
             }
         });
+        //showUploadedFileName();
     });
 
     //last submitted layout for approval
@@ -240,6 +242,7 @@
                 }
             }
         });
+        //showUploadedFileName();
     });
 
     //survey report
@@ -283,7 +286,7 @@
             }
         });
     });
-
+    //showUploadedFileName();
 });
 
 //EE report add and delete
@@ -465,7 +468,7 @@ function getEEReportData(id, doc_name,doc_error,uploaded_file_id,ee_report_doc_i
         document.getElementById(id).value = null;
         $(".loader").hide();
     }
-    showUploadedFileName();
+   // showUploadedFileName();
 }
 //architect_layout_detail_delete_ee_report one by one
 function delete_ee_doc(id,doc_id)
@@ -549,7 +552,7 @@ function getEMReportData(id, doc_name,doc_error,uploaded_file_id,em_report_doc_i
         document.getElementById(id).value = null;
         $(".loader").hide();
     }
-    showUploadedFileName();
+   // showUploadedFileName();
 }
 //architect_layout_detail_delete_em_report one by one
 function delete_em_doc(id,doc_id)
@@ -632,7 +635,7 @@ function getREEReportData(id, doc_name,doc_error,uploaded_file_id,ree_report_doc
         document.getElementById(id).value = null;
         $(".loader").hide();
     }
-    showUploadedFileName();
+   // showUploadedFileName();
 }
 //architect_layout_detail_delete_ree_report one by one
 function delete_ree_doc(id,doc_id)
@@ -715,7 +718,7 @@ function getLandReportData(id, doc_name,doc_error,uploaded_file_id,land_report_d
         document.getElementById(id).value = null;
         $(".loader").hide();
     }
-    showUploadedFileName();
+   // showUploadedFileName();
 }
 
 function showUploadedFileName() {
@@ -1134,7 +1137,7 @@ $(window).on('popstate', function () {
                                                         class="custom-file-input">
                                                     <label title="" class="custom-file-label" for="ee_extract">Choose
                                                         file</label>
-                                                    <a class="btn-link" target="_blank" style="display:{{($ee_report_1!=null) ?'block':'none'}}"
+                                                    <a class="btn-link mhada-pdf-icon" target="_blank" style="display:{{($ee_report_1!=null) ?'block':'none'}}"
                                                         id="ee_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.($ee_report_1!=null?$ee_report_1->upload_file:'')}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     <span class="text-danger" id="ee_doc_error"></span>
                                                 </div>
@@ -1162,7 +1165,7 @@ $(window).on('popstate', function () {
                                                         onchange="getEEReportData(this.id,'ee_doc_name_1','ee_doc_error_1','ee_report_uploaded_file_1','ee_report_doc_id_1')">
                                                     <label title="" class="custom-file-label" for="ee_extract_1">Choose
                                                         file</label>
-                                                    <a class="btn-link" target="_blank" style="display:{{($ee_report_2!=null)?'block':'none'}}"
+                                                    <a class="btn-link mhada-pdf-icon" target="_blank" style="display:{{($ee_report_2!=null)?'block':'none'}}"
                                                         id="ee_report_uploaded_file_1" href="{{config('commanConfig.storage_server').'/'.(($ee_report_2!=null)?$ee_report_2->upload_file:'')}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     <span class="text-danger" id="ee_doc_error_1"></span>
                                                 </div>
@@ -1189,7 +1192,7 @@ $(window).on('popstate', function () {
                                                         onchange="getEEReportData(this.id,'ee_doc_name_2','ee_doc_error_2','ee_report_uploaded_file_2','ee_report_doc_id_2')">
                                                     <label title="" class="custom-file-label" for="ee_extract_2">Choose
                                                         file</label>
-                                                    <a class="btn-link" target="_blank" style="display:{{($ee_report_3!=null)?'block':'none'}}"
+                                                    <a class="btn-link mhada-pdf-icon" target="_blank" style="display:{{($ee_report_3!=null)?'block':'none'}}"
                                                         id="ee_report_uploaded_file_2" href="{{config('commanConfig.storage_server').'/'.($ee_report_3!=null?$ee_report_3->upload_file:'')}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     <span class="text-danger" id="ee_doc_error_2"></span>
                                                 </div>
@@ -1216,7 +1219,7 @@ $(window).on('popstate', function () {
                                                         class="custom-file-input ee_doc_file" onchange="getEEReportData(this.id,'ee_doc_name_{{$i}}','ee_doc_error_{{$i}}','ee_report_uploaded_file_{{$i}}','ee_report_doc_id_{{$i}}')">
                                                     <label title="" class="custom-file-label" for="ee_extract_{{$i}}">Choose
                                                         file</label>
-                                                    <a class="btn-link" target="_blank" style="display:{{isset($ee_report->upload_file)?'block':'none'}}"
+                                                    <a class="btn-link mhada-pdf-icon" target="_blank" style="display:{{isset($ee_report->upload_file)?'block':'none'}}"
                                                         id="ee_report_uploaded_file_{{$i}}" href="{{config('commanConfig.storage_server').'/'.(isset($ee_report->upload_file)?$ee_report->upload_file:'')}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     <span class="text-danger" id="ee_doc_error_{{$i}}"></span>
                                                 </div>
@@ -1269,7 +1272,7 @@ $(window).on('popstate', function () {
                                                         class="custom-file-input">
                                                     <label title="" class="custom-file-label" for="em_extract">Choose
                                                         file</label>
-                                                    <a class="btn-link" target="_blank" style="display:{{$em_report_1!=null?'block':'none'}}"
+                                                    <a class="btn-link mhada-pdf-icon" target="_blank" style="display:{{$em_report_1!=null?'block':'none'}}"
                                                         id="em_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.($em_report_1!=null?$em_report_1->upload_file:'')}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     <span class="text-danger" id="em_doc_error"></span>
                                                 </div>
@@ -1296,7 +1299,7 @@ $(window).on('popstate', function () {
                                                         onchange="getEMReportData(this.id,'em_doc_name_1','em_doc_error_1','em_report_uploaded_file_1','em_report_doc_id_1')">
                                                     <label title="" class="custom-file-label" for="em_extract_1">Choose
                                                         file</label>
-                                                    <a class="btn-link" target="_blank" style="display:{{$em_report_2!=null?'block':'none'}}"
+                                                    <a class="btn-link mhada-pdf-icon" target="_blank" style="display:{{$em_report_2!=null?'block':'none'}}"
                                                         id="em_report_uploaded_file_1" href="{{config('commanConfig.storage_server').'/'.($em_report_2!=null?$em_report_2->upload_file:'')}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     <span class="text-danger" id="em_doc_error_1"></span>
                                                 </div>
@@ -1323,7 +1326,7 @@ $(window).on('popstate', function () {
                                                         class="custom-file-input em_doc_file" onchange="getEMReportData(this.id,'em_doc_name_{{$i}}','em_doc_error_{{$i}}','em_report_uploaded_file_{{$i}}','em_report_doc_id_{{$i}}')">
                                                     <label title="" class="custom-file-label" for="em_extract_{{$i}}">Choose
                                                         file</label>
-                                                    <a class="btn-link" target="_blank" style="display:{{isset($em_report->upload_file)?'block':'none'}}"
+                                                    <a class="btn-link mhada-pdf-icon" target="_blank" style="display:{{isset($em_report->upload_file)?'block':'none'}}"
                                                         id="em_report_uploaded_file_{{$i}}" href="{{config('commanConfig.storage_server').'/'.(isset($em_report->upload_file)?$em_report->upload_file:'')}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     <span class="text-danger" id="em_doc_error_{{$i}}"></span>
                                                 </div>
@@ -1376,7 +1379,7 @@ $(window).on('popstate', function () {
                                                         class="custom-file-input">
                                                     <label title="" class="custom-file-label" for="ree_extract">Choose
                                                         file</label>
-                                                    <a class="btn-link" target="_blank" style="display:{{$ree_report_1!=null?'block':'none'}}"
+                                                    <a class="btn-link mhada-pdf-icon" target="_blank" style="display:{{$ree_report_1!=null?'block':'none'}}"
                                                         id="ree_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.($ree_report_1!=null?$ree_report_1->upload_file:'')}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     <span class="text-danger" id="ree_doc_error"></span>
                                                 </div>
@@ -1403,7 +1406,7 @@ $(window).on('popstate', function () {
                                                         onchange="getREEReportData(this.id,'ree_doc_name_1','ree_doc_error_1','ree_report_uploaded_file_1','ree_report_doc_id_1')">
                                                     <label title="" class="custom-file-label" for="ree_extract_1">Choose
                                                         file</label>
-                                                    <a class="btn-link" target="_blank" style="display:{{$ree_report_2!=null?'block':'none'}}"
+                                                    <a class="btn-link mhada-pdf-icon" target="_blank" style="display:{{$ree_report_2!=null?'block':'none'}}"
                                                         id="ree_report_uploaded_file_1" href="{{config('commanConfig.storage_server').'/'.($ree_report_2!=null?$ree_report_2->upload_file:'')}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     <span class="text-danger" id="ree_doc_error_1"></span>
                                                 </div>
@@ -1430,7 +1433,7 @@ $(window).on('popstate', function () {
                                                         class="custom-file-input ree_doc_file" onchange="getREEReportData(this.id,'ree_doc_name_{{$i}}','ree_doc_error_{{$i}}','ree_report_uploaded_file_{{$i}}','ree_report_doc_id_{{$i}}')">
                                                     <label title="" class="custom-file-label" for="ree_extract_{{$i}}">Choose
                                                         file</label>
-                                                    <a class="btn-link" target="_blank" style="display:{{isset($ree_report->upload_file)?'block':'none'}}"
+                                                    <a class="btn-link mhada-pdf-icon" target="_blank" style="display:{{isset($ree_report->upload_file)?'block':'none'}}"
                                                         id="ree_report_uploaded_file_{{$i}}" href="{{config('commanConfig.storage_server').'/'.(isset($ree_report->upload_file)?$ree_report->upload_file:'')}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     <span class="text-danger" id="ree_doc_error_{{$i}}"></span>
                                                 </div>
@@ -1480,7 +1483,7 @@ $(window).on('popstate', function () {
                                                         class="custom-file-input">
                                                     <label title="" class="custom-file-label" for="land_extract">Choose
                                                         file</label>
-                                                    <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->land_reports[0])?'block':'none'}}"
+                                                    <a class="btn-link mhada-pdf-icon" target="_blank" style="display:{{isset($ArchitectLayoutDetail->land_reports[0])?'block':'none'}}"
                                                         id="land_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->land_reports[0])?$ArchitectLayoutDetail->land_reports[0]->upload_file:'')}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                     <span class="text-danger" id="land_doc_error"></span>
                                                 </div>
@@ -1544,7 +1547,7 @@ $(window).on('popstate', function () {
                                             <input class="custom-file-input" type="file" id="old_approved_layout" name="old_approved_layout">
                                             <label class="custom-file-label" for="old_approved_layout">Choose file...</label>
                                         </div>
-                                        <a class="btn-link" target="_blank" id="old_approved_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->old_approved_layout}}"
+                                        <a class="btn-link mhada-pdf-icon mhada-pdf-icon-old" target="_blank" id="old_approved_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->old_approved_layout}}"
                                             style="display:{{$ArchitectLayoutDetail->old_approved_layout!=''?'block':'none'}};"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                         <span class="text-danger" id="old_approved_layout_error"></span>
                                     </div>
@@ -1570,7 +1573,7 @@ $(window).on('popstate', function () {
                                                 required="">
                                             <label class="custom-file-label" for="latest_layout">Choose file...</label>
                                         </div>
-                                        <a class="btn-link" target="_blank" id="latest_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->latest_layout}}"
+                                        <a class="btn-link mhada-pdf-icon-old" target="_blank" id="latest_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->latest_layout}}"
                                             style="display:{{$ArchitectLayoutDetail->latest_layout!=''?'block':'none'}};"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                         <span class="text-danger" id="latest_layout_error"></span>
                                     </div>
@@ -1597,7 +1600,7 @@ $(window).on('popstate', function () {
                                                 required="">
                                             <label class="custom-file-label" for="last_submitted_layout">Choose file...</label>
                                         </div>
-                                        <a class="btn-link" target="_blank" id="last_submitted_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->last_submitted_layout_for_approval}}"
+                                        <a class="btn-link mhada-pdf-icon-old" target="_blank" id="last_submitted_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->last_submitted_layout_for_approval}}"
                                             style="display:{{$ArchitectLayoutDetail->last_submitted_layout_for_approval!=''?'block':'none'}};"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                         <span class="text-danger" id="last_submitted_layout_file_error"></span>
                                     </div>
@@ -1623,7 +1626,7 @@ $(window).on('popstate', function () {
                                                 required="">
                                             <label class="custom-file-label" for="survey_report">Choose file...</label>
                                         </div>
-                                        <a class="btn-link" target="_blank" id="survey_report_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->latest_layout}}"
+                                        <a class="btn-link mhada-pdf-icon-old" target="_blank" id="survey_report_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->latest_layout}}"
                                             style="display:{{$ArchitectLayoutDetail->survey_report!=''?'block':'none'}};"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                         <span class="text-danger" id="survey_report_file_error"></span>
                                     </div>
@@ -1650,7 +1653,7 @@ $(window).on('popstate', function () {
                                     <input class="custom-file-input" type="file" id="old_approved_layout" name="old_approved_layout">
                                     <label class="custom-file-label" for="old_approved_layout">Choose file...</label>
                                 </div>
-                                <a class="btn-link" target="_blank" id="old_approved_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->old_approved_layout}}"
+                                <a class="btn-link mhada-pdf-icon" target="_blank" id="old_approved_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->old_approved_layout}}"
                                     style="display:{{$ArchitectLayoutDetail->old_approved_layout!=''?'block':'none'}};"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                 <span class="text-danger" id="old_approved_layout_error"></span>
                             </div>
@@ -1666,7 +1669,7 @@ $(window).on('popstate', function () {
                                         required="">
                                     <label class="custom-file-label" for="latest_layout">Choose file...</label>
                                 </div>
-                                <a class="btn-link" target="_blank" id="latest_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->latest_layout}}"
+                                <a class="btn-link mhada-pdf-icon" target="_blank" id="latest_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->latest_layout}}"
                                     style="display:{{$ArchitectLayoutDetail->latest_layout!=''?'block':'none'}};"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                 <span class="text-danger" id="latest_layout_error"></span>
                             </div>
@@ -1687,7 +1690,7 @@ $(window).on('popstate', function () {
                                         required="">
                                     <label class="custom-file-label" for="last_submitted_layout">Choose file...</label>
                                 </div>
-                                <a class="btn-link" target="_blank" id="last_submitted_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->last_submitted_layout_for_approval}}"
+                                <a class="btn-link mhada-pdf-icon" target="_blank" id="last_submitted_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->last_submitted_layout_for_approval}}"
                                     style="display:{{$ArchitectLayoutDetail->last_submitted_layout_for_approval!=''?'block':'none'}};"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                 <span class="text-danger" id="last_submitted_layout_file_error"></span>
                             </div>
@@ -1703,7 +1706,7 @@ $(window).on('popstate', function () {
                                         required="">
                                     <label class="custom-file-label" for="survey_report">Choose file...</label>
                                 </div>
-                                <a class="btn-link" target="_blank" id="survey_report_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->latest_layout}}"
+                                <a class="btn-link mhada-pdf-icon" target="_blank" id="survey_report_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->latest_layout}}"
                                     style="display:{{$ArchitectLayoutDetail->survey_report!=''?'block':'none'}};"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                 <span class="text-danger" id="survey_report_file_error"></span>
                             </div>

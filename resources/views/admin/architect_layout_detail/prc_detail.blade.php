@@ -44,7 +44,7 @@
                                     @endphp 
                                 <input type="file" accept="pdf" title="please upload file with pdf extension" id="extract_{{$j}}" {{ $file!=""?"":"required" }} name="pr_cards[{{$j}}]" class="custom-file-input">
                                 <label title="" class="custom-file-label" for="extract_{{$j}}">Choose file</label>
-                                <a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$pr_card_detail->upload_pr_card}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
+                                <a class="btn-link mhada-pdf-icon" target="_blank" href="{{config('commanConfig.storage_server').'/'.$pr_card_detail->upload_pr_card}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                 <span class="help-block"></span>
                             </div>
                         </div>
