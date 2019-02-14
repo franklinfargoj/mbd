@@ -318,7 +318,7 @@ class RCController extends Controller
                 $data['year'] = date('Y') -1;
             } else {
                 $data['month'] = date('m') -1;
-                $data['year'] = date('Y') -1;
+                $data['year'] = date('Y');
             }
         } else {
             $data['month'] = date('m');

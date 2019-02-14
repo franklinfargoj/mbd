@@ -241,10 +241,12 @@ var SnippetLogin = function() {
         },
         scoiety_offer_letter = function() {
             $("#m_login_signup_submit_society_offer_letter").click(function(e) {
+
                 e.preventDefault();
                 var a = $(this),
-                    t = $(this).closest("form");
-                    // console.log(t)
+                    // t = $(this).closest("form");
+                    t = $("#sign_up_form_society_offer_letter");
+                    console.log(t);
                 t.validate({
                     rules:{
                         society_name:{

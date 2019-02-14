@@ -33,7 +33,7 @@
             <div class="m-portlet__body m-portlet__body--spaced">
             <div class="m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="villages-select">Villages:<span class="star">*</span></label>
+                        <label class="col-form-label mhada-multiple-label" for="villages-select">Villages:<span class="star">*</span></label>
                         <div class="m-input-icon m-input-icon--right">
                             <select title="Select Village" data-live-search="true" id="villages-select" multiple class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                     name="villages[]">

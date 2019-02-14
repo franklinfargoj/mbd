@@ -49,23 +49,23 @@
             {{-- @include('employment_of_architect.partial_personal_details',compact('application')) --}}
             <div class="m-form__group row align-items-end">
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Consultant's details of Establishment<span class="star">*</span></label>
-                    <input type="text" id="" name="details_of_establishment" class="form-control form-control--custom m-input"
+                    <label class="col-form-label" for="details_of_establishment">Consultant's details of Establishment<span class="star">*</span></label>
+                    <input type="text" id="details_of_establishment" name="details_of_establishment" class="form-control form-control--custom m-input"
                         value="{{$application->details_of_establishment}}">
                     @if ($errors->has('details_of_establishment'))
                     <span class="text-danger">{{ $errors->first('details_of_establishment') }}</span>
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Consultant's Branch Details<span class="star">*</span></label>
-                    <input type="text" id="" name="branch_office_details" class="form-control form-control--custom m-input"
+                    <label class="col-form-label" for="branch_office_details">Consultant's Branch Details<span class="star">*</span></label>
+                    <input type="text" id="branch_office_details" name="branch_office_details" class="form-control form-control--custom m-input"
                         value="{{$application->branch_office_details}}">
                     @if ($errors->has('branch_office_details'))
                     <span class="text-danger">{{ $errors->first('branch_office_details') }}</span>
                     @endif
                 </div>
             </div>
-            <div class="m-portlet__head px-0 m-portlet__head--top">
+            <div class="m-portlet__head px-0 m-portlet__head--top mhada-header-mt">
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <span class="m-portlet__head-icon m--hide">
@@ -79,7 +79,7 @@
             </div>
             <div class="m-form__group row align-items-end">
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">No of Architects<span class="star">*</span></label>
+                    <label class="col-form-label" for="staff_architects">No of Architects<span class="star">*</span></label>
                     <input onchange="get_total_staff()" onkeyup="get_total_staff()" type="number" min="0" id="staff_architects"
                         name="staff_architects" class="form-control form-control--custom m-input" value="{{$application->staff_architects}}">
                     @if ($errors->has('staff_architects'))
@@ -87,7 +87,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">No of Engineer<span class="star">*</span></label>
+                    <label class="col-form-label" for="staff_engineers">No of Engineer<span class="star">*</span></label>
                     <input onchange="get_total_staff()" onkeyup="get_total_staff()" type="number" min="0" id="staff_engineers"
                         name="staff_engineers" class="form-control form-control--custom m-input" value="{{$application->staff_engineers}}">
                     @if ($errors->has('staff_engineers'))
@@ -95,7 +95,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">No of Supporting (Tech.)<span class="star">*</span></label>
+                    <label class="col-form-label" for="staff_supporting_tech">No of Supporting (Tech.)<span class="star">*</span></label>
                     <input onchange="get_total_staff()" onkeyup="get_total_staff()" type="number" min="0" id="staff_supporting_tech"
                         name="staff_supporting_tech" class="form-control form-control--custom m-input" value="{{$application->staff_supporting_tech}}">
                     @if ($errors->has('staff_supporting_tech'))
@@ -103,7 +103,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">No of Supporting (Non Tech.)<span class="star">*</span></label>
+                    <label class="col-form-label" for="staff_supporting_nontech">No of Supporting (Non Tech.)<span class="star">*</span></label>
                     <input onchange="get_total_staff()" onkeyup="get_total_staff()" type="number" min="0" id="staff_supporting_nontech"
                         name="staff_supporting_nontech" class="form-control form-control--custom m-input" value="{{$application->staff_supporting_nontech}}">
                     @if ($errors->has('staff_supporting_nontech'))
@@ -111,7 +111,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Others<span class="star">*</span></label>
+                    <label class="col-form-label" for="staff_others">Others<span class="star">*</span></label>
                     <input onchange="get_total_staff()" onkeyup="get_total_staff()" type="number" min="0" id="staff_others"
                         name="staff_others" class="form-control form-control--custom m-input" value="{{$application->staff_others}}">
                     @if ($errors->has('staff_others'))
@@ -119,15 +119,15 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Total<span class="star">*</span></label>
-                    <input readonly type="number" min="0" id="staff_total" name="staff_total" class="form-control form-control--custom m-input"
+                    <label class="col-form-label" for="staff_total">Total<span class="star">*</span></label>
+                    <input type="number" min="0" id="staff_total" name="staff_total" class="form-control form-control--custom m-input"
                         value="{{$application->staff_total}}">
                     @if ($errors->has('staff_total'))
                     <span class="text-danger">{{ $errors->first('staff_total') }}</span>
                     @endif
                 </div>
             </div>
-            <div class="m-portlet__head px-0 m-portlet__head--top">
+            <div class="m-portlet__head px-0 m-portlet__head--top mhada-header-mt">
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <span class="m-portlet__head-icon m--hide">
@@ -159,32 +159,32 @@
             </div>
             <div class="m-form__group row  cad_facality align-items-end">
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">No of Computers<span class="star">*</span></label>
-                    <input type="number" min="0" id="" name="cad_facility_no_of_computers" class="form-control form-control--custom m-input"
+                    <label class="col-form-label" for="cad_facility_no_of_computers">No of Computers<span class="star">*</span></label>
+                    <input type="number" min="0" id="cad_facility_no_of_computers" name="cad_facility_no_of_computers" class="form-control form-control--custom m-input"
                         value="{{$application->cad_facility_no_of_computers}}">
                     @if ($errors->has('cad_facility_no_of_computers'))
                     <span class="text-danger">{{ $errors->first('cad_facility_no_of_computers') }}</span>
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">No of Printers<span class="star">*</span></label>
-                    <input type="number" min="0" id="" name="cad_facility_no_of_printers" class="form-control form-control--custom m-input"
+                    <label class="col-form-label" for="cad_facility_no_of_printers">No of Printers<span class="star">*</span></label>
+                    <input type="number" min="0" id="cad_facility_no_of_printers" name="cad_facility_no_of_printers" class="form-control form-control--custom m-input"
                         value="{{$application->cad_facility_no_of_printers}}">
                     @if ($errors->has('cad_facility_no_of_printers'))
                     <span class="text-danger">{{ $errors->first('cad_facility_no_of_printers') }}</span>
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">No of Plotters<span class="star">*</span></label>
-                    <input type="number" min="0" id="" name="cad_facility_no_of_plotters" class="form-control form-control--custom m-input"
+                    <label class="col-form-label" for="cad_facility_no_of_plotters">No of Plotters<span class="star">*</span></label>
+                    <input type="number" min="0" id="cad_facility_no_of_plotters" name="cad_facility_no_of_plotters" class="form-control form-control--custom m-input"
                         value="{{$application->cad_facility_no_of_plotters}}">
                     @if ($errors->has('cad_facility_no_of_plotters'))
                     <span class="text-danger">{{ $errors->first('cad_facility_no_of_plotters') }}</span>
                     @endif
                 </div>
-                <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">No of Operators<span class="star">*</span></label>
-                    <input type="number" min="0" id="" name="cad_facility_no_of_operators" class="form-control form-control--custom m-input"
+                <div class="col-sm-4 form-group mhada-mb">
+                    <label class="col-form-label" for="cad_facility_no_of_operators">No of Operators<span class="star">*</span></label>
+                    <input type="number" min="0" id="cad_facility_no_of_operators" name="cad_facility_no_of_operators" class="form-control form-control--custom m-input"
                         value="{{$application->cad_facility_no_of_operators}}">
                     @if ($errors->has('cad_facility_no_of_operators'))
                     <span class="text-danger">{{ $errors->first('cad_facility_no_of_operators') }}</span>
@@ -207,31 +207,31 @@
             </div>
             <div class="m-form__group row align-items-end">
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">No of Principle<span class="star">*</span></label>
-                    <input type="number" min="0" id="" name="reg_with_council_of_architecture_principle" class="form-control form-control--custom m-input"
+                    <label class="col-form-label" for="reg_with_council_of_architecture_principle">No of Principle<span class="star">*</span></label>
+                    <input type="number" min="0" id="reg_with_council_of_architecture_principle" name="reg_with_council_of_architecture_principle" class="form-control form-control--custom m-input"
                         value="{{$application->reg_with_council_of_architecture_principle}}">
                     @if ($errors->has('reg_with_council_of_architecture_principle'))
                     <span class="text-danger">{{ $errors->first('reg_with_council_of_architecture_principle') }}</span>
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">No of Associate<span class="star">*</span></label>
-                    <input type="number" min="0" id="" name="reg_with_council_of_architecture_associate" class="form-control form-control--custom m-input"
+                    <label class="col-form-label" for="reg_with_council_of_architecture_associate">No of Associate<span class="star">*</span></label>
+                    <input type="number" min="0" id="reg_with_council_of_architecture_associate" name="reg_with_council_of_architecture_associate" class="form-control form-control--custom m-input"
                         value="{{$application->reg_with_council_of_architecture_associate}}">
                     @if ($errors->has('reg_with_council_of_architecture_associate'))
                     <span class="text-danger">{{ $errors->first('reg_with_council_of_architecture_associate') }}</span>
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">No of Partner<span class="star">*</span></label>
-                    <input type="number" min="0" id="" name="reg_with_council_of_architecture_partner" class="form-control form-control--custom m-input"
+                    <label class="col-form-label" for="reg_with_council_of_architecture_partner">No of Partner<span class="star">*</span></label>
+                    <input type="number" min="0" id="reg_with_council_of_architecture_partner" name="reg_with_council_of_architecture_partner" class="form-control form-control--custom m-input"
                         value="{{$application->reg_with_council_of_architecture_partner}}">
                     @if ($errors->has('reg_with_council_of_architecture_partner'))
                     <span class="text-danger">{{ $errors->first('reg_with_council_of_architecture_partner') }}</span>
                     @endif
                 </div>
             </div>
-            <div class="m-portlet__head px-0 m-portlet__head--top">
+            <div class="m-portlet__head px-0 m-portlet__head--top mhada-header-mt">
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <span class="m-portlet__head-icon m--hide">
@@ -245,7 +245,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group m-form__group row">
+            <div class="form-group m-form__group row mhada-lr-p">
                 <table class="table partners">
                     <thead>
                         <tr>
@@ -294,8 +294,8 @@
             </div>
             <div class="m-form__group row align-items-end mhada-label-top">
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">COA registration no<span class="star">*</span></label>
-                    <input type="number" min="0" id="" name="reg_with_council_of_architecture_coa_registration_no"
+                    <label class="col-form-label" for="reg_with_council_of_architecture_coa_registration_no">COA registration no<span class="star">*</span></label>
+                    <input type="number" min="0" id="reg_with_council_of_architecture_coa_registration_no" name="reg_with_council_of_architecture_coa_registration_no"
                         class="form-control form-control--custom m-input" value="{{$application->reg_with_council_of_architecture_coa_registration_no}}">
                     @if ($errors->has('reg_with_council_of_architecture_coa_registration_no'))
                     <span class="text-danger">{{ $errors->first('reg_with_council_of_architecture_coa_registration_no')
@@ -304,8 +304,8 @@
                 </div>
 
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Total Registered Persons<span class="star">*</span></label>
-                    <input type="number" min="0" id="" name="reg_with_council_of_architecture_total_registered_persons"
+                    <label class="col-form-label" for="reg_with_council_of_architecture_total_registered_persons">Total Registered Persons<span class="star">*</span></label>
+                    <input type="number" min="0" id="reg_with_council_of_architecture_total_registered_persons" name="reg_with_council_of_architecture_total_registered_persons"
                         class="form-control form-control--custom m-input" value="{{$application->reg_with_council_of_architecture_total_registered_persons}}">
                     @if ($errors->has('reg_with_council_of_architecture_total_registered_persons'))
                     <span class="text-danger">{{
@@ -313,8 +313,8 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Other Information</label>
-                    <input type="text" id="" name="other_information" class="form-control form-control--custom m-input"
+                    <label class="col-form-label" for="other_information">Other Information</label>
+                    <input type="text" id="other_information" name="other_information" class="form-control form-control--custom m-input"
                         value="{{$application->other_information}}">
                     @if ($errors->has('other_information'))
                     <span class="text-danger">{{ $errors->first('other_information') }}</span>
@@ -329,7 +329,7 @@
                     @endif
                 </div> --}}
             </div>
-            <div class="m-portlet__head px-0 m-portlet__head--top">
+            <div class="m-portlet__head px-0 m-portlet__head--top mhada-header-mt">
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <span class="m-portlet__head-icon m--hide">
@@ -343,7 +343,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group m-form__group row">
+            <div class="form-group m-form__group row mhada-lr-p">
                 <div class="loader" style="display:none;"></div>
                 <table class="table award_prizes">
                     <thead>
@@ -446,7 +446,7 @@
             </div>
             <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                 <div class="m-form__actions px-0">
-                    <div class="row">
+                    <div class="row mb-0 mhada-pt">
                         <div class="col-sm-4">
                             <div class="btn-list">
                                 <button type="submit" id="" class="btn btn-primary">Save</button>
@@ -700,6 +700,13 @@
         var total_staff = +staff_architects + +staff_engineers + +staff_supporting_tech + +staff_supporting_nontech + +
             staff_others;
         $('#staff_total').val(total_staff)
+        $("#staff_total")
+        .on("change", function(e) {
+            $(this)
+                .parents(".form-group")
+                .toggleClass("focused", e.type === "focus" || this.value.length > 0);
+        })
+        .trigger("blur");
     }
 
     $('.partners').on('click', '.fa-remove', function () {

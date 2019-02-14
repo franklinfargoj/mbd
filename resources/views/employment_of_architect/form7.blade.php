@@ -58,8 +58,8 @@
                     id="form_{{$j+1}}" data-parent="#accordion">
                     <div class="m-form__group row align-items-end">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Name of Project<span class="star">*</span></label>
-                            <input required type="text" id="" name="name_of_project" class="form-control form-control--custom m-input"
+                            <label class="col-form-label" for="name_of_project_{{$j}}">Name of Project<span class="star">*</span></label>
+                        <input required type="text" id="name_of_project_{{$j}}" name="name_of_project" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->name_of_project:old('name_of_project')}}">
                             @if ($errors->has('name_of_project') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('name_of_project')
@@ -67,8 +67,8 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Location<span class="star">*</span></label>
-                            <input required type="text" id="" name="location" class="form-control form-control--custom m-input"
+                            <label class="col-form-label" for="location_{{$j}}">Location<span class="star">*</span></label>
+                            <input required type="text" id="location_{{$j}}" name="location" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->location:old('location')}}">
                             @if ($errors->has('location') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('location')
@@ -76,8 +76,8 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Name of Client<span class="star">*</span></label>
-                            <input required type="text" id="" name="name_of_client" class="form-control form-control--custom m-input"
+                            <label class="col-form-label" for="name_of_client_{{$j}}">Name of Client<span class="star">*</span></label>
+                            <input required type="text" id="name_of_client_{{$j}}" name="name_of_client" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->name_of_client:old('name_of_client')}}">
                             @if ($errors->has('name_of_client') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('name_of_client')
@@ -85,8 +85,8 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Address<span class="star">*</span></label>
-                            <input required type="text" id="" name="address" class="form-control form-control--custom m-input"
+                            <label class="col-form-label" for="address_{{$j}}">Address<span class="star">*</span></label>
+                            <input required type="text" id="address_{{$j}}" name="address" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->address:old('address')}}">
                             @if ($errors->has('address') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('address')
@@ -94,8 +94,8 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Phone Number<span class="star">*</span></label>
-                            <input onkeypress="return isNumberKey(event)" required type="text" id="" name="tel_no" class="form-control form-control--custom m-input"
+                            <label class="col-form-label" for="tel_no_{{$j}}">Phone Number<span class="star">*</span></label>
+                            <input onkeypress="return isNumberKey(event)" required type="text" id="tel_no_{{$j}}" name="tel_no" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->tel_no:old('tel_no')}}">
                             @if ($errors->has('tel_no') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('tel_no')
@@ -118,8 +118,8 @@
                             </div>
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Build Up Area in m<sup>2</sup><span class="star">*</span></label>
-                            <input onkeypress="return isNumberKey(event)" required type="text" id="" name="built_up_area_in_sq_m" class="form-control form-control--custom m-input"
+                            <label class="col-form-label" for="built_up_area_in_sq_m_{{$j}}">Build Up Area in m<sup>2</sup><span class="star">*</span></label>
+                            <input onkeypress="return isNumberKey(event)" required type="text" id="built_up_area_in_sq_m_{{$j}}" name="built_up_area_in_sq_m" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->built_up_area_in_sq_m:old('built_up_area_in_sq_m')}}">
                             @if ($errors->has('built_up_area_in_sq_m') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('built_up_area_in_sq_m')
@@ -127,8 +127,8 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Land Area in m<sup>2</sup><span class="star">*</span></label>
-                            <input onkeypress="return isNumberKey(event)" required type="text" id="" name="land_area_in_sq_m" class="form-control form-control--custom m-input"
+                            <label class="col-form-label" for="land_area_in_sq_m_{{$j}}">Land Area in m<sup>2</sup><span class="star">*</span></label>
+                            <input onkeypress="return isNumberKey(event)" required type="text" id="land_area_in_sq_m_{{$j}}" name="land_area_in_sq_m" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->land_area_in_sq_m:old('land_area_in_sq_m')}}">
                             @if ($errors->has('land_area_in_sq_m') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('land_area_in_sq_m')
@@ -136,8 +136,8 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Estimated Value of Projects in Rs<span class="star">*</span></label>
-                            <input onkeypress="return isNumberKey(event)" required type="text" id="" name="estimated_value_of_project" class="form-control form-control--custom m-input"
+                            <label class="col-form-label" for="estimated_value_of_project_{{$j}}">Estimated Value of Projects in Rs<span class="star">*</span></label>
+                            <input onkeypress="return isNumberKey(event)" required type="text" id="estimated_value_of_project_{{$j}}" name="estimated_value_of_project" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->estimated_value_of_project:old('estimated_value_of_project')}}">
                             @if ($errors->has('estimated_value_of_project') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('estimated_value_of_project')
@@ -145,8 +145,8 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Completed Value of Projects in Rs<span class="star">*</span></label>
-                            <input required onkeypress="return isNumberKey(event)" type="text" id="" name="completed_value_of_project" class="form-control form-control--custom m-input"
+                            <label class="col-form-label" for="completed_value_of_project_{{$j}}">Completed Value of Projects in Rs<span class="star">*</span></label>
+                            <input required onkeypress="return isNumberKey(event)" type="text" id="completed_value_of_project_{{$j}}" name="completed_value_of_project" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->completed_value_of_project:old('completed_value_of_project')}}">
                             @if ($errors->has('completed_value_of_project') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('completed_value_of_project')
@@ -154,8 +154,8 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Date of Start<span class="star">*</span></label>
-                            <input required type="text" id="" name="date_of_start" class="form-control form-control--custom m_datepicker"
+                            <label class="col-form-label" for="date_of_start_{{$j}}">Date of Start<span class="star">*</span></label>
+                            <input required type="text" id="date_of_start_{{$j}}" name="date_of_start" class="form-control form-control--custom m_datepicker"
                                 readonly value="{{isset($application->project_sheets[$j])?date('d-m-Y',strtotime($application->project_sheets[$j]->date_of_start)):old('date_of_start')}}">
                             @if ($errors->has('date_of_start') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('date_of_start')
@@ -163,8 +163,8 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Date of Completion<span class="star">*</span></label>
-                            <input required type="text" id="" name="date_of_completion" class="form-control form-control--custom m_datepicker"
+                            <label class="col-form-label" for="date_of_completion_{{$j}}">Date of Completion<span class="star">*</span></label>
+                            <input required type="text" id="date_of_completion_{{$j}}" name="date_of_completion" class="form-control form-control--custom m_datepicker"
                                 readonly value="{{isset($application->project_sheets[$j])?date('d-m-Y',strtotime($application->project_sheets[$j]->date_of_completion)):old('date_of_completion')}}">
                             @if ($errors->has('date_of_completion') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('date_of_completion')
@@ -172,8 +172,8 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Whether Service Terminated by Client<span class="star">*</span></label>
-                            <input required type="text" id="" name="whether_service_terminated_by_client" class="form-control form-control--custom m-input"
+                            <label class="col-form-label" for="whether_service_terminated_by_client_{{$j}}">Whether Service Terminated by Client<span class="star">*</span></label>
+                            <input required type="text" id="whether_service_terminated_by_client_{{$j}}" name="whether_service_terminated_by_client" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->whether_service_terminated_by_client:old('whether_service_terminated_by_client')}}">
                             @if ($errors->has('whether_service_terminated_by_client') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('whether_service_terminated_by_client')
@@ -181,8 +181,8 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Salient Features of Project<span class="star">*</span></label>
-                            <input required type="text" id="" name="salient_features_of_project" class="form-control form-control--custom m-input"
+                            <label class="col-form-label" for="salient_features_of_project_{{$j}}">Salient Features of Project<span class="star">*</span></label>
+                            <input required type="text" id="salient_features_of_project_{{$j}}" name="salient_features_of_project" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->salient_features_of_project:old('salient_features_of_project')}}">
                             @if ($errors->has('salient_features_of_project') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('salient_features_of_project')
@@ -190,8 +190,8 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Reasons for Delay (If any)<span class="star">*</span></label>
-                            <input required type="text" id="" name="reason_for_delay_if_any" class="form-control form-control--custom m-input"
+                            <label class="col-form-label" for="reason_for_delay_if_any_{{$j}}">Reasons for Delay (If any)<span class="star">*</span></label>
+                            <input required type="text" id="reason_for_delay_if_any_{{$j}}" name="reason_for_delay_if_any" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->reason_for_delay_if_any:old('reason_for_delay_if_any')}}">
                             @if ($errors->has('reason_for_delay_if_any') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('reason_for_delay_if_any')
@@ -201,7 +201,7 @@
                     </div>
                     <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                         <div class="m-form__actions px-0">
-                            <div class="row">
+                            <div class="row mhada-pt">
                                 <div class="col-sm-one4">
                                     <div class="btnone-list">
                                         <input type="submit" id="" class="btn btn-primary" name="Save">
@@ -244,8 +244,18 @@
         $('#add-more').click(function (e) {
             e.preventDefault();
             var formAccordion = $("#accordion .form-accordion:first").clone();
+            var formAccordionCount = $("#accordion").find('.form-accordion').length + 1;
             var formAccordionInputHidden = formAccordion.find("input").filter(
                 function (index, item) {
+                    if(item.type!='hidden' && item.type!='submit')
+                    {
+                        var temp=item.id;
+                        var temp_index=temp.split("_").pop(-1);
+                        updated_temp=temp.replace('_'+temp_index, '_'+formAccordionCount);
+                        item.setAttribute('id',updated_temp)
+                        formAccordion.find("label[for='"+temp+"']")[0].setAttribute('for',updated_temp);
+                       // console.log(v)
+                    }
                     if (item.name !== 'application_id' && item.name !== '_token' && item.type !==
                         'submit') {
                         item.value = '';
@@ -254,7 +264,7 @@
             formAccordion.find(".form-steps-toplinks").append(
                 "<h2 class='m--font-danger ml-3 mb-0'><i title='Delete' class='fa fa-remove'></i></h2>");
 
-            var formAccordionCount = $("#accordion").find('.form-accordion').length + 1;
+            
             var newID = 'form_' + formAccordionCount;
 
             formAccordion.find("input[name='form_number']")[0].value = formAccordionCount

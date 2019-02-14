@@ -383,6 +383,11 @@ class AddSuperAdminToRoleTableSeeder extends Seeder
                 'name' => 'loadWardsOfLayoutUsingAjax',
                 'display_name' => 'Loads wards of layouts Ajax',
                 'description' => 'Loads wards of layouts Ajax'
+            ],            
+            [
+                'name' => 'user_layouts.get_layout',
+                'display_name' => 'get layout',
+                'description' => 'get layout'
             ],
 
         ];

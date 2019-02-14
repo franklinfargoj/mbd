@@ -120,7 +120,7 @@
                                 </div>
             
                                 <div class="mt-3 table--box-input">
-                                    <label for="remark">Remark:</label>
+                                    <label for="remark">Remark : [Forward for Approval/Scrutiny/Certificate Generation]</label>
                                     <textarea class="form-control form-control--custom" name="remark" id="remark" cols="30" rows="5"></textarea>
                                 </div>
                                 <div class="mt-4 btn-list">

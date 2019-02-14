@@ -59,6 +59,7 @@ use App\Http\Controllers\conveyance\renewalCommonController;
 use App\ArchitectApplicationStatusLog;
 use App\OlConsentVerificationDetails;
 use App\OlSocietyDocumentsComment;
+use App\mailMsgSentDetails;
 
 class CommonController extends Controller
 {
@@ -4037,6 +4038,7 @@ class CommonController extends Controller
         }
     }
 
+    // get comments which is given by society
     public function getSocietyDocumentComments($societyId){
         
         $comments = OlSocietyDocumentsComment::where('society_id',$societyId)
@@ -4044,6 +4046,7 @@ class CommonController extends Controller
         return $comments;
     }
 
+    // view common society and EE document page 
     public function societyEEDocuments(Request $request,$applicationId){
 
         $id = '';
@@ -4072,6 +4075,7 @@ class CommonController extends Controller
        return view('admin.common.view_society_ee_documents',compact('societyDocuments','ol_application','documents','folder')); 
     }    
 
+    // view multiple documents in society and EE document page
     public function viewMultipleDocuments(Request $request,$applicationId,$documentId){
         
         $documentId = decrypt($documentId);
@@ -4085,4 +4089,46 @@ class CommonController extends Controller
         return view('admin.common.view_multiple_documents',compact('ol_application','documents','folder'));
     }
 
+    // save details of send msg
+    public function saveMsgSentDetails($mobile,$text,$userId){ 
+
+        try{
+            $data = new mailMsgSentDetails();
+            $data->user_id     = $userId; 
+            $data->mobile_no   = $mobile; 
+            $data->msg_content = $text; 
+            $data->save();
+
+            $response['status'] = 'success';
+            $response['msg']    = 'sms send successfully';
+
+        }catch(Exception $e){
+            $response['status'] = 'error';
+            $response['msg']    = 'something went wrong.';            
+        }
+
+        return response(json_encode($response), 200);
+    }
+
+    public function getDepartmentHead($userName,$layoutId){
+        
+        $head = [];
+        if ($userName == config('commanConfig.ee_junior_engineer') || $userName == config('commanConfig.ee_deputy_engineer')){
+            $headName = config('commanConfig.ee_branch_head');
+        }
+        $users = Role::where('name',$headName)->with(['parentUserArchitect.Layouts' => function ($query) use($layoutId){
+           $query->where('layout_id',$layoutId); 
+        }])->whereHas('parentUserArchitect.Layouts', function ($query) use($layoutId){
+            $query->where('layout_id',$layoutId);
+        })->first();
+        
+        if ($users){
+            foreach($users->parentUserArchitect as $user){
+                if (count($user->Layouts) > 0){
+                    $head []= $user;
+                }
+            }            
+        }
+        return $head;
+    }
 }

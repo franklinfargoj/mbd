@@ -47,7 +47,7 @@ class SmsHitEventListener
             //dd("Nothing returned from url.");
         }
         else{
-            //dd($buffer);
+            print $buffer;
         }
     }
 }

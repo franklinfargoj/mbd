@@ -44,13 +44,13 @@
                                     @endphp 
                                 <input type="file" accept="pdf" title="please upload file with pdf extension" id="extract_{{$j}}" {{ $file!=""?"":"required" }} name="pr_cards[{{$j}}]" class="custom-file-input">
                                 <label title="" class="custom-file-label" for="extract_{{$j}}">Choose file</label>
-                                <a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$pr_card_detail->upload_pr_card}}">download</a>
+                                <a class="btn-link mhada-pdf-icon" target="_blank" href="{{config('commanConfig.storage_server').'/'.$pr_card_detail->upload_pr_card}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                 <span class="help-block"></span>
                             </div>
                         </div>
                         @if($j!=0)
                         <div class="col-lg-2 form-group mt-2">
-                            <i class="fa fa-close btn--add-delete" id="" class="remove" onclick="deletePrCardDetail(this,{{$pr_card_detail->id}})"></i>
+                            <i class="fa fa-close btn--remove-delete" id="" class="remove" onclick="deletePrCardDetail(this,{{$pr_card_detail->id}})"></i>
                         </div>
                         @endif
                     </div>

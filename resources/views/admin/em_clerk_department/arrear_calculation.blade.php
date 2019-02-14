@@ -305,6 +305,7 @@
     var rate_diff = 0
     var total1 = 0 
     var total = 0;
+    
     var total2 = 0;
     var currentYear = '';
     var Year = '';

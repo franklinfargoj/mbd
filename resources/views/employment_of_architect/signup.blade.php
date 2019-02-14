@@ -22,63 +22,63 @@
                             <h3 class="block-title">Registration of Architect</h3>
                             <div class="m-portlet mb-0">
                                 <div class="d-block">
-                                    <form id="appointing_architect_signup" method="post" class="m-login__form m-form m-login__signup" action="{{route('appointing_architect.post_signup')}}">
+                                    <form id="appointing_architect_signup" method="post" class="m-login__form m-form m-login__signup floating-labels-form" action="{{route('appointing_architect.post_signup')}}">
                                         @csrf
                                         <div class="row">
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group">
-                                                    <label class="col-form-label" for="">Name:<span class="star">*</span></label>
-                                                    <input class="form-control form-control--custom m-input" type="text"
+                                                    <label class="col-form-label" for="name">Name:<span class="star">*</span></label>
+                                                    <input id="name" class="form-control form-control--custom m-input" type="text"
                                                         name="name" value="{{old('name')}}" placeholder="">
                                                     @if ($errors->has('name'))
                                                     <span class="text-danger">{{ $errors->first('name') }}</span>
                                                     @endif
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group">
-                                                    <label class="col-form-label" for="">Email:<span class="star">*</span></label>
-                                                    <input class="form-control form-control--custom m-input" type="text"
+                                                    <label class="col-form-label" for="email">Email:<span class="star">*</span></label>
+                                                    <input id="email" class="form-control form-control--custom m-input" type="text"
                                                     onblur="duplicateEmail(this)" name="email" value="{{old('email')}}" placeholder="">
                                                     @if ($errors->has('email'))
                                                     <span class="text-danger">{{ $errors->first('email') }}</span>
                                                     @endif
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group">
-                                                    <label class="col-form-label" for="">Mobile No:<span class="star">*</span></label>
-                                                    <input class="form-control form-control--custom m-input" type="text"
+                                                    <label class="col-form-label" for="mobile">Mobile No:<span class="star">*</span></label>
+                                                    <input id="mobile" class="form-control form-control--custom m-input" type="text"
                                                         name="mobile_no" value="{{old('mobile_no')}}" placeholder="">
                                                     @if ($errors->has('mobile_no'))
                                                     <span class="text-danger">{{ $errors->first('mobile_no') }}</span>
                                                     @endif
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group">
-                                                    <label class="col-form-label" for="">Address:<span class="star">*</span></label>
-                                                    <textarea class="form-control form-control--custom form-control--fixed-height m-input"
+                                                    <label class="col-form-label" for="address">Address:<span class="star">*</span></label>
+                                                    <textarea id="address" class="form-control form-control--custom form-control--fixed-height m-input"
                                                         name="address" placeholder="">{{old('address')}}</textarea>
                                                     @if ($errors->has('address'))
                                                     <span class="text-danger">{{ $errors->first('address') }}</span>
                                                     @endif
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group">
-                                                    <label class="col-form-label" for="">Password:<span class="star">*</span></label>
-                                                    <input class="form-control form-control--custom m-input" type="password" name="password" value="{{old('password')}}" placeholder="">
+                                                    <label class="col-form-label" for="pass">Password:<span class="star">*</span></label>
+                                                    <input id="pass" class="form-control form-control--custom m-input" type="password" name="password" value="{{old('password')}}" placeholder="">
                                                     <a class="input-hint" href="#" data-toggle="tooltip" data-placement="top" title="Password should be minimum 6 & maximum 10 characters."><i class="fa fa-info-circle" style="color: orange;float: right;"></i></a>
                                                     @if ($errors->has('password'))
                                                     <span class="text-danger">{{ $errors->first('password') }}</span>
                                                     @endif
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group">
-                                                    <label class="col-form-label" for="">Confirm Password:<span class="star">*</span></label>
-                                                    <input class="form-control form-control--custom m-input" type="password" name="confirm_password" value="{{old('confirm_password')}}" placeholder="">
+                                                    <label class="col-form-label" for="conf-pass">Confirm Password:<span class="star">*</span></label>
+                                                    <input id="conf-pass" class="form-control form-control--custom m-input" type="password" name="confirm_password" value="{{old('confirm_password')}}" placeholder="">
                                                     @if ($errors->has('confirm_password'))
                                                     <span class="text-danger">{{ $errors->first('confirm_password') }}</span>
                                                     @endif
