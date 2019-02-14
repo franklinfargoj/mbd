@@ -156,6 +156,7 @@
                 }
             }
         });
+        //showUploadedFileName();
     });
     
     //old approved layout
@@ -198,6 +199,7 @@
                 }
             }
         });
+        //showUploadedFileName();
     });
 
     //last submitted layout for approval
@@ -240,6 +242,7 @@
                 }
             }
         });
+        //showUploadedFileName();
     });
 
     //survey report
@@ -283,7 +286,7 @@
             }
         });
     });
-
+    //showUploadedFileName();
 });
 
 //EE report add and delete
@@ -465,7 +468,7 @@ function getEEReportData(id, doc_name,doc_error,uploaded_file_id,ee_report_doc_i
         document.getElementById(id).value = null;
         $(".loader").hide();
     }
-    showUploadedFileName();
+   // showUploadedFileName();
 }
 //architect_layout_detail_delete_ee_report one by one
 function delete_ee_doc(id,doc_id)
@@ -549,7 +552,7 @@ function getEMReportData(id, doc_name,doc_error,uploaded_file_id,em_report_doc_i
         document.getElementById(id).value = null;
         $(".loader").hide();
     }
-    showUploadedFileName();
+   // showUploadedFileName();
 }
 //architect_layout_detail_delete_em_report one by one
 function delete_em_doc(id,doc_id)
@@ -632,7 +635,7 @@ function getREEReportData(id, doc_name,doc_error,uploaded_file_id,ree_report_doc
         document.getElementById(id).value = null;
         $(".loader").hide();
     }
-    showUploadedFileName();
+   // showUploadedFileName();
 }
 //architect_layout_detail_delete_ree_report one by one
 function delete_ree_doc(id,doc_id)
@@ -715,7 +718,7 @@ function getLandReportData(id, doc_name,doc_error,uploaded_file_id,land_report_d
         document.getElementById(id).value = null;
         $(".loader").hide();
     }
-    showUploadedFileName();
+   // showUploadedFileName();
 }
 
 function showUploadedFileName() {

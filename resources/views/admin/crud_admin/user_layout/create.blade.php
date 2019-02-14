@@ -37,6 +37,9 @@
                             <label class="col-form-label" for="layout_id">Layout:<span class="star">*</span></label>
                             <select data-live-search="true" title="Please Select Layout" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout_id" name="layout_id">
                              <option selected disabled>Select</option>
+                             @foreach($layouts as $layout)
+                                    <option value="{{$layout['id']}}">{{ $layout['layout_name']}} </option>
+                             @endforeach
                             </select>
                             <span class="error">{{$errors->first('layout_id')}}</span>
 
