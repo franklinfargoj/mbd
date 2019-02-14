@@ -688,8 +688,10 @@ class SocietyOfferLetterController extends Controller
         $role_id = Role::where('name', 'ee_junior_engineer')->first();
         
         $user_ids = RoleUser::where('role_id', $role_id->id)->get();
-        $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
-        
+	foreach($user_ids as $userId){
+	    $lstUserArr[] = $userId->user_id;
+	}
+	$layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $lstUserArr)->get();
         foreach ($layout_user_ids as $key => $value) {
             $select_user_ids[] = $value['user_id'];
         }
@@ -754,7 +756,10 @@ class SocietyOfferLetterController extends Controller
         $role_id = Role::where('name','like', 'ree_junior_engineer')->first();
 
         $user_ids = RoleUser::where('role_id', $role_id->id)->get();
-        $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
+        foreach($user_ids as $userId){
+		$lstUserArr[] = $userId->user_id;
+	}
+	$layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $lstUserArr)->get();
 
         foreach ($layout_user_ids as $key => $value) {
             $select_user_ids[] = $value['user_id'];
@@ -2377,8 +2382,10 @@ class SocietyOfferLetterController extends Controller
                 $model = OlApplicationMaster::where('id',$application->application_master_id)->first();
 
                 $user_ids = RoleUser::where('role_id', $role_id->id)->get();
-
-                $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
+		foreach($user_ids as $userId){
+		 $lstUserArr[] = $userId->user_id;
+		}
+                $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $lstUserArr)->get();
                 foreach ($layout_user_ids as $key => $value) {
                     $select_user_ids[] = $value['user_id'];
                 }
