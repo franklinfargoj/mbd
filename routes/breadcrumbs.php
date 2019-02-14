@@ -307,7 +307,7 @@ Breadcrumbs::for('society_reval_documents_cap', function ($trail,$id) {
 });
 Breadcrumbs::for('society_EE_documents_cap', function ($trail,$id) {
     $trail->parent('cap');
-    $trail->push('society EE documents', route('cap.society_EE_documents',$id));
+    $trail->push('society EE documents', route('common.view_society_EE_documents',$id));
 }); 
 
 Breadcrumbs::for('EE_scrutiny_cap', function ($trail,$id) {
@@ -361,7 +361,7 @@ Breadcrumbs::for('society_reval_documents_vp', function ($trail,$id) {
 
 Breadcrumbs::for('society_EE_documents_vp', function ($trail,$id) {
     $trail->parent('vp');
-    $trail->push('society_EE_documents', route('vp.society_EE_documents',$id));
+    $trail->push('society_EE_documents', route('common.view_society_EE_documents',$id));
 });
 
 Breadcrumbs::for('EE_scrutiny_vp', function ($trail,$id) {
