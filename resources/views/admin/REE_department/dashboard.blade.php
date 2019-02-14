@@ -1,6 +1,13 @@
 @extends('admin.layouts.app')
 @section('css')
     <link rel="stylesheet" href="../../../../public/css/amcharts.css">
+    <!-- Fonts -->
+    <!--<link rel="dns-prefetch" href="https://fonts.gstatic.com">-->
+    <!-- Styles -->
+    <link href="{{asset('/css/dashboard/vendors.bundle.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('/css/dashboard/style.bundle.css')}}" rel="stylesheet" type="text/css"/>
+    {{--    <link href="{{asset('/css/dashboard/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />--}}
+    <link href="{{asset('/css/dashboard/custom.css')}}" rel="stylesheet" type="text/css"/>
 @endsection
 @section('content')
     @php
@@ -9,94 +16,512 @@
         $chart2 = 0;
         $chart3 = 0;
     @endphp
+
     <div class="container-fluid">
-        {{-- <div class="m-subheader px-0 m-subheader--top">
+        <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title">Dashboard</h3>
             </div>
         </div>
 
         <div class="d-flex flex-wrap db-wrapper">
-            <div class="db__card">
-                <div class="db__card__img-wrap">
-                    <img src="" class="db__card__img" alt="">
+            @if($dashboardData[0])
+                <div class="db__card">
+                    <div class="db__card__img-wrap db-color-1">
+                        <h3 class="db__card__count">{{$dashboardData[0]['Total No of Applications'][0]}}</h3>
+                    </div>
+                    <p class="db__card__title">Offer Letter</p>
                 </div>
-                <p class="db__card__title">Application for Redevelopment</p>
+            @endif
+            @if($dashboardData1)
+                <div class="db__card">
+                    <div class="db__card__img-wrap db-color-2">
+                        <h3 class="db__card__count">{{$dashboardData1['Total Number of Applications Pending']}}</h3>
+                    </div>
+                    <p class="db__card__title">Offer Letter Subordinate Pendency</p>
+                </div>
+            @endif
+
+            <div class="db__card">
+                <div class="db__card__img-wrap db-color-3">
+                    <h3 class="db__card__count">48</h3>
+                </div>
+                <p class="db__card__title">Tripartite Agreement</p>
             </div>
             <div class="db__card">
-                <div class="db__card__img-wrap">
-                    <img src="" class="db__card__img" alt="">
+                <div class="db__card__img-wrap db-color-4">
+                    <h3 class="db__card__count">48</h3>
                 </div>
-                <p class="db__card__title">Application for Revalidation of Offer Letter</p>
+                <p class="db__card__title">Tripartite Agreement Subordinate Pendency</p>
+            </div>
+
+            @if($revalDashboardData[0])
+            <div class="db__card">
+                <div class="db__card__img-wrap db-color-5">
+                    <h3 class="db__card__count">{{$revalDashboardData[0]['Total No of Applications'][0]}}</h3>
+                </div>
+                <p class="db__card__title">Offer Letter Revalidation</p>
+            </div>
+            @endif
+            @if($revalDashboardData1)
+                <div class="db__card">
+                    <div class="db__card__img-wrap db-color-5">
+                        <h3 class="db__card__count">{{$revalDashboardData1['Total Number of Applications Pending']}}</h3>
+                    </div>
+                    <p class="db__card__title">Offer Letter Revalidation Subordinate Pendency</p>
+                </div>
+            @endif
+            @if($nocApplication)
+                <div class="db__card">
+                    <div class="db__card__img-wrap db-color-5">
+                        <h3 class="db__card__count">{{$nocApplication['app_data']['Total Number of Application'][0]}}</h3>
+                    </div>
+                    <p class="db__card__title">NOC</p>
+                </div>
+            @endif
+            @if($nocApplication['pending_data'])
+                <div class="db__card">
+                    <div class="db__card__img-wrap db-color-5">
+                        <h3 class="db__card__count">{{$nocApplication['pending_data']['Total number of Application Pending']}}</h3>
+                    </div>
+                    <p class="db__card__title">NOC Subordinate Pendency</p>
+                </div>
+            @endif
+            @if($nocforCCApplication)
+                <div class="db__card">
+                    <div class="db__card__img-wrap db-color-5">
+                        <h3 class="db__card__count">{{$nocforCCApplication['app_data']['Total Number of Application'][0]}}</h3>
+                    </div>
+                    <p class="db__card__title">NOC (CC)</p>
+                </div>
+            @endif
+            @if($nocforCCApplication['pending_data'])
+                <div class="db__card">
+                    <div class="db__card__img-wrap db-color-5">
+                        <h3 class="db__card__count">{{$nocforCCApplication['pending_data']['Total number of Application Pending']}}</h3>
+                    </div>
+                    <p class="db__card__title">NOC (CC) Subordinate Pendency</p>
+                </div>
+            @endif
+
+
+            <div class="db__card">
+                <div class="db__card__img-wrap db-color-5">
+                    <h3 class="db__card__count">48</h3>
+                </div>
+                <p class="db__card__title">Revision in Layout</p>
             </div>
             <div class="db__card">
-                <div class="db__card__img-wrap">
-                    <img src="" class="db__card__img" alt="">
-                </div>
-                <p class="db__card__title">Application for NOC</p>
-            </div>
-            <div class="db__card">
-                <div class="db__card__img-wrap">
-                    <img src="" class="db__card__img" alt="">
+                <div class="db__card__img-wrap db-color-5">
+                    <h3 class="db__card__count">48</h3>
                 </div>
                 <p class="db__card__title">Layout Sent for Approval</p>
             </div>
             <div class="db__card">
-                <div class="db__card__img-wrap">
-                    <img src="" class="db__card__img" alt="">
+                <div class="db__card__img-wrap db-color-5">
+                    <h3 class="db__card__count">48</h3>
                 </div>
-                <p class="db__card__title">Revision in Layout</p>
+                <p class="db__card__title">Layout Approval</p>
             </div>
         </div>
 
-        <div class="m-subheader px-0 m-subheader--top">
-            <div class="d-flex align-items-center">
-                <h3 class="m-subheader__title">Application For Offer Letter</h3>
+        {{--Dashboard for offer letter--}}
+        @if($dashboardData[0])
+            <div>
+            <div class="m-subheader px-0 m-subheader--top">
+                <div class="d-flex align-items-center">
+                    <h3 class="m-subheader__title">Offer Letter</h3>
+                </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="col-sm-7">
-                <div class="m-portlet db-table">
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <th style="width: 6%;">Sr. No</th>
-                                <th style="width: 54%;">Stages</th>
-                                <th style="width: 20%;">Count</th>
-                                <th style="width: 20%;">Action</th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="text-center">1.</td>
-                                    <td>Total number of applications</td>
-                                    <td><span class="count-circle">40</span></td>
-                                    <td><button class="btn btn-action">View</button></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center">2.</td>
-                                    <td>Applications Pending</td>
-                                    <td><span class="count-circle">05</span></td>
-                                    <td><button class="btn btn-action">View</button></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center">3.</td>
-                                    <td>Applications send for revisions</td>
-                                    <td><span class="count-circle">10</span></td>
-                                    <td><button class="btn btn-action">View</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
+            <div class="row">
+                <div class="col-sm-7">
+                    <div class="m-portlet db-table">
+                        <div class="table-responsive">
+                            <table class="table text-center">
+                                <thead>
+                                <th style="width: 10%;">Sr. No</th>
+                                <th style="width: 60%;" class="text-center">Stages</th>
+                                <th style="width: 15%;" class="text-left">Count</th>
+                                <th style="width: 15%;">Action</th>
+                                </thead>
+                                <tbody>
+                                @php
+                                    $i = 1;
+                                @endphp
+
+                                @foreach($dashboardData[0] as $header => $value)
+                                    <tr>
+                                        <td class="text-center">{{$i}}.</td>
+                                        <td>{{$header}}</td>
+                                        <td class="text-center"><span class="count-circle">{{$value[0]}}</span></td>
+                                        <td>
+                                            @if( $value[1] == 'pending')
+                                                <a href="{{url(session()->get('redirect_to').$value[1])}}" class="btn btn-action" data-toggle="modal" data-target="#reePendingModal">View</a>
+                                            @else
+                                                <a href="{{url(session()->get('redirect_to').$value[1])}}" class="btn btn-action">View</a>
+                                            @endif
+                                        </td>
+                                        @php $chart += $value[0]; $i++; @endphp
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
+                @if($chart)
+                    <div id="chartdiv" class="col-sm-5"></div>
+                @endif
             </div>
-            <div class="col-sm-5">
-                <div class="m-portlet">
-                    test7
+        </div>
+        @endif
+        {{--End Dashboard for offer letter--}}
+
+        {{--Dashboard for offer letter subordinate pendency--}}
+        @if($dashboardData1)
+            <div>
+                <div class="m-subheader px-0 m-subheader--top">
+                    <div class="d-flex align-items-center">
+                        <h3 class="m-subheader__title">Offer Letter Subordinate Pendency</h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div class="m-portlet db-table">
+                            <div class="table-responsive">
+                                <table class="table text-center">
+                                    <thead>
+                                    <th style="width: 10%;">Sr. No</th>
+                                    <th style="width: 60%;" class="text-center">Stages</th>
+                                    <th style="width: 15%;" class="text-left">Count</th>
+                                    </thead>
+                                    <tbody>
+                                    @php
+                                        $i = 1;
+                                    @endphp
+
+                                    @foreach($dashboardData1 as $header => $value)
+                                        <tr>
+                                            <td class="text-center">{{$i}}.</td>
+                                            <td>{{$header}}</td>
+                                            <td class="text-center"><span class="count-circle">{{$value}}</span></td>
+                                            @php $chart1 += $value; $i++; @endphp
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    @if($chart1)
+                        <div id="chartdiv1" class="col-sm-5"></div>
+                    @endif
                 </div>
             </div>
-        </div> --}}
+        @endif
+        {{--End Dashboard for offer letter subordinate pendency--}}
 
+
+        {{--Dashboard for offer letter revalidation--}}
+        @if($revalDashboardData[0])
+            <div>
+            <div class="m-subheader px-0 m-subheader--top">
+                <div class="d-flex align-items-center">
+                    <h3 class="m-subheader__title">Revalidation of Offer Letter</h3>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-7">
+                    <div class="m-portlet db-table">
+                        <div class="table-responsive">
+                            <table class="table text-center">
+                                <thead>
+                                <th style="width: 10%;">Sr. No</th>
+                                <th style="width: 60%;" class="text-center">Stages</th>
+                                <th style="width: 15%;" class="text-left">Count</th>
+                                <th style="width: 15%;">Action</th>
+                                </thead>
+                                <tbody>
+                                @php
+                                    $i = 1;
+                                @endphp
+
+                                @foreach($revalDashboardData[0] as $header => $value)
+                                    <tr>
+                                        <td class="text-center">{{$i}}.</td>
+                                        <td>{{$header}}</td>
+                                        <td class="text-center"><span class="count-circle">{{$value[0]}}</span></td>
+                                        <td>
+                                            @if( $value[1] == 'pending')
+                                                <a href="{{route('ree_applications.reval').$value[1]}}" class="btn btn-action" data-toggle="modal" data-target="#reeRevalPendingModal">View</a>
+                                            @else
+                                                <a href="{{route('ree_applications.reval').$value[1]}}" class="btn btn-action">View</a>
+                                            @endif
+                                        </td>
+                                        @php $chart2 += $value[0]; $i++; @endphp
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                @if($chart2)
+                    <div id="reval_chart" class="col-sm-5"></div>
+                @endif
+            </div>
+        </div>
+        @endif
+        {{--End Dashboard for offer letter revalidation--}}
+
+        {{--Dashboard for offer letter revalidation subordinate pendency--}}
+        @if($revalDashboardData1)
+                <div>
+                    <div class="m-subheader px-0 m-subheader--top">
+                        <div class="d-flex align-items-center">
+                            <h3 class="m-subheader__title">Offer Letter Revalidation Subordinate Pendency</h3>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <div class="m-portlet db-table">
+                                <div class="table-responsive">
+                                    <table class="table text-center">
+                                        <thead>
+                                        <th style="width: 10%;">Sr. No</th>
+                                        <th style="width: 60%;" class="text-center">Stages</th>
+                                        <th style="width: 15%;" class="text-left">Count</th>
+                                        </thead>
+                                        <tbody>
+                                        @php
+                                            $i = 1;
+                                        @endphp
+
+                                        @foreach($revalDashboardData1 as $header => $value)
+                                            <tr>
+                                                <td class="text-center">{{$i}}.</td>
+                                                <td>{{$header}}</td>
+                                                <td class="text-center"><span class="count-circle">{{$value}}</span></td>
+                                                @php $chart3 += $value; $i++; @endphp
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        @if($chart3)
+                            <div id="revalchartdiv1" class="col-sm-5"></div>
+                        @endif
+                    </div>
+                </div>
+            @endif
+        {{--End Dashboard for offer letter revalidation subordinate pendency--}}
+
+
+        {{--Dashboard for NOC --}}
+        @if($nocApplication['app_data'])
+        <div>
+            <div class="m-subheader px-0 m-subheader--top">
+                <div class="d-flex align-items-center">
+                    <h3 class="m-subheader__title">Applications for NOC</h3>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-7">
+                    <div class="m-portlet db-table">
+                        <div class="table-responsive">
+                            <table class="table text-center">
+                                <thead>
+                                <th style="width: 10%;">Sr. No</th>
+                                <th style="width: 60%;" class="text-center">Stages</th>
+                                <th style="width: 15%;" class="text-left">Count</th>
+                                <th style="width: 15%;">Action</th>
+                                </thead>
+                                <tbody>
+                                @php
+                                    $noc_chart = 0;
+                                    $i = 1;
+                                @endphp
+
+                                @foreach($nocApplication['app_data'] as $header => $value)
+                                    <tr>
+                                        <td class="text-center">{{$i}}.</td>
+                                        <td>{{$header}}</td>
+                                        <td class="text-center"><span class="count-circle">{{$value[0]}}</span></td>
+                                        <td>
+                                            <a target="_blank" href="{{url($value[1])}}" class="btn btn-action">View</a>
+                                        </td>
+                                        @php $noc_chart += $value[0]; $i++;@endphp
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                @if($noc_chart)
+                    <div id="noc_chart_div" class="col-sm-5"></div>
+                @endif
+            </div>
+        </div>
+        @endif
+        {{--End Dashboard for NOC--}}
+
+        {{--Dashboard for NOC Subordinate Pendency--}}
+        @if($nocApplication['pending_data'])
+            <div>
+                <div class="m-subheader px-0 m-subheader--top">
+                    <div class="d-flex align-items-center">
+                        <h3 class="m-subheader__title">NOC Subordinate Pendency</h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div class="m-portlet db-table">
+                            <div class="table-responsive">
+                                <table class="table text-center">
+                                    <thead>
+                                    <th style="width: 10%;">Sr. No</th>
+                                    <th style="width: 60%;" class="text-center">Stages</th>
+                                    <th style="width: 15%;" class="text-left">Count</th>
+                                    </thead>
+                                    <tbody>
+                                    @php
+                                        $noc_chart_pending = 0;
+                                        $i = 1;
+                                    @endphp
+
+                                    @foreach($nocApplication['pending_data'] as $pending_label => $pending_count)
+                                        <tr>
+                                            <td class="text-center">{{$i}}.</td>
+                                            <td>{{$pending_label}}</td>
+                                            <td class="text-center"><span class="count-circle">{{$pending_count}}</span></td>
+                                            @php $noc_chart_pending += $pending_count; $i++;@endphp
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    @if($noc_chart_pending)
+                        <div id="noc_chart_pending" class="col-sm-5"></div>
+                    @endif
+                </div>
+            </div>
+        @endif
+        {{--Dashboard for NOC Subordinate Pendency--}}
+
+        {{--Dashboard for NOC(CC) --}}
+        @if($nocforCCApplication['app_data'])
+            <div>
+                <div class="m-subheader px-0 m-subheader--top">
+                    <div class="d-flex align-items-center">
+                        <h3 class="m-subheader__title">Application for NOC (CC)</h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div class="m-portlet db-table">
+                            <div class="table-responsive">
+                                <table class="table text-center">
+                                    <thead>
+                                    <th style="width: 10%;">Sr. No</th>
+                                    <th style="width: 60%;" class="text-center">Stages</th>
+                                    <th style="width: 15%;" class="text-left">Count</th>
+                                    <th style="width: 15%;">Action</th>
+                                    </thead>
+                                    <tbody>
+                                    @php
+                                        $noc_cc_chart = 0;
+                                        $i = 1;
+                                    @endphp
+
+                                    @foreach($nocforCCApplication['app_data'] as $header => $value)
+                                        <tr>
+                                            <td class="text-center">{{$i}}.</td>
+                                            <td>{{$header}}</td>
+                                            <td class="text-center"><span class="count-circle">{{$value[0]}}</span></td>
+                                            <td>
+                                                <a target="_blank" href="{{url($value[1])}}" class="btn btn-action">View</a>
+                                            </td>
+                                            @php $noc_cc_chart += $value[0]; $i++;@endphp
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    @if($noc_cc_chart)
+                        <div id="noc_cc_chart_div" class="col-sm-5"></div>
+                    @endif
+                </div>
+            </div>
+        @endif
+        {{--End Dashboard for NOC(CC)--}}
+
+
+        {{--Dashboard for NOC(CC) Subordinate Pendency--}}
+        @if($nocforCCApplication['pending_data'])
+            <div>
+                <div class="m-subheader px-0 m-subheader--top">
+                    <div class="d-flex align-items-center">
+                        <h3 class="m-subheader__title">NOC (CC) Subordinate Pendency</h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div class="m-portlet db-table">
+                            <div class="table-responsive">
+                                <table class="table text-center">
+                                    <thead>
+                                    <th style="width: 10%;">Sr. No</th>
+                                    <th style="width: 60%;" class="text-center">Stages</th>
+                                    <th style="width: 15%;" class="text-left">Count</th>
+                                    </thead>
+                                    <tbody>
+                                    @php
+                                        $noc_cc_chart_pending = 0;
+                                        $i = 1;
+                                    @endphp
+
+                                    @foreach($nocforCCApplication['pending_data'] as $pending_label => $pending_count)
+                                        <tr>
+                                            <td class="text-center">{{$i}}.</td>
+                                            <td>{{$pending_label}}</td>
+                                            <td class="text-center"><span class="count-circle">{{$pending_count}}</span></td>
+                                            @php $noc_cc_chart_pending += $pending_count; $i++;@endphp
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    @if($noc_cc_chart_pending)
+                        <div id="noc_cc_chart_pending" class="col-sm-5"></div>
+                    @endif
+                </div>
+            </div>
+        @endif
+        {{--Dashboard for NOC(CC) Subordinate Pendency--}}
+
+    </div>
+
+
+
+
+    <div class="container-fluid">
         <div class="hearing-accordion-wrapper">
             <div class="m-portlet m-portlet--compact ol-accordion mb-0">
                 <div class="d-flex justify-content-between align-items-center">
@@ -223,36 +648,6 @@
                 @endif
             </div>
         </div>
-
-
-
-        {{--@if($dashboardData1)--}}
-        {{--<div class="hearing-accordion-wrapper">--}}
-            {{--<div class="m-portlet m-portlet--compact hearing-accordion mb-0">--}}
-                {{--<div class="d-flex justify-content-between align-items-center">--}}
-                    {{--<a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"--}}
-                       {{--data-toggle="collapse" href="#ree-ol-pending-summary">--}}
-                        {{--<span class="form-accordion-title">REE Offer Letter Pending Applications Summary</span>--}}
-                        {{--<span class="accordion-icon"></span>--}}
-                    {{--</a>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-            {{--<div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse show" id="ree-ol-pending-summary"--}}
-                 {{--data-parent="#accordion">--}}
-                {{--<div class="row hearing-row">--}}
-                    {{--@foreach($dashboardData1 as $header => $value)--}}
-                        {{--<div class="col">--}}
-                            {{--<div class="m-portlet app-card text-center">--}}
-                                {{--<h2 class="app-heading">{{$header}}</h2>--}}
-                                {{--<h2 class="app-no mb-0">{{$value}}</h2>--}}
-                                {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                    {{--@endforeach--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
-        {{--@endif--}}
 
         @if($nocApplication)
         <div class="hearing-accordion-wrapper">
@@ -392,7 +787,8 @@
     @include('admin.dashboard.architect_layout.partials.vp_dashboard',compact('architect_data'))
     @endif
     </div>
-    <!-- Model for send to society bifergation-->
+
+    <!-- Modal for send to society bifergation-->
     <div class="modal fade" id="reePendingModal" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -430,7 +826,8 @@
             </div>
         </div>
     </div>
-    <!-- Model for Reval Pending Bifurcation-->
+
+    <!-- Modal for Reval Pending Bifurcation-->
     <div class="modal fade" id="reeRevalPendingModal" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -471,6 +868,7 @@
 
 @endsection
 @section('js')
+
     <script>
         $(".ol-accordion").on("click", function () {
             var data = $('.ol-accordion').children().children().attr('aria-expanded');
@@ -578,8 +976,12 @@
             }
         });
     </script>
+
+
     <script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>
+
+    {{--offer letter chart--}}
     @if($chart)
     <script>
         var chart;
@@ -602,6 +1004,9 @@
             // PIE CHART
             chart = new AmCharts.AmPieChart();
             chart.dataProvider = chartData;
+            chart.theme = "light";
+            chart.labelRadius = -35;
+            chart.labelText = "[[percents]]%";
             chart.titleField = "status";
             chart.valueField = "value";
             chart.outlineColor = "#FFFFFF";
@@ -611,7 +1016,6 @@
             // this makes the chart 3D
             chart.depth3D = 15;
             chart.angle = 30;
-            chart.colors =[ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
             chart.fontSize = 15;
 
             // WRITE
@@ -619,6 +1023,9 @@
         });
     </script>
     @endif
+    {{--offer letter chart--}}
+
+    {{--offer letter subordinate pendency chart--}}
     @if($chart1)
     <script>
         var chart1;
@@ -639,6 +1046,9 @@
             // PIE CHART
             chart1 = new AmCharts.AmPieChart();
             chart1.dataProvider = chartData1;
+            chart1.theme = "light";
+            chart1.labelRadius = -35;
+            chart1.labelText = "[[percents]]%";
             chart1.titleField = "status";
             chart1.valueField = "value";
             chart1.outlineColor = "#FFFFFF";
@@ -648,7 +1058,6 @@
             // this makes the chart 3D
             chart1.depth3D = 15;
             chart1.angle = 30;
-            chart1.colors = [ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
             chart1.fontSize = 15;
 
             // WRITE
@@ -658,7 +1067,9 @@
 
     </script>
     @endif
+    {{--end offer letter subordinate pendency chart--}}
 
+    {{--offer letter revalidation chart--}}
     @if($chart2)
         <script>
             var chart2;
@@ -681,6 +1092,9 @@
                 // PIE CHART
                 chart2 = new AmCharts.AmPieChart();
                 chart2.dataProvider = chartData2;
+                chart2.theme = "light";
+                chart2.labelRadius = -35;
+                chart2.labelText = "[[percents]]%";
                 chart2.titleField = "status";
                 chart2.valueField = "value";
                 chart2.outlineColor = "#FFFFFF";
@@ -690,7 +1104,6 @@
                 // this makes the chart 3D
                 chart2.depth3D = 15;
                 chart2.angle = 30;
-                chart2.colors =[ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
                 chart2.fontSize = 15;
 
                 // WRITE
@@ -698,6 +1111,9 @@
             });
         </script>
     @endif
+    {{--end offer letter revalidation chart--}}
+
+    {{--offer letter revalidation subordinate pendency chart--}}
     @if($chart3)
         <script>
             var chart3;
@@ -717,6 +1133,9 @@
                 // PIE CHART
                 chart3 = new AmCharts.AmPieChart();
                 chart3.dataProvider = chartData3;
+                chart3.theme = "light";
+                chart3.labelRadius = -35;
+                chart3.labelText = "[[percents]]%";
                 chart3.titleField = "status";
                 chart3.valueField = "value";
                 chart3.outlineColor = "#FFFFFF";
@@ -726,7 +1145,6 @@
                 // this makes the chart 3D
                 chart3.depth3D = 15;
                 chart3.angle = 30;
-                chart3.colors = [ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
                 chart3.fontSize = 15;
 
                 // WRITE
@@ -734,90 +1152,135 @@
             });
         </script>
     @endif
+    {{--end offer letter revalidation subordinate pendency chart--}}
 
-    {{--@if($chart_tripartite)--}}
-        {{--<script>--}}
-            {{--var chart_tripartite;--}}
-            {{--var legend;--}}
+    {{--NOC chart--}}
+    @if($noc_chart_pending)
+        <script>
+            var noc_chart_pending
+            var legend;
 
-                    {{--@if($tripartite_data['dashboardData'][0])--}}
-            {{--var chartDatatripartite = [--}}
-                            {{--@foreach($tripartite_data['dashboardData'][0] as $header => $value)     {--}}
-                            {{--@if(!($header == 'Total No of Applications'))--}}
-                            {{--"status": '{{$header}}',--}}
-                        {{--"value": '{{$value[0]}}',--}}
-                            {{--@endif--}}
-                    {{--},--}}
-                        {{--@endforeach--}}
-
-                {{--];--}}
-            {{--//    console.log(chartData1);--}}
-
-            {{--AmCharts.ready(function () {--}}
-                {{--// PIE CHART--}}
-                {{--chart_tripartite = new AmCharts.AmPieChart();--}}
-                {{--chart_tripartite.dataProvider = chartDatatripartite;--}}
-                {{--chart_tripartite.titleField = "status";--}}
-                {{--chart_tripartite.valueField = "value";--}}
-                {{--chart_tripartite.outlineColor = "#FFFFFF";--}}
-                {{--chart_tripartite.outlineAlpha = 0.8;--}}
-                {{--chart_tripartite.outlineThickness = 2;--}}
-                {{--chart_tripartite.balloonText =--}}
-                    {{--"[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";--}}
-                {{--// this makes the chart 3D--}}
-                {{--chart_tripartite.depth3D = 15;--}}
-                {{--chart_tripartite.angle = 30;--}}
-                {{--chart_tripartite.colors = ["#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999",--}}
-                    {{--"#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"--}}
-                {{--]--}}
-                {{--//--}}
-                {{--// WRITE--}}
-                {{--chart_tripartite.write("tripartite_chart");--}}
-            {{--});--}}
-            {{--@endif--}}
-        {{--</script>--}}
-    {{--@endif--}}
-
-    <script>
-        var noc_chart;
-        var legend;
-
-        @if($nocApplication['app_data'])
-        var nocChartdata = [
-                        @foreach($nocApplication['app_data'] as $header => $value)
-                        @if($header != 'Total Number of Application'){
-                            "status": '{{$header}}',
-                            "value": '{{$value[0]}}',
-                        },
-                        @endif
-                        @endforeach
+            var noc_chart_pending_data = [
+                    @foreach($nocApplication['pending_data'] as $pending_label => $pending_count)
+                    @if($pending_label != 'Total number of Application Pending'){
+                    "status": '{{$pending_label}}',
+                    "value": '{{$pending_count}}',
+                },
+                @endif
+                @endforeach
             ];
 
-        AmCharts.ready(function () {
+            AmCharts.ready(function () {
+                // PIE CHART
+                noc_chart_pending= new AmCharts.AmPieChart();
+                noc_chart_pending.dataProvider = noc_chart_pending_data;
+                noc_chart_pending.theme = "light";
+                noc_chart_pending.labelRadius = -35;
+                noc_chart_pending.labelText = "[[percents]]%";
+                noc_chart_pending.titleField = "status";
+                noc_chart_pending.valueField = "value";
+                noc_chart_pending.outlineColor = "#FFFFFF";
+                noc_chart_pending.outlineAlpha = 0.8;
+                noc_chart_pending.outlineThickness = 2;
+                noc_chart_pending.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+                // this makes the chart 3D
+                noc_chart_pending.depth3D = 15;
+                noc_chart_pending.angle = 30;
+                noc_chart_pending.fontSize = 15;
+
+                // WRITE
+                noc_chart_pending.write("noc_chart_pending");
+            });
+        </script>
+    @endif
+    {{--end NOC chart--}}
+
+    {{--NOC subordinate pendency chart--}}
+    @if($nocApplication['app_data'])
+        <script>
+            var noc_chart;
+            var legend;
+
+            var nocChartdata = [
+                    @foreach($nocApplication['app_data'] as $header => $value)
+                    @if($header != 'Total Number of Application'){
+                    "status": '{{$header}}',
+                    "value": '{{$value[0]}}',
+                },
+                @endif
+                @endforeach
+            ];
+
+            AmCharts.ready(function () {
 // PIE CHART
-            noc_chart = new AmCharts.AmPieChart();
-            noc_chart.dataProvider = nocChartdata;
-            noc_chart.titleField = "status";
-            noc_chart.valueField = "value";
-            noc_chart.outlineColor = "#FFFFFF";
-            noc_chart.outlineAlpha = 0.4;
-            noc_chart.outlineThickness = 2;
-            noc_chart.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
-            noc_chart.depth3D = 15;
-            noc_chart.angle = 30;
-            noc_chart.colors = [ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
-            noc_chart.fontSize = 15;
+                noc_chart = new AmCharts.AmPieChart();
+                noc_chart.dataProvider = nocChartdata;
+                noc_chart.theme = "light";
+                noc_chart.labelRadius = -35;
+                noc_chart.labelText = "[[percents]]%";
+                noc_chart.titleField = "status";
+                noc_chart.valueField = "value";
+                noc_chart.outlineColor = "#FFFFFF";
+                noc_chart.outlineAlpha = 0.4;
+                noc_chart.outlineThickness = 2;
+                noc_chart.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+                noc_chart.depth3D = 15;
+                noc_chart.angle = 30;
+                noc_chart.fontSize = 15;
 
-            noc_chart.write("noc_chart_div");
-        });
+                noc_chart.write("noc_chart_div");
+            });
+        </script>
+    @endif
+    {{--end NOC subordinate pendency chart--}}
+
+    {{--NOC(CC) chart--}}
+    @if($noc_cc_chart_pending)
+        <script>
+            var noc_cc_chart_pending
+            var legend;
+
+            var noc_cc_chart_pending_data = [
+                    @foreach($nocforCCApplication['pending_data'] as $pending_label => $pending_count)
+                    @if($pending_label != 'Total number of Application Pending'){
+                    "status": '{{$pending_label}}',
+                    "value": '{{$pending_count}}',
+                },
+                @endif
+                @endforeach
+            ];
+
+            AmCharts.ready(function () {
+                // PIE CHART
+                noc_cc_chart_pending= new AmCharts.AmPieChart();
+                noc_cc_chart_pending.dataProvider = noc_cc_chart_pending_data;
+                noc_cc_chart_pending.theme = "light";
+                noc_cc_chart_pending.labelRadius = -35;
+                noc_cc_chart_pending.labelText = "[[percents]]%";
+                noc_cc_chart_pending.titleField = "status";
+                noc_cc_chart_pending.valueField = "value";
+                noc_cc_chart_pending.outlineColor = "#FFFFFF";
+                noc_cc_chart_pending.outlineAlpha = 0.8;
+                noc_cc_chart_pending.outlineThickness = 2;
+                noc_cc_chart_pending.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+                // this makes the chart 3D
+                noc_cc_chart_pending.depth3D = 15;
+                noc_cc_chart_pending.angle = 30;
+                noc_cc_chart_pending.fontSize = 15;
+
+                // WRITE
+                noc_cc_chart_pending.write("noc_cc_chart_pending");
+            });
+        </script>
         @endif
+    {{--NOC(CC) chart--}}
 
-    </script>
-    <script>
+    {{--NOC(CC) subordinate pendency chart--}}
+    @if($nocforCCApplication['app_data'])
+        <script>
         var noc_cc_chart;
         var legend;
 
-        @if($nocforCCApplication['app_data'])
         var nocCCChartdata = [
                         @foreach($nocforCCApplication['app_data'] as $header => $value)
                         @if($header != 'Total Number of Application'){
@@ -832,6 +1295,9 @@
 // PIE CHART
             noc_cc_chart = new AmCharts.AmPieChart();
             noc_cc_chart.dataProvider = nocCCChartdata;
+            noc_cc_chart.theme = "light";
+            noc_cc_chart.labelRadius = -35;
+            noc_cc_chart.labelText = "[[percents]]%";
             noc_cc_chart.titleField = "status";
             noc_cc_chart.valueField = "value";
             noc_cc_chart.outlineColor = "#FFFFFF";
@@ -840,28 +1306,14 @@
             noc_cc_chart.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
             noc_cc_chart.depth3D = 15;
             noc_cc_chart.angle = 30;
-            noc_cc_chart.colors = [ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]
             noc_cc_chart.fontSize = 15;
 
             noc_cc_chart.write("noc_cc_chart_div");
         });
-        @endif
 
-    </script>
+        </script>
+    @endif
+    {{--end NOC(CC) subordinate pendency chart--}}
+
 @endsection
 
-
-
-{{--@section('js')--}}
-{{--<script>--}}
-{{--$(".accordion-icon").on("click", function () {--}}
-{{--var data = $('.hearing-accordion').children().children().attr('aria-expanded');--}}
-{{--if(data == 'undefine' || data == 'false'){--}}
-{{--alert('open');--}}
-{{--}else{--}}
-{{--alert('closed');--}}
-{{--}--}}
-{{--});--}}
-{{--</script>--}}
-
-{{--@endsection--}}
