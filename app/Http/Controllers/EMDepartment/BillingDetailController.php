@@ -222,15 +222,15 @@ class BillingDetailController extends Controller
                                 group_concat(trans_payment.bill_no separator ",") as bill_no
                             FROM
                                 `trans_bill_generate`
-                            INNER JOIN
+                            LEFT JOIN
                                 `service_charges_rates`
                             ON
                                 `service_charges_rates`.`building_id` = `trans_bill_generate`.`building_id` AND `service_charges_rates`.`society_id` = `trans_bill_generate`.`society_id` AND `service_charges_rates`.`year` = `trans_bill_generate`.`bill_year`
-                            INNER JOIN
+                            LEFT JOIN
                                 `arrear_calculation`
                             ON
                                 `arrear_calculation`.`building_id` = `trans_bill_generate`.`building_id` AND `arrear_calculation`.`society_id` = `trans_bill_generate`.`society_id` AND `arrear_calculation`.`year` = `trans_bill_generate`.`bill_year` AND `arrear_calculation`.`month` = `trans_bill_generate`.`bill_month`
-                            INNER JOIN
+                            LEFT JOIN
                                 `arrears_charges_rates`
                             ON
                                 `arrears_charges_rates`.`building_id` = `trans_bill_generate`.`building_id` AND `arrears_charges_rates`.`society_id` = `trans_bill_generate`.`society_id` AND `arrears_charges_rates`.`year` = `trans_bill_generate`.`bill_year`

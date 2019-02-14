@@ -802,22 +802,38 @@ class EMController extends Controller
             if ($datatables->getRequest()->ajax()) {
 
                 $currentMonth = date('m');
+                // if($currentMonth < 4) {
+                //     if($currentMonth == 1) {
+                //         $data['month'] = 12;
+                //         $data['year'] = date('Y') -1;
+                //     } else {
+                //         $data['month'] = date('m') -1;
+                //         $data['year'] = date('Y') -1;
+                //     }
+                // } else {
+                //     $data['month'] = date('m');
+                //     $data['year'] = date('Y');
+                // }
+
                 if($currentMonth < 4) {
                     if($currentMonth == 1) {
                         $data['month'] = 12;
                         $data['year'] = date('Y') -1;
+                        $bill_year = date('Y') -1;
                     } else {
                         $data['month'] = date('m') -1;
                         $data['year'] = date('Y') -1;
+                        $bill_year = date('Y');
                     }
                 } else {
                     $data['month'] = date('m');
                     $data['year'] = date('Y');
+                    $bill_year = date('Y');
                 }
 
                 DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-                $tenants = MasterTenant::with(['TransBillGenerate' => function($query) use($buildingId,$data){
-                    $query->where('building_id',$buildingId)->where('bill_month', '=', $data['month'])->where('bill_year', '=', $data['year']);
+                $tenants = MasterTenant::with(['TransBillGenerate' => function($query) use($buildingId,$data,$bill_year){
+                    $query->where('building_id',$buildingId)->where('bill_month', '=', $data['month'])->where('bill_year', '=', $bill_year);
                 }])
                 ->where('building_id', '=', decrypt($request->input('building')))
                 ->selectRaw('@rownum  := @rownum  + 1 AS rownum,master_tenants.*');
@@ -863,21 +879,38 @@ class EMController extends Controller
                 DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
 
                 $currentMonth = date('m');
+                // if($currentMonth < 4) {
+                //     if($currentMonth == 1) {
+                //         $data['month'] = 12;
+                //         $data['year'] = date('Y') -1;
+                //     } else {
+                //         $data['month'] = date('m') -1;
+                //         $data['year'] = date('Y') -1;
+                //     }
+                // } else {
+                //     $data['month'] = date('m');
+                //     $data['year'] = date('Y');
+                // }
+
                 if($currentMonth < 4) {
                     if($currentMonth == 1) {
                         $data['month'] = 12;
                         $data['year'] = date('Y') -1;
+                        $bill_year = date('Y') -1;
                     } else {
                         $data['month'] = date('m') -1;
                         $data['year'] = date('Y') -1;
+                        $bill_year = date('Y');
                     }
                 } else {
                     $data['month'] = date('m');
                     $data['year'] = date('Y');
+                    $bill_year = date('Y');
                 }
 
-                $buildings = MasterBuilding::with(['TransBillGenerate'=>function($query) use($society_id,$data){
-                    $query->where('society_id', '=', $society_id)->where('bill_month', '=',$data['month'])->where('bill_year', '=', $data['year']);
+
+                $buildings = MasterBuilding::with(['TransBillGenerate'=>function($query) use($society_id,$data,$bill_year){
+                    $query->where('society_id', '=', $society_id)->where('bill_month', '=',$data['month'])->where('bill_year', '=', $bill_year);
                 }])->with('tenant_count')->where('society_id', '=', decrypt($request->input('society')))
                 ->selectRaw('@rownum  := @rownum  + 1 AS rownum,master_buildings.*');
                 
@@ -1219,17 +1252,34 @@ class EMController extends Controller
             }
 
             $currentMonth = date('m');
+            // if($currentMonth < 4) {
+            //     if($currentMonth == 1) {
+            //         $data['month'] = 12;
+            //         $data['year'] = date('Y') -1;
+            //     } else {
+            //         $data['month'] = date('m') -1;
+            //         $data['year'] = date('Y') -1;
+            //     }
+            // } else {
+            //     $data['month'] = date('m');
+            //     $data['year'] = date('Y');
+            // }
+
+
             if($currentMonth < 4) {
                 if($currentMonth == 1) {
                     $data['month'] = 12;
                     $data['year'] = date('Y') -1;
+                    $data['bill_year'] = date('Y') -1;
                 } else {
                     $data['month'] = date('m') -1;
                     $data['year'] = date('Y') -1;
+                    $data['bill_year'] = date('Y');
                 }
             } else {
                 $data['month'] = date('m');
                 $data['year'] = date('Y');
+                $data['bill_year'] = date('Y');
             }
 
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
@@ -1237,7 +1287,7 @@ class EMController extends Controller
             $data['check'] = TransBillGenerate::where('building_id', '=', $request->building_id)
                                 ->where('society_id', '=', $request->society_id)
                                 ->where('bill_month', '=', $data['month'])
-                                ->where('bill_year', '=', $data['year'])
+                                ->where('bill_year', '=',$data['bill_year'])
                                 ->first();
             $data['regenate'] = false;                    
             if($request->has('regenate') && true == $request->regenate) {
@@ -1251,7 +1301,7 @@ class EMController extends Controller
             }
             $data['lastBill'] = TransBillGenerate::where('building_id', '=', $request->building_id)
                                     ->where('bill_month', '=', $lastBillMonth)
-                                    ->where('bill_year', '=', $data['year'])
+                                    ->where('bill_year', '=',$data['bill_year'])
                                     ->orderBy('id','DESC')
                                     ->get();
 //                                     echo '<pre>';
@@ -1471,7 +1521,7 @@ class EMController extends Controller
             $years = [];
             foreach ($period as $dt) {
                 $years[$dt->format("Y")] = $dt->format("Y");
-                $months[$dt->format("m")] = $dt->format("m");
+                $months[$dt->format("n")] = $dt->format("n");
                 // echo $dt->format("Y-m") . "<br>\n";
             }
             unset($months[count($months)-1]);
@@ -1481,6 +1531,7 @@ class EMController extends Controller
 
                     $consumer_number = 'BL-'.substr(sprintf('%08d', $request->building_id),0,8).'|'.substr(sprintf('%08d', $key->id),0,8);
                     $arreasCalculation = ArrearCalculation::where('tenant_id',$key->id)->where('payment_status','0')->whereIn('year',$years)->whereIn('month',$months)->get();
+
                     $arrear_bill = 0;
                     $total_bill = 0;
                     $arrear_id = '';
