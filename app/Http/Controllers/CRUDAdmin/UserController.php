@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Hash;
+use App\RoleUser;
 class UserController extends Controller
 {
     protected $list_num_of_records_per_page;
@@ -131,25 +132,42 @@ class UserController extends Controller
             'service_start_date' => 'required',
             'service_end_date' => 'required'
             ]);
+        
+        DB::beginTransaction();
 
-        //create the new user
-        $user = new User();
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->mobile_no = $request->input('mobile_no');
-        $user->address = $request->input('address');
-        $user->password = Hash::make($request->input('password'));
-//        $user->service_start_date = $request->input('service_start_date');
-//        $user->service_end_date = $request->input('service_end_date');
-        $user->service_start_date = NULL;
-        $user->service_end_date = NULL;
-        $user->role_id = $request->input('role_id');
-        $user->uploaded_note_path = 'test';
+        try {
+             //create the new user
+            $user = new User();
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->mobile_no = $request->input('mobile_no');
+            $user->address = $request->input('address');
+            $user->password = Hash::make($request->input('password'));
+    //      $user->service_start_date = $request->input('service_start_date');
+    //      $user->service_end_date = $request->input('service_end_date');
+            $user->service_start_date = NULL;
+            $user->service_end_date = NULL;
+            $user->role_id = $request->input('role_id');
+            $user->uploaded_note_path = 'test';
+            $user->save();
 
-        $user->save();
-
-        return redirect()->route('users.index')
+            RoleUser::insert([
+                'user_id' => $user->id,
+                'role_id' => $request->input('role_id'),
+                'start_date' => \Carbon\Carbon::now()
+            ]);
+        
+            DB::commit();
+            return redirect()->route('users.index')
             ->with('success','User created successfully');
+            // all good
+        } catch (\Exception $e) {
+            DB::rollback();
+            // something went wrong
+        }
+       
+
+        
     }
     /**
      * Display the specified resource.
@@ -197,7 +215,9 @@ class UserController extends Controller
         if(!($request->input('password')== null)){
             $this->validate($request, ['password' => 'alpha_num|required|confirmed' ]);
         }
+        DB::beginTransaction();
 
+        try {
         $user = User::FindOrFail($id);
         $user->name = $request->input('name');
         if($request->input('email') != $user['email'] ){
@@ -216,9 +236,32 @@ class UserController extends Controller
         $user->uploaded_note_path = 'test';
 //
         $user->save();
-
+        $role_user=RoleUser::where(['user_id' => $user->id,'role_id' => $request->input('role_id')])->first();
+        if($role_user)
+        {
+            // $role_user->delete();
+            // $role_user->user_id=$user->id;
+            // $role_user->role_id= $request->input('role_id');
+            // $role_user->start_date= \Carbon\Carbon::now();
+            // $role_user->save();
+        }else
+        {
+            RoleUser::insert([
+                'user_id' => $user->id,
+                'role_id' => $request->input('role_id'),
+                'start_date' => \Carbon\Carbon::now()
+            ]);
+        }
+        
+        DB::commit();
         return redirect()->route('users.index')
-            ->with('success','user updated successfully');
+        ->with('success','user updated successfully');
+            // all good
+        } catch (\Exception $e) {
+            DB::rollback();
+            dd($e->getMessage());
+            // something went wrong
+        }
     }
     /**
      * Remove the specified resource from storage.

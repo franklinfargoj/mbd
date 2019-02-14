@@ -38,6 +38,7 @@ use DB;
 use File;
 use Storage;
 use Mpdf\Mpdf;
+use App\LayoutUser;
 
 class EEController extends Controller
 {
@@ -483,9 +484,12 @@ class EEController extends Controller
         // DyCE Junior Forward Application
         $dyce_role_id = Role::where('name', '=', config('commanConfig.dyce_jr_user'))->first();
 
+        //dd(session()->get('layout_id'));
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
+       // dd($layout_ids);
         $arrData['get_forward_dyce'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-
-                                                ->where('lu.layout_id', session()->get('layout_id'))
+                                                ->whereIn('lu.layout_id', $layout_ids)
                                                 ->where('role_id', $dyce_role_id->id)->get();
 
         $arrData['dyce_role_name'] = strtoupper(str_replace('_', ' ', $dyce_role_id->name));
