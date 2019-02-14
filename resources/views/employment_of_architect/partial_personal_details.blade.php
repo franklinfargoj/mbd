@@ -1,6 +1,6 @@
 <div class="m-portlet__body m-portlet__body--spaced">
-    <div class=" m-form__group row align-items-end mhada-panel-top">
-        <div class="col-sm-12 form-group">
+    <div class=" m-form__group row align-items-end mhada-panel-top mhada-lease-margin">
+        <div class="col-sm-12 form-group mhada-pb">
             <label class="col-form-label" for="">Category of panel applied for</label>
         </div>
         <div class="col-sm-2 form-group">
@@ -11,7 +11,7 @@
                 <span></span>
             </label>
         </div>
-        <div class="col-sm-2 form-group">
+        <div class="col-sm-2 form-group ">
             <label class="m-radio m-radio--primary">
                 <input
                     {{config('commanConfig.eoa_panel_categories.LANDSCAPE')==$application->category_of_panel?'checked':''}}
@@ -23,7 +23,7 @@
             @endif
         </div>
     </div>
-    <div class=" m-form__group row align-items-end mhada-panel-top">
+    <div class=" m-form__group row align-items-end mhada-panel-top mhada-lease-margin">
         <div class="col-sm-4 form-group">
         <label class="col-form-label" for="name_of_applicant">Name of the Applicant<span class="star">*</span></label>
             <input type="text" id="name_of_applicant" name="name_of_applicant" class="form-control form-control--custom m-input" value="{{old('name_of_applicant')?old('name_of_applicant'):$application->name_of_applicant}}">

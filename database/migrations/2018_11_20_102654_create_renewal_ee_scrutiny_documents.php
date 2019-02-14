@@ -28,7 +28,7 @@ class CreateRenewalEeScrutinyDocuments extends Migration
      * @return void
      */
     public function down()
-    {
+    { 
         Schema::dropIfExists('renewal_ee_scrutiny_documents');
     }
 }

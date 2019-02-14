@@ -92,7 +92,7 @@ class UserLayoutController extends Controller
      */
     public function create()
     {
-        $users = User::get()->toArray();
+        $users = User::with('roleDetails')->get()->toArray();
         $layouts = MasterLayout::get()->toArray();
         return view('admin.crud_admin.user_layout.create',compact('users','layouts'));
 
@@ -105,8 +105,9 @@ class UserLayoutController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validate($request, [
-            'user_id' => 'required|unique:layout_user,user_id',
+            'user_id' => 'required',
             'layout_id' => 'required',
         ]);
         //create the new layout
@@ -208,5 +209,27 @@ class UserLayoutController extends Controller
     public function loadDeleteUserLayoutUsingAjax(Request $request){
         $id = $request->id;
         return view('admin.crud_admin.user_layout.userLayoutDeleteReason', compact('id'))->render();
+    }
+
+    public function getLayout(Request $request){
+        
+        try{
+            $userId = $request->userId;
+            $roleId = User::where('id',$userId)->value('role_id');
+            $layoutIds = LayoutUser::with(['user' => function ($query) use($roleId){
+                $query->where('role_id',$roleId);
+            }])->whereHas('user', function($query) use($roleId){
+                $query->where('role_id',$roleId);
+            })->pluck('layout_id');
+
+            $layout = MasterLayout::whereNotIn('id',$layoutIds)->get(); 
+            $response['status'] = 'success';          
+            $response['data'] = $layout;          
+
+        }catch(Exception $e){
+            $response['status'] = 'error';
+            $response['data'] = '';
+        }
+        return response(json_encode($response), 200);
     }
 }

@@ -297,8 +297,8 @@ a[title="JavaScript charts"] {
 }
 
 .m-portlet--forms-compact .m-portlet__head--top {
-    margin-top: 20px;
-    padding-bottom: 25px;
+    margin-top: 10px;
+    padding-bottom: 20px;
 }
 
 .m-portlet--forms-compact .m-form__actions {
@@ -977,8 +977,8 @@ table.dataTable tbody tr:nth-child(even):focus {
 }
 
 .m-portlet--compact {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .row--filter {
@@ -3064,7 +3064,7 @@ label.site-visit-label {
 
 .floating-labels-form div[class^="col-"],
 .floating-labels-form div[class*="col-"] {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 /* .floating-labels-form .form-control--custom {
@@ -3520,4 +3520,102 @@ label.site-visit-label {
 
 .mhada-label-index{
     z-index: 9 !important;
+}
+
+
+.signup-wrapper .mhada-sign-up{
+    margin-bottom: 0 !important;
+}
+
+.signup-wrapper .mhada-sign-up label.col-form-label{
+    top: 8px !important;
+}
+
+.signup-wrapper .mhada-sign-up .form-group.focused label.col-form-label {
+    top: -7px !important;
+}
+
+.signup-wrapper .mhada-sign-up .row{
+    margin-bottom: 0 !important;
+}
+
+.signup-wrapper .floating-labels-form .row{
+    margin-bottom: 0 !important;
+}
+
+#villageForm .p-m-0{
+    margin-bottom: 0 !important;
+}
+
+<<<<<<< HEAD
+#societyForm .p-m-0{
+    margin-bottom: 0 !important;
+}
+
+.mhada-multiple-label{
+    opacity: 1;
+    top: -19px !important;
+    color: #f0971b;
+    background: #fff;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-weight: 500;
+    font-size: 11px;
+}
+
+#addLeaseDetail .mhada-lease-margin{
+    margin-bottom: -30px;
+}
+
+
+#renewLeaseDetail .mhada-lease-margin{
+    margin-bottom: -30px;
+}
+
+#update_profile .mhada-lease-margin{
+    margin-bottom: -30px;
+}
+
+.m-badge{
+    font-weight: 500;
+}
+
+.mhada-pb{
+    padding-bottom: 20px;
+}
+
+#appointing_architect_step1 .mhada-lease-margin{
+    margin-bottom: -30px;
+}
+
+.m-portlet--forms-compact .m-portlet__head--top.mhada-pb{
+    padding-top: 20px;
+}
+
+.mhada-header-mt{
+    padding-top: 25px !important;
+}
+
+.mhada-pt{
+    padding-top: 40px !important;
+}
+
+.mhada-lr-p{
+    padding: 0 15px !important;
+}
+
+.mhada-mb{
+    margin-bottom: 50px !important;
+}
+
+.mhada-pdf-icon{
+    position: relative;
+    top: -29px;
+    left: -29px;
+}
+
+.mhada-pdf-icon-old{
+    position: relative;
+    top: -41px;
+    left: -29px;
 }

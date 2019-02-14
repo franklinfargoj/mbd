@@ -20,8 +20,8 @@
                                 <div class="custom-file">
                                     <input {{ $ArchitectLayoutDetail->cts_plan!=""?"":"required" }} accept="pdf" title="please upload file with pdf extension" class="custom-file-input" name="cts_plan_file" type="file" id="cts_plan_file">
                                     <label class="custom-file-label" for="cts_plan_file">Choose file...</label>
-                                    <a class="btn-link" target="_blank" id="cts_plan" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->cts_plan}}"
-                                        style="display:{{$ArchitectLayoutDetail->cts_plan!=''?'block':'none'}};">download</a>
+                                    <a class="btn-link mhada-pdf-icon" target="_blank" id="cts_plan" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->cts_plan}}"
+                                        style="display:{{$ArchitectLayoutDetail->cts_plan!=''?'block':'none'}};"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                 </div>
                             </div>
                         </div>
@@ -41,7 +41,7 @@
                                         <input required placeholder="CTS no" type="text" name="cts_no[{{$j}}]" class="form-control form-control--custom"
                                             value="{{ $cts_plan_detail->cts_no }}" >
                                         @if($j>0)
-                                        <i onclick="deleteCtsDetail(this,{{$cts_plan_detail->id}})" class="fa fa-close btn--add-delete remove"></i>
+                                        <i onclick="deleteCtsDetail(this,{{$cts_plan_detail->id}})" class="fa fa-close btn--remove-delete remove"></i>
                                         @endif
                                     </div>
                                     @php $j++; @endphp
@@ -57,7 +57,7 @@
 
                                 </div>
                                 <div class="row">
-                                    <div class="col-12 form-group">
+                                    <div class="col-12 form-group mt-2">
                                         <a class="btn--add-delete addCTS" href="javascript:void(0)">add more<a>
                                     </div>
                                 </div>

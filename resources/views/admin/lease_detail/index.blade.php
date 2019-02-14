@@ -17,7 +17,7 @@
         <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
-                    <form role="form" id="eeForm" method="get" action="">
+                    <form role="form" id="eeForm" class="floating-labels-form" method="get" action="">
                         <div class="row align-items-center mb-0">
                             {{--<div class="col-md-3">--}}
                                 {{--<div class="form-group m-form__group">--}}
@@ -25,16 +25,18 @@
                                            {{--placeholder="Society Name" value="{{ isset($getData['society_name'])? $getData['society_name'] : '' }}">--}}
                                 {{--</div>--}}
                             {{--</div>--}}
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-0">
                                 <div class="form-group m-form__group">
+                                    <label for="lease_date_from" class="col-form-label" for="villages-select">From Date</label>
                                     <input type="text" id="lease_date_from" name="lease_date_from" class="form-control form-control--custom m-input m_datepicker"
-                                           placeholder="From Date" value="{{ isset($getData['lease_date_from'])? $getData['lease_date_from'] : '' }}">
+                                           placeholder="" value="{{ isset($getData['lease_date_from'])? $getData['lease_date_from'] : '' }}">
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-0">
                                 <div class="form-group m-form__group">
+                                    <label for="lease_date_to" class="col-form-label" for="villages-select">To Date</label>
                                     <input type="text" id="lease_date_to" name="lease_date_to" class="form-control form-control--custom m-input m_datepicker"
-                                           placeholder="To Date" value="{{ isset($getData['lease_date_to'])? $getData['lease_date_to'] : '' }}">
+                                           placeholder="" value="{{ isset($getData['lease_date_to'])? $getData['lease_date_to'] : '' }}">
                                 </div>
                             </div>
 
