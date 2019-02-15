@@ -756,7 +756,8 @@ class SocietyOfferLetterController extends Controller
         $last_id = OlApplication::create($insert_application);
         $role_id = Role::where('name','like', 'ree_junior_engineer')->first();
 
-        $user_ids = RoleUser::where('role_id', $role_id->id)->get();
+        $user_ids = RoleUser::where('role_id', $role_id->id)->get()->toArray();
+        $user_ids = array_column($user_ids, 'user_id');
         $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
 
         foreach ($layout_user_ids as $key => $value) {
@@ -818,7 +819,8 @@ class SocietyOfferLetterController extends Controller
         $last_id = OcApplication::create($insert_application);
         $role_ids = Role::where('name','like', 'ee_junior_engineer')->orWhere('name','like', 'EM')->pluck('id')->toArray();
 
-        $user_ids = RoleUser::whereIn('role_id', $role_ids)->get();
+        $user_ids = RoleUser::whereIn('role_id', $role_ids)->get()->toArray();
+        $user_ids = array_column($user_ids, 'user_id');
         $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
 
         foreach ($layout_user_ids as $key => $value) {
