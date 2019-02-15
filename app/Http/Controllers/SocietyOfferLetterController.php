@@ -683,38 +683,22 @@ class SocietyOfferLetterController extends Controller
             'is_encrochment' => '0',
             'is_approve_offer_letter' => '0',
         );
+        //dd($insert_application);
         
         $last_id = OlApplication::create($insert_application);
-        $role_id = Role::where('name', 'ee_junior_engineer')->first();
         
-        $user_ids = RoleUser::where('role_id', $role_id->id)->get()->toArray();
-        //$user_ids = RoleUser::whereIn('role_id', $role_ids)->get()->toArray();
-        $user_ids = array_column($user_ids, 'user_id');
-       
-        $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
-        
-        foreach ($layout_user_ids as $key => $value) {
-            $select_user_ids[] = $value['user_id'];
-        }
-        $users = User::whereIn('id', $select_user_ids)->get();
-        //dd($users);
-        if(count($users) > 0){
-            foreach($users as $key => $user){
-                $i = 0;
-                $insert_application_log_pending[$key]['application_id'] = $last_id->id;
-                $insert_application_log_pending[$key]['society_flag'] = 1;
-                $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
-                $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
-                $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
-                $insert_application_log_pending[$key]['to_user_id'] = null;
-                $insert_application_log_pending[$key]['to_role_id'] = null;
-                $insert_application_log_pending[$key]['remark'] = '';
-                $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
-                $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
-                $i++;
-            }
-        }
-
+            
+        $insert_application_log_pending['application_id'] = $last_id->id;
+        $insert_application_log_pending['society_flag'] = 1;
+        $insert_application_log_pending['user_id'] = Auth::user()->id;
+        $insert_application_log_pending['role_id'] = Auth::user()->role_id;
+        $insert_application_log_pending['status_id'] = config('commanConfig.applicationStatus.pending');
+        $insert_application_log_pending['to_user_id'] = null;
+        $insert_application_log_pending['to_role_id'] = null;
+        $insert_application_log_pending['remark'] = '';
+        $insert_application_log_pending['created_at'] = date('Y-m-d H-i-s');
+        $insert_application_log_pending['updated_at'] = date('Y-m-d H-i-s');
+                
         OlApplicationStatus::insert($insert_application_log_pending);
         $last_society_flag_id = OlApplicationStatus::where('society_flag', '1')->orderBy('id', 'desc')->first();
         $id = OlApplicationStatus::find($last_society_flag_id->id);
@@ -2891,6 +2875,8 @@ class SocietyOfferLetterController extends Controller
 
     public function uploadMultipleDocuments(Request $request,$societyId,$documentId){
 
+        
+
         $documentId = decrypt($documentId);
         $societyId = decrypt($societyId);
         $ol_applications = OlApplication::where('user_id', Auth::user()->id)->where('society_id', 
@@ -2906,6 +2892,7 @@ class SocietyOfferLetterController extends Controller
     }
 
     public function saveDocuments(Request $request){
+
 
         $file = $request->file('file');
         $societyId = $request->societyId;
