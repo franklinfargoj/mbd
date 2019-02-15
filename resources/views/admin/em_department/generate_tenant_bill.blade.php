@@ -247,7 +247,7 @@
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions px-0">
                         <div class="row">
-                            @if(is_null($check) || $check == '')
+                            @if((is_null($check) || $check == '') && false == $regenate)
                             <div class="col-sm-4">
                                 <div class="btn-list">
                                     <button type="submit" id="" class="btn btn-primary">Generate Society Bill</button>
