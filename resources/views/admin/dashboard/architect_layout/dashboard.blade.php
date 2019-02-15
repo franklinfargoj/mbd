@@ -1,6 +1,15 @@
 @extends('admin.layouts.app')
 @section('css')
 <link rel="stylesheet" href="../../../../public/css/amcharts.css">
+<!-- Fonts -->
+<!--<link rel="dns-prefetch" href="https://fonts.gstatic.com">-->
+<!-- Styles -->
+<link href="{{asset('/css/dashboard/vendors.bundle.css')}}" rel="stylesheet" type="text/css"/>
+<link href="{{asset('/css/dashboard/style.bundle.css')}}" rel="stylesheet" type="text/css"/>
+{{--    <link href="{{asset('/css/dashboard/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />--}}
+<link href="{{asset('/css/dashboard/custom.css')}}" rel="stylesheet" type="text/css"/>
+
+
 @endsection
 @section('content')
 <div class="container-fluid">

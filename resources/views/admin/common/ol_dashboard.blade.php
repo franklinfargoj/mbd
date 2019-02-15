@@ -79,13 +79,23 @@
                     in_array(session()->get('role_name'),array(config('commanConfig.vp_engineer'))))
                     <div class="db__card">
                         <div class="db__card__img-wrap db-color-5">
-                            <h3 class="db__card__count">48</h3>
+                            <h3 class="db__card__count">
+                                @if(in_array(session()->get('role_name'),array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'))))
+                                    {{$architect_data['total_no_of_appln_for_revision']}}
+                                @elseif(in_array(session()->get('role_name'),array(config('commanConfig.vp_engineer'))))
+                                    {{$architect_data['total_no_of_layout']}}
+                                @elseif(in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'))))
+                                    {{$architect_data['total_no_of_appln_for_approval']}}
+                                @else
+                                    -
+                                @endif
+                            </h3>
                         </div>
                         <p class="db__card__title">Revision in Layout</p>
                     </div>
                     <div class="db__card">
                         <div class="db__card__img-wrap db-color-5">
-                            <h3 class="db__card__count">48</h3>
+                            <h3 class="db__card__count">-</h3>
                         </div>
                         <p class="db__card__title">Layout Approval</p>
                     </div>
@@ -363,258 +373,42 @@
         @endif
         {{--End Dashboard for offer letter--}}
 
+        @if((session()->get('role_name')==config('commanConfig.junior_architect'))||
+   (session()->get('role_name')==config('commanConfig.senior_architect')) ||
+   (session()->get('role_name')==config('commanConfig.architect')))
+            @include('admin.dashboard.appointing_architect.dashboard',compact('appointing_architect_data'))
+            @include('admin.dashboard.architect_layout.partials.architect_dashboard',compact('architect_data'))
+        @endif
+        @if(session()->get('role_name')==config('commanConfig.land_manager'))
+            @include('admin.dashboard.architect_layout.partials.lm_dashboard',compact('architect_data'))
+        @endif
+        @if(session()->get('role_name')==config('commanConfig.estate_manager'))
+            @include('admin.dashboard.architect_layout.partials.em_dashboard',compact('architect_data'))
+        @endif
+        @if (in_array(session()->get('role_name'),array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'))))
+            @include('admin.dashboard.architect_layout.partials.ee_dashboard',compact('architect_data'))
+        @endif
+        @if (in_array(session()->get('role_name'),array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head'))))
+            @include('admin.dashboard.architect_layout.partials.ree_dashboard',compact('architect_data'))
+        @endif
+        @if(in_array(session()->get('role_name'),array(config('commanConfig.co_engineer'))))
+            @include('admin.dashboard.architect_layout.partials.co_dashboard',compact('architect_data'))
+        @endif
+        @if(in_array(session()->get('role_name'),array(config('commanConfig.senior_architect_planner'))))
+            @include('admin.dashboard.architect_layout.partials.sap_dashboard',compact('architect_data'))
+        @endif
+        @if(in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'))))
+            @include('admin.dashboard.architect_layout.partials.cap_dashboard',compact('architect_data'))
+        @endif
+        @if(in_array(session()->get('role_name'),array(config('commanConfig.vp_engineer'))))
+            @include('admin.dashboard.architect_layout.partials.vp_dashboard',compact('architect_data'))
+        @endif
+
     </div>
 
 
 
 
-
-    {{--<div class="container-fluid">--}}
-    {{--<div class="m-subheader px-0 m-subheader--top">--}}
-        {{--<div class="d-flex align-items-center">--}}
-            {{--<h3 class="m-subheader__title">Dashboard</h3>--}}
-        {{--</div>--}}
-    {{--</div>--}}
-    {{--@if( !((session()->get('role_name') == config('commanConfig.junior_architect')) || (session()->get('role_name') == config('commanConfig.architect')) || (session()->get('role_name') == config('commanConfig.senior_architect'))))--}}
-    {{--<div class="hearing-accordion-wrapper">--}}
-        {{--<div class="m-portlet m-portlet--compact ol-accordion mb-0">--}}
-            {{--<div class="d-flex justify-content-between align-items-center">--}}
-                {{--<a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"--}}
-                    {{--data-toggle="collapse" href="#ree-offer-letter-summary">--}}
-                    {{--<span class="form-accordion-title">Application for Redevelopment</span>--}}
-                    {{--<span class="accordion-icon ol-accordion-icon"></span>--}}
-                {{--</a>--}}
-            {{--</div>--}}
-        {{--</div>--}}
-        {{--<div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="ree-offer-letter-summary"--}}
-            {{--data-parent="#accordion">--}}
-            {{--<div class="row no-gutters">--}}
-                {{--<div class="{{ (session()->get('role_name') == config('commanConfig.ee_junior_engineer') || session()->get('role_name') == config('commanConfig.dyce_jr_user')) ? 'col-9' : 'col-12' }} no-shadow">--}}
-                    {{--<div class="app-card-section-title">Offer Letter Subordinate Pendency</div>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-            {{--<div class="row no-gutters hearing-row">--}}
-                {{--@foreach($dashboardData as $header => $value)--}}
-                {{--<div class="col-lg-3">--}}
-                    {{--<div class="m-portlet app-card text-center">--}}
-                        {{--<h2 class="app-heading">{{$header}}</h2>--}}
-                        {{--<div class="app-card-footer">--}}
-                            {{--<h2 class="app-no mb-0">{{$value[0]}}</h2>--}}
-                            {{--@php $chart += $value[0]--}}
-                            {{--@endphp--}}
-                            {{--<a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View--}}
-                                {{--Details</a>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-                {{--@endforeach--}}
-            {{--</div>--}}
-            {{--@if($chart)--}}
-            {{--<div id="chartdiv" style="width: 100%; height: 350px; margin-top: 2px;"></div>--}}
-            {{--@endif @if($dashboardData1)--}}
-            {{--<div class="row no-gutters"> --}}
-                {{--<div class="col-12 no-shadow">--}}
-                    {{--<div class="app-card-section-title">Offer Letter Subordinate Pendency</div>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-            {{--<div class="row no-gutters hearing-row">--}}
-                {{--@foreach($dashboardData1 as $header => $value)--}}
-                {{--<div class="col-lg-3">--}}
-                    {{--<div class="m-portlet app-card text-center">--}}
-                        {{--<h2 class="app-heading">{{$header}}</h2>--}}
-                        {{--<h2 class="app-no mb-0">{{$value}}</h2>--}}
-                        {{--@php $chart1 += $value;--}}
-                        {{--@endphp --}}{{----}}
-                        {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-                {{--@endforeach--}}
-            {{--</div>--}}
-            {{--@if($chart1)--}}
-            {{--<div id="chartdiv1" style="width: 100%; height: 350px; margin-top: 2px;"></div>--}}
-            {{--@endif @endif --}}{{--@if($dashboardData1)--}}{{-- --}}{{----}}
-            {{--<div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="ree-ol-pending-summary"--}}
-                {{----}}{{-- --}}{{--data-parent="#accordion">--}}{{-- --}}{{----}}{{-- --}}{{----}}
-            {{--</div>--}}{{-- --}}{{--@endif--}}{{-- </div> </div>--}}
-    {{--@endif--}}
-
-                {{--<!-- Dashboard for Convayance Module -->--}}
-                {{--@if(in_array(session()->get('role_name'),$conveyanceRoles)) @if($conveyanceDashboard)--}}
-                {{--<div class="hearing-accordion-wrapper">--}}
-                    {{--<div class="m-portlet m-portlet--compact conveyance-accordion mb-0">--}}
-                        {{--<div class="d-flex justify-content-between align-items-center">--}}
-                            {{--<a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"--}}
-                                {{--data-toggle="collapse" href="#conveyance_dashboard">--}}
-                                {{--<span class="form-accordion-title">Applications for Society Conveyance</span>--}}
-                                {{--<span class="accordion-icon conveyance-accordion-icon"></span>--}}
-                            {{--</a>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                    {{--<div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="conveyance_dashboard"--}}
-                        {{--data-parent="#accordion">--}}
-                        {{--<div class="row no-gutters hearing-row">--}}
-                            {{--<div class="col-12 no-shadow">--}}
-                                {{--<div class="app-card-section-title">Society Conveyance</div>--}}
-                            {{--</div>--}}
-                            {{--@foreach($conveyanceDashboard[0] as $header => $value)--}}
-                            {{--<div class="col-lg-3">--}}
-                                {{--<div class="m-portlet app-card text-center no-shadow">--}}
-                                    {{--<h2 class="app-heading">{{$header}}</h2>--}}
-                                    {{--<div class="app-card-footer">--}}
-                                        {{--<h2 class="app-no mb-0">{{$value[0]}}</h2>--}}
-
-                                        {{--@if( $value[1] == 'pending')--}}
-                                        {{--<a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal"--}}
-                                            {{--data-target="#pending">View--}}
-                                            {{--Details</a> @elseif( $value[1] == 'sendToSociety')--}}
-                                        {{--<a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal"--}}
-                                            {{--data-target="#sendToSociety">View--}}
-                                            {{--Details</a> @else--}}
-                                        {{--<a href="{{url($value[1])}}" class="app-card__details mb-0">View Details</a>--}}
-                                        {{--@endif @php $chart2--}}
-                                        {{--+= $value[0];--}}
-                                        {{--@endphp--}}
-                                    {{--</div>--}}
-                                    {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                            {{--@endforeach--}}
-                        {{--</div>--}}
-                        {{--@if($chart2)--}}
-                            {{--<div class="col-sm-5" id="conveyance_chart">--}}
-                            {{--</div>--}}
-                        {{--@endif--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-                {{--@endif @endif--}}
-                {{--<!-- end -->--}}
-
-    {{--@if (in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'), config('commanConfig.vp_engineer'))))--}}
-                {{--<div class="hearing-accordion-wrapper">--}}
-                    {{--<div class="m-portlet m-portlet--compact ol-reval-accordion mb-0">--}}
-                        {{--<div class="d-flex justify-content-between align-items-center">--}}
-                            {{--<a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"--}}
-                               {{--data-toggle="collapse" href="#ree-ol-reval-summary">--}}
-                                {{--<span class="form-accordion-title">Application for Revalidation of Offer Letter </span>--}}
-                                {{--<span class="accordion-icon ol-reval-accordion-icon"></span>--}}
-                            {{--</a>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                    {{--<div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="ree-ol-reval-summary"--}}
-                         {{--data-parent="#accordion">--}}
-                         {{--<div class="row no-gutters">--}}
-                             {{--<div class="col-12 no-shadow">--}}
-                                {{--<div class="app-card-section-title">Offer Letter Revalidation</div>--}}
-                            {{--</div>--}}
-                         {{--</div>--}}
-                        {{--<div class="row no-gutters hearing-row">--}}
-                            {{--@foreach($revalDashboardData as $header => $value)--}}
-                                {{--<div class="col-lg-3">--}}
-                                    {{--<div class="m-portlet app-card text-center">--}}
-                                        {{--<h2 class="app-heading">{{$header}}</h2>--}}
-                                        {{--<div class="app-card-footer">--}}
-                                            {{--<h2 class="app-no mb-0">{{$value[0]}}</h2>--}}
-                                            {{--@php $chart4 += $value[0];@endphp--}}
-                                            {{--<a href="{{ (session()->get('role_name') == config('commanConfig.cap_engineer')) ? route('cap_applications.reval').$value[1] : route('vp_applications.reval').$value[1]}}" class="app-card__details mb-0">View--}}
-                                                {{--Details</a>--}}
-
-                                            {{--<a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--@endforeach--}}
-                        {{--</div>--}}
-                        {{--@if($chart4)--}}
-                            {{--<div id="reval_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>--}}
-                        {{--@endif--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-    {{--@endif--}}
-
-
-
-
-                {{--<!-- Dashboard for Renewal Module  -->--}}
-                {{--@if(in_array(session()->get('role_name'),$renewalRoles)) @if($renewalDashboard)--}}
-                {{--<div class="hearing-accordion-wrapper">--}}
-                    {{--<div class="m-portlet m-portlet--compact renewal-accordion mb-0">--}}
-                        {{--<div class="d-flex justify-content-between align-items-center">--}}
-                            {{--<a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"--}}
-                                {{--data-toggle="collapse" href="#renewal_dashboard">--}}
-                                {{--<span class="form-accordion-title">Applications for Society Renewal</span>--}}
-                                {{--<span class="accordion-icon renewal-accordion-icon"></span>--}}
-                            {{--</a>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                    {{--<div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="renewal_dashboard"--}}
-                        {{--data-parent="#accordion">--}}
-                        {{--<div class="row no-gutters hearing-row">--}}
-                            {{--<div class="col-12 no-shadow">--}}
-                                {{--<div class="app-card-section-title">Society Renewal</div>--}}
-                            {{--</div>--}}
-                            {{--@foreach($renewalDashboard[0] as $header => $value)--}}
-                            {{--<div class="col-lg-3">--}}
-                                {{--<div class="m-portlet app-card text-center">--}}
-                                    {{--<h2 class="app-heading">{{$header}}</h2>--}}
-                                    {{--<div class="app-card-footer">--}}
-                                        {{--<h2 class="app-no mb-0">{{$value[0]}}</h2>--}}
-
-                                        {{--@if( $value[1] == 'pending')--}}
-                                        {{--<a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal"--}}
-                                            {{--data-target="#pending_renewal">View Details</a> @elseif( $value[1] ==--}}
-                                        {{--'sendToSociety')--}}
-                                        {{--<a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal"--}}
-                                            {{--data-target="#sendToSociety_renewal">View Details</a> @else--}}
-                                        {{--<a href="{{url($value[1])}}" class="app-card__details mb-0">View Details</a>--}}
-                                        {{--@endif @php $chart3--}}
-                                        {{--+= $value[0];--}}
-                                        {{--@endphp--}}
-                                    {{--</div>--}}
-                                    {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                            {{--@endforeach @if($chart3)--}}
-                            {{--<div id="renewal_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>--}}
-                            {{--@endif--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-                {{--@endif @endif--}}
-                {{--<!-- end -->--}}
-
-
-
-                @if((session()->get('role_name')==config('commanConfig.junior_architect'))||
-    (session()->get('role_name')==config('commanConfig.senior_architect')) ||
-    (session()->get('role_name')==config('commanConfig.architect')))
-    @include('admin.dashboard.appointing_architect.dashboard',compact('appointing_architect_data'))
-    @include('admin.dashboard.architect_layout.partials.architect_dashboard',compact('architect_data'))
-    @endif
-    @if(session()->get('role_name')==config('commanConfig.land_manager'))
-    @include('admin.dashboard.architect_layout.partials.lm_dashboard',compact('architect_data'))
-    @endif
-    @if(session()->get('role_name')==config('commanConfig.estate_manager'))
-    @include('admin.dashboard.architect_layout.partials.em_dashboard',compact('architect_data'))
-    @endif
-    @if (in_array(session()->get('role_name'),array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'))))
-    @include('admin.dashboard.architect_layout.partials.ee_dashboard',compact('architect_data'))
-    @endif
-    @if (in_array(session()->get('role_name'),array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head'))))
-    @include('admin.dashboard.architect_layout.partials.ree_dashboard',compact('architect_data'))
-    @endif
-    @if(in_array(session()->get('role_name'),array(config('commanConfig.co_engineer'))))
-    @include('admin.dashboard.architect_layout.partials.co_dashboard',compact('architect_data'))
-    @endif
-    @if(in_array(session()->get('role_name'),array(config('commanConfig.senior_architect_planner'))))
-    @include('admin.dashboard.architect_layout.partials.sap_dashboard',compact('architect_data'))
-    @endif
-    @if(in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'))))
-    @include('admin.dashboard.architect_layout.partials.cap_dashboard',compact('architect_data'))
-    @endif
-    @if(in_array(session()->get('role_name'),array(config('commanConfig.vp_engineer'))))
-    @include('admin.dashboard.architect_layout.partials.vp_dashboard',compact('architect_data'))
-    @endif
-            </div>
 
             <!-- Modal for application pending bifergation -->
             <div class="modal fade" id="pending" role="dialog">
@@ -769,7 +563,7 @@
                     </div>
                 </div>
             </div>
-            @endsection
+@endsection
 
             @section('js')
             {{--<script>--}}

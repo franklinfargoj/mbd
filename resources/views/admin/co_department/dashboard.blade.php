@@ -168,19 +168,21 @@
             </div>
             <div class="db__card">
                 <div class="db__card__img-wrap db-color-14">
-                    <h3 class="db__card__count">48</h3>
+                    <h3 class="db__card__count">
+                        {{$architect_data['total_no_of_layout']}}
+                    </h3>
                 </div>
                 <p class="db__card__title">Layout Revision & Approval</p>
             </div>
             <div class="db__card">
                 <div class="db__card__img-wrap db-color-15">
-                    <h3 class="db__card__count">48</h3>
+                    <h3 class="db__card__count">-</h3>
                 </div>
                 <p class="db__card__title">Layout Approval</p>
             </div>
             <div class="db__card">
                 <div class="db__card__img-wrap db-color-16">
-                    <h3 class="db__card__count">48</h3>
+                    <h3 class="db__card__count">-</h3>
                 </div>
                 <p class="db__card__title">Layout Forwarded for Approval</p>
             </div>
@@ -715,444 +717,474 @@
         @endif
         {{--End Dashboard for society Conveyance subordinate pendency--}}
 
-
-    </div>
-
-
-
-
-
-
-
-
-    <div class="container-fluid">
-        <div class="m-subheader px-0 m-subheader--top">
-            <div class="d-flex align-items-center">
-                <h3 class="m-subheader__title">Dashboard</h3>
-            </div>
-        </div>
-
-        <div class="hearing-accordion-wrapper">
-
-            <div class="m-portlet m-portlet--compact hearing-accordion mb-0">
-                <div class="d-flex justify-content-between align-items-center">
-                    <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100 collapsed"
-                       data-toggle="collapse" href="#todays-hearing">
-                        <span class="form-accordion-title">Today's Hearing ({{$todays_hearing_count}})</span>
-                        @if($todaysHearing)
-                            <span class="accordion-icon"></span>
-                        @endif
-                    </a>
-                </div>
-            </div>
-
-            <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="todays-hearing"
-                 data-parent="#accordion">
-                @foreach($todaysHearing as $hearing)
-                    <div class="row no-gutters hearing-row">
-                        <div class="col-12 no-shadow">
-                            <div class="app-card-section-title">Today's Hearing</div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="m-portlet app-card text-center">
-                                <h2 class="app-heading">Case Year</h2>
-                                <h2 class="app-no mb-0">{{$hearing['case_year']}}</h2>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="m-portlet app-card text-center">
-                                <h2 class="app-heading">Case NO</h2>
-                                <h2 class="app-no mb-0">{{$hearing['id']}}</h2>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="m-portlet app-card text-center">
-                                <h2 class="app-heading">Hearing Time</h2>
-                                <h2 class="app-no mb-0">{{$hearing['hearing_schedule']['preceding_time']}}</h2>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="m-portlet app-card text-center">
-                                <h2 class="app-heading">Applicant Name</h2>
-                                <h2 class="app-no mb-0">{{$hearing['applicant_name']}}</h2>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="m-portlet app-card text-center">
-                                <a href="{{route('hearing.show',encrypt($hearing['id']))}}" class="app-no app-no--view mb-0">View
-                                    Details</a>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-
-        </div>
-        <div class="hearing-accordion-wrapper">
-            <div class="m-portlet m-portlet--compact hearing-accordion1 mb-0">
-                <div class="d-flex justify-content-between align-items-center">
-                    <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
-                       data-toggle="collapse" href="#hearing-summary">
-                        <span class="form-accordion-title">Hearing Summary</span>
-                        <span class="accordion-icon hearing-accordion-icon"></span>
-                    </a>
-                </div>
-            </div>
-            <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="hearing-summary"
-                 data-parent="#accordion">
-                <div class="row no-gutters hearing-row">
-                    <div class="col-12 no-shadow">
-                        <div class="app-card-section-title">Hearing</div>
-                    </div>
-                    @foreach($hearingDashboardData as $header => $value)
-                        <div class="col-lg-3">
-                            <div class="m-portlet app-card text-center">
-                                <h2 class="app-heading">{{$header}}</h2>
-                                <div class="app-card-footer">
-                                    <h2 class="app-no mb-0">{{$value[0]}}</h2>
-                                    @php $chart4 += $value[0];@endphp
-                                    <a href='{{url('/hearing'.$value[1])}}' class="app-card__details mb-0">View Details</a>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                @if($chart4)
-                    <div id="hearing_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
-                @endif
-            </div>
-        </div>
-
-
-        <div class="hearing-accordion-wrapper">
-            <div class="m-portlet m-portlet--compact ol-accordion mb-0">
-                <div class="d-flex justify-content-between align-items-center">
-                    <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
-                       data-toggle="collapse" href="#co-ol-summary">
-                        <span class="form-accordion-title">Application for Redevelopment</span>
-                        <span class="accordion-icon ol-accordion-icon"></span>
-                    </a>
-                </div>
-            </div>
-            <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="co-ol-summary"
-                 data-parent="#accordion">
-                <div class="row no-gutters hearing-row">
-                    <div class="col-12 no-shadow">
-                        <div class="app-card-section-title">Offer Letter</div>
-                    </div>
-                    @foreach($dashboardData as $header => $value)
-                        <div class="col-lg-3">
-                            <div class="m-portlet app-card text-center">
-                                <h2 class="app-heading">{{$header}}</h2>
-                                <div class="app-card-footer">
-                                    <h2 class="app-no mb-0">{{$value[0]}}</h2>
-                                    @php $chart += $value[0];@endphp
-                                    <a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                @if($chart)
-                    <div id="chartdiv" style="width: 100%; height: 350px; margin-top: 2px;"></div>
-                @endif
-
-                @if($dashboardData1)
-                    <div class="row no-gutters hearing-row">
-                        <div class="col-12 no-shadow">
-                            <div class="app-card-section-title">Offer Letter Subordinate Pendency</div>
-                        </div>
-                        @foreach($dashboardData1 as $header => $value)
-                            <div class="col-lg-3">
-                                <div class="m-portlet app-card text-center">
-                                    <h2 class="app-heading">{{$header}}</h2>
-                                    <div class="app-card-footer">
-                                        <h2 class="app-no mb-0">{{$value}}</h2>
-                                        @php $chart1 += $value;@endphp
-                                    </div>
-                                <!-- <a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a> -->
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    @if($chart1)
-                        <div id="chartdiv1" style="width: 100%; height: 350px; margin-top: 2px;"></div>
-                    @endif
-                @endif
-
-                @include('admin.tripartite.partial.co_dashboard')
-            </div>
-        </div>
-
-        <!-- Dashboard for renewal Module -->
-        <div class="hearing-accordion-wrapper">
-            <div class="m-portlet m-portlet--compact ol-reval-accordion mb-0">
-                <div class="d-flex justify-content-between align-items-center">
-                    <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
-                       data-toggle="collapse" href="#ree-ol-reval-summary">
-                        <span class="form-accordion-title">Application for Revalidation of Offer Letter </span>
-                        <span class="accordion-icon ol-reval-accordion-icon"></span>
-                    </a>
-                </div>
-            </div>
-            <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="ree-ol-reval-summary"
-                 data-parent="#accordion">
-                <div class="row no-gutters hearing-row">
-                    <div class="col-12 no-shadow">
-                        <div class="app-card-section-title">Offer Letter Revalidation</div>
-                    </div>
-                    @foreach($revalDashboardData as $header => $value)
-                        <div class="col-lg-3">
-                            <div class="m-portlet app-card text-center">
-                                <h2 class="app-heading">{{$header}}</h2>
-                                <div class="app-card-footer">
-                                    <h2 class="app-no mb-0">{{$value[0]}}</h2>
-                                    @php $chart5 += $value[0];@endphp
-                                    @if( $value[1] == 'pending')
-                                        <a href="{{route('co_applications.reval').$value[1]}}" class="app-card__details mb-0" data-toggle="modal" data-target="#reeRevalPendingModal">View Details</a>
-                                    @else
-                                        <a href="{{route('co_applications.reval').$value[1]}}" class="app-card__details mb-0">View Details</a>
-                                    @endif
-                                    {{--<a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a>--}}
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                @if($chart5)
-                    <div id="reval_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
-                @endif
-
-                @if($revalDashboardData1)
-                    <div class="row no-gutters hearing-row">
-                        <div class="col-12 no-shadow">
-                            <div class="app-card-section-title">Offer Letter Revalidation Subordinate Pendency</div>
-                        </div>
-                        @foreach($revalDashboardData1 as $header => $value)
-                            <div class="col-lg-3">
-                                <div class="m-portlet app-card text-center">
-                                    <h2 class="app-heading">{{$header}}</h2>
-                                    <div class="app-card-footer">
-                                        <h2 class="app-no mb-0">{{$value}}</h2>
-                                        @php $chart6 += $value;@endphp
-                                    </div>
-                                    {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    @if($chart6)
-                        <div id="revalchartdiv1" style="width: 100%; height: 350px; margin-top: 2px;"></div>
-                    @endif
-                @endif
-            </div>
-        </div>
-
-
-        <!-- Dashboard for Convayance Module -->
-        @if($conveyanceDashboard)
-            <div class="hearing-accordion-wrapper">
-                <div class="m-portlet m-portlet--compact conveyance-accordion mb-0">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
-                           data-toggle="collapse" href="#conveyance_dashboard">
-                            <span class="form-accordion-title">Application for Society Conveyance</span>
-                            <span class="accordion-icon conveyance-accordion-icon"></span>
-                        </a>
-                    </div>
-                </div>
-                <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="conveyance_dashboard"
-                     data-parent="#accordion">
-                    <div class="row no-gutters hearing-row">
-                        <div class="col-12 no-shadow">
-                            <div class="app-card-section-title">Society Conveyance</div>
-                        </div>
-                        @foreach($conveyanceDashboard[0] as $header => $value)
-                            <div class="col-lg-3">
-                                <div class="m-portlet app-card text-center">
-                                    <h2 class="app-heading">{{$header}}</h2>
-                                    <div class="app-card-footer">
-                                        <h2 class="app-no mb-0">{{$value[0]}}</h2>
-                                        @if( $value[1] == 'pending')
-                                            <a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#pending">View Details</a>
-                                        @elseif( $value[1] == 'sendToSociety')
-                                            <a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#sendToSociety">View Details</a>
-                                        @else
-                                            <a href="{{url($value[1])}}" class="app-card__details mb-0">View Details</a>
-                                        @endif
-                                        @php $chart2 += $value[0]; @endphp
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    @if($chart2)
-                        <div id="conveyance_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
-                    @endif
-                    @if($pendingApplications)
-                        <div class="row no-gutters hearing-row">
-                            <div class="col-12 no-shadow">
-                                <div class="app-card-section-title">Society Conveyance Subordinate Pendency</div>
-                            </div>
-                            @foreach($pendingApplications as $header => $value)
-                                <div class="col-lg-3">
-                                    <div class="m-portlet app-card text-center">
-                                        <h2 class="app-heading">{{$header}}</h2>
-                                        <div class="app-card-footer">
-                                            <h2 class="app-no mb-0">{{$value}}</h2>
-                                            @php $chart3 += $value; @endphp
-                                        </div>
-                                        {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                        @if($chart3)
-                            <div id="pending_conveyance_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
-                        @endif
-                    @endif
-                </div>
-            </div>
-        @endif
-        @if($nocApplication)
-            <div class="hearing-accordion-wrapper">
-                <div class="m-portlet m-portlet--compact noc_accordian mb-0">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
-                           data-toggle="collapse" href="#co-noc-summary">
-                            <span class="form-accordion-title">Application for NOC</span>
-                            <span class="accordion-icon noc-accordion-icon"></span>
-                        </a>
-                    </div>
-                </div>
-                <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="co-noc-summary"
-                     data-parent="#accordion">
-                    <div class="row no-gutters hearing-row">
-                        <div class="col-12 no-shadow">
-                            <div class="app-card-section-title">NOC</div>
-                        </div>
-                        @php $noc_chart = 0;@endphp
-                        @foreach($nocApplication['app_data'] as $header => $value)
-                            <div class="col-lg-3">
-                                <div class="m-portlet app-card text-center">
-                                    <h2 class="app-heading">{{$header}}</h2>
-                                    <div class="app-card-footer">
-                                        <h2 class="app-no mb-0">{{$value[0]}}</h2>
-                                        @php $noc_chart += $value[0];@endphp
-                                        <a target="_blank" href="{{url($value[1])}}" class="app-card__details mb-0">View Details</a>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    @if($noc_chart)
-                        <div id="noc_chart_div" style="width: 100%; height: 350px; margin-top: 2px;"></div>
-                    @endif
-                    @if($nocApplication['pending_data'])
-                        <div class="row no-gutters hearing-row">
-                            <div class="col-12 no-shadow">
-                                <div class="app-card-section-title">NOC Subordinate Pendency</div>
-                            </div>
-                            @foreach($nocApplication['pending_data'] as $pending_label => $pending_count)
-                                <div class="col-lg-3">
-                                    <div class="m-portlet app-card text-center">
-                                        <h2 class="app-heading">{{$pending_label}}</h2>
-                                        <div class="app-card-footer">
-                                            <h2 class="app-no mb-0">{{$pending_count}}</h2>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endif
-                </div>
-            </div>
-        @endif
-
-        @if($nocforCCApplication)
-            <div class="hearing-accordion-wrapper">
-                <div class="m-portlet m-portlet--compact noc_cc_accordian mb-0">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
-                           data-toggle="collapse" href="#co-noc_cc-summary">
-                            <span class="form-accordion-title">Application for NOC (CC)</span>
-                            <span class="accordion-icon noc_cc-accordion-icon"></span>
-                        </a>
-                    </div>
-                </div>
-                <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="co-noc_cc-summary"
-                     data-parent="#accordion">
-                    <div class="row no-gutters hearing-row">
-                        <div class="col-12 no-shadow">
-                            <div class="app-card-section-title">NOC (CC)</div>
-                        </div>
-                        @php $noc_cc_chart = 0;@endphp
-                        @foreach($nocforCCApplication['app_data'] as $header => $value)
-                            <div class="col-lg-3">
-                                <div class="m-portlet app-card text-center">
-                                    <h2 class="app-heading">{{$header}}</h2>
-                                    <div class="app-card-footer">
-                                        <h2 class="app-no mb-0">{{$value[0]}}</h2>
-                                        @php $noc_cc_chart += $value[0];@endphp
-                                        <a target="_blank" href="{{url($value[1])}}" class="app-card__details mb-0">View Details</a>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    @if($noc_cc_chart)
-                        <div id="noc_cc_chart_div" style="width: 100%; height: 350px; margin-top: 2px;"></div>
-                    @endif
-                    @if($nocforCCApplication['pending_data'])
-                        <div class="row no-gutters hearing-row">
-                            <div class="col-12 no-shadow">
-                                <div class="app-card-section-title">NOC (CC) Subordinate Pendency</div>
-                            </div>
-                            @foreach($nocforCCApplication['pending_data'] as $pending_label => $pending_count)
-                                <div class="col-lg-3">
-                                    <div class="m-portlet app-card text-center">
-                                        <h2 class="app-heading">{{$pending_label}}</h2>
-                                        <div class="app-card-footer">
-                                            <h2 class="app-no mb-0">{{$pending_count}}</h2>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endif
-                </div>
-            </div>
-        @endif
         @if((session()->get('role_name')==config('commanConfig.junior_architect'))||
     (session()->get('role_name')==config('commanConfig.senior_architect')) ||
     (session()->get('role_name')==config('commanConfig.architect')))
-    @include('admin.dashboard.architect_layout.partials.architect_dashboard',compact('architect_data'))
-    @endif
-    @if(session()->get('role_name')==config('commanConfig.land_manager'))
-    @include('admin.dashboard.architect_layout.partials.lm_dashboard',compact('architect_data'))
-    @endif
-    @if(session()->get('role_name')==config('commanConfig.estate_manager'))
-    @include('admin.dashboard.architect_layout.partials.em_dashboard',compact('architect_data'))
-    @endif
-    @if (in_array(session()->get('role_name'),array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'))))
-    @include('admin.dashboard.architect_layout.partials.ee_dashboard',compact('architect_data'))
-    @endif
-    @if (in_array(session()->get('role_name'),array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head'))))
-    @include('admin.dashboard.architect_layout.partials.ree_dashboard',compact('architect_data'))
-    @endif
-    @if(in_array(session()->get('role_name'),array(config('commanConfig.co_engineer'))))
-    @include('admin.dashboard.architect_layout.partials.co_dashboard',compact('architect_data'))
-    @endif
-    @if(in_array(session()->get('role_name'),array(config('commanConfig.senior_architect_planner'))))
-    @include('admin.dashboard.architect_layout.partials.sap_dashboard',compact('architect_data'))
-    @endif
-    @if(in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'))))
-    @include('admin.dashboard.architect_layout.partials.cap_dashboard',compact('architect_data'))
-    @endif
-    @if(in_array(session()->get('role_name'),array(config('commanConfig.vp_engineer'))))
-    @include('admin.dashboard.architect_layout.partials.vp_dashboard',compact('architect_data'))
-    @endif
+            @include('admin.dashboard.architect_layout.partials.architect_dashboard',compact('architect_data'))
+        @endif
+        @if(session()->get('role_name')==config('commanConfig.land_manager'))
+            @include('admin.dashboard.architect_layout.partials.lm_dashboard',compact('architect_data'))
+        @endif
+        @if(session()->get('role_name')==config('commanConfig.estate_manager'))
+            @include('admin.dashboard.architect_layout.partials.em_dashboard',compact('architect_data'))
+        @endif
+        @if (in_array(session()->get('role_name'),array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'))))
+            @include('admin.dashboard.architect_layout.partials.ee_dashboard',compact('architect_data'))
+        @endif
+        @if (in_array(session()->get('role_name'),array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head'))))
+            @include('admin.dashboard.architect_layout.partials.ree_dashboard',compact('architect_data'))
+        @endif
+        @if(in_array(session()->get('role_name'),array(config('commanConfig.co_engineer'))))
+            @include('admin.dashboard.architect_layout.partials.co_dashboard',compact('architect_data'))
+        @endif
+        @if(in_array(session()->get('role_name'),array(config('commanConfig.senior_architect_planner'))))
+            @include('admin.dashboard.architect_layout.partials.sap_dashboard',compact('architect_data'))
+        @endif
+        @if(in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'))))
+            @include('admin.dashboard.architect_layout.partials.cap_dashboard',compact('architect_data'))
+        @endif
+        @if(in_array(session()->get('role_name'),array(config('commanConfig.vp_engineer'))))
+            @include('admin.dashboard.architect_layout.partials.vp_dashboard',compact('architect_data'))
+        @endif
     </div>
+
+    </div>
+
+
+
+
+
+
+
+
+    {{--<div class="container-fluid">--}}
+        {{--<div class="m-subheader px-0 m-subheader--top">--}}
+            {{--<div class="d-flex align-items-center">--}}
+                {{--<h3 class="m-subheader__title">Dashboard</h3>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+
+        {{--<div class="hearing-accordion-wrapper">--}}
+
+            {{--<div class="m-portlet m-portlet--compact hearing-accordion mb-0">--}}
+                {{--<div class="d-flex justify-content-between align-items-center">--}}
+                    {{--<a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100 collapsed"--}}
+                       {{--data-toggle="collapse" href="#todays-hearing">--}}
+                        {{--<span class="form-accordion-title">Today's Hearing ({{$todays_hearing_count}})</span>--}}
+                        {{--@if($todaysHearing)--}}
+                            {{--<span class="accordion-icon"></span>--}}
+                        {{--@endif--}}
+                    {{--</a>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+
+            {{--<div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="todays-hearing"--}}
+                 {{--data-parent="#accordion">--}}
+                {{--@foreach($todaysHearing as $hearing)--}}
+                    {{--<div class="row no-gutters hearing-row">--}}
+                        {{--<div class="col-12 no-shadow">--}}
+                            {{--<div class="app-card-section-title">Today's Hearing</div>--}}
+                        {{--</div>--}}
+                        {{--<div class="col-lg-3">--}}
+                            {{--<div class="m-portlet app-card text-center">--}}
+                                {{--<h2 class="app-heading">Case Year</h2>--}}
+                                {{--<h2 class="app-no mb-0">{{$hearing['case_year']}}</h2>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<div class="col-lg-3">--}}
+                            {{--<div class="m-portlet app-card text-center">--}}
+                                {{--<h2 class="app-heading">Case NO</h2>--}}
+                                {{--<h2 class="app-no mb-0">{{$hearing['id']}}</h2>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<div class="col-lg-3">--}}
+                            {{--<div class="m-portlet app-card text-center">--}}
+                                {{--<h2 class="app-heading">Hearing Time</h2>--}}
+                                {{--<h2 class="app-no mb-0">{{$hearing['hearing_schedule']['preceding_time']}}</h2>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<div class="col-lg-3">--}}
+                            {{--<div class="m-portlet app-card text-center">--}}
+                                {{--<h2 class="app-heading">Applicant Name</h2>--}}
+                                {{--<h2 class="app-no mb-0">{{$hearing['applicant_name']}}</h2>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<div class="col-lg-3">--}}
+                            {{--<div class="m-portlet app-card text-center">--}}
+                                {{--<a href="{{route('hearing.show',encrypt($hearing['id']))}}" class="app-no app-no--view mb-0">View--}}
+                                    {{--Details</a>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--@endforeach--}}
+            {{--</div>--}}
+
+        {{--</div>--}}
+        {{--<div class="hearing-accordion-wrapper">--}}
+            {{--<div class="m-portlet m-portlet--compact hearing-accordion1 mb-0">--}}
+                {{--<div class="d-flex justify-content-between align-items-center">--}}
+                    {{--<a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"--}}
+                       {{--data-toggle="collapse" href="#hearing-summary">--}}
+                        {{--<span class="form-accordion-title">Hearing Summary</span>--}}
+                        {{--<span class="accordion-icon hearing-accordion-icon"></span>--}}
+                    {{--</a>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="hearing-summary"--}}
+                 {{--data-parent="#accordion">--}}
+                {{--<div class="row no-gutters hearing-row">--}}
+                    {{--<div class="col-12 no-shadow">--}}
+                        {{--<div class="app-card-section-title">Hearing</div>--}}
+                    {{--</div>--}}
+                    {{--@foreach($hearingDashboardData as $header => $value)--}}
+                        {{--<div class="col-lg-3">--}}
+                            {{--<div class="m-portlet app-card text-center">--}}
+                                {{--<h2 class="app-heading">{{$header}}</h2>--}}
+                                {{--<div class="app-card-footer">--}}
+                                    {{--<h2 class="app-no mb-0">{{$value[0]}}</h2>--}}
+                                    {{--@php $chart4 += $value[0];@endphp--}}
+                                    {{--<a href='{{url('/hearing'.$value[1])}}' class="app-card__details mb-0">View Details</a>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--@endforeach--}}
+                {{--</div>--}}
+                {{--@if($chart4)--}}
+                    {{--<div id="hearing_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>--}}
+                {{--@endif--}}
+            {{--</div>--}}
+        {{--</div>--}}
+
+
+        {{--<div class="hearing-accordion-wrapper">--}}
+            {{--<div class="m-portlet m-portlet--compact ol-accordion mb-0">--}}
+                {{--<div class="d-flex justify-content-between align-items-center">--}}
+                    {{--<a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"--}}
+                       {{--data-toggle="collapse" href="#co-ol-summary">--}}
+                        {{--<span class="form-accordion-title">Application for Redevelopment</span>--}}
+                        {{--<span class="accordion-icon ol-accordion-icon"></span>--}}
+                    {{--</a>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="co-ol-summary"--}}
+                 {{--data-parent="#accordion">--}}
+                {{--<div class="row no-gutters hearing-row">--}}
+                    {{--<div class="col-12 no-shadow">--}}
+                        {{--<div class="app-card-section-title">Offer Letter</div>--}}
+                    {{--</div>--}}
+                    {{--@foreach($dashboardData as $header => $value)--}}
+                        {{--<div class="col-lg-3">--}}
+                            {{--<div class="m-portlet app-card text-center">--}}
+                                {{--<h2 class="app-heading">{{$header}}</h2>--}}
+                                {{--<div class="app-card-footer">--}}
+                                    {{--<h2 class="app-no mb-0">{{$value[0]}}</h2>--}}
+                                    {{--@php $chart += $value[0];@endphp--}}
+                                    {{--<a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--@endforeach--}}
+                {{--</div>--}}
+                {{--@if($chart)--}}
+                    {{--<div id="chartdiv" style="width: 100%; height: 350px; margin-top: 2px;"></div>--}}
+                {{--@endif--}}
+
+                {{--@if($dashboardData1)--}}
+                    {{--<div class="row no-gutters hearing-row">--}}
+                        {{--<div class="col-12 no-shadow">--}}
+                            {{--<div class="app-card-section-title">Offer Letter Subordinate Pendency</div>--}}
+                        {{--</div>--}}
+                        {{--@foreach($dashboardData1 as $header => $value)--}}
+                            {{--<div class="col-lg-3">--}}
+                                {{--<div class="m-portlet app-card text-center">--}}
+                                    {{--<h2 class="app-heading">{{$header}}</h2>--}}
+                                    {{--<div class="app-card-footer">--}}
+                                        {{--<h2 class="app-no mb-0">{{$value}}</h2>--}}
+                                        {{--@php $chart1 += $value;@endphp--}}
+                                    {{--</div>--}}
+                                {{--<!-- <a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a> -->--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--@endforeach--}}
+                    {{--</div>--}}
+                    {{--@if($chart1)--}}
+                        {{--<div id="chartdiv1" style="width: 100%; height: 350px; margin-top: 2px;"></div>--}}
+                    {{--@endif--}}
+                {{--@endif--}}
+
+                {{--@include('admin.tripartite.partial.co_dashboard')--}}
+            {{--</div>--}}
+        {{--</div>--}}
+
+        {{--<!-- Dashboard for renewal Module -->--}}
+        {{--<div class="hearing-accordion-wrapper">--}}
+            {{--<div class="m-portlet m-portlet--compact ol-reval-accordion mb-0">--}}
+                {{--<div class="d-flex justify-content-between align-items-center">--}}
+                    {{--<a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"--}}
+                       {{--data-toggle="collapse" href="#ree-ol-reval-summary">--}}
+                        {{--<span class="form-accordion-title">Application for Revalidation of Offer Letter </span>--}}
+                        {{--<span class="accordion-icon ol-reval-accordion-icon"></span>--}}
+                    {{--</a>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="ree-ol-reval-summary"--}}
+                 {{--data-parent="#accordion">--}}
+                {{--<div class="row no-gutters hearing-row">--}}
+                    {{--<div class="col-12 no-shadow">--}}
+                        {{--<div class="app-card-section-title">Offer Letter Revalidation</div>--}}
+                    {{--</div>--}}
+                    {{--@foreach($revalDashboardData as $header => $value)--}}
+                        {{--<div class="col-lg-3">--}}
+                            {{--<div class="m-portlet app-card text-center">--}}
+                                {{--<h2 class="app-heading">{{$header}}</h2>--}}
+                                {{--<div class="app-card-footer">--}}
+                                    {{--<h2 class="app-no mb-0">{{$value[0]}}</h2>--}}
+                                    {{--@php $chart5 += $value[0];@endphp--}}
+                                    {{--@if( $value[1] == 'pending')--}}
+                                        {{--<a href="{{route('co_applications.reval').$value[1]}}" class="app-card__details mb-0" data-toggle="modal" data-target="#reeRevalPendingModal">View Details</a>--}}
+                                    {{--@else--}}
+                                        {{--<a href="{{route('co_applications.reval').$value[1]}}" class="app-card__details mb-0">View Details</a>--}}
+                                    {{--@endif--}}
+                                    {{--<a href="{{url(session()->get('redirect_to').$value[1])}}" class="app-card__details mb-0">View Details</a>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--@endforeach--}}
+                {{--</div>--}}
+                {{--@if($chart5)--}}
+                    {{--<div id="reval_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>--}}
+                {{--@endif--}}
+
+                {{--@if($revalDashboardData1)--}}
+                    {{--<div class="row no-gutters hearing-row">--}}
+                        {{--<div class="col-12 no-shadow">--}}
+                            {{--<div class="app-card-section-title">Offer Letter Revalidation Subordinate Pendency</div>--}}
+                        {{--</div>--}}
+                        {{--@foreach($revalDashboardData1 as $header => $value)--}}
+                            {{--<div class="col-lg-3">--}}
+                                {{--<div class="m-portlet app-card text-center">--}}
+                                    {{--<h2 class="app-heading">{{$header}}</h2>--}}
+                                    {{--<div class="app-card-footer">--}}
+                                        {{--<h2 class="app-no mb-0">{{$value}}</h2>--}}
+                                        {{--@php $chart6 += $value;@endphp--}}
+                                    {{--</div>--}}
+                                    {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--@endforeach--}}
+                    {{--</div>--}}
+                    {{--@if($chart6)--}}
+                        {{--<div id="revalchartdiv1" style="width: 100%; height: 350px; margin-top: 2px;"></div>--}}
+                    {{--@endif--}}
+                {{--@endif--}}
+            {{--</div>--}}
+        {{--</div>--}}
+
+
+        {{--<!-- Dashboard for Convayance Module -->--}}
+        {{--@if($conveyanceDashboard)--}}
+            {{--<div class="hearing-accordion-wrapper">--}}
+                {{--<div class="m-portlet m-portlet--compact conveyance-accordion mb-0">--}}
+                    {{--<div class="d-flex justify-content-between align-items-center">--}}
+                        {{--<a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"--}}
+                           {{--data-toggle="collapse" href="#conveyance_dashboard">--}}
+                            {{--<span class="form-accordion-title">Application for Society Conveyance</span>--}}
+                            {{--<span class="accordion-icon conveyance-accordion-icon"></span>--}}
+                        {{--</a>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                {{--<div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="conveyance_dashboard"--}}
+                     {{--data-parent="#accordion">--}}
+                    {{--<div class="row no-gutters hearing-row">--}}
+                        {{--<div class="col-12 no-shadow">--}}
+                            {{--<div class="app-card-section-title">Society Conveyance</div>--}}
+                        {{--</div>--}}
+                        {{--@foreach($conveyanceDashboard[0] as $header => $value)--}}
+                            {{--<div class="col-lg-3">--}}
+                                {{--<div class="m-portlet app-card text-center">--}}
+                                    {{--<h2 class="app-heading">{{$header}}</h2>--}}
+                                    {{--<div class="app-card-footer">--}}
+                                        {{--<h2 class="app-no mb-0">{{$value[0]}}</h2>--}}
+                                        {{--@if( $value[1] == 'pending')--}}
+                                            {{--<a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#pending">View Details</a>--}}
+                                        {{--@elseif( $value[1] == 'sendToSociety')--}}
+                                            {{--<a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#sendToSociety">View Details</a>--}}
+                                        {{--@else--}}
+                                            {{--<a href="{{url($value[1])}}" class="app-card__details mb-0">View Details</a>--}}
+                                        {{--@endif--}}
+                                        {{--@php $chart2 += $value[0]; @endphp--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--@endforeach--}}
+                    {{--</div>--}}
+                    {{--@if($chart2)--}}
+                        {{--<div id="conveyance_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>--}}
+                    {{--@endif--}}
+                    {{--@if($pendingApplications)--}}
+                        {{--<div class="row no-gutters hearing-row">--}}
+                            {{--<div class="col-12 no-shadow">--}}
+                                {{--<div class="app-card-section-title">Society Conveyance Subordinate Pendency</div>--}}
+                            {{--</div>--}}
+                            {{--@foreach($pendingApplications as $header => $value)--}}
+                                {{--<div class="col-lg-3">--}}
+                                    {{--<div class="m-portlet app-card text-center">--}}
+                                        {{--<h2 class="app-heading">{{$header}}</h2>--}}
+                                        {{--<div class="app-card-footer">--}}
+                                            {{--<h2 class="app-no mb-0">{{$value}}</h2>--}}
+                                            {{--@php $chart3 += $value; @endphp--}}
+                                        {{--</div>--}}
+                                        {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--@endforeach--}}
+                        {{--</div>--}}
+                        {{--@if($chart3)--}}
+                            {{--<div id="pending_conveyance_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>--}}
+                        {{--@endif--}}
+                    {{--@endif--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--@endif--}}
+        {{--@if($nocApplication)--}}
+            {{--<div class="hearing-accordion-wrapper">--}}
+                {{--<div class="m-portlet m-portlet--compact noc_accordian mb-0">--}}
+                    {{--<div class="d-flex justify-content-between align-items-center">--}}
+                        {{--<a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"--}}
+                           {{--data-toggle="collapse" href="#co-noc-summary">--}}
+                            {{--<span class="form-accordion-title">Application for NOC</span>--}}
+                            {{--<span class="accordion-icon noc-accordion-icon"></span>--}}
+                        {{--</a>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                {{--<div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="co-noc-summary"--}}
+                     {{--data-parent="#accordion">--}}
+                    {{--<div class="row no-gutters hearing-row">--}}
+                        {{--<div class="col-12 no-shadow">--}}
+                            {{--<div class="app-card-section-title">NOC</div>--}}
+                        {{--</div>--}}
+                        {{--@php $noc_chart = 0;@endphp--}}
+                        {{--@foreach($nocApplication['app_data'] as $header => $value)--}}
+                            {{--<div class="col-lg-3">--}}
+                                {{--<div class="m-portlet app-card text-center">--}}
+                                    {{--<h2 class="app-heading">{{$header}}</h2>--}}
+                                    {{--<div class="app-card-footer">--}}
+                                        {{--<h2 class="app-no mb-0">{{$value[0]}}</h2>--}}
+                                        {{--@php $noc_chart += $value[0];@endphp--}}
+                                        {{--<a target="_blank" href="{{url($value[1])}}" class="app-card__details mb-0">View Details</a>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--@endforeach--}}
+                    {{--</div>--}}
+                    {{--@if($noc_chart)--}}
+                        {{--<div id="noc_chart_div" style="width: 100%; height: 350px; margin-top: 2px;"></div>--}}
+                    {{--@endif--}}
+                    {{--@if($nocApplication['pending_data'])--}}
+                        {{--<div class="row no-gutters hearing-row">--}}
+                            {{--<div class="col-12 no-shadow">--}}
+                                {{--<div class="app-card-section-title">NOC Subordinate Pendency</div>--}}
+                            {{--</div>--}}
+                            {{--@foreach($nocApplication['pending_data'] as $pending_label => $pending_count)--}}
+                                {{--<div class="col-lg-3">--}}
+                                    {{--<div class="m-portlet app-card text-center">--}}
+                                        {{--<h2 class="app-heading">{{$pending_label}}</h2>--}}
+                                        {{--<div class="app-card-footer">--}}
+                                            {{--<h2 class="app-no mb-0">{{$pending_count}}</h2>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--@endforeach--}}
+                        {{--</div>--}}
+                    {{--@endif--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--@endif--}}
+
+        {{--@if($nocforCCApplication)--}}
+            {{--<div class="hearing-accordion-wrapper">--}}
+                {{--<div class="m-portlet m-portlet--compact noc_cc_accordian mb-0">--}}
+                    {{--<div class="d-flex justify-content-between align-items-center">--}}
+                        {{--<a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"--}}
+                           {{--data-toggle="collapse" href="#co-noc_cc-summary">--}}
+                            {{--<span class="form-accordion-title">Application for NOC (CC)</span>--}}
+                            {{--<span class="accordion-icon noc_cc-accordion-icon"></span>--}}
+                        {{--</a>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                {{--<div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="co-noc_cc-summary"--}}
+                     {{--data-parent="#accordion">--}}
+                    {{--<div class="row no-gutters hearing-row">--}}
+                        {{--<div class="col-12 no-shadow">--}}
+                            {{--<div class="app-card-section-title">NOC (CC)</div>--}}
+                        {{--</div>--}}
+                        {{--@php $noc_cc_chart = 0;@endphp--}}
+                        {{--@foreach($nocforCCApplication['app_data'] as $header => $value)--}}
+                            {{--<div class="col-lg-3">--}}
+                                {{--<div class="m-portlet app-card text-center">--}}
+                                    {{--<h2 class="app-heading">{{$header}}</h2>--}}
+                                    {{--<div class="app-card-footer">--}}
+                                        {{--<h2 class="app-no mb-0">{{$value[0]}}</h2>--}}
+                                        {{--@php $noc_cc_chart += $value[0];@endphp--}}
+                                        {{--<a target="_blank" href="{{url($value[1])}}" class="app-card__details mb-0">View Details</a>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--@endforeach--}}
+                    {{--</div>--}}
+                    {{--@if($noc_cc_chart)--}}
+                        {{--<div id="noc_cc_chart_div" style="width: 100%; height: 350px; margin-top: 2px;"></div>--}}
+                    {{--@endif--}}
+                    {{--@if($nocforCCApplication['pending_data'])--}}
+                        {{--<div class="row no-gutters hearing-row">--}}
+                            {{--<div class="col-12 no-shadow">--}}
+                                {{--<div class="app-card-section-title">NOC (CC) Subordinate Pendency</div>--}}
+                            {{--</div>--}}
+                            {{--@foreach($nocforCCApplication['pending_data'] as $pending_label => $pending_count)--}}
+                                {{--<div class="col-lg-3">--}}
+                                    {{--<div class="m-portlet app-card text-center">--}}
+                                        {{--<h2 class="app-heading">{{$pending_label}}</h2>--}}
+                                        {{--<div class="app-card-footer">--}}
+                                            {{--<h2 class="app-no mb-0">{{$pending_count}}</h2>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--@endforeach--}}
+                        {{--</div>--}}
+                    {{--@endif--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--@endif--}}
+        {{--@if((session()->get('role_name')==config('commanConfig.junior_architect'))||--}}
+    {{--(session()->get('role_name')==config('commanConfig.senior_architect')) ||--}}
+    {{--(session()->get('role_name')==config('commanConfig.architect')))--}}
+    {{--@include('admin.dashboard.architect_layout.partials.architect_dashboard',compact('architect_data'))--}}
+    {{--@endif--}}
+    {{--@if(session()->get('role_name')==config('commanConfig.land_manager'))--}}
+    {{--@include('admin.dashboard.architect_layout.partials.lm_dashboard',compact('architect_data'))--}}
+    {{--@endif--}}
+    {{--@if(session()->get('role_name')==config('commanConfig.estate_manager'))--}}
+    {{--@include('admin.dashboard.architect_layout.partials.em_dashboard',compact('architect_data'))--}}
+    {{--@endif--}}
+    {{--@if (in_array(session()->get('role_name'),array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'))))--}}
+    {{--@include('admin.dashboard.architect_layout.partials.ee_dashboard',compact('architect_data'))--}}
+    {{--@endif--}}
+    {{--@if (in_array(session()->get('role_name'),array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head'))))--}}
+    {{--@include('admin.dashboard.architect_layout.partials.ree_dashboard',compact('architect_data'))--}}
+    {{--@endif--}}
+    {{--@if(in_array(session()->get('role_name'),array(config('commanConfig.co_engineer'))))--}}
+    {{--@include('admin.dashboard.architect_layout.partials.co_dashboard',compact('architect_data'))--}}
+    {{--@endif--}}
+    {{--@if(in_array(session()->get('role_name'),array(config('commanConfig.senior_architect_planner'))))--}}
+    {{--@include('admin.dashboard.architect_layout.partials.sap_dashboard',compact('architect_data'))--}}
+    {{--@endif--}}
+    {{--@if(in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'))))--}}
+    {{--@include('admin.dashboard.architect_layout.partials.cap_dashboard',compact('architect_data'))--}}
+    {{--@endif--}}
+    {{--@if(in_array(session()->get('role_name'),array(config('commanConfig.vp_engineer'))))--}}
+    {{--@include('admin.dashboard.architect_layout.partials.vp_dashboard',compact('architect_data'))--}}
+    {{--@endif--}}
+    {{--</div>--}}
 
     <!-- Modal for application pending bifergation -->
     <div class="modal fade" id="pending" role="dialog">
