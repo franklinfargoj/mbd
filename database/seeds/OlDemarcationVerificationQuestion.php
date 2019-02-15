@@ -79,13 +79,13 @@ class OlDemarcationVerificationQuestion extends Seeder
             //     'question' => "नसल्यास सदर जागा फुटकळ भूखंडाच्या  परिभाषेनुसार असल्यास त्याचे क्षेत्रफळ व मोजमापे नमुद करावीत.",
             //     'is_compulsory' => 1
             // ],
-            [           
-            'language_id'   => $languageId,
-                'question' => "सदर फुटकळ भूखंडालगतच्या इतर संस्थांची नावे नमुद करावीत.",
-                'is_compulsory' => 1,
-                'has_many' => 0,
-                'is_number' => 0
-            ], 
+            // [           
+            // 'language_id'   => $languageId,
+            //     'question' => "सदर फुटकळ भूखंडालगतच्या इतर संस्थांची नावे नमुद करावीत.",
+            //     'is_compulsory' => 1,
+            //     'has_many' => 0,
+            //     'is_number' => 0
+            // ], 
             [           
             'language_id'   => $languageId,
                 'question' => "संस्थेच्या अस्तित्वातील इमारतीच्या मजल्यांची संख्या किती आहे ?",

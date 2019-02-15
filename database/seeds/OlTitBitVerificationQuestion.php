@@ -35,11 +35,11 @@ class OlTitBitVerificationQuestion extends Seeder
                 'question' => "फुटकळ भूखंडाचे एकूण क्षेत्रफळ किती ?",
                 'is_compulsory' => 1
             ],
-            [
-                'language_id'   => $languageId,
-                'question' => "संस्थेचे भाडेपट्टा करारनामा नुसार भूखंडाचे एकूण क्षेत्रफळ किती आहे ?",
-                'is_compulsory' => 1
-            ],                 
+            // [
+            //     'language_id'   => $languageId,
+            //     'question' => "संस्थेचे भाडेपट्टा करारनामा नुसार भूखंडाचे एकूण क्षेत्रफळ किती आहे ?",
+            //     'is_compulsory' => 1
+            // ],                 
             [
                 'language_id'   => $languageId,
                 'question' => "संस्थेच्या भाडेपट्यानुसार असलेल्या भूखंडाव्यतीरिक्त लगत भूखंड/जागा शिल्लक राहत आहे काय ?",
@@ -54,6 +54,11 @@ class OlTitBitVerificationQuestion extends Seeder
             'language_id'   => $languageId,
                 'question' => "नसल्यास सदर जागा फुटकळ भूखंडाच्या  परिभाषेनुसार असल्यास त्याचे क्षेत्रफळ व मोजमापे नमुद करावीत.",
                 'is_compulsory' => 1
+            ],
+             [           
+            'language_id'   => $languageId,
+                'question' => "सदर फुटकळ भूखंडालगतच्या इतर संस्थांची नावे नमुद करावीत.",
+                'is_compulsory' => 1,
             ],                                 
             [
                 'language_id'   => $languageId,
