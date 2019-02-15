@@ -24,6 +24,7 @@ use Auth;
 use DB;
 use Storage;
 use Carbon\Carbon;
+use App\LayoutUser;
 
 class DYCEController extends Controller
 {
@@ -230,8 +231,13 @@ class DYCEController extends Controller
         // REE Forward Application
 
         $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
+
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
+
+
         $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                                            ->where('lu.layout_id', session()->get('layout_id'))
+                                            ->whereIn('lu.layout_id', $layout_ids)
                                             ->where('role_id', $ree_id->id)->get();
 
         $arrData['ree_role_name']   = strtoupper(str_replace('_', ' ', $ree_id->name));
