@@ -90,7 +90,7 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <div class="col-sm-6 form-group">
-                        <span>Bill Number: {{$association->bill_number}}</span>
+                        <span>Bill Number: </span>
                     </div>
                 </div>
                 <div>

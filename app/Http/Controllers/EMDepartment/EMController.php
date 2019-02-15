@@ -1443,15 +1443,6 @@ class EMController extends Controller
             } else {
                 $lastBillMonth = $request->bill_month -1;
             }
-            $lastBillGenerated = TransBillGenerate::orderBy('id','DESC')->first();
-            if(count($lastBillGenerated) && !empty($lastBillGenerated->bill_number)) {
-                $lastGeneratedNumber = substr($lastBillGenerated->bill_number,-7);
-                $increNumber = (int)$lastGeneratedNumber+1;
-                $bill->bill_number = $request->tenant_id.str_pad($increNumber, 7, "0", STR_PAD_LEFT);
-            } else {
-                $bill->bill_number = $request->tenant_id.'0000001';
-            }
-
             $bill->status = 'Generated';
 
             $lastBill = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
@@ -1582,16 +1573,7 @@ class EMController extends Controller
                 
                if(isset($bill)){
                     $ids = implode(",",$bill);
-                    $lastBillGenerated = DB::table('building_tenant_bill_association')->orderBy('id','DESC')->first();
-
-                    if(count($lastBillGenerated)) {
-                        $lastGeneratedNumber = substr($lastBillGenerated->bill_number,-7);
-                        $increNumber = (int)$lastGeneratedNumber+1;
-                        $bill_number = $request->building_id.str_pad($increNumber, 7, "0", STR_PAD_LEFT);
-                    } else {
-                        $bill_number = $request->building_id.'0000001';
-                    }
-                    $association = DB::table('building_tenant_bill_association')->insert(['building_id' => $request->building_id, 'bill_id' => $ids, 'bill_month' => $request->bill_month, 'bill_year' => $request->bill_year,'bill_number'=>$bill_number]);
+                    $association = DB::table('building_tenant_bill_association')->insert(['building_id' => $request->building_id, 'bill_id' => $ids, 'bill_month' => $request->bill_month, 'bill_year' => $request->bill_year]);
                 } else { 
                                    
                 }     

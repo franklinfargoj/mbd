@@ -155,24 +155,24 @@ class BillingDetailController extends Controller
         	if ($datatables->getRequest()->ajax()) {
                 if($request->has('tenant_id') && !empty($request->tenant_id)) {
                     $arreas_calculations = TransBillGenerate::with('trans_payment')->where('trans_bill_generate.society_id',$request->society_id)
-                    ->where('trans_bill_generate.building_id',$request->building_id)->leftjoin('service_charges_rates', function($join)
+                    ->where('trans_bill_generate.building_id',$request->building_id)->join('service_charges_rates', function($join)
                         {
                             $join->on('service_charges_rates.building_id', '=', 'trans_bill_generate.building_id');
                             $join->on('service_charges_rates.society_id','=', 'trans_bill_generate.society_id');
                             $join->on('service_charges_rates.year','=', 'trans_bill_generate.bill_year');
-                        })->leftjoin('arrear_calculation', function($join)
+                        })->join('arrear_calculation', function($join)
                         {
                             $join->on('arrear_calculation.building_id', '=', 'trans_bill_generate.building_id');
                             $join->on('arrear_calculation.society_id','=', 'trans_bill_generate.society_id');
                             $join->on('arrear_calculation.year','=', 'trans_bill_generate.bill_year');
                             $join->on('arrear_calculation.month','=', 'trans_bill_generate.bill_month');
                         })
-                        ->leftjoin('arrears_charges_rates', function($join)
+                        ->join('arrears_charges_rates', function($join)
                         {
                             $join->on('arrears_charges_rates.building_id', '=', 'trans_bill_generate.building_id');
                             $join->on('arrears_charges_rates.society_id','=', 'trans_bill_generate.society_id');
                             $join->on('arrears_charges_rates.year','=', 'trans_bill_generate.bill_year');
-                        })->selectRaw('trans_bill_generate.*,service_charges_rates.water_charges,service_charges_rates.electric_city_charge,service_charges_rates.pump_man_and_repair_charges,service_charges_rates.external_expender_charge,service_charges_rates.administrative_charge,service_charges_rates.lease_rent,service_charges_rates.na_assessment,service_charges_rates.other,arrear_calculation.old_intrest_amount,arrear_calculation.difference_intrest_amount,arrear_calculation.year as ac_year,arrear_calculation.month as ac_month,arrear_calculation.oir_year,arrear_calculation.oir_month,arrears_charges_rates.old_rate')->whereIn('bill_year',$select_year)->where('trans_bill_generate.tenant_id', $request->tenant_id)->groupBy('trans_bill_generate.tenant_id');
+                        })->selectRaw('trans_bill_generate.*,service_charges_rates.water_charges,service_charges_rates.electric_city_charge,service_charges_rates.pump_man_and_repair_charges,service_charges_rates.external_expender_charge,service_charges_rates.administrative_charge,service_charges_rates.lease_rent,service_charges_rates.na_assessment,service_charges_rates.other,arrear_calculation.old_intrest_amount,arrear_calculation.difference_intrest_amount,arrear_calculation.year as ac_year,arrear_calculation.month as ac_month,arrear_calculation.oir_year,arrear_calculation.oir_month,arrears_charges_rates.old_rate')->whereIn('bill_year',$select_year)->where('trans_bill_generate.tenant_id', $request->tenant_id);
                 } else {
                     $arreas_calculations = DB::select('select 
                             sum(balance_amount) as balance_amount,
@@ -193,8 +193,7 @@ class BillingDetailController extends Controller
                             difference_intrest_amount,
                             bill_month,
                             bill_year,
-                            bill_no,
-                            id
+                            bill_no
                             from (SELECT
                                 DISTINCT(trans_bill_generate.tenant_id),
                                 service_charges_rates.water_charges,
@@ -220,8 +219,7 @@ class BillingDetailController extends Controller
                                 trans_bill_generate.total_bill,
                                 trans_bill_generate.bill_month,
                                 trans_bill_generate.bill_year,
-                                group_concat(trans_payment.bill_no separator ",") as bill_no,
-                                trans_bill_generate.id as id
+                                group_concat(trans_payment.bill_no separator ",") as bill_no
                             FROM
                                 `trans_bill_generate`
                             LEFT JOIN
@@ -484,7 +482,7 @@ class BillingDetailController extends Controller
                         $button = '';
                         if($request->has('tenant_id') && !empty($request->tenant_id)) {
                             $url = route('downloadBill', ['building_id'=>encrypt($building->id),
-                                        'society_id'=>encrypt($society->id),'month'=> $arreas_calculations->bill_month,'year'=> $arreas_calculations->bill_year,'tenant_id'=>encrypt($request->tenant_id),'id'=>$arreas_calculations->id]);
+                                        'society_id'=>encrypt($society->id),'month'=> $arreas_calculations->bill_month,'year'=> $arreas_calculations->bill_year,'tenant_id'=>encrypt($request->tenant_id)]);
                             $button = "<div class='d-flex btn-icon-list'>
                                 <a href='".$url."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>Donwload Bill</a>";
 
@@ -496,7 +494,7 @@ class BillingDetailController extends Controller
                         } else {
                             if(!empty($arreas_calculations->water_charges)) {
                                 $url = route('downloadBill', ['building_id'=>encrypt($building->id),
-                                            'society_id'=>encrypt($society->id),'month'=> $arreas_calculations->bill_month,'year'=> $arreas_calculations->bill_year,'id'=>$arreas_calculations->id]);
+                                            'society_id'=>encrypt($society->id),'month'=> $arreas_calculations->bill_month,'year'=> $arreas_calculations->bill_year]);
                                 $button = "<div class='d-flex btn-icon-list'>
                                     <a href='".$url."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>Donwload Bill</a>";
                                 if($arreas_calculations->total_bill != $arreas_calculations->balance_amount) {

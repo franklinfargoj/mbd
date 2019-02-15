@@ -1,4 +1,4 @@
-/* theme classes over ride starts here */
+    /* theme classes over ride starts here */
 
 .datepicker tbody tr>td.day.disabled {
     color: #d2d2d2;
@@ -3547,7 +3547,6 @@ label.site-visit-label {
     margin-bottom: 0 !important;
 }
 
-<<<<<<< HEAD
 #societyForm .p-m-0{
     margin-bottom: 0 !important;
 }
@@ -3561,6 +3560,10 @@ label.site-visit-label {
     padding-right: 10px;
     font-weight: 500;
     font-size: 11px;
+}
+
+.mhada-lease-margin{
+    margin-bottom: -30px !important;
 }
 
 #addLeaseDetail .mhada-lease-margin{
@@ -3618,4 +3621,8 @@ label.site-visit-label {
     position: relative;
     top: -41px;
     left: -29px;
+}
+
+.mhada-mb-30{
+    margin-bottom: 30px;
 }
