@@ -62,7 +62,7 @@
             <input type="text" name="bill_from" value="{{date('1-m-Y', strtotime('-1 month'))}}" hidden>
             <input type="text" name="bill_to" value="{{date('1-m-Y')}}" hidden>
             <input type="text" name="bill_month" value="{{$month}}" hidden>
-            <input type="text" name="bill_year" value="{{$year}}" hidden>
+            <input type="text" name="bill_year" value="{{$bill_year}}" hidden>
             <input type="text" name="monthly_bill" value="{{$total_service}}" hidden>
             <input type="text" name="arrear_bill" value="{{$total}}" hidden>
             <input type="text" name="total_service_after_due" value="{{$total_service_after_due}}" hidden>
@@ -259,7 +259,7 @@
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions px-0">
                         <div class="row">
-                            @if(is_null($check) || $check == '')
+                            @if((is_null($check) || $check == '') && false == $regenate)
                             <div class="col-sm-4">
                                 <div class="btn-list">
                                     <button type="submit" id="" class="btn btn-primary">Generate Society Bill</button>
