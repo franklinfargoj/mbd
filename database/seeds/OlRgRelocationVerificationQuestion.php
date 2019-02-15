@@ -40,7 +40,7 @@ class OlRgRelocationVerificationQuestion extends Seeder
         }
 
         //add compulsory remark 
-        $compulsoryRemark = array('सिमांकन नकाशानुसार संस्थेच्या भूखंडाचे एकूण क्षेत्रफळ किती आहे ?','अभिन्यासानुसार सदर करमणूकीचे मैदान Sंheme R।G। आहे कि D।P। R।G। आहे याबाबत नमुद करावे.','एकूण करमणूकीच्या मैदानाच्या क्षेत्रफळापैकी सर्वच भूखंडाचे /भागशः भूखंडाचे स्थलांतरण प्रस्तावित  आहे किंवा कसे याबाबत नमुद करावे.');
+        $compulsoryRemark = array('सिमांकन नकाशानुसार R.G चे एकूण क्षेत्रफळ किती आहे ?','अभिन्यासानुसार सदर करमणूकीचे मैदान Sंheme R।G। आहे कि D।P। R।G। आहे याबाबत नमुद करावे.','एकूण करमणूकीच्या मैदानाच्या क्षेत्रफळापैकी सर्वच भूखंडाचे /भागशः भूखंडाचे स्थलांतरण प्रस्तावित  आहे किंवा कसे याबाबत नमुद करावे.');
 
         OlRgRelocationVerificationQuestionMaster::whereIn('question',$compulsoryRemark)->update(['is_compulsory' => '1']);        
     }

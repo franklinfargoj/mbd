@@ -6,7 +6,7 @@
 
 @if($report)
   <tr>
-    <th style="width:5%;">Sr.no</th>
+    <th style="width:8%;">Sr.no</th>
     <th style="width:40%;font-size: 15px">मुद्दा / तपशील</th> 
     <th style="width:20%;font-size: 15px">होय / नाही</th>
     <th style="width:40%;font-size: 15px">शेरा</th>
@@ -38,7 +38,7 @@
 
 @if($validReport)
   <tr>
-    <th style="width:5%;">#</th>
+    <th style="width:8%;">Sr. no</th> 
     <th style="width:40%;font-size: 15px">मुद्दा / तपशील</th> 
     <th style="width:20%;font-size: 15px">होय / नाही</th>
     <th style="width:40%;font-size: 15px">शेरा</th>
@@ -125,13 +125,13 @@
         </tr>
            <tr>
             <td style="padding-left: 10px">3.</td>
-            <td style="padding-left: 10px">Variation Area</td>
+            <td style="padding-left: 10px:font-size:16px;"><b>Variation Area</b></td>
             <td style="padding-left: 10px">
             	@php 
             	$area = $landDetails->total_area - $landDetails->stag_plot_area;
             	@endphp
 
-            	{{isset($area) ? $area : '' }}
+            	<b> {{isset($area) ? $area : '' }} </b>
            </td>
         </tr>  
     </table>

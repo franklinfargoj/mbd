@@ -87,6 +87,10 @@ if($latest){
                                     <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto">
                                     <img src="{{asset('/img/print-icon.svg')}}" 
                                             style="max-width: 22px;display:none" class="printBtn hide-print"></a>
+                                    @if(count($arrData['consent_verification_details_data']) > 0)
+                                    <a href="{{ route('ee_variation_report',$arrData['society_detail']->id)}}">       
+                                    <i class="fa fa-file-text hide-print report" aria-hidden="true" title="generate variation report" style="margin-left: 15px;font-size: 24px;color: #af2222;cursor: pointer;" ></i></a>
+                                    @endif       
                                 </div>
 
                                 <div class="row field-row" >
@@ -417,7 +421,7 @@ if($latest){
                                     Consent Verification</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link nested_t" data-toggle="pill" href="#demarcation" id="nested_tab_2" next_tab = "nested_tab_2" data-tab="Demarcation">
+                                <a class="nav-link nested_t" data-toggle="pill" href="#demarcation" id="nested_tab_3" next_tab = "nested_tab_2" data-tab="Demarcation">
                                     Demarcation</a>
                             </li>
                             <li class="nav-item">
@@ -509,10 +513,7 @@ if($latest){
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>  
-                                    @if(count($arrData['consent_verification_details_data']) > 0)
-                                        <a class="btn btn-primary hide-print" id="{{ $arrData['society_detail']->id }}" href="{{ route('ee_variation_report',$arrData['society_detail']->id)}}"> Generate Variation Report</a>
-                                    @endif    
+                                        </div>     
 
                                         <div class="table-checklist m-portlet__body m-portlet__body--table table--box-input" style="margin-top: 10px">
                                             <div class="table-responsive">
@@ -1340,10 +1341,12 @@ if($latest){
 
     $(".ch-tab").click(function(){
         $(".printBtn").css("display","block");
+        $(".report").css("display","block");
     }); 
 
     $(".v-tabs").click(function(){
         $(".printBtn").css("display","none");
+        $(".report").css("display","none");
     });
 
     $(".nested_t").click(function(){
