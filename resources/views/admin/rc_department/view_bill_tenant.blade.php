@@ -94,7 +94,7 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <div class="col-sm-6 form-group">
-                        <span>Bill Number:</span>
+                        <span>Bill Number: {{$currentBill->bill_number}}</span>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
