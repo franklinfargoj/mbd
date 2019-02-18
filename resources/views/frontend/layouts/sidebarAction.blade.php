@@ -202,11 +202,6 @@
         $('#clickmewow').click(function () {
             $('#radio1003').attr('checked', 'checked');
         });
-        $('form').submit(function () {
-        if ($('form').valid()) {
-            $(this).find("button[type='submit']").prop('disabled', true);
-        }
-    });
     })
 
 </script>

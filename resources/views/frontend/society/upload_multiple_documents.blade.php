@@ -67,7 +67,7 @@
                     </div> 
                 </div>
                 <div class="col-sm-6">
-                    <input type="button" class="btn btn-primary btn-custom" id="uploadBtn" style="float: right" value="Upload"> 
+                    <input type="submit" class="btn btn-primary btn-custom" id="uploadBtn" style="float: right" value="Upload"> 
                 </div>  
             </form> 
         @endif    
@@ -115,7 +115,6 @@
 <script type="text/javascript">
     
     $("#uploadBtn").click(function(){
-        $('.loader').show();
         var myfile = $(".file_upload").val();
         var ext = myfile.split('.').pop();
         var memberName = $("#memberName").val();

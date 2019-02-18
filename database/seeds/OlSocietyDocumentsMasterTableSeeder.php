@@ -203,7 +203,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application1[0]['id'],
                     'language_id'   => $language1[0]['id'],
-                    'name' => "कार्यकारी अभियंता / मुंबई मंडळ यांचेकडुन इमारतीचा व सलग्न भूखंडाचा सिमांकन नकाशा",
+                    'name' => "कार्यकारी अभियंता / कुर्ला विभाग / मुंबई मंडळ यांचेकडुन इमारतीचा व सलग्न भूखंडाचा सिमांकन नकाशा",
                     'is_optional' => '1'
                 ],
                 [
@@ -326,7 +326,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application2[0]['id'],
                     'language_id'   => $language2[0]['id'],
-                    'name' => "कार्यकारी अभियंता / मुंबई मंडळ यांचेकडुन इमारतीचा व सलग्न भूखंडाचा सिमांकन नकाशा",
+                    'name' => "कार्यकारी अभियंता / कुर्ला विभाग / मुंबई मंडळ यांचेकडुन इमारतीचा व सलग्न भूखंडाचा सिमांकन नकाशा",
                     'is_optional' => '1'
                 ],
                 [
@@ -442,7 +442,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application3[0]['id'],
                     'language_id'   => $language3[0]['id'],
-                    'name' => "कार्यकारी अभियंता / मुंबई मंडळ यांचेकडुन इमारतीचा व सलग्न भूखंडाचा सिमांकन नकाशा",
+                    'name' => "कार्यकारी अभियंता / कुर्ला विभाग / मुंबई मंडळ यांचेकडुन इमारतीचा व सलग्न भूखंडाचा सिमांकन नकाशा",
                     'is_optional' => '1'
                 ],
                 [

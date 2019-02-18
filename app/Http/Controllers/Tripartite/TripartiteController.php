@@ -451,13 +451,13 @@ class TripartiteController extends Controller
         //dd($result);
         $parent = "";
         if ($result) {
-            $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
-            $layout_ids = array_column($layout_id_array, 'layout_id');
             $parent = User::with(['roles', 'LayoutUser' => function ($q) {
-                $q->whereIn('layout_id', $layout_ids);
-            }])->whereHas('LayoutUser', function ($q) {
-                    $q->whereIn('layout_id', $layout_ids);
-                })->whereIn('role_id', $result)->get();
+                $q->where('layout_id', session('layout_id'));
+            }])
+                ->whereHas('LayoutUser', function ($q) {
+                    $q->where('layout_id', session('layout_id'));
+                })
+                ->whereIn('role_id', $result)->get();
         }
         $approved_by_co = 0;
         if (session()->get('role_name') == config('commanConfig.ree_branch_head')) {
