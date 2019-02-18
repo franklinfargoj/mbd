@@ -1071,8 +1071,8 @@ class EEController extends Controller
                 }
             }  
         }
-        $landDetails = OlDemarcationLandArea::where('application_id',$id)->first();
-        $view =  view('admin.ee_department.variation_report', compact('report','validReport','landDetails')); 
+     
+        $view =  view('admin.ee_department.variation_report', compact('report','validReport')); 
 
         $header_file = view('admin.REE_department.offer_letter_header');        
         $footer_file = view('admin.REE_department.offer_letter_footer');

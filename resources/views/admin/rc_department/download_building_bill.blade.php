@@ -29,10 +29,11 @@
                     <div style="width: 70%; float: left;">Society Name: @if(!empty($society)){{$society->society_name}}@endif</div>
                 </div>
                 <div style="clear:both;"></div>
-                <div style="width: 100%;float: left; margin-bottom: 20px;">
-                    <div style="width: 30%; float: left;">Bill No:</div>
-                    <div style="width: 70%; float: left;"></div>
+
+                <div style="width: 100%; float: left; margin-bottom: 20px;">
+                    <div style="width: 70%; float: left;">Bill No: {{$Tenant_bill_id->bill_number}}</div>
                 </div>
+                
                 <div style="clear:both;"></div>
                 {{-- <div style="width: 100%; float: left; margin-bottom: 20px;">
                     <div style="width: 30%; float: left;">Name:</div>
@@ -64,7 +65,7 @@
                         <table>
                             <tbody>
                                 <tr>
-                                    <td valign="top" style="font-weight: bold;">Bill Period : {{date('1-M-Y', strtotime('-1 month'))}} to {{date('1-M-Y')}}</td>
+                                    <td valign="top" style="font-weight: bold;">Bill Period : {{date('1-M-Y', strtotime($TransBillGenerate->bill_from))}} to {{date('1-M-Y',strtotime($TransBillGenerate->bill_to))}}</td>
                                     <td valign="top" style="text-align: right;"></td>
                                 </tr>
                             </tbody>
@@ -86,7 +87,7 @@
                         <table>
                             <tbody>
                                 <tr>
-                                    <td valign="top" style="font-weight: bold;">Bill Date : {{date('d-M-Y')}} </td>
+                                    <td valign="top" style="font-weight: bold;">Bill Date : {{date('d-M-Y',strtotime($TransBillGenerate->bill_date))}} </td>
                                     <td valign="top" style="text-align: right;"></td>
                                 </tr>
                             </tbody>
@@ -108,7 +109,7 @@
                         <table>
                             <tbody>
                                 <tr>
-                                    <td valign="top" style="font-weight: bold;">Due Date : {{date('d-M-Y', strtotime(date('Y-m-d'). ' + 5 days'))}} </td>
+                                    <td valign="top" style="font-weight: bold;">Due Date : {{date('d-M-Y', strtotime($TransBillGenerate->due_date))}} </td>
                                     <td valign="top" style="text-align: right;"></td>
                                 </tr>
                             </tbody>
@@ -120,7 +121,7 @@
                         <table>
                             <tbody>
                                 <tr>
-                                    <td valign="top" style="font-weight: bold;">Amount : {{$total + $total_service}}</td>
+                                    <td valign="top" style="font-weight: bold;">Amount : {{$TransBillGenerate->total_bill_temp}}</td>
                                     <td valign="top" style="text-align: right;"></td>
                                 </tr>
                             </tbody>
@@ -130,7 +131,7 @@
                         <table>
                             <tbody>
                                 <tr>
-                                    <td valign="top" style="font-weight: bold;">Late fee charge : {{ $total_after_due}}</td>
+                                    <td valign="top" style="font-weight: bold;">Late fee charge : {{ $TransBillGenerate->late_fee_charge}}</td>
                                     <td valign="top" style="text-align: right;"></td>
                                 </tr>
                             </tbody>
@@ -139,7 +140,7 @@
                 </tr>
             </tbody>
         </table>
-        <div style="border: 2px solid #000; padding: 5px; margin-top: 30px;"><h3 style="text-align: center;">Bill Summary - {{date("M", strtotime("2001-" . $month . "-01"))}}, {{$year}}</h3></div>
+        <div style="border: 2px solid #000; padding: 5px; margin-top: 30px;"><h3 style="text-align: center;">Bill Summary - {{date("M", strtotime("2001-" . $month . "-01"))}}, {{date('Y',strtotime($TransBillGenerate->bill_date))}}</h3></div>
         <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
             <thead>
                 <tr>
@@ -238,15 +239,15 @@
             <tbody>
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px;">Balance Amount</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$total}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$TransBillGenerate->balance_amount_temp}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px;">Current month Bill amount before due date</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$total_service}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$TransBillGenerate->monthly_bill_temp}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold;">Grand Total</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;">{{$total + $total_service}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;">{{$TransBillGenerate->total_bill_temp}}</td>
                 </tr>
             </tbody>
         </table>

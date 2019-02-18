@@ -9,7 +9,7 @@
             <div class="d-flex">
                  {{ Breadcrumbs::render('society_tripartite_agreement', $id) }}
                 <div class="ml-auto btn-list">
-                    <a href="{{  }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                <a href="{{url()->previous()}}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                 </div>
             </div>
             @if (session('success'))

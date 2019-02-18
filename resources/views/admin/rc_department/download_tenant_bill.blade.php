@@ -19,10 +19,7 @@
       @endforeach
     @endif  
     @php
-        $tempBalance = $total;
-        if($lastBill && !empty($lastBill) && 0 < $lastBill->balance_amount) {
-            $tempBalance = $lastBill->balance_amount;
-        }
+        
     @endphp
     <div>
         <div>
@@ -38,10 +35,10 @@
                     <div style="width: 70%; float: left;">Society Name: @if(!empty($society)){{$society->society_name}}@endif</div>
                 </div>
                 <div style="clear:both;"></div>
-                <div style="width: 100%;float: left; margin-bottom: 20px;">
-                    <div style="width: 30%; float: left;">Bill No:</div>
-                    <div style="width: 70%; float: left;"></div>
+                <div style="width: 100%; float: left; margin-bottom: 20px;">
+                    <div style="width: 70%; float: left;">Bill No: {{$TransBillGenerate->bill_number}}</div>
                 </div>
+                
                 <div style="clear:both;"></div>
                 {{-- <div style="width: 100%; float: left; margin-bottom: 20px;">
                     <div style="width: 30%; float: left;">Name:</div>
@@ -67,7 +64,7 @@
                         <table>
                             <tbody>
                                 <tr>
-                                    <td valign="top" style="font-weight: bold;">Bill Period :  {{date('1-M-Y', strtotime('-1 month'))}} to {{date('1-M-Y')}} </td>
+                                    <td valign="top" style="font-weight: bold;">Bill Period :  {{date('1-M-Y', strtotime($TransBillGenerate->bill_from ))}} to {{date('d-M-Y',strtotime($TransBillGenerate->bill_to))}} </td>
                                     <td valign="top" style="text-align: right;"></td>
                                 </tr>
                             </tbody>
@@ -89,7 +86,7 @@
                         <table>
                             <tbody>
                                 <tr>
-                                    <td valign="top" style="font-weight: bold;">Bill Date : {{date('d-M-Y')}} </td>
+                                    <td valign="top" style="font-weight: bold;">Bill Date : {{date('d-M-Y',strtotime($TransBillGenerate->bill_date))}} </td>
                                     <td valign="top" style="text-align: right;"></td>
                                 </tr>
                             </tbody>
@@ -111,7 +108,7 @@
                         <table>
                             <tbody>
                                 <tr>
-                                    <td valign="top" style="font-weight: bold;">Due Date : {{date('d-M-Y', strtotime(date('Y-m-d'). ' + 5 days'))}} </td>
+                                    <td valign="top" style="font-weight: bold;">Due Date : {{date('d-M-Y', strtotime($TransBillGenerate->due_date))}} </td>
                                     <td valign="top" style="text-align: right;"></td>
                                 </tr>
                             </tbody>
@@ -119,24 +116,14 @@
                     </td>
                 </tr>
                 @php
-                    $totalTemp = $total + $total_service;
-                    if($lastBill && !empty($lastBill) && 0 < $lastBill->credit_amount) {
-                        if($total + $total_service > $lastBill->credit_amount) {
-                            $totalTemp =  ($total + $total_service) - $lastBill->credit_amount;  
-                        } else {
-                            $totalTemp =  0;    
-                        }
-                    }
-                    if($lastBill && !empty($lastBill) && 0 < $lastBill->balance_amount) {
-                        $totalTemp =  $total + $total_service + $lastBill->balance_amount;
-                    }
+                    
                 @endphp
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px;">
                         <table>
                             <tbody>
                                 <tr>
-                                    <td valign="top" style="font-weight: bold;">Amount : {{$totalTemp}}</td>
+                                    <td valign="top" style="font-weight: bold;">Amount : {{$TransBillGenerate->total_bill}}</td>
                                     <td valign="top" style="text-align: right;"></td>
                                 </tr>
                             </tbody>
@@ -146,7 +133,7 @@
                         <table>
                             <tbody>
                                 <tr>
-                                    <td valign="top" style="font-weight: bold;">Late fee charge : {{ $total_after_due}}</td>
+                                    <td valign="top" style="font-weight: bold;">Late fee charge : {{ $TransBillGenerate->late_fee_charge}}</td>
                                     <td valign="top" style="text-align: right;"></td>
                                 </tr>
                             </tbody>
@@ -254,21 +241,21 @@
             <tbody>
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px;">Balance Amount</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$tempBalance}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$TransBillGenerate->balance_amount}}</td>
                 </tr>
-                 @if($lastBill && !empty($lastBill) && 0 < $lastBill->credit_amount)
+                 @if($TransBillGenerate && !empty($TransBillGenerate) && 0 < $TransBillGenerate->credit_amount)
                     <tr>
                         <td valign="top" style="border: 1px solid #000; padding: 5px;">Credit Amount</td>
-                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$lastBill->credit_amount}}</td>
+                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$TransBillGenerate->credit_amount}}</td>
                     </tr>
                     @endif
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px;">Current month Bill amount before due date</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$total_service}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$TransBillGenerate->monthly_bill}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: right; font-weight: bold;">Grand Total</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;">{{$totalTemp}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;">{{$TransBillGenerate->total_bill}}</td>
                 </tr>
             </tbody>
         </table>
