@@ -193,8 +193,20 @@ class GenerateBills extends Command
                         }
                         $strTxnData .= 'Bill generated for building => '.$building->name.' For society => '.$society->society_name."\n";                            
                         if(isset($bill)){
+                            $lastBillGenerated = DB::table('building_tenant_bill_association')->orderBy('id','DESC')->first();
+                            $lastGeneratedNumber = '';
+                            $increNumber = '';
+                            $bill_number = '';
+
+                            if(count($lastBillGenerated) > 0) {
+                                $lastGeneratedNumber = substr($lastBillGenerated->bill_number,-7);
+                                $increNumber = $lastGeneratedNumber + 1;
+                                $bill_number = $building->id.str_pad($increNumber, 7, "0", STR_PAD_LEFT);
+                            } else {
+                                $bill_number = $building->id.'0000001';
+                            }
                             $ids = implode(",",$bill);
-                            $association = DB::table('building_tenant_bill_association')->insert(['building_id' => $building->id, 'bill_id' => $ids, 'bill_month' => $bill_month, 'bill_year' => $bill_year]);
+                            $association = DB::table('building_tenant_bill_association')->insert(['building_id' => $building->id, 'bill_id' => $ids, 'bill_month' => $bill_month, 'bill_year' => $bill_year,'bill_number'=>$bill_number]);
                         }   
                         
                 }  else {
@@ -348,6 +360,19 @@ class GenerateBills extends Command
                             $lastBillYear = $bill_year -1;
                         } else {
                             $lastBillMonth = $bill_month -1;
+                        }
+
+                        $lastBillGenerated = TransBillGenerate::orderBy('id','DESC')->first();
+                        $lastGeneratedNumber = '0';
+                        $increNumber = '0';
+                        if(count($lastBillGenerated) > 0 && !empty($lastBillGenerated->bill_number) ) {
+                            $lastGeneratedNumber = substr($lastBillGenerated->bill_number,-7);
+                            
+                            $increNumber = $lastGeneratedNumber + 1;
+
+                            $bill->bill_number = $tenant->id.str_pad($increNumber, 7, "0", STR_PAD_LEFT);
+                        } else {
+                            $bill->bill_number = $tenant->id.'0000001';
                         }
                         $bill->status = 'Generated';
 
