@@ -7,6 +7,7 @@ $route=\Request::route()->getName();
 <button class="m-aside-left-close  m-aside-left-close--skin-dark " id="m_aside_left_close_btn"><i class="la la-close"></i></button>
 <div class="m-grid__item  m-aside-left  m-aside-left--skin-dark ">
     <!-- BEGIN: Aside Menu -->
+
     @php
     $land_permission = ['village_detail.index', 'village_detail.create', 'village_detail.edit',
     'village_detail.update', 'village_detail.destroy',
@@ -323,6 +324,7 @@ $route=\Request::route()->getName();
                                     </span>
                                 </a>
                             </li>
+                            
                             <li id="self-redevelopment" class="collapse {{ ((Request::segment(2)=='application' && Request::segment(3) == '1_premium') || (Request::segment(2)=='application' && Request::segment(3) == '1_sharing') || (isset($ids) && $ids[1] == 'sharing' && $route == 'show_form_self') || (isset($ids) && $ids[1] == 'premium' && $route == 'show_form_self') || (isset($ids) && $ids[1] == 'sharing' && $route == 'show_tripatite_self') || (isset($ids) && $ids[1] == 'premium' && $route == 'show_reval_self') || (isset($ids) && $ids[1] == 'sharing' && $route == 'show_reval_self') || (isset($ids) && $ids[1] == 'premium' && $route == 'show_oc_self') || (isset($ids) && $ids[1] == 'premium' && $route == 'show_form_self_noc' && isset($self_type)) || (isset($ids) && $ids[1] == 'premium' && $route == 'show_form_self_noc_cc' && isset($self_type)) || (isset($ids) && $ids[1] == 'sharing' && $route == 'show_oc_self') || (isset($ids) && $ids[1] == 'sharing' && $route == 'show_form_self_noc' && isset($self_type)) || (isset($ids) && $ids[1] == 'sharing' && $route == 'show_form_self_noc_cc' && isset($self_type)))? 'show':'' }}">
                                 <ul class="list-unstyled">
                                     <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ((Request::segment(2)=='application' && Request::segment(3) == '1_premium') || (isset($ids) && $ids[1] == 'premium' && $route == 'show_form_self') || (isset($ids) && $ids[1] == 'premium' && $route == 'show_reval_self') || (isset($ids) && $ids[1] == 'premium' && $route == 'show_oc_self') || (isset($ids) && $ids[1] == 'premium' && $route == 'show_form_self_noc' && isset($self_type)) || (isset($ids) && $ids[1] == 'premium' && $route == 'show_form_self_noc_cc' && isset($self_type)))?'m-menu__item--active':''}}">

@@ -9,6 +9,7 @@ class OlSocietyDocumentsStatus extends Model
     protected $table = 'ol_society_document_status';
     protected $fillable = [
         'society_id',
+        'application_id',
         'document_id',
         'society_document_path',
         'EE_document_path',

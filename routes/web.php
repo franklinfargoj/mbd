@@ -494,7 +494,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         Route::get('/offer_letter_application_form_dev/{id}', 'SocietyOfferLetterController@show_offer_letter_application_dev')->name('offer_letter_application_dev');
         Route::post('/save_offer_letter_application_form_dev', 'SocietyOfferLetterController@save_offer_letter_application_dev')->name('save_offer_letter_application_dev');
 
-        Route::get('documents_upload', 'SocietyOfferLetterController@displaySocietyDocuments')->name('documents_upload');
+        Route::get('documents_upload/{id}', 'SocietyOfferLetterController@displaySocietyDocuments')->name('documents_upload');
         Route::post('add_uploaded_documents_remark', 'SocietyOfferLetterController@addSocietyDocumentsRemark')->name('add_uploaded_documents_remark');
         Route::get('documents_uploaded', 'SocietyOfferLetterController@viewSocietyDocuments')->name('documents_uploaded');
         Route::post('uploaded_documents', 'SocietyOfferLetterController@uploadSocietyDocuments')->name('uploaded_documents');
@@ -507,8 +507,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         Route::post('add_uploaded_documents_comment', 'SocietyOfferLetterController@addSocietyDocumentsComment')->name('add_documents_comment');
         Route::get('society_offer_letter_download', 'SocietyOfferLetterController@displayOfferLetterApplication')->name('society_offer_letter_download');
 
-        Route::get('society_offer_letter_preview', 'SocietyOfferLetterController@showOfferLetterApplication')->name('society_offer_letter_preview');
-        Route::get('society_offer_letter_edit', 'SocietyOfferLetterController@editOfferLetterApplication')->name('society_offer_letter_edit');
+        Route::get('society_offer_letter_preview/{id}', 
+            'SocietyOfferLetterController@showOfferLetterApplication')->name('society_offer_letter_preview');
+        Route::get('society_offer_letter_edit/{id}', 'SocietyOfferLetterController@editOfferLetterApplication')->name('society_offer_letter_edit');
         Route::post('society_offer_letter_update', 'SocietyOfferLetterController@updateOfferLetterApplication')->name('society_offer_letter_update');
 
         Route::get('society_offer_letter_application_download', 'SocietyOfferLetterController@generate_pdf')->name('society_offer_letter_application_download');
