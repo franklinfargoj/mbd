@@ -20,6 +20,7 @@ use Yajra\DataTables\DataTables;
 use Mpdf\Mpdf;
 use App\OlApplication;
 use App\SocietyOfferLetter;
+use App\LayoutUser;
 
 class FormationCommonController extends Controller
 {
@@ -214,11 +215,13 @@ class FormationCommonController extends Controller
         $child = "";
         //dd($result);
         if ($result) {
-            $child = User::with(['roles', 'LayoutUser' => function ($q) {
-                $q->where('layout_id', session('layout_id'));
+            $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+            $layout_ids = array_column($layout_id_array, 'layout_id');
+            $child = User::with(['roles', 'LayoutUser' => function ($q) use($layout_ids){
+                $q->whereIn('layout_id', $layout_ids);
             }])
-                ->whereHas('LayoutUser', function ($q) {
-                    $q->where('layout_id', session('layout_id'));
+                ->whereHas('LayoutUser', function ($q) use($layout_ids){
+                    $q->whereIn('layout_id', $layout_ids);
                 })
                 ->whereIn('role_id', $result)->get();
         }
@@ -246,11 +249,13 @@ class FormationCommonController extends Controller
         // dd($result);
         $parent = "";
         if ($result) {
-            $parent = User::with(['roles', 'LayoutUser' => function ($q) {
-                $q->where('layout_id', session('layout_id'));
+            $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+            $layout_ids = array_column($layout_id_array, 'layout_id');
+            $parent = User::with(['roles', 'LayoutUser' => function ($q) use($layout_ids){
+                $q->whereIn('layout_id', $layout_ids);
             }])
-                ->whereHas('LayoutUser', function ($q) {
-                    $q->where('layout_id', session('layout_id'));
+                ->whereHas('LayoutUser', function ($q) use($layout_ids){
+                    $q->whereIn('layout_id', $layout_ids);
                 })
             // ->whereHas('roles', function ($q) {
             //     $q->where('name', config('commanConfig.estate_manager'));
