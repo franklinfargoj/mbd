@@ -225,7 +225,7 @@ class GenerateBills extends Command
     public function generateTenantLevelBills() {
         $societies = SocietyDetail::where('society_bill_level', '=', '2')->pluck('id');
         $buildings = MasterBuilding::whereIn('society_id',$societies)->pluck('id');
-        $tenants   = MasterTenant::whereIn('building_id',[4])->get();
+        $tenants   = MasterTenant::whereIn('building_id',$buildings)->get();
         
         $currentMonth = date('m');
         if($currentMonth < 4) {
