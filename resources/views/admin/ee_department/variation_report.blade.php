@@ -44,6 +44,7 @@
     <th style="width:40%;font-size: 15px">शेरा</th>
   </tr>
   @php $i=1; @endphp
+ 
 	@foreach($validReport as $data)
 	
 	  <tr>
