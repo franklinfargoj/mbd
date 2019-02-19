@@ -1715,7 +1715,6 @@ class CommonController extends Controller
         $renewalPendingApplications = $renewal->getApplicationPendingAtDepartment();         
 
         $applicationData = $this->getApplicationData($role_id,$user_id);
-//        dd($applicationData);
 
         // Reval APplication data
 
@@ -1744,12 +1743,6 @@ class CommonController extends Controller
         if(in_array($role_id ,$ee))
             $dashboardData = $this->getEEDashboardData($role_id,$ee,$statusCount);
 
-
-//        foreach ($dashboardData as $key => $dd){
-//            dd($dashboardData);
-//
-//
-//        }
 
         if(in_array($role_id ,$dyce))
             $dashboardData = $this->getDyceDashboardData($role_id,$dyce,$statusCount);
@@ -1780,30 +1773,36 @@ class CommonController extends Controller
 
     }
 
-
+    /**
+     * Show the offer letter dashboard using ajax.
+     *
+     * Author: Prajakta Sisale.
+     *
+     *  @return json response
+     */
     public function ajaxDashboard(Request $request)
     {
-
         if ($request->ajax()) {
 
-            if($request->module_name == "offer_letter"){
-                $role_id = session()->get('role_id');
-                $user_id = Auth::id();
+            $role_id = session()->get('role_id');
+            $user_id = Auth::id();
+
+            // EE Roles
+            $ee = $this->getEERoles();
+
+            // DYCE Roles
+            $dyce = $this->getDyceRoles();
+
+            // CAP
+            $cap = Role::where('name',config('commanConfig.cap_engineer'))->value('id');
+
+            // VP
+            $vp = Role::where('name',config('commanConfig.vp_engineer'))->value('id');
+
+            if($request->module_name == "Offer Letter"){
                 $applicationData = $this->getApplicationData($role_id,$user_id);
 
                 $statusCount = $this->getApplicationStatusCount($applicationData);
-
-                // EE Roles
-                $ee = $this->getEERoles();
-
-                // DYCE Roles
-                $dyce = $this->getDyceRoles();
-
-                // CAP
-                $cap = Role::where('name',config('commanConfig.cap_engineer'))->value('id');
-
-                // VP
-                $vp = Role::where('name',config('commanConfig.vp_engineer'))->value('id');
 
                 $dashboardData = [];
 
@@ -1826,86 +1825,53 @@ class CommonController extends Controller
                 return $dashboardData;
 
             }
-        }
-//        $role_id = session()->get('role_id');
-//        $user_id = Auth::id();
-//
-//        // conveyance dashboard
-//        $conveyanceCommonController = new conveyanceCommonController();
-//        $conveyanceDashboard = $conveyanceCommonController->ConveyanceDashboard();
-//        $conveyanceRoles     = $conveyanceCommonController->getConveyanceRoles();
-//        $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();
-//
-//        $renewal = new renewalCommonController();
-//
-//        $renewalDashboard = $renewal->RenewalDashboard();
-//        $renewalRoles     = $renewal->getRenewalRoles();
-//        $renewalPendingApplications = $renewal->getApplicationPendingAtDepartment();
-//
-//        $applicationData = $this->getApplicationData($role_id,$user_id);
-////        dd($applicationData);
-//
-//        // Reval APplication data
-//
-//        $revalApplicationData = $this->getRevalApplicationData($role_id,$user_id);
-//
-//        $statusCount = $this->getApplicationStatusCount($applicationData);
-//
-//        // Reval status Count
-//        $revalStatusCount = $this->getApplicationStatusCount($revalApplicationData);
-//
-//        // EE Roles
-//        $ee = $this->getEERoles();
-//
-//        // DYCE Roles
-//        $dyce = $this->getDyceRoles();
-//
-//        // CAP
-//        $cap = Role::where('name',config('commanConfig.cap_engineer'))->value('id');
-//
-//        // VP
-//        $vp = Role::where('name',config('commanConfig.vp_engineer'))->value('id');
-//
-//        $dashboardData = [];
-//
-//
-//        if(in_array($role_id ,$ee))
-//            $dashboardData = $this->getEEDashboardData($role_id,$ee,$statusCount);
-//
-//
-////        foreach ($dashboardData as $key => $dd){
-////            dd($dashboardData);
-////
-////
-////        }
-//
-//        if(in_array($role_id ,$dyce))
-//            $dashboardData = $this->getDyceDashboardData($role_id,$dyce,$statusCount);
-//
-//        if($cap == $role_id){
-//            $dashboardData = $this->getCapDashboardData($statusCount);
-//            $revalDashboardData = $this->getCapDashboardData($revalStatusCount);
-//        }
-//
-//        if($vp == $role_id){
-//            $dashboardData = $this->getVpDashboardData($statusCount);
-//            $revalDashboardData = $this->getVpDashboardData($revalStatusCount);
-//        }
-//
-//        $dashboardData1 = NULL;
-//        $eeHeadId = Role::where('name',config('commanConfig.ee_branch_head'))->value('id');
-//
-//        $dyceHeadId = Role::where('name',config('commanConfig.dyce_branch_head'))->value('id');
-//
-//        if($role_id == $eeHeadId){
-//            $dashboardData1 = $this->getToatalPendingApplicationsAtUser($ee);
-//        }
-//        if($role_id == $dyceHeadId){
-//            $dashboardData1 = $this->getToatalPendingApplicationsAtUser($dyce);
-//        }
-//
-//        return view('admin.common.ol_dashboard',compact('dashboardData','revalDashboardData','dashboardData1','conveyanceDashboard','conveyanceRoles','pendingApplications','renewalDashboard','renewalRoles','renewalPendingApplications'));
 
+
+            if($request->module_name == "Offer Letter Subordinate Pendency"){
+
+                $dashboardData = NULL;
+                $eeHeadId = Role::where('name',config('commanConfig.ee_branch_head'))->value('id');
+
+                $dyceHeadId = Role::where('name',config('commanConfig.dyce_branch_head'))->value('id');
+
+                if($role_id == $eeHeadId){
+                    $dashboardData = $this->getToatalPendingApplicationsAtUser($ee);
+                }
+                if($role_id == $dyceHeadId){
+                    $dashboardData = $this->getToatalPendingApplicationsAtUser($dyce);
+                }
+
+                return $dashboardData;
+            }
+
+            if($request->module_name == "Society Conveyance"){
+                $conveyanceCommonController = new conveyanceCommonController();
+                $conveyanceDashboard = $conveyanceCommonController->ConveyanceDashboard();
+                return $conveyanceDashboard;
+            }
+
+            if($request->module_name == "Society Renewal") {
+                $renewal = new renewalCommonController();
+                $renewalDashboard = $renewal->RenewalDashboard();
+                return $renewalDashboard;
+            }
+
+            if($request->module_name == "Offer Letter Revalidation"){
+                $revalApplicationData = $this->getRevalApplicationData($role_id,$user_id);
+
+                $revalStatusCount = $this->getApplicationStatusCount($revalApplicationData);
+
+                if($cap == $role_id){
+                    $revalDashboardData = $this->getCapDashboardData($revalStatusCount);
+                }
+
+                if($vp == $role_id){
+                    $revalDashboardData = $this->getVpDashboardData($revalStatusCount);
+                }
+                return $revalDashboardData;
+            }
+
+        }
     }
 
 
@@ -2066,8 +2032,8 @@ class CommonController extends Controller
 //        dd($ee);
         switch ($role_id) {
             case ($ee['ee_junior_engineer']):
-                $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
-                $dashboardData['Total No of Applications'][1] = '';
+                $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total Number of Applications'][1] = '';
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
                 $dashboardData['Applications Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
                 $dashboardData['Applications Forwarded to EE Deputy'][0] = $statusCount['totalForwarded'];
@@ -2075,8 +2041,8 @@ class CommonController extends Controller
 //                $dashboardData['Application Pending'] = '?submitted_at_from=&submitted_at_to=&update_status=4';
                 break;
             case ($ee['ee_engineer']):
-                $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
-                $dashboardData['Total No of Applications'][1] = '';
+                $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total Number of Applications'][1] = '';
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
                 $dashboardData['Applications Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
                 $dashboardData['Applications Sent for Compliance'][0] = $statusCount['totalReverted'];
@@ -2085,8 +2051,8 @@ class CommonController extends Controller
                 $dashboardData['Applications Forwarded to DyCE Junior'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
                 break;
             case ($ee['ee_dy_engineer']):
-                $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
-                $dashboardData['Total No of Applications'][1] = '';
+                $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total Number of Applications'][1] = '';
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
                 $dashboardData['Applications Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
                 $dashboardData['Applications Sent for Compliance'][0] = $statusCount['totalReverted'];
@@ -2117,16 +2083,16 @@ class CommonController extends Controller
         switch ($role_id)
         {
             case ($dyce['dyce_junior_engineer']):
-                $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
-                $dashboardData['Total No of Applications'][1] = '';
+                $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total Number of Applications'][1] = '';
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
                 $dashboardData['Applications Pending'][1] = '?submitted_at_from=&office_date_to=&update_status='.config('commanConfig.applicationStatus.in_process');
                 $dashboardData['Applications Forwarded to DYCE Deputy'][0] = $statusCount['totalForwarded'];
                 $dashboardData['Applications Forwarded to DYCE Deputy'][1] = '?submitted_at_from=&office_date_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
                 break;
             case ($dyce['dyce_engineer']):
-                $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
-                $dashboardData['Total No of Applications'][1] = '';
+                $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total Number of Applications'][1] = '';
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
                 $dashboardData['Applications Pending'][1] = '?submitted_at_from=&office_date_to=&update_status='.config('commanConfig.applicationStatus.in_process');
                 $dashboardData['Applications Sent for Compliance'][0] = $statusCount['totalReverted'];
@@ -2135,8 +2101,8 @@ class CommonController extends Controller
                 $dashboardData['Applications Forwarded to REE Junior'][1] = '?submitted_at_from=&office_date_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
                 break;
             case ($dyce['dyce_deputy_engineer']):
-                $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
-                $dashboardData['Total No of Applications'][1] = '';
+                $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total Number of Applications'][1] = '';
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
                 $dashboardData['Applications Pending'][1] = '?submitted_at_from=&office_date_to=&update_status='.config('commanConfig.applicationStatus.in_process');
                 $dashboardData['Applications Sent for Compliance'][0] = $statusCount['totalReverted'];
@@ -2160,8 +2126,8 @@ class CommonController extends Controller
     * @return array
     */
     public function getCapDashboardData($statusCount){
-        $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
-        $dashboardData['Total No of Applications'][1] = '';
+        $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
+        $dashboardData['Total Number of Applications'][1] = '';
         $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
         $dashboardData['Applications Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
         $dashboardData['Applications Sent for Compliance To CO'][0] = $statusCount['totalReverted'];
@@ -2181,8 +2147,8 @@ class CommonController extends Controller
     * @return array
     */
     public function getVpDashboardData($statusCount){
-        $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
-        $dashboardData['Total No of Applications'][1] = '';
+        $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
+        $dashboardData['Total Number of Applications'][1] = '';
         $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
         $dashboardData['Applications Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
         $dashboardData['Applications Sent for Compliance To Cap'][0] = $statusCount['totalReverted'];
@@ -3954,23 +3920,23 @@ class CommonController extends Controller
      * @return array
      */
     public function getToatalPendingApplicationsAtUser($roleIds){
-//        dd($roleIds);
 
         $users =User::whereIn('role_id',$roleIds)
             ->get()->toArray();
 
-//        dd($users);
-
-        $count = array();
+        $total_pending_at_department = 0;
         foreach ($users as $user){
-//            dd($user['id']);
-            $dashboardData1['Application Pending At '.$user['name']] = OlApplicationStatus::where('user_id',$user['id'])
-            ->where('status_id',config('commanConfig.applicationStatus.in_process'))
-            ->where('is_active',1)->get()->count();
 
+            $count = OlApplicationStatus::where('user_id',$user['id'])
+                ->where('status_id',config('commanConfig.applicationStatus.in_process'))
+                ->where('is_active',1)->get()->count();
+            $dashboardData1['Application Pending At '.$user['name']] = $count;
+
+            $total_pending_at_department += $count;
 
         }
-        return $dashboardData1;
+        $dashboardData1['Total Number of Applications'] = $total_pending_at_department;
+        return array_reverse($dashboardData1);
     }
 
     public function getDYCDORoles(){
