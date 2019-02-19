@@ -2565,7 +2565,7 @@ class SocietyOfferLetterController extends Controller
                 ->editColumn('radio', function ($ol_applications) use($reval_master_ids_arr, $oc_master_ids_arr) {
 
                     if(in_array($ol_applications->application_master->preview_route, config('commanConfig.preview_routes_without_id'))){
-                        $url = route($ol_applications->application_master->preview_route);
+                        $url = route($ol_applications->application_master->preview_route,encrypt($ol_applications->id));
                     }else{
                         $url = route($ol_applications->application_master->preview_route, encrypt($ol_applications->id));
                     }
@@ -2756,7 +2756,7 @@ class SocietyOfferLetterController extends Controller
 
         $documentId = decrypt($documentId);
         $applicationId = decrypt($applicationId);
-       
+
         $ol_applications = OlApplication::where('user_id', Auth::user()->id)->where('id', 
             $applicationId)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){$q->where('society_flag', '1')->orderBy('id', 'desc');
         }])->first();
