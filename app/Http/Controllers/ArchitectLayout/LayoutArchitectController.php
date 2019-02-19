@@ -584,7 +584,7 @@ class LayoutArchitectController extends Controller
             $post_route_name = route('post_em_checklist_and_remark_report');
             $upload_file_route_name = route('upload_em_checklist_and_remark_report');
             $check_list_and_remarks = $check_list_and_remarks['em_scrtiny_questions'];
-
+            //dd($scrutiny_reports);
             if ($ArchitectLayoutDetail->upload_layout_in_pdf_format != "" && $ArchitectLayoutDetail->upload_layout_in_excel_format != "" && $ArchitectLayoutDetail->upload_architect_note != "") {
                 $read_only = 1;
             } else {
