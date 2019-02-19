@@ -307,7 +307,7 @@
                         '<div class="custom-file">'+
                             '<input type="file" id="ee_extract_'+count+'" name="ee_report_'+count+'" class="custom-file-input" onchange="getEEReportData(this.id,\'ee_doc_name_'+count+'\',\'ee_doc_error_'+count+'\',\'ee_report_uploaded_file_'+count+'\',\'ee_report_doc_id_'+count+'\',true)">'+
                             '<label title="" class="custom-file-label" for="ee_extract_'+count+'">Choose file</label>'+
-                            '<a class="btn-link" target="_blank" style="display:none;" id="ee_report_uploaded_file_'+count+'" href=""><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>'+
+                            '<a class="btn-link mhada-pdf-icon" target="_blank" style="display:none;" id="ee_report_uploaded_file_'+count+'" href=""><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>'+
                             '<span class="text-danger" id="ee_doc_error_'+count+'"></span>'+
                         '</div>'+
                     '</div>'+
@@ -333,7 +333,8 @@
 //Em report add and delete
 $('.add_em_report').click(function () {
         var count=$(".optionBoxEM > div").length;
-        count++;
+       // alert(count)
+        //count++;
         $('.blockEM:last').after(
             '<div class="blockEM">'+
                 '<div class="form-group m-form__group row mb-0">'+
@@ -346,7 +347,7 @@ $('.add_em_report').click(function () {
                         '<div class="custom-file">'+
                             '<input type="file" id="em_extract_'+count+'" name="em_report_'+count+'" class="custom-file-input" onchange="getEMReportData(this.id,\'em_doc_name_'+count+'\',\'em_doc_error_'+count+'\',\'em_report_uploaded_file_'+count+'\',\'em_report_doc_id_'+count+'\',true)">'+
                             '<label title="" class="custom-file-label" for="em_extract_'+count+'">Choose file</label>'+
-                            '<a class="btn-link" target="_blank" style="display:none;" id="em_report_uploaded_file_'+count+'" href=""><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>'+
+                            '<a class="btn-link mhada-pdf-icon" target="_blank" style="display:none;" id="em_report_uploaded_file_'+count+'" href=""><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>'+
                             '<span class="text-danger" id="em_doc_error_'+count+'"></span>'+
                         '</div>'+
                     '</div>'+
@@ -385,7 +386,7 @@ $('.add_ree_report').click(function () {
                         '<div class="custom-file">'+
                             '<input type="file" id="ree_extract_'+count+'" name="ree_report_'+count+'" class="custom-file-input" onchange="getREEReportData(this.id,\'ree_doc_name_'+count+'\',\'ree_doc_error_'+count+'\',\'ree_report_uploaded_file_'+count+'\',\'ree_report_doc_id_'+count+'\',true)">'+
                             '<label title="" class="custom-file-label" for="ree_extract_'+count+'">Choose file</label>'+
-                            '<a class="btn-link" target="_blank" style="display:none;" id="ree_report_uploaded_file_'+count+'" href=""><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>'+
+                            '<a class="btn-link mhada-pdf-icon" target="_blank" style="display:none;" id="ree_report_uploaded_file_'+count+'" href=""><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>'+
                             '<span class="text-danger" id="ree_doc_error_'+count+'"></span>'+
                         '</div>'+
                     '</div>'+
@@ -500,7 +501,7 @@ function delete_ee_doc(id,doc_id)
 //Architect layout detail add em report one by one
 function getEMReportData(id, doc_name,doc_error,uploaded_file_id,em_report_doc_id,replace_hidden_to_label=false)
 {
-
+    console.log(replace_hidden_to_label)
     $(".loader").show();
     var doc_name1=document.getElementById(doc_name).value;
     var architect_layout_detail_id=$('#architect_layout_detail_id').val();
@@ -1337,8 +1338,8 @@ $(window).on('popstate', function () {
                                             </div>
                                         </div>
                                     </div>
-                                    @endif
                                     @php $i++ @endphp
+                                    @endif
                                     @endforeach
                                 </div>
                                 <div class="row">
