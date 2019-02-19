@@ -503,7 +503,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         Route::post('/save_documents', 'SocietyOfferLetterController@saveDocuments')->name('save_documents'); 
         Route::post('/delete_documents', 'SocietyOfferLetterController@deleteDocuments')->name('delete_documents'); 
 
-        Route::get('delete_uploaded_documents/{id}', 'SocietyOfferLetterController@deleteSocietyDocuments')->name('delete_uploaded_documents');
+        Route::get('delete_uploaded_documents/{id}/{docId}', 'SocietyOfferLetterController@deleteSocietyDocuments')->name('delete_uploaded_documents');
         Route::post('add_uploaded_documents_comment', 'SocietyOfferLetterController@addSocietyDocumentsComment')->name('add_documents_comment');
         Route::get('society_offer_letter_download', 'SocietyOfferLetterController@displayOfferLetterApplication')->name('society_offer_letter_download');
 

@@ -684,9 +684,8 @@ class SocietyOfferLetterController extends Controller
         );
         //dd($insert_application);
         
-        $last_id = OlApplication::create($insert_application);
+        $last_id = OlApplication::updateOrCreate(['id' => $request->applicationId], $insert_application);
         
-            
         $insert_application_log_pending['application_id'] = $last_id->id;
         $insert_application_log_pending['society_flag'] = 1;
         $insert_application_log_pending['user_id'] = Auth::user()->id;
@@ -1704,19 +1703,23 @@ class SocietyOfferLetterController extends Controller
      * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function deleteSocietyDocuments($id){
-
+    public function deleteSocietyDocuments($id,$documentId){
+       
+        $documentId = decrypt($documentId);
+        $applicationId = decrypt($id);
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $application = OlApplication::where('society_id', $society->id)->first();
+        // $application = OlApplication::where()where('society_id', $society->id)->first();
 
-        $delete_document_details = OlSocietyDocumentsStatus::where('society_id', $society->id)->where('document_id', $id)->get();
+        $delete_document_details = OlSocietyDocumentsStatus::where('application_id',$applicationId)->where('society_id', $society->id)->where('document_id', $documentId)->get();
         $stored_filepath = explode('/', $delete_document_details[0]->society_document_path);
         $folder_name = "society_offer_letter_documents";
         $path = $folder_name.'/'.$stored_filepath[count($stored_filepath)-1];
         $delete = Storage::disk('ftp')->delete($path);
-        OlSocietyDocumentsStatus::where('society_id', $society->id)->where('document_id', $id)->delete();
+        OlSocietyDocumentsStatus::where('application_id',$applicationId)->where('society_id', $society->id)->where('document_id', $documentId)->delete();
 
-        return redirect()->route('documents_upload');
+        $id = encrypt($applicationId);
+
+        return redirect()->route('documents_upload',$id);
     }
 
 
