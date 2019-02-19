@@ -552,15 +552,9 @@ class SocietyOfferLetterController extends Controller
     }
 
     public function get_docs_count($application, $society){
-<<<<<<< HEAD
     
         $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['documents_uploaded' =>function($q)use($society,$application){
             $q->where('society_id', $society->id)->where('application_id',$application->id)->get();
-=======
-
-        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['documents_uploaded' => function($q) use ($society){
-            $q->where('society_id', $society->id)->get();
->>>>>>> e743b712642d8c6aeaec1dd547c84b1fd8e89ef4
         }])->get();
 
         $document_ids = [];
@@ -671,7 +665,7 @@ class SocietyOfferLetterController extends Controller
             'updated_at' => null
         );
         $last_inserted_id = OlRequestForm::create($input);
-        $applicationNo = $this->generateApplicationNumber();
+        $applicationNo = $this->generateApplicationNumber($request->applicationId);
         
         $insert_application = array(
             'user_id' => Auth::user()->id,
@@ -743,7 +737,7 @@ class SocietyOfferLetterController extends Controller
             'is_encrochment' => '0',
             'is_approve_offer_letter' => '0',
         );
-        $last_id = OlApplication::create($insert_application);
+         $last_id = OlApplication::updateOrCreate(['id' => $request->applicationId], $insert_application);
         $role_id = Role::where('name','like', 'ree_junior_engineer')->first();
 
         $user_ids = RoleUser::where('role_id', $role_id->id)->get()->toArray();
@@ -912,7 +906,7 @@ class SocietyOfferLetterController extends Controller
             'updated_at' => null
         );
         $last_inserted_id = OlRequestForm::create($input);
-
+        $applicationNo = $this->generateApplicationNumber($request->applicationId);
         $insert_application = array(
             'user_id' => Auth::user()->id,
             'language_id' => '1',
@@ -921,7 +915,7 @@ class SocietyOfferLetterController extends Controller
             'layout_id' => $request->input('layout_id'),
             'request_form_id' => $last_inserted_id->id,
             'application_master_id' => $request->input('application_master_id'),
-            'application_no' => rand().time(),
+            'application_no' => $applicationNo,
             'application_path' => 'test',
             'submitted_at' => date('Y-m-d'),
             'current_status_id' => '1',
@@ -1259,8 +1253,8 @@ class SocietyOfferLetterController extends Controller
             'society_documents_comment' => $comments,
         ); 
        OlSocietyDocumentsComment::updateOrCreate(['society_id' => $society->id, 'application_id' => $request->applicationId], $input);
-
        $id = encrypt($request->applicationId);
+
         return redirect()->route('upload_society_offer_letter_application',$id);
     }
 
@@ -1550,7 +1544,8 @@ class SocietyOfferLetterController extends Controller
             'society_document_path' => $path,
         );
         OlSocietyDocumentsStatus::create($input);
-        return redirect()->route('documents_upload');
+        $applicationId = encrypt($applicationId);
+        return redirect()->route('documents_upload',$applicationId);
     }
 
 
@@ -2110,7 +2105,6 @@ class SocietyOfferLetterController extends Controller
         $mpdf->Output();
 
     }
-
     public function generate_reval_pdf(){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
@@ -2757,8 +2751,6 @@ class SocietyOfferLetterController extends Controller
 
     public function uploadMultipleDocuments(Request $request,$applicationId,$documentId){
 
-        
-
         $documentId = decrypt($documentId);
         $applicationId = decrypt($applicationId);
         $ol_applications = OlApplication::where('user_id', Auth::user()->id)->where('id', 
@@ -2779,6 +2771,7 @@ class SocietyOfferLetterController extends Controller
         $file = $request->file('file');
         $societyId = $request->societyId;
         $documentId = $request->documentId;
+        $applicationId = $request->applicationId;
         $folderName = "society_offer_letter_documents";
         try{
             if ($file->getClientMimeType() == 'application/pdf') {
@@ -2790,8 +2783,10 @@ class SocietyOfferLetterController extends Controller
                 $Documents = new OlSocietyDocumentsStatus();
                 $Documents->society_id = $societyId;
                 $Documents->document_id = $documentId;
+                $Documents->application_id = $applicationId;
                 $Documents->member_name = $request->memberName;
                 $Documents->society_document_path = $folderName.'/'.$fileName;
+                // dd($Documents);
                 $Documents->save();
                 $response['status'] = 'success';  
             }else{
@@ -2828,11 +2823,17 @@ class SocietyOfferLetterController extends Controller
     }
 
     //generate application Number
-    public function generateApplicationNumber(){
+    public function generateApplicationNumber($applicationId){
 
-        $id = OlApplication::orderBy('id','desc')->value('id');
-        $id++;
-        $applicationId = 'Offer-0000'.$id;
+        if (isset($applicationId)){
+            $applicationId = OlApplication::where('id',$applicationId)->value('application_no');
+
+        }else{
+            $id = OlApplication::orderBy('id','desc')->value('id');
+            $id++;
+            $applicationId = 'Offer-0000'.$id;
+        }
+        
         return $applicationId;
     }
 
