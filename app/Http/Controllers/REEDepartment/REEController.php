@@ -1886,10 +1886,119 @@ class REEController extends Controller
         
     }
 
+
+    /**
+     * Show the offer letter dashboard.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function dashboard(){
         $role_id = session()->get('role_id');
 
         $user_id = Auth::id();
+
+        $applicationData = $this->getApplicationData($role_id,$user_id);
+
+        // Reval APplication data
+
+        $revalApplicationData = $this->getRevalApplicationData($role_id,$user_id);
+
+
+        $statusCount = $this->getApplicationStatusCount($applicationData);
+
+        // Reval status Count
+        $revalStatusCount = $this->getApplicationStatusCount($revalApplicationData);
+
+        // REE Roles
+        $ree = $this->CommonController->getREERoles();
+
+        $dashboardData = $this->getREEDashboardData($role_id,$ree,$statusCount);
+
+        // Reval status Count
+        $revalDashboardData = $this->getREEDashboardData($role_id,$ree,$revalStatusCount);
+
+        $reeHeadId = Role::where('name',config('commanConfig.ree_branch_head'))->value('id');
+
+        $dashboardData1 = NULL;
+        if($role_id == $reeHeadId){
+            $dashboardData1 = $this->CommonController->getTotalCountsOfApplicationsPending();
+        }
+
+        // Reval Dashboard data
+        $revalDashboardData1 = NULL;
+        if($role_id == $reeHeadId){
+            $revalDashboardData1 = $this->CommonController->getTotalCountsOfRevalApplicationsPending();
+        }
+
+        //Noc dashboard -- Sayan
+
+        $nocModuleController = new SocietyNocController();
+        $nocApplication = $nocModuleController->getApplicationListDashboard('REE');
+
+        //Noc for CC dashboard -- Sayan
+
+        $nocforCCModuleController = new SocietyNocforCCController();
+        $nocforCCApplication = $nocforCCModuleController->getApplicationListDashboard('REE');
+
+        return view('admin.REE_department.dashboard',compact('dashboardData','dashboardData1','revalDashboardData1','nocApplication','nocforCCApplication','revalDashboardData'));
+    }
+
+    /**
+     * Show the offer letter dashboard using ajax.
+     *
+     * Author: Prajakta Sisale.
+     *
+     *  @return json response
+     */
+    public function ajaxdashboard(Request $request){
+
+        if($request->ajax()){
+
+            $role_id = session()->get('role_id');
+            $user_id = Auth::id();
+            // REE Roles
+            $ree = $this->CommonController->getREERoles();
+
+            $reeHeadId = Role::where('name',config('commanConfig.ree_branch_head'))->value('id');
+
+            if($request->module_name == 'Offer Letter'){
+                $applicationData = $this->getApplicationData($role_id,$user_id);
+
+                $statusCount = $this->getApplicationStatusCount($applicationData);
+                $dashboardData = $this->getREEDashboardData($role_id,$ree,$statusCount);
+
+                return $dashboardData;
+            }
+
+            if($request->module_name == "Offer Letter Subordinate Pendency"){
+                if($role_id == $reeHeadId){
+                    $dashboardData1 = $this->CommonController->getTotalCountsOfApplicationsPending();
+                    return $dashboardData1;
+                }
+            }
+
+            if($request->module_name == "Offer Letter Revalidation"){
+                $revalApplicationData = $this->getRevalApplicationData($role_id,$user_id);
+
+                $revalStatusCount = $this->getApplicationStatusCount($revalApplicationData);
+
+                $revalDashboardData = $this->getREEDashboardData($role_id,$ree,$revalStatusCount);
+                return $revalDashboardData;
+            }
+
+            if($request->module_name == "Offer Letter Revalidation Subordinate Pendency") {
+                $revalDashboardData1 = NULL;
+                if($role_id == $reeHeadId){
+                    $revalDashboardData1 = $this->CommonController->getTotalCountsOfRevalApplicationsPending();
+                    return $revalDashboardData1;
+                }
+            }
+
+
+        }
+
 
         $applicationData = $this->getApplicationData($role_id,$user_id);
 
@@ -2060,8 +2169,8 @@ class REEController extends Controller
 //        dd('perparing for dashboard data');
         switch ($role_id) {
             case ($ree['REE Junior Engineer']):
-                $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
-                $dashboardData['Total No of Applications'][1] = '';
+                $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total Number of Applications'][1] = '';
 
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
                 $dashboardData['Applications Pending'][1] = 'pending';
@@ -2084,8 +2193,8 @@ class REEController extends Controller
 
                 break;
             case ($ree['ree_engineer']):
-                $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
-                $dashboardData['Total No of Applications'][1] = '';
+                $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total Number of Applications'][1] = '';
 
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
                 $dashboardData['Applications Pending'][1] = 'pending';
@@ -2110,8 +2219,8 @@ class REEController extends Controller
 
                 break;
             case ($ree['REE deputy Engineer']):
-                $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
-                $dashboardData['Total No of Applications'][1] = '';
+                $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total Number of Applications'][1] = '';
 
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
                 $dashboardData['Applications Pending'][1] = 'pending';
@@ -2135,8 +2244,8 @@ class REEController extends Controller
 
                 break;
             case ($ree['REE Assistant Engineer']):
-                $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
-                $dashboardData['Total No of Applications'][1] = '';
+                $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total Number of Applications'][1] = '';
 
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
                 $dashboardData['Applications Pending'][1] = 'pending';

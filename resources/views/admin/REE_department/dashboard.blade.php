@@ -26,17 +26,17 @@
 
         <div class="d-flex flex-wrap db-wrapper">
             @if($dashboardData[0])
-                <div class="db__card">
+                <div class="db__card counts"  data-module = "Offer Letter">
                     <div class="db__card__img-wrap db-color-1">
-                        <h3 class="db__card__count">{{$dashboardData[0]['Total No of Applications'][0]}}</h3>
+                        <h3 class="db__card__count">{{$dashboardData[0]['Total Number of Applications'][0]}}</h3>
                     </div>
                     <p class="db__card__title">Offer Letter</p>
                 </div>
             @endif
             @if($dashboardData1)
-                <div class="db__card">
+                <div class="db__card pending_counts" data-module="Offer Letter Subordinate Pendency">
                     <div class="db__card__img-wrap db-color-2">
-                        <h3 class="db__card__count">{{$dashboardData1['Total Number of Applications Pending']}}</h3>
+                        <h3 class="db__card__count">{{$dashboardData1['Total Number of Applications']}}</h3>
                     </div>
                     <p class="db__card__title">Offer Letter Subordinate Pendency</p>
                 </div>
@@ -56,17 +56,17 @@
             </div>
 
             @if($revalDashboardData[0])
-            <div class="db__card">
+            <div class="db__card revalidation" data-module="Offer Letter Revalidation">
                 <div class="db__card__img-wrap db-color-5">
-                    <h3 class="db__card__count">{{$revalDashboardData[0]['Total No of Applications'][0]}}</h3>
+                    <h3 class="db__card__count">{{$revalDashboardData[0]['Total Number of Applications'][0]}}</h3>
                 </div>
                 <p class="db__card__title">Offer Letter Revalidation</p>
             </div>
             @endif
             @if($revalDashboardData1)
-                <div class="db__card">
+                <div class="db__card revalidation_pending" data-module="Offer Letter Revalidation Subordinate Pendency">
                     <div class="db__card__img-wrap db-color-5">
-                        <h3 class="db__card__count">{{$revalDashboardData1['Total Number of Applications Pending']}}</h3>
+                        <h3 class="db__card__count">{{$revalDashboardData1['Total Number of Applications']}}</h3>
                     </div>
                     <p class="db__card__title">Offer Letter Revalidation Subordinate Pendency</p>
                 </div>
@@ -127,7 +127,7 @@
 
         {{--Dashboard for offer letter--}}
         @if($dashboardData[0])
-            <div>
+            <div id="count_table">
             <div class="m-subheader px-0 m-subheader--top">
                 <div class="d-flex align-items-center">
                     <h3 class="m-subheader__title">Offer Letter</h3>
@@ -171,58 +171,12 @@
                     </div>
                 </div>
                 @if($chart)
-                    <div id="chartdiv" class="col-sm-5"></div>
+                    <div id="ajaxchartdiv" class="col-sm-5"></div>
                 @endif
             </div>
         </div>
         @endif
         {{--End Dashboard for offer letter--}}
-
-        {{--Dashboard for offer letter subordinate pendency--}}
-        @if($dashboardData1)
-            <div>
-                <div class="m-subheader px-0 m-subheader--top">
-                    <div class="d-flex align-items-center">
-                        <h3 class="m-subheader__title">Offer Letter Subordinate Pendency</h3>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-7">
-                        <div class="m-portlet db-table">
-                            <div class="table-responsive">
-                                <table class="table text-center">
-                                    <thead>
-                                    <th style="width: 10%;">Sr. No</th>
-                                    <th style="width: 60%;" class="text-center">Stages</th>
-                                    <th style="width: 15%;" class="text-left">Count</th>
-                                    </thead>
-                                    <tbody>
-                                    @php
-                                        $i = 1;
-                                    @endphp
-
-                                    @foreach($dashboardData1 as $header => $value)
-                                        <tr>
-                                            <td class="text-center">{{$i}}.</td>
-                                            <td>{{$header}}</td>
-                                            <td class="text-center"><span class="count-circle">{{$value}}</span></td>
-                                            @php $chart1 += $value; $i++; @endphp
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    @if($chart1)
-                        <div id="chartdiv1" class="col-sm-5"></div>
-                    @endif
-                </div>
-            </div>
-        @endif
-        {{--End Dashboard for offer letter subordinate pendency--}}
-
 
         {{--Dashboard for offer letter revalidation--}}
         @if($revalDashboardData[0])
@@ -899,115 +853,6 @@
 @endsection
 @section('js')
 
-    <script>
-        $(".ol-accordion").on("click", function () {
-            var data = $('.ol-accordion').children().children().attr('aria-expanded');
-            if (!(data)) {
-                $('.ol-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-            }
-            else {
-                if (data == 'undefine' || data == 'false') {
-                    $('.ol-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-                } else {
-                    $('.ol-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
-                }
-            }
-        });
-
-        $(".ol-reval-accordion").on("click", function () {
-            var data = $('.ol-reval-accordion').children().children().attr('aria-expanded');
-            if (!(data)) {
-                $('.ol-reval-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-            }
-            else {
-                if (data == 'undefine' || data == 'false') {
-                    $('.ol-reval-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-                } else {
-                    $('.ol-reval-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
-                }
-            }
-        });
-
-
-//        $('.noc-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-
-        $(".noc_accordian").on("click", function () {
-            var data = $('.noc_accordian').children().children().attr('aria-expanded');
-            if (!(data)) {
-                $('.noc-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-            }
-            else {
-                if (data == 'undefine' || data == 'false') {
-                    $('.noc-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-                } else {
-                    $('.noc-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
-                }
-            }
-        });
-
-//        $('.noc_cc-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-
-        $(".noc_cc_accordian").on("click", function () {
-            var data = $('.noc_cc_accordian').children().children().attr('aria-expanded');
-            if (!(data)) {
-                $('.noc_cc-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-            }
-            else {
-                if (data == 'undefine' || data == 'false') {
-                    $('.noc_cc-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-                } else {
-                    $('.noc_cc-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
-                }
-            }
-        });
-    </script>
-    <script>
-        $(".architect-accordion").on("click", function () {
-            var data = $('.architect-accordion').children().children().attr('aria-expanded');
-            if (!(data)) {
-                $('.architect-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-            }
-            else {
-                if (data == 'undefine' || data == 'false') {
-                    $('.architect-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-                } else {
-                    $('.architect-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
-                }
-            }
-        });
-    </script>
-    <script>
-        $(".layout-approval-accordion").on("click", function () {
-            var data = $('.layout-approval-accordion').children().children().attr('aria-expanded');
-            if (!(data)) {
-                $('.layout-approval-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-            }
-            else {
-                if (data == 'undefine' || data == 'false') {
-                    $('.layout-approval-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-                } else {
-                    $('.layout-approval-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
-                }
-            }
-        });
-    </script>
-    <script>
-        $(".approval-accordion").on("click", function () {
-            var data = $('.approval-accordion').children().children().attr('aria-expanded');
-            if (!(data)) {
-                $('.approval-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-            }
-            else {
-                if (data == 'undefine' || data == 'false') {
-                    $('.approval-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-                } else {
-                    $('.approval-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
-                }
-            }
-        });
-    </script>
-
-
     <script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>
 
@@ -1021,7 +866,7 @@
         var chartData = [
 
                 @foreach($dashboardData[0] as $header => $value)
-                @if($header != 'Total No of Applications'){
+                @if($header != 'Total Number of Applications'){
                 "status": '{{$header}}',
                 "value": '{{$value[0]}}',
             },
@@ -1049,7 +894,7 @@
             chart.fontSize = 15;
 
             // WRITE
-            chart.write("chartdiv");
+            chart.write("ajaxchartdiv");
         });
     </script>
     @endif
@@ -1344,6 +1189,485 @@
         </script>
     @endif
     {{--end NOC(CC) subordinate pendency chart--}}
+
+
+    {{--ajax call for Count Table and Pie chart(offer letter)--}}
+    <script>
+        var dashboard = "{{route('dashboard.ajax.ree')}}";
+        $(".counts").on("click", function () {
+
+            var redirect_to = "{{session()->get('redirect_to')}}";
+//                        var module_name = ($('.counts').data("module"));
+            var module_name = ($(this).attr("data-module"));
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: dashboard,
+                data: {module_name:module_name},
+                dataType: 'json',
+                success: function (data) {
+                    if (data !== "false") {
+
+                        var html = "";
+
+                        html += "<div id=\"count_table\">\n" +
+                            "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
+                            "                    <div class=\"d-flex align-items-center\">\n" +
+                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                    </div>\n" +
+                            "                </div>\n" +
+                            "                <div class=\"row\">\n" +
+                            "                    <div class=\"col-sm-7\" >" +
+                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                            <div class=\"table-responsive\">\n" +
+                            "                                <table class=\"table text-center\">\n" +
+                            "                                    <thead>\n" +
+                            "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
+                            "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\">Action</th>\n" +
+                            "                                    </thead>\n" +
+                            "                                    </tbody>\n" ;
+
+                        var chart_count = 0 ;
+                        var i = 1 ;
+                        $.each(data[0], function (index, data) {
+
+//                                        console.log(data);
+
+                            html += "<tr>\n" +
+                                "<td class=\"text-center\">"+i+"</td>" +
+                                "<td>"+index+"</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">"+data[0]+"</span></td>\n" +
+                                "<td class=\"text-center\">";
+
+                            if(data[1] == "pending"){
+
+                                html += "<a href=\""+redirect_to+"/"+data[1]+"\"class=\"btn btn-action\" data-toggle=\"modal\"\n" +
+                                    "             data-target=\"#reePendingModal\">View</a>";
+                            }
+                            else{
+                                html+= "<a href=\""+baseUrl+redirect_to+data[1]+"\"class=\"btn btn-action\">View</a>\n";
+
+                            }
+                            html += "</td>\n" +
+                                "</tr>";
+
+                            chart_count += data[0];
+                            i++;
+                        });
+
+                        html +="</tbody>\n" +
+                            "                                </table>\n" +
+                            "                        </div>\n" +
+                            "                    </div>" +
+                            "                   </div>\n" +
+                            "                        <div class=\"col-sm-5\" id=\"ajaxchartdiv\">\n" +
+                            "                        </div>\n" +
+                            "                </div>\n" +
+                            "            </div>";
+
+//                                    alert(chart_count);
+                        $('#count_table').html(html);
+
+
+                        if(chart_count){
+
+                            var chartData = [];
+                            $.each((data[0]), function (index, data) {
+                                obj = {};
+                                if (index != 'Total Number of Applications') {
+                                    obj['status'] = index;
+                                    obj['value'] = data[0];
+                                    chartData.push(obj);
+                                }
+
+                            });
+//                                        console.log(chartData);
+
+                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                                "type": "pie",
+                                "theme": "light",
+                                "dataProvider":chartData ,
+                                "valueField": "value",
+                                "titleField": "status",
+                                "outlineAlpha": 0.8,
+                                "outlineColor":"#FFFFFF",
+                                "outlineThickness" : 2,
+                                "depth3D": 15,
+                                "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                                "angle": 30,
+                                "labelText": "[[percents]]%",
+                                "labelRadius": -35,
+                                "fontSize" : 15,
+                            } );
+                        }
+                    }
+                    else {
+                        alert('errror');
+                    }
+                },
+            });
+
+        });
+
+    </script>
+    {{--end ajax call for Count Table and Pie chart(renewal)--}}
+
+    {{--ajax call for Pendency Count Table and Pie chart(offer letter)--}}
+    <script>
+        var dashboard = "{{route('dashboard.ajax.ree')}}";
+        $(".pending_counts").on("click", function () {
+
+            var module_name = ($(this).attr("data-module"));
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: dashboard,
+                data: {module_name:module_name},
+                dataType: 'json',
+                success: function (data) {
+                    if (data !== "false") {
+
+                        var html = "";
+
+                        html += "<div id=\"count_table\">\n" +
+                            "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
+                            "                    <div class=\"d-flex align-items-center\">\n" +
+                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                    </div>\n" +
+                            "                </div>\n" +
+                            "                <div class=\"row\">\n" +
+                            "                    <div class=\"col-sm-7\" >" +
+                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                            <div class=\"table-responsive\">\n" +
+                            "                                <table class=\"table text-center\">\n" +
+                            "                                    <thead>\n" +
+                            "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
+                            "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    </thead>\n" +
+                            "                                    </tbody>\n" ;
+
+                        var chart_count = 0 ;
+                        var i = 1 ;
+                        $.each(data, function (index, data) {
+
+                            html += "<tr>\n" +
+                                "<td class=\"text-center\">"+i+"</td>" +
+                                "<td>"+index+"</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">"+data+"</span></td>\n" +
+                                "</tr>";
+                            chart_count += data;
+                            i++;
+                        });
+
+                        html +="</tbody>\n" +
+                            "                                </table>\n" +
+                            "                        </div>\n" +
+                            "                    </div>" +
+                            "                   </div>\n" +
+                            "                        <div class=\"col-sm-5\" id=\"ajaxchartdiv\">\n" +
+                            "                        </div>\n" +
+                            "                </div>\n" +
+                            "            </div>";
+
+                        $('#count_table').html(html);
+
+
+                        if(chart_count){
+
+                            var chartData = [];
+
+                            $.each((data), function (index, data) {
+                                obj = {};
+                                if (index != 'Total Number of Applications') {
+                                    obj['status'] = index;
+                                    obj['value'] = data;
+                                    chartData.push(obj);
+                                }
+
+                            });
+
+                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                                "type": "pie",
+                                "theme": "light",
+                                "dataProvider":chartData ,
+                                "valueField": "value",
+                                "titleField": "status",
+                                "outlineAlpha": 0.8,
+                                "outlineColor":"#FFFFFF",
+                                "outlineThickness" : 2,
+                                "depth3D": 15,
+                                "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                                "angle": 30,
+                                "labelText": "[[percents]]%",
+                                "labelRadius": -35,
+                                "fontSize" : 15,
+                            } );
+                        }
+                    }
+                    else {
+                        alert('errror');
+                    }
+                },
+            });
+
+        });
+
+    </script>
+    {{--end ajax call for Count Table and Pie chart(offer letter)--}}
+
+    {{--ajax call for Count Table and Pie chart(revalidation)--}}
+    <script>
+        var dashboard = "{{route('dashboard.ajax.ree')}}";
+        $(".revalidation").on("click", function () {
+
+            var reval_application = "{{route('ree_applications.reval')}}";
+//                        var module_name = ($('.counts').data("module"));
+            var module_name = ($(this).attr("data-module"));
+
+//                        alert(module_name);
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: dashboard,
+                data: {module_name:module_name},
+                dataType: 'json',
+                success: function (data) {
+                    if (data !== "false") {
+
+
+                        var html = "";
+
+                        html += "<div id=\"count_table\">\n" +
+                            "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
+                            "                    <div class=\"d-flex align-items-center\">\n" +
+                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                    </div>\n" +
+                            "                </div>\n" +
+                            "                <div class=\"row\">\n" +
+                            "                    <div class=\"col-sm-7\" >" +
+                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                            <div class=\"table-responsive\">\n" +
+                            "                                <table class=\"table text-center\">\n" +
+                            "                                    <thead>\n" +
+                            "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
+                            "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\">Action</th>\n" +
+                            "                                    </thead>\n" +
+                            "                                    </tbody>\n" ;
+
+                        var chart_count = 0 ;
+                        var i = 1 ;
+                        $.each(data[0], function (index, data) {
+
+//                                        console.log(data);
+
+                            html += "<tr>\n" +
+                                "<td class=\"text-center\">"+i+"</td>" +
+                                "<td>"+index+"</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">"+data[0]+"</span></td>\n" +
+                                "<td class=\"text-center\">";
+
+                            if(data[1] == "pending"){
+
+                                html += "<a href=\""+reval_application+"/"+data[1]+"\"class=\"btn btn-action\" data-toggle=\"modal\"\n" +
+                                    "             data-target=\"#reeRevalPendingModal\">View</a>";
+                            }
+                            else{
+                                html+= "<a href=\""+reval_application+data[1]+"\"class=\"btn btn-action\">View</a>\n";
+
+                            }
+                            html += "</td>\n" +
+                                "</tr>";
+
+                            chart_count += data[0];
+                            i++;
+                        });
+
+                        html +="</tbody>\n" +
+                            "                                </table>\n" +
+                            "                        </div>\n" +
+                            "                    </div>" +
+                            "                   </div>\n" +
+                            "                        <div class=\"col-sm-5\" id=\"ajaxchartdiv\">\n" +
+                            "                        </div>\n" +
+                            "                </div>\n" +
+                            "            </div>";
+
+//                                    alert(chart_count);
+                        $('#count_table').html(html);
+
+
+                        if(chart_count){
+
+                            var chartData = [];
+                            $.each((data[0]), function (index, data) {
+                                obj = {};
+                                if (index != 'Total Number of Applications') {
+                                    obj['status'] = index;
+                                    obj['value'] = data[0];
+                                    chartData.push(obj);
+                                }
+
+                            });
+//                                        console.log(chartData);
+
+                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                                "type": "pie",
+                                "theme": "light",
+                                "dataProvider":chartData ,
+                                "valueField": "value",
+                                "titleField": "status",
+                                "outlineAlpha": 0.8,
+                                "outlineColor":"#FFFFFF",
+                                "outlineThickness" : 2,
+                                "depth3D": 15,
+                                "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                                "angle": 30,
+                                "labelText": "[[percents]]%",
+                                "labelRadius": -35,
+                                "fontSize" : 15,
+                            } );
+                        }
+                    }
+                    else {
+                        alert('errror');
+                    }
+                },
+            });
+
+        });
+
+    </script>
+    {{--end ajax call for Count Table and Pie chart(revalidation)--}}
+
+    {{--ajax call for Pendency Count Table and Pie chart(revalidation)--}}
+    <script>
+        var dashboard = "{{route('dashboard.ajax.ree')}}";
+        $(".revalidation_pending").on("click", function () {
+
+            var module_name = ($(this).attr("data-module"));
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: dashboard,
+                data: {module_name:module_name},
+                dataType: 'json',
+                success: function (data) {
+                    if (data !== "false") {
+
+                        var html = "";
+
+                        html += "<div id=\"count_table\">\n" +
+                            "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
+                            "                    <div class=\"d-flex align-items-center\">\n" +
+                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                    </div>\n" +
+                            "                </div>\n" +
+                            "                <div class=\"row\">\n" +
+                            "                    <div class=\"col-sm-7\" >" +
+                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                            <div class=\"table-responsive\">\n" +
+                            "                                <table class=\"table text-center\">\n" +
+                            "                                    <thead>\n" +
+                            "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
+                            "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    </thead>\n" +
+                            "                                    </tbody>\n" ;
+
+                        var chart_count = 0 ;
+                        var i = 1 ;
+                        $.each(data, function (index, data) {
+
+                            html += "<tr>\n" +
+                                "<td class=\"text-center\">"+i+"</td>" +
+                                "<td>"+index+"</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">"+data+"</span></td>\n" +
+                                "</tr>";
+                            chart_count += data;
+                            i++;
+                        });
+
+                        html +="</tbody>\n" +
+                            "                                </table>\n" +
+                            "                        </div>\n" +
+                            "                    </div>" +
+                            "                   </div>\n" +
+                            "                        <div class=\"col-sm-5\" id=\"ajaxchartdiv\">\n" +
+                            "                        </div>\n" +
+                            "                </div>\n" +
+                            "            </div>";
+
+                        $('#count_table').html(html);
+
+
+                        if(chart_count){
+
+                            var chartData = [];
+
+                            $.each((data), function (index, data) {
+                                obj = {};
+                                if (index != 'Total Number of Applications') {
+                                    obj['status'] = index;
+                                    obj['value'] = data;
+                                    chartData.push(obj);
+                                }
+
+                            });
+
+                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                                "type": "pie",
+                                "theme": "light",
+                                "dataProvider":chartData ,
+                                "valueField": "value",
+                                "titleField": "status",
+                                "outlineAlpha": 0.8,
+                                "outlineColor":"#FFFFFF",
+                                "outlineThickness" : 2,
+                                "depth3D": 15,
+                                "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                                "angle": 30,
+                                "labelText": "[[percents]]%",
+                                "labelRadius": -35,
+                                "fontSize" : 15,
+                            } );
+                        }
+                    }
+                    else {
+                        alert('errror');
+                    }
+                },
+            });
+
+        });
+
+    </script>
+    {{--end ajax call for Pendency Count Table and Pie chart(revalidation)--}}
+
+
 
 @endsection
 

@@ -1124,6 +1124,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('appointing_architect_dashboard','Dashboard\AppointingArchitectController@index')->name('appointing_architect_dashboard');
 
     Route::post('/ddashboard','Common\CommonController@ajaxDashboard')->name('dashboard.ajax');
+    Route::post('/ddashboard','REEDepartment\REEController@ajaxDashboard')->name('dashboard.ajax.ree');
 
 
 });

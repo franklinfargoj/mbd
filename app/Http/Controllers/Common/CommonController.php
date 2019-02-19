@@ -3812,7 +3812,7 @@ class CommonController extends Controller
 
 
         $dashboardData1 = array();
-        $dashboardData1['Total Number of Applications Pending'] = $totalPendingApplications;
+        $dashboardData1['Total Number of Applications'] = $totalPendingApplications;
         $dashboardData1['Applications Pending at EE Department'] = $eeTotalPendingCount;
         $dashboardData1['Applications Pending at DyCE'] = $dyceTotalPendingCount;
         $dashboardData1['Applications Pending at REE'] = $reeTotalPendingCount;
@@ -3896,7 +3896,7 @@ class CommonController extends Controller
 
 
         $dashboardData1 = array();
-        $dashboardData1['Total Number of Applications Pending'] = $totalPendingApplications;
+        $dashboardData1['Total Number of Applications'] = $totalPendingApplications;
         $dashboardData1['Applications Pending at EE Department'] = $eeTotalPendingCount;
         $dashboardData1['Applications Pending at DyCE'] = $dyceTotalPendingCount;
         $dashboardData1['Applications Pending at REE'] = $reeTotalPendingCount;

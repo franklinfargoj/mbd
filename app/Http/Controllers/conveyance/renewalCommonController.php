@@ -1221,7 +1221,8 @@ class renewalCommonController extends Controller
        $pendingAtArchitect = $this->pendingApplicationCount($architectRoles);
 
        $pendingAtDepartments = array();
-       $pendingAtDepartments['Applications pending At DYCO']     = $pendingAtDYCDO;
+       $pendingAtDepartments['Total Number of Applications']      = $pendingAtDYCDO+$pendingAtEE+$pendingAtArchitect+$pendingAtEM+$pendingAtJTCO;
+       $pendingAtDepartments['Applications pending At DYCO']      = $pendingAtDYCDO;
        $pendingAtDepartments['Applications pending At EE']        = $pendingAtEE;
        $pendingAtDepartments['Applications pending At Architect'] = $pendingAtArchitect;
        $pendingAtDepartments['Applications pending At EM']        = $pendingAtEM;
