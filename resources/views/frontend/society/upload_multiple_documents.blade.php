@@ -24,7 +24,8 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Upload documents</h3>
-            {{ Breadcrumbs::render('documents_upload',$ol_applications->id) }}
+            {{ Breadcrumbs::render('documents_upload') }}
+
              @if($ol_applications->status->status_id != config('commanConfig.applicationStatus.forwarded'))
             <a href="{{ url('/society/documents_upload') }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             @else
@@ -36,12 +37,8 @@
     <div class="m-portlet m-portlet--creative m-portlet--first m-portlet--bordered-semi mb-0" style="max-height: 1200px;">
     
         @if($ol_applications->status->status_id != config('commanConfig.applicationStatus.forwarded'))
-            <form id="myFrm" role="form" class="form-horizontal" action="{{route('save_documents')}}" method="post" enctype='multipart/form-data'>
+            <form id="myFrm" role="form" class="form-horizontal">
             @csrf
-            <input type="hidden" name="applicationId" value="{{ isset($ol_applications->id) ? $ol_applications->id : '' }}">
-            <input type="hidden" name="documentId" value="{{ isset($documentId) ? $documentId : '' }}">
-            <input type="hidden" name="societyId" value="{{ isset($ol_applications->society_id) ? $ol_applications->society_id : '' }}">
-
                 <div style="margin-left: 30px;">
                     <div class="col-sm-10" >
                         <div class="form-group row">
@@ -70,9 +67,9 @@
                     </div> 
                 </div>
                 <div class="col-sm-6">
-                    <input type="submit" class="btn btn-primary btn-custom" id="uploadBtn" style="float: right" value="Upload"> 
+                    <input type="button" class="btn btn-primary btn-custom" id="uploadBtn" style="float: right" value="Upload"> 
                 </div>  
-            </fo rm> 
+            </form> 
         @endif    
 
         @if(count($documents) > 0)   
@@ -117,49 +114,50 @@
 @section('actions_js')
 <script type="text/javascript">
     
-    // $("#uploadBtn").click(function(){
-    //     var myfile = $(".file_upload").val();
-    //     var ext = myfile.split('.').pop();
-    //     var memberName = $("#memberName").val();
+    $("#uploadBtn").click(function(){
+        $('.loader').show();
+        var myfile = $(".file_upload").val();
+        var ext = myfile.split('.').pop();
+        var memberName = $("#memberName").val();
 
-    // if(myfile != ''){
-    //     if (ext == "pdf"){
-    //         var fileData = $(".file_upload").prop('files')[0];
+    if(myfile != ''){
+        if (ext == "pdf"){
+            var fileData = $(".file_upload").prop('files')[0];
 
-    //         var documentId = '<?php echo $documentId; ?>';
-    //         var societyId = '<?php echo $ol_applications->society_id; ?>';
+            var documentId = '<?php echo $documentId; ?>';
+            var societyId = '<?php echo $ol_applications->society_id; ?>';
                
             
-    //         var form_data = new FormData();
-    //         form_data.append('file', fileData);   
-    //         form_data.append('societyId', societyId);  
-    //         form_data.append('documentId', documentId);  
-    //         form_data.append('memberName', memberName);  
-    //         form_data.append('_token', document.getElementsByName("_token")[0].value);
+            var form_data = new FormData();
+            form_data.append('file', fileData);   
+            form_data.append('societyId', societyId);  
+            form_data.append('documentId', documentId);  
+            form_data.append('memberName', memberName);  
+            form_data.append('_token', document.getElementsByName("_token")[0].value);
       
-    //         $.ajax({
-    //             url: "/society/save_documents",
-    //             data: form_data,
-    //             dataType : "json",
-    //             type: 'POST',
-    //             contentType: false, 
-    //             cache: false,
-    //             processData: false,
-    //             success: function(response) { 
-    //                 if (response.status == 'success'){
-    //                     $(".loader").hide();
-    //                     location.reload();
-    //                 }else{
-    //                     alert('Something went wrong, Please contact Admin.');
-    //                 }
-    //             }
-    //         });                
-    //     }else{
-    //         $("#file_error").text("Invalid type of file uploaded.");
-    //         return false;
-    //     } 
-    // }
-    // });
+            $.ajax({
+                url: "/society/save_documents",
+                data: form_data,
+                dataType : "json",
+                type: 'POST',
+                contentType: false, 
+                cache: false,
+                processData: false,
+                success: function(response) { 
+                    if (response.status == 'success'){
+                        $(".loader").hide();
+                        location.reload();
+                    }else{
+                        alert('Something went wrong, Please contact Admin.');
+                    }
+                }
+            });                
+        }else{
+            $("#file_error").text("Invalid type of file uploaded.");
+            return false;
+        } 
+    }
+    });
 
     function deleteDocument(id){
 
