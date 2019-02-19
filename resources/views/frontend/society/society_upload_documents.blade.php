@@ -10,7 +10,7 @@
             <h3 class="m-subheader__title m-subheader__title--separator">Upload documents</h3>
             {{ Breadcrumbs::render('documents_upload',$ol_applications->id) }}
             <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
-        </div>
+        </div> 
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--creative m-portlet--first m-portlet--bordered-semi mb-0">

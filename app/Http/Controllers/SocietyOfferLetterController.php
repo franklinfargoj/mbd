@@ -672,7 +672,7 @@ class SocietyOfferLetterController extends Controller
             'updated_at' => null
         );
         $last_inserted_id = OlRequestForm::create($input);
-        $applicationNo = $this->generateApplicationNumber();
+        $applicationNo = $this->generateApplicationNumber($request->applicationId);
         
         $insert_application = array(
             'user_id' => Auth::user()->id,
@@ -917,7 +917,6 @@ class SocietyOfferLetterController extends Controller
      */
     public function save_offer_letter_application_dev(Request $request){
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        
         $input = array(
             'society_id' => $society_details->id,
             'date_of_meeting' => date('Y-m-d', strtotime($request->input('date_of_meeting'))),
@@ -928,7 +927,7 @@ class SocietyOfferLetterController extends Controller
             'updated_at' => null
         );
         $last_inserted_id = OlRequestForm::create($input);
-
+        $applicationNo = $this->generateApplicationNumber($request->applicationId);
         $insert_application = array(
             'user_id' => Auth::user()->id,
             'language_id' => '1',
@@ -937,7 +936,7 @@ class SocietyOfferLetterController extends Controller
             'layout_id' => $request->input('layout_id'),
             'request_form_id' => $last_inserted_id->id,
             'application_master_id' => $request->input('application_master_id'),
-            'application_no' => rand().time(),
+            'application_no' => $applicationNo,
             'application_path' => 'test',
             'submitted_at' => date('Y-m-d'),
             'current_status_id' => '1',
@@ -2924,32 +2923,33 @@ class SocietyOfferLetterController extends Controller
 
     public function saveDocuments(Request $request){
 
-        $file = $request->file('file');
+        $file = $request->file('document_name');
         $societyId = $request->societyId;
         $documentId = $request->documentId;
+        $applicationId = $request->applicationId;
         $folderName = "society_offer_letter_documents";
-        try{
-            if ($file->getClientMimeType() == 'application/pdf') {
 
-                $extension = $request->file('file')->getClientOriginalExtension();
+            if ($file) {
+                $extension = $file->getClientOriginalExtension(); 
                 $fileName = time().'_member_'.$societyId.'.'.$extension;
-                $this->CommonController->ftpFileUpload($folderName,$file,$fileName); 
 
-                $Documents = new OlSocietyDocumentsStatus();
-                $Documents->society_id = $societyId;
-                $Documents->document_id = $documentId;
-                $Documents->member_name = $request->memberName;
-                $Documents->society_document_path = $folderName.'/'.$fileName;
-                $Documents->save();
-                $response['status'] = 'success';  
+                if ($extension == "pdf"){
+                    $this->CommonController->ftpFileUpload($folderName,$file,$fileName); 
+
+                    $Documents = new OlSocietyDocumentsStatus();
+                    $Documents->application_id = $applicationId;
+                    $Documents->society_id = $societyId;
+                    $Documents->document_id = $documentId;
+                    $Documents->member_name = $request->memberName;
+                    $Documents->society_document_path = $folderName.'/'.$fileName;
+
+                    $Documents->save();
+                    $response['status'] = 'success';     
+                }
             }else{
                 $response['status'] = 'error';   
             }
-        }catch(Exception $e){
-            $response['status'] = 'error'; 
-        }
-
-        return response(json_encode($response), 200);   
+        return redirect()->back();   
     }
 
     public function deleteDocuments(Request $request){
@@ -2976,11 +2976,17 @@ class SocietyOfferLetterController extends Controller
     }
 
     //generate application Number
-    public function generateApplicationNumber(){
+    public function generateApplicationNumber($applicationId){
 
-        $id = OlApplication::orderBy('id','desc')->value('id');
-        $id++;
-        $applicationId = 'Offer-0000'.$id;
+        if (isset($applicationId)){
+            $applicationId = OlApplication::where('id',$applicationId)->value('application_no');
+
+        }else{
+            $id = OlApplication::orderBy('id','desc')->value('id');
+            $id++;
+            $applicationId = 'Offer-0000'.$id;
+        }
+        
         return $applicationId;
     }
 
