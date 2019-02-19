@@ -1781,6 +1781,134 @@ class CommonController extends Controller
     }
 
 
+    public function ajaxDashboard(Request $request)
+    {
+
+        if ($request->ajax()) {
+
+            if($request->module_name == "offer_letter"){
+                $role_id = session()->get('role_id');
+                $user_id = Auth::id();
+                $applicationData = $this->getApplicationData($role_id,$user_id);
+
+                $statusCount = $this->getApplicationStatusCount($applicationData);
+
+                // EE Roles
+                $ee = $this->getEERoles();
+
+                // DYCE Roles
+                $dyce = $this->getDyceRoles();
+
+                // CAP
+                $cap = Role::where('name',config('commanConfig.cap_engineer'))->value('id');
+
+                // VP
+                $vp = Role::where('name',config('commanConfig.vp_engineer'))->value('id');
+
+                $dashboardData = [];
+
+                if(in_array($role_id ,$ee))
+                    $dashboardData = $this->getEEDashboardData($role_id,$ee,$statusCount);
+
+                if(in_array($role_id ,$dyce))
+                    $dashboardData = $this->getDyceDashboardData($role_id,$dyce,$statusCount);
+
+                if($cap == $role_id){
+                    $dashboardData = $this->getCapDashboardData($statusCount);
+//                    $revalDashboardData = $this->getCapDashboardData($revalStatusCount);
+                }
+
+                if($vp == $role_id){
+                    $dashboardData = $this->getVpDashboardData($statusCount);
+//                    $revalDashboardData = $this->getVpDashboardData($revalStatusCount);
+                }
+
+                return $dashboardData;
+
+            }
+        }
+//        $role_id = session()->get('role_id');
+//        $user_id = Auth::id();
+//
+//        // conveyance dashboard
+//        $conveyanceCommonController = new conveyanceCommonController();
+//        $conveyanceDashboard = $conveyanceCommonController->ConveyanceDashboard();
+//        $conveyanceRoles     = $conveyanceCommonController->getConveyanceRoles();
+//        $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();
+//
+//        $renewal = new renewalCommonController();
+//
+//        $renewalDashboard = $renewal->RenewalDashboard();
+//        $renewalRoles     = $renewal->getRenewalRoles();
+//        $renewalPendingApplications = $renewal->getApplicationPendingAtDepartment();
+//
+//        $applicationData = $this->getApplicationData($role_id,$user_id);
+////        dd($applicationData);
+//
+//        // Reval APplication data
+//
+//        $revalApplicationData = $this->getRevalApplicationData($role_id,$user_id);
+//
+//        $statusCount = $this->getApplicationStatusCount($applicationData);
+//
+//        // Reval status Count
+//        $revalStatusCount = $this->getApplicationStatusCount($revalApplicationData);
+//
+//        // EE Roles
+//        $ee = $this->getEERoles();
+//
+//        // DYCE Roles
+//        $dyce = $this->getDyceRoles();
+//
+//        // CAP
+//        $cap = Role::where('name',config('commanConfig.cap_engineer'))->value('id');
+//
+//        // VP
+//        $vp = Role::where('name',config('commanConfig.vp_engineer'))->value('id');
+//
+//        $dashboardData = [];
+//
+//
+//        if(in_array($role_id ,$ee))
+//            $dashboardData = $this->getEEDashboardData($role_id,$ee,$statusCount);
+//
+//
+////        foreach ($dashboardData as $key => $dd){
+////            dd($dashboardData);
+////
+////
+////        }
+//
+//        if(in_array($role_id ,$dyce))
+//            $dashboardData = $this->getDyceDashboardData($role_id,$dyce,$statusCount);
+//
+//        if($cap == $role_id){
+//            $dashboardData = $this->getCapDashboardData($statusCount);
+//            $revalDashboardData = $this->getCapDashboardData($revalStatusCount);
+//        }
+//
+//        if($vp == $role_id){
+//            $dashboardData = $this->getVpDashboardData($statusCount);
+//            $revalDashboardData = $this->getVpDashboardData($revalStatusCount);
+//        }
+//
+//        $dashboardData1 = NULL;
+//        $eeHeadId = Role::where('name',config('commanConfig.ee_branch_head'))->value('id');
+//
+//        $dyceHeadId = Role::where('name',config('commanConfig.dyce_branch_head'))->value('id');
+//
+//        if($role_id == $eeHeadId){
+//            $dashboardData1 = $this->getToatalPendingApplicationsAtUser($ee);
+//        }
+//        if($role_id == $dyceHeadId){
+//            $dashboardData1 = $this->getToatalPendingApplicationsAtUser($dyce);
+//        }
+//
+//        return view('admin.common.ol_dashboard',compact('dashboardData','revalDashboardData','dashboardData1','conveyanceDashboard','conveyanceRoles','pendingApplications','renewalDashboard','renewalRoles','renewalPendingApplications'));
+
+    }
+
+
     /*
      * Function for getting application's data.
 

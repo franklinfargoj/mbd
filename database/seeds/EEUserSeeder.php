@@ -372,7 +372,13 @@ class EEUserSeeder extends Seeder
                 'name'=>'view_multiple_document',
                 'display_name'=>'view multiple document',
                 'description'=>'view multiple document'
-            ]                                    
+            ],
+            [
+                'name'=>'dashboard.ajax',
+                'display_name'=>'view dashboard dynamically',
+                'description'=>'view dashboard dynamically'
+            ]
+
         ];
 
         // Role

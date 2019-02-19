@@ -13,6 +13,28 @@
     @php $chart = 0; $chart1 = 0; $chart2 = 0; $chart3 = 0; $chart4 = 0;
     @endphp
 
+
+    {{--ajax table--}}
+
+    <div>
+        <div class="m-subheader px-0 m-subheader--top">
+            <div class="d-flex align-items-center">
+                <h3 class="m-subheader__title">Offer Letter</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-7"  id="offer_letter" >
+
+            </div>
+            <div class="col-sm-5" id="ajaxchartdiv">
+            </div>
+        </div>
+    </div>
+
+    {{--end ajax table--}}
+
+
     <div class="container-fluid">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
@@ -22,7 +44,7 @@
 
         <div class="d-flex flex-wrap db-wrapper">
             @if( !((session()->get('role_name') == config('commanConfig.junior_architect')) || (session()->get('role_name') == config('commanConfig.architect')) || (session()->get('role_name') == config('commanConfig.senior_architect'))))
-                <div class="db__card">
+                <div class="db__card" id="offer-letter" data-module = "offer_letter">
                     <div class="db__card__img-wrap db-color-1">
                         <h3 class="db__card__count">{{$dashboardData['Total No of Applications'][0]}}</h3>
                     </div>
@@ -105,7 +127,7 @@
         {{--Dashboard for offer letter--}}
         @if( !((session()->get('role_name') == config('commanConfig.junior_architect')) || (session()->get('role_name') == config('commanConfig.architect')) || (session()->get('role_name') == config('commanConfig.senior_architect'))))
             {{--offer letter--}}
-            <div>
+            <div id="offer_letter" >
                 <div class="m-subheader px-0 m-subheader--top">
                     <div class="d-flex align-items-center">
                         <h3 class="m-subheader__title">Offer Letter</h3>
@@ -566,6 +588,7 @@
 @endsection
 
             @section('js')
+
             {{--<script>--}}
                 {{--$(".ol-accordion").on("click", function () {--}}
                     {{--var data = $('.ol-accordion').children().children().attr('aria-expanded');--}}
@@ -735,50 +758,54 @@
             <script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>
             <script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>
 
+
+
             {{--offer letter chart--}}
-            @if($chart)
-            <script>
-                var chart;
-                var legend;
+            {{--@if($chart)--}}
+            {{--<script>--}}
+                {{--var chart;--}}
+                {{--var legend;--}}
 
 
-                var chartData = [
+                {{--var chartData = [--}}
 
-                    @foreach($dashboardData as $header => $value)
-                    @if($header != 'Total No of Applications') {
-                        "status": '{{$header}}',
-                        "value": '{{$value[0]}}',
-                    },
-                    @endif
-                    @endforeach
+                    {{--@foreach($dashboardData as $header => $value)--}}
+                    {{--@if($header != 'Total No of Applications') {--}}
+                        {{--"status": '{{$header}}',--}}
+                        {{--"value": '{{$value[0]}}',--}}
+                    {{--},--}}
+                    {{--@endif--}}
+                    {{--@endforeach--}}
 
-                ];
+                {{--];--}}
+{{--console.log(chartData)--}}
+                {{--AmCharts.ready(function () {--}}
+                    {{--alert('jhasgdjasdh');--}}
 
-                AmCharts.ready(function () {
-                    // PIE CHART
-                    chart = new AmCharts.AmPieChart();
-                    chart.dataProvider = chartData;
-                    chart.theme = "light";
-                    chart.labelRadius = -35;
-                    chart.labelText = "[[percents]]%";
-                    chart.titleField = "status";
-                    chart.valueField = "value";
-                    chart.outlineColor = "#FFFFFF";
-                    chart.outlineAlpha = 0.8;
-                    chart.outlineThickness = 2;
-                    chart.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
-                    // this makes the chart 3D
-                    chart.depth3D = 15;
-                    chart.angle = 30;
-                    chart.fontSize = 15;
-//                chart.legend.useGraphSettings = true;
+                    {{--// PIE CHART--}}
+                    {{--chart = new AmCharts.AmPieChart();--}}
+                    {{--chart.dataProvider = chartData;--}}
+                    {{--chart.theme = "light";--}}
+                    {{--chart.labelRadius = -35;--}}
+                    {{--chart.labelText = "[[percents]]%";--}}
+                    {{--chart.titleField = "status";--}}
+                    {{--chart.valueField = "value";--}}
+                    {{--chart.outlineColor = "#FFFFFF";--}}
+                    {{--chart.outlineAlpha = 0.8;--}}
+                    {{--chart.outlineThickness = 2;--}}
+                    {{--chart.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";--}}
+                    {{--// this makes the chart 3D--}}
+                    {{--chart.depth3D = 15;--}}
+                    {{--chart.angle = 30;--}}
+                    {{--chart.fontSize = 15;--}}
+{{--//                chart.legend.useGraphSettings = true;--}}
 
-                    // WRITE
-                    chart.write("chartdiv");
-                });
+                    {{--// WRITE--}}
+                    {{--chart.write("chartdiv");--}}
+                {{--});--}}
 
-            </script>
-            @endif
+            {{--</script>--}}
+            {{--@endif--}}
             {{--end offer letter chart--}}
 
             {{--offer leter subordinate pendency chart--}}
@@ -960,5 +987,131 @@
                 </script>
             @endif
             {{--end offer letter revalidation chart--}}
+
+            {{--ajax call for offer letter--}}
+            <script>
+
+                $(document).ready(function() {
+                    var dashboard = "{{route('dashboard.ajax')}}";
+                    $("#offer-letter").on("click", function () {
+
+                        var redirect_to = "{{session()->get('redirect_to')}}";
+                        var module_name = ($('#offer-letter').attr("data-module"));
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            type: "POST",
+                            url: dashboard,
+                            data: {module_name:module_name},
+                            dataType: 'json',
+                            success: function (data) {
+                                if (data !== "false") {
+
+                                    var html = "";
+
+                                    html += "                        <div class=\"m-portlet db-table\">\n" +
+                                        "                            <div class=\"table-responsive\">\n" +
+                                        "                                <table class=\"table text-center\">\n" +
+                                        "                                    <thead>\n" +
+                                        "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
+                                        "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
+                                        "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                                        "                                    <th style=\"width: 15%;\">Action</th>\n" +
+                                        "                                    </thead>\n" +
+                                        "                                    </tbody>\n" ;
+
+                                    var chart_count = 0 ;
+                                    var i = 1 ;
+                                    $.each(data, function (index, data) {
+
+//                                        console.log(index);
+
+                                        html += "<tr>\n" +
+                                            "<td class=\"text-center\">"+i+"</td>" +
+                                            "<td>"+index+"</td>\n" +
+                                            "<td class=\"text-center\"><span class=\"count-circle\">"+data[0]+"</span></td>\n" +
+                                            "<td>\n" +
+                                            "<a href=\""+baseUrl+redirect_to+data[1]+"\"class=\"btn btn-action\">View</a>\n" +
+                                            "</td>\n" +
+                                            "</tr>";
+                                        chart_count += data[0];
+                                        i++;
+                                    });
+
+                                    html +="</tbody>\n" +
+                                        "                                </table>\n" +
+                                        "                        </div>\n" +
+                                        "                    </div>";
+
+                                    alert(chart_count);
+                                    $('#offer_letter').html(html);
+
+
+                                    if(chart_count){
+                                        var chart;
+                                        var legend;
+
+                                        var chartData = [];
+
+                                        $.each((data), function (index, data) {
+                                            obj = {};
+                                            if (index != 'Total No of Applications') {
+                                                obj['status'] = index;
+                                                obj['value'] = data[0];
+                                                chartData.push(obj);
+                                            }
+
+                                        });
+//                                        console.log(chartData);
+                                        AmCharts.ready(function () {
+                                            alert('sdfhsdjkhfsd');
+                                            // PIE CHART
+                                            chart = new AmCharts.AmPieChart();
+                                            chart.dataProvider = chartData;
+                                            chart.theme = "light";
+                                            chart.labelRadius = -35;
+                                            chart.labelText = "[[percents]]%";
+                                            chart.titleField = "status";
+                                            chart.valueField = "value";
+                                            chart.outlineColor = "#FFFFFF";
+                                            chart.outlineAlpha = 0.8;
+                                            chart.outlineThickness = 2;
+                                            chart.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+                                            // this makes the chart 3D
+                                            chart.depth3D = 15;
+                                            chart.angle = 30;
+                                            chart.fontSize = 15;
+//                chart.legend.useGraphSettings = true;
+
+                                            console.log(chart);
+                                            // WRITE
+                                            chart.write("ajaxchartdiv");
+                                        });
+
+
+//                                        amchart();
+                                    }
+
+                                }
+                                else {
+                                    alert('errror');
+                                }
+                            },
+                        });
+
+//                        function amchart(){
+//
+//                        }
+
+
+                    });
+                });
+
+            </script>
+            {{--end ajax call offer letter--}}
+
 
             @endsection
