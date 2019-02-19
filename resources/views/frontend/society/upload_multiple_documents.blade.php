@@ -26,7 +26,7 @@
             <h3 class="m-subheader__title m-subheader__title--separator">Upload documents</h3>
             {{ Breadcrumbs::render('documents_upload',$ol_applications->id) }}
              @if($ol_applications->status->status_id != config('commanConfig.applicationStatus.forwarded'))
-            <a href="{{ url('/society/documents_upload') }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            <a href="{{ route('documents_upload',encrypt($ol_applications->id)) }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             @else
             <a href="{{ url('/society/documents_uploaded') }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             @endif

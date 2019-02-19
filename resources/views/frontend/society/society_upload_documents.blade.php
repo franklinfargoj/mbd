@@ -56,7 +56,7 @@
                                                 @if($document->is_multiple == 1)
                                                     <input type="hidden" name="documentId" id="documentId"
                                                     value="{{ isset($document->id) ? $document->id : '' }}"> 
-                                                    <a href="{{ route('upload_multiple_documents',[encrypt($society->id),encrypt($document->id)]) }}" class="app-card__details mb-0">
+                                                    <a href="{{ route('upload_multiple_documents',[encrypt($ol_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0">
                                                     click to upload documents</a>
                                                 @else 
                                                     @foreach($document->documents_uploaded as $document_uploaded)
@@ -82,7 +82,7 @@
                                             
                                                     <input type="hidden" name="documentId" id="documentId"
                                                     value="{{ isset($document->id) ? $document->id : '' }}">
-                                                    <a href="{{ route('upload_multiple_documents',[encrypt($society->id),encrypt($document->id)]) }}" class="app-card__details mb-0">
+                                                    <a href="{{ route('upload_multiple_documents',[encrypt($ol_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0">
                                                     click to upload documents</a>
                                                 @else
                                                     <form action="{{ route('uploaded_documents') }}" method="post" enctype='multipart/form-data' id="upload_documents_form_{{ $document->id }}">
@@ -186,6 +186,7 @@
                                     <p style="color:red;">*Upload all the compulsory documents for submitting application.</p>
                                     @endif
                                 </div>
+
                             @if($application->olApplicationStatus[0]->status_id != config('commanConfig.applicationStatus.forwarded'))
                                 <div class="mt-3 btn-list">
                                     <button class="btn btn-primary" type="submit" id="uploadBtn" {{ ($docs_count != $docs_uploaded_count) ? 'disabled' : ''}}>Submit</button>

@@ -552,36 +552,29 @@ class SocietyOfferLetterController extends Controller
     }
 
     public function get_docs_count($application, $society){
-
-        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['documents_uploaded' => function($q) use ($society){
-            $q->where('society_id', $society->id)->get();
+    
+        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['documents_uploaded' =>function($q)use($society,$application){
+            $q->where('society_id', $society->id)->where('application_id',$application->id)->get();
         }])->get();
 
         $document_ids = [];
         foreach ($documents as $key => $value) {
             $document_ids[] = $value->id;
         }
-        $documents_uploaded = OlSocietyDocumentsStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->with(['documents_uploaded'])->get();
+        $documents_uploaded = OlSocietyDocumentsStatus::where('application_id',$application->id)->where('society_id', $society->id)->whereIn('document_id', $document_ids)->with(['documents_uploaded'])->get();
 
-        $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->first();
-        if($application->application_master_id == '2' || $application->application_master_id == '13'){
-            $optional_docs = config('commanConfig.optional_docs_premium');
-        }
-        if($application->application_master_id == '6' || $application->application_master_id == '17'){
-            $optional_docs = config('commanConfig.optional_docs_sharing');
-        }
+        $documents_comment = OlSocietyDocumentsComment::where('application_id',$application->id)->where('society_id', $society->id)->first();
 
+        $optional_docs = $this->getOptionalDocument($application->application_master_id);
         $docs_uploaded_count = 0;
-        $docs_count = 0;
+        $docs_count = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('is_deleted',0)->where('is_optional',0)->count();
 
         foreach($documents as $documents_key => $documents_val){
-            if(in_array($documents_key+1, $optional_docs) == false){
-                $docs_count++;
-                if(count($documents_val->documents_uploaded) > 0){
+                if($documents_val->is_optional == 0 && count($documents_val->documents_uploaded) > 0){
                     $docs_uploaded_count++;
                 }
-            }
         }
+
         $arr = array(
             'docs_count' => $docs_count,
             'docs_uploaded_count' => $docs_uploaded_count
@@ -1152,16 +1145,13 @@ class SocietyOfferLetterController extends Controller
         $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->where('application_id',$applicationId)->first();
 
         $docs_uploaded_count = 0;
-        $docs_count = 0;
         $i=0;
+        $docs_count = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('is_deleted',0)->where('is_optional',0)->count();
+
         foreach($documents as $documents_key => $documents_val){
-            if(in_array($documents_key+1, $optional_docs) == false){
-                $docs_count++;
-                if(count($documents_val->documents_uploaded) > 0){
+                if($documents_val->is_optional == 0 && count($documents_val->documents_uploaded) > 0){
                     $docs_uploaded_count++;
-                    $i++;
                 }
-            }
         }
 
         $documents_arr['docs_count'] = $docs_count;
@@ -1276,7 +1266,8 @@ class SocietyOfferLetterController extends Controller
         ); 
        OlSocietyDocumentsComment::updateOrCreate(['society_id' => $society->id, 'application_id' => $request->applicationId], $input);
 
-        return redirect()->route('upload_society_offer_letter_application');
+       $id = encrypt($request->applicationId);
+        return redirect()->route('upload_society_offer_letter_application',$id);
     }
 
     public function addSocietyRevalDocumentsComment(Request $request){
@@ -2245,15 +2236,17 @@ class SocietyOfferLetterController extends Controller
      * @param  void
      * @return \Illuminate\Http\Response
      */
-    public function generate_pdf(){
+    public function generate_pdf($applicationId){
+
+        $applicationId = decrypt($applicationId);
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
         $master_ids = config('commanConfig.new_offer_letter_master_ids');
-        $ol_application = OlApplication::where('user_id', Auth::user()->id)->whereIn('application_master_id', $master_ids)->with(['request_form', 'applicationMasterLayout'])->first();
+        $ol_application = OlApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->whereIn('application_master_id', $master_ids)->with(['request_form', 'applicationMasterLayout'])->first();
         $layouts = MasterLayout::all(); 
         $id = $ol_application->application_master_id;
         
-        $comment = OlSocietyDocumentsComment::where('application_id',$ol_application->id)->where('society_id',$society->id)->first();
+        $comment = OlSocietyDocumentsComment::where('application_id',$applicationId)->where('society_id',$society->id)->first();
 
         $mpdf = new Mpdf();
         $mpdf->autoScriptToLang = true;
@@ -2308,12 +2301,15 @@ class SocietyOfferLetterController extends Controller
      * @param  void
      * @return \Illuminate\Http\Response
      */
-    public function showuploadOfferLetterAfterSign(){
+    public function showuploadOfferLetterAfterSign($applicationId){
+        
+        $applicationId = decrypt($applicationId);
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $master_ids = config('commanConfig.new_offer_letter_master_ids');
-        $application_details = OlApplication::where('society_id', $society->id)->whereIn('application_master_id', $master_ids)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+        $application_details = OlApplication::where('id',$applicationId)->where('society_id', $society->id)->whereIn('application_master_id', $master_ids)->with(['ol_application_master', 'olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc');
         }])->first();
+
         $ol_applications = $application_details;
         $documents_arr = $this->get_docs_count($ol_applications, $society);
 
@@ -2905,17 +2901,17 @@ class SocietyOfferLetterController extends Controller
         }
     } 
 
-    public function uploadMultipleDocuments(Request $request,$societyId,$documentId){
+    public function uploadMultipleDocuments(Request $request,$applicationId,$documentId){
 
         $documentId = decrypt($documentId);
-        $societyId = decrypt($societyId);
-        $ol_applications = OlApplication::where('user_id', Auth::user()->id)->where('society_id', 
-            $societyId)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){$q->where('society_flag', '1')->orderBy('id', 'desc');
+        $applicationId = decrypt($applicationId);
+        $ol_applications = OlApplication::where('user_id', Auth::user()->id)->where('id', 
+            $applicationId)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){$q->where('society_flag', '1')->orderBy('id', 'desc');
         }])->first();
 
         // $ol_applications = OlApplication::where('society_id', $societyId)->first();
         $documents = OlSocietyDocumentsStatus::where('document_id',$documentId)
-        ->where('society_id', $societyId)->orderBy('id','desc')->get();
+        ->where('application_id', $applicationId)->orderBy('id','desc')->get();  
         $ol_applications->status = $this->getSocietyStatusLog($ol_applications->id);
         
         return view('frontend.society.upload_multiple_documents',compact('ol_applications','documentId','documents'));    

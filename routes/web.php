@@ -512,8 +512,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         Route::get('society_offer_letter_edit/{id}', 'SocietyOfferLetterController@editOfferLetterApplication')->name('society_offer_letter_edit');
         Route::post('society_offer_letter_update', 'SocietyOfferLetterController@updateOfferLetterApplication')->name('society_offer_letter_update');
 
-        Route::get('society_offer_letter_application_download', 'SocietyOfferLetterController@generate_pdf')->name('society_offer_letter_application_download');
-        Route::get('upload_society_offer_letter_application', 'SocietyOfferLetterController@showuploadOfferLetterAfterSign')->name('upload_society_offer_letter_application');
+        Route::get('society_offer_letter_application_download/{id}', 'SocietyOfferLetterController@generate_pdf')->name('society_offer_letter_application_download');
+        Route::get('upload_society_offer_letter_application/{id}', 'SocietyOfferLetterController@showuploadOfferLetterAfterSign')->name('upload_society_offer_letter_application');
         Route::post('upload_society_offer_letter', 'SocietyOfferLetterController@uploadOfferLetterAfterSign')->name('upload_society_offer_letter');
 
         Route::get('society_applications', 'SocietyOfferLetterController@society_applications')->name('society_applications');
