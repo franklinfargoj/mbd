@@ -260,7 +260,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'language_id'   => $Marathi,
                     'name' => "कार्यकारी अभियंता / मुंबई मंडळ यांचेकडुन इमारतीचा व सलग्न भूखंडाचा सिमांकन नकाशा",
                     'is_optional' => 1,
-                    'group' => 6,
+                    'group' => 5,
                     'sort_by' => 1
                 ],
                 [
@@ -275,41 +275,41 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'language_id'   => $Marathi,
                     'name' => "मिळकत व्यवस्थापक यांचे ना देय प्रमाणपत्र",
                     'is_optional' => 1,
-                    'group' => 6,
+                    'group' => 5,
                     'sort_by' => 2
                 ],
                 [
                     'application_id'   => $selfSharing,
                     'language_id'   => $Marathi,
                     'name' => "नगरभुमापन नकाशे",
-                    'group' => 6,
+                    'group' => 5,
                     'sort_by' => 3
                 ],
                 [
                     'application_id'   => $selfSharing,
                     'language_id'   => $Marathi,
                     'name' => "मिळकत पत्रिका (PR कार्ड )",
-                    'group' => 6,
+                    'group' => 5,
                     'sort_by' => 4
                 ],
                 [
                     'application_id'   => $selfSharing,
                     'language_id'   => $Marathi,
                     'name' => "अस्तीत्वातील इमारतीचे फोटो",
-                    'group' => 6,
+                    'group' => 5,
                     'sort_by' => 5
                 ],
                 [
                     'application_id'   => $selfSharing,
                     'language_id'   => $Marathi,
                     'name' => "प्रस्तावीत इमारतीचा नकाशा",
-                    'group' => 7
+                    'group' => 6
                 ],
                 [
                     'application_id'   => $selfSharing,
                     'language_id'   => $Marathi,
                     'name' => "डी.पी.रिमार्क",
-                    'group' => 6,
+                    'group' => 5,
                     'sort_by' => 6
                 ],
                 [
@@ -568,7 +568,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'language_id'   => $Marathi,
                     'name' => "कार्यकारी अभियंता / मुंबई मंडळ यांचेकडुन इमारतीचा व सलग्न भूखंडाचा सिमांकन नकाशा",
                     'is_optional' => 1,
-                    'group' => 6,
+                    'group' => 5,
                     'sort_by' => 1
                 ],
                 [
@@ -583,41 +583,41 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'language_id'   => $Marathi,
                     'name' => "मिळकत व्यवस्थापक यांचे ना देय प्रमाणपत्र",
                     'is_optional' => 1,
-                    'group' => 6,
+                    'group' => 5,
                     'sort_by' => 2
                 ],
                 [
                     'application_id'   => $redevSharing,
                     'language_id'   => $Marathi,
                     'name' => "नगरभुमापन नकाशे",
-                    'group' => 6,
+                    'group' => 5,
                     'sort_by' => 3
                 ],
                 [
                     'application_id'   => $redevSharing,
                     'language_id'   => $Marathi,
                     'name' => "मिळकत पत्रिका (PR कार्ड )",
-                    'group' => 6,
+                    'group' => 5,
                     'sort_by' => 4
                 ],
                 [
                     'application_id'   => $redevSharing,
                     'language_id'   => $Marathi,
                     'name' => "अस्तीत्वातील इमारतीचे फोटो",
-                    'group' => 6,
+                    'group' => 5,
                     'sort_by' => 5
                 ],
                 [
                     'application_id'   => $redevSharing,
                     'language_id'   => $Marathi,
                     'name' => "प्रस्तावीत इमारतीचा नकाशा",
-                    'group' => 7
+                    'group' => 6
                 ],
                 [
                     'application_id'   => $redevSharing,
                     'language_id'   => $Marathi,
                     'name' => "डी.पी.रिमार्क",
-                    'group' => 6,
+                    'group' => 5,
                     'sort_by' => 6
                 ],
                 [

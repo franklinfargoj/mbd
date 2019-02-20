@@ -298,7 +298,7 @@ class CAPController extends Controller
         $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->downloadOfferLetter($applicationId);
         $ol_application->folder = 'cap_department';
-        $ol_application->comments = $this->CommonController->getSocietyDocumentComments($ol_application->society_id);
+        $ol_application->comments = $this->CommonController->getSocietyDocumentComments($ol_application->id);
 
         return view('admin.common.offer_letter', compact('ol_application'));
     }

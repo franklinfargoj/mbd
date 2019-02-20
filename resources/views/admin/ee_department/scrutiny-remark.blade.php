@@ -56,6 +56,7 @@ if($latest){
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
 
             </div>
+
         </div>
         <div id="tabbed-content" class="">
             <ul id="top-tabs" class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom tabs hide-print">
@@ -202,217 +203,228 @@ if($latest){
                     $disabled="";
                     }
                     @endphp
-                    <div class="panel active section-1" id="document-scrunity">
-                        <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
-                            <div class="portlet-body">
-                                <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
-                                    <div class="m-subheader">
-                                        <div class="d-flex align-items-center">
-                                            <h3 class="section-title section-title--small">
-                                                Document Scrutiny Sheet:
-                                            </h3>
+<div class="panel active section-1" id="document-scrunity">
+    <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
+        <div class="portlet-body">
+            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
+                <div class="m-subheader">
+                    <div class="d-flex align-items-center">
+                        <h3 class="section-title section-title--small">
+                            Document Scrutiny Sheet:
+                        </h3>
+                    </div>
+                </div>
+<div class="m-section__content mb-0 table-responsive">
+    <table class="table mb-0">
+        <thead class="thead-default">
+            <th class="table-data--xs">#</th>
+            <th>तपशील</th>
+            <th class="table-data--xs">सोसायटी दस्तावेज</th>
+            <th class="table-data--lg">टिप्पणी</th>
+            <th class="table-data--xs">दस्तावेज</th>
+        </thead>
+        <tbody>
+           @php
+            $i = 1; 
+            @endphp
+            
+            @if(count($societyDocument) > 0)
+                @foreach($societyDocument as $value)
+                    @foreach($value as $document)
+                <tr>
+
+                    <td>{{ isset($document->group) ? $document->group : $i }}.{{$document->sort_by}}</td>
+                    <td>{{(isset($document->name) ? $document->name : '')}}</td>
+
+                    <td class="text-center"> 
+                    @if($document->is_multiple == 1)
+                        <a href="{{ route('view_multiple_document',[encrypt($ol_application->id),encrypt($document->id)]) }}" class="app-card__details mb-0">
+                        view documents</a>
+                    @else
+                        @if(isset($document->documents_uploaded[0]) && $document->documents_uploaded[0]->society_document_path)
+
+                            <a download href="{{config('commanConfig.storage_server').'/'.$document->documents_uploaded[0]->society_document_path }}" target="_blank"><img
+                                    class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a></td>
+                        @else    
+                            <h2 class="m--font-danger">
+                                <i class="fa fa-remove"></i>
+                            </h2>
+                        @endif 
+                    @endif     
+                    <td>
+                        <p class="mb-2">{{ (isset($document->documents_uploaded[0]) && $document->documents_uploaded[0]->comment_by_EE) ? $document->documents_uploaded[0]->comment_by_EE : '' }}</p>
+                        <div class="d-flex btn-list-inline-wrap">
+
+                            @if(isset($document->documents_uploaded[0]) && $document->documents_uploaded[0]->comment_by_EE)
+                            <button class="btn btn-link btn-list-inline editDocumentStatus"
+                                style="cursor: pointer; {{$style}}" data-toggle="modal"
+                                data-id="{{ $i }}" data-documentStatusId="{{ $document->id }}" data-target="#edit-remark-{{$i}}">Edit</button>
+
+                            <button class="btn btn-link btn-list-inline deleteDocumentStatus"
+                                style="cursor: pointer; {{$style}}" data-toggle="modal"
+                                data-id="{{ $i }}" data-documentStatusId="{{ $document->id }}" data-target="#delete-remark-{{$i}}">Delete</button>
+                            @else
+
+                            <button class="btn btn-link btn-list-inline" style="cursor: pointer;{{$style}}"
+                                data-toggle="modal" data-target="#add-remark-{{$i}}">Add</button>
+                            @endif
+
+                            <div class="modal fade show" id="add-remark-{{$i}}" tabindex="-1"
+                                role="dialog" aria-labelledby="exampleModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Add
+                                                Remark</h5>
+                                            <button style="cursor: pointer;" type="button"
+                                                class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
                                         </div>
+                                        <form class="" action="{{ route('ee-scrutiny-document') }}"
+                                            method="post" enctype="multipart/form-data">
+                                            @csrf
+
+                                            <input type="hidden" name="document_status_id"
+                                                value="{{ $document->id }}">
+                                            <input type="hidden" name="applicationId" value="{{ isset($ol_application->id) ? $ol_application->id : '' }}">    
+                                            <div class="modal-body table--box-input">
+                                                <div class="mb-4">
+                                                    <label for="remark">Remark:</label>
+                                                    <textarea class="form-control form-control--custom"
+                                                        name="remark" id="remark_{{ $i }}"
+                                                        cols="30" rows="5"></textarea>
+                                                </div>
+                                                <div class="custom-file">
+                                                    <input class="custom-file-input" name="EE_document_path"
+                                                        type="file" id="EE_document_path_{{ $i }}">
+                                                    <label class="custom-file-label" for="EE_document_path_{{ $i }}">Choose
+                                                        file...</label>
+                                                </div>
+                                                <span class="text-danger" id="file_error_{{ $i }}">
+                                                </span>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary submt_btn"
+                                                    id="submitBtn_{{ $i }}">Save</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </form>
                                     </div>
-                                    <div class="m-section__content mb-0 table-responsive">
-                                        <table class="table mb-0">
-                                            <thead class="thead-default">
-                                                <th class="table-data--xs">#</th>
-                                                <th>तपशील</th>
-                                                <th class="table-data--xs">सोसायटी दस्तावेज</th>
-                                                <th class="table-data--lg">टिप्पणी</th>
-                                                <th class="table-data--xs">दस्तावेज</th>
-                                            </thead>
-                                            <tbody>
+                                </div>
+                            </div>
+                            <div class="modal fade show" id="edit-remark-{{$i}}" tabindex="-1"
+                                role="dialog" aria-labelledby="exampleModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit
+                                                Remark</h5>
+                                            <button style="cursor: pointer;" type="button"
+                                                class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <form class="" action="{{ route('edit-ee-scrutiny-document', $document->id) }}"
+                                            method="post" enctype="multipart/form-data">
+                                            @csrf
 
-                                               @php
-                                                $i = 1; 
-                                                @endphp
-                                                @foreach($societyEEdocument[0]->societyDocuments as $document)
-                                                
-                                                <tr>
-                                                    <td>{{ $i }}.</td>
-                                                    <td>{{ $document->documents_Name[0]->name }}</td>
+                                            <input type="hidden" name="applicationId" value="{{ isset($ol_application->id) ? $ol_application->id : '' }}">
+                                            <input type="hidden" name="oldFileName" id="oldFileName_{{ $i }}">
+                                            <div class="modal-body">
+                                                <div class="mb-4">
+                                                    <label for="remark">Remark:</label>
+                                                    <textarea class="form-control form-control--custom"
+                                                        name="comment_by_EE" id="comment_by_EE_{{ $i }}"
+                                                        cols="30" rows="5"></textarea>
+                                                </div>
 
-                                                    <td class="text-center"> 
-                                                    <a download href="{{config('commanConfig.storage_server').'/'.$document->society_document_path }}" target="_blank"><img
-                                                                class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a></td>
-                                                    <td>
+                                                <div class="custom-file">
+                                                    <input class="custom-file-input" name="EE_document"
+                                                        type="file" id="EE_document_{{ $i }}">
+                                                    <label class="custom-file-label" for="EE_document_{{ $i }}">Choose
+                                                        file...</label>
+                                                </div>
 
-                                                        <p class="mb-2">{{ $document->comment_by_EE }}</p>
-                                                        <div class="d-flex btn-list-inline-wrap">
-                                                            @if($document->comment_by_EE)
+                                                <span class="text-danger" id="edit_file_error_{{ $i }}"></span>
+                                                {{--<div class="mt-auto">
+                                                    <button type="submit" class="btn btn-primary btn-custom"
+                                                        id="uploadBtn">Upload</button>
+                                                </div>--}}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary edit_btn"
+                                                    id="editBtn_{{ $i }}">Save</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
 
-                                                            <button class="btn btn-link btn-list-inline editDocumentStatus"
-                                                                style="cursor: pointer; {{$style}}" data-toggle="modal"
-                                                                data-id="{{ $i }}" data-documentStatusId="{{ $document->id }}" data-target="#edit-remark-{{$i}}">Edit</button>
-
-                                                            <button class="btn btn-link btn-list-inline deleteDocumentStatus"
-                                                                style="cursor: pointer; {{$style}}" data-toggle="modal"
-                                                                data-id="{{ $i }}" data-documentStatusId="{{ $document->id }}" data-target="#delete-remark-{{$i}}">Delete</button>
-                                                            @else
-                                                            <button class="btn btn-link btn-list-inline" style="cursor: pointer;{{$style}}"
-                                                                data-toggle="modal" data-target="#add-remark-{{$i}}">Add</button>
-                                                            @endif
-
-                                                            <div class="modal fade show" id="add-remark-{{$i}}" tabindex="-1"
-                                                                role="dialog" aria-labelledby="exampleModalLabel">
-                                                                <div class="modal-dialog" role="document">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title" id="exampleModalLabel">Add
-                                                                                Remark</h5>
-                                                                            <button style="cursor: pointer;" type="button"
-                                                                                class="close" data-dismiss="modal"
-                                                                                aria-label="Close">
-                                                                                <span aria-hidden="true">×</span>
-                                                                            </button>
-                                                                        </div>
-                                                                        <form class="" action="{{ route('ee-scrutiny-document') }}"
-                                                                            method="post" enctype="multipart/form-data">
-                                                                            @csrf
-
-                                                                            <input type="hidden" name="document_status_id"
-                                                                                value="{{ $document->id }}">
-                                                                            <div class="modal-body table--box-input">
-                                                                                <div class="mb-4">
-                                                                                    <label for="remark">Remark:</label>
-                                                                                    <textarea class="form-control form-control--custom"
-                                                                                        name="remark" id="remark_{{ $i }}"
-                                                                                        cols="30" rows="5"></textarea>
-                                                                                </div>
-                                                                                <div class="custom-file">
-                                                                                    <input class="custom-file-input" name="EE_document_path"
-                                                                                        type="file" id="EE_document_path_{{ $i }}">
-                                                                                    <label class="custom-file-label" for="EE_document_path_{{ $i }}">Choose
-                                                                                        file...</label>
-                                                                                </div>
-                                                                                <span class="text-danger" id="file_error_{{ $i }}">
-                                                                                </span>
-                                                                                {{--<div class="mt-auto">
-                                                                                    <button type="submit" id="btn_{{ $i }}"
-                                                                                        class="btn btn-primary btn-custom"
-                                                                                        id="uploadBtn">Upload</button>
-                                                                                </div>--}}
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                                <button type="submit" class="btn btn-primary submt_btn"
-                                                                                    id="submitBtn_{{ $i }}">Save</button>
-                                                                                <button type="button" class="btn btn-secondary"
-                                                                                    data-dismiss="modal">Cancel</button>
-                                                                            </div>
-                                                                        </form>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal fade show" id="edit-remark-{{$i}}" tabindex="-1"
-                                                                role="dialog" aria-labelledby="exampleModalLabel">
-                                                                <div class="modal-dialog" role="document">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title" id="exampleModalLabel">Edit
-                                                                                Remark</h5>
-                                                                            <button style="cursor: pointer;" type="button"
-                                                                                class="close" data-dismiss="modal"
-                                                                                aria-label="Close">
-                                                                                <span aria-hidden="true">×</span>
-                                                                            </button>
-                                                                        </div>
-                                                                        <form class="" action="{{ route('edit-ee-scrutiny-document', $document->id) }}"
-                                                                            method="post" enctype="multipart/form-data">
-                                                                            @csrf
-                                                                            <input type="hidden" name="oldFileName" id="oldFileName_{{ $i }}">
-                                                                            <div class="modal-body">
-                                                                                <div class="mb-4">
-                                                                                    <label for="remark">Remark:</label>
-                                                                                    <textarea class="form-control form-control--custom"
-                                                                                        name="comment_by_EE" id="comment_by_EE_{{ $i }}"
-                                                                                        cols="30" rows="5"></textarea>
-                                                                                </div>
-
-                                                                                <div class="custom-file">
-                                                                                    <input class="custom-file-input" name="EE_document"
-                                                                                        type="file" id="EE_document_{{ $i }}">
-                                                                                    <label class="custom-file-label" for="EE_document_{{ $i }}">Choose
-                                                                                        file...</label>
-                                                                                </div>
-
-                                                                                <span class="text-danger" id="edit_file_error_{{ $i }}"></span>
-                                                                                {{--<div class="mt-auto">
-                                                                                    <button type="submit" class="btn btn-primary btn-custom"
-                                                                                        id="uploadBtn">Upload</button>
-                                                                                </div>--}}
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                                <button type="submit" class="btn btn-primary edit_btn"
-                                                                                    id="editBtn_{{ $i }}">Save</button>
-                                                                                <button type="button" class="btn btn-secondary"
-                                                                                    data-dismiss="modal">Cancel</button>
-                                                                            </div>
-                                                                        </form>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal fade show" id="delete-remark-{{$i}}" tabindex="-1"
-                                                                role="dialog" aria-labelledby="exampleModalLabel">
-                                                                <div class="modal-dialog" role="document">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title" id="exampleModalLabel2">Delete
-                                                                                Remark</h5>
-                                                                            <button style="cursor: pointer;" type="button"
-                                                                                class="close" data-dismiss="modal"
-                                                                                aria-label="Close">
-                                                                                <span aria-hidden="true">×</span>
-                                                                            </button>
-                                                                        </div>
-                                                                        <form class="" action="{{ route('ee-document-scrutiny-delete', $document->id) }}"
-                                                                            method="post" enctype="multipart/form-data">
-                                                                            @csrf
-                                                                            <input type="hidden" name="fileName" id="fileName_{{ $i }}">
-                                                                            <div class="modal-body">
-                                                                                <div class="mb-4">
-                                                                                    <label for="remark">Remark:</label>
-                                                                                    <textarea class="form-control form-control--custom"
-                                                                                        name="remark" id="remark_by_ee_{{ $i }}"
-                                                                                        cols="30" rows="5"></textarea>
-                                                                                </div>
-                                                                                {{--<div class="mt-auto">
-                                                                                    <button type="submit" class="btn btn-primary btn-custom"
-                                                                                        id="uploadBtn2">Upload</button>
-                                                                                </div>--}}
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                                <button type="submit" class="btn btn-primary">Save</button>
-                                                                                <button type="button" class="btn btn-secondary"
-                                                                                    data-dismiss="modal">Cancel</button>
-                                                                            </div>
-                                                                        </form>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-
-                                                    @if(!empty($document->EE_document_path))
-
-                                                    <td class="text-center"><a download href="{{config('commanConfig.storage_server').'/'.$document->EE_document_path}}" target="_blank"><img
-                                                                class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a></td>
-                                                    @else
-                                                    <td></td>
-                                                    @endif
-                                                </tr>
-
-                                                @php
-                                                $i++;
-                                                @endphp
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                            <div class="modal fade show" id="delete-remark-{{$i}}" tabindex="-1"
+                                role="dialog" aria-labelledby="exampleModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel2">Delete
+                                                Remark</h5>
+                                            <button style="cursor: pointer;" type="button"
+                                                class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <form class="" action="{{ route('ee-document-scrutiny-delete', $document->id) }}"
+                                            method="post" enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" name="applicationId" value="{{ isset($ol_application->id) ? $ol_application->id : '' }}">
+                                            <input type="hidden" name="fileName" id="fileName_{{ $i }}">
+                                            <div class="modal-body">
+                                                <div class="mb-4">
+                                                    <label for="remark">Remark:</label>
+                                                    <textarea class="form-control form-control--custom"
+                                                        name="remark" id="remark_by_ee_{{ $i }}"
+                                                        cols="30" rows="5"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary">Save</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </td>
+                    @if(isset($document->documents_uploaded[0]) && $document->documents_uploaded[0]->EE_document_path)
+
+                    <td class="text-center"><a download href="{{config('commanConfig.storage_server').'/'.$document->documents_uploaded[0]->EE_document_path}}" target="_blank"><img
+                                class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a></td>
+                    @else
+                    <td></td>
+                    @endif
+                </tr>
+
+                @php
+                $i++;
+                @endphp
+                @endforeach
+                @endforeach
+            @endif
+        </tbody>
+    </table>
+</div>
+            </div>
+        </div>
+    </div>
+</div>
                     <center><u><p style="font-size:18px;font-weight:500px;display:none;" class="show-print" id="selected_tab">Consent Verification</p></u></center>
                     <div class="panel section-2" id="checklist-scrunity">
                         <ul id="scrunity-tabs" class="nav nav-pills nav-justified hide-print" role="tablist">
