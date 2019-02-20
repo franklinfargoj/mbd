@@ -739,34 +739,18 @@ class SocietyOfferLetterController extends Controller
             'is_encrochment' => '0',
             'is_approve_offer_letter' => '0',
         );
-         $last_id = OlApplication::updateOrCreate(['id' => $request->applicationId], $insert_application);
-        $role_id = Role::where('name','like', 'ree_junior_engineer')->first();
-
-        $user_ids = RoleUser::where('role_id', $role_id->id)->get()->toArray();
-        $user_ids = array_column($user_ids, 'user_id');
-        $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
-
-        foreach ($layout_user_ids as $key => $value) {
-            $select_user_ids[] = $value['user_id'];
-        }
-        $users = User::whereIn('id', $select_user_ids)->get();
-
-        if(count($users) > 0){
-            foreach($users as $key => $user){
-                $i = 0;
-                $insert_application_log_pending[$key]['application_id'] = $last_id->id;
-                $insert_application_log_pending[$key]['society_flag'] = 1;
-                $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
-                $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
-                $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
-                $insert_application_log_pending[$key]['to_user_id'] = $user->id;
-                $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
-                $insert_application_log_pending[$key]['remark'] = '';
-                $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
-                $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
-                $i++;
-            }
-        }
+        $last_id = OlApplication::updateOrCreate(['id' => $request->applicationId], $insert_application);
+        
+        $insert_application_log_pending['application_id'] = $last_id->id;
+        $insert_application_log_pending['society_flag'] = 1;
+        $insert_application_log_pending['user_id'] = Auth::user()->id;
+        $insert_application_log_pending['role_id'] = Auth::user()->role_id;
+        $insert_application_log_pending['status_id'] = config('commanConfig.applicationStatus.pending');
+        $insert_application_log_pending['to_user_id'] = NULL;
+        $insert_application_log_pending['to_role_id'] = NULL;
+        $insert_application_log_pending['remark'] = '';
+        $insert_application_log_pending['created_at'] = date('Y-m-d H-i-s');
+        $insert_application_log_pending['updated_at'] = date('Y-m-d H-i-s');
 
         OlApplicationStatus::insert($insert_application_log_pending);
         $last_society_flag_id = OlApplicationStatus::where('society_flag', '1')->orderBy('id', 'desc')->first();
@@ -803,34 +787,18 @@ class SocietyOfferLetterController extends Controller
             'is_approve_oc' => '0',
         );
         $last_id = OcApplication::create($insert_application);
-        $role_ids = Role::where('name','like', 'ee_junior_engineer')->orWhere('name','like', 'EM')->pluck('id')->toArray();
-
-        $user_ids = RoleUser::whereIn('role_id', $role_ids)->get()->toArray();
-        $user_ids = array_column($user_ids, 'user_id');
-        $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
-
-        foreach ($layout_user_ids as $key => $value) {
-            $select_user_ids[] = $value['user_id'];
-        }
-        $users = User::whereIn('id', $select_user_ids)->get();
-
-        if(count($users) > 0){
-            foreach($users as $key => $user){
-                $i = 0;
-                $insert_application_log_pending[$key]['application_id'] = $last_id->id;
-                $insert_application_log_pending[$key]['society_flag'] = 1;
-                $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
-                $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
-                $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
-                $insert_application_log_pending[$key]['to_user_id'] = $user->id;
-                $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
-                $insert_application_log_pending[$key]['remark'] = '';
-                $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
-                $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
-                $i++;
-            }
-        }
-
+       
+        $insert_application_log_pending['application_id'] = $last_id->id;
+        $insert_application_log_pending['society_flag'] = 1;
+        $insert_application_log_pending['user_id'] = Auth::user()->id;
+        $insert_application_log_pending['role_id'] = Auth::user()->role_id;
+        $insert_application_log_pending['status_id'] = config('commanConfig.applicationStatus.pending');
+        $insert_application_log_pending['to_user_id'] = null;
+        $insert_application_log_pending['to_role_id'] = null;
+        $insert_application_log_pending['remark'] = '';
+        $insert_application_log_pending['created_at'] = date('Y-m-d H-i-s');
+        $insert_application_log_pending['updated_at'] = date('Y-m-d H-i-s');
+     
         OcApplicationStatusLog::insert($insert_application_log_pending);
         $last_society_flag_id = OcApplicationStatusLog::where('society_flag', '1')->orderBy('id', 'desc')->first();
         $id = OcApplicationStatusLog::find($last_society_flag_id->id);
@@ -925,33 +893,17 @@ class SocietyOfferLetterController extends Controller
             'is_approve_offer_letter' => '0',
         );
         $last_id = OlApplication::updateOrCreate(['id' => $request->applicationId], $insert_application);
-        // $last_id = OlApplication::create($insert_application);
-        $role_id = Role::where('name', 'ee_junior_engineer')->first();
-
-        $user_ids = RoleUser::where('role_id', $role_id->id)->get()->toArray();
-        $user_ids = array_column($user_ids, 'user_id');
-        $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
-        foreach ($layout_user_ids as $key => $value) {
-            $select_user_ids[] = $value['user_id'];
-        }
-        $users = User::whereIn('id', $select_user_ids)->get();
         
-        if(count($users) > 0){
-            foreach($users as $key => $user){
-                $i = 0;
-                $insert_application_log_pending[$key]['application_id'] = $last_id->id;
-                $insert_application_log_pending[$key]['society_flag'] = 1;
-                $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
-                $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
-                $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
-                $insert_application_log_pending[$key]['to_user_id'] = $user->id;
-                $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
-                $insert_application_log_pending[$key]['remark'] = '';
-                $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
-                $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
-                $i++;
-            }
-        }
+        $insert_application_log_pending['application_id'] = $last_id->id;
+        $insert_application_log_pending['society_flag'] = 1;
+        $insert_application_log_pending['user_id'] = Auth::user()->id;
+        $insert_application_log_pending['role_id'] = Auth::user()->role_id;
+        $insert_application_log_pending['status_id'] = config('commanConfig.applicationStatus.pending');
+        $insert_application_log_pending['to_user_id'] = null;
+        $insert_application_log_pending['to_role_id'] = null;
+        $insert_application_log_pending['remark'] = '';
+        $insert_application_log_pending['created_at'] = date('Y-m-d H-i-s');
+        $insert_application_log_pending['updated_at'] = date('Y-m-d H-i-s');
         
         OlApplicationStatus::insert($insert_application_log_pending);
         $last_society_flag_id = OlApplicationStatus::where('society_flag', '1')->orderBy('id', 'desc')->first();
@@ -996,32 +948,17 @@ class SocietyOfferLetterController extends Controller
             'is_approve_offer_letter' => '0',
         );
         $last_id = OlApplication::create($insert_application);
-        $role_id = Role::where('name', 'like','ree_junior_engineer')->first();
-
-        $user_ids = RoleUser::where('role_id', $role_id->id)->get()->toArray();
-        $user_ids = array_column($user_ids, 'user_id');
-        $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
-        foreach ($layout_user_ids as $key => $value) {
-            $select_user_ids[] = $value['user_id'];
-        }
-        $users = User::whereIn('id', $select_user_ids)->get();
-
-        if(count($users) > 0){
-            foreach($users as $key => $user){
-                $i = 0;
-                $insert_application_log_pending[$key]['application_id'] = $last_id->id;
-                $insert_application_log_pending[$key]['society_flag'] = 1;
-                $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
-                $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
-                $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
-                $insert_application_log_pending[$key]['to_user_id'] = $user->id;
-                $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
-                $insert_application_log_pending[$key]['remark'] = '';
-                $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
-                $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
-                $i++;
-            }
-        }
+     
+        $insert_application_log_pending['application_id'] = $last_id->id;
+        $insert_application_log_pending['society_flag'] = 1;
+        $insert_application_log_pending['user_id'] = Auth::user()->id;
+        $insert_application_log_pending['role_id'] = Auth::user()->role_id;
+        $insert_application_log_pending['status_id'] = config('commanConfig.applicationStatus.pending');
+        $insert_application_log_pending['to_user_id'] = null;
+        $insert_application_log_pending['to_role_id'] = null;
+        $insert_application_log_pending['remark'] = '';
+        $insert_application_log_pending['created_at'] = date('Y-m-d H-i-s');
+        $insert_application_log_pending['updated_at'] = date('Y-m-d H-i-s');
 
         OlApplicationStatus::insert($insert_application_log_pending);
         $last_society_flag_id = OlApplicationStatus::where('society_flag', '1')->orderBy('id', 'desc')->first();
@@ -1062,34 +999,17 @@ class SocietyOfferLetterController extends Controller
         );
 
         $last_id = OcApplication::create($insert_application);
-        $role_ids = Role::where('name','like', 'ee_junior_engineer')->orWhere('name','like', 'EM')->pluck('id')->toArray();
-
-        $user_ids = RoleUser::whereIn('role_id', $role_ids)->get()->toArray();
-        $user_ids = array_column($user_ids, 'user_id');
-        $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
-
-        foreach ($layout_user_ids as $key => $value) {
-            $select_user_ids[] = $value['user_id'];
-        }
-        $users = User::whereIn('id', $select_user_ids)->get();
-
-        if(count($users) > 0){
-            foreach($users as $key => $user){
-                $i = 0;
-                $insert_application_log_pending[$key]['application_id'] = $last_id->id;
-                $insert_application_log_pending[$key]['society_flag'] = 1;
-                $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
-                $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
-                $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
-                $insert_application_log_pending[$key]['to_user_id'] = $user->id;
-                $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
-                $insert_application_log_pending[$key]['remark'] = '';
-                $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
-                $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
-                $i++;
-            }
-        }
-
+        $insert_application_log_pending['application_id'] = $last_id->id;
+        $insert_application_log_pending['society_flag'] = 1;
+        $insert_application_log_pending['user_id'] = Auth::user()->id;
+        $insert_application_log_pending['role_id'] = Auth::user()->role_id;
+        $insert_application_log_pending['status_id'] = config('commanConfig.applicationStatus.pending');
+        $insert_application_log_pending['to_user_id'] = null;
+        $insert_application_log_pending['to_role_id'] = null;
+        $insert_application_log_pending['remark'] = '';
+        $insert_application_log_pending['created_at'] = date('Y-m-d H-i-s');
+        $insert_application_log_pending['updated_at'] = date('Y-m-d H-i-s');
+ 
         OcApplicationStatusLog::insert($insert_application_log_pending);
         $last_society_flag_id = OcApplicationStatusLog::where('society_flag', '1')->orderBy('id', 'desc')->first();
         $id = OcApplicationStatusLog::find($last_society_flag_id->id);
@@ -1588,63 +1508,66 @@ class SocietyOfferLetterController extends Controller
             'society_document_path' => $path,
         );
         RevalOlSocietyDocumentStatus::create($input);
-        $documents_master = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['reval_documents_uploaded' => function($q) use ($society){
-            $q->where('society_id', $society->id)->get();
-        }])->get();
 
-        if($application->application_master_id == '3' || $application->application_master_id == '14'){
-            $optional_docs = config('commanConfig.optional_docs_premium_reval');
-        }
-        if($application->application_master_id == '7' || $application->application_master_id == '18 '){
-            $optional_docs = config('commanConfig.optional_docs_sharing_reval');
-        }
-        $docs_uploaded_count = 0;
-        $docs_count = 0;
-        foreach($documents_master as $documents_key => $documents_val) {
-            if (in_array($documents_key + 1, $optional_docs) == false) {
-                $docs_count++;
-                if (count($documents_val->documents_uploaded) > 0) {
-                    $documents_uploaded[] = $documents_val->documents_uploaded;
-                    $docs_uploaded_count++;
-                }
-            }
-        }
+        //-----useless code
+        // $documents_master = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['reval_documents_uploaded' => function($q) use ($society){
+        //     $q->where('society_id', $society->id)->get();
+        // }])->get();
 
-        if($docs_count == $docs_uploaded_count){
-            $role_id = Role::where('name','like', 'ree_junior_engineer')->first();
+        // if($application->application_master_id == '3' || $application->application_master_id == '14'){
+        //     $optional_docs = config('commanConfig.optional_docs_premium_reval');
+        // }
+        // if($application->application_master_id == '7' || $application->application_master_id == '18 '){
+        //     $optional_docs = config('commanConfig.optional_docs_sharing_reval');
+        // }
+        // $docs_uploaded_count = 0;
+        // $docs_count = 0;
+        // foreach($documents_master as $documents_key => $documents_val) {
+        //     if (in_array($documents_key + 1, $optional_docs) == false) {
+        //         $docs_count++;
+        //         if (count($documents_val->documents_uploaded) > 0) {
+        //             $documents_uploaded[] = $documents_val->documents_uploaded;
+        //             $docs_uploaded_count++;
+        //         }
+        //     }
+        // }
 
-            $user_ids = RoleUser::where('role_id', $role_id->id)->get()->toArray();
-            $user_ids = array_column($user_ids, 'user_id');
-            $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
-            foreach ($layout_user_ids as $key => $value) {
-                $select_user_ids[] = $value['user_id'];
-            }
-            $users = User::whereIn('id', $select_user_ids)->get();
+        // if($docs_count == $docs_uploaded_count){
+        //     $role_id = Role::where('name','like', 'ree_junior_engineer')->first();
 
-            if(count($users) > 0){
+        //     $user_ids = RoleUser::where('role_id', $role_id->id)->get()->toArray();
+        //     $user_ids = array_column($user_ids, 'user_id');
+        //     $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
+        //     foreach ($layout_user_ids as $key => $value) {
+        //         $select_user_ids[] = $value['user_id'];
+        //     }
+        //     $users = User::whereIn('id', $select_user_ids)->get();
 
-                foreach($users as $key => $user){
-                    $i = 0;
-                    $insert_application_log_pending[$key]['application_id'] = $application->id;
-                    $insert_application_log_pending[$key]['society_flag'] = 1;
-                    $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
-                    $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
-                    $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
-                    $insert_application_log_pending[$key]['to_user_id'] = $user->id;
-                    $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
-                    $insert_application_log_pending[$key]['remark'] = '';
-                    $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
-                    $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
-                    $i++;
-                }
-                OlApplicationStatus::insert($insert_application_log_pending);
-                $add_comment = array(
-                    'society_id' => $society->id,
-                    'society_documents_comment' => 'N.A.',
-                );
-                OlSocietyDocumentsComment::create($add_comment);
-            }
-        }
+        //     if(count($users) > 0){
+
+        //         foreach($users as $key => $user){
+        //             $i = 0;
+        //             $insert_application_log_pending[$key]['application_id'] = $application->id;
+        //             $insert_application_log_pending[$key]['society_flag'] = 1;
+        //             $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
+        //             $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
+        //             $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
+        //             $insert_application_log_pending[$key]['to_user_id'] = $user->id;
+        //             $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
+        //             $insert_application_log_pending[$key]['remark'] = '';
+        //             $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
+        //             $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
+        //             $i++;
+        //         }
+        //         OlApplicationStatus::insert($insert_application_log_pending);
+        //         $add_comment = array(
+        //             'society_id' => $society->id,
+        //             'society_documents_comment' => 'N.A.',
+        //         );
+        //         OlSocietyDocumentsComment::create($add_comment);
+        //     }
+        // }
+         //-----useless code-------
         return redirect()->route('reval_documents_upload');
     }
 
@@ -1735,56 +1658,56 @@ class SocietyOfferLetterController extends Controller
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $application = OlApplication::where('society_id', $society->id)->orderBy('id','desc')->first();
 
-        $documents_master = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['reval_documents_uploaded' => function($q) use ($society){
-            $q->where('society_id', $society->id)->get();
-        }])->get();
+        // $documents_master = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['reval_documents_uploaded' => function($q) use ($society){
+        //     $q->where('society_id', $society->id)->get();
+        // }])->get();
 
-        if($application->application_master_id == '3' || $application->application_master_id == '14'){
-            $optional_docs = config('commanConfig.optional_docs_premium_reval');
-        }
-        if($application->application_master_id == '7' || $application->application_master_id == '18'){
-            $optional_docs = config('commanConfig.optional_docs_sharing_reval');
-        }
-        $docs_uploaded_count = 0;
-        $docs_count = 0;
-        foreach($documents_master as $documents_key => $documents_val) {
-            if (in_array($documents_key + 1, $optional_docs) == false) {
-                $docs_count++;
-                if (count($documents_val->documents_uploaded) > 0) {
-                    $documents_uploaded[] = $documents_val->documents_uploaded;
-                    $docs_uploaded_count++;
-                }
-            }
-        }
+        // if($application->application_master_id == '3' || $application->application_master_id == '14'){
+        //     $optional_docs = config('commanConfig.optional_docs_premium_reval');
+        // }
+        // if($application->application_master_id == '7' || $application->application_master_id == '18'){
+        //     $optional_docs = config('commanConfig.optional_docs_sharing_reval');
+        // }
+        // $docs_uploaded_count = 0;
+        // $docs_count = 0;
+        // foreach($documents_master as $documents_key => $documents_val) {
+        //     if (in_array($documents_key + 1, $optional_docs) == false) {
+        //         $docs_count++;
+        //         if (count($documents_val->documents_uploaded) > 0) {
+        //             $documents_uploaded[] = $documents_val->documents_uploaded;
+        //             $docs_uploaded_count++;
+        //         }
+        //     }
+        // }
 
-        if($docs_count == $docs_uploaded_count){
-            $role_id = Role::where('name','like', 'ree_junior_engineer')->first();
-            $user_ids = RoleUser::where('role_id', $role_id->id)->get()->toArray();
-            $user_ids = array_column($user_ids, 'user_id');
-            $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
-            foreach ($layout_user_ids as $key => $value) {
-                $select_user_ids[] = $value['user_id'];
-            }
-            $users = User::whereIn('id', $select_user_ids)->get();
+        // if($docs_count == $docs_uploaded_count){
+        //     $role_id = Role::where('name','like', 'ree_junior_engineer')->first();
+        //     $user_ids = RoleUser::where('role_id', $role_id->id)->get()->toArray();
+        //     $user_ids = array_column($user_ids, 'user_id');
+        //     $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
+        //     foreach ($layout_user_ids as $key => $value) {
+        //         $select_user_ids[] = $value['user_id'];
+        //     }
+        //     $users = User::whereIn('id', $select_user_ids)->get();
 
-            if(count($users) > 0){
-                foreach($users as $key => $user){
-                    $i = 0;
-                    $insert_application_log_pending[$key]['application_id'] = $application->id;
-                    $insert_application_log_pending[$key]['society_flag'] = 1;
-                    $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
-                    $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
-                    $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
-                    $insert_application_log_pending[$key]['to_user_id'] = $user->id;
-                    $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
-                    $insert_application_log_pending[$key]['remark'] = '';
-                    $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
-                    $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
-                    $i++;
-                }
-            }
-            OlApplicationStatus::insert($insert_application_log_pending);
-        }
+        //     if(count($users) > 0){
+        //         foreach($users as $key => $user){
+        //             $i = 0;
+        //             $insert_application_log_pending[$key]['application_id'] = $application->id;
+        //             $insert_application_log_pending[$key]['society_flag'] = 1;
+        //             $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
+        //             $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
+        //             $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
+        //             $insert_application_log_pending[$key]['to_user_id'] = $user->id;
+        //             $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
+        //             $insert_application_log_pending[$key]['remark'] = '';
+        //             $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
+        //             $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
+        //             $i++;
+        //         }
+        //     }
+        //     OlApplicationStatus::insert($insert_application_log_pending);
+        // }
 
         $delete_document_details = RevalOlSocietyDocumentStatus::where('society_id', $society->id)->where('document_id', $id)->get();
         $stored_filepath = explode('/', $delete_document_details[0]->society_document_path);
@@ -1801,60 +1724,60 @@ class SocietyOfferLetterController extends Controller
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $application = OcApplication::where('society_id', $society->id)->orderBy('id','desc')->first();
 
-        $documents_master = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($society){
-            $q->where('society_id', $society->id)->get();
-        }])->get();
+        // $documents_master = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($society){
+        //     $q->where('society_id', $society->id)->get();
+        // }])->get();
 
-        if($application->application_master_id == '5' || $application->application_master_id == '16'){
-            $optional_docs = config('commanConfig.optional_docs_premium_oc');
-        }
-        if($application->application_master_id == '11' || $application->application_master_id == '22'){
-            $optional_docs = config('commanConfig.optional_docs_sharing_oc');
-        }
-        $docs_uploaded_count = 0;
-        $docs_count = 0;
-        foreach($documents_master as $documents_key => $documents_val) {
-            if (in_array($documents_key + 1, $optional_docs) == false) {
-                $docs_count++;
-                if (count($documents_val->documents_uploaded) > 0) {
-                    $documents_uploaded[] = $documents_val->documents_uploaded;
-                    $docs_uploaded_count++;
-                }
-            }
-        }
+        // if($application->application_master_id == '5' || $application->application_master_id == '16'){
+        //     $optional_docs = config('commanConfig.optional_docs_premium_oc');
+        // }
+        // if($application->application_master_id == '11' || $application->application_master_id == '22'){
+        //     $optional_docs = config('commanConfig.optional_docs_sharing_oc');
+        // }
+        // $docs_uploaded_count = 0;
+        // $docs_count = 0;
+        // foreach($documents_master as $documents_key => $documents_val) {
+        //     if (in_array($documents_key + 1, $optional_docs) == false) {
+        //         $docs_count++;
+        //         if (count($documents_val->documents_uploaded) > 0) {
+        //             $documents_uploaded[] = $documents_val->documents_uploaded;
+        //             $docs_uploaded_count++;
+        //         }
+        //     }
+        // }
 
-        if($docs_count == $docs_uploaded_count){
+        // if($docs_count == $docs_uploaded_count){
 
-            $role_ids = Role::where('name','like', 'ee_junior_engineer')->orWhere('name','like', 'EM')->pluck('id')->toArray();
+        //     $role_ids = Role::where('name','like', 'ee_junior_engineer')->orWhere('name','like', 'EM')->pluck('id')->toArray();
 
-            $user_ids = RoleUser::whereIn('role_id', $role_ids)->get()->toArray();
-            $user_ids = array_column($user_ids, 'user_id');
-            $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
+        //     $user_ids = RoleUser::whereIn('role_id', $role_ids)->get()->toArray();
+        //     $user_ids = array_column($user_ids, 'user_id');
+        //     $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
 
-            foreach ($layout_user_ids as $key => $value) {
-                $select_user_ids[] = $value['user_id'];
-            }
-            $users = User::whereIn('id', $select_user_ids)->get();
+        //     foreach ($layout_user_ids as $key => $value) {
+        //         $select_user_ids[] = $value['user_id'];
+        //     }
+        //     $users = User::whereIn('id', $select_user_ids)->get();
 
 
-            if(count($users) > 0){
-                foreach($users as $key => $user){
-                    $i = 0;
-                    $insert_application_log_pending[$key]['application_id'] = $application->id;
-                    $insert_application_log_pending[$key]['society_flag'] = 1;
-                    $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
-                    $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
-                    $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
-                    $insert_application_log_pending[$key]['to_user_id'] = $user->id;
-                    $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
-                    $insert_application_log_pending[$key]['remark'] = '';
-                    $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
-                    $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
-                    $i++;
-                }
-            }
-            OcApplicationStatusLog::insert($insert_application_log_pending);
-        }
+        //     if(count($users) > 0){
+        //         foreach($users as $key => $user){
+        //             $i = 0;
+        //             $insert_application_log_pending[$key]['application_id'] = $application->id;
+        //             $insert_application_log_pending[$key]['society_flag'] = 1;
+        //             $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
+        //             $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
+        //             $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
+        //             $insert_application_log_pending[$key]['to_user_id'] = $user->id;
+        //             $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
+        //             $insert_application_log_pending[$key]['remark'] = '';
+        //             $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
+        //             $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
+        //             $i++;
+        //         }
+        //     }
+        //     OcApplicationStatusLog::insert($insert_application_log_pending);
+        // }
 
         $delete_document_details = OcSocietyDocumentStatus::where('society_id', $society->id)->where('document_id', $id)->get();
         $stored_filepath = explode('/', $delete_document_details[0]->society_document_path);
