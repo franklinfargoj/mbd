@@ -29,7 +29,8 @@
                         <tbody>
                         
                             @php $i=1; @endphp
-                            @if(count($societyDocument) > 0)
+                            
+                            @if(count($documentsList) > 0)
                                 @foreach($documentsList as $value)
                                     @foreach($value as $document)
                                     
