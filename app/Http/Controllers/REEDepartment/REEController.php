@@ -1996,7 +1996,33 @@ class REEController extends Controller
                 }
             }
 
+            if($request->module_name == 'NOC'){
+                $nocModuleController = new SocietyNocController();
+                $nocApplication = $nocModuleController->getApplicationListDashboard('REE');
 
+                return $nocApplication['app_data'];
+            }
+
+            if($request->module_name == 'NOC Subordinate Pendency'){
+                $nocModuleController = new SocietyNocController();
+                $nocApplication = $nocModuleController->getApplicationListDashboard('REE');
+
+                return $nocApplication['pending_data'];
+            }
+
+            if($request->module_name == 'NOC (CC)'){
+                $nocforCCModuleController = new SocietyNocforCCController();
+                $nocforCCApplication = $nocforCCModuleController->getApplicationListDashboard('REE');
+
+                return $nocforCCApplication['app_data'];
+            }
+
+            if($request->module_name == 'NOC (CC) Subordinate Pendency'){
+                $nocforCCModuleController = new SocietyNocforCCController();
+                $nocforCCApplication = $nocforCCModuleController->getApplicationListDashboard('REE');
+
+                return $nocforCCApplication['pending_data'];
+            }
         }
 
 

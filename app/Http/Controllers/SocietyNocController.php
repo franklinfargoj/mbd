@@ -720,7 +720,7 @@ class SocietyNocController extends Controller
 
         return array(
             'app_data' => array(
-                'Total Number of Application' => array(
+                'Total Number of Applications' => array(
                     $total_number_of_application,
                     'co_noc_applications?dashboard_redicted=1&submitted_at_from=&submitted_at_to=&update_status='
                 ),
@@ -746,7 +746,7 @@ class SocietyNocController extends Controller
                 ),
             ),
             'pending_data' => array(
-                'Total number of Application Pending' => $total_allover_pending_application,
+                'Total Number of Applications' => $total_allover_pending_application,
                 'Applications pending at REE' => $total_pending_application_at_ree,
                 'Applications pending at CO' => $total_pending_application_at_co
             ),
@@ -821,7 +821,7 @@ class SocietyNocController extends Controller
 
             return array(
                 'app_data' => array(
-                    'Total Number of Application' => array(
+                    'Total Number of Applications' => array(
                         $total_number_of_application,
                         'ree_noc_applications?dashboard_redicted=1&submitted_at_from=&submitted_at_to=&update_status='
                     ),
@@ -851,7 +851,7 @@ class SocietyNocController extends Controller
                     ),
                 ),
                 'pending_data' => array(
-                    'Total number of Application Pending' => $total_allover_pending_application,
+                    'Total Number of Applications' => $total_allover_pending_application,
                     'Applications pending at REE' => $total_pending_application_at_ree,
                     'Applications pending at CO' => $total_pending_application_at_co
                 ),
