@@ -222,11 +222,12 @@ class CAPController extends Controller
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
         $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
-
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         $co_role_id = Role::where('name', '=', config('commanConfig.co_engineer'))->first();
 
         $arrData['get_forward_co'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                                            ->where('lu.layout_id', session()->get('layout_id'))
+                                            ->whereIn('lu.layout_id', $layout_ids)
                                             ->where('role_id', $co_role_id->id)->get();
 
         $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_role_id->name));                                   
@@ -236,7 +237,7 @@ class CAPController extends Controller
 
         $vp_role_id = Role::where('name', '=', config('commanConfig.vp_engineer'))->first();
         $arrData['get_forward_vp'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                                            ->where('lu.layout_id', session()->get('layout_id'))
+                                            ->whereIn('lu.layout_id', $layout_ids)
                                             ->where('role_id', $vp_role_id->id)->get();
 
         $arrData['vp_role_name'] = strtoupper(str_replace('_', ' ', $vp_role_id->name));
@@ -365,10 +366,11 @@ class CAPController extends Controller
         $arrData['role_name'] = $parentData['role_name'];
 
         // VP Forward Application
-
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         $vp_role_id = Role::where('name', '=', config('commanConfig.vp_engineer'))->first();
         $arrData['get_forward_vp'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-            ->where('lu.layout_id', session()->get('layout_id'))
+            ->whereIn('lu.layout_id', $layout_ids)
             ->where('role_id', $vp_role_id->id)->get();
 
         $arrData['vp_role_name'] = strtoupper(str_replace('_', ' ', $vp_role_id->name));

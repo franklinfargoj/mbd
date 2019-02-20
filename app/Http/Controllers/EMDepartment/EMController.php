@@ -338,11 +338,12 @@ class EMController extends Controller
         $arrData['get_current_status'] = $this->comman->getCurrentStatusOc($applicationId);
 
         // REE junior Forward Application
-
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         $ree_jr_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
 
         $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                                ->where('lu.layout_id', session()->get('layout_id'))
+                                ->whereIn('lu.layout_id', $layout_ids)
                                 ->where('role_id', $ree_jr_id->id)->get();
         $arrData['ree_junior_name'] = strtoupper(str_replace('_', ' ', $ree_jr_id->name));
 
