@@ -1,91 +1,116 @@
-<div class="hearing-accordion-wrapper">
-    <div class="m-portlet m-portlet--compact hearing-accordion appointing-architect-accordion mb-0">
-        <div class="d-flex justify-content-between align-items-center">
-            <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
-                data-toggle="collapse" href="#appointing-architect">
-                <span class="form-accordion-title">Appointing Architect</span>
-                <span class="accordion-icon appointing-architect-accordion-icon"></span>
-            </a>
+<div class="container-fluid">
+    <div class="m-subheader px-0 m-subheader--top">
+        <div class="d-flex align-items-center">
+            <h3 class="m-subheader__title">Appointing Architect</h3>
         </div>
     </div>
-    <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="appointing-architect"
-        data-parent="#accordion">
-        <div class="row no-gutters hearing-row">
-            <div class="col-lg-3">
-                <div class="m-portlet app-card text-center no-shadow">
-                    <h2 class="app-heading">Total No. of Applications</h2>
-                    <h2 class="app-no mb-0">{{$appointing_architect_data['total_no_of_application']}}</h2>
-                    <!-- <a href="" class="app-card__details mb-0">View Details</a> -->
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="m-portlet app-card text-center no-shadow">
-                    <h2 class="app-heading">Shortlisted Applications</h2>
-                    <h2 class="app-no mb-0">{{$appointing_architect_data['total_shortlisted_application']}}</h2>
-                    <!-- <a href="" class="app-card__details mb-0">View Details</a> -->
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="m-portlet app-card text-center no-shadow">
-                    <h2 class="app-heading">Final Applications</h2>
-                    <h2 class="app-no mb-0">{{$appointing_architect_data['total_final_application']}}</h2>
-                    <!-- <a href="" class="app-card__details mb-0">View Details</a> -->
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="m-portlet app-card text-center no-shadow">
-                    <h2 class="app-heading">Pending Applications</h2>
-                    <h2 class="app-no mb-0">{{$appointing_architect_data['pending_at_current_user']}}</h2>
-                    <!-- <a href="" class="app-card__details mb-0">View Details</a> -->
+
+    <div class="row">
+        <div class="col-sm-7">
+            <div class="m-portlet db-table">
+                <div class="table-responsive">
+                    <table class="table text-center">
+                        <thead>
+                        <th style="width: 10%;">Sr. No</th>
+                        <th style="width: 60%;" class="text-center">Stages</th>
+                        <th style="width: 15%;" class="text-left">Count</th>
+                        {{--<th style="width: 15%;">Action</th>--}}
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="text-center">1.</td>
+                            <td>Total No. of Applications</td>
+                            <td class="text-center"><span class="count-circle">{{$appointing_architect_data['total_no_of_application']}}</span></td>
+                            {{--<td><button class="btn btn-action">View</button></td>--}}
+                        </tr>
+                        <tr>
+                            <td class="text-center">2.</td>
+                            <td>Shortlisted Application</td>
+                            <td><span class="count-circle">{{$appointing_architect_data['total_shortlisted_application']}}</span></td>
+                            {{--<td><button class="btn btn-action">View</button></td>--}}
+                        </tr>
+                        <tr>
+                            <td class="text-center">3.</td>
+                            <td>Final Applications</td>
+                            <td><span class="count-circle">{{$appointing_architect_data['total_final_application']}}</span></td>
+                            {{--<td><button class="btn btn-action">View</button></td>--}}
+                        </tr>
+                        <tr>
+                            <td class="text-center">4.</td>
+                            <td>Pending Applications</td>
+                            <td><span class="count-circle">{{$appointing_architect_data['pending_at_current_user']}}</span></td>
+                            {{--<td><button class="btn btn-action">View</button></td>--}}
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
+        <div class="col-sm-5">
+            <div class="m-portlet">
+                <img src="img/data-gola.jpg">
+            </div>
+        </div>
     </div>
+
 </div>
 
-<div class="hearing-accordion-wrapper">
-    <div class="m-portlet m-portlet--compact hearing-accordion appointing-architect-pendencies-accordion mb-0">
-        <div class="d-flex justify-content-between align-items-center">
-            <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
-                data-toggle="collapse" href="#appointing-architect-pendencies">
-                <span class="form-accordion-title">Appointing Architect pendencies</span>
-                <span class="accordion-icon appointing-architect-pendencies-accordion-icon"></span>
-            </a>
+<div class="container-fluid">
+    <div class="m-subheader px-0 m-subheader--top">
+        <div class="d-flex align-items-center">
+            <h3 class="m-subheader__title">Appointing Architect pendencies</h3>
         </div>
     </div>
-    <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="appointing-architect-pendencies"
-        data-parent="#accordion">
-        <div class="row no-gutters hearing-row">
-            <div class="col-lg-3">
-                <div class="m-portlet app-card text-center no-shadow">
-                    <h2 class="app-heading">Pending At Junior Architect</h2>
-                    <h2 class="app-no mb-0">{{$appointing_architect_data['pending_at_jr_architect']}}</h2>
-                    <!-- <a href="" class="app-card__details mb-0">View Details</a> -->
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="m-portlet app-card text-center no-shadow">
-                    <h2 class="app-heading">Pending At Seinior Architect</h2>
-                    <h2 class="app-no mb-0">{{$appointing_architect_data['pending_at_sr_architect']}}</h2>
-                    <!-- <a href="" class="app-card__details mb-0">View Details</a> -->
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="m-portlet app-card text-center no-shadow">
-                    <h2 class="app-heading">Pending At Head Architect</h2>
-                    <h2 class="app-no mb-0">{{$appointing_architect_data['pending_at_architect']}}</h2>
-                    <!-- <a href="" class="app-card__details mb-0">View Details</a> -->
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="m-portlet app-card text-center no-shadow">
-                    <h2 class="app-heading">Pending At Selection Committee</h2>
-                    <h2 class="app-no mb-0">{{$appointing_architect_data['pending_at_selection_committee']}}</h2>
-                    <!-- <a href="" class="app-card__details mb-0">View Details</a> -->
+
+    <div class="row">
+        <div class="col-sm-7">
+            <div class="m-portlet db-table">
+                <div class="table-responsive">
+                    <table class="table text-center">
+                        <thead>
+                        <th style="width: 10%;">Sr. No</th>
+                        <th style="width: 60%;" class="text-center">Stages</th>
+                        <th style="width: 15%;" class="text-left">Count</th>
+                        {{--<th style="width: 15%;">Action</th>--}}
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="text-center">1.</td>
+                            <td>Pending At Junior Architect</td>
+                            <td class="text-center"><span class="count-circle">{{$appointing_architect_data['pending_at_jr_architect']}}</span></td>
+                            {{--<td><button class="btn btn-action">View</button></td>--}}
+                        </tr>
+                        <tr>
+                            <td class="text-center">2.</td>
+                            <td>Pending At Seinior Architect</td>
+                            <td><span class="count-circle">{{$appointing_architect_data['pending_at_sr_architect']}}</span></td>
+                            {{--<td><button class="btn btn-action">View</button></td>--}}
+                        </tr>
+                        <tr>
+                            <td class="text-center">3.</td>
+                            <td>Pending At Head Architect</td>
+                            <td><span class="count-circle">{{$appointing_architect_data['pending_at_architect']}}</span></td>
+                            {{--<td><button class="btn btn-action">View</button></td>--}}
+                        </tr>
+                        <tr>
+                            <td class="text-center">4.</td>
+                            <td>Pending At Selection Committee</td>
+                            <td><span class="count-circle">{{$appointing_architect_data['pending_at_selection_committee']}}</span></td>
+                            {{--<td><button class="btn btn-action">View</button></td>--}}
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
+        <div class="col-sm-5">
+            <div class="m-portlet">
+                <img src="img/data-gola.jpg">
+            </div>
+        </div>
     </div>
+
 </div>
+
 
 
