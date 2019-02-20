@@ -38,6 +38,7 @@ use App\User;
 use Config;
 use Auth;
 use DB;
+use App\LayoutUser;
  
 class COController extends Controller
 {
@@ -480,7 +481,7 @@ class COController extends Controller
 
             $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
                 ->whereIn('lu.layout_id', $layout_ids)
-                ->where('role_id', $ree_id->id)->get();
+                ->where('role_id', $ree_id->id)->groupBy('users.id')->get();
 
             $arrData['ree_role_name']   = strtoupper(str_replace('_', ' ', $ree_id->name));
         }
@@ -488,7 +489,7 @@ class COController extends Controller
         {
             $arrData['get_forward_cap'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
                 ->whereIn('lu.layout_id', $layout_ids)
-                ->where('role_id', $cap_role_id->id)->get();
+                ->where('role_id', $cap_role_id->id)->groupBy('users.id')->get();
             $arrData['cap_role_name'] = strtoupper(str_replace('_', ' ', $cap_role_id->name));
         }
 
@@ -533,7 +534,7 @@ class COController extends Controller
 
             $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
                 ->whereIn('lu.layout_id', $layout_ids)
-                ->where('role_id', $ree_id->id)->get();
+                ->where('role_id', $ree_id->id)->groupBy('users.id')->get();
 
             $arrData['ree_role_name']   = strtoupper(str_replace('_', ' ', $ree_id->name));
         }
@@ -541,7 +542,7 @@ class COController extends Controller
         {
             $arrData['get_forward_cap'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
                 ->whereIn('lu.layout_id', $layout_ids)
-                ->where('role_id', $cap_role_id->id)->get();
+                ->where('role_id', $cap_role_id->id)->groupBy('users.id')->get();
             $arrData['cap_role_name'] = strtoupper(str_replace('_', ' ', $cap_role_id->name));
         }
 
@@ -887,7 +888,7 @@ class COController extends Controller
 
             $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
                 ->whereIn('lu.layout_id', $layout_ids)
-                ->where('role_id', $ree_id->id)->get();
+                ->where('role_id', $ree_id->id)->groupBy('users.id')->get();
 
             $arrData['ree_role_name']   = strtoupper(str_replace('_', ' ', $ree_id->name));
         }
@@ -926,7 +927,7 @@ class COController extends Controller
 
             $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
                 ->whereIn('lu.layout_id', $layout_ids)
-                ->where('role_id', $ree_id->id)->get();
+                ->where('role_id', $ree_id->id)->groupBy('users.id')->get();
 
             $arrData['ree_role_name']   = strtoupper(str_replace('_', ' ', $ree_id->name));
         }
@@ -1385,7 +1386,7 @@ class COController extends Controller
 
             $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
                 ->whereIn('lu.layout_id', $layout_ids)
-                ->where('role_id', $ree_id->id)->get();
+                ->where('role_id', $ree_id->id)->groupBy('users.id')->get();
 
             $arrData['ree_role_name']   = strtoupper(str_replace('_', ' ', $ree_id->name));
         }

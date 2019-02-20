@@ -46,6 +46,7 @@ use Storage;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 use Mpdf\Mpdf;
+use App\LayoutUser;
 
 class REEController extends Controller
 {
@@ -182,7 +183,7 @@ class REEController extends Controller
         {
             $arrData['get_forward_co'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
                                 ->whereIn('lu.layout_id', $layout_ids)
-                                ->where('role_id', $co_id->id)->get();
+                                ->where('role_id', $co_id->id)->groupBy('users.id')->get();
             $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
         }
 
@@ -216,7 +217,7 @@ class REEController extends Controller
         {
             $arrData['get_forward_co'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
                 ->whereIn('lu.layout_id', $layout_ids)
-                ->where('role_id', $co_id->id)->get();
+                ->where('role_id', $co_id->id)->groupBy('users.id')->get();
             $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
         }
 
@@ -1480,7 +1481,7 @@ class REEController extends Controller
             $layout_ids = array_column($layout_id_array, 'layout_id');
             $arrData['get_forward_co'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
                                 ->whereIn('lu.layout_id', $layout_ids)
-                                ->where('role_id', $co_id->id)->get();
+                                ->where('role_id', $co_id->id)->groupBy('users.id')->get();
             $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
         }
          
@@ -1822,7 +1823,7 @@ class REEController extends Controller
             $layout_ids = array_column($layout_id_array, 'layout_id');
             $arrData['get_forward_co'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
                                 ->whereIn('lu.layout_id', $layout_ids)
-                                ->where('role_id', $co_id->id)->get();
+                                ->where('role_id', $co_id->id)->groupBy('users.id')->get();
             $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
         }
 
@@ -2478,7 +2479,7 @@ class REEController extends Controller
             $layout_ids = array_column($layout_id_array, 'layout_id');
             $arrData['get_forward_co'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
                                 ->where('lu.layout_id', $layout_ids)
-                                ->where('role_id', $co_id->id)->get();
+                                ->where('role_id', $co_id->id)->groupBy('users.id')->get();
             $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
         }
 

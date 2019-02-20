@@ -44,6 +44,7 @@ use App\ServiceChargesRate;
 use App\ArrearCalculation;
 use App\TransBillGenerate;
 use App\TransPayment;
+use App\LayoutUser;
 
 class EMController extends Controller
 {
@@ -344,7 +345,7 @@ class EMController extends Controller
 
         $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
                                 ->whereIn('lu.layout_id', $layout_ids)
-                                ->where('role_id', $ree_jr_id->id)->get();
+                                ->where('role_id', $ree_jr_id->id)->groupBy('users.id')->get();
         $arrData['ree_junior_name'] = strtoupper(str_replace('_', ' ', $ree_jr_id->name));
 
         //remark and history

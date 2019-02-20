@@ -321,7 +321,7 @@ class EEController extends Controller
         $layout_ids = array_column($layout_id_array, 'layout_id');
         $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
                                 ->whereIn('lu.layout_id', $layout_ids)
-                                ->where('role_id', $ree_jr_id->id)->get();
+                                ->where('role_id', $ree_jr_id->id)->groupBy('users.id')->get();
         $arrData['ree_junior_name'] = strtoupper(str_replace('_', ' ', $ree_jr_id->name));
 
         //remark and history
@@ -491,7 +491,8 @@ class EEController extends Controller
        // dd($layout_ids);
         $arrData['get_forward_dyce'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
                                                 ->whereIn('lu.layout_id', $layout_ids)
-                                                ->where('role_id', $dyce_role_id->id)->get();
+                                                ->where('role_id', $dyce_role_id->id)->groupBy('users.id')->get();
+        //dd($layout_ids);
 
         $arrData['dyce_role_name'] = strtoupper(str_replace('_', ' ', $dyce_role_id->name));
 
