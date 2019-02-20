@@ -1127,7 +1127,126 @@ class COController extends Controller
      */
     public function ajaxdashboard(Request $request){
         if($request->ajax()){
-            return 'abc';
+            $role_id = session()->get('role_id');
+            $user_id = Auth::id();
+
+            if($request->module_name == 'Hearing Summary'){
+                $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q) use ($user_id,$role_id){
+                    $q->where('user_id', $user_id)
+                        ->where('role_id', $role_id);
+                }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
+                    ->whereHas('hearingStatusLog' ,function($q) use ($user_id,$role_id) {
+                        $q->where('user_id', $user_id)
+                            ->where('role_id', $role_id);
+                    })->get()->toArray();
+
+                $totalPendingHearing = $totalClosedHearing = $totalScheduledHearing = $totalUnderJudgementHearing = $totalForwardedHearing = 0;
+
+                foreach ($hearing_data as $hearing){
+
+                    $status = $hearing['hearing_status_log']['0']['hearing_status']['id'];
+
+                    switch ( $status )
+                    {
+                        case config('commanConfig.hearingStatus.pending'): $totalPendingHearing += 1; break;
+                        case config('commanConfig.hearingStatus.scheduled_meeting'): $totalScheduledHearing += 1; break;
+                        case config('commanConfig.hearingStatus.case_under_judgement'): $totalUnderJudgementHearing += 1 ; break;
+                        case config('commanConfig.hearingStatus.forwarded'): $totalForwardedHearing += 1; break;
+                        case config('commanConfig.hearingStatus.case_closed'): $totalClosedHearing +=1 ; break;
+                        default:
+                            ; break;
+                    }
+
+                }
+
+                $totalHearing = count($hearing_data);
+
+                $hearingDashboardData = array();
+                $hearingDashboardData['Total Number of Cases'][0] =  $totalHearing;
+                $hearingDashboardData['Total Number of Cases'][1] =  '';
+                $hearingDashboardData['Total Number of Pending Cases'][0] =  $totalPendingHearing;
+                $hearingDashboardData['Total Number of Pending Cases'][1] =  '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.pending');
+                $hearingDashboardData['Total Number of Scheduled Cases'][0] = $totalScheduledHearing;
+                $hearingDashboardData['Total Number of Scheduled Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.scheduled_meeting');
+                $hearingDashboardData['Total Number of Under Judgement Cases'][0] = $totalUnderJudgementHearing;
+                $hearingDashboardData['Total Number of Under Judgement Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.case_under_judgement');
+                $hearingDashboardData['Total Number of Forwarded Cases'][0] = $totalForwardedHearing;
+                $hearingDashboardData['Total Number of Forwarded Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.forwarded');
+                $hearingDashboardData['Total Number of Closed Cases'][0] = $totalClosedHearing;
+                $hearingDashboardData['Total Number of Closed Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.case_closed');
+
+                return $hearingDashboardData;
+
+            }
+
+            if($request->module_name == 'Offer Letter'){
+                $applicationData = $this->getApplicationData($role_id,$user_id);
+                $statusCount = $this->getApplicationStatusCount($applicationData);
+                $dashboardData = $this->getCODashboardData($statusCount);
+                return $dashboardData;
+            }
+
+            if($request->module_name == "Offer Letter Subordinate Pendency"){
+                $dashboardData1 = $this->CommonController->getTotalCountsOfApplicationsPending();
+
+                return $dashboardData1;
+            }
+
+            if($request->module_name == "Offer Letter Revalidation"){
+                $revalApplicationData = $this->getRevalApplicationData($role_id,$user_id);
+                $revalStatusCount = $this->getApplicationStatusCount($revalApplicationData);
+                $revalDashboardData = $this->getCODashboardData($revalStatusCount);
+                return $revalDashboardData;
+            }
+
+            if($request->module_name == "Offer Letter Revalidation Subordinate Pendency") {
+                $revalDashboardData1 = NULL;
+                $revalDashboardData1 = $this->CommonController->getTotalCountsOfRevalApplicationsPending();
+                return $revalDashboardData1;
+            }
+
+            if($request->module_name == 'NOC'){
+                $nocModuleController = new SocietyNocController();
+                $nocApplication = $nocModuleController->getApplicationListDashboard();
+
+                return $nocApplication['app_data'];
+            }
+
+            if($request->module_name == 'NOC Subordinate Pendency'){
+                $nocModuleController = new SocietyNocController();
+                $nocApplication = $nocModuleController->getApplicationListDashboard();
+
+                return $nocApplication['pending_data'];
+            }
+
+            if($request->module_name == 'NOC (CC)'){
+                $nocforCCModuleController = new SocietyNocforCCController();
+                $nocforCCApplication = $nocforCCModuleController->getApplicationListDashboard();
+
+                return $nocforCCApplication['app_data'];
+            }
+
+            if($request->module_name == 'NOC (CC) Subordinate Pendency'){
+                $nocforCCModuleController = new SocietyNocforCCController();
+                $nocforCCApplication = $nocforCCModuleController->getApplicationListDashboard();
+
+                return $nocforCCApplication['pending_data'];
+            }
+
+            if($request->module_name == 'Society Conveyance'){
+                $conveyanceCommonController = new conveyanceCommonController();
+                $conveyanceDashboard = $conveyanceCommonController->ConveyanceDashboard();
+
+                return $conveyanceDashboard;
+            }
+
+            if($request->module_name == 'Society Conveyance Subordinate Pendency'){
+                $conveyanceCommonController = new conveyanceCommonController();
+
+                $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();
+
+                return $pendingApplications;
+            }
         }
     }
 
@@ -1246,8 +1365,8 @@ class COController extends Controller
 //        dd($statusCount);
         $dashboardData = array();
 
-        $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
-        $dashboardData['Total No of Applications'][1] = '';
+        $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
+        $dashboardData['Total Number of Applications'][1] = '';
 
         $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
         $dashboardData['Applications Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
@@ -1267,7 +1386,7 @@ class COController extends Controller
         $dashboardData['Offer Letters Approved'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.offer_letter_approved');;
 
         $dashboardData['Offer Letters Approved but Not Issued to Society'][0] = $statusCount['totalApprovedOfferLetterForwardedForIssueingToSociety'];
-        $dashboardData['Offer Letters Approved but Not Issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.offer_letter_approved');
+        $dashboardData['Offer Letters Approved but Not Issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 
         return $dashboardData;
     }
