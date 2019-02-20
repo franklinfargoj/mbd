@@ -966,7 +966,14 @@ class COController extends Controller
         return redirect('/co_noc_applications')->with('success','Application send successfully.');
     }
 
-    //co dashboard
+
+    /**
+     * Show the offer letter dashboard.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function dashboard(){
         $role_id = session()->get('role_id');
 
@@ -1110,6 +1117,20 @@ class COController extends Controller
 
         return view('admin.co_department.dashboard',compact('dashboardData','todays_hearing_count','revalDashboardData','revalDashboardData1','hearingDashboardData','todaysHearing','dashboardData1','conveyanceDashboard','conveyanceRoles','pendingApplications','nocApplication','nocforCCApplication'));
     }
+
+    /**
+     * Show the offer letter dashboard using ajax.
+     *
+     * Author: Prajakta Sisale.
+     *
+     *  @return json response
+     */
+    public function ajaxdashboard(Request $request){
+        if($request->ajax()){
+            return 'abc';
+        }
+    }
+
 
     public function getApplicationData($role_id,$user_id){
 

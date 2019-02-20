@@ -739,7 +739,7 @@ class SocietyNocforCCController extends Controller
                 ),
             ),
             'pending_data' => array(
-                'Total Number of Application' => $total_allover_pending_application,
+                'Total Number of Applications' => $total_allover_pending_application,
                 'Applications pending at REE' => $total_pending_application_at_ree,
                 'Applications pending at CO' => $total_pending_application_at_co
             ),

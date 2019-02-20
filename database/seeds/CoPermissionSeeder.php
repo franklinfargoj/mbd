@@ -455,7 +455,12 @@ class CoPermissionSeeder extends Seeder
                 'name'=>'view_multiple_document',
                 'display_name'=>'view multiple document',
                 'description'=>'view multiple document'
-            ]   
+            ],
+            [
+                'name'=>'dashboard.ajax.co',
+                'display_name'=>'view dashboard dynamically',
+                'description'=>'view dashboard dynamically'
+            ],
         ];
         $ree_role_id = Role::where('name', 'ree_engineer')->value('id');
         if ($ree_role_id == null) {

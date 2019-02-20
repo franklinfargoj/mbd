@@ -102,7 +102,7 @@
             </div>
             <div class="db__card">
                 <div class="db__card__img-wrap db-color-3">
-                    <h3 class="db__card__count">{{$dashboardData1['Total Number of Applications Pending']}}</h3>
+                    <h3 class="db__card__count">{{$dashboardData1['Total Number of Applications']}}</h3>
                 </div>
                 <p class="db__card__title">Offer Letter Subordinate Pendency</p>
             </div>
@@ -126,7 +126,7 @@
             </div>
             <div class="db__card">
                 <div class="db__card__img-wrap db-color-7">
-                    <h3 class="db__card__count">{{$revalDashboardData1['Total Number of Applications Pending']}}</h3>
+                    <h3 class="db__card__count">{{$revalDashboardData1['Total Number of Applications']}}</h3>
                 </div>
                 <p class="db__card__title">Offer Letter Revalidation Subordinate Pendency</p>
             </div>
@@ -144,25 +144,25 @@
             </div>
             <div class="db__card">
                 <div class="db__card__img-wrap db-color-10">
-                    <h3 class="db__card__count">{{$nocApplication['app_data']['Total Number of Application'][0]}}</h3>
+                    <h3 class="db__card__count">{{$nocApplication['app_data']['Total Number of Applications'][0]}}</h3>
                 </div>
                 <p class="db__card__title">NOC</p>
             </div>
             <div class="db__card">
                 <div class="db__card__img-wrap db-color-11">
-                    <h3 class="db__card__count">{{$nocApplication['pending_data']['Total number of Application Pending']}}</h3>
+                    <h3 class="db__card__count">{{$nocApplication['pending_data']['Total Number of Applications']}}</h3>
                 </div>
                 <p class="db__card__title">NOC Subordinate Pendency</p>
             </div>
             <div class="db__card">
                 <div class="db__card__img-wrap db-color-12">
-                    <h3 class="db__card__count">{{$nocforCCApplication['app_data']['Total Number of Application'][0]}}</h3>
+                    <h3 class="db__card__count">{{$nocforCCApplication['app_data']['Total Number of Applications'][0]}}</h3>
                 </div>
                 <p class="db__card__title">NOC (CC)</p>
             </div>
             <div class="db__card">
                 <div class="db__card__img-wrap db-color-13">
-                    <h3 class="db__card__count">{{$nocforCCApplication['pending_data']['Total number of Application Pending']}}</h3>
+                    <h3 class="db__card__count">{{$nocforCCApplication['pending_data']['Total Number of Applications']}}</h3>
                 </div>
                 <p class="db__card__title">NOC (CC) Subordinate Pendency</p>
             </div>
