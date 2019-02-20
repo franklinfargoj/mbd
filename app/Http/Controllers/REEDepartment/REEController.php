@@ -770,7 +770,7 @@ class REEController extends Controller
 
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
     
-        $ol_application->comments = $this->CommonController->getSocietyDocumentComments($ol_application->society_id);
+        $ol_application->comments = $this->CommonController->getSocietyDocumentComments($ol_application->id);
         
         return view('admin.common.offer_letter', compact('ol_application'));
     }

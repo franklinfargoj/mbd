@@ -176,108 +176,51 @@
                                             <th class="table-data--xs">दस्तावेज</th>
                                         </thead>
                                         <tbody>
-                                            <?php $i=0; ?>
-                                            @foreach($eeScrutinyData->eeApplicationSociety->societyDocuments
-                                            as $data)
-                                            <tr> 
-                                                <td>{{$i+1}}</td>
-                                                <td>{{($data->documents_Name[0]->name)}}</td>
-                                                <td class="text-center">
-                                                    @if(isset($data->society_document_path))
-                                                    <a href="{{config('commanConfig.storage_server').'/'.$data->society_document_path }}" target="_blank">
-                                                        <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    <p class="mb-2">{{$data->comment_by_EE}}</p>
-                                                </td>
-                                                <td class="text-center">
-                                                    @if(isset($data->EE_document_path))
-                                                    <a href="{{ config('commanConfig.storage_server').'/'.$data->EE_document_path }}" target="_blank">
+                                            <?php $i=1; ?>
+                                            @if(count($societyDocument) > 0)
+                                                @foreach($societyDocument as $value)
+                                                    @foreach($value as $document)
+                                                        <tr> 
+                                                            <td>{{ isset($document->group) ? $document->group : $i }}.{{$document->sort_by}}</td>
+                                                            <td>{{(isset($document->name) ? $document->name : '')}}</td>
+                                                            <td class="text-center">
+                                                            @if($document->is_multiple == 1)
+                                                                <a href="{{ route('view_multiple_document',[encrypt($ol_application->id),encrypt($document->id)]) }}" class="app-card__details mb-0">
+                                                                view documents</a>
+                                                            @else
+                                                                @if(isset($document->documents_uploaded[0]) && $document->documents_uploaded[0]->society_document_path)
+                                                                    <a href="{{config('commanConfig.storage_server').'/'.$document->documents_uploaded[0]->society_document_path }}" target="_blank">
+                                                                        <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
+                                                                @else 
+                                                                <h2 class="m--font-danger">
+                                                                        <i class="fa fa-remove"></i>
+                                                                    </h2>       
+                                                                @endif
+                                                            @endif        
+                                                            </td>
+                                                            <td>
+                                                                <p class="mb-2">{{(isset($document->documents_uploaded[0]) && $document->documents_uploaded[0]->comment_by_EE) ? $document->documents_uploaded[0]->comment_by_EE : '' }}</p>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if(isset($document->documents_uploaded[0]) && $document->documents_uploaded[0]->EE_document_path)
+                                                                <a href="{{ config('commanConfig.storage_server').'/'.$document->documents_uploaded[0]->EE_document_path }}" target="_blank">
 
-                                                        <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}">
-                                                    </a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <?php $i++; ?>
-                                            @endforeach
+                                                                    <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}">
+                                                                </a>
+                                                                @else
+                                                                    <h2 class="m--font-danger">
+                                                                        <i class="fa fa-remove"></i>
+                                                                    </h2>
+                                                                @endif
+                                                            </td>
+                                                        </tr>
+                                                    <?php $i++; ?>
+                                                    @endforeach
+                                                @endforeach
+                                            @endif
                                         </tbody>
                                     </table>
-                                    <div class="modal fade show" id="add-remark" tabindex="-1" role="dialog"
-                                        aria-labelledby="exampleModalLabel">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Add
-                                                        Remark</h5>
-                                                    <button style="cursor: pointer;" type="button" class="close"
-                                                        data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">×</span>
-                                                    </button>
-                                                </div>
-                                                <form class="" action="" method="post">
-                                                    <div class="modal-body">
-                                                        <div class="mb-4">
-                                                            <label for="remark">Remark:</label>
-                                                            <textarea class="form-control form-control--custom" name="remark"
-                                                                id="remark" cols="30" rows="5"></textarea>
-                                                        </div>
-                                                        <div class="custom-file">
-                                                            <input class="custom-file-input" name="" type="file" id="test-upload"
-                                                                required="">
-                                                            <label class="custom-file-label" for="test-upload">Choose
-                                                                file...</label>
-                                                        </div>
-                                                        <div class="mt-auto">
-                                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-primary">Save</button>
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal fade show" id="delete-remark" tabindex="-1" role="dialog"
-                                        aria-labelledby="exampleModalLabel">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel2">Delete
-                                                        Remark</h5>
-                                                    <button style="cursor: pointer;" type="button" class="close"
-                                                        data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">×</span>
-                                                    </button>
-                                                </div>
-                                                <form class="" action="" method="post">
-                                                    <div class="modal-body">
-                                                        <div class="mb-4">
-                                                            <label for="remark">Remark:</label>
-                                                            <textarea class="form-control form-control--custom" name="remark"
-                                                                id="remark2" cols="30" rows="5"></textarea>
-                                                        </div>
-                                                        <div class="custom-file">
-                                                            <input class="custom-file-input" name="" type="file" id="test-upload2"
-                                                                required="">
-                                                            <label class="custom-file-label" for="test-upload2">Choose
-                                                                file...</label>
-                                                        </div>
-                                                        <div class="mt-auto">
-                                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn2">Upload</button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-primary">Save</button>
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
