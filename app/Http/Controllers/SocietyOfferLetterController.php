@@ -1971,7 +1971,7 @@ class SocietyOfferLetterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function updateOfferLetterApplication(Request $request){
-
+        // dd($request);
         $applicationId = $request->applicationId;
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $update_input = array(
@@ -1981,7 +1981,7 @@ class SocietyOfferLetterController extends Controller
             'developer_name' => $request->developer_name,
         );
         OlRequestForm::where('society_id', $society->id)->where('id', $request->request_form_id)->update($update_input);
-        OlApplication::where('id',$applicationId)->where('society_id', $society->id)->update(['department_id'=>$request->input('department_name')]);
+        OlApplication::where('id',$applicationId)->where('society_id', $society->id)->update(['department_id'=>$request->input('department_name'), 'layout_id' => $request->layout_id]);
 
         $applicationId = encrypt($applicationId);
         return redirect()->route('society_offer_letter_preview',$applicationId);
@@ -2096,8 +2096,8 @@ class SocietyOfferLetterController extends Controller
 
         $ol_applications = $application_details;
         $documents_arr = $this->get_docs_count($ol_applications, $society);
-
-        return view('frontend.society.upload_download_offer_letter_application_form', compact('ol_applications', 'application_details', 'documents_arr'));
+        $applicationCount = $this->getForwardedApplication();
+        return view('frontend.society.upload_download_offer_letter_application_form', compact('ol_applications', 'application_details', 'documents_arr','applicationCount'));
     }
 
     public function showuploadRevalOfferLetterAfterSign(){
