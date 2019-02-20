@@ -51,7 +51,7 @@
                                             <td> 
                                             
                                             @if($document->is_multiple == 1)
-                                                <a href="{{ route('upload_multiple_documents',[encrypt($society->id),encrypt($document->id)]) }}" class="app-card__details mb-0">
+                                                <a href="{{ route('upload_multiple_documents',[encrypt($ol_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0">
                                                     click to upload documents</a>
                                             @else 
                                                 @foreach($document->documents_uploaded as $doc)

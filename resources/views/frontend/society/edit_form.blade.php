@@ -7,7 +7,7 @@
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title m-subheader__title--separator">Redevelopment Application Form</h3>
-                {{ Breadcrumbs::render('society_offer_letter_edit') }}&nbsp;({{ $ol_application->ol_application_master->model }})
+                {{ Breadcrumbs::render('society_offer_letter_edit',$ol_applications->id) }}&nbsp;({{ $ol_application->ol_application_master->model }})
             </div>
         </div>
         <!-- END: Subheader -->
@@ -15,6 +15,7 @@
 
             <form id="save_offer_letter_application_dev" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{ route('society_offer_letter_update') }}">
                 @csrf
+                <input type="hidden" name="applicationId" value="{{ isset($ol_applications->id) ? $ol_applications->id : '' }}">
                 <div class="m-portlet__body m-portlet__body--spaced">
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">

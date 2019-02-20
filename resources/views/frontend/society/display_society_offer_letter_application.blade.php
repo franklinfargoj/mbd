@@ -32,8 +32,9 @@
                 <p style="text-indent: 80px;">सदर प्रस्तावावर उचित कार्यवाही करुन देकारपत्र जारी करण्याची कार्यवाही करण्यात यावी, ही विनंती.</p>
             </div>
 
-            <div> 
-                <p><b> Remark By Society :</b> <span> {{ isset($comment) ? $comment->society_documents_comment : 'N.A'}} </span></p>
+            <div style="margin-top: 180px"> 
+                <p><b> Remark By Society :</b></p> 
+                <p><span> {{ isset($comment) ? $comment->society_documents_comment : 'N.A'}} </span></p>
               
             </div>
             <div style="margin-top: 30px;">

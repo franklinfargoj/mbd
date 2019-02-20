@@ -24,10 +24,10 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Upload documents</h3>
-            {{ Breadcrumbs::render('documents_upload') }}
+            {{ Breadcrumbs::render('documents_upload',$ol_applications->id) }}
 
              @if($ol_applications->status->status_id != config('commanConfig.applicationStatus.forwarded'))
-            <a href="{{ url('/society/documents_upload') }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            <a href="{{ route('documents_upload',encrypt($ol_applications->id)) }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             @else
             <a href="{{ url('/society/documents_uploaded') }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             @endif
@@ -67,7 +67,7 @@
                     </div> 
                 </div>
                 <div class="col-sm-6">
-                    <input type="submit" class="btn btn-primary btn-custom" id="uploadBtn" style="float: right" value="Upload"> 
+                    <input type="button" class="btn btn-primary btn-custom" id="uploadBtn" style="float: right" value="Upload"> 
                 </div>  
             </form> 
         @endif    
@@ -115,6 +115,7 @@
 <script type="text/javascript">
     
     $("#uploadBtn").click(function(){
+        $('.loader').show();
         var myfile = $(".file_upload").val();
         var ext = myfile.split('.').pop();
         var memberName = $("#memberName").val();
@@ -125,11 +126,13 @@
 
             var documentId = '<?php echo $documentId; ?>';
             var societyId = '<?php echo $ol_applications->society_id; ?>';
+            var applicationId = '<?php echo $ol_applications->id; ?>';
                
             
             var form_data = new FormData();
             form_data.append('file', fileData);   
             form_data.append('societyId', societyId);  
+            form_data.append('applicationId', applicationId);  
             form_data.append('documentId', documentId);  
             form_data.append('memberName', memberName);  
             form_data.append('_token', document.getElementsByName("_token")[0].value);

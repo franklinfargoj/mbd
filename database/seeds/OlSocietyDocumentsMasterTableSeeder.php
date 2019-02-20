@@ -26,117 +26,155 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
-                    'name' => "संस्थेचा अर्ज"
+                    'name' => "संस्थेचा अर्ज",
+                    'is_deleted' => 1
                 ],
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
-                    'name' => "सर्वसाधारण सभेच्या पुर्नविकास करणेबाबतचा ठराव"
+                    'name' => "सर्वसाधारण सभेच्या पुर्नविकास करणेबाबतचा ठराव",
+                    'group' => 1,
+                    'sort_by' => 1
                 ],
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
-                    'name' => "सर्वसाधारण सभेचा इतीवृताच्या रजिष्टरची साक्षांकित प्रत"
+                    'name' => "सर्वसाधारण सभेचा इतीवृताच्या रजिष्टरची साक्षांकित प्रत",
+                    'group' => 1,
+                    'sort_by' => 2
                 ],
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
-                    'name' => "संस्थेच्या सर्वसाधारण सभेच्या ठरावात विकासकाचे नाव व पत्ता नमुद केलेल्या ठरावाची साक्षांकित प्रत"
+                    'name' => "संस्थेच्या सर्वसाधारण सभेच्या ठरावात विकासकाचे नाव व पत्ता नमुद केलेल्या ठरावाची साक्षांकित प्रत",
+                    'group' => 1,
+                    'sort_by' => 3
                 ],
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
-                    'name' => "सर्वसाधारण सभेच्या ठरावात वास्तुशास्त्रज्ञाचे नाव व पत्ता नमुद केलेल्या ठरावाची साक्षांकित प्रत"
+                    'name' => "सर्वसाधारण सभेच्या ठरावात वास्तुशास्त्रज्ञाचे नाव व पत्ता नमुद केलेल्या ठरावाची साक्षांकित प्रत",
+                    'group' => 1,
+                    'sort_by' => 4
                 ],
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
-                    'name' => "वास्तुशास्त्रज्ञाच्या नेमणूकिचे व पत्रव्यवहाराच्या अधिकाराचे मान्यता पत्र केलेल्या ठरावाची साक्षांकित प्रत"
+                    'name' => "वास्तुशास्त्रज्ञाच्या नेमणूकिचे व पत्रव्यवहाराच्या अधिकाराचे मान्यता पत्र केलेल्या ठरावाची साक्षांकित प्रत",
+                    'group' => 2,
+                    'sort_by' => 1
                 ],
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
-                    'name' => "वास्तुशास्त्रज्ञाच्या परवाण्याची साक्षांकित प्रत"
+                    'name' => "वास्तुशास्त्रज्ञाच्या परवाण्याची साक्षांकित प्रत",
+                    'group' => 2,
+                    'sort_by' => 2
                 ],
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
                     'name' => "विकासकाबरोबर केलेल्या नोंदणीकृत करारनाम्याची साक्षांकित प्रत",
-                    'is_optional' => '1'
+                    'group' => 5,   
+                    'is_optional' => 1
                 ],
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
                     'name' => "५१ % सभासदांची पुनर्विकासाकरीता वैयक्तीक संमती पत्र",
-                    'is_multiple' => 1
+                    'is_multiple' => 1,
+                    'group' => 3,
                 ],
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
-                    'name' => "अभिहस्तांतरण करारनामा (सेल/ कन्व्हेस) साक्षांकित प्रत"
+                    'name' => "अभिहस्तांतरण करारनामा (सेल/ कन्व्हेस) साक्षांकित प्रत",
+                    'group' => 4,
+                    'sort_by' => 1
                 ],
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
-                    'name' => "भाडेपट्टा करारनामा (लीज डिड)"
+                    'name' => "भाडेपट्टा करारनामा (लीज डिड)",
+                    'group' => 4,
+                    'sort_by' => 2
                 ],
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
-                    'name' => "अभिहस्तांतरण नकाशा ची साक्षांकित प्रत"
+                    'name' => "अभिहस्तांतरण नकाशा ची साक्षांकित प्रत",
+                    'group' => 4,
+                    'sort_by' => 3
                 ],
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
                     'name' => "कार्यकारी अभियंता / मुंबई मंडळ यांचेकडुन इमारतीचा व सलग्न भूखंडाचा सिमांकन नकाशा",
-                    'is_optional' => '1'
+                    'is_optional' => 1,
+                    'group' => 6,
+                    'sort_by' => 1 
                 ],
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
-                    'name' => "संस्थेच्या नाेंदणी प्रमाणपत्राची साक्षांकित प्रत"
+                    'name' => "संस्थेच्या नाेंदणी प्रमाणपत्राची साक्षांकित प्रत",
+                    'group' => 1,
+                    'sort_by' => 5
                 ],
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
                     'name' => "मिळकत व्यवस्थापक यांचे ना देय प्रमाणपत्र",
-                    'is_optional' => '1'
+                    'is_optional' => 1,
+                    'group' => 6,
+                    'sort_by' => 2
                 ],
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
-                    'name' => "नगरभुमापन नकाशे"
+                    'name' => "नगरभुमापन नकाशे",
+                    'group' => 6,
+                    'sort_by' => 3
                 ],
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
                     'name' => "मिळकत पत्रिका (PR कार्ड )",
+                    'group' => 6,
+                    'sort_by' => 4
                 ],
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
-                    'name' => "अस्तीत्वातील इमारतीचे फोटो"
+                    'name' => "अस्तीत्वातील इमारतीचे फोटो",
+                    'group' => 6,
+                    'sort_by' => 5
                 ],
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
                     'name' => "प्रस्तावीत इमारतीचा नकाशा",
-                    'is_optional' => '1'
+                    'group' => 7,
                 ],
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
-                    'name' => "डी.पी.रिमार्क"
+                    'name' => "डी.पी.रिमार्क",
+                    'group' => 6,
+                    'sort_by' => 6
                 ],
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
-                    'name' => "उपनिबंधक यांचेसमक्ष सर्वसाधारण सभेमध्ये विकासकाची नियुक्ती झाल्याबाबतचे पत्र"
+                    'name' => "उपनिबंधक यांचेसमक्ष सर्वसाधारण सभेमध्ये विकासकाची नियुक्ती झाल्याबाबतचे पत्र",
+                    'group' => 8,
                 ],                
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $Englang,
-                    'name' => "AGM Attendance Letter"
+                    'name' => "AGM Attendance Letter",
+                    'group' => 1,
+                    'sort_by' => 6
                 ]
             ];
 
@@ -203,7 +241,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application1[0]['id'],
                     'language_id'   => $language1[0]['id'],
-                    'name' => "कार्यकारी अभियंता / कुर्ला विभाग / मुंबई मंडळ यांचेकडुन इमारतीचा व सलग्न भूखंडाचा सिमांकन नकाशा",
+                    'name' => "कार्यकारी अभियंता / मुंबई मंडळ यांचेकडुन इमारतीचा व सलग्न भूखंडाचा सिमांकन नकाशा",
                     'is_optional' => '1'
                 ],
                 [
@@ -326,7 +364,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application2[0]['id'],
                     'language_id'   => $language2[0]['id'],
-                    'name' => "कार्यकारी अभियंता / कुर्ला विभाग / मुंबई मंडळ यांचेकडुन इमारतीचा व सलग्न भूखंडाचा सिमांकन नकाशा",
+                    'name' => "कार्यकारी अभियंता / मुंबई मंडळ यांचेकडुन इमारतीचा व सलग्न भूखंडाचा सिमांकन नकाशा",
                     'is_optional' => '1'
                 ],
                 [
@@ -442,7 +480,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application3[0]['id'],
                     'language_id'   => $language3[0]['id'],
-                    'name' => "कार्यकारी अभियंता / कुर्ला विभाग / मुंबई मंडळ यांचेकडुन इमारतीचा व सलग्न भूखंडाचा सिमांकन नकाशा",
+                    'name' => "कार्यकारी अभियंता / मुंबई मंडळ यांचेकडुन इमारतीचा व सलग्न भूखंडाचा सिमांकन नकाशा",
                     'is_optional' => '1'
                 ],
                 [
