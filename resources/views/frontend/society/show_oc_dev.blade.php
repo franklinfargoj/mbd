@@ -28,7 +28,7 @@
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="preceding_officer_name">Department:</label>
-                            <input type="text" id="department_name" name="department_name" class="form-control form-control--custom m-input" value="REE" readonly>
+                            <input type="text" id="department_name" name="department_name" class="form-control form-control--custom m-input" value="Resident Executive Engineer" readonly>
                             <input type="hidden" name="application_master_id" value="{{ $id }}">
                             <span class="help-block">{{$errors->first('department_name')}}</span>
                         </div>
