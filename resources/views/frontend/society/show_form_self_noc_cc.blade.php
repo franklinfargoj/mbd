@@ -11,12 +11,12 @@
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
 
-            <form id="save_noc_application_self" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{ route('save_noc_cc_application_self') }}">
+            <form id="save_noc_application_self" role="form" method="post" class="m-form m-form--rows m-form--label-align-right floating-labels-form" action="{{ route('save_noc_cc_application_self') }}">
                 @csrf
                 <div class="m-portlet__body m-portlet__body--spaced">
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="application_type_id">Select layout:</label>
+                            <label class="col-form-label mhada-multiple-label" for="application_type_id" >Select layout:</label>
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layouts" name="layout_id" required>
                                 <option value="">Select layout</option>
                                 @foreach($layouts as $layout)
@@ -26,7 +26,7 @@
                             <span class="help-block">{{$errors->first('application_type_id')}}</span>
                         </div>
                     </div>
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="preceding_officer_name">Department:</label>
                             <input type="text" id="department_name" name="department_name" class="form-control form-control--custom m-input" value="EE" readonly>
@@ -40,7 +40,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="name">Society Name:</label>
                             <input type="text" id="name" name="name" class="form-control form-control--custom m-input" value="{{ $society_details->name }}" readonly>
@@ -53,7 +53,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="offer_letter_number">Offer letter number:</label>
                             <input type="text" id="offer_letter_number" name="offer_letter_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('offer_letter_number') }}" required>
@@ -66,7 +66,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
                             <label class="col-form-label" for="no_dues_certificate_number">No dues certificate number :</label>
                             <input type="text" id="no_dues_certificate_number" name="no_dues_certificate_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('no_dues_certificate_number') }}" required>
@@ -79,7 +79,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
                             <label class="col-form-label" for="noc_no">NOC no :</label>
                             <input type="text" id="noc_no" name="noc_no" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('noc_no') }}" required>
@@ -91,7 +91,7 @@
                             <span class="help-block">{{$errors->first('noc_date')}}</span>
                         </div>
                     </div>
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
                             <label class="col-form-label" for="tripartite_agreement_number">Tripartite agreement number :</label>
                             <input type="text" id="tripartite_agreement_number" name="tripartite_agreement_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('tripartite_agreement_number') }}" required>

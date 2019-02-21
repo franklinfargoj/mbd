@@ -14,7 +14,7 @@
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
 
-            <form id="save_sc_application" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{ route('society_renewal.update', $id) }}" enctype="multipart/form-data">
+            <form id="save_sc_application" role="form" method="post" class="m-form m-form--rows m-form--label-align-right floating-labels-form" action="{{ route('society_renewal.update', $id) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="m-portlet__body m-portlet__body--spaced">

@@ -21,7 +21,7 @@
                 <div class="m-portlet__body m-portlet__body--spaced">
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="application_type_id">Select layout:</label>
+                            <label class="col-form-label mhada-multiple-label" for="application_type_id">Select layout:</label>
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layouts" name="layout_id" required>
                                 <option value="">Select layout</option>
                                 @foreach($layouts as $layout)
@@ -65,7 +65,7 @@
                             <span class="help-block">{{$errors->first('offer_letter_number')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
-                            <label class="col-form-label" for="offer_letter_date">Offer letter date:</label>
+                            <label class="col-form-label" for="m_datepicker">Offer letter date:</label>
                             <input type="text" id="m_datepicker" name="offer_letter_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('offer_letter_date') }}" required
                             readonly="readonly">
                             <span class="help-block">{{$errors->first('offer_letter_date')}}</span>
@@ -88,7 +88,7 @@
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
                             <label class="col-form-label" for="demand_draft_date">Demand Draft / Pay order date :</label>
-                            <input type="text" id="m_datepicker" name="demand_draft_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('demand_draft_date') }}" required readonly="readonly">
+                            <input type="text" id="m_datepicker dd-date" name="demand_draft_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('demand_draft_date') }}" required readonly="readonly">
                             <span class="help-block">{{$errors->first('demand_draft_date')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group"> <!-- offset-sm-1 -->

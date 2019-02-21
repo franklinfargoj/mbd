@@ -11,10 +11,10 @@
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
 
-            <form id="save_offer_letter_application_dev" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{ route('save_offer_letter_application_reval_dev') }}">
+            <form id="save_offer_letter_application_dev" role="form" method="post" class="m-form m-form--rows m-form--label-align-right floating-labels-form" action="{{ route('save_offer_letter_application_reval_dev') }}">
                 @csrf
                 <div class="m-portlet__body m-portlet__body--spaced">
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="application_type_id">Application Type:</label>
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layouts" name="layout_id" required>
@@ -25,7 +25,7 @@
                             <span class="help-block">{{$errors->first('application_type_id')}}</span>
                         </div>
                     </div>
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="preceding_officer_name">Department:</label>
                             <input type="text" id="department_name" name="department_name" class="form-control form-control--custom m-input" value="REE" readonly>
@@ -39,7 +39,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="name">Society Name:</label>
                             <input type="text" id="name" name="name" class="form-control form-control--custom m-input" value="{{ $society_details->name }}" readonly>
@@ -52,7 +52,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="date_of_meeting">Date of Resolution:</label>
                             <input type="text" id="m_datepicker" name="date_of_meeting" class="form-control form-control--custom m-input m_datepicker" value="{{ old('date_of_meeting') }}" required>
@@ -65,7 +65,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="ol_vide_no">Offer Letter Vide No</label>
                             <input type="text" id="ol_vide_no" name="ol_vide_no" class="form-control form-control--custom m-input" value="{{ old('ol_vide_no') }}" required>
@@ -78,7 +78,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="reason_for_revalidation">Reason For Revalidation</label>
                             <textarea id="reason_for_revalidation" name="reason_for_revalidation" class="form-control form-control--custom m-input" required ></textarea>
@@ -86,7 +86,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="architect_name">Architect Name:</label>
                             <input type="text" id="architect_name" name="architect_name" class="form-control form-control--custom m-input" value="{{ $society_details->name_of_architect }}" readonly>

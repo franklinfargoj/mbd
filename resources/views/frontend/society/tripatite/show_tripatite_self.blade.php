@@ -11,12 +11,12 @@
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
 
-            <form id="save_offer_letter_application_self" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{ route('save_tripatite_self') }}">
+            <form id="save_offer_letter_application_self" role="form" method="post" class="m-form m-form--rows m-form--label-align-right floating-labels-form" action="{{ route('save_tripatite_self') }}">
                 @csrf
                 <div class="m-portlet__body m-portlet__body--spaced">
-                    <div class="form-group m-form__group row">
-                        <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="application_type_id">Layout:</label>
+                    <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-sm-4 form-group focused">
+                            <label class="col-form-label " for="application_type_id">Layout:</label>
                             <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layouts" name="layout_id" required>
                                 @foreach($layouts as $layout)
                                     <option value="{{ $layout['id'] }}">{{ $layout['layout_name'] }}</option>
@@ -25,9 +25,9 @@
                             <span class="help-block">{{$errors->first('application_type_id')}}</span>
                         </div>
                     </div>
-                    <div class="form-group m-form__group row">
-                        <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="preceding_officer_name">Department:</label>
+                    <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-sm-4 form-group focused">
+                            <label class="col-form-label mhada-multiple-label" for="preceding_officer_name">Department:</label>
                             {{--<input type="text" id="department_name" name="department_name" class="form-control form-control--custom m-input" value="EE" readonly>--}}
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" data-live-search="true" id="department_name" name="department_name" required>
                                 <option value="">Select</option>
@@ -45,7 +45,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="name">Society Name:</label>
                             <input type="hidden" name="society_id" value="{{ $society_details->id }}">
@@ -60,7 +60,7 @@
                     </div>
                     @for($i=0; $i < count($form_fields); $i++)
                         @if($i != 0) @php $i++; @endphp @endif
-                        <div class="form-group m-form__group row">
+                        <div class="m-form__group row mhada-lease-margin">
                             @if(isset($form_fields[$i]))
                                 <div class="col-sm-4 form-group">
                                     <label class="col-form-label" for="{{ $form_fields[$i] }}">@php $labels = implode(' ', explode('_', $form_fields[$i])); echo ucwords($labels); @endphp:</label>

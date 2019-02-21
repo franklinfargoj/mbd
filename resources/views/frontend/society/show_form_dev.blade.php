@@ -11,12 +11,12 @@
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
 
-            <form id="save_offer_letter_application_dev" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{ route('save_offer_letter_application_dev') }}">
+            <form id="save_offer_letter_application_dev" role="form" method="post" class="m-form m-form--rows m-form--label-align-right floating-labels-form" action="{{ route('save_offer_letter_application_dev') }}">
                 @csrf
                 <div class="m-portlet__body m-portlet__body--spaced">
-                    <div class="form-group m-form__group row">
-                        <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="preceding_officer_name">Department: <span class="star">*</span></label>
+                    <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-sm-4 form-group focused">
+                            <label class="col-form-label mhada-multiple-label" for="preceding_officer_name">Department: <span class="star">*</span></label>
                             {{--<input type="text" id="department_name" name="department_name" class="form-control form-control--custom m-input" value="EE" readonly>--}}
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" data-live-search="true" id="department_name" name="department_name" required>
                                 <option value="">Select</option>
@@ -27,7 +27,7 @@
                             <span class="help-block">{{$errors->first('department_name')}}</span>
                         </div>
                     </div>
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="application_type_id">Layout:
                             <span class="star">*</span></label>
@@ -46,7 +46,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="name">Society Name:</label>
                             <input type="text" id="name" name="name" class="form-control form-control--custom m-input" value="{{ $society_details->name }}" readonly>
@@ -59,7 +59,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="date_of_meeting">Date of Resolution: <span class="star">*</span></label>
                             <input type="text" id="date_of_meeting" name="date_of_meeting" data-date-end-date="+0d" class="form-control form-control--custom m-input m_datepicker" value="{{ old('date_of_meeting') }}" required readonly>
@@ -72,7 +72,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="architect_name">Architect Name:</label>
                             <input type="text" id="architect_name" name="architect_name" class="form-control form-control--custom m-input" value="{{ $society_details->name_of_architect }}" readonly>
