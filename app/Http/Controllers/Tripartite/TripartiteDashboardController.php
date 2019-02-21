@@ -113,7 +113,7 @@ class TripartiteDashboardController extends Controller
 
 
         $dashboardData1 = array();
-        $dashboardData1['Total Number of Applications Pending'] = $totalPendingApplications;
+        $dashboardData1['Total Number of Applications'] = $totalPendingApplications;
         $dashboardData1['Applications Pending at LA'] = $laTotalPendingCount;
         $dashboardData1['Applications Pending at REE'] = $reeTotalPendingCount;
         $dashboardData1['Applications Pending at CO'] = $coTotalPendingCount;
@@ -233,8 +233,8 @@ class TripartiteDashboardController extends Controller
     {
         switch ($role_id) {
             case ($ree['REE Junior Engineer']):
-                $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
-                $dashboardData['Total No of Applications'][1] = '';
+                $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total Number of Applications'][1] = '';
 
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
                 $dashboardData['Applications Pending'][1] = 'pending';
@@ -260,8 +260,8 @@ class TripartiteDashboardController extends Controller
 
                 break;
             case ($ree['REE deputy Engineer']):
-                $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
-                $dashboardData['Total No of Applications'][1] = '';
+                $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total Number of Applications'][1] = '';
 
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
                 $dashboardData['Applications Pending'][1] = 'pending';
@@ -286,8 +286,8 @@ class TripartiteDashboardController extends Controller
 
                 break;
             case ($ree['REE Assistant Engineer']):
-                $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
-                $dashboardData['Total No of Applications'][1] = '';
+                $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total Number of Applications'][1] = '';
 
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
                 $dashboardData['Applications Pending'][1] = 'pending';
@@ -313,8 +313,8 @@ class TripartiteDashboardController extends Controller
 
                 break;
             case ($ree['ree_engineer']):
-                $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
-                $dashboardData['Total No of Applications'][1] = '';
+                $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total Number of Applications'][1] = '';
 
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
                 $dashboardData['Applications Pending'][1] = 'pending';

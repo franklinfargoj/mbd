@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\REEDepartment;
 
 use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
+use App\Http\Controllers\Tripartite\TripartiteDashboardController;
 use App\REENote;
 use App\Role;
 use Illuminate\Http\Request;
@@ -2094,6 +2095,20 @@ class REEController extends Controller
                     return $data;
                 }
             }
+
+            if($request->module_name == 'Tripartite Agreement'){
+
+                $tripartite_dashboard = new TripartiteDashboardController();
+                $data = $tripartite_dashboard->getDashboardHeaders()->getData();
+                return $data['dashboardData'][0];
+
+            }
+            if($request->module_name == 'Tripartite Agreement Subordinate Pendency'){
+                $tripartite_dashboard = new TripartiteDashboardController();
+                $data = $tripartite_dashboard->getDashboardHeaders()->getData();
+                return $data['dashboardData_head'];
+            }
+
         }
     }
 

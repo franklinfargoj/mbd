@@ -7,6 +7,7 @@ use App\Hearing;
 use App\HearingSchedule;
 use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
 use App\Role;
+use App\RtiDepartmentUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Common\CommonController;
@@ -1037,14 +1038,13 @@ class COController extends Controller
         // Hearing Dashboard --Prajakta
         $role_id = session()->get('role_id');
         $user_id = Auth::id();
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
 
-        $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q) use ($user_id,$role_id){
-            $q->where('user_id', $user_id)
-                ->where('role_id', $role_id);
+        $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q) use($department_id) {
+            $q->where('department_id', $department_id);
         }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
-            ->whereHas('hearingStatusLog' ,function($q) use ($user_id,$role_id) {
-                $q->where('user_id', $user_id)
-                    ->where('role_id', $role_id);
+            ->whereHas('hearingStatusLog' ,function($q) use($department_id){
+                $q->where('department_id', $department_id);
             })->get()->toArray();
 
         $totalPendingHearing = $totalClosedHearing = $totalScheduledHearing = $totalUnderJudgementHearing = $totalForwardedHearing = 0;
@@ -1143,13 +1143,13 @@ class COController extends Controller
             $user_id = Auth::id();
 
             if($request->module_name == 'Hearing Summary'){
-                $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q) use ($user_id,$role_id){
-                    $q->where('user_id', $user_id)
-                        ->where('role_id', $role_id);
+                $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
+
+                $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q) use($department_id) {
+                    $q->where('department_id', $department_id);
                 }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
-                    ->whereHas('hearingStatusLog' ,function($q) use ($user_id,$role_id) {
-                        $q->where('user_id', $user_id)
-                            ->where('role_id', $role_id);
+                    ->whereHas('hearingStatusLog' ,function($q) use($department_id){
+                        $q->where('department_id', $department_id);
                     })->get()->toArray();
 
                 $totalPendingHearing = $totalClosedHearing = $totalScheduledHearing = $totalUnderJudgementHearing = $totalForwardedHearing = 0;
