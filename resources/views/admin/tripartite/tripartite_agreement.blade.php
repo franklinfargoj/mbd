@@ -44,8 +44,8 @@ $disabled=isset($disabled)?$disabled:0;
                         <div class="col-sm-6 field-col">
                             <div class="d-flex">
                                 <span class="field-name">Society Registration No:</span>
-                                <span class="field-value">{{(isset($data->eeApplicationSociety->registration_no)
-                                    ? $data->eeApplicationSociety->registration_no : '')}}</span>
+                                <span class="field-value">{{(isset($ol_application->eeApplicationSociety)
+                                    ? $ol_application->eeApplicationSociety->registration_no : '')}}</span>
                             </div>
                         </div>
                         <div class="col-sm-6 field-col">
