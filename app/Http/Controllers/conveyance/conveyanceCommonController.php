@@ -214,13 +214,14 @@ class conveyanceCommonController extends Controller
         $role_id = Role::where('id',Auth::user()->role_id)->first();
         $result  = json_decode($role_id->conveyance_parent_id);
         $parent  = "";
-
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         if ($result){
             $parent = User::with(['roles','LayoutUser' => function($q){
-                $q->where('layout_id', session('layout_id'));
+                $q->whereIn('layout_id', $layout_ids);
             }])
             ->whereHas('LayoutUser' ,function($q){
-                $q->where('layout_id', session('layout_id'));
+                $q->whereIn('layout_id', $layout_ids);
             })
             ->whereIn('role_id',$result)->get();            
         }
