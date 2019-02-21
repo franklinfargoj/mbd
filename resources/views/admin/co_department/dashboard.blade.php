@@ -167,25 +167,25 @@
                 </div>
                 <p class="db__card__title">NOC (CC) Subordinate Pendency</p>
             </div>
-            <div class="db__card">
+            <div class="db__card revision" data-module="Revision in Layout">
                 <div class="db__card__img-wrap db-color-14">
                     <h3 class="db__card__count">
                         {{$architect_data['total_no_of_layout']}}
                     </h3>
                 </div>
-                <p class="db__card__title">Layout Revision & Approval</p>
+                <p class="db__card__title">Revision in Layout</p>
             </div>
-            <div class="db__card">
+            <div class="db__card revision" data-module="Layout Approval">
                 <div class="db__card__img-wrap db-color-15">
                     <h3 class="db__card__count">-</h3>
                 </div>
                 <p class="db__card__title">Layout Approval</p>
             </div>
-            <div class="db__card">
+            <div class="db__card revision" data-module="Layout Approval Pendency">
                 <div class="db__card__img-wrap db-color-16">
                     <h3 class="db__card__count">-</h3>
                 </div>
-                <p class="db__card__title">Layout Forwarded for Approval</p>
+                <p class="db__card__title">Layout Approval Pendency</p>
             </div>
         </div>
 
@@ -234,519 +234,7 @@
         </div>
         {{--End Dashboard for Hearing Summary--}}
 
-        {{--Dashboard for offer letter--}}
-        @if($dashboardData)
-            <div>
-                <div class="m-subheader px-0 m-subheader--top">
-                    <div class="d-flex align-items-center">
-                        <h3 class="m-subheader__title">Offer Letter</h3>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-sm-7">
-                        <div class="m-portlet db-table">
-                            <div class="table-responsive">
-                                <table class="table text-center">
-                                    <thead>
-                                    <th style="width: 10%;">Sr. No</th>
-                                    <th style="width: 60%;" class="text-center">Stages</th>
-                                    <th style="width: 15%;" class="text-left">Count</th>
-                                    <th style="width: 15%;">Action</th>
-                                    </thead>
-                                    <tbody>
-                                    @php
-                                        $i = 1;
-                                    @endphp
-
-                                    @foreach($dashboardData as $header => $value)
-                                        <tr>
-                                            <td class="text-center">{{$i}}.</td>
-                                            <td>{{$header}}</td>
-                                            <td class="text-center"><span class="count-circle">{{$value[0]}}</span></td>
-                                            <td>
-                                                <a href="{{url(session()->get('redirect_to').$value[1])}}" class="btn btn-action">View</a>
-                                            </td>
-                                            @php $chart += $value[0]; $i++; @endphp
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    @if($chart)
-                        <div id="chartdiv" class="col-sm-5"></div>
-                    @endif
-                </div>
-            </div>
-        @endif
-        {{--End Dashboard for offer letter--}}
-
-        {{--Dashboard for offer letter subordinate pendency--}}
-        @if($dashboardData1)
-            <div>
-                <div class="m-subheader px-0 m-subheader--top">
-                    <div class="d-flex align-items-center">
-                        <h3 class="m-subheader__title">Offer Letter Subordinate Pendency</h3>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-7">
-                        <div class="m-portlet db-table">
-                            <div class="table-responsive">
-                                <table class="table text-center">
-                                    <thead>
-                                    <th style="width: 10%;">Sr. No</th>
-                                    <th style="width: 60%;" class="text-center">Stages</th>
-                                    <th style="width: 15%;" class="text-left">Count</th>
-                                    </thead>
-                                    <tbody>
-                                    @php
-                                        $i = 1;
-                                    @endphp
-
-                                    @foreach($dashboardData1 as $header => $value)
-                                        <tr>
-                                            <td class="text-center">{{$i}}.</td>
-                                            <td>{{$header}}</td>
-                                            <td class="text-center"><span class="count-circle">{{$value}}</span></td>
-                                            @php $chart1 += $value; $i++; @endphp
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    @if($chart1)
-                        <div id="chartdiv1" class="col-sm-5"></div>
-                    @endif
-                </div>
-            </div>
-        @endif
-        {{--End Dashboard for offer letter subordinate pendency--}}
-
-        {{--Dashboard for offer letter revalidation--}}
-        @if($revalDashboardData)
-            <div>
-                <div class="m-subheader px-0 m-subheader--top">
-                    <div class="d-flex align-items-center">
-                        <h3 class="m-subheader__title">Revalidation of Offer Letter</h3>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-7">
-                        <div class="m-portlet db-table">
-                            <div class="table-responsive">
-                                <table class="table text-center">
-                                    <thead>
-                                    <th style="width: 10%;">Sr. No</th>
-                                    <th style="width: 60%;" class="text-center">Stages</th>
-                                    <th style="width: 15%;" class="text-left">Count</th>
-                                    <th style="width: 15%;">Action</th>
-                                    </thead>
-                                    <tbody>
-                                    @php
-                                        $i = 1;
-                                    @endphp
-
-                                    @foreach($revalDashboardData as $header => $value)
-                                        <tr>
-                                            <td class="text-center">{{$i}}.</td>
-                                            <td>{{$header}}</td>
-                                            <td class="text-center"><span class="count-circle">{{$value[0]}}</span></td>
-                                            <td>
-                                                @if( $value[1] == 'pending')
-                                                    <a href="{{route('co_applications.reval').$value[1]}}" class="btn btn-action" data-toggle="modal" data-target="#reeRevalPendingModal">View</a>
-                                                @else
-                                                    <a href="{{route('co_applications.reval').$value[1]}}" class="btn btn-action">View</a>
-                                                @endif
-                                            </td>
-                                            @php $chart5 += $value[0]; $i++; @endphp
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    @if($chart5)
-                        <div id="reval_chart" class="col-sm-5"></div>
-                    @endif
-                </div>
-            </div>
-        @endif
-        {{--End Dashboard for offer letter revalidation--}}
-
-        {{--Dashboard for offer letter revalidation subordinate pendency--}}
-        @if($revalDashboardData1)
-            <div>
-                <div class="m-subheader px-0 m-subheader--top">
-                    <div class="d-flex align-items-center">
-                        <h3 class="m-subheader__title">Offer Letter Revalidation Subordinate Pendency</h3>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-7">
-                        <div class="m-portlet db-table">
-                            <div class="table-responsive">
-                                <table class="table text-center">
-                                    <thead>
-                                    <th style="width: 10%;">Sr. No</th>
-                                    <th style="width: 60%;" class="text-center">Stages</th>
-                                    <th style="width: 15%;" class="text-left">Count</th>
-                                    </thead>
-                                    <tbody>
-                                    @php
-                                        $i = 1;
-                                    @endphp
-
-                                    @foreach($revalDashboardData1 as $header => $value)
-                                        <tr>
-                                            <td class="text-center">{{$i}}.</td>
-                                            <td>{{$header}}</td>
-                                            <td class="text-center"><span class="count-circle">{{$value}}</span></td>
-                                            @php $chart6 += $value; $i++; @endphp
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    @if($chart6)
-                        <div id="revalchartdiv1" class="col-sm-5"></div>
-                    @endif
-                </div>
-            </div>
-        @endif
-        {{--End Dashboard for offer letter revalidation subordinate pendency--}}
-
-        {{--Dashboard for NOC --}}
-        @if($nocApplication['app_data'])
-            <div>
-                <div class="m-subheader px-0 m-subheader--top">
-                    <div class="d-flex align-items-center">
-                        <h3 class="m-subheader__title">Applications for NOC</h3>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-7">
-                        <div class="m-portlet db-table">
-                            <div class="table-responsive">
-                                <table class="table text-center">
-                                    <thead>
-                                    <th style="width: 10%;">Sr. No</th>
-                                    <th style="width: 60%;" class="text-center">Stages</th>
-                                    <th style="width: 15%;" class="text-left">Count</th>
-                                    <th style="width: 15%;">Action</th>
-                                    </thead>
-                                    <tbody>
-                                    @php
-                                        $noc_chart = 0;
-                                        $i = 1;
-                                    @endphp
-
-                                    @foreach($nocApplication['app_data'] as $header => $value)
-                                        <tr>
-                                            <td class="text-center">{{$i}}.</td>
-                                            <td>{{$header}}</td>
-                                            <td class="text-center"><span class="count-circle">{{$value[0]}}</span></td>
-                                            <td>
-                                                <a target="_blank" href="{{url($value[1])}}" class="btn btn-action">View</a>
-                                            </td>
-                                            @php $noc_chart += $value[0]; $i++;@endphp
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    @if($noc_chart)
-                        <div id="noc_chart_div" class="col-sm-5"></div>
-                    @endif
-                </div>
-            </div>
-        @endif
-        {{--End Dashboard for NOC--}}
-
-        {{--Dashboard for NOC Subordinate Pendency--}}
-        @if($nocApplication['pending_data'])
-            <div>
-                <div class="m-subheader px-0 m-subheader--top">
-                    <div class="d-flex align-items-center">
-                        <h3 class="m-subheader__title">NOC Subordinate Pendency</h3>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-7">
-                        <div class="m-portlet db-table">
-                            <div class="table-responsive">
-                                <table class="table text-center">
-                                    <thead>
-                                    <th style="width: 10%;">Sr. No</th>
-                                    <th style="width: 60%;" class="text-center">Stages</th>
-                                    <th style="width: 15%;" class="text-left">Count</th>
-                                    </thead>
-                                    <tbody>
-                                    @php
-                                        $noc_chart_pending = 0;
-                                        $i = 1;
-                                    @endphp
-
-                                    @foreach($nocApplication['pending_data'] as $pending_label => $pending_count)
-                                        <tr>
-                                            <td class="text-center">{{$i}}.</td>
-                                            <td>{{$pending_label}}</td>
-                                            <td class="text-center"><span class="count-circle">{{$pending_count}}</span></td>
-                                            @php $noc_chart_pending += $pending_count; $i++;@endphp
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    @if($noc_chart_pending)
-                        <div id="noc_chart_pending" class="col-sm-5"></div>
-                    @endif
-                </div>
-            </div>
-        @endif
-        {{--Dashboard for NOC Subordinate Pendency--}}
-
-        {{--Dashboard for NOC(CC) --}}
-        @if($nocforCCApplication['app_data'])
-            <div>
-                <div class="m-subheader px-0 m-subheader--top">
-                    <div class="d-flex align-items-center">
-                        <h3 class="m-subheader__title">Application for NOC (CC)</h3>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-7">
-                        <div class="m-portlet db-table">
-                            <div class="table-responsive">
-                                <table class="table text-center">
-                                    <thead>
-                                    <th style="width: 10%;">Sr. No</th>
-                                    <th style="width: 60%;" class="text-center">Stages</th>
-                                    <th style="width: 15%;" class="text-left">Count</th>
-                                    <th style="width: 15%;">Action</th>
-                                    </thead>
-                                    <tbody>
-                                    @php
-                                        $noc_cc_chart = 0;
-                                        $i = 1;
-                                    @endphp
-
-                                    @foreach($nocforCCApplication['app_data'] as $header => $value)
-                                        <tr>
-                                            <td class="text-center">{{$i}}.</td>
-                                            <td>{{$header}}</td>
-                                            <td class="text-center"><span class="count-circle">{{$value[0]}}</span></td>
-                                            <td>
-                                                <a target="_blank" href="{{url($value[1])}}" class="btn btn-action">View</a>
-                                            </td>
-                                            @php $noc_cc_chart += $value[0]; $i++;@endphp
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    @if($noc_cc_chart)
-                        <div id="noc_cc_chart_div" class="col-sm-5"></div>
-                    @endif
-                </div>
-            </div>
-        @endif
-        {{--End Dashboard for NOC(CC)--}}
-
-        {{--Dashboard for NOC(CC) Subordinate Pendency--}}
-        @if($nocforCCApplication['pending_data'])
-            <div>
-                <div class="m-subheader px-0 m-subheader--top">
-                    <div class="d-flex align-items-center">
-                        <h3 class="m-subheader__title">NOC (CC) Subordinate Pendency</h3>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-7">
-                        <div class="m-portlet db-table">
-                            <div class="table-responsive">
-                                <table class="table text-center">
-                                    <thead>
-                                    <th style="width: 10%;">Sr. No</th>
-                                    <th style="width: 60%;" class="text-center">Stages</th>
-                                    <th style="width: 15%;" class="text-left">Count</th>
-                                    </thead>
-                                    <tbody>
-                                    @php
-                                        $noc_cc_chart_pending = 0;
-                                        $i = 1;
-                                    @endphp
-
-                                    @foreach($nocforCCApplication['pending_data'] as $pending_label => $pending_count)
-                                        <tr>
-                                            <td class="text-center">{{$i}}.</td>
-                                            <td>{{$pending_label}}</td>
-                                            <td class="text-center"><span class="count-circle">{{$pending_count}}</span></td>
-                                            @php $noc_cc_chart_pending += $pending_count; $i++;@endphp
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    @if($noc_cc_chart_pending)
-                        <div id="noc_cc_chart_pending" class="col-sm-5"></div>
-                    @endif
-                </div>
-            </div>
-        @endif
-        {{--Dashboard for NOC(CC) Subordinate Pendency--}}
-
-        {{--Dashboard for society Conveyance--}}
-        @if($conveyanceDashboard[0])
-            <div>
-                <div class="m-subheader px-0 m-subheader--top">
-                    <div class="d-flex align-items-center">
-                        <h3 class="m-subheader__title">Society Conveyance</h3>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-7">
-                        <div class="m-portlet db-table">
-                            <div class="table-responsive">
-                                <table class="table text-center">
-                                    <thead>
-                                    <th style="width: 10%;">Sr. No</th>
-                                    <th style="width: 60%;" class="text-center">Stages</th>
-                                    <th style="width: 15%;" class="text-left">Count</th>
-                                    <th style="width: 15%;">Action</th>
-                                    </thead>
-                                    <tbody>
-                                    @php
-                                        $i = 1;
-                                    @endphp
-
-                                    @foreach($conveyanceDashboard[0] as $header => $value)
-                                        <tr>
-                                            <td class="text-center">{{$i}}.</td>
-                                            <td>{{$header}}</td>
-                                            <td class="text-center"><span class="count-circle">{{$value[0]}}</span></td>
-                                            <td>
-                                                @if( $value[1] == 'pending')
-                                                    <a href="{{url($value[1])}}" class="btn btn-action" data-toggle="modal" data-target="#pending">View</a>
-                                                @elseif( $value[1] == 'sendToSociety')
-                                                    <a href="{{url($value[1])}}" class="btn btn-action" data-toggle="modal" data-target="#sendToSociety">View</a>
-                                                @else
-                                                    <a href="{{url($value[1])}}" class="btn btn-action">View</a>
-                                                @endif
-                                            </td>
-                                            @php $chart2 += $value[0]; $i++; @endphp
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    @if($chart2)
-                        <div id="conveyance_chart" class="col-sm-5"></div>
-                    @endif
-                </div>
-            </div>
-        @endif
-        {{--End Dashboard for society Conveyance--}}
-
-        {{--Dashboard for society Conveyance subordinate pendency--}}
-        @if($pendingApplications)
-            <div>
-                <div class="m-subheader px-0 m-subheader--top">
-                    <div class="d-flex align-items-center">
-                        <h3 class="m-subheader__title">Society Conveyance Subordinate Pendency</h3>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-7">
-                        <div class="m-portlet db-table">
-                            <div class="table-responsive">
-                                <table class="table text-center">
-                                    <thead>
-                                    <th style="width: 10%;">Sr. No</th>
-                                    <th style="width: 60%;" class="text-center">Stages</th>
-                                    <th style="width: 15%;" class="text-left">Count</th>
-                                    </thead>
-                                    <tbody>
-                                    @php
-                                        $i = 1;
-                                    @endphp
-
-                                    @foreach($pendingApplications as $header => $value)
-                                        <tr>
-                                            <td class="text-center">{{$i}}.</td>
-                                            <td>{{$header}}</td>
-                                            <td class="text-center"><span class="count-circle">{{$value}}</span></td>
-                                            @php $chart3 += $value; $i++; @endphp
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    @if($chart3)
-                        <div id="pending_conveyance_chart" class="col-sm-5"></div>
-                    @endif
-                </div>
-            </div>
-        @endif
-        {{--End Dashboard for society Conveyance subordinate pendency--}}
-
-        @if((session()->get('role_name')==config('commanConfig.junior_architect'))||
-    (session()->get('role_name')==config('commanConfig.senior_architect')) ||
-    (session()->get('role_name')==config('commanConfig.architect')))
-            @include('admin.dashboard.architect_layout.partials.architect_dashboard',compact('architect_data'))
-        @endif
-        @if(session()->get('role_name')==config('commanConfig.land_manager'))
-            @include('admin.dashboard.architect_layout.partials.lm_dashboard',compact('architect_data'))
-        @endif
-        @if(session()->get('role_name')==config('commanConfig.estate_manager'))
-            @include('admin.dashboard.architect_layout.partials.em_dashboard',compact('architect_data'))
-        @endif
-        @if (in_array(session()->get('role_name'),array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'))))
-            @include('admin.dashboard.architect_layout.partials.ee_dashboard',compact('architect_data'))
-        @endif
-        @if (in_array(session()->get('role_name'),array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head'))))
-            @include('admin.dashboard.architect_layout.partials.ree_dashboard',compact('architect_data'))
-        @endif
-        @if(in_array(session()->get('role_name'),array(config('commanConfig.co_engineer'))))
-            @include('admin.dashboard.architect_layout.partials.co_dashboard',compact('architect_data'))
-        @endif
-        @if(in_array(session()->get('role_name'),array(config('commanConfig.senior_architect_planner'))))
-            @include('admin.dashboard.architect_layout.partials.sap_dashboard',compact('architect_data'))
-        @endif
-        @if(in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'))))
-            @include('admin.dashboard.architect_layout.partials.cap_dashboard',compact('architect_data'))
-        @endif
-        @if(in_array(session()->get('role_name'),array(config('commanConfig.vp_engineer'))))
-            @include('admin.dashboard.architect_layout.partials.vp_dashboard',compact('architect_data'))
-        @endif
     </div>
 
     </div>
@@ -1908,7 +1396,115 @@
     </script>
     {{--end ajax call for Pendency Count Table and Pie chart(conveyance)--}}
 
+    {{--ajax call for Count Table and Pie chart(revision in layout,Layout Approval,Layout Approval Subordinate Pendency)--}}
+    <script>
+        var dashboard = "{{route('dashboard.ajax.co')}}";
+        $(".revision").on("click", function () {
 
+            var redirect_to = "{{session()->get('redirect_to')}}";
+            var module_name = ($(this).attr("data-module"));
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: dashboard,
+                data: {module_name:module_name},
+                dataType: 'json',
+                success: function (data) {
+                    if (data !== "false") {
+                        var html = "";
+
+                        html += "<div id=\"count_table\">\n" +
+                            "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
+                            "                    <div class=\"d-flex align-items-center\">\n" +
+                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                    </div>\n" +
+                            "                </div>\n" +
+                            "                <div class=\"row\">\n" +
+                            "                    <div class=\"col-sm-7\" >" +
+                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                            <div class=\"table-responsive\">\n" +
+                            "                                <table class=\"table text-center\">\n" +
+                            "                                    <thead>\n" +
+                            "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
+                            "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    </thead>\n" +
+                            "                                    </tbody>\n" ;
+
+                        var chart_count = 0 ;
+                        var i = 1 ;
+                        $.each(data, function (index, data) {
+
+                            html += "<tr>\n" +
+                                "<td class=\"text-center\">"+i+"</td>" +
+                                "<td>"+index+"</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">"+data+"</span></td>\n" +
+                                "<td>\n" +
+                                "</td>\n" +
+                                "</tr>";
+                            chart_count += data;
+                            i++;
+                        });
+
+                        html +="</tbody>\n" +
+                            "                                </table>\n" +
+                            "                        </div>\n" +
+                            "                    </div>" +
+                            "                   </div>\n" +
+                            "                        <div class=\"col-sm-5\" id=\"ajaxchartdiv\">\n" +
+                            "                        </div>\n" +
+                            "                </div>\n" +
+                            "            </div>";
+
+                        $('#count_table').html(html);
+
+                        if(chart_count){
+
+                            var chartData = [];
+
+                            $.each((data), function (index, data) {
+                                obj = {};
+                                if (index != 'Total Number of Applications') {
+                                    obj['status'] = index;
+                                    obj['value'] = data;
+                                    chartData.push(obj);
+                                }
+
+                            });
+
+                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                                "type": "pie",
+                                "theme": "light",
+                                "dataProvider":chartData ,
+                                "valueField": "value",
+                                "titleField": "status",
+                                "outlineAlpha": 0.8,
+                                "outlineColor":"#FFFFFF",
+                                "outlineThickness" : 2,
+                                "depth3D": 15,
+                                "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                                "angle": 30,
+                                "labelText": "[[percents]]%",
+                                "labelRadius": -35,
+                                "fontSize" : 15,
+                            } );
+                        }
+                    }
+                    else {
+                        alert('errror');
+                    }
+                },
+            });
+
+        });
+
+    </script>
+    {{--end ajax call for Count Table and Pie chart(revision in layout,Layout Approval,Layout Approval Subordinate Pendency)--}}
 @endsection
 
 

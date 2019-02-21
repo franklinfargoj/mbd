@@ -104,7 +104,7 @@
     <div class="container-fluid">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
-                <h3 class="m-subheader__title">Layout Approval</h3>
+                <h3 class="m-subheader__title">Layout Approval Subordinate Pendency</h3>
             </div>
         </div>
 

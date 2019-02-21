@@ -76,6 +76,8 @@
                     in_array(session()->get('role_name'),array(config('commanConfig.senior_architect_planner'))) ||
                     in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'))) ||
                     in_array(session()->get('role_name'),array(config('commanConfig.vp_engineer'))))
+
+                    @if(!(session()->get('role_name')==config('commanConfig.cap_engineer')))
                     <div class="db__card revision" data-module="Revision in Layout">
                         <div class="db__card__img-wrap db-color-5">
                             <h3 class="db__card__count">
@@ -92,12 +94,15 @@
                         </div>
                         <p class="db__card__title">Revision in Layout</p>
                     </div>
+                    @endif
+                    @if(!(session()->get('role_name')==config('commanConfig.ee_junior_engineer')) || !(session()->get('role_name')==config('commanConfig.ee_deputy_engineer')))
                     <div class="db__card revision"  data-module="Layout Approval">
                         <div class="db__card__img-wrap db-color-5">
                             <h3 class="db__card__count">-</h3>
                         </div>
                         <p class="db__card__title">Layout Approval</p>
                     </div>
+                    @endif
                 @endif
         </div>
 
@@ -166,22 +171,12 @@
         @if(session()->get('role_name')==config('commanConfig.estate_manager'))
             @include('admin.dashboard.architect_layout.partials.em_dashboard',compact('architect_data'))
         @endif
-        @if (in_array(session()->get('role_name'),array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head'))))
-            @include('admin.dashboard.architect_layout.partials.ree_dashboard',compact('architect_data'))
-        @endif
         @if(in_array(session()->get('role_name'),array(config('commanConfig.co_engineer'))))
             @include('admin.dashboard.architect_layout.partials.co_dashboard',compact('architect_data'))
         @endif
         @if(in_array(session()->get('role_name'),array(config('commanConfig.senior_architect_planner'))))
             @include('admin.dashboard.architect_layout.partials.sap_dashboard',compact('architect_data'))
         @endif
-        @if(in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'))))
-            @include('admin.dashboard.architect_layout.partials.cap_dashboard',compact('architect_data'))
-        @endif
-        @if(in_array(session()->get('role_name'),array(config('commanConfig.vp_engineer'))))
-            @include('admin.dashboard.architect_layout.partials.vp_dashboard',compact('architect_data'))
-        @endif
-
     </div>
 
 
@@ -994,7 +989,7 @@
             {{--end ajax call for Count Table and Pie chart(revalidation)--}}
 
 
-            {{--ajax call for Count Table and Pie chart(revision in layout)--}}
+            {{--ajax call for Count Table and Pie chart(revision in layout,Layout Approval)--}}
             <script>
                 var dashboard = "{{route('dashboard.ajax')}}";
                 $(".revision").on("click", function () {
@@ -1102,6 +1097,6 @@
                 });
 
             </script>
-            {{--end ajax call for Count Table and Pie chart(revision in layout)--}}
+            {{--end ajax call for Count Table and Pie chart(revision in layout,Layout Approval)--}}
 
             @endsection

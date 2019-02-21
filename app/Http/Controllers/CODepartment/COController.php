@@ -5,6 +5,7 @@ namespace App\Http\Controllers\CODepartment;
 use App\Department;
 use App\Hearing;
 use App\HearingSchedule;
+use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
 use App\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -1257,6 +1258,53 @@ class COController extends Controller
                 $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();
 
                 return $pendingApplications;
+            }
+
+
+            if ($request->module_name == "Revision in Layout") {
+                $architect_dashboard = new ArchitectLayoutDashboardController();
+                $data['Total Number of Layouts']=$architect_dashboard->total_number_of_layouts();
+                $data['Layouts in process']=$architect_dashboard->total_no_of_appln_for_revision_and_approval();
+                $data['Layouts Approved by VP']=$architect_dashboard->approved_layouts();
+                return $data;
+
+            }
+
+            if($request->module_name == 'Layout Approval'){
+                $architect_dashboard = new ArchitectLayoutDashboardController();
+                if (session()->get('role_name') == config('commanConfig.co_engineer')) {
+
+                    $data['Total Number of Layouts for revision'] = $architect_dashboard->total_no_of_appln_for_revision();
+                    $data['Application Pending'] = $architect_dashboard->pending_layout_before_layout_and_excel(1);
+                    $data['Applications Sent to EE'] = $architect_dashboard->sent_to_ee();
+                    $data['Applications Sent to REE'] = $architect_dashboard->sent_to_ree();
+                    $data['Applications Sent to LM'] = $architect_dashboard->sent_to_lm();
+                    $data['Applications Sent to EM'] = $architect_dashboard->sent_to_em();
+                    $data['Applications Forwarded for Approval'] = $architect_dashboard->appln_sent_for_arroval();
+                    $data['Approved Layouts'] = $architect_dashboard->approved_layouts();
+                    return $data;
+                }
+            }
+
+            if ($request->module_name == "Layout Approval Pendency") {
+                $architect_dashboard = new ArchitectLayoutDashboardController();
+
+                $ree = $architect_dashboard->pending_at_ree();
+                $co  = $architect_dashboard->pending_at_co();
+                $cap = $architect_dashboard->pending_at_cap();
+                $sap = $architect_dashboard->pending_at_sap();
+                $la  = $architect_dashboard->pending_at_la();
+                $vp  = $architect_dashboard->pending_at_vp();
+
+                $data['Toatal Number of Applications'] = $ree +$co +$cap +$sap +$la +$vp;
+                $data['Applications Pending at REE']   = $ree;
+                $data['Applications Pending at CO']    = $co;
+                $data['Applications Pending at CAP']   = $cap;
+                $data['Applications Pending at SAP']   = $sap;
+                $data['Applications Pending at LA']    = $la;
+                $data['Applications Pending at VP']    = $vp;
+                return $data;
+
             }
         }
     }

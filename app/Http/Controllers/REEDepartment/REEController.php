@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\REEDepartment;
 
-use App\REENote; 
+use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
+use App\REENote;
 use App\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -2032,53 +2033,68 @@ class REEController extends Controller
 
                 return $nocforCCApplication['pending_data'];
             }
+
+            if($request->module_name == 'NOC (CC) Subordinate Pendency'){
+                if (in_array(session()->get('role_name'), array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head')))) {
+                    $data['total_no_of_appln_for_revision'] = $this->architect_dashboard->total_no_of_appln_for_revision();
+                    $data['application_pending'] = $this->architect_dashboard->pending_layout_before_layout_and_excel();
+                    $data['ree_forwarded_layouts'] = $this->architect_dashboard->forwarded_layout_before_layout_and_excel();
+                    $data['appln_sent_for_arroval'] = $this->architect_dashboard->appln_sent_for_arroval();
+                    $data['application_pending_after_layout_and_excel'] = $this->architect_dashboard->pending_layout_before_layout_and_excel(1);
+                    $data['application_forwarded_after_layout_and_excel'] = $this->architect_dashboard->forwarded_layout_before_layout_and_excel(1);
+
+
+                    if (session()->get('role_name') == config('commanConfig.ree_branch_head')) {
+                        $data['jr_ree_pending'] = $this->architect_dashboard->ree_pending_at_role(config('commanConfig.ree_junior'));
+                        $data['dy_ree_pending'] = $this->architect_dashboard->ree_pending_at_role(config('commanConfig.ree_deputy_engineer'));
+                        $data['assistant_ree_pending'] = $this->architect_dashboard->ree_pending_at_role(config('commanConfig.ree_assistant_engineer'));
+                        $data['head_ree_pending'] = $this->architect_dashboard->ree_pending_at_role(config('commanConfig.ree_branch_head'));
+                    }
+                }
+
+            }
+
+            if ($request->module_name == "Revision in Layout") {
+                $this->architect_dashboard = new ArchitectLayoutDashboardController();
+
+                if (in_array(session()->get('role_name'), array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head')))) {
+                    $data['Total No of Application Sent For Revision'] = $this->architect_dashboard->total_no_of_appln_for_revision();
+                    $data['Application Pending'] = $this->architect_dashboard->pending_layout_before_layout_and_excel();
+                    $data['Application Forwarded'] = $this->architect_dashboard->forwarded_layout_before_layout_and_excel();
+                    return $data;
+                }
+            }
+
+            if($request->module_name == 'Layout Approval'){
+                $this->architect_dashboard = new ArchitectLayoutDashboardController();
+
+                if (in_array(session()->get('role_name'), array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head')))) {
+                    $data['Total No of Application Sent For Approval'] = $this->architect_dashboard->appln_sent_for_arroval();
+                    $data['Application Pending'] = $this->architect_dashboard->pending_layout_before_layout_and_excel(1);
+                    $data['Application Forwarded'] = $this->architect_dashboard->forwarded_layout_before_layout_and_excel(1);
+                    return $data;
+                }
+            }
+
+            if ($request->module_name == "Layout Approval Subordinate Pendency") {
+                $this->architect_dashboard = new ArchitectLayoutDashboardController();
+
+                if (session()->get('role_name') == config('commanConfig.ree_branch_head')) {
+                    $jr_ree_pending = $this->architect_dashboard->ree_pending_at_role(config('commanConfig.ree_junior'));
+                    $dy_ree_pending = $this->architect_dashboard->ree_pending_at_role(config('commanConfig.ree_deputy_engineer'));
+                    $assistant_ree_pending = $this->architect_dashboard->ree_pending_at_role(config('commanConfig.ree_assistant_engineer'));
+                    $head_ree_pending = $this->architect_dashboard->ree_pending_at_role(config('commanConfig.ree_branch_head'));
+
+                    $data['Total No of Application Sent For Approval'] = $jr_ree_pending+ $dy_ree_pending+ $assistant_ree_pending+ $head_ree_pending;
+                    $data['Pending at JE / SE'] = $jr_ree_pending;
+                    $data['Pending at Deputy Engineer'] = $dy_ree_pending;
+                    $data['Pending at Assistant REE'] = $assistant_ree_pending;
+                    $data['Pending at REE'] = $head_ree_pending;
+
+                    return $data;
+                }
+            }
         }
-
-
-        $applicationData = $this->getApplicationData($role_id,$user_id);
-
-        // Reval APplication data
-
-        $revalApplicationData = $this->getRevalApplicationData($role_id,$user_id);
-
-
-        $statusCount = $this->getApplicationStatusCount($applicationData);
-
-        // Reval status Count
-        $revalStatusCount = $this->getApplicationStatusCount($revalApplicationData);
-
-        // REE Roles
-        $ree = $this->CommonController->getREERoles();
-
-        $dashboardData = $this->getREEDashboardData($role_id,$ree,$statusCount);
-
-        // Reval status Count
-        $revalDashboardData = $this->getREEDashboardData($role_id,$ree,$revalStatusCount);
-
-        $reeHeadId = Role::where('name',config('commanConfig.ree_branch_head'))->value('id');
-
-        $dashboardData1 = NULL;
-        if($role_id == $reeHeadId){
-            $dashboardData1 = $this->CommonController->getTotalCountsOfApplicationsPending();
-        }
-
-        // Reval Dashboard data
-        $revalDashboardData1 = NULL;
-        if($role_id == $reeHeadId){
-            $revalDashboardData1 = $this->CommonController->getTotalCountsOfRevalApplicationsPending();
-        }
-
-        //Noc dashboard -- Sayan
-
-        $nocModuleController = new SocietyNocController();
-        $nocApplication = $nocModuleController->getApplicationListDashboard('REE');
-
-        //Noc for CC dashboard -- Sayan
-
-        $nocforCCModuleController = new SocietyNocforCCController();
-        $nocforCCApplication = $nocforCCModuleController->getApplicationListDashboard('REE');
-
-        return view('admin.REE_department.dashboard',compact('dashboardData','dashboardData1','revalDashboardData1','nocApplication','nocforCCApplication','revalDashboardData'));
     }
 
     public function getApplicationData($role_id,$user_id){
