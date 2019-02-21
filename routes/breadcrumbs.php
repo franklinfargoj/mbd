@@ -201,9 +201,9 @@ Breadcrumbs::for('society_dashboard', function ($trail) {
     $trail->push('Listing', route('society_offer_letter_dashboard'));
 });
 
-Breadcrumbs::for('documents_uploaded', function ($trail) {
+Breadcrumbs::for('documents_uploaded', function ($trail,$id) {
     $trail->push('Listing', route('society_offer_letter_dashboard'));
-    $trail->push('View Uploaded documents(Offer Letter)', route('documents_uploaded'));
+    $trail->push('View Uploaded documents(Offer Letter)', route('documents_uploaded',$id));
 });
 
 Breadcrumbs::for('documents_upload', function ($trail,$id) {

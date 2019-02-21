@@ -238,7 +238,7 @@ class DYCEController extends Controller
 
         $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
                                             ->whereIn('lu.layout_id', $layout_ids)
-                                            ->where('role_id', $ree_id->id)->get();
+                                            ->where('role_id', $ree_id->id)->groupBy('users.id')->get();
 
         $arrData['ree_role_name']   = strtoupper(str_replace('_', ' ', $ree_id->name));
 
@@ -262,7 +262,7 @@ class DYCEController extends Controller
         $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->downloadOfferLetter($applicationId);
         $ol_application->folder = 'DYCE_department';
-        $ol_application->comments = $this->CommonController->getSocietyDocumentComments($ol_application->society_id);
+        $ol_application->comments = $this->CommonController->getSocietyDocumentComments($ol_application->id);
         return view('admin.common.offer_letter', compact('ol_application'));
     }    
 }

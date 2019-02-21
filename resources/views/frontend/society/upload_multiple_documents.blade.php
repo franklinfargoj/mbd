@@ -29,7 +29,7 @@
              @if($ol_applications->status->status_id != config('commanConfig.applicationStatus.forwarded'))
             <a href="{{ route('documents_upload',encrypt($ol_applications->id)) }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             @else
-            <a href="{{ url('/society/documents_uploaded') }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>            
             @endif
         </div>
     </div>

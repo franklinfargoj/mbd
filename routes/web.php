@@ -496,7 +496,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
         Route::get('documents_upload/{id}', 'SocietyOfferLetterController@displaySocietyDocuments')->name('documents_upload');
         Route::post('add_uploaded_documents_remark', 'SocietyOfferLetterController@addSocietyDocumentsRemark')->name('add_uploaded_documents_remark');
-        Route::get('documents_uploaded', 'SocietyOfferLetterController@viewSocietyDocuments')->name('documents_uploaded');
+        Route::get('documents_uploaded/{id}', 'SocietyOfferLetterController@viewSocietyDocuments')->name('documents_uploaded');
         Route::post('uploaded_documents', 'SocietyOfferLetterController@uploadSocietyDocuments')->name('uploaded_documents');
         Route::get('/upload_multiple_documents/{societyId}/{documentId}', 'SocietyOfferLetterController@uploadMultipleDocuments')->name('upload_multiple_documents');
 

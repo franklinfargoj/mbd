@@ -65,7 +65,8 @@
                 </div>
             </div>
         </div>
-        @if($ol_application->olApplicationStatus[0]->status_id == '3' || $ol_application->olApplicationStatus[0]->status_id == '4')
+ 
+        @if((isset($applicationCount) && $applicationCount <= 0) && ($ol_application->olApplicationStatus[0]->status_id == '3' || $ol_application->olApplicationStatus[0]->status_id == '4'))
 
             <div class="m-login__form-action mt-4 mb-4">
                     <a href="{{ route('society_offer_letter_edit',encrypt($ol_application->id)) }}" class="btn btn-primary">

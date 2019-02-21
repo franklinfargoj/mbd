@@ -317,10 +317,11 @@ class EEController extends Controller
         // REE junior Forward Application
 
         $ree_jr_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
-
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                                ->where('lu.layout_id', session()->get('layout_id'))
-                                ->where('role_id', $ree_jr_id->id)->get();
+                                ->whereIn('lu.layout_id', $layout_ids)
+                                ->where('role_id', $ree_jr_id->id)->groupBy('users.id')->get();
         $arrData['ree_junior_name'] = strtoupper(str_replace('_', ' ', $ree_jr_id->name));
 
         //remark and history
@@ -432,26 +433,10 @@ class EEController extends Controller
         $applicationId = decrypt($applicationId);
         $ol_application = $this->comman->getOlApplication($applicationId);    
         $societyDocument = $this->comman->getSocietyEEDocuments($applicationId);
-        $id = '';
-        
-        if ($societyDocument){
-            foreach($societyDocument[0]->societyDocuments as $data){
-                if ($data->documents_Name[0]->is_multiple == 1){
-
-                    if ($id != $data->document_id){
-                        $documents [] = $data;
-                        $id = $data->document_id;
-                    }
-
-                }else{
-                    $documents[] = $data;
-                }
-            }            
-        }
-
+        $societyComments = $this->comman->getSocietyDocumentComments($applicationId);
         $ol_application->status = $this->comman->getCurrentStatus($applicationId);
 
-        return view('admin.ee_department.documentSubmitted', compact('societyDocument','ol_application','documents'));
+        return view('admin.ee_department.documentSubmitted', compact('societyDocument','ol_application','societyComments'));
     }
 
     public function getForwardApplicationForm($application_id){
@@ -490,7 +475,8 @@ class EEController extends Controller
        // dd($layout_ids);
         $arrData['get_forward_dyce'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
                                                 ->whereIn('lu.layout_id', $layout_ids)
-                                                ->where('role_id', $dyce_role_id->id)->get();
+                                                ->where('role_id', $dyce_role_id->id)->groupBy('users.id')->get();
+        //dd($layout_ids);
 
         $arrData['dyce_role_name'] = strtoupper(str_replace('_', ' ', $dyce_role_id->name));
 
@@ -639,9 +625,9 @@ class EEController extends Controller
         $society_id = decrypt($society_id);
         $ol_application = $this->comman->getOlApplication($application_id);
         $ol_application->status = $this->comman->getCurrentStatus($application_id);
-        $application_master_id = OlApplication::where('society_id', $society_id)->value('application_master_id');
-        // $arrData['society_document'] = OlSocietyDocumentsMaster::where('application_id', $application_master_id)->get();       
-        $societyEEdocument = $this->comman->getSocietyEEDocuments($application_id);       
+        $application_master_id = OlApplication::where('society_id', $society_id)->value('application_master_id');      
+        $societyDocument = $this->comman->getSocietyEEDocuments($application_id);
+        $societyComments = $this->comman->getSocietyDocumentComments($application_id);  
         // Document Scrutiny
         $arrData['society_detail'] = OlApplication::with('eeApplicationSociety')->where('id', $application_id)->first();
         // $arrData['society_document'] = OlSocietyDocumentsMaster::get();
@@ -698,12 +684,15 @@ class EEController extends Controller
         $latest = OlChecklistScrutiny::where('application_id',$application_id)
         ->orderBy('id','desc')->first();
 
-        return view('admin.ee_department.scrutiny-remark', compact('arrData','ol_application','societyDocuments','societyEEdocument','landDetails','latest'));
+        return view('admin.ee_department.scrutiny-remark', compact('arrData','ol_application','societyComments','societyDocument','landDetails','latest'));
     }
 
     public function addDocumentScrutiny(Request $request)
     {
-        $document_status = OlSocietyDocumentsStatus::find($request->document_status_id);
+        
+        $document_status = OlSocietyDocumentsStatus::where('application_id',$request->applicationId)
+        ->where('document_id',$request->document_status_id)->first();
+
         $ee_document_scrutiny = [
             'comment_by_EE' => $request->remark,
         ];
@@ -726,7 +715,7 @@ class EEController extends Controller
             }
 
         }
-
+        // dd($document_status);
         $document_status->update($ee_document_scrutiny);
 
         return redirect()->back();
@@ -742,7 +731,8 @@ class EEController extends Controller
 
     public function editDocumentScrutiny(Request $request, $id)
     {
-        $document_status = OlSocietyDocumentsStatus::find($id);
+        $document_status = OlSocietyDocumentsStatus::where('application_id',$request->applicationId)
+        ->where('document_id',$id)->first();
 
         $ee_document_scrutiny = [
             'comment_by_EE' => $request->comment_by_EE,
@@ -782,16 +772,19 @@ class EEController extends Controller
 
     public function deleteDocumentScrutiny(Request $request, $id)
     {
+         $document_status = OlSocietyDocumentsStatus::where('application_id',$request->applicationId)
+        ->where('document_id',$id)->first();
+        // dd($document_status);
         $data = [
             'comment_by_EE' => '',
             'EE_document_path' => '',
             'deleted_comment_by_EE' => $request->remark
         ];
         // unlink(public_path($request->fileName));
-        $document_delete = OlSocietyDocumentsStatus::find($id);
+        // $document_delete = OlSocietyDocumentsStatus::find($id);
         Storage::disk('ftp')->delete($request->fileName);
 
-        $document_delete->update($data);
+        $document_status->update($data);
 
         return redirect()->back();
     }

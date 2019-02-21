@@ -38,6 +38,7 @@ use App\User;
 use Config;
 use Auth;
 use DB;
+use App\LayoutUser;
  
 class COController extends Controller
 {
@@ -472,22 +473,23 @@ class COController extends Controller
         // CAP Forward Application
 
         $cap_role_id = Role::where('name', '=', config('commanConfig.cap_engineer'))->first();
-
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation'))
         {
             $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
 
             $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                ->where('lu.layout_id', session()->get('layout_id'))
-                ->where('role_id', $ree_id->id)->get();
+                ->whereIn('lu.layout_id', $layout_ids)
+                ->where('role_id', $ree_id->id)->groupBy('users.id')->get();
 
             $arrData['ree_role_name']   = strtoupper(str_replace('_', ' ', $ree_id->name));
         }
         else
         {
             $arrData['get_forward_cap'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                ->where('lu.layout_id', session()->get('layout_id'))
-                ->where('role_id', $cap_role_id->id)->get();
+                ->whereIn('lu.layout_id', $layout_ids)
+                ->where('role_id', $cap_role_id->id)->groupBy('users.id')->get();
             $arrData['cap_role_name'] = strtoupper(str_replace('_', ' ', $cap_role_id->name));
         }
 
@@ -524,22 +526,23 @@ class COController extends Controller
         // CAP Forward Application
 
         $cap_role_id = Role::where('name', '=', config('commanConfig.cap_engineer'))->first();
-
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation'))
         {
             $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
 
             $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                ->where('lu.layout_id', session()->get('layout_id'))
-                ->where('role_id', $ree_id->id)->get();
+                ->whereIn('lu.layout_id', $layout_ids)
+                ->where('role_id', $ree_id->id)->groupBy('users.id')->get();
 
             $arrData['ree_role_name']   = strtoupper(str_replace('_', ' ', $ree_id->name));
         }
         else
         {
             $arrData['get_forward_cap'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                ->where('lu.layout_id', session()->get('layout_id'))
-                ->where('role_id', $cap_role_id->id)->get();
+                ->whereIn('lu.layout_id', $layout_ids)
+                ->where('role_id', $cap_role_id->id)->groupBy('users.id')->get();
             $arrData['cap_role_name'] = strtoupper(str_replace('_', ' ', $cap_role_id->name));
         }
 
@@ -636,9 +639,10 @@ class COController extends Controller
     public function approvedOfferLetter(Request $request){
 
         $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
-
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         $ree = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-            ->where('lu.layout_id', session()->get('layout_id'))
+            ->whereIn('lu.layout_id', $layout_ids)
             ->where('role_id', $ree_id->id)->first();
 
         $this->CommonController->generateOfferLetterForwardToREE($request,$ree);
@@ -650,9 +654,10 @@ class COController extends Controller
     public function approvedRevalOfferLetter(Request $request){
 
         $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
-
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         $ree = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-            ->where('lu.layout_id', session()->get('layout_id'))
+            ->whereIn('lu.layout_id', $layout_ids)
             ->where('role_id', $ree_id->id)->first();
 
         $this->CommonController->generateOfferLetterForwardToREE($request,$ree);
@@ -669,7 +674,7 @@ class COController extends Controller
 
         $ol_application = $this->CommonController->downloadOfferLetter($applicationId);
         $ol_application->folder = 'co_department';
-        $ol_application->comments = $this->CommonController->getSocietyDocumentComments($ol_application->society_id);
+        $ol_application->comments = $this->CommonController->getSocietyDocumentComments($ol_application->id);
 
         return view('admin.common.offer_letter', compact('ol_application'));
     }
@@ -839,9 +844,10 @@ class COController extends Controller
     public function approveNoctoRee(Request $request){
 
         $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
-
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         $ree = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-            ->where('lu.layout_id', session()->get('layout_id'))
+            ->whereIn('lu.layout_id', $layout_ids)
             ->where('role_id', $ree_id->id)->first();
 
         $this->CommonController->generateNOCforwardToREE($request,$ree);
@@ -853,9 +859,10 @@ class COController extends Controller
     public function approveNocforCCtoRee(Request $request){
 
         $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
-
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         $ree = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-            ->where('lu.layout_id', session()->get('layout_id'))
+            ->whereIn('lu.layout_id', $layout_ids)
             ->where('role_id', $ree_id->id)->first();
 
         $this->CommonController->generateNOCforCCforwardToREE($request,$ree);
@@ -873,14 +880,15 @@ class COController extends Controller
         $arrData['application_status'] = $this->CommonController->getCurrentLoggedInChildNoc($applicationId);
 
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatusNoc($applicationId);
-
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         if(isset($arrData['get_current_status']->status_id) && $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.NOC_Generation'))
         {
             $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
 
             $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                ->where('lu.layout_id', session()->get('layout_id'))
-                ->where('role_id', $ree_id->id)->get();
+                ->whereIn('lu.layout_id', $layout_ids)
+                ->where('role_id', $ree_id->id)->groupBy('users.id')->get();
 
             $arrData['ree_role_name']   = strtoupper(str_replace('_', ' ', $ree_id->name));
         }
@@ -911,14 +919,15 @@ class COController extends Controller
         $arrData['application_status'] = $this->CommonController->getCurrentLoggedInChildNocCC($applicationId);
 
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatusNocCC($applicationId);
-
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         if(isset($arrData['get_current_status']->status_id) && $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.NOC_Generation'))
         {
             $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
 
             $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                ->where('lu.layout_id', session()->get('layout_id'))
-                ->where('role_id', $ree_id->id)->get();
+                ->whereIn('lu.layout_id', $layout_ids)
+                ->where('role_id', $ree_id->id)->groupBy('users.id')->get();
 
             $arrData['ree_role_name']   = strtoupper(str_replace('_', ' ', $ree_id->name));
         }
@@ -943,9 +952,10 @@ class COController extends Controller
     public function sendForwardNocApplication(Request $request){
 
         $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
-
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         $ree = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-            ->where('lu.layout_id', session()->get('layout_id'))
+            ->whereIn('lu.layout_id', $layout_ids)
             ->where('role_id', $ree_id->id)->first();
 
         $this->CommonController->generateNOCforwardToREE($request);
@@ -956,9 +966,10 @@ class COController extends Controller
     public function sendForwardNocforCCApplication(Request $request){
 
         $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
-
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         $ree = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-            ->where('lu.layout_id', session()->get('layout_id'))
+            ->whereIn('lu.layout_id', $layout_ids)
             ->where('role_id', $ree_id->id)->first();
 
         $this->CommonController->generateNOCforCCforwardToREE($request);
@@ -1486,9 +1497,10 @@ class COController extends Controller
     public function approveconsentOctoRee(Request $request){
 
         $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
-
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         $ree = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-            ->where('lu.layout_id', session()->get('layout_id'))
+            ->whereIn('lu.layout_id', $layout_ids)
             ->where('role_id', $ree_id->id)->first(); 
 
             $this->CommonController->generateOCforwardToREE($request,$ree);
@@ -1506,14 +1518,15 @@ class COController extends Controller
         $arrData['application_status'] = $this->CommonController->getCurrentLoggedInChildOc($applicationId);
 
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatusOc($applicationId);
-
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         if(isset($arrData['get_current_status']->status_id) && $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.OC_Generation'))
         {
             $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
 
             $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                ->where('lu.layout_id', session()->get('layout_id'))
-                ->where('role_id', $ree_id->id)->get();
+                ->whereIn('lu.layout_id', $layout_ids)
+                ->where('role_id', $ree_id->id)->groupBy('users.id')->get();
 
             $arrData['ree_role_name']   = strtoupper(str_replace('_', ' ', $ree_id->name));
         }
@@ -1540,9 +1553,10 @@ class COController extends Controller
     public function sendForwardOcApplication(Request $request){
 
         $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
-
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         $ree = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-            ->where('lu.layout_id', session()->get('layout_id'))
+            ->whereIn('lu.layout_id', $layout_ids)
             ->where('role_id', $ree_id->id)->first(); 
 
         $this->CommonController->generateOCforwardToREE($request);
