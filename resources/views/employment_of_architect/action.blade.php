@@ -41,7 +41,7 @@
         </span>Edit
     </a>
     @endif
-    @if($architect_applications->form_step==10 && $status_id!=config('commanConfig.architect_applicationStatus.forward'))
+    @if($architect_applications->form_step==10 && $status_id!=config('commanConfig.architect_applicationStatus.forward') && $status_id!=config('commanConfig.architect_applicationStatus.approved'))
     <form method="post" action="{{route('appointing_architect.send_to_architect')}}">
         @csrf
         <input type="hidden" name="app_id" value="{{$architect_applications->id}}">
