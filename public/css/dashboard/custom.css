@@ -5695,6 +5695,7 @@ input:disabled+label:after {
 /* dashboard starts here */
 
 .db__card {
+    margin-top: 40px;
     width: 19.2%;
     background-color: #fff;
     padding: 20px;

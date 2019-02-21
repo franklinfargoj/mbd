@@ -131,61 +131,100 @@
         </div>
 
         {{--Dashboard for offer letter--}}
-        @if($dashboardData[0])
-            <div id="count_table">
-            <div class="m-subheader px-0 m-subheader--top">
-                <div class="d-flex align-items-center">
-                    <h3 class="m-subheader__title">Offer Letter</h3>
-                </div>
-            </div>
+        {{--@if($dashboardData[0])--}}
+            {{--<div id="count_table">--}}
+            {{--<div class="m-subheader px-0 m-subheader--top">--}}
+                {{--<div class="d-flex align-items-center">--}}
+                    {{--<h3 class="m-subheader__title">Offer Letter</h3>--}}
+                {{--</div>--}}
+            {{--</div>--}}
 
-            <div class="row">
-                <div class="col-sm-7">
-                    <div class="m-portlet db-table">
-                        <div class="table-responsive">
-                            <table class="table text-center">
-                                <thead>
-                                <th style="width: 10%;">Sr. No</th>
-                                <th style="width: 60%;" class="text-center">Stages</th>
-                                <th style="width: 15%;" class="text-left">Count</th>
-                                <th style="width: 15%;">Action</th>
-                                </thead>
-                                <tbody>
-                                @php
-                                    $i = 1;
-                                @endphp
+            {{--<div class="row">--}}
+                {{--<div class="col-sm-7">--}}
+                    {{--<div class="m-portlet db-table">--}}
+                        {{--<div class="table-responsive">--}}
+                            {{--<table class="table text-center">--}}
+                                {{--<thead>--}}
+                                {{--<th style="width: 10%;">Sr. No</th>--}}
+                                {{--<th style="width: 60%;" class="text-center">Stages</th>--}}
+                                {{--<th style="width: 15%;" class="text-left">Count</th>--}}
+                                {{--<th style="width: 15%;">Action</th>--}}
+                                {{--</thead>--}}
+                                {{--<tbody>--}}
+                                {{--@php--}}
+                                    {{--$i = 1;--}}
+                                {{--@endphp--}}
 
-                                @foreach($dashboardData[0] as $header => $value)
-                                    <tr>
-                                        <td class="text-center">{{$i}}.</td>
-                                        <td>{{$header}}</td>
-                                        <td class="text-center"><span class="count-circle">{{$value[0]}}</span></td>
-                                        <td>
-                                            @if( $value[1] == 'pending')
-                                                <a href="{{url(session()->get('redirect_to').$value[1])}}" class="btn btn-action" data-toggle="modal" data-target="#reePendingModal">View</a>
-                                            @else
-                                                <a href="{{url(session()->get('redirect_to').$value[1])}}" class="btn btn-action">View</a>
-                                            @endif
-                                        </td>
-                                        @php $chart += $value[0]; $i++; @endphp
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                @if($chart)
-                    <div id="ajaxchartdiv" class="col-sm-5"></div>
-                @endif
-            </div>
-        </div>
-        @endif
+                                {{--@foreach($dashboardData[0] as $header => $value)--}}
+                                    {{--<tr>--}}
+                                        {{--<td class="text-center">{{$i}}.</td>--}}
+                                        {{--<td>{{$header}}</td>--}}
+                                        {{--<td class="text-center"><span class="count-circle">{{$value[0]}}</span></td>--}}
+                                        {{--<td>--}}
+                                            {{--@if( $value[1] == 'pending')--}}
+                                                {{--<a href="{{url(session()->get('redirect_to').$value[1])}}" class="btn btn-action" data-toggle="modal" data-target="#reePendingModal">View</a>--}}
+                                            {{--@else--}}
+                                                {{--<a href="{{url(session()->get('redirect_to').$value[1])}}" class="btn btn-action">View</a>--}}
+                                            {{--@endif--}}
+                                        {{--</td>--}}
+                                        {{--@php $chart += $value[0]; $i++; @endphp--}}
+                                    {{--</tr>--}}
+                                {{--@endforeach--}}
+                                {{--</tbody>--}}
+                            {{--</table>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                {{--@if($chart)--}}
+                    {{--<div id="ajaxchartdiv" class="col-sm-5"></div>--}}
+                {{--@endif--}}
+            {{--</div>--}}
+        {{--</div>--}}
+        {{--@endif--}}
         {{--End Dashboard for offer letter--}}
 
     </div>
 
 
+
+    {{--<!-- Modal for send to society bifergation-->--}}
+    {{--<div class="modal fade" id="reePendingModal" role="dialog">--}}
+        {{--<div class="modal-dialog">--}}
+            {{--<!-- Modal content-->--}}
+            {{--<div class="modal-content">--}}
+                {{--<div class="modal-header">--}}
+                    {{--<button type="button" class="close" data-dismiss="modal">&times;</button>--}}
+                    {{--<h4 class="modal-title">Applications Pending</h4>--}}
+                {{--</div>--}}
+                {{--<div class="modal-body">--}}
+                    {{--<div class="table-responsive">--}}
+                        {{--<table class="table text-center">--}}
+                            {{--<thead class="thead-default">--}}
+                            {{--<tr>--}}
+                                {{--<th>Header</th>--}}
+                                {{--<th>Count</th>--}}
+                            {{--</tr>--}}
+                            {{--</thead>--}}
+                            {{--<tbody>--}}
+                            {{--@if($dashboardData[1] )--}}
+                                {{--@foreach($dashboardData[1]  as $header => $value)--}}
+                                    {{--<tr>--}}
+                                        {{--<td> {{$header}} </td>--}}
+                                        {{--<td> {{$value}} </td>--}}
+                                    {{--</tr>--}}
+                                {{--@endforeach--}}
+                            {{--@endif--}}
+                            {{--</tbody>--}}
+                        {{--</table>--}}
+                    {{--</div>--}}
+                    {{--<!-- <p>Some text in the modal.</p> -->--}}
+                {{--</div>--}}
+                {{--<div class="modal-footer">--}}
+                    {{--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--</div>--}}
 
     <!-- Modal for send to society bifergation-->
     <div class="modal fade" id="reePendingModal" role="dialog">
@@ -265,56 +304,32 @@
         </div>
     </div>
 
+
+    <!-- Modal -->
+    <div class="modal fade" id="getCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style=" width: 150%;
+  height: 160%;
+  margin: 5% 10% 0 10%;
+  padding: 0;">
+            <div class="modal-content" style=" width: 250%;
+  height: 50%;
+  margin: 0;
+  padding: 0;">
+                <div style="float:left">
+                <button type="button"  class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body" id="count_table" >
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 @section('js')
 
     <script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>
-
-    {{--offer letter chart--}}
-    @if($chart)
-    <script>
-        var chart;
-        var legend;
-
-
-        var chartData = [
-
-                @foreach($dashboardData[0] as $header => $value)
-                @if($header != 'Total Number of Applications'){
-                "status": '{{$header}}',
-                "value": '{{$value[0]}}',
-            },
-            @endif
-            @endforeach
-
-        ];
-
-        AmCharts.ready(function () {
-            // PIE CHART
-            chart = new AmCharts.AmPieChart();
-            chart.dataProvider = chartData;
-            chart.theme = "light";
-            chart.labelRadius = -35;
-            chart.labelText = "[[percents]]%";
-            chart.titleField = "status";
-            chart.valueField = "value";
-            chart.outlineColor = "#FFFFFF";
-            chart.outlineAlpha = 0.8;
-            chart.outlineThickness = 2;
-            chart.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
-            // this makes the chart 3D
-            chart.depth3D = 15;
-            chart.angle = 30;
-            chart.fontSize = 15;
-
-            // WRITE
-            chart.write("ajaxchartdiv");
-        });
-    </script>
-    @endif
-    {{--offer letter chart--}}
-
 
     {{--ajax call for Count Table and Pie chart(offer letter)--}}
     <script>
@@ -351,7 +366,7 @@
                             "                        <div class=\"m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
-                            "                                    <thead>\n" +
+                            "                                    <thead class=\"thead-default\">\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
@@ -373,7 +388,7 @@
 
                             if(data[1] == "pending"){
 
-                                html += "<a href=\""+redirect_to+"/"+data[1]+"\"class=\"btn btn-action\" data-toggle=\"modal\"\n" +
+                                html += "<a href=\"#reePendingModal\" data-dismiss=\"modal\" class=\"btn btn-action\" data-toggle=\"modal\"\n" +
                                     "             data-target=\"#reePendingModal\">View</a>";
                             }
                             else{
@@ -399,7 +414,6 @@
 
 //                                    alert(chart_count);
                         $('#count_table').html(html);
-
 
                         if(chart_count){
 
@@ -432,6 +446,7 @@
                                 "fontSize" : 15,
                             } );
                         }
+                        $("#getCodeModal").modal('show');
                     }
                     else {
                         alert('errror');
@@ -477,7 +492,7 @@
                             "                        <div class=\"m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
-                            "                                    <thead>\n" +
+                            "                                    <thead class=\"thead-default\">\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
@@ -541,6 +556,7 @@
                                 "fontSize" : 15,
                             } );
                         }
+                        $("#getCodeModal").modal('show');
                     }
                     else {
                         alert('errror');
@@ -590,7 +606,7 @@
                             "                        <div class=\"m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
-                            "                                    <thead>\n" +
+                            "                                    <thead class=\"thead-default\">\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
@@ -671,6 +687,8 @@
                                 "fontSize" : 15,
                             } );
                         }
+                        $("#getCodeModal").modal('show');
+
                     }
                     else {
                         alert('errror');
@@ -716,7 +734,7 @@
                             "                        <div class=\"m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
-                            "                                    <thead>\n" +
+                            "                                    <thead class=\"thead-default\">\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
@@ -780,6 +798,7 @@
                                 "fontSize" : 15,
                             } );
                         }
+                        $("#getCodeModal").modal('show');
                     }
                     else {
                         alert('errror');
@@ -826,7 +845,7 @@
                             "                        <div class=\"m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
-                            "                                    <thead>\n" +
+                            "                                    <thead class=\"thead-default\">\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
@@ -893,6 +912,8 @@
                                 "fontSize" : 15,
                             } );
                         }
+                        $("#getCodeModal").modal('show');
+
                     }
                     else {
                         alert('errror');
@@ -939,7 +960,7 @@
                             "                        <div class=\"m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
-                            "                                    <thead>\n" +
+                            "                                    <thead class=\"thead-default\">\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
@@ -1002,6 +1023,8 @@
                                 "fontSize" : 15,
                             } );
                         }
+                        $("#getCodeModal").modal('show');
+
                     }
                     else {
                         alert('errror');
@@ -1047,7 +1070,7 @@
                             "                        <div class=\"m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
-                            "                                    <thead>\n" +
+                            "                                    <thead class=\"thead-default\">\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
@@ -1112,6 +1135,8 @@
                                 "fontSize" : 15,
                             } );
                         }
+                        $("#getCodeModal").modal('show');
+
                     }
                     else {
                         alert('errror');
@@ -1161,7 +1186,7 @@
                             "                        <div class=\"m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
-                            "                                    <thead>\n" +
+                            "                                    <thead class=\"thead-default\">\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
@@ -1242,6 +1267,8 @@
                                 "fontSize" : 15,
                             } );
                         }
+                        $("#getCodeModal").modal('show');
+
                     }
                     else {
                         alert('errror');
@@ -1287,7 +1314,7 @@
                             "                        <div class=\"m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
-                            "                                    <thead>\n" +
+                            "                                    <thead class=\"thead-default\">\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
@@ -1351,6 +1378,8 @@
                                 "fontSize" : 15,
                             } );
                         }
+                        $("#getCodeModal").modal('show');
+
                     }
                     else {
                         alert('errror');
