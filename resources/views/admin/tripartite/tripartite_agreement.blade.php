@@ -43,6 +43,13 @@ $disabled=isset($disabled)?$disabled:0;
                         </div>
                         <div class="col-sm-6 field-col">
                             <div class="d-flex">
+                                <span class="field-name">Society Registration No:</span>
+                                <span class="field-value">{{(isset($data->eeApplicationSociety->registration_no)
+                                    ? $data->eeApplicationSociety->registration_no : '')}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 field-col">
+                            <div class="d-flex">
                                 <span class="field-name">Society Name:</span>
                                 <span class="field-value">{{
                                     $ol_application->eeApplicationSociety->name }}</span>
@@ -235,7 +242,6 @@ $disabled=isset($disabled)?$disabled:0;
     </div> --}}
 </div>
 
-
 <div class="modal modal-large fade" id="myModal" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -260,10 +266,11 @@ $disabled=isset($disabled)?$disabled:0;
                                     <p> This Agreement dated this  __________  day of ________________________________ 2012 between the MAHARASHTRA HOUSING AND AREA DEVELOPMENT AUTHORITY a Statutory Corporation duly constituted under the Maharashtra Housing and Area Development Act 1976 (Mah XXVIII of  1977) having its office at Griha Nirman Bhavan, Kala Nagar, Bandra(E), Mumbai 400 051 the Party of the <b>First Part </b> (hereinafter referred to as 'the Authority' which expression shall unless to context requires otherwise include its successors and assigns) through the Mumbai Board a regional unit of the Authority of the <b>First Part</b>.</p>
                                     <p> And ____________________________ having its office at __________________________ the Party of the Second Part (Society) (hereinafter referred to as the Party of the Second Part and Third part Developer which expression shall unless to the context requires otherwise include its successors and                         of the Second Part.  as well as third party.
                                     </p>
-                                    <p>WHEREAS the Party of the Second Part & Third Part has applied for grant of No Objection Certificate (hereinafter referred to as the NOC) to the Mumbai Board a regional unit of the Authority for the purpose of redevelopment of Bldg.No.<b> {{ isset($ol_application->eeApplicationSociety->building_no) ? $ol_application->eeApplicationSociety->building_no : '' }}</b> Society Name <b> {{ isset($ol_application->eeApplicationSociety->name) ? $ol_application->eeApplicationSociety->name : '' }}</b> bearing CTS  No. ______________  situated at ______________ Mumbai. </p>
+                                    <p>WHEREAS the Party of the Second Part & Third Part has applied for grant of No Objection Certificate (hereinafter referred to as the NOC) to the Mumbai Board a regional unit of the Authority for the purpose of redevelopment of Bldg.No.<b> {{ isset($ol_application->eeApplicationSociety->building_no) ? $ol_application->eeApplicationSociety->building_no : '' }}</b> Society Name  <b> {{ isset($ol_application->eeApplicationSociety->name) ? $ol_application->eeApplicationSociety->name : '' }}</b> bearing CTS  No. ______________  situated at <b> {{ isset($ol_application->eeApplicationSociety) ? $ol_application->eeApplicationSociety->address : '' }} 
+                                    </b>Mumbai. </p>
                                     <p> (hereinafter referred to as "the said property") in accordance with the provisions of DCR Nos.33(5) of the Development Control Regulations for Greater Mumbai,1991 (hereinafter referred to as "the DCR"); </p>
                                     <p>  WHEREAS the proposal of the Party of the Second & Third Part for the purpose of redevelopment of the said property has been duly scrutinized by the Mumbai Board and placed before the meeting of the Mumbai Board held on           ;</p>
-                                    <p>  WHEREAS the Mumbai Board in its meeting held on          approved the proposal of the Party of the Second Part for grant of NOC for redevelopment of the said property vide Resolution No.___________ dated ______________ and it is proposed to grant NOC for redevelopment to the Party of the Second Part; </p>
+                                    <p>  WHEREAS the Mumbai Board in its meeting held on          approved the proposal of the Party of the Second Part for grant of NOC for redevelopment of the said property vide Resolution No.<b> {{ isset($ol_application->request_form) ? $ol_application->request_form->noc_for_iod_purpose_number : '' }} </b> dated <b> {{ isset($ol_application->request_form) ? $ol_application->request_form->noc_for_iod_purpose_date : '' }} </b> and it is proposed to grant NOC for redevelopment to the Party of the Second Part; </p>
                                     <p>  WHEREAS after redevelopment, taking into consideration the provisions of revised DCR No.33(5), sharing area is to be surrendered to the Authority by the Party of the Second Part & Third Part which works out to  built up area ______________ sq.mtr. + fungible area ______________ sq.mtr. total built up area _____ sq.mtr. having tenements _________ of ____ sq.mt. unit carpet area. </p>
                                     <p>WHEREAS it is necessary to execute the Agreement in order to ensure to get the above area to the Authority within prescribed time limit so as to utilize the same in accordance with the provisions of DCR 33(5) 2C (i) MHAD Act,1976 and the Rules, Regulations made under the said Act;</p>
                                     <p>WHEREAS the Party of the Second Part has agreed to abide  by and be bound by all the terms and conditions prescribed for the NOC  issued for the purpose of redevelopment;</p>
@@ -285,13 +292,13 @@ $disabled=isset($disabled)?$disabled:0;
                                     <p>14. In case of any dispute vis-à-vis surrendering the sharing built up area to the Authority, the same shall be referred to the VP&CEO/A whose decision shall be final and binding on both the parties.</p>
                                     <p>15. <b>The Authority is exempted from payment of Stamp Duty as per the Government Notification No.STP-1356/N dated 15.02.1957 issued by the Revenue and Forest Department, Government of Maharashtra read with Law and Judiciary Department's Order dated 13.09.1994. A copy of said order is annexed herewith.</b></p>
                                     <h3 style="text-decoration: underline; text-align: center; margin-bottom: 30px;font-size:17px"><b>SCHEDULE</b></h3>
-                                    <p><b>The schedule above referred to</b>__________________________ IN WITNESS WHEREOF the signature of Shri __________________________ Chief Officer for and on behalf of the Maharashtra Housing and Area Development Authority has been set hereunder and the seal of the Authority is also affixed and the signature of __________________________ has been affixed hereunto on the day and the year first hereinabove written.</p>
+                                    <p><b>The schedule above referred to</b>__________________________ IN WITNESS WHEREOF the signature of Shri <b> {{(isset($coName) ? $coName : '' )}} </b> Chief Officer for and on behalf of the Maharashtra Housing and Area Development Authority has been set hereunder and the seal of the Authority is also affixed and the signature of __________________________ has been affixed hereunto on the day and the year first hereinabove written.</p>
                                     <p style="text-align:right">Signed, Sealed and Delivered by</p>
-                                    <p style="text-align:right">Shri __________________________</p>
+                                    <p style="text-align:right">Shri <b> {{(isset($coName) ? $coName : '' )}} </b></p>
                                     <p style="text-align:right">Chief Officer </p>
-                                    <p>Presence of Shri __________________________ Mumbai Board.Chief Officer Mumbai Board The Common Seal of the Maharashtra Housing and Area Development Authority is affixed hereunto in the Signed and Delivered by Shri __________________________ who has hereunto set his signature in the presence of Shri __________________________ (Shri                                  )who has signed in token thereof</p>
+                                    <p>Presence of Shri <b> {{(isset($coName) ? $coName : '' )}} </b> Mumbai Board.Chief Officer Mumbai Board The Common Seal of the Maharashtra Housing and Area Development Authority is affixed hereunto in the Signed and Delivered by Shri __________________________ who has hereunto set his signature in the presence of Shri __________________________ (Shri                                  )who has signed in token thereof</p>
                                     <p>_____________ DATED THIS  ________ DAY OF  __________________________      2016 AHARASHTRA HOUSING AND AREA DEVELOPMENT AUTHORITY. AND AGREEMENT</p>
-                                    <p style="text-align:right;">SHRI C.M.VACHASUNDAR LEGAL ADVISER/MHADA.</p>
+                                    <p style="text-align:right;">SHRI <b> {{(isset($LAName) ? $LAName : '' )}} </b> LEGAL ADVISER/MHADA.</p>
                                 </div>
                         @endif        
                            
