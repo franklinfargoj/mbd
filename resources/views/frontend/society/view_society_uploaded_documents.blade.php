@@ -8,8 +8,8 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">View Uploaded Documents </h3>
-            {{ Breadcrumbs::render('documents_uploaded') }}
-            <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            {{ Breadcrumbs::render('documents_uploaded',$ol_applications->id) }}
+           <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
         </div>
     </div>
     <!-- END: Subheader -->
@@ -25,53 +25,62 @@
                     <table class="table mb-0">
                         <thead class="thead-default">
                             <tr>
-                                <th> # </th>
+                                <th> Sr.No </th>
                                 <th> Document Name </th>
                                 <th> Status </th>
                                 <th> Actions </th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody> 
                             @php $i=1; @endphp
-                            @if($documents)
-                                @foreach($documents as $document)
-                                    <tr>
-                                        <td>{{ $i }}</td>
-                                        <td>
-                                            {{ $document->name }}<span class="compulsory-text">
-                                            @if(in_array($i, $optional_docs))<small><span style="color: green;">(Optional
-                                                    Document)</span></small> @else <small>(Compulsory Document)</small> @endif</span>
-                                        </td>
-                                        @if(count($document->documents_uploaded) > 0 )
-                                            <td class="text-center">
-                                                <h2 class="m--font-danger">
-                                                    <i class="fa fa-check"></i>
-                                                </h2>
-                                            </td> 
-                                            <td> 
-                                            
-                                            @if($document->is_multiple == 1)
-                                                <a href="{{ route('upload_multiple_documents',[encrypt($society->id),encrypt($document->id)]) }}" class="app-card__details mb-0">
-                                                    click to upload documents</a>
-                                            @else 
-                                                @foreach($document->documents_uploaded as $doc)
-                                                <span>
-                                                    <a href="{{ config('commanConfig.storage_server').$doc->society_document_path }}" data-value='{{ $document->id }}' class="btn btn-primary btn-custom" download target="_blank" rel="noopener"> Download</a>
-                                                </span>
-                                                @endforeach        
-                                            @endif        
+                            @if($documentsList)
+                                @foreach($documentsList as $value)
+                                    @foreach($value as $document)
+                                        <tr>
+                                            <td>{{ isset($document->group) ? $document->group : $i }}.{{$document->sort_by}}</td>
+                                            <td>
+                                                {{ $document->name }}
+                                                @if($document->is_optional == 0)
+                                                <span class="compulsory-text">
+                                                <small>(Compulsory Document)</small></span>
+                                                
+                                                @else
+                                                <span class="compulsory-text"> <small>
+                                                <span style="color: green;">
+                                                (Optional Document)</small> </span>
+                                                @endif
                                             </td>
-                                        @else
-                                            <td class="text-center">
-                                                <h2 class="m--font-danger">
-                                                    <i class="fa fa-remove"></i>
-                                                </h2>
-                                            </td>
-                                            <td></td>
-                                        @endif
-                                    </tr>
-                                @php $i++; @endphp
-                                @endforeach
+                                            @if(count($document->documents_uploaded) > 0 )
+                                                <td class="text-center">
+                                                    <h2 class="m--font-danger">
+                                                        <i class="fa fa-check"></i>
+                                                    </h2>
+                                                </td> 
+                                                <td> 
+                                                
+                                                @if($document->is_multiple == 1)
+                                                    <a href="{{ route('upload_multiple_documents',[encrypt($ol_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0">
+                                                        click to upload documents</a>
+                                                @else 
+                                                    @foreach($document->documents_uploaded as $doc)
+                                                    <span>
+                                                        <a href="{{ config('commanConfig.storage_server').$doc->society_document_path }}" data-value='{{ $document->id }}' class="btn btn-primary btn-custom" download target="_blank" rel="noopener"> Download</a>
+                                                    </span>
+                                                    @endforeach        
+                                                @endif        
+                                                </td>
+                                            @else
+                                                <td class="text-center">
+                                                    <h2 class="m--font-danger">
+                                                        <i class="fa fa-remove"></i>
+                                                    </h2>
+                                                </td>
+                                                <td></td>
+                                            @endif
+                                        </tr>
+                                    @php $i++; @endphp
+                                    @endforeach
+                                @endforeach    
                             @endif
                         </tbody>
                     </table>

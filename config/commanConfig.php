@@ -384,7 +384,7 @@ return [
     ],
 
     'optional_docs_premium' => [
-        '8', '13', '15', '19'
+        '8', '13', '15'
     ],
 
     'optional_docs_sharing' => [

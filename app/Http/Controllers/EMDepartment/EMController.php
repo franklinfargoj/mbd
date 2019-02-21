@@ -44,6 +44,7 @@ use App\ServiceChargesRate;
 use App\ArrearCalculation;
 use App\TransBillGenerate;
 use App\TransPayment;
+use App\LayoutUser;
 
 class EMController extends Controller
 {
@@ -338,12 +339,13 @@ class EMController extends Controller
         $arrData['get_current_status'] = $this->comman->getCurrentStatusOc($applicationId);
 
         // REE junior Forward Application
-
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         $ree_jr_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
 
         $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                                ->where('lu.layout_id', session()->get('layout_id'))
-                                ->where('role_id', $ree_jr_id->id)->get();
+                                ->whereIn('lu.layout_id', $layout_ids)
+                                ->where('role_id', $ree_jr_id->id)->groupBy('users.id')->get();
         $arrData['ree_junior_name'] = strtoupper(str_replace('_', ' ', $ree_jr_id->name));
 
         //remark and history
@@ -447,7 +449,7 @@ class EMController extends Controller
             
             return $datatables->of($societies)
                 ->editColumn('actions', function ($societies){
-	                return "<div class='d-flex btn-icon-list'>
+                    return "<div class='d-flex btn-icon-list'>
                     <a href='".route('get_buildings', [encrypt($societies->id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-icon.svg')."'></span>Building Details</a>
                 
                     <a href='".route('soc_bill_level', [encrypt($societies->id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>Bill Level</a>
@@ -455,9 +457,9 @@ class EMController extends Controller
                     <a href='".route('soc_ward_colony', [encrypt($societies->id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--delete'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Ward & colony</a>
 
                 </div>";
-	                
+                    
                 })               
-	            ->rawColumns(['actions'])
+                ->rawColumns(['actions'])
                 ->make(true);
             
         }
@@ -1443,6 +1445,15 @@ class EMController extends Controller
             } else {
                 $lastBillMonth = $request->bill_month -1;
             }
+            $lastBillGenerated = TransBillGenerate::orderBy('id','DESC')->first();
+            if(count($lastBillGenerated) && !empty($lastBillGenerated->bill_number)) {
+                $lastGeneratedNumber = substr($lastBillGenerated->bill_number,-7);
+                $increNumber = (int)$lastGeneratedNumber+1;
+                $bill->bill_number = $request->tenant_id.str_pad($increNumber, 7, "0", STR_PAD_LEFT);
+            } else {
+                $bill->bill_number = $request->tenant_id.'0000001';
+            }
+
             $bill->status = 'Generated';
 
             $lastBill = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
@@ -1573,7 +1584,16 @@ class EMController extends Controller
                 
                if(isset($bill)){
                     $ids = implode(",",$bill);
-                    $association = DB::table('building_tenant_bill_association')->insert(['building_id' => $request->building_id, 'bill_id' => $ids, 'bill_month' => $request->bill_month, 'bill_year' => $request->bill_year]);
+                    $lastBillGenerated = DB::table('building_tenant_bill_association')->orderBy('id','DESC')->first();
+
+                    if(count($lastBillGenerated)) {
+                        $lastGeneratedNumber = substr($lastBillGenerated->bill_number,-7);
+                        $increNumber = (int)$lastGeneratedNumber+1;
+                        $bill_number = $request->building_id.str_pad($increNumber, 7, "0", STR_PAD_LEFT);
+                    } else {
+                        $bill_number = $request->building_id.'0000001';
+                    }
+                    $association = DB::table('building_tenant_bill_association')->insert(['building_id' => $request->building_id, 'bill_id' => $ids, 'bill_month' => $request->bill_month, 'bill_year' => $request->bill_year,'bill_number'=>$bill_number]);
                 } else { 
                                    
                 }     

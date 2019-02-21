@@ -24,6 +24,7 @@ use Auth;
 use DB;
 use Storage;
 use Carbon\Carbon;
+use App\LayoutUser;
 
 class DYCEController extends Controller
 {
@@ -230,9 +231,14 @@ class DYCEController extends Controller
         // REE Forward Application
 
         $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
+
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
+
+
         $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                                            ->where('lu.layout_id', session()->get('layout_id'))
-                                            ->where('role_id', $ree_id->id)->get();
+                                            ->whereIn('lu.layout_id', $layout_ids)
+                                            ->where('role_id', $ree_id->id)->groupBy('users.id')->get();
 
         $arrData['ree_role_name']   = strtoupper(str_replace('_', ' ', $ree_id->name));
 
@@ -256,7 +262,7 @@ class DYCEController extends Controller
         $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->downloadOfferLetter($applicationId);
         $ol_application->folder = 'DYCE_department';
-        $ol_application->comments = $this->CommonController->getSocietyDocumentComments($ol_application->society_id);
+        $ol_application->comments = $this->CommonController->getSocietyDocumentComments($ol_application->id);
         return view('admin.common.offer_letter', compact('ol_application'));
     }    
 }

@@ -67,11 +67,12 @@ class CommonController extends Controller
     // society and EE documents
     public function getSocietyEEDocuments($applicationId)
     {
-        $societyId = OlApplication::where('id', $applicationId)->value('society_id');
-        $societyDocuments = SocietyOfferLetter::with(['societyDocuments.documents_Name'
-            , 'documentComments' => function ($q) {
-                $q->orderBy('id', 'desc');
-            }])->where('id', $societyId)->get();
+        $application = OlApplication::where('id', $applicationId)->first();
+        
+
+        $societyDocuments = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('is_deleted',0)->orderBy('group')->orderBy('sort_by')->with(['documents_uploaded' => function($q) use ($application){
+            $q->where('society_id', $application->society_id)->where('application_id',$application->id)->get();
+        }])->get()->groupBy('group');
 
         return $societyDocuments;
     }
@@ -3945,8 +3946,10 @@ class CommonController extends Controller
         $folder = $this->getCurrentRoleFolderName();
         $consentCount = OlConsentVerificationDetails::where('application_id',$applicationId)->count();
         $landDetails = OlDemarcationLandArea::where('application_id',$applicationId)->first();
+        $societyDocument = $this->getSocietyEEDocuments($applicationId);
+        $societyComments = $this->getSocietyDocumentComments($applicationId); 
        
-        return view('admin.common.view_ee_scrutiny_remark',compact('eeScrutinyData','ol_application','folder','consentCount','landDetails'));
+        return view('admin.common.view_ee_scrutiny_remark',compact('eeScrutinyData','ol_application','folder','consentCount','landDetails','societyDocument','societyComments'));
     }
 
     // DyCE Scrutiny & Remark page
@@ -4039,9 +4042,9 @@ class CommonController extends Controller
     }
 
     // get comments which is given by society
-    public function getSocietyDocumentComments($societyId){
+    public function getSocietyDocumentComments($applicationId){
         
-        $comments = OlSocietyDocumentsComment::where('society_id',$societyId)
+        $comments = OlSocietyDocumentsComment::where('application_id',$applicationId)
         ->orderBy('id','desc')->first();
         return $comments;
     }
@@ -4049,30 +4052,32 @@ class CommonController extends Controller
     // view common society and EE document page 
     public function societyEEDocuments(Request $request,$applicationId){
 
-        $id = '';
+        // $id = '';
         $applicationId = decrypt($applicationId);
         $ol_application = $this->getOlApplication($applicationId);
-        $societyDocuments = $this->getSocietyEEDocuments($applicationId);
+        $societyDocument = $this->getSocietyEEDocuments($applicationId);
+        $societyComments = $this->getSocietyDocumentComments($applicationId);
+        // $societyDocuments = $this->getSocietyEEDocuments($applicationId);
         
-        if ($societyDocuments){
-            foreach($societyDocuments[0]->societyDocuments as $data){
-                if ($data->documents_Name[0]->is_multiple == 1){
+        // if ($societyDocuments){
+        //     foreach($societyDocuments[0]->societyDocuments as $data){
+        //         if ($data->documents_Name[0]->is_multiple == 1){
 
-                    if ($id != $data->document_id){
-                        $documents [] = $data;
-                        $id = $data->document_id;
-                    }
+        //             if ($id != $data->document_id){
+        //                 $documents [] = $data;
+        //                 $id = $data->document_id;
+        //             }
 
-                }else{
-                    $documents[] = $data;
-                }
-            }                    
-        }
+        //         }else{
+        //             $documents[] = $data;
+        //         }
+        //     }                    
+        // }
 
         $folder = $this->getCurrentRoleFolderName();
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
 
-       return view('admin.common.view_society_ee_documents',compact('societyDocuments','ol_application','documents','folder')); 
+       return view('admin.common.view_society_ee_documents',compact('societyDocument','ol_application','folder','societyComments')); 
     }    
 
     // view multiple documents in society and EE document page

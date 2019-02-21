@@ -15,8 +15,8 @@
                 @csrf
                 <div class="m-portlet__body m-portlet__body--spaced">
                     <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-sm-4 form-group focused">
-                            <label class="col-form-label " for="application_type_id">Layout:</label>
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="application_type_id">Layout:</label>
                             <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layouts" name="layout_id" required>
                                 @foreach($layouts as $layout)
                                     <option value="{{ $layout['id'] }}">{{ $layout['layout_name'] }}</option>
@@ -26,15 +26,15 @@
                         </div>
                     </div>
                     <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-sm-4 form-group focused">
-                            <label class="col-form-label mhada-multiple-label" for="preceding_officer_name">Department:</label>
-                            {{--<input type="text" id="department_name" name="department_name" class="form-control form-control--custom m-input" value="EE" readonly>--}}
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" data-live-search="true" id="department_name" name="department_name" required>
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="preceding_officer_name">Department:</label>
+                            <input type="text" id="department_name" name="department_name" class="form-control form-control--custom m-input" value="Resident Executive Engineer" readonly>
+                            {{-- <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" data-live-search="true" id="department_name" name="department_name" required>
                                 <option value="">Select</option>
                                 @foreach($ee_divisions as $ee_division)
                                     <option value="{{ $ee_division->id }}">{{ $ee_division->division }}</option>
                                 @endforeach
-                            </select>
+                            </select> --}}
                             <input type="hidden" name="application_master_id" value="{{ $id }}" required>
                             <span class="help-block">{{$errors->first('department_name')}}</span>
                         </div>

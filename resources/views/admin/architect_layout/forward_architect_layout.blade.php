@@ -20,7 +20,7 @@
                 </li>
                 @php $status=getLastStatusIdArchitectLayout($ArchitectLayout->id); @endphp
                 @if($status!="")
-                @if($status->status_id!=config('commanConfig.architect_layout_status.forward') &&
+                @if(check_report_uploaded_by_ee_ree_lm_em($ArchitectLayout->id)==1 && $status->status_id!=config('commanConfig.architect_layout_status.forward') &&
                 $status->status_id!=config('commanConfig.architect_layout_status.reverted') &&
                 ($status->status_id!=config('commanConfig.architect_layout_status.approved')))
                 <li class="nav-item m-tabs__item">

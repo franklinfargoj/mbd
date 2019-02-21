@@ -84,7 +84,14 @@
                     {{--@else--}}
                         {{--<p><a href="{{ route($application->route_name, $application->id) }}">{{ $application->title }}</a></p>--}}
                     {{--@endif--}}
-                    <p><a href="{{ route($application->route_name, $application->id.'_'.$ids[1]) }}">{{ $application->title }}</a></p>
+                    
+                    <p>
+                    @if($applicationCount > 0 && $application->title == 'New - Offer Letter')
+                    {{ $application->title }} (Application sent)
+                    @else
+                      <a href="{{ route($application->route_name, $application->id.'_'.$ids[1]) }}">
+                    {{ $application->title }}</a>
+                    @endif</p>
                 @endforeach
             </div>
         </div>

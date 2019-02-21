@@ -46,6 +46,7 @@ use Storage;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 use Mpdf\Mpdf;
+use App\LayoutUser;
 
 class REEController extends Controller
 {
@@ -175,13 +176,14 @@ class REEController extends Controller
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
 
         // CO Forward Application
-
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         $co_id = Role::where('name', '=', config('commanConfig.co_engineer'))->first();
         if($arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.offer_letter_approved'))
         {
             $arrData['get_forward_co'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                                ->where('lu.layout_id', session()->get('layout_id'))
-                                ->where('role_id', $co_id->id)->get();
+                                ->whereIn('lu.layout_id', $layout_ids)
+                                ->where('role_id', $co_id->id)->groupBy('users.id')->get();
             $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
         }
 
@@ -208,13 +210,14 @@ class REEController extends Controller
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
 
         // CO Forward Application
-
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         $co_id = Role::where('name', '=', config('commanConfig.co_engineer'))->first();
         if($arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.offer_letter_approved'))
         {
             $arrData['get_forward_co'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                ->where('lu.layout_id', session()->get('layout_id'))
-                ->where('role_id', $co_id->id)->get();
+                ->whereIn('lu.layout_id', $layout_ids)
+                ->where('role_id', $co_id->id)->groupBy('users.id')->get();
             $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
         }
 
@@ -732,9 +735,11 @@ class REEController extends Controller
     public function sendForApproval(Request $request){
 
         // dd($request->applicationId);
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         $co_id = Role::where('name', '=', config('commanConfig.co_engineer'))->first();
         $get_forward_co = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                            ->where('lu.layout_id', session()->get('layout_id'))
+                            ->whereIn('lu.layout_id', $layout_ids)
                             ->where('role_id', $co_id->id)->first();   
 
         $this->CommonController->forwardApplicationToCoForOfferLetterGeneration($request,$get_forward_co);
@@ -765,7 +770,7 @@ class REEController extends Controller
 
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
     
-        $ol_application->comments = $this->CommonController->getSocietyDocumentComments($ol_application->society_id);
+        $ol_application->comments = $this->CommonController->getSocietyDocumentComments($ol_application->id);
         
         return view('admin.common.offer_letter', compact('ol_application'));
     }
@@ -1472,9 +1477,11 @@ class REEController extends Controller
        
         if(isset($arrData['get_current_status']) && $arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.NOC_Issued'))
         {
+            $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+            $layout_ids = array_column($layout_id_array, 'layout_id');
             $arrData['get_forward_co'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                                ->where('lu.layout_id', session()->get('layout_id'))
-                                ->where('role_id', $co_id->id)->get();
+                                ->whereIn('lu.layout_id', $layout_ids)
+                                ->where('role_id', $co_id->id)->groupBy('users.id')->get();
             $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
         }
          
@@ -1812,9 +1819,11 @@ class REEController extends Controller
         $co_id = Role::where('name', '=', config('commanConfig.co_engineer'))->first();
         if($arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.NOC_Issued'))
         {
+            $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+            $layout_ids = array_column($layout_id_array, 'layout_id');
             $arrData['get_forward_co'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                                ->where('lu.layout_id', session()->get('layout_id'))
-                                ->where('role_id', $co_id->id)->get();
+                                ->whereIn('lu.layout_id', $layout_ids)
+                                ->where('role_id', $co_id->id)->groupBy('users.id')->get();
             $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
         }
 
@@ -2466,9 +2475,11 @@ class REEController extends Controller
         $co_id = Role::where('name', '=', config('commanConfig.co_engineer'))->first();
         if($arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.OC_Approved'))
         {
+            $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+            $layout_ids = array_column($layout_id_array, 'layout_id');
             $arrData['get_forward_co'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                                ->where('lu.layout_id', session()->get('layout_id'))
-                                ->where('role_id', $co_id->id)->get();
+                                ->where('lu.layout_id', $layout_ids)
+                                ->where('role_id', $co_id->id)->groupBy('users.id')->get();
             $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
         }
 

@@ -27,6 +27,7 @@ use Config;
 use Auth;
 use DB;
 use Carbon\Carbon;
+use App\LayoutUser;
 
 class VPController extends Controller
 {
@@ -225,13 +226,15 @@ class VPController extends Controller
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
         $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
-        
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
+
         //cap reverted
         $cap_role_id = Role::where('name', '=', config('commanConfig.cap_engineer'))->first();
-
+        
         $arrData['get_reverted_cap'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                                            ->where('lu.layout_id', session()->get('layout_id'))
-                                            ->where('role_id', $cap_role_id->id)->get();
+                                            ->whereIn('lu.layout_id', $layout_ids)
+                                            ->where('role_id', $cap_role_id->id)->groupBy('users.id')->get();
 
         $arrData['cap_role_name'] = strtoupper(str_replace('_', ' ', $cap_role_id->name));
 
@@ -239,8 +242,8 @@ class VPController extends Controller
         $ree_role_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
 
         $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                                            ->where('lu.layout_id', session()->get('layout_id'))
-                                            ->where('role_id', $ree_role_id->id)->get();
+                                            ->whereIn('lu.layout_id', $layout_ids)
+                                            ->where('role_id', $ree_role_id->id)->groupBy('users.id')->get();
 
         $arrData['ree_role_name'] = strtoupper(str_replace('_', ' ', $ree_role_id->name));
         //remark and history
@@ -361,7 +364,7 @@ class VPController extends Controller
         $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->downloadOfferLetter($applicationId);
         $ol_application->folder = 'vp_department';
-        $ol_application->comments = $this->CommonController->getSocietyDocumentComments($ol_application->society_id);
+        $ol_application->comments = $this->CommonController->getSocietyDocumentComments($ol_application->id);
 
         return view('admin.common.offer_letter', compact('ol_application'));
     }
@@ -432,12 +435,14 @@ class VPController extends Controller
 
 
         // REE Forward Application
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
 
         $ree_role_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
 
         $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-            ->where('lu.layout_id', session()->get('layout_id'))
-            ->where('role_id', $ree_role_id->id)->get();
+            ->whereIn('lu.layout_id', $layout_ids)
+            ->where('role_id', $ree_role_id->id)->groupBy('users.id')->get();
 
         $arrData['ree_role_name'] = strtoupper(str_replace('_', ' ', $ree_role_id->name));
 

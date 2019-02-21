@@ -23,6 +23,7 @@ use Config;
 use Auth;
 use DB;
 use Carbon\Carbon;
+use App\LayoutUser;
 
 class CAPController extends Controller
 {
@@ -222,12 +223,13 @@ class CAPController extends Controller
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
         $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
-
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         $co_role_id = Role::where('name', '=', config('commanConfig.co_engineer'))->first();
 
         $arrData['get_forward_co'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                                            ->where('lu.layout_id', session()->get('layout_id'))
-                                            ->where('role_id', $co_role_id->id)->get();
+                                            ->whereIn('lu.layout_id', $layout_ids)
+                                            ->where('role_id', $co_role_id->id)->groupBy('users.id')->get();
 
         $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_role_id->name));                                   
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
@@ -236,8 +238,8 @@ class CAPController extends Controller
 
         $vp_role_id = Role::where('name', '=', config('commanConfig.vp_engineer'))->first();
         $arrData['get_forward_vp'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                                            ->where('lu.layout_id', session()->get('layout_id'))
-                                            ->where('role_id', $vp_role_id->id)->get();
+                                            ->whereIn('lu.layout_id', $layout_ids)
+                                            ->where('role_id', $vp_role_id->id)->groupBy('users.id')->get();
 
         $arrData['vp_role_name'] = strtoupper(str_replace('_', ' ', $vp_role_id->name));
     
@@ -297,7 +299,7 @@ class CAPController extends Controller
         $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->downloadOfferLetter($applicationId);
         $ol_application->folder = 'cap_department';
-        $ol_application->comments = $this->CommonController->getSocietyDocumentComments($ol_application->society_id);
+        $ol_application->comments = $this->CommonController->getSocietyDocumentComments($ol_application->id);
 
         return view('admin.common.offer_letter', compact('ol_application'));
     }
@@ -365,11 +367,12 @@ class CAPController extends Controller
         $arrData['role_name'] = $parentData['role_name'];
 
         // VP Forward Application
-
+        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        $layout_ids = array_column($layout_id_array, 'layout_id');
         $vp_role_id = Role::where('name', '=', config('commanConfig.vp_engineer'))->first();
         $arrData['get_forward_vp'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-            ->where('lu.layout_id', session()->get('layout_id'))
-            ->where('role_id', $vp_role_id->id)->get();
+            ->whereIn('lu.layout_id', $layout_ids)
+            ->where('role_id', $vp_role_id->id)->groupBy('users.id')->get();
 
         $arrData['vp_role_name'] = strtoupper(str_replace('_', ' ', $vp_role_id->name));
 

@@ -373,9 +373,15 @@ class TripartiteController extends Controller
         $tripatiet_remark_history = $this->getTripartiteRemarks($applicationId);
 
         $societyData['ree_Jr_id'] = (session()->get('role_name') == config('commanConfig.ree_junior'));
-        $societyData['ree_branch_head'] = (session()->get('role_name') == config('commanConfig.ree_branch_head'));
+        $societyData['ree_branch_head'] = (session()->get('role_name') == config('commanConfig.ree_branch_head')); 
+
+        $roleId = Role::where('name', '=', config('commanConfig.co_engineer'))->value('id');
+        $coName = User::where('role_id',$roleId)->value('name');
+
+        $LAroleId = Role::where('name', '=', config('commanConfig.la_engineer'))->value('id');
+        $LAName = User::where('role_id',$LAroleId)->value('name');
        
-        return view('admin.tripartite.tripartite_agreement', compact('approved_by_co', 'stamped_and_signed', 'stamped_by_society', 'societyData', 'applicationLog', 'ol_application', 'tripatiet_remark_history', 'tripartite_agrement', 'content'));
+        return view('admin.tripartite.tripartite_agreement', compact('approved_by_co', 'stamped_and_signed', 'stamped_by_society', 'societyData', 'applicationLog', 'ol_application', 'tripatiet_remark_history', 'tripartite_agrement', 'content','coName','LAName'));
     }
 
     public function ree_note($applicationId)
@@ -451,13 +457,13 @@ class TripartiteController extends Controller
         //dd($result);
         $parent = "";
         if ($result) {
+            $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+            $layout_ids = array_column($layout_id_array, 'layout_id');
             $parent = User::with(['roles', 'LayoutUser' => function ($q) {
-                $q->where('layout_id', session('layout_id'));
-            }])
-                ->whereHas('LayoutUser', function ($q) {
-                    $q->where('layout_id', session('layout_id'));
-                })
-                ->whereIn('role_id', $result)->get();
+                $q->whereIn('layout_id', $layout_ids);
+            }])->whereHas('LayoutUser', function ($q) {
+                    $q->whereIn('layout_id', $layout_ids);
+                })->whereIn('role_id', $result)->get();
         }
         $approved_by_co = 0;
         if (session()->get('role_name') == config('commanConfig.ree_branch_head')) {
