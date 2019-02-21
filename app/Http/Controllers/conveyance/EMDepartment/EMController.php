@@ -119,12 +119,14 @@ class EMController extends Controller
     public function saveNoDuesCertificate(Request $request){
         $folder_name = 'conveyance_no_dues_certificate';
         $id = $request->applicationId;
+        
         if($request->hasFile('no_dues_certificate')){
-
+            
             $fileName = time().'no_dues_certificate_'.$id.'.pdf';
             $filePath = $folder_name."/".$fileName;
             $file_uploaded = $this->CommonController->ftpFileUpload($folder_name, $request->file('no_dues_certificate'), $filePath);
             if($file_uploaded){
+                
                 $this->conveyance_common->uploadDocumentStatus($request->applicationId, config('commanConfig.no_dues_certificate.db_columns.upload'), $filePath);
 //                scApplication::where('id',$request->applicationId)->update([config('commanConfig.no_dues_certificate.db_columns.upload') => $file_uploaded]);
 

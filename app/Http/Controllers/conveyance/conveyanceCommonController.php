@@ -26,6 +26,7 @@ use DB;
 use App\conveyance\ScChecklistMaster;
 use App\conveyance\ScChecklistScrutinyStatus;
 use App\Http\Controllers\conveyance\renewalCommonController;
+use App\LayoutUser;
 
 class conveyanceCommonController extends Controller
 {	 
@@ -217,10 +218,10 @@ class conveyanceCommonController extends Controller
         $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
         $layout_ids = array_column($layout_id_array, 'layout_id');
         if ($result){
-            $parent = User::with(['roles','LayoutUser' => function($q){
+            $parent = User::with(['roles','LayoutUser' => function($q) use($layout_ids){
                 $q->whereIn('layout_id', $layout_ids);
             }])
-            ->whereHas('LayoutUser' ,function($q){
+            ->whereHas('LayoutUser' ,function($q) use($layout_ids){
                 $q->whereIn('layout_id', $layout_ids);
             })
             ->whereIn('role_id',$result)->get();            
