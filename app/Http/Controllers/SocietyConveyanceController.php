@@ -479,7 +479,7 @@ class SocietyConveyanceController extends Controller
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         } ])->orderBy('id', 'desc')->first();
         $society_bank_details = SocietyBankDetails::where('society_id', $society->id)->first();
-
+        //dd($society_bank_details);
         $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
         $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
         $sc_bank_details = new SocietyBankDetails;
@@ -629,8 +629,8 @@ class SocietyConveyanceController extends Controller
         $society_bank_details = $request->all();
         unset($society_bank_details['_token']);
         $sc_bank_details = new SocietyBankDetails;
-
-        if(count($inserted_society_bank_details) > 0 && count($sc_bank_details->getFillable()) == count(array_merge($society_bank_detail, $society_bank_details))){
+        //dd($inserted_society_bank_details);
+        if($inserted_society_bank_details!=null && count($sc_bank_details->getFillable()) == count(array_merge($society_bank_detail, $society_bank_details))){
             SocietyBankDetails::where('id', $inserted_society_bank_details->id)->update(array_merge($society_bank_detail, $society_bank_details));
         }else{
             if(count($sc_bank_details->getFillable()) == count(array_merge($society_bank_detail, $society_bank_details))){

@@ -14,11 +14,11 @@
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
 
-            <form id="save_sc_application" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{ route('society_conveyance.update', $id) }}" enctype="multipart/form-data">
+            <form id="save_sc_application" role="form" method="post" class="m-form m-form--rows m-form--label-align-right floating-labels-form" action="{{ route('society_conveyance.update', $id) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="m-portlet__body m-portlet__body--spaced">
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="layout_id">Layout:</label>
                             <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout_id" name="layout_id" required>
@@ -33,7 +33,7 @@
 {{--                    @php dd($sc_application->sc_form_request[$field_names[1]]); @endphp--}}
                     @for($i=0; $i < count($field_names); $i++)
                         @if($i != 0) @php $i++; @endphp @endif
-                        <div class="form-group m-form__group row">
+                        <div class="m-form__group row mhada-lease-margin">
                             @if(isset($field_names[$i]))
                                 <div class="col-sm-4 form-group">
                                     <label class="col-form-label" for="{{ $field_names[$i] }}">@php $labels = implode(' ', explode('_', $field_names[$i])); echo ucwords($labels); @endphp:</label>
@@ -89,12 +89,12 @@
                     @endfor
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="no_agricultural_tax">Download Template:</label>
+                            <!-- <label class="col-form-label" for="no_agricultural_tax">Download Template:</label> -->
                             <p><a href="{{ route('sc_download') }}" class="btn btn-primary" target="_blank" rel="noopener">Download Template</a> </p>
                             <span class="help-block">{{$errors->first('no_agricultural_tax')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
-                            <label class="col-form-label" for="template">Upload File:</label>
+                            <!-- <label class="col-form-label" for="template">Upload File:</label> -->
                             <div class="custom-file">
                                 <input class="custom-file-input" name="template" type="file"
                                        id="test-upload">

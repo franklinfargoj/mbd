@@ -373,9 +373,15 @@ class TripartiteController extends Controller
         $tripatiet_remark_history = $this->getTripartiteRemarks($applicationId);
 
         $societyData['ree_Jr_id'] = (session()->get('role_name') == config('commanConfig.ree_junior'));
-        $societyData['ree_branch_head'] = (session()->get('role_name') == config('commanConfig.ree_branch_head'));
+        $societyData['ree_branch_head'] = (session()->get('role_name') == config('commanConfig.ree_branch_head')); 
+
+        $roleId = Role::where('name', '=', config('commanConfig.co_engineer'))->value('id');
+        $coName = User::where('role_id',$roleId)->value('name');
+
+        $LAroleId = Role::where('name', '=', config('commanConfig.la_engineer'))->value('id');
+        $LAName = User::where('role_id',$LAroleId)->value('name');
        
-        return view('admin.tripartite.tripartite_agreement', compact('approved_by_co', 'stamped_and_signed', 'stamped_by_society', 'societyData', 'applicationLog', 'ol_application', 'tripatiet_remark_history', 'tripartite_agrement', 'content'));
+        return view('admin.tripartite.tripartite_agreement', compact('approved_by_co', 'stamped_and_signed', 'stamped_by_society', 'societyData', 'applicationLog', 'ol_application', 'tripatiet_remark_history', 'tripartite_agrement', 'content','coName','LAName'));
     }
 
     public function ree_note($applicationId)
