@@ -68,7 +68,7 @@
                             <p>Click to download generated list of allottees in xls format</p>
                             @if(!empty($society_list_docs['अधिकृत सभासदांची यादी (पती व पत्नी संयुक्त नावे)']->sc_document_status->document_path))
                                 @if($bonafide_docs['bonafide_list']->sc_document_status!="")
-                                <a href="{{ config('commanConfig.storage_server').'/'.isset($bonafide_docs['bonafide_list']->sc_document_status) ? $bonafide_docs['bonafide_list']->sc_document_status->document_path : '' }}" class="btn btn-primary"> Download</a>
+                                <a href="{{ isset($bonafide_docs['bonafide_list']->sc_document_status) ? config('commanConfig.storage_server').'/'.$bonafide_docs['bonafide_list']->sc_document_status->document_path : '' }}" class="btn btn-primary"> Download</a>
                                 @endif
                             @else
                                 <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;"> * Note : Covering Letter is not available. </span>

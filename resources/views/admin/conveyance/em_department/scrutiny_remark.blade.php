@@ -278,6 +278,9 @@
                                                         file...</label>
                                                     <span class="text-danger" id="file_error"></span>
                                                     <input type="hidden" id="applicationId" name="applicationId" value="{{ $data->id }}">
+                                                    @if($no_dues_certificate_docs['uploaded_no_dues_certificate']->sc_document_status !=null )
+                                                        <a href="{{ config('commanConfig.storage_server').'/'.$no_dues_certificate_docs['uploaded_no_dues_certificate']->sc_document_status->document_path }}" target="_blank" rel="noopener">Uploaded No Dues Certificate</a>
+                                                    @endif
                                                 </div>
                                                 <div class="mt-auto">
                                                     <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
@@ -346,6 +349,9 @@
                                                     <span class="text-danger" id="file_error"></span>
                                                     <input type="hidden" id="application_id" name="application_id" value="{{ $data->id }}">
                                                     <input type="hidden" id="document_name" name="document_name" value="bonafide_list">
+                                                    @if($bonafide_docs['bonafide_list']->sc_document_status !=null )
+                                                        <a href="{{ config('commanConfig.storage_server').'/'.$bonafide_docs['bonafide_list']->sc_document_status->document_path }}" target="_blank" rel="noopener">Uploaded No Dues Certificate</a>
+                                                    @endif
                                                 </div>
                                                 <div class="mt-auto">
                                                     <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
@@ -414,6 +420,9 @@
                                                     file...</label>
                                                 <span class="text-danger" id="file_error"></span>
                                                 <input type="hidden" id="applicationId" name="applicationId" value="{{ $data->id }}">
+                                                @if($covering_letter_docs['em_covering_letter']->sc_document_status !=null )
+                                                    <a href="{{ config('commanConfig.storage_server').'/'.$covering_letter_docs['em_covering_letter']->sc_document_status->document_path }}" target="_blank" rel="noopener">Uploaded No Dues Certificate</a>
+                                                @endif
                                             </div>
                                             <div class="mt-auto">
                                                 <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
