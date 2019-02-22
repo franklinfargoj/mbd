@@ -219,6 +219,11 @@ class LmPermissionSeeder extends Seeder
                 'display_name' => 'Land Dashboard',
                 'description' => 'Shows Land Dashboard'
             ],
+            [
+                'name' => 'dashboard.ajax.land',
+                'display_name' => 'Land Dashboard using ajax',
+                'description' => 'Shows Land Dashboard using ajax'
+            ],
         ];
 
         $land_manager = Role::where('name', '=', 'LM')->select('id')->first();

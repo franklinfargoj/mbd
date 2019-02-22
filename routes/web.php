@@ -1127,6 +1127,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('/ddashboard','Common\CommonController@ajaxDashboard')->name('dashboard.ajax');
     Route::post('/ddashboard/ree','REEDepartment\REEController@ajaxDashboard')->name('dashboard.ajax.ree');
     Route::post('/ddashboard/co','CODepartment\COController@ajaxDashboard')->name('dashboard.ajax.co');
+    Route::post('/dashboard/land','VillageDetailController@ajaxDashboard')->name('dashboard.ajax.land');
 
 
 });

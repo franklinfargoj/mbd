@@ -22,22 +22,22 @@
 
         <div class="d-flex flex-wrap db-wrapper">
             @php $chart = 0;@endphp
-            <div class="db__card">
+            <div class="db__card land" data-module="Land Summary">
                 <div class="db__card__img-wrap db-color-1">
                     <h3 class="db__card__count">{{$dashboardData['Total Number of Lands'][0]}}</h3>
                 </div>
                 <p class="db__card__title">Land Summary</p>
             </div>
-            <div class="db__card">
+            <div class="db__card revision" data-module="Revision in Layout">
                 <div class="db__card__img-wrap db-color-2">
-                    <h3 class="db__card__count">-</h3>
+                    <h3 class="db__card__count">{{$architect_data['total_no_of_appln_for_revision']}}</h3>
                 </div>
                 <p class="db__card__title">Revision in Layout</p>
             </div>
         </div>
 
         {{--land summary--}}
-        <div>
+        <div id="count_table">
             <div class="m-subheader px-0 m-subheader--top">
                 <div class="d-flex align-items-center">
                     <h3 class="m-subheader__title">Land Summary</h3>
@@ -77,44 +77,13 @@
                     </div>
                 </div>
                 @if($chart)
-                    <div class="col-sm-5" id="land_chart">
+                    <div class="col-sm-5" id="ajaxchartdiv">
                     </div>
                 @endif
             </div>
         </div>
     </div>
-
-
-        {{--architect summary--}}
-        @if((session()->get('role_name')==config('commanConfig.junior_architect'))||
-        (session()->get('role_name')==config('commanConfig.senior_architect')) ||
-        (session()->get('role_name')==config('commanConfig.architect')))
-        @include('admin.dashboard.architect_layout.partials.architect_dashboard',compact('architect_data'))
-        @endif
-        @if(session()->get('role_name')==config('commanConfig.land_manager'))
-        @include('admin.dashboard.architect_layout.partials.lm_dashboard',compact('architect_data'))
-        @endif
-        @if(session()->get('role_name')==config('commanConfig.estate_manager'))
-        @include('admin.dashboard.architect_layout.partials.em_dashboard',compact('architect_data'))
-        @endif
-        @if (in_array(session()->get('role_name'),array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'))))
-        @include('admin.dashboard.architect_layout.partials.ee_dashboard',compact('architect_data'))
-        @endif
-        @if (in_array(session()->get('role_name'),array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head'))))
-        @include('admin.dashboard.architect_layout.partials.ree_dashboard',compact('architect_data'))
-        @endif
-        @if(in_array(session()->get('role_name'),array(config('commanConfig.co_engineer'))))
-        @include('admin.dashboard.architect_layout.partials.co_dashboard',compact('architect_data'))
-        @endif
-        @if(in_array(session()->get('role_name'),array(config('commanConfig.senior_architect_planner'))))
-        @include('admin.dashboard.architect_layout.partials.sap_dashboard',compact('architect_data'))
-        @endif
-        @if(in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'))))
-        @include('admin.dashboard.architect_layout.partials.cap_dashboard',compact('architect_data'))
-        @endif
-        @if(in_array(session()->get('role_name'),array(config('commanConfig.vp_engineer'))))
-        @include('admin.dashboard.architect_layout.partials.vp_dashboard',compact('architect_data'))
-        @endif
+    
 
 @endsection
 
@@ -153,232 +122,234 @@
 //                chart.legend.useGraphSettings = true;
 
             // WRITE
-            chart.write("land_chart");
+            chart.write("ajaxchartdiv");
         });
 
+    </script>
 
-        //code with legend
-        //            var chart = AmCharts.makeChart("land_chart", {
-        //                "type": "pie",
-        //                "theme": "light",
-        //                "dataProvider": chartData,
-        //                "legend": {
-        //                    "position": "right"
-        //                },
-        //                "labelRadius" : -25,
-        //                "valueField": "value",
-        //                "titleField": "status",
-        //                "exportConfig":{
-        //                    menuItems: [{
-        //                        icon: '/lib/3/images/export.png',
-        //                        format: 'png'
-        //                    }]
-        //                },
-        //                "legend": {
-        //                    "useGraphSettings": true,
-        //                },
-        //                "labelText" : "[[percents]]%",
-        //
-        //            });
+    {{--ajax call for Count Table and Pie chart(land summary)--}}
+    <script>
+        var dashboard = "{{route('dashboard.ajax.land')}}";
+        $(".land").on("click", function () {
+
+            var redirect_to = "{{session()->get('redirect_to')}}";
+            var module_name = ($(this).attr("data-module"));
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: dashboard,
+                data: {module_name:module_name},
+                dataType: 'json',
+                success: function (data) {
+                    if (data !== "false") {
+
+                        var html = "";
+
+                        html += "<div id=\"count_table\">\n" +
+                            "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
+                            "                    <div class=\"d-flex align-items-center\">\n" +
+                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                    </div>\n" +
+                            "                </div>\n" +
+                            "                <div class=\"row\">\n" +
+                            "                    <div class=\"col-sm-7\" >" +
+                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                            <div class=\"table-responsive\">\n" +
+                            "                                <table class=\"table text-center\">\n" +
+                            "                                    <thead>\n" +
+                            "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
+                            "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\">Action</th>\n" +
+                            "                                    </thead>\n" +
+                            "                                    </tbody>\n" ;
+
+                        var chart_count = 0 ;
+                        var i = 1 ;
+                        $.each(data, function (index, data) {
+
+                            html += "<tr>\n" +
+                                "<td class=\"text-center\">"+i+"</td>" +
+                                "<td>"+index+"</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">"+data[0]+"</span></td>\n" +
+                                "<td class=\"text-center\">"+
+                                "<a href=\""+data[1]+"\"class=\"btn btn-action\">View</a>\n" +
+                                "</td>\n" +
+                                "</tr>";
+
+                            chart_count += data[0];
+                            i++;
+                        });
+
+                        html +="</tbody>\n" +
+                            "                                </table>\n" +
+                            "                        </div>\n" +
+                            "                    </div>" +
+                            "                   </div>\n" +
+                            "                        <div class=\"col-sm-5\" id=\"ajaxchartdiv\">\n" +
+                            "                        </div>\n" +
+                            "                </div>\n" +
+                            "            </div>";
+
+                        $('#count_table').html(html);
 
 
-        //            console.log(chartData);
+                        if(chart_count){
+
+                            var chartData = [];
+                            $.each((data), function (index, data) {
+                                obj = {};
+                                if (index != 'Total Number of Applications') {
+                                    obj['status'] = index;
+                                    obj['value'] = data[0];
+                                    chartData.push(obj);
+                                }
+
+                            });
+
+                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                                "type": "pie",
+                                "theme": "light",
+                                "dataProvider":chartData ,
+                                "valueField": "value",
+                                "titleField": "status",
+                                "outlineAlpha": 0.8,
+                                "outlineColor":"#FFFFFF",
+                                "outlineThickness" : 2,
+                                "depth3D": 15,
+                                "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                                "angle": 30,
+                                "labelText": "[[percents]]%",
+                                "labelRadius": -35,
+                                "fontSize" : 15,
+                            } );
+                        }
+                    }
+                    else {
+                        alert('errror');
+                    }
+                },
+            });
+
+        });
 
     </script>
+    {{--end ajax call for Count Table and Pie chart(land summary)--}}
+
+    {{--ajax call for Count Table and Pie chart(revision in layout)--}}
+    <script>
+        var dashboard = "{{route('dashboard.ajax.land')}}";
+        $(".revision").on("click", function () {
+
+            var redirect_to = "{{session()->get('redirect_to')}}";
+            var module_name = ($(this).attr("data-module"));
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: dashboard,
+                data: {module_name:module_name},
+                dataType: 'json',
+                success: function (data) {
+                    if (data !== "false") {
+                        var html = "";
+
+                        html += "<div id=\"count_table\">\n" +
+                            "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
+                            "                    <div class=\"d-flex align-items-center\">\n" +
+                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                    </div>\n" +
+                            "                </div>\n" +
+                            "                <div class=\"row\">\n" +
+                            "                    <div class=\"col-sm-7\" >" +
+                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                            <div class=\"table-responsive\">\n" +
+                            "                                <table class=\"table text-center\">\n" +
+                            "                                    <thead>\n" +
+                            "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
+                            "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    </thead>\n" +
+                            "                                    </tbody>\n" ;
+
+                        var chart_count = 0 ;
+                        var i = 1 ;
+                        $.each(data, function (index, data) {
+
+                            html += "<tr>\n" +
+                                "<td class=\"text-center\">"+i+"</td>" +
+                                "<td>"+index+"</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">"+data+"</span></td>\n" +
+                                "<td>\n" +
+                                "</td>\n" +
+                                "</tr>";
+                            chart_count += data;
+                            i++;
+                        });
+
+                        html +="</tbody>\n" +
+                            "                                </table>\n" +
+                            "                        </div>\n" +
+                            "                    </div>" +
+                            "                   </div>\n" +
+                            "                        <div class=\"col-sm-5\" id=\"ajaxchartdiv\">\n" +
+                            "                        </div>\n" +
+                            "                </div>\n" +
+                            "            </div>";
+
+                        $('#count_table').html(html);
+
+                        if(chart_count){
+
+                            var chartData = [];
+
+                            $.each((data), function (index, data) {
+                                obj = {};
+                                if (index != 'Total Number of Applications') {
+                                    obj['status'] = index;
+                                    obj['value'] = data;
+                                    chartData.push(obj);
+                                }
+
+                            });
+
+                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                                "type": "pie",
+                                "theme": "light",
+                                "dataProvider":chartData ,
+                                "valueField": "value",
+                                "titleField": "status",
+                                "outlineAlpha": 0.8,
+                                "outlineColor":"#FFFFFF",
+                                "outlineThickness" : 2,
+                                "depth3D": 15,
+                                "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                                "angle": 30,
+                                "labelText": "[[percents]]%",
+                                "labelRadius": -35,
+                                "fontSize" : 15,
+                            } );
+                        }
+                    }
+                    else {
+                        alert('errror');
+                    }
+                },
+            });
+
+        });
+
+    </script>
+    {{--end ajax call for Count Table and Pie chart(revision in layout)--}}
+
+
 @endsection
 
-
-
-
-{{--<div class="container-fluid">--}}
-{{--<div class="m-subheader px-0 m-subheader--top">--}}
-{{--<div class="d-flex align-items-center">--}}
-{{--<h3 class="m-subheader__title">Dashboard</h3>--}}
-{{--</div>--}}
-{{--</div>--}}
-
-{{--<div class="hearing-accordion-wrapper">--}}
-{{--<div class="m-portlet m-portlet--compact hearing-accordion mb-0">--}}
-{{--<div class="d-flex justify-content-between align-items-center">--}}
-{{--<a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"--}}
-{{--data-toggle="collapse" href="#land-summary">--}}
-{{--<span class="form-accordion-title">Land Summary</span>--}}
-{{--<span class="accordion-icon hearing-accordion"></span>--}}
-{{--</a>--}}
-{{--</div>--}}
-{{--</div>--}}
-{{--<div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="land-summary"--}}
-{{--data-parent="#accordion">--}}
-{{--<div class="row no-gutters hearing-row">--}}
-{{--<div class="col-12 no-shadow">--}}
-{{--<div class="app-card-section-title">Land Details</div>--}}
-{{--</div>--}}
-{{--<div class="col-3 no-shadow"></div>--}}
-{{--@php $chart = 0;@endphp--}}
-{{--@foreach($dashboardData as $header => $value)--}}
-{{--<div class="col-lg-3">--}}
-{{--<div class="m-portlet app-card text-center">--}}
-{{--<h2 class="app-heading">{{$header}}</h2>--}}
-{{--<h2 class="app-no mb-0">{{$value[0]}}</h2>--}}
-{{--@php $chart += $value[0];@endphp--}}
-{{--<a href="{{$value[1]}}" class="app-card__details mb-0">View Details</a>--}}
-{{--</div>--}}
-{{--</div>--}}
-{{--@endforeach--}}
-{{--</div>--}}
-{{--@if($chart)--}}
-{{--<div id="land_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>--}}
-{{--@endif--}}
-{{--</div>--}}
-{{--</div>--}}
-{{--@if((session()->get('role_name')==config('commanConfig.junior_architect'))||--}}
-{{--(session()->get('role_name')==config('commanConfig.senior_architect')) ||--}}
-{{--(session()->get('role_name')==config('commanConfig.architect')))--}}
-{{--@include('admin.dashboard.architect_layout.partials.architect_dashboard',compact('architect_data'))--}}
-{{--@endif--}}
-{{--@if(session()->get('role_name')==config('commanConfig.land_manager'))--}}
-{{--@include('admin.dashboard.architect_layout.partials.lm_dashboard',compact('architect_data'))--}}
-{{--@endif--}}
-{{--@if(session()->get('role_name')==config('commanConfig.estate_manager'))--}}
-{{--@include('admin.dashboard.architect_layout.partials.em_dashboard',compact('architect_data'))--}}
-{{--@endif--}}
-{{--@if (in_array(session()->get('role_name'),array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'))))--}}
-{{--@include('admin.dashboard.architect_layout.partials.ee_dashboard',compact('architect_data'))--}}
-{{--@endif--}}
-{{--@if (in_array(session()->get('role_name'),array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head'))))--}}
-{{--@include('admin.dashboard.architect_layout.partials.ree_dashboard',compact('architect_data'))--}}
-{{--@endif--}}
-{{--@if(in_array(session()->get('role_name'),array(config('commanConfig.co_engineer'))))--}}
-{{--@include('admin.dashboard.architect_layout.partials.co_dashboard',compact('architect_data'))--}}
-{{--@endif--}}
-{{--@if(in_array(session()->get('role_name'),array(config('commanConfig.senior_architect_planner'))))--}}
-{{--@include('admin.dashboard.architect_layout.partials.sap_dashboard',compact('architect_data'))--}}
-{{--@endif--}}
-{{--@if(in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'))))--}}
-{{--@include('admin.dashboard.architect_layout.partials.cap_dashboard',compact('architect_data'))--}}
-{{--@endif--}}
-{{--@if(in_array(session()->get('role_name'),array(config('commanConfig.vp_engineer'))))--}}
-{{--@include('admin.dashboard.architect_layout.partials.vp_dashboard',compact('architect_data'))--}}
-{{--@endif--}}
-{{--</div>--}}
-
-{{--@endsection--}}
-{{--@section('js')--}}
-{{--<script>--}}
-{{--$(".hearing-accordion").on("click", function () {--}}
-{{--var data = $('.hearing-accordion').children().children().attr('aria-expanded');--}}
-{{--if (!(data)) {--}}
-{{--$('.accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");--}}
-{{--}--}}
-{{--else {--}}
-{{--if (data == 'undefine' || data == 'false') {--}}
-{{--$('.accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");--}}
-{{--} else {--}}
-{{--$('.accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");--}}
-{{--}--}}
-{{--}--}}
-{{--});--}}
-{{--</script>--}}
-
-{{--<script>--}}
-{{--$(".architect-accordion").on("click", function () {--}}
-{{--var data = $('.architect-accordion').children().children().attr('aria-expanded');--}}
-
-{{--if (!(data)) {--}}
-{{--$('.architect-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");--}}
-{{--}--}}
-{{--else {--}}
-{{--if (data == 'undefine' || data == 'false') {--}}
-{{--$('.architect-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");--}}
-{{--} else {--}}
-{{--$('.architect-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");--}}
-{{--}--}}
-{{--}--}}
-{{--});--}}
-
-{{--$(".architect-land-accordion").on("click", function () {--}}
-{{--var data = $('.architect-land-accordion').children().children().attr('aria-expanded');--}}
-{{--if (!(data)) {--}}
-{{--$('.architect-land-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");--}}
-{{--}--}}
-{{--else {--}}
-{{--if (data == 'undefine' || data == 'false') {--}}
-{{--$('.architect-land-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");--}}
-{{--} else {--}}
-{{--$('.architect-land-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");--}}
-{{--}--}}
-{{--}--}}
-{{--});--}}
-{{--</script>--}}
-
-{{--<script>--}}
-{{--$(".hearing-accordion").on("click", function () {--}}
-{{--var data = $('.hearing-accordion').children().children().attr('aria-expanded');--}}
-{{--if(data == 'undefine' || data == 'false'){--}}
-{{--$('.accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");--}}
-{{--}else{--}}
-{{--$('.accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");--}}
-{{--}--}}
-{{--});--}}
-{{--</script>--}}
-{{--<script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>--}}
-{{--<script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>--}}
-
-{{--Dashboard--}}
-{{--<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>--}}
-{{--<script>--}}
-{{--WebFont.load({--}}
-{{--google: {"families":["Poppins:300,400,500,600,700","Roboto:300,400,500,600,700"]},--}}
-{{--active: function() {--}}
-{{--sessionStorage.fonts = true;--}}
-{{--}--}}
-{{--});--}}
-{{--</script>--}}
-
-{{--<script>--}}
-{{--var chart;--}}
-{{--var legend;--}}
-{{--var chartData = [--}}
-{{--@foreach($dashboardData as $header => $value){--}}
-{{--"status": '{{$header}}',--}}
-{{--"value": '{{$value[0]}}',--}}
-{{--},--}}
-{{--@endforeach--}}
-{{--];--}}
-
-{{--console.log(chartData);--}}
-{{--AmCharts.ready(function () {--}}
-{{--// PIE CHART--}}
-{{--chart = new AmCharts.AmPieChart();--}}
-{{--chart.dataProvider = chartData;--}}
-{{--chart.titleField = "status";--}}
-{{--chart.valueField = "value";--}}
-{{--chart.outlineColor = "#FFFFFF";--}}
-{{--chart.outlineAlpha = 0.8;--}}
-{{--chart.outlineThickness = 2;--}}
-{{--chart.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";--}}
-{{--// this makes the chart 3D--}}
-{{--chart.depth3D = 15;--}}
-{{--chart.angle = 30;--}}
-{{--chart.colors = [ "#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A", "#CA9726", "#990000", "#4B0C25"]--}}
-{{--chart.fontSize = 15;--}}
-{{--// WRITE--}}
-{{--chart.write("land_chart");--}}
-{{--});--}}
-{{--</script>--}}
-{{--@endsection--}}
-
-
-{{--@section('js')--}}
-{{--<script>--}}
-{{--$(".accordion-icon").on("click", function () {--}}
-{{--var data = $('.hearing-accordion').children().children().attr('aria-expanded');--}}
-{{--if(data == 'undefine' || data == 'false'){--}}
-{{--alert('open');--}}
-{{--}else{--}}
-{{--alert('closed');--}}
-{{--}--}}
-{{--});--}}
-{{--</script>--}}
-
-{{--@endsection--}}

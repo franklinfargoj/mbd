@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Board;
+use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
 use App\Http\Requests\village_detail\EditVillageDetailRequest;
 use App\Http\Requests\village_detail\VillageDetailRequest;
 use App\LandSource;
@@ -596,6 +597,13 @@ lm_village_detail.updated_at'))->get();
         return view('admin.village_detail.villageDeteleReason', compact('id'))->render();
     }
 
+    /**
+     * Show the offer letter dashboard.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function dashboard(){
 //        dd('land dashboard');
 
@@ -628,6 +636,61 @@ lm_village_detail.updated_at'))->get();
         return view('admin.common.land_dashboard',compact('dashboardData'));
 
     }
+
+    /**
+     * Show the offer letter dashboard using ajax.
+     *
+     * Author: Prajakta Sisale.
+     *
+     *  @return json response
+     */
+    public function ajaxdashboard(Request $request){
+        if($request->ajax()){
+
+            if($request->module_name == "Land Summary"){
+                // data of society with lease and without lease
+                $current_date = date('Y-m-d');
+
+                $society_data_with_active_lease= SocietyDetail::whereHas('societyLease',function($q) use($current_date){
+                    $q->where('lease_renewal_date','>', $current_date)->where('lease_status',1);
+                })->orderBy('id', 'desc')->get()->count();
+
+                $society_data_with_expired_lease= SocietyDetail::whereHas('societyLease',function($q) use($current_date){
+                    $q->where('lease_renewal_date','<', $current_date)->where('lease_status',1);
+                })->orderBy('id', 'desc')->get()->count();
+
+
+                $dashboardData = array();
+                $dashboardData['Total Number of Lands'][0] = VillageDetail::get()->count();
+                $dashboardData['Total Number of Lands'][1] = route('village_detail.index');
+                $dashboardData['Total Number of Societies'][0] = SocietyDetail::get()->count();
+                $dashboardData['Total Number of Societies'][1] = route('society_detail.index');
+//                $dashboardData['Total Number of Leases'][0] = LeaseDetail::get()->count();
+//                $dashboardData['Total Number of Leases'][1] = route('lease_detail.index',0);
+                $dashboardData['Total Number of Societies with Active Lease'][0] = $society_data_with_active_lease;
+                $dashboardData['Total Number of Societies with Active Lease'][1] = route('society_detail.index').'?society_name=&sr_no=&lease_status=1&village=';
+
+                $dashboardData['Total Number of Societies with Expired Lease'][0] = $society_data_with_expired_lease;
+                $dashboardData['Total Number of Societies with Expired Lease'][1] = route('society_detail.index').'?society_name=&sr_no=&lease_status=0&village=';
+
+                return $dashboardData;
+            }
+
+            if($request->module_name == "Revision in Layout"){
+                if (session()->get('role_name') == config('commanConfig.land_manager')) {
+
+                    $architect_dashboard = new ArchitectLayoutDashboardController();
+                    $data['Total Number of Applications'] = $architect_dashboard->total_no_of_appln_for_revision();
+                    $data['Applications Pending'] = $architect_dashboard->pending_layout_before_layout_and_excel();
+                    $data['Applications Forwarded'] = $architect_dashboard->forwarded_layout_before_layout_and_excel();
+
+                    return $data;
+                }
+            }
+        }
+    }
+
+
 
     public function getNotificationCount(){
         $lease_detail = LeaseDetail::with('leaseSociety')->where('lease_status',1)->get();
