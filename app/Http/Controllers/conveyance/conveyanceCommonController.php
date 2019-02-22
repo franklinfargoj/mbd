@@ -211,7 +211,7 @@ class conveyanceCommonController extends Controller
     //forward Application parent Id 
 
      public function getForwardApplicationParentData(){
-        
+            
         $role_id = Role::where('id',Auth::user()->role_id)->first();
         $result  = json_decode($role_id->conveyance_parent_id);
         $parent  = "";
@@ -624,13 +624,6 @@ class conveyanceCommonController extends Controller
       $applicationId = decrypt($applicationId);  
       $data          = $this->getForwardApplicationData($applicationId);
       $data->folder  = $this->getCurrentRoleFolderName(); 
-      // $societyLogs   = $this->getLogsOfSociety($applicationId,$data->sc_application_master_id);
-      // $dycoLogs      = $this->getLogsOfDYCODepartment($applicationId,$data->sc_application_master_id);
-      // $eelogs        = $this->getLogsOfEEDepartment($applicationId,$data->sc_application_master_id);
-      // $Architectlogs = $this->getLogsOfArchitectDepartment($applicationId,$data->sc_application_master_id);
-      // $cologs        = $this->getLogsOfCODepartment($applicationId,$data->sc_application_master_id);
-      // $emlogs        = $this->getLogsOfEMDepartment($applicationId,$data->sc_application_master_id);
-      // $lalogs        = $this->getLogsOfLADepartment($applicationId,$data->sc_application_master_id);
 
       $remarkHistory = $this->getRemarkHistory($applicationId,$data->sc_application_master_id);
       $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
@@ -651,8 +644,34 @@ class conveyanceCommonController extends Controller
         else{
         $route = 'admin.conveyance.common.forward_application';
       }
-      
-      return view($route,compact('data','remarkHistory'));          
+
+      //condition on child and parent only for dyco
+      $parentData = $childData = [];
+        $roleName = array(config('commanConfig.ee_junior_engineer'),config('commanConfig.estate_manager'),config('commanConfig.junior_architect'));
+        $roleIds = Role::whereIn('name',$roleName)->pluck('id')->toArray();
+        if (count($data->parent) > 0){
+            foreach($data->parent as $parent){
+                if (session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id == config('commanConfig.conveyance_status.in_process')){
+
+                    if (in_array($parent->role_id,$roleIds)){
+                        $parentData [] = $parent;
+                    }
+                }else{
+                   if (!in_array($parent->role_id,$roleIds)){
+                        $parentData [] = $parent;
+                    } 
+                }    
+            }
+        }
+        if (count($data->child) > 0 && session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id == config('commanConfig.conveyance_status.in_process')) {
+            foreach($data->child as $child){
+                   if (!(in_array($child->role_id,$roleIds))){
+                        $childData [] = $child;
+                    } 
+                }    
+            }
+
+      return view($route,compact('data','remarkHistory','parentData','childData'));          
     }
 
     public function getRemarkHistory($applicationId,$masterId)
@@ -885,7 +904,6 @@ class conveyanceCommonController extends Controller
         }else{
             $route = 'admin.conveyance.common.view_draft_sign_sale_lease';
         }
-       
         return view($route,compact('data','is_view','status'));
     }    
 
