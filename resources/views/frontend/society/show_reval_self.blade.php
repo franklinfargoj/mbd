@@ -54,12 +54,12 @@
 
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="date_of_meeting">Date of Resolution:</label>
-                            <input type="text" id="m_datepicker" name="date_of_meeting" class="form-control form-control--custom m-input m_datepicker" value="{{ old('date_of_meeting') }}" required>
+                            <label class="col-form-label" for="date_of_meeting">Date of Resolution: <span class="star">*</span></label>
+                            <input type="text" id="m_datepicker" data-date-end-date="+0d" name="date_of_meeting" class="form-control form-control--custom m-input m_datepicker" value="{{ old('date_of_meeting') }}" required>
                             <span class="help-block">{{$errors->first('date_of_meeting')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
-                            <label class="col-form-label" for="resolution_no">Resolution No:</label>
+                            <label class="col-form-label" for="resolution_no">Resolution No: <span class="star">*</span></label>
                             <input type="text" id="resolution_no" name="resolution_no" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('resolution_no') }}" required>
                             <span class="help-block">{{$errors->first('resolution_no')}}</span>
                         </div>
@@ -73,7 +73,7 @@
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="ol_issue_date">Offer Letter Issue Date</label>
-                            <input type="text" id="ol_issue_date" name="ol_issue_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('ol_issue_date') }}">
+                            <input type="text" id="ol_issue_date" data-date-end-date="+0d" name="ol_issue_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('ol_issue_date') }}">
                             <span class="help-block">{{$errors->first('ol_issue_date')}}</span>
                         </div>
                     </div>

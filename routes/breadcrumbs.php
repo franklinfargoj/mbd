@@ -226,9 +226,9 @@ Breadcrumbs::for('noc_cc_documents_upload', function ($trail) {
     $trail->push('Upload documents (NOC for CC)', route('documents_upload_noc_cc'));
 });
 
-Breadcrumbs::for('revalidation_documents_upload', function ($trail) {
+Breadcrumbs::for('revalidation_documents_upload', function ($trail,$id) {
     $trail->push('Listing', route('society_offer_letter_dashboard'));
-    $trail->push('Upload documents (Revalidation)', route('reval_documents_upload'));
+    $trail->push('Upload documents (Revalidation)', route('reval_documents_upload',$id));
 });
 
 Breadcrumbs::for('society_application', function ($trail) {
@@ -272,9 +272,9 @@ Breadcrumbs::for('society_offer_letter_edit', function ($trail,$id) {
     $trail->push('Redevelopment Application Form(Offer Letter)', route('society_offer_letter_edit',$id));
 });
 
-Breadcrumbs::for('society_revalidation_edit', function ($trail) {
+Breadcrumbs::for('society_revalidation_edit', function ($trail,$id) {
     $trail->parent('society_dashboard');
-    $trail->push('Redevelopment Application Form(Revalidation)', route('society_reval_offer_letter_edit'));
+    $trail->push('Redevelopment Application Form(Revalidation)', route('society_reval_offer_letter_edit',$id));
 });
 
 Breadcrumbs::for('society_oc_edit', function ($trail) {

@@ -1679,12 +1679,12 @@ class CommonController extends Controller
     // Reval society-REE documents
     public function getRevalSocietyREEDocuments($applicationId)
     {
-
+        // dd($applicationId);
         $application_details = OlApplication::where('id', $applicationId)->get();
        $documnts_ids = OlSocietyDocumentsMaster::where('application_id' ,'=' ,$application_details[0]->application_master_id)->pluck('id')->toArray();
 
-        $societyDocuments = SocietyOfferLetter::with(['societyRevalDocuments' => function($q) use($documnts_ids) {
-            $q->whereIn('document_id', $documnts_ids);
+        $societyDocuments = SocietyOfferLetter::with(['societyRevalDocuments' => function($q) use($documnts_ids,$applicationId) {
+            $q->whereIn('document_id', $documnts_ids)->where('application_id',$applicationId);
         }])->where('id', $application_details[0]->society_id)->get();
 
         return $societyDocuments;

@@ -3,12 +3,13 @@
     @include('frontend.society.reval_actions',compact('ol_applications'))
 @endsection
 @section('content')
+
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Upload documents</h3>
-            {{ Breadcrumbs::render('revalidation_documents_upload') }}
+            {{ Breadcrumbs::render('revalidation_documents_upload',encrypt($ol_applications->id)) }}
             <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
         </div>
     </div>
@@ -89,6 +90,7 @@
                                     <form action="{{ route('uploaded_reval_documents') }}" method="post" enctype='multipart/form-data'
                                         id="upload_documents_form_{{ $document->id }}">
                                         @csrf
+                                        <input type="hidden" name="applicationId" value="{{ isset($ol_applications->id) ? $ol_applications->id : '' }}">
                                         <div class="custom-file">
                                             <input class="custom-file-input" name="document_name" type="file" class=""
                                                 id="test-upload_{{ $document->id }}" required>
@@ -110,6 +112,8 @@
                                     <form action="{{ route('uploaded_reval_documents') }}" method="post" enctype='multipart/form-data'
                                         id="upload_documents_form_{{ $document->id }}">
                                         @csrf
+                                         <input type="hidden" name="applicationId" value="{{ isset($ol_applications->id) ? $ol_applications->id : '' }}">
+
                                         <div class="custom-file @if(session('error_'.$document->id)) has-error @endif">
                                             <input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}"
                                                 required>
@@ -166,6 +170,7 @@
                                 <div class="remarks-section__data">
                                     <form action="{{ route('add_uploaded_reval_documents_remark') }}" method="post" enctype='multipart/form-data'>
                                         @csrf
+                                        <input type="hidden" name="applicationId" value="{{ isset($ol_applications->id) ? $ol_applications->id : '' }}">
                                         <div class="form-group">
                                             <label class="col-form-label">Remark</label>
                                             <div class="col-md-8 @if($errors->has('society_documents_comment')) has-error @endif">
@@ -212,6 +217,7 @@
                         </div>
                         <form action="{{ route('add_reval_documents_comment') }}" method="post" enctype='multipart/form-data'>
                             @csrf
+                            <input type="hidden" name="applicationId" value="{{ isset($ol_applications->id) ? $ol_applications->id : '' }}">
                             <div class="remarks-suggestions table--box-input">
                                 <div class="mt-3">
                                     <label for="society_documents_comment">Additional Information:</label>
