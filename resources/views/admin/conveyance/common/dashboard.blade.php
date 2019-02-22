@@ -47,119 +47,9 @@
         <div id="count_table">
         </div>
 
-        <!-- Dashboard for Convayance Module  -->
-        @if(in_array(session()->get('role_name'),$conveyanceRoles))
-            @if($conveyanceDashboard)
-                <div class="hearing-accordion-wrapper">
-                    <div class="m-portlet m-portlet--compact conveyance-accordion mb-0">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
-                               data-toggle="collapse" href="#conveyance_dashboard">
-                                <span class="form-accordion-title">Applications for Society Conveyance</span>
-                                <span class="accordion-icon conveyance-accordion-icon"></span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="conveyance_dashboard"
-                         data-parent="#accordion">
-                        <div class="row no-gutters hearing-row">
-                            <div class="col-12 no-shadow">
-                                <div class="app-card-section-title">conveyance</div>
-                            </div>
-                            @foreach($conveyanceDashboard[0] as $header => $value)
-                                <div class="col-lg-3">
-                                    <div class="m-portlet app-card text-center">
-                                        <h2 class="app-heading">{{$header}}</h2>
-                                        <div class="app-card-footer">
-                                            <h2 class="app-no mb-0">{{$value[0]}}</h2>
-
-                                            @if( $value[1] == 'pending')
-                                                <a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#pending">View
-                                                    Details</a>
-                                            @elseif( $value[1] == 'sendToSociety')
-                                                <a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#sendToSociety">View
-                                                    Details</a>
-                                            @else
-                                                <a href="{{url($value[1])}}" class="app-card__details mb-0">View Details</a>
-                                            @endif
-                                            @php $chart2 += $value[0]; @endphp
-                                        </div>
-                                        {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                        @if($chart2)
-                            <div id="conveyance_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
-                        @endif
-                        @if($pendingApplications && session()->get('role_name') == config('commanConfig.dyco_engineer'))
-                            <div class="row no-gutters hearing-row">
-                                <div class="col-12 no-shadow">
-                                    <div class="app-card-section-title">Conveyance Subordinate Pendency</div>
-                                </div>
-                                @foreach($pendingApplications as $header => $value)
-                                    <div class="col-lg-3">
-                                        <div class="m-portlet app-card text-center">
-                                            <h2 class="app-heading">{{$header}}</h2>
-                                            <div class="app-card-footer">
-                                                <h2 class="app-no mb-0">{{$value}}</h2>
-                                                @php $chart3 += $value; @endphp
-                                                {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                            @if($chart3)
-                                <div id="pending_conveyance_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
-                            @endif 
-                        @endif                         
-                    </div>
-                </div>
-        @endif
-    @endif
-        <div class="hearing-accordion-wrapper">
-            <div class="m-portlet m-portlet--compact redevelopment-accordion mb-0">
-                <div class="d-flex justify-content-between align-items-center">
-                    <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
-                       data-toggle="collapse" href="#redevelopment_dashboard">
-                        <span class="form-accordion-title">Applications for Redevelopment</span>
-                        <span class="accordion-icon redevelopment-accordion-icon"></span>
-                    </a>
-                </div>
-            </div>
-            <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="redevelopment_dashboard"
-                 data-parent="#accordion">
-                @if(session()->get('role_name') == config('commanConfig.legal_advisor'))
-                    @include('admin.tripartite.partial.la_dashboard')
-                @endif
-                @if($pendingApplications && session()->get('role_name') == config('commanConfig.dyco_engineer'))
-                    <div class="row no-gutters hearing-row">
-                        <div class="col-12 no-shadow">
-                            <div class="app-card-section-title">Conveyance Subordinate Pendency</div>
-                        </div>
-                        @foreach($pendingApplications as $header => $value)
-                            <div class="col-lg-3">
-                                <div class="m-portlet app-card text-center">
-                                    <h2 class="app-heading">{{$header}}</h2>
-                                    <div class="app-card-footer">
-                                        <h2 class="app-no mb-0">{{$value}}</h2>
-                                        @php $chart3 += $value; @endphp
-                                        {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    @if($chart3)
-                        <div id="pending_conveyance_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
-                    @endif
-                @endif
-            </div>
-        </div>
     <!-- end -->
 
-        <!-- Dashboard for Renewal Module  --> 
+        <!-- Dashboard for Renewal Module  -->
     @if(in_array(session()->get('role_name'),$renewalRoles))
     @if($renewalDashboard)
     <div class="hearing-accordion-wrapper">
@@ -223,7 +113,7 @@
                     @if($chart1)
                         <div id="pending_renewal_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
                     @endif
-                @endif    
+                @endif
             </div>
         </div>
     </div>
@@ -235,15 +125,15 @@
     (session()->get('role_name')==config('commanConfig.dycdo_engineer')))
     @include('admin.dashboard.society_formation.main',compact('formation_data'))
     @endif
-    <!-- end -->      
+    <!-- end -->
      @if((session()->get('role_name')==config('commanConfig.junior_architect'))||
     (session()->get('role_name')==config('commanConfig.senior_architect')) ||
     (session()->get('role_name')==config('commanConfig.architect')))
     @include('admin.dashboard.architect_layout.partials.architect_dashboard',compact('data'))
     @endif
-    @if(session()->get('role_name')==config('commanConfig.land_manager'))
-    @include('admin.dashboard.architect_layout.partials.lm_dashboard',compact('data'))
-    @endif
+    {{--@if(session()->get('role_name')==config('commanConfig.land_manager'))--}}
+    {{--@include('admin.dashboard.architect_layout.partials.lm_dashboard',compact('data'))--}}
+    {{--@endif--}}
     @if(session()->get('role_name')==config('commanConfig.estate_manager'))
     @include('admin.dashboard.architect_layout.partials.em_dashboard',compact('data'))
     @endif
@@ -384,8 +274,8 @@
                 </div>
             </div>
         </div>
-    </div> 
-    
+    </div>
+
     <!-- Model for renewal send to society bifergation-->
     <div class="modal fade" id="sendToSociety_renewal" role="dialog">
         <div class="modal-dialog">
@@ -423,7 +313,46 @@
                 </div>
             </div>
         </div>
-    </div>       
+    </div>
+
+    <!-- Modal for tripartite send to society bifergation-->
+    <div class="modal fade" id="tripartitereePendingModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Applications Pending</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table text-center">
+                            <thead class="thead-default">
+                            <tr>
+                                <th>Header</th>
+                                <th>Count</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if($tripartite_data['dashboardData'][1])
+                                @foreach($tripartite_data['dashboardData'][1]  as $header => $value)
+                                    <tr>
+                                        <td> {{$header}} </td>
+                                        <td> {{$value}} </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- <p>Some text in the modal.</p> -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection
 @section('js')
@@ -512,7 +441,7 @@
         });
         @endif
     </script>
-    @endif 
+    @endif
 
     @if($chart)
     <script>
@@ -555,7 +484,7 @@
         });
         @endif
     </script>
-    @endif 
+    @endif
 
     @if($chart1)
     <script>
