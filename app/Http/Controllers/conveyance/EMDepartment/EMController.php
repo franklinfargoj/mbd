@@ -429,7 +429,7 @@ class EMController extends Controller
 
                         if($inserted_document_log == true){
                             $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $request->file('document_path'), $name);
-                            return back()->with('success','Uploaded successfully.');
+                            return back()->with('success','List of Bonafide Allottees uploaded successfully.');
                         }
                         
                     }else{
@@ -564,7 +564,7 @@ class EMController extends Controller
                 $inserted_document_log = SocietyConveyanceDocumentStatus::create($sc_document_status_arr);
 
                 if($inserted_document_log == true){
-                    return back()->with('success',' uploaded successfully.');
+                    return back()->with('success','Covering Letter uploaded successfully.');
                 }
 
             }else{

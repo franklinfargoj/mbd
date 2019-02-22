@@ -211,6 +211,11 @@
 
                 <div class="m-portlet m-portlet--mobile m_panel">
                     <div class="m-portlet__body" style="padding-right: 0;">
+                        @if (session('success'))
+                            <div class="alert alert-success society_registered">
+                                <div class="text-center">{{ session('success') }}</div>
+                            </div>
+                        @endif
                             <h3 class="section-title section-title--small mb-0">Generate No dues certificate:</h3>
                             <div class=" row-list">
                                 <div class="row">
@@ -299,6 +304,11 @@
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body" style="padding-right: 0;">
+                        @if (session('success'))
+                            <div class="alert alert-success society_registered">
+                                <div class="text-center">{{ session('success') }}</div>
+                            </div>
+                        @endif
                         <div class=" row-list">
                             <div class="row">
                                 @if($society_list_docs['अधिकृत सभासदांची यादी (पती व पत्नी संयुक्त नावे)']->sc_document_status != null)
@@ -366,8 +376,13 @@
             </div>        
         </div>
         <div class="tab-pane section-3" id="society-resolution" role="tabpanel">
-            <!-- Society Resolution div here -->
+            <!-- Covering Letter div here -->
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
+                @if (session('success'))
+                    <div class="alert alert-success society_registered">
+                        <div class="text-center">{{ session('success') }}</div>
+                    </div>
+                @endif
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                         <div class="m-subheader">
