@@ -398,8 +398,8 @@ class TripartiteDashboardController extends Controller
      */
     public function getLADashboardData($role_id, $ree, $statusCount)
     {
-        $dashboardData['Total No of Applications'][0] = $statusCount['totalApplication'];
-        $dashboardData['Total No of Applications'][1] = '';
+        $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
+        $dashboardData['Total Number of Applications'][1] = '';
 
         $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
         $dashboardData['Applications Pending'][1] = 'pending';

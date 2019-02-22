@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\conveyance;
  
+use App\Http\Controllers\Tripartite\TripartiteDashboardController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Common\CommonController;
@@ -985,7 +986,33 @@ class conveyanceCommonController extends Controller
         // dd($renewalPendingApplications);             
         
         return view('admin.conveyance.common.dashboard',compact('conveyanceDashboard','conveyanceRoles','pendingApplications','renewalDashboard','renewalRoles','renewalPendingApplications'));
-    }    
+    }
+
+    /**
+     * Show the Conveyance dashboard using ajax.
+     *
+     * Author: Prajakta Sisale.
+     *
+     *  @return json response
+     */
+    public function ajaxDashboard(Request $request){
+        if($request->ajax()){
+            if($request->module_name == 'Society Conveyance'){
+                $conveyanceCommonController = new conveyanceCommonController();
+                $conveyanceDashboard = $conveyanceCommonController->ConveyanceDashboard();
+
+                return $conveyanceDashboard;
+            }
+
+            if($request->module_name == 'Tripartite Agreement'){
+
+                $tripartite_dashboard = new TripartiteDashboardController();
+                $data = $tripartite_dashboard->getDashboardHeaders()->getData();
+                return $data['dashboardData'][0];
+
+            }
+        }
+    }
 
     public function ConveyanceDashboard(){
 

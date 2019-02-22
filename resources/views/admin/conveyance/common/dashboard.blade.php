@@ -1,6 +1,13 @@
 @extends('admin.layouts.app')
 @section('css')
     <link rel="stylesheet" href="../../../../public/css/amcharts.css">
+    <!-- Fonts -->
+    <!--<link rel="dns-prefetch" href="https://fonts.gstatic.com">-->
+    <!-- Styles -->
+    <link href="{{asset('/css/dashboard/vendors.bundle.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('/css/dashboard/style.bundle.css')}}" rel="stylesheet" type="text/css"/>
+    {{--    <link href="{{asset('/css/dashboard/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />--}}
+    <link href="{{asset('/css/dashboard/custom.css')}}" rel="stylesheet" type="text/css"/>
 @endsection
 @section('content')
     @php
@@ -15,6 +22,29 @@
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title">Dashboard</h3>
             </div>
+        </div>
+
+        <div class="d-flex flex-wrap db-wrapper">
+            @if(in_array(session()->get('role_name'),$conveyanceRoles))
+            @if($conveyanceDashboard)
+                    <div class="db__card conveyance" data-module = "Society Conveyance">
+                        <div class="db__card__img-wrap db-color-1">
+                            <h3 class="db__card__count">{{$conveyanceDashboard['0']['Total No of Applications'][0]}}</h3>
+                        </div>
+                        <p class="db__card__title">Society Conveyance</p>
+                    </div>
+                @endif
+                @if($tripartite_data['dashboardData'])
+                    <div class="db__card tripartite" data-module="Tripartite Agreement">
+                        <div class="db__card__img-wrap db-color-2">
+                            <h3 class="db__card__count">{{$tripartite_data['dashboardData'][0]['Total Number of Applications'][0]}}</h3>
+                        </div>
+                        <p class="db__card__title">Tripartite Agreement</p>
+                    </div>
+                @endif
+                @endif
+        </div>
+        <div id="count_table">
         </div>
 
         <!-- Dashboard for Convayance Module  -->
@@ -397,65 +427,7 @@
 
 @endsection
 @section('js')
-    <script>
-        $(".conveyance-accordion").on("click", function () {
-            var data = $('.conveyance-accordion').children().children().attr('aria-expanded');
-            if (!(data)) {
-                $('.conveyance-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-            } else {
-                if (data == 'undefine' || data == 'false') {
-                    $('.conveyance-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-                } else {
-                    $('.conveyance-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
-                }
-            }
-        });
-    </script>
 
-    <script>
-        $(".redevelopment-accordion").on("click", function () {
-            var data = $('.redevelopment-accordion').children().children().attr('aria-expanded');
-            if (!(data)) {
-                $('.redevelopment-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-            } else {
-                if (data == 'undefine' || data == 'false') {
-                    $('.redevelopment-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-                } else {
-                    $('.redevelopment-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
-                }
-            }
-        });
-    </script>
-
-    <script>
-        $(".renewal-accordion").on("click", function () {
-            var data = $('.renewal-accordion').children().children().attr('aria-expanded');
-            if (!(data)) {
-                $('.renewal-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-            } else {
-                if (data == 'undefine' || data == 'false') {
-                    $('.renewal-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-                } else {
-                    $('.renewal-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
-                }
-            }
-        });
-    </script>
-    <script>
-        $(".architect-accordion").on("click", function () {
-            var data = $('.architect-accordion').children().children().attr('aria-expanded');
-            if (!(data)) {
-                $('.architect-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-            }
-            else {
-                if (data == 'undefine' || data == 'false') {
-                    $('.architect-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-                } else {
-                    $('.architect-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
-                }
-            }
-        });
-    </script>
     <script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>
     @if($chart2)
@@ -668,4 +640,265 @@
             @endif
         </script>
     @endif
+
+    {{--ajax call for Count Table and Pie chart(conveyance)--}}
+    <script>
+        var dashboard = "{{route('dashboard.ajax.conveyance')}}";
+        $(".conveyance").on("click", function () {
+
+            var module_name = ($(this).attr("data-module"));
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: dashboard,
+                data: {module_name:module_name},
+                dataType: 'json',
+                success: function (data) {
+                    if (data !== "false") {
+
+                        var html = "";
+
+                        html += "<div id=\"count_table\">\n" +
+                            "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
+                            "                    <div class=\"d-flex align-items-center\">\n" +
+                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                    </div>\n" +
+                            "                </div>\n" +
+                            "                <div class=\"row\">\n" +
+                            "                    <div class=\"col-sm-7\" >" +
+                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                            <div class=\"table-responsive\">\n" +
+                            "                                <table class=\"table text-center\">\n" +
+                            "                                    <thead>\n" +
+                            "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
+                            "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\">Action</th>\n" +
+                            "                                    </thead>\n" +
+                            "                                    </tbody>\n" ;
+
+                        var chart_count = 0 ;
+                        var i = 1 ;
+                        $.each(data[0], function (index, data) {
+
+                            html += "<tr>\n" +
+                                "<td class=\"text-center\">"+i+"</td>" +
+                                "<td>"+index+"</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">"+data[0]+"</span></td>\n" +
+                                "<td class=\"text-center\">";
+
+                            if(data[1] == "pending"){
+
+                                html += "<a href=\""+baseUrl+"/"+data[1]+"\"class=\"btn btn-action\" data-toggle=\"modal\"\n" +
+                                    "             data-target=\"#pending\">View</a>";
+                            }
+                            else if(data[1] == "sendToSociety"){
+                                html += "<a href=\""+baseUrl+"/"+data[1]+"\"class=\"btn btn-action\" data-toggle=\"modal\"\n" +
+                                    "             data-target=\"#sendToSociety\">View</a>";
+                            }
+                            else{
+                                html+= "<a href=\""+baseUrl+"/"+data[1]+"\"class=\"btn btn-action\">View</a>\n";
+
+                            }
+                            html += "</td>\n" +
+                                "</tr>";
+
+                            chart_count += data[0];
+                            i++;
+                        });
+
+                        html +="</tbody>\n" +
+                            "                                </table>\n" +
+                            "                        </div>\n" +
+                            "                    </div>" +
+                            "                   </div>\n" +
+                            "                        <div class=\"col-sm-5\" id=\"ajaxchartdiv\">\n" +
+                            "                        </div>\n" +
+                            "                </div>\n" +
+                            "            </div>";
+
+                        $('#count_table').html(html);
+
+
+                        if(chart_count){
+
+                            var chartData = [];
+                            $.each((data[0]), function (index, data) {
+                                obj = {};
+                                if (index != 'Total No of Applications') {
+                                    obj['status'] = index;
+                                    obj['value'] = data[0];
+                                    chartData.push(obj);
+                                }
+
+                            });
+
+                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                                "type": "pie",
+                                "theme": "light",
+                                "dataProvider":chartData ,
+                                "valueField": "value",
+                                "titleField": "status",
+                                "outlineAlpha": 0.8,
+                                "outlineColor":"#FFFFFF",
+                                "outlineThickness" : 2,
+                                "depth3D": 15,
+                                "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                                "angle": 30,
+                                "labelText": "[[percents]]%",
+                                "labelRadius": -35,
+                                "fontSize" : 15,
+                            } );
+                        }
+                    }
+                    else {
+                        alert('errror');
+                    }
+                },
+            });
+
+        });
+
+    </script>
+    {{--end ajax call for Count Table and Pie chart(conveyance)--}}
+
+    {{--ajax call for Count Table and Pie chart(tripartite)--}}
+    <script>
+        var dashboard = "{{route('dashboard.ajax.conveyance')}}";
+        $(".tripartite").on("click", function () {
+
+            var tripartite_application = "{{route('tripartite.index')}}";
+            var redirect_to = "{{session()->get('redirect_to')}}";
+            var module_name = ($(this).attr("data-module"));
+
+//                        alert(module_name);
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: dashboard,
+                data: {module_name:module_name},
+                dataType: 'json',
+                success: function (data) {
+                    if (data !== "false") {
+
+
+                        var html = "";
+
+                        html += "<div id=\"count_table\">\n" +
+                            "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
+                            "                    <div class=\"d-flex align-items-center\">\n" +
+                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                    </div>\n" +
+                            "                </div>\n" +
+                            "                <div class=\"row\">\n" +
+                            "                    <div class=\"col-sm-7\" >" +
+                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                            <div class=\"table-responsive\">\n" +
+                            "                                <table class=\"table text-center\">\n" +
+                            "                                    <thead class=\"thead-default\">\n" +
+                            "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
+                            "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\">Action</th>\n" +
+                            "                                    </thead>\n" +
+                            "                                    </tbody>\n" ;
+
+                        var chart_count = 0 ;
+                        var i = 1 ;
+                        $.each(data, function (index, data) {
+
+//                                        console.log(data);
+
+                            html += "<tr>\n" +
+                                "<td class=\"text-center\">"+i+"</td>" +
+                                "<td>"+index+"</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">"+data[0]+"</span></td>\n" +
+                                "<td class=\"text-center\">";
+
+                            if(data[1] == "pending"){
+
+                                html += "<a href=\"#tripartitereePendingModal\" data-dismiss=\"modal\"class=\"btn btn-action\" data-toggle=\"modal\"\n" +
+                                    "             data-target=\"#tripartitereePendingModal\">View</a>";
+                            }
+                            else{
+                                html+= "<a href=\""+tripartite_application+data[1]+"\"class=\"btn btn-action\">View</a>\n";
+
+                            }
+                            html += "</td>\n" +
+                                "</tr>";
+
+                            chart_count += data[0];
+                            i++;
+                        });
+
+                        html +="</tbody>\n" +
+                            "                                </table>\n" +
+                            "                        </div>\n" +
+                            "                    </div>" +
+                            "                   </div>\n" +
+                            "                        <div class=\"col-sm-5\" id=\"ajaxchartdiv\">\n" +
+                            "                        </div>\n" +
+                            "                </div>\n" +
+                            "            </div>";
+
+//                                    alert(chart_count);
+                        $('#count_table').html(html);
+
+
+                        if(chart_count){
+
+                            var chartData = [];
+                            $.each((data), function (index, data) {
+                                obj = {};
+                                if (index != 'Total Number of Applications') {
+                                    obj['status'] = index;
+                                    obj['value'] = data[0];
+                                    chartData.push(obj);
+                                }
+
+                            });
+//                                        console.log(chartData);
+
+                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                                "type": "pie",
+                                "theme": "light",
+                                "dataProvider":chartData ,
+                                "valueField": "value",
+                                "titleField": "status",
+                                "outlineAlpha": 0.8,
+                                "outlineColor":"#FFFFFF",
+                                "outlineThickness" : 2,
+                                "depth3D": 15,
+                                "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                                "angle": 30,
+                                "labelText": "[[percents]]%",
+                                "labelRadius": -35,
+                                "fontSize" : 15,
+                            } );
+                        }
+                        $("#getCodeModal").modal('show');
+
+                    }
+                    else {
+                        alert('errror');
+                    }
+                },
+            });
+
+        });
+
+    </script>
+    {{--end ajax call for Count Table and Pie chart(tripartite)--}}
+
+
+
+
 @endsection

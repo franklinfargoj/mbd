@@ -241,7 +241,12 @@ class LAPermission extends Seeder
                 'name'=>'tripartite.post_forward_application',
                 'display_name'=>'tripartite.post_forward_application',
                 'description'=>'tripartite.post_forward_application'
-            ]                                                                                    
+            ],
+            [
+                'name'=>'dashboard.ajax.conveyance',
+                'display_name'=>'conveyance dashboard ajax',
+                'description'=>'conveyance dashboard ajax'
+            ],
         ];
 
         $role_id = Role::where('name', '=', 'la_engineer')->first();
