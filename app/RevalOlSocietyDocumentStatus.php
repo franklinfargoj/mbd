@@ -12,6 +12,7 @@ class RevalOlSocietyDocumentStatus extends Model
         'society_id',
         'document_id',
         'society_document_path',
+        'application_id',
     ];
 
     public function documents_uploaded(){

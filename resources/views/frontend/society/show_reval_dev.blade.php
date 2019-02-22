@@ -54,12 +54,12 @@
 
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="date_of_meeting">Date of Resolution:</label>
-                            <input type="text" id="m_datepicker" name="date_of_meeting" class="form-control form-control--custom m-input m_datepicker" value="{{ old('date_of_meeting') }}" required>
+                            <label class="col-form-label" for="date_of_meeting">Date of Resolution: <span class="star">*</span></label>
+                            <input type="text" id="m_datepicker" data-date-end-date="+0d" name="date_of_meeting" class="form-control form-control--custom m-input m_datepicker" value="{{ old('date_of_meeting') }}" required>
                             <span class="help-block">{{$errors->first('date_of_meeting')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
-                            <label class="col-form-label" for="resolution_no">Resolution No:</label>
+                            <label class="col-form-label" for="resolution_no">Resolution No: <span class="star">*</span></label>
                             <input type="text" id="resolution_no" name="resolution_no" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('resolution_no') }}" required>
                             <span class="help-block">{{$errors->first('resolution_no')}}</span>
                         </div>
@@ -67,20 +67,20 @@
 
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="ol_vide_no">Offer Letter Vide No</label>
+                            <label class="col-form-label" for="ol_vide_no">Offer Letter Vide No: <span class="star">*</span></label>
                             <input type="text" id="ol_vide_no" name="ol_vide_no" class="form-control form-control--custom m-input" value="{{ old('ol_vide_no') }}" required>
                             <span class="help-block">{{$errors->first('ol_vide_no')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
-                            <label class="col-form-label" for="ol_issue_date">Offer Letter Issue Date</label>
-                            <input type="text" id="ol_issue_date" name="ol_issue_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('ol_issue_date') }}" required>
+                            <label class="col-form-label" for="ol_issue_date">Offer Letter Issue Date : <span class="star">*</span></label>
+                            <input type="text" id="ol_issue_date" data-date-end-date="+0d" name="ol_issue_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('ol_issue_date') }}" required>
                             <span class="help-block">{{$errors->first('ol_issue_date')}}</span>
                         </div>
                     </div>
 
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="reason_for_revalidation">Reason For Revalidation</label>
+                            <label class="col-form-label" for="reason_for_revalidation">Reason For Revalidation : <span class="star">*</span></label>
                             <textarea id="reason_for_revalidation" name="reason_for_revalidation" class="form-control form-control--custom m-input" required ></textarea>
                             <span class="help-block">{{$errors->first('reason_for_revalidation')}}</span>
                         </div>
@@ -94,7 +94,7 @@
                         </div>
                         @if($id == '14' || $id == '18')
                             <div class="col-sm-4 offset-sm-1 form-group">
-                                <label class="col-form-label" for="developer_name">Developer Name:</label>
+                                <label class="col-form-label" for="developer_name">Developer Name: <span class="star">*</span></label>
                                 <input type="text" id="developer_name" name="developer_name" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $society_details->developer_name }}" required>
                                 <span class="help-block">{{$errors->first('developer_name')}}</span>
                             </div>
