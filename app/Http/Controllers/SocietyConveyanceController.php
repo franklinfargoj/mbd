@@ -936,8 +936,8 @@ class SocietyConveyanceController extends Controller
                 $update_sc_application = scApplication::where('id', $request->application_id)->update($update_arr);
                 return redirect()->back()->with('success', 'Application sent successfully.');
             }
-
-            if(count($uploaded) > 0){
+            //dd($uploaded);
+            if($uploaded!=null){
                 return redirect()->back();
             }else{
                 return redirect()->back()->with('error', 'Something went wrong!');
