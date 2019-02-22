@@ -11,13 +11,17 @@
 @endif
 
 @php
-    if(isset($data->SignSaleAgreement->document_path))
+    if(isset($data->ApprovedSaleAgreement->document_path))
+        $document = $data->ApprovedSaleAgreement->document_path; 
+    else if(isset($data->SignSaleAgreement->document_path))
         $document = $data->SignSaleAgreement->document_path;    
     else if(isset($data->draftSaleAgreement->document_path))
         $document = $data->draftSaleAgreement->document_path;
 @endphp
 @php
-    if(isset($data->SignLeaseAgreement->document_path))
+    if(isset($data->ApprovedLeaseAgreement->document_path))
+        $document1 = $data->ApprovedLeaseAgreement->document_path; 
+    else if(isset($data->SignLeaseAgreement->document_path))
         $document1 = $data->SignLeaseAgreement->document_path;    
     else if(isset($data->draftLeaseAgreement->document_path))
         $document1 = $data->draftLeaseAgreement->document_path;

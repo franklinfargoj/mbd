@@ -26,6 +26,7 @@
         $document1 = $data->StampLeaseAgreement->document_path;    
 
 @endphp 
+
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
@@ -100,6 +101,10 @@
                                                 
                                                         <label class="custom-file-label" for="test-upload1">Choose
                                                         file...</label>   
+
+                                                        @if(isset($data->StampSignSale->document_path))
+                                                            <a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server').'/'.$data->StampSignSale->document_path }}" download>Download</a> 
+                                                        @endif
                                                 </div>
                                         </div>
                                     </div>
@@ -155,7 +160,9 @@
    
                                                     <label class="custom-file-label" for="test-upload2">Choose
                                                         file...</label>
-                                                      
+                                                        @if(isset($data->StampSignLease->document_path))
+                                                            <a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server').'/'.$data->StampSignLease->document_path }}" download>Download</a> 
+                                                        @endif  
                                                 </div>
                                         </div>
                                     </div>

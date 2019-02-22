@@ -123,7 +123,7 @@
     </div>
 
    <!-- Generate stamp duty letter      -->
-@if(session()->get('role_name') == config('commanConfig.dyco_engineer'))
+@if(session()->get('role_name') == config('commanConfig.dyco_engineer') || session()->get('role_name') == config('commanConfig.dycdo_engineer'))
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body">
             <div class="m-subheader" style="padding: 0;">
@@ -141,7 +141,11 @@
                                 <h5>Download</h5>
                                 <span class="hint-text">Click to Download Stamp Duty Letter </span>
                                 <div class="mt-auto">
-                                    @if(isset($data->draftStampLetter->document_path))
+                                    @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id == config('commanConfig.conveyance_status.forwarded') && $data->approveStampLetter->document_path)
+                                    
+                                    <a href="{{ config('commanConfig.storage_server').'/'.$data->approveStampLetter->document_path }}" class="btn btn-primary" target="_blank">Download </a>  
+
+                                    @elseif(isset($data->draftStampLetter->document_path))
                                     <a href="{{ config('commanConfig.storage_server').'/'.$data->draftStampLetter->document_path }}" class="btn btn-primary" target="_blank">Download </a>                                
                                     @else
                                     <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
@@ -162,7 +166,11 @@
                                             <div class="custom-file">
                                                 <input class="custom-file-input stamp_letter" name="stamp_letter" type="file" id="test-upload1">
                                                 <label class="custom-file-label" for="test-upload1">Choose
-                                                    file...</label>      
+                                                    file...</label> 
+
+                                                    @if(isset($data->approveStampLetter->document_path))
+                                                    <a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server').'/'.$data->approveStampLetter->document_path }}" download>Download</a> 
+                                                    @endif    
                                             </div>
                                         <div class="mt-auto" style="margin-top: 14px !important">   
                                             <input type="submit" class="btn btn-primary" value="Submit">

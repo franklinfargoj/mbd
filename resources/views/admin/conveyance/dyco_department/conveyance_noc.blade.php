@@ -95,7 +95,11 @@
                                                 <div class="custom-file">
                                                     <input class="custom-file-input stamp_letter" name="NOC" type="file" id="test-upload1">
                                                     <label class="custom-file-label" for="test-upload1">Choose
-                                                        file...</label>      
+                                                        file...</label> 
+                                                        @if(isset($data->NOC->document_path))
+
+                                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->NOC->document_path }}" class="btn-link" target="_blank"> Download </a> 
+                                                     @endif       
                                                 </div>
                                             <div class="mt-auto" style="margin-top: 14px !important">   
                                                 <input type="submit" class="btn btn-primary" value="Submit">
