@@ -77,7 +77,7 @@
                     in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'))) ||
                     in_array(session()->get('role_name'),array(config('commanConfig.vp_engineer'))))
 
-                    @if(!(session()->get('role_name')==config('commanConfig.cap_engineer')))
+                    @if(!(session()->get('role_name')==config('commanConfig.cap_engineer')) || !(session()->get('role_name')==config('commanConfig.junior_architect')))
                     <div class="db__card revision" data-module="Revision in Layout">
                         <div class="db__card__img-wrap db-color-5">
                             <h3 class="db__card__count">
@@ -103,6 +103,31 @@
                         <p class="db__card__title">Layout Approval</p>
                     </div>
                     @endif
+
+                        @if(session()->get('role_name')==config('commanConfig.junior_architect') ||
+                                session()->get('role_name')==config('commanConfig.senior_architect') ||
+                                session()->get('role_name')==config('commanConfig.architect')
+                            )
+                            <div class="db__card revision" data-module="Layout Approval Pendency">
+                                <div class="db__card__img-wrap db-color-16">
+                                    <h3 class="db__card__count">-</h3>
+                                </div>
+                                <p class="db__card__title">Layout Approval Pendency</p>
+                            </div>
+
+                            <div class="db__card revision" data-module="Appointing Architect">
+                                <div class="db__card__img-wrap db-color-5">
+                                    <h3 class="db__card__count">-</h3>
+                                </div>
+                                <p class="db__card__title">Appointing Architect</p>
+                            </div>
+                            <div class="db__card revision" data-module="Appointing Architect Subordinate Pendencies">
+                                <div class="db__card__img-wrap db-color-5">
+                                    <h3 class="db__card__count">-</h3>
+                                </div>
+                                <p class="db__card__title">Appointing Architect Subordinate Pendencies</p>
+                            </div>
+                        @endif
                 @endif
         </div>
 
@@ -165,14 +190,8 @@
             @include('admin.dashboard.appointing_architect.dashboard',compact('appointing_architect_data'))
             @include('admin.dashboard.architect_layout.partials.architect_dashboard',compact('architect_data'))
         @endif
-        @if(session()->get('role_name')==config('commanConfig.land_manager'))
-            @include('admin.dashboard.architect_layout.partials.lm_dashboard',compact('architect_data'))
-        @endif
         @if(session()->get('role_name')==config('commanConfig.estate_manager'))
             @include('admin.dashboard.architect_layout.partials.em_dashboard',compact('architect_data'))
-        @endif
-        @if(in_array(session()->get('role_name'),array(config('commanConfig.co_engineer'))))
-            @include('admin.dashboard.architect_layout.partials.co_dashboard',compact('architect_data'))
         @endif
         @if(in_array(session()->get('role_name'),array(config('commanConfig.senior_architect_planner'))))
             @include('admin.dashboard.architect_layout.partials.sap_dashboard',compact('architect_data'))
