@@ -1004,6 +1004,14 @@ class conveyanceCommonController extends Controller
                 return $conveyanceDashboard;
             }
 
+            if($request->module_name == 'Society Conveyance Subordinate Pendency'){
+                $conveyanceCommonController = new conveyanceCommonController();
+
+                $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();
+
+                return $pendingApplications;
+            }
+
             if($request->module_name == 'Tripartite Agreement'){
 
                 $tripartite_dashboard = new TripartiteDashboardController();
@@ -1011,6 +1019,22 @@ class conveyanceCommonController extends Controller
                 return $data['dashboardData'][0];
 
             }
+
+            if($request->module_name == "Society Renewal"){
+                $renewal = new renewalCommonController();
+
+                $renewalDashboard    = $renewal->RenewalDashboard();
+                return $renewalDashboard;
+
+            }
+            if($request->module_name = "Society Renewal Subordinate Pendency"){
+                $renewal = new renewalCommonController();
+                $renewalPendingApplications = $renewal->getApplicationPendingAtDepartment();
+
+                return $renewalPendingApplications;
+
+            }
+
         }
     }
 

@@ -327,7 +327,12 @@ class DYCOPermissions extends Seeder
                 'name'=>'renewal.registered_renewal_agreement',
                 'display_name'=>'renewal registered renewal agreement',
                 'description'=>'renewal registered renewal agreement' 
-            ],                              
+            ],
+            [
+                'name'=>'dashboard.ajax.conveyance',
+                'display_name'=>'conveyance dashboard ajax',
+                'description'=>'conveyance dashboard ajax'
+            ],
         ];
 
         //dycdo
