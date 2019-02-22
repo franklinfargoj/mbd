@@ -365,7 +365,7 @@ class DYCOController extends Controller
     }       
 
     public function StampedDutySaleLeaseAgreement(Request $request,$applicationId){
-        
+       
         $applicationId = decrypt($applicationId);
         $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
         $Applicationtype = $data->sc_application_master_id;
@@ -402,7 +402,7 @@ class DYCOController extends Controller
         
         $data->StampSaleByJtco  = $this->common->getScAgreement($StampSaleId2,$applicationId,$Agreementstatus2);
         $data->StampLeaseByJtco = $this->common->getScAgreement($StampLeaseId2,$applicationId,$Agreementstatus2);        
-        $data->AgreementComments = ScAgreementComments::with('Roles')->where('application_id',$applicationId)->where('agreement_type_id',$Applicationtype)->whereNotNull('remark')->get();   
+        $data->AgreementComments = ScAgreementComments::with('Roles')->where('application_id',$applicationId)->where('agreement_type_id',$Applicationtype)->whereNotNull('remark')->get();  
 
         $data->folder = $this->common->getCurrentRoleFolderName(); 
         $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
@@ -461,13 +461,22 @@ class DYCOController extends Controller
         $StampLeaseId = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype,$Agreementstatus);
 
         $data->StampSaleAgreement  = $this->common->getScAgreement($StampSaleId,$applicationId,$Agreementstatus);
-        $data->StampLeaseAgreement = $this->common->getScAgreement($StampLeaseId,$applicationId,$Agreementstatus);        
+        $data->StampLeaseAgreement = $this->common->getScAgreement($StampLeaseId,$applicationId,$Agreementstatus); 
+
+         //get stamp sign agreement
+        $Agreementstatus3 = ApplicationStatusMaster::where('status_name','=','Stamped_Signed')->value('id');
+        $StampSaleId3  = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype,$Agreementstatus3);
+        $StampLeaseId3= $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype,$Agreementstatus);
+        
+        $data->StampSignSale  = $this->common->getScAgreement($StampSaleId3,$applicationId,$Agreementstatus3);
+        $data->StampSignLease = $this->common->getScAgreement($StampLeaseId3,$applicationId,$Agreementstatus3);     
 
         $data->AgreementComments = ScAgreementComments::with('Roles')->where('application_id',$applicationId)->where('agreement_type_id',$Applicationtype)->whereNotNull('remark')->get(); 
 
         $data->folder = $this->common->getCurrentRoleFolderName();
         $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
         $data->em_document = $this->common->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
+
 
         if ($is_view && $status->status_id == config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed')) {
             $route = 'admin.conveyance.dyco_department.stamp_sign_agreements';
