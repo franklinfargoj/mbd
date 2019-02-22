@@ -6,6 +6,7 @@ use App\Department;
 use App\Hearing;
 use App\HearingSchedule;
 use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
+use App\Http\Controllers\Tripartite\TripartiteDashboardController;
 use App\Role;
 use App\RtiDepartmentUser;
 use Illuminate\Http\Request;
@@ -1305,6 +1306,20 @@ class COController extends Controller
                 $data['Applications Pending at VP']    = $vp;
                 return $data;
 
+            }
+
+            if($request->module_name == 'Tripartite Agreement'){
+
+                $tripartite_dashboard = new TripartiteDashboardController();
+                $data = $tripartite_dashboard->getDashboardHeaders()->getData();
+                return $data['dashboardData'][0];
+
+            }
+
+            if($request->module_name == 'Tripartite Agreement Subordinate Pendency'){
+                $tripartite_dashboard = new TripartiteDashboardController();
+                $data = $tripartite_dashboard->getDashboardHeaders()->getData();
+                return $data['dashboardData_head'];
             }
         }
     }

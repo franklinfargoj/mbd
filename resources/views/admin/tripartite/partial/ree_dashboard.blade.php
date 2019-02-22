@@ -20,44 +20,6 @@
         </div>
     @endforeach
 </div>
-<!-- Model for send to society bifergation-->
-<div class="modal fade" id="tripartitereePendingModal" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Applications Pending</h4>
-            </div>
-            <div class="modal-body">
-                <div class="table-responsive">
-                    <table class="table text-center">
-                        <thead class="thead-default">
-                        <tr>
-                            <th>Header</th>
-                            <th>Count</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @if($tripartite_data['dashboardData'][1])
-                            @foreach($tripartite_data['dashboardData'][1]  as $header => $value)
-                                <tr>
-                                    <td> {{$header}} </td>
-                                    <td> {{$value}} </td>
-                                </tr>
-                            @endforeach
-                        @endif
-                        </tbody>
-                    </table>
-                </div>
-                <!-- <p>Some text in the modal.</p> -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 @if($chart_tripartite)
     <div id="tripartite_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
 @endif

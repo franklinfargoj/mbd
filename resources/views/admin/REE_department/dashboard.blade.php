@@ -1306,7 +1306,7 @@
                                 "fontSize" : 15,
                             } );
                         }
-                        $("#getCodeModal").modal('show');
+//                        $("#getCodeModal").modal('show');
 
                     }
                     else {
@@ -1417,7 +1417,7 @@
                                 "fontSize" : 15,
                             } );
                         }
-                        $("#getCodeModal").modal('show');
+//                        $("#getCodeModal").modal('show');
 
                     }
                     else {
