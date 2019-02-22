@@ -304,8 +304,47 @@
         </div>
     </div>
 
+    <!-- Modal for send to society bifergation-->
+    <div class="modal fade" id="tripartitereePendingModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Applications Pending</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table text-center">
+                            <thead class="thead-default">
+                            <tr>
+                                <th>Header</th>
+                                <th>Count</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if($tripartite_data['dashboardData'][1])
+                                @foreach($tripartite_data['dashboardData'][1]  as $header => $value)
+                                    <tr>
+                                        <td> {{$header}} </td>
+                                        <td> {{$value}} </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- <p>Some text in the modal.</p> -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <!-- Modal -->
+
+    <!-- Modal for count table and pie chart popup -->
     <div class="modal fade" id="getCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" style=" width: 150%;
   height: 160%;
@@ -628,7 +667,7 @@
 
                             if(data[1] == "pending"){
 
-                                html += "<a href=\""+reval_application+"/"+data[1]+"\"class=\"btn btn-action\" data-toggle=\"modal\"\n" +
+                                html += "<a href=\"#reeRevalPendingModal\" data-dismiss=\"modal\"class=\"btn btn-action\" data-toggle=\"modal\"\n" +
                                     "             data-target=\"#reeRevalPendingModal\">View</a>";
                             }
                             else{
@@ -1208,8 +1247,8 @@
 
                             if(data[1] == "pending"){
 
-                                html += "<a href=\""+baseUrl+redirect_to+"/"+data[1]+"\"class=\"btn btn-action\" data-toggle=\"modal\"\n" +
-                                    "             data-target=\"#reeRevalPendingModal\">View</a>";
+                                html += "<a href=\"#tripartitereePendingModal\" data-dismiss=\"modal\"class=\"btn btn-action\" data-toggle=\"modal\"\n" +
+                                    "             data-target=\"#tripartitereePendingModal\">View</a>";
                             }
                             else{
                                 html+= "<a href=\""+tripartite_application+data[1]+"\"class=\"btn btn-action\">View</a>\n";
