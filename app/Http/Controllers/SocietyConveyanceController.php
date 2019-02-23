@@ -308,7 +308,7 @@ class SocietyConveyanceController extends Controller
         $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->value('id');
         $uploaded_stamped_application_id = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.stamp_conveyance_application'), $application_type);
         $uploaded_stamped_application_ids = $documents_uploaded->pluck('document_path', 'document_id');
-        $uploaded_stamped_application = $uploaded_stamped_application_ids->toArray()[$uploaded_stamped_application_id];
+        $uploaded_stamped_application = isset($uploaded_stamped_application_ids->toArray()[$uploaded_stamped_application_id])?$uploaded_stamped_application_ids->toArray()[$uploaded_stamped_application_id]:"";
 
         return view('frontend.society.conveyance.show_sc_application', compact('sc_application', 'uploaded_stamped_application', 'documents', 'documents_uploaded', 'master_tenant_type', 'issued_noc'));
     }
@@ -500,7 +500,7 @@ class SocietyConveyanceController extends Controller
         $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->value('id');
         $uploaded_stamped_application_id = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.stamp_conveyance_application'), $application_type);
         $uploaded_stamped_application_ids = $documents_uploaded->pluck('document_path', 'document_id');
-        $uploaded_stamped_application = $uploaded_stamped_application_ids->toArray()[$uploaded_stamped_application_id];
+        $uploaded_stamped_application = isset($uploaded_stamped_application_ids->toArray()[$uploaded_stamped_application_id])?$uploaded_stamped_application_ids->toArray()[$uploaded_stamped_application_id]:"";
 
         return view('frontend.society.conveyance.show_doc_bank_details', compact('documents', 'uploaded_stamped_application', 'sc_application', 'society', 'documents_uploaded', 'sc_bank_details_fields', 'comm_func', 'society_bank_details', 'issued_noc'));
     }
