@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Mpdf\Mpdf;
 use Storage;
 use Yajra\DataTables\DataTables;
+use App\LayoutUser;
 
 class TripartiteController extends Controller
 {
@@ -459,9 +460,9 @@ class TripartiteController extends Controller
         if ($result) {
             $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
             $layout_ids = array_column($layout_id_array, 'layout_id');
-            $parent = User::with(['roles', 'LayoutUser' => function ($q) {
+            $parent = User::with(['roles', 'LayoutUser' => function ($q) use($layout_ids){
                 $q->whereIn('layout_id', $layout_ids);
-            }])->whereHas('LayoutUser', function ($q) {
+            }])->whereHas('LayoutUser', function ($q)  use($layout_ids){
                     $q->whereIn('layout_id', $layout_ids);
                 })->whereIn('role_id', $result)->get();
         }
