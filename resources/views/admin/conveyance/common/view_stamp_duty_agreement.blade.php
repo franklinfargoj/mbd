@@ -76,6 +76,7 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
+
                                                 @if(isset($data->StampSaleByJtco->document_path) && 
                                                 (session()->get('role_name') == config('commanConfig.joint_co') || session()->get('role_name') == config('commanConfig.co_engineer')))
 

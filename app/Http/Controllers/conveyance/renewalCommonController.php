@@ -493,24 +493,44 @@ class renewalCommonController extends Controller
         $data->folder = $this->conveyance->getCurrentRoleFolderName();
         $data->status = $this->getCurrentStatus($applicationId,$data->application_master_id);
 
-         // scrutiny logs       
-        // $societyLogs   = $this->getLogsOfSociety($applicationId,$data->application_master_id);
-        // $dycoLogs      = $this->getLogsOfDYCODepartment($applicationId,$data->application_master_id);
-        // $eelogs        = $this->getLogsOfEEDepartment($applicationId,$data->application_master_id);
-        // $emlogs        = $this->getLogsOfEMDepartment($applicationId,$data->application_master_id);
-        // $Architectlogs = $this->getLogsOfArchitectDepartment($applicationId,$data->application_master_id);
-        // $cologs        = $this->getLogsOfCODepartment($applicationId,$data->application_master_id);
-
         $remarkHistory = $this->getRemarkHistory($applicationId,$data->application_master_id);
+
     if (session()->get('role_name') == config('commanConfig.dyco_engineer') || session()->get('role_name') == config('commanConfig.dycdo_engineer')){
 
             $route = 'admin.renewal.dyco_department.forward_application';
         }     
         else{
         $route = 'admin.renewal.common.forward_application';
-      }    
-                  
-        return view($route,compact('data','remarkHistory'));         
+    }
+
+        //condition on child and parent only for dyco
+        $parentData = $childData = [];
+        $roleName = array(config('commanConfig.ee_junior_engineer'),config('commanConfig.estate_manager'),config('commanConfig.junior_architect'));
+        $roleIds = Role::whereIn('name',$roleName)->pluck('id')->toArray();
+        if (count($data->parent) > 0){
+            foreach($data->parent as $parent){
+                if (session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id == config('commanConfig.conveyance_status.in_process')){
+
+                    if (in_array($parent->role_id,$roleIds)){
+                        $parentData [] = $parent;
+                    }
+                }else{
+                   if (!in_array($parent->role_id,$roleIds)){
+                        $parentData [] = $parent;
+                    } 
+                }    
+            }
+        }
+
+        if (count($data->child) > 0 && session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id == config('commanConfig.conveyance_status.in_process')) {
+            foreach($data->child as $child){
+               if (!(in_array($child->role_id,$roleIds))){
+                    $childData [] = $child;
+                } 
+            }    
+        }    
+
+        return view($route,compact('data','remarkHistory','childData','parentData'));         
     } 
 
     public function getRemarkHistory($applicationId,$masterId)

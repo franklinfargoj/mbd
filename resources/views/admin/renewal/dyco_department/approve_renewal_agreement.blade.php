@@ -9,7 +9,7 @@
     {{ session()->get('success') }}
 </div>
 @endif
- 
+
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
          <div class="m-subheader px-0 m-subheader--top">
@@ -33,7 +33,9 @@
     </div>
 
 @php
-    if(isset($data->DraftSignAgreement->document_path))
+    if(isset($data->approveAgreement->document_path) && ($data->status->status_id == config('commanConfig.renewal_status.forwarded') || $data->status->status_id == config('commanConfig.renewal_status.reverted')))
+        $document = $data->approveAgreement->document_path; 
+    else if(isset($data->DraftSignAgreement->document_path))
         $document = $data->DraftSignAgreement->document_path;    
     else if(isset($data->renewalAgreement->document_path))
         $document = $data->renewalAgreement->document_path;
@@ -85,7 +87,13 @@
                                                     <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload1">
                                                 
                                                         <label class="custom-file-label" for="test-upload1">Choose
-                                                        file...</label>   
+                                                        file...</label>
+
+                                                    @if(isset($data->approveAgreement->document_path) && 
+                                                    (session()->get('role_name') == config('commanConfig.dycdo_engineer')))
+
+                                                    <a href="{{ config('commanConfig.storage_server').'/'.$data->approveAgreement->document_path }}" target="_blank" class="btn-link">Download </a> 
+                                                    @endif        
                                                 </div>
                                         </div>
                                     </div>
