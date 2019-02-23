@@ -33,9 +33,7 @@
     </div>
 
 @php
-    if(isset($data->approveAgreement->document_path) && ($data->status->status_id == config('commanConfig.renewal_status.forwarded') || $data->status->status_id == config('commanConfig.renewal_status.reverted')))
-        $document = $data->approveAgreement->document_path; 
-    else if(isset($data->DraftSignAgreement->document_path))
+    if(isset($data->DraftSignAgreement->document_path))
         $document = $data->DraftSignAgreement->document_path;    
     else if(isset($data->renewalAgreement->document_path))
         $document = $data->renewalAgreement->document_path;
@@ -138,8 +136,10 @@
                                     <h5>Download</h5>
                                     <span class="hint-text">Click to Download Stamp Duty Letter </span>
                                     <div class="mt-auto">
-                                        @if(isset($data->draftStampLetter->document_path))
-                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->draftStampLetter->document_path }}" class="btn btn-primary" target="_blank">Download </a>                                
+                                        @if(isset($data->StampLetter->document_path))
+                                            <a href="{{ config('commanConfig.storage_server').'/'.$data->StampLetter->document_path }}" class="btn btn-primary" target="_blank">Download </a>
+                                        @elseif(isset($data->draftStampLetter->document_path))
+                                         <a href="{{ config('commanConfig.storage_server').'/'.$data->draftStampLetter->document_path }}" class="btn btn-primary" target="_blank">Download </a>                                
                                         @else
                                         <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
                                             *Note : Stamp Duty Letter is not available.</span>

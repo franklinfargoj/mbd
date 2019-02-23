@@ -73,7 +73,13 @@
                                                     <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload1">
                                                 
                                                         <label class="custom-file-label" for="test-upload1">Choose
-                                                        file...</label>   
+                                                        file...</label>  
+
+                                                        @if(isset($data->StampByDycdoAgreement->document_path) && 
+                                                            (session()->get('role_name') == config('commanConfig.dycdo_engineer')))
+
+                                                            <a href="{{ config('commanConfig.storage_server').'/'.$data->StampByDycdoAgreement->document_path }}" target="_blank" class="btn-link">Download </a> 
+                                                        @endif 
                                                 </div>
                                         </div>
                                     </div>
