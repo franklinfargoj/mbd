@@ -485,14 +485,14 @@ class SocietyConveyanceController extends Controller
         $society_bank_details = SocietyBankDetails::where('society_id', $society->id)->first();
         //dd($society_bank_details);
         $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
-        $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
+        $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->where('society_flag', '1')->get();
         $sc_bank_details = new SocietyBankDetails;
         $sc_bank_details_fields_name = $sc_bank_details->getFillable();
         $sc_bank_details_fields_name = array_flip($sc_bank_details_fields_name);
         unset($sc_bank_details_fields_name['society_id']);
         $sc_bank_details_fields = array_values(array_flip($sc_bank_details_fields_name));
         $comm_func = $this->CommonController;
-
+//        dd($documents_uploaded);
         $noc = config('commanConfig.scAgreements.conveynace_uploaded_NOC');
         $nocId = $this->conveyance_common->getScAgreementId($noc, $sc_application->sc_application_master_id);
         $issued_noc = $this->conveyance_common->getScAgreement($nocId, $sc_application->id, NULL);
@@ -681,6 +681,9 @@ class SocietyConveyanceController extends Controller
         $sc_application = scApplication::with(['sc_form_request' => function($q){
             $q->with('scheme_names');
         }, 'societyApplication', 'applicationLayout'])->where('society_id', $society->id)->first();
+
+        $society_bank_details = SocietyBankDetails::where('society_id', $society->id)->first();
+        $sc_application->society_bank_details = $society_bank_details;
 
         $mpdf = new Mpdf();
         $mpdf->autoScriptToLang = true;
