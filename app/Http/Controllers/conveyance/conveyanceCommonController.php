@@ -620,7 +620,7 @@ class conveyanceCommonController extends Controller
 
     //common forward page for DYCO dept, Architect 
     public function commonForward(Request $request,$applicationId){ 
-      
+        
       $applicationId = decrypt($applicationId);  
       $data          = $this->getForwardApplicationData($applicationId);
       $data->folder  = $this->getCurrentRoleFolderName(); 
@@ -663,15 +663,36 @@ class conveyanceCommonController extends Controller
                 }    
             }
         }
-        if ($data->child!="" && session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id == config('commanConfig.conveyance_status.in_process')) {
+        if (count($data->child) > 0 && session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id == config('commanConfig.conveyance_status.in_process')) {
             foreach($data->child as $child){
-                   if (!(in_array($child->role_id,$roleIds))){
-                        $childData [] = $child;
+               if (!(in_array($child->role_id,$roleIds))){
+                    $childData [] = $child;
+                } 
+            }    
+        }
+
+        //condition on parent only for EE head
+
+        $jrAr = config('commanConfig.junior_architect');
+        $dycdo = config('commanConfig.dycdo_engineer');
+        $jrArRole = Role::where('name',$jrAr)->value('id');
+        $dycdoRole = Role::where('name',$dycdo)->value('id');
+
+        if (count($data->parent) > 0){
+            foreach($data->parent as $parent){
+                if (session()->get('role_name') == config('commanConfig.ee_branch_head') && isset($data->conveyance_map)){
+
+                    if ($parent->role_id == $dycdoRole){
+                        $eeParentData [] = $parent;
+                    }
+                }else{
+                   if ($parent->role_id == $jrArRole){
+                        $eeParentData [] = $parent;
                     } 
                 }    
             }
-
-      return view($route,compact('data','remarkHistory','parentData','childData'));          
+        }
+      return view($route,compact('data','remarkHistory','parentData','childData','eeParentData'));          
     }
 
     public function getRemarkHistory($applicationId,$masterId)
