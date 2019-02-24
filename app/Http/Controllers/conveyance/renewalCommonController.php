@@ -522,7 +522,7 @@ class renewalCommonController extends Controller
             }
         }
 
-        if (count($data->child) > 0 && session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id == config('commanConfig.conveyance_status.in_process')) {
+        if ($data->child!="" && session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id == config('commanConfig.conveyance_status.in_process')) {
             foreach($data->child as $child){
                if (!(in_array($child->role_id,$roleIds))){
                     $childData [] = $child;
