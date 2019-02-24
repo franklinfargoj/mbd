@@ -22,6 +22,7 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
         </span>
     </a>
 </li>
+
 <li id="ree-actions" class="collapse show">
     <ul class="list-unstyled">
         @if($status == config('commanConfig.applicationStatus.pending') || $status == config('commanConfig.applicationStatus.reverted') || $status == config('commanConfig.applicationStatus.approved_tripartite_agreement'))
@@ -34,6 +35,8 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
                     <span class="m-menu__link-text">View Application</span>
                 </a>
             </li>
+        @if(isset($applicationCount) && $applicationCount <= 0)
+
             @if($ol_applications->current_status_id != config('commanConfig.applicationStatus.draft_tripartite_agreement') && $ol_applications->current_status_id != config('commanConfig.applicationStatus.approved_tripartite_agreement'))
                 <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='tripartite_application_form_edit')?'m-menu__item--active':''}}">
                     <a class="m-menu__link m-menu__toggle" title="Edit Application" href="{{ route('tripartite_application_form_edit', encrypt($ol_applications->id)) }}">
@@ -77,6 +80,7 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
                 </li>
             @endif
         @endif
+    @endif
         @if($status == '2')
             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='tripartite_application_form_preview')?'m-menu__item--active':''}}">
                 <a class="m-menu__link m-menu__toggle" title="View Application" href="{{ route('tripartite_application_form_preview', encrypt($ol_applications->id)) }}">
