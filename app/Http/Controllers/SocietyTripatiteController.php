@@ -22,6 +22,7 @@ use App\OlApplicationMaster;
 use File;
 use Storage;
 use Mpdf\Mpdf;
+use Auth;
 
 class SocietyTripatiteController extends Controller
 {
@@ -50,7 +51,13 @@ class SocietyTripatiteController extends Controller
         $layouts = MasterLayout::all();
         $comm_func = $this->CommonController;
 
-        return view('frontend.society.tripatite.show_tripatite_self', compact('society_details', 'id', 'ids', 'layouts', 'form_fields', 'layouts', 'comm_func'));
+        $data = OlApplication::where('user_id', auth()->user()->id)->where('application_master_id',$id)->with(['request_form', 'ol_application_master', 'applicationMasterLayout'])->orderBy('id','desc')->first();
+
+        if (isset($data)){
+            return redirect()->route('tripartite_application_form_edit',encrypt($data->id));
+        }else{
+            return view('frontend.society.tripatite.show_tripatite_self', compact('society_details', 'id', 'ids', 'layouts', 'form_fields', 'layouts', 'comm_func'));   
+        }        
     }
 
     /**
@@ -199,7 +206,13 @@ class SocietyTripatiteController extends Controller
         $layouts = MasterLayout::all();
         $comm_func = $this->CommonController;
 
-        return view('frontend.society.tripatite.show_tripatite_dev', compact('society_details', 'id', 'ids', 'layouts', 'form_fields', 'layouts', 'comm_func'));
+        $data = OlApplication::where('user_id', auth()->user()->id)->where('application_master_id',$id)->with(['request_form', 'ol_application_master', 'applicationMasterLayout'])->orderBy('id','desc')->first();
+
+        if (isset($data)){
+            return redirect()->route('tripartite_application_form_edit',encrypt($data->id));
+        }else{
+            return view('frontend.society.tripatite.show_tripatite_dev', compact('society_details', 'id', 'ids', 'layouts', 'form_fields', 'layouts', 'comm_func'));  
+        }        
     }
 
     /**
@@ -262,8 +275,9 @@ class SocietyTripatiteController extends Controller
         $ol_applications = OlApplication::where('id', $id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->first();
+        $applicationCount = $this->getForwardedApplication();
 
-        return view('frontend.society.tripatite.tripartite_application_form_preview', compact('ol_applications', 'society_details', 'id'));
+        return view('frontend.society.tripatite.tripartite_application_form_preview', compact('ol_applications', 'society_details', 'id','applicationCount'));
     }
 
     /**
@@ -272,7 +286,7 @@ class SocietyTripatiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function display_tripartite_docs($id){
-        // dd($id);
+
         $id = decrypt($id);
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
@@ -331,12 +345,14 @@ class SocietyTripatiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function upload_tripartite_docs(Request $request){
-//        dd($request->all());
+       // dd($request->all());
+       $applicationId = $request->application_id;
         $uploadPath = '/uploads/society_tripartite_agreement_documents';
         $destinationPath = public_path($uploadPath);
 
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
-        $application = OlApplication::where('society_id', $society->id)->first();
+        $application = OlApplication::where('id',$applicationId)->where('society_id', $society->id)
+        ->first();
 
         $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('is_admin', 0)->with(['documents_uploaded' => function($q) use ($society){
             $q->where('society_id', $society->id)->get();
@@ -385,6 +401,7 @@ class SocietyTripatiteController extends Controller
         );
         $input = array(
             'society_id' => $society->id,
+            'application_id' => $applicationId,
             'document_id' => $request->input('document_id'),
             'society_document_path' => $path,
         );
@@ -596,6 +613,20 @@ class SocietyTripatiteController extends Controller
             }
         }
         return redirect()->route('society_offer_letter_dashboard');
+    }
+
+    public function getForwardedApplication(){
+
+        $forward = config('commanConfig.applicationStatus.forwarded');
+        $masterIds = OlApplicationMaster::where('title','Tripartite Agreement')->pluck('id')->toArray();
+        $count = OlApplication::where('user_id', Auth::user()->id)
+        ->whereIn('application_master_id',$masterIds)->with(['olApplicationStatus' => function($q) use($forward){
+                $q->where('status_id',$forward)->orderBy('id','desc');
+        }])->whereHas('olApplicationStatus', function($q) use($forward){
+            $q->where('status_id',$forward)->orderBy('id','desc');
+        })->count();
+
+        return $count;
     }
 
 }

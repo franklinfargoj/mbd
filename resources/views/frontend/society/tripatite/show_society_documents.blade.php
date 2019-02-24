@@ -117,6 +117,7 @@
                                                 <form action="{{ route('upload_tripartite_docs') }}" method="post" enctype='multipart/form-data'
                                                       id="upload_documents_form_{{ $document->id }}">
                                                     @csrf
+                                                     <input type="hidden" name="application_id" value="{{ $ol_applications->id }}">
                                                     <div class="custom-file @if(session('error_'.$document->id)) has-error @endif">
                                                         <input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}"
                                                                required>
