@@ -52,7 +52,7 @@ $status = $sc_application->scApplicationLog->status_id;
                     <span class="m-menu__link-text">Upload Documents</span>
                 </a>
             </li>
-            @if(count($documents) == count($documents_uploaded))
+            @if($documents_count == $documents_uploaded_count)
                 <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='sc_form_upload_show')?'m-menu__item--active':''}}">
                     <a class="m-menu__link m-menu__toggle" title="Upload Signed Application for Conveyance" href="{{ route('sc_form_upload_show') }}">
                         <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">

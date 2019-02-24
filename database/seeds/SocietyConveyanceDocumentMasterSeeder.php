@@ -50,7 +50,8 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
                 'document_name'       => 'other',
                 'application_type_id' => $conveyanceId,
                 'society_flag'        => '1',
-                'language_id'         => $mLanguage
+                'language_id'         => $mLanguage,
+                'is_optional'       => '1'
             ],
             [
                 'document_name'       => 'Sale Deed Agreement',
