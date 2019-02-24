@@ -795,8 +795,11 @@ class SocietyConveyanceController extends Controller
         $noc = config('commanConfig.scAgreements.conveynace_uploaded_NOC');
         $nocId = $this->conveyance_common->getScAgreementId($noc, $sc_application->sc_application_master_id);
         $issued_noc = $this->conveyance_common->getScAgreement($nocId, $sc_application->id, NULL);
+        $uploaded_stamped_application_id = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.stamp_conveyance_application'), $application_type);        
+        $uploaded_stamped_application_ids = $documents_uploaded->pluck('document_path', 'document_id');
+        $uploaded_stamped_application = isset($uploaded_stamped_application_ids->toArray()[$uploaded_stamped_application_id])?$uploaded_stamped_application_ids->toArray()[$uploaded_stamped_application_id]:"";
 
-        return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application', 'document_lease', 'documents', 'uploaded_document_ids', 'documents_remaining_ids', 'sc_agreement_comment', 'documents_uploaded', 'issued_noc'));
+        return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application', 'document_lease', 'documents', 'uploaded_document_ids', 'documents_remaining_ids', 'sc_agreement_comment', 'documents_uploaded', 'issued_noc','uploaded_stamped_application_id','uploaded_stamped_application'));
     }
 
     /**
@@ -871,7 +874,7 @@ class SocietyConveyanceController extends Controller
         $noc = config('commanConfig.scAgreements.conveynace_uploaded_NOC');
         $nocId = $this->conveyance_common->getScAgreementId($noc, $sc_application->sc_application_master_id);
         $issued_noc = $this->conveyance_common->getScAgreement($nocId, $sc_application->id, NULL);
-
+        
         return view('frontend.society.conveyance.signed_sale_lease_deed', compact('sc_application', 'society_flag','status', 'sale_agreement_type_id', 'lease_agreement_type_id', 'field_names', 'comm_func', 'documents', 'documents_uploaded', 'sc_registrar_details', 'sale_deed_agreement', 'lease_deed_agreement', 'issued_noc'));
     }
 
