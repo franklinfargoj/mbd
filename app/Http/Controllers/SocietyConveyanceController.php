@@ -844,6 +844,9 @@ class SocietyConveyanceController extends Controller
         $noc = config('commanConfig.scAgreements.conveynace_uploaded_NOC');
         $nocId = $this->conveyance_common->getScAgreementId($noc, $sc_application->sc_application_master_id);
         $issued_noc = $this->conveyance_common->getScAgreement($nocId, $sc_application->id, NULL);
+        $uploaded_stamped_application_id = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.stamp_conveyance_application'), $application_type);        
+        $uploaded_stamped_application_ids = $documents_uploaded->pluck('document_path', 'document_id');
+        $uploaded_stamped_application = isset($uploaded_stamped_application_ids->toArray()[$uploaded_stamped_application_id])?$uploaded_stamped_application_ids->toArray()[$uploaded_stamped_application_id]:"";
 
         $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->value('id');
         $uploaded_stamped_application_id = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.stamp_conveyance_application'), $application_type);
