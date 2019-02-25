@@ -15,5 +15,6 @@ class RenewalDocumentStatus extends Model
         'status_id',
         'document_id',
         'document_path',
+        'other_document_name',
     ];
 }
