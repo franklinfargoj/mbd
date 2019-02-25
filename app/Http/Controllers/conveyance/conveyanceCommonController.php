@@ -915,6 +915,7 @@ class conveyanceCommonController extends Controller
 
         $data->folder = $this->getCurrentRoleFolderName();
         $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
+        $data->em_document = $this->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
 
         if ($is_view && $data->status->status_id == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed')) {
             $route = 'admin.conveyance.co_department.draft_sign_sale_lease';
