@@ -99,7 +99,12 @@
                                 <h5>Download</h5>
                                 <span class="hint-text">Click to Download Stamp Duty Letter </span>
                                 <div class="mt-auto">
-                                    @if(isset($data->draftStampLetter->document_path))
+                                    @if(isset($data->StampLetter->document_path) && 
+                                        (session()->get('role_name') == config('commanConfig.dyco_engineer')) && ($data->status->status_id != config('commanConfig.renewal_status.forwarded') || $data->status->status_id != config('commanConfig.renewal_status.reverted')))
+
+                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->StampLetter->document_path }}" target="_blank" class="btn btn-primary">Download </a>
+
+                                    @elseif(isset($data->draftStampLetter->document_path))
                                     <a href="{{ config('commanConfig.storage_server').'/'.$data->draftStampLetter->document_path }}" class="btn btn-primary" target="_blank">Download </a>                                
                                     @else
                                     <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
@@ -122,8 +127,14 @@
                                         <input class="custom-file-input" name="stamp_letter" type="file" id="test-upload1">
                                             <label class="custom-file-label" for="test-upload1">Choose
                                             file...</label> 
+
+                                             @if(isset($data->StampLetter->document_path) && 
+                                                (session()->get('role_name') == config('commanConfig.dyco_engineer')))
+
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampLetter->document_path }}" target="_blank" class="btn-link">Download </a> 
+                                            @endif 
                                     </div>
-                                    <div class="mt-auto">
+                                    <div class="mt-3">
                                         <button type="submit" class="btn btn-primary" style="display:block">
                                         Upload</button> 
                                     </div>         

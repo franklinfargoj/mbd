@@ -65,7 +65,7 @@
                 </div>
             </div>
         </div>
- 
+        
         @if((isset($applicationCount) && $applicationCount <= 0) && ($ol_application->olApplicationStatus[0]->status_id == '3' || $ol_application->olApplicationStatus[0]->status_id == '4'))
 
             <div class="m-login__form-action mt-4 mb-4">

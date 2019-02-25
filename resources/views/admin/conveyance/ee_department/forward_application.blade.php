@@ -208,8 +208,14 @@
                                                 </label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
                                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_user" name="to_user_id[]">
+
+                                                        @if(count($eeParentData) > 0 && session()->get('role_name') == config('commanConfig.ee_branch_head'))
+
+                                                            @foreach($eeParentData as $parent)
+                                                                <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $parent->roles[0]->display_name }})</option>
+                                                            @endforeach
                                                         
-                                                        @if($data->parent)
+                                                        @elseif($data->parent)
                                                             @foreach($data->parent as $parent)
                                                                 <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $parent->roles[0]->display_name }})</option>
                                                             @endforeach

@@ -70,7 +70,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if($ol_applications->olApplicationStatus[0]->status_id == config('commanConfig.applicationStatus.pending') && $ol_applications->current_status_id != config('commanConfig.applicationStatus.draft_tripartite_agreement'))
+                                    @if((isset($applicationCount) && $applicationCount <= 0) && $ol_applications->olApplicationStatus[0]->status_id == config('commanConfig.applicationStatus.pending') && $ol_applications->current_status_id != config('commanConfig.applicationStatus.draft_tripartite_agreement'))
                                         <a href="{{ route('tripartite_application_form_edit', $ol_applications->id) }}" class="btn btn-primary">
                                             Back
                                         </a>

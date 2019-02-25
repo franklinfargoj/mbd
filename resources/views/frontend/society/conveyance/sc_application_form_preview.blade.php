@@ -133,6 +133,32 @@
                                     <span style="font-weight: bold;"> &nbsp; {{ $sc_application->societyApplication->address }} &nbsp; </span>
                                 </div>
                             </div>
+                            {{--<div style="margin-bottom: 5px;"><br/>--}}
+                                {{--<span style="font-weight: bold;font-size: 1em">Bank Details :</span>--}}
+                                {{--<div style="font-size: 16px;">--}}
+                                    {{--<p style="margin-bottom: 10px;">Account No:</p>--}}
+                                    {{--<span style="font-weight: bold;"> &nbsp; {{ $sc_application->society_bank_details->account_no }} &nbsp; </span>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        <span style="font-weight: bold;font-size: 1.2em">Bank Details :</span>
+                            <div style="width: 50%; float: left; margin-bottom: -2px;margin-top: 2px">
+                                <label  for="">Account No:</label>
+                                <span style="font-weight: bold;"> &nbsp; {{ $sc_application->society_bank_details->account_no }} &nbsp; </span>
+                            </div>
+                            <div style="width: 50%; float: left; margin-bottom: -2px;margin-top: -1px">
+                                <label  for="">Ifsc Code:</label>
+                                <span style="font-weight: bold;"> &nbsp; {{ $sc_application->society_bank_details->ifsc_code }} &nbsp; </span>
+                            </div>
+                            <div style="width: 50%; float: left; margin-bottom: -2px;margin-top: 2px">
+                                <label  for="">Bank Name:</label>
+                                <span style="font-weight: bold;"> &nbsp; {{ $sc_application->society_bank_details->bank_name }} &nbsp; </span>
+                            </div>
+                            {{--<div style="margin-bottom: 5px;">--}}
+                                {{--<div style="font-size: 16px;">--}}
+                                    {{--<p style="margin-bottom: 10px;">Bank Name:</p>--}}
+                                    {{--<span style="font-weight: bold;"> &nbsp; {{ $sc_application->society_bank_details->bank_name }} &nbsp; </span>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
                         </div>
                     </div>
                     <div style="width: 100%;">
@@ -140,10 +166,10 @@
                         <div style="width: 20%; font-size: 16px; float: right; text-align: center;">
                             <p style="font-size: 16px;" >आपला विश्वासू,</p>
                             <p style="font-size: 16px;" >
-                                <span >अध्यक्ष <span style="font-weight: bold;"> &nbsp; test &nbsp;</span></span>
+                                <span >अध्यक्ष <span style="font-weight: bold;"> &nbsp;{{ $sc_application->societyApplication->chairman_name }} &nbsp;</span></span>
                             </p>
                             <p style="font-size: 16px;" >
-                                <span >सचिव <span style="font-weight: bold;"> &nbsp; test &nbsp;</span></span>
+                                <span >सचिव <span style="font-weight: bold;"> &nbsp; {{ $sc_application->societyApplication->secretary_name }} &nbsp;</span></span>
                             </p>
                         </div>
                     </div>

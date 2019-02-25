@@ -210,13 +210,21 @@
                                                     Forward To:
                                                 </label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
-                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_user" name="to_user_id[]" {{(session()->get('role_name') == config('commanConfig.dyco_engineer')) ? 'multiple' : '' }}>
-                                                         
-                                                        @if($data->parent)
+                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_user" value="" name="to_user_id[]" {{(count($parentData) > 1 && session()->get('role_name') == config('commanConfig.dyco_engineer')) ? 'multiple' : '' }}>
+
+                                                        @if(count($parentData) > 0 && session()->get('role_name') == config('commanConfig.dyco_engineer'))
+
+                                                        @foreach($parentData as $parent)
+                                                            <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $parent->roles[0]->display_name }})</option>
+                                                        @endforeach
+
+                                                        @elseif($data->parent)
                                                             @foreach($data->parent as $parent)
                                                                 <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $parent->roles[0]->display_name }})</option>
                                                             @endforeach
-                                                        @endif
+                                                        @endif    
+                                                         
+                                                        
                                                     </select> 
                                                     <span class="error" style="display: none;color: #ce2323;margin-bottom: 17px;"> * Required</span>
                                                 </div>                                                 
@@ -229,11 +237,19 @@
                                                 </label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
                                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_child_id" name="to_child_id[]">
+
+                                                        @if(count($childData) > 0 && session()->get('role_name') == config('commanConfig.dyco_engineer'))
+
+                                                        @foreach($childData as $child)
+                                                            <option value="{{ $child->id}}" data-role="{{ $child->role_id }}">{{ $child->name }} ({{ $child->roles[0]->display_name }})</option>
+                                                        @endforeach
                                                         
+                                                        @elseif(isset($data->child))
                                                             @foreach($data->child as $child)
                                                                 <option value="{{ $child->id }}" data-society="{{ ($child->role_id == $data->society_role_id) ? 1 : 0 }}"
                                                                 data-role="{{ $child->role_id }}">{{ $child->name }} ({{ $child->roles[0]->display_name }}) </option>
                                                             @endforeach
+                                                        @endif    
                                                         
                                                     </select>
                                                 </div>
@@ -286,6 +302,7 @@
             var data = $(".check_status").val();
             if (data == 1) {
                 var id = $("#to_user").find('option:selected').attr("data-role");
+                
                 if (id != undefined){
                     $(".error").css("display","none");
                     var user_id = $("#to_user").find('option:selected').attr("value");
@@ -301,8 +318,6 @@
                 $("#society_flag").val(society_flag);
                 var user_id = $("#to_child_id").find('option:selected').attr("value");
             }
-            // 
-
             $("#to_role_id").val(id);
             // $("#to_user_id").val(user_id);
         });

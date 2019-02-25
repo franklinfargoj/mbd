@@ -11,8 +11,10 @@
 @endif
 
 @php
+    if(isset($data->StampSignByDycdo->document_path) && ($data->status->status_id == config('commanConfig.renewal_status.forwarded') || $data->status->status_id == config('commanConfig.renewal_status.reverted')))
 
-    if(isset($data->StampSignAgreement->document_path))
+        $document = $data->StampSignByDycdo->document_path; 
+    else if(isset($data->StampSignAgreement->document_path))
         $document = $data->StampSignAgreement->document_path; 
     else if(isset($data->StampByDycdoAgreement->document_path))
         $document = $data->StampByDycdoAgreement->document_path;    
@@ -64,7 +66,10 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Lease deed agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($document))
+                                                @if(isset($data->StampSignByDycdo->document_path) && session()->get('role_name') == config('commanConfig.dyco_engineer'))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampSignByDycdo->document_path }}" target="_blank" class="s_btn btn btn-primary">Download </a>
+                                                </a>
+                                                @elseif(isset($document))
                                                 <a href="{{ config('commanConfig.storage_server').'/'.$document }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
@@ -86,7 +91,13 @@
                                                     <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload1">
                                                 
                                                         <label class="custom-file-label" for="test-upload1">Choose
-                                                        file...</label>   
+                                                        file...</label> 
+
+                                                        @if(isset($data->StampSignByDycdo->document_path) && 
+                                                            (session()->get('role_name') == config('commanConfig.dycdo_engineer')))
+
+                                                            <a href="{{ config('commanConfig.storage_server').'/'.$data->StampSignByDycdo->document_path }}" target="_blank" class="btn-link">Download </a>  
+                                                        @endif  
                                                 </div>
                                         </div>
                                     </div>

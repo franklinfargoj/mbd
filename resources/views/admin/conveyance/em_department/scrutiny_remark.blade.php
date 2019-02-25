@@ -211,6 +211,11 @@
 
                 <div class="m-portlet m-portlet--mobile m_panel">
                     <div class="m-portlet__body" style="padding-right: 0;">
+                        @if (session('success'))
+                            <div class="alert alert-success society_registered">
+                                <div class="text-center">{{ session('success') }}</div>
+                            </div>
+                        @endif
                             <h3 class="section-title section-title--small mb-0">Generate No dues certificate:</h3>
                             <div class=" row-list">
                                 <div class="row">
@@ -278,6 +283,9 @@
                                                         file...</label>
                                                     <span class="text-danger" id="file_error"></span>
                                                     <input type="hidden" id="applicationId" name="applicationId" value="{{ $data->id }}">
+                                                    @if($no_dues_certificate_docs['uploaded_no_dues_certificate']->sc_document_status !=null )
+                                                        <a href="{{ config('commanConfig.storage_server').'/'.$no_dues_certificate_docs['uploaded_no_dues_certificate']->sc_document_status->document_path }}" target="_blank" rel="noopener">Uploaded No Dues Certificate</a>
+                                                    @endif
                                                 </div>
                                                 <div class="mt-auto">
                                                     <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
@@ -296,6 +304,11 @@
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body" style="padding-right: 0;">
+                        @if (session('success'))
+                            <div class="alert alert-success society_registered">
+                                <div class="text-center">{{ session('success') }}</div>
+                            </div>
+                        @endif
                         <div class=" row-list">
                             <div class="row">
                                 @if($society_list_docs['अधिकृत सभासदांची यादी (पती व पत्नी संयुक्त नावे)']->sc_document_status != null)
@@ -346,6 +359,9 @@
                                                     <span class="text-danger" id="file_error"></span>
                                                     <input type="hidden" id="application_id" name="application_id" value="{{ $data->id }}">
                                                     <input type="hidden" id="document_name" name="document_name" value="bonafide_list">
+                                                    @if($bonafide_docs['bonafide_list']->sc_document_status !=null )
+                                                        <a href="{{ config('commanConfig.storage_server').'/'.$bonafide_docs['bonafide_list']->sc_document_status->document_path }}" target="_blank" rel="noopener">Uploaded No Dues Certificate</a>
+                                                    @endif
                                                 </div>
                                                 <div class="mt-auto">
                                                     <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
@@ -360,8 +376,13 @@
             </div>        
         </div>
         <div class="tab-pane section-3" id="society-resolution" role="tabpanel">
-            <!-- Society Resolution div here -->
+            <!-- Covering Letter div here -->
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
+                @if (session('success'))
+                    <div class="alert alert-success society_registered">
+                        <div class="text-center">{{ session('success') }}</div>
+                    </div>
+                @endif
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                         <div class="m-subheader">
@@ -414,6 +435,9 @@
                                                     file...</label>
                                                 <span class="text-danger" id="file_error"></span>
                                                 <input type="hidden" id="applicationId" name="applicationId" value="{{ $data->id }}">
+                                                @if($covering_letter_docs['em_covering_letter']->sc_document_status !=null )
+                                                    <a href="{{ config('commanConfig.storage_server').'/'.$covering_letter_docs['em_covering_letter']->sc_document_status->document_path }}" target="_blank" rel="noopener">Uploaded No Dues Certificate</a>
+                                                @endif
                                             </div>
                                             <div class="mt-auto">
                                                 <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>

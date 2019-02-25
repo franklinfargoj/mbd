@@ -10,7 +10,6 @@
 </div>
 @endif
 
-
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
          <div class="m-subheader px-0 m-subheader--top">
@@ -54,7 +53,12 @@
                                             <h5>Download</h5>
                                             <span class="hint-text d-block mb-2">Click to download Lease deed agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->renewalAgreement->document_path))
+                                            @if(isset($data->DraftSignAgreement->document_path) && 
+                                            ($data->status->status_id == config('commanConfig.renewal_status.forwarded') || $data->status->status_id == config('commanConfig.renewal_status.reverted')))
+
+                                                    <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftSignAgreement->document_path }}" target="_blank" class="s_btn btn btn-primary" >Download </a> 
+
+                                                @elseif(isset($data->renewalAgreement->document_path))
                                                 <input type="hidden" name="oldLeaseFile" value="{{ isset($data->DraftSignAgreement->document_path) ? $data->DraftSignAgreement->document_path : '' }}">
                                                 <a href="{{ config('commanConfig.storage_server').'/'.$data->renewalAgreement->document_path }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
@@ -77,7 +81,13 @@
                                                     <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload1">
                                                 
                                                         <label class="custom-file-label" for="test-upload1">Choose
-                                                        file...</label>   
+                                                        file...</label> 
+
+                                                    @if(isset($data->DraftSignAgreement->document_path) && 
+                                                    (session()->get('role_name') == config('commanConfig.joint_co')))
+
+                                                    <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftSignAgreement->document_path }}" target="_blank" class="btn-link">Download </a> 
+                                                    @endif 
                                                 </div>
                                         </div>
                                     </div> 

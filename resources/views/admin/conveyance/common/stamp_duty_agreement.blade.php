@@ -86,6 +86,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload</h5>
@@ -94,7 +95,15 @@
                                                     <input class="custom-file-input" name="sale_agreement" type="file" id="test-upload1">
                                                 
                                                         <label class="custom-file-label" for="test-upload1">Choose
-                                                        file...</label>   
+                                                        file...</label> 
+
+                                                        @if(isset($data->StampSaleByDycdo->document_path) && session()->get('role_name') == config('commanConfig.dycdo_engineer'))
+
+                                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->StampSaleByDycdo->document_path }}" class="btn-link" target="_blank">Download </a>
+
+                                                        @elseif(isset($data->StampSaleByJtco->document_path) && session()->get('role_name') == config('commanConfig.joint_co'))
+                                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->StampSaleByJtco->document_path }}" class="btn-link" target="_blank">Download </a>
+                                                        @endif
                                                 </div>
                                         </div>
                                     </div>                                   
@@ -141,7 +150,14 @@
    
                                                     <label class="custom-file-label" for="test-upload2">Choose
                                                         file...</label>
-                                                      
+                                                    
+                                                    @if(isset($data->StampLeaseByDycdo->document_path) && session()->get('role_name') == config('commanConfig.dycdo_engineer'))
+
+                                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->StampLeaseByDycdo->document_path }}" class="btn-link" target="_blank">Download </a>
+
+                                                        @elseif(isset($data->StampLeaseByJtco->document_path) && session()->get('role_name') == config('commanConfig.joint_co'))
+                                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->StampLeaseByJtco->document_path }}" class="btn-link" target="_blank">Download </a>
+                                                        @endif  
                                                 </div>
                                         </div>
                                     </div>

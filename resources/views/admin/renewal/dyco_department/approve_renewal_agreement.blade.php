@@ -9,7 +9,7 @@
     {{ session()->get('success') }}
 </div>
 @endif
- 
+
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
          <div class="m-subheader px-0 m-subheader--top">
@@ -85,7 +85,13 @@
                                                     <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload1">
                                                 
                                                         <label class="custom-file-label" for="test-upload1">Choose
-                                                        file...</label>   
+                                                        file...</label>
+
+                                                    @if(isset($data->approveAgreement->document_path) && 
+                                                    (session()->get('role_name') == config('commanConfig.dycdo_engineer')))
+
+                                                    <a href="{{ config('commanConfig.storage_server').'/'.$data->approveAgreement->document_path }}" target="_blank" class="btn-link">Download </a> 
+                                                    @endif        
                                                 </div>
                                         </div>
                                     </div>
@@ -130,8 +136,10 @@
                                     <h5>Download</h5>
                                     <span class="hint-text">Click to Download Stamp Duty Letter </span>
                                     <div class="mt-auto">
-                                        @if(isset($data->draftStampLetter->document_path))
-                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->draftStampLetter->document_path }}" class="btn btn-primary" target="_blank">Download </a>                                
+                                        @if(isset($data->StampLetter->document_path))
+                                            <a href="{{ config('commanConfig.storage_server').'/'.$data->StampLetter->document_path }}" class="btn btn-primary" target="_blank">Download </a>
+                                        @elseif(isset($data->draftStampLetter->document_path))
+                                         <a href="{{ config('commanConfig.storage_server').'/'.$data->draftStampLetter->document_path }}" class="btn btn-primary" target="_blank">Download </a>                                
                                         @else
                                         <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
                                             *Note : Stamp Duty Letter is not available.</span>

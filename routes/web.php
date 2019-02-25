@@ -590,19 +590,19 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('/save_offer_letter_application_reval_self', 'SocietyOfferLetterController@save_offer_letter_application_reval_self')->name('save_offer_letter_application_reval_self');
     Route::post('/save_offer_letter_application_reval_dev', 'SocietyOfferLetterController@save_offer_letter_application_reval_dev')->name('save_offer_letter_application_reval_dev');
 
-    Route::get('society_reval_offer_letter_preview','SocietyOfferLetterController@showOfferLetterRevalApplication')->name('society_reval_offer_letter_preview');
-    Route::get('society_reval_offer_letter_edit','SocietyOfferLetterController@editRevalOfferLetterApplication')->name('society_reval_offer_letter_edit');
+    Route::get('society_reval_offer_letter_preview/{id}','SocietyOfferLetterController@showOfferLetterRevalApplication')->name('society_reval_offer_letter_preview');
+    Route::get('society_reval_offer_letter_edit/{id}','SocietyOfferLetterController@editRevalOfferLetterApplication')->name('society_reval_offer_letter_edit');
     Route::post('society_reval_offer_letter_update','SocietyOfferLetterController@updateRevalOfferLetterApplication')->name('society_reval_offer_letter_update');
 
-    Route::get('reval_documents_upload','SocietyOfferLetterController@displaySocietyRevalDocuments')->name('reval_documents_upload');
+    Route::get('reval_documents_upload/{id}','SocietyOfferLetterController@displaySocietyRevalDocuments')->name('reval_documents_upload');
     Route::post('add_uploaded_reval_documents_remark','SocietyOfferLetterController@addSocietyRevalDocumentsRemark')->name('add_uploaded_reval_documents_remark');
-    Route::get('reval_documents_uploaded','SocietyOfferLetterController@viewSocietyRevalDocuments')->name('reval_documents_uploaded');
+    Route::get('reval_documents_uploaded/{id}','SocietyOfferLetterController@viewSocietyRevalDocuments')->name('reval_documents_uploaded');
     Route::post('uploaded_reval_documents','SocietyOfferLetterController@uploadSocietyRevalDocuments')->name('uploaded_reval_documents');
     Route::get('delete_uploaded_reval_documents/{id}','SocietyOfferLetterController@deleteSocietyRevalDocuments')->name('delete_uploaded_reval_documents');
     Route::post('add_uploaded_reval_documents_comment','SocietyOfferLetterController@addSocietyRevalDocumentsComment')->name('add_reval_documents_comment');
-    Route::get('upload_society_reval_offer_letter_application','SocietyOfferLetterController@showuploadRevalOfferLetterAfterSign')->name('upload_society_reval_offer_letter_application');
+    Route::get('upload_society_reval_offer_letter_application/{id}','SocietyOfferLetterController@showuploadRevalOfferLetterAfterSign')->name('upload_society_reval_offer_letter_application');
     Route::post('upload_society_reval_offer_letter','SocietyOfferLetterController@uploadRevalOfferLetterAfterSign')->name('upload_society_reval_offer_letter');
-    Route::get('society_reval_offer_letter_application_download','SocietyOfferLetterController@generate_reval_pdf')->name('society_reval_offer_letter_application_download');
+    Route::get('society_reval_offer_letter_application_download/{id}','SocietyOfferLetterController@generate_reval_pdf')->name('society_reval_offer_letter_application_download');
 
 
     // Consent For OC

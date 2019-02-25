@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Mpdf\Mpdf;
 use Storage;
 use Yajra\DataTables\DataTables;
+use App\LayoutUser;
 
 class TripartiteController extends Controller
 {
@@ -136,14 +137,15 @@ class TripartiteController extends Controller
         $ol_applications = OlApplication::where('id', $id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function ($q) {
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->first();
-
+       
         $documents = OlSocietyDocumentsMaster::where('application_id', $ol_applications->application_master_id)->where('is_admin', 0)->with(['documents_uploaded' => function ($q) use ($ol_application) {
-            $q->where('society_id', $ol_application->society_id)->get();
+            $q->where('society_id', $ol_application->society_id)->where('application_id',$ol_application->id)->get();
         }])->get();
 
         $document_ids = array_pluck($documents, 'id');
-        $documents_uploaded = OlSocietyDocumentsStatus::with('document_name')->where('society_id', $ol_application->society_id)->whereIn('document_id', $document_ids)->get();
-        $documents_comment = OlSocietyDocumentsComment::where('society_id', $ol_application->society_id)->first();
+        $documents_uploaded = OlSocietyDocumentsStatus::with('document_name')->where('society_id', $ol_application->society_id)->where('application_id',$ol_applications->id)->whereIn('document_id', $document_ids)->get();
+        $documents_comment = OlSocietyDocumentsComment::where('application_id',$ol_applications->id)
+        ->where('society_id', $ol_application->society_id)->first();
         $documents_complusory = [];
         foreach ($documents as $key => $value) {
             if ($value->is_optional == 0) {
@@ -158,7 +160,7 @@ class TripartiteController extends Controller
             }
         }
         if (count($documents_complusory) == count($documents_uploaded_complusory) || count($documents_complusory) < count($documents_uploaded)) {
-            $docs_comment = OlSocietyDocumentsComment::where('society_id', $ol_application->society_id)->where('application_id', $ol_applications->id)->first();
+            $docs_comment = OlSocietyDocumentsComment::where('application_id',$ol_applications->id)->where('society_id', $ol_application->society_id)->where('application_id', $ol_applications->id)->first();
             $input = array(
                 'society_id' => $ol_application->society_id,
                 'application_id' => $ol_applications->id,
@@ -459,9 +461,9 @@ class TripartiteController extends Controller
         if ($result) {
             $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
             $layout_ids = array_column($layout_id_array, 'layout_id');
-            $parent = User::with(['roles', 'LayoutUser' => function ($q) {
+            $parent = User::with(['roles', 'LayoutUser' => function ($q) use($layout_ids){
                 $q->whereIn('layout_id', $layout_ids);
-            }])->whereHas('LayoutUser', function ($q) {
+            }])->whereHas('LayoutUser', function ($q)  use($layout_ids){
                     $q->whereIn('layout_id', $layout_ids);
                 })->whereIn('role_id', $result)->get();
         }

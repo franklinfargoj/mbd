@@ -86,7 +86,7 @@ class EMController extends Controller
                 }
             }
         }
-//        dd($covering_letter_docs);
+//        dd($bonafide_docs['bonafide_list']->sc_document_status->document_path);
 
         if(!empty($no_dues_certificate_docs['text_no_dues_certificate']['sc_document_status'])){
             $content = $this->CommonController->getftpFileContent($no_dues_certificate_docs['text_no_dues_certificate']['sc_document_status']->document_path);
@@ -124,9 +124,9 @@ class EMController extends Controller
             
             $fileName = time().'no_dues_certificate_'.$id.'.pdf';
             $filePath = $folder_name."/".$fileName;
-            $file_uploaded = $this->CommonController->ftpFileUpload($folder_name, $request->file('no_dues_certificate'), $filePath);
+            $file_uploaded = $this->CommonController->ftpFileUpload($folder_name, $request->file('no_dues_certificate'), $fileName);
             if($file_uploaded){
-                
+
                 $this->conveyance_common->uploadDocumentStatus($request->applicationId, config('commanConfig.no_dues_certificate.db_columns.upload'), $filePath);
 //                scApplication::where('id',$request->applicationId)->update([config('commanConfig.no_dues_certificate.db_columns.upload') => $file_uploaded]);
 
@@ -379,7 +379,6 @@ class EMController extends Controller
                 $name = File::name(str_replace(' ', '_',$request->file('document_path')->getClientOriginalName())) . '_' . $time . '.' . $extension;
                 $folder_name = "society_conveyance_documents";
                 $path = '/' . $folder_name . '/' . $name;
-                $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $request->file('document_path'), $name);
                 $count = 0;
                 $sc_excel_headers = [];
                 $broken_word_count = 0;
@@ -429,7 +428,8 @@ class EMController extends Controller
                         $inserted_document_log = SocietyConveyanceDocumentStatus::create($sc_document_status_arr);
 
                         if($inserted_document_log == true){
-                             return back()->with('success','Uploaded successfully.');
+                            $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $request->file('document_path'), $name);
+                            return back()->with('success','List of Bonafide Allottees uploaded successfully.');
                         }
                         
                     }else{
@@ -564,7 +564,7 @@ class EMController extends Controller
                 $inserted_document_log = SocietyConveyanceDocumentStatus::create($sc_document_status_arr);
 
                 if($inserted_document_log == true){
-                    return back()->with('success',' uploaded successfully.');
+                    return back()->with('success','Covering Letter uploaded successfully.');
                 }
 
             }else{

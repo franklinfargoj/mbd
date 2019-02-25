@@ -52,13 +52,13 @@
                                 <div class="row">
                                 
                         @php
-                            if(isset($data->SignSaleAgreement->document_path))
+                            if(isset($data->SignSaleAgreement->document_path) && session()->get('role_name') != config('commanConfig.joint_co'))
                                 $document = $data->SignSaleAgreement->document_path;
                             else if(isset($data->DraftSaleAgreement->document_path))
                                 $document = $data->DraftSaleAgreement->document_path;
                         @endphp
                         @php
-                            if(isset($data->SignLeaseAgreement->document_path) )
+                             if(isset($data->SignLeaseAgreement->document_path) && session()->get('role_name') != config('commanConfig.joint_co')) 
                                 $document1 = $data->SignLeaseAgreement->document_path;
                             else if(isset($data->DraftLeaseAgreement->document_path))
                                 $document1 = $data->DraftLeaseAgreement->document_path;
@@ -90,7 +90,12 @@
                                                     <input class="custom-file-input" name="sale_agreement" type="file" id="test-upload1">
                                                 
                                                         <label class="custom-file-label" for="test-upload1">Choose
-                                                        file...</label>   
+                                                        file...</label> 
+
+                                                    @if(isset($data->SignSaleAgreement->document_path) && session()->get('role_name') == config('commanConfig.joint_co'))
+                                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->SignSaleAgreement->document_path }}" target="_blank" class="btn-link">
+                                                         Download </a>
+                                                    @endif  
                                                 </div>
                                         </div>
                                     </div>
@@ -140,7 +145,10 @@
    
                                                     <label class="custom-file-label" for="test-upload2">Choose
                                                         file...</label>
-                                                      
+                                                @if(isset($data->SignLeaseAgreement->document_path) && session()->get('role_name') == config('commanConfig.joint_co'))
+                                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->SignLeaseAgreement->document_path }}" target="_blank" class="btn-link">
+                                                         Download </a>
+                                                    @endif      
                                                 </div>
                                         </div>
                                     </div>
