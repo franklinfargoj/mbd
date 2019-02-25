@@ -482,7 +482,12 @@ class EmPermissionSeeder extends Seeder
                 'name' => 'admin.update_profile',
                 'display_name' => 'Updates user profile',
                 'description'  => 'Updates user profile'
-            ]
+            ],
+            [
+                'name' => 'dashboard.ajax.conveyance',
+                'display_name' => 'Ajax EM dashboard',
+                'description'  => 'Ajax EM dashboard'
+            ],
         ];
 
         $permission_role = [];

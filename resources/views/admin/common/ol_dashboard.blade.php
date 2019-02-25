@@ -38,7 +38,7 @@
             @endif
             @if(in_array(session()->get('role_name'),$conveyanceRoles))
                 @if($conveyanceDashboard)
-                    <div class="db__card counts0" data-module = "Society Conveyance">
+                    <div class="db__card conveyance" data-module = "Society Conveyance">
                         <div class="db__card__img-wrap db-color-3">
                             <h3 class="db__card__count">{{$conveyanceDashboard['0']['Total No of Applications'][0]}}</h3>
                         </div>
@@ -77,7 +77,12 @@
                     in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'))) ||
                     in_array(session()->get('role_name'),array(config('commanConfig.vp_engineer'))))
 
-                    @if(!(session()->get('role_name')==config('commanConfig.cap_engineer')) || !(session()->get('role_name')==config('commanConfig.junior_architect')))
+                    @if(!((session()->get('role_name')==config('commanConfig.cap_engineer'))
+                    || (session()->get('role_name')==config('commanConfig.junior_architect'))
+                    || (session()->get('role_name')==config('commanConfig.senior_architect'))
+                    || (session()->get('role_name')==config('commanConfig.architect')))
+                    || (session()->get('role_name')==config('commanConfig.estate_manager'))
+                    )
                     <div class="db__card revision" data-module="Revision in Layout">
                         <div class="db__card__img-wrap db-color-5">
                             <h3 class="db__card__count">
@@ -115,81 +120,83 @@
                                 <p class="db__card__title">Layout Approval Pendency</p>
                             </div>
 
-                            <div class="db__card revision" data-module="Appointing Architect">
+                            <div class="db__card appointing_architect" data-module="Appointing Architect">
                                 <div class="db__card__img-wrap db-color-5">
                                     <h3 class="db__card__count">-</h3>
                                 </div>
                                 <p class="db__card__title">Appointing Architect</p>
                             </div>
-                            <div class="db__card revision" data-module="Appointing Architect Subordinate Pendencies">
+                            <div class="db__card appointing_architect" data-module="Appointing Architect Subordinate Pendency">
                                 <div class="db__card__img-wrap db-color-5">
                                     <h3 class="db__card__count">-</h3>
                                 </div>
-                                <p class="db__card__title">Appointing Architect Subordinate Pendencies</p>
+                                <p class="db__card__title">Appointing Architect Subordinate Pendency</p>
                             </div>
                         @endif
                 @endif
         </div>
 
-        {{--Dashboard for offer letter--}}
-        @if( !((session()->get('role_name') == config('commanConfig.junior_architect')) || (session()->get('role_name') == config('commanConfig.architect')) || (session()->get('role_name') == config('commanConfig.senior_architect'))))
-            {{--offer letter--}}
-            <div id="count_table">
-                <div class="m-subheader px-0 m-subheader--top">
-                    <div class="d-flex align-items-center">
-                        <h3 class="m-subheader__title">Offer Letter</h3>
-                    </div>
-                </div>
+        <div id="count_table">
 
-                <div class="row">
-                    <div class="col-sm-7" >
-                        <div class="m-portlet db-table">
-                            <div class="table-responsive">
-                                <table class="table text-center">
-                                    <thead>
-                                    <th style="width: 10%;">Sr. No</th>
-                                    <th style="width: 60%;" class="text-center">Stages</th>
-                                    <th style="width: 15%;" class="text-left">Count</th>
-                                    <th style="width: 15%;">Action</th>
-                                    </thead>
-                                    <tbody>
-                                    @php
-                                        $chart = 0;
-                                        $i = 1;
-                                    @endphp
-                                    @foreach($dashboardData as $header => $value)
-                                        <tr>
-                                            <td class="text-center">{{$i}}.</td>
-                                            <td>{{$header}}</td>
-                                            <td class="text-center"><span class="count-circle">{{$value[0]}}</span></td>
-                                            @php $chart += $value[0];@endphp
-                                            <td>
-                                                <a href="{{url(session()->get('redirect_to').$value[1])}}" class="btn btn-action">View</a>
-                                            </td>
-                                        </tr>
-                                        @php $i++ @endphp
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    @if($chart)
-                        <div class="col-sm-5" id="ajaxchartdiv">
-                        </div>
-                    @endif
-                </div>
-            </div>
-        @endif
+        {{--Dashboard for offer letter--}}
+        {{--@if( !((session()->get('role_name') == config('commanConfig.junior_architect')) || (session()->get('role_name') == config('commanConfig.architect')) || (session()->get('role_name') == config('commanConfig.senior_architect'))))--}}
+            {{--offer letter--}}
+            {{--<div id="count_table">--}}
+                {{--<div class="m-subheader px-0 m-subheader--top">--}}
+                    {{--<div class="d-flex align-items-center">--}}
+                        {{--<h3 class="m-subheader__title">Offer Letter</h3>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+
+                {{--<div class="row">--}}
+                    {{--<div class="col-sm-7" >--}}
+                        {{--<div class="m-portlet db-table">--}}
+                            {{--<div class="table-responsive">--}}
+                                {{--<table class="table text-center">--}}
+                                    {{--<thead>--}}
+                                    {{--<th style="width: 10%;">Sr. No</th>--}}
+                                    {{--<th style="width: 60%;" class="text-center">Stages</th>--}}
+                                    {{--<th style="width: 15%;" class="text-left">Count</th>--}}
+                                    {{--<th style="width: 15%;">Action</th>--}}
+                                    {{--</thead>--}}
+                                    {{--<tbody>--}}
+                                    {{--@php--}}
+                                        {{--$chart = 0;--}}
+                                        {{--$i = 1;--}}
+                                    {{--@endphp--}}
+                                    {{--@foreach($dashboardData as $header => $value)--}}
+                                        {{--<tr>--}}
+                                            {{--<td class="text-center">{{$i}}.</td>--}}
+                                            {{--<td>{{$header}}</td>--}}
+                                            {{--<td class="text-center"><span class="count-circle">{{$value[0]}}</span></td>--}}
+                                            {{--@php $chart += $value[0];@endphp--}}
+                                            {{--<td>--}}
+                                                {{--<a href="{{url(session()->get('redirect_to').$value[1])}}" class="btn btn-action">View</a>--}}
+                                            {{--</td>--}}
+                                        {{--</tr>--}}
+                                        {{--@php $i++ @endphp--}}
+                                    {{--@endforeach--}}
+                                    {{--</tbody>--}}
+                                {{--</table>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--@if($chart)--}}
+                        {{--<div class="col-sm-5" id="ajaxchartdiv">--}}
+                        {{--</div>--}}
+                    {{--@endif--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--@endif--}}
         {{--End Dashboard for offer letter--}}
 
 
-        @if((session()->get('role_name')==config('commanConfig.junior_architect'))||
-   (session()->get('role_name')==config('commanConfig.senior_architect')) ||
-   (session()->get('role_name')==config('commanConfig.architect')))
-            @include('admin.dashboard.appointing_architect.dashboard',compact('appointing_architect_data'))
-            @include('admin.dashboard.architect_layout.partials.architect_dashboard',compact('architect_data'))
-        @endif
+        {{--@if((session()->get('role_name')==config('commanConfig.junior_architect'))||--}}
+   {{--(session()->get('role_name')==config('commanConfig.senior_architect')) ||--}}
+   {{--(session()->get('role_name')==config('commanConfig.architect')))--}}
+            {{--@include('admin.dashboard.appointing_architect.dashboard',compact('appointing_architect_data'))--}}
+            {{--@include('admin.dashboard.architect_layout.partials.architect_dashboard',compact('architect_data'))--}}
+        {{--@endif--}}
         @if(session()->get('role_name')==config('commanConfig.estate_manager'))
             @include('admin.dashboard.architect_layout.partials.em_dashboard',compact('architect_data'))
         @endif
@@ -353,6 +360,7 @@
                     </div>
                 </div>
             </div>
+    </div>
 @endsection
 
             @section('js')
@@ -630,7 +638,7 @@
             {{--ajax call for Count Table and Pie chart(conveyance)--}}
             <script>
                 var dashboard = "{{route('dashboard.ajax')}}";
-                $(".counts0").on("click", function () {
+                $(".conveyance").on("click", function () {
 
                     var module_name = ($(this).attr("data-module"));
                     $.ajaxSetup({
@@ -1115,7 +1123,120 @@
 
                 });
 
-            </script>
+                </script>
             {{--end ajax call for Count Table and Pie chart(revision in layout,Layout Approval)--}}
+
+
+            {{--ajax call for Count Table and Pie chart(revalidation)--}}
+            <script>
+                var dashboard = "{{route('dashboard.ajax')}}";
+                $(".appointing_architect").on("click", function () {
+
+                    var module_name = ($(this).attr("data-module"));
+
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: dashboard,
+                        data: {module_name:module_name},
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data !== "false") {
+
+                                var html = "";
+
+                                html += "<div id=\"count_table\">\n" +
+                                    "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
+                                    "                    <div class=\"d-flex align-items-center\">\n" +
+                                    "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                                    "                    </div>\n" +
+                                    "                </div>\n" +
+                                    "                <div class=\"row\">\n" +
+                                    "                    <div class=\"col-sm-7\" >" +
+                                    "                        <div class=\"m-portlet db-table\">\n" +
+                                    "                            <div class=\"table-responsive\">\n" +
+                                    "                                <table class=\"table text-center\">\n" +
+                                    "                                    <thead>\n" +
+                                    "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
+                                    "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
+                                    "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                                    "                                    </thead>\n" +
+                                    "                                    </tbody>\n" ;
+
+                                var chart_count = 0 ;
+                                var i = 1 ;
+                                $.each(data, function (index, data) {
+
+                                    html += "<tr>\n" +
+                                        "<td class=\"text-center\">"+i+"</td>" +
+                                        "<td>"+index+"</td>\n" +
+                                        "<td class=\"text-center\"><span class=\"count-circle\">"+data+"</span></td>\n" +
+                                        "</tr>";
+                                    chart_count += data;
+                                    i++;
+                                });
+
+                                html +="</tbody>\n" +
+                                    "                                </table>\n" +
+                                    "                        </div>\n" +
+                                    "                    </div>" +
+                                    "                   </div>\n" +
+                                    "                        <div class=\"col-sm-5\" id=\"ajaxchartdiv\">\n" +
+                                    "                        </div>\n" +
+                                    "                </div>\n" +
+                                    "            </div>";
+
+                                $('#count_table').html(html);
+
+
+                                if(chart_count){
+                                    var abcd;
+                                    var legend;
+
+                                    var chartData = [];
+
+                                    $.each((data), function (index, data) {
+                                        obj = {};
+                                        if (index != 'Total Number of Applications') {
+                                            obj['status'] = index;
+                                            obj['value'] = data;
+                                            chartData.push(obj);
+                                        }
+
+                                    });
+//                                        console.log(chartData);
+
+                                    var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                                        "type": "pie",
+                                        "theme": "light",
+                                        "dataProvider":chartData ,
+                                        "valueField": "value",
+                                        "titleField": "status",
+                                        "outlineAlpha": 0.8,
+                                        "outlineColor":"#FFFFFF",
+                                        "outlineThickness" : 2,
+                                        "depth3D": 15,
+                                        "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                                        "angle": 30,
+                                        "labelText": "[[percents]]%",
+                                        "labelRadius": -35,
+                                        "fontSize" : 15,
+                                    } );
+                                }
+                            }
+                            else {
+                                alert('errror');
+                            }
+                        },
+                    });
+
+                });
+
+            </script>
+            {{--end ajax call for Count Table and Pie chart(revalidation)--}}
 
             @endsection

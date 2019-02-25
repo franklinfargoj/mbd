@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Common;
 use App\ArchitectApplication;
 use App\conveyance\scApplicationLog;
 use App\conveyance\RenewalApplicationLog;
+use App\Http\Controllers\Dashboard\AppointingArchitectController;
 use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
 use Illuminate\Http\Request;
 use App\DashboardHeader;
@@ -1884,35 +1885,7 @@ class CommonController extends Controller
                     $data['Application Forwarded'] = $this->architect_dashboard->forwarded_layout_before_layout_and_excel();
 
                     return $data;
-                    //                    if(session()->get('role_name')==config('commanConfig.ee_branch_head'))
-//                    {
-//                        $data['jr_ee_pending'] = $this->architect_dashboard->ee_pending_at_role(config('commanConfig.ee_junior_engineer'));
-//                        $data['dy_ee_pending'] = $this->architect_dashboard->ee_pending_at_role(config('commanConfig.ee_deputy_engineer'));
-//                        $data['head_ee_pending'] = $this->architect_dashboard->ee_pending_at_role(config('commanConfig.ee_branch_head'));
-//                    }
                 }
-
-
-//                if (in_array(session()->get('role_name'), array(config('commanConfig.co_engineer')))) {
-//                    $data['total_no_of_layout'] = $this->architect_dashboard->total_number_of_layouts();
-//                    $data['layout_in_process'] = $this->architect_dashboard->total_no_of_appln_for_revision_and_approval();
-//                    $data['approved_by_vp'] = $this->architect_dashboard->approved_layouts();
-//                    $data['total_no_of_appln_for_revision'] = $this->architect_dashboard->total_no_of_appln_for_revision();
-//                    $data['pending_at_current_user'] = $this->architect_dashboard->pending_layout_before_layout_and_excel(1);
-//                    $data['sent_to_ee'] = $this->architect_dashboard->sent_to_ee();
-//                    $data['sent_to_ree'] = $this->architect_dashboard->sent_to_ree();
-//                    $data['sent_to_lm'] = $this->architect_dashboard->sent_to_lm();
-//                    $data['sent_to_em'] = $this->architect_dashboard->sent_to_em();
-//                    $data['approved_layouts'] = $this->architect_dashboard->approved_layouts();
-//                    $data['appln_sent_for_arroval'] = $this->architect_dashboard->appln_sent_for_arroval();
-//                    $data['pending_at_ree'] = $this->architect_dashboard->pending_at_ree();
-//                    $data['pending_at_co'] = $this->architect_dashboard->pending_at_co();
-//                    $data['pending_at_cap'] = $this->architect_dashboard->pending_at_cap();
-//                    $data['pending_at_sap'] = $this->architect_dashboard->pending_at_sap();
-//                    $data['pending_at_la'] = $this->architect_dashboard->pending_at_la();
-//                    $data['pending_at_vp'] = $this->architect_dashboard->pending_at_vp();
-//                }
-
 
                 if (in_array(session()->get('role_name'), array(config('commanConfig.vp_engineer')))) {
                     $data['Total Number of Layouts'] = $this->architect_dashboard->total_number_of_layouts();
@@ -1951,6 +1924,74 @@ class CommonController extends Controller
                     $data['Applications Pending'] = $this->architect_dashboard->pending_layout_before_layout_and_excel(1);
                     $data['Applications Forwarded'] = $this->architect_dashboard->forwarded_layout_before_layout_and_excel(1);
                     $data['Applications Reverted'] = $this->architect_dashboard->reverted_layout_before_layout_and_excel(1);
+                    return $data;
+                }
+
+                if (in_array(session()->get('role_name'),array(config('commanConfig.junior_architect'),config('commanConfig.senior_architect'),config('commanConfig.architect')))) {
+
+                    $data['Total Number of Applications for Revision'] = $this->architect_dashboard->total_no_of_appln_for_revision();
+                    $data['Pending at Current User'] = $this->architect_dashboard->pending_at_current_user();
+                    $data['Sent to EE'] = $this->architect_dashboard->sent_to_ee();
+                    $data['Sent to REE'] = $this->architect_dashboard->sent_to_ree();
+                    $data['Sent to LM'] = $this->architect_dashboard->sent_to_lm();
+                    $data['Sent to EM'] = $this->architect_dashboard->sent_to_em();
+                    $data['Approved Layouts'] = $this->architect_dashboard->approved_layouts();
+                    $data['Application Sent for Approval'] = $this->architect_dashboard->appln_sent_for_arroval();
+
+                    return $data;
+                }
+                if(in_array(session()->get('role_name'),array(config('commanConfig.senior_architect_planner'))))
+                {
+                    $data['Total Number of Applications'] = $this->architect_dashboard->appln_sent_for_arroval();;
+                    $data['Pending Applications'] = $this->architect_dashboard->pending_layout_before_layout_and_excel(1);
+                    $data['Forwarded Applications'] = $this->architect_dashboard->forwarded_layout_before_layout_and_excel(1);
+                    $data['Reverted Applications'] =$this->architect_dashboard->reverted_layout_before_layout_and_excel(1);
+
+                    return $data;
+                }
+
+            }
+
+            if($request->module_name == 'Layout Approval Pendency'){
+                $this->architect_dashboard = new ArchitectLayoutDashboardController();
+
+                $data['pending_at_ree'] = $this->architect_dashboard->pending_at_ree();
+                $data['pending_at_co'] = $this->architect_dashboard->pending_at_co();
+                $data['pending_at_cap'] = $this->architect_dashboard->pending_at_cap();
+                $data['pending_at_sap'] = $this->architect_dashboard->pending_at_sap();
+                $data['pending_at_la'] = $this->architect_dashboard->pending_at_la();
+                $data['pending_at_vp'] = $this->architect_dashboard->pending_at_vp();
+                $data['pending_at_jr_architect'] = $this->architect_dashboard->pending_at_jr_architect();
+                $data['pending_at_sr_architect'] = $this->architect_dashboard->pending_at_sr_architect();
+                return $data;
+            }
+
+            if($request->module_name == 'Appointing Architect'){
+                if (in_array(session()->get('role_name'),array(config('commanConfig.junior_architect'),config('commanConfig.senior_architect'),config('commanConfig.architect'),config('commanConfig.selection_commitee')))) {
+                    $this->architect_dashboard = new AppointingArchitectController();
+                    $data['Total Number of Applications']=$this->architect_dashboard->total_number_of_application();
+                    $data['Total Shortlisted Application'] = $this->architect_dashboard->total_shortlisted_application();
+                    $data['Total Final Application'] = $this->architect_dashboard->total_final_application();
+                    $data['Pending at Current User'] = $this->architect_dashboard->pending_at_current_user();
+
+                    return $data;
+                   }
+            }
+            if($request->module_name == 'Appointing Architect Subordinate Pendency'){
+                if (in_array(session()->get('role_name'),array(config('commanConfig.junior_architect'),config('commanConfig.senior_architect'),config('commanConfig.architect'),config('commanConfig.selection_commitee')))) {
+                    $this->architect_dashboard = new AppointingArchitectController();
+
+                    $pending_at_jr_architect = $this->architect_dashboard->pending_at_user(array(config('commanConfig.junior_architect')));
+                    $pending_at_sr_architect = $this->architect_dashboard->pending_at_user(array(config('commanConfig.senior_architect')));
+                    $pending_at_architect = $this->architect_dashboard->pending_at_user(array(config('commanConfig.architect')));
+                    $pending_at_selection_committee = $this->architect_dashboard->pending_at_user(array(config('commanConfig.selection_commitee')));
+
+                    $data['Total Number of Applications'] = $pending_at_jr_architect + $pending_at_sr_architect + $pending_at_architect + $pending_at_selection_committee;
+                    $data['Pending at Junior Architect'] = $pending_at_jr_architect;
+                    $data['Pending at Senior Architect'] = $pending_at_sr_architect;
+                    $data['Pending at Architect'] = $pending_at_architect;
+                    $data['Pending at Selection Comitee'] = $pending_at_selection_committee;
+
                     return $data;
                 }
             }

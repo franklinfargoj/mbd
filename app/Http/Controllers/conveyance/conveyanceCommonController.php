@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\conveyance;
  
+use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
 use App\Http\Controllers\Dashboard\formationDashboardController;
 use App\Http\Controllers\Tripartite\TripartiteDashboardController;
 use Illuminate\Http\Request;
@@ -1085,6 +1086,17 @@ class conveyanceCommonController extends Controller
                 $data['Sent to DDR']=$this->formation_dashboard->send_to_ddr();
 
                 return $data;
+            }
+
+            if($request->module_name == "Revision in Layout") {
+                if (session()->get('role_name') == config('commanConfig.estate_manager')) {
+                    $this->architect_dashboard = new ArchitectLayoutDashboardController();
+                    $data['Total NUmber of Applications'] = $this->architect_dashboard->total_no_of_appln_for_revision();
+                    $data['Applications Pending'] = $this->architect_dashboard->pending_layout_before_layout_and_excel();
+                    $data['Applications Forwarded'] = $this->architect_dashboard->forwarded_layout_before_layout_and_excel();
+                    return $data;
+                }
+
             }
 
         }

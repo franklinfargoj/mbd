@@ -77,6 +77,11 @@ class SapPermissionSeeder extends Seeder
                 'display_name' => 'post_forward_architect_layout',
                 'description' => 'post_forward_architect_layout',
             ],
+            [
+                'name' => 'dashboard.ajax',
+                'display_name' => 'ajax dashboard',
+                'description' => 'Ajax Dashboard',
+            ],
         ];
     
         $sap = Role::where('name', '=', 'senior_architect_planner')->first();
