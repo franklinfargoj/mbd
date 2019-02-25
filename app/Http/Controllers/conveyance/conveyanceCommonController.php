@@ -1005,7 +1005,7 @@ class conveyanceCommonController extends Controller
         $docId = $this->getDocumentId($em_doc,$masterId);
         $em_document = $this->getDocumentStatus($applicationId,$docId);
         return $em_document;
-    }
+}
 
     // Dashboard for conveyance start header_remove
 
