@@ -136,8 +136,6 @@
                 @endif
         </div>
 
-        <div id="count_table">
-
         {{--Dashboard for offer letter--}}
         {{--@if( !((session()->get('role_name') == config('commanConfig.junior_architect')) || (session()->get('role_name') == config('commanConfig.architect')) || (session()->get('role_name') == config('commanConfig.senior_architect'))))--}}
             {{--offer letter--}}
@@ -197,13 +195,32 @@
             {{--@include('admin.dashboard.appointing_architect.dashboard',compact('appointing_architect_data'))--}}
             {{--@include('admin.dashboard.architect_layout.partials.architect_dashboard',compact('architect_data'))--}}
         {{--@endif--}}
-        @if(session()->get('role_name')==config('commanConfig.estate_manager'))
-            @include('admin.dashboard.architect_layout.partials.em_dashboard',compact('architect_data'))
-        @endif
-        @if(in_array(session()->get('role_name'),array(config('commanConfig.senior_architect_planner'))))
-            @include('admin.dashboard.architect_layout.partials.sap_dashboard',compact('architect_data'))
-        @endif
-    </div>
+        {{--@if(session()->get('role_name')==config('commanConfig.estate_manager'))--}}
+            {{--@include('admin.dashboard.architect_layout.partials.em_dashboard',compact('architect_data'))--}}
+        {{--@endif--}}
+        {{--@if(in_array(session()->get('role_name'),array(config('commanConfig.senior_architect_planner'))))--}}
+            {{--@include('admin.dashboard.architect_layout.partials.sap_dashboard',compact('architect_data'))--}}
+        {{--@endif--}}
+
+        <!-- Modal for count table and pie chart popup -->
+        <div class="modal fade" id="getCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style=" width: 150%;
+  height: 160%;
+  margin: 5% 10% 0 10%;
+  padding: 0;">
+                <div class="modal-content" style=" width: 250%;
+  height: 50%;
+  margin: 0;
+  padding: 0;">
+                    <div style="float:left">
+                        <button type="button"  class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body" id="count_table" >
+
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 
@@ -368,48 +385,6 @@
             <script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>
             <script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>
 
-            {{--offer letter chart--}}
-            @if($chart)
-                <script>
-                    var chart;
-                    var chartData = [
-
-                            @foreach($dashboardData as $header => $value)
-                            @if($header != 'Total Number of Applications') {
-                            "status": '{{$header}}',
-                            "value": '{{$value[0]}}',
-                        },
-                        @endif
-                        @endforeach
-
-                    ];
-                    AmCharts.ready(function () {
-
-                        // PIE CHART
-                        chart = new AmCharts.AmPieChart();
-                        chart.dataProvider = chartData;
-                        chart.theme = "light";
-                        chart.labelRadius = -35;
-                        chart.labelText = "[[percents]]%";
-                        chart.titleField = "status";
-                        chart.valueField = "value";
-                        chart.outlineColor = "#FFFFFF";
-                        chart.outlineAlpha = 0.8;
-                        chart.outlineThickness = 2;
-                        chart.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
-                        // this makes the chart 3D
-                        chart.depth3D = 15;
-                        chart.angle = 30;
-                        chart.fontSize = 15;
-
-                        // WRITE
-                        chart.write("ajaxchartdiv");
-                    });
-
-                </script>
-            @endif
-            {{--end offer letter chart--}}
-
 
             {{--ajax call for Count Table and Pie chart(offer letter)--}}
             <script>
@@ -512,6 +487,8 @@
                                             "fontSize" : 15,
                                         } );
                                     }
+                                    $("#getCodeModal").modal('show');
+
                                 }
                                 else {
                                     alert('errror');
@@ -623,6 +600,8 @@
                                         "fontSize" : 15,
                                     } );
                                 }
+                                $("#getCodeModal").modal('show');
+
                             }
                             else {
                                 alert('errror');
@@ -748,6 +727,8 @@
                                         "fontSize" : 15,
                                     } );
                                 }
+                                $("#getCodeModal").modal('show');
+
                             }
                             else {
                                 alert('errror');
@@ -882,6 +863,8 @@
                                         "fontSize" : 15,
                                     } );
                                 }
+                                $("#getCodeModal").modal('show');
+
                             }
                             else {
                                 alert('errror');
@@ -1003,6 +986,8 @@
                                         "fontSize" : 15,
                                     } );
                                 }
+                                $("#getCodeModal").modal('show');
+
                             }
                             else {
                                 alert('errror');
@@ -1114,6 +1099,8 @@
                                         "fontSize" : 15,
                                     } );
                                 }
+                                $("#getCodeModal").modal('show');
+
                             }
                             else {
                                 alert('errror');
@@ -1227,6 +1214,8 @@
                                         "fontSize" : 15,
                                     } );
                                 }
+                                $("#getCodeModal").modal('show');
+
                             }
                             else {
                                 alert('errror');

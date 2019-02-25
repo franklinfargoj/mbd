@@ -193,54 +193,29 @@
             </div>
         </div>
 
-        {{--Dashboard for Hearing Summary--}}
-        <div id="count_table">
-            <div class="m-subheader px-0 m-subheader--top">
-                <div class="d-flex align-items-center">
-                    <h3 class="m-subheader__title">Hearing Summary</h3>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-7">
-                    <div class="m-portlet db-table">
-                        <div class="table-responsive">
-                            <table class="table text-center">
-                                <thead>
-                                <th style="width: 10%;">Sr. No</th>
-                                <th style="width: 60%;" class="text-center">Stages</th>
-                                <th style="width: 15%;" class="text-left">Count</th>
-                                <th style="width: 15%;">Action</th>
-                                </thead>
-                                <tbody>
-                                @php $chart4 = 0; $i=1; @endphp
-                                @foreach($hearingDashboardData as $header => $value)
-                                    <tr>
-                                        <td class="text-center">{{$i}}.</td>
-                                        <td>{{$header}}</td>
-                                        <td class="text-center"><span class="count-circle">{{$value[0]}}</span></td>
-                                        <td>
-                                            <a href='{{url('/hearing'.$value[1])}}' class="btn btn-action">View</a>
-
-                                        </td>
-                                    </tr>
-                                    @php $chart4 += $value[0]; $i++;@endphp
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                @if($chart4)
-                    <div id="ajaxchartdiv" class="col-sm-5"></div>
-                @endif
-            </div>
-        </div>
-        {{--End Dashboard for Hearing Summary--}}
-
 
     </div>
 
+    </div>
+
+    <!-- Modal for count table and pie chart popup -->
+    <div class="modal fade" id="getCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style=" width: 150%;
+  height: 160%;
+  margin: 5% 10% 0 10%;
+  padding: 0;">
+            <div class="modal-content" style=" width: 250%;
+  height: 50%;
+  margin: 0;
+  padding: 0;">
+                <div style="float:left">
+                    <button type="button"  class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body" id="count_table" >
+
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Modal for application pending bifergation -->
@@ -370,48 +345,6 @@
     <script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>
 
 
-    {{--Hearing summary chart--}}
-    @if($chart4)
-        <script>
-            var chart4;
-            var legend;
-
-            var chartData4 = [
-                    @foreach($hearingDashboardData as $header => $value)
-                    @if(!($header == 'Total Number of Cases'))
-                {
-                    "status": "{{$header}}",
-                    "value": "{{$value[0]}}",
-                },
-                @endif
-                @endforeach
-            ];
-            AmCharts.ready(function () {
-                // PIE CHART
-                chart4 = new AmCharts.AmPieChart();
-                chart4.dataProvider = chartData4;
-                chart4.theme = "light";
-                chart4.labelRadius = -35;
-                chart4.labelText = "[[percents]]%";
-                chart4.titleField = "status";
-                chart4.valueField = "value";
-                chart4.outlineColor = "#FFFFFF";
-                chart4.outlineAlpha = 0.8;
-                chart4.outlineThickness = 2;
-                chart4.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
-                // this makes the chart 3D
-                chart4.depth3D = 15;
-                chart4.angle = 30;
-                chart4.fontSize = 15;
-
-                // WRITE
-                chart4.write("ajaxchartdiv");
-            });
-        </script>
-    @endif
-    {{--Hearing summary chart--}}
-
-
     {{--ajax call for Count Table and Pie chart(hearing summary)--}}
     <script>
         var dashboard = "{{route('dashboard.ajax.co')}}";
@@ -512,6 +445,8 @@
                                 "fontSize" : 15,
                             } );
                         }
+                        $("#getCodeModal").modal('show');
+
                     }
                     else {
                         alert('errror');
@@ -625,6 +560,8 @@
                                 "fontSize" : 15,
                             } );
                         }
+                        $("#getCodeModal").modal('show');
+
                     }
                     else {
                         alert('errror');
@@ -734,6 +671,8 @@
                                 "fontSize" : 15,
                             } );
                         }
+                        $("#getCodeModal").modal('show');
+
                     }
                     else {
                         alert('errror');
@@ -864,6 +803,8 @@
                                 "fontSize" : 15,
                             } );
                         }
+                        $("#getCodeModal").modal('show');
+
                     }
                     else {
                         alert('errror');
@@ -973,6 +914,8 @@
                                 "fontSize" : 15,
                             } );
                         }
+                        $("#getCodeModal").modal('show');
+
                     }
                     else {
                         alert('errror');
@@ -1086,6 +1029,8 @@
                                 "fontSize" : 15,
                             } );
                         }
+                        $("#getCodeModal").modal('show');
+
                     }
                     else {
                         alert('errror');
@@ -1195,6 +1140,8 @@
                                 "fontSize" : 15,
                             } );
                         }
+                        $("#getCodeModal").modal('show');
+
                     }
                     else {
                         alert('errror');
@@ -1320,6 +1267,8 @@
                                 "fontSize" : 15,
                             } );
                         }
+                        $("#getCodeModal").modal('show');
+
                     }
                     else {
                         alert('errror');
@@ -1428,6 +1377,8 @@
                                 "fontSize" : 15,
                             } );
                         }
+                        $("#getCodeModal").modal('show');
+
                     }
                     else {
                         alert('errror');
@@ -1538,6 +1489,8 @@
                                 "fontSize" : 15,
                             } );
                         }
+                        $("#getCodeModal").modal('show');
+
                     }
                     else {
                         alert('errror');
