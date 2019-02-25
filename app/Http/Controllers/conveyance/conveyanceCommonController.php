@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\conveyance;
  
+use App\Http\Controllers\Dashboard\formationDashboardController;
 use App\Http\Controllers\Tripartite\TripartiteDashboardController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -1072,6 +1073,18 @@ class conveyanceCommonController extends Controller
 
                 return $renewalPendingApplications;
 
+            }
+
+            if($request->module_name == "Society Formation"){
+                $this->formation_dashboard = new formationDashboardController();
+                $data = array();
+                $data['Total Number of Applications']=$this->formation_dashboard->total_number_of_application();
+                $data['Application Pending at Current User']=$this->formation_dashboard->pending_at_current_user();
+                $data['Sent to EM']=$this->formation_dashboard->pending_at_EM();
+                $data['Pending at DYCO']=$this->formation_dashboard->pending_at_Dyco();
+                $data['Sent to DDR']=$this->formation_dashboard->send_to_ddr();
+
+                return $data;
             }
 
         }

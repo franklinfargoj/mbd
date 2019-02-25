@@ -35,11 +35,11 @@ class FormationDashboardComposer
     public function compose(View $view)
     {
         $data = array();
-        $data['total_no_application']=$this->formation_dashboard->total_number_of_application();
-        $data['application_pending_at_current_user']=$this->formation_dashboard->pending_at_current_user();
-        $data['sent_to_em']=$this->formation_dashboard->pending_at_EM();
-        $data['pending_at_dyco']=$this->formation_dashboard->pending_at_Dyco();
-        $data['send_to_ddr']=$this->formation_dashboard->send_to_ddr();
+        $data['Total Number of Applications']=$this->formation_dashboard->total_number_of_application();
+        $data['Application Pending at Current User']=$this->formation_dashboard->pending_at_current_user();
+        $data['Sent to EM']=$this->formation_dashboard->pending_at_EM();
+        $data['Pending at DYCO']=$this->formation_dashboard->pending_at_Dyco();
+        $data['Sent to DDR']=$this->formation_dashboard->send_to_ddr();
         //dd($data);
         $view->with('formation_data', $data);
     }

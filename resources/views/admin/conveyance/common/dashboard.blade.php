@@ -84,6 +84,20 @@
 
                 @endif
 
+                @if((session()->get('role_name')==config('commanConfig.estate_manager'))||
+                    (session()->get('role_name')==config('commanConfig.dyco_engineer')) ||
+                    (session()->get('role_name')==config('commanConfig.dycdo_engineer')))
+                    @if($formation_data)
+                        <div class="db__card conveyance_pending" data-module = "Society Formation">
+                            <div class="db__card__img-wrap db-color-5">
+                                <h3 class="db__card__count">{{$formation_data['Total Number of Applications']}}</h3>
+                            </div>
+                            <p class="db__card__title">Society Formation</p>
+                        </div>
+                    @endif
+                @endif
+
+
 
         </div>
         <div id="count_table">
@@ -163,11 +177,6 @@
     @endif
     @endif
 
-    @if((session()->get('role_name')==config('commanConfig.estate_manager'))||
-    (session()->get('role_name')==config('commanConfig.dyco_engineer')) ||
-    (session()->get('role_name')==config('commanConfig.dycdo_engineer')))
-    @include('admin.dashboard.society_formation.main',compact('formation_data'))
-    @endif
     <!-- end -->
      @if((session()->get('role_name')==config('commanConfig.junior_architect'))||
     (session()->get('role_name')==config('commanConfig.senior_architect')) ||
@@ -513,7 +522,7 @@
     </script>
     {{--end ajax call for Count Table and Pie chart(conveyance)--}}
 
-    {{--ajax call for Pendency Count Table and Pie chart(conveyance)--}}
+    {{--ajax call for Pendency Count Table and Pie chart(conveyance, society formation)--}}
     <script>
         var dashboard = "{{route('dashboard.ajax.conveyance')}}";
         $(".conveyance_pending").on("click", function () {
@@ -619,7 +628,7 @@
         });
 
     </script>
-    {{--end ajax call for Pendency Count Table and Pie chart(conveyance)--}}
+    {{--end ajax call for Pendency Count Table and Pie chart(conveyance,society formation)--}}
 
     {{--ajax call for Count Table and Pie chart(tripartite)--}}
     <script>
