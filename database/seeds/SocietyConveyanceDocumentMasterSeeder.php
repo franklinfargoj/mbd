@@ -47,7 +47,7 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
                 'language_id'         => $mLanguage
             ],
             [
-                'document_name'       => 'other',
+                'document_name'       => 'Others',
                 'application_type_id' => $conveyanceId,
                 'society_flag'        => '1',
                 'language_id'         => $mLanguage,
@@ -183,7 +183,8 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
                 'document_name'       => 'others',
                 'application_type_id' => $renewalId,
                 'society_flag'        => '1',
-                'language_id'         => $eLanguage
+                'language_id'         => $eLanguage,
+                'is_optional'       => '1'
             ],
             [
                 'document_name'       => 'stamp_renewal_application',

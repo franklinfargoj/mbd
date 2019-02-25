@@ -125,9 +125,24 @@ class SocietyTripatiteController extends Controller
         $layouts = MasterLayout::all();
         $comm_func = $this->CommonController;
 
+        $documents = OlSocietyDocumentsMaster::where('application_id', $ol_applications->application_master_id)->where('is_admin', 0)->with(['documents_uploaded' => function($q) use ($society){
+            $q->where('society_id', $society->id)->get();
+        }])->get();
+
+        $documents_complusory = 0;
+        $documents_uploaded_complusory = 0;
+        foreach($documents as $document){
+            if($document->is_optional == '0'){
+                $documents_complusory++;
+                if(!empty($document->documents_uploaded)){
+                    $documents_uploaded_complusory++;
+                }
+            }
+        }
+    //    dd($documents_uploaded_count);
         $title = OlApplicationMaster::where('id',$ol_applications->ol_application_master->parent_id)->value('title');
 
-        return view('frontend.society.tripatite.edit_tripatite_application', compact('society', 'society_details', 'ol_applications', 'layouts', 'comm_func', 'form_fields', 'id', 'form_fields_values','title'));
+        return view('frontend.society.tripatite.edit_tripatite_application', compact('society', 'society_details', 'ol_applications', 'layouts', 'comm_func', 'form_fields', 'id', 'form_fields_values','title', 'documents_complusory', 'documents_uploaded_complusory'));
     }
 
     /**
@@ -254,7 +269,6 @@ class SocietyTripatiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function tripartite_application_form_preview($id){
-        // dd("hi");
          $id = decrypt($id);
 
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
@@ -263,7 +277,22 @@ class SocietyTripatiteController extends Controller
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->first();
 
-        return view('frontend.society.tripatite.tripartite_application_form_preview', compact('ol_applications', 'society_details', 'id'));
+        $documents = OlSocietyDocumentsMaster::where('application_id', $ol_applications->application_master_id)->where('is_admin', 0)->with(['documents_uploaded' => function($q) use ($society){
+            $q->where('society_id', $society->id)->get();
+        }])->get();
+
+        $documents_complusory = 0;
+        $documents_uploaded_complusory = 0;
+        foreach($documents as $document){
+            if($document->is_optional == '0'){
+                $documents_complusory++;
+                if(!empty($document->documents_uploaded)){
+                    $documents_uploaded_complusory++;
+                }
+            }
+        }
+
+        return view('frontend.society.tripatite.tripartite_application_form_preview', compact('ol_applications', 'society_details', 'id', 'documents_complusory', 'documents_uploaded_complusory'));
     }
 
     /**
@@ -321,7 +350,18 @@ class SocietyTripatiteController extends Controller
         if($documents_comment && $documents_comment->society_documents_comment == 'N.A.'){
             $documents_comment->society_documents_comment = '';
         }
-        return view('frontend.society.tripatite.show_society_documents', compact('ol_applications', 'documents', 'documents_uploaded', 'documents_comment', 'id', 'society', 'society_details', 'show_comment_tab'));
+        
+        $documents_complusory = 0;
+        $documents_uploaded_complusory = 0;
+        foreach($documents as $document){
+            if($document->is_optional == '0'){
+                $documents_complusory++;
+                if(!empty($document->documents_uploaded)){
+                    $documents_uploaded_complusory++;
+                }
+            }
+        }
+        return view('frontend.society.tripatite.show_society_documents', compact('ol_applications', 'documents', 'documents_uploaded', 'documents_comment', 'id', 'society', 'society_details', 'show_comment_tab', 'documents_uploaded_complusory', 'documents_complusory'));
 
     }
 
@@ -398,10 +438,10 @@ class SocietyTripatiteController extends Controller
      * @param  $request
      * @return \Illuminate\Http\Response
      */
-    public function delete_tripartite_docs($id){
+    public function delete_tripartite_docs($id){        
         $id = decrypt($id);
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
-        $delete_document_details = OlSocietyDocumentsStatus::with('document_name')->where('society_id', $society->id)->where('document_id', $id)->first();
+        $delete_document_details = OlSocietyDocumentsStatus::with('document_name')->where('society_id', $society->id)->where('id', $id)->first();
         $documents = OlSocietyDocumentsMaster::where('application_id', $delete_document_details->document_name->application_id)->where('is_admin', 0)->with(['documents_uploaded' => function($q) use ($society){
             $q->where('society_id', $society->id)->get();
         }])->get();
@@ -415,15 +455,11 @@ class SocietyTripatiteController extends Controller
                 $docs_remain++;
             }
         }
-//        if($docs_uploaded > 0 && $docs_remain == 0){
-//
-//        }
-
         $stored_filepath = explode('/', $delete_document_details->society_document_path);
         $folder_name = "society_offer_letter_documents";
         $path = $folder_name.'/'.$stored_filepath[count($stored_filepath)-1];
         $delete = Storage::disk('ftp')->delete($path);
-        OlSocietyDocumentsStatus::where('society_id', $society->id)->where('document_id', $id)->delete();
+        OlSocietyDocumentsStatus::where('society_id', $society->id)->where('id', $id)->delete();
 
         return redirect()->back();
     }
@@ -465,7 +501,22 @@ class SocietyTripatiteController extends Controller
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->first();
 
-        return view('frontend.society.tripatite.upload_stamped_tripartite_application', compact('ol_applications', 'application_details'));
+        $documents = OlSocietyDocumentsMaster::where('application_id', $ol_applications->application_master_id)->where('is_admin', 0)->with(['documents_uploaded' => function($q) use ($society){
+            $q->where('society_id', $society->id)->get();
+        }])->get();
+
+        $documents_complusory = 0;
+        $documents_uploaded_complusory = 0;
+        foreach($documents as $document){
+            if($document->is_optional == '0'){
+                $documents_complusory++;
+                if(!empty($document->documents_uploaded)){
+                    $documents_uploaded_complusory++;
+                }
+            }
+        }
+
+        return view('frontend.society.tripatite.upload_stamped_tripartite_application', compact('ol_applications', 'application_details', 'documents_complusory', 'documents_uploaded_complusory'));
     }
 
 
