@@ -27,7 +27,7 @@
                                     <h5>Download Noc Application</h5>
                                     <span class="hint-text">Download submitted application in .pdf format</span>
                                     <div class="mt-auto">
-                                        <a title="Donwload Noc Application" href="{{ route('society_noc_application_download') }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Noc Application</a>
+                                        <a title="Donwload Noc Application" href="{{ route('society_noc_application_download',encrypt($noc_applications->id)) }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Noc Application</a>
                                     </div>
                                 </div>
                             </div>
@@ -37,6 +37,7 @@
                                     <span class="hint-text">Click on 'Upload' to upload signed & stamped application of Noc.</span>
                                     <form action="{{ route('upload_society_noc') }}" method="post" enctype="multipart/form-data">
                                     @csrf
+                                        <input type="hidden" name="applicationId" value="{{ $noc_applications->id }}">
                                         <div class="custom-file">
                                             <input class="custom-file-input" name="noc_application_form" type="file"
                                                 id="test-upload" required="">

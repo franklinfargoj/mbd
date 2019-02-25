@@ -211,9 +211,9 @@ Breadcrumbs::for('documents_upload', function ($trail,$id) {
     $trail->push('Upload documents (Offer Letter)', route('documents_upload',$id));
 });
 
-Breadcrumbs::for('noc_documents_upload', function ($trail) {
+Breadcrumbs::for('noc_documents_upload', function ($trail,$id) {
     $trail->push('Listing', route('society_offer_letter_dashboard'));
-    $trail->push('Upload documents (NOC)', route('documents_upload_noc'));
+    $trail->push('Upload documents (NOC)', route('documents_upload_noc',$id));
 });
 
 Breadcrumbs::for('oc_documents_upload', function ($trail) {
@@ -282,9 +282,9 @@ Breadcrumbs::for('society_oc_edit', function ($trail) {
     $trail->push('Consent For OC Application Form', route('society_oc_edit'));
 });
 
-Breadcrumbs::for('noc_edit', function ($trail) {
+Breadcrumbs::for('noc_edit', function ($trail,$id) {
     $trail->parent('society_dashboard');
-    $trail->push('Edit NOC Application(NOC)', route('society_noc_edit'));
+    $trail->push('Edit NOC Application(NOC)', route('society_noc_edit',$id));
 });
 
 Breadcrumbs::for('noc_cc_edit', function ($trail) {
