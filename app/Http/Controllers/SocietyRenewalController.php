@@ -1073,6 +1073,9 @@ class SocietyRenewalController extends Controller
             $sc_document_status = new RenewalDocumentStatus;
             $registration_details = $sc_registration_details->getFillable();
             $sc_document_details = $sc_document_status->getFillable();
+            
+            $fields=array_flip($sc_document_details);
+            unset($sc_document_details[$fields['other_document_name']]);
             $insert_registrar_details = array_slice($insert_arr, 0, count($registration_details));
             $insert_sc_document_detail = array_slice($insert_arr, count($registration_details), count($sc_document_details));
             foreach($sc_document_details as $key => $value){
