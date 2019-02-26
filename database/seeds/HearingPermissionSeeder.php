@@ -316,6 +316,13 @@ class HearingPermissionSeeder extends Seeder
                 'display_name' => 'Shows hearing case logs',
                 'description' => 'Shows hearing case logs'
             ],
+            [
+                'name' => 'hearing.dashboard.ajax',
+                'display_name' => 'Shows hearing case logs',
+                'description' => 'Shows hearing case logs'
+            ],
+
+
         ];
 
         $permission_role_joint_pa = [];
@@ -446,6 +453,11 @@ class HearingPermissionSeeder extends Seeder
                 'name'=>'dashboard.ajax.co',
                 'display_name'=>'view dashboard dynamically',
                 'description'=>'view dashboard dynamically'
+            ],
+            [
+                'name' => 'hearing.dashboard.ajax',
+                'display_name' => 'Shows hearing dashboard ajax',
+                'description' => 'Shows hearing dashboard ajax'
             ],
 
         ];

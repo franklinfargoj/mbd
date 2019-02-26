@@ -754,6 +754,96 @@ class HearingController extends Controller
         return view('admin.hearing.dashboard',compact('todaysHearing','todays_hearing_count','dashboardData','conveyanceDashboard','conveyanceRoles','pendingApplications','renewalDashboard','renewalRoles','renewalPendingApplications'));
     }
 
+    public function ajaxDashboard(Request $request){
+
+        if($request->module_name == "Hearing Summary"){
+            $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
+
+            $role_id = session()->get('role_id');
+            $user_id = Auth::id();
+
+            $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q) use ($department_id){
+                $q->where('department_id', $department_id);
+                // ->where('role_id', session()->get('role_id'));
+            }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
+                ->whereHas('hearingStatusLog' ,function($q) use ($department_id){
+                    $q->where('department_id', $department_id);
+                    // ->where('role_id', session()->get('role_id'));
+                })->get()->toArray();
+
+            $totalPendingHearing = $totalClosedHearing = $totalNoticeSendHearing = $totalScheduledHearing = $totalUnderJudgementHearing = $totalForwardedHearing = 0;
+
+            foreach ($hearing_data as $hearing){
+
+                $status = $hearing['hearing_status_log']['0']['hearing_status']['id'];
+
+                switch ( $status )
+                {
+                    case config('commanConfig.hearingStatus.pending'): $totalPendingHearing += 1; break;
+                    case config('commanConfig.hearingStatus.scheduled_meeting'): $totalScheduledHearing += 1; break;
+                    case config('commanConfig.hearingStatus.case_under_judgement'): $totalUnderJudgementHearing += 1 ; break;
+                    case config('commanConfig.hearingStatus.forwarded'): $totalForwardedHearing += 1; break;
+                    case config('commanConfig.hearingStatus.case_closed'): $totalClosedHearing +=1 ; break;
+                    case config('commanConfig.hearingStatus.notice_send'): $totalNoticeSendHearing +=1 ; break;
+                    default:
+                        ; break;
+                }
+
+            }
+
+            $totalHearing = count($hearing_data);
+
+            $dashboardData = array();
+            $dashboardData['Total Number of Cases'][0] =  $totalHearing;
+            $dashboardData['Total Number of Cases'][1] =  '';
+            $dashboardData['Total Number of Pending Cases'][0] =  $totalPendingHearing;
+            $dashboardData['Total Number of Pending Cases'][1] =  '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.pending');
+            $dashboardData['Total Number of Scheduled Cases'][0] = $totalScheduledHearing;
+            $dashboardData['Total Number of Scheduled Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.scheduled_meeting');
+            $dashboardData['Total Number of Under Judgement Cases'][0] = $totalUnderJudgementHearing;
+            $dashboardData['Total Number of Under Judgement Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.case_under_judgement');
+            $dashboardData['Total Number of Forwarded Cases'][0] = $totalForwardedHearing;
+            $dashboardData['Total Number of Forwarded Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.forwarded');
+            $dashboardData['Total Number of Closed Cases'][0] = $totalClosedHearing;
+            $dashboardData['Total Number of Closed Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.case_closed');
+            $dashboardData['Total Number of Notice Sent Cases'][0] = $totalNoticeSendHearing;
+            $dashboardData['Total Number of Notice Sent Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.notice_send');
+
+            return $dashboardData;
+        }
+
+        if($request->module_name == "Society Conveyance"){
+            $conveyanceCommonController = new conveyanceCommonController();
+            $conveyanceDashboard = $conveyanceCommonController->ConveyanceDashboard();
+
+            return $conveyanceDashboard;
+        }
+
+        if($request->module_name == 'Society Conveyance Subordinate Pendency'){
+            $conveyanceCommonController = new conveyanceCommonController();
+
+            $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();
+
+            return $pendingApplications;
+        }
+
+        if($request->module_name == "Society Renewal"){
+            $conveyanceCommonController = new conveyanceCommonController();
+            $conveyanceDashboard = $conveyanceCommonController->ConveyanceDashboard();
+
+            return $conveyanceDashboard;
+        }
+
+        if($request->module_name = "Society Renewal Subordinate Pendency"){
+            $renewal = new renewalCommonController();
+            $renewalPendingApplications = $renewal->getApplicationPendingAtDepartment();
+
+            return $renewalPendingApplications;
+
+        }
+
+    }
+
     public function getHearingLogs($hearing_id){
 
         $hearing_data = Hearing::with(['hearingSchedule1.userDetails.roleDetails', 'hearingUploadCaseJudgement', 'hearingUploadCaseJudgement.userDetails', 'hearingUploadCaseJudgement.userDetails.roleDetails', 'hearingPrePostSchedule.userDetails', 'hearingPrePostSchedule.userDetails.roleDetails', 'hearingSchedule1.userDetails'])

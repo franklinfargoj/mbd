@@ -1,265 +1,304 @@
 @extends('admin.layouts.app')
 @section('css')
 <link rel="stylesheet" href="../../../../public/css/amcharts.css">
+<!-- Fonts -->
+<!--<link rel="dns-prefetch" href="https://fonts.gstatic.com">-->
+<!-- Styles -->
+<link href="{{asset('/css/dashboard/vendors.bundle.css')}}" rel="stylesheet" type="text/css"/>
+<link href="{{asset('/css/dashboard/style.bundle.css')}}" rel="stylesheet" type="text/css"/>
+{{--    <link href="{{asset('/css/dashboard/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />--}}
+<link href="{{asset('/css/dashboard/custom.css')}}" rel="stylesheet" type="text/css"/>
 @endsection
 @section('content')
-@php
-$chart = 0;
-$chart1 = 0;
-$chart2 = 0;
-$chart3 = 0;
-$chart4 = 0;
-@endphp
-<div class="container-fluid">
-    <div class="m-subheader px-0 m-subheader--top">
-        <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title">Dashboard</h3>
+
+    <div class="container-fluid">
+        <div class="m-subheader px-0 m-subheader--top">
+            <div class="d-flex align-items-center">
+                <h3 class="m-subheader__title">Dashboard</h3>
+            </div>
         </div>
-    </div>
 
-    <div class="hearing-accordion-wrapper">
+        <div class="hearing-accordion-wrapper">
 
-        <div class="m-portlet m-portlet--compact hearing-accordion mb-0">
-            <div class="d-flex justify-content-between align-items-center">
-                <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100 collapsed"
-                    data-toggle="collapse" href="#todays-hearing">
-                    <span class="form-accordion-title">Today's Hearing ({{$todays_hearing_count}})</span>
-                    @if($todaysHearing)
-                    <span class="accordion-icon"></span>
+            <div class="m-portlet m-portlet--compact hearing-accordion mb-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100 collapsed"
+                       data-toggle="collapse" href="#todays-hearing">
+                        <span class="form-accordion-title">Today's Hearing ({{$todays_hearing_count}})</span>
+                        @if($todaysHearing)
+                            <span class="hearing-accordion-icon"></span>
+                        @endif
+                    </a>
+                </div>
+            </div>
+
+            <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="todays-hearing"
+                 data-parent="#accordion">
+                @foreach($todaysHearing as $hearing)
+                    <div class="row no-gutters hearing-row">
+                        <div class="col-12 no-shadow">
+                            <div class="app-card-section-title">Today's Hearing</div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="m-portlet app-card text-center">
+                                <h2 class="app-heading">Case Year</h2>
+                                <h2 class="app-no mb-0">{{$hearing['case_year']}}</h2>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="m-portlet app-card text-center">
+                                <h2 class="app-heading">Case NO</h2>
+                                <h2 class="app-no mb-0">{{$hearing['id']}}</h2>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="m-portlet app-card text-center">
+                                <h2 class="app-heading">Hearing Time</h2>
+                                <h2 class="app-no mb-0">{{$hearing['hearing_schedule']['preceding_time']}}</h2>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="m-portlet app-card text-center">
+                                <h2 class="app-heading">Applicant Name</h2>
+                                <h2 class="app-no mb-0">{{$hearing['applicant_name']}}</h2>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="m-portlet app-card text-center">
+                                <a href="{{route('hearing.show',encrypt($hearing['id']))}}" class="app-no app-no--view mb-0">View
+                                    Details</a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+        </div>
+
+        <div class="d-flex flex-wrap db-wrapper">
+            <div class="db__card hearing_summary" data-module="Hearing Summary">
+                <div class="db__card__img-wrap db-color-1">
+                    <h3 class="db__card__count">{{$dashboardData['Total Number of Cases'][0]}}</h3>
+                </div>
+                <p class="db__card__title">Hearing Summary</p>
+            </div>
+
+            @if(in_array(session()->get('role_name'),$conveyanceRoles))
+                @if($conveyanceDashboard)
+                    <div class="db__card conveyance" data-module = "Society Conveyance">
+                        <div class="db__card__img-wrap db-color-3">
+                            <h3 class="db__card__count">{{$conveyanceDashboard['0']['Total No of Applications'][0]}}</h3>
+                        </div>
+                        <p class="db__card__title">Society Conveyance</p>
+                    </div>
+                @endif
+
+                    @if($pendingApplications)
+                        <div class="db__card conveyance_pending" data-module = "Society Conveyance Subordinate Pendency">
+                            <div class="db__card__img-wrap db-color-6">
+                                <h3 class="db__card__count">{{$pendingApplications['Total Number of Applications']}}</h3>
+                            </div>
+                            <p class="db__card__title">Society Conveyance Subordinate Pendency</p>
+                        </div>
                     @endif
-                </a>
-            </div>
-        </div>
-
-        <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="todays-hearing"
-            data-parent="#accordion">
-            @foreach($todaysHearing as $hearing)
-            <div class="row no-gutters hearing-row">
-                <div class="col-12 no-shadow">
-                    <div class="app-card-section-title">Today's Hearing</div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">Case Year</h2>
-                        <h2 class="app-no mb-0">{{$hearing['case_year']}}</h2>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">Case NO</h2>
-                        <h2 class="app-no mb-0">{{$hearing['id']}}</h2>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">Hearing Time</h2>
-                        <h2 class="app-no mb-0">{{$hearing['hearing_schedule']['preceding_time']}}</h2>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">Applicant Name</h2>
-                        <h2 class="app-no mb-0">{{$hearing['applicant_name']}}</h2>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="m-portlet app-card text-center">
-                        <a href="{{route('hearing.show',encrypt($hearing['id']))}}" class="app-no app-no--view mb-0">View
-                            Details</a>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-        </div>
-
-    </div>
-    <div class="hearing-accordion-wrapper">
-        <div class="m-portlet m-portlet--compact hearing-accordion1 mb-0">
-            <div class="d-flex justify-content-between align-items-center">
-                <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
-                    data-toggle="collapse" href="#hearing-summary">
-                    <span class="form-accordion-title">Hearing Summary</span>
-                    <span class="accordion-icon hearing-accordion-icon"></span>
-                </a>
-            </div>
-        </div>
-        <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="hearing-summary"
-            data-parent="#accordion">
-            <div class="row no-gutters hearing-row">
-                <div class="col-12 no-shadow">
-                    <div class="app-card-section-title">Hearing</div>
-                </div>
-                @foreach($dashboardData as $header => $value)
-                <div class="col-lg-3">
-                    <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">{{$header}}</h2>
-                        <div class="app-card-footer">
-                            <h2 class="app-no mb-0">{{$value[0]}}</h2>
-                            @php $chart += $value[0];@endphp
-                            <a href='{{url(session()->get('redirect_to').$value[1])}}' class="app-card__details mb-0">View
-                                Details</a>
+            @endif
+            @if(in_array(session()->get('role_name'),$renewalRoles))
+                @if($renewalDashboard)
+                    <div class="db__card renewal" data-module = "Society Renewal">
+                        <div class="db__card__img-wrap db-color-4">
+                            <h3 class="db__card__count">{{$renewalDashboard[0]['Total No of Applications'][0]}}</h3>
                         </div>
+                        <p class="db__card__title">Society Renewal</p>
                     </div>
-                </div>
-                @endforeach
-            </div>
-            @if($chart)
-            <div id="chartdiv" style="width: 100%; height: 350px; margin-top: 2px;"></div>
-            @endif
-        </div>
-    </div>
-
-
-
-    <!-- Dashboard for Convayance Module  -->
-    @if(session()->get('role_name') == config('commanConfig.joint_co'))
-    @if($conveyanceDashboard)
-    <div class="hearing-accordion-wrapper">
-        <div class="m-portlet m-portlet--compact conveyance-accordion mb-0">
-            <div class="d-flex justify-content-between align-items-center">
-                <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
-                    data-toggle="collapse" href="#conveyance-summary">
-                    <span class="form-accordion-title">Application for Society Conveyance</span>
-                    <span class="accordion-icon conveyance-accordion-icon"></span>
-                </a>
-            </div>
-        </div>
-        <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="conveyance-summary"
-            data-parent="#accordion">
-            <div class="row no-gutters hearing-row">
-                <div class="col-12 no-shadow">
-                    <div class="app-card-section-title">Society Conveyance</div>
-                </div>
-                @foreach($conveyanceDashboard[0] as $header => $value)
-                <div class="col-lg-3">
-                    <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">{{$header}}</h2>
-                        <div class="app-card-footer">
-                            <h2 class="app-no mb-0">{{$value[0]}}</h2>
-                            @php $chart1 += $value[0]; @endphp
-                            @if( $value[1] == 'pending')
-                            <a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#pending">View
-                                Details</a>
-                            @elseif( $value[1] == 'sendToSociety')
-                            <a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#sendToSociety">View
-                                Details</a>
-                            @else
-                            <a href="{{url($value[1])}}" class="app-card__details mb-0">View Details</a>
-                            @endif
-                            {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
+                @endif
+                @if($renewalPendingApplications)
+                        <div class="db__card renewal_pending" data-module = "Society Renewal Subordinate Pendency">
+                            <div class="db__card__img-wrap db-color-5">
+                                <h3 class="db__card__count">{{$renewalPendingApplications['Total Number of Applications']}}</h3>
+                            </div>
+                            <p class="db__card__title">Society Renewal Subordinate Pendency</p>
                         </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-            @if($chart1)
-            <div id="conveyance_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
+                    @endif
             @endif
 
-            @if($pendingApplications)
-            <div class="row no-gutters hearing-row">
-                <div class="col-12 no-shadow">
-                    <div class="app-card-section-title">Society Conveyance Subordinate Pendency</div>
-                </div>
-                @foreach($pendingApplications as $header => $value)
-                <div class="col-lg-3">
-                    <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">{{$header}}</h2>
-                        <h2 class="app-no mb-0">{{$value}}</h2>
-                        @php $chart2 += $value; @endphp
-
-                        {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
-                    </div>
-                </div>
-                @endforeach
-            </div>
-            @if($chart2)
-            <div id="pending_conveyance_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
-            @endif
-            @endif
         </div>
-    </div>
-    @endif
 
-    <!-- end     -->
 
-    <!-- Dashboard for Renewal Module  -->
-    @if(in_array(session()->get('role_name'),$renewalRoles))
-    @if($renewalDashboard)
-    <div class="hearing-accordion-wrapper">
-        <div class="m-portlet m-portlet--compact renewal-accordion mb-0">
-            <div class="d-flex justify-content-between align-items-center">
-                <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100"
-                    data-toggle="collapse" href="#renewal_dashboard">
-                    <span class="form-accordion-title">Applications for Society Renewal</span>
-                    <span class="accordion-icon renewal-accordion-icon"></span>
-                </a>
+    <!-- Modal for count table and pie chart popup -->
+        <div class="modal fade" id="getCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style=" width: 150%;
+  height: 160%;
+  margin: 5% 10% 0 10%;
+  padding: 0;">
+                <div class="modal-content" style=" width: 250%;
+  height: 50%;
+  margin: 0;
+  padding: 0;">
+                    <div style="float:left">
+                        <button type="button"  class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body" id="count_table" >
+
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="renewal_dashboard"
-            data-parent="#accordion">
-            <div class="row no-gutters hearing-row">
-                <div class="col-12 no-shadow">
-                    <div class="app-card-section-title">Society Renewal</div>
-                </div>
-                @foreach($renewalDashboard[0] as $header => $value)
-                <div class="col-lg-3">
-                    <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">{{$header}}</h2>
-                        <div class="app-card-footer">
-                            <h2 class="app-no mb-0">{{$value[0]}}</h2>
 
-                            @if( $value[1] == 'pending')
-                            <a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#pending_renewal">View
-                                Details</a>
-                            @elseif( $value[1] == 'sendToSociety')
-                            <a href="{{url($value[1])}}" class="app-card__details mb-0" data-toggle="modal" data-target="#sendToSociety_renewal">View
-                                Details</a>
-                            @else
-                            <a href="{{url($value[1])}}" class="app-card__details mb-0">View Details</a>
-                            @endif
-                            @php $chart3 += $value[0]; @endphp
+
+        <!-- Modal for application pending bifergation -->
+        <div class="modal fade" id="pending" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Pending Applications</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive m-portlet__body--table">
+                            <table class="table text-center">
+                                <thead class="thead-default">
+                                <tr>
+                                    <th>Header</th>
+                                    <th>Count</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @if($conveyanceDashboard[1]) @foreach($conveyanceDashboard[1] as $header =>
+                                        $value)
+                                    <tr>
+                                        <td> {{$header}} </td>
+                                        <td> {{$value}} </td>
+                                    </tr>
+                                @endforeach @endif
+                                </tbody>
+                            </table>
                         </div>
-                        {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
+                        <!-- <p>Some text in the modal.</p> -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
-                @endforeach
             </div>
-            @if($chart3)
-            <div id="renewal_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
-            @endif
 
-            @if($renewalPendingApplications)
-            <div class="row no-gutters hearing-row">
-                <div class="col-12 no-shadow">
-                    <div class="app-card-section-title">Society Renewal Subordeinate Pendency</div>
-                </div>
-                @foreach($renewalPendingApplications as $header => $value)
-                <div class="col-lg-3">
-                    <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">{{$header}}</h2>
-                        <div class="app-card-footer">
-                            <h2 class="app-no mb-0">{{$value}}</h2>
-                            @php $chart4 += $value; @endphp
-                            {{--<a href="" class="app-card__details mb-0">View Details</a>--}}
+        </div>
+
+        <!-- Model for send to society bifergation-->
+        <div class="modal fade" id="sendToSociety" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Applications Sent to Society</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table class="table text-center">
+                                <thead class="thead-default">
+                                <tr>
+                                    <th>Header</th>
+                                    <th>Count</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @if($conveyanceDashboard[2]) @foreach($conveyanceDashboard[2] as $header =>
+                                        $value)
+                                    <tr>
+                                        <td> {{$header}} </td>
+                                        <td> {{$value}} </td>
+                                    </tr>
+                                @endforeach @endif
+                                </tbody>
+                            </table>
                         </div>
+                        <!-- <p>Some text in the modal.</p> -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
-                @endforeach
             </div>
-            @if($chart4)
-            <div id="pending_renewal_chart" style="width: 100%; height: 350px; margin-top: 2px;"></div>
-            @endif
-            @endif
+        </div>
+
+        <!-- Modal for renewal application pending bifergation -->
+        <div class="modal fade" id="pending_renewal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Pending Applications</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive m-portlet__body--table">
+                            <table class="table text-center">
+                                <thead class="thead-default">
+                                <tr>
+                                    <th>Header</th>
+                                    <th>Count</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @if($renewalDashboard[1]) @foreach($renewalDashboard[1] as $header => $value)
+                                    <tr>
+                                        <td> {{$header}} </td>
+                                        <td> {{$value}} </td>
+                                    </tr>
+                                @endforeach @endif
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- <p>Some text in the modal.</p> -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Model for renewal send to society bifergation-->
+        <div class="modal fade" id="sendToSociety_renewal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Applications Sent to Society</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table class="table text-center">
+                                <thead class="thead-default">
+                                <tr>
+                                    <th>Header</th>
+                                    <th>Count</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @if($renewalDashboard[2]) @foreach($renewalDashboard[2] as $header => $value)
+                                    <tr>
+                                        <td> {{$header}} </td>
+                                        <td> {{$value}} </td>
+                                    </tr>
+                                @endforeach @endif
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- <p>Some text in the modal.</p> -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-@endif
-@endif
-@endif
-<!-- end -->
 
-</div>
 
 <!-- Modal for application pending bifergation -->
 <div class="modal fade" id="pending" role="dialog">
@@ -422,8 +461,8 @@ $chart4 = 0;
 
 @section('js')
 <script>
-    $(".hearing-accordion1").on("click", function () {
-        var data = $('.hearing-accordion1').children().children().attr('aria-expanded');
+    $(".hearing-accordion").on("click", function () {
+        var data = $('.hearing-accordion').children().children().attr('aria-expanded');
         if (!(data)) {
             $('.hearing-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
         } else {
@@ -436,241 +475,606 @@ $chart4 = 0;
     });
 
 </script>
-<script>
-    $(".conveyance-accordion").on("click", function () {
-        var data = $('.conveyance-accordion').children().children().attr('aria-expanded');
-        if (!(data)) {
-            $('.conveyance-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-        } else {
-            if (data == 'undefine' || data == 'false') {
-                $('.conveyance-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-            } else {
-                $('.conveyance-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
-            }
-        }
-    });
 
-</script>
 
-<script>
-    $(".renewal-accordion").on("click", function () {
-        var data = $('.renewal-accordion').children().children().attr('aria-expanded');
-        if (!(data)) {
-            $('.renewal-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-        } else {
-            if (data == 'undefine' || data == 'false') {
-                $('.renewal-accordion-icon').css('background-image', "url('../../../../img/minus-icon.svg')");
-            } else {
-                $('.renewal-accordion-icon').css('background-image', "url('../../../../img/plus-icon.svg')");
-            }
-        }
-    });
+    <script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>
 
-</script>
+    {{--ajax call for Count Table and Pie chart(hearing summary)--}}
+    <script>
+        var dashboard = "{{route('hearing.dashboard.ajax')}}";
+        $(".hearing_summary").on("click", function () {
 
-<script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>
-<script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>
-@if($chart)
-<script>
-    var chart;
-    var legend;
+            var module_name = ($(this).attr("data-module"));
 
-    var chartData = [
-        @foreach($dashboardData as $header => $value)
-            @if(!($header == 'Total Number of Cases')){
-                "status": "{{$header}}",
-                "value": "{{$value[0]}}"
-            },
-            @endif
-        @endforeach
-    ];
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: dashboard,
+                data: {module_name:module_name},
+                dataType: 'json',
+                success: function (data) {
+                    if (data !== "false") {
 
-    AmCharts.ready(function () {
-        // PIE CHART
-        chart = new AmCharts.AmPieChart();
-        chart.dataProvider = chartData;
-        chart.titleField = "status";
-        chart.valueField = "value";
-        chart.outlineColor = "#FFFFFF";
-        chart.outlineAlpha = 0.8;
-        chart.outlineThickness = 2;
-        chart.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
-        // this makes the chart 3D
-        chart.depth3D = 15;
-        chart.angle = 30;
-        chart.colors = ["#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252",
-            "#57032A", "#CA9726", "#990000", "#4B0C25"
-        ]
-        chart.fontSize = 15;
+                        var html = "";
 
-        // WRITE
-        chart.write("chartdiv");
-    });
+                        html += "<div id=\"count_table\">\n" +
+                            "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
+                            "                    <div class=\"d-flex align-items-center\">\n" +
+                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                    </div>\n" +
+                            "                </div>\n" +
+                            "                <div class=\"row\">\n" +
+                            "                    <div class=\"col-sm-7\" >" +
+                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                            <div class=\"table-responsive\">\n" +
+                            "                                <table class=\"table text-center\">\n" +
+                            "                                    <thead>\n" +
+                            "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
+                            "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\">Action</th>\n" +
+                            "                                    </thead>\n" +
+                            "                                    </tbody>\n" ;
 
-</script>
-@endif
-@if($chart1)
-<script>
-    var chart1;
-    var legend;
+                        var chart_count = 0 ;
+                        var i = 1 ;
+                        $.each(data, function (index, data) {
 
-    var chartData1 = [
-        @foreach($conveyanceDashboard[0] as $header => $value) {
-            @if(!($header == 'Total No of Applications'))
-            "status": "{{$header}}",
-            "value": "{{$value[0]}}",
-            @endif
-        },
-        @endforeach
-    ];
+                            html += "<tr>\n" +
+                                "<td class=\"text-center\">"+i+"</td>" +
+                                "<td>"+index+"</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">"+data[0]+"</span></td>\n" +
+                                "<td>\n" +
+                                "<a href=\""+baseUrl+"/hearing"+data[1]+"\"class=\"btn btn-action\">View</a>\n" +
+                                "</td>\n" +
+                                "</tr>";
+                            chart_count += data[0];
+                            i++;
+                        });
 
-    AmCharts.ready(function () {
-        // PIE CHART
-        chart1 = new AmCharts.AmPieChart();
-        chart1.dataProvider = chartData1;
-        chart1.titleField = "status";
-        chart1.valueField = "value";
-        chart1.outlineColor = "#FFFFFF";
-        chart1.outlineAlpha = 0.8;
-        chart1.outlineThickness = 2;
-        chart1.balloonText =
-            "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
-        // this makes the chart 3D
-        chart1.depth3D = 15;
-        chart1.angle = 30;
-        chart1.colors = ["#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252",
-            "#57032A", "#CA9726", "#990000", "#4B0C25"
-        ]
-        chart1.fontSize = 15;
+                        html +="</tbody>\n" +
+                            "                                </table>\n" +
+                            "                        </div>\n" +
+                            "                    </div>" +
+                            "                   </div>\n" +
+                            "                        <div class=\"col-sm-5\" id=\"ajaxchartdiv\">\n" +
+                            "                        </div>\n" +
+                            "                </div>\n" +
+                            "            </div>";
 
-        // WRITE
-        chart1.write("conveyance_chart");
-    });
+                        $('#count_table').html(html);
 
-</script>
-@endif
-@if($chart2)
-<script>
-    var chart2;
-    var legend;
-    @if($pendingApplications)
-    var chartData2 = [
-        @foreach($pendingApplications as $header => $value) {
-            "status": "{{$header}}",
-            "value": "{{$value}}",
-        },
-        @endforeach
-    ];
+                        if(chart_count){
 
-    AmCharts.ready(function () {
-        // PIE CHART
-        chart2 = new AmCharts.AmPieChart();
-        chart2.dataProvider = chartData2;
-        chart2.titleField = "status";
-        chart2.valueField = "value";
-        chart2.outlineColor = "#FFFFFF";
-        chart2.outlineAlpha = 0.8;
-        chart2.outlineThickness = 2;
-        chart2.balloonText =
-            "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
-        // this makes the chart 3D
-        chart2.depth3D = 15;
-        chart2.angle = 30;
-        ["#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252", "#57032A",
-            "#CA9726", "#990000", "#4B0C25"
-        ]
-        // WRITE
-        chart2.write("pending_conveyance_chart");
-    });
-    @endif
+                            var chartData = [];
 
-</script>
-@endif
-@if($chart3)
-<script>
-    var chart3;
-    var legend;
+                            $.each((data), function (index, data) {
+                                obj = {};
+                                if (index != 'Total Number of Cases') {
+                                    obj['status'] = index;
+                                    obj['value'] = data[0];
+                                    chartData.push(obj);
+                                }
 
-    @if($renewalDashboard[0])
-    var chartData3 = [
-        @foreach($renewalDashboard[0] as $header => $value) {
-            @if(!($header == 'Total No of Applications'))
-            "status": '{{$header}}',
-            "value": '{{$value[0]}}',
-            @endif
-        },
-        @endforeach
+                            });
 
-    ];
-    //    console.log(chartData1);
+                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                                "type": "pie",
+                                "theme": "light",
+                                "dataProvider":chartData ,
+                                "valueField": "value",
+                                "titleField": "status",
+                                "outlineAlpha": 0.8,
+                                "outlineColor":"#FFFFFF",
+                                "outlineThickness" : 2,
+                                "depth3D": 15,
+                                "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                                "angle": 30,
+                                "labelText": "[[percents]]%",
+                                "labelRadius": -35,
+                                "fontSize" : 15,
+                            } );
+                        }
+                        $("#getCodeModal").modal('show');
 
-    AmCharts.ready(function () {
-        // PIE CHART
-        chart3 = new AmCharts.AmPieChart();
-        chart3.dataProvider = chartData3;
-        chart3.titleField = "status";
-        chart3.valueField = "value";
-        chart3.outlineColor = "#FFFFFF";
-        chart3.outlineAlpha = 0.8;
-        chart3.outlineThickness = 2;
-        chart3.balloonText =
-            "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
-        // this makes the chart 3D
-        chart3.depth3D = 15;
-        chart3.angle = 30;
-        chart3.colors = ["#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252",
-            "#57032A", "#CA9726", "#990000", "#4B0C25"
-        ]
-        chart3.fontSize = 15;
+                    }
+                    else {
+                        alert('errror');
+                    }
+                },
+            });
 
-        // WRITE
-        chart3.write("renewal_chart");
-    });
-    @endif
+        });
 
-</script>
-@endif
+    </script>
+    {{--end ajax call for Count Table and Pie chart(hearing summary)--}}
 
-@if($chart4)
-<script>
-    var chart4;
-    var legend;
+    {{--ajax call for Count Table and Pie chart(conveyance)--}}
+    <script>
+        var dashboard = "{{route('hearing.dashboard.ajax')}}";
+        $(".conveyance").on("click", function () {
 
-    @if($renewalPendingApplications)
-    var chartData4 = [
-        @foreach($renewalPendingApplications as $header => $value) {
-            "status": '{{$header}}',
-            "value": '{{$value}}',
-        },
-        @endforeach
+            var module_name = ($(this).attr("data-module"));
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: dashboard,
+                data: {module_name:module_name},
+                dataType: 'json',
+                success: function (data) {
+                    if (data !== "false") {
 
-    ];
-    //    console.log(chartData1);
+                        var html = "";
 
-    AmCharts.ready(function () {
-        // PIE CHART
-        chart4 = new AmCharts.AmPieChart();
-        chart4.dataProvider = chartData4;
-        chart4.titleField = "status";
-        chart4.valueField = "value";
-        chart4.outlineColor = "#FFFFFF";
-        chart4.outlineAlpha = 0.8;
-        chart4.outlineThickness = 2;
-        chart4.balloonText =
-            "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
-        // this makes the chart 3D
-        chart4.depth3D = 15;
-        chart4.angle = 30;
-        chart4.colors = ["#f0791b", "#ffc063", "#8bc34a", "#754DEB", "#DDDDDD", "#999999", "#333333", "#179252",
-            "#57032A", "#CA9726", "#990000", "#4B0C25"
-        ]
-        chart4.fontSize = 15;
+                        html += "<div id=\"count_table\">\n" +
+                            "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
+                            "                    <div class=\"d-flex align-items-center\">\n" +
+                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                    </div>\n" +
+                            "                </div>\n" +
+                            "                <div class=\"row\">\n" +
+                            "                    <div class=\"col-sm-7\" >" +
+                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                            <div class=\"table-responsive\">\n" +
+                            "                                <table class=\"table text-center\">\n" +
+                            "                                    <thead>\n" +
+                            "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
+                            "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\">Action</th>\n" +
+                            "                                    </thead>\n" +
+                            "                                    </tbody>\n" ;
 
-        // WRITE
-        chart4.write("pending_renewal_chart");
-    });
-    @endif
+                        var chart_count = 0 ;
+                        var i = 1 ;
+                        $.each(data[0], function (index, data) {
 
-</script>
-@endif
+                            html += "<tr>\n" +
+                                "<td class=\"text-center\">"+i+"</td>" +
+                                "<td>"+index+"</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">"+data[0]+"</span></td>\n" +
+                                "<td class=\"text-center\">";
+
+                            if(data[1] == "pending"){
+
+                                html += "<a href=\""+baseUrl+"/"+data[1]+"\"class=\"btn btn-action\" data-toggle=\"modal\"\n" +
+                                    "             data-target=\"#pending\">View</a>";
+                            }
+                            else if(data[1] == "sendToSociety"){
+                                html += "<a href=\""+baseUrl+"/"+data[1]+"\"class=\"btn btn-action\" data-toggle=\"modal\"\n" +
+                                    "             data-target=\"#sendToSociety\">View</a>";
+                            }
+                            else{
+                                html+= "<a href=\""+baseUrl+"/"+data[1]+"\"class=\"btn btn-action\">View</a>\n";
+
+                            }
+                            html += "</td>\n" +
+                                "</tr>";
+
+                            chart_count += data[0];
+                            i++;
+                        });
+
+                        html +="</tbody>\n" +
+                            "                                </table>\n" +
+                            "                        </div>\n" +
+                            "                    </div>" +
+                            "                   </div>\n" +
+                            "                        <div class=\"col-sm-5\" id=\"ajaxchartdiv\">\n" +
+                            "                        </div>\n" +
+                            "                </div>\n" +
+                            "            </div>";
+
+                        $('#count_table').html(html);
+
+
+                        if(chart_count){
+
+                            var chartData = [];
+                            $.each((data[0]), function (index, data) {
+                                obj = {};
+                                if (index != 'Total No of Applications') {
+                                    obj['status'] = index;
+                                    obj['value'] = data[0];
+                                    chartData.push(obj);
+                                }
+
+                            });
+
+                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                                "type": "pie",
+                                "theme": "light",
+                                "dataProvider":chartData ,
+                                "valueField": "value",
+                                "titleField": "status",
+                                "outlineAlpha": 0.8,
+                                "outlineColor":"#FFFFFF",
+                                "outlineThickness" : 2,
+                                "depth3D": 15,
+                                "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                                "angle": 30,
+                                "labelText": "[[percents]]%",
+                                "labelRadius": -35,
+                                "fontSize" : 15,
+                            } );
+                        }
+                        $("#getCodeModal").modal('show');
+
+                    }
+                    else {
+                        alert('errror');
+                    }
+                },
+            });
+
+        });
+
+    </script>
+    {{--end ajax call for Count Table and Pie chart(conveyance)--}}
+
+    {{--ajax call for Pendency Count Table and Pie chart(conveyance)--}}
+    <script>
+        var dashboard = "{{route('hearing.dashboard.ajax')}}";
+        $(".conveyance_pending").on("click", function () {
+
+            var module_name = ($(this).attr("data-module"));
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: dashboard,
+                data: {module_name:module_name},
+                dataType: 'json',
+                success: function (data) {
+                    if (data !== "false") {
+
+                        var html = "";
+
+                        html += "<div id=\"count_table\">\n" +
+                            "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
+                            "                    <div class=\"d-flex align-items-center\">\n" +
+                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                    </div>\n" +
+                            "                </div>\n" +
+                            "                <div class=\"row\">\n" +
+                            "                    <div class=\"col-sm-7\" >" +
+                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                            <div class=\"table-responsive\">\n" +
+                            "                                <table class=\"table text-center\">\n" +
+                            "                                    <thead>\n" +
+                            "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
+                            "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    </thead>\n" +
+                            "                                    </tbody>\n" ;
+
+                        var chart_count = 0 ;
+                        var i = 1 ;
+                        $.each(data, function (index, data) {
+
+                            html += "<tr>\n" +
+                                "<td class=\"text-center\">"+i+"</td>" +
+                                "<td>"+index+"</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">"+data+"</span></td>\n" +
+                                "</tr>";
+
+                            chart_count += data;
+                            i++;
+                        });
+
+                        html +="</tbody>\n" +
+                            "                                </table>\n" +
+                            "                        </div>\n" +
+                            "                    </div>" +
+                            "                   </div>\n" +
+                            "                        <div class=\"col-sm-5\" id=\"ajaxchartdiv\">\n" +
+                            "                        </div>\n" +
+                            "                </div>\n" +
+                            "            </div>";
+
+                        $('#count_table').html(html);
+
+
+                        if(chart_count){
+
+                            var chartData = [];
+                            $.each((data), function (index, data) {
+                                obj = {};
+                                if (index != 'Total Number of Applications') {
+                                    obj['status'] = index;
+                                    obj['value'] = data;
+                                    chartData.push(obj);
+                                }
+
+                            });
+
+                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                                "type": "pie",
+                                "theme": "light",
+                                "dataProvider":chartData ,
+                                "valueField": "value",
+                                "titleField": "status",
+                                "outlineAlpha": 0.8,
+                                "outlineColor":"#FFFFFF",
+                                "outlineThickness" : 2,
+                                "depth3D": 15,
+                                "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                                "angle": 30,
+                                "labelText": "[[percents]]%",
+                                "labelRadius": -35,
+                                "fontSize" : 15,
+                            } );
+                        }
+                        $("#getCodeModal").modal('show');
+
+                    }
+                    else {
+                        alert('errror');
+                    }
+                },
+            });
+
+        });
+
+    </script>
+    {{--end ajax call for Pendency Count Table and Pie chart(conveyance)--}}
+
+    {{--ajax call for Count Table and Pie chart(renewal)--}}
+    <script>
+        var dashboard = "{{route('hearing.dashboard.ajax')}}";
+        $(".renewal").on("click", function () {
+
+            var redirect_to = "{{session()->get('redirect_to')}}";
+    //                        var module_name = ($('.counts').data("module"));
+            var module_name = ($(this).attr("data-module"));
+
+    //                        alert(module_name);
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: dashboard,
+                data: {module_name:module_name},
+                dataType: 'json',
+                success: function (data) {
+                    if (data !== "false") {
+
+
+                        var html = "";
+
+                        html += "<div id=\"count_table\">\n" +
+                            "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
+                            "                    <div class=\"d-flex align-items-center\">\n" +
+                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                    </div>\n" +
+                            "                </div>\n" +
+                            "                <div class=\"row\">\n" +
+                            "                    <div class=\"col-sm-7\" >" +
+                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                            <div class=\"table-responsive\">\n" +
+                            "                                <table class=\"table text-center\">\n" +
+                            "                                    <thead>\n" +
+                            "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
+                            "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\">Action</th>\n" +
+                            "                                    </thead>\n" +
+                            "                                    </tbody>\n" ;
+
+                        var chart_count = 0 ;
+                        var i = 1 ;
+                        $.each(data[0], function (index, data) {
+
+    //                                        console.log(data);
+
+                            html += "<tr>\n" +
+                                "<td class=\"text-center\">"+i+"</td>" +
+                                "<td>"+index+"</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">"+data[0]+"</span></td>\n" +
+                                "<td class=\"text-center\">";
+
+                            if(data[1] == "pending"){
+
+                                html += "<a href=\""+baseUrl+"/"+data[1]+"\"class=\"btn btn-action\" data-toggle=\"modal\"\n" +
+                                    "             data-target=\"#pending\">View</a>";
+                            }
+                            else if(data[1] == "sendToSociety"){
+                                html += "<a href=\""+baseUrl+"/"+data[1]+"\"class=\"btn btn-action\" data-toggle=\"modal\"\n" +
+                                    "             data-target=\"#sendToSociety\">View</a>";
+                            }
+                            else{
+                                html+= "<a href=\""+baseUrl+"/"+data[1]+"\"class=\"btn btn-action\">View</a>\n";
+
+                            }
+                            html += "</td>\n" +
+                                "</tr>";
+
+                            chart_count += data[0];
+                            i++;
+                        });
+
+                        html +="</tbody>\n" +
+                            "                                </table>\n" +
+                            "                        </div>\n" +
+                            "                    </div>" +
+                            "                   </div>\n" +
+                            "                        <div class=\"col-sm-5\" id=\"ajaxchartdiv\">\n" +
+                            "                        </div>\n" +
+                            "                </div>\n" +
+                            "            </div>";
+
+    //                                    alert(chart_count);
+                        $('#count_table').html(html);
+
+
+                        if(chart_count){
+
+                            var chartData = [];
+                            $.each((data[0]), function (index, data) {
+                                obj = {};
+                                if (index != 'Total No of Applications') {
+                                    obj['status'] = index;
+                                    obj['value'] = data[0];
+                                    chartData.push(obj);
+                                }
+
+                            });
+    //                                        console.log(chartData);
+
+                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                                "type": "pie",
+                                "theme": "light",
+                                "dataProvider":chartData ,
+                                "valueField": "value",
+                                "titleField": "status",
+                                "outlineAlpha": 0.8,
+                                "outlineColor":"#FFFFFF",
+                                "outlineThickness" : 2,
+                                "depth3D": 15,
+                                "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                                "angle": 30,
+                                "labelText": "[[percents]]%",
+                                "labelRadius": -35,
+                                "fontSize" : 15,
+                            } );
+                        }
+                        $("#getCodeModal").modal('show');
+
+                    }
+                    else {
+                        alert('errror');
+                    }
+                },
+            });
+
+        });
+
+    </script>
+    {{--end ajax call for Count Table and Pie chart(renewal)--}}
+
+    {{--ajax call for Pendency Count Table and Pie chart(renewal)--}}
+    <script>
+        var dashboard = "{{route('hearing.dashboard.ajax')}}";
+        $(".renewal_pending").on("click", function () {
+
+            var module_name = ($(this).attr("data-module"));
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: dashboard,
+                data: {module_name:module_name},
+                dataType: 'json',
+                success: function (data) {
+                    if (data !== "false") {
+
+                        var html = "";
+
+                        html += "<div id=\"count_table\">\n" +
+                            "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
+                            "                    <div class=\"d-flex align-items-center\">\n" +
+                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                    </div>\n" +
+                            "                </div>\n" +
+                            "                <div class=\"row\">\n" +
+                            "                    <div class=\"col-sm-7\" >" +
+                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                            <div class=\"table-responsive\">\n" +
+                            "                                <table class=\"table text-center\">\n" +
+                            "                                    <thead>\n" +
+                            "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
+                            "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    </thead>\n" +
+                            "                                    </tbody>\n" ;
+
+                        var chart_count = 0 ;
+                        var i = 1 ;
+                        $.each(data, function (index, data) {
+
+                            html += "<tr>\n" +
+                                "<td class=\"text-center\">"+i+"</td>" +
+                                "<td>"+index+"</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">"+data+"</span></td>\n" +
+                                "</tr>";
+
+                            chart_count += data;
+                            i++;
+                        });
+
+                        html +="</tbody>\n" +
+                            "                                </table>\n" +
+                            "                        </div>\n" +
+                            "                    </div>" +
+                            "                   </div>\n" +
+                            "                        <div class=\"col-sm-5\" id=\"ajaxchartdiv\">\n" +
+                            "                        </div>\n" +
+                            "                </div>\n" +
+                            "            </div>";
+
+                        $('#count_table').html(html);
+
+
+                        if(chart_count){
+
+                            var chartData = [];
+                            $.each((data), function (index, data) {
+                                obj = {};
+                                if (index != 'Total Number of Applications') {
+                                    obj['status'] = index;
+                                    obj['value'] = data;
+                                    chartData.push(obj);
+                                }
+
+                            });
+
+                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                                "type": "pie",
+                                "theme": "light",
+                                "dataProvider":chartData ,
+                                "valueField": "value",
+                                "titleField": "status",
+                                "outlineAlpha": 0.8,
+                                "outlineColor":"#FFFFFF",
+                                "outlineThickness" : 2,
+                                "depth3D": 15,
+                                "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                                "angle": 30,
+                                "labelText": "[[percents]]%",
+                                "labelRadius": -35,
+                                "fontSize" : 15,
+                            } );
+                        }
+                        $("#getCodeModal").modal('show');
+
+                    }
+                    else {
+                        alert('errror');
+                    }
+                },
+            });
+
+        });
+
+    </script>
+    {{--end ajax call for Pendency Count Table and Pie chart(renewal)--}}
+
 @endsection
