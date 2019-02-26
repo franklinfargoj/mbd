@@ -1146,13 +1146,16 @@ if($latest){
                                             </form>
                                         </div>
                                     </div>
+
+                                     @if(isset($arrData['eeNote']) && count($arrData['eeNote']) > 0)
+                                    
                                     <div class="m-section__content mb-0 table-responsive" style="margin-top: 30px">
                                         <div class="container">
                                             <div class="row">
                                                 <div class="col-sm-8">
                                                     <div class="d-flex flex-column h-100 two-cols">
                                                         <h5>Download EE Note</h5>
-                                                            @if(isset($arrData['eeNote']))
+                                                           
                                                                 <div class="table-responsive">
                                                                 <table class="mt-2 table"> 
                                                                 <tbody>
@@ -1182,7 +1185,7 @@ if($latest){
                                                                 </tbody>    
                                                                 </table>
 
-                                                            @else
+                                                            @elseif($arrData['get_last_status']->status_id == config('commanConfig.applicationStatus.forwarded'))
                                                             <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
                                                                 * Note : EE note not available. </span>
                                                             @endif
