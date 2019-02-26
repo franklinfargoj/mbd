@@ -7,7 +7,7 @@
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title m-subheader__title--separator">Edit NOC Application Form</h3>
-                {{ Breadcrumbs::render('noc_edit') }}&nbsp;({{ $noc_application->noc_application_master->model }})
+                {{ Breadcrumbs::render('noc_edit',encrypt($noc_application->id)) }}&nbsp;({{ $noc_application->noc_application_master->model }})
 
             </div>
         </div>
@@ -31,7 +31,8 @@
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="preceding_officer_name">Department:</label>
                             <input type="text" id="department_name" name="department_name" class="form-control form-control--custom m-input" value="Resident Executive Engineer" readonly>
-                            <input type="hidden" name="application_master_id" value="{{ $id }}" required>
+                            <input type="hidden" name="application_master_id" value="{{ $id }}" >
+                            <input type="hidden" name="applicationId" value="{{ $noc_application->id }}" >
                             <input type="hidden" name="request_form_id" value="{{ $noc_application->request_form->id }}">
                             <span class="help-block">{{$errors->first('department_name')}}</span>
                         </div>

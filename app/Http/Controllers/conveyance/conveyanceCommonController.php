@@ -666,7 +666,7 @@ class conveyanceCommonController extends Controller
                 }    
             }
         }
-        if (count($data->child) > 0 && session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id == config('commanConfig.conveyance_status.in_process')) {
+        if ($data->child!="" && session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id == config('commanConfig.conveyance_status.in_process')) {
             foreach($data->child as $child){
                if (!(in_array($child->role_id,$roleIds))){
                     $childData [] = $child;
@@ -918,6 +918,7 @@ class conveyanceCommonController extends Controller
 
         $data->folder = $this->getCurrentRoleFolderName();
         $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
+        $data->em_document = $this->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
 
         if ($is_view && $data->status->status_id == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed')) {
             $route = 'admin.conveyance.co_department.draft_sign_sale_lease';
@@ -1007,7 +1008,7 @@ class conveyanceCommonController extends Controller
         $docId = $this->getDocumentId($em_doc,$masterId);
         $em_document = $this->getDocumentStatus($applicationId,$docId);
         return $em_document;
-    }
+}
 
     // Dashboard for conveyance start header_remove
 

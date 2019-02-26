@@ -781,7 +781,7 @@ class renewalCommonController extends Controller
         $status = $this->getCurrentStatus($applicationId,$data->application_master_id);
         $data->folder = $this->conveyance->getCurrentRoleFolderName();
 
-        if ($is_view && $status->status_id == config('commanConfig.renewal_status.in_process')){
+        if ($is_view && $status->status_id != config('commanConfig.renewal_status.forwarded') && $status->status_id != config('commanConfig.renewal_status.reverted')) {
             $route = 'admin.renewal.ee_department.ee_scrutiny_remark';
         }else{
             $route = 'admin.renewal.common.view_ee_scrutiny_remark';

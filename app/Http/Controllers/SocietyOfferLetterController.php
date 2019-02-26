@@ -433,7 +433,7 @@ class SocietyOfferLetterController extends Controller
                     $url = route('society_offer_letter_preview', encrypt($ol_applications->id));
                     $reval_url = route('society_reval_offer_letter_preview',encrypt($ol_applications->id));
                     $oc_url= route('society_oc_preview');
-                    $url_noc = route('society_noc_preview');
+                    $url_noc = route('society_noc_preview',encrypt($ol_applications->id));
                     $url_noc_cc = route('society_noc_cc_preview');
                     $url_tripartite = route('tripartite_application_form_preview', encrypt($ol_applications->id));
 //                    dd($ol_applications->ol_application_master);
@@ -624,7 +624,7 @@ class SocietyOfferLetterController extends Controller
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $layouts = MasterLayout::all();
 
-        $data = OlApplication::where('user_id', Auth::user()->id)->where('application_master_id',$id)->with(['request_form', 'ol_application_master', 'applicationMasterLayout'])->orderBy('id','desc')->first();
+        $data = OlApplication::where('user_id', Auth::user()->id)->where('application_master_id',$id)->orderBy('id','desc')->first();
 
         if (isset($data)){
             return redirect()->route('society_reval_offer_letter_edit',encrypt($data->id));

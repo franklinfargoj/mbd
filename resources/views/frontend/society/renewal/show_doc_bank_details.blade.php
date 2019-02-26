@@ -55,7 +55,7 @@
                         <tr>
                             <td>{{ $i }}</td>
                             <td>
-                                {{ ucwords(str_replace('_', ' ', $document->document_name)) }}<span class="compulsory-text">(Compulsory Document)</span>
+                                {{ ucwords(str_replace('_', ' ', $document->document_name)) }}@if($document->is_optional == '0')<span class="compulsory-text">(Compulsory Document)</span>@endif
                             </td>
                             <td class="text-center">
                                 <h2 class="m--font-danger">
@@ -77,55 +77,219 @@
                                 {{--@foreach($document->sr_document_status as $document_uploaded)--}}
                                 @if($document_uploaded['application_id'] == $sc_application->id)
                                 <span>
-                                        <a href="{{ config('commanConfig.storage_server').'/'.$document_uploaded['document_path'] }}" data-value='{{ $document->id }}'
-                                           class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
-                                                Download</button></a>
-                                        @if($sc_application->srApplicationLog->status_id == 4)
-                                            <a href="{{ route('delete_sr_upload_docs', encrypt($document->id)) }}" data-value='{{ $document->id }}'
-                                               class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
-                                                    <i class="fa fa-trash"></i></button></a>
-                                        @endif
-                                    </span>
-                                @else
-                                <form action="{{ route('upload_sr_docs') }}" method="post" enctype='multipart/form-data' class="sr_upload_documents_form"
-                                      id="sr_upload_documents_form_{{ $document->id }}">
-                                    @csrf
-                                    <div class="custom-file">
-                                        <input class="custom-file-input" name="document_name" type="file" class=""
-                                               id="test-upload_{{ $document->id }}" required>
-                                        <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
-                                        <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
-                                            file ...</label>
-                                        <span class="help-block">
-                                                @if(session('error_'.$document->id))
-                                                session('error_'.$document->id)
+                                    @if($document->is_optional == '1')
+                                        @foreach($docs_uploaded as $doc_uploaded)
+                                            @if($document->id == $doc_uploaded->document_id)
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$doc_uploaded->document_path }}" data-value='{{ $document->id }}'
+                                                class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
+                                                        Download</button></a>
+                                                @if($sc_application->srApplicationLog->status_id == 4)
+                                                    <a href="{{ route('delete_sc_upload_docs', encrypt($doc_uploaded->id)) }}" data-value='{{ $document->id }}'
+                                                    class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
+                                                            <i class="fa fa-trash"></i></button></a>
                                                 @endif
-                                            </span>
-                                    </div>
-                                    <br>
-                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                </form>
+                                                    <br/><br/>
+                                            @endif
+                                        @endforeach
+                                        @if($sc_application->srApplicationLog->status_id == 4)
+                                            <button type="button" class="btn btn-primary btn-custom" data-toggle="modal" data-target="#myModal">Add more documents</button>
+                                        @endif    
+                                        <div class="modal fade" id="myModal" role="dialog">
+                                            <div class="modal-dialog">                                            
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Upload Documents</h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                    <form action="{{ route('upload_sr_docs') }}" method="post" enctype='multipart/form-data' class="sc_upload_documents_form"
+                                                        id="sc_upload_documents_form_{{ $document->id }}">
+                                                        @csrf
+                                                        <div class="col-sm-6 form-group">
+                                                            <label class="col-form-label" for="other_document_name">Document Name:</label>
+                                                            <input type="text" id="other_document_name" name="other_document_name" class="form-control form-control--custom m-input">
+
+                                                            <span class="help-block">{{$errors->first('doc_name')}}</span>
+                                                        </div>
+                                                        <div class="col-sm-6 form-group">
+                                                            <label class="col-form-label" for="doc_name">Upload Document:</label>
+                                                            <div class="custom-file @if(session('error_'.$document->id)) has-error @endif">
+                                                                <input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}"
+                                                                @if($document->is_optional == '0') required @endif>
+                                                                <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
+                                                                <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
+                                                                    file ...</label>
+                                                                <span class="help-block text-danger">
+                                                                        @if(session('error_'.$document->id))
+                                                                        {{session('error_'.$document->id)}}
+                                                                        @endif
+                                                                    </span>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn_{{ $document->id }}">Upload</button>
+                                                    </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                                
+                                                </div>
+                                            </div>
+                                    @else
+                                    <a href="{{ config('commanConfig.storage_server').'/'.$document_uploaded['document_path'] }}" data-value='{{ $document->id }}'
+                                        class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
+                                            Download</button></a>
+                                    @if($sc_application->srApplicationLog->status_id == 4)
+                                        <a href="{{ route('delete_sr_upload_docs', encrypt($document->id)) }}" data-value='{{ $document->id }}'
+                                            class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
+                                                <i class="fa fa-trash"></i></button></a>
+                                    @endif
+                                    @endif
+                                </span>
+                                @else
+                                    @if($document->is_optional == '1')
+                                        @if($sc_application->srApplicationLog->status_id == 4)
+                                            <button type="button" class="btn btn-primary btn-custom" data-toggle="modal" data-target="#myModal">Add more documents</button>
+                                        @endif    
+                                        <div class="modal fade" id="myModal" role="dialog">
+                                            <div class="modal-dialog">                                            
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Upload Documents</h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                    <form action="{{ route('upload_sr_docs') }}" method="post" enctype='multipart/form-data' class="sc_upload_documents_form"
+                                                        id="sc_upload_documents_form_{{ $document->id }}">
+                                                        @csrf
+                                                        <div class="col-sm-6 form-group">
+                                                            <label class="col-form-label" for="other_document_name">Document Name:</label>
+                                                            <input type="text" id="other_document_name" name="other_document_name" class="form-control form-control--custom m-input">
+
+                                                            <span class="help-block">{{$errors->first('doc_name')}}</span>
+                                                        </div>
+                                                        <div class="col-sm-6 form-group">
+                                                            <label class="col-form-label" for="doc_name">Upload Document:</label>
+                                                            <div class="custom-file @if(session('error_'.$document->id)) has-error @endif">
+                                                                <input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}"
+                                                                @if($document->is_optional == '0') required @endif>
+                                                                <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
+                                                                <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
+                                                                    file ...</label>
+                                                                <span class="help-block text-danger">
+                                                                        @if(session('error_'.$document->id))
+                                                                        {{session('error_'.$document->id)}}
+                                                                        @endif
+                                                                    </span>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn_{{ $document->id }}">Upload</button>
+                                                    </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                                
+                                                </div>
+                                            </div>
+                                    @else
+                                        <form action="{{ route('upload_sr_docs') }}" method="post" enctype='multipart/form-data' class="sr_upload_documents_form"
+                                            id="sr_upload_documents_form_{{ $document->id }}">
+                                            @csrf
+                                            <div class="custom-file">
+                                                <input class="custom-file-input" name="document_name" type="file" class=""
+                                                    id="test-upload_{{ $document->id }}" required>
+                                                <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
+                                                <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
+                                                    file ...</label>
+                                                <span class="help-block">
+                                                        @if(session('error_'.$document->id))
+                                                        session('error_'.$document->id)
+                                                        @endif
+                                                    </span>
+                                            </div>
+                                            <br>
+                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                        </form>
+                                    @endif                                
                                 @endif
                                 {{--@endforeach--}}
                                 @else
-                                <form action="{{ route('upload_sr_docs') }}" method="post" enctype='multipart/form-data' class="sr_upload_documents_form"
-                                      id="sr_upload_documents_form_{{ $document->id }}">
-                                    @csrf
-                                    <div class="custom-file @if(session('error_'.$document->id)) has-error @endif">
-                                        <input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}"
-                                               required>
-                                        <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
-                                        <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
-                                            file ...</label>
-                                        <span class="help-block text-danger">
-                                                @if(session('error_'.$document->id))
-                                                {{session('error_'.$document->id)}}
-                                                @endif
-                                            </span>
-                                    </div>
-                                    <br>
-                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn_{{ $document->id }}">Upload</button>
-                                </form>
+                                    @if($document->is_optional == '1')
+                                        @if($sc_application->srApplicationLog->status_id == 4)
+                                            <button type="button" class="btn btn-primary btn-custom" data-toggle="modal" data-target="#myModal">Add more documents</button>
+                                        @endif    
+                                        <div class="modal fade" id="myModal" role="dialog">
+                                            <div class="modal-dialog">
+                                            
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Upload Documents</h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                    <form action="{{ route('upload_sr_docs') }}" method="post" enctype='multipart/form-data' class="sc_upload_documents_form"
+                                                        id="sc_upload_documents_form_{{ $document->id }}">
+                                                        @csrf
+                                                        <div class="col-sm-6 form-group">
+                                                            <label class="col-form-label" for="other_document_name">Document Name:</label>
+                                                            <input type="text" id="other_document_name" name="other_document_name" class="form-control form-control--custom m-input">
+
+                                                            <span class="help-block">{{$errors->first('doc_name')}}</span>
+                                                        </div>
+                                                        <div class="col-sm-6 form-group">
+                                                            <label class="col-form-label" for="doc_name">Upload Document:</label>
+                                                            <div class="custom-file @if(session('error_'.$document->id)) has-error @endif">
+                                                                <input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}"
+                                                                @if($document->is_optional == '0') required @endif>
+                                                                <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
+                                                                <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
+                                                                    file ...</label>
+                                                                <span class="help-block text-danger">
+                                                                        @if(session('error_'.$document->id))
+                                                                        {{session('error_'.$document->id)}}
+                                                                        @endif
+                                                                    </span>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn_{{ $document->id }}">Upload</button>
+                                                    </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                                
+                                                </div>
+                                            </div>
+                                    @else
+                                        <form action="{{ route('upload_sr_docs') }}" method="post" enctype='multipart/form-data' class="sr_upload_documents_form"
+                                            id="sr_upload_documents_form_{{ $document->id }}">
+                                            @csrf
+                                            <div class="custom-file">
+                                                <input class="custom-file-input" name="document_name" type="file" class=""
+                                                    id="test-upload_{{ $document->id }}" required>
+                                                <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
+                                                <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
+                                                    file ...</label>
+                                                <span class="help-block">
+                                                        @if(session('error_'.$document->id))
+                                                        session('error_'.$document->id)
+                                                        @endif
+                                                    </span>
+                                            </div>
+                                            <br>
+                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                        </form>
+                                    @endif
                                 @endif
                             </td>
                         </tr>
@@ -139,7 +303,7 @@
         </div>
     </div>
     @if(!empty($documents) && !empty($documents_uploaded))
-        @if(count($documents) == count($documents_uploaded))
+        @if($documents_count == $documents_uploaded_count)
             <div class="m-portlet">
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                     <div class="">

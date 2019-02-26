@@ -3,12 +3,13 @@
     @include('frontend.society.actions_noc',compact('noc_applications'))
 @endsection
 @section('content')
+
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Upload documents</h3>
-            {{ Breadcrumbs::render('noc_documents_upload') }}
+            {{ Breadcrumbs::render('noc_documents_upload',encrypt($noc_applications->id)) }}
             <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
         </div>
     </div>
@@ -28,7 +29,7 @@
                 </div>
             </div>
         </div> -->
-           
+        
         <div class="m-portlet__body m-portlet__body--table">
             <div class="m-section mb-0">
                 <div class="m-section__content mb-0 table-responsive">
@@ -55,7 +56,9 @@
                             <tr>
                                 <td>{{ $i }}</td>
                                 <td>
-                                    {{ $document->name }}<span class="compulsory-text">@if(in_array($i, $optional_docs))<small><span style="color: green;">(Optional
+                                    {{ $document->name }}<span class="compulsory-text">
+                                    @if(in_array($i, $optional_docs))<small>
+                                    <span style="color: green;">(Optional
                                             Document)</span></small> @else <small>(Compulsory Document)</small> @endif</span>
                                 </td>
                                 <td class="text-center">
@@ -73,6 +76,7 @@
                                         @endif
                                     </h2>
                                 </td>
+                                
                                 <td>
                                     @if(count($document->documents_uploaded) > 0 )
                                     @foreach($document->documents_uploaded as $document_uploaded)
@@ -81,7 +85,7 @@
                                         <a href="{{ asset($document_uploaded['society_document_path']) }}" data-value='{{ $document->id }}'
                                             class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
                                                 Download</button></a>
-                                        <a onclick="return confirm('Are you sure you want to discard this document?');" href="{{ url('/delete_uploaded_documents_noc/'.$document->id) }}" data-value='{{ $document->id }}'
+                                        <a onclick="return confirm('Are you sure you want to discard this document?');" href="{{ url('/delete_uploaded_documents_noc',([encrypt($noc_applications->id), encrypt($document->id)])) }}" data-value='{{ $document->id }}'
                                             class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
                                                 <i class="fa fa-trash"></i></button></a>
                                     </span>
@@ -89,6 +93,7 @@
                                     <form action="{{ route('uploaded_documents_noc') }}" method="post" enctype='multipart/form-data'
                                         id="upload_documents_form_{{ $document->id }}">
                                         @csrf
+                                        <input type="hidden" name="applicationId" value="{{ isset($noc_applications->id) ? $noc_applications->id : '' }}">
                                         <div class="custom-file">
                                             <input class="custom-file-input" name="document_name" type="file" class=""
                                                 id="test-upload_{{ $document->id }}" required>
@@ -110,6 +115,7 @@
                                     <form action="{{ route('uploaded_documents_noc') }}" method="post" enctype='multipart/form-data'
                                         id="upload_documents_form_{{ $document->id }}">
                                         @csrf
+                                         <input type="hidden" name="applicationId" value="{{ isset($noc_applications->id) ? $noc_applications->id : '' }}">
                                         <div class="custom-file @if(session('error_'.$document->id)) has-error @endif">
                                             <input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}"
                                                 required>
@@ -211,12 +217,13 @@
                             <h3 class="section-title section-title--small">Submit Application:</h3>
                         </div>
                         <form action="{{ route('add_documents_comment_noc') }}" method="post" enctype='multipart/form-data'>
-                            @csrf
+                            @csrf 
+                            <input type="hidden" name="applicationId" value="{{ isset($noc_applications->id) ? $noc_applications->id : '' }}">
                             <div class="remarks-suggestions table--box-input">
                                 <div class="mt-3">
                                     <label for="society_documents_comment">Additional Information:</label>
                                     <div class="@if($errors->has('society_documents_comment')) has-error @endif">
-                                        <textarea name="society_documents_comment" rows="5" cols="30" id="society_documents_comment" class="form-control form-control--custom">{{old('society_documents_comment')}}</textarea>
+                                        <textarea name="society_documents_comment" rows="5" cols="30" id="society_documents_comment" class="form-control form-control--custom">{{isset($documents_comment) ? $documents_comment->society_documents_comment : ''}}</textarea>
                                         <span class="help-block">{{$errors->first('society_documents_comment')}}</span>
                                     </div>
                                 </div>

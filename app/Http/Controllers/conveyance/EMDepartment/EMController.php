@@ -137,7 +137,7 @@ class EMController extends Controller
             //pdf format no dues certificate
 //            dd($request->all());
             $content = str_replace('_', "", $_POST['ckeditorText']);
-
+            
 //            $pdf = \App::make('dompdf.wrapper');
 //            $pdf->loadHTML($content);
             $header_file = view('admin.REE_department.offer_letter_header');
@@ -173,7 +173,10 @@ class EMController extends Controller
 
             $file_uploaded_text = $this->CommonController->ftpGeneratedFileUpload($folder_name, $content, $filePath_text);
             $doc_status_columns = new SocietyConveyanceDocumentStatus();
-            $document_status_columns  = count($doc_status_columns->getFillable());
+            $document_status_columns=$doc_status_columns->getFillable();
+            $fields = array_flip($document_status_columns);
+            unset($document_status_columns[$fields['other_document_name']]);
+            $document_status_columns  = count($document_status_columns);
 
             $text_input = array(
                 "application_id" => $id,
@@ -185,6 +188,7 @@ class EMController extends Controller
             );
             $inputs[] = $text_input;
             if($file_uploaded_pdf && $file_uploaded_text && count($pdf_input) == $document_status_columns && count($text_input) == $document_status_columns){
+                
                 SocietyConveyanceDocumentStatus::insert($inputs);
                 $message = config('commanConfig.no_dues_certificate.redirect_message.draft_text');
                 $message_status = config('commanConfig.no_dues_certificate.redirect_message_status.draft_text');
