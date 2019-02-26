@@ -65,7 +65,7 @@ class DYCOController extends Controller
         $document  = config('commanConfig.documents.dycdo_note');
         $documentId = $this->common->getDocumentId($document,$data->sc_application_master_id);
         $dycdo_note = $this->common->getDocumentStatus($applicationId,$documentId);
-
+        // dd($applicationId);
         //get em no due certificate
         $data->em_document = $this->common->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);           
         return view($route,compact('data','checklist','dycdo_note'));
