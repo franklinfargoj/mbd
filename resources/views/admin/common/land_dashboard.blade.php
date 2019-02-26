@@ -35,53 +35,26 @@
                 <p class="db__card__title">Revision in Layout</p>
             </div>
         </div>
+        <!-- Modal for count table and pie chart popup -->
+        <div class="modal fade" id="getCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style=" width: 150%;
+  height: 160%;
+  margin: 5% 10% 0 10%;
+  padding: 0;">
+                <div class="modal-content" style=" width: 250%;
+  height: 50%;
+  margin: 0;
+  padding: 0;">
+                    <div style="float:left">
+                        <button type="button"  class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body" id="count_table" >
 
-        {{--land summary--}}
-        <div id="count_table">
-            <div class="m-subheader px-0 m-subheader--top">
-                <div class="d-flex align-items-center">
-                    <h3 class="m-subheader__title">Land Summary</h3>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-7">
-                    <div class="m-portlet db-table">
-                        <div class="table-responsive">
-                            <table class="table text-center">
-                                <thead>
-                                <th style="width: 10%;">Sr. No</th>
-                                <th style="width: 60%;" class="text-center">Stages</th>
-                                <th style="width: 15%;" class="text-left">Count</th>
-                                <th style="width: 15%;">Action</th>
-                                </thead>
-                                <tbody>
-                                @php
-                                    $chart = 0;
-                                    $i = 1;
-                                @endphp
-                                @foreach($dashboardData as $header => $value)
-                                    <tr>
-                                        <td class="text-center">{{$i}}.</td>
-                                        <td>{{$header}}</td>
-                                        <td class="text-center"><span class="count-circle">{{$value[0]}}</span></td>
-                                        @php $chart += $value[0];@endphp
-                                        <td>
-                                            <a href="{{url($value[1])}}" class="btn btn-action">View</a>
-                                        </td>
-                                    </tr>
-                                    @php $i++ @endphp
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
                 </div>
-                @if($chart)
-                    <div class="col-sm-5" id="ajaxchartdiv">
-                    </div>
-                @endif
             </div>
         </div>
+
     </div>
     
 
@@ -228,6 +201,8 @@
                                 "fontSize" : 15,
                             } );
                         }
+                        $("#getCodeModal").modal('show');
+
                     }
                     else {
                         alert('errror');
@@ -338,6 +313,8 @@
                                 "fontSize" : 15,
                             } );
                         }
+                        $("#getCodeModal").modal('show');
+
                     }
                     else {
                         alert('errror');
