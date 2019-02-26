@@ -19,49 +19,47 @@
         </div>
 
         <div class="d-flex flex-wrap db-wrapper">
+            @if(in_array(session()->get('role_name'),$offerLetterRoles))
             @if( !((session()->get('role_name') == config('commanConfig.junior_architect')) || (session()->get('role_name') == config('commanConfig.architect')) || (session()->get('role_name') == config('commanConfig.senior_architect'))))
                 <div class="db__card counts" data-module="Offer Letter">
                     <div class="db__card__img-wrap db-color-1">
-                        <h3 class="db__card__count">{{$dashboardData['Total Number of Applications'][0]}}</h3>
+                        <h3 class="db__card__count">{{$ol_count}}</h3>
                     </div>
                     <p class="db__card__title">Offer Letter</p>
                 </div>
                 @if($dashboardData1)
                     <div class="db__card pending_counts" data-module="Offer Letter Subordinate Pendency">
                         <div class="db__card__img-wrap db-color-2">
-                            <h3 class="db__card__count">{{$dashboardData1['Total Number of Applications']}}</h3>
+                            <h3 class="db__card__count">{{$ol_pending_count}}</h3>
                         </div>
                         <p class="db__card__title">Offer Letter Subordinate Pendency</p>
                     </div>
                 @endif
             @endif
+            @endif
             @if(in_array(session()->get('role_name'),$conveyanceRoles))
-                @if($conveyanceDashboard)
                     <div class="db__card conveyance" data-module="Society Conveyance">
                         <div class="db__card__img-wrap db-color-3">
-                            <h3 class="db__card__count">{{$conveyanceDashboard['0']['Total No of Applications'][0]}}</h3>
+                            <h3 class="db__card__count">{{$conveyance_count}}</h3>
                         </div>
                         <p class="db__card__title">Society Conveyance</p>
                     </div>
-                @endif
             @endif
             @if (in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'), config('commanConfig.vp_engineer'))))
                 <div class="db__card revalidation" data-module="Offer Letter Revalidation">
                     <div class="db__card__img-wrap db-color-4">
-                        <h3 class="db__card__count">{{$revalDashboardData['Total Number of Applications'][0]}}</h3>
+                        <h3 class="db__card__count">{{$reval_count}}</h3>
                     </div>
                     <p class="db__card__title">Offer Letter Revalidation</p>
                 </div>
             @endif
             @if(in_array(session()->get('role_name'),$renewalRoles))
-                @if($renewalDashboard)
                     <div class="db__card counts0" data-module="Society Renewal">
                         <div class="db__card__img-wrap db-color-4">
-                            <h3 class="db__card__count">{{$renewalDashboard[0]['Total No of Applications'][0]}}</h3>
+                            <h3 class="db__card__count">{{$renewal_count}}</h3>
                         </div>
                         <p class="db__card__title">Society Renewal</p>
                     </div>
-                @endif
             @endif
 
             @if((session()->get('role_name')==config('commanConfig.junior_architect'))||

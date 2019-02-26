@@ -1708,74 +1708,56 @@ class CommonController extends Controller
         $role_id = session()->get('role_id');
         $user_id = Auth::id();
 
-        // conveyance dashboard
-        $conveyanceCommonController = new conveyanceCommonController();
-        $conveyanceDashboard = $conveyanceCommonController->ConveyanceDashboard();
-        $conveyanceRoles     = $conveyanceCommonController->getConveyanceRoles();
-        $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();
-
-        $renewal = new renewalCommonController();
-
-        $renewalDashboard = $renewal->RenewalDashboard();
-        $renewalRoles     = $renewal->getRenewalRoles();
-        $renewalPendingApplications = $renewal->getApplicationPendingAtDepartment();         
-
-        $applicationData = $this->getApplicationData($role_id,$user_id);
-
-        // Reval APplication data
-
-        $revalApplicationData = $this->getRevalApplicationData($role_id,$user_id);
-
-        $statusCount = $this->getApplicationStatusCount($applicationData);
-
-        // Reval status Count
-        $revalStatusCount = $this->getApplicationStatusCount($revalApplicationData);
-
         // EE Roles
         $ee = $this->getEERoles();
 
         // DYCE Roles
         $dyce = $this->getDyceRoles();
 
-        // CAP
-        $cap = Role::where('name',config('commanConfig.cap_engineer'))->value('id');
-
-        // VP
-        $vp = Role::where('name',config('commanConfig.vp_engineer'))->value('id');
-
-        $dashboardData = [];
-
-
-        if(in_array($role_id ,$ee))
-            $dashboardData = $this->getEEDashboardData($role_id,$ee,$statusCount);
-
-
-        if(in_array($role_id ,$dyce))
-            $dashboardData = $this->getDyceDashboardData($role_id,$dyce,$statusCount);
-
-        if($cap == $role_id){
-            $dashboardData = $this->getCapDashboardData($statusCount);
-            $revalDashboardData = $this->getCapDashboardData($revalStatusCount);
-        }
-
-        if($vp == $role_id){
-            $dashboardData = $this->getVpDashboardData($statusCount);
-            $revalDashboardData = $this->getVpDashboardData($revalStatusCount);
-        }
-
-        $dashboardData1 = NULL;
         $eeHeadId = Role::where('name',config('commanConfig.ee_branch_head'))->value('id');
 
         $dyceHeadId = Role::where('name',config('commanConfig.dyce_branch_head'))->value('id');
 
+        $conveyanceCommonController = new conveyanceCommonController();
+        $conveyanceRoles     = $conveyanceCommonController->getConveyanceRoles();
+
+        $renewal = new renewalCommonController();
+        $renewalRoles     = $renewal->getRenewalRoles();
+
+        $offerLetterRoles = $this->getOfferLetterRoles();
+
+        //offer letter
+        $ol_count = count($this->getApplicationData($role_id,$user_id));
+
+        //offer letter subordinate pendency
+        $dashboardData1 = null;
         if($role_id == $eeHeadId){
             $dashboardData1 = $this->getToatalPendingApplicationsAtUser($ee);
+            $ol_pending_count = $dashboardData1['Total Number of Applications'];
         }
         if($role_id == $dyceHeadId){
             $dashboardData1 = $this->getToatalPendingApplicationsAtUser($dyce);
+            $ol_pending_count = $dashboardData1['Total Number of Applications'];
         }
 
-        return view('admin.common.ol_dashboard',compact('dashboardData','revalDashboardData','dashboardData1','conveyanceDashboard','conveyanceRoles','pendingApplications','renewalDashboard','renewalRoles','renewalPendingApplications'));
+        //society Conveyance
+        $conveyance_count = count($conveyanceCommonController->getApplicationData($role_id,$user_id));
+
+        //society Conveyance subordinate pendency
+        $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();
+        $conveyance_pending_count = $pendingApplications['Total Number of Applications'];
+
+        //society Renewal
+        $renewal_count = count($renewal->getApplicationData($role_id,$user_id));
+
+        //society renewal subordinate pendency
+        $renewalPendingApplications = $renewal->getApplicationPendingAtDepartment();
+        $renewal_pending_count = $renewalPendingApplications['Total Number of Applications'];
+
+        //offer letter revalidation
+        $reval_count = count($this->getRevalApplicationData($role_id,$user_id));
+
+        return view('admin.common.ol_dashboard',compact('conveyanceRoles','dashboardData1','renewalRoles','offerLetterRoles','ol_count','ol_pending_count','conveyance_count','conveyance_pending_count','renewal_count','renewal_pending_count','reval_count'));
 
     }
 
@@ -4381,5 +4363,17 @@ class CommonController extends Controller
         $comments = NocSocietyDocumentsComment::where('application_id',$applicationId)
         ->orderBy('id','desc')->first();
         return $comments;
+    }
+
+    public function getOfferLetterRoles(){
+        $roles = array(
+            config('commanConfig.ee_junior_engineer'),config('commanConfig.ee_deputy_engineer'),config('commanConfig.ee_branch_head'),
+            config('commanConfig.dyce_branch_head'), config('commanConfig.dyce_jr_user'), config('commanConfig.dyce_deputy_engineer'),
+            config('commanConfig.ree_junior'),config('commanConfig.ree_deputy_engineer'),config('commanConfig.ree_assistant_engineer'),config('commanConfig.ree_branch_head'),
+            config('commanConfig.co_engineer'),
+            config('commanConfig.cap_engineer'),
+            config('commanConfig.vp_engineer'),
+        );
+        return $roles;
     }
 }
