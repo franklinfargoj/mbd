@@ -22,7 +22,7 @@
             <div style="padding-left: 15px;">
                 <p style="font-weight: bold; font-size: 16px; margin-bottom: 10px;">Subject:</p>
                 <div style="line-height: 2.0; padding-left: 20px;">
-                <p style="font-size: 15px;">It is to certify that Building No. {{$sf_application->societyApplication->building_no}} consisting of <span style="font-weight: bold;">test</span> T/S under the <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span> Scheme at <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span> In favour of <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span>
+                <p style="font-size: 15px;">It is to certify that Building No. {{ $sf_application->societyApplication!=""?$sf_application->societyApplication->building_no:"" }} consisting of <span style="font-weight: bold;">test</span> T/S under the <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span> Scheme at <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span> In favour of <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $sf_application->societyApplication!=""?$sf_application->societyApplication->name:"" }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span>
                     Co-op. Housing Society Ltd. Have paid all the dues in respect of above bldg./bldgs. Including the final sale price for the bldg. and premium of the land as
                     follow:</p>
                 </div>
@@ -38,7 +38,7 @@
                             6. Charges for Common Services are paid upto <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span><br/>
                             <span> The rate of Charges of Common Services payable by the said Society is Rs.<span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span> Per Quarter.</span>
                     </p>
-        
+
                     <p style="line-height: 2.0; padding-left: 20px; font-size: 15px; ">
                             7. Lease Rent Paid Upto <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span><br/>
                             <span> The Rate of the Lease rent payable by the said society is Rs.<span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span> Per Annum</span>
@@ -51,7 +51,7 @@
                             8. N.A .Assessment Paid Upto    <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span><br/>
                             <span> The Rate of N.A Assessment Payable by the said Society is Rs.<span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span> Per Tenement/Per Month.</span>
                     </p>
-        
+
                     <p style="line-height: 2.0; padding-left: 20px; font-size: 15px; ">
                             5. Whether Municipal Taxes <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span> are paid upto date (In Case the Society is Paying the Municipal Taxes directly to the Municipal Corporation of
                             <span><span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span> the same stated and accordingly.</span>
@@ -75,9 +75,9 @@
                     </p>
                     <p style="line-height: 2.0; padding-left: 20px; font-size: 15px; ">
                     To,<br>
-        
+
                     EM-II /Conveyance<br>
-        
+
                     --------------  Board, Mumbai.400051
                     </p>
             </div>
