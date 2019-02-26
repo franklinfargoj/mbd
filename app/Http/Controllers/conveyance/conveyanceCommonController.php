@@ -170,7 +170,7 @@ class conveyanceCommonController extends Controller
     public function ViewApplication(Request $request,$applicationId){
         
         $applicationId = decrypt($applicationId);
-        $data = scApplication::where('id',$applicationId)->first();
+        $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
         $data->folder = $this->getCurrentRoleFolderName();
         $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
         $document_id = $this->getDocumentId(config('commanConfig.documents.em_conveyance.stamp_conveyance_application'), $data->sc_application_master_id);
@@ -390,7 +390,7 @@ class conveyanceCommonController extends Controller
     public function ViewSocietyDocuments($applicationId){
         
         $applicationId = decrypt($applicationId);
-        $data = scApplication::where('id',$applicationId)->first();
+        $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
         $data->folder = $this->getCurrentRoleFolderName();
         $mLanguage = LanguageMaster::where('language','=','marathi')->value('id');
         $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($data) { $q->where('application_id', $data->id)->get(); }])->where('application_type_id', $data->sc_application_master_id)->where('society_flag', '1')->where('language_id', $mLanguage)->get();
