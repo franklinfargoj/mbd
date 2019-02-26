@@ -185,16 +185,13 @@
                                                             <td>{{(isset($document->name) ? $document->name : '')}}</td>
                                                             <td class="text-center">
                                                             @if($document->is_multiple == 1)
-                                                                <a href="{{ route('view_multiple_document',[encrypt($ol_application->id),encrypt($document->id)]) }}" class="app-card__details mb-0">
+                                                                <a href="{{ route('view_multiple_document',[encrypt($ol_application->id),encrypt($document->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px">
                                                                 view documents</a>
                                                             @else
                                                                 @if(isset($document->documents_uploaded[0]) && $document->documents_uploaded[0]->society_document_path)
                                                                     <a href="{{config('commanConfig.storage_server').'/'.$document->documents_uploaded[0]->society_document_path }}" target="_blank">
                                                                         <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
-                                                                @else 
-                                                                <h2 class="m--font-danger">
-                                                                        <i class="fa fa-remove"></i>
-                                                                    </h2>       
+                                                                      
                                                                 @endif
                                                             @endif        
                                                             </td>
@@ -207,10 +204,7 @@
 
                                                                     <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}">
                                                                 </a>
-                                                                @else
-                                                                    <h2 class="m--font-danger">
-                                                                        <i class="fa fa-remove"></i>
-                                                                    </h2>
+                                                                s
                                                                 @endif
                                                             </td>
                                                         </tr>
@@ -721,7 +715,7 @@
                                     <div class="d-flex flex-column h-100">
                                         <h5>Download EE Note</h5>
                                         <div class="mt-3">
-                                            @if(isset($eeScrutinyData->eeNote))
+                                            @if(count($eeScrutinyData->eeNote) > 0)
                                                 <div class="table-responsive">
                                                 <table class="mt-2 table"> 
                                                 <tbody>                                        
@@ -746,7 +740,7 @@
                 
                                                 </td>
                                             </tr>
-                                                @endforeach
+                                                @endforeach 
                                                 </tbody>    
                                             </table>
                                             @else

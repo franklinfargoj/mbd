@@ -238,7 +238,7 @@ if($latest){
 
                     <td class="text-center"> 
                     @if($document->is_multiple == 1)
-                        <a href="{{ route('view_multiple_document',[encrypt($ol_application->id),encrypt($document->id)]) }}" class="app-card__details mb-0">
+                        <a href="{{ route('view_multiple_document',[encrypt($ol_application->id),encrypt($document->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px">
                         view documents</a>
                     @else
                         @if(isset($document->documents_uploaded[0]) && $document->documents_uploaded[0]->society_document_path)
