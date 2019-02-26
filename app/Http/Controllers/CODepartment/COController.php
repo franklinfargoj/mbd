@@ -1264,7 +1264,7 @@ class COController extends Controller
 
             if ($request->module_name == "Revision in Layout") {
                 $architect_dashboard = new ArchitectLayoutDashboardController();
-                $data['Total Number of Layouts']=$architect_dashboard->total_number_of_layouts();
+                $data['Total Number of Applications']=$architect_dashboard->total_number_of_layouts();
                 $data['Layouts in process']=$architect_dashboard->total_no_of_appln_for_revision_and_approval();
                 $data['Layouts Approved by VP']=$architect_dashboard->approved_layouts();
                 return $data;
@@ -1312,7 +1312,7 @@ class COController extends Controller
 
                 $tripartite_dashboard = new TripartiteDashboardController();
                 $data = $tripartite_dashboard->getDashboardHeaders()->getData();
-                return $data['dashboardData'][0];
+                return $data['dashboardData'];
 
             }
 

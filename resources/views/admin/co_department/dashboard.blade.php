@@ -10,16 +10,6 @@
     <link href="{{asset('/css/dashboard/custom.css')}}" rel="stylesheet" type="text/css"/>
 @endsection
 @section('content')
-    @php
-        $chart = 0;
-        $chart1 = 0;
-        $chart2 = 0;
-        $chart3 = 0;
-        $chart4 = 0;
-        $chart5 = 0;
-        $chart6 = 0;
-    @endphp
-
 
     <div class="container-fluid">
         <div class="m-subheader px-0 m-subheader--top">
@@ -27,66 +17,6 @@
                 <h3 class="m-subheader__title">Dashboard</h3>
             </div>
         </div>
-
-        {{--Todays Hearing--}}
-        <div class="hearing-accordion-wrapper">
-
-            <div class="m-portlet m-portlet--compact hearing-accordion mb-0">
-                <div class="d-flex justify-content-between align-items-center">
-                    <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100 collapsed"
-                       data-toggle="collapse" href="#todays-hearing">
-                        <span class="form-accordion-title">Today's Hearing ({{$todays_hearing_count}})</span>
-                        @if($todaysHearing)
-                            <span class="hearing-accordion-icon"></span>
-                        @endif
-                    </a>
-                </div>
-            </div>
-
-            @if($todays_hearing_count)
-            <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="todays-hearing"
-                 data-parent="#accordion">
-                @foreach($todaysHearing as $hearing)
-                    <div class="row no-gutters hearing-row">
-                        <div class="col-12 no-shadow">
-                            <div class="app-card-section-title">Today's Hearing</div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="m-portlet app-card text-center">
-                                <h2 class="app-heading">Case Year</h2>
-                                <h2 class="app-no mb-0">{{$hearing['case_year']}}</h2>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="m-portlet app-card text-center">
-                                <h2 class="app-heading">Case NO</h2>
-                                <h2 class="app-no mb-0">{{$hearing['id']}}</h2>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="m-portlet app-card text-center">
-                                <h2 class="app-heading">Hearing Time</h2>
-                                <h2 class="app-no mb-0">{{$hearing['hearing_schedule']['preceding_time']}}</h2>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="m-portlet app-card text-center">
-                                <h2 class="app-heading">Applicant Name</h2>
-                                <h2 class="app-no mb-0">{{$hearing['applicant_name']}}</h2>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="m-portlet app-card text-center">
-                                <a href="{{route('hearing.show',encrypt($hearing['id']))}}" class="app-no app-no--view mb-0">View
-                                    Details</a>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-            @endif
-        </div>
-        {{--End Todays Hearing--}}
 
         <div class="d-flex flex-wrap db-wrapper">
             <div class="db__card hearing_summary" data-module="Hearing Summary">
@@ -193,10 +123,67 @@
             </div>
         </div>
 
+        {{--Todays Hearing--}}
+        <div class="hearing-accordion-wrapper">
 
+            <div class="m-portlet m-portlet--compact hearing-accordion mb-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100 collapsed"
+                       data-toggle="collapse" href="#todays-hearing">
+                        <span class="form-accordion-title">Today's Hearing ({{$todays_hearing_count}})</span>
+                        @if($todaysHearing)
+                            <span class="hearing-accordion-icon"></span>
+                        @endif
+                    </a>
+                </div>
+            </div>
+
+            @if($todays_hearing_count)
+                <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="todays-hearing"
+                     data-parent="#accordion">
+                    @foreach($todaysHearing as $hearing)
+                        <div class="row no-gutters hearing-row">
+                            <div class="col-12 no-shadow">
+                                <div class="app-card-section-title">Today's Hearing</div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="m-portlet app-card text-center">
+                                    <h2 class="app-heading">Case Year</h2>
+                                    <h2 class="app-no mb-0">{{$hearing['case_year']}}</h2>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="m-portlet app-card text-center">
+                                    <h2 class="app-heading">Case NO</h2>
+                                    <h2 class="app-no mb-0">{{$hearing['id']}}</h2>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="m-portlet app-card text-center">
+                                    <h2 class="app-heading">Hearing Time</h2>
+                                    <h2 class="app-no mb-0">{{$hearing['hearing_schedule']['preceding_time']}}</h2>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="m-portlet app-card text-center">
+                                    <h2 class="app-heading">Applicant Name</h2>
+                                    <h2 class="app-no mb-0">{{$hearing['applicant_name']}}</h2>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="m-portlet app-card text-center">
+                                    <a href="{{route('hearing.show',encrypt($hearing['id']))}}" class="app-no app-no--view mb-0">View
+                                        Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+        </div>
+        {{--End Todays Hearing--}}
     </div>
 
-    </div>
 
     <!-- Modal for count table and pie chart popup -->
     <div class="modal fade" id="getCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -218,31 +205,17 @@
         </div>
     </div>
 
-    <!-- Modal for application pending bifergation -->
+    <!-- Modal for application pending bifurcation -->
     <div class="modal fade" id="pending" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Pending Applications</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <div class="modal-body">
-                    <table>
-                        <tr>
-                            <th>Header</th>
-                            <th>Count</th>
-                        </tr>
-                        @if($conveyanceDashboard[1])
-                            @foreach($conveyanceDashboard[1] as $header => $value)
-                                <tr>
-                                    <td> {{$header}} </td>
-                                    <td> {{$value}} </td>
-                                </tr>
-                            @endforeach
-                        @endif
-                    </table>
-                    <!-- <p>Some text in the modal.</p> -->
+                <div class="modal-body" id="pending_applications">
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -251,73 +224,19 @@
         </div>
     </div>
 
-    <!-- Model for send to society bifergation-->
+    <!-- Model for send to society bifurcation-->
     <div class="modal fade" id="sendToSociety" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Applications Sent to Society</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <div class="modal-body">
-                    <table>
-                        <tr>
-                            <th>Header</th>
-                            <th>Count</th>
-                        </tr>
-                        @if($conveyanceDashboard[2])
-                            @foreach($conveyanceDashboard[2] as $header => $value)
-                                <tr>
-                                    <td> {{$header}} </td>
-                                    <td> {{$value}} </td>
-                                </tr>
-                            @endforeach
-                        @endif
-                    </table>
-                    <!-- <p>Some text in the modal.</p> -->
+                <div class="modal-body" id="sent_to_society">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for send to society bifergation-->
-    <div class="modal fade" id="tripartitereePendingModal" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Applications Pending</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="table-responsive">
-                        <table class="table text-center">
-                            <thead class="thead-default">
-                            <tr>
-                                <th>Header</th>
-                                <th>Count</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @if($tripartite_data['dashboardData'][1])
-                                @foreach($tripartite_data['dashboardData'][1]  as $header => $value)
-                                    <tr>
-                                        <td> {{$header}} </td>
-                                        <td> {{$value}} </td>
-                                    </tr>
-                                @endforeach
-                            @endif
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- <p>Some text in the modal.</p> -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -1234,6 +1153,60 @@
                             "                </div>\n" +
                             "            </div>";
 
+                        if (data[1]) {
+                            var html_pending = "";
+                            html_pending +=
+                                "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
+                                "                                <table class=\"table text-center\">\n" +
+                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                        <tr>\n" +
+                                "                                            <th>Header</th>\n" +
+                                "                                            <th>Count</th>\n" +
+                                "                                        </tr>\n" +
+                                "                                    </thead>\n" +
+                                "                                    <tbody id=\"pending_applications\">\n";
+
+                            $.each(data[1], function (index, data) {
+                                html_pending += " <tr>\n" +
+                                    "                                            <td>" + index + " </td>\n" +
+                                    "                                            <td>" + data + "</td>\n" +
+                                    "                                        </tr>";
+                            });
+
+                            html_pending += "                                    </tbody>\n" +
+                                "                                </table>\n" +
+                                "                            </div>\n";
+
+                            $('#pending_applications').html(html_pending);
+                        }
+                        if (data[2]) {
+                            var html_sent_to_society = "";
+                            html_sent_to_society +=
+                                "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
+                                "                                <table class=\"table text-center\">\n" +
+                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                        <tr>\n" +
+                                "                                            <th>Header</th>\n" +
+                                "                                            <th>Count</th>\n" +
+                                "                                        </tr>\n" +
+                                "                                    </thead>\n" +
+                                "                                    <tbody id=\"pending_applications\">\n";
+
+                            $.each(data[2], function (index, data) {
+                                html_sent_to_society += " <tr>\n" +
+                                    "                                            <td>" + index + " </td>\n" +
+                                    "                                            <td>" + data + "</td>\n" +
+                                    "                                        </tr>";
+                            });
+
+                            html_sent_to_society += "                                    </tbody>\n" +
+                                "                                </table>\n" +
+                                "                            </div>\n";
+
+                            $('#sent_to_society').html(html_sent_to_society);
+
+                        }
+
                         $('#count_table').html(html);
 
 
@@ -1550,7 +1523,7 @@
 
                         var chart_count = 0 ;
                         var i = 1 ;
-                        $.each(data, function (index, data) {
+                        $.each(data[0], function (index, data) {
 
 //                                        console.log(data);
 
@@ -1562,8 +1535,8 @@
 
                             if(data[1] == "pending"){
 
-                                html += "<a href=\"#tripartitereePendingModal\" data-dismiss=\"modal\"class=\"btn btn-action\" data-toggle=\"modal\"\n" +
-                                    "             data-target=\"#tripartitereePendingModal\">View</a>";
+                                html += "<a href=\""+tripartite_application+data[1]+"\"class=\"btn btn-action\" data-toggle=\"modal\"\n" +
+                                    "             data-target=\"#pending\">View</a>";
                             }
                             else{
                                 html+= "<a href=\""+tripartite_application+data[1]+"\"class=\"btn btn-action\">View</a>\n";
@@ -1586,14 +1559,41 @@
                             "                </div>\n" +
                             "            </div>";
 
-//                                    alert(chart_count);
+//                                    console.log(data[1]);
+
+                        if (data[1]) {
+                            var html_pending = "";
+                            html_pending +=
+                                "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
+                                "                                <table class=\"table text-center\">\n" +
+                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                        <tr>\n" +
+                                "                                            <th>Header</th>\n" +
+                                "                                            <th>Count</th>\n" +
+                                "                                        </tr>\n" +
+                                "                                    </thead>\n" +
+                                "                                    <tbody id=\"pending_applications\">\n";
+
+                            $.each(data[1], function (index, data) {
+                                html_pending += " <tr>\n" +
+                                    "                                            <td>" + index + " </td>\n" +
+                                    "                                            <td>" + data + "</td>\n" +
+                                    "                                        </tr>";
+                            });
+
+                            html_pending += "                                    </tbody>\n" +
+                                "                                </table>\n" +
+                                "                            </div>\n";
+
+                            $('#pending_applications').html(html_pending);
+                        }
                         $('#count_table').html(html);
 
 
                         if(chart_count){
 
                             var chartData = [];
-                            $.each((data), function (index, data) {
+                            $.each((data[0]), function (index, data) {
                                 obj = {};
                                 if (index != 'Total Number of Applications') {
                                     obj['status'] = index;
