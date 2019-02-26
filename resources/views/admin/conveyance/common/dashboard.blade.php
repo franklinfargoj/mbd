@@ -133,7 +133,7 @@
         </div>
     </div>
 
-    <!-- Modal for conveyance application pending bifergation -->
+    <!-- Modal for conveyance application pending bifurcation -->
     <div class="modal fade" id="pending" role="dialog">
         <div class="modal-dialog">
 
@@ -143,28 +143,7 @@
                     <h4 class="modal-title">Pending Applications</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <div class="modal-body">
-                    <div class="table-responsive m-portlet__body--table">
-                        <table class="table text-center">
-                            <thead class="thead-default">
-                            <tr>
-                                <th>Header</th>
-                                <th>Count</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @if($conveyanceDashboard[1])
-                                @foreach($conveyanceDashboard[1] as $header => $value)
-                                    <tr>
-                                        <td> {{$header}} </td>
-                                        <td> {{$value}} </td>
-                                    </tr>
-                                @endforeach
-                            @endif
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- <p>Some text in the modal.</p> -->
+                <div class="modal-body" id="pending_applications">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -173,77 +152,16 @@
         </div>
     </div>
 
-    <!-- Model for conveyance send to society bifergation-->
+    <!-- Model for conveyance send to society bifurcation-->
     <div class="modal fade" id="sendToSociety" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Applications Sent to Society</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="table-responsive">
-                        <table class="table text-center">
-                            <thead class="thead-default">
-                            <tr>
-                                <th>Header</th>
-                                <th>Count</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @if($conveyanceDashboard[2])
-                                @foreach($conveyanceDashboard[2] as $header => $value)
-                                    <tr>
-                                        <td> {{$header}} </td>
-                                        <td> {{$value}} </td>
-                                    </tr>
-                                @endforeach
-                            @endif
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- <p>Some text in the modal.</p> -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for renewal application pending bifergation -->
-    <div class="modal fade" id="pending_renewal" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Pending Applications</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <div class="modal-body">
-                    <div class="table-responsive m-portlet__body--table">
-                        <table class="table text-center">
-                            <thead class="thead-default">
-                                <tr>
-                                    <th>Header</th>
-                                    <th>Count</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if($renewalDashboard[1])
-                                @foreach($renewalDashboard[1] as $header => $value)
-                                <tr>
-                                    <td> {{$header}} </td>
-                                    <td> {{$value}} </td>
-                                </tr>
-                                @endforeach
-                                @endif
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- <p>Some text in the modal.</p> -->
+                <div class="modal-body" id="sent_to_society">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -252,85 +170,6 @@
         </div>
     </div>
 
-    <!-- Model for renewal send to society bifergation-->
-    <div class="modal fade" id="sendToSociety_renewal" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Applications Sent to Society</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="table-responsive">
-                        <table class="table text-center">
-                            <thead class="thead-default">
-                                <tr>
-                                    <th>Header</th>
-                                    <th>Count</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if($renewalDashboard[2])
-                                    @foreach($renewalDashboard[2] as $header => $value)
-                                    <tr>
-                                        <td> {{$header}} </td>
-                                        <td> {{$value}} </td>
-                                    </tr>
-                                    @endforeach
-                                @endif
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- <p>Some text in the modal.</p> -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    @if(session()->get('role_name') == 'la_engineer')
-        <!-- Modal for tripartite send to society bifergation-->
-    <div class="modal fade" id="tripartitereePendingModal" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Applications Pending</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="table-responsive">
-                        <table class="table text-center">
-                            <thead class="thead-default">
-                            <tr>
-                                <th>Header</th>
-                                <th>Count</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @if($tripartite_data['dashboardData'][1])
-                                @foreach($tripartite_data['dashboardData'][1]  as $header => $value)
-                                    <tr>
-                                        <td> {{$header}} </td>
-                                        <td> {{$value}} </td>
-                                    </tr>
-                                @endforeach
-                            @endif
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- <p>Some text in the modal.</p> -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
 
 @endsection
 @section('js')
@@ -417,6 +256,60 @@
                             "                        </div>\n" +
                             "                </div>\n" +
                             "            </div>";
+
+                        if (data[1]) {
+                            var html_pending = "";
+                            html_pending +=
+                                "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
+                                "                                <table class=\"table text-center\">\n" +
+                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                        <tr>\n" +
+                                "                                            <th>Header</th>\n" +
+                                "                                            <th>Count</th>\n" +
+                                "                                        </tr>\n" +
+                                "                                    </thead>\n" +
+                                "                                    <tbody id=\"pending_applications\">\n";
+
+                            $.each(data[1], function (index, data) {
+                                html_pending += " <tr>\n" +
+                                    "                                            <td>" + index + " </td>\n" +
+                                    "                                            <td>" + data + "</td>\n" +
+                                    "                                        </tr>";
+                            });
+
+                            html_pending += "                                    </tbody>\n" +
+                                "                                </table>\n" +
+                                "                            </div>\n";
+
+                            $('#pending_applications').html(html_pending);
+                        }
+                        if (data[2]) {
+                            var html_sent_to_society = "";
+                            html_sent_to_society +=
+                                "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
+                                "                                <table class=\"table text-center\">\n" +
+                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                        <tr>\n" +
+                                "                                            <th>Header</th>\n" +
+                                "                                            <th>Count</th>\n" +
+                                "                                        </tr>\n" +
+                                "                                    </thead>\n" +
+                                "                                    <tbody id=\"pending_applications\">\n";
+
+                            $.each(data[2], function (index, data) {
+                                html_sent_to_society += " <tr>\n" +
+                                    "                                            <td>" + index + " </td>\n" +
+                                    "                                            <td>" + data + "</td>\n" +
+                                    "                                        </tr>";
+                            });
+
+                            html_sent_to_society += "                                    </tbody>\n" +
+                                "                                </table>\n" +
+                                "                            </div>\n";
+
+                            $('#sent_to_society').html(html_sent_to_society);
+
+                        }
 
                         $('#count_table').html(html);
 
@@ -622,7 +515,7 @@
 
                         var chart_count = 0 ;
                         var i = 1 ;
-                        $.each(data, function (index, data) {
+                        $.each(data[0], function (index, data) {
 
 //                                        console.log(data);
 
@@ -634,8 +527,8 @@
 
                             if(data[1] == "pending"){
 
-                                html += "<a href=\"#tripartitereePendingModal\" data-dismiss=\"modal\"class=\"btn btn-action\" data-toggle=\"modal\"\n" +
-                                    "             data-target=\"#tripartitereePendingModal\">View</a>";
+                                html += "<a href=\""+tripartite_application+data[1]+"\"class=\"btn btn-action\" data-toggle=\"modal\"\n" +
+                                    "             data-target=\"#pending\">View</a>";
                             }
                             else{
                                 html+= "<a href=\""+tripartite_application+data[1]+"\"class=\"btn btn-action\">View</a>\n";
@@ -659,13 +552,40 @@
                             "            </div>";
 
 //                                    alert(chart_count);
+                        if (data[1]) {
+                            var html_pending = "";
+                            html_pending +=
+                                "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
+                                "                                <table class=\"table text-center\">\n" +
+                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                        <tr>\n" +
+                                "                                            <th>Header</th>\n" +
+                                "                                            <th>Count</th>\n" +
+                                "                                        </tr>\n" +
+                                "                                    </thead>\n" +
+                                "                                    <tbody id=\"pending_applications\">\n";
+
+                            $.each(data[1], function (index, data) {
+                                html_pending += " <tr>\n" +
+                                    "                                            <td>" + index + " </td>\n" +
+                                    "                                            <td>" + data + "</td>\n" +
+                                    "                                        </tr>";
+                            });
+
+                            html_pending += "                                    </tbody>\n" +
+                                "                                </table>\n" +
+                                "                            </div>\n";
+
+                            $('#pending_applications').html(html_pending);
+                        }
+
                         $('#count_table').html(html);
 
 
                         if(chart_count){
 
                             var chartData = [];
-                            $.each((data), function (index, data) {
+                            $.each((data[0]), function (index, data) {
                                 obj = {};
                                 if (index != 'Total Number of Applications') {
                                     obj['status'] = index;
@@ -795,6 +715,59 @@
                             "            </div>";
 
 //                                    alert(chart_count);
+                        if (data[1]) {
+                            var html_pending = "";
+                            html_pending +=
+                                "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
+                                "                                <table class=\"table text-center\">\n" +
+                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                        <tr>\n" +
+                                "                                            <th>Header</th>\n" +
+                                "                                            <th>Count</th>\n" +
+                                "                                        </tr>\n" +
+                                "                                    </thead>\n" +
+                                "                                    <tbody id=\"pending_applications\">\n";
+
+                            $.each(data[1], function (index, data) {
+                                html_pending += " <tr>\n" +
+                                    "                                            <td>" + index + " </td>\n" +
+                                    "                                            <td>" + data + "</td>\n" +
+                                    "                                        </tr>";
+                            });
+
+                            html_pending += "                                    </tbody>\n" +
+                                "                                </table>\n" +
+                                "                            </div>\n";
+
+                            $('#pending_applications').html(html_pending);
+                        }
+                        if (data[2]) {
+                            var html_sent_to_society = "";
+                            html_sent_to_society +=
+                                "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
+                                "                                <table class=\"table text-center\">\n" +
+                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                        <tr>\n" +
+                                "                                            <th>Header</th>\n" +
+                                "                                            <th>Count</th>\n" +
+                                "                                        </tr>\n" +
+                                "                                    </thead>\n" +
+                                "                                    <tbody id=\"pending_applications\">\n";
+
+                            $.each(data[2], function (index, data) {
+                                html_sent_to_society += " <tr>\n" +
+                                    "                                            <td>" + index + " </td>\n" +
+                                    "                                            <td>" + data + "</td>\n" +
+                                    "                                        </tr>";
+                            });
+
+                            html_sent_to_society += "                                    </tbody>\n" +
+                                "                                </table>\n" +
+                                "                            </div>\n";
+
+                            $('#sent_to_society').html(html_sent_to_society);
+
+                        }
                         $('#count_table').html(html);
 
 
