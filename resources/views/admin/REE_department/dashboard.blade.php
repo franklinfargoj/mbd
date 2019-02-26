@@ -10,13 +10,6 @@
     <link href="{{asset('/css/dashboard/custom.css')}}" rel="stylesheet" type="text/css"/>
 @endsection
 @section('content')
-    @php
-        $chart = 0;
-        $chart1 = 0;
-        $chart2 = 0;
-        $chart3 = 0;
-    @endphp
-
     <div class="container-fluid">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
@@ -26,7 +19,7 @@
 
         <div class="d-flex flex-wrap db-wrapper">
             @if($dashboardData[0])
-                <div class="db__card counts"  data-module = "Offer Letter">
+                <div class="db__card counts" data-module="Offer Letter">
                     <div class="db__card__img-wrap db-color-1">
                         <h3 class="db__card__count">{{$dashboardData[0]['Total Number of Applications'][0]}}</h3>
                     </div>
@@ -42,29 +35,29 @@
                 </div>
             @endif
             @if($tripartite_data['dashboardData'])
-            <div class="db__card tripartite" data-module="Tripartite Agreement">
-                <div class="db__card__img-wrap db-color-3">
-                    <h3 class="db__card__count">{{$tripartite_data['dashboardData'][0]['Total Number of Applications'][0]}}</h3>
+                <div class="db__card tripartite" data-module="Tripartite Agreement">
+                    <div class="db__card__img-wrap db-color-3">
+                        <h3 class="db__card__count">{{$tripartite_data['dashboardData'][0]['Total Number of Applications'][0]}}</h3>
+                    </div>
+                    <p class="db__card__title">Tripartite Agreement</p>
                 </div>
-                <p class="db__card__title">Tripartite Agreement</p>
-            </div>
             @endif
             @if($tripartite_data['dashboardData_head'])
-            <div class="db__card tripartite_pending" data-module="Tripartite Agreement Subordinate Pendency">
-                <div class="db__card__img-wrap db-color-4">
-                    <h3 class="db__card__count">{{$tripartite_data['dashboardData_head']['Total Number of Applications']}}</h3>
+                <div class="db__card tripartite_pending" data-module="Tripartite Agreement Subordinate Pendency">
+                    <div class="db__card__img-wrap db-color-4">
+                        <h3 class="db__card__count">{{$tripartite_data['dashboardData_head']['Total Number of Applications']}}</h3>
+                    </div>
+                    <p class="db__card__title">Tripartite Agreement Subordinate Pendency</p>
                 </div>
-                <p class="db__card__title">Tripartite Agreement Subordinate Pendency</p>
-            </div>
             @endif
 
             @if($revalDashboardData[0])
-            <div class="db__card revalidation" data-module="Offer Letter Revalidation">
-                <div class="db__card__img-wrap db-color-5">
-                    <h3 class="db__card__count">{{$revalDashboardData[0]['Total Number of Applications'][0]}}</h3>
+                <div class="db__card revalidation" data-module="Offer Letter Revalidation">
+                    <div class="db__card__img-wrap db-color-5">
+                        <h3 class="db__card__count">{{$revalDashboardData[0]['Total Number of Applications'][0]}}</h3>
+                    </div>
+                    <p class="db__card__title">Offer Letter Revalidation</p>
                 </div>
-                <p class="db__card__title">Offer Letter Revalidation</p>
-            </div>
             @endif
             @if($revalDashboardData1)
                 <div class="db__card revalidation_pending" data-module="Offer Letter Revalidation Subordinate Pendency">
@@ -107,7 +100,6 @@
                 </div>
             @endif
 
-
             <div class="db__card revision" data-module="Revision in Layout">
                 <div class="db__card__img-wrap db-color-5">
                     <h3 class="db__card__count">{{$architect_data['total_no_of_appln_for_revision']}}</h3>
@@ -121,231 +113,19 @@
                 <p class="db__card__title">Layout Approval</p>
             </div>
             @if (session()->get('role_name') == config('commanConfig.ree_branch_head'))
-            <div class="db__card revision" data-module="Layout Approval Subordinate Pendency">
-                <div class="db__card__img-wrap db-color-5">
-                    <h3 class="db__card__count">-</h3>
+                <div class="db__card revision" data-module="Layout Approval Subordinate Pendency">
+                    <div class="db__card__img-wrap db-color-5">
+                        <h3 class="db__card__count">-</h3>
+                    </div>
+                    <p class="db__card__title">Layout Approval Subordinate Pendency</p>
                 </div>
-                <p class="db__card__title">Layout Approval Subordinate Pendency</p>
-            </div>
             @endif
         </div>
-
-        {{--Dashboard for offer letter--}}
-        {{--@if($dashboardData[0])--}}
-            {{--<div id="count_table">--}}
-            {{--<div class="m-subheader px-0 m-subheader--top">--}}
-                {{--<div class="d-flex align-items-center">--}}
-                    {{--<h3 class="m-subheader__title">Offer Letter</h3>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-
-            {{--<div class="row">--}}
-                {{--<div class="col-sm-7">--}}
-                    {{--<div class="m-portlet db-table">--}}
-                        {{--<div class="table-responsive">--}}
-                            {{--<table class="table text-center">--}}
-                                {{--<thead>--}}
-                                {{--<th style="width: 10%;">Sr. No</th>--}}
-                                {{--<th style="width: 60%;" class="text-center">Stages</th>--}}
-                                {{--<th style="width: 15%;" class="text-left">Count</th>--}}
-                                {{--<th style="width: 15%;">Action</th>--}}
-                                {{--</thead>--}}
-                                {{--<tbody>--}}
-                                {{--@php--}}
-                                    {{--$i = 1;--}}
-                                {{--@endphp--}}
-
-                                {{--@foreach($dashboardData[0] as $header => $value)--}}
-                                    {{--<tr>--}}
-                                        {{--<td class="text-center">{{$i}}.</td>--}}
-                                        {{--<td>{{$header}}</td>--}}
-                                        {{--<td class="text-center"><span class="count-circle">{{$value[0]}}</span></td>--}}
-                                        {{--<td>--}}
-                                            {{--@if( $value[1] == 'pending')--}}
-                                                {{--<a href="{{url(session()->get('redirect_to').$value[1])}}" class="btn btn-action" data-toggle="modal" data-target="#reePendingModal">View</a>--}}
-                                            {{--@else--}}
-                                                {{--<a href="{{url(session()->get('redirect_to').$value[1])}}" class="btn btn-action">View</a>--}}
-                                            {{--@endif--}}
-                                        {{--</td>--}}
-                                        {{--@php $chart += $value[0]; $i++; @endphp--}}
-                                    {{--</tr>--}}
-                                {{--@endforeach--}}
-                                {{--</tbody>--}}
-                            {{--</table>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-                {{--@if($chart)--}}
-                    {{--<div id="ajaxchartdiv" class="col-sm-5"></div>--}}
-                {{--@endif--}}
-            {{--</div>--}}
-        {{--</div>--}}
-        {{--@endif--}}
-        {{--End Dashboard for offer letter--}}
-
     </div>
-
-
-
-    {{--<!-- Modal for send to society bifergation-->--}}
-    {{--<div class="modal fade" id="reePendingModal" role="dialog">--}}
-        {{--<div class="modal-dialog">--}}
-            {{--<!-- Modal content-->--}}
-            {{--<div class="modal-content">--}}
-                {{--<div class="modal-header">--}}
-                    {{--<button type="button" class="close" data-dismiss="modal">&times;</button>--}}
-                    {{--<h4 class="modal-title">Applications Pending</h4>--}}
-                {{--</div>--}}
-                {{--<div class="modal-body">--}}
-                    {{--<div class="table-responsive">--}}
-                        {{--<table class="table text-center">--}}
-                            {{--<thead class="thead-default">--}}
-                            {{--<tr>--}}
-                                {{--<th>Header</th>--}}
-                                {{--<th>Count</th>--}}
-                            {{--</tr>--}}
-                            {{--</thead>--}}
-                            {{--<tbody>--}}
-                            {{--@if($dashboardData[1] )--}}
-                                {{--@foreach($dashboardData[1]  as $header => $value)--}}
-                                    {{--<tr>--}}
-                                        {{--<td> {{$header}} </td>--}}
-                                        {{--<td> {{$value}} </td>--}}
-                                    {{--</tr>--}}
-                                {{--@endforeach--}}
-                            {{--@endif--}}
-                            {{--</tbody>--}}
-                        {{--</table>--}}
-                    {{--</div>--}}
-                    {{--<!-- <p>Some text in the modal.</p> -->--}}
-                {{--</div>--}}
-                {{--<div class="modal-footer">--}}
-                    {{--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
-    {{--</div>--}}
-
-    <!-- Modal for send to society bifergation-->
-    <div class="modal fade" id="reePendingModal" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Applications Pending</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="table-responsive">
-                        <table class="table text-center">
-                            <thead class="thead-default">
-                            <tr>
-                                <th>Header</th>
-                                <th>Count</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @if($dashboardData[1] )
-                                @foreach($dashboardData[1]  as $header => $value)
-                                    <tr>
-                                        <td> {{$header}} </td>
-                                        <td> {{$value}} </td>
-                                    </tr>
-                                @endforeach
-                            @endif
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- <p>Some text in the modal.</p> -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for Reval Pending Bifurcation-->
-    <div class="modal fade" id="reeRevalPendingModal" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Applications Pending</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="table-responsive">
-                        <table class="table text-center">
-                            <thead class="thead-default">
-                            <tr>
-                                <th>Header</th>
-                                <th>Count</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @if($revalDashboardData[1] )
-                                @foreach($revalDashboardData[1]  as $header => $value)
-                                    <tr>
-                                        <td> {{$header}} </td>
-                                        <td> {{$value}} </td>
-                                    </tr>
-                                @endforeach
-                            @endif
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- <p>Some text in the modal.</p> -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for send to society bifergation-->
-    <div class="modal fade" id="tripartitereePendingModal" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Applications Pending</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="table-responsive">
-                        <table class="table text-center">
-                            <thead class="thead-default">
-                            <tr>
-                                <th>Header</th>
-                                <th>Count</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @if($tripartite_data['dashboardData'][1])
-                                @foreach($tripartite_data['dashboardData'][1]  as $header => $value)
-                                    <tr>
-                                        <td> {{$header}} </td>
-                                        <td> {{$value}} </td>
-                                    </tr>
-                                @endforeach
-                            @endif
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- <p>Some text in the modal.</p> -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
     <!-- Modal for count table and pie chart popup -->
-    <div class="modal fade" id="getCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="getCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog" style=" width: 150%;
   height: 160%;
   margin: 5% 10% 0 10%;
@@ -355,10 +135,30 @@
   margin: 0;
   padding: 0;">
                 <div style="float:left">
-                <button type="button"  class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
                 </div>
-                <div class="modal-body" id="count_table" >
+                <div class="modal-body" id="count_table">
 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Pending bifergation-->
+    <div class="modal fade" id="pending" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Applications Pending</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" id="pending_applications">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -387,7 +187,7 @@
             $.ajax({
                 type: "POST",
                 url: dashboard,
-                data: {module_name:module_name},
+                data: {module_name: module_name},
                 dataType: 'json',
                 success: function (data) {
                     if (data !== "false") {
@@ -397,7 +197,7 @@
                         html += "<div id=\"count_table\">\n" +
                             "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
                             "                    <div class=\"d-flex align-items-center\">\n" +
-                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                        <h3 class=\"m-subheader__title\">" + module_name + "</h3>\n" +
                             "                    </div>\n" +
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
@@ -411,27 +211,27 @@
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
                             "                                    <th style=\"width: 15%;\">Action</th>\n" +
                             "                                    </thead>\n" +
-                            "                                    </tbody>\n" ;
+                            "                                    </tbody>\n";
 
-                        var chart_count = 0 ;
-                        var i = 1 ;
+                        var chart_count = 0;
+                        var i = 1;
                         $.each(data[0], function (index, data) {
 
 //                                        console.log(data);
 
                             html += "<tr>\n" +
-                                "<td class=\"text-center\">"+i+"</td>" +
-                                "<td>"+index+"</td>\n" +
-                                "<td class=\"text-center\"><span class=\"count-circle\">"+data[0]+"</span></td>\n" +
+                                "<td class=\"text-center\">" + i + "</td>" +
+                                "<td>" + index + "</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">" + data[0] + "</span></td>\n" +
                                 "<td class=\"text-center\">";
 
-                            if(data[1] == "pending"){
+                            if (data[1] == "pending") {
 
-                                html += "<a href=\"#reePendingModal\" data-dismiss=\"modal\" class=\"btn btn-action\" data-toggle=\"modal\"\n" +
-                                    "             data-target=\"#reePendingModal\">View</a>";
+                                html += "<a href=\"" + baseUrl + data[1] + "\" class=\"btn btn-action\" data-toggle=\"modal\"\n" +
+                                    "             data-target=\"#pending\">View</a>";
                             }
-                            else{
-                                html+= "<a href=\""+baseUrl+redirect_to+data[1]+"\"class=\"btn btn-action\">View</a>\n";
+                            else {
+                                html += "<a href=\"" + baseUrl + redirect_to + data[1] + "\"class=\"btn btn-action\">View</a>\n";
 
                             }
                             html += "</td>\n" +
@@ -441,7 +241,7 @@
                             i++;
                         });
 
-                        html +="</tbody>\n" +
+                        html += "</tbody>\n" +
                             "                                </table>\n" +
                             "                        </div>\n" +
                             "                    </div>" +
@@ -452,9 +252,37 @@
                             "            </div>";
 
 //                                    alert(chart_count);
+
+                        if (data[1]) {
+                            var html_pending = "";
+                            html_pending +=
+                                "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
+                                "                                <table class=\"table text-center\">\n" +
+                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                        <tr>\n" +
+                                "                                            <th>Header</th>\n" +
+                                "                                            <th>Count</th>\n" +
+                                "                                        </tr>\n" +
+                                "                                    </thead>\n" +
+                                "                                    <tbody id=\"pending_applications\">\n";
+
+                            $.each(data[1], function (index, data) {
+                                html_pending += " <tr>\n" +
+                                    "                                            <td>" + index + " </td>\n" +
+                                    "                                            <td>" + data + "</td>\n" +
+                                    "                                        </tr>";
+                            });
+
+                            html_pending += "                                    </tbody>\n" +
+                                "                                </table>\n" +
+                                "                            </div>\n";
+
+                            $('#pending_applications').html(html_pending);
+                        }
+
                         $('#count_table').html(html);
 
-                        if(chart_count){
+                        if (chart_count) {
 
                             var chartData = [];
                             $.each((data[0]), function (index, data) {
@@ -468,22 +296,22 @@
                             });
 //                                        console.log(chartData);
 
-                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                            var chart = AmCharts.makeChart("ajaxchartdiv", {
                                 "type": "pie",
                                 "theme": "light",
-                                "dataProvider":chartData ,
+                                "dataProvider": chartData,
                                 "valueField": "value",
                                 "titleField": "status",
                                 "outlineAlpha": 0.8,
-                                "outlineColor":"#FFFFFF",
-                                "outlineThickness" : 2,
+                                "outlineColor": "#FFFFFF",
+                                "outlineThickness": 2,
                                 "depth3D": 15,
                                 "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
                                 "angle": 30,
                                 "labelText": "[[percents]]%",
                                 "labelRadius": -35,
-                                "fontSize" : 15,
-                            } );
+                                "fontSize": 15,
+                            });
                         }
                         $("#getCodeModal").modal('show');
                     }
@@ -513,7 +341,7 @@
             $.ajax({
                 type: "POST",
                 url: dashboard,
-                data: {module_name:module_name},
+                data: {module_name: module_name},
                 dataType: 'json',
                 success: function (data) {
                     if (data !== "false") {
@@ -523,7 +351,7 @@
                         html += "<div id=\"count_table\">\n" +
                             "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
                             "                    <div class=\"d-flex align-items-center\">\n" +
-                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                        <h3 class=\"m-subheader__title\">" + module_name + "</h3>\n" +
                             "                    </div>\n" +
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
@@ -536,22 +364,22 @@
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
                             "                                    </thead>\n" +
-                            "                                    </tbody>\n" ;
+                            "                                    </tbody>\n";
 
-                        var chart_count = 0 ;
-                        var i = 1 ;
+                        var chart_count = 0;
+                        var i = 1;
                         $.each(data, function (index, data) {
 
                             html += "<tr>\n" +
-                                "<td class=\"text-center\">"+i+"</td>" +
-                                "<td>"+index+"</td>\n" +
-                                "<td class=\"text-center\"><span class=\"count-circle\">"+data+"</span></td>\n" +
+                                "<td class=\"text-center\">" + i + "</td>" +
+                                "<td>" + index + "</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">" + data + "</span></td>\n" +
                                 "</tr>";
                             chart_count += data;
                             i++;
                         });
 
-                        html +="</tbody>\n" +
+                        html += "</tbody>\n" +
                             "                                </table>\n" +
                             "                        </div>\n" +
                             "                    </div>" +
@@ -564,7 +392,7 @@
                         $('#count_table').html(html);
 
 
-                        if(chart_count){
+                        if (chart_count) {
 
                             var chartData = [];
 
@@ -578,22 +406,22 @@
 
                             });
 
-                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                            var chart = AmCharts.makeChart("ajaxchartdiv", {
                                 "type": "pie",
                                 "theme": "light",
-                                "dataProvider":chartData ,
+                                "dataProvider": chartData,
                                 "valueField": "value",
                                 "titleField": "status",
                                 "outlineAlpha": 0.8,
-                                "outlineColor":"#FFFFFF",
-                                "outlineThickness" : 2,
+                                "outlineColor": "#FFFFFF",
+                                "outlineThickness": 2,
                                 "depth3D": 15,
                                 "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
                                 "angle": 30,
                                 "labelText": "[[percents]]%",
                                 "labelRadius": -35,
-                                "fontSize" : 15,
-                            } );
+                                "fontSize": 15,
+                            });
                         }
                         $("#getCodeModal").modal('show');
                     }
@@ -626,7 +454,7 @@
             $.ajax({
                 type: "POST",
                 url: dashboard,
-                data: {module_name:module_name},
+                data: {module_name: module_name},
                 dataType: 'json',
                 success: function (data) {
                     if (data !== "false") {
@@ -637,7 +465,7 @@
                         html += "<div id=\"count_table\">\n" +
                             "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
                             "                    <div class=\"d-flex align-items-center\">\n" +
-                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                        <h3 class=\"m-subheader__title\">" + module_name + "</h3>\n" +
                             "                    </div>\n" +
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
@@ -651,27 +479,27 @@
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
                             "                                    <th style=\"width: 15%;\">Action</th>\n" +
                             "                                    </thead>\n" +
-                            "                                    </tbody>\n" ;
+                            "                                    </tbody>\n";
 
-                        var chart_count = 0 ;
-                        var i = 1 ;
+                        var chart_count = 0;
+                        var i = 1;
                         $.each(data[0], function (index, data) {
 
 //                                        console.log(data);
 
                             html += "<tr>\n" +
-                                "<td class=\"text-center\">"+i+"</td>" +
-                                "<td>"+index+"</td>\n" +
-                                "<td class=\"text-center\"><span class=\"count-circle\">"+data[0]+"</span></td>\n" +
+                                "<td class=\"text-center\">" + i + "</td>" +
+                                "<td>" + index + "</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">" + data[0] + "</span></td>\n" +
                                 "<td class=\"text-center\">";
 
-                            if(data[1] == "pending"){
+                            if (data[1] == "pending") {
 
-                                html += "<a href=\"#reeRevalPendingModal\" data-dismiss=\"modal\"class=\"btn btn-action\" data-toggle=\"modal\"\n" +
-                                    "             data-target=\"#reeRevalPendingModal\">View</a>";
+                                html += "<a href=\"" + reval_application + data[1] + "\"class=\"btn btn-action\" data-toggle=\"modal\"\n" +
+                                    "             data-target=\"#pending\">View</a>";
                             }
-                            else{
-                                html+= "<a href=\""+reval_application+data[1]+"\"class=\"btn btn-action\">View</a>\n";
+                            else {
+                                html += "<a href=\"" + reval_application + data[1] + "\"class=\"btn btn-action\">View</a>\n";
 
                             }
                             html += "</td>\n" +
@@ -681,7 +509,7 @@
                             i++;
                         });
 
-                        html +="</tbody>\n" +
+                        html += "</tbody>\n" +
                             "                                </table>\n" +
                             "                        </div>\n" +
                             "                    </div>" +
@@ -692,10 +520,37 @@
                             "            </div>";
 
 //                                    alert(chart_count);
+
+                        if (data[1]) {
+                            var html_pending = "";
+                            html_pending +=
+                                "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
+                                "                                <table class=\"table text-center\">\n" +
+                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                        <tr>\n" +
+                                "                                            <th>Header</th>\n" +
+                                "                                            <th>Count</th>\n" +
+                                "                                        </tr>\n" +
+                                "                                    </thead>\n" +
+                                "                                    <tbody id=\"pending_applications\">\n";
+
+                            $.each(data[1], function (index, data) {
+                                html_pending += " <tr>\n" +
+                                    "                                            <td>" + index + " </td>\n" +
+                                    "                                            <td>" + data + "</td>\n" +
+                                    "                                        </tr>";
+                            });
+
+                            html_pending += "                                    </tbody>\n" +
+                                "                                </table>\n" +
+                                "                            </div>\n";
+
+                            $('#pending_applications').html(html_pending);
+                        }
                         $('#count_table').html(html);
 
 
-                        if(chart_count){
+                        if (chart_count) {
 
                             var chartData = [];
                             $.each((data[0]), function (index, data) {
@@ -709,22 +564,22 @@
                             });
 //                                        console.log(chartData);
 
-                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                            var chart = AmCharts.makeChart("ajaxchartdiv", {
                                 "type": "pie",
                                 "theme": "light",
-                                "dataProvider":chartData ,
+                                "dataProvider": chartData,
                                 "valueField": "value",
                                 "titleField": "status",
                                 "outlineAlpha": 0.8,
-                                "outlineColor":"#FFFFFF",
-                                "outlineThickness" : 2,
+                                "outlineColor": "#FFFFFF",
+                                "outlineThickness": 2,
                                 "depth3D": 15,
                                 "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
                                 "angle": 30,
                                 "labelText": "[[percents]]%",
                                 "labelRadius": -35,
-                                "fontSize" : 15,
-                            } );
+                                "fontSize": 15,
+                            });
                         }
                         $("#getCodeModal").modal('show');
 
@@ -755,7 +610,7 @@
             $.ajax({
                 type: "POST",
                 url: dashboard,
-                data: {module_name:module_name},
+                data: {module_name: module_name},
                 dataType: 'json',
                 success: function (data) {
                     if (data !== "false") {
@@ -765,7 +620,7 @@
                         html += "<div id=\"count_table\">\n" +
                             "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
                             "                    <div class=\"d-flex align-items-center\">\n" +
-                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                        <h3 class=\"m-subheader__title\">" + module_name + "</h3>\n" +
                             "                    </div>\n" +
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
@@ -778,22 +633,22 @@
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
                             "                                    </thead>\n" +
-                            "                                    </tbody>\n" ;
+                            "                                    </tbody>\n";
 
-                        var chart_count = 0 ;
-                        var i = 1 ;
+                        var chart_count = 0;
+                        var i = 1;
                         $.each(data, function (index, data) {
 
                             html += "<tr>\n" +
-                                "<td class=\"text-center\">"+i+"</td>" +
-                                "<td>"+index+"</td>\n" +
-                                "<td class=\"text-center\"><span class=\"count-circle\">"+data+"</span></td>\n" +
+                                "<td class=\"text-center\">" + i + "</td>" +
+                                "<td>" + index + "</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">" + data + "</span></td>\n" +
                                 "</tr>";
                             chart_count += data;
                             i++;
                         });
 
-                        html +="</tbody>\n" +
+                        html += "</tbody>\n" +
                             "                                </table>\n" +
                             "                        </div>\n" +
                             "                    </div>" +
@@ -806,7 +661,7 @@
                         $('#count_table').html(html);
 
 
-                        if(chart_count){
+                        if (chart_count) {
 
                             var chartData = [];
 
@@ -820,22 +675,22 @@
 
                             });
 
-                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                            var chart = AmCharts.makeChart("ajaxchartdiv", {
                                 "type": "pie",
                                 "theme": "light",
-                                "dataProvider":chartData ,
+                                "dataProvider": chartData,
                                 "valueField": "value",
                                 "titleField": "status",
                                 "outlineAlpha": 0.8,
-                                "outlineColor":"#FFFFFF",
-                                "outlineThickness" : 2,
+                                "outlineColor": "#FFFFFF",
+                                "outlineThickness": 2,
                                 "depth3D": 15,
                                 "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
                                 "angle": 30,
                                 "labelText": "[[percents]]%",
                                 "labelRadius": -35,
-                                "fontSize" : 15,
-                            } );
+                                "fontSize": 15,
+                            });
                         }
                         $("#getCodeModal").modal('show');
                     }
@@ -866,7 +721,7 @@
             $.ajax({
                 type: "POST",
                 url: dashboard,
-                data: {module_name:module_name},
+                data: {module_name: module_name},
                 dataType: 'json',
                 success: function (data) {
                     if (data !== "false") {
@@ -876,7 +731,7 @@
                         html += "<div id=\"count_table\">\n" +
                             "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
                             "                    <div class=\"d-flex align-items-center\">\n" +
-                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                        <h3 class=\"m-subheader__title\">" + module_name + "</h3>\n" +
                             "                    </div>\n" +
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
@@ -890,25 +745,25 @@
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
                             "                                    <th style=\"width: 15%;\">Action</th>\n" +
                             "                                    </thead>\n" +
-                            "                                    </tbody>\n" ;
+                            "                                    </tbody>\n";
 
-                        var chart_count = 0 ;
-                        var i = 1 ;
+                        var chart_count = 0;
+                        var i = 1;
                         $.each(data, function (index, data) {
 
                             html += "<tr>\n" +
-                                "<td class=\"text-center\">"+i+"</td>" +
-                                "<td>"+index+"</td>\n" +
-                                "<td class=\"text-center\"><span class=\"count-circle\">"+data[0]+"</span></td>\n" +
+                                "<td class=\"text-center\">" + i + "</td>" +
+                                "<td>" + index + "</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">" + data[0] + "</span></td>\n" +
                                 "<td>\n" +
-                                "<a href=\""+baseUrl+"/"+data[1]+"\"class=\"btn btn-action\">View</a>\n" +
+                                "<a href=\"" + baseUrl + "/" + data[1] + "\"class=\"btn btn-action\">View</a>\n" +
                                 "</td>\n" +
                                 "</tr>";
                             chart_count += data[0];
                             i++;
                         });
 
-                        html +="</tbody>\n" +
+                        html += "</tbody>\n" +
                             "                                </table>\n" +
                             "                        </div>\n" +
                             "                    </div>" +
@@ -920,7 +775,7 @@
 
                         $('#count_table').html(html);
 
-                        if(chart_count){
+                        if (chart_count) {
 
                             var chartData = [];
 
@@ -934,22 +789,22 @@
 
                             });
 
-                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                            var chart = AmCharts.makeChart("ajaxchartdiv", {
                                 "type": "pie",
                                 "theme": "light",
-                                "dataProvider":chartData ,
+                                "dataProvider": chartData,
                                 "valueField": "value",
                                 "titleField": "status",
                                 "outlineAlpha": 0.8,
-                                "outlineColor":"#FFFFFF",
-                                "outlineThickness" : 2,
+                                "outlineColor": "#FFFFFF",
+                                "outlineThickness": 2,
                                 "depth3D": 15,
                                 "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
                                 "angle": 30,
                                 "labelText": "[[percents]]%",
                                 "labelRadius": -35,
-                                "fontSize" : 15,
-                            } );
+                                "fontSize": 15,
+                            });
                         }
                         $("#getCodeModal").modal('show');
 
@@ -981,7 +836,7 @@
             $.ajax({
                 type: "POST",
                 url: dashboard,
-                data: {module_name:module_name},
+                data: {module_name: module_name},
                 dataType: 'json',
                 success: function (data) {
                     if (data !== "false") {
@@ -991,7 +846,7 @@
                         html += "<div id=\"count_table\">\n" +
                             "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
                             "                    <div class=\"d-flex align-items-center\">\n" +
-                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                        <h3 class=\"m-subheader__title\">" + module_name + "</h3>\n" +
                             "                    </div>\n" +
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
@@ -1004,22 +859,22 @@
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
                             "                                    </thead>\n" +
-                            "                                    </tbody>\n" ;
+                            "                                    </tbody>\n";
 
-                        var chart_count = 0 ;
-                        var i = 1 ;
+                        var chart_count = 0;
+                        var i = 1;
                         $.each(data, function (index, data) {
 
                             html += "<tr>\n" +
-                                "<td class=\"text-center\">"+i+"</td>" +
-                                "<td>"+index+"</td>\n" +
-                                "<td class=\"text-center\"><span class=\"count-circle\">"+data+"</span></td>\n" +
+                                "<td class=\"text-center\">" + i + "</td>" +
+                                "<td>" + index + "</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">" + data + "</span></td>\n" +
                                 "</tr>";
                             chart_count += data;
                             i++;
                         });
 
-                        html +="</tbody>\n" +
+                        html += "</tbody>\n" +
                             "                                </table>\n" +
                             "                        </div>\n" +
                             "                    </div>" +
@@ -1031,7 +886,7 @@
 
                         $('#count_table').html(html);
 
-                        if(chart_count){
+                        if (chart_count) {
 
                             var chartData = [];
 
@@ -1045,22 +900,22 @@
 
                             });
 
-                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                            var chart = AmCharts.makeChart("ajaxchartdiv", {
                                 "type": "pie",
                                 "theme": "light",
-                                "dataProvider":chartData ,
+                                "dataProvider": chartData,
                                 "valueField": "value",
                                 "titleField": "status",
                                 "outlineAlpha": 0.8,
-                                "outlineColor":"#FFFFFF",
-                                "outlineThickness" : 2,
+                                "outlineColor": "#FFFFFF",
+                                "outlineThickness": 2,
                                 "depth3D": 15,
                                 "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
                                 "angle": 30,
                                 "labelText": "[[percents]]%",
                                 "labelRadius": -35,
-                                "fontSize" : 15,
-                            } );
+                                "fontSize": 15,
+                            });
                         }
                         $("#getCodeModal").modal('show');
 
@@ -1092,7 +947,7 @@
             $.ajax({
                 type: "POST",
                 url: dashboard,
-                data: {module_name:module_name},
+                data: {module_name: module_name},
                 dataType: 'json',
                 success: function (data) {
                     if (data !== "false") {
@@ -1101,7 +956,7 @@
                         html += "<div id=\"count_table\">\n" +
                             "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
                             "                    <div class=\"d-flex align-items-center\">\n" +
-                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                        <h3 class=\"m-subheader__title\">" + module_name + "</h3>\n" +
                             "                    </div>\n" +
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
@@ -1114,16 +969,16 @@
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
                             "                                    </thead>\n" +
-                            "                                    </tbody>\n" ;
+                            "                                    </tbody>\n";
 
-                        var chart_count = 0 ;
-                        var i = 1 ;
+                        var chart_count = 0;
+                        var i = 1;
                         $.each(data, function (index, data) {
 
                             html += "<tr>\n" +
-                                "<td class=\"text-center\">"+i+"</td>" +
-                                "<td>"+index+"</td>\n" +
-                                "<td class=\"text-center\"><span class=\"count-circle\">"+data+"</span></td>\n" +
+                                "<td class=\"text-center\">" + i + "</td>" +
+                                "<td>" + index + "</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">" + data + "</span></td>\n" +
                                 "<td>\n" +
                                 "</td>\n" +
                                 "</tr>";
@@ -1131,7 +986,7 @@
                             i++;
                         });
 
-                        html +="</tbody>\n" +
+                        html += "</tbody>\n" +
                             "                                </table>\n" +
                             "                        </div>\n" +
                             "                    </div>" +
@@ -1143,7 +998,7 @@
 
                         $('#count_table').html(html);
 
-                        if(chart_count){
+                        if (chart_count) {
 
                             var chartData = [];
 
@@ -1157,22 +1012,22 @@
 
                             });
 
-                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                            var chart = AmCharts.makeChart("ajaxchartdiv", {
                                 "type": "pie",
                                 "theme": "light",
-                                "dataProvider":chartData ,
+                                "dataProvider": chartData,
                                 "valueField": "value",
                                 "titleField": "status",
                                 "outlineAlpha": 0.8,
-                                "outlineColor":"#FFFFFF",
-                                "outlineThickness" : 2,
+                                "outlineColor": "#FFFFFF",
+                                "outlineThickness": 2,
                                 "depth3D": 15,
                                 "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
                                 "angle": 30,
                                 "labelText": "[[percents]]%",
                                 "labelRadius": -35,
-                                "fontSize" : 15,
-                            } );
+                                "fontSize": 15,
+                            });
                         }
                         $("#getCodeModal").modal('show');
 
@@ -1206,7 +1061,7 @@
             $.ajax({
                 type: "POST",
                 url: dashboard,
-                data: {module_name:module_name},
+                data: {module_name: module_name},
                 dataType: 'json',
                 success: function (data) {
                     if (data !== "false") {
@@ -1217,7 +1072,7 @@
                         html += "<div id=\"count_table\">\n" +
                             "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
                             "                    <div class=\"d-flex align-items-center\">\n" +
-                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                        <h3 class=\"m-subheader__title\">" + module_name + "</h3>\n" +
                             "                    </div>\n" +
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
@@ -1231,27 +1086,27 @@
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
                             "                                    <th style=\"width: 15%;\">Action</th>\n" +
                             "                                    </thead>\n" +
-                            "                                    </tbody>\n" ;
+                            "                                    </tbody>\n";
 
-                        var chart_count = 0 ;
-                        var i = 1 ;
-                        $.each(data, function (index, data) {
+                        var chart_count = 0;
+                        var i = 1;
+                        $.each(data[0], function (index, data) {
 
 //                                        console.log(data);
 
                             html += "<tr>\n" +
-                                "<td class=\"text-center\">"+i+"</td>" +
-                                "<td>"+index+"</td>\n" +
-                                "<td class=\"text-center\"><span class=\"count-circle\">"+data[0]+"</span></td>\n" +
+                                "<td class=\"text-center\">" + i + "</td>" +
+                                "<td>" + index + "</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">" + data[0] + "</span></td>\n" +
                                 "<td class=\"text-center\">";
 
-                            if(data[1] == "pending"){
+                            if (data[1] == "pending") {
 
-                                html += "<a href=\"#tripartitereePendingModal\" data-dismiss=\"modal\"class=\"btn btn-action\" data-toggle=\"modal\"\n" +
-                                    "             data-target=\"#tripartitereePendingModal\">View</a>";
+                                html += "<a href=\"" + tripartite_application + data[1] + "\"class=\"btn btn-action\" data-toggle=\"modal\"\n" +
+                                    "             data-target=\"#pending\">View</a>";
                             }
-                            else{
-                                html+= "<a href=\""+tripartite_application+data[1]+"\"class=\"btn btn-action\">View</a>\n";
+                            else {
+                                html += "<a href=\"" + tripartite_application + data[1] + "\"class=\"btn btn-action\">View</a>\n";
 
                             }
                             html += "</td>\n" +
@@ -1261,7 +1116,7 @@
                             i++;
                         });
 
-                        html +="</tbody>\n" +
+                        html += "</tbody>\n" +
                             "                                </table>\n" +
                             "                        </div>\n" +
                             "                    </div>" +
@@ -1271,14 +1126,41 @@
                             "                </div>\n" +
                             "            </div>";
 
-//                                    alert(chart_count);
+//                                   console.log(data);
+
+                        if (data[1]) {
+                            var html_pending = "";
+                            html_pending +=
+                                "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
+                                "                                <table class=\"table text-center\">\n" +
+                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                        <tr>\n" +
+                                "                                            <th>Header</th>\n" +
+                                "                                            <th>Count</th>\n" +
+                                "                                        </tr>\n" +
+                                "                                    </thead>\n" +
+                                "                                    <tbody id=\"pending_applications\">\n";
+
+                            $.each(data[1], function (index, data) {
+                                html_pending += " <tr>\n" +
+                                    "                                            <td>" + index + " </td>\n" +
+                                    "                                            <td>" + data + "</td>\n" +
+                                    "                                        </tr>";
+                            });
+
+                            html_pending += "                                    </tbody>\n" +
+                                "                                </table>\n" +
+                                "                            </div>\n";
+
+                            $('#pending_applications').html(html_pending);
+                        }
                         $('#count_table').html(html);
 
 
-                        if(chart_count){
+                        if (chart_count) {
 
                             var chartData = [];
-                            $.each((data), function (index, data) {
+                            $.each((data[0]), function (index, data) {
                                 obj = {};
                                 if (index != 'Total Number of Applications') {
                                     obj['status'] = index;
@@ -1289,22 +1171,22 @@
                             });
 //                                        console.log(chartData);
 
-                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                            var chart = AmCharts.makeChart("ajaxchartdiv", {
                                 "type": "pie",
                                 "theme": "light",
-                                "dataProvider":chartData ,
+                                "dataProvider": chartData,
                                 "valueField": "value",
                                 "titleField": "status",
                                 "outlineAlpha": 0.8,
-                                "outlineColor":"#FFFFFF",
-                                "outlineThickness" : 2,
+                                "outlineColor": "#FFFFFF",
+                                "outlineThickness": 2,
                                 "depth3D": 15,
                                 "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
                                 "angle": 30,
                                 "labelText": "[[percents]]%",
                                 "labelRadius": -35,
-                                "fontSize" : 15,
-                            } );
+                                "fontSize": 15,
+                            });
                         }
                         $("#getCodeModal").modal('show');
 
@@ -1335,7 +1217,7 @@
             $.ajax({
                 type: "POST",
                 url: dashboard,
-                data: {module_name:module_name},
+                data: {module_name: module_name},
                 dataType: 'json',
                 success: function (data) {
                     if (data !== "false") {
@@ -1345,7 +1227,7 @@
                         html += "<div id=\"count_table\">\n" +
                             "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
                             "                    <div class=\"d-flex align-items-center\">\n" +
-                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                        <h3 class=\"m-subheader__title\">" + module_name + "</h3>\n" +
                             "                    </div>\n" +
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
@@ -1358,22 +1240,22 @@
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
                             "                                    </thead>\n" +
-                            "                                    </tbody>\n" ;
+                            "                                    </tbody>\n";
 
-                        var chart_count = 0 ;
-                        var i = 1 ;
+                        var chart_count = 0;
+                        var i = 1;
                         $.each(data, function (index, data) {
 
                             html += "<tr>\n" +
-                                "<td class=\"text-center\">"+i+"</td>" +
-                                "<td>"+index+"</td>\n" +
-                                "<td class=\"text-center\"><span class=\"count-circle\">"+data+"</span></td>\n" +
+                                "<td class=\"text-center\">" + i + "</td>" +
+                                "<td>" + index + "</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">" + data + "</span></td>\n" +
                                 "</tr>";
                             chart_count += data;
                             i++;
                         });
 
-                        html +="</tbody>\n" +
+                        html += "</tbody>\n" +
                             "                                </table>\n" +
                             "                        </div>\n" +
                             "                    </div>" +
@@ -1386,7 +1268,7 @@
                         $('#count_table').html(html);
 
 
-                        if(chart_count){
+                        if (chart_count) {
 
                             var chartData = [];
 
@@ -1400,22 +1282,22 @@
 
                             });
 
-                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                            var chart = AmCharts.makeChart("ajaxchartdiv", {
                                 "type": "pie",
                                 "theme": "light",
-                                "dataProvider":chartData ,
+                                "dataProvider": chartData,
                                 "valueField": "value",
                                 "titleField": "status",
                                 "outlineAlpha": 0.8,
-                                "outlineColor":"#FFFFFF",
-                                "outlineThickness" : 2,
+                                "outlineColor": "#FFFFFF",
+                                "outlineThickness": 2,
                                 "depth3D": 15,
                                 "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
                                 "angle": 30,
                                 "labelText": "[[percents]]%",
                                 "labelRadius": -35,
-                                "fontSize" : 15,
-                            } );
+                                "fontSize": 15,
+                            });
                         }
                         $("#getCodeModal").modal('show');
 

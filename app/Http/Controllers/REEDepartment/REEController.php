@@ -2101,7 +2101,7 @@ class REEController extends Controller
 
                 $tripartite_dashboard = new TripartiteDashboardController();
                 $data = $tripartite_dashboard->getDashboardHeaders()->getData();
-                return $data['dashboardData'][0];
+                return $data['dashboardData'];
 
             }
 
