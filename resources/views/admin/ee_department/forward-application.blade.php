@@ -257,7 +257,7 @@
                                                     cols="30" rows="5"></textarea>
                                             </div>
                                             <div class="mt-3 btn-list">
-                                                <button type="submit" class="btn btn-primary">Save</button>
+                                                <button type="submit" class="btn btn-primary">Submit</button>
                                                 {{--<button type="submit" class="btn btn-primary">Sign & Forward</button>
                                                 <button type="submit" class="btn btn-primary">Forward</button>--}}
                                                 <button type="button" onclick="window.location.href='{{ url("/ee") }}'"

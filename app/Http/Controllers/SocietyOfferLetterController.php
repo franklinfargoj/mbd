@@ -615,7 +615,13 @@ class SocietyOfferLetterController extends Controller
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $layouts = MasterLayout::all();
 
-        return view('frontend.society.show_form_self', compact('society_details', 'id', 'ids', 'layouts','data'));
+        if (isset($data)){
+            return redirect()->route('society_offer_letter_edit',encrypt($data->id));
+        }else{
+           return view('frontend.society.show_form_self', compact('society_details', 'id', 'ids', 'layouts','data'));   
+        }
+
+        // return view('frontend.society.show_form_self', compact('society_details', 'id', 'ids', 'layouts','data'));
     }
 
     public function show_reval_self($id){
@@ -831,7 +837,11 @@ class SocietyOfferLetterController extends Controller
         ->with(['request_form', 'applicationMasterLayout'])->first();
         $layouts = MasterLayout::all();
 
-        return view('frontend.society.show_form_dev', compact('society_details', 'id', 'ids', 'layouts','data'));
+        if (isset($data)){
+            return redirect()->route('society_offer_letter_edit',encrypt($data->id));
+        }else{
+           return view('frontend.society.show_form_dev', compact('society_details', 'id', 'ids', 'layouts','data'));
+       }
     }
 
     public function show_reval_dev($id){
@@ -2054,6 +2064,9 @@ class SocietyOfferLetterController extends Controller
         $society_details = SocietyOfferLetter::find($society->id);
         $master_ids = config('commanConfig.new_offer_letter_master_ids');
         $ol_application = OlApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->whereIn('application_master_id', $master_ids)->with(['request_form', 'applicationMasterLayout'])->first();
+       
+        $fileName = $ol_application->application_no.'.pdf';
+
         $layouts = MasterLayout::all(); 
         $id = $ol_application->application_master_id;
         
@@ -2064,7 +2077,7 @@ class SocietyOfferLetterController extends Controller
         $mpdf->autoLangToFont = true;
         $contents = view('frontend.society.display_society_offer_letter_application', compact('society_details', 'ol_application', 'layouts', 'id','comment'));
         $mpdf->WriteHTML($contents);
-        $mpdf->Output();
+        $mpdf->Output($fileName,'I');
 
     }
     public function generate_reval_pdf($applicationId){
