@@ -1829,7 +1829,6 @@ class CommonController extends Controller
 
             }
 
-
             if ($request->module_name == "Offer Letter Subordinate Pendency") {
 
                 $dashboardData = NULL;
@@ -1955,15 +1954,36 @@ class CommonController extends Controller
             if($request->module_name == 'Layout Approval Pendency'){
                 $this->architect_dashboard = new ArchitectLayoutDashboardController();
 
-                $data['pending_at_ree'] = $this->architect_dashboard->pending_at_ree();
-                $data['pending_at_co'] = $this->architect_dashboard->pending_at_co();
-                $data['pending_at_cap'] = $this->architect_dashboard->pending_at_cap();
-                $data['pending_at_sap'] = $this->architect_dashboard->pending_at_sap();
-                $data['pending_at_la'] = $this->architect_dashboard->pending_at_la();
-                $data['pending_at_vp'] = $this->architect_dashboard->pending_at_vp();
-                $data['pending_at_jr_architect'] = $this->architect_dashboard->pending_at_jr_architect();
-                $data['pending_at_sr_architect'] = $this->architect_dashboard->pending_at_sr_architect();
+                $pending_at_ree = $this->architect_dashboard->pending_at_ree();
+                $pending_at_co = $this->architect_dashboard->pending_at_co();
+                $pending_at_cap = $this->architect_dashboard->pending_at_cap();
+                $pending_at_sap = $this->architect_dashboard->pending_at_sap();
+                $pending_at_la = $this->architect_dashboard->pending_at_la();
+                $pending_at_vp = $this->architect_dashboard->pending_at_vp();
+
+                $data['Total Number of Applications'] = $pending_at_ree + $pending_at_co + $pending_at_cap + $pending_at_sap + $pending_at_la + $pending_at_vp;
+                $data['Pending at REE'] = $pending_at_ree;
+                $data['Pending at CO']  = $pending_at_co;
+                $data['Pending at CAP'] = $pending_at_cap;
+                $data['Pending at SAP'] = $pending_at_sap;
+                $data['Pending at LA']  = $pending_at_la;
+                $data['Pending at VP']  = $pending_at_vp;
+
                 return $data;
+            }
+
+            if($request->module_name == 'Layout Approval Subordinate Pendencies') {
+                $this->architect_dashboard = new ArchitectLayoutDashboardController();
+
+                $pending_at_jr_architect = $this->architect_dashboard->pending_at_jr_architect();
+                $pending_at_sr_architect = $this->architect_dashboard->pending_at_sr_architect();
+
+                $data['Total Number of Applications'] = $pending_at_jr_architect + $pending_at_sr_architect;
+                $data['Pending at Junior Architect']  = $pending_at_jr_architect;
+                $data['Pending at Senior Architect']  = $pending_at_sr_architect;
+
+                return $data;
+
             }
 
             if($request->module_name == 'Appointing Architect'){
@@ -1977,6 +1997,7 @@ class CommonController extends Controller
                     return $data;
                    }
             }
+
             if($request->module_name == 'Appointing Architect Subordinate Pendency'){
                 if (in_array(session()->get('role_name'),array(config('commanConfig.junior_architect'),config('commanConfig.senior_architect'),config('commanConfig.architect'),config('commanConfig.selection_commitee')))) {
                     $this->architect_dashboard = new AppointingArchitectController();

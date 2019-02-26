@@ -100,7 +100,7 @@
                         <p class="db__card__title">Revision in Layout</p>
                     </div>
                     @endif
-                    @if(!(session()->get('role_name')==config('commanConfig.ee_junior_engineer')) || !(session()->get('role_name')==config('commanConfig.ee_deputy_engineer')))
+                    @if(!((session()->get('role_name')==config('commanConfig.ee_junior_engineer')) || (session()->get('role_name')==config('commanConfig.ee_deputy_engineer'))))
                     <div class="db__card revision"  data-module="Layout Approval">
                         <div class="db__card__img-wrap db-color-5">
                             <h3 class="db__card__count">-</h3>
@@ -119,7 +119,12 @@
                                 </div>
                                 <p class="db__card__title">Layout Approval Pendency</p>
                             </div>
-
+                            <div class="db__card revision" data-module="Layout Approval Subordinate Pendencies">
+                                <div class="db__card__img-wrap db-color-16">
+                                    <h3 class="db__card__count">-</h3>
+                                </div>
+                                <p class="db__card__title">Layout Approval Subordinate Pendencies</p>
+                            </div>
                             <div class="db__card appointing_architect" data-module="Appointing Architect">
                                 <div class="db__card__img-wrap db-color-5">
                                     <h3 class="db__card__count">-</h3>

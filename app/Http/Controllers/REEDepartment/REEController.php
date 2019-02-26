@@ -2077,7 +2077,7 @@ class REEController extends Controller
                 }
             }
 
-            if ($request->module_name == "Layout Approval Subordinate Pendency") {
+            if($request->module_name == "Layout Approval Subordinate Pendency") {
                 $this->architect_dashboard = new ArchitectLayoutDashboardController();
 
                 if (session()->get('role_name') == config('commanConfig.ree_branch_head')) {
@@ -2103,6 +2103,7 @@ class REEController extends Controller
                 return $data['dashboardData'][0];
 
             }
+
             if($request->module_name == 'Tripartite Agreement Subordinate Pendency'){
                 $tripartite_dashboard = new TripartiteDashboardController();
                 $data = $tripartite_dashboard->getDashboardHeaders()->getData();
