@@ -1740,6 +1740,7 @@ class REEController extends Controller
     
         if((session()->get('role_name') == config('commanConfig.ree_junior')) && !empty($noc_application->final_draft_noc_path) && ($noc_application->noc_generation_status == config('commanConfig.applicationStatus.NOC_Issued')))
         {
+            //dump('REE');
             return redirect('approved_noc_cc_letter/'.$request->applicationId)->with('success', 'Changes in NOC has been incorporated successfully.');
         }
 
@@ -2393,10 +2394,10 @@ class REEController extends Controller
         OcApplication::where('id',$request->applicationId)->update(["drafted_oc" => $filePath, "text_oc" => $filePath1]);
 
         \Session::flash('success_msg', 'Changes in OC draft has been saved successfully..');
-
+        
         if((session()->get('role_name') == config('commanConfig.ree_junior')) && !empty($oc_application->oc_path) && ($oc_application->is_approve_oc == 1))
         {
-            return redirect('approved_oc_letter/'.$request->applicationId)->with('success', 'Changes in OC has been incorporated successfully.');
+            return redirect('approved_consent_oc_letter/'.$request->applicationId)->with('success', 'Changes in OC has been incorporated successfully.');
         }
 
         return redirect('generate_oc_certificate/'.$request->applicationId);
@@ -2488,15 +2489,17 @@ class REEController extends Controller
         // CO Forward Application
 
         $co_id = Role::where('name', '=', config('commanConfig.co_engineer'))->first();
+        //dd($co_id);
         if($arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.OC_Approved'))
         {
             $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
             $layout_ids = array_column($layout_id_array, 'layout_id');
             $arrData['get_forward_co'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                                ->where('lu.layout_id', $layout_ids)
+                                ->whereIn('lu.layout_id', $layout_ids)
                                 ->where('role_id', $co_id->id)->groupBy('users.id')->get();
             $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
         }
+        //dd($arrData['get_forward_co']);
 
         //remark and history
         $eelogs   = $this->CommonController->getLogsOfEEDepartmentforOc($applicationId);

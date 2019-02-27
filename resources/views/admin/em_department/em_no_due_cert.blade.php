@@ -14,24 +14,24 @@
             <div id="" style="">
                 <div id="u32" class="ax_paragraph">
             <div id="u33" class="text">
-            <p>Subject:</p>
+            <p><b>Subject:</b></p>
             </div>
             </div>
             <div id="u34" class="ax_paragraph">
                 <div id="u35" class="text">
-                    <p>It is to certify that Building No. ____________ consisting of _____________ T/S under the _____________ Scheme at __________ In favour of ___________&nbsp;&nbsp;</p>
+                <p>It is to certify that Building No.  {{$model->eeApplicationSociety->building_no}} {{$model->eeApplicationSociety->address}} consisting of _____________ T/S under the _____________ Scheme at __________ In favour of ___________&nbsp;&nbsp;</p>
                     <p>Co-op. Housing Society Ltd. Have paid all the dues in respect of above bldg./bldgs. Including the final sale price for the bldg. and premium of the land as</p>
                     <p>follow:</p>
-                    <p>5. Final Sale Price of the Bldg/bldgs.</p>
+                    <p>1. Final Sale Price of the Bldg/bldgs.</p>
                     <p>(A) Cost of Construction&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; ________________</p>
                     <p>(B) Premium Land&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;_______________&nbsp;</p>
                     <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Total&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;_______________</p>
                     <p>&nbsp;</p>
-                    <p>6. Charges for Common Services are paid upto&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; ___________</p>
+                    <p>2. Charges for Common Services are paid upto&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; ___________</p>
                     <p>The rate of Charges of Common Services payable by the said Society is Rs.&nbsp; &nbsp; &nbsp;&nbsp; _________&nbsp; Per Quarter.</p>
-                    <p>7. Lease Rent Paid Upto&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ___________</p>
+                    <p>3. Lease Rent Paid Upto&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ___________</p>
                     <p>The Rate of the Lease rent payable by the said society is Rs&nbsp; &nbsp; &nbsp; ._______ Per Annum</p>
-                    <p>8. N.A .Assessment Paid Upto&nbsp; &nbsp;&nbsp; __________</p>
+                    <p>4. N.A .Assessment Paid Upto&nbsp; &nbsp;&nbsp; __________</p>
                     <p>The Rate of N.A Assessment Payable by the said Society is Rs.____________ Per Tenement/Per Month.</p>
                     <p>5. Whether Municipal Taxes ____________ are paid upto date (In Case the Society is Paying the Municipal Taxes directly to the Municipal Corporation of</p>
                     <p>__________ the same stated and accordingly.</p>
