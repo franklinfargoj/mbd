@@ -2,6 +2,7 @@
 $route="";
 $route=\Request::route()->getName();
 @endphp
+
 <li class="m-menu__item">
     <a href="{{ route('conveyance.index') }}" class="m-menu__link m-menu__toggle">
         <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -13,7 +14,7 @@ $route=\Request::route()->getName();
             </span>
         </span>
     </a>
-</li>
+</li> 
 <li class="m-menu__item" data-toggle="collapse" data-target="#cap-actions">
     <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
         <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -50,7 +51,7 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">Society Documents</span>
             </a>
         </li>
-
+        @if(isset($data->ConveyanceSalePriceCalculation))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='conveyance.view_ee_documents')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="EE Documents" href="{{ route('conveyance.view_ee_documents', encrypt($data->id)) }}">
                 <span class="sidebar-icon sidebar-menu-icon--level-1">
@@ -60,8 +61,9 @@ $route=\Request::route()->getName();
             </span>
                 <span class="m-menu__link-text">EE Documents</span>
             </a>
-        </li>  
-        
+        </li> 
+        @endif 
+        @if($data->em_document)
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='em.scrutiny_remark')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="EM Documents" href="{{ route('em.scrutiny_remark', encrypt($data->id)) }}">
                 <span class="sidebar-icon sidebar-menu-icon--level-1">
@@ -72,7 +74,8 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">EM Documents</span>
             </a>
         </li>  
-
+        @endif
+        @if($data->conveyance_map)
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='conveyance.architect_scrutiny_remark')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Architect Scrutiny Remark" href="{{ route('conveyance.architect_scrutiny_remark', encrypt($data->id)) }}">
                 <span class="sidebar-icon sidebar-menu-icon--level-1">
@@ -83,7 +86,7 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">Architect Scrutiny Remark</span>
             </a>
         </li>         
-   
+        @endif
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='conveyance.draft_sign_conveyance_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link" title="Sale & Lease Deed Agreements" href="{{ route('conveyance.draft_sign_conveyance_agreement', encrypt($data->id)) }}">
                 <span class="sidebar-icon sidebar-menu-icon--level-1">

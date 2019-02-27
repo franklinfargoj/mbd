@@ -137,7 +137,7 @@ class EMController extends Controller
             //pdf format no dues certificate
 //            dd($request->all());
             $content = str_replace('_', "", $_POST['ckeditorText']);
-
+            
 //            $pdf = \App::make('dompdf.wrapper');
 //            $pdf->loadHTML($content);
             $header_file = view('admin.REE_department.offer_letter_header');
@@ -173,7 +173,10 @@ class EMController extends Controller
 
             $file_uploaded_text = $this->CommonController->ftpGeneratedFileUpload($folder_name, $content, $filePath_text);
             $doc_status_columns = new SocietyConveyanceDocumentStatus();
-            $document_status_columns  = count($doc_status_columns->getFillable());
+            $document_status_columns=$doc_status_columns->getFillable();
+            $fields = array_flip($document_status_columns);
+            unset($document_status_columns[$fields['other_document_name']]);
+            $document_status_columns  = count($document_status_columns);
 
             $text_input = array(
                 "application_id" => $id,
@@ -185,6 +188,7 @@ class EMController extends Controller
             );
             $inputs[] = $text_input;
             if($file_uploaded_pdf && $file_uploaded_text && count($pdf_input) == $document_status_columns && count($text_input) == $document_status_columns){
+                
                 SocietyConveyanceDocumentStatus::insert($inputs);
                 $message = config('commanConfig.no_dues_certificate.redirect_message.draft_text');
                 $message_status = config('commanConfig.no_dues_certificate.redirect_message_status.draft_text');
@@ -202,7 +206,6 @@ class EMController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function RenewalScrutinyRemark(Request $request,$applicationId){
-
         $applicationId = decrypt($applicationId);
         $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Renewal'))->value('id');
         $data = RenewalApplication::with(['societyApplication','srApplicationLog' => function($q) use($application_type) {
@@ -219,14 +222,14 @@ class EMController extends Controller
             })
             ->where('id',$applicationId)->first();
         $data->folder = $this->conveyance_common->getCurrentRoleFolderName();
-
+        
         $no_dues_certificate_docs_defined = config('commanConfig.documents.em_renewal.no_dues_certificate');
         $bonafide_docs_defined = config('commanConfig.documents.em_renewal.bonafide');
         $covering_letter_docs_defined = config('commanConfig.documents.em_renewal.covering_letter');
         $society_list_defined = config('commanConfig.documents.em_renewal.society_list');
 
         $documents = $this->renewal_common->getDocumentIds(array_merge($no_dues_certificate_docs_defined, $bonafide_docs_defined, $covering_letter_docs_defined, $society_list_defined), $data->application_master_id, $data->id);
-
+        
         foreach($documents as $document){
             if(in_array($document->document_name, $no_dues_certificate_docs_defined) == 1){
                 $no_dues_certificate_docs[$document->document_name] = $document;
@@ -261,7 +264,7 @@ class EMController extends Controller
                 }
             }
         }
-
+        // dd($bonafide_docs);
         if(!empty($no_dues_certificate_docs['renewal_text_no_dues_certificate']['sr_document_status'])){
             $content = $this->CommonController->getftpFileContent($no_dues_certificate_docs['renewal_text_no_dues_certificate']['sr_document_status']->document_path);
         }else{
@@ -293,7 +296,7 @@ class EMController extends Controller
             $folder_name = 'renewal_no_dues_certificate';
             $fileName = time().'no_dues_certificate_'.$id.'.pdf';
             $filePath = $folder_name."/".$fileName;
-            $file_uploaded = $this->CommonController->ftpFileUpload($folder_name, $request->file('no_dues_certificate'), $filePath);
+            $file_uploaded = $this->CommonController->ftpFileUpload($folder_name, $request->file('no_dues_certificate'), $fileName);
 
             if($file_uploaded){
                 $this->renewal_common->uploadDocumentStatus($request->applicationId, config('commanConfig.documents.em_renewal.no_dues_certificate')[2], $filePath);

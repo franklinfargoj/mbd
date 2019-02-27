@@ -82,7 +82,7 @@
                                            class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
                                                 Download</button></a>
                                                         @if($ol_applications->olApplicationStatus[0]->status_id == config('commanConfig.applicationStatus.pending'))
-                                        <a href="{{ route('delete_tripartite_docs', $document->id) }}" data-value='{{ $document->id }}'
+                                        <a href="{{ route('delete_tripartite_docs', encrypt($document_uploaded->id)) }}" data-value='{{ $document_uploaded->id }}'
                                            class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
                                                 <i class="fa fa-trash"></i></button></a>
                                                             @endif

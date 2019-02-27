@@ -872,6 +872,10 @@ class SocietyConveyanceController extends Controller
         $sc_document_status = new SocietyConveyanceDocumentStatus;
         $field_names_registrar_details = $sc_registration_details->getFillable();
         $field_names_docs = $sc_document_status->getFillable();
+
+        $field=array_flip($field_names_docs);
+        unset($field_names_docs[$field['other_document_name']]);
+
         $field_names = array_merge($field_names_registrar_details, $field_names_docs);
         $comm_func = $this->CommonController;
         $sale_agreement_type_id = $this->conveyance_common->getDocumentId('Sale Deed Agreement', '1');

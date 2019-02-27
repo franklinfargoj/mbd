@@ -66,7 +66,7 @@
                         </div> 
                     </div> 
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6" style="margin-bottom: 34px;">
                     <input type="button" class="btn btn-primary btn-custom" id="uploadBtn" style="float: right" value="Upload"> 
                 </div>  
             </form> 

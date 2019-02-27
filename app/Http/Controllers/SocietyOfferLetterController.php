@@ -433,7 +433,7 @@ class SocietyOfferLetterController extends Controller
                     $url = route('society_offer_letter_preview', encrypt($ol_applications->id));
                     $reval_url = route('society_reval_offer_letter_preview',encrypt($ol_applications->id));
                     $oc_url= route('society_oc_preview');
-                    $url_noc = route('society_noc_preview');
+                    $url_noc = route('society_noc_preview',encrypt($ol_applications->id));
                     $url_noc_cc = route('society_noc_cc_preview');
                     $url_tripartite = route('tripartite_application_form_preview', encrypt($ol_applications->id));
 //                    dd($ol_applications->ol_application_master);
@@ -615,7 +615,13 @@ class SocietyOfferLetterController extends Controller
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $layouts = MasterLayout::all();
 
-        return view('frontend.society.show_form_self', compact('society_details', 'id', 'ids', 'layouts','data'));
+        if (isset($data)){
+            return redirect()->route('society_offer_letter_edit',encrypt($data->id));
+        }else{
+           return view('frontend.society.show_form_self', compact('society_details', 'id', 'ids', 'layouts','data'));   
+        }
+
+        // return view('frontend.society.show_form_self', compact('society_details', 'id', 'ids', 'layouts','data'));
     }
 
     public function show_reval_self($id){
@@ -624,7 +630,7 @@ class SocietyOfferLetterController extends Controller
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $layouts = MasterLayout::all();
 
-        $data = OlApplication::where('user_id', Auth::user()->id)->where('application_master_id',$id)->with(['request_form', 'ol_application_master', 'applicationMasterLayout'])->orderBy('id','desc')->first();
+        $data = OlApplication::where('user_id', Auth::user()->id)->where('application_master_id',$id)->orderBy('id','desc')->first();
 
         if (isset($data)){
             return redirect()->route('society_reval_offer_letter_edit',encrypt($data->id));
@@ -831,7 +837,11 @@ class SocietyOfferLetterController extends Controller
         ->with(['request_form', 'applicationMasterLayout'])->first();
         $layouts = MasterLayout::all();
 
-        return view('frontend.society.show_form_dev', compact('society_details', 'id', 'ids', 'layouts','data'));
+        if (isset($data)){
+            return redirect()->route('society_offer_letter_edit',encrypt($data->id));
+        }else{
+           return view('frontend.society.show_form_dev', compact('society_details', 'id', 'ids', 'layouts','data'));
+       }
     }
 
     public function show_reval_dev($id){
@@ -2054,6 +2064,9 @@ class SocietyOfferLetterController extends Controller
         $society_details = SocietyOfferLetter::find($society->id);
         $master_ids = config('commanConfig.new_offer_letter_master_ids');
         $ol_application = OlApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->whereIn('application_master_id', $master_ids)->with(['request_form', 'applicationMasterLayout'])->first();
+       
+        $fileName = $ol_application->application_no.'.pdf';
+
         $layouts = MasterLayout::all(); 
         $id = $ol_application->application_master_id;
         
@@ -2064,7 +2077,7 @@ class SocietyOfferLetterController extends Controller
         $mpdf->autoLangToFont = true;
         $contents = view('frontend.society.display_society_offer_letter_application', compact('society_details', 'ol_application', 'layouts', 'id','comment'));
         $mpdf->WriteHTML($contents);
-        $mpdf->Output();
+        $mpdf->Output($fileName,'I');
 
     }
     public function generate_reval_pdf($applicationId){

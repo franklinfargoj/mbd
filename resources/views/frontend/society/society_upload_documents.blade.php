@@ -3,6 +3,7 @@
     @include('frontend.society.actions',compact('ol_applications'))
 @endsection
 @section('content')
+
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
@@ -58,7 +59,7 @@
                                                     @if($document->is_multiple == 1)
                                                         <input type="hidden" name="documentId" id="documentId"
                                                         value="{{ isset($document->id) ? $document->id : '' }}"> 
-                                                        <a href="{{ route('upload_multiple_documents',[encrypt($ol_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0">
+                                                        <a href="{{ route('upload_multiple_documents',[encrypt($ol_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px;">
                                                         click to upload documents</a>
                                                     @else 
                                                         @foreach($document->documents_uploaded as $document_uploaded)
@@ -84,7 +85,7 @@
                                                 
                                                         <input type="hidden" name="documentId" id="documentId"
                                                         value="{{ isset($document->id) ? $document->id : '' }}">
-                                                        <a href="{{ route('upload_multiple_documents',[encrypt($ol_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0">
+                                                        <a href="{{ route('upload_multiple_documents',[encrypt($ol_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px;">
                                                         click to upload documents</a>
                                                     @else
                                                         <form action="{{ route('uploaded_documents') }}" method="post" enctype='multipart/form-data' id="upload_documents_form_{{ $document->id }}">

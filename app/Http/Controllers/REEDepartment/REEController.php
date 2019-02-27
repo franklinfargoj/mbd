@@ -447,7 +447,7 @@ class REEController extends Controller
 
         $role_id = Role::where('name', '=', config('commanConfig.ree_branch_head'))->value('id');
         $ree_head = User::where('role_id',$role_id)->value('name');
-
+        
         return view('admin.REE_department.'.$blade,compact('applicatonId','calculationData','content','table1','custom','summary','ree_head'));
     }
 
@@ -584,9 +584,23 @@ class REEController extends Controller
 
         $header_file = view('admin.REE_department.offer_letter_header');
         $footer_file = view('admin.REE_department.offer_letter_footer');
-        $pdf = \App::make('dompdf.wrapper');
 
-        $pdf->loadHTML($header_file.$content.$footer_file);
+        $pdf=new Mpdf([
+            'default_font_size' => 9,
+            'default_font' => 'Times New Roman'
+        ]);
+        $pdf->autoScriptToLang = true;
+        $pdf->autoLangToFont = true;
+        $pdf->setAutoBottomMargin = 'stretch';
+        $pdf->setAutoTopMargin = 'stretch';
+        $pdf->SetHTMLHeader($header_file);
+        $pdf->SetHTMLFooter($footer_file);
+        $pdf->WriteHTML($content);
+
+
+        //$pdf = \App::make('dompdf.wrapper');
+
+        //$pdf->loadHTML($header_file.$content.$footer_file);
 
         $fileName = time().'draft_offer_letter_'.$id.'.pdf';
         $filePath = $folder_name."/".$fileName;
@@ -594,7 +608,7 @@ class REEController extends Controller
         if (!(Storage::disk('ftp')->has($folder_name))) {
             Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
         }
-        Storage::disk('ftp')->put($filePath, $pdf->output());
+        Storage::disk('ftp')->put($filePath, $pdf->Output($fileName, 'S'));
         $file = $pdf->output();
 
         //text offer letter
@@ -1240,8 +1254,9 @@ class REEController extends Controller
         $noc_application = $this->CommonController->getNocApplication($applicationId);
         $noc_application->model = NocApplication::with(['noc_application_master'])->where('id',$applicationId)->first();
         $societyDocuments = $this->CommonController->getSocietyNocDocuments($applicationId);
+        $comments = $this->CommonController->getNOCApplicationComments($applicationId);
 
-       return view('admin.REE_department.society_noc_documents',compact('noc_application','societyDocuments'));
+       return view('admin.REE_department.society_noc_documents',compact('noc_application','societyDocuments','comments'));
     }
 
     public function GenerateNoc(Request $request, $applicationId){
@@ -1722,10 +1737,10 @@ class REEController extends Controller
         NocCCApplication::where('id',$request->applicationId)->update(["draft_noc_path" => $filePath, "draft_noc_text_path" => $filePath1]);
 
         \Session::flash('success_msg', 'Changes in Noc draft has been saved successfully..');
-
-        if((session()->get('role_name') == config('commanConfig.ree_junior')) && !empty($noc_application->final_draft_noc_path) && ($noc_application->noc_generation_status != config('commanConfig.applicationStatus.NOC_Issued')))
+    
+        if((session()->get('role_name') == config('commanConfig.ree_junior')) && !empty($noc_application->final_draft_noc_path) && ($noc_application->noc_generation_status == config('commanConfig.applicationStatus.NOC_Issued')))
         {
-            return redirect('approved_noc_letter/'.$request->applicationId)->with('success', 'Changes in NOC has been incorporated successfully.');
+            return redirect('approved_noc_cc_letter/'.$request->applicationId)->with('success', 'Changes in NOC has been incorporated successfully.');
         }
 
         return redirect('generate_noc_cc/'.$request->applicationId);

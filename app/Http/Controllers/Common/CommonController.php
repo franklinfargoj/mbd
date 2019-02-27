@@ -24,6 +24,8 @@ use App\OlDemarcationLandArea;
 use App\MasterLayout;
 use App\OlApplication;
 use App\NocApplication;
+use App\NocSocietyDocumentsComment;
+use App\NocSocietyDocumentsMaster;
 use App\NocCCApplication;
 use App\OcApplication;
 use App\OcApplicationStatusLog;
@@ -31,6 +33,7 @@ use App\OlApplicationCalculationSheetDetails;
 use App\OlApplicationMaster;
 use App\OlApplicationStatus;
 use App\NocApplicationStatus;
+use App\NocSocietyDocumentsStatus;
 use App\NocCCApplicationStatus;
 use App\OlCapNotes;
 use App\OlChecklistScrutiny;
@@ -2296,12 +2299,9 @@ class CommonController extends Controller
 
     public function getSocietyNocDocuments($applicationId)
     {
-
-        $societyId = NocApplication::where('id', $applicationId)->value('society_id');
-        $societyDocuments = SocietyOfferLetter::with(['societyNocDocuments.documents_Name'
-            , 'documentCommentsNoc' => function ($q) {
-                $q->orderBy('id', 'desc');
-            }])->where('id', $societyId)->get();
+        $application = NocApplication::where('id', $applicationId)->first();
+        $societyDocuments = NocSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['documents_uploaded' => function($q) use ($application){$q->where('society_id', $application->society_id)->where('application_id',$application->id);
+        }])->get();
 
         return $societyDocuments;
     }
@@ -3909,7 +3909,7 @@ class CommonController extends Controller
         $OlSocietyDocumentsMaster = OlSocietyDocumentsMaster::where(['application_id' => $document_type_id, 'name' => $agreement_type])->first();
         if ($OlSocietyDocumentsMaster) {
             $documents_id = $OlSocietyDocumentsMaster->id;
-            return OlSocietyDocumentsStatus::where(['society_id' => $ol_application->society_id, 'document_id' => $OlSocietyDocumentsMaster->id])->orderBy('id','desc')->first();
+            return OlSocietyDocumentsStatus::where(['application_id'=>$ol_application_id ,'society_id' => $ol_application->society_id, 'document_id' => $OlSocietyDocumentsMaster->id])->orderBy('id','desc')->first();
         }
         return null;
     }
@@ -3924,6 +3924,7 @@ class CommonController extends Controller
             $agreement_type = $agreement_type;
 
             $OlSocietyDocumentsStatus = new OlSocietyDocumentsStatus;
+            $OlSocietyDocumentsStatus->application_id = $ol_application->id;
             $OlSocietyDocumentsStatus->society_id = $ol_application->society_id;
             $OlSocietyDocumentsStatus->document_id = $OlSocietyDocumentsMaster->id;
             $OlSocietyDocumentsStatus->society_document_path = $path;
@@ -4135,5 +4136,13 @@ class CommonController extends Controller
             }            
         }
         return $head;
+    }
+
+    // get NOC application comments given by society
+    public function getNOCApplicationComments($applicationId){
+        
+        $comments = NocSocietyDocumentsComment::where('application_id',$applicationId)
+        ->orderBy('id','desc')->first();
+        return $comments;
     }
 }
