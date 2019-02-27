@@ -93,11 +93,15 @@
                                                 </div>
                                             </div>
                                         @endif
-                                        @if($sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.pending') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Send_society_to_pay_stamp_duty'))
-                                            <div class="col-sm-6 @if($sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.pending') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Send_society_to_pay_stamp_duty')) border-left @endif">
+                                        
+                                            <div class="col-sm-6 border-left">
                                                 <div class="d-flex flex-column h-100">
                                                     {{--<h5>Upload Lease Deed Agreement</h5>--}}
+                                                    @if($sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.pending') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Send_society_to_pay_stamp_duty'))
                                                     <span class="hint-text">Click on 'Upload' to upload Lease Deed Agreement</span>
+                                                    @else
+                                                    <span class="hint-text">Click on 'Download' to download Lease Deed Agreement</span>
+                                                    @endif
                                                     <p>
                                                     @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))
                                                         <div class="alert alert-success society_registered">
@@ -110,6 +114,7 @@
                                                         </div>
                                                         @endif
                                                         </p>
+                                                        @if($sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.pending') || $sc_application->srApplicationLog->status_id == config('commanConfig.renewal_status.Send_society_to_pay_stamp_duty'))
                                                         <form action="{{ route('upload_lease') }}" id="lease_deed_agreement" method="post" enctype="multipart/form-data">
                                                             @csrf
                                                             <div class="custom-file">
@@ -125,9 +130,13 @@
                                                                 {{--<button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>--}}
                                                             {{--</div>--}}
                                                         {{--</form>--}}
+                                                        @else
+                                                            <div class="col-sm-6">
+                                                                <a href="{{ config('commanConfig.storage_server').$uploaded_agreement[0]->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download</a>
+                                                            </div>
+                                                        @endif
                                                 </div>
                                             </div>
-                                        @endif
                                     </div>
                                 </div>
                             </div>

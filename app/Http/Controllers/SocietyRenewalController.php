@@ -869,10 +869,19 @@ class SocietyRenewalController extends Controller
         }
 
         $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
-        $documents_uploaded = RenewalDocumentStatus::where('application_id', $sc_application->id)->get();
-
+        $documents_uploaded = RenewalDocumentStatus::where('application_id', $sc_application->id)->orderBy('id', 'desc')->get();
+        
+        $documents_uploaded_ids = $documents_uploaded->pluck('document_id');
+        
         $sc_agreement_comments = RenewalAgreementComments::with('srAgreementId')->where('user_id', Auth::user()->id)->where('role_id', Session::get('role_id'))->orderBy('id', 'desc')->get();
-
+        $uploaded_agreement_id = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.renewal_lease_deed_agreement'), $application_type);
+        
+        foreach($documents_uploaded as $document_uploaded){
+            if($document_uploaded->document_id == $uploaded_agreement_id){
+                $uploaded_agreement[] = $document_uploaded;
+            }
+        }
+        
         foreach($sc_agreement_comments as $sc_agreement_comment_val){
             foreach($document_ids as $document_id){
                 if($document_id->id == $sc_agreement_comment_val->agreement_type_id){
@@ -887,7 +896,7 @@ class SocietyRenewalController extends Controller
         $uploaded_stamped_application = isset($uploaded_stamped_application_ids->toArray()[$uploaded_stamped_application_id])?$uploaded_stamped_application_ids->toArray()[$uploaded_stamped_application_id]:"";
 
 
-        return view('frontend.society.renewal.sale_lease_deed', compact('sc_application', 'document_lease', 'documents', 'uploaded_document_ids', 'documents_remaining_ids', 'sc_agreement_comment', 'documents_uploaded','uploaded_stamped_application'));
+        return view('frontend.society.renewal.sale_lease_deed', compact('sc_application', 'document_lease', 'documents', 'uploaded_document_ids', 'documents_remaining_ids', 'sc_agreement_comment', 'documents_uploaded','uploaded_stamped_application', 'uploaded_agreement'));
     }
 
     /**

@@ -482,6 +482,11 @@ class EmPermissionSeeder extends Seeder
                 'name' => 'admin.update_profile',
                 'display_name' => 'Updates user profile',
                 'description'  => 'Updates user profile'
+            ],
+            [
+                'name' => 'em.download_list_of_allottees',
+                'display_name' => 'Download list of Allottees',
+                'description'  => 'Download list of Allottees'
             ]
         ];
 
