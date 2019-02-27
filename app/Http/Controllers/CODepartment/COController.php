@@ -991,57 +991,14 @@ class COController extends Controller
      */
     public function dashboard(){
         $role_id = session()->get('role_id');
-
-        $user_id = Auth::id();
-
-        $applicationData = $this->getApplicationData($role_id,$user_id);
-
-
-        // Reval APplication data
-
-        $revalApplicationData = $this->getRevalApplicationData($role_id,$user_id);
-
-        $statusCount = $this->getApplicationStatusCount($applicationData);
-
-        // Reval status Count
-        $revalStatusCount = $this->getApplicationStatusCount($revalApplicationData);
-
-        $data =  array_merge($revalStatusCount);
-//        die('kjhh');
-
-        $dashboardData = $this->getCODashboardData($statusCount);
-
-        $dashboardData1 = $this->CommonController->getTotalCountsOfApplicationsPending();
-
-        // Reval Dashboard pending data
-        $revalDashboardData1 = $this->CommonController->getTotalCountsOfRevalApplicationsPending();
-
-
-        // Reval dashboard data
-        $revalDashboardData = $this->getCODashboardData($revalStatusCount);
-
-        // conveyance dashboard
-        $conveyanceCommonController = new conveyanceCommonController();
-        $conveyanceDashboard = $conveyanceCommonController->ConveyanceDashboard();
-        $conveyanceRoles     = $conveyanceCommonController->getConveyanceRoles();
-        $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();
-
-        //Noc dashboard -- Sayan
-
-        $nocModuleController = new SocietyNocController();
-        $nocApplication = $nocModuleController->getApplicationListDashboard();
-
-        //Noc for CC dashboard -- Sayan
-
-        $nocforCCModuleController = new SocietyNocforCCController();
-        $nocforCCApplication = $nocforCCModuleController->getApplicationListDashboard();
-
-
-        // Hearing Dashboard --Prajakta
-        $role_id = session()->get('role_id');
         $user_id = Auth::id();
         $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
 
+        $conveyanceCommonController = new conveyanceCommonController();
+        $conveyanceRoles     = $conveyanceCommonController->getConveyanceRoles();
+
+
+        //Hearing Summary
         $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q) use($department_id) {
             $q->where('department_id', $department_id);
         }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
@@ -1049,63 +1006,86 @@ class COController extends Controller
                 $q->where('department_id', $department_id);
             })->get()->toArray();
 
-        $totalPendingHearing = $totalClosedHearing = $totalScheduledHearing = $totalUnderJudgementHearing = $totalForwardedHearing = 0;
+        $hearing_count = count($hearing_data);
 
-        foreach ($hearing_data as $hearing){
+        //Offer Letter
+        $ol_count = count($this->getApplicationData($role_id,$user_id));
 
-            $status = $hearing['hearing_status_log']['0']['hearing_status']['id'];
+        //Offer Letter Subordinate Pendency
+        $ol_pending_data = $this->CommonController->getTotalCountsOfApplicationsPending();
+        $ol_pending_count = $ol_pending_data['Total Number of Applications'];
 
-            switch ( $status )
-            {
-                case config('commanConfig.hearingStatus.pending'): $totalPendingHearing += 1; break;
-                case config('commanConfig.hearingStatus.scheduled_meeting'): $totalScheduledHearing += 1; break;
-                case config('commanConfig.hearingStatus.case_under_judgement'): $totalUnderJudgementHearing += 1 ; break;
-                case config('commanConfig.hearingStatus.forwarded'): $totalForwardedHearing += 1; break;
-                case config('commanConfig.hearingStatus.case_closed'): $totalClosedHearing +=1 ; break;
-                default:
-                    ; break;
-            }
+        //Tripartite Agreement
+        $tripartite_data = Null;
+        $tripartite_dashboard = new TripartiteDashboardController();
+        $tripartite_data = $tripartite_dashboard->getApplicationData($role_id,$user_id);
+        $tripartite_count = count($tripartite_data);
 
-        }
+        //Tripartite Agreement Subordinate Pendency
+        $tripartite_pending_data = Null;
+        $tripartite_pending_data  = $tripartite_dashboard->getDashboardHeaders()->getData();
+        $tripartite_pending_count = $tripartite_pending_data['dashboardData_head']['Total Number of Applications'];
 
-        $totalHearing = count($hearing_data);
+        //Offer Letter Revalidation
+        $ol_reval_data = Null;
+        $ol_reval_data = $this->getRevalApplicationData($role_id,$user_id);
+        $ol_reval_count = count($ol_reval_data);
 
-        $hearingDashboardData = array();
-        $hearingDashboardData['Total Number of Cases'][0] =  $totalHearing;
-        $hearingDashboardData['Total Number of Cases'][1] =  '';
-        $hearingDashboardData['Total Number of Pending Cases'][0] =  $totalPendingHearing;
-        $hearingDashboardData['Total Number of Pending Cases'][1] =  '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.pending');
-        $hearingDashboardData['Total Number of Scheduled Cases'][0] = $totalScheduledHearing;
-        $hearingDashboardData['Total Number of Scheduled Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.scheduled_meeting');
-        $hearingDashboardData['Total Number of Under Judgement Cases'][0] = $totalUnderJudgementHearing;
-        $hearingDashboardData['Total Number of Under Judgement Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.case_under_judgement');
-        $hearingDashboardData['Total Number of Forwarded Cases'][0] = $totalForwardedHearing;
-        $hearingDashboardData['Total Number of Forwarded Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.forwarded');
-        $hearingDashboardData['Total Number of Closed Cases'][0] = $totalClosedHearing;
-        $hearingDashboardData['Total Number of Closed Cases'][1] = '?office_date_from=&office_date_to=&hearing_status_id='.config('commanConfig.hearingStatus.case_closed');
+        //Offer Letter Revalidation Subordinate Pendency
+        $ol_reval_pending_data = NUll;
+        $CommonController = new CommonController();
+        $ol_reval_pending_data = $CommonController->getTotalCountsOfRevalApplicationsPending();
+        $ol_reval_pending_count = $ol_reval_pending_data['Total Number of Applications'];
+
+        //Society Conveyance
+        $conveyance_data = $conveyanceCommonController->getApplicationData($role_id,$user_id);
+        $conveyance_count = count($conveyance_data);
+
+        //Society Conveyance Subordinate Pendency
+        $conveyance_pending_data = $conveyanceCommonController->getApplicationPendingAtDepartment();
+        $conveyance_pending_count = $conveyance_pending_data['Total Number of Applications'];
+
+        //NOC
+        $nocModuleController = new SocietyNocController();
+        $nocApplication = $nocModuleController->getApplicationListDashboard('REE');
+        $noc_data = $nocApplication['app_data'];
+        $noc_count = $noc_data['Total Number of Applications'][0];
+
+        //NOC Subordinate Pendency
+        $noc_pending_data = $nocApplication['pending_data'];
+        $noc_pending_count = $noc_pending_data['Total Number of Applications'];
+
+        //NOC (CC)
+        $nocforCCModuleController = new SocietyNocforCCController();
+        $nocforCCApplication = $nocforCCModuleController->getApplicationListDashboard('REE');
+        $noc_cc_data = $nocforCCApplication['app_data'];
+        $noc_cc_count = $noc_cc_data['Total Number of Applications'][0];
+
+        //NOC (CC) Subordinate Pendency
+        $noc_cc_pending_data = $nocforCCApplication['pending_data'];
+        $noc_cc_pending_count = $noc_cc_pending_data['Total Number of Applications'];
+
+
+        //Revision in Layout
+
+        //Layout Approval
+
+        //Layout Approval Pendency
 
         $today = Carbon::now()->format('d-m-Y');
 
-
-//        dd(session()->get('role_name'));
         if(session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.co_pa')){
             $department_id = Department::where('department_name', config('commanConfig.hearing_department.co'))->value('id');
-            //$data['department_id'] = $department_id;
         }
         elseif(session()->get('role_name') == config('commanConfig.joint_co_pa') || session()->get('role_name') == config('commanConfig.joint_co')){
             $department_id = Department::where('department_name', config('commanConfig.hearing_department.joint_co'))->value('id');
-            //$data['department_id'] = $department_id;
         }
-
-//        dd($department_id);
 
         $todaysHearing = Hearing::with(['hearingSchedule'=> function($q) use ($today){
             $q->where('preceding_date',$today);
         },'hearingPrePostSchedule'=> function($q) use ($today){
             $q->orderBy('id','desc')->limit(1);
         }])->where('department_id',$department_id)->get()->toArray();
-
-//dd($todaysHearing);
 
         $todays_hearing_count = 0;
         $hearing= array();
@@ -1129,7 +1109,8 @@ class COController extends Controller
 
         $todaysHearing = $hearing;
 
-        return view('admin.co_department.dashboard',compact('dashboardData','todays_hearing_count','revalDashboardData','revalDashboardData1','hearingDashboardData','todaysHearing','dashboardData1','conveyanceDashboard','conveyanceRoles','pendingApplications','nocApplication','nocforCCApplication'));
+        return view('admin.co_department.dashboard',compact('todaysHearing','todays_hearing_count','conveyanceRoles','hearing_count','ol_count','ol_pending_count','conveyance_count','conveyance_pending_count','tripartite_count','tripartite_pending_count','ol_reval_count','ol_reval_pending_count',
+            'noc_count','noc_cc_count','noc_pending_count','noc_cc_pending_count','offerLetterRoles'));
     }
 
     /**
