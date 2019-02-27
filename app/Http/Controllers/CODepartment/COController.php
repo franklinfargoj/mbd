@@ -1246,7 +1246,7 @@ class COController extends Controller
 
             if ($request->module_name == "Revision in Layout") {
                 $architect_dashboard = new ArchitectLayoutDashboardController();
-                $data['Total Number of Applications']=$architect_dashboard->total_number_of_layouts();
+                $data['Total Number of Layouts']=$architect_dashboard->total_number_of_layouts();
                 $data['Layouts in process']=$architect_dashboard->total_no_of_appln_for_revision_and_approval();
                 $data['Layouts Approved by VP']=$architect_dashboard->approved_layouts();
                 return $data;
@@ -1279,7 +1279,6 @@ class COController extends Controller
                 $la  = $architect_dashboard->pending_at_la();
                 $vp  = $architect_dashboard->pending_at_vp();
 
-                $data['Toatal Number of Applications'] = $ree +$co +$cap +$sap +$la +$vp;
                 $data['Applications Pending at REE']   = $ree;
                 $data['Applications Pending at CO']    = $co;
                 $data['Applications Pending at CAP']   = $cap;

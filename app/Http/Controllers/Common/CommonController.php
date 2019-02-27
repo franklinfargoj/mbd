@@ -1757,7 +1757,12 @@ class CommonController extends Controller
         //offer letter revalidation
         $reval_count = count($this->getRevalApplicationData($role_id,$user_id));
 
-        return view('admin.common.ol_dashboard',compact('conveyanceRoles','dashboardData1','renewalRoles','offerLetterRoles','ol_count','ol_pending_count','conveyance_count','conveyance_pending_count','renewal_count','renewal_pending_count','reval_count'));
+        //apponting architect
+        $architect_dashboard = new AppointingArchitectController();
+        $appointing_count = $architect_dashboard->total_number_of_application();
+
+
+        return view('admin.common.ol_dashboard',compact('conveyanceRoles','dashboardData1','renewalRoles','appointing_count','offerLetterRoles','ol_count','ol_pending_count','conveyance_count','conveyance_pending_count','renewal_count','renewal_pending_count','reval_count'));
 
     }
 

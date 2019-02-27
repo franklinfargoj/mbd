@@ -10,13 +10,6 @@
     <link href="{{asset('/css/dashboard/custom.css')}}" rel="stylesheet" type="text/css"/>
 @endsection
 @section('content')
-    @php
-        $chart = 0;
-        $chart1 = 0;
-        $chart2 = 0;
-        $chart3 = 0;
-        $chart_tripartite = 0;
-    @endphp
     <div class="container-fluid">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
@@ -26,75 +19,61 @@
 
         <div class="d-flex flex-wrap db-wrapper">
             @if(in_array(session()->get('role_name'),$conveyanceRoles))
-            @if($conveyanceDashboard)
                     <div class="db__card conveyance" data-module = "Society Conveyance">
                         <div class="db__card__img-wrap db-color-1">
-                            <h3 class="db__card__count">{{$conveyanceDashboard['0']['Total No of Applications'][0]}}</h3>
+                            <h3 class="db__card__count">{{$conveyance_count}}</h3>
                         </div>
                         <p class="db__card__title">Society Conveyance</p>
                     </div>
-                @endif
-
-            @if(session()->get('role_name') == config('commanConfig.dyco_engineer'))
-                @if($pendingApplications)
-                    <div class="db__card conveyance_pending" data-module = "Society Conveyance Subordinate Pendency">
-                        <div class="db__card__img-wrap db-color-6">
-                            <h3 class="db__card__count">{{$pendingApplications['Total Number of Applications']}}</h3>
+                @if(session()->get('role_name') == config('commanConfig.dyco_engineer'))
+                        <div class="db__card conveyance_pending" data-module = "Society Conveyance Subordinate Pendency">
+                            <div class="db__card__img-wrap db-color-6">
+                                <h3 class="db__card__count">{{$conveyance_pending_count}}</h3>
+                            </div>
+                            <p class="db__card__title">Society Conveyance Subordinate Pendency</p>
                         </div>
-                        <p class="db__card__title">Society Conveyance Subordinate Pendency</p>
-                    </div>
                 @endif
             @endif
 
 
             @if(session()->get('role_name') == config('commanConfig.la_engineer'))
-                @if($tripartite_data['dashboardData'])
                     <div class="db__card tripartite" data-module="Tripartite Agreement">
                         <div class="db__card__img-wrap db-color-2">
-                            <h3 class="db__card__count">{{$tripartite_data['dashboardData'][0]['Total Number of Applications'][0]}}</h3>
+                            <h3 class="db__card__count">{{$tripartite_count}}</h3>
                         </div>
                         <p class="db__card__title">Tripartite Agreement</p>
                     </div>
-                @endif
             @endif
-                @endif
 
                 @if(in_array(session()->get('role_name'),$renewalRoles))
-                    @if($renewalDashboard)
                         <div class="db__card renewal" data-module = "Society Renewal">
                             <div class="db__card__img-wrap db-color-4">
-                                <h3 class="db__card__count">{{$renewalDashboard[0]['Total No of Applications'][0]}}</h3>
+                                <h3 class="db__card__count">{{$renewal_count}}</h3>
                             </div>
                             <p class="db__card__title">Society Renewal</p>
                         </div>
-                    @endif
 
 
                         @if(session()->get('role_name') == config('commanConfig.dyco_engineer'))
-
-                        @if($renewalPendingApplications)
-                            <div class="db__card renewal_pending" data-module = "Society Renewal Subordinate Pendency">
-                                <div class="db__card__img-wrap db-color-5">
-                                    <h3 class="db__card__count">{{$renewalPendingApplications['Total Number of Applications']}}</h3>
-                                </div>
-                                <p class="db__card__title">Society Renewal Subordinate Pendency</p>
+                             <div class="db__card renewal_pending" data-module = "Society Renewal Subordinate Pendency">
+                                    <div class="db__card__img-wrap db-color-5">
+                                        <h3 class="db__card__count">{{$renewal_pending_count}}</h3>
+                                    </div>
+                                    <p class="db__card__title">Society Renewal Subordinate Pendency</p>
                             </div>
                         @endif
-                            @endif
 
                 @endif
 
                 @if((session()->get('role_name')==config('commanConfig.estate_manager'))||
                     (session()->get('role_name')==config('commanConfig.dyco_engineer')) ||
                     (session()->get('role_name')==config('commanConfig.dycdo_engineer')))
-                    @if($formation_data)
                         <div class="db__card conveyance_pending" data-module = "Society Formation">
                             <div class="db__card__img-wrap db-color-5">
-                                <h3 class="db__card__count">{{$formation_data['Total Number of Applications']}}</h3>
+                                <h3 class="db__card__count">{{$society_formation_count}}</h3>
                             </div>
                             <p class="db__card__title">Society Formation</p>
                         </div>
-                    @endif
                 @endif
 
                 @if((session()->get('role_name')==config('commanConfig.estate_manager')))
@@ -105,7 +84,6 @@
                         <p class="db__card__title">Revision in Layout</p>
                     </div>
                 @endif
-
 
         </div>
 

@@ -1014,20 +1014,49 @@ class conveyanceCommonController extends Controller
 
     public function displayDashboard(){
 
-        $conveyanceDashboard = $this->ConveyanceDashboard();
-        $conveyanceRoles     = $this->getConveyanceRoles();
-        $pendingApplications = $this->getApplicationPendingAtDepartment();
+        $role_id = session()->get('role_id');
+        $user_id = Auth::id();
 
-        //renewal dashboard
+        $conveyanceRoles     = $this->getConveyanceRoles();
 
         $renewal = new renewalCommonController();
-
-        $renewalDashboard    = $renewal->RenewalDashboard();
         $renewalRoles     = $renewal->getRenewalRoles();
-        $renewalPendingApplications = $renewal->getApplicationPendingAtDepartment(); 
-        // dd($renewalPendingApplications);             
+
+
+        //Society Conveyance
+        $conveyance_data = $this->getApplicationData($role_id,$user_id);
+        $conveyance_count = count($conveyance_data);
+
+        //Society Renewal
+        $renewal_data = $renewal->getApplicationData($role_id,$user_id);
+        $renewal_count = count($renewal_data);
+
+        //Society Renewal Subordinate Pendency
+        $renewal_pending_data = $renewal->getApplicationPendingAtDepartment();
+        $renewal_pending_count = $renewal_pending_data['Total Number of Applications'];
+
+        //Tripartite Agreement
+        $tripartite_data = Null;
+        $tripartite_dashboard = new TripartiteDashboardController();
+        $tripartite_data = $tripartite_dashboard->getApplicationData($role_id,$user_id);
+        $tripartite_count = count($tripartite_data);
+
+        //Tripartite Agreement Subordinate Pendency
+        $tripartite_pending_data = Null;
+        $tripartite_pending_data  = $tripartite_dashboard->getDashboardHeaders()->getData();
+        $tripartite_pending_count = $tripartite_pending_data['dashboardData_head']['Total Number of Applications'];
+
+        //Society Formation
+        $formation_dashboard = new formationDashboardController();
+        $society_formation_count = $formation_dashboard->total_number_of_application();
+
+        //Society Conveyance Subordinate Pendency
+        $conveyance_pending_data = $this->getApplicationPendingAtDepartment();
+        $conveyance_pending_count = $conveyance_pending_data['Total Number of Applications'];
+
+        //Revision in Layout
         
-        return view('admin.conveyance.common.dashboard',compact('conveyanceDashboard','conveyanceRoles','pendingApplications','renewalDashboard','renewalRoles','renewalPendingApplications'));
+        return view('admin.conveyance.common.dashboard',compact('conveyanceRoles','renewalRoles','tripartite_count','tripartite_pending_count','conveyance_pending_count','renewal_pending_count','society_formation_count','conveyance_count','renewal_count'));
     }
 
     /**
@@ -1091,10 +1120,10 @@ class conveyanceCommonController extends Controller
 
             if($request->module_name == "Revision in Layout") {
                 if (session()->get('role_name') == config('commanConfig.estate_manager')) {
-                    $this->architect_dashboard = new ArchitectLayoutDashboardController();
-                    $data['Total NUmber of Applications'] = $this->architect_dashboard->total_no_of_appln_for_revision();
-                    $data['Applications Pending'] = $this->architect_dashboard->pending_layout_before_layout_and_excel();
-                    $data['Applications Forwarded'] = $this->architect_dashboard->forwarded_layout_before_layout_and_excel();
+                    $architect_dashboard = new ArchitectLayoutDashboardController();
+                    $data['Total Number of Applications for Revision'] = $architect_dashboard->total_no_of_appln_for_revision();
+                    $data['Applications Pending'] = $architect_dashboard->pending_layout_before_layout_and_excel();
+                    $data['Applications Forwarded'] = $architect_dashboard->forwarded_layout_before_layout_and_excel();
                     return $data;
                 }
 

@@ -82,16 +82,7 @@
                 )
                     <div class="db__card revision" data-module="Revision in Layout">
                         <div class="db__card__img-wrap db-color-5">
-                            <h3 class="db__card__count">
-                                @if(in_array(session()->get('role_name'),array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'))))
-                                    {{$architect_data['total_no_of_appln_for_revision']}}
-                                @elseif(in_array(session()->get('role_name'),array(config('commanConfig.vp_engineer'))))
-                                    {{$architect_data['total_no_of_layout']}}
-                                @elseif(in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'))))
-                                    {{$architect_data['total_no_of_appln_for_approval']}}
-                                @else
-                                    -
-                                @endif
+                            <h3 class="db__card__count">-
                             </h3>
                         </div>
                         <p class="db__card__title">Revision in Layout</p>
@@ -124,7 +115,7 @@
                     </div>
                     <div class="db__card appointing_architect" data-module="Appointing Architect">
                         <div class="db__card__img-wrap db-color-5">
-                            <h3 class="db__card__count">-</h3>
+                            <h3 class="db__card__count">{{$appointing_count}}</h3>
                         </div>
                         <p class="db__card__title">Appointing Architect</p>
                     </div>
