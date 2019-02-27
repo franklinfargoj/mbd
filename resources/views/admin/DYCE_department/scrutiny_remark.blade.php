@@ -195,7 +195,7 @@
                                 @endif
                                 @if($is_view)
                                     <div class="col-md-6 add_more_div" style="left: 173px;top: -40px;"> 
-                                        <a class="add_more hide-print" id="add_more_text" onclick="addMoreText(this);" style="{{ 
+                                        <a class="btn-link hide-print" id="add_more_text" onclick="addMoreText(this);" style="cursor: pointer;{{ 
                                             (isset($applicationData->SiteVisitorOfficers) && count($applicationData->SiteVisitorOfficers) >= 3) ? 'display: none' : '' }}">add more </a>
                                     </div>
                                 @endif    
@@ -249,7 +249,7 @@
                                         <label class="custom-file-label" for="test-upload_1" id="file_label_1">Choose file ...</label>
                                         <span id="file_error_1" class="text-danger"></span>
                                         <span class="file_required text-danger"></span> 
-										<a class="add_more" id="add_more_1" onclick="addMoreDocuments(this);" style="margin-top: 12px;">add more</a>
+										<a class="btn-link" id="add_more_1" onclick="addMoreDocuments(this);" style="margin-top: 12px;cursor: pointer;">add more</a>
 										<i class="fa fa-close doc close-icon" id="document_1" onclick="removeDocuments(this.id)"></i>
                                     </div>
                                 </div>
@@ -331,7 +331,7 @@
 						</div>
 						<div class="mt-3">
                         @if($is_view && ($ol_application->log->status_id == config('commanConfig.applicationStatus.in_process')))
-							<button type="button" class="s_btn btn btn-primary hide-print" id="submitBtn" name="">Save</button>
+							<button type="button" class="s_btn btn btn-primary hide-print" id="submitBtn" name="">Submit</button>
                         @endif    
 
 						</div>				
@@ -439,7 +439,7 @@ var isError = 0;
                 $('.doc').css("visibility", "visible");
                 $(".all_documents").append("<div class='flex-wrap align-items-center mb-5 upload_doc_"+id+"'><label class='site-visit-label'>Upload Site Photos:</label><div class='custom-file custom-file--fixed mb-0 position-relative'><input type='file' class='file custom-file-input file_ext upload_file_"+id+"' name='document[]' id='test-upload_" +
                     id + "'><label class='custom-file-label' for='test-upload_"+id+"' id='file_label_"+id+"'> Choose file .. </label><span class='text-danger' id='file_error_"+id+"'></span><i class='fa fa-close doc close-icon' id='document_" + id +
-                    "' onclick='removeDocuments(this.id)'></i><span class='file_required text-danger'></span><a class='add_more' id='add_more_"+id+"' onclick='addMoreDocuments(this);'>add more </a></div></div>"
+                    "' onclick='removeDocuments(this.id)'></i><span class='file_required text-danger'></span><a class='btn-link' id='add_more_"+id+"' onclick='addMoreDocuments(this);' style='cursor:pointer'>add more </a></div></div>"
                 );
                 id1++;
                 id++;

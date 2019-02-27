@@ -307,17 +307,17 @@ Breadcrumbs::for('society_reval_documents_cap', function ($trail,$id) {
 });
 Breadcrumbs::for('society_EE_documents_cap', function ($trail,$id) {
     $trail->parent('cap');
-    $trail->push('society EE documents', route('common.view_society_EE_documents',$id));
+    $trail->push('Society EE Documents', route('common.view_society_EE_documents',$id));
 }); 
 
 Breadcrumbs::for('EE_scrutiny_cap', function ($trail,$id) {
     $trail->parent('cap');
-    $trail->push('EE scrutiny', route('common.EE_Scrutiny_Remark',$id));
+    $trail->push('EE Scrutiny', route('common.EE_Scrutiny_Remark',$id));
 });
 
 Breadcrumbs::for('DYCE_scrutiny_cap', function ($trail,$id) {
     $trail->parent('cap');
-    $trail->push('DYCE scrutiny', route('common.dyce_scrutiny_remark',$id));
+    $trail->push('DYCE Scrutiny', route('common.dyce_scrutiny_remark',$id));
 });
 
 // Breadcrumbs::for('REE_calculation_cap', function ($trail,$id) {
@@ -427,12 +427,12 @@ Breadcrumbs::for('society_reval_documents_co', function ($trail,$id) {
 
 Breadcrumbs::for('society_noc_documents_co', function ($trail,$id) {
     $trail->parent('co_noc');
-    $trail->push('Society documents', route('co.society_noc_documents',$id));
+    $trail->push('Society Documents', route('co.society_noc_documents',$id));
 });
 
 Breadcrumbs::for('society_noc_cc_documents_co', function ($trail,$id) {
     $trail->parent('co_noc_cc');
-    $trail->push('Society documents', route('co.society_noc_cc_documents',$id));
+    $trail->push('Society Documents', route('co.society_noc_cc_documents',$id));
 });
 
 Breadcrumbs::for('EE_scrutiny_co', function ($trail,$id) {
@@ -454,7 +454,7 @@ Breadcrumbs::for('scrutiny-remark-noc_cc_co', function ($trail,$id) {
 
 Breadcrumbs::for('DYCE_scrutiny_co', function ($trail,$id) {
     $trail->parent('co');
-    $trail->push('DYCE_scrutiny', route('common.dyce_scrutiny_remark',$id));
+    $trail->push('DYCE Scrutiny', route('common.dyce_scrutiny_remark',$id));
 });
 
 Breadcrumbs::for('Approve_offer_letter', function ($trail,$id) {
@@ -531,7 +531,7 @@ Breadcrumbs::for('ree_noc_cc', function ($trail) {
 
 Breadcrumbs::for('society_EE_documents_ree', function ($trail,$id) {
     $trail->parent('ree');
-    $trail->push('society EE documents', route('common.view_society_EE_documents',$id));
+    $trail->push('Society EE Documents', route('common.view_society_EE_documents',$id));
 });
 
 Breadcrumbs::for('society_noc_documents_ree', function ($trail,$id) {
@@ -541,7 +541,7 @@ Breadcrumbs::for('society_noc_documents_ree', function ($trail,$id) {
 
 Breadcrumbs::for('society_noc_cc_documents_ree', function ($trail,$id) {
     $trail->parent('ree_noc_cc');
-    $trail->push('Society documents', route('ree.society_noc_cc_documents',$id));
+    $trail->push('Society Documents', route('ree.society_noc_cc_documents',$id));
 });
 
 Breadcrumbs::for('society_reval_documents_ree', function ($trail,$id) {
@@ -551,12 +551,12 @@ Breadcrumbs::for('society_reval_documents_ree', function ($trail,$id) {
 
 Breadcrumbs::for('EE_scrutiny_ree', function ($trail,$id) {
     $trail->parent('ree');
-    $trail->push('EE scrutiny', route('common.EE_Scrutiny_Remark',$id));
+    $trail->push('EE Scrutiny', route('common.EE_Scrutiny_Remark',$id));
 });
 
 Breadcrumbs::for('DYCE_scrutiny_ree', function ($trail,$id) {
     $trail->parent('ree');
-    $trail->push('DYCE scrutiny', route('common.dyce_scrutiny_remark',$id));
+    $trail->push('DYCE Scrutiny', route('common.dyce_scrutiny_remark',$id));
 });
 
 Breadcrumbs::for('calculation_sheet', function ($trail,$id) {
@@ -571,7 +571,7 @@ Breadcrumbs::for('reval_calculation_sheet', function ($trail,$id) {
 
 Breadcrumbs::for('approved_offer_letter', function ($trail,$id) {
     $trail->parent('ree');
-    $trail->push('approved offer letter', route('ree.approved_offer_letter',$id));
+    $trail->push('Offer Letter', route('ree.approved_offer_letter',$id));
 });
 
 Breadcrumbs::for('approved_reval_offer_letter', function ($trail,$id) {
@@ -606,7 +606,7 @@ Breadcrumbs::for('generate_noc_cc', function ($trail,$id) {
 
  Breadcrumbs::for('REE_calculation', function ($trail,$id) {
      $trail->parent('ree');
-     $trail->push('REE calculation', route('ree.show_calculation_sheet',$id));
+     $trail->push('Calculation Sheet', route('ree.show_calculation_sheet',$id));
  });
 
 Breadcrumbs::for('Forward_Application_ree', function ($trail,$id) {
@@ -649,7 +649,7 @@ Breadcrumbs::for('view_oc_application_ee', function ($trail,$id) {
 
 Breadcrumbs::for('ee_society_documents_oc', function ($trail,$id) {
     $trail->parent('ee_for_oc');
-    $trail->push('Society documents', route('ee.society_documents_oc',$id));
+    $trail->push('Society Documents', route('ee.society_documents_oc',$id));
 });
 
 Breadcrumbs::for('scrutiny-remark-ee-oc', function ($trail,$id) {
@@ -668,7 +668,7 @@ Breadcrumbs::for('em_for_oc', function ($trail) {
 
 Breadcrumbs::for('em_society_documents_oc', function ($trail,$id) {
     $trail->parent('em_for_oc');
-    $trail->push('Society documents', route('em.society_documents_oc',$id));
+    $trail->push('Society Documents', route('em.society_documents_oc',$id));
 });
 
 Breadcrumbs::for('em_generate_no_due_certificate', function ($trail,$id) {
@@ -757,22 +757,22 @@ Breadcrumbs::for('approved_oc', function ($trail,$id) {
 //offer letter
 Breadcrumbs::for('view_application_ee', function ($trail,$id) {
     $trail->parent('ee');
-    $trail->push('view application', route('ee.view_application',$id));
+    $trail->push('View Application', route('ee.view_application',$id));
 });
 
 Breadcrumbs::for('view_application_vp', function ($trail,$id) {
     $trail->parent('vp');
-    $trail->push('view-application', route('vp.view_application',$id));
+    $trail->push('View Application', route('vp.view_application',$id));
 });
 
 Breadcrumbs::for('view_application_ree', function ($trail,$id) {
     $trail->parent('ree');
-    $trail->push('view-application', route('ree.view_application',$id));
+    $trail->push('View Application', route('ree.view_application',$id));
 });
 
 Breadcrumbs::for('view_reval_application_ree', function ($trail,$id) {
     $trail->parent('ree_reval');
-    $trail->push('view-reval-application', route('ree.view_reval_application',$id));
+    $trail->push('View Application', route('ree.view_reval_application',$id));
 });
 
 Breadcrumbs::for('view_noc_application_ree', function ($trail,$id) {
@@ -787,17 +787,17 @@ Breadcrumbs::for('view_noc_cc_application_ree', function ($trail,$id) {
 
 Breadcrumbs::for('view_application_co', function ($trail,$id) {
     $trail->parent('co');
-    $trail->push('view-application', route('co.view_application',$id));
+    $trail->push('View Application', route('co.view_application',$id));
 });
 
 Breadcrumbs::for('view_application_dyce', function ($trail,$id) {
     $trail->parent('dyce');
-    $trail->push('view application', route('dyce.view_application',$id));
+    $trail->push('View Application', route('dyce.view_application',$id));
 });
 
 Breadcrumbs::for('view_application', function ($trail,$id) {
     $trail->parent('cap');
-    $trail->push('view application', route('cap.view_application',$id));
+    $trail->push('View Application', route('cap.view_application',$id));
 });
 
 
@@ -805,13 +805,13 @@ Breadcrumbs::for('view_application', function ($trail,$id) {
 
 Breadcrumbs::for('document-submitted', function ($trail,$id) {
     $trail->parent('ee');
-    $trail->push('society documents', route('document-submitted',$id));
+    $trail->push('Society Documents', route('document-submitted',$id));
 });
 
 Breadcrumbs::for('scrutiny-remark', function ($trail,$id,$societyId) {
     $trail->parent('ee');
 
-$trail->push('scrutiny remark', route('scrutiny-remark',['id'=>$id,'society_id'=>$societyId]));
+$trail->push('Scrutiny Remark', route('scrutiny-remark',['id'=>$id,'society_id'=>$societyId]));
 
 });
 
@@ -829,7 +829,7 @@ Breadcrumbs::for('scrutiny-remark-noc-cc', function ($trail,$id) {
 
 Breadcrumbs::for('Forward_Application_ee', function ($trail,$id) {
     $trail->parent('ee');
-    $trail->push('forward application', route('get-forward-application',$id));
+    $trail->push('Forward Application', route('get-forward-application',$id));
 });
 
 //Dyce
@@ -841,7 +841,7 @@ Breadcrumbs::for('dyce', function ($trail) {
 
 Breadcrumbs::for('society_EE_documents', function ($trail,$id) {
     $trail->parent('dyce');
-    $trail->push('society EE documents', route('common.view_society_EE_documents',$id));
+    $trail->push('Society EE Documents', route('common.view_society_EE_documents',$id));
 });
 
 Breadcrumbs::for('EE_Scrutiny_Remark-dyce', function ($trail,$id) {
@@ -856,7 +856,7 @@ Breadcrumbs::for('scrutiny_remark-dyce', function ($trail,$id) {
 
 Breadcrumbs::for('forward_application-dyce', function ($trail,$id) {
     $trail->parent('dyce');
-    $trail->push('forward application', route('dyce.forward_application',$id));
+    $trail->push('Forward Application', route('dyce.forward_application',$id));
 });
 
 //Role

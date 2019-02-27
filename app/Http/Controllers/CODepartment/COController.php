@@ -757,8 +757,9 @@ class COController extends Controller
         $noc_application = $this->CommonController->getNocApplication($applicationId);
         $noc_application->model = NocApplication::with(['noc_application_master'])->where('id',$applicationId)->first();
         $societyDocuments = $this->CommonController->getSocietyNocDocuments($applicationId);
+        $comments = $this->CommonController->getNOCApplicationComments($applicationId);
 
-        return view('admin.co_department.society_noc_documents',compact('noc_application','societyDocuments'));
+        return view('admin.co_department.society_noc_documents',compact('noc_application','societyDocuments','comments'));
     }
 
     public function societyNocforCCDocuments(Request $request,$applicationId){

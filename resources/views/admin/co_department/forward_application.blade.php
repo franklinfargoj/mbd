@@ -301,7 +301,7 @@
                                                     rows="5"></textarea>
                                             </div>
                                             <div class="mt-3 btn-list">
-                                                <button type="submit" class="btn btn-primary">Save</button>
+                                                <button type="submit" class="btn btn-primary">Submit</button>
                                                 {{--<button type="submit" id="sign"
                                                     class="btn btn-primary forwrdBtn">Sign</button>
                                                 <button type="submit" class="btn btn-primary forwrdBtn">Sign

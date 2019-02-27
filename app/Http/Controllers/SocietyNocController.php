@@ -216,6 +216,7 @@ class SocietyNocController extends Controller
 
         $optional_docs = $this->getOptionalDocument($noc_application->application_master_id);
          $docs_count = NocSocietyDocumentsMaster::where('application_id', $noc_application->application_master_id)->where('is_optional',0)->count();
+         $applicationCount = $this->getForwardedApplication();
 
         $docs_uploaded_count = 0;
 
@@ -231,7 +232,7 @@ class SocietyNocController extends Controller
             $check_upload_avail = 1;
         }
 
-        return view('frontend.society.edit_form_noc', compact('society_details', 'noc_applications', 'noc_application', 'layouts', 'id','check_upload_avail'));
+        return view('frontend.society.edit_form_noc', compact('society_details', 'noc_applications', 'noc_application', 'layouts', 'id','check_upload_avail','applicationCount'));
     }
 
     public function updateNocApplication(Request $request){
@@ -274,6 +275,7 @@ class SocietyNocController extends Controller
         $optional_docs = $this->getOptionalDocument($application->application_master_id);
         $docs_uploaded_count = 0;
         $docs_count = NocSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('is_optional',0)->count();
+        $applicationCount = $this->getForwardedApplication();
 
         foreach($documents as $documents_key => $documents_val){
                 if($documents_val->is_optional == 0 && count($documents_val->documents_uploaded) > 0){
@@ -286,7 +288,7 @@ class SocietyNocController extends Controller
         {
             $check_upload_avail = 1;
         }
-        return view('frontend.society.society_upload_documents_noc', compact('documents','noc_applications',  'optional_docs', 'docs_count', 'docs_uploaded_count', 'documents_uploaded', 'society', 'application', 'documents_comment' , 'check_upload_avail'));
+        return view('frontend.society.society_upload_documents_noc', compact('documents','noc_applications',  'optional_docs', 'docs_count', 'docs_uploaded_count', 'documents_uploaded', 'society', 'application', 'documents_comment' , 'check_upload_avail','applicationCount'));
     }
 
     public function uploadSocietyDocuments(Request $request){

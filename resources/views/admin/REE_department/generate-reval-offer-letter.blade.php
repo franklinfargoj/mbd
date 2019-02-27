@@ -201,6 +201,9 @@
                                                     id="test-upload" required="required">
                                                 <label class="custom-file-label" for="test-upload">Choose
                                                     file...</label>
+                                                @if(isset($societyData->offer_letter_document_path))
+                                                 <a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server').'/'.$societyData->offer_letter_document_path }}" download>Download</a> 
+                                                @endif     
                                                 <span class="text-danger" id="file_error"></span>
                                             </div>
                                             <div class="mt-auto">

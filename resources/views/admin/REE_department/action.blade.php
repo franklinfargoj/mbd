@@ -80,6 +80,7 @@ $route=\Request::route()->getName();
         </li>        
 
         @if(session()->get('role_name') != config('commanConfig.ree_junior'))
+       
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ol_sharing_calculation_sheet.show' || $route=='ol_calculation_sheet.show' || $route=='ree.show_calculation_sheet')?'m-menu__item--active':''}}"
             aria-haspopup="true">
             <a class="m-menu__link m-menu__toggle" title="View Calculation Sheet" href="{{url('calculation_sheet_ree',encrypt($ol_application->id))}}">
@@ -89,10 +90,11 @@ $route=\Request::route()->getName();
                         <path fill="#fff" d="M151.33 287.78h30v30h-30zM211.11 228h30v30h-30zM211.11 287.78h30v30h-30zM270.89 228h30v30h-30zM270.89 287.78h30v30h-30zM330.67 228h30v30h-30zM151.33 228h30v30h-30zM151.33 347.56h30v30h-30zM151.33 407.33h30v30h-30zM330.67 287.78h30v30h-30zM211.11 347.56h30v30h-30zM270.89 347.56h30v30h-30zM211.11 407.33h30v30h-30zM270.89 407.33h30v30h-30zM330.67 347.56h30v89.78h-30z"/>
                     </svg>
                 </span>
-                <span class="m-menu__link-text">View Calculation Sheet</span></a>
+                <span class="m-menu__link-text">Calculation Sheet</span></a>
         </li> 
         @elseif($ol_application->model->ol_application_master->model == 'Premium')
-        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ree_applications.calculation_sheet_options')?'m-menu__item--active':''}}"
+
+        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ree_applications.calculation_sheet_options' || $route=='ol_calculation_sheet.show' || $route=='ree.fsi_calculation_application' || $route=='ree_applications.custom_calculation_sheet')?'m-menu__item--active':''}}"
             aria-haspopup="true">
             <a class="m-menu__link m-menu__toggle" title="Prepare Calculation Sheet" href="{{route('ree_applications.calculation_sheet_options',encrypt($ol_application->id))}}">
                 <span class="sidebar-icon sidebar-menu-icon--level-1">
@@ -101,7 +103,7 @@ $route=\Request::route()->getName();
                         <path fill="#fff" d="M151.33 287.78h30v30h-30zM211.11 228h30v30h-30zM211.11 287.78h30v30h-30zM270.89 228h30v30h-30zM270.89 287.78h30v30h-30zM330.67 228h30v30h-30zM151.33 228h30v30h-30zM151.33 347.56h30v30h-30zM151.33 407.33h30v30h-30zM330.67 287.78h30v30h-30zM211.11 347.56h30v30h-30zM270.89 347.56h30v30h-30zM211.11 407.33h30v30h-30zM270.89 407.33h30v30h-30zM330.67 347.56h30v89.78h-30z"/>
                     </svg>
                 </span>
-                <span class="m-menu__link-text">Prepare Calculation Sheet</span></a>
+                <span class="m-menu__link-text">Calculation Sheet</span></a>
         </li>
         @elseif($ol_application->model->ol_application_master->model == 'Sharing')
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ol_sharing_calculation_sheet.show')?'m-menu__item--active':''}}"
@@ -113,7 +115,7 @@ $route=\Request::route()->getName();
                         <path fill="#fff" d="M151.33 287.78h30v30h-30zM211.11 228h30v30h-30zM211.11 287.78h30v30h-30zM270.89 228h30v30h-30zM270.89 287.78h30v30h-30zM330.67 228h30v30h-30zM151.33 228h30v30h-30zM151.33 347.56h30v30h-30zM151.33 407.33h30v30h-30zM330.67 287.78h30v30h-30zM211.11 347.56h30v30h-30zM270.89 347.56h30v30h-30zM211.11 407.33h30v30h-30zM270.89 407.33h30v30h-30zM330.67 347.56h30v89.78h-30z"/>
                     </svg>
                 </span>
-                <span class="m-menu__link-text">Prepare Calculation Sheet</span></a>
+                <span class="m-menu__link-text">Calculation Sheet</span></a>
         </li>
         @endif
 
@@ -127,7 +129,7 @@ $route=\Request::route()->getName();
                         <path fill="#fff" d="M151.33 287.78h30v30h-30zM211.11 228h30v30h-30zM211.11 287.78h30v30h-30zM270.89 228h30v30h-30zM270.89 287.78h30v30h-30zM330.67 228h30v30h-30zM151.33 228h30v30h-30zM151.33 347.56h30v30h-30zM151.33 407.33h30v30h-30zM330.67 287.78h30v30h-30zM211.11 347.56h30v30h-30zM270.89 347.56h30v30h-30zM211.11 407.33h30v30h-30zM270.89 407.33h30v30h-30zM330.67 347.56h30v89.78h-30z"/>
                     </svg>
                 </span>
-                <span class="m-menu__link-text">Prepare Calculation Sheet</span></a>
+                <span class="m-menu__link-text">Calculation Sheet</span></a>
         </li>
         @elseif($ol_application->model->ol_application_master->model == 'Sharing')
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ol_sharing_calculation_sheet.show')?'m-menu__item--active':''}}"
@@ -139,7 +141,7 @@ $route=\Request::route()->getName();
                         <path fill="#fff" d="M151.33 287.78h30v30h-30zM211.11 228h30v30h-30zM211.11 287.78h30v30h-30zM270.89 228h30v30h-30zM270.89 287.78h30v30h-30zM330.67 228h30v30h-30zM151.33 228h30v30h-30zM151.33 347.56h30v30h-30zM151.33 407.33h30v30h-30zM330.67 287.78h30v30h-30zM211.11 347.56h30v30h-30zM270.89 347.56h30v30h-30zM211.11 407.33h30v30h-30zM270.89 407.33h30v30h-30zM330.67 347.56h30v89.78h-30z"/>
                     </svg>
                 </span>
-                <span class="m-menu__link-text">Prepare Calculation Sheet</span></a>
+                <span class="m-menu__link-text">Calculation Sheet</span></a>
         </li>
         @endif--}}
 

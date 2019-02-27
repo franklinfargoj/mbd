@@ -150,6 +150,7 @@ $disabled=isset($disabled)?$disabled:0;
                         !=config('commanConfig.applicationStatus.forwarded') && ($approved_by_co==1 || $stamped_by_society==1 || $stamped_and_signed==1))) || 
                         ((session()->get('role_name')==config('commanConfig.ree_junior') && $applicationLog->status_id
                         !=config('commanConfig.applicationStatus.forwarded') && $stamped_by_society!=1 && $stamped_and_signed!=1 && $approved_by_co!=1)))
+                        @if($applicationLog->status_id !=config('commanConfig.applicationStatus.sent_for_stamp_duty_registration'))
                         <div class="col-sm-6 border-left">
                             <div class="d-flex flex-column h-100">
                                 <h5>Upload Signed & scanned Tripartite Agreement</h5>
@@ -169,6 +170,7 @@ $disabled=isset($disabled)?$disabled:0;
                                 </form>
                             </div>
                         </div>
+                        @endif
                         @endif
                     </div>
                 </div>
