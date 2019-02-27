@@ -166,6 +166,7 @@ $(document).ready(function() {
         });
     }
 
+
     $(".show_actions").on("click", function() {
         var view_route = $(this).attr("data-value");
         window.location = view_route;
@@ -1062,3 +1063,8 @@ $(document).ready(function() {
 });
 
 $("#billing_calculations").DataTable({ searching: false, dom: "Bfrtip", buttons: ["excel", "print"] });
+
+
+$("a[href$='#scrutiny-history-tab']").on('click',function(){
+    $('#forward-application-tab').removeClass('active')
+})
