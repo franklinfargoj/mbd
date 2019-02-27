@@ -1888,7 +1888,6 @@ class CommonController extends Controller
                     $ee_dy = $this->architect_dashboard->ee_pending_at_role(config('commanConfig.ee_deputy_engineer'));
                     $ee_head = $this->architect_dashboard->ee_pending_at_role(config('commanConfig.ee_branch_head'));
 
-                    $data['Total Number of Applications'] = $ee_jr + $ee_dy + $ee_head;
                     $data['Pending at JE / SE'] = $ee_jr;
                     $data['Pending at  Deputy Engineer'] = $ee_dy;
                     $data['Pending at EE'] = $ee_head;
@@ -1896,7 +1895,7 @@ class CommonController extends Controller
                 }
 
                 if (in_array(session()->get('role_name'), array(config('commanConfig.vp_engineer')))){
-                    $data['Total No of Layout for Approval'] = $this->architect_dashboard->appln_sent_for_arroval();;
+                    $data['Total Number of Applications Sent for approval'] = $this->architect_dashboard->appln_sent_for_arroval();;
                     $data['Application Pending'] = $this->architect_dashboard->pending_layout_before_layout_and_excel(1);
                     $data['Application Approved & Sent to Architect'] = $this->architect_dashboard->vp_approved_and_forwarded_layout();
                     $data['Application Sent Back to CAP'] = $this->architect_dashboard->reverted_layout_before_layout_and_excel(1);
@@ -1904,7 +1903,7 @@ class CommonController extends Controller
                 }
 
                 if (in_array(session()->get('role_name'), array(config('commanConfig.cap_engineer')))) {
-                    $data['Total Number of Applications'] = $this->architect_dashboard->appln_sent_for_arroval();;
+                    $data['Total Number of Applications Sent for approval'] = $this->architect_dashboard->appln_sent_for_arroval();;
                     $data['Applications Pending'] = $this->architect_dashboard->pending_layout_before_layout_and_excel(1);
                     $data['Applications Forwarded'] = $this->architect_dashboard->forwarded_layout_before_layout_and_excel(1);
                     $data['Applications Reverted'] = $this->architect_dashboard->reverted_layout_before_layout_and_excel(1);
@@ -1926,7 +1925,7 @@ class CommonController extends Controller
                 }
                 if(in_array(session()->get('role_name'),array(config('commanConfig.senior_architect_planner'))))
                 {
-                    $data['Total Number of Applications'] = $this->architect_dashboard->appln_sent_for_arroval();;
+                    $data['Total Number of Applications Sent for Approval'] = $this->architect_dashboard->appln_sent_for_arroval();;
                     $data['Pending Applications'] = $this->architect_dashboard->pending_layout_before_layout_and_excel(1);
                     $data['Forwarded Applications'] = $this->architect_dashboard->forwarded_layout_before_layout_and_excel(1);
                     $data['Reverted Applications'] =$this->architect_dashboard->reverted_layout_before_layout_and_excel(1);
@@ -1946,7 +1945,6 @@ class CommonController extends Controller
                 $pending_at_la = $this->architect_dashboard->pending_at_la();
                 $pending_at_vp = $this->architect_dashboard->pending_at_vp();
 
-                $data['Total Number of Applications'] = $pending_at_ree + $pending_at_co + $pending_at_cap + $pending_at_sap + $pending_at_la + $pending_at_vp;
                 $data['Pending at REE'] = $pending_at_ree;
                 $data['Pending at CO']  = $pending_at_co;
                 $data['Pending at CAP'] = $pending_at_cap;
@@ -1963,7 +1961,6 @@ class CommonController extends Controller
                 $pending_at_jr_architect = $this->architect_dashboard->pending_at_jr_architect();
                 $pending_at_sr_architect = $this->architect_dashboard->pending_at_sr_architect();
 
-                $data['Total Number of Applications'] = $pending_at_jr_architect + $pending_at_sr_architect;
                 $data['Pending at Junior Architect']  = $pending_at_jr_architect;
                 $data['Pending at Senior Architect']  = $pending_at_sr_architect;
 
@@ -1992,7 +1989,6 @@ class CommonController extends Controller
                     $pending_at_architect = $this->architect_dashboard->pending_at_user(array(config('commanConfig.architect')));
                     $pending_at_selection_committee = $this->architect_dashboard->pending_at_user(array(config('commanConfig.selection_commitee')));
 
-                    $data['Total Number of Applications'] = $pending_at_jr_architect + $pending_at_sr_architect + $pending_at_architect + $pending_at_selection_committee;
                     $data['Pending at Junior Architect'] = $pending_at_jr_architect;
                     $data['Pending at Senior Architect'] = $pending_at_sr_architect;
                     $data['Pending at Architect'] = $pending_at_architect;

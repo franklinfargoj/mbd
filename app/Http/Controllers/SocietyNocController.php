@@ -662,17 +662,7 @@ class SocietyNocController extends Controller
 
         $user_id = Auth::id();
 
-        $applicationData = NocApplication::with([
-            'nocApplicationStatus' => function ($q) use ($role_id,$user_id) {
-                $q->where('is_active',1)
-                    ->whereNull('to_user_id')
-                    ->orderBy('id', 'desc');
-            }])
-            ->whereHas('nocApplicationStatus', function ($q) use ($role_id,$user_id) {
-                $q->where('is_active',1)
-                    ->whereNull('to_user_id')
-                    ->orderBy('id', 'desc');
-            })->get()->toArray();
+        $applicationData = $this->getNocApplicationData($role_id,$user_id);
 
         $applicationData = is_array($applicationData)?$applicationData:array();
 
@@ -684,6 +674,21 @@ class SocietyNocController extends Controller
         }
 
         return $status_dashboard;
+    }
+
+    public function getNocApplicationData($role_id,$user_id){
+        $data = NocApplication::with([
+            'nocApplicationStatus' => function ($q) use ($role_id,$user_id) {
+                $q->where('is_active',1)
+                    ->whereNull('to_user_id')
+                    ->orderBy('id', 'desc');
+            }])
+            ->whereHas('nocApplicationStatus', function ($q) use ($role_id,$user_id) {
+                $q->where('is_active',1)
+                    ->whereNull('to_user_id')
+                    ->orderBy('id', 'desc');
+            })->get()->toArray();
+        return $data;
     }
 
     public function getStatusDashboard($applicationData){

@@ -18,91 +18,81 @@
         </div>
 
         <div class="d-flex flex-wrap db-wrapper">
-            @if($dashboardData[0])
+            @if(in_array(session()->get('role_name'),$offerLetterRoles))
                 <div class="db__card counts" data-module="Offer Letter">
                     <div class="db__card__img-wrap db-color-1">
-                        <h3 class="db__card__count">{{$dashboardData[0]['Total Number of Applications'][0]}}</h3>
+                        <h3 class="db__card__count">{{$ol_count}}</h3>
                     </div>
                     <p class="db__card__title">Offer Letter</p>
                 </div>
-            @endif
-            @if($dashboardData1)
-                <div class="db__card pending_counts" data-module="Offer Letter Subordinate Pendency">
-                    <div class="db__card__img-wrap db-color-2">
-                        <h3 class="db__card__count">{{$dashboardData1['Total Number of Applications']}}</h3>
+
+                @if(session()->get('role_name') == config('commanConfig.ree_branch_head'))
+                    <div class="db__card pending_counts" data-module="Offer Letter Subordinate Pendency">
+                        <div class="db__card__img-wrap db-color-2">
+                            <h3 class="db__card__count">{{$ol_pending_count}}</h3>
+                        </div>
+                        <p class="db__card__title">Offer Letter Subordinate Pendency</p>
                     </div>
-                    <p class="db__card__title">Offer Letter Subordinate Pendency</p>
-                </div>
+                @endif
             @endif
-            @if($tripartite_data['dashboardData'])
+
                 <div class="db__card tripartite" data-module="Tripartite Agreement">
                     <div class="db__card__img-wrap db-color-3">
-                        <h3 class="db__card__count">{{$tripartite_data['dashboardData'][0]['Total Number of Applications'][0]}}</h3>
+                        <h3 class="db__card__count">{{$tripartite_count}}</h3>
                     </div>
                     <p class="db__card__title">Tripartite Agreement</p>
                 </div>
-            @endif
-            @if($tripartite_data['dashboardData_head'])
+            @if(session()->get('role_name') == config('commanConfig.ree_branch_head'))
                 <div class="db__card tripartite_pending" data-module="Tripartite Agreement Subordinate Pendency">
                     <div class="db__card__img-wrap db-color-4">
-                        <h3 class="db__card__count">{{$tripartite_data['dashboardData_head']['Total Number of Applications']}}</h3>
+                        <h3 class="db__card__count">{{$tripartite_pending_count}}</h3>
                     </div>
                     <p class="db__card__title">Tripartite Agreement Subordinate Pendency</p>
                 </div>
             @endif
 
-            @if($revalDashboardData[0])
                 <div class="db__card revalidation" data-module="Offer Letter Revalidation">
                     <div class="db__card__img-wrap db-color-5">
-                        <h3 class="db__card__count">{{$revalDashboardData[0]['Total Number of Applications'][0]}}</h3>
+                        <h3 class="db__card__count">{{$ol_reval_count}}</h3>
                     </div>
                     <p class="db__card__title">Offer Letter Revalidation</p>
                 </div>
-            @endif
-            @if($revalDashboardData1)
+                @if(session()->get('role_name') == config('commanConfig.ree_branch_head'))
                 <div class="db__card revalidation_pending" data-module="Offer Letter Revalidation Subordinate Pendency">
                     <div class="db__card__img-wrap db-color-5">
-                        <h3 class="db__card__count">{{$revalDashboardData1['Total Number of Applications']}}</h3>
+                        <h3 class="db__card__count">{{$ol_reval_pending_count}}</h3>
                     </div>
                     <p class="db__card__title">Offer Letter Revalidation Subordinate Pendency</p>
                 </div>
-            @endif
-            @if($nocApplication)
+                @endif
                 <div class="db__card noc" data-module="NOC">
                     <div class="db__card__img-wrap db-color-5">
-                        <h3 class="db__card__count">{{$nocApplication['app_data']['Total Number of Applications'][0]}}</h3>
+                        <h3 class="db__card__count">{{$noc_count}}</h3>
                     </div>
                     <p class="db__card__title">NOC</p>
                 </div>
-            @endif
-            @if($nocApplication['pending_data'])
                 <div class="db__card noc_pending" data-module="NOC Subordinate Pendency">
                     <div class="db__card__img-wrap db-color-5">
-                        <h3 class="db__card__count">{{$nocApplication['pending_data']['Total Number of Applications']}}</h3>
+                        <h3 class="db__card__count">{{$noc_pending_count}}</h3>
                     </div>
                     <p class="db__card__title">NOC Subordinate Pendency</p>
                 </div>
-            @endif
-            @if($nocforCCApplication)
                 <div class="db__card noc" data-module="NOC (CC)">
                     <div class="db__card__img-wrap db-color-5">
-                        <h3 class="db__card__count">{{$nocforCCApplication['app_data']['Total Number of Applications'][0]}}</h3>
+                        <h3 class="db__card__count">{{$noc_cc_count}}</h3>
                     </div>
                     <p class="db__card__title">NOC (CC)</p>
                 </div>
-            @endif
-            @if($nocforCCApplication['pending_data'])
                 <div class="db__card noc_pending" data-module="NOC (CC) Subordinate Pendency">
                     <div class="db__card__img-wrap db-color-5">
-                        <h3 class="db__card__count">{{$nocforCCApplication['pending_data']['Total Number of Applications']}}</h3>
+                        <h3 class="db__card__count">{{$noc_cc_pending_count}}</h3>
                     </div>
                     <p class="db__card__title">NOC (CC) Subordinate Pendency</p>
                 </div>
-            @endif
 
             <div class="db__card revision" data-module="Revision in Layout">
                 <div class="db__card__img-wrap db-color-5">
-                    <h3 class="db__card__count">{{$architect_data['total_no_of_appln_for_revision']}}</h3>
+                    <h3 class="db__card__count">-</h3>
                 </div>
                 <p class="db__card__title">Revision in Layout</p>
             </div>
@@ -979,8 +969,6 @@
                                 "<td class=\"text-center\">" + i + "</td>" +
                                 "<td>" + index + "</td>\n" +
                                 "<td class=\"text-center\"><span class=\"count-circle\">" + data + "</span></td>\n" +
-                                "<td>\n" +
-                                "</td>\n" +
                                 "</tr>";
                             chart_count += data;
                             i++;

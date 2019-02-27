@@ -1925,50 +1925,76 @@ class REEController extends Controller
 
         $user_id = Auth::id();
 
-        $applicationData = $this->getApplicationData($role_id,$user_id);
-
-        // Reval APplication data
-
-        $revalApplicationData = $this->getRevalApplicationData($role_id,$user_id);
-
-
-        $statusCount = $this->getApplicationStatusCount($applicationData);
-
-        // Reval status Count
-        $revalStatusCount = $this->getApplicationStatusCount($revalApplicationData);
-
         // REE Roles
         $ree = $this->CommonController->getREERoles();
 
-        $dashboardData = $this->getREEDashboardData($role_id,$ree,$statusCount);
-
-        // Reval status Count
-        $revalDashboardData = $this->getREEDashboardData($role_id,$ree,$revalStatusCount);
-
         $reeHeadId = Role::where('name',config('commanConfig.ree_branch_head'))->value('id');
 
-        $dashboardData1 = NULL;
+        $offerLetterRoles = $this->CommonController->getOfferLetterRoles();
+
+        //offer letter
+        $ol_data = Null;
+        $ol_data = $this->getApplicationData($role_id,$user_id);
+        $ol_count = count($ol_data);
+
+        //offer letter subordinate Pendency
+        $ol_pending_data = NULL;
         if($role_id == $reeHeadId){
-            $dashboardData1 = $this->CommonController->getTotalCountsOfApplicationsPending();
+            $ol_pending_data = $this->CommonController->getTotalCountsOfApplicationsPending();
+            $ol_pending_count = $ol_pending_data['Total Number of Applications'];
         }
 
-        // Reval Dashboard data
-        $revalDashboardData1 = NULL;
-        if($role_id == $reeHeadId){
-            $revalDashboardData1 = $this->CommonController->getTotalCountsOfRevalApplicationsPending();
-        }
+        //Tripartite Agreement
+        $tripartite_data = Null;
+        $tripartite_dashboard = new TripartiteDashboardController();
+        $tripartite_data = $tripartite_dashboard->getApplicationData($role_id,$user_id);
+        $tripartite_count = count($tripartite_data);
 
-        //Noc dashboard -- Sayan
+        //Tripartite Agreement Subordinate Pendency
+        $tripartite_pending_data = Null;
+        $tripartite_pending_data  = $tripartite_dashboard->getDashboardHeaders()->getData();
+        $tripartite_pending_count = $tripartite_pending_data['dashboardData_head']['Total Number of Applications'];
 
+        //Offer Letter Revalidation
+        $ol_reval_data = Null;
+        $ol_reval_data = $this->getRevalApplicationData($role_id,$user_id);
+        $ol_reval_count = count($ol_reval_data);
+
+        //Offer Letter Revalidation Subordinate Pendency
+        $ol_reval_pending_data = NUll;
+        $CommonController = new CommonController();
+        $ol_reval_pending_data = $CommonController->getTotalCountsOfRevalApplicationsPending();
+        $ol_reval_pending_count = $ol_reval_pending_data['Total Number of Applications'];
+
+        //NOC
         $nocModuleController = new SocietyNocController();
         $nocApplication = $nocModuleController->getApplicationListDashboard('REE');
+        $noc_data = $nocApplication['app_data'];
+        $noc_count = $noc_data['Total Number of Applications'][0];
 
-        //Noc for CC dashboard -- Sayan
+        //NOC Subordinate Pendency
+        $noc_pending_data = $nocApplication['pending_data'];
+        $noc_pending_count = $noc_pending_data['Total Number of Applications'];
 
+        //NOC (CC)
         $nocforCCModuleController = new SocietyNocforCCController();
         $nocforCCApplication = $nocforCCModuleController->getApplicationListDashboard('REE');
+        $noc_cc_data = $nocforCCApplication['app_data'];
+        $noc_cc_count = $noc_cc_data['Total Number of Applications'][0];
 
-        return view('admin.REE_department.dashboard',compact('dashboardData','dashboardData1','revalDashboardData1','nocApplication','nocforCCApplication','revalDashboardData'));
+        //NOC (CC) Subordinate Pendency
+        $noc_cc_pending_data = $nocforCCApplication['pending_data'];
+        $noc_cc_pending_count = $noc_cc_pending_data['Total Number of Applications'];
+//        dd($noc_cc_pending_count);
+
+        //Revision in Layout
+
+        //Layout Approval
+
+        //Layout Approval Subordinate Pendency
+
+        return view('admin.REE_department.dashboard',compact('ol_count','ol_pending_count','tripartite_count','tripartite_pending_count','ol_reval_count','ol_reval_pending_count',
+            'noc_count','noc_cc_count','noc_pending_count','noc_cc_pending_count','offerLetterRoles'));
     }
 
     /**
