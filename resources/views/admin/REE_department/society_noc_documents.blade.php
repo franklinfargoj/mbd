@@ -32,7 +32,7 @@
                 </thead>
                 <tbody>
                     <?php $i=0; ?>
-
+                    @if($societyDocuments)
                     @foreach($societyDocuments as $data)
                     
                     <tr>
@@ -55,6 +55,7 @@
                     </tr>
                     <?php $i++; ?>
                     @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>
