@@ -158,12 +158,12 @@ class DYCOController extends Controller
         $data->DraftGeneratedLease = $this->common->getScAgreement($draftLeaseId,$applicationId,$draft);
         $textLeaseAgreement = $this->common->getScAgreement($draftLeaseId,$applicationId,$text);
         
-        if($textSaleAgreement->document_path){
+        if($textSaleAgreement){
             $saleContent = Storage::disk('ftp')->get($textSaleAgreement->document_path);
         }else{
             $saleContent = "";
 
-        }if($textLeaseAgreement->document_path){
+        }if($textLeaseAgreement){
             $leaseContent = Storage::disk('ftp')->get($textLeaseAgreement->document_path);
         }else{
             $leaseContent = "";
