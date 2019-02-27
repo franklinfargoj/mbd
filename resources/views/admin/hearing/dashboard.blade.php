@@ -95,7 +95,7 @@
                             <div class="db__card__img-wrap db-color-6">
                                 <h3 class="db__card__count">{{$conveyance_pending_count}}</h3>
                             </div>
-                            <p class="db__card__title">Society Conveyance Subordinate Pendency</p>
+                            <p class="db__card__title">Society Conveyance Department Pendency</p>
                         </div>
             @endif
             @if(in_array(session()->get('role_name'),$renewalRoles))
@@ -109,7 +109,7 @@
                             <div class="db__card__img-wrap db-color-5">
                                 <h3 class="db__card__count">{{$renewal_pending_count}}</h3>
                             </div>
-                            <p class="db__card__title">Society Renewal Subordinate Pendency</p>
+                            <p class="db__card__title">Society Renewal Department Pendency</p>
                         </div>
             @endif
 

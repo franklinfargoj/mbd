@@ -1940,7 +1940,7 @@ class CommonController extends Controller
 
             }
 
-            if($request->module_name == 'Layout Approval Pendency'){
+            if($request->module_name == 'Layout Approval Department Pendency'){
                 $this->architect_dashboard = new ArchitectLayoutDashboardController();
 
                 $pending_at_ree = $this->architect_dashboard->pending_at_ree();

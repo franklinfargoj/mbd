@@ -101,11 +101,11 @@
                         session()->get('role_name')==config('commanConfig.senior_architect') ||
                         session()->get('role_name')==config('commanConfig.architect')
                     )
-                    <div class="db__card revision" data-module="Layout Approval Pendency">
+                    <div class="db__card revision" data-module="Layout Approval Department Pendency">
                         <div class="db__card__img-wrap db-color-16">
                             <h3 class="db__card__count">-</h3>
                         </div>
-                        <p class="db__card__title">Layout Approval Pendency</p>
+                        <p class="db__card__title">Layout Approval Department Pendency</p>
                     </div>
                     <div class="db__card revision" data-module="Layout Approval Subordinate Pendencies">
                         <div class="db__card__img-wrap db-color-16">

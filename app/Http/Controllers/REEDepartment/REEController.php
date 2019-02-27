@@ -2024,7 +2024,7 @@ class REEController extends Controller
                 return $dashboardData;
             }
 
-            if($request->module_name == "Offer Letter Subordinate Pendency"){
+            if($request->module_name == "Offer Letter Department Pendency"){
                 if($role_id == $reeHeadId){
                     $dashboardData1 = $this->CommonController->getTotalCountsOfApplicationsPending();
                     return $dashboardData1;
@@ -2040,7 +2040,7 @@ class REEController extends Controller
                 return $revalDashboardData;
             }
 
-            if($request->module_name == "Offer Letter Revalidation Subordinate Pendency") {
+            if($request->module_name == "Offer Letter Revalidation Department Pendency") {
                 $revalDashboardData1 = NULL;
                 if($role_id == $reeHeadId){
                     $revalDashboardData1 = $this->CommonController->getTotalCountsOfRevalApplicationsPending();
@@ -2055,7 +2055,7 @@ class REEController extends Controller
                 return $nocApplication['app_data'];
             }
 
-            if($request->module_name == 'NOC Subordinate Pendency'){
+            if($request->module_name == 'NOC Department Pendency'){
                 $nocModuleController = new SocietyNocController();
                 $nocApplication = $nocModuleController->getApplicationListDashboard('REE');
 
@@ -2069,14 +2069,14 @@ class REEController extends Controller
                 return $nocforCCApplication['app_data'];
             }
 
-            if($request->module_name == 'NOC (CC) Subordinate Pendency'){
+            if($request->module_name == 'NOC (CC) Department Pendency'){
                 $nocforCCModuleController = new SocietyNocforCCController();
                 $nocforCCApplication = $nocforCCModuleController->getApplicationListDashboard('REE');
 
                 return $nocforCCApplication['pending_data'];
             }
 
-            if($request->module_name == 'NOC (CC) Subordinate Pendency'){
+            if($request->module_name == 'NOC (CC) Department Pendency'){
                 if (in_array(session()->get('role_name'), array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head')))) {
                     $data['total_no_of_appln_for_revision'] = $this->architect_dashboard->total_no_of_appln_for_revision();
                     $data['application_pending'] = $this->architect_dashboard->pending_layout_before_layout_and_excel();
@@ -2145,7 +2145,7 @@ class REEController extends Controller
 
             }
 
-            if($request->module_name == 'Tripartite Agreement Subordinate Pendency'){
+            if($request->module_name == 'Tripartite Agreement Department Pendency'){
                 $tripartite_dashboard = new TripartiteDashboardController();
                 $data = $tripartite_dashboard->getDashboardHeaders()->getData();
                 return $data['dashboardData_head'];

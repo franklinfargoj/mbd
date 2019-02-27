@@ -31,7 +31,7 @@
                 </div>
                 <p class="db__card__title">Offer Letter</p>
             </div>
-            <div class="db__card pending_counts" data-module="Offer Letter Subordinate Pendency">
+            <div class="db__card pending_counts" data-module="Offer Letter Department Pendency">
                 <div class="db__card__img-wrap db-color-3">
                     <h3 class="db__card__count">{{$ol_pending_count}}</h3>
                 </div>
@@ -46,11 +46,11 @@
                 </div>
             @endif
             @if($tripartite_data['dashboardData_head'])
-                <div class="db__card tripartite_pending" data-module="Tripartite Agreement Subordinate Pendency">
+                <div class="db__card tripartite_pending" data-module="Tripartite Agreement Department Pendency">
                     <div class="db__card__img-wrap db-color-4">
                         <h3 class="db__card__count">{{$tripartite_pending_count}}</h3>
                     </div>
-                    <p class="db__card__title">Tripartite Agreement Subordinate Pendency</p>
+                    <p class="db__card__title">Tripartite Agreement Department Pendency</p>
                 </div>
             @endif
             <div class="db__card revalidation" data-module="Offer Letter Revalidation">
@@ -59,11 +59,11 @@
                 </div>
                 <p class="db__card__title">Offer Letter Revalidation</p>
             </div>
-            <div class="db__card revalidation_pending" data-module="Offer Letter Revalidation Subordinate Pendency">
+            <div class="db__card revalidation_pending" data-module="Offer Letter Revalidation Department Pendency">
                 <div class="db__card__img-wrap db-color-7">
                     <h3 class="db__card__count">{{$ol_reval_pending_count}}</h3>
                 </div>
-                <p class="db__card__title">Offer Letter Revalidation Subordinate Pendency</p>
+                <p class="db__card__title">Offer Letter Revalidation Department Pendency</p>
             </div>
             <div class="db__card conveyance" data-module="Society Conveyance">
                 <div class="db__card__img-wrap db-color-8">
@@ -71,11 +71,11 @@
                 </div>
                 <p class="db__card__title">Society Conveyance</p>
             </div>
-            <div class="db__card conveyance_pending" data-module="Society Conveyance Subordinate Pendency">
+            <div class="db__card conveyance_pending" data-module="Society Conveyance Department Pendency">
                 <div class="db__card__img-wrap db-color-9">
                     <h3 class="db__card__count">{{$conveyance_pending_count}}</h3>
                 </div>
-                <p class="db__card__title">Society Conveyance Subordinate Pendency</p>
+                <p class="db__card__title">Society Conveyance Department Pendency</p>
             </div>
             <div class="db__card noc" data-module="NOC">
                 <div class="db__card__img-wrap db-color-10" >
@@ -83,11 +83,11 @@
                 </div>
                 <p class="db__card__title">NOC</p>
             </div>
-            <div class="db__card noc_pending" data-module="NOC Subordinate Pendency">
+            <div class="db__card noc_pending" data-module="NOC Department Pendency">
                 <div class="db__card__img-wrap db-color-11">
                     <h3 class="db__card__count">{{$noc_pending_count}}</h3>
                 </div>
-                <p class="db__card__title">NOC Subordinate Pendency</p>
+                <p class="db__card__title">NOC Department Pendency</p>
             </div>
             <div class="db__card noc" data-module="NOC (CC)">
                 <div class="db__card__img-wrap db-color-12">
@@ -95,11 +95,11 @@
                 </div>
                 <p class="db__card__title">NOC (CC)</p>
             </div>
-            <div class="db__card noc_pending" data-module="NOC (CC) Subordinate Pendency">
+            <div class="db__card noc_pending" data-module="NOC (CC) Department Pendency">
                 <div class="db__card__img-wrap db-color-13">
                     <h3 class="db__card__count">{{$noc_cc_pending_count}}</h3>
                 </div>
-                <p class="db__card__title">NOC (CC) Subordinate Pendency</p>
+                <p class="db__card__title">NOC (CC) Department Pendency</p>
             </div>
             <div class="db__card revision" data-module="Revision in Layout">
                 <div class="db__card__img-wrap db-color-14">

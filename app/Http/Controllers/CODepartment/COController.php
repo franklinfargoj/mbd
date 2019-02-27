@@ -1181,7 +1181,7 @@ class COController extends Controller
                 return $dashboardData;
             }
 
-            if($request->module_name == "Offer Letter Subordinate Pendency"){
+            if($request->module_name == "Offer Letter Department Pendency"){
                 $dashboardData1 = $this->CommonController->getTotalCountsOfApplicationsPending();
 
                 return $dashboardData1;
@@ -1194,7 +1194,7 @@ class COController extends Controller
                 return $revalDashboardData;
             }
 
-            if($request->module_name == "Offer Letter Revalidation Subordinate Pendency") {
+            if($request->module_name == "Offer Letter Revalidation Department Pendency") {
                 $revalDashboardData1 = NULL;
                 $revalDashboardData1 = $this->CommonController->getTotalCountsOfRevalApplicationsPending();
                 return $revalDashboardData1;
@@ -1207,7 +1207,7 @@ class COController extends Controller
                 return $nocApplication['app_data'];
             }
 
-            if($request->module_name == 'NOC Subordinate Pendency'){
+            if($request->module_name == 'NOC Department Pendency'){
                 $nocModuleController = new SocietyNocController();
                 $nocApplication = $nocModuleController->getApplicationListDashboard();
 
@@ -1221,7 +1221,7 @@ class COController extends Controller
                 return $nocforCCApplication['app_data'];
             }
 
-            if($request->module_name == 'NOC (CC) Subordinate Pendency'){
+            if($request->module_name == 'NOC (CC) Department Pendency'){
                 $nocforCCModuleController = new SocietyNocforCCController();
                 $nocforCCApplication = $nocforCCModuleController->getApplicationListDashboard();
 
@@ -1235,7 +1235,7 @@ class COController extends Controller
                 return $conveyanceDashboard;
             }
 
-            if($request->module_name == 'Society Conveyance Subordinate Pendency'){
+            if($request->module_name == 'Society Conveyance Department Pendency'){
                 $conveyanceCommonController = new conveyanceCommonController();
 
                 $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();
@@ -1297,7 +1297,7 @@ class COController extends Controller
 
             }
 
-            if($request->module_name == 'Tripartite Agreement Subordinate Pendency'){
+            if($request->module_name == 'Tripartite Agreement Department Pendency'){
                 $tripartite_dashboard = new TripartiteDashboardController();
                 $data = $tripartite_dashboard->getDashboardHeaders()->getData();
                 return $data['dashboardData_head'];
