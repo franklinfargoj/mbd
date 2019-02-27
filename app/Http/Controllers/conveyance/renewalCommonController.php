@@ -199,7 +199,7 @@ class renewalCommonController extends Controller
         $data->DraftGeneratedLease = $this->getRenewalAgreement($LeaseId,$applicationId,$draft);
         $textLeaseAgreement = $this->getRenewalAgreement($LeaseId,$applicationId,$text);
 
-        if($textLeaseAgreement->document_path){
+        if($textLeaseAgreement){
             $leaseContent = Storage::disk('ftp')->get($textLeaseAgreement->document_path);
         }else{
             $leaseContent = "";

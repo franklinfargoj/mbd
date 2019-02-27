@@ -137,9 +137,9 @@
                                                     Download</a>
 
                                             @elseif(isset($society_list_docs['list_of_members_from_society']->sr_document_status->document_path) && Session::all()['role_name'] == config('commanConfig.estate_manager'))
-                                                <!-- <a href="{{ config('commanConfig.storage_server').'/'.$society_list_docs['list_of_members_from_society']->sr_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
-                                                    Download</a> -->
-                                                    <a href="{{ route('em.download_list_of_allottees') }}" class="btn btn-primary" target="_blank" rel="noopener">Download</a>
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$society_list_docs['list_of_members_from_society']->sr_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
+                                                    Download Allottees List</a> 
+                                                    <a href="{{ route('em.download_list_of_allottees') }}" class="btn btn-primary" target="_blank" rel="noopener">Download Template</a>
                                             @else
                                                 <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">* Note : List of Allottees is not available. </span>   
                                             @endif    

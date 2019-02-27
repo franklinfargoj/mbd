@@ -329,9 +329,9 @@
                                             <p>Click to download generated list of allottees in xls format</p>
                                             {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
 
-                                                <!-- <a href="{{ config('commanConfig.storage_server').'/'.$society_list_docs['अधिकृत सभासदांची यादी (पती व पत्नी संयुक्त नावे)']->sc_document_status->document_path }}" class="btn btn-primary">
-                                                Download</a> -->
-                                                <a href="{{ route('em.download_list_of_allottees') }}" class="btn btn-primary" target="_blank" rel="noopener">Download</a>
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$society_list_docs['अधिकृत सभासदांची यादी (पती व पत्नी संयुक्त नावे)']->sc_document_status->document_path }}" class="btn btn-primary">
+                                                Download Allottees</a>
+                                                <a href="{{ route('em.download_list_of_allottees') }}" class="btn btn-primary" target="_blank" rel="noopener">Download Template</a>
                                     </div>
                                 @endif
                                 <div class="col-sm-6 @if(isset($data->sc_form_request) && $data->sc_form_request->template_file) border-left @endif">
