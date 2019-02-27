@@ -78,47 +78,39 @@
         <div class="d-flex flex-wrap db-wrapper">
             <div class="db__card hearing_summary" data-module="Hearing Summary">
                 <div class="db__card__img-wrap db-color-1">
-                    <h3 class="db__card__count">{{$dashboardData['Total Number of Cases'][0]}}</h3>
+                    <h3 class="db__card__count">{{$hearing_count}}</h3>
                 </div>
                 <p class="db__card__title">Hearing Summary</p>
             </div>
 
             @if(in_array(session()->get('role_name'),$conveyanceRoles))
-                @if($conveyanceDashboard)
                     <div class="db__card conveyance" data-module = "Society Conveyance">
                         <div class="db__card__img-wrap db-color-3">
-                            <h3 class="db__card__count">{{$conveyanceDashboard['0']['Total No of Applications'][0]}}</h3>
+                            <h3 class="db__card__count">{{$conveyance_count}}</h3>
                         </div>
                         <p class="db__card__title">Society Conveyance</p>
                     </div>
-                @endif
 
-                    @if($pendingApplications)
                         <div class="db__card conveyance_pending" data-module = "Society Conveyance Subordinate Pendency">
                             <div class="db__card__img-wrap db-color-6">
-                                <h3 class="db__card__count">{{$pendingApplications['Total Number of Applications']}}</h3>
+                                <h3 class="db__card__count">{{$conveyance_pending_count}}</h3>
                             </div>
                             <p class="db__card__title">Society Conveyance Subordinate Pendency</p>
                         </div>
-                    @endif
             @endif
             @if(in_array(session()->get('role_name'),$renewalRoles))
-                @if($renewalDashboard)
                     <div class="db__card renewal" data-module = "Society Renewal">
                         <div class="db__card__img-wrap db-color-4">
-                            <h3 class="db__card__count">{{$renewalDashboard[0]['Total No of Applications'][0]}}</h3>
+                            <h3 class="db__card__count">{{$renewal_count}}</h3>
                         </div>
                         <p class="db__card__title">Society Renewal</p>
                     </div>
-                @endif
-                @if($renewalPendingApplications)
                         <div class="db__card renewal_pending" data-module = "Society Renewal Subordinate Pendency">
                             <div class="db__card__img-wrap db-color-5">
-                                <h3 class="db__card__count">{{$renewalPendingApplications['Total Number of Applications']}}</h3>
+                                <h3 class="db__card__count">{{$renewal_pending_count}}</h3>
                             </div>
                             <p class="db__card__title">Society Renewal Subordinate Pendency</p>
                         </div>
-                    @endif
             @endif
 
         </div>

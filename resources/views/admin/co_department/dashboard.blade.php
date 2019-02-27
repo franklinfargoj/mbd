@@ -35,7 +35,7 @@
                 <div class="db__card__img-wrap db-color-3">
                     <h3 class="db__card__count">{{$ol_pending_count}}</h3>
                 </div>
-                <p class="db__card__title">Offer Letter Subordinate Pendency</p>
+                <p class="db__card__title">Offer Letter Department Pendency</p>
             </div>
             @if($tripartite_data['dashboardData'])
                 <div class="db__card tripartite" data-module="Tripartite Agreement">
