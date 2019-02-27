@@ -24,13 +24,13 @@
             @php $chart = 0;@endphp
             <div class="db__card land" data-module="Land Summary">
                 <div class="db__card__img-wrap db-color-1">
-                    <h3 class="db__card__count">{{$dashboardData['Total Number of Lands'][0]}}</h3>
+                    <h3 class="db__card__count">-</h3>
                 </div>
                 <p class="db__card__title">Land Summary</p>
             </div>
             <div class="db__card revision" data-module="Revision in Layout">
                 <div class="db__card__img-wrap db-color-2">
-                    <h3 class="db__card__count">{{$architect_data['total_no_of_appln_for_revision']}}</h3>
+                    <h3 class="db__card__count">-</h3>
                 </div>
                 <p class="db__card__title">Revision in Layout</p>
             </div>
@@ -63,42 +63,7 @@
 @section('js')
     <script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>
-
-    <script>
-        var chart;
-        var legend;
-        var chartData = [
-                @foreach($dashboardData as $header => $value){
-                "status": '{{$header}}',
-                "value": '{{$value[0]}}',
-            },
-            @endforeach
-        ];
-
-        AmCharts.ready(function () {
-            // PIE CHART
-            chart = new AmCharts.AmPieChart();
-            chart.dataProvider = chartData;
-            chart.theme = "light";
-            chart.labelRadius = -35;
-            chart.titleField = "status";
-            chart.labelText = "[[percents]]%";
-            chart.valueField = "value";
-            chart.outlineColor = "#FFFFFF";
-            chart.outlineAlpha = 0.8;
-            chart.outlineThickness = 2;
-            chart.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
-            // this makes the chart 3D
-            chart.depth3D = 15;
-            chart.angle = 30;
-            chart.fontSize = 15;
-//                chart.legend.useGraphSettings = true;
-
-            // WRITE
-            chart.write("ajaxchartdiv");
-        });
-
-    </script>
+    
 
     {{--ajax call for Count Table and Pie chart(land summary)--}}
     <script>
