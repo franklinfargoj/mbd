@@ -90,6 +90,9 @@
                                                 <span class="text-danger" id="file_error"></span>
                                                 <input type="hidden" id="applicationId" name="applicationId" value="{{ $data->id }}">
                                             </div>
+                                            @if(isset($no_dues_certificate_docs['renewal_uploaded_no_dues_certificate']) && $no_dues_certificate_docs['renewal_uploaded_no_dues_certificate']->sr_document_status != null)
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$no_dues_certificate_docs['renewal_uploaded_no_dues_certificate']->sr_document_status->document_path }}" class="btn btn-primary btn-custom" target="_blank" rel="no-opener">Download uploaded file</a><br/><br/>
+                                            @endif
                                             <div class="mt-auto">
                                                 <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
                                             </div>
@@ -160,6 +163,9 @@
                                                     <input type="hidden" id="application_id" name="application_id" value="{{ $data->id }}">
                                                     <input type="hidden" id="document_name" name="document_name" value="bonafide_list">
                                                 </div>
+                                                @if(isset($bonafide_docs['renewal_bonafide_list']) && $bonafide_docs['renewal_bonafide_list']->sr_document_status != null)
+                                                    <a href="{{ config('commanConfig.storage_server').'/'.$bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path }}" class="btn btn-primary btn-custom" target="_blank" rel="no-opener">Download uploaded file</a><br/><br/>
+                                                @endif
                                                 <div class="mt-auto">
                                                     <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
                                                 </div>
@@ -232,6 +238,9 @@
                                                 <span class="text-danger" id="file_error"></span>
                                                 <input type="hidden" id="application_id" name="application_id" value="{{ $data->id }}">
                                             </div>
+                                            @if(isset($covering_letter_docs['renewal_em_covering_letter']) && $covering_letter_docs['renewal_em_covering_letter']->sr_document_status != null)
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$covering_letter_docs['renewal_em_covering_letter']->sr_document_status->document_path }}" class="btn btn-primary btn-custom" target="_blank" rel="no-opener">Download uploaded file</a><br/><br/>
+                                            @endif
                                             <div class="mt-auto">
                                                 <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
                                             </div>
