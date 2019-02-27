@@ -989,6 +989,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     
     //dyco
+
+    Route::post('generateSaleLeaseAgreement','conveyance\DYCODepartment\DYCOController@generateSaleLeaseAgreement')->name('dyco.generateSaleLeaseAgreement');
     
    Route::get('conveyance_noc/{id}', 'conveyance\DYCODepartment\DYCOController@conveyanceNoc')->name('dyco.conveyance_noc'); 
 
@@ -1009,6 +1011,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
      Route::post('send_to_society', 'conveyance\DYCODepartment\DYCOController@SendToSociety')->name('dyco.send_to_society');  
      Route::post('save_approved_agreement', 'conveyance\DYCODepartment\DYCOController@saveApprovedAgreement')->name('dyco.save_approved_agreement');  
+
+    Route::post('generateLeaseAgreement', 'conveyance\DYCODepartment\DYCOController@generateLeaseAgreement')->name('dyco.generateLeaseAgreement');
 
     Route::post('save_renewal_agreement', 'conveyance\DYCODepartment\DYCOController@saveRenewalAgreement')->name('dyco.save_renewal_agreement');
 
