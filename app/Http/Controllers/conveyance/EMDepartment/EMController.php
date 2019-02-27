@@ -264,7 +264,8 @@ class EMController extends Controller
                 }
             }
         }
-        // dd($bonafide_docs);
+        // $bonafide_docs['bonafide_list'] = $this->download_list_of_allottees($data->sr_form_request->template_file);
+        
         if(!empty($no_dues_certificate_docs['renewal_text_no_dues_certificate']['sr_document_status'])){
             $content = $this->CommonController->getftpFileContent($no_dues_certificate_docs['renewal_text_no_dues_certificate']['sr_document_status']->document_path);
         }else{
@@ -281,6 +282,21 @@ class EMController extends Controller
         // }
 
         return view('admin.renewal.em_department.scrutiny_remark',compact('data', 'content', 'no_dues_certificate_docs', 'bonafide_docs', 'covering_letter_docs', 'society_list_docs'));
+    }
+
+    /**
+     * Downloads list of allottees uploaded by society.
+     * Author: Amar Prajapati
+     * @param void
+     * @return \Illuminate\Http\Response
+     */
+    public function download_list_of_allottees(){
+        // dd(config('commanConfig.sc_excel_headers_em'));
+        Excel::create('list_of_allottees_template', function ($excel) {
+            $excel->sheet('Sheetname', function($sheet) {
+                $sheet->fromArray(config('commanConfig.sc_excel_headers_em'));
+            });
+        })->export('xls');
     }
 
     /**
@@ -360,7 +376,7 @@ class EMController extends Controller
         }
 
 
-        return back()->with('success',' uploaded successfully.');
+        return back()->with('success',' No Dues certificate uploaded successfully');
         // return redirect()->route('em.renewal_scrutiny_remark', $request->applicationId);
     }
 
@@ -517,7 +533,7 @@ class EMController extends Controller
                         $inserted_document_log = RenewalDocumentStatus::create($sc_document_status_arr);
 
                         if($inserted_document_log == true){
-                            return redirect()->route('em.renewal_scrutiny_remark', encrypt($request->application_id));
+                            return redirect()->route('em.renewal_scrutiny_remark', encrypt($request->application_id))->with('success','List of Bonafide Allottees uploaded successfully.');
                         }
                     }else{
                         return redirect()->back()->with('error', "Excel file headers doesn't match")->withInput();
@@ -613,7 +629,7 @@ class EMController extends Controller
                 $inserted_document_log = RenewalDocumentStatus::create($sc_document_status_arr);
 
                 if($inserted_document_log == true){
-                    return redirect()->back();
+                    return redirect()->back()->with('success','Covering Letter uploaded successfully.');
                 }
 
             }else{

@@ -37,6 +37,11 @@
         <div class="tab-pane section-1 active show" id="scrutiny-summary-remark" role="tabpanel">
             <div class="m-portlet m-portlet--mobile m_panel">
                 <div class="m-portlet__body" style="padding-right: 0;">
+                    @if (session('success'))
+                        <div class="alert alert-success society_registered">
+                            <div class="text-center">{{ session('success') }}</div>
+                        </div>
+                    @endif
                     @if(session()->get('role_name') == config('commanConfig.estate_manager') && $data->srApplicationLog->status_id != config('commanConfig.conveyance_status.forwarded'))
                         <h3 class="section-title section-title--small mb-0">Generate No dues certificate:</h3>
                         <div class=" row-list">
@@ -111,6 +116,11 @@
         <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body" style="padding-right: 0;">
+                    @if (session('success'))
+                        <div class="alert alert-success society_registered">
+                            <div class="text-center">{{ session('success') }}</div>
+                        </div>
+                    @endif
                         <div class=" row-list">
                             <div class="row">
                                     <div class="col-md-6">
@@ -118,7 +128,7 @@
                                         List of Allottees uploaded @if(isset($bonafide_docs['renewal_bonafide_list']) && isset($bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path) && Session::all()['role_name'] == config('commanConfig.estate_manager') && $data->srApplicationLog->status_id == config('commanConfig.conveyance_status.in_process')) by Society @endif:</h5>
                                         
                                             <p>Click to download generated list of allottees in xls format</p>
-
+                                            <!-- <a href="{{ route('em.download_list_of_allottees') }}" class="btn btn-primary" target="_blank" rel="noopener">Download</> -->
                                             @if(isset($bonafide_docs['renewal_bonafide_list']) && isset($bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path) && $data->srApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded'))
                                                 <a href="{{ config('commanConfig.storage_server').'/'.$bonafide_docs['renewal_bonafide_list']->sr_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
                                                 Download</a>
@@ -127,8 +137,9 @@
                                                     Download</a>
 
                                             @elseif(isset($society_list_docs['list_of_members_from_society']->sr_document_status->document_path) && Session::all()['role_name'] == config('commanConfig.estate_manager'))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$society_list_docs['list_of_members_from_society']->sr_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
-                                                    Download</a>
+                                                <!-- <a href="{{ config('commanConfig.storage_server').'/'.$society_list_docs['list_of_members_from_society']->sr_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
+                                                    Download</a> -->
+                                                    <a href="{{ route('em.download_list_of_allottees') }}" class="btn btn-primary" target="_blank" rel="noopener">Download</a>
                                             @else
                                                 <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">* Note : List of Allottees is not available. </span>   
                                             @endif    
@@ -184,6 +195,11 @@
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                 <div class="portlet-body">
                     <div class="m-portlet__body" style="padding-right: 0;">
+                    @if (session('success'))
+                        <div class="alert alert-success society_registered">
+                            <div class="text-center">{{ session('success') }}</div>
+                        </div>
+                    @endif
                          <div class=" row-list">
                             <div class="row">                                
                                     <div class="col-sm-6">
