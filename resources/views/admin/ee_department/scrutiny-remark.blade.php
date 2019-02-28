@@ -700,12 +700,12 @@ if($latest){
                                                     <tr>
                                                          <td>1.c</td>    
                                                         <td>आर जी भूखंडाचे क्षेत्रफळ <span class="star">*</span></td>
-                                                        <td><input {{$disabled}} type="text" class="form-control form-control--custom total_area" required="" value="{{ isset($landDetails->rg_plot_area) ? $landDetails->rg_plot_area : '' }}" name="land[rg_plot_area]" id="rg_plot_area" placeholder=""></td>
+                                                        <td><input {{$disabled}} type="text" class="form-control form-control--custom total_area" required="" value="{{ ($landDetails != '' && isset($landDetails->rg_plot_area)) ? $landDetails->rg_plot_area : '' }}" name="land[rg_plot_area]" id="rg_plot_area" placeholder=""></td>
                                                     </tr>
                                                     <tr>
                                                          <td>1.d</td>    
                                                         <td>पि जि भूखंडाचे क्षेत्रफळ <span class="star">*</span></td>
-                                                        <td><input {{$disabled}} type="text" class="form-control form-control--custom total_area number" required="" value="{{ isset($landDetails->pg_plot_area) ? $landDetails->pg_plot_area : '' }}" name="land[pg_plot_area]" id="pg_plot_area" placeholder=""></td>
+                                                        <td><input {{$disabled}} type="text" class="form-control form-control--custom total_area number" required="" value="{{ ($landDetails != '' && isset($landDetails->pg_plot_area)) ? $landDetails->pg_plot_area : '' }}" name="land[pg_plot_area]" id="pg_plot_area" placeholder=""></td>
                                                     </tr>
                                                     <tr>
                                                          <td>1.e</td>    

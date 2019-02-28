@@ -8,7 +8,7 @@
 <div class="alert alert-success display_msg">
     {{ session()->get('success') }}
 </div>
-@endif
+@endif 
 
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
@@ -120,6 +120,9 @@
                                                             <a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server').'/'.$data->renewalAgreement->document_path }}" download>Download</a> 
                                                     @endif  
                                                 </div>
+                                                <div class="mt-auto">
+                                                    <button type="submit" class="btn btn-primary mt-3" style="display:block">Upload</button>   
+                                                 </div>
                                         </div>
                                     </div>
                                 </div>
@@ -191,7 +194,7 @@
                                 <p style="font-size: 15px;">THIS INDENTURE OF LEASE made at Mumbai this             -
                                 Day of      2015 (Two Thousand Fifteen) between the MAHARASHTRA HOUSING AND AREA DEVELOPMENT AUTHORITY a statutory Corporation Constituted under the Maharashtra Housing and Area Development Act 1976, (Mah. XXVIII of 1977), ( hereinafter referred to as ‘the said Act’) having its office at Griha Nirman Bhavan, Kala Nagar, Bandra(East), Mumbai – 51, the lessor (hereinafter referred to as ‘The Authority’ which expression shall unless the context requires otherwise include its successors and assigns) of the One part:</p>
                                 <center><p> <b>AND</b></p></center>
-                                <p> ________________________ CO-OPERATIVE HOUSING SOCIETY LTD, a Co-operative Society duly registered under the Maharashtra Co-operative Societies Act, 1960 (Mah. XXIV of 1961) and bearing registration No. ___________________ dated __/__/____ and having its registered office at Bldg. No.____, _______ Nagar, _________, Mumbai- _______.  The lessee (hereinafter referred to as ‘the Society’ which expression shall unless the context requires otherwise include its successors and permitted assigns) of the other part:</p>
+                                <p> <b> {{ isset($data->societyApplication) ? $data->societyApplication->name : '' }} </b> CO-OPERATIVE HOUSING SOCIETY LTD, a Co-operative Society duly registered under the Maharashtra Co-operative Societies Act, 1960 (Mah. XXIV of 1961) and bearing registration No. <b> {{ isset($data->societyApplication) ? $data->societyApplication->registration_no : '' }} </b> dated __/__/____ and having its registered office at Bldg. No.____, _______ Nagar, _________, Mumbai- _______.  The lessee (hereinafter referred to as ‘the Society’ which expression shall unless the context requires otherwise include its successors and permitted assigns) of the other part:</p>
                                 <p>WHEREAS the authority being duly constituted with effect form the 5th day of December, 1977, under Government Notification in the Public works and Housing Department No. ARD 1077(1) Desk-44 dated 5th December, 1977, the Maharashtra Housing Board Act, 1948(Bom LXIX of 1948) (hereinafter referred to as ‘the Board’) stood dissolved by operation of section 15 of the said Act : </p>
                                 <p>AND WHEREAS, under clauses (a) and (b) of Section 189 of the said Act all the property, rights, liabilities and obligations of the said dissolved Board including those arising under any agreement or contract have become the property, rights, liabilities and obligations of the Authority :</p>
                                 
