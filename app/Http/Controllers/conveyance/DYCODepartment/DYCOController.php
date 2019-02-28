@@ -620,6 +620,8 @@ class DYCOController extends Controller
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id); 
         $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
         $masterId = $data->sc_application_master_id;
+        $Applicationtype= $data->sc_application_master_id;
+        $data->AgreementComments = ScAgreementComments::with('Roles')->where('application_id',$applicationId)->where('agreement_type_id',$Applicationtype)->whereNotNull('remark')->get();
 
         //get draft NOC
         $draft  = config('commanConfig.scAgreements.conveynace_draft_NOC');        
