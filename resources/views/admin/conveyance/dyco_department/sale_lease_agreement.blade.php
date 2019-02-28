@@ -257,7 +257,8 @@
                                 <div style="line-height: 2.0; padding-left: 20px;">
                                 <p style="font-size: 15px;">THIS DEED OF SALE made at Mumbai this     day of         -2015 (Two Thousand Fifteen) between the Maharashtra Housing and Area Development Authority, a Statutory corporation constituted under the Maharashtra Housing and Area Development Act 1976, (Mah. XXVIII of 1977), (here in after  referred to as ‘the said Act’) having its office at Griha Nirman Bhavan, Kala Nagar, Bandra(East), Mumbai-400 051, the vendor (here in after referred to as ‘The Authority’ which expression shall unless the context requires otherwise include its successors and assigns)of the one part:</p>
                                 <center><p> <b>AND</b></p></center>
-                                <p> ________________________ Co-operative Housing Society Ltd. A Co-operative society duly registered under the Maharashtra Co-operative Societies Act, 1960 (MAH. XXIV of 1961) and bearing registration No.______________ dated __/__/____ and having its registered office at Bldg. No.___, _______ Nagar, _________, Mumbai- ________ the purchaser (hereinafter referred to as ‘the society’ which expression shall unless the context requires otherwise include its successors and permitted assigns) of the Other Part:</p>
+                                
+                                <p> <b> {{ isset($data->societyApplication) ? $data->societyApplication->name : '' }} </b> Co-operative Housing Society Ltd. A Co-operative society duly registered under the Maharashtra Co-operative Societies Act, 1960 (MAH. XXIV of 1961) and bearing registration No. <b> {{ isset($data->societyApplication) ? $data->societyApplication->registration_no : '' }} </b> dated __/__/____ and having its registered office at Bldg. No.___, _______ Nagar, _________, Mumbai- ________ the purchaser (hereinafter referred to as ‘the society’ which expression shall unless the context requires otherwise include its successors and permitted assigns) of the Other Part:</p>
                                 <p>WHEREAS the Authority being duly constituted with effect from the 5th day of December, 1977 under Government Notification in the Public works and Housing Development No. ARD-1077 (1) Desk-44 dated the 5th December, 1977, the Maharashtra Housing Board a Corporation established underthe Mumbai Housing Board Act, 1948 (Bom LXLX of 1948) (hereinafter referred to as ‘the Board’) stood dissolved by operation of section 15 of the said Act :</p>
                                 <p>AND WHEREAS, under clauses (a) and (b) of section 189 of the said Act all the property, rights, liabilities and obligations of the said dissolved Board including those arising under any agreement or contract have become the property, rights, liabilities and obligations of the Authority.</p>
                                 <p>AND WHEREAS, The Government of India had formulated a Housing Scheme for the construction and allotment of tenements on rental basis to industrial workers known as the Subsidised Industrial Housing Scheme:</p>
@@ -293,12 +294,71 @@
                                 <center><p><b>SCHEDULE OF PROPERTY ABOVE REFFERRED TO </b></p></center>
                                 <p>All that the building No.____ having a multi storeyed structure situated on the land bearing Survey No.____(Pt.), C.T.S. No.____(Part) at Village________, ______ Nagar, ________, Mumbai- ________ in the registration Sub-District of Bandra Mumbai Suburban District area admeasuring _______ Sq.Mtrs. and bounded as follows:</p>
                                 <p>That is to say:</p>
-                                <p>On or towards the North by    :  
-                                    On or towards the West by     :     
-                                    On or towards the South by    :     
-                                    On or towards the East by     :</p>
+                                <p>On or towards the North by    :  </p>
+                                <p>On or towards the West by     :  </p>   
+                                <p>On or towards the South by    :  </p>   
+                                <p>On or towards the East by     :</p>
                                 <center><p><b>SCHEDULE – II</b></p></center>
                                 <p>LIST OF BONAFIDE MEMBERS OF ________________________ CO.OP.HSG.SOC.LTD.</p>
+                                <p>
+                                    <table>
+                                        <tr>
+                                        <th>Sr.No </th>
+                                        <th>T.No </th>
+                                        <th>Name Of Tenant </th>
+                                        <th>Carpet area of each tenement (Sq.mtrs.) </th>
+                                        <th>Premium of land of each tenement.(In Rs.) </th>
+                                        </tr>
+                                        <tr>
+                                            <td>  </td>
+                                            <td> </td>
+                                            <td> </td>
+                                            <td> </td>
+                                            <td> </td>
+                                        </tr>
+                                    </table>
+                                </p>
+                                <p>SIGNED SEALED AND DELIVERED
+                                By Shri._____________/ Dy. CO (E.M.)
+                                Mumbai Housing and Area Develop-
+                                ment Board Mumbai in presence of
+                                Smt.___________________________
+                                Mumbai Housing and Area Develop-
+                                ment Board Mumbai.</p>
+                                <p>Dy. CO (E.M.)
+                                MUMBAI HOUSING & AREA
+                                DEVELOPMENT BOARD,MUMBAI.</p>
+                                <p>The common seal of the Maharashtra
+                                Housing And Area Development 
+                                Authority affixed in the presence of 
+                                Smt.___________________________
+                                Mumbai Housing and Area Develop-
+                                ment Board has signed in token thereof
+                                in the presence of Shri                  ____.</p>
+                                <p>C.D.O.
+                                MUMBAI HOUSING & AREA
+                                DEVELOPMENT BOARD,MUMBAI.</p>
+                                <p>SINGED SEALED AND DELIVERED
+                                BY:</p>
+                                <p>1.Shri/Smt ______________ (Chairman) </p>
+                                <p>2Shri/Smt______________ (Secretary)</p>
+                                <p>3 Shri/Smt______________Member of (Member)</p>
+                                <p>The managing committee of the said                    
+                                Society who have hereinto affixed   
+                                Their signatures in the presence of
+                                Shri  ______________  a Member of the Society</p>
+                                <p>The Common Seal of the _________ Co-operative Housing 
+                                Society Ltd. is affixed in the presence of  Shri.______________, Secretary who has signed in token thereof in the presence of 
+                                Shri ______________  A member of ______________  the society.</p>
+                                <p>DATED THIS  ___________ DAY OF __________ 2015</p>
+                                <p>MAHARASHTRA HOUSING AND AREA DEVELOPMENT AUTHORITY </p>
+                                <p>AND</p>
+                                <p>THE ____________________ CO-OP. HSG.SOC.LTD.AT  BLDG.NO.___,_________________, ______________, MUMBAI- 400 ___. </p>
+                                 <p>DEED OF SALE</p>
+                                 <p>Shri. C.M. Vachasundar</p>
+                                 <p>Legal Advisor,</p>
+                                 <p>Maharashtra housing and Area Development Authority</p>
+                                 <p>Mumbai – 400 051.</p>
                                 <center><p><b>AFFIDAVIT CUM DECLARATION</b></p></center>
                                 <p>I Mr. BABASAHEB DATTARAY JADHAV, an adult, Indian Inhabitant residing at "PRABHAT" Plot No.262-282, RSC-33, Gorai II, Borivali (W), Mumbai – 400 091, do hereby state on solemn affirmation as under :</p>
                                 <p>1. I say that I am residing in the aforesaid address from last several years along with my family members.</p>
@@ -366,7 +426,7 @@
                                 <p style="font-size: 15px;">THIS INDENTURE OF LEASE made at Mumbai this             -
                                 Day of      2015 (Two Thousand Fifteen) between the MAHARASHTRA HOUSING AND AREA DEVELOPMENT AUTHORITY a statutory Corporation Constituted under the Maharashtra Housing and Area Development Act 1976, (Mah. XXVIII of 1977), ( hereinafter referred to as ‘the said Act’) having its office at Griha Nirman Bhavan, Kala Nagar, Bandra(East), Mumbai – 51, the lessor (hereinafter referred to as ‘The Authority’ which expression shall unless the context requires otherwise include its successors and assigns) of the One part:</p>
                                 <center><p> <b>AND</b></p></center>
-                                <p> ________________________ CO-OPERATIVE HOUSING SOCIETY LTD, a Co-operative Society duly registered under the Maharashtra Co-operative Societies Act, 1960 (Mah. XXIV of 1961) and bearing registration No. ___________________ dated __/__/____ and having its registered office at Bldg. No.____, _______ Nagar, _________, Mumbai- _______.  The lessee (hereinafter referred to as ‘the Society’ which expression shall unless the context requires otherwise include its successors and permitted assigns) of the other part:</p>
+                                <p> <b> {{ isset($data->societyApplication) ? $data->societyApplication->name : '' }} </b> CO-OPERATIVE HOUSING SOCIETY LTD, a Co-operative Society duly registered under the Maharashtra Co-operative Societies Act, 1960 (Mah. XXIV of 1961) and bearing registration No. <b> {{ isset($data->societyApplication) ? $data->societyApplication->registration_no : '' }} </b> dated __/__/____ and having its registered office at Bldg. No.____, _______ Nagar, _________, Mumbai- _______.  The lessee (hereinafter referred to as ‘the Society’ which expression shall unless the context requires otherwise include its successors and permitted assigns) of the other part:</p>
                                 <p>WHEREAS the authority being duly constituted with effect form the 5th day of December, 1977, under Government Notification in the Public works and Housing Department No. ARD 1077(1) Desk-44 dated 5th December, 1977, the Maharashtra Housing Board Act, 1948(Bom LXIX of 1948) (hereinafter referred to as ‘the Board’) stood dissolved by operation of section 15 of the said Act : </p>
                                 <p>AND WHEREAS, under clauses (a) and (b) of Section 189 of the said Act all the property, rights, liabilities and obligations of the said dissolved Board including those arising under any agreement or contract have become the property, rights, liabilities and obligations of the Authority :</p>
                                 
