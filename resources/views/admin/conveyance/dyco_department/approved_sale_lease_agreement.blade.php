@@ -81,7 +81,7 @@
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
                                                 @if(isset($document))
-                                                <input type="hidden" name="oldSaleFile" value="{{ isset($data->ApprovedSaleAgreement->document_path) ? $data->ApprovedSaleAgreement->document_path : '' }}">
+                                                <input type="hidden" name="oldSaleFile" value="{{ isset($data->ApprovedSaleAgreement) ? $data->ApprovedSaleAgreement->document_path : '' }}">
                                                 <a href="{{ config('commanConfig.storage_server').'/'.$document }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
@@ -103,11 +103,14 @@
                                                 
                                                         <label class="custom-file-label" for="test-upload1">Choose
                                                         file...</label>
-                                                        @if(isset($data->ApprovedSaleAgreement->document_path) && session()->get('role_name') == config('commanConfig.dycdo_engineer'))
+                                                        @if(isset($data->ApprovedSaleAgreement) && session()->get('role_name') == config('commanConfig.dycdo_engineer'))
                                                             <a href="{{ config('commanConfig.storage_server').'/'.$data->ApprovedSaleAgreement->document_path }}" target="_blank" class="btn-link">
                                                          Download </a>
                                                     @endif   
                                                 </div>
+                                                <div class="mt-auto">
+                                                    <button type="submit" class="btn btn-primary mt-3" style="display:block">Upload</button>   
+                                                 </div>
                                         </div>
                                     </div> 
                                     @endif
@@ -142,7 +145,7 @@
                                             <div class="mt-auto"> 
                                                 @if(isset($document1))
 
-                                                <input type="hidden" name="oldLeaseFile" value="{{ isset($data->ApprovedLeaseAgreement->document_path) ? $data->ApprovedLeaseAgreement->document_path : '' }}">
+                                                <input type="hidden" name="oldLeaseFile" value="{{ isset($data->ApprovedLeaseAgreement) ? $data->ApprovedLeaseAgreement->document_path : '' }}">
                                                 <a href="{{ config('commanConfig.storage_server').'/'.$document1 }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                        Download  </Button>
@@ -166,11 +169,14 @@
    
                                                     <label class="custom-file-label" for="test-upload2">Choose
                                                         file...</label>
-                                                    @if(isset($data->ApprovedLeaseAgreement->document_path) && session()->get('role_name') == config('commanConfig.dycdo_engineer'))
+                                                    @if(isset($data->ApprovedLeaseAgreement) && session()->get('role_name') == config('commanConfig.dycdo_engineer'))
                                                             <a href="{{ config('commanConfig.storage_server').'/'.$data->ApprovedLeaseAgreement->document_path }}" target="_blank" class="btn-link">
                                                          Download </a>
                                                     @endif    
                                                 </div>
+                                                 <div class="mt-auto">
+                                                    <button type="submit" class="btn btn-primary mt-3" style="display:block">Upload</button>   
+                                                 </div>
                                         </div>
                                     </div>
                                     @endif

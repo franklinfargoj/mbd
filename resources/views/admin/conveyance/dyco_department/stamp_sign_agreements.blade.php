@@ -106,6 +106,9 @@
                                                             <a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server').'/'.$data->StampSignSale->document_path }}" download>Download</a> 
                                                         @endif
                                                 </div>
+                                                <div class="mt-auto">
+                                                    <button type="submit" class="btn btn-primary mt-3" style="display:block">Upload</button>   
+                                                 </div>
                                         </div>
                                     </div>
                                 </div>
@@ -164,6 +167,9 @@
                                                             <a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server').'/'.$data->StampSignLease->document_path }}" download>Download</a> 
                                                         @endif  
                                                 </div>
+                                                <div class="mt-auto">
+                                                    <button type="submit" class="btn btn-primary mt-3" style="display:block">Upload</button>   
+                                                 </div>
                                         </div>
                                     </div>
                                 </div>

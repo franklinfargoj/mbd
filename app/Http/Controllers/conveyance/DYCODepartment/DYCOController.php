@@ -54,8 +54,8 @@ class DYCOController extends Controller
         $is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer');
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);
         $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
-
-        if ($is_view && $data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted')) {
+        
+        if ($is_view && $data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted') && $data->status->status_id != config('commanConfig.conveyance_status.Registered_sale_&_lease_deed')) {
             $route = 'admin.conveyance.dyco_department.checklist_office_note';
         }else{
             $route = 'admin.conveyance.common.view_checklist_office_note';
@@ -515,7 +515,6 @@ class DYCOController extends Controller
             $sale_file_name  = time().'_sale_'.$applicationId.'.'.$sale_extension; 
             $sale_file_path  = $sale_folder_name.'/'.$sale_file_name; 
             $stampSignSaleId = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype);
-            $stampSignLeaseId = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype);
 
             if ($sale_extension == "pdf"){
                 Storage::disk('ftp')->delete($request->oldSaleFile);
@@ -535,8 +534,8 @@ class DYCOController extends Controller
             $lease_extension = $lease_agreement->getClientOriginalExtension(); 
             $lease_file_name = time().'_lease_'.$applicationId.'.'.$lease_extension;
             $lease_file_path = $lease_folder_name.'/'.$lease_file_name;
-           
-            
+            $stampSignLeaseId = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype);
+               
             if ($lease_extension == "pdf") {
                 Storage::disk('ftp')->delete($request->oldLeaseFile);
                 $lease_upload = $this->CommonController->ftpFileUpload($lease_folder_name,$lease_agreement,$lease_file_name);

@@ -4,6 +4,7 @@
 @endsection
 @section('content')
 
+
     <div class="col-md-12">
         <!-- BEGIN: Subheader -->
         <div class="m-subheader px-0">
@@ -110,7 +111,7 @@
                                                                         
                                                                             <div class="col-sm-4 form-group">
                                                                                 <label class="col-form-label" for="{{ $field_names[$i] }}">@php $labels = implode(' ', explode('_', $field_names[$i])); echo ucwords($labels); @endphp:</label>
-                                                                                @php if(isset($sc_registrar_details) && $sc_registrar_details['Sale Deed Agreement']!=null){ $value = $sc_registrar_details['Sale Deed Agreement'][$field_names[$i]]; if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued')){ $readonly = 'readonly'; }else{ $readonly = ''; } }else{ $value =''; $readonly = ''; } echo $comm_func->form_fields($field_names[$i], $type,'' , '', $value, $readonly, 'required'); @endphp
+                                                                                @php if(isset($sc_registrar_details['Sale Deed Agreement']) && $sc_registrar_details['Sale Deed Agreement']!=null){ $value = $sc_registrar_details['Sale Deed Agreement'][$field_names[$i]]; if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued')){ $readonly = 'readonly'; }else{ $readonly = ''; } }else{ $value =''; $readonly = ''; } echo $comm_func->form_fields($field_names[$i], $type,'' , '', $value, $readonly, 'required'); @endphp
                                                                                 <span id="error_{{ $field_names[$i] }}" class="help-block">{{$errors->first($field_names[$i])}}</span>
                                                                             </div>
                                                                         @endif
@@ -120,7 +121,7 @@
                                                                         @if($type_1 != 'hidden')
                                                                             <div class="col-sm-4 offset-sm-@if($field_names[$i+1] == 'document_path_lease') 0 @else 1 @endif form-group">
                                                                                 <label class="col-form-label" for="{{ $field_names[$i+1] }}">@php $labels = implode(' ', explode('_', $field_names[$i+1])); echo ucwords($labels); @endphp:</label>
-                                                                                @php if(isset($sc_registrar_details) && $sc_registrar_details['Sale Deed Agreement']!=null){ $value = $sc_registrar_details['Sale Deed Agreement'][$field_names[$i+1]]; if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued')){ $readonly = 'readonly'; }else{ $readonly = ''; } }else{ $value =''; $readonly = ''; } echo $comm_func->form_fields($field_names[$i+1], $type_1,'' , '', $value, $readonly, 'required'); @endphp
+                                                                                @php if(isset($sc_registrar_details['Sale Deed Agreement']) && $sc_registrar_details['Sale Deed Agreement']!=null){ $value = $sc_registrar_details['Sale Deed Agreement'][$field_names[$i+1]]; if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued')){ $readonly = 'readonly'; }else{ $readonly = ''; } }else{ $value =''; $readonly = ''; } echo $comm_func->form_fields($field_names[$i+1], $type_1,'' , '', $value, $readonly, 'required'); @endphp
                                                                                 <span id="error_{{ $field_names[$i+1] }}" class="help-block">{{$errors->first($field_names[$i+1])}}</span>
                                                                             </div>
                                                                         @endif
@@ -142,7 +143,7 @@
                                                         {{--</div>--}}
                                                         {{--</div>--}}
                                                         <div class="mt-3 btn-list">
-                                                            @if(isset($sc_registrar_details))
+                                                            @if(isset($sc_registrar_details['Sale Deed Agreement']))
                                                             @if(!$sc_registrar_details['Sale Deed Agreement']!=null && 
                                                             ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || 
                                                             $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued')))
