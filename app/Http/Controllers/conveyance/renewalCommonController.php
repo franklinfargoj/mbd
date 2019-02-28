@@ -191,6 +191,19 @@ class renewalCommonController extends Controller
         $data->folder   = $this->conveyance->getCurrentRoleFolderName();
 
         $data->AgreementComments = RenewalAgreementComments::with('Roles')->where('application_id',$applicationId)->where('agreement_type_id',$data->application_master_id)->whereNotNull('remark')->get();
+
+        //get generated draft and text lease agreement
+
+        $draft = ApplicationStatusMaster::where('status_name','=','generate_draft')->value('id');
+        $text = ApplicationStatusMaster::where('status_name','=','text')->value('id');
+        $data->DraftGeneratedLease = $this->getRenewalAgreement($LeaseId,$applicationId,$draft);
+        $textLeaseAgreement = $this->getRenewalAgreement($LeaseId,$applicationId,$text);
+
+        if($textLeaseAgreement){
+            $leaseContent = Storage::disk('ftp')->get($textLeaseAgreement->document_path);
+        }else{
+            $leaseContent = "";
+        }
         
         $is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer');
         $data->status = $this->getCurrentStatus($applicationId,$data->application_master_id);
@@ -201,7 +214,7 @@ class renewalCommonController extends Controller
             $route = 'admin.renewal.common.view_draft_renewal_agreement';
         }
 
-        return view($route,compact('data'));  
+        return view($route,compact('data','leaseContent'));  
     }
 
     //Approve renewal lease Agreement

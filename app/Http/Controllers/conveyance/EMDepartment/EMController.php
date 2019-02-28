@@ -206,7 +206,6 @@ class EMController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function RenewalScrutinyRemark(Request $request,$applicationId){
-
         $applicationId = decrypt($applicationId);
         $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Renewal'))->value('id');
         $data = RenewalApplication::with(['societyApplication','srApplicationLog' => function($q) use($application_type) {
@@ -223,14 +222,14 @@ class EMController extends Controller
             })
             ->where('id',$applicationId)->first();
         $data->folder = $this->conveyance_common->getCurrentRoleFolderName();
-
+        
         $no_dues_certificate_docs_defined = config('commanConfig.documents.em_renewal.no_dues_certificate');
         $bonafide_docs_defined = config('commanConfig.documents.em_renewal.bonafide');
         $covering_letter_docs_defined = config('commanConfig.documents.em_renewal.covering_letter');
         $society_list_defined = config('commanConfig.documents.em_renewal.society_list');
 
         $documents = $this->renewal_common->getDocumentIds(array_merge($no_dues_certificate_docs_defined, $bonafide_docs_defined, $covering_letter_docs_defined, $society_list_defined), $data->application_master_id, $data->id);
-
+        
         foreach($documents as $document){
             if(in_array($document->document_name, $no_dues_certificate_docs_defined) == 1){
                 $no_dues_certificate_docs[$document->document_name] = $document;
@@ -265,7 +264,8 @@ class EMController extends Controller
                 }
             }
         }
-
+        // $bonafide_docs['bonafide_list'] = $this->download_list_of_allottees($data->sr_form_request->template_file);
+        
         if(!empty($no_dues_certificate_docs['renewal_text_no_dues_certificate']['sr_document_status'])){
             $content = $this->CommonController->getftpFileContent($no_dues_certificate_docs['renewal_text_no_dues_certificate']['sr_document_status']->document_path);
         }else{
@@ -285,6 +285,21 @@ class EMController extends Controller
     }
 
     /**
+     * Downloads list of allottees uploaded by society.
+     * Author: Amar Prajapati
+     * @param void
+     * @return \Illuminate\Http\Response
+     */
+    public function download_list_of_allottees(){
+        // dd(config('commanConfig.sc_excel_headers_em'));
+        Excel::create('list_of_allottees_template', function ($excel) {
+            $excel->sheet('Sheetname', function($sheet) {
+                $sheet->fromArray(config('commanConfig.sc_excel_headers_em'));
+            });
+        })->export('xls');
+    }
+
+    /**
      * Uploads No dues certificate for renewal section.
      * Author: Amar Prajapati
      * @param $request
@@ -297,7 +312,7 @@ class EMController extends Controller
             $folder_name = 'renewal_no_dues_certificate';
             $fileName = time().'no_dues_certificate_'.$id.'.pdf';
             $filePath = $folder_name."/".$fileName;
-            $file_uploaded = $this->CommonController->ftpFileUpload($folder_name, $request->file('no_dues_certificate'), $filePath);
+            $file_uploaded = $this->CommonController->ftpFileUpload($folder_name, $request->file('no_dues_certificate'), $fileName);
 
             if($file_uploaded){
                 $this->renewal_common->uploadDocumentStatus($request->applicationId, config('commanConfig.documents.em_renewal.no_dues_certificate')[2], $filePath);
@@ -361,7 +376,7 @@ class EMController extends Controller
         }
 
 
-        return back()->with('success',' uploaded successfully.');
+        return back()->with('success',' No Dues certificate uploaded successfully');
         // return redirect()->route('em.renewal_scrutiny_remark', $request->applicationId);
     }
 
@@ -518,7 +533,7 @@ class EMController extends Controller
                         $inserted_document_log = RenewalDocumentStatus::create($sc_document_status_arr);
 
                         if($inserted_document_log == true){
-                            return redirect()->route('em.renewal_scrutiny_remark', encrypt($request->application_id));
+                            return redirect()->route('em.renewal_scrutiny_remark', encrypt($request->application_id))->with('success','List of Bonafide Allottees uploaded successfully.');
                         }
                     }else{
                         return redirect()->back()->with('error', "Excel file headers doesn't match")->withInput();
@@ -614,7 +629,7 @@ class EMController extends Controller
                 $inserted_document_log = RenewalDocumentStatus::create($sc_document_status_arr);
 
                 if($inserted_document_log == true){
-                    return redirect()->back();
+                    return redirect()->back()->with('success','Covering Letter uploaded successfully.');
                 }
 
             }else{

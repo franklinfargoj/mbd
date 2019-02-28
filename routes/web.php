@@ -989,6 +989,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     
     //dyco
+
+    Route::post('generateSaleLeaseAgreement','conveyance\DYCODepartment\DYCOController@generateSaleLeaseAgreement')->name('dyco.generateSaleLeaseAgreement');
     
    Route::get('conveyance_noc/{id}', 'conveyance\DYCODepartment\DYCOController@conveyanceNoc')->name('dyco.conveyance_noc'); 
 
@@ -1009,6 +1011,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
      Route::post('send_to_society', 'conveyance\DYCODepartment\DYCOController@SendToSociety')->name('dyco.send_to_society');  
      Route::post('save_approved_agreement', 'conveyance\DYCODepartment\DYCOController@saveApprovedAgreement')->name('dyco.save_approved_agreement');  
+
+    Route::post('generateLeaseAgreement', 'conveyance\DYCODepartment\DYCOController@generateLeaseAgreement')->name('dyco.generateLeaseAgreement');
 
     Route::post('save_renewal_agreement', 'conveyance\DYCODepartment\DYCOController@saveRenewalAgreement')->name('dyco.save_renewal_agreement');
 
@@ -1097,6 +1101,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('save_renewal_stamp_duty', 'conveyance\DYCODepartment\DYCOController@saveRenewalStampDuty')->name('dyco.save_renewal_stamp_duty');
 
     Route::get('renewal_scrutiny_remark_em/{id}', 'conveyance\EMDepartment\EMController@RenewalScrutinyRemark')->name('em.renewal_scrutiny_remark');
+    Route::get('renewal_scrutiny_remark_em_list_of_allottees', 'conveyance\EMDepartment\EMController@download_list_of_allottees')->name('em.download_list_of_allottees');
     Route::post('save_renewal_letter', 'conveyance\EMDepartment\EMController@saveRenewalNoDuesCertificate')->name('em.save_renewal_no_dues_certificate');
     Route::post('save_list_of_bonafide_allottees', 'conveyance\EMDepartment\EMController@uploadRenewalListOfAllottees')->name('em.save_renewal_list_of_allottees');
     Route::post('upload_covering_letter','conveyance\EMDepartment\EMController@uploadRenewalCoveringLetter')->name('em.upload_renewal_covering_letter');

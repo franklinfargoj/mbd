@@ -166,6 +166,7 @@ $(document).ready(function() {
         });
     }
 
+
     $(".show_actions").on("click", function() {
         var view_route = $(this).attr("data-value");
         window.location = view_route;
@@ -1064,6 +1065,7 @@ $(document).ready(function() {
 $("#billing_calculations").DataTable({ searching: false, dom: "Bfrtip", buttons: ["excel", "print"] });
 
 
+<<<<<<< HEAD
 
 // var big_logo = asset('/img/logo-big.png');
 //
@@ -1094,3 +1096,8 @@ $("#billing_calculations").DataTable({ searching: false, dom: "Bfrtip", buttons:
 // 	});
 // };
 
+=======
+$("a[href$='#scrutiny-history-tab']").on('click',function(){
+    $('#forward-application-tab').removeClass('active')
+})
+>>>>>>> master

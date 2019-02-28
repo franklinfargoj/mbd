@@ -138,10 +138,10 @@
                         <div style="font-size: 16px;">
                             <p style="font-size: 16px;" >आपला विश्वासू,</p>
                             <p style="font-size: 16px;" >
-                                <span >अध्यक्ष <span style="font-weight: bold;"> &nbsp;  &nbsp;</span></span>
+                                <span >अध्यक्ष <span style="font-weight: bold;">: &nbsp;{{ $sc_application->societyApplication->chairman_name }}  &nbsp;</span></span>
                             </p>
                             <p style="font-size: 16px;" >
-                                <span >सचिव <span style="font-weight: bold;"> &nbsp;  &nbsp;</span></span>
+                                <span >सचिव <span style="font-weight: bold;">: &nbsp;{{ $sc_application->societyApplication->secretary_name }}  &nbsp;</span></span>
                             </p>
                         </div>
                     </div>

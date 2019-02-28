@@ -484,6 +484,11 @@ class EmPermissionSeeder extends Seeder
                 'description'  => 'Updates user profile'
             ],
             [
+                'name' => 'em.download_list_of_allottees',
+                'display_name' => 'Download list of Allottees',
+                'description'  => 'Download list of Allottees'
+            ],
+[
                 'name' => 'dashboard.ajax.conveyance',
                 'display_name' => 'Ajax EM dashboard',
                 'description'  => 'Ajax EM dashboard'
