@@ -40,7 +40,7 @@
 <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.save_agreement')}}" enctype="multipart/form-data">
 @csrf
 
-<input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
+<input type="hidden" name="applicationId" value="{{ isset($data) ? $data->id : '' }}">
     <div class="tab-content">
         <div class="tab-pane active show" id="sale-deed-agreement" role="tabpanel">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
@@ -54,7 +54,7 @@
                                                 <h5>Generate</h5>
                                                 <span class="hint-text">Click to Generate Sale Deed Agreement </span>
                                                 <div class="mt-auto">
-                                                    @if(isset($data->DraftGeneratedSale->document_path))
+                                                    @if(isset($data->DraftGeneratedSale))
                                                      <Button type="button" class="s_btn btn btn-primary" data-toggle="modal" data-target="#myModal">
                                                             Edit </Button>
                                                     </a>
@@ -82,7 +82,7 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->DraftGeneratedSale->document_path))
+                                                @if(isset($data->DraftGeneratedSale))
                                                 
                                                 <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftGeneratedSale->document_path }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
@@ -104,11 +104,14 @@
                                                 
                                                         <label class="custom-file-label" for="test-upload1">Choose
                                                         file...</label>  
-                                                    @if(isset($data->DraftSaleAgreement->document_path))
+                                                    @if(isset($data->DraftSaleAgreement))
 
                                                        <input type="hidden" name="oldSaleFile" value="{{ $data->DraftSaleAgreement->document_path }}">
                                                             <a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server').'/'.$data->DraftSaleAgreement->document_path }}" download>Download</a> 
                                                     @endif 
+                                                </div>
+                                                <div class="mt-auto">
+                                                    <button type="submit" class="btn btn-primary mt-3" style="display:block">Upload</button>
                                                 </div>
                                         </div>
                                     </div>
@@ -134,7 +137,7 @@
                                                 <h5>Generate</h5>
                                                 <span class="hint-text">Click to Generate Lease Deed Agreement </span>
                                                 <div class="mt-auto">
-                                                    @if(isset($data->DraftGeneratedLease->document_path))
+                                                    @if(isset($data->DraftGeneratedLease))
                                                      <Button type="button" class="s_btn btn btn-primary" data-toggle="modal" data-target="#generateLeaseAgr">
                                                             Edit </Button>
                                                     </a>
@@ -163,7 +166,7 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
-                                                @if(isset($data->DraftGeneratedLease->document_path))
+                                                @if(isset($data->DraftGeneratedLease))
                                                 
                                                 <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftGeneratedLease->document_path }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
@@ -185,11 +188,14 @@
    
                                                     <label class="custom-file-label" for="test-upload2">Choose
                                                         file...</label>
-                                                       @if(isset($data->DraftLeaseAgreement->document_path))
+                                                       @if(isset($data->DraftLeaseAgreement))
                                                        <input type="hidden" name="oldLeaseFile" value="{{ isset($data->DraftLeaseAgreement->document_path) ? $data->DraftLeaseAgreement->document_path : '' }}">
                                                             <a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server').'/'.$data->DraftLeaseAgreement->document_path }}" download>Download</a> 
                                                         @endif
                                                 </div>
+                                                <div class="mt-auto">
+                                                    <button type="submit" class="btn btn-primary mt-3" style="display:block">Upload</button>
+                                                 </div>
                                         </div>
                                     </div>
                                 </div>
@@ -245,7 +251,9 @@
             <div class="modal-body">
                 <form id="saleAgreement" action="{{ route('dyco.generateSaleLeaseAgreement') }}" method="POST">
                 @csrf 
-                 <input type="hidden" name="oldSale" value="{{ isset($data->DraftGeneratedSale->document_path) ?  $data->DraftGeneratedSale->document_path : '' }}">
+                 <input type="hidden" name="oldDraftSale" value="{{ isset($data->DraftGeneratedSale) ?  $data->DraftGeneratedSale->document_path : '' }}"> 
+
+                 <input type="hidden" name="oldTextSale" value="{{ isset($data->textSaleAgreement) ?  $data->textSaleAgreement->document_path : '' }}">
                     <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                      <textarea id="ckeditorText" name="saleAgreement" style="display: none;">
                         <div style="" id="">
@@ -413,7 +421,9 @@
             <div class="modal-body">
                 <form id="saleAgreement" action="{{ route('dyco.generateSaleLeaseAgreement') }}" method="POST">
                 @csrf 
-                 <input type="hidden" name="oldLease" value="{{ isset($data->DraftGeneratedLease->document_path) ?  $data->DraftGeneratedLease->document_path : '' }}">
+                 <input type="hidden" name="oldDraftLease" value="{{ isset($data->DraftGeneratedLease) ?  $data->DraftGeneratedLease->document_path : '' }}">
+
+                 <input type="hidden" name="oldtextLease" value="{{ isset($data->textLeaseAgreement) ?  $data->textLeaseAgreement->document_path : '' }}">
                     <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                      <textarea id="ckeditorText1" name="leaseAgreement" style="display: none;">
                         <div style="" id="">

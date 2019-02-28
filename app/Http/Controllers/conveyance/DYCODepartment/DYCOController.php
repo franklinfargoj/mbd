@@ -154,17 +154,17 @@ class DYCOController extends Controller
         $draft = ApplicationStatusMaster::where('status_name','=','generate_draft')->value('id');
         $text = ApplicationStatusMaster::where('status_name','=','text')->value('id');
         $data->DraftGeneratedSale = $this->common->getScAgreement($draftSaleId,$applicationId,$draft);
-        $textSaleAgreement = $this->common->getScAgreement($draftSaleId,$applicationId,$text);
+        $data->textSaleAgreement = $this->common->getScAgreement($draftSaleId,$applicationId,$text);
         $data->DraftGeneratedLease = $this->common->getScAgreement($draftLeaseId,$applicationId,$draft);
-        $textLeaseAgreement = $this->common->getScAgreement($draftLeaseId,$applicationId,$text);
-        
-        if($textSaleAgreement){
-            $saleContent = Storage::disk('ftp')->get($textSaleAgreement->document_path);
+        $data->textLeaseAgreement = $this->common->getScAgreement($draftLeaseId,$applicationId,$text);
+    
+        if($data->textSaleAgreement){
+            $saleContent = Storage::disk('ftp')->get($data->textSaleAgreement->document_path);
         }else{
             $saleContent = "";
 
-        }if($textLeaseAgreement){
-            $leaseContent = Storage::disk('ftp')->get($textLeaseAgreement->document_path);
+        }if($data->textLeaseAgreement){
+            $leaseContent = Storage::disk('ftp')->get($data->textLeaseAgreement->document_path);
         }else{
             $leaseContent = "";
         }
@@ -179,7 +179,7 @@ class DYCOController extends Controller
 
     //save draft lease and sale Agreement
     public function saveAgreement(Request $request){
-
+        // dd($request);
         $applicationId   = $request->applicationId;
         $sale_agreement  = $request->file('sale_agreement');   
         $lease_agreement = $request->file('lease_agreement'); 
@@ -238,7 +238,7 @@ class DYCOController extends Controller
         }
         
         if (isset($status) && $status == 'success'){
-            return back()->with('success', 'Agreements uploaded successfully.'); 
+            return back()->with('success', 'Agreement Uploaded Successfully.'); 
         } else{
             return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
         }        
@@ -1250,9 +1250,9 @@ class DYCOController extends Controller
         }         
     } 
 
-    // save generated sale and lease agreement 
+    // save generated conveyance sale and lease agreement 
     public function generateSaleLeaseAgreement(Request $request){
-
+        // dd($request);
         $applicationId = $request->applicationId;
         $sale_folder_name  = "Conveyance_Draft_Sale_Agreement";
         $lease_folder_name = "Conveyance_Draft_Lease_Agreement";
@@ -1288,6 +1288,9 @@ class DYCOController extends Controller
                 if (!(Storage::disk('ftp')->has($sale_folder_name))) {            
                     Storage::disk('ftp')->makeDirectory($sale_folder_name, $mode = 0777, true, true);
                 } 
+                if ($request->oldDraftSale){
+                    Storage::disk('ftp')->delete($request->oldDraftSale);
+                }
                 Storage::disk('ftp')->put($filePath, $pdf->Output($fileName, 'S'));
 
                 if ($saleData){
@@ -1305,6 +1308,10 @@ class DYCOController extends Controller
                 }        
                 $file_nm =  time()."text_sale_agreement_".$id.'.txt';
                 $filePath1 = $folder_name1."/".$file_nm;
+                
+                if ($request->oldTextSale){
+                    Storage::disk('ftp')->delete($request->oldTextSale);
+                }
                 Storage::disk('ftp')->put($filePath1, $saleContent);
 
                 $textSaleData = $this->common->getScAgreement($saleId,$applicationId,$text);
@@ -1331,6 +1338,7 @@ class DYCOController extends Controller
                 if (!(Storage::disk('ftp')->has($lease_folder_name))) {            
                     Storage::disk('ftp')->makeDirectory($lease_folder_name, $mode = 0777, true, true);
                 } 
+                Storage::disk('ftp')->delete($request->oldDraftLease);
                 Storage::disk('ftp')->put($filePath, $pdf->Output($fileName, 'S'));
 
                 if ($leaseData){
@@ -1339,7 +1347,7 @@ class DYCOController extends Controller
                         $this->common->createScAgreement($applicationId,$leaseId,$filePath,$draft);  
                 }      
                 
-                //save sale agreement in text format
+                //save lease agreement in text format
 
                 $folder_name1 = 'Conveyance_Text_Lease_Agreement';
 
@@ -1348,6 +1356,7 @@ class DYCOController extends Controller
                 }        
                 $file_nm =  time()."text_lease_agreement_".$id.'.txt';
                 $filePath1 = $folder_name1."/".$file_nm;
+                Storage::disk('ftp')->delete($request->oldtextLease);
                 Storage::disk('ftp')->put($filePath1, $leaseContent);
 
                 $textSaleData = $this->common->getScAgreement($leaseId,$applicationId,$text);
@@ -1364,6 +1373,7 @@ class DYCOController extends Controller
     return back()->with('success', 'Agreements Generated Successfully.');
     }
 
+    //generate renewal lease draft Agreement 
     public function generateLeaseAgreement(Request $request){
 
         $applicationId = $request->applicationId;
