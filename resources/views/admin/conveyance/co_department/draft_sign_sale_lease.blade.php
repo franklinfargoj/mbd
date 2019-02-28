@@ -97,6 +97,9 @@
                                                          Download </a>
                                                     @endif  
                                                 </div>
+                                                <div class="mt-auto">
+                                                <button type="submit" class="btn btn-primary mt-3" style="display:block">Upload</button>   
+                                            </div> 
                                         </div>
                                     </div>
                                     @endif
@@ -150,6 +153,9 @@
                                                          Download </a>
                                                     @endif      
                                                 </div>
+                                                <div class="mt-auto">
+                                                    <button type="submit" class="btn btn-primary mt-3" style="display:block">Upload</button>   
+                                                 </div>
                                         </div>
                                     </div>
                                     @endif                                    

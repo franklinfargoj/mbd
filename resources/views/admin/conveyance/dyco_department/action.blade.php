@@ -163,7 +163,7 @@ $route=\Request::route()->getName();
         </li> 
     @endif            
 
-    @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && isset($data->application_status) && $data->application_status == config('commanConfig.conveyance_status.NOC_Issued'))    
+    @if((session()->get('role_name') == config('commanConfig.dyco_engineer') || session()->get('role_name') == config('commanConfig.dycdo_engineer')) && isset($data->application_status) && ($data->application_status == config('commanConfig.conveyance_status.NOC_Issued') || $data->application_status == config('commanConfig.conveyance_status.Registered_sale_&_lease_deed')))    
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='dyco.conveyance_noc')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="NOC for Conveyance" href="{{ route('dyco.conveyance_noc', encrypt($data->id)) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">

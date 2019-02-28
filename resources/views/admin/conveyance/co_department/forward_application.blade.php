@@ -59,8 +59,15 @@
                                 </div>
                                 <div class="col-sm-6 field-col">
                                     <div class="d-flex">
+                                        <span class="field-name">Society Registration No:</span>
+                                        <span class="field-value">{{(isset($data->societyApplication)
+                                            ? $data->societyApplication->registration_no : '')}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 field-col">
+                                    <div class="d-flex">
                                         <span class="field-name">Society Name:</span>
-                                        <span class="field-value">{{(isset($data->societyApplication->name)
+                                        <span class="field-value">{{(isset($data->societyApplication)
                                             ? $data->societyApplication->name : '')}}</span>
                                     </div>
                                 </div>
