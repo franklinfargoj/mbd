@@ -128,7 +128,7 @@ class DYCOController extends Controller
     public function saleLeaseAgreement(Request $request,$applicationId){
 
         $applicationId = decrypt($applicationId);
-        $data = scApplication::with(['scApplicationLog','ConveyanceSalePriceCalculation'])
+        $data = scApplication::with(['scApplicationLog','ConveyanceSalePriceCalculation','societyApplication'])
         ->where('id',$applicationId)->first();
         
         $Applicationtype= $data->sc_application_master_id;
