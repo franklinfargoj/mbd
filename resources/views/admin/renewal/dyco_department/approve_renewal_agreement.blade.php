@@ -63,7 +63,11 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Lease deed agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($document))
+                                                @if(isset($data->approveAgreement) && session()->get('role_name') == config('commanConfig.dycdo_engineer'))
+
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->approveAgreement->document_path }}" target="_blank" class="s_btn btn btn-primary">Download </a>
+                                                 
+                                                @elseif(isset($document))
                                                 <a href="{{ config('commanConfig.storage_server').'/'.$document }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
@@ -92,6 +96,9 @@
 
                                                     <a href="{{ config('commanConfig.storage_server').'/'.$data->approveAgreement->document_path }}" target="_blank" class="btn-link">Download </a> 
                                                     @endif        
+                                                </div>
+                                                <div class="mt-auto">
+                                                    <button type="submit" class="btn btn-primary mt-3" style="display:block">Upload</button>
                                                 </div>
                                         </div>
                                     </div>
