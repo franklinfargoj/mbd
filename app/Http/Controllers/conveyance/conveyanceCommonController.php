@@ -4,6 +4,7 @@ namespace App\Http\Controllers\conveyance;
  
 use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
 use App\Http\Controllers\Dashboard\formationDashboardController;
+use App\Http\Controllers\OcDashboardController;
 use App\Http\Controllers\Tripartite\TripartiteDashboardController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -1055,7 +1056,12 @@ class conveyanceCommonController extends Controller
         $conveyance_pending_count = $conveyance_pending_data['Total Number of Applications'];
 
         //Revision in Layout
-        
+
+        // Oc
+        $oc_dashboard = new OcDashboardController();
+        $oc_data = $oc_dashboard->getDashboardHeaders($role_id,$user_id);
+
+
         return view('admin.conveyance.common.dashboard',compact('conveyanceRoles','renewalRoles','tripartite_count','tripartite_pending_count','conveyance_pending_count','renewal_pending_count','society_formation_count','conveyance_count','renewal_count'));
     }
 

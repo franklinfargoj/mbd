@@ -35,6 +35,15 @@
                 @endif
             @endif
 
+                @if(session()->get('role_name') == config('commanConfig.estate_manager'))
+                    <div class="db__card tripartite" data-module="Consent for OC">
+                        <div class="db__card__img-wrap db-color-2">
+                            <h3 class="db__card__count">{{}}</h3>
+                        </div>
+                        <p class="db__card__title">Consent for OC</p>
+                    </div>
+                @endif
+
 
             @if(session()->get('role_name') == config('commanConfig.la_engineer'))
                     <div class="db__card tripartite" data-module="Tripartite Agreement">
