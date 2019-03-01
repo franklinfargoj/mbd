@@ -36,17 +36,11 @@
             </div>
         </div>
         <!-- Modal for count table and pie chart popup -->
-        <div class="modal fade" id="getCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog" style=" width: 150%;
-  height: 160%;
-  margin: 5% 10% 0 10%;
-  padding: 0;">
-                <div class="modal-content" style=" width: 250%;
-  height: 50%;
-  margin: 0;
-  padding: 0;">
-                    <div style="float:left">
-                        <button type="button"  class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div class="modal fade mhada-full-modal" id="getCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
                     </div>
                     <div class="modal-body" id="count_table" >
 
