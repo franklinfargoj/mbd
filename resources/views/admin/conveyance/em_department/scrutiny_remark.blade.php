@@ -361,7 +361,7 @@
                                                     <input type="hidden" id="application_id" name="application_id" value="{{ $data->id }}">
                                                     <input type="hidden" id="document_name" name="document_name" value="bonafide_list">
                                                     @if($bonafide_docs['bonafide_list']->sc_document_status !=null )
-                                                        <a href="{{ config('commanConfig.storage_server').'/'.$bonafide_docs['bonafide_list']->sc_document_status->document_path }}" target="_blank" rel="noopener">Uploaded No Dues Certificate</a>
+                                                        <a href="{{ config('commanConfig.storage_server').'/'.$bonafide_docs['bonafide_list']->sc_document_status->document_path }}" target="_blank" rel="noopener">Uploaded List of Bonafide Allottees</a>
                                                     @endif
                                                 </div>
                                                 <div class="mt-auto">
@@ -437,7 +437,7 @@
                                                 <span class="text-danger" id="file_error"></span>
                                                 <input type="hidden" id="applicationId" name="applicationId" value="{{ $data->id }}">
                                                 @if($covering_letter_docs['em_covering_letter']->sc_document_status !=null )
-                                                    <a href="{{ config('commanConfig.storage_server').'/'.$covering_letter_docs['em_covering_letter']->sc_document_status->document_path }}" target="_blank" rel="noopener">Uploaded No Dues Certificate</a>
+                                                    <a href="{{ config('commanConfig.storage_server').'/'.$covering_letter_docs['em_covering_letter']->sc_document_status->document_path }}" target="_blank" rel="noopener">Uploaded Covering Letter</a>
                                                 @endif
                                             </div>
                                             <div class="mt-auto">
