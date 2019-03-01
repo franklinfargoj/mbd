@@ -1263,7 +1263,7 @@ Breadcrumbs::for('conveyance_architect_scrutiny', function ($trail,$id) {
 
 Breadcrumbs::for('conveyance_ee_calculation', function ($trail,$id) {
     $trail->parent('society_conveyance');
-    $trail->push('Sale Price Calculation', route('ee.sale_price_calculation',$id));
+    $trail->push('EE Scrutiny', route('ee.sale_price_calculation',$id));
 });
 
 Breadcrumbs::for('conveyance_draft_sale_lease', function ($trail,$id) {
@@ -1299,6 +1299,11 @@ Breadcrumbs::for('conveyance_registered_sale_lease', function ($trail,$id) {
 Breadcrumbs::for('conveyance_em_scrutiny', function ($trail,$id) {
     $trail->parent('society_conveyance');
     $trail->push('EM Scrutiny Remark', route('em.scrutiny_remark',$id));
+});
+
+Breadcrumbs::for('noc_for_conveyance', function ($trail,$id) {
+    $trail->parent('society_conveyance');
+    $trail->push('NOC for Conveyance', route('dyco.conveyance_noc',$id));
 });
  
 //Renewal 

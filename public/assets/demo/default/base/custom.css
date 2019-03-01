@@ -3640,6 +3640,9 @@ label.site-visit-label {
 .db__card+.db__card{
     cursor: pointer;
 }
+.display_msg{
+    font-weight: bold;
+}
 
 .mhada-full-modal .modal-header button{
     width: 100%;

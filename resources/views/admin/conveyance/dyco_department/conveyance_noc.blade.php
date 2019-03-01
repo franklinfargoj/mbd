@@ -17,7 +17,7 @@
             <h3 class="m-subheader__title m-subheader__title--separator">
             Generate NOC
             </h3>
-            {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
+            {{ Breadcrumbs::render('noc_for_conveyance',$data->id) }} 
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
@@ -113,7 +113,7 @@
                 <div class="m-subheader" style="padding: 0;">
                     <div class="d-flex align-items-center justify-content-center">
                         <h4 class="section-title">
-                            Noc Issue
+                            NOC for Conveyance
                         </h4>
                     </div>
                 </div>     
