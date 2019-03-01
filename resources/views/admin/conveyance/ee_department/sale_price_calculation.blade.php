@@ -159,10 +159,11 @@
                                         </tr>                             
                                          <tr>
                                             <td>8</td>
+                                            
                                             <td>The Date of Completion of the above Building/Chawl</td>
                                             <td class="text-center">
                                     
-                                                <input type="text" style="border: none;" class="txtbox v_text form-control form-control--custom m-input m_datepicker" name="completion_date" id="registration_date" value="{{ isset($data->ConveyanceSalePriceCalculation->completion_date) ? date('d-m-Y',strtotime($data->ConveyanceSalePriceCalculation->completion_date)) : '' }}" aria-describedby="visit_date-error" aria-invalid="false" readonly >
+                                                <input type="text" style="border: none;" class="txtbox v_text form-control form-control--custom m-input m_datepicker" name="completion_date" id="registration_date" value="{{ (isset($data->ConveyanceSalePriceCalculation->completion_date) && $data->ConveyanceSalePriceCalculation->completion_date != 0) ? date('d-m-Y',strtotime($data->ConveyanceSalePriceCalculation->completion_date)) : '' }}" aria-describedby="visit_date-error" aria-invalid="false" readonly >
                                             </td>
                                         </tr>
                                     </tbody>
@@ -232,10 +233,10 @@
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download</h5>
-                                            <span class="hint-text">Download demarcation Map</span>
-                                            <div class="mt-auto">
+                                           
+                                            <div class="mt-2">
                                                 @if(isset($data->ConveyanceSalePriceCalculation->demarcation_map))
-
+                                                 <span class="hint-text">Download demarcation Map</span>
                                                 <input type="hidden" name="oldFileName" value="{{ $data->ConveyanceSalePriceCalculation->demarcation_map }}">
                                                 <a href="{{ config('commanConfig.storage_server').'/'.$data->ConveyanceSalePriceCalculation->demarcation_map }}" target="_blank">
 
@@ -289,10 +290,9 @@
                                     <div class="col-sm-6 ">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download</h5>
-                                            <span class="hint-text">Click to download letter.</span>
-                                            <div class="mt-auto">
+                                            <div class="mt-2">
                                                 @if(isset($data->ConveyanceSalePriceCalculation->ee_covering_letter))
-
+                                                <span class="hint-text">Click to download letter.</span>
                                                 <input type="hidden" name="oldFileName" value="{{ $data->ConveyanceSalePriceCalculation->ee_covering_letter }}">
                                                 <a href="{{ config('commanConfig.storage_server').'/'.$data->ConveyanceSalePriceCalculation->ee_covering_letter }}" target="_blank">
 
