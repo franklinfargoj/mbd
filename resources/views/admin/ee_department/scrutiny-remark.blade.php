@@ -942,7 +942,7 @@ if($latest){
                                                             <td>
                                                             @if($tit_bit->question == 'फुटकळ भूखंडाचे एकूण क्षेत्रफळ किती ?')
                                                                 <textarea {{$disabled}} class="form-control form-control--custom form-control--textarea"
-                                                                    name="remark[{{ $i }}]" style="border-top: none;resize: none;" id="remark-one" {{ $required }}>{{ isset($arrData['tit_bit_details_data'][$tit_bit->id]) ? $arrData['tit_bit_details_data'][$tit_bit->id]['remark'] : isset($landDetails->pg_plot_area) ? $landDetails->pg_plot_area : '' }}</textarea>
+                                                                    name="remark[{{ $i }}]" style="border-top: none;resize: none;" id="remark-one" {{ $required }}>{{ isset($arrData['tit_bit_details_data'][$tit_bit->id]) ? $arrData['tit_bit_details_data'][$tit_bit->id]['remark'] : ($landDetails!="" ? $landDetails->pg_plot_area : '') }}</textarea>
                                                             @else        
                                                             
                                                                 <textarea {{$disabled}} class="form-control form-control--custom form-control--textarea"
@@ -1073,7 +1073,7 @@ if($latest){
                                                             <td>
                                                             @if($rg_question->question == 'सिमांकन नकाशानुसार R.G चे एकूण क्षेत्रफळ किती आहे ?')
                                                                 <textarea {{$disabled}} class="form-control form-control--custom form-control--textarea"
-                                                                    name="remark[{{ $i }}]" style="border-top: none;resize: none;" id="remark-one" {{ $required }}>{{ isset($arrData['rg_details_data'][$rg_question->id]) ? $arrData['rg_details_data'][$rg_question->id]['remark'] : isset($landDetails->rg_plot_area) ? $landDetails->rg_plot_area : '' }}</textarea>
+                                                                    name="remark[{{ $i }}]" style="border-top: none;resize: none;" id="remark-one" {{ $required }}>{{ isset($arrData['rg_details_data'][$rg_question->id]) ? $arrData['rg_details_data'][$rg_question->id]['remark'] : ($landDetails!="" ? $landDetails->rg_plot_area : '') }}</textarea>
                                                             @else
                                                                 <textarea {{$disabled}} class="form-control form-control--custom form-control--textarea"
                                                                     name="remark[{{ $i }}]" style="border-top: none;resize: none;" id="remark-one" {{ $required }}>{{ isset($arrData['rg_details_data'][$rg_question->id]) ? $arrData['rg_details_data'][$rg_question->id]['remark'] : '' }}</textarea>
