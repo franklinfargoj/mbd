@@ -17,7 +17,7 @@
             <h3 class="m-subheader__title m-subheader__title--separator">
             Generate NOC
             </h3>
-            {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
+            {{ Breadcrumbs::render('noc_for_conveyance',$data->id) }} 
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
@@ -25,7 +25,7 @@
     </div>
 
   <!-- Generate NOC-->    
-    @if(session()->get('role_name') == config('commanConfig.dyco_engineer'))
+    @if(session()->get('role_name') == config('commanConfig.dycdo_engineer'))
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body">
                 <div class="m-subheader" style="padding: 0;">
@@ -71,13 +71,49 @@
     @endif   
  
     <!-- Send NOC to society -->
-    @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id != config('commanConfig.conveyance_status.forwarded'))
+    @if(session()->get('role_name') == config('commanConfig.dyco_engineer'))
+
+        <div class="m-portlet m-portlet--mobile m_panel">
+            <div class="m-portlet__body">
+                <div class="m-subheader" style="padding: 0;">
+                    <div class="d-flex align-items-center justify-content-center">
+                       <h4 class="section-title">
+                            Download Generated NOC
+                        </h4>
+                    </div>
+                </div> 
+                <div class="m-section__content mb-0 table-responsive" style="margin-top: 30px;">
+                    <div class="container">
+                        <div class="row">     
+                            <div class="col-sm-6">
+                                <div class="d-flex flex-column h-100 two-cols">
+                                    <h5>Download</h5>
+                                    <span class="hint-text">Click to Download NOC </span>
+                                    <div class="mt-auto">
+                                        @if(isset($data->draftNOC->document_path) && $data->status->status_id != config('commanConfig.conveyance_status.forwarded'))
+                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->draftNOC->document_path }}" class="btn btn-primary" target="_blank">Download </a>                                
+                                        @elseif(isset($data->NOC->document_path))
+                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->NOC->document_path }}" class="btn btn-primary" target="_blank"> Download </a>
+                                        @else
+                                        <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                            *Note : NOC is not available.</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                   
+            </div>
+        </div>
+        @endif 
+         @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id != config('commanConfig.conveyance_status.forwarded'))
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body">
                 <div class="m-subheader" style="padding: 0;">
                     <div class="d-flex align-items-center justify-content-center">
                         <h4 class="section-title">
-                            Noc Issue
+                            NOC for Conveyance
                         </h4>
                     </div>
                 </div>     
@@ -126,8 +162,49 @@
                     </div>
                 </div>  
             </div> 
-        </div>       
+        </div>              
  @endif 
+
+  @if(count($data->AgreementComments) > 0)       
+        <div class="m-portlet m-portlet--mobile m_panel">
+            <div class="m-portlet__body">
+            <h3 class="section-title section-title--small">Remark History </h3>
+                <div class="remark-body">
+                    <div class="remarks-section">
+                        <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+                            @foreach($data->AgreementComments as $comment)
+                                <div class="remarks-section__data">
+                                    <p class="remarks-section__data__row"><span>Remark By {{ isset($comment->Roles->display_name) ?  $comment->Roles->display_name : '' }}</p>
+                                    <p class="remarks-section__data__row"><span>Remark:</span><span>{{ isset($comment->remark) ? $comment->remark : '' }}</span></p>
+                                </div>
+                            @endforeach                                         
+                        </div>
+                    </div>
+                </div>               
+            </div>    
+        </div> 
+    @endif 
+
+        @if($data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted') )
+
+        <form class="nav-tabs-form" id ="CommentFRM" role="form" method="POST" action="{{ route('conveyance.save_agreement_comments')}}">
+            @csrf   
+             <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
+            <div class="m-portlet m-portlet--mobile m_panel">  
+                <div class="m-portlet__body">   
+                    <div class="col-xs-12 row">
+                        <div class="col-md-12">
+                            <h3 class="section-title section-title--small">Remark</h3>
+                                <textarea rows="4" cols="63" name="remark"></textarea>
+                                <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    @endif     
+ </form> 
 
 </div>
 @endsection

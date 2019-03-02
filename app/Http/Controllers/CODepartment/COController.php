@@ -1110,7 +1110,7 @@ class COController extends Controller
         $todaysHearing = $hearing;
 
         return view('admin.co_department.dashboard',compact('todaysHearing','todays_hearing_count','conveyanceRoles','hearing_count','ol_count','ol_pending_count','conveyance_count','conveyance_pending_count','tripartite_count','tripartite_pending_count','ol_reval_count','ol_reval_pending_count',
-            'noc_count','noc_cc_count','noc_pending_count','noc_cc_pending_count','offerLetterRoles'));
+            'noc_count','noc_cc_count','noc_pending_count','noc_cc_pending_count'));
     }
 
     /**

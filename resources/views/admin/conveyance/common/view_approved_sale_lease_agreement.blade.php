@@ -173,7 +173,7 @@
                                                     @endif    
                                             </div>
                                         <div class="mt-auto" style="margin-top: 14px !important">   
-                                            <input type="submit" class="btn btn-primary" value="Submit">
+                                            <input type="submit" class="btn btn-primary" value="Upload">
                                          </div>                                
                                 </div>
                             </form>                             

@@ -99,6 +99,10 @@
                                                             <a href="{{ config('commanConfig.storage_server').'/'.$data->StampSignByDycdo->document_path }}" target="_blank" class="btn-link">Download </a>  
                                                         @endif  
                                                 </div>
+
+                                                <div class="mt-auto">
+                                                    <button type="submit" class="btn btn-primary mt-3" style="display:block">Upload</button>
+                                                </div>
                                         </div>
                                     </div>
                                     @endif

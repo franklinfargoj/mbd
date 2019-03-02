@@ -192,7 +192,7 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Download Note</h5>
+                                            <h5>Download</h5>
                                             <span class="hint-text">Download Society undertaking format</span>
                                             <div class="mt-auto">
                                                 @if(isset($data->undertaking->document_path))

@@ -1482,6 +1482,7 @@
         $(".total_amount").each(function () {
 
             var total_amount_val = cleanNumber($(this).val());
+            console.log(total_amount_val);
             var amountVal = (!total_amount_val || isNaN(total_amount_val)) ? 0 : total_amount_val;
 
             total_amount += +parseFloat(amountVal);
@@ -1537,17 +1538,17 @@
         var dcr_rate = $("#dcr_rate").val();
         var lr_rc_range = getLRRCRange();
         var dcr_rate_in_percentage = getDCRPercentage(lr_rc_range,dcr_rate);  
-        console.log(dcr_rate);
-        console.log(lr_rc_range);
-        console.log(dcr_rate_in_percentage);
+        // console.log(dcr_rate);
+        // console.log(lr_rc_range);
+        // console.log(dcr_rate_in_percentage);
 
         var redirekner_value = (!cleanNumber($("#redirekner_value").val()) || isNaN(cleanNumber($("#redirekner_value").val()))) ? 0 : cleanNumber($("#redirekner_value").val());
         // var dcr_rate_in_percentage = (!$("input[type=radio][name=dcr_rate_in_percentage]:checked").val() || isNaN($("input[type=radio][name=dcr_rate_in_percentage]:checked").val())) ? 0 : $("input[type=radio][name=dcr_rate_in_percentage]:checked").val();
 
-        console.log(redirekner_value);
+        // console.log(redirekner_value);
 
         var calculated_dcr = redirekner_value * (dcr_rate_in_percentage / 100);
-        console.log(calculated_dcr);
+        // console.log(calculated_dcr);
         $("#calculated_dcr_rate_val").attr('value',numberWithCommas(calculated_dcr.toFixed(2)));
 
         var remaining_residential_area = (!cleanNumber($("#remaining_residential_area").val()) || isNaN(cleanNumber($("#remaining_residential_area").val()))) ? 0 : cleanNumber($("#remaining_residential_area").val());
