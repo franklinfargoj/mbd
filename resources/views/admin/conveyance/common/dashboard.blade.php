@@ -150,8 +150,20 @@
             </div>
         </div>
     </div>
+@php
+    if(session()->get('role_name') == 'REE Junior Engineer' || Session()->get('role_name') == 'REE deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' ||
+                    Session()->get('role_name') == 'ree_engineer')
+        $oc_redirect_to = route("ree_applications.consent_oc");
+    elseif(Session()->get('role_name') == 'ee_engineer' ||  Session()->get('role_name') == 'ee_dy_engineer' ||  Session::all()['role_name'] == 'ee_junior_engineer')
+        $oc_redirect_to = route("ee.consent_for_oc");
+    elseif(Session()->get('role_name') == 'EM')
+        $oc_redirect_to = route("em.consent_for_oc");
+    elseif(Session()->get('role_name') == 'co_engineer' )
+        $oc_redirect_to = route("co_applications.consent_oc");
+    else
+        $oc_redirect_to = "";
 
-
+@endphp
 @endsection
 @section('js')
 
@@ -1024,20 +1036,6 @@
         var dashboard = "{{route('dashboard.ajax.conveyance')}}";
         $(".oc").on("click", function () {
 
-
-            @if(session()->get('role_name') == 'REE Junior Engineer' || Session()->get('role_name') == 'REE deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' ||
-                Session()->get('role_name') == 'ree_engineer')
-                    {{$oc_redirect_to = route("ree_applications.consent_oc")}}
-            @elseif(Session()->get('role_name') == 'ee_engineer' ||  Session()->get('role_name') == 'ee_dy_engineer' ||  Session::all()['role_name'] == 'ee_junior_engineer')
-                    {{$oc_redirect_to = route("ee.consent_for_oc")}}
-            @elseif(Session()->get('role_name') == 'EM')
-                    {{$oc_redirect_to = route("em.consent_for_oc")}}
-            @elseif(Session()->get('role_name') == 'co_engineer' )
-                    {{$oc_redirect_to = route("co_applications.consent_oc")}}
-            @else
-                    {{$oc_redirect_to = ""}}
-            @endif
-
     var redirect_to = "{{$oc_redirect_to}}";
 
     var module_name = ($(this).attr("data-module"));
@@ -1109,7 +1107,7 @@
 
                     var chartData = [];
 
-                    $.each((data), function (index, data) {
+                    $.each((data[0]), function (index, data) {
                         obj = {};
                         if (index != 'Total Number of Applications') {
                             obj['status'] = index;

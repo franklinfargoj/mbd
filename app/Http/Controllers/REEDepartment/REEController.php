@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\REEDepartment;
 
 use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
+use App\Http\Controllers\OcDashboardController;
 use App\Http\Controllers\Tripartite\TripartiteDashboardController;
 use App\REENote;
 use App\Role;
@@ -1988,13 +1989,28 @@ class REEController extends Controller
         $noc_cc_pending_count = $noc_cc_pending_data['Total Number of Applications'];
 //        dd($noc_cc_pending_count);
 
+        // Consent for oc
+        $oc_dashboard = new OcDashboardController();
+        $ocData = $oc_dashboard->getApplicationData($role_id,$user_id);
+        $oc_count = count($ocData);
+
+//        //oc test
+//        $oc_dashboard = new OcDashboardController();
+//        $applicationData = $oc_dashboard->getApplicationData($role_id,$user_id);
+//        $statusCount = $oc_dashboard->getApplicationStatusCount($applicationData);
+//        $oc_data = $oc_dashboard->getReeDashboardData($role_id, $ree,$statusCount);
+//        dd($oc_data);
+
+
+
+
         //Revision in Layout
 
         //Layout Approval
 
         //Layout Approval Subordinate Pendency
 
-        return view('admin.REE_department.dashboard',compact('ol_count','ol_pending_count','tripartite_count','tripartite_pending_count','ol_reval_count','ol_reval_pending_count',
+        return view('admin.REE_department.dashboard',compact('ol_count','ol_pending_count','oc_count','tripartite_count','tripartite_pending_count','ol_reval_count','ol_reval_pending_count',
             'noc_count','noc_cc_count','noc_pending_count','noc_cc_pending_count','offerLetterRoles'));
     }
 
@@ -2150,6 +2166,16 @@ class REEController extends Controller
                 $tripartite_dashboard = new TripartiteDashboardController();
                 $data = $tripartite_dashboard->getDashboardHeaders()->getData();
                 return $data['dashboardData_head'];
+            }
+
+            if($request->module_name == 'Consent for OC'){
+                if (in_array(session()->get('role_name'), array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head')))) {
+                    $oc_dashboard = new OcDashboardController();
+                    $applicationData = $oc_dashboard->getApplicationData($role_id,$user_id);
+                    $statusCount = $oc_dashboard->getApplicationStatusCount($applicationData);
+                    $oc_data = $oc_dashboard->getReeDashboardData($role_id, $ree,$statusCount);
+                    return $oc_data;
+                }
             }
 
         }

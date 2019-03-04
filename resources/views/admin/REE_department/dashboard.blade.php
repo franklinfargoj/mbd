@@ -36,6 +36,15 @@
                 @endif
             @endif
 
+                @if(in_array(session()->get('role_name'), array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head'))))
+                    <div class="db__card oc" data-module="Consent for OC">
+                        <div class="db__card__img-wrap db-color-2">
+                            <h3 class="db__card__count">{{$oc_count}}</h3>
+                        </div>
+                        <p class="db__card__title">Consent for OC</p>
+                    </div>
+                @endif
+
                 <div class="db__card tripartite" data-module="Tripartite Agreement">
                     <div class="db__card__img-wrap db-color-3">
                         <h3 class="db__card__count">{{$tripartite_count}}</h3>
@@ -1293,6 +1302,7 @@
 
     </script>
     {{--end ajax call for Pendency Count Table and Pie chart(tripartite)--}}
+
 
 
 @endsection

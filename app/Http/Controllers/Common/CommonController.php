@@ -1767,8 +1767,6 @@ class CommonController extends Controller
         $ocData = $oc_dashboard->getApplicationData($role_id,$user_id);
         $oc_count = count($ocData);
 
-
-
         return view('admin.common.ol_dashboard',compact('conveyanceRoles','oc_count','dashboardData1','renewalRoles','appointing_count','offerLetterRoles','ol_count','ol_pending_count','conveyance_count','conveyance_pending_count','renewal_count','renewal_pending_count','reval_count'));
 
     }

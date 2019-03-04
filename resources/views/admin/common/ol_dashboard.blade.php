@@ -1078,7 +1078,7 @@
 
                         var chart_count = 0;
                         var i = 1;
-                        $.each(data, function (index, data) {
+                        $.each(data[0], function (index, data) {
 
                             html += "<tr>\n" +
                                 "<td class=\"text-center\">" + i + "</td>" +
@@ -1108,7 +1108,7 @@
 
                             var chartData = [];
 
-                            $.each((data), function (index, data) {
+                            $.each((data[0]), function (index, data) {
                                 obj = {};
                                 if (index != 'Total Number of Applications') {
                                     obj['status'] = index;
