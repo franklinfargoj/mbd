@@ -74,7 +74,7 @@
 
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body">
-            <h3 class="section-title section-title--small">Sub registrar Details</h3>
+            <h3 class="section-title section-title--small">Sub Registrar Details</h3>
               <div class="form-group row">
                     <label for="inputPassword" class="col-sm-3 col-form-label">Sub Registrar Name - </label>
                     <div class="col-sm-5">

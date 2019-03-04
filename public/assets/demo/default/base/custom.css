@@ -3634,14 +3634,26 @@ label.site-visit-label {
       height: 100%;
       padding: 0;
       max-width: 100%;
-      transform: translate(12%,10%) !important;
+      transform: translate(12%,8%) !important;
 }
 
 .db__card+.db__card{
     cursor: pointer;
 }
+.display_msg{
+    font-weight: bold;
+}
 
 .mhada-full-modal .modal-header button{
     width: 100%;
     text-align: right;
+}
+
+.mhada-full-modal .modal-header{
+    padding: 15px 15px 0 15px !important;
+    border-bottom: 0;
+}
+
+.mhada-full-modal .modal-body{
+        padding: 0 25px 0 25px !important;
 }
