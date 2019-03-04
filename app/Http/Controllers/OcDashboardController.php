@@ -117,17 +117,18 @@ class OcDashboardController extends Controller
             $q->where('user_id', $user_id)
                 ->where('role_id', $role_id)
                 ->where('society_flag', 0)
-                ->where('is_active',1)
+//                ->where('is_active',1)
                 ->orderBy('id', 'desc');
         }])
             ->whereHas('ocApplicationStatusForLoginListing', function ($q) use ($role_id,$user_id) {
                 $q->where('user_id', $user_id)
                     ->where('role_id', $role_id)
                     ->where('society_flag', 0)
-                    ->where('is_active',1)
+//                    ->where('is_active',1)
                     ->orderBy('id', 'desc');
             })->whereIn('application_master_id',$oc_master_ids)->get()->toArray();
 
+//        dd($applicationData);
         return $applicationData;
     }
 
@@ -342,7 +343,7 @@ class OcDashboardController extends Controller
     }
 
     /*
-     * Function for getting LA dashboard headers alongwith the counts
+     * Function for getting EM dashboard headers alongwith the counts
      *
      * Author: Prajakta Sisale.
      *
@@ -362,4 +363,67 @@ class OcDashboardController extends Controller
         $dashboardData = array($dashboardData);
         return $dashboardData;
     }
+
+    /*
+     * Function for getting EE dashboard headers alongwith the counts
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return array
+     */
+    public function getEeDashboardData($role_id,$ee,$statusCount)
+    {
+        switch ($role_id) {
+            case ($ee['ee_junior_engineer']):
+                $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total Number of Applications'][1] = '';
+                $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
+                $dashboardData['Applications Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+                $dashboardData['Applications Forwarded to EE Deputy'][0] = $statusCount['totalForwarded'];
+                $dashboardData['Applications Forwarded to EE Deputy'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+//                $dashboardData['Application Pending'] = '?submitted_at_from=&submitted_at_to=&update_status=4';
+                break;
+            case ($ee['ee_engineer']):
+                $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total Number of Applications'][1] = '';
+                $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
+                $dashboardData['Applications Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+                $dashboardData['Applications Sent for Compliance'][0] = $statusCount['totalReverted'];
+                $dashboardData['Applications Sent for Compliance'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');
+                $dashboardData['Applications Forwarded to REE Junior'][0] = $statusCount['totalForwarded'];
+                $dashboardData['Applications Forwarded to REE Junior'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+                break;
+            case ($ee['ee_dy_engineer']):
+                $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
+                $dashboardData['Total Number of Applications'][1] = '';
+                $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
+                $dashboardData['Applications Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+                $dashboardData['Applications Sent for Compliance'][0] = $statusCount['totalReverted'];
+                $dashboardData['Applications Sent for Compliance'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');
+                $dashboardData['Applications Forwarded to EE Head'][0] = $statusCount['totalForwarded'];
+                $dashboardData['Applications Forwarded to EE Head'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+                break;
+            default:
+                ;
+                break;
+        }
+
+//
+//
+//        $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
+//        $dashboardData['Total Number of Applications'][1] = '';
+//
+//        $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
+//        $dashboardData['Applications Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
+//
+//        $dashboardData['Application forwarded to REE'][0] = $statusCount['totalForwarded'];
+//        $dashboardData['Application forwarded to REE'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+//
+//        $dashboardData['Application sent for Compliance'][0] = $statusCount['totalForwarded'];
+//        $dashboardData['Application Reverted to REE'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+//
+        $dashboardData = array($dashboardData);
+        return $dashboardData;
+    }
+
 }

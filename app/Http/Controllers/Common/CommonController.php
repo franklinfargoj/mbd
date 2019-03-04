@@ -2015,7 +2015,7 @@ class CommonController extends Controller
                     $oc_dashboard = new OcDashboardController();
                     $applicationData = $oc_dashboard->getApplicationData($role_id,$user_id);
                     $statusCount = $oc_dashboard->getApplicationStatusCount($applicationData);
-                    $oc_data = $oc_dashboard->getEmDashboardData($statusCount);
+                    $oc_data = $oc_dashboard->getEeDashboardData($role_id, $ee,$statusCount);
                     return $oc_data;
                 }
             }
