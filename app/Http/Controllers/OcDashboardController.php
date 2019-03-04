@@ -38,7 +38,7 @@ class OcDashboardController extends Controller
 
         if( session()->get('role_name') == config('commanConfig.estate_manager')){
             $dashboardData = $this->getEmDashboardData($statusCount);
-            dd($dashboardData);
+//            dd($dashboardData);
         }
 
         return view('admin.REE_department.dashboard',compact('dashboardData','dashboardData_head'));
@@ -360,7 +360,6 @@ class OcDashboardController extends Controller
         $dashboardData['Application forwarded to REE'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 
         $dashboardData = array($dashboardData);
-
         return $dashboardData;
     }
 }
