@@ -996,7 +996,7 @@ class conveyanceCommonController extends Controller
         }
         
         if (isset($status) && $status == 'success'){
-            return back()->with('success', 'Uploaded Successfully.'); 
+            return back()->with('success', 'Agreement Uploaded Successfully.'); 
         } else{
             return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
         }        
