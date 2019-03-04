@@ -7,6 +7,7 @@ use App\conveyance\scApplicationLog;
 use App\conveyance\RenewalApplicationLog;
 use App\Http\Controllers\Dashboard\AppointingArchitectController;
 use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
+use App\Http\Controllers\OcDashboardController;
 use Illuminate\Http\Request;
 use App\DashboardHeader;
 use App\EENote;
@@ -1762,11 +1763,13 @@ class CommonController extends Controller
         $appointing_count = $architect_dashboard->total_number_of_application();
 
         // Oc
-//        $oc_dashboard = new OcDashboardController();
-//        $oc_data = $oc_dashboard->getDashboardHeaders($role_id,$user_id);
+        $oc_dashboard = new OcDashboardController();
+        $ocData = $oc_dashboard->getApplicationData($role_id,$user_id);
+        $oc_count = count($ocData);
 
 
-        return view('admin.common.ol_dashboard',compact('conveyanceRoles','dashboardData1','renewalRoles','appointing_count','offerLetterRoles','ol_count','ol_pending_count','conveyance_count','conveyance_pending_count','renewal_count','renewal_pending_count','reval_count'));
+
+        return view('admin.common.ol_dashboard',compact('conveyanceRoles','oc_count','dashboardData1','renewalRoles','appointing_count','offerLetterRoles','ol_count','ol_pending_count','conveyance_count','conveyance_pending_count','renewal_count','renewal_pending_count','reval_count'));
 
     }
 
@@ -2006,6 +2009,17 @@ class CommonController extends Controller
                     return $data;
                 }
             }
+
+            if($request->module_name == 'Consent for OC'){
+                if(in_array(session()->get('role_name'),array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head')))){
+                    $oc_dashboard = new OcDashboardController();
+                    $applicationData = $oc_dashboard->getApplicationData($role_id,$user_id);
+                    $statusCount = $oc_dashboard->getApplicationStatusCount($applicationData);
+                    $oc_data = $oc_dashboard->getEmDashboardData($statusCount);
+                    return $oc_data;
+                }
+            }
+
         }
     }
 
