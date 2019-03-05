@@ -36,7 +36,7 @@
             @endif
 
                 @if(session()->get('role_name') == config('commanConfig.estate_manager'))
-                    <div class="db__card oc" data-module="Consent for OC">
+                    <div class="db__card consent_oc" data-module="Consent for OC">
                         <div class="db__card__img-wrap db-color-2">
                             <h3 class="db__card__count">{{$oc_count}}</h3>
                         </div>
@@ -1031,122 +1031,121 @@
     </script>
     {{--end ajax call for Count Table and Pie chart(revision in layout)--}}
 
+
+
     {{--ajax call for Count Table and Pie chart(OC)--}}
     <script>
         var dashboard = "{{route('dashboard.ajax.conveyance')}}";
-        $(".oc").on("click", function () {
+        $(".consent_oc").on("click", function () {
 
-    var redirect_to = "{{$oc_redirect_to}}";
+            var redirect_to = "{{route('em.consent_for_oc')}}";
+            var module_name = ($(this).attr("data-module"));
 
-    var module_name = ($(this).attr("data-module"));
-
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-    $.ajax({
-        type: "POST",
-        url: dashboard,
-        data: {module_name:module_name},
-        dataType: 'json',
-        success: function (data) {
-            if (data !== "false") {
-
-//                        console.log(data[0]);
-
-                var html = "";
-
-                html += "<div id=\"count_table\">\n" +
-                    "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
-                    "                    <div class=\"d-flex align-items-center\">\n" +
-                    "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
-                    "                    </div>\n" +
-                    "                </div>\n" +
-                    "                <div class=\"row\">\n" +
-                    "                    <div class=\"col-sm-7\" >" +
-                    "                        <div class=\"m-portlet db-table\">\n" +
-                    "                            <div class=\"table-responsive\">\n" +
-                    "                                <table class=\"table text-center\">\n" +
-                    "                                    <thead>\n" +
-                    "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
-                    "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                    "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
-                    "                                    <th style=\"width: 15%;\">Action</th>\n" +
-                    "                                    </thead>\n" +
-                    "                                    </tbody>\n" ;
-
-                var chart_count = 0 ;
-                var i = 1 ;
-                $.each(data[0], function (index, data) {
-                    html += "<tr>\n" +
-                        "<td class=\"text-center\">"+i+"</td>" +
-                        "<td>"+index+"</td>\n" +
-                        "<td class=\"text-center\"><span class=\"count-circle\">"+data[0]+"</span></td>\n" +
-                        "<td class=\"text-center\">"+
-                        "<a href=\""+redirect_to+data[1]+"\"class=\"btn btn-action\">View</a>\n"+
-                        "</td>" +
-                        "</tr>";
-                    chart_count += data;
-                    i++;
-                });
-
-                html +="</tbody>\n" +
-                    "                                </table>\n" +
-                    "                        </div>\n" +
-                    "                    </div>" +
-                    "                   </div>\n" +
-                    "                        <div class=\"col-sm-5\" id=\"ajaxchartdiv\">\n" +
-                    "                        </div>\n" +
-                    "                </div>\n" +
-                    "            </div>";
-
-                $('#count_table').html(html);
-
-                if(chart_count){
-
-                    var chartData = [];
-
-                    $.each((data[0]), function (index, data) {
-                        obj = {};
-                        if (index != 'Total Number of Applications') {
-                            obj['status'] = index;
-                            obj['value'] = data;
-                            chartData.push(obj);
-                        }
-
-                    });
-
-                    var chart = AmCharts.makeChart( "ajaxchartdiv", {
-                        "type": "pie",
-                        "theme": "light",
-                        "dataProvider":chartData ,
-                        "valueField": "value",
-                        "titleField": "status",
-                        "outlineAlpha": 0.8,
-                        "outlineColor":"#FFFFFF",
-                        "outlineThickness" : 2,
-                        "depth3D": 15,
-                        "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
-                        "angle": 30,
-                        "labelText": "[[percents]]%",
-                        "labelRadius": -35,
-                        "fontSize" : 15,
-                    } );
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-                $("#getCodeModal").modal('show');
+            });
+            $.ajax({
+                type: "POST",
+                url: dashboard,
+                data: {module_name: module_name},
+                dataType: 'json',
+                success: function (data) {
+                    if (data !== "false") {
 
-            }
-            else {
-                alert('errror');
-            }
-        },
-    });
+                        var html = "";
 
-});
+                        html += "<div id=\"count_table\">\n" +
+                            "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
+                            "                    <div class=\"d-flex align-items-center\">\n" +
+                            "                        <h3 class=\"m-subheader__title\">" + module_name + "</h3>\n" +
+                            "                    </div>\n" +
+                            "                </div>\n" +
+                            "                <div class=\"row\">\n" +
+                            "                    <div class=\"col-sm-7\" >" +
+                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                            <div class=\"table-responsive\">\n" +
+                            "                                <table class=\"table text-center\">\n" +
+                            "                                    <thead>\n" +
+                            "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
+                            "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\">Action</th>\n" +
+                            "                                    </thead>\n" +
+                            "                                    </tbody>\n";
 
-</script>
-{{--end ajax call for Count Table and Pie chart(OC)--}}
+                        var chart_count = 0;
+                        var i = 1;
+                        $.each(data[0], function (index, data) {
 
+                            html += "<tr>\n" +
+                                "<td class=\"text-center\">" + i + "</td>" +
+                                "<td>" + index + "</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">" + data[0] + "</span></td>\n" +
+                                "<td>\n" +
+                                "<a href=\""+redirect_to+data[1]+"\"class=\"btn btn-action\">View</a>\n"+
+                                "</td>\n" +
+                                "</tr>";
+                            chart_count += data[0];
+                            i++;
+                        });
+
+                        html += "</tbody>\n" +
+                            "                                </table>\n" +
+                            "                        </div>\n" +
+                            "                    </div>" +
+                            "                   </div>\n" +
+                            "                        <div class=\"col-sm-5\" id=\"ajaxchartdiv\">\n" +
+                            "                        </div>\n" +
+                            "                </div>\n" +
+                            "            </div>";
+
+                        $('#count_table').html(html);
+
+                        if (chart_count) {
+
+                            var chartData = [];
+
+                            $.each((data[0]), function (index, data) {
+                                obj = {};
+                                if (index != 'Total Number of Applications') {
+                                    obj['status'] = index;
+                                    obj['value'] = data[0];
+                                    chartData.push(obj);
+                                }
+
+                            });
+
+                            var chart = AmCharts.makeChart("ajaxchartdiv", {
+                                "type": "pie",
+                                "theme": "light",
+                                "dataProvider": chartData,
+                                "valueField": "value",
+                                "titleField": "status",
+                                "outlineAlpha": 0.8,
+                                "outlineColor": "#FFFFFF",
+                                "outlineThickness": 2,
+                                "depth3D": 15,
+                                "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                                "angle": 30,
+                                "labelText": "[[percents]]%",
+                                "labelRadius": -35,
+                                "fontSize": 15,
+                            });
+                        }
+                        $("#getCodeModal").modal('show');
+
+                    }
+                    else {
+                        alert('errror');
+                    }
+                },
+            });
+
+        });
+
+    </script>
+    {{--end ajax call for Count Table and Pie chart(OC)--}}
 
 @endsection

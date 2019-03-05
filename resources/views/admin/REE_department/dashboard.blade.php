@@ -1354,7 +1354,7 @@
                                 "<td>" + index + "</td>\n" +
                                 "<td class=\"text-center\"><span class=\"count-circle\">" + data[0] + "</span></td>\n" +
                                 "<td>\n" +
-                                "<a href=\"" + baseUrl + redirect_to + data[1] + "\"class=\"btn btn-action\">View</a>\n" +
+                                "<a href=\""+redirect_to+data[1]+"\"class=\"btn btn-action\">View</a>\n"+
                                 "</td>\n" +
                                 "</tr>";
                             chart_count += data[0];
