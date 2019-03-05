@@ -2177,7 +2177,6 @@ class REEController extends Controller
                     return $oc_data;
                 }
             }
-
         }
     }
 

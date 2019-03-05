@@ -1220,7 +1220,7 @@
                                 "<a href=\""+redirect_to+data[1]+"\"class=\"btn btn-action\">View</a>\n"+
                                 "</td>" +
                                 "</tr>";
-                            chart_count += data;
+                            chart_count += data[0];
                             i++;
                         });
 

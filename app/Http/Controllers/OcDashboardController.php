@@ -41,6 +41,14 @@ class OcDashboardController extends Controller
 //            dd($dashboardData);
         }
 
+        if (in_array(session()->get('role_name'), array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head')))) {
+            $this->CommonController = new CommonController();
+            $ree = $this->CommonController->getREERoles();
+
+            $dashboardData = $this->getReeDashboardData($role_id,$ree,$statusCount);
+//            dd($dashboardData);
+        }
+
         return view('admin.REE_department.dashboard',compact('dashboardData','dashboardData_head'));
     }
 
@@ -144,6 +152,8 @@ class OcDashboardController extends Controller
 
         $totalForwarded  = $totalPending = $send_for_compliance = 0 ;
 
+        $totalApprovedOcButNotIssuedtoSociety = $totalForwardedOcForIssueingToSociety = $totalApprovedOcSentToSociety = $totalOcGenerated = 0;
+
         foreach($applicationData as $application){
             $phase =  $application['oc_application_status_for_login_listing'][0]['phase'];
             $status = $application['oc_application_status_for_login_listing'][0]['status_id'];
@@ -158,16 +168,39 @@ class OcDashboardController extends Controller
                         ; break;
                 }
             }
+            if($phase == 1){
+                switch ( $status )
+                {
+                    case config('commanConfig.applicationStatus.OC_Generation'): $totalOcGenerated += 1; break;
+                    case config('commanConfig.applicationStatus.forwarded'): $totalForwarded += 1; break;
+                    case config('commanConfig.applicationStatus.reverted'): $send_for_compliance += 1 ; break;
+                    default:
+                        ; break;
+                }
+            }
+            if($phase == 2){
+                switch ( $status )
+                {
+                    case config('commanConfig.applicationStatus.OC_Approved'): $totalApprovedOcButNotIssuedtoSociety += 1; break;
+                    case config('commanConfig.applicationStatus.forwarded'): $totalForwardedOcForIssueingToSociety+= 1; break;
+                    case config('commanConfig.applicationStatus.sent_to_society'): $totalApprovedOcSentToSociety += 1; break;
+                    default:
+                        ; break;
+                }
+            }
 
         }
 
         $totalApplication = count($applicationData);
-
         $count = [
             'totalPending' => $totalPending,
+            'totalOcGenerated' => $totalOcGenerated,
             'totalForwarded' => $totalForwarded,
             'totalReverted' => $send_for_compliance,
             'totalApplication' => $totalApplication,
+            'totalApprovedOcButNotIssuedtoSociety' => $totalApprovedOcButNotIssuedtoSociety,
+            'totalForwardedOcForIssueingToSociety' => $totalForwardedOcForIssueingToSociety,
+            'totalApprovedOcSentToSociety' => $totalApprovedOcSentToSociety,
         ];
 
         return $count;
@@ -185,34 +218,25 @@ class OcDashboardController extends Controller
     public function getREEDashboardData($role_id, $ree, $statusCount)
     {
 
-//        die('dashboard');
-
         switch ($role_id) {
             case ($ree['REE Junior Engineer']):
                 $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
                 $dashboardData['Total Number of Applications'][1] = '';
 
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
-                $dashboardData['Applications Pending'][1] = 'pending';
+                $dashboardData['Applications Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
 
-                $dashboardData['Proposals Sent For Approval to REE Deputy'][0] = $statusCount['totalForwarded'];
-                $dashboardData['Proposals Sent For Approval to REE Deputy'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+                $dashboardData['OC Generated but Pending for Approval'][0] = $statusCount['totalOcGenerated'];
+                $dashboardData['OC Generated but Pending for Approval'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.OC_Generation');
 
-//                $dashboardData['Draft Tripartite Agreement Generated'][0] = $statusCount['totalDraftTripartitieAgreementGenereated'];
-//                $dashboardData['Draft Tripartite Agreement Generated'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.draft_tripartite_agreement');
-//
-//                $dashboardData['Tripartite Agreement Sent for Approval to REE Deputy'][0] = $statusCount['totalTripartitieAgreementSentForApproval'];
-////                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
-//                $dashboardData['Tripartite Agreement Sent for Approval to REE Deputy'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
-//
-//                $dashboardData['Tripartite Agreement Approved but Not Issued to Society'][0] = $statusCount['tripartitieagreementApprovedNotIssuedToSociety'];
-//                $dashboardData['Tripartite Agreement Approved but Not Issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.approved_tripartite_agreement');
-//
-//                $dashboardData['Tripartite Agreement Forwarded for Issuing to Society'][0] = $statusCount['tripartitieagreementForwardedForIssueingToSociety'];
-//                $dashboardData['Tripartite Agreement Forwarded for Issuing to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
-//
-//                $dashboardData['Tripartite Agreement Approved'][0] = $statusCount['tripartitieagreementIssuedToSociety'];
-//                $dashboardData['Tripartite Agreement Approved'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.approved_tripartite_agreement');
+                $dashboardData['OC Sent For Approval to REE Deputy'][0] = $statusCount['totalForwarded'];
+                $dashboardData['OC Sent For Approval to REE Deputy'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+
+                $dashboardData['OC Approved but Not Issued to Society'][0] = $statusCount['totalApprovedOcButNotIssuedtoSociety'];
+                $dashboardData['OC Approved but Not Issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.OC_Approved');
+
+                $dashboardData['OC Forwarded for Issuing to Society'][0] = $statusCount['totalForwardedOcForIssueingToSociety'];
+                $dashboardData['OC Forwarded for Issuing to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 
                 break;
             case ($ree['REE deputy Engineer']):
@@ -220,25 +244,22 @@ class OcDashboardController extends Controller
                 $dashboardData['Total Number of Applications'][1] = '';
 
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
-                $dashboardData['Applications Pending'][1] = 'pending';
+                $dashboardData['Applications Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
 
-                $dashboardData['Proposals Sent For Approval to REE Assistant'][0] = $statusCount['totalForwarded'];
-                $dashboardData['Proposals Sent For Approval to REE Assistant'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+                $dashboardData['OC Generated but Pending for Approval'][0] = $statusCount['totalOcGenerated'];
+                $dashboardData['OC Generated but Pending for Approval'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.OC_Generation');
 
-//                $dashboardData['Draft Tripartite Agreement Generated'][0] = $statusCount['totalDraftTripartitieAgreementGenereated'];
-//                $dashboardData['Draft Tripartite Agreement Generated'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.draft_tripartite_agreement');
-//
-//                $dashboardData['Tripartite Agreement Sent for Approval to REE Assistant'][0] = $statusCount['totalTripartitieAgreementSentForApproval'];
-//                $dashboardData['Tripartite Agreement Sent for Approval to REE Assistant'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
-//
-//                $dashboardData['Tripartite Agreement Approved but Not Issued to Society'][0] = $statusCount['tripartitieagreementApprovedNotIssuedToSociety'];
-//                $dashboardData['Tripartite Agreement Approved but Not Issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.approved_tripartite_agreement');
-//
-//                $dashboardData['Tripartite Agreement Forwarded for Issuing to Society'][0] = $statusCount['tripartitieagreementForwardedForIssueingToSociety'];
-//                $dashboardData['Tripartite Agreement Forwarded for Issuing to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
-//
-//                $dashboardData['Tripartite Agreement Approved'][0] = $statusCount['tripartitieagreementIssuedToSociety'];
-//                $dashboardData['Tripartite Agreement Approved'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.approved_tripartite_agreement');
+                $dashboardData['Applications Reverted'][0] = $statusCount['totalReverted'];
+                $dashboardData['Applications Reverted'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');
+
+                $dashboardData['OC Sent For Approval to REE Assistant'][0] = $statusCount['totalForwarded'];
+                $dashboardData['OC Sent For Approval to REE Assistant'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+
+                $dashboardData['OC Approved but Not Issued to Society'][0] = $statusCount['totalApprovedOcButNotIssuedtoSociety'];
+                $dashboardData['OC Approved but Not Issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.OC_Approved');
+
+                $dashboardData['OC Forwarded for Issuing to Society'][0] = $statusCount['totalForwardedOcForIssueingToSociety'];
+                $dashboardData['OC Forwarded for Issuing to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 
                 break;
             case ($ree['REE Assistant Engineer']):
@@ -246,26 +267,22 @@ class OcDashboardController extends Controller
                 $dashboardData['Total Number of Applications'][1] = '';
 
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
-                $dashboardData['Applications Pending'][1] = 'pending';
+                $dashboardData['Applications Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
 
-                $dashboardData['Proposals Sent For Approval to REE Head'][0] = $statusCount['totalForwarded'];
-                $dashboardData['Proposals Sent For Approval to REE Head'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+                $dashboardData['OC Generated but Pending for Approval'][0] = $statusCount['totalOcGenerated'];
+                $dashboardData['OC Generated but Pending for Approval'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.OC_Generation');
 
-//                $dashboardData['Draft Tripartite Agreement Generated'][0] = $statusCount['totalDraftTripartitieAgreementGenereated'];
-//                $dashboardData['Draft Tripartite Agreement Generated'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.draft_tripartite_agreement');
-//
-//                $dashboardData['Tripartite Agreement Sent for Approval to REE Head'][0] = $statusCount['totalTripartitieAgreementSentForApproval'];
-////                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
-//                $dashboardData['Tripartite Agreement Sent for Approval to REE Head'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
-//
-//                $dashboardData['Tripartite Agreement Approved but Not Issued to Society'][0] = $statusCount['tripartitieagreementApprovedNotIssuedToSociety'];
-//                $dashboardData['Tripartite Agreement Approved but Not Issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.approved_tripartite_agreement');
-//
-//                $dashboardData['Tripartite Agreement Forwarded for Issuing to Society'][0] = $statusCount['tripartitieagreementForwardedForIssueingToSociety'];
-//                $dashboardData['Tripartite Agreement Forwarded for Issuing to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
-//
-//                $dashboardData['Tripartite Agreement Approved'][0] = $statusCount['tripartitieagreementIssuedToSociety'];
-//                $dashboardData['Tripartite Agreement Approved'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.approved_tripartite_agreement');
+                $dashboardData['Applications Reverted'][0] = $statusCount['totalReverted'];
+                $dashboardData['Applications Reverted'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');
+
+                $dashboardData['OC Sent For Approval to REE Head'][0] = $statusCount['totalForwarded'];
+                $dashboardData['OC Sent For Approval to REE Head'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+
+                $dashboardData['OC Approved but Not Issued to Society'][0] = $statusCount['totalApprovedOcButNotIssuedtoSociety'];
+                $dashboardData['OC Approved but Not Issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.OC_Approved');
+
+                $dashboardData['OC Forwarded for Issuing to Society'][0] = $statusCount['totalForwardedOcForIssueingToSociety'];
+                $dashboardData['OC Forwarded for Issuing to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 
                 break;
             case ($ree['ree_engineer']):
@@ -273,29 +290,26 @@ class OcDashboardController extends Controller
                 $dashboardData['Total Number of Applications'][1] = '';
 
                 $dashboardData['Applications Pending'][0] = $statusCount['totalPending'];
-                $dashboardData['Applications Pending'][1] = 'pending';
+                $dashboardData['Applications Pending'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process');
 
-                $dashboardData['Application Sent for Compliance to Society'][0] = $statusCount['tripartitie_agreement_sent_for_compliance_to_society'];
-                $dashboardData['Application Sent for Compliance to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+                $dashboardData['OC Generated but Pending for Approval'][0] = $statusCount['totalOcGenerated'];
+                $dashboardData['OC Generated but Pending for Approval'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.OC_Generation');
 
-                $dashboardData['Proposals Sent For Approval to CO'][0] = $statusCount['totalForwarded'];
-                $dashboardData['Proposals Sent For Approval to CO'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+                $dashboardData['Applications Reverted'][0] = $statusCount['totalReverted'];
+                $dashboardData['Applications Reverted'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted');
 
-//                $dashboardData['Draft Tripartite Agreement Generated'][0] = $statusCount['totalDraftTripartitieAgreementGenereated'];
-//                $dashboardData['Draft Tripartite Agreement Generated'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.draft_tripartite_agreement');
-//
-//                $dashboardData['Tripartite Agreement Sent for Approval to CO'][0] = $statusCount['totalTripartitieAgreementSentForApproval'];
-////                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
-//                $dashboardData['Tripartite Agreement Sent for Approval to CO'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
-//
-//                $dashboardData['Tripartite Agreement Approved but Not Issued to Society'][0] = $statusCount['tripartitieagreementApprovedNotIssuedToSociety'];
-//                $dashboardData['Tripartite Agreement Approved but Not Issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.approved_tripartite_agreement');
-//
-//                $dashboardData['Tripartite Agreement Forwarded for Issuing to Society'][0] = $statusCount['tripartitieagreementForwardedForIssueingToSociety'];
-//                $dashboardData['Tripartite Agreement Forwarded for Issuing to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
-//
-//                $dashboardData['Tripartite Agreement Approved'][0] = $statusCount['tripartitieagreementIssuedToSociety'];
-//                $dashboardData['Tripartite Agreement Approved'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.approved_tripartite_agreement');
+                $dashboardData['OC Sent For Approval to CO'][0] = $statusCount['totalForwarded'];
+                $dashboardData['OC Sent For Approval to CO'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+
+                $dashboardData['OC Approved but Not Issued to Society'][0] = $statusCount['totalApprovedOcButNotIssuedtoSociety'];
+                $dashboardData['OC Approved but Not Issued to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.OC_Approved');
+
+                $dashboardData['OC Forwarded for Issuing to Society'][0] = $statusCount['totalForwardedOcForIssueingToSociety'];
+                $dashboardData['OC Forwarded for Issuing to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
+                
+                $dashboardData['Approved Oc Sent To Society'][0] = $statusCount['totalApprovedOcSentToSociety'];
+                $dashboardData['Approved Oc Sent To Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.sent_to_society');
+
 
                 break;
             default:
