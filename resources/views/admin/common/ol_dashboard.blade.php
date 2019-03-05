@@ -44,6 +44,14 @@
                         </div>
                         <p class="db__card__title">Consent for OC</p>
                     </div>
+                    @if(session()->get('role_name') == config('commanConfig.ee_branch_head'))
+                        <div class="db__card consent_oc_pendency" data-module="Consent for OC Subordinate Pendency">
+                            <div class="db__card__img-wrap db-color-4">
+                                <h3 class="db__card__count">{{$oc_pending_count}}</h3>
+                            </div>
+                            <p class="db__card__title">Consent for OC Subordinate Pendency</p>
+                        </div>
+                     @endif
                 @endif
 
             @if(in_array(session()->get('role_name'),$conveyanceRoles))
@@ -1265,26 +1273,10 @@
     </script>
     {{--end ajax call for Count Table and Pie chart(OC)--}}
 
-    {{--ajax call for Count Table and Pie chart(OC)--}}
+    {{--ajax call for pendency Count Table and Pie chart(OC)--}}
     <script>
         var dashboard = "{{route('dashboard.ajax')}}";
-        $(".oc").on("click", function () {
-
-
-                    @if(session()->get('role_name') == 'REE Junior Engineer' || Session()->get('role_name') == 'REE deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' ||
-                        Session()->get('role_name') == 'ree_engineer')
-                    {{$oc_redirect_to = route("ree_applications.consent_oc")}}
-                    @elseif(Session()->get('role_name') == 'ee_engineer' ||  Session()->get('role_name') == 'ee_dy_engineer' ||  Session::all()['role_name'] == 'ee_junior_engineer')
-                    {{$oc_redirect_to = route("ee.consent_for_oc")}}
-                    @elseif(Session()->get('role_name') == 'EM')
-                    {{$oc_redirect_to = route("em.consent_for_oc")}}
-                    @elseif(Session()->get('role_name') == 'co_engineer' )
-                    {{$oc_redirect_to = route("co_applications.consent_oc")}}
-                    @else
-                    {{$oc_redirect_to = ""}}
-                    @endif
-
-            var redirect_to = "{{$oc_redirect_to}}";
+        $(".consent_oc_pendency").on("click", function () {
 
             var module_name = ($(this).attr("data-module"));
 
@@ -1296,19 +1288,17 @@
             $.ajax({
                 type: "POST",
                 url: dashboard,
-                data: {module_name:module_name},
+                data: {module_name: module_name},
                 dataType: 'json',
                 success: function (data) {
                     if (data !== "false") {
-
-//                        console.log(data[0]);
 
                         var html = "";
 
                         html += "<div id=\"count_table\">\n" +
                             "                <div class=\"m-subheader px-0 m-subheader--top\">\n" +
                             "                    <div class=\"d-flex align-items-center\">\n" +
-                            "                        <h3 class=\"m-subheader__title\">"+module_name+"</h3>\n" +
+                            "                        <h3 class=\"m-subheader__title\">" + module_name + "</h3>\n" +
                             "                    </div>\n" +
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
@@ -1320,26 +1310,23 @@
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
-                            "                                    <th style=\"width: 15%;\">Action</th>\n" +
                             "                                    </thead>\n" +
-                            "                                    </tbody>\n" ;
+                            "                                    </tbody>\n";
 
-                        var chart_count = 0 ;
-                        var i = 1 ;
-                        $.each(data[0], function (index, data) {
+                        var chart_count = 0;
+                        var i = 1;
+                        $.each(data, function (index, data) {
+
                             html += "<tr>\n" +
-                                "<td class=\"text-center\">"+i+"</td>" +
-                                "<td>"+index+"</td>\n" +
-                                "<td class=\"text-center\"><span class=\"count-circle\">"+data[0]+"</span></td>\n" +
-                                "<td class=\"text-center\">"+
-                                "<a href=\""+redirect_to+data[1]+"\"class=\"btn btn-action\">View</a>\n"+
-                                "</td>" +
+                                "<td class=\"text-center\">" + i + "</td>" +
+                                "<td>" + index + "</td>\n" +
+                                "<td class=\"text-center\"><span class=\"count-circle\">" + data + "</span></td>\n" +
                                 "</tr>";
-                            chart_count += data[0];
+                            chart_count += data;
                             i++;
                         });
 
-                        html +="</tbody>\n" +
+                        html += "</tbody>\n" +
                             "                                </table>\n" +
                             "                        </div>\n" +
                             "                    </div>" +
@@ -1351,7 +1338,7 @@
 
                         $('#count_table').html(html);
 
-                        if(chart_count){
+                        if (chart_count) {
 
                             var chartData = [];
 
@@ -1365,22 +1352,22 @@
 
                             });
 
-                            var chart = AmCharts.makeChart( "ajaxchartdiv", {
+                            var chart = AmCharts.makeChart("ajaxchartdiv", {
                                 "type": "pie",
                                 "theme": "light",
-                                "dataProvider":chartData ,
+                                "dataProvider": chartData,
                                 "valueField": "value",
                                 "titleField": "status",
                                 "outlineAlpha": 0.8,
-                                "outlineColor":"#FFFFFF",
-                                "outlineThickness" : 2,
+                                "outlineColor": "#FFFFFF",
+                                "outlineThickness": 2,
                                 "depth3D": 15,
                                 "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
                                 "angle": 30,
                                 "labelText": "[[percents]]%",
                                 "labelRadius": -35,
-                                "fontSize" : 15,
-                            } );
+                                "fontSize": 15,
+                            });
                         }
                         $("#getCodeModal").modal('show');
 
@@ -1394,6 +1381,5 @@
         });
 
     </script>
-    {{--end ajax call for Count Table and Pie chart(OC)--}}
-
+    {{--end ajax call for pendency Count Table and Pie chart(OC)--}}
 @endsection

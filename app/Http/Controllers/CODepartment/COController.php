@@ -1071,7 +1071,7 @@ class COController extends Controller
         $oc_data = $oc_dashboard->getApplicationData($role_id,$user_id);
         $oc_count = count($oc_data);
 
-        // Consent for Oc Pendency
+        // Consent for Oc Department Pendency
         $oc_pending_dashboard_data = $oc_dashboard->getTotalCountsOfApplicationsPending();
         $oc_pendency_count = $oc_pending_dashboard_data['Total Number of Applications'];
 

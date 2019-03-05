@@ -1767,7 +1767,13 @@ class CommonController extends Controller
         $ocData = $oc_dashboard->getApplicationData($role_id,$user_id);
         $oc_count = count($ocData);
 
-        return view('admin.common.ol_dashboard',compact('conveyanceRoles','oc_count','dashboardData1','renewalRoles','appointing_count','offerLetterRoles','ol_count','ol_pending_count','conveyance_count','conveyance_pending_count','renewal_count','renewal_pending_count','reval_count'));
+        // OC Subordinate Pendency
+        $oc_pending_data = $this->getToatalPendingOcApplicationsAtUser($ee);
+        $oc_pending_count = $oc_pending_data['Total Number of Applications'];
+
+
+
+        return view('admin.common.ol_dashboard',compact('conveyanceRoles','oc_count','oc_pending_count','dashboardData1','renewalRoles','appointing_count','offerLetterRoles','ol_count','ol_pending_count','conveyance_count','conveyance_pending_count','renewal_count','renewal_pending_count','reval_count'));
 
     }
 
@@ -2018,6 +2024,16 @@ class CommonController extends Controller
                 }
             }
 
+            if ($request->module_name == "Consent for OC Subordinate Pendency") {
+
+                $dashboardData = NULL;
+                $eeHeadId = Role::where('name', config('commanConfig.ee_branch_head'))->value('id');
+
+                if ($role_id == $eeHeadId) {
+                    $dashboardData = $this->getToatalPendingOcApplicationsAtUser($ee);
+                    return $dashboardData;
+                }
+            }
         }
     }
 
@@ -4072,6 +4088,35 @@ class CommonController extends Controller
         foreach ($users as $user){
 
             $count = OlApplicationStatus::where('user_id',$user['id'])
+                ->where('status_id',config('commanConfig.applicationStatus.in_process'))
+                ->where('is_active',1)->get()->count();
+            $dashboardData1['Application Pending At '.$user['name']] = $count;
+
+            $total_pending_at_department += $count;
+
+        }
+        $dashboardData1['Total Number of Applications'] = $total_pending_at_department;
+        return array_reverse($dashboardData1);
+    }
+
+    /*
+     * Function for getting DYCE roles.
+     *
+     *  @param $roleIds
+     *
+     * Author :Prajakta Sisale.
+     *
+     * @return array
+     */
+    public function getToatalPendingOcApplicationsAtUser($roleIds){
+
+        $users =User::whereIn('role_id',$roleIds)
+            ->get()->toArray();
+
+        $total_pending_at_department = 0;
+        foreach ($users as $user){
+
+            $count = OcApplicationStatusLog::where('user_id',$user['id'])
                 ->where('status_id',config('commanConfig.applicationStatus.in_process'))
                 ->where('is_active',1)->get()->count();
             $dashboardData1['Application Pending At '.$user['name']] = $count;
