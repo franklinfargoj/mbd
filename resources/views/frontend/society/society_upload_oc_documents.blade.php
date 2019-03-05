@@ -8,27 +8,12 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Upload documents</h3>
-            {{ Breadcrumbs::render('oc_documents_upload') }}
+            {{ Breadcrumbs::render('oc_documents_upload',$oc_applications->id) }}
             <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
         </div>
     </div>
     <!-- END: Subheader -->
-    <div class="m-portlet m-portlet--creative m-portlet--first m-portlet--bordered-semi mb-0">
-        <!-- <div class="m-portlet__head main-sub-title">
-            <div class="m-portlet__head-caption">
-                <div class="m-portlet__head-title">
-                    <span class="m-portlet__head-icon m--hide">
-                        <i class="flaticon-statistics"></i>
-                    </span>
-                    <h2 class="m-portlet__head-label m-portlet__head-label--custom">
-                        <span>
-                            Upload Attachments
-                        </span>
-                    </h2>
-                </div>
-            </div>
-        </div> -->
-           
+    <div class="m-portlet m-portlet--creative m-portlet--first m-portlet--bordered-semi mb-0">           
         <div class="m-portlet__body m-portlet__body--table">
             <div class="m-section mb-0">
                 <div class="m-section__content mb-0 table-responsive">
@@ -75,56 +60,34 @@
                                 </td>
                                 <td>
                                     @if(count($document->oc_documents_uploaded) > 0 )
-                                    @foreach($document->oc_documents_uploaded as $document_uploaded)
-                                    @if($document_uploaded['society_id'] == $society->id)
-                                    <span>
-                                        <a href="{{ asset($document_uploaded['society_document_path']) }}" data-value='{{ $document->id }}'
-                                            class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
-                                                Download</button></a>
-                                        <a href="{{ url('/delete_uploaded_oc_documents/'.$document->id) }}" data-value='{{ $document->id }}'
-                                            class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
-                                                <i class="fa fa-trash"></i></button></a>
-                                    </span>
+                                        <span>
+                                            <a href="{{ asset($document->oc_documents_uploaded[0]->society_document_path) }}" data-value='{{ $document->id }}'
+                                                class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
+                                                    Download</button></a>
+                                            <a href="{{ route('delete_uploaded_oc_documents',[encrypt($oc_applications->id),encrypt($document->oc_documents_uploaded[0]->id)]) }}" data-value='{{ $document->id }}'
+                                                class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
+                                                    <i class="fa fa-trash"></i></button></a>
+                                        </span>
                                     @else
-                                    <form action="{{ route('uploaded_oc_documents') }}" method="post" enctype='multipart/form-data'
-                                        id="upload_documents_form_{{ $document->id }}">
-                                        @csrf
-                                        <div class="custom-file">
-                                            <input class="custom-file-input" name="document_name" type="file" class=""
-                                                id="test-upload_{{ $document->id }}" required>
-                                            <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
-                                            <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
-                                                file ...</label>
-                                            <span class="help-block">
-                                                @if(session('error_'.$document->id))
-                                                session('error_'.$document->id)
-                                                @endif
-                                            </span>
-                                        </div>
-                                        <br>
-                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                    </form>
-                                    @endif
-                                    @endforeach
-                                    @else
-                                    <form action="{{ route('uploaded_oc_documents') }}" method="post" enctype='multipart/form-data'
-                                        id="upload_documents_form_{{ $document->id }}">
-                                        @csrf
-                                        <div class="custom-file @if(session('error_'.$document->id)) has-error @endif">
-                                            <input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}"
-                                                required>
-                                            <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
-                                            <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
-                                                file ...</label>
-                                            <span class="help-block text-danger">
-                                                @if(session('error_'.$document->id))
-                                                {{session('error_'.$document->id)}}
-                                                @endif
-                                            </span>
-                                        </div>
-                                        <br>
-                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn_{{ $document->id }}">Upload</button>
-                                    </form>
+                                        <form action="{{ route('uploaded_oc_documents') }}" method="post" enctype='multipart/form-data'
+                                            id="upload_documents_form_{{ $document->id }}">
+                                            @csrf
+                                             <input type="hidden" name="applicationId" value="{{ isset($oc_applications->id) ? $oc_applications->id : '' }}">
+                                            <div class="custom-file @if(session('error_'.$document->id)) has-error @endif">
+                                                <input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}"
+                                                    required>
+                                                <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
+                                                <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
+                                                    file ...</label>
+                                                <span class="help-block text-danger">
+                                                    @if(session('error_'.$document->id))
+                                                    {{session('error_'.$document->id)}}
+                                                    @endif
+                                                </span>
+                                            </div>
+                                            <br>
+                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn_{{ $document->id }}">Upload</button>
+                                        </form>
                                     @endif
                                 </td>
                             </tr>
@@ -136,6 +99,7 @@
             </div>
         </div>
     </div>
+
     @if(!empty($docs_count) && !empty($docs_uploaded_count))
     @if($docs_count == $docs_uploaded_count)
     <div class="m-portlet">
@@ -166,6 +130,7 @@
                                 <div class="remarks-section__data">
                                     <form action="{{ route('add_uploaded_oc_documents_remark') }}" method="post" enctype='multipart/form-data'>
                                         @csrf
+                                         <input type="hidden" name="applicationId" value="{{ isset($oc_applications->id) ? $oc_applications->id : '' }}">
                                         <div class="form-group">
                                             <label class="col-form-label">Remark</label>
                                             <div class="col-md-8 @if($errors->has('society_documents_comment')) has-error @endif">
@@ -212,11 +177,12 @@
                         </div>
                         <form action="{{ route('add_oc_documents_comment') }}" method="post" enctype='multipart/form-data'>
                             @csrf
+                             <input type="hidden" name="applicationId" value="{{ isset($oc_applications->id) ? $oc_applications->id : '' }}">
                             <div class="remarks-suggestions table--box-input">
                                 <div class="mt-3">
                                     <label for="society_documents_comment">Additional Information:</label>
                                     <div class="@if($errors->has('society_documents_comment')) has-error @endif">
-                                        <textarea name="society_documents_comment" rows="5" cols="30" id="society_documents_comment" class="form-control form-control--custom">{{old('society_documents_comment')}}</textarea>
+                                        <textarea name="society_documents_comment" rows="5" cols="30" id="society_documents_comment" class="form-control form-control--custom">{{ isset($documents_comment) ? $documents_comment->society_documents_comment : '' }}</textarea>
                                         <span class="help-block">{{$errors->first('society_documents_comment')}}</span>
                                     </div>
                                 </div>
@@ -225,7 +191,6 @@
                                     <a href="{{route('society_offer_letter_dashboard')}}" class="btn btn-secondary">Cancel</a>
                                 </div>
                             </div>
-                            <!-- <a href="{{ route('society_offer_letter_dashboard') }}" class="btn btn-primary btn-custom" id="">Cancel</a> -->
                         </form>
                     </div>
                 </div>

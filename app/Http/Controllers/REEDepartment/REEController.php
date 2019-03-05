@@ -2467,10 +2467,11 @@ class REEController extends Controller
     public function societyOcDocuments(Request $request,$applicationId)
     {
         $oc_application = $this->CommonController->getOcApplication($applicationId);    
-        $societyDocument = $this->CommonController->getSocietyDocumentsforOC($applicationId);
         $oc_application->status = $this->CommonController->getCurrentStatusOc($applicationId);
+        $comments = $this->CommonController->getOCApplicationComments($applicationId);
+        $societyDocuments = $this->CommonController->getSocietyDocumentsforOC($applicationId);
 
-        return view('admin.REE_department.society_documents_consent_oc', compact('societyDocument','oc_application'));
+        return view('admin.REE_department.society_documents_consent_oc', compact('societyDocuments','oc_application','comments'));
     }
 
     public function viewEMScrutinyOc($applicationId)

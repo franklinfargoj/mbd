@@ -73,9 +73,7 @@
                     <div class="remarks-suggestions table--box-input">
                         <div class="mt-3">
                             <label for="society_documents_comment">Additional Information</label>
-                            <div class="@if($errors->has('society_documents_comment')) has-error @endif">
                                 <textarea name="society_documents_comment" rows="5" cols="30" id="society_documents_comment" class="form-control form-control--custom" readonly>{{ $comments->society_documents_comment }}</textarea>
-                            </div>
                         </div>
                     </div>
             </div>

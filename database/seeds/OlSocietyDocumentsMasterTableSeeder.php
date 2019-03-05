@@ -718,7 +718,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $app,
                     'language_id'   => $english_lang[0]['id'],
-                    'is_optional'=>0,
+                    'is_optional'=>1,
                     'name' => "Building photos from 4 sides - side 2"
                 ],
                 [
@@ -767,7 +767,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $app,
                     'language_id'   => $english_lang[0]['id'],
                     'name' => "drafted_tripartite_agreement",
-                    'is_optional'=>0,
+                    'is_optional'=>1,
                     'is_admin'=>1
                 ],
                 [

@@ -54,7 +54,7 @@
 
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="construction_details">Construction Details</label>
+                            <label class="col-form-label" for="construction_details">Construction Details <span class="star">*</span></label>
                             <textarea id="construction_details" name="construction_details" class="form-control form-control--custom m-input" required></textarea>
                             <span class="help-block">{{$errors->first('construction_details')}}</span>
                         </div>
