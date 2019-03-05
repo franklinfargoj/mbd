@@ -1,6 +1,6 @@
 @extends('frontend.layouts.sidebarAction')
 @section('actions')
-    @include('frontend.society.oc_actions',compact('ol_applications'))
+    @include('frontend.society.oc_actions',compact('oc_applications'))
 @endsection
 @section('content')
 <div class="col-md-12">
@@ -8,7 +8,7 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">View Uploaded Documents </h3>
-            {{ Breadcrumbs::render('oc_documents_upload') }}
+            {{ Breadcrumbs::render('oc_documents_upload',encrypt($oc_applications->id)) }}
             <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
         </div>
     </div>

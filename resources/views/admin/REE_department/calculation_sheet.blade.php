@@ -1482,6 +1482,7 @@
         $(".total_amount").each(function () {
 
             var total_amount_val = cleanNumber($(this).val());
+            
             console.log(total_amount_val);
             var amountVal = (!total_amount_val || isNaN(total_amount_val)) ? 0 : total_amount_val;
 

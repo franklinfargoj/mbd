@@ -1458,9 +1458,10 @@ class COController extends Controller
 
        $oc_application = $this->CommonController->getOcApplication($applicationId);
        $oc_application->model = OcApplication::with(['oc_application_master'])->where('id',$applicationId)->first();
-       $societyDocuments = $this->CommonController->getSocietyDocumentsforOC($applicationId);
+       $comments = $this->CommonController->getOCApplicationComments($applicationId);
+        $societyDocuments = $this->CommonController->getSocietyDocumentsforOC($applicationId);
 
-       return view('admin.co_department.society_oc_documents',compact('oc_application','societyDocuments'));
+       return view('admin.co_department.society_oc_documents',compact('oc_application','societyDocuments','comments'));
     }
 
     public function viewEMScrutinyOc($applicationId)

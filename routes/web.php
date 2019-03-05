@@ -612,19 +612,20 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('/save_oc_application_self', 'SocietyOfferLetterController@save_oc_application_self')->name('save_oc_application_self');
     Route::post('/save_oc_application_dev', 'SocietyOfferLetterController@save_oc_application_dev')->name('save_oc_application_dev');
 
-    Route::get('society_oc_preview','SocietyOfferLetterController@showOcApplication')->name('society_oc_preview');
-    Route::get('society_oc_edit','SocietyOfferLetterController@editOcApplication')->name('society_oc_edit');
+    Route::get('society_oc_preview/{id}','SocietyOfferLetterController@showOcApplication')->name('society_oc_preview');
+    Route::get('show_oc_sign_application/{id}','SocietyOfferLetterController@displaySingedOCApplication')->name('show_oc_sign_application');
+    Route::get('society_oc_edit/{id}','SocietyOfferLetterController@editOcApplication')->name('society_oc_edit');
     Route::post('society_oc_update','SocietyOfferLetterController@updateOcApplication')->name('society_oc_update');
 
-    Route::get('oc_documents_upload','SocietyOfferLetterController@displaySocietyOcDocuments')->name('oc_documents_upload');
+    Route::get('oc_documents_upload/{id}','SocietyOfferLetterController@displaySocietyOcDocuments')->name('oc_documents_upload');
     Route::post('add_uploaded_oc_documents_remark','SocietyOfferLetterController@addSocietyOcDocumentsRemark')->name('add_uploaded_oc_documents_remark');
-    Route::get('oc_documents_uploaded','SocietyOfferLetterController@viewSocietyOcDocuments')->name('oc_documents_uploaded');
+    Route::get('oc_documents_uploaded/{id}','SocietyOfferLetterController@viewSocietyOcDocuments')->name('oc_documents_uploaded');
     Route::post('uploaded_oc_documents','SocietyOfferLetterController@uploadSocietyOcDocuments')->name('uploaded_oc_documents');
-    Route::get('delete_uploaded_oc_documents/{id}','SocietyOfferLetterController@deleteSocietyOcDocuments')->name('delete_uploaded_oc_documents');
+    Route::get('delete_uploaded_oc_documents/{applicationId}/{id}','SocietyOfferLetterController@deleteSocietyOcDocuments')->name('delete_uploaded_oc_documents');
     Route::post('add_uploaded_oc_documents_comment','SocietyOfferLetterController@addSocietyOcDocumentsComment')->name('add_oc_documents_comment');
-    Route::get('upload_society_oc_application','SocietyOfferLetterController@showuploadOcAfterSign')->name('upload_society_oc_application');
+    Route::get('upload_society_oc_application/{id}','SocietyOfferLetterController@showuploadOcAfterSign')->name('upload_society_oc_application');
     Route::post('upload_society_oc','SocietyOfferLetterController@uploadOcAfterSign')->name('upload_society_oc');
-    Route::get('society_oc_application_download','SocietyOfferLetterController@generate_oc_pdf')->name('society_oc_application_download');
+    Route::get('society_oc_application_download/{id}','SocietyOfferLetterController@generate_oc_pdf')->name('society_oc_application_download');
 
 
 
