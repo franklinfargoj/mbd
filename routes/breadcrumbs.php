@@ -203,12 +203,12 @@ Breadcrumbs::for('society_dashboard', function ($trail) {
 
 Breadcrumbs::for('documents_uploaded', function ($trail,$id) {
     $trail->push('Listing', route('society_offer_letter_dashboard'));
-    $trail->push('View Uploaded documents(Offer Letter)', route('documents_uploaded',$id));
+    $trail->push('Documents Uploaded (Offer Letter)', route('documents_uploaded',$id));
 });
 
 Breadcrumbs::for('documents_upload', function ($trail,$id) {
     $trail->push('Listing', route('society_offer_letter_dashboard'));
-    $trail->push('Upload documents (Offer Letter)', route('documents_upload',$id));
+    $trail->push('Documents Upload(Offer Letter)', route('documents_upload',$id));
 });
 
 Breadcrumbs::for('noc_documents_upload', function ($trail,$id) {
