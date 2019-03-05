@@ -28,4 +28,9 @@ class OcApplicationStatusLog extends Model
     {
         return $this->hasOne('App\Role', 'id','role_id');
     }
+
+    public function ocApplication()
+    {
+        return $this->belongsTo('App\OcApplication', 'application_id','id');
+    }
 }

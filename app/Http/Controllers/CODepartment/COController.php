@@ -1068,8 +1068,12 @@ class COController extends Controller
 
         // Consent for oc
         $oc_dashboard = new OcDashboardController();
-        $ocData = $oc_dashboard->getApplicationData($role_id,$user_id);
-        $oc_count = count($ocData);
+        $oc_data = $oc_dashboard->getApplicationData($role_id,$user_id);
+        $oc_count = count($oc_data);
+
+        // Consent for Oc Pendency
+        $oc_pending_dashboard_data = $oc_dashboard->getTotalCountsOfApplicationsPending();
+        $oc_pendency_count = $oc_pending_dashboard_data['Total Number of Applications'];
 
         //Revision in Layout
 
@@ -1114,7 +1118,7 @@ class COController extends Controller
 
         $todaysHearing = $hearing;
 
-        return view('admin.co_department.dashboard',compact('todaysHearing','todays_hearing_count','conveyanceRoles','hearing_count','ol_count','ol_pending_count','conveyance_count','conveyance_pending_count','tripartite_count','tripartite_pending_count','ol_reval_count','ol_reval_pending_count',
+        return view('admin.co_department.dashboard',compact('todaysHearing','oc_pendency_count','todays_hearing_count','conveyanceRoles','hearing_count','ol_count','ol_pending_count','conveyance_count','conveyance_pending_count','tripartite_count','tripartite_pending_count','ol_reval_count','ol_reval_pending_count',
             'noc_count','noc_cc_count','noc_pending_count','noc_cc_pending_count','oc_count'));
     }
 
@@ -1215,6 +1219,13 @@ class COController extends Controller
                 }
             }
 
+            if($request->module_name == 'Consent for OC Department Pendency'){
+                $ocPendingDashboardData = NULL;
+                $oc_dashboard = new OcDashboardController();
+                $ocPendingDashboardData = $oc_dashboard->getTotalCountsOfApplicationsPending();
+                return $ocPendingDashboardData;
+
+            }
             if($request->module_name == 'NOC'){
                 $nocModuleController = new SocietyNocController();
                 $nocApplication = $nocModuleController->getApplicationListDashboard();

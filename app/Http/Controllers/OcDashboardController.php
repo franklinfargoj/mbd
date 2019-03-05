@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\OcApplication;
+use App\OcApplicationStatusLog;
+use App\OlApplicationStatus;
+use App\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Common\CommonController;
@@ -42,7 +45,6 @@ class OcDashboardController extends Controller
         }
 
         if (in_array(session()->get('role_name'), array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head')))) {
-            $this->CommonController = new CommonController();
             $ree = $this->CommonController->getREERoles();
 
             $dashboardData = $this->getReeDashboardData($role_id,$ree,$statusCount);
@@ -53,7 +55,7 @@ class OcDashboardController extends Controller
     }
 
     /*
-     * Function for getting counts of pending applicatons
+     * Function for getting counts of pending applicatons at all department
      *
      * Author: Prajakta Sisale.
      *
@@ -62,52 +64,52 @@ class OcDashboardController extends Controller
     public function getTotalCountsOfApplicationsPending(){
 
         $coRoleData = $this->CommonController->getCORoles();
-        $laRoleData = $this->CommonController->getLARoles();
+        $eeRoleData = $this->CommonController->getEERoles();
         $reeRoleData = $this->CommonController->getREERoles();
+        $emRoleData = $this->CommonController->getEMRoles();
 
-        $roles = Role::whereIn('name',[config('commanConfig.co_engineer'), config('commanConfig.legal_advisor')])->pluck('id','name');
+        $oc_master_ids = config('commanConfig.oc_master_ids');
 
-        $new_tripartite_master_ids = config('commanConfig.tripartite_master_ids');
-        $coTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($new_tripartite_master_ids){
-            $q->whereIn('application_master_id', $new_tripartite_master_ids);
-        })->where('is_active', 1)
+        $eeTotalPendingCount = $emTotalPendingCount = $reeTotalPendingCount
+        = $coTotalPendingCount = 0;
+
+        $eeTotalPendingCount = OcApplicationStatusLog::where('is_active',1)
             ->where('status_id',config('commanConfig.applicationStatus.in_process'))
-            ->whereIn('role_id',$coRoleData)
+            ->whereIn('role_id',$eeRoleData)
             ->get()->count();
 
-        $laTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($new_tripartite_master_ids){
-            $q->whereIn('application_master_id', $new_tripartite_master_ids);
-        })->where('is_active', 1)
+        $emTotalPendingCount = OcApplicationStatusLog::where('is_active',1)
             ->where('status_id',config('commanConfig.applicationStatus.in_process'))
-            ->whereIn('role_id',$laRoleData)
+            ->whereIn('role_id',$emRoleData)
             ->get()->count();
 
-        $reeTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($new_tripartite_master_ids){
-            $q->whereIn('application_master_id', $new_tripartite_master_ids);
-        })->where('is_active', 1)
-            ->where('status_id', config('commanConfig.applicationStatus.in_process'))
-            ->whereIn('role_id', $reeRoleData)
+
+        $reeTotalPendingCount = OcApplicationStatusLog::whereHas('OcApplication', function($q) use ($oc_master_ids){
+            $q->whereIn('application_master_id', $oc_master_ids);
+        })->where('is_active',1)
+            ->whereIn('status_id',[config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.OC_Generation'),config('commanConfig.applicationStatus.OC_Approved')])
+            ->whereIn('role_id',$reeRoleData)
             ->get()->count();
 
-        $societyTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) {
-            $q->where('is_reverted_to_society', 0)
-                ->whereIn('current_status_id', [config('commanConfig.applicationStatus.sent_for_stamp_duty_registration'), config('commanConfig.applicationStatus.approved_tripartite_agreement')]);
-        })->where('is_active', 1)
-            ->whereIn('status_id', [config('commanConfig.applicationStatus.pending'), config('commanConfig.applicationStatus.approved_tripartite_agreement')])
-            ->where('society_flag', 1)
+        $coTotalPendingCount = OcApplicationStatusLog::whereHas('OcApplication', function($q) use ($oc_master_ids){
+            $q->whereIn('application_master_id', $oc_master_ids);
+        })->where('is_active',1)
+            ->whereIn('status_id',[config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.OC_Generation')])
+            ->where('role_id',$coRoleData)
             ->get()->count();
 
-        $totalPendingApplications = $coTotalPendingCount + $laTotalPendingCount + $reeTotalPendingCount + $societyTotalPendingCount;
 
+        $totalPendingApplications = $eeTotalPendingCount + $emTotalPendingCount + $reeTotalPendingCount + $coTotalPendingCount ;
 
         $dashboardData1 = array();
         $dashboardData1['Total Number of Applications'] = $totalPendingApplications;
-        $dashboardData1['Applications Pending at LA'] = $laTotalPendingCount;
+        $dashboardData1['Applications Pending at EE Department'] = $eeTotalPendingCount;
+        $dashboardData1['Applications Pending at EM'] = $emTotalPendingCount;
         $dashboardData1['Applications Pending at REE'] = $reeTotalPendingCount;
         $dashboardData1['Applications Pending at CO'] = $coTotalPendingCount;
-        $dashboardData1['Applications sent to Society'] = $societyTotalPendingCount;
 
         return $dashboardData1;
+
     }
 
     /*
@@ -136,7 +138,6 @@ class OcDashboardController extends Controller
                     ->orderBy('id', 'desc');
             })->whereIn('application_master_id',$oc_master_ids)->get()->toArray();
 
-//        dd($applicationData);
         return $applicationData;
     }
 
@@ -220,7 +221,6 @@ class OcDashboardController extends Controller
      */
     public function getREEDashboardData($role_id, $ree, $statusCount)
     {
-
         switch ($role_id) {
             case ($ree['REE Junior Engineer']):
                 $dashboardData['Total Number of Applications'][0] = $statusCount['totalApplication'];
@@ -350,7 +350,7 @@ class OcDashboardController extends Controller
         $dashboardData['OC Approved & Sent For Issuing to Society'][0] = $statusCount['ocApproved'];
         $dashboardData['OC Approved & Sent For Issuing to Society'][1] = '?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded');
 
-        
+
         $dashboardData = array($dashboardData);
 
         return $dashboardData;
@@ -439,5 +439,6 @@ class OcDashboardController extends Controller
         $dashboardData = array($dashboardData);
         return $dashboardData;
     }
+
 
 }

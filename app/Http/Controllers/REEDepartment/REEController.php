@@ -1994,15 +1994,9 @@ class REEController extends Controller
         $ocData = $oc_dashboard->getApplicationData($role_id,$user_id);
         $oc_count = count($ocData);
 
-//        //oc test
-//        $oc_dashboard = new OcDashboardController();
-//        $applicationData = $oc_dashboard->getApplicationData($role_id,$user_id);
-//        $statusCount = $oc_dashboard->getApplicationStatusCount($applicationData);
-//        $oc_data = $oc_dashboard->getReeDashboardData($role_id, $ree,$statusCount);
-//        dd($oc_data);
-
-
-
+        // Consent for Oc Pendency
+        $oc_pending_dashboard_data = $oc_dashboard->getTotalCountsOfApplicationsPending();
+        $oc_pendency_count = $oc_pending_dashboard_data['Total Number of Applications'];
 
         //Revision in Layout
 
@@ -2010,7 +2004,7 @@ class REEController extends Controller
 
         //Layout Approval Subordinate Pendency
 
-        return view('admin.REE_department.dashboard',compact('ol_count','ol_pending_count','oc_count','tripartite_count','tripartite_pending_count','ol_reval_count','ol_reval_pending_count',
+        return view('admin.REE_department.dashboard',compact('ol_count','ol_pending_count','oc_count','oc_pendency_count','tripartite_count','tripartite_pending_count','ol_reval_count','ol_reval_pending_count',
             'noc_count','noc_cc_count','noc_pending_count','noc_cc_pending_count','offerLetterRoles'));
     }
 
@@ -2173,8 +2167,17 @@ class REEController extends Controller
                     $oc_dashboard = new OcDashboardController();
                     $applicationData = $oc_dashboard->getApplicationData($role_id,$user_id);
                     $statusCount = $oc_dashboard->getApplicationStatusCount($applicationData);
-                    $oc_data = $oc_dashboard->getCODashboardData($statusCount);
+                    $oc_data = $oc_dashboard->getREEDashboardData($role_id,$ree,$statusCount);
                     return $oc_data;
+                }
+            }
+            if($request->module_name == 'Consent for OC Department Pendency'){
+                if (session()->get('role_name') == config('commanConfig.ree_branch_head')) {
+
+                    $ocPendingDashboardData = NULL;
+                    $oc_dashboard = new OcDashboardController();
+                    $ocPendingDashboardData = $oc_dashboard->getTotalCountsOfApplicationsPending();
+                    return $ocPendingDashboardData;
                 }
             }
         }
