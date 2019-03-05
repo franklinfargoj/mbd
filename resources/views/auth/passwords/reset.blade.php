@@ -1,9 +1,15 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+@extends('frontend.rti.login')
+@section('body')
+<div class="m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login m-login--singin m-login--2 m-login-2--skin-2"
+    id="m_login" style="position: relative;">
+<div class="container-fluid">
+    <div class="row ">
+    <div class="col-sm-6 overlay overlay--login h-100vh">
+                <div class="d-flex justify-content-center align-items-center login-page-header">
+                    <img class="login-logo" src="{{asset('/img/logo-short.png')}}">
+                </div>
+        </div>
+        <div class="col-sm-6 min-height-100vh">
             <div class="card">
                 <div class="card-header">{{ __('Reset Password') }}</div>
 
@@ -61,5 +67,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 @endsection
