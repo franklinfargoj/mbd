@@ -3655,5 +3655,17 @@ label.site-visit-label {
 }
 
 .mhada-full-modal .modal-body{
-        padding: 0 25px 0 25px !important;
+    padding: 0 25px 0 25px !important;
+}
+
+.mhada-reset-form .m-login__container.m-login--right-box{
+    max-width: 500px !important;
+}
+
+.mhada-reset-form .m-login__signin--box{
+    padding: 15px 30px !important;
+}
+
+.mhada-reset-form-btn button{
+
 }
