@@ -215,10 +215,10 @@ class EMController extends Controller
     public function societyDocumentsOC(Request $request,$applicationId)
     {
         $oc_application = $this->comman->getOcApplication($applicationId);    
-        $societyDocument = $this->comman->getSocietyDocumentsforOC($applicationId);
+         $societyDocuments = $this->comman->getSocietyDocumentsforOC($applicationId);
         $oc_application->status = $this->comman->getCurrentStatusOc($applicationId);
-
-        return view('admin.em_department.society_documents_consent_oc', compact('societyDocument','oc_application'));
+        $comments = $this->comman->getOCApplicationComments($applicationId);
+        return view('admin.em_department.society_documents_consent_oc', compact('oc_application','comments','societyDocuments'));
     }
 
     public function generateNoDueCertificateOc(Request $request,$applicationId)

@@ -100,7 +100,7 @@
                                             <h5>Upload</h5>
                                             <span class="hint-text">Click to upload Sale Deed Agreement</span>
                                                 <div class="custom-file">
-                                                    <input class="custom-file-input" name="sale_agreement" type="file" id="test-upload1">
+                                                    <input class="custom-file-input sale_file" name="sale_agreement" type="file" id="test-upload1">
                                                 
                                                         <label class="custom-file-label" for="test-upload1">Choose
                                                         file...</label>  
@@ -111,7 +111,7 @@
                                                     @endif 
                                                 </div>
                                                 <div class="mt-auto">
-                                                    <button type="submit" class="btn btn-primary mt-3" style="display:block">Upload</button>
+                                                    <button type="submit" id="sale_upload" class="btn btn-primary mt-3" style="display:block">Upload</button>
                                                 </div>
                                         </div>
                                     </div>
@@ -594,23 +594,49 @@
 
 @section('js')
 <script>
-    $("#agreementFRM").validate({
-        rules: {
-            sale_agreement: {
-                extension: "pdf"
-            },            
-            lease_agreement: {
-                extension: "pdf"
-            },
-        }, messages: {
-            sale_agreement: {
-                extension: "Invalid type of file uploaded (only pdf allowed)."
-            },            
-            lease_agreement: {
-                extension: "Invalid type of file uploaded (only pdf allowed)."
-            }
-        }
-    });  
+$("#sale_upload").click(function(){
+    $("#agreementFRM").validate();
+    $("input[name=sale_agreement]").rules("add", "required");
+    // $("#myForm").validate();
+
+});
+    //     $("#agreementFRM").validate({
+    //     rules: {
+    //         sale_agreement: {
+    //             required : true,
+    //             extension: "pdf"
+    //         }, 
+    //         lease_agreement: {
+    //             required : true,
+    //             extension: "pdf"
+    //         }            
+    //     }, messages: {
+    //         sale_agreement: {
+    //             extension: "Invalid type of file uploaded (only pdf allowed)."
+    //         },lease_agreement: {
+    //             extension: "Invalid type of file uploaded (only pdf allowed)."
+    //         }
+    //     }
+    // });
+
+
+    // $("#agreementFRM").validate({
+    //     rules: {
+    //         sale_agreement: {
+    //             extension: "pdf"
+    //         },            
+    //         lease_agreement: {
+    //             extension: "pdf"
+    //         },
+    //     }, messages: {
+    //         sale_agreement: {
+    //             extension: "Invalid type of file uploaded (only pdf allowed)."
+    //         },            
+    //         lease_agreement: {
+    //             extension: "Invalid type of file uploaded (only pdf allowed)."
+    //         }
+    //     }
+    // });  
   
 </script>
 <script src="{{ asset('vendor/unisharp/laravel-ckeditor/ckeditor.js') }}"></script>

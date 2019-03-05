@@ -22,7 +22,7 @@
                                     <h5>Download Consent For OC Application</h5>
                                     <span class="hint-text">Download submitted application in .pdf format</span>
                                     <div class="mt-auto">
-                                        <a title="Donwload Offer Letter Application" href="{{ route('society_oc_application_download') }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Consent For OC Application</a>
+                                        <a title="Donwload Offer Letter Application" href="{{ route('society_oc_application_download',encrypt($oc_applications->id)) }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Consent For OC Application</a>
                                     </div>
                                 </div>
                             </div>
@@ -32,6 +32,7 @@
                                     <span class="hint-text">Click on 'Upload' to upload signed & stamped application for Consent For OC.</span>
                                     <form action="{{ route('upload_society_oc') }}" method="post" enctype="multipart/form-data">
                                     @csrf
+                                        <input type="hidden" name="applicationId" value="{{ isset($oc_applications) ? $oc_applications->id : '' }}">
                                         <div class="custom-file">
                                             <input class="custom-file-input" name="oc_application_form" type="file"
                                                 id="test-upload" required="">

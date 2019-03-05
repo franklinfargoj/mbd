@@ -27,6 +27,7 @@ use App\MasterLayout;
 use App\OlApplication;
 use App\NocApplication;
 use App\NocSocietyDocumentsComment;
+use App\OcSocietyDocumentsComment;
 use App\NocSocietyDocumentsMaster;
 use App\NocCCApplication;
 use App\OcApplication;
@@ -4112,15 +4113,11 @@ class CommonController extends Controller
 
     public function getSocietyDocumentsforOC($applicationId)
     {
-
-        $societyId = OcApplication::where('id', $applicationId)->value('society_id');
-        $societyDocuments = SocietyOfferLetter::with(['societyOcDocuments.documents_Name'
-            , 'documentCommentsforOc' => function ($q) {
-                $q->orderBy('id', 'desc');
-            }])->where('id', $societyId)->get();
-
+        $application = OcApplication::where('id', $applicationId)->first();
+        $societyDocuments = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($application){$q->where('society_id', $application->society_id)->where('application_id',$application->id);
+        }])->get();
         return $societyDocuments;
-    }     
+    }      
 
     public function get_tripartite_agreements($ol_application_id, $agreement_type)
     {
@@ -4363,6 +4360,14 @@ class CommonController extends Controller
     public function getNOCApplicationComments($applicationId){
         
         $comments = NocSocietyDocumentsComment::where('application_id',$applicationId)
+        ->orderBy('id','desc')->first();
+        return $comments;
+    }    
+
+    // get OC application comments given by society
+    public function getOCApplicationComments($applicationId){
+        
+        $comments = OcSocietyDocumentsComment::where('application_id',$applicationId)
         ->orderBy('id','desc')->first();
         return $comments;
     }
