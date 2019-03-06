@@ -11,7 +11,7 @@
 @endsection
 @section('content')
 
-    <div class="container-fluid">
+    <div class="container-fluid mhada-dash-new">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title">Dashboard</h3>
@@ -50,7 +50,7 @@
                 <p class="db__card__title">Consent for OC Department Pendency</p>
             </div>
             @if($tripartite_data['dashboardData'])
-                <div class="db__card tripartite" data-module="Tripartite Agreement">
+                <div class="db__card tripartite no-margin" data-module="Tripartite Agreement">
                     <div class="db__card__img-wrap db-color-3">
                         <h3 class="db__card__count">{{$tripartite_count}}</h3>
                     </div>
@@ -83,7 +83,7 @@
                 </div>
                 <p class="db__card__title">Society Conveyance</p>
             </div>
-            <div class="db__card conveyance_pending" data-module="Society Conveyance Department Pendency">
+            <div class="db__card conveyance_pending no-margin" data-module="Society Conveyance Department Pendency">
                 <div class="db__card__img-wrap db-color-9">
                     <h3 class="db__card__count">{{$conveyance_pending_count}}</h3>
                 </div>
@@ -113,7 +113,7 @@
                 </div>
                 <p class="db__card__title">NOC (CC) Department Pendency</p>
             </div>
-            <div class="db__card revision" data-module="Revision in Layout">
+            <div class="db__card revision no-margin" data-module="Revision in Layout">
                 <div class="db__card__img-wrap db-color-14">
                     <h3 class="db__card__count">-</h3>
                 </div>

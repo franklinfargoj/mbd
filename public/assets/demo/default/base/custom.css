@@ -3669,3 +3669,21 @@ label.site-visit-label {
 .mhada-reset-form-btn button{
 
 }
+
+.mhada-dash-new .db__card{
+    padding: 15px;
+}
+
+.mhada-dash-new .db__card__img-wrap{
+    max-width: 90px;
+    height: 70px;
+    margin-bottom: 15px;
+}
+
+.mhada-dash-new .db__card__title{
+    font-size: 14px;
+}
+
+.no-margin{
+    margin-left: 0 !important;
+}
