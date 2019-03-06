@@ -3694,6 +3694,12 @@ label.site-visit-label {
     cursor: pointer;
 }
 
+.mhada-full-modal .m-portlet{
+    height: 370px;
+    overflow: auto;
+    /*max-height: 100%;*/
+}
+
 @media screen and (max-width: 1920px) and (min-width: 1400px) {
     .no-margin-xl{
         margin-left: 0px !important;
