@@ -9,7 +9,7 @@
     {{ session()->get('success') }}
 </div>
 @endif
-
+ 
 <div class="col-md-12"> 
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
@@ -280,7 +280,7 @@
                     <div class="col-md-12">
                         <h3 class="section-title section-title--small">Remark</h3>
                             <textarea rows="4" cols="63" name="remark"></textarea>  
-                            <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
+                            <button type="submit" class="btn btn-primary mt-3 upload_btn" id="remark_btn" style="display:block">Save</button>
                     </div>
                 </div>
             </div>
@@ -290,7 +290,6 @@
 @endsection
 
 @section('js')
-
 <script type="text/javascript">
     document.querySelector(".nav-tabs--stamp-duty").addEventListener('click', function(e) {
         if(e.target.href.indexOf("resolution") === -1) {
@@ -304,6 +303,45 @@
         
 
     })
+
+$(".upload_btn").click(function(){
+    var btn = this.id;
+    if (btn == 'sale_btn'){ 
+        $("#agreementFRM").validate({
+            rules: {
+                sale_agreement: {
+                    required : true,
+                    extension: "pdf"
+                }          
+            }, messages: {
+                sale_agreement: {
+                    extension: "Invalid type of file uploaded (only pdf allowed)."
+                }
+            }
+        });
+    } else if (btn == 'lease_btn'){
+        $("#agreementFRM").validate({
+            rules: {
+                lease_agreement: {
+                    required : true,
+                    extension: "pdf"
+                }          
+            }, messages: {
+                lease_agreement: {
+                    extension: "Invalid type of file uploaded (only pdf allowed)."
+                }
+            }
+        });
+    } else if (btn == 'remark_btn'){
+        $("#agreementFRM").validate({
+            rules: {
+                remark: {
+                    required : true,
+                }          
+            }
+        });
+    }
+});    
 </script>
 
 @endsection

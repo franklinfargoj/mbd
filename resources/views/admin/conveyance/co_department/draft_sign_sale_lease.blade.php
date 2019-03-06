@@ -97,8 +97,8 @@
                                                          Download </a>
                                                     @endif  
                                                 </div>
-                                                <div class="mt-auto">
-                                                <button type="submit" class="btn btn-primary mt-3" style="display:block">Upload</button>   
+                                                <div class="mt-3">
+                                                <button type="submit" class="btn btn-primary mt-3 upload_btn" id="sale_btn" style="display:block">Upload</button>   
                                             </div> 
                                         </div>
                                     </div>
@@ -153,8 +153,8 @@
                                                          Download </a>
                                                     @endif      
                                                 </div>
-                                                <div class="mt-auto">
-                                                    <button type="submit" class="btn btn-primary mt-3" style="display:block">Upload</button>   
+                                                <div class="mt-3">
+                                                    <button type="submit" id="lease_btn" class="btn btn-primary mt-3 upload_btn" style="display:block">Upload</button>   
                                                  </div>
                                         </div>
                                     </div>
@@ -212,7 +212,7 @@
                 <div class="col-md-12">
                     <h3 class="section-title section-title--small">Remark</h3>
                         <textarea rows="4" cols="63" name="remark"></textarea>
-                        <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
+                        <button type="submit" class="btn btn-primary mt-3 upload_btn" id="remark_btn" style="display:block">Save</button>
                 </div>
             </div>
         </div>
@@ -223,22 +223,61 @@
 @endsection
 @section('js')
 <script>
-    $("#agreementFRM").validate({
-        rules: {
-            sale_agreement: {
-                extension: "pdf"
-            },            
-            lease_agreement: {
-                extension: "pdf"
-            },
-        }, messages: {
-            sale_agreement: {
-                extension: "Invalid type of file uploaded (only pdf allowed)."
-            },            
-            lease_agreement: {
-                extension: "Invalid type of file uploaded (only pdf allowed)."
+
+$(".upload_btn").click(function(){
+    var btn = this.id;
+    if (btn == 'sale_btn'){ 
+        $("#agreementFRM").validate({
+            rules: {
+                sale_agreement: {
+                    required : true,
+                    extension: "pdf"
+                }          
+            }, messages: {
+                sale_agreement: {
+                    extension: "Invalid type of file uploaded (only pdf allowed)."
+                }
             }
-        }
-    });  
+        });
+    } else if (btn == 'lease_btn'){
+        $("#agreementFRM").validate({
+            rules: {
+                lease_agreement: {
+                    required : true,
+                    extension: "pdf"
+                }          
+            }, messages: {
+                lease_agreement: {
+                    extension: "Invalid type of file uploaded (only pdf allowed)."
+                }
+            }
+        });
+    } else if (btn == 'remark_btn'){
+        $("#agreementFRM").validate({
+            rules: {
+                remark: {
+                    required : true,
+                }          
+            }
+        });
+    }
+});
+    // $("#agreementFRM").validate({
+    //     rules: {
+    //         sale_agreement: {
+    //             extension: "pdf"
+    //         },            
+    //         lease_agreement: {
+    //             extension: "pdf"
+    //         },
+    //     }, messages: {
+    //         sale_agreement: {
+    //             extension: "Invalid type of file uploaded (only pdf allowed)."
+    //         },            
+    //         lease_agreement: {
+    //             extension: "Invalid type of file uploaded (only pdf allowed)."
+    //         }
+    //     }
+    // });  
 </script>
 @endsection
