@@ -3687,3 +3687,7 @@ label.site-visit-label {
 .no-margin{
     margin-left: 0 !important;
 }
+
+.db__card.hearing_summary{
+    cursor: pointer;
+}
