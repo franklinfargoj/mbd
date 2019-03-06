@@ -2766,4 +2766,17 @@ class SocietyOfferLetterController extends Controller
         return view('frontend.society.show_signed_oc_application',compact('oc_applications'));        
     }
 
+    public function showOfferSignApplication($applicationId){
+      
+        $applicationId = decrypt($applicationId); 
+        $ol_applications = OlApplication::where('id',$applicationId)->with(['olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        }])->first(); 
+
+        $society_details = SocietyOfferLetter::find($ol_applications->society_id);
+        $documents_arr = $this->get_docs_count($ol_applications, $society_details);
+        $applicationCount = $this->getForwardedApplication();
+        return view('frontend.society.show_signed_offer_application',compact('ol_applications','documents_arr','applicationCount'));
+    }
+
 }

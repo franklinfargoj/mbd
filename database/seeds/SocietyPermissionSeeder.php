@@ -647,6 +647,11 @@ class SocietyPermissionSeeder extends Seeder
                 'name' => 'show_oc_sign_application',
                 'display_name' => 'show oc sign application',
                 'description'  => 'show oc sign application'
+            ],
+            [
+                'name' => 'show_offer_sign_application',
+                'display_name' => 'show offer letter sign application',
+                'description'  => 'show offer letter sign application'
             ]
         ];
         

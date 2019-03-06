@@ -509,6 +509,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
         Route::get('society_offer_letter_preview/{id}', 
             'SocietyOfferLetterController@showOfferLetterApplication')->name('society_offer_letter_preview');
+
+        Route::get('show_offer_sign_application/{id}', 
+            'SocietyOfferLetterController@showOfferSignApplication')->name('show_offer_sign_application');
         Route::get('society_offer_letter_edit/{id}', 'SocietyOfferLetterController@editOfferLetterApplication')->name('society_offer_letter_edit');
         Route::post('society_offer_letter_update', 'SocietyOfferLetterController@updateOfferLetterApplication')->name('society_offer_letter_update');
 

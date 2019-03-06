@@ -221,9 +221,11 @@
                                 @if(isset($applicationData->visitDocuments))
                                     @foreach($applicationData->visitDocuments as $documents)
                                      
-                                    <div class="align-items-center mb-5 upload_doc_{{$i}}">
-                                        <label class="site-visit-label">Upload Site Photos: </label>
-                                        <div class="custom-file custom-file--fixed mb-0 position-relative">
+                                    <div class="col-md-12 row align-items-center mb-5 upload_doc_{{$i}}">
+                                        <div class="col-md-3">
+                                            <label class="site-visit-label">Upload Site Photos: </label>
+                                        </div>    
+                                        <div class="col-md-6 custom-file custom-file--fixed mb-0 position-relative">
                                             <input type="file" class="file custom-file-input file_ext upload_file_{{$i}}" name="document[]" id="test-upload_{{$i}}">
                                             <label class="custom-file-label" for="test-upload_{{$i}}" id="file_label_{{$i}}">{{isset(explode('/',$documents->document_path)[1]) ? explode('/',$documents->document_path)[1] : ''}}</label>
                                             <span id="file_error_{{$i}}" class="text-danger"></span>
@@ -242,14 +244,17 @@
                                     $required = '';
                                 } @endphp
 
-                                <div class="align-items-center mb-5 upload_doc_1">
+                                <div class="col-md-12 row align-items-center mb-5 upload_doc_1">
+                                <div class="col-md-3">
                                     <label class="site-visit-label">Upload Site Photos: <span class="star">*</span></label>
-                                    <div class="custom-file custom-file--fixed mb-0 position-relative">
+                                </div>    
+                                    <div class="col-md-6 custom-file custom-file--fixed mb-0 position-relative">
                                         <input type="file" class="file custom-file-input file_ext upload_file_1" name="document[]" id="test-upload_1" {{ $required }}>
                                         <label class="custom-file-label" for="test-upload_1" id="file_label_1">Choose file ...</label>
                                         <span id="file_error_1" class="text-danger"></span>
                                         <span class="file_required text-danger"></span> 
-										<a class="btn-link" id="add_more_1" onclick="addMoreDocuments(this);" style="margin-top: 12px;cursor: pointer;">add more</a>
+                                        <p>
+										<a class="btn-link" id="add_more_1" onclick="addMoreDocuments(this);" style="margin-top: 12px;cursor: pointer;">add more</a></p>
 										<i class="fa fa-close doc close-icon" id="document_1" onclick="removeDocuments(this.id)"></i>
                                     </div>
                                 </div>
@@ -414,11 +419,10 @@ var isError = 0;
         myfile= $("#test-upload_"+id).val();
         var ext = myfile.split('.').pop();
         if(myfile != ""){
-            console.log("hi");
             if (ext != "pdf" && ext != "png" && ext != "jpeg" && ext != "jpg"){
                 $("#file_error_"+id).text("Invalid type of file uploaded.");
                 $("#test-upload_"+id).closest(".custom-file").addClass("has-error");
-                isError = 1;
+                return false;
             }
             else{
                 $("#file_error_"+id).text("");
@@ -437,9 +441,9 @@ var isError = 0;
                 $(".file_required").text("");
                 $(text).css("display", "none");
                 $('.doc').css("visibility", "visible");
-                $(".all_documents").append("<div class='flex-wrap align-items-center mb-5 upload_doc_"+id+"'><label class='site-visit-label'>Upload Site Photos:</label><div class='custom-file custom-file--fixed mb-0 position-relative'><input type='file' class='file custom-file-input file_ext upload_file_"+id+"' name='document[]' id='test-upload_" +
+                $(".all_documents").append("<div class='col-md-12 row flex-wrap align-items-center mb-5 upload_doc_"+id+"'><div class='col-md-3'><label class='site-visit-label'>Upload Site Photos:</label></div><div class='col-md-6 custom-file custom-file--fixed mb-0 position-relative'><input type='file' class='file custom-file-input file_ext upload_file_"+id+"' name='document[]' id='test-upload_" +
                     id + "'><label class='custom-file-label' for='test-upload_"+id+"' id='file_label_"+id+"'> Choose file .. </label><span class='text-danger' id='file_error_"+id+"'></span><i class='fa fa-close doc close-icon' id='document_" + id +
-                    "' onclick='removeDocuments(this.id)'></i><span class='file_required text-danger'></span><a class='btn-link' id='add_more_"+id+"' onclick='addMoreDocuments(this);' style='cursor:pointer'>add more </a></div></div>"
+                    "' onclick='removeDocuments(this.id)'></i><span class='file_required text-danger'></span><p><a class='btn-link' id='add_more_"+id+"' onclick='addMoreDocuments(this);' style='cursor:pointer'>add more </a></p></div></div>"
                 );
                 id1++;
                 id++;
@@ -447,6 +451,9 @@ var isError = 0;
                 $("#documentCount").val(id);            
                 $("#siteDocument").val(id1);                            
             }
+         }else{
+            $("#file_error_"+id).text("This field is required.");
+            // $("#test-upload_"+id).closest(".custom-file").addClass("has-error");
          }
     }
 

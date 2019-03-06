@@ -2,7 +2,7 @@
     <div style="font-size: 18px;">
         <div>
             <div style="text-align: center;">
-                <h3 style="font-weight: bold; margin-top: 5px; margin-bottom: 5px;">अर्जाचा नमुना</h3>
+                <!-- <h3 style="font-weight: bold; margin-top: 5px; margin-bottom: 5px;">अर्जाचा नमुना</h3> -->
             </div>
             <div>
                 <p>
@@ -32,7 +32,7 @@
                 <p style="text-indent: 80px;">सदर प्रस्तावावर उचित कार्यवाही करुन देकारपत्र जारी करण्याची कार्यवाही करण्यात यावी, ही विनंती.</p>
             </div>
 
-            <div style="margin-top: 180px"> 
+            <div style="margin-top: 250px"> 
                 <p><b> Remark By Society :</b></p> 
                 <p><span> {{ isset($comment) ? $comment->society_documents_comment : 'N.A'}} </span></p>
               
