@@ -172,7 +172,7 @@
                                                     <a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server').'/'.$data->approveStampLetter->document_path }}" download>Download</a> 
                                                     @endif    
                                             </div>
-                                        <div class="mt-auto" style="margin-top: 14px !important">   
+                                        <div class="mt-3" >   
                                             <input type="submit" class="btn btn-primary" value="Upload">
                                          </div>                                
                                 </div>
@@ -266,7 +266,7 @@
                         <div class="col-md-12">
                             <h3 class="section-title section-title--small">Remark</h3>
                                 <textarea rows="4" cols="63" name="remark"></textarea>
-                                <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
+                                <button type="submit" class="btn btn-primary mt-3" id="remark_btn" style="display:block">Save</button>
                         </div>
                     </div>
                 </div>
@@ -288,6 +288,14 @@
                 extension: "Invalid type of file uploaded (only pdf allowed)."
             },            
         }
+    });    
+
+    $("#CommentFRM").validate({
+        rules: {
+            remark: {
+                required : true
+            },            
+        }
     });  
 
     $("#submitStampBtn").click(function(){
@@ -301,5 +309,7 @@
             return false;
         }
     });
+
+
 </script>
 @endsection

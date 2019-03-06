@@ -9,7 +9,7 @@
                 <h3 class="m-subheader__title m-subheader__title--separator">Consent For OC Application Form</h3>
                 {{ Breadcrumbs::render('society_oc_edit',$oc_applications->id) }}&nbsp;({{ $oc_applications->ol_application_master->model }})
 
-            </div>
+            </div> 
         </div>
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
@@ -59,7 +59,7 @@
 
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="construction_details">Construction Details</label>
+                            <label class="col-form-label" for="construction_details">Construction Details <span class="star">*</span></label>
                             <textarea id="construction_details" name="construction_details" class="form-control form-control--custom m-input" required>{{ $oc_application->request_form->construction_details }}</textarea>
                             <span class="help-block">{{$errors->first('construction_details')}}</span>
                         </div>
