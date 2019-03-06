@@ -12,7 +12,7 @@
 @section('content')
 
     <div class="container-fluid mhada-dash-new">
-        <div class="m-subheader px-0 m-subheader--top">
+             <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title">Dashboard</h3>
             </div>
@@ -43,14 +43,14 @@
                     </div>
                     <p class="db__card__title">Consent for OC</p>
                 </div>
-            <div class="db__card consent_oc_pendency" data-module="Consent for OC Department Pendency">
+            <div class="db__card consent_oc_pendency no-margin-sm" data-module="Consent for OC Department Pendency">
                 <div class="db__card__img-wrap db-color-4">
                     <h3 class="db__card__count">{{$oc_pendency_count}}</h3>
                 </div>
                 <p class="db__card__title">Consent for OC Department Pendency</p>
             </div>
             @if($tripartite_data['dashboardData'])
-                <div class="db__card tripartite no-margin" data-module="Tripartite Agreement">
+                <div class="db__card tripartite no-margin-xl" data-module="Tripartite Agreement">
                     <div class="db__card__img-wrap db-color-3">
                         <h3 class="db__card__count">{{$tripartite_count}}</h3>
                     </div>
@@ -65,13 +65,13 @@
                     <p class="db__card__title">Tripartite Agreement Department Pendency</p>
                 </div>
             @endif
-            <div class="db__card revalidation" data-module="Offer Letter Revalidation">
+            <div class="db__card revalidation no-margin-sm" data-module="Offer Letter Revalidation">
                 <div class="db__card__img-wrap db-color-6">
                     <h3 class="db__card__count">{{$ol_reval_count}}</h3>
                 </div>
                 <p class="db__card__title">Offer Letter Revalidation</p>
             </div>
-            <div class="db__card revalidation_pending" data-module="Offer Letter Revalidation Department Pendency">
+            <div class="db__card revalidation_pending no-margin-sm" data-module="Offer Letter Revalidation Department Pendency">
                 <div class="db__card__img-wrap db-color-7">
                     <h3 class="db__card__count">{{$ol_reval_pending_count}}</h3>
                 </div>
@@ -83,7 +83,7 @@
                 </div>
                 <p class="db__card__title">Society Conveyance</p>
             </div>
-            <div class="db__card conveyance_pending no-margin" data-module="Society Conveyance Department Pendency">
+            <div class="db__card conveyance_pending no-margin-xl" data-module="Society Conveyance Department Pendency">
                 <div class="db__card__img-wrap db-color-9">
                     <h3 class="db__card__count">{{$conveyance_pending_count}}</h3>
                 </div>
@@ -95,7 +95,7 @@
                 </div>
                 <p class="db__card__title">NOC</p>
             </div>
-            <div class="db__card noc_pending" data-module="NOC Department Pendency">
+            <div class="db__card noc_pending no-margin-sm" data-module="NOC Department Pendency">
                 <div class="db__card__img-wrap db-color-11">
                     <h3 class="db__card__count">{{$noc_pending_count}}</h3>
                 </div>
@@ -113,13 +113,13 @@
                 </div>
                 <p class="db__card__title">NOC (CC) Department Pendency</p>
             </div>
-            <div class="db__card revision no-margin" data-module="Revision in Layout">
+            <div class="db__card revision no-margin-xl" data-module="Revision in Layout">
                 <div class="db__card__img-wrap db-color-14">
                     <h3 class="db__card__count">-</h3>
                 </div>
                 <p class="db__card__title">Revision in Layout</p>
             </div>
-            <div class="db__card revision" data-module="Layout Approval">
+            <div class="db__card revision no-margin-sm" data-module="Layout Approval">
                 <div class="db__card__img-wrap db-color-15">
                     <h3 class="db__card__count">-</h3>
                 </div>

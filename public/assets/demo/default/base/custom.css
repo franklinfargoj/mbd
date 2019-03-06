@@ -3690,14 +3690,24 @@ label.site-visit-label {
     margin-left: 20px;
 }
 
-.no-margin{
-    margin-left: 0 !important;
-}
-
 .db__card.hearing_summary{
     cursor: pointer;
 }
 
-.db-wrapper{
-    margin: 20px;
+@media screen and (max-width: 1920px) and (min-width: 1400px) {
+    .no-margin-xl{
+        margin-left: 0px !important;
+    }
+}
+
+@media screen and (max-width: 1400px) and (min-width: 967px) {
+    .db__card{
+        width: 24% !important;
+    }
+
+    .no-margin-sm{
+        margin-left: 0 !important;
+    }
+
+    
 }
