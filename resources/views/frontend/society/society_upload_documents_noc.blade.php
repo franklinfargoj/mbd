@@ -53,87 +53,88 @@
                         <tbody>
                             @php $i=1; @endphp
                             @foreach($documents as $document)
-                            <tr>
-                                <td>{{ $i }}</td>
-                                <td>
-                                    {{ $document->name }}<span class="compulsory-text">
-                                    @if(in_array($i, $optional_docs))<small>
-                                    <span style="color: green;">(Optional
-                                            Document)</span></small> @else <small>(Compulsory Document)</small> @endif</span>
-                                </td>
-                                <td class="text-center">
-                                    <h2 class="m--font-danger">
+                                <tr>
+                                    <td>{{ ($document->parent != 0) ? $document->parent . $document->sort_by  : $i }}</td>
+                                    <td>
+                                        {{ $document->name }}<span class="compulsory-text">
+                                        @if(in_array($i, $optional_docs))<small>
+                                        <span style="color: green;">(Optional
+                                                Document)</span></small> @else <small>(Compulsory Document)</small> @endif</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <h2 class="m--font-danger">
+                                            @if(count($document->documents_uploaded) > 0 )
+                                            @foreach($document->documents_uploaded as $document_uploaded)
+                                            @if($document_uploaded['society_id'] == $society->id)
+                                            <i class="fa fa-check"></i>
+                                            @else
+                                            <i class="fa fa-remove"></i>
+                                            @endif
+                                            @endforeach
+                                            @else
+                                            <i class="fa fa-remove"></i>
+                                            @endif
+                                        </h2>
+                                    </td>
+                                    
+                                    <td>
                                         @if(count($document->documents_uploaded) > 0 )
                                         @foreach($document->documents_uploaded as $document_uploaded)
                                         @if($document_uploaded['society_id'] == $society->id)
-                                        <i class="fa fa-check"></i>
+                                        <span>
+                                            <a href="{{ asset($document_uploaded['society_document_path']) }}" data-value='{{ $document->id }}'
+                                                class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
+                                                    Download</button></a>
+                                            <a onclick="return confirm('Are you sure you want to discard this document?');" href="{{ url('/delete_uploaded_documents_noc',([encrypt($noc_applications->id), encrypt($document->id)])) }}" data-value='{{ $document->id }}'
+                                                class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
+                                                    <i class="fa fa-trash"></i></button></a>
+                                        </span>
                                         @else
-                                        <i class="fa fa-remove"></i>
+                                        <form action="{{ route('uploaded_documents_noc') }}" method="post" enctype='multipart/form-data'
+                                            id="upload_documents_form_{{ $document->id }}">
+                                            @csrf
+                                            <input type="hidden" name="applicationId" value="{{ isset($noc_applications->id) ? $noc_applications->id : '' }}">
+                                            <div class="custom-file">
+                                                <input class="custom-file-input" name="document_name" type="file" class=""
+                                                    id="test-upload_{{ $document->id }}" required>
+                                                <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
+                                                <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
+                                                    file ...</label>
+                                                <span class="help-block">
+                                                    @if(session('error_'.$document->id))
+                                                    session('error_'.$document->id)
+                                                    @endif
+                                                </span>
+                                            </div>
+                                            <br>
+                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                        </form>
                                         @endif
                                         @endforeach
                                         @else
-                                        <i class="fa fa-remove"></i>
+                                        <form action="{{ route('uploaded_documents_noc') }}" method="post" enctype='multipart/form-data'
+                                            id="upload_documents_form_{{ $document->id }}">
+                                            @csrf
+                                             <input type="hidden" name="applicationId" value="{{ isset($noc_applications->id) ? $noc_applications->id : '' }}">
+                                            <div class="custom-file @if(session('error_'.$document->id)) has-error @endif">
+                                                <input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}"
+                                                    required>
+                                                <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
+                                                <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
+                                                    file ...</label>
+                                                <span class="help-block text-danger">
+                                                    @if(session('error_'.$document->id))
+                                                    {{session('error_'.$document->id)}}
+                                                    @endif
+                                                </span>
+                                            </div>
+                                            <br>
+                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn_{{ $document->id }}">Upload</button>
+                                        </form>
                                         @endif
-                                    </h2>
-                                </td>
-                                
-                                <td>
-                                    @if(count($document->documents_uploaded) > 0 )
-                                    @foreach($document->documents_uploaded as $document_uploaded)
-                                    @if($document_uploaded['society_id'] == $society->id)
-                                    <span>
-                                        <a href="{{ asset($document_uploaded['society_document_path']) }}" data-value='{{ $document->id }}'
-                                            class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
-                                                Download</button></a>
-                                        <a onclick="return confirm('Are you sure you want to discard this document?');" href="{{ url('/delete_uploaded_documents_noc',([encrypt($noc_applications->id), encrypt($document->id)])) }}" data-value='{{ $document->id }}'
-                                            class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
-                                                <i class="fa fa-trash"></i></button></a>
-                                    </span>
-                                    @else
-                                    <form action="{{ route('uploaded_documents_noc') }}" method="post" enctype='multipart/form-data'
-                                        id="upload_documents_form_{{ $document->id }}">
-                                        @csrf
-                                        <input type="hidden" name="applicationId" value="{{ isset($noc_applications->id) ? $noc_applications->id : '' }}">
-                                        <div class="custom-file">
-                                            <input class="custom-file-input" name="document_name" type="file" class=""
-                                                id="test-upload_{{ $document->id }}" required>
-                                            <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
-                                            <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
-                                                file ...</label>
-                                            <span class="help-block">
-                                                @if(session('error_'.$document->id))
-                                                session('error_'.$document->id)
-                                                @endif
-                                            </span>
-                                        </div>
-                                        <br>
-                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                    </form>
-                                    @endif
-                                    @endforeach
-                                    @else
-                                    <form action="{{ route('uploaded_documents_noc') }}" method="post" enctype='multipart/form-data'
-                                        id="upload_documents_form_{{ $document->id }}">
-                                        @csrf
-                                         <input type="hidden" name="applicationId" value="{{ isset($noc_applications->id) ? $noc_applications->id : '' }}">
-                                        <div class="custom-file @if(session('error_'.$document->id)) has-error @endif">
-                                            <input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}"
-                                                required>
-                                            <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
-                                            <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
-                                                file ...</label>
-                                            <span class="help-block text-danger">
-                                                @if(session('error_'.$document->id))
-                                                {{session('error_'.$document->id)}}
-                                                @endif
-                                            </span>
-                                        </div>
-                                        <br>
-                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn_{{ $document->id }}">Upload</button>
-                                    </form>
-                                    @endif
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                               
                             @php $i++; @endphp
                             @endforeach
                         </tbody>

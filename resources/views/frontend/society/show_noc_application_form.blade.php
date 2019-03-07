@@ -57,8 +57,8 @@
                             <p>
                                 <span class="d-block font-weight-semi-bold">For {{ $society_details->name }}</span>
                                 <span class="d-block">Chairman /Secretary / Treasurer</span>
-                                <span class="d-block">Encl:- Payment receipt, Undertakings & Indemnity bonds ,No dues certificate</span>
-                            </p>
+                               <!--  <span class="d-block">Encl:- Payment receipt, Undertakings & Indemnity bonds ,No dues certificate</span>
+ -->                            </p>
                         </div>
                     </div>
                 </div>

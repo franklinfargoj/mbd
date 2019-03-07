@@ -289,7 +289,7 @@ var SnippetLogin = function() {
                         },
                         society_architect_name:{
                             required:true,
-                            lettersonly: true,
+                            // lettersonly: true,
                         },
                         society_architect_mobile_no:{
                             required:true,
