@@ -19,7 +19,7 @@
                 <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="application_type_id">Application Type:</label>
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layouts" name="layout_id" required>
+                            <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layouts" name="layout_id" required>
                                 @foreach($layouts as $layout)
                                     <option value="{{ $layout['id'] }}">{{ $layout['layout_name'] }}</option>
                                 @endforeach
@@ -57,12 +57,12 @@
 
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="offer_letter_number">Offer letter number:</label>
+                            <label class="col-form-label" for="offer_letter_number">Offer Letter Number:</label>
                             <input type="text" id="offer_letter_number" name="offer_letter_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->offer_letter_number }}" required>
                             <span class="help-block">{{$errors->first('offer_letter_number')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
-                            <label class="col-form-label" for="offer_letter_date">Offer letter date:</label>
+                            <label class="col-form-label" for="offer_letter_date">Offer Letter Date:</label>
                             <input type="text" id="m_datepicker" name="offer_letter_date" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->offer_letter_date)) }}" required>
                             <span class="help-block">{{$errors->first('offer_letter_date')}}</span>
                         </div>
@@ -71,39 +71,44 @@
 
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="no_dues_certificate_number">No dues certificate number :</label>
-                            <input type="text" id="no_dues_certificate_number" name="no_dues_certificate_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->no_dues_certificate_number }}" required>
-                            <span class="help-block">{{$errors->first('no_dues_certificate_number')}}</span>
+                            <label class="col-form-label" for="mcgm_iod_number">MCGM IOD Number :</label>
+                            <input type="text" id="mcgm_iod_number" name="mcgm_iod_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->mcgm_iod_number }}" required>
+                            <span class="help-block">{{$errors->first('mcgm_iod_number')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="no_dues_certificate_date">No dues certificate date :</label>
-                            <input type="text" id="m_datepicker" name="no_dues_certificate_date" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->no_dues_certificate_date)) }}" required>
-                            <span class="help-block">{{$errors->first('no_dues_certificate_date')}}</span>
+                            <label class="col-form-label" for="mcgm_iod_date">MCGM IOD Date :</label>
+                            <input type="text" id="m_datepicker" name="mcgm_iod_date" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->mcgm_iod_date)) }}" required>
+                            <span class="help-block">{{$errors->first('mcgm_iod_date')}}</span>
                         </div>
                     </div>
 
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="noc_no">NOC no :</label>
+                            <label class="col-form-label" for="noc_no">NOC for IOD Number :</label>
                             <input type="text" id="noc_no" name="noc_no" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->noc_no }}" required>
                             <span class="help-block">{{$errors->first('noc_no')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="noc_date">NOC date :</label>
+                            <label class="col-form-label" for="noc_date">NOC for IOD Date :</label>
                             <input type="text" id="m_datepicker" name="noc_date" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->noc_date)) }}" required>
                             <span class="help-block">{{$errors->first('noc_date')}}</span>
                         </div>
                     </div>
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="tripartite_agreement_number">Tripartite agreement number :</label>
-                            <input type="text" id="tripartite_agreement_number" name="tripartite_agreement_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->tripartite_agreement_number }}" required>
-                            <span class="help-block">{{$errors->first('tripartite_agreement_number')}}</span>
-                        </div>
-                        <div class="col-sm-4 offset-sm-1 form-group"> <!-- offset-sm-1 -->
                             <label class="col-form-label" for="tripartite_agreement_date">Tripartite agreement date :</label>
                             <input type="text" id="m_datepicker" name="tripartite_agreement_date" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->tripartite_agreement_date)) }}" required>
                             <span class="help-block">{{$errors->first('tripartite_agreement_date')}}</span>
+                        </div>
+                        {{--<div class="col-sm-4 offset-sm-1 form-group"> <!-- offset-sm-1 -->--}}
+                            {{--<label class="col-form-label" for="tripartite_agreement_number">Tripartite agreement number :</label>--}}
+                            {{--<input type="text" id="tripartite_agreement_number" name="tripartite_agreement_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->tripartite_agreement_number }}" required>--}}
+                            {{--<span class="help-block">{{$errors->first('tripartite_agreement_number')}}</span>--}}
+                        {{--</div>--}}
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="developer_name">Developer Name:  {{--<span class="star">*</span>--}}</label>
+                            <input type="text" id="developer_name" name="developer_name" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->developer_name}}" required>
+                            <span class="help-block">{{$errors->first('developer_name')}}</span>
                         </div>
                     </div>
 
@@ -119,8 +124,21 @@
                             </div>
                         </div>
                     </div>
-                </div>
             </form>
         </div>
     </div>
+@endsection
+@section('js')
+    <script>
+
+        var today = new Date();
+
+        $('.m_datepicker').datepicker({
+            autoclose: true,
+            format: 'dd-mm-yyyy',
+            endDate: today
+        });
+
+    </script>
+
 @endsection

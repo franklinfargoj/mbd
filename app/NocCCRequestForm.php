@@ -11,11 +11,11 @@ class NocCCRequestForm extends Model
         'society_id',
         'offer_letter_date',
         'offer_letter_number',
-        'no_dues_certificate_number',
-        'no_dues_certificate_date',
+        'mcgm_iod_number',
+        'developer_name',
+        'mcgm_iod_date',
         'noc_no',
         'noc_date',
-        'tripartite_agreement_number',
         'tripartite_agreement_date'
     ];
 }
