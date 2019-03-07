@@ -31,11 +31,10 @@
                     <div style="margin-top: -15px;">
                         <p style="margin-bottom:0; line-height:0.25;">To,</p>
                         <p style="margin-bottom:0; line-height:0.25;">The Executive Engineer,</p>
-                        <p style="margin-bottom:0; line-height:0.25;">Building Proposal Department (ES),</p>
-                        <p style="margin-bottom:0; line-height:0.25;">M.C.G.M. Bldg. Near Raj Legacy,</p>
-                        <p style="margin-bottom:0; line-height:0.25;">Old Paper Mill Compound,</p>
-                        <p style="margin-bottom:0; line-height:0.25;">L. B. S. Marg, Vikhroli (W),</p>
-                        <p style="margin-bottom:0; line-height:0.25;">Mumbai 400083. </p>
+                        <p style="margin-bottom:0; line-height:0.25;">Building Permission Cell,</p>
+                        <p style="margin-bottom:0; line-height:0.25;">Planning Authority,</p>
+                        <p style="margin-bottom:0; line-height:0.25;">MHADA Bandra (E),</p>
+                        <p style="margin-bottom:0; line-height:0.25;">Mumbai - 400051.</p>
                     </div>
                 </div><!-- Header ends here -->
                 <!-- Subject starts here -->
@@ -48,7 +47,7 @@
                             </tr>
                             <tr>
                                 <td style="border: 1px solid #000; text-align: center; padding: 5px;" valign="top">Ref:</td>
-                                <td style="border: 1px solid #000; padding: 5px;" valign="top"><span style="display: block; margin-bottom: 4px;">1. This office NOC. <span style="font-weight: bold;">{{($model->request_form->noc_no ?$model->request_form->noc_no:'')}}</span>, Dated <span style="font-weight: bold;">{{($model->request_form->noc_date ? date('d-m-Y',strtotime($model->request_form->noc_date)) : '')}}</span></span> <span style="display: block;">2. MCGM IOD No. CE/5282/BPES/AT, dated 18.02.2016.</span><span style="display: block;">3. Tripartite agreement dt. <span style="font-weight: bold;">{{($model->request_form->tripartite_agreement_date ? date('d-m-Y',strtotime($model->request_form->tripartite_agreement_date)) : '')}}.</span></span> <span style="display: block;">4. Society's letter dt. <span style="font-weight: bold;">{{($model->request_form->created_at ? date('d-m-Y',strtotime($model->request_form->created_at)) : '')}}.</span></span></td>
+                                <td style="border: 1px solid #000; padding: 5px;" valign="top"><span style="display: block; margin-bottom: 4px;">1. This office NOC. <span style="font-weight: bold;">{{($model->request_form->noc_no ?$model->request_form->noc_no:'')}}</span>, Dated <span style="font-weight: bold;">{{($model->request_form->noc_date ? date('d-m-Y',strtotime($model->request_form->noc_date)) : '')}}</span></span> <span style="display: block;">2. MCGM IOD Number. <span style="font-weight: bold;">{{($model->request_form->mcgm_iod_number ?$model->request_form->mcgm_iod_number:'')}}</span>, Dated <span style="font-weight: bold;">{{($model->request_form->mcgm_iod_date ? date('d-m-Y',strtotime($model->request_form->mcgm_iod_date)) : '')}}</span><span style="display: block;">3. Tripartite agreement date. <span style="font-weight: bold;">{{($model->request_form->tripartite_agreement_date ? date('d-m-Y',strtotime($model->request_form->tripartite_agreement_date)) : '')}}.</span></span> <span style="display: block;">4. Society's letter dt. <span style="font-weight: bold;">{{($model->request_form->created_at ? date('d-m-Y',strtotime($model->request_form->created_at)) : '')}}.</span></span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -62,7 +61,7 @@
                     grant of Commencement Certificate. There is no objection to issue
                     Commencement Certificate for the proposed work on plot bearing CTS No. 1070
                     (Pt.) at village-Mulund, Mumbai -400 081 from M.H.&amp; A.D. Board's side
-                    regarding the proposal submitted by them on plot admeasuring 1369.42 m2
+                    regarding the proposal submitted by them on plot armaturing 1369.42 m2
                     (i.e. 1001.11 m2 as per lease deed + 368.31 m2 additional land in form of
                     Tit Bit) as per demarcation plan.
                 </p>
@@ -106,19 +105,17 @@
                 </center>
                 <p lang="en-GB" align="justify">
                     <strong>Copy to Applicant :</strong>
-                The Secretary, building No. <strong>2 &amp; 3</strong>, Mithagar Road    <strong>SWAPNAPURTI</strong> Co-op Hsg. Society bearing CTS No. 1070 (Pt.)
-                    at village-Mulund, Mumbai -400 081.
+                    <span>The Secretary,{{$model->eeApplicationSociety->name}}</span><span>,{{$model->eeApplicationSociety->address}}</span>
+
                 </p>
                 <p lang="en-GB" align="justify">
                     <strong>Copy to Developers :</strong>
-                    M/S. PALAN REALTY PVT.LTD. ( Member of Gagangiri Group of Company), 303,
-                    Gagangiri Complex, Near Ambedkar Garden,18<sup>th</sup> Road, Chembur
-                    (East), Mumbai – 400 071.
+                    <span>{{$model->request_form->developer_name}}</span>
+
                 </p>
                 <p lang="en-GB">
                     <strong>Copy to Architect: </strong>
-                    M/s. Architects Collaboration,1<sup>st</sup> Floor,Tara Darshan Bldg. ,
-                    Chafekar Bandhu Marg, Mulund (E), Mumbai -400 081 for information.
+                    <span>{{$model->eeApplicationSociety->name_of_architect}}</span><span>,{{$model->eeApplicationSociety->architect_address}}</span>
                 </p>
                 <p lang="en-US" align="justify">
                     <strong>
@@ -169,7 +166,7 @@
                 <ol start="3">
                     <li>
                         <p lang="en-GB" align="justify">
-                            Copy to Shri. Mane / Sr. Clerk for MIS record.
+                            Copy to Mr. Jadhav / Sr. Clerk for MIS record.
                         </p>
                     </li>
                 </ol>
