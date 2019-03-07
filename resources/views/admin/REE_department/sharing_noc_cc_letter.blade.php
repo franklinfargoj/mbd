@@ -61,7 +61,7 @@
                     grant of Commencement Certificate. There is no objection to issue
                     Commencement Certificate for the proposed work on plot bearing CTS No. 1070
                     (Pt.) at village-Mulund, Mumbai -400 081 from M.H.&amp; A.D. Board's side
-                    regarding the proposal submitted by them on plot admeasuring 1369.42 m2
+                    regarding the proposal submitted by them on plot armaturing 1369.42 m2
                     (i.e. 1001.11 m2 as per lease deed + 368.31 m2 additional land in form of
                     Tit Bit) as per demarcation plan.
                 </p>

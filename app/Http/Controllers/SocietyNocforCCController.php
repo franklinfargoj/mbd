@@ -169,7 +169,7 @@ class SocietyNocforCCController extends Controller
         $docs_count = 0;
 
         foreach($documents as $documents_key => $documents_val){
-                if(in_array($documents_key+1, $optional_docs) == false){
+                if(in_array($documents_val->id, $optional_docs) == false){
                     $docs_count++;
                     if(count($documents_val->documents_uploaded) > 0){
                         $docs_uploaded_count++;
