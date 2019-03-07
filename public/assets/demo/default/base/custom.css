@@ -3690,11 +3690,11 @@ label.site-visit-label {
     margin-left: 20px;
 }
 
-.db__card.hearing_summary{
+.db__card{
     cursor: pointer;
 }
 
-.mhada-full-modal .m-portlet{
+.mhada-full-modal .mhada-m-portlet.m-portlet{
     height: 370px;
     overflow: auto;
     /*max-height: 100%;*/

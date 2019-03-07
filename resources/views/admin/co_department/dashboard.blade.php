@@ -298,7 +298,7 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
                             "                                    <thead>\n" +
@@ -412,7 +412,7 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
                             "                                    <thead>\n" +
@@ -527,7 +527,7 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
                             "                                    <thead>\n" +
@@ -642,7 +642,7 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
                             "                                    <thead>\n" +
@@ -770,7 +770,7 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
                             "                                    <thead>\n" +
@@ -882,7 +882,7 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
                             "                                    <thead>\n" +
@@ -997,7 +997,7 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
                             "                                    <thead>\n" +
@@ -1106,7 +1106,7 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
                             "                                    <thead>\n" +
@@ -1287,7 +1287,7 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
                             "                                    <thead>\n" +
@@ -1398,7 +1398,7 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
                             "                                    <thead>\n" +
@@ -1514,7 +1514,7 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
                             "                                    <thead class=\"thead-default\">\n" +
@@ -1669,7 +1669,7 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
                             "                                    <thead class=\"thead-default\">\n" +
@@ -1781,7 +1781,7 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
                             "                                    <thead>\n" +
@@ -1895,7 +1895,7 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
                             "                                    <thead>\n" +
