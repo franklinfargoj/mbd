@@ -10,7 +10,7 @@
     <link href="{{asset('/css/dashboard/custom.css')}}" rel="stylesheet" type="text/css"/>
 @endsection
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid mhada-dash-new">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title">Dashboard</h3>

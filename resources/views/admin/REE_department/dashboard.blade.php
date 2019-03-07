@@ -10,7 +10,7 @@
     <link href="{{asset('/css/dashboard/custom.css')}}" rel="stylesheet" type="text/css"/>
 @endsection
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid mhada-dash-new">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title">Dashboard</h3>
@@ -53,14 +53,14 @@
                     @endif
                 @endif
 
-                <div class="db__card tripartite" data-module="Tripartite Agreement">
+                <div class="db__card tripartite no-margin-sm" data-module="Tripartite Agreement">
                     <div class="db__card__img-wrap db-color-3">
                         <h3 class="db__card__count">{{$tripartite_count}}</h3>
                     </div>
                     <p class="db__card__title">Tripartite Agreement</p>
                 </div>
             @if(session()->get('role_name') == config('commanConfig.ree_branch_head'))
-                <div class="db__card tripartite_pending" data-module="Tripartite Agreement Department Pendency">
+                <div class="db__card tripartite_pending no-margin-xl" data-module="Tripartite Agreement Department Pendency">
                     <div class="db__card__img-wrap db-color-4">
                         <h3 class="db__card__count">{{$tripartite_pending_count}}</h3>
                     </div>
@@ -82,7 +82,7 @@
                     <p class="db__card__title">Offer Letter Revalidation Department Pendency</p>
                 </div>
                 @endif
-                <div class="db__card noc" data-module="NOC">
+                <div class="db__card noc no-margin-sm" data-module="NOC">
                     <div class="db__card__img-wrap db-color-5">
                         <h3 class="db__card__count">{{$noc_count}}</h3>
                     </div>
@@ -94,7 +94,7 @@
                     </div>
                     <p class="db__card__title">NOC Department Pendency</p>
                 </div>
-                <div class="db__card noc" data-module="NOC (CC)">
+                <div class="db__card noc no-margin-xl" data-module="NOC (CC)">
                     <div class="db__card__img-wrap db-color-5">
                         <h3 class="db__card__count">{{$noc_cc_count}}</h3>
                     </div>
@@ -107,7 +107,7 @@
                     <p class="db__card__title">NOC (CC) Department Pendency</p>
                 </div>
 
-            <div class="db__card revision" data-module="Revision in Layout">
+            <div class="db__card revision no-margin-sm" data-module="Revision in Layout">
                 <div class="db__card__img-wrap db-color-5">
                     <h3 class="db__card__count">-</h3>
                 </div>
@@ -202,10 +202,10 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
-                            "                                    <thead class=\"thead-default\">\n" +
+                            "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
@@ -356,10 +356,10 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
-                            "                                    <thead class=\"thead-default\">\n" +
+                            "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
@@ -470,10 +470,10 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
-                            "                                    <thead class=\"thead-default\">\n" +
+                            "                                    <thead >\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
@@ -526,7 +526,7 @@
                             html_pending +=
                                 "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
                                 "                                <table class=\"table text-center\">\n" +
-                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                    <thead>\n" +
                                 "                                        <tr>\n" +
                                 "                                            <th>Header</th>\n" +
                                 "                                            <th>Count</th>\n" +
@@ -625,10 +625,10 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
-                            "                                    <thead class=\"thead-default\">\n" +
+                            "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
@@ -736,10 +736,10 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
-                            "                                    <thead class=\"thead-default\">\n" +
+                            "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
@@ -851,10 +851,10 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
-                            "                                    <thead class=\"thead-default\">\n" +
+                            "                                    <thead >\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
@@ -961,10 +961,10 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
-                            "                                    <thead class=\"thead-default\">\n" +
+                            "                                    <thead >\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
@@ -1075,10 +1075,10 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
-                            "                                    <thead class=\"thead-default\">\n" +
+                            "                                    <thead >\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
@@ -1230,10 +1230,10 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
-                            "                                    <thead class=\"thead-default\">\n" +
+                            "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
@@ -1342,7 +1342,7 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
                             "                                    <thead>\n" +
@@ -1456,7 +1456,7 @@
                             "                </div>\n" +
                             "                <div class=\"row\">\n" +
                             "                    <div class=\"col-sm-7\" >" +
-                            "                        <div class=\"m-portlet db-table\">\n" +
+                            "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
                             "                                    <thead>\n" +
