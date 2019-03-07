@@ -74,11 +74,11 @@ class SocietyNocforCCController extends Controller
             'society_id' => $society_details->id,
             'offer_letter_date' => date('Y-m-d', strtotime($request->input('offer_letter_date'))),
             'offer_letter_number' => $request->input('offer_letter_number'),
-            'no_dues_certificate_number' => $request->input('no_dues_certificate_number'),
-            'no_dues_certificate_date' => date('Y-m-d', strtotime($request->input('no_dues_certificate_date'))),
+            'mcgm_iod_number' => $request->input('mcgm_iod_number'),
+            'mcgm_iod_date' => date('Y-m-d', strtotime($request->input('mcgm_iod_date'))),
             'noc_no' => $request->input('noc_no'),
             'noc_date' => date('Y-m-d', strtotime($request->input('noc_date'))),
-            'tripartite_agreement_number' => $request->input('tripartite_agreement_number'),
+            //'tripartite_agreement_number' => $request->input('tripartite_agreement_number'),
             'tripartite_agreement_date' => date('Y-m-d', strtotime($request->input('tripartite_agreement_date'))),
             'created_at' => date('Y-m-d H-i-s'),
             'updated_at' => null
@@ -159,7 +159,11 @@ class SocietyNocforCCController extends Controller
             $q->where('society_id', $society->id)->get();
         }])->get();
 
-        $optional_docs = config('commanConfig.optional_docs_society_noc_cc');
+//        $optional_docs = config('commanConfig.optional_docs_society_noc_cc');
+        $optional_docs = \App\NocCCSocietyDocumentsMaster::where([
+            'name' => "Other"
+        ])->pluck('id')->toArray();
+
         $docs_uploaded_count = 0;
         $docs_count = 0;
 
@@ -193,7 +197,11 @@ class SocietyNocforCCController extends Controller
         $id = $noc_application->application_master_id;
         $noc_applications = $noc_application;
 
-        $optional_docs = config('commanConfig.optional_docs_society_noc_cc');
+//        $optional_docs = config('commanConfig.optional_docs_society_noc_cc');
+
+        $optional_docs = \App\NocCCSocietyDocumentsMaster::where([
+            'name' => "Other"
+        ])->pluck('id')->toArray();
 
         $docs_uploaded_count = 0;
         $docs_count = 0;
@@ -221,10 +229,10 @@ class SocietyNocforCCController extends Controller
         $update_input = array(
             'offer_letter_date' => date('Y-m-d', strtotime($request->offer_letter_date)),
             'offer_letter_number' => $request->offer_letter_number,
-            'no_dues_certificate_number' => $request->no_dues_certificate_number,
+            'mcgm_iod_number' => $request->mcgm_iod_number,
             'noc_no' => $request->noc_no,
-            'tripartite_agreement_number' => $request->tripartite_agreement_number,
-            'no_dues_certificate_date' => date('Y-m-d', strtotime($request->no_dues_certificate_date)),
+//            'tripartite_agreement_number' => $request->tripartite_agreement_number,
+            'mcgm_iod_date' => date('Y-m-d', strtotime($request->mcgm_iod_date)),
             'noc_date' => date('Y-m-d', strtotime($request->noc_date)),
             'tripartite_agreement_date' => date('Y-m-d', strtotime($request->tripartite_agreement_date)),
         );
@@ -246,13 +254,19 @@ class SocietyNocforCCController extends Controller
             $document_ids[] = $value->id;
         }
         $documents_uploaded = NocCCSocietyDocumentsStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->with(['documents_uploaded'])->get();
-        
+
         $documents_comment = NocCCSocietyDocumentsComment::where('society_id', $society->id)->first();
-        $optional_docs = config('commanConfig.optional_docs_society_noc_cc');
+//        $optional_docs = config('commanConfig.optional_docs_society_noc_cc');
+
+        $optional_docs = \App\NocCCSocietyDocumentsMaster::where([
+            'name' => "Other"
+        ])->pluck('id')->toArray();
+//        dd($optional_docs);
+
         $docs_uploaded_count = 0;
         $docs_count = 0;
         foreach($documents as $documents_key => $documents_val){
-                if(in_array($documents_key+1, $optional_docs) == false){
+                if(in_array($documents_val->id, $optional_docs) == false){
                     $docs_count++;
                     if(count($documents_val->documents_uploaded) > 0){
                         $docs_uploaded_count++;
@@ -273,13 +287,13 @@ class SocietyNocforCCController extends Controller
         $uploadPath = '/uploads/society_noc_cc_documents';
         $destinationPath = public_path($uploadPath);
 
-        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();      
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $application = NocCCApplication::where('society_id', $society->id)->first();
 
         $documents = NocCCSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('id', $request->input('document_id'))->with(['documents_uploaded' => function($q) use ($society){
                     $q->where('society_id', $society->id)->get();
-                }])->get();       
-        
+                }])->get();
+
         if($request->file('document_name'))
         {
             $file = $request->file('document_name');
@@ -306,7 +320,12 @@ class SocietyNocforCCController extends Controller
                     $q->where('society_id', $society->id)->get();
                 }])->get();
 
-        $optional_docs = config('commanConfig.optional_docs_society_noc_cc');
+        //$optional_docs = config('commanConfig.optional_docs_society_noc_cc');
+
+        $optional_docs = \App\NocCCSocietyDocumentsMaster::where([
+            'name' => "Other"
+        ])->pluck('id')->toArray();
+
 
         $docs_uploaded_count = 0;
         $docs_count = 0;
@@ -322,7 +341,7 @@ class SocietyNocforCCController extends Controller
 
         if($docs_count == $docs_uploaded_count){
             $role_id = Role::where('name', 'REE Junior Engineer')->first();
-            
+
             $user_ids = RoleUser::where('role_id', $role_id->id)->get();
             // dd($user_ids);
             $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
@@ -330,7 +349,7 @@ class SocietyNocforCCController extends Controller
                 $select_user_ids[] = $value['user_id'];
             }
             $users = User::whereIn('id', $select_user_ids)->get();
-            
+
             if(count($users) > 0){
 
                 foreach($users as $key => $user){
@@ -367,7 +386,10 @@ class SocietyNocforCCController extends Controller
                     $q->where('society_id', $society->id)->get();
                 }])->get();
 
-        $optional_docs = config('commanConfig.optional_docs_society_noc_cc');
+//        $optional_docs = config('commanConfig.optional_docs_society_noc_cc');
+        $optional_docs = \App\NocCCSocietyDocumentsMaster::where([
+            'name' => "Other"
+        ])->pluck('id')->toArray();
 
         $docs_uploaded_count = 0;
         $docs_count = 0;
@@ -431,7 +453,7 @@ class SocietyNocforCCController extends Controller
             'society_id' => $society->id,
             'society_documents_comment' => $comments,
         );
-        
+
         NocCCSocietyDocumentsComment::where('society_id', $society->id)->update($input);
         return redirect()->route('upload_noc_application_cc');
     }
@@ -453,7 +475,7 @@ class SocietyNocforCCController extends Controller
         $society_details = SocietyOfferLetter::find($society->id);
 
         $noc_application = NocCCApplication::where('user_id', Auth::user()->id)->with(['request_form', 'applicationMasterLayout'])->first();
-        $layouts = MasterLayout::all(); 
+        $layouts = MasterLayout::all();
         $id = $noc_application->application_master_id;
         // dd($id);
         $mpdf = new Mpdf();
@@ -548,12 +570,12 @@ class SocietyNocforCCController extends Controller
     }
 
    	public function viewSocietyDocuments(){
-       
-        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();      
+
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $application = NocCCApplication::where('society_id', $society->id)->with(['nocApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->first();
-        
+
         $documents = NocCCSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['documents_uploaded' => function($q) use ($society){
             $q->where('society_id', $society->id)->get();
         }])->get();
@@ -561,8 +583,12 @@ class SocietyNocforCCController extends Controller
         foreach ($documents as $key => $value) {
             $document_ids[] = $value->id;
         }
-        $optional_docs = config('commanConfig.optional_docs_society_noc_cc');
+//        $optional_docs = config('commanConfig.optional_docs_society_noc_cc');
 //        dd($documents);
+        $optional_docs = \App\NocCCSocietyDocumentsMaster::where([
+            'name' => "Other"
+        ])->pluck('id')->toArray();
+
         $docs_uploaded_count = 0;
         $docs_count = 0;
         foreach($documents as $documents_key => $documents_val) {
