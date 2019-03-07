@@ -12,6 +12,7 @@ class NocCCRequestForm extends Model
         'offer_letter_date',
         'offer_letter_number',
         'mcgm_iod_number',
+        'developer_name',
         'mcgm_iod_date',
         'noc_no',
         'noc_date',

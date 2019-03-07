@@ -110,9 +110,8 @@
                 </p>
                 <p lang="en-GB" align="justify">
                     <strong>Copy to Developers :</strong>
-                    M/S. PALAN REALTY PVT.LTD. ( Member of Gagangiri Group of Company), 303,
-                    Gagangiri Complex, Near Ambedkar Garden,18<sup>th</sup> Road, Chembur
-                    (East), Mumbai – 400 071.
+                    <span>{{$model->request_form->developer_name}}</span>
+
                 </p>
                 <p lang="en-GB">
                     <strong>Copy to Architect: </strong>

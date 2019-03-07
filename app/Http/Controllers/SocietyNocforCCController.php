@@ -78,6 +78,7 @@ class SocietyNocforCCController extends Controller
             'mcgm_iod_date' => date('Y-m-d', strtotime($request->input('mcgm_iod_date'))),
             'noc_no' => $request->input('noc_no'),
             'noc_date' => date('Y-m-d', strtotime($request->input('noc_date'))),
+            'developer_name' => $request->input('developer_name'),
             //'tripartite_agreement_number' => $request->input('tripartite_agreement_number'),
             'tripartite_agreement_date' => date('Y-m-d', strtotime($request->input('tripartite_agreement_date'))),
             'created_at' => date('Y-m-d H-i-s'),
@@ -231,6 +232,8 @@ class SocietyNocforCCController extends Controller
             'offer_letter_number' => $request->offer_letter_number,
             'mcgm_iod_number' => $request->mcgm_iod_number,
             'noc_no' => $request->noc_no,
+            'developer_name' => $request->developer_name,
+
 //            'tripartite_agreement_number' => $request->tripartite_agreement_number,
             'mcgm_iod_date' => date('Y-m-d', strtotime($request->mcgm_iod_date)),
             'noc_date' => date('Y-m-d', strtotime($request->noc_date)),
@@ -592,7 +595,7 @@ class SocietyNocforCCController extends Controller
         $docs_uploaded_count = 0;
         $docs_count = 0;
         foreach($documents as $documents_key => $documents_val) {
-            if (in_array($documents_key + 1, $optional_docs) == false) {
+            if (in_array($documents_val->id, $optional_docs) == false) {
                 $docs_count++;
                 if (count($documents_val->documents_uploaded) > 0) {
                     $docs_uploaded_count++;
