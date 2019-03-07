@@ -67,7 +67,7 @@
                     </div> 
                 </div>
                 <div class="col-sm-6" style="margin-bottom: 34px;">
-                    <input type="button" class="btn btn-primary btn-custom" id="uploadBtn" style="float: right" value="Upload"> 
+                    <input type="submit" class="btn btn-primary btn-custom" id="uploadBtn" style="float: right" value="Upload"> 
                 </div>  
             </form> 
         @endif    
@@ -115,19 +115,15 @@
 <script type="text/javascript">
     
     $("#uploadBtn").click(function(){
-        $('.loader').show();
-        var myfile = $(".file_upload").val();
-        var ext = myfile.split('.').pop();
-        var memberName = $("#memberName").val();
-
-    if(myfile != ''){
-        if (ext == "pdf"){
+        if ($("#myFrm").valid() == true){
+            $('.loader').show();
+            var myfile = $(".file_upload").val();
+            var ext = myfile.split('.').pop();
+            var memberName = $("#memberName").val();
             var fileData = $(".file_upload").prop('files')[0];
-
             var documentId = '<?php echo $documentId; ?>';
             var societyId = '<?php echo $ol_applications->society_id; ?>';
-            var applicationId = '<?php echo $ol_applications->id; ?>';
-               
+            var applicationId = '<?php echo $ol_applications->id; ?>';               
             
             var form_data = new FormData();
             form_data.append('file', fileData);   
@@ -154,12 +150,24 @@
                     }
                 }
             });                
-        }else{
-            $("#file_error").text("Invalid type of file uploaded.");
-            return false;
-        } 
-    }
+        }
     });
+
+    $("#myFrm").validate({
+        rules: {
+            memberName: {
+                required : true,
+            },
+            document_name: {
+                required : true,
+                extension: "pdf"
+            },            
+        }, messages: {
+            document_name: {
+                extension: "Invalid type of file uploaded (only pdf allowed)."
+            }
+        }
+    });  
 
     function deleteDocument(id){
 

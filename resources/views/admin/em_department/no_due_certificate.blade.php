@@ -13,6 +13,7 @@
    {{ session()->get('error') }}
 </div>
 @endif
+
 <div class="custom-wrapper">
    <div class="col-md-12">
       @if (Session::has('success_msg'))
@@ -64,6 +65,13 @@
                            <span class="field-value">{{ ($societyData->submitted_at ?
                            date(config('commanConfig.dateFormat'), strtotime($societyData->submitted_at))
                            : '')}}</span>
+                        </div>
+                     </div>
+                     <div class="col-sm-6 field-col">
+                        <div class="d-flex">
+                           <span class="field-name">Society Registration No:</span>
+                           <span class="field-value">{{(isset($societyData->eeApplicationSociety->registration_no) ?
+                           $societyData->eeApplicationSociety->registration_no : '')}}</span>
                         </div>
                      </div>
                      <div class="col-sm-6 field-col">

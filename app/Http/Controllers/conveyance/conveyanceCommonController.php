@@ -4,6 +4,7 @@ namespace App\Http\Controllers\conveyance;
  
 use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
 use App\Http\Controllers\Dashboard\formationDashboardController;
+use App\Http\Controllers\OcDashboardController;
 use App\Http\Controllers\Tripartite\TripartiteDashboardController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -1055,8 +1056,13 @@ class conveyanceCommonController extends Controller
         $conveyance_pending_count = $conveyance_pending_data['Total Number of Applications'];
 
         //Revision in Layout
-        
-        return view('admin.conveyance.common.dashboard',compact('conveyanceRoles','renewalRoles','tripartite_count','tripartite_pending_count','conveyance_pending_count','renewal_pending_count','society_formation_count','conveyance_count','renewal_count'));
+
+        // Oc
+        $oc_dashboard = new OcDashboardController();
+        $ocData = $oc_dashboard->getApplicationData($role_id,$user_id);
+        $oc_count = count($ocData);
+
+        return view('admin.conveyance.common.dashboard',compact('conveyanceRoles','oc_count','renewalRoles','tripartite_count','tripartite_pending_count','conveyance_pending_count','renewal_pending_count','society_formation_count','conveyance_count','renewal_count'));
     }
 
     /**
@@ -1068,6 +1074,9 @@ class conveyanceCommonController extends Controller
      */
     public function ajaxDashboard(Request $request){
         if($request->ajax()){
+            $role_id = session()->get('role_id');
+            $user_id = Auth::id();
+
             if($request->module_name == 'Society Conveyance'){
                 $conveyanceCommonController = new conveyanceCommonController();
                 $conveyanceDashboard = $conveyanceCommonController->ConveyanceDashboard();
@@ -1098,7 +1107,8 @@ class conveyanceCommonController extends Controller
                 return $renewalDashboard;
 
             }
-            if($request->module_name = "Society Renewal Subordinate Pendency"){
+
+            if($request->module_name == "Society Renewal Subordinate Pendency"){
                 $renewal = new renewalCommonController();
                 $renewalPendingApplications = $renewal->getApplicationPendingAtDepartment();
 
@@ -1127,6 +1137,16 @@ class conveyanceCommonController extends Controller
                     return $data;
                 }
 
+            }
+
+            if($request->module_name == 'Consent for OC'){
+                if( session()->get('role_name') == config('commanConfig.estate_manager')){
+                    $oc_dashboard = new OcDashboardController();
+                    $applicationData = $oc_dashboard->getApplicationData($role_id,$user_id);
+                    $statusCount = $oc_dashboard->getApplicationStatusCount($applicationData);
+                    $oc_data = $oc_dashboard->getEmDashboardData($statusCount);
+                    return $oc_data;
+                }
             }
 
         }

@@ -100,7 +100,7 @@
                                             <h5>Upload</h5>
                                             <span class="hint-text">Click to upload Sale Deed Agreement</span>
                                                 <div class="custom-file">
-                                                    <input class="custom-file-input" name="sale_agreement" type="file" id="test-upload1">
+                                                    <input class="custom-file-input sale_file" name="sale_agreement" type="file" id="test-upload1">
                                                 
                                                         <label class="custom-file-label" for="test-upload1">Choose
                                                         file...</label>  
@@ -110,8 +110,8 @@
                                                             <a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server').'/'.$data->DraftSaleAgreement->document_path }}" download>Download</a> 
                                                     @endif 
                                                 </div>
-                                                <div class="mt-auto">
-                                                    <button type="submit" class="btn btn-primary mt-3" style="display:block">Upload</button>
+                                                <div class="mt-3">
+                                                    <button type="submit" id="sale_btn" class="btn btn-primary mt-3 upload_btn" style="display:block">Upload</button>
                                                 </div>
                                         </div>
                                     </div>
@@ -193,8 +193,8 @@
                                                             <a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server').'/'.$data->DraftLeaseAgreement->document_path }}" download>Download</a> 
                                                         @endif
                                                 </div>
-                                                <div class="mt-auto">
-                                                    <button type="submit" class="btn btn-primary mt-3" style="display:block">Upload</button>
+                                                <div class="mt-3">
+                                                    <button type="submit" id="lease_btn" class="btn btn-primary mt-3 upload_btn" style="display:block">Upload</button>
                                                  </div>
                                         </div>
                                     </div>
@@ -232,7 +232,7 @@
             <div class="col-xs-12 row">
                 <div class="col-md-12">
                     <textarea rows="4" cols="63" name="remark"></textarea>
-                    <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
+                    <button type="submit" id="remark_btn" class="btn btn-primary mt-3 upload_btn" style="display:block">Save</button>
                 </div>
             </div>
         </div>
@@ -594,24 +594,45 @@
 
 @section('js')
 <script>
-    $("#agreementFRM").validate({
-        rules: {
-            sale_agreement: {
-                extension: "pdf"
-            },            
-            lease_agreement: {
-                extension: "pdf"
-            },
-        }, messages: {
-            sale_agreement: {
-                extension: "Invalid type of file uploaded (only pdf allowed)."
-            },            
-            lease_agreement: {
-                extension: "Invalid type of file uploaded (only pdf allowed)."
+$(".upload_btn").click(function(){
+    var btn = this.id;
+    if (btn == 'sale_btn'){ 
+        $("#agreementFRM").validate({
+            rules: {
+                sale_agreement: {
+                    required : true,
+                    extension: "pdf"
+                }          
+            }, messages: {
+                sale_agreement: {
+                    extension: "Invalid type of file uploaded (only pdf allowed)."
+                }
             }
-        }
-    });  
-  
+        });
+    } else if (btn == 'lease_btn'){
+        $("#agreementFRM").validate({
+            rules: {
+                lease_agreement: {
+                    required : true,
+                    extension: "pdf"
+                }          
+            }, messages: {
+                lease_agreement: {
+                    extension: "Invalid type of file uploaded (only pdf allowed)."
+                }
+            }
+        });
+    } else if (btn == 'remark_btn'){
+        $("#agreementFRM").validate({
+            rules: {
+                remark: {
+                    required : true,
+                }          
+            }
+        });
+    }
+});
+
 </script>
 <script src="{{ asset('vendor/unisharp/laravel-ckeditor/ckeditor.js') }}"></script>
 <script>

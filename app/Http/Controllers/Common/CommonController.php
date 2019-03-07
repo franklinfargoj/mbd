@@ -7,6 +7,7 @@ use App\conveyance\scApplicationLog;
 use App\conveyance\RenewalApplicationLog;
 use App\Http\Controllers\Dashboard\AppointingArchitectController;
 use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
+use App\Http\Controllers\OcDashboardController;
 use Illuminate\Http\Request;
 use App\DashboardHeader;
 use App\EENote;
@@ -27,6 +28,7 @@ use App\MasterLayout;
 use App\OlApplication;
 use App\NocApplication;
 use App\NocSocietyDocumentsComment;
+use App\OcSocietyDocumentsComment;
 use App\NocSocietyDocumentsMaster;
 use App\NocCCApplication;
 use App\OcApplication;
@@ -1761,8 +1763,18 @@ class CommonController extends Controller
         $architect_dashboard = new AppointingArchitectController();
         $appointing_count = $architect_dashboard->total_number_of_application();
 
+        // Oc
+        $oc_dashboard = new OcDashboardController();
+        $ocData = $oc_dashboard->getApplicationData($role_id,$user_id);
+        $oc_count = count($ocData);
 
-        return view('admin.common.ol_dashboard',compact('conveyanceRoles','dashboardData1','renewalRoles','appointing_count','offerLetterRoles','ol_count','ol_pending_count','conveyance_count','conveyance_pending_count','renewal_count','renewal_pending_count','reval_count'));
+        // OC Subordinate Pendency
+        $oc_pending_data = $this->getToatalPendingOcApplicationsAtUser($ee);
+        $oc_pending_count = $oc_pending_data['Total Number of Applications'];
+
+
+
+        return view('admin.common.ol_dashboard',compact('conveyanceRoles','oc_count','oc_pending_count','dashboardData1','renewalRoles','appointing_count','offerLetterRoles','ol_count','ol_pending_count','conveyance_count','conveyance_pending_count','renewal_count','renewal_pending_count','reval_count'));
 
     }
 
@@ -2000,6 +2012,27 @@ class CommonController extends Controller
                     $data['Pending at Selection Comitee'] = $pending_at_selection_committee;
 
                     return $data;
+                }
+            }
+
+            if($request->module_name == 'Consent for OC'){
+                if(in_array(session()->get('role_name'),array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head')))){
+                    $oc_dashboard = new OcDashboardController();
+                    $applicationData = $oc_dashboard->getApplicationData($role_id,$user_id);
+                    $statusCount = $oc_dashboard->getApplicationStatusCount($applicationData);
+                    $oc_data = $oc_dashboard->getEeDashboardData($role_id, $ee,$statusCount);
+                    return $oc_data;
+                }
+            }
+
+            if ($request->module_name == "Consent for OC Subordinate Pendency") {
+
+                $dashboardData = NULL;
+                $eeHeadId = Role::where('name', config('commanConfig.ee_branch_head'))->value('id');
+
+                if ($role_id == $eeHeadId) {
+                    $dashboardData = $this->getToatalPendingOcApplicationsAtUser($ee);
+                    return $dashboardData;
                 }
             }
         }
@@ -4067,6 +4100,35 @@ class CommonController extends Controller
         return array_reverse($dashboardData1);
     }
 
+    /*
+     * Function for getting DYCE roles.
+     *
+     *  @param $roleIds
+     *
+     * Author :Prajakta Sisale.
+     *
+     * @return array
+     */
+    public function getToatalPendingOcApplicationsAtUser($roleIds){
+
+        $users =User::whereIn('role_id',$roleIds)
+            ->get()->toArray();
+
+        $total_pending_at_department = 0;
+        foreach ($users as $user){
+
+            $count = OcApplicationStatusLog::where('user_id',$user['id'])
+                ->where('status_id',config('commanConfig.applicationStatus.in_process'))
+                ->where('is_active',1)->get()->count();
+            $dashboardData1['Application Pending At '.$user['name']] = $count;
+
+            $total_pending_at_department += $count;
+
+        }
+        $dashboardData1['Total Number of Applications'] = $total_pending_at_department;
+        return array_reverse($dashboardData1);
+    }
+
     public function getDYCDORoles(){
         $roles = array(config('commanConfig.dycdo_engineer'),config('commanConfig.dyco_engineer'));
         $count =  Role::whereIn('name', $roles)->pluck('id');  
@@ -4112,15 +4174,11 @@ class CommonController extends Controller
 
     public function getSocietyDocumentsforOC($applicationId)
     {
-
-        $societyId = OcApplication::where('id', $applicationId)->value('society_id');
-        $societyDocuments = SocietyOfferLetter::with(['societyOcDocuments.documents_Name'
-            , 'documentCommentsforOc' => function ($q) {
-                $q->orderBy('id', 'desc');
-            }])->where('id', $societyId)->get();
-
+        $application = OcApplication::where('id', $applicationId)->first();
+        $societyDocuments = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($application){$q->where('society_id', $application->society_id)->where('application_id',$application->id);
+        }])->get();
         return $societyDocuments;
-    }     
+    }      
 
     public function get_tripartite_agreements($ol_application_id, $agreement_type)
     {
@@ -4363,6 +4421,14 @@ class CommonController extends Controller
     public function getNOCApplicationComments($applicationId){
         
         $comments = NocSocietyDocumentsComment::where('application_id',$applicationId)
+        ->orderBy('id','desc')->first();
+        return $comments;
+    }    
+
+    // get OC application comments given by society
+    public function getOCApplicationComments($applicationId){
+        
+        $comments = OcSocietyDocumentsComment::where('application_id',$applicationId)
         ->orderBy('id','desc')->first();
         return $comments;
     }

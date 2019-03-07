@@ -6,6 +6,7 @@ use App\Department;
 use App\Hearing;
 use App\HearingSchedule;
 use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
+use App\Http\Controllers\OcDashboardController;
 use App\Http\Controllers\Tripartite\TripartiteDashboardController;
 use App\Role;
 use App\RtiDepartmentUser;
@@ -1065,6 +1066,14 @@ class COController extends Controller
         $noc_cc_pending_data = $nocforCCApplication['pending_data'];
         $noc_cc_pending_count = $noc_cc_pending_data['Total Number of Applications'];
 
+        // Consent for oc
+        $oc_dashboard = new OcDashboardController();
+        $oc_data = $oc_dashboard->getApplicationData($role_id,$user_id);
+        $oc_count = count($oc_data);
+
+        // Consent for Oc Department Pendency
+        $oc_pending_dashboard_data = $oc_dashboard->getTotalCountsOfApplicationsPending();
+        $oc_pendency_count = $oc_pending_dashboard_data['Total Number of Applications'];
 
         //Revision in Layout
 
@@ -1109,8 +1118,8 @@ class COController extends Controller
 
         $todaysHearing = $hearing;
 
-        return view('admin.co_department.dashboard',compact('todaysHearing','todays_hearing_count','conveyanceRoles','hearing_count','ol_count','ol_pending_count','conveyance_count','conveyance_pending_count','tripartite_count','tripartite_pending_count','ol_reval_count','ol_reval_pending_count',
-            'noc_count','noc_cc_count','noc_pending_count','noc_cc_pending_count'));
+        return view('admin.co_department.dashboard',compact('todaysHearing','oc_pendency_count','todays_hearing_count','conveyanceRoles','hearing_count','ol_count','ol_pending_count','conveyance_count','conveyance_pending_count','tripartite_count','tripartite_pending_count','ol_reval_count','ol_reval_pending_count',
+            'noc_count','noc_cc_count','noc_pending_count','noc_cc_pending_count','oc_count'));
     }
 
     /**
@@ -1200,6 +1209,23 @@ class COController extends Controller
                 return $revalDashboardData1;
             }
 
+            if($request->module_name == 'Consent for OC'){
+                if (session()->get('role_name') == config('commanConfig.co_engineer')) {
+                    $oc_dashboard = new OcDashboardController();
+                    $applicationData = $oc_dashboard->getApplicationData($role_id,$user_id);
+                    $statusCount = $oc_dashboard->getApplicationStatusCount($applicationData);
+                    $oc_data = $oc_dashboard->getCODashboardData($statusCount);
+                    return $oc_data;
+                }
+            }
+
+            if($request->module_name == 'Consent for OC Department Pendency'){
+                $ocPendingDashboardData = NULL;
+                $oc_dashboard = new OcDashboardController();
+                $ocPendingDashboardData = $oc_dashboard->getTotalCountsOfApplicationsPending();
+                return $ocPendingDashboardData;
+
+            }
             if($request->module_name == 'NOC'){
                 $nocModuleController = new SocietyNocController();
                 $nocApplication = $nocModuleController->getApplicationListDashboard();
@@ -1458,9 +1484,10 @@ class COController extends Controller
 
        $oc_application = $this->CommonController->getOcApplication($applicationId);
        $oc_application->model = OcApplication::with(['oc_application_master'])->where('id',$applicationId)->first();
-       $societyDocuments = $this->CommonController->getSocietyDocumentsforOC($applicationId);
+       $comments = $this->CommonController->getOCApplicationComments($applicationId);
+        $societyDocuments = $this->CommonController->getSocietyDocumentsforOC($applicationId);
 
-       return view('admin.co_department.society_oc_documents',compact('oc_application','societyDocuments'));
+       return view('admin.co_department.society_oc_documents',compact('oc_application','societyDocuments','comments'));
     }
 
     public function viewEMScrutinyOc($applicationId)

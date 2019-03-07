@@ -7,15 +7,16 @@
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title m-subheader__title--separator">Consent For OC Application Form</h3>
-                {{ Breadcrumbs::render('society_oc_edit') }}&nbsp;({{ $oc_applications->ol_application_master->model }})
+                {{ Breadcrumbs::render('society_oc_edit',$oc_applications->id) }}&nbsp;({{ $oc_applications->ol_application_master->model }})
 
-            </div>
+            </div> 
         </div>
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
 
             <form id="save_offer_letter_application_dev" role="form" method="post" class="m-form m-form--rows m-form--label-align-right floating-labels-form" action="{{ route('society_oc_update') }}">
                 @csrf
+                <input type="hidden" name="applicationId" value="{{ $oc_applications->id}}">
                 <div class="m-portlet__body m-portlet__body--spaced">
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
@@ -58,7 +59,7 @@
 
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="construction_details">Construction Details</label>
+                            <label class="col-form-label" for="construction_details">Construction Details <span class="star">*</span></label>
                             <textarea id="construction_details" name="construction_details" class="form-control form-control--custom m-input" required>{{ $oc_application->request_form->construction_details }}</textarea>
                             <span class="help-block">{{$errors->first('construction_details')}}</span>
                         </div>

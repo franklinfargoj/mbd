@@ -11,6 +11,7 @@ class OcSocietyDocumentStatus extends Model
     protected $fillable = [
         'society_id',
         'document_id',
+        'application_id',
         'society_document_path',
     ];
 

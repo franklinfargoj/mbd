@@ -212,10 +212,10 @@ class EEController extends Controller
     public function societyDocumentsOC(Request $request,$applicationId)
     {
         $oc_application = $this->comman->getOcApplication($applicationId);    
-        $societyDocument = $this->comman->getSocietyDocumentsforOC($applicationId);
+        $societyDocuments = $this->comman->getSocietyDocumentsforOC($applicationId);
         $oc_application->status = $this->comman->getCurrentStatusOc($applicationId);
-
-        return view('admin.ee_department.society_documents_consent_oc', compact('societyDocument','oc_application'));
+        $comments = $this->comman->getOCApplicationComments($applicationId);
+        return view('admin.ee_department.society_documents_consent_oc', compact('societyDocuments','oc_application','comments'));
     }
 
     public function scrutinyRemarkOcByEE($application_id)

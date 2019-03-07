@@ -90,12 +90,12 @@
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody> 
                                         <tr>
                                             <td>1.</td>
                                             <td>Rate of Charges(With Detailed Working in Support thereof) for common
                                                 service with reference to the common service with reference to the
-                                                common service being rendered by the board</td>
+                                                common service being rendered by the Board, as per provisions made in clause no. 7 of the deed of sale. Please state clearly as to whether the said building is having the independent water supply arrangement or common water supply arrangement with other Building / Chawl in the project, please also state as to whether the Roads and Stree Lights have been handed over to Municipal Authority and if not what charges thereof are required to be recovered from allottees. particularly the Clause No. 7 of the Deed of Sale may please be examined with reference to the services actually rendered by the Board and offer your remarks, as to whether the said clauses is required to be retained or deleted altogether in the event of the pump house exclusively neat for the building handed over to the society for repairs maintenance etc. (Encl. Copy of the clause No. 7)</td>
                                             <td class="text-center">
                                                 <input type="text" style="border: none;" class="form-control form-control--custom" name="common_service_rate" value="{{ isset($data->ConveyanceSalePriceCalculation->common_service_rate) ? $data->ConveyanceSalePriceCalculation->common_service_rate : '' }}" />
                                             </td>
@@ -168,43 +168,44 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <div class="mt-3">
-                                    <p>9. The Schedule of the Property</p>
-                                    <p>All the Piece or Parcel of land bearing Plot/ Building No 
-                                     <input class="letter-form-input letter-form-input--md" type="text" name="building_no" value="{{ isset($data->ConveyanceSalePriceCalculation->building_no) ? $data->ConveyanceSalePriceCalculation->building_no : '' }}" style="border: none;border-bottom: 1px solid #212529;">
-                                     Admeasuring 
-                                    <input class="letter-form-input letter-form-input--md" type="text" name="admeasure" value="{{ isset($data->ConveyanceSalePriceCalculation->admeasure) ? $data->ConveyanceSalePriceCalculation->admeasure : '' }}" style="border: none;border-bottom: 1px solid #212529;">
-                                    Sq.mtrs. There about being S.No
-                                     <input class="letter-form-input letter-form-input--md" type="text" name="s_no"
-                                            value="{{ isset($data->ConveyanceSalePriceCalculation->s_no) ? $data->ConveyanceSalePriceCalculation->s_no : '' }}" style="border: none;border-bottom: 1px solid #212529;"> 
+                                <table id="one" class="table mb-0 table--box-input" border="1" style="border-collapse: collapse; border-spacing: 0;">
+                                    <tbody>
+                                        <tr>
+                                            <td width="4%">9</td>
+                                            <td><p>The Schedule of the Property.</p> <p>All the Piece or Parcel of land bearing Plot/ Building No 
+                                            <input class="letter-form-input letter-form-input--md" type="text" name="building_no" value="{{ isset($data->ConveyanceSalePriceCalculation->building_no) ? $data->ConveyanceSalePriceCalculation->building_no : '' }}" style="border: none;border-bottom: 1px solid #212529;">
+                                             Admeasuring 
+                                            <input class="letter-form-input letter-form-input--md" type="text" name="admeasure" value="{{ isset($data->ConveyanceSalePriceCalculation->admeasure) ? $data->ConveyanceSalePriceCalculation->admeasure : '' }}" style="border: none;border-bottom: 1px solid #212529;"> Sq.mtrs. There about being S.No <input class="letter-form-input letter-form-input--md" type="text" name="s_no"
+                                                    value="{{ isset($data->ConveyanceSalePriceCalculation->s_no) ? $data->ConveyanceSalePriceCalculation->s_no : '' }}" style="border: none;border-bottom: 1px solid #212529;"> 
 
-                                    and C.T.S No 
- 
-                                    <input class="letter-form-input letter-form-input--md" type="text" name="CTS_no" value="{{ isset($data->ConveyanceSalePriceCalculation->CTS_no) ? $data->ConveyanceSalePriceCalculation->CTS_no : '' }}" style="border: none;border-bottom: 1px solid #212529;">
-                                    Situated at 
+                                            and C.T.S No 
+         
+                                            <input class="letter-form-input letter-form-input--md" type="text" name="CTS_no" value="{{ isset($data->ConveyanceSalePriceCalculation->CTS_no) ? $data->ConveyanceSalePriceCalculation->CTS_no : '' }}" style="border: none;border-bottom: 1px solid #212529;">
+                                            Situated at 
 
-                                    <input class="letter-form-input letter-form-input--md" type="text" name="situated_at" value="{{ isset($data->ConveyanceSalePriceCalculation->situated_at) ? $data->ConveyanceSalePriceCalculation->situated_at : '' }}" style="border: none;border-bottom: 1px solid #212529;"> 
-                                    In the registrations district of 
-                                    <input class="letter-form-input letter-form-input--md" type="text" name="district" value="{{ isset($data->ConveyanceSalePriceCalculation->district) ? $data->ConveyanceSalePriceCalculation->district : '' }}" style="border: none;border-bottom: 1px solid #212529;"> District and Bounded that is to say.
-                                    </p>
-                                    <p>On or towards the North By: <input class="letter-form-input letter-form-input--md"
-                                            type="text" name="north_dimension" value="{{ isset($data->ConveyanceSalePriceCalculation->north_dimension) ? $data->ConveyanceSalePriceCalculation->north_dimension : '' }}" style="border: none;border-bottom: 1px solid #212529;"></p>
+                                            <input class="letter-form-input letter-form-input--md" type="text" name="situated_at" value="{{ isset($data->ConveyanceSalePriceCalculation->situated_at) ? $data->ConveyanceSalePriceCalculation->situated_at : '' }}" style="border: none;border-bottom: 1px solid #212529;"> 
+                                            In the registrations district of 
+                                            <input class="letter-form-input letter-form-input--md" type="text" name="district" value="{{ isset($data->ConveyanceSalePriceCalculation->district) ? $data->ConveyanceSalePriceCalculation->district : '' }}" style="border: none;border-bottom: 1px solid #212529;"> District and Bounded that is to say.
+                                            </p> <p>On or towards the North By: <input class="letter-form-input letter-form-input--md"
+                                                    type="text" name="north_dimension" value="{{ isset($data->ConveyanceSalePriceCalculation->north_dimension) ? $data->ConveyanceSalePriceCalculation->north_dimension : '' }}" style="border: none;border-bottom: 1px solid #212529;"></p>
 
-                                    <p>On or towards the South By:
+                                            <p>On or towards the South By:
 
-                                     <input class="letter-form-input letter-form-input--md"
-                                            type="text" name="south_dimension" value="{{ isset($data->ConveyanceSalePriceCalculation->south_dimension) ? $data->ConveyanceSalePriceCalculation->south_dimension : '' }}" style="border: none;border-bottom: 1px solid #212529;"></p>
-                                    <p>
-                                    On or towards the West By: 
+                                             <input class="letter-form-input letter-form-input--md"
+                                                    type="text" name="south_dimension" value="{{ isset($data->ConveyanceSalePriceCalculation->south_dimension) ? $data->ConveyanceSalePriceCalculation->south_dimension : '' }}" style="border: none;border-bottom: 1px solid #212529;"></p>
+                                            <p>
+                                            On or towards the West By: 
 
-                                    <input class="letter-form-input letter-form-input--md"
-                                            type="text" name="west_dimension" value="{{ isset($data->ConveyanceSalePriceCalculation->west_dimension) ? $data->ConveyanceSalePriceCalculation->west_dimension : '' }}" style="border: none;border-bottom: 1px solid #212529;"></p>
-                                    <p>On or towards the East By: 
+                                            <input class="letter-form-input letter-form-input--md"
+                                                    type="text" name="west_dimension" value="{{ isset($data->ConveyanceSalePriceCalculation->west_dimension) ? $data->ConveyanceSalePriceCalculation->west_dimension : '' }}" style="border: none;border-bottom: 1px solid #212529;"></p>
+                                            <p>On or towards the East By: 
 
-                                    <input class="letter-form-input letter-form-input--md"
-                                            type="text" name="east_dimension" value="{{ isset($data->ConveyanceSalePriceCalculation->east_dimension) ? $data->ConveyanceSalePriceCalculation->east_dimension : '' }}" style="border: none;border-bottom: 1px solid #212529;"></p>
-                                </div>
-                            
+                                            <input class="letter-form-input letter-form-input--md"
+                                                    type="text" name="east_dimension" value="{{ isset($data->ConveyanceSalePriceCalculation->east_dimension) ? $data->ConveyanceSalePriceCalculation->east_dimension : '' }}" style="border: none;border-bottom: 1px solid #212529;"></p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>                
                         </div>
                     </div>
                     <div class="mt-auto">

@@ -432,7 +432,7 @@ class SocietyOfferLetterController extends Controller
                      
                     $url = route('society_offer_letter_preview', encrypt($ol_applications->id));
                     $reval_url = route('society_reval_offer_letter_preview',encrypt($ol_applications->id));
-                    $oc_url= route('society_oc_preview');
+                    $oc_url= route('society_oc_preview',encrypt($ol_applications->id));
                     $url_noc = route('society_noc_preview',encrypt($ol_applications->id));
                     $url_noc_cc = route('society_noc_cc_preview');
                     $url_tripartite = route('tripartite_application_form_preview', encrypt($ol_applications->id));
@@ -645,8 +645,17 @@ class SocietyOfferLetterController extends Controller
         $id = $ids[0];
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $layouts = MasterLayout::all();
-        // dd($society_details);
-        return view('frontend.society.show_oc_self', compact('society_details', 'id', 'ids', 'layouts'));
+        $applicationCount = $this->getForwardedOCApplication();
+        $data = OcApplication::where('user_id', Auth::user()->id)->where('application_master_id',$id)
+        ->with(['request_form', 'applicationMasterLayout'])->first(); 
+
+        if (isset($data) && $applicationCount == 0){
+            return redirect()->route('society_oc_edit',encrypt($data->id));
+        }elseif($applicationCount > 0){
+            return redirect()->route('society_oc_preview',encrypt($data->id));
+        }else{
+            return view('frontend.society.show_oc_self', compact('society_details', 'id', 'ids', 'layouts','applicationCount'));
+        }   
     }
 
     /**
@@ -776,6 +785,7 @@ class SocietyOfferLetterController extends Controller
     }
 
     public function save_oc_application_self(Request $request){
+        
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $input = array(
             'society_id' => $society_details->id,
@@ -819,7 +829,8 @@ class SocietyOfferLetterController extends Controller
         OcApplication::where('user_id', Auth::user()->id)->update([
             'current_status_id' => $id->id
         ]);
-        return redirect()->route('society_oc_preview');
+        $id = encrypt($last_id->id);
+        return redirect()->route('society_oc_preview',$id);
     }
 
     /**
@@ -866,8 +877,17 @@ class SocietyOfferLetterController extends Controller
         $id = $ids[0];
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $layouts = MasterLayout::all();
-        // dd($society_details);
-        return view('frontend.society.show_oc_dev', compact('society_details', 'id', 'ids', 'layouts'));
+        
+        $applicationCount = $this->getForwardedOCApplication();
+        $data = OcApplication::where('user_id', Auth::user()->id)->where('application_master_id',$id)
+        ->with(['request_form', 'applicationMasterLayout'])->first();
+        if (isset($data) && $applicationCount == 0){
+            return redirect()->route('society_oc_edit',encrypt($data->id));
+        }elseif($applicationCount > 0){
+            return redirect()->route('society_oc_preview',encrypt($data->id));
+        }else{
+            return view('frontend.society.show_oc_dev', compact('society_details', 'id', 'ids', 'layouts'));
+        }
     }
 
     /**
@@ -890,6 +910,7 @@ class SocietyOfferLetterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function save_offer_letter_application_dev(Request $request){
+        
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         
         $input = array(
@@ -1042,7 +1063,8 @@ class SocietyOfferLetterController extends Controller
         OcApplication::where('user_id', Auth::user()->id)->update([
             'current_status_id' => $id->id
         ]);
-        return redirect()->route('society_oc_preview');
+        $id = encrypt($last_id->id);
+        return redirect()->route('society_oc_preview',$id);
     }
 
 
@@ -1101,7 +1123,6 @@ class SocietyOfferLetterController extends Controller
     public function displaySocietyRevalDocuments($applicationId){
 
         $applicationId = decrypt($applicationId);
-
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $application = OlApplication::where('id',$applicationId)->where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
@@ -1135,48 +1156,27 @@ class SocietyOfferLetterController extends Controller
     }
 
 
-    public function displaySocietyOcDocuments(){
+    public function displaySocietyOcDocuments($applicationId){
 
+        $applicationId = decrypt($applicationId);
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $application = OcApplication::where('society_id', $society->id)->with(['oc_application_master', 'ocApplicationStatus' => function($q){
+        $application = OcApplication::where('id',$applicationId)->where('society_id', $society->id)->with(['oc_application_master', 'ocApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         } ])->orderBy('id', 'desc')->first();
         $oc_applications = $application;
-        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($society){
-            $q->where('society_id', $society->id)->get();
+        $document = $this->getOCDocumentUploadCount($oc_applications);
+        $check_upload_avail = $document['check_upload_avail'];
+        $docs_count = $document['docs_count'];
+        $docs_count = $document['docs_count'];
+        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($society,$applicationId){
+            $q->where('society_id', $society->id)->where('application_id',$applicationId)->get();
         }])->get();
-        foreach ($documents as $key => $value) {
-            $document_ids[] = $value->id;
-        }
-        $documents_uploaded = OcSocietyDocumentStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->with(['documents_uploaded'])->get();
+        $documents_uploaded = $docs_uploaded_count = $document['docs_uploaded_count'];
+        $optional_docs = $document['optional_docs'];
+        $documents_comment = OcSocietyDocumentsComment::where('application_id',$applicationId)->where('society_id', $society->id)->orderBy('id','desc')->first();
+        $applicationCount = $this->getForwardedOCApplication();
 
-        $documents_comment = OcSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id','desc')->first();
-
-        if($application->application_master_id == '5' || $application->application_master_id == '16'){
-            $optional_docs = config('commanConfig.optional_docs_premium_oc');
-        }
-        if($application->application_master_id == '11' || $application->application_master_id == '22'){
-            $optional_docs = config('commanConfig.optional_docs_sharing_oc');
-        }
-
-        $docs_uploaded_count = 0;
-        $docs_count = 0;
-        foreach($documents as $documents_key => $documents_val){
-            if(in_array($documents_val->id, $optional_docs) == false){
-                $docs_count++;
-                if(count($documents_val->oc_documents_uploaded) > 0){
-                    $docs_uploaded_count++;
-                }
-            }
-        }
-
-        $check_upload_avail = 0;
-        if($docs_uploaded_count >= $docs_count)
-        {
-            $check_upload_avail = 1;
-        }
-
-        return view('frontend.society.society_upload_oc_documents', compact('documents','oc_applications',  'optional_docs', 'docs_count', 'docs_uploaded_count', 'documents_uploaded', 'society', 'application', 'documents_comment','check_upload_avail'));
+        return view('frontend.society.society_upload_oc_documents', compact('documents','oc_applications',  'optional_docs', 'docs_count', 'docs_uploaded_count', 'documents_uploaded', 'society', 'application', 'documents_comment','check_upload_avail','applicationCount'));
     }
 
     /**
@@ -1226,6 +1226,7 @@ class SocietyOfferLetterController extends Controller
 
 
     public function addSocietyOcDocumentsComment(Request $request){
+        
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $comments = '';
         if(!empty($request->input('society_documents_comment'))){
@@ -1235,11 +1236,12 @@ class SocietyOfferLetterController extends Controller
         }
         $input = array(
             'society_id' => $society->id,
+            'application_id' => $request->applicationId,
             'society_documents_comment' => $comments,
         );
-
-        OcSocietyDocumentsComment::where('society_id', $society->id)->update($input);
-        return redirect()->route('upload_society_oc_application');
+         OcSocietyDocumentsComment::updateOrCreate(['society_id' => $society->id, 'application_id' => $request->applicationId], $input);
+        $id = encrypt($request->applicationId);
+        return redirect()->route('upload_society_oc_application',$id);
     }
 
     /**
@@ -1412,39 +1414,24 @@ class SocietyOfferLetterController extends Controller
     }
 
 
-    public function viewSocietyOcDocuments(){
+    public function viewSocietyOcDocuments($applicationId){
+        $applicationId = decrypt($applicationId);
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $application = OcApplication::where('society_id', $society->id)->with(['ocApplicationStatus' => function($q){
+        $application = OcApplication::where('id',$applicationId)->where('society_id', $society->id)->with(['ocApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->orderBy('id', 'desc')->first();
 
         $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($society){
             $q->where('society_id', $society->id)->get();
         }])->get();
+        $document = $this->getOCDocumentUploadCount($application);
+        $check_upload_avail = $document['check_upload_avail'];
+        $optional_docs = $document['optional_docs'];
+        $docs_uploaded_count = $document['docs_uploaded_count'];
+        $docs_count = $document['docs_count'];
 
-        foreach ($documents as $key => $value) {
-            $document_ids[] = $value->id;
-        }
-        if($application->application_master_id == '5' || $application->application_master_id == '16'){
-            $optional_docs = config('commanConfig.optional_docs_premium_oc');
-        }
-        if($application->application_master_id == '11' || $application->application_master_id == '22'){
-            $optional_docs = config('commanConfig.optional_docs_sharing_oc');
-        }
-
-        $docs_uploaded_count = 0;
-        $docs_count = 0;
-        foreach($documents as $documents_key => $documents_val) {
-            if (in_array($documents_val->id, $optional_docs) == false) {
-                $docs_count++;
-                if (count($documents_val->oc_documents_uploaded) > 0) {
-                    $docs_uploaded_count++;
-                }
-            }
-        }
         $oc_applications = $application;
-        $documents_uploaded = OcSocietyDocumentStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->get();
-        $documents_comment = OcSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id','desc')->first();
+        $documents_comment = OcSocietyDocumentsComment::where('application_id',$applicationId)->where('society_id', $society->id)->orderBy('id','desc')->first();
 
         return view('frontend.society.view_society_uploaded_oc_documents', compact('documents', 'optional_docs', 'docs_uploaded_count','docs_count', 'oc_applications','documents_uploaded', 'documents_comment', 'society'));
     }
@@ -1599,14 +1586,15 @@ class SocietyOfferLetterController extends Controller
 
 
     public function uploadSocietyOcDocuments(Request $request){
+        $applicationId = $request->applicationId;
         $uploadPath = '/uploads/society_oc_documents';
         $destinationPath = public_path($uploadPath);
 
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $application = OcApplication::where('society_id', $society->id)->orderBy('id','desc')->first();
+        $application = OcApplication::where('id',$request->applicationId)->where('society_id', $society->id)->orderBy('id','desc')->first();
 
-        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('id', $request->input('document_id'))->with(['oc_documents_uploaded' => function($q) use ($society){
-            $q->where('society_id', $society->id)->get();
+        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('id', $request->input('document_id'))->with(['oc_documents_uploaded' => function($q) use ($society,$applicationId){
+            $q->where('society_id', $society->id)->where('application_id',$applicationId)->get();
         }])->get();
 
         if($request->file('document_name'))
@@ -1626,32 +1614,13 @@ class SocietyOfferLetterController extends Controller
         }
         $input = array(
             'society_id' => $society->id,
+            'application_id' => $applicationId,
             'document_id' => $request->input('document_id'),
             'society_document_path' => $path,
         );
         OcSocietyDocumentStatus::create($input);
-        $documents_master = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($society){
-            $q->where('society_id', $society->id)->get();
-        }])->get();
-
-        if($application->application_master_id == '5' || $application->application_master_id == '16'){
-            $optional_docs = config('commanConfig.optional_docs_premium_oc');
-        }
-        if($application->application_master_id == '11' || $application->application_master_id == '22 '){
-            $optional_docs = config('commanConfig.optional_docs_sharing_oc');
-        }
-        $docs_uploaded_count = 0;
-        $docs_count = 0;
-        foreach($documents_master as $documents_key => $documents_val) {
-            if (in_array($documents_val->id, $optional_docs) == false) {
-                $docs_count++;
-                if (count($documents_val->oc_documents_uploaded) > 0) {
-                    $documents_uploaded[] = $documents_val->documents_uploaded;
-                    $docs_uploaded_count++;
-                }
-            }
-        }
-        return redirect()->route('oc_documents_upload');
+        $id = encrypt($applicationId);
+        return redirect()->route('oc_documents_upload',$id);
     }
 
     /**
@@ -1746,73 +1715,23 @@ class SocietyOfferLetterController extends Controller
     }
 
 
-    public function deleteSocietyOcDocuments($id){
+    public function deleteSocietyOcDocuments($applicationId,$id){
+        
+        $applicationId = decrypt($applicationId);
+        $documentId = decrypt($id);
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $application = OcApplication::where('society_id', $society->id)->orderBy('id','desc')->first();
+        $application = OcApplication::where('id',$applicationId)->where('society_id', $society->id)->orderBy('id','desc')->first();
 
-        // $documents_master = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($society){
-        //     $q->where('society_id', $society->id)->get();
-        // }])->get();
-
-        // if($application->application_master_id == '5' || $application->application_master_id == '16'){
-        //     $optional_docs = config('commanConfig.optional_docs_premium_oc');
-        // }
-        // if($application->application_master_id == '11' || $application->application_master_id == '22'){
-        //     $optional_docs = config('commanConfig.optional_docs_sharing_oc');
-        // }
-        // $docs_uploaded_count = 0;
-        // $docs_count = 0;
-        // foreach($documents_master as $documents_key => $documents_val) {
-        //     if (in_array($documents_key + 1, $optional_docs) == false) {
-        //         $docs_count++;
-        //         if (count($documents_val->documents_uploaded) > 0) {
-        //             $documents_uploaded[] = $documents_val->documents_uploaded;
-        //             $docs_uploaded_count++;
-        //         }
-        //     }
-        // }
-
-        // if($docs_count == $docs_uploaded_count){
-
-        //     $role_ids = Role::where('name','like', 'ee_junior_engineer')->orWhere('name','like', 'EM')->pluck('id')->toArray();
-
-        //     $user_ids = RoleUser::whereIn('role_id', $role_ids)->get()->toArray();
-        //     $user_ids = array_column($user_ids, 'user_id');
-        //     $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
-
-        //     foreach ($layout_user_ids as $key => $value) {
-        //         $select_user_ids[] = $value['user_id'];
-        //     }
-        //     $users = User::whereIn('id', $select_user_ids)->get();
-
-
-        //     if(count($users) > 0){
-        //         foreach($users as $key => $user){
-        //             $i = 0;
-        //             $insert_application_log_pending[$key]['application_id'] = $application->id;
-        //             $insert_application_log_pending[$key]['society_flag'] = 1;
-        //             $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
-        //             $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
-        //             $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
-        //             $insert_application_log_pending[$key]['to_user_id'] = $user->id;
-        //             $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
-        //             $insert_application_log_pending[$key]['remark'] = '';
-        //             $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
-        //             $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
-        //             $i++;
-        //         }
-        //     }
-        //     OcApplicationStatusLog::insert($insert_application_log_pending);
-        // }
-
-        $delete_document_details = OcSocietyDocumentStatus::where('society_id', $society->id)->where('document_id', $id)->get();
+        $delete_document_details = OcSocietyDocumentStatus::where('application_id',$applicationId)
+        ->where('id', $documentId)->get();
         $stored_filepath = explode('/', $delete_document_details[0]->society_document_path);
         $folder_name = "society_oc_documents";
         $path = $folder_name.'/'.$stored_filepath[count($stored_filepath)-1];
         $delete = Storage::disk('ftp')->delete($path);
-        OcSocietyDocumentStatus::where('society_id', $society->id)->where('document_id', $id)->delete();
+        OcSocietyDocumentStatus::where('application_id',$applicationId)->where('society_id', $society->id)->where('id', $documentId)->delete();
 
-        return redirect()->route('oc_documents_upload');
+       $id1 = encrypt($applicationId);
+        return redirect()->route('oc_documents_upload',$id1);
     }
 
     /**
@@ -1879,46 +1798,21 @@ class SocietyOfferLetterController extends Controller
         return view('frontend.society.show_reval_ol_application_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id','old_ol_application','applicationCount'));
     }
 
-    public function showOcApplication(){
+    public function showOcApplication($applicationId){
+
+        $applicationId = decrypt($applicationId);
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
-        $oc_application = OcApplication::where('user_id', Auth::user()->id)->where('society_id', $society->id)->with(['request_form', 'applicationMasterLayout', 'ocApplicationStatus' => function($q){
+        $oc_application = OcApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->where('society_id', $society->id)->with(['request_form', 'applicationMasterLayout', 'ocApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc');
         }])->orderBy('id', 'desc')->first();
 
         $layouts = MasterLayout::all();
         $id = $oc_application->application_master_id;
         $oc_applications = $oc_application;
-
-        $documents = OlSocietyDocumentsMaster::where('application_id', $oc_application->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($society){
-            $q->where('society_id', $society->id)->get();
-        }])->get();
-
-        if($oc_application->application_master_id == '5' || $oc_application->application_master_id == '16'){
-            $optional_docs = config('commanConfig.optional_docs_premium_oc');
-        }
-        if($oc_application->application_master_id == '11' || $oc_application->application_master_id == '22'){
-            $optional_docs = config('commanConfig.optional_docs_sharing_oc');
-        }
-
-        $docs_uploaded_count = 0;
-        $docs_count = 0;
-        foreach($documents as $documents_key => $documents_val){
-                if(in_array($documents_val->id, $optional_docs) == false){
-                    $docs_count++;
-                    if(count($documents_val->oc_documents_uploaded) > 0){
-                        $docs_uploaded_count++;
-                    }
-                }
-        }
-
-        $check_upload_avail = 0;
-        if($docs_uploaded_count >= $docs_count)
-        {
-            $check_upload_avail = 1;
-        }
-
-        return view('frontend.society.show_oc_application_form', compact('society_details', 'oc_applications', 'oc_application', 'layouts', 'id' , 'check_upload_avail'));
+        $applicationCount = $this->getForwardedOCApplication();
+        $check_upload_avail = $this->getOCDocumentUploadCount($oc_application);
+        return view('frontend.society.show_oc_application_form', compact('society_details', 'oc_applications', 'oc_application', 'layouts', 'id' , 'check_upload_avail','applicationCount'));
     }
 
     /**
@@ -1946,7 +1840,6 @@ class SocietyOfferLetterController extends Controller
     public function editRevalOfferLetterApplication($applicationId){
 
         $applicationId = decrypt($applicationId);
-
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
         $ol_application = OlApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->with(['request_form', 'ol_application_master', 'applicationMasterLayout'])->orderBy('id','desc')->first();
@@ -1957,43 +1850,20 @@ class SocietyOfferLetterController extends Controller
         return view('frontend.society.edit_reval_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id'));
     }
 
-    public function editOcApplication(){
+    public function editOcApplication($applicationId){
+
+        $applicationId = decrypt($applicationId);
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
-        $oc_application = OcApplication::where('user_id', Auth::user()->id)->with(['request_form', 'ol_application_master', 'applicationMasterLayout'])->orderBy('id','desc')->first();
+        $oc_application = OcApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->with(['request_form', 'ol_application_master', 'applicationMasterLayout'])->orderBy('id','desc')->first();
         $layouts = MasterLayout::all();
         $id = $oc_application->application_master_id;
         $oc_applications = $oc_application;
+        $document = $this->getOCDocumentUploadCount($oc_applications);
+        $check_upload_avail = $document['check_upload_avail'];
+        $applicationCount = $this->getForwardedOCApplication();
 
-        $documents = OlSocietyDocumentsMaster::where('application_id', $oc_application->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($society){
-            $q->where('society_id', $society->id)->get();
-        }])->get();
-
-        if($oc_application->application_master_id == '5' || $oc_application->application_master_id == '16'){
-            $optional_docs = config('commanConfig.optional_docs_premium_oc');
-        }
-        if($oc_application->application_master_id == '11' || $oc_application->application_master_id == '22'){
-            $optional_docs = config('commanConfig.optional_docs_sharing_oc');
-        }
-
-        $docs_uploaded_count = 0;
-        $docs_count = 0;
-        foreach($documents as $documents_key => $documents_val){
-                if(in_array($documents_val->id, $optional_docs) == false){
-                    $docs_count++;
-                    if(count($documents_val->oc_documents_uploaded) > 0){
-                        $docs_uploaded_count++;
-                    }
-                }
-        }
-
-        $check_upload_avail = 0;
-        if($docs_uploaded_count >= $docs_count)
-        {
-            $check_upload_avail = 1;
-        }
-
-        return view('frontend.society.edit_oc_form', compact('society_details', 'oc_applications', 'oc_application', 'layouts', 'id' , 'check_upload_avail'));
+        return view('frontend.society.edit_oc_form', compact('society_details', 'oc_applications', 'oc_application', 'layouts', 'id' , 'check_upload_avail','applicationCount'));
     }
 
     /**
@@ -2040,6 +1910,7 @@ class SocietyOfferLetterController extends Controller
     }
 
     public function updateOcApplication(Request $request){
+        
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $update_input = array(
             'architect_name' => $request->architect_name,
@@ -2048,7 +1919,9 @@ class SocietyOfferLetterController extends Controller
             'is_full_oc' => $request->is_full_oc,
         );
         OlRequestForm::where('society_id', $society->id)->where('id', $request->request_form_id)->update($update_input);
-        return redirect()->route('society_oc_preview');
+        OcApplication::where('id',$request->applicationId)->update(['layout_id' => $request->layout_id]);
+        $id = encrypt($request->applicationId);
+        return redirect()->route('society_oc_preview',$id);
     }
 
     /**
@@ -2103,10 +1976,12 @@ class SocietyOfferLetterController extends Controller
     }
 
 
-    public function generate_oc_pdf(){
+    public function generate_oc_pdf($applicationId){
+
+        $applicationId = decrypt($applicationId);
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
-        $oc_application = OcApplication::where('user_id', Auth::user()->id)->with(['request_form', 'applicationMasterLayout'])->orderBy('id','desc')->first();
+        $oc_application = OcApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->with(['request_form', 'applicationMasterLayout'])->orderBy('id','desc')->first();
         $layouts = MasterLayout::all();
         $id = $oc_application->application_master_id;
 
@@ -2153,40 +2028,19 @@ class SocietyOfferLetterController extends Controller
         return view('frontend.society.upload_download_reval_offer_letter_application_form', compact('ol_applications', 'application_details'));
     }
 
-    public function showuploadOcAfterSign(){
+    public function showuploadOcAfterSign($applicationId){
+        $applicationId = decrypt($applicationId);
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $application_details = OcApplication::where('society_id', $society->id)->with(['oc_application_master', 'ocApplicationStatus' => function($q){
+        $application_details = OcApplication::where('id',$applicationId)->where('society_id', $society->id)->with(['oc_application_master', 'ocApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc');
         }])->orderBy('id', 'desc')->first();
         $oc_applications = $application_details;
+        $document = $this->getOCDocumentUploadCount($oc_applications);
+        $check_upload_avail = $document['check_upload_avail'];
 
         $documents = OlSocietyDocumentsMaster::where('application_id', $application_details->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($society){
             $q->where('society_id', $society->id)->get();
         }])->get();
-
-        if($application_details->application_master_id == '5' || $application_details->application_master_id == '16'){
-            $optional_docs = config('commanConfig.optional_docs_premium_oc');
-        }
-        if($application_details->application_master_id == '11' || $application_details->application_master_id == '22'){
-            $optional_docs = config('commanConfig.optional_docs_sharing_oc');
-        }
-
-        $docs_uploaded_count = 0;
-        $docs_count = 0;
-        foreach($documents as $documents_key => $documents_val){
-                if(in_array($documents_val->id, $optional_docs) == false){
-                    $docs_count++;
-                    if(count($documents_val->oc_documents_uploaded) > 0){
-                        $docs_uploaded_count++;
-                    }
-                }
-        }
-
-        $check_upload_avail = 0;
-        if($docs_uploaded_count >= $docs_count)
-        {
-            $check_upload_avail = 1;
-        }
 
         return view('frontend.society.upload_download_oc_application_form', compact('oc_applications', 'application_details','check_upload_avail'));
     }
@@ -2399,7 +2253,7 @@ class SocietyOfferLetterController extends Controller
 
     public function uploadOcAfterSign(Request $request){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $application_name = OcApplication::where('society_id', $society->id)->with('oc_application_master')->get();
+        // $application_name = OcApplication::where('id',$request->applicationId)->where('society_id', $society->id)->with('oc_application_master')->get();
         $society_remark = OcSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id', 'desc')->first();
         if($request->file('oc_application_form'))
         {
@@ -2416,7 +2270,7 @@ class SocietyOfferLetterController extends Controller
                     'application_path' => $path,
                     'submitted_at' => date('Y-m-d H-i-s')
                 );
-                OcApplication::where('society_id', $society->id)->where('id', $request->input('id'))->update($input);
+                OcApplication::where('id',$request->applicationId)->where('society_id', $society->id)->where('id', $request->input('id'))->update($input);
 
 
 
@@ -2853,4 +2707,76 @@ class SocietyOfferLetterController extends Controller
 
         return $count;
     }
+
+    // get optional document Id's
+    public function getOCOptionalDocument($masterId){
+
+        $optional_docs = OlSocietyDocumentsMaster::where('application_id', $masterId)
+        ->where('is_optional',1)->pluck('id')->toArray();
+        return $optional_docs;
+    }
+
+    public function getOCDocumentUploadCount($oc_application){
+    $document = [];   
+    $documents = OlSocietyDocumentsMaster::where('application_id', $oc_application->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($oc_application){
+            $q->where('society_id', $oc_application->society_id)
+            ->where('application_id',$oc_application->id)->get();
+        }])->get();
+
+        $document['optional_docs'] = $this->getOCOptionalDocument($oc_application->application_master_id);
+        $document['docs_count'] = OlSocietyDocumentsMaster::where('application_id', $oc_application->application_master_id)->where('is_optional',0)->count();
+        $docs_uploaded_count = 0;
+
+        foreach($documents as $documents_key => $documents_val){
+                if($documents_val->is_optional == 0 && count($documents_val->oc_documents_uploaded) > 0){
+                    $docs_uploaded_count++;
+                }
+        }
+        $document['docs_uploaded_count'] = $docs_uploaded_count;
+        $check_upload_avail = 0;
+        if ($docs_uploaded_count >= $document['docs_count'])
+        {
+            $check_upload_avail = 1;
+        }
+        $document['check_upload_avail'] = $check_upload_avail;
+        return $document;       
+    }
+
+    public function getForwardedOCApplication(){
+
+        $forward = config('commanConfig.applicationStatus.forwarded');
+        $masterIds = OlApplicationMaster::where('title','Consent for OC')->pluck('id')->toArray();
+
+        $count = OcApplication::where('user_id', Auth::user()->id)
+        ->whereIn('application_master_id',$masterIds)->with(['ocApplicationStatus' => function($q) use($forward){
+                $q->where('status_id',$forward)->orderBy('id','desc');
+        }])->whereHas('ocApplicationStatus', function($q) use($forward){
+            $q->where('status_id',$forward)->orderBy('id','desc');
+        })->count();
+
+        return $count;
+    }
+
+    public function displaySingedOCApplication($applicationId){
+        
+        $applicationId = decrypt($applicationId);
+        $oc_applications = OcApplication::where('id',$applicationId)->with(['ocApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        }])->orderBy('id', 'desc')->select('id','application_path')->first();
+        return view('frontend.society.show_signed_oc_application',compact('oc_applications'));        
+    }
+
+    public function showOfferSignApplication($applicationId){
+      
+        $applicationId = decrypt($applicationId); 
+        $ol_applications = OlApplication::where('id',$applicationId)->with(['olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        }])->first(); 
+
+        $society_details = SocietyOfferLetter::find($ol_applications->society_id);
+        $documents_arr = $this->get_docs_count($ol_applications, $society_details);
+        $applicationCount = $this->getForwardedApplication();
+        return view('frontend.society.show_signed_offer_application',compact('ol_applications','documents_arr','applicationCount'));
+    }
+
 }

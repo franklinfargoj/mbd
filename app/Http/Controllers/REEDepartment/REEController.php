@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\REEDepartment;
 
 use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
+use App\Http\Controllers\OcDashboardController;
 use App\Http\Controllers\Tripartite\TripartiteDashboardController;
 use App\REENote;
 use App\Role;
@@ -1988,13 +1989,22 @@ class REEController extends Controller
         $noc_cc_pending_count = $noc_cc_pending_data['Total Number of Applications'];
 //        dd($noc_cc_pending_count);
 
+        // Consent for oc
+        $oc_dashboard = new OcDashboardController();
+        $ocData = $oc_dashboard->getApplicationData($role_id,$user_id);
+        $oc_count = count($ocData);
+
+        // Consent for Oc Department Pendency
+        $oc_pending_dashboard_data = $oc_dashboard->getTotalCountsOfApplicationsPending();
+        $oc_pendency_count = $oc_pending_dashboard_data['Total Number of Applications'];
+
         //Revision in Layout
 
         //Layout Approval
 
         //Layout Approval Subordinate Pendency
 
-        return view('admin.REE_department.dashboard',compact('ol_count','ol_pending_count','tripartite_count','tripartite_pending_count','ol_reval_count','ol_reval_pending_count',
+        return view('admin.REE_department.dashboard',compact('ol_count','ol_pending_count','oc_count','oc_pendency_count','tripartite_count','tripartite_pending_count','ol_reval_count','ol_reval_pending_count',
             'noc_count','noc_cc_count','noc_pending_count','noc_cc_pending_count','offerLetterRoles'));
     }
 
@@ -2152,6 +2162,24 @@ class REEController extends Controller
                 return $data['dashboardData_head'];
             }
 
+            if($request->module_name == 'Consent for OC'){
+                if (in_array(session()->get('role_name'), array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head')))) {
+                    $oc_dashboard = new OcDashboardController();
+                    $applicationData = $oc_dashboard->getApplicationData($role_id,$user_id);
+                    $statusCount = $oc_dashboard->getApplicationStatusCount($applicationData);
+                    $oc_data = $oc_dashboard->getREEDashboardData($role_id,$ree,$statusCount);
+                    return $oc_data;
+                }
+            }
+            if($request->module_name == 'Consent for OC Department Pendency'){
+                if (session()->get('role_name') == config('commanConfig.ree_branch_head')) {
+
+                    $ocPendingDashboardData = NULL;
+                    $oc_dashboard = new OcDashboardController();
+                    $ocPendingDashboardData = $oc_dashboard->getTotalCountsOfApplicationsPending();
+                    return $ocPendingDashboardData;
+                }
+            }
         }
     }
 
@@ -2467,10 +2495,11 @@ class REEController extends Controller
     public function societyOcDocuments(Request $request,$applicationId)
     {
         $oc_application = $this->CommonController->getOcApplication($applicationId);    
-        $societyDocument = $this->CommonController->getSocietyDocumentsforOC($applicationId);
         $oc_application->status = $this->CommonController->getCurrentStatusOc($applicationId);
+        $comments = $this->CommonController->getOCApplicationComments($applicationId);
+        $societyDocuments = $this->CommonController->getSocietyDocumentsforOC($applicationId);
 
-        return view('admin.REE_department.society_documents_consent_oc', compact('societyDocument','oc_application'));
+        return view('admin.REE_department.society_documents_consent_oc', compact('societyDocuments','oc_application','comments'));
     }
 
     public function viewEMScrutinyOc($applicationId)

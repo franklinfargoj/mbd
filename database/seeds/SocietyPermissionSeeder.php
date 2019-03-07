@@ -642,6 +642,16 @@ class SocietyPermissionSeeder extends Seeder
                 'name' => 'delete_documents',
                 'display_name' => 'delete documents',
                 'description'  => 'delete documents'
+            ],
+            [
+                'name' => 'show_oc_sign_application',
+                'display_name' => 'show oc sign application',
+                'description'  => 'show oc sign application'
+            ],
+            [
+                'name' => 'show_offer_sign_application',
+                'display_name' => 'show offer letter sign application',
+                'description'  => 'show offer letter sign application'
             ]
         ];
         

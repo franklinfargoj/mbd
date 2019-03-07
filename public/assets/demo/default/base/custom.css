@@ -3655,5 +3655,76 @@ label.site-visit-label {
 }
 
 .mhada-full-modal .modal-body{
-        padding: 0 25px 0 25px !important;
+    padding: 0 25px 0 25px !important;
+}
+
+.mhada-reset-form .m-login__container.m-login--right-box{
+    max-width: 500px !important;
+}
+
+.mhada-reset-form .m-login__signin--box{
+    padding: 15px 30px !important;
+}
+
+.mhada-reset-form-btn button{
+
+}
+
+.mhada-dash-new .db__card{
+    padding: 15px;
+    -webkit-box-shadow: 2px 2px 25px 2px rgba(184,184,184,1);
+    -moz-box-shadow: 2px 2px 25px 2px rgba(184,184,184,1);
+    box-shadow: 2px 2px 25px 2px rgba(184,184,184,1);
+    margin-top: 0;
+    margin-bottom: 40px;
+}
+
+.mhada-dash-new .db__card__img-wrap{
+    max-width: 60px;
+    height: 50px;
+    margin-bottom: 15px;
+    margin-top: 0;
+}
+
+.mhada-dash-new .db__card .db__card__count{
+    font-size: 22px;
+}
+
+.mhada-dash-new .db__card__title{
+    font-size: 13px;
+    font-weight: 400;
+    margin-left: 20px;
+}
+
+.db__card{
+    cursor: pointer;
+}
+
+.mhada-full-modal .mhada-m-portlet.m-portlet{
+    height: 370px;
+    overflow: auto;
+    /*max-height: 100%;*/
+}
+
+.mhada-full-modal .m-subheader--top{
+    margin-bottom: 0;
+}
+
+
+@media screen and (max-width: 1920px) and (min-width: 1400px) {
+    .no-margin-xl{
+        margin-left: 0px !important;
+    }
+}
+
+@media screen and (max-width: 1400px) and (min-width: 967px) {
+    .db__card{
+        width: 24% !important;
+    }
+
+    .no-margin-sm{
+        margin-left: 0 !important;
+    }
+
+    
 }

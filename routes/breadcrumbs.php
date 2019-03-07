@@ -203,12 +203,12 @@ Breadcrumbs::for('society_dashboard', function ($trail) {
 
 Breadcrumbs::for('documents_uploaded', function ($trail,$id) {
     $trail->push('Listing', route('society_offer_letter_dashboard'));
-    $trail->push('View Uploaded documents(Offer Letter)', route('documents_uploaded',$id));
+    $trail->push('Documents Uploaded (Offer Letter)', route('documents_uploaded',$id));
 });
 
 Breadcrumbs::for('documents_upload', function ($trail,$id) {
     $trail->push('Listing', route('society_offer_letter_dashboard'));
-    $trail->push('Upload documents (Offer Letter)', route('documents_upload',$id));
+    $trail->push('Documents Upload(Offer Letter)', route('documents_upload',$id));
 });
 
 Breadcrumbs::for('noc_documents_upload', function ($trail,$id) {
@@ -216,9 +216,9 @@ Breadcrumbs::for('noc_documents_upload', function ($trail,$id) {
     $trail->push('Upload documents (NOC)', route('documents_upload_noc',$id));
 });
 
-Breadcrumbs::for('oc_documents_upload', function ($trail) {
+Breadcrumbs::for('oc_documents_upload', function ($trail,$id) {
     $trail->push('Listing', route('society_offer_letter_dashboard'));
-    $trail->push('Upload documents (Concent For OC)', route('oc_documents_upload'));
+    $trail->push('Upload documents (Concent For OC)', route('oc_documents_upload',$id));
 });
 
 Breadcrumbs::for('noc_cc_documents_upload', function ($trail) {
@@ -277,9 +277,9 @@ Breadcrumbs::for('society_revalidation_edit', function ($trail,$id) {
     $trail->push('Redevelopment Application Form(Revalidation)', route('society_reval_offer_letter_edit',$id));
 });
 
-Breadcrumbs::for('society_oc_edit', function ($trail) {
+Breadcrumbs::for('society_oc_edit', function ($trail,$id) {
     $trail->parent('society_dashboard');
-    $trail->push('Consent For OC Application Form', route('society_oc_edit'));
+    $trail->push('Consent For OC Application Form', route('society_oc_edit',$id));
 });
 
 Breadcrumbs::for('noc_edit', function ($trail,$id) {
