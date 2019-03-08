@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+
 @section('actions')
 @include('admin.em_department.action',compact('ol_application'))
 @endsection
@@ -39,46 +40,43 @@
                             {{$society[0]->society_name}}</h4>
                     </div>
                 </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="wards"
-                            name="wards" required>
-                            <option value="" style="font-weight: normal;">Select Ward</option>
-                            @foreach($wards as $key => $value)
-                            <option value="{{ $value->id }}"
-                                @if(!empty($soc_colony)){{ old("wards", $soc_colony->ward_id) == $value->id ? 'selected' : '' }} @endif>{{
-                                $value->name }}</option>
-                            @endforeach
-                        </select>
-                        <span class="help-block error">{{$errors->first('wards')}}</span>
-                    </div>
-                </div>
-                <div class="form-group m-form__group row" id="colony_select">
-                    <div class="col-sm-4 form-group">
-                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="colony"
-                            name="colony" required>
-                            <option value="" style="font-weight: normal;">Select Colony</option>
-                            @foreach($colonies as $key => $value)
-                            <option value="{{ $value->id }}"
-                                {{ old("colony", $society[0]->colony_id) == $value->id ? 'selected' : '' }}>{{
-                                $value->name }}</option>
-                            @endforeach
-                        </select>
-                        <span class="help-block error">{{$errors->first('colony')}}</span>
-                    </div>
-                </div>
-                <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
-                    <div class="m-form__actions px-0">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="btn-list">
-                                    <input type="submit" class="btn btn-primary" name="submit" value="Submit">
-                                    <a class="btn btn-secondary" href="{{ route('get_societies') }}">Cancel</a>
-                                </div>
-                            </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="wards"
+                                name="wards" required>
+                                <option value="" style="font-weight: normal;">Select Ward</option>
+                                @foreach($wards as $key => $value)
+                                <option value="{{ $value->id }}"
+                                    @if(!empty($soc_colony)){{ old("wards", $soc_colony->ward_id) == $value->id ? 'selected' : '' }} @endif>{{
+                                    $value->name }}</option>
+                                @endforeach
+                            </select>
+                            <span class="help-block error">{{$errors->first('wards')}}</span>
                         </div>
                     </div>
+                    <div class="col-sm-3" id="colony_select">
+                        <div class=" form-group">
+                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="colony"
+                                name="colony" required>
+                                <option value="" style="font-weight: normal;">Select Colony</option>
+                                @foreach($colonies as $key => $value)
+                                <option value="{{ $value->id }}"
+                                    {{ old("colony", $society[0]->colony_id) == $value->id ? 'selected' : '' }}>{{
+                                    $value->name }}</option>
+                                @endforeach
+                            </select>
+                            <span class="help-block error">{{$errors->first('colony')}}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="btn-list">
+                            <input type="submit" class="btn btn-primary" name="submit" value="Submit">
+                            <a class="btn btn-secondary" href="http://127.0.0.1:8000/get_societies">Cancel</a>
+                        </div>        
+                    </div>
                 </div>
+                
             </form>
         </div>
     </div>

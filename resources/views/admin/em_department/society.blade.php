@@ -1,5 +1,7 @@
 @extends('admin.layouts.app')
+
 @section('actions')
+
     @include('admin.em_department.action',compact('ol_application'))
 @endsection
 @section('content')
@@ -47,11 +49,11 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-1 mt-4">
                                                 <input type="submit" value="Search" class="submit-button btn m-btn--pill m-btn--custom btn-primary">
                                             </div>
 
-                                            <div class="col-md-3">
+                                            <div class="col-md-1 mt-4">
                                                 <a href="{{ url('get_societies') }}" class="btn m-btn--pill m-btn--custom btn-primary">Reset</a>
                                             </div>
 

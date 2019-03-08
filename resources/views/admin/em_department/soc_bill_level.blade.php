@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+
 @section('actions')
 @include('admin.em_department.action',compact('ol_application'))
 @endsection
@@ -39,7 +40,7 @@
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
+                    <div class="col-sm-3 form-group">
                         <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="soc_bill_level"
                             name="soc_bill_level" required>
                             <option value="" style="font-weight: normal;">Select Billing</option>
@@ -51,19 +52,14 @@
                         </select>
                         <span class="help-block error">{{$errors->first('soc_bill_level')}}</span>
                     </div>
-                </div>
-                <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
-                    <div class="m-form__actions px-0">
-                        <div class="row">
-                            <div class="col-sm-4">
+                    <div class="col-sm-6">
                                 <div class="btn-list">
                                     <input type="submit" class="btn btn-primary" name="submit" value="Submit">
                                     <a class="btn btn-secondary" href="{{ route('get_societies') }}">Cancel</a>
                                 </div>
                             </div>
-                        </div>
-                    </div>
                 </div>
+                
             </form>
         </div>
     </div>
