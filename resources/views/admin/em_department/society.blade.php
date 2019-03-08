@@ -32,6 +32,9 @@
                                     <form action="{{route('get_societies')}}" method="get">
                                         <div class="row">    
                                             <div class="col-md-4">
+
+                                                <label for="layout">Select Layout</label>
+
                                                 <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                                     id="layout" name="layout">
                                                     <option value="" style="font-weight: normal;">Select Layout</option>
@@ -47,6 +50,11 @@
                                             <div class="col-md-3">
                                                 <input type="submit" value="Search" class="submit-button btn m-btn--pill m-btn--custom btn-primary">
                                             </div>
+
+                                            <div class="col-md-3">
+                                                <a href="{{ url('get_societies') }}" class="btn m-btn--pill m-btn--custom btn-primary">Refresh</a>
+                                            </div>
+
                                         </div>
                                     </form>
                                 </div>
@@ -69,7 +77,6 @@
             <!--begin: Datatable -->
             {!! $html->table() !!}
             <!--end: Datatable -->
-            
         </div>
     </div>
     <input type="hidden" id="myModalBtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" />
