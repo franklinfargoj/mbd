@@ -36,12 +36,8 @@
                     <table class="table mb-0">
                         <thead class="thead-default">
                             <tr>
-                                <th>
-                                    #
-                                </th>
-                                <th>
-                                    Document Name
-                                </th>
+                                <th>Sr.No</th>
+                                <th>Document Name</th>
                                 <th>
                                     Status
                                 </th>
@@ -54,12 +50,22 @@
                             @php $i=1; @endphp
                             @foreach($documents as $document)
                                 <tr>
-                                    <td>{{ ($document->parent != 0) ? $document->parent . $document->sort_by  : $i }}</td>
-                                    <td>
-                                        {{ $document->name }}<span class="compulsory-text">
-                                        @if(in_array($i, $optional_docs))<small>
-                                        <span style="color: green;">(Optional
-                                                Document)</span></small> @else <small>(Compulsory Document)</small> @endif</span>
+                                    <td>@if($document->parent != 0)
+                                            {{$document->parent }}.{{$document->sort_by}}
+                                         @else
+                                            {{$i}}
+                                        @endif</td>
+                                    <td> 
+                                        {{ $document->name }}
+                                        @if($document->is_optional == 0)
+                                            <span class="compulsory-text">
+                                            <small>(Compulsory Document)</small></span>
+                                            
+                                            @else
+                                            <span class="compulsory-text"> <small>
+                                            <span style="color: green;">
+                                            (Optional Document)</small> </span>
+                                        @endif
                                     </td>
                                     <td class="text-center">
                                         <h2 class="m--font-danger">
@@ -134,8 +140,10 @@
                                         @endif
                                     </td>
                                 </tr>
-                               
-                            @php $i++; @endphp
+                            
+                            @php if($document->parent == 0){
+                                $i++;
+                            }  @endphp
                             @endforeach
                         </tbody>
                     </table>

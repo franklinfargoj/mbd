@@ -62,7 +62,7 @@ class NocSocietyDocumentsMasterTableSeeder extends Seeder
                     'language_id'   => $language,
                     'name' => "Undertaking first time duty (form 7)",
                     'is_optional' => 0,
-                    'parent' => 4,
+                    'parent' => 6,
                     'sort_by' =>1
                 ], 
                 [
@@ -70,7 +70,7 @@ class NocSocietyDocumentsMasterTableSeeder extends Seeder
                     'language_id'   => $language,
                     'name' => "Indemnity bond for legal proceding (form 5)",
                     'is_optional' => 0,
-                    'parent' => 4,
+                    'parent' => 6,
                     'sort_by' =>2
                 ], 
                 [
@@ -78,7 +78,7 @@ class NocSocietyDocumentsMasterTableSeeder extends Seeder
                     'language_id'   => $language,
                     'name' => "Undertaking of acceptance of offer letter",
                     'is_optional' => 0,
-                    'parent' => 4,
+                    'parent' => 6,
                     'sort_by' =>3
                 ], 
                 [
@@ -86,7 +86,7 @@ class NocSocietyDocumentsMasterTableSeeder extends Seeder
                     'language_id'   => $language,
                     'name' => "Undertaking of registration of label",
                     'is_optional' => 0,
-                    'parent' => 4,
+                    'parent' => 6,
                     'sort_by' =>4
                 ],
                 [

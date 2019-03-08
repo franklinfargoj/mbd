@@ -35,6 +35,7 @@ use App\OcApplication;
 use App\OcApplicationStatusLog;
 use App\OcSrutinyQuestionMaster;
 use App\OcEEScrutinyAnswer;
+use App\NOCBuildupArea;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
 use App\Http\Controllers\SocietyNocController;
 use App\Http\Controllers\SocietyNocforCCController;
@@ -790,8 +791,8 @@ class COController extends Controller
             'user_id' => Auth::user()->id,
             'role_id' => session()->get('role_id')
         ])->orderBy('id', 'desc')->first();
-
-        return view('admin.co_department.scrutiny-remark-noc', compact('arrData','noc_application'));
+        $data = NOCBuildupArea::where('application_id',$applicationId)->first();
+        return view('admin.co_department.scrutiny-remark-noc', compact('arrData','noc_application','data'));
     }
 
     public function nocforCCScrutinyRemarks(Request $request,$applicationId){

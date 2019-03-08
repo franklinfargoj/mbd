@@ -36,6 +36,7 @@ use App\NocApplicationStatus;
 use App\NocCCApplicationStatus;
 use App\NocSrutinyQuestionMaster;
 use App\NocReeScrutinyAnswer;
+use App\NOCBuildupArea;
 use App\Http\Controllers\SocietyNocController;
 use App\Http\Controllers\SocietyNocforCCController;
 use App\OlDcrRateMaster;
@@ -1419,7 +1420,9 @@ class REEController extends Controller
                 'role_id' => session()->get('role_id')
             ])->orderBy('id', 'desc')->first();
 
-        return view('admin.REE_department.scrutiny-remark-noc', compact('arrData','noc_application'));
+        $data = NOCBuildupArea::where('application_id',$application_id)->first();
+
+        return view('admin.REE_department.scrutiny-remark-noc', compact('arrData','noc_application','data'));
     }
 
     public function nocScrutinyVerification(Request $request)
@@ -2839,5 +2842,35 @@ class REEController extends Controller
         return redirect("fsi_calculation_application/" . $id."#".$request->get('redirect_tab'));
          
     }
+
+    public function SaveNOCScrutiny(Request $request){
+        
+        $data = $request['area']; 
+        NOCBuildupArea::updateOrCreate(['application_id'=>$request->applicationId],$data); 
+        return back();  
+    }
+
+    public function nocVariationReport($applicationId){
+        $IvalidReport = $validReport = [];
+        $nocData = NocReeScrutinyAnswer::where('application_id', $applicationId)->with('scrutinyQuestions')->get();
+        if ($nocData){
+            foreach($nocData as $data){
+                if (isset($data->answer) && $data->answer == 1) {
+                    $validReport [] = $data;
+                }else{
+                   $IvalidReport [] = $data;  
+                }
+            }  
+        }
+        $header_file = view('admin.REE_department.offer_letter_header');        
+        $view =  view('admin.REE_department.noc_variation_report', compact('nocData','validReport','IvalidReport')); 
+        $pdf = new Mpdf();
+        $pdf->autoScriptToLang = true;
+        $pdf->autoLangToFont = true;
+
+        $pdf->WriteHTML($header_file.$view);  
+        $pdf->Output('variation_report.pdf', 'D');
+    }
+        
 }
  

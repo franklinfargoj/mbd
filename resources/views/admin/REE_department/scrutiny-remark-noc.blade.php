@@ -2,6 +2,15 @@
 @section('actions')
 @include('admin.REE_department.action_noc',compact('noc_application'))
 @endsection
+@section('css')
+<style type="text/css">
+   .text-box{
+      width: 173px;
+    height: 35px;
+   }
+</style>
+@endsection
+
 @section('content')
 @if(session()->has('success'))
 <div class="alert alert-success display_msg">
@@ -255,6 +264,81 @@
                               </div>
                            </div>
                            <button type="submit" style="{{ $style }}" class="btn btn-primary saveBtn" next_tab = "nested_tab_2">Save</button>
+                           <a href="{{ route('ree.noc_variation_report',$noc_application->id)}}" class="btn btn-primary">Generate Variation Report</a>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </div>            
+
+            <div>
+               <div class="m-portlet m-portlet--no-top-shadow">
+                  <div class="tab-content">
+                     <div>
+                        <form class="form--custom" action="{{ route('ree.save_noc_scrutiny') }}" method="post">
+                           @csrf
+                           <input type="hidden" name="applicationId" value="{{ $noc_application->id }}">
+                           <div class="table-checklist m-portlet__body m-portlet__body--table table--box-input">
+                              <div class="table-responsive">
+                                 <table class="table">
+                                    <thead class="thead-default">
+                                       <th>Sr.No</th>
+                                       <th class="table-data--xl">Build up Area</th>
+                                       <th>In m2</th>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+
+                                         <td>1</td>
+                                         <td><p>Plot Area as per demarcation </p>
+                                             <p> i) Area as per Lead Deed <input type="text" id="lease_deed_area" name="area[lease_deed_area]" class="number plot_area form-control--custom text-box" value="{{ isset($data) ? $data->lease_deed_area : '' }}" {{$disabled}}></p>
+                                             <p> ii) Additional land <input type="text" id="land_area" 
+                                             name="area[land_area]" class="plot_area number form-control--custom text-box" value="{{ isset($data) ? $data->land_area : '' }}" {{$disabled}}></p>
+                                         </td>
+                                         <td><input type="text" id="plot_area" name="area[plot_area]" value="{{ isset($data) ? $data->plot_area : '' }}" class="form-control--custom text-box number" readonly></td>
+                                      </tr>
+                                      <tr>
+                                         <td>2</td>
+                                         <td>Build up Area permissible <input type="text" id="plot_area1" class="form-control--custom text-box" readonly value="{{ isset($data) ? $data->plot_area : '' }}"> * <input type="text" name="area[fsi]" class="number form-control--custom text-box" id="fsi" value="{{ isset($data) ? $data->fsi : '' }}" {{$disabled}}> FSI</td>
+                                         <td><input type="text" name="area[buildup_area]" class="form-control--custom text-box" id="buildup_area" value="{{ isset($data) ? $data->buildup_area : '' }}" readonly></td>
+                                      </tr>
+                                      <tr>
+                                         <td>3</td>
+                                         <td>
+                                            <p> i)No of tenement <input type="text" id="tenement_no" 
+                                            name="area[tenement_no]" class="tenement_area form-control--custom text-box number" value="{{ isset($data) ? $data->tenement_no : '' }}" {{$disabled}}></p>
+                                            <p> i)Area as per tenement <input type="text" id="tenement_area" name="area[tenement_area]" class="tenement_area form-control--custom text-box number" value="{{ isset($data) ? $data->tenement_area : '' }}" {{$disabled}}></p>
+                                         </td>
+                                         <td><input type="text" name="area[total_tenement_area]" id="total_tenement_area" value="{{ isset($data) ? $data->total_tenement_area : '' }}" class="form-control--custom text-box" readonly></td>
+                                      </tr>
+                                      <tr>
+                                         <td>4</td>
+                                         <td>From discretionary 10% quota of HOD, VP/A from balance built up area of layout</td>
+                                         <td><input type="text" class="form-control--custom text-box number" name="area[balance_buildup_area]" id="balance_buildup_area" value="{{ isset($data) ? $data->balance_buildup_area : '' }}" onkeyup="calculateTotalBUA()" {{$disabled}}> </td>
+                                      </tr>
+                                      <tr>
+                                         <td>5</td>
+                                         <td>Total BUA permissable (sr 2+3+4)</td>
+                                         <td><input type="text" name="area[total_permissable_bua]" id="total_permissable_bua" class="form-control--custom text-box number" readonly value="{{ isset($data) ? $data->total_permissable_bua : '' }}"></td>
+                                      </tr>
+                                      <tr>
+                                         <td>6</td>
+                                         <td> Total build up area permitted for obtaining I.O.D /I.O.A</td>
+                                         <td><input type="text" name="area[total_buildup_area]" class="form-control--custom text-box number" value="{{ isset($data) ? $data->total_buildup_area : '' }}" {{$disabled}}> </td>
+                                      </tr>
+                                      <tr>
+                                         <td>7</td>
+                                         <td><p>i)Area permitted to NOC <input type="text" name="area[noc_permitted_area]" id="noc_permitted_area" class="noc_area form-control--custom text-box number" value="{{ isset($data) ? $data->noc_permitted_area : '' }}" {{$disabled}}></p>
+                                          <p>ii) Existing build up area <input type="text" 
+                                          name="area[existing_buildup_area]" id="existing_buildup_area" class="noc_area form-control--custom text-box number" value="{{ isset($data) ? $data->existing_buildup_area : '' }}" {{$disabled}}></p>
+                                         </td>
+                                         <td><input type="text" name="area[total_existing_permitted_area]" id="total_existing_permitted_area" class="form-control--custom text-box number" readonly value="{{ isset($data) ? $data->total_existing_permitted_area : '' }}"></td>
+                                      </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                           <button type="submit" style="{{ $style }}" class="btn btn-primary saveBtn" next_tab = "nested_tab_2">Save</button>
                         </form>
                      </div>
                   </div>
@@ -417,6 +501,76 @@
            $("#file_error").text("This field required");
            return false;
        }
+   });
+
+   //build up area js
+
+   $(".number").keypress(function(event){
+      var key = window.event ? event.keyCode : event.which;
+      if ((event.keyCode == 8 || event.keyCode == 46
+          || event.keyCode == 37 || event.keyCode == 39) && this.value.split('.').length < 2) {
+             return true;
+         }
+      else if ( key < 48 || key > 57 ) {
+         return false;
+      }
+      else return true;   
+   });
+
+   $(".plot_area").keyup(function(){
+
+     var lease_deed = $("#lease_deed_area").val();
+     var land = $("#land_area").val();
+      var total = (parseFloat(lease_deed) + parseFloat(land));
+     if (!isNaN(total)){
+      $("#plot_area").val(total);
+      $("#plot_area1").val(total);
+     }
+     calculateBuildupArea();
+     calculateTotalBUA();
+   });
+
+   function calculateBuildupArea(){
+      var val = $("#fsi").val();
+       var plot_area = $("#plot_area1").val();
+      var total = (parseFloat(val) * parseFloat(plot_area));
+      if (!isNaN(total)){
+         $("#buildup_area").val(total);
+      }
+   }
+
+   $("#fsi").keyup(function(){
+      calculateBuildupArea();
+      calculateTotalBUA();   
+   });
+
+   $(".tenement_area").keyup(function(){
+      var tenementNo = $("#tenement_no").val();
+      var tenementArea = $("#tenement_area").val();
+      var total = (parseFloat(tenementNo) * parseFloat(tenementArea));
+      if (!isNaN(total)){
+         $("#total_tenement_area").val(total);
+      }
+      calculateTotalBUA();
+   });
+
+   function calculateTotalBUA(){
+      var buildupArea = $("#buildup_area").val();
+      var tenementArea = $("#total_tenement_area").val();
+      var balArea = $("#balance_buildup_area").val();
+      var total = (parseFloat(buildupArea) + parseFloat(tenementArea) + parseFloat(balArea));
+      if (!isNaN(total)){
+         $("#total_permissable_bua").val(total);
+      }
+   }
+
+   $(".noc_area").keyup(function(){
+      var nocPermitted = $("#noc_permitted_area").val();
+      var area = $("#existing_buildup_area").val();
+      var total = (parseFloat(nocPermitted) + parseFloat(area));
+      if (!isNaN(total)){
+         $("#total_existing_permitted_area").val(total);
+      }
    });
    
 </script>
