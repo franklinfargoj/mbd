@@ -27,7 +27,7 @@
 <div class="m-portlet m-portlet--mobile"> --}}
 
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
-        <form method="post" class="m-form m-form--rows m-form--label-align-right" enctype='multipart/form-data' action="{{route('create_tenant')}}">
+        <form  id="addtenant" method="post" class="m-form m-form--rows m-form--label-align-right" enctype='multipart/form-data' action="{{route('create_tenant')}}">
             {{ csrf_field() }}
             <input type="hidden" value="{{ old('building_id', decrypt($building_id)) }}" name="building_id" />
 
@@ -174,6 +174,49 @@
 
     $(document).ready(function () {
         $(".display_msg").delay(5000).slideUp(300);
+
+        $('#addtenant').validate({
+            rules: {
+                flat_no: {
+                    required: true
+                },
+                first_name: {
+                    required: true
+                },
+                last_name: {
+                    required: true
+                },
+                mobile: {
+                    required: true
+                },
+                email_id: {
+                    required: true
+                },
+                carpet_area: {
+                    required: true
+                }
+            },
+            messages: {
+                flat_no: {
+                    required: "Please enter flat number"
+                },
+                first_name: {
+                    required: "Please enter firstname"
+                },
+                last_name: {
+                    required: "Please enter lastname"
+                },
+                mobile: {
+                    required: "Please enter mobile number"
+                },
+                email_id: {
+                    required: "Please enter email"
+                },
+                carpet_area: {
+                    required: "Please enter carpet area"
+                }
+            }
+        });
     });
 
 </script>
