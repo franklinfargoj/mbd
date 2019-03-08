@@ -95,10 +95,10 @@
             },
             messages: {
                 name: {
-                    required: "Please enter Building/Chawl name."
+                    required: "Please enter building/chawl name."
                 },
                 building_no: {
-                    required: "Please enter Building/Chawl Number."
+                    required: "Please enter building/chawl number."
                 }
             }
         });
