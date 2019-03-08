@@ -488,6 +488,16 @@ class ReePermissionSeeder extends Seeder
                 'name'=>'dashboard.ajax.ree',
                 'display_name'=>'view dashboard dynamically',
                 'description'=>'view dashboard dynamically'
+            ],
+            [
+                'name'=>'ree.save_noc_scrutiny',
+                'display_name'=>'save noc scrutiny',
+                'description'=>'save noc scrutiny'
+            ],
+            [
+                'name'=>'ree.noc_variation_report',
+                'display_name'=>'noc variation report',
+                'description'=>'noc variation report'
             ]
         ];
 

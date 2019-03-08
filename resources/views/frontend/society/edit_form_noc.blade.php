@@ -18,8 +18,8 @@
                 @csrf
                 <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="application_type_id">Application Type:</label>
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layouts" name="layout_id" required>
+                            <label class="col-form-label" for="application_type_id">Select layout: <span class="star">*</span></label>
+                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layouts" data-live-search="true" name="layout_id" required>
                                 @foreach($layouts as $layout)
                                     <option value="{{ $layout['id'] }}">{{ $layout['layout_name'] }}</option>
                                 @endforeach
@@ -58,7 +58,7 @@
 
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="offer_letter_number">Offer letter number:</label>
+                            <label class="col-form-label" for="offer_letter_number">Offer letter number: <span class="star">*</span></label>
                             <input type="text" id="offer_letter_number" name="offer_letter_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->offer_letter_number }}" required>
                             <span class="help-block">{{$errors->first('offer_letter_number')}}</span>
                         </div>
@@ -71,12 +71,12 @@
 
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="demand_draft_amount">Demand Draft / Pay order amount :</label>
+                            <label class="col-form-label" for="demand_draft_amount">Premium pay order amount (rs) : <span class="star">*</span></label>
                             <input type="text" id="demand_draft_amount" name="demand_draft_amount" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->demand_draft_amount }}" required>
                             <span class="help-block">{{$errors->first('demand_draft_amount')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="demand_draft_number">Demand draft / Pay order number :</label>
+                            <label class="col-form-label" for="demand_draft_number">Premium receipt number : <span class="star">*</span></label>
                             <input type="text" id="demand_draft_number" name="demand_draft_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->demand_draft_number }}" required>
                             <span class="help-block">{{$errors->first('demand_draft_number')}}</span>
                         </div>
@@ -84,14 +84,40 @@
 
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="demand_draft_date">Demand Draft / Pay order date :</label>
+                            <label class="col-form-label" for="demand_draft_date">Premium receipt date : <span class="star">*</span></label>
                             <input type="text" id="m_datepicker" name="demand_draft_date" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->demand_draft_date)) }}" required>
                             <span class="help-block">{{$errors->first('demand_draft_date')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="demand_draft_bank">Bank name :</label>
-                            <input type="text" id="demand_draft_bank" name="demand_draft_bank" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->demand_draft_bank }}" required>
-                            <span class="help-block">{{$errors->first('demand_draft_bank')}}</span>
+                            <label class="col-form-label" for="demand_draft_bank">Offsite Infrastructure charges amount(rs) :<span class="star">*</span></label>
+                            <input type="text" id="offsite_infra_charges" name="offsite_infra_charges" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->offsite_infra_charges }}" required>
+                            <span class="help-block">{{$errors->first('offsite_infra_charges')}}</span>
+                        </div>
+                    </div>
+                    <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
+                            <label class="col-form-label" for="offsite_infra_receipt">Offsite Infrastructure receipt number : <span class="star">*</span></label>
+                            <input type="text" id="offsite_infra_receipt" name="offsite_infra_receipt" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->offsite_infra_receipt }}" required>
+                            <span class="help-block">{{$errors->first('offsite_infra_receipt')}}</span>
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group"> <!-- offset-sm-1 -->
+                            <label class="col-form-label" for="offsite_infra_charges_receipt_date">Offsite Infrastructure charges receipt date : <span class="star">*</span></label>
+                             <input type="text" id="m_datepicker" name="offsite_infra_charges_receipt_date" class="form-control form-control--custom m-input m_datepicker" data-date-end-date="+0d" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->offsite_infra_charges_receipt_date)) }}" required
+                            readonly="readonly">
+                            <span class="help-block">{{$errors->first('offsite_infra_charges_receipt_date')}}</span>
+                        </div>
+                    </div>
+
+                    <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
+                            <label class="col-form-label" for="water_charges_amount">Water charges amount(rs) : <span class="star">*</span></label>
+                            <input type="text" id="water_charges_amount" name="water_charges_amount" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->water_charges_amount }}" required>
+                            <span class="help-block">{{$errors->first('water_charges_amount')}}</span>
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group"> <!-- offset-sm-1 -->
+                            <label class="col-form-label" for="water_charges_receipt_number">Water charges receipt number : <span class="star">*</span></label>
+                            <input type="text" id="water_charges_receipt_number" name="water_charges_receipt_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->water_charges_receipt_number }}" required>
+                            <span class="help-block">{{$errors->first('water_charges_receipt_number')}}</span>
                         </div>
                     </div>
 
