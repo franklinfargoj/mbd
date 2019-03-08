@@ -1716,13 +1716,19 @@ class REEController extends Controller
 
         $header_file = view('admin.REE_department.offer_letter_header');
         $footer_file = view('admin.REE_department.offer_letter_footer');
-
+//
         $pdf = new Mpdf();
         $pdf->autoScriptToLang = true;
         $pdf->autoLangToFont = true;
+//        $pdf->setAutoBottomMargin = 'stretch';
+//        $pdf->setAutoTopMargin = 'stretch';
+//        $pdf->SetHTMLHeader($header_file);
+//        $pdf->SetHTMLFooter($footer_file);
+//        $pdf->WriteHTML($content);
 
+//        dd($content);
         $pdf->WriteHTML($header_file.$content.$footer_file);
-        
+
 //        $pdf = \App::make('dompdf.wrapper');
 
 //        $pdf->loadHTML($header_file.$content.$footer_file);
@@ -1733,8 +1739,8 @@ class REEController extends Controller
         if (!(Storage::disk('ftp')->has($folder_name))) {            
             Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
         } 
-        Storage::disk('ftp')->put($filePath, $pdf->output());
-        $file = $pdf->output();
+        Storage::disk('ftp')->put($filePath, $pdf->output($fileName,'S'));
+//        $file = $pdf->output();
 
         $folder_name1 = 'text_noc_cc';
 
