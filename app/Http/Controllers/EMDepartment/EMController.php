@@ -434,7 +434,7 @@ class EMController extends Controller
         
         //done by shrikant sabne
         //$societies = SocietyDetail::whereIn('colony_id', $colonies)->paginate(10);
-        if ($request->has('layout') && '' != $request->get('layout')) {
+        if ($request->has('layout') && $request->get('layout') != '') {
             $wards = MasterWard::where('layout_id', '=', decrypt($request->input('layout')))->pluck('id');
             $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
             $layout_id = decrypt($request->input('layout'));
