@@ -50,11 +50,11 @@
                                                 </select>
                                             </div>
                                             <div class="col-md-1 mt-4">
-                                                <input type="submit" value="Search" class="submit-button btn m-btn--pill m-btn--custom btn-primary">
+                                                <input type="submit" value="Search" class="mt-1 submit-button btn m-btn--pill m-btn--custom btn-primary mhada-btn-pill">
                                             </div>
 
                                             <div class="col-md-1 mt-4">
-                                                <a href="{{ url('get_societies') }}" class="btn m-btn--pill m-btn--custom btn-primary">Reset</a>
+                                                <a href="{{ url('get_societies') }}" class="mt-1 btn m-btn--pill m-btn--custom btn-primary mhada-btn-pill">Reset</a>
                                             </div>
 
                                         </div>

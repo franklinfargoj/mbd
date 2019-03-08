@@ -30,7 +30,7 @@
         </div>
     </div>
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
-        <div class="m-portlet__body m-portlet__body--spaced">
+        <div class="m-portlet__body">
             <form class="m-form m-form--rows m-form--label-align-right" method="post" enctype='multipart/form-data' action="{{route('update_soc_bill_level')}}">
                 {{ csrf_field() }}
                 <input type="hidden" value="{{ old('id', $society[0]->id) }}" name="id" />
@@ -39,8 +39,9 @@
                         <h4 class="m-subheader__title--hint mb-4" style="margin-left: 0;">Billing Level for {{$society[0]->society_name}}</h4>
                     </div>
                 </div>
-                <div class="form-group m-form__group row">
+                <div class="form-group m-form__group row pt-0">
                     <div class="col-sm-3 form-group">
+                        <label class="col-form-label">Select Billing</label>
                         <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="soc_bill_level"
                             name="soc_bill_level" required>
                             <option value="" style="font-weight: normal;">Select Billing</option>
@@ -52,10 +53,10 @@
                         </select>
                         <span class="help-block error">{{$errors->first('soc_bill_level')}}</span>
                     </div>
-                    <div class="col-sm-6">
-                                <div class="btn-list">
-                                    <input type="submit" class="btn btn-primary" name="submit" value="Submit">
-                                    <a class="btn btn-secondary" href="{{ route('get_societies') }}">Cancel</a>
+                    <div class="col-sm-6 mt-4">
+                                <div class="btn-list mt-3">
+                                    <input type="submit" class="btn btn-primary mhada-btn-pill" name="submit" value="Submit">
+                                    <a class="btn btn-secondary mhada-btn-pill" href="{{ route('get_societies') }}">Cancel</a>
                                 </div>
                             </div>
                 </div>

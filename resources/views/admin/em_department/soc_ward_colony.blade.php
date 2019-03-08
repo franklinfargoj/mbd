@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
-        <div class="m-portlet__body m-portlet__body--spaced">
+        <div class="m-portlet__body">
             <form class="m-form m-form--rows m-form--label-align-right" method="post" enctype='multipart/form-data'
                 action="{{route('update_soc_ward_colony')}}">
                 {{ csrf_field() }}
@@ -43,6 +43,7 @@
                 <div class="row">
                     <div class="col-sm-3">
                         <div class="form-group">
+                            <label class="col-form-label">Select Ward</label>
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="wards"
                                 name="wards" required>
                                 <option value="" style="font-weight: normal;">Select Ward</option>
@@ -57,6 +58,7 @@
                     </div>
                     <div class="col-sm-3" id="colony_select">
                         <div class=" form-group">
+                            <label class="col-form-label">Select Colony</label>
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="colony"
                                 name="colony" required>
                                 <option value="" style="font-weight: normal;">Select Colony</option>
@@ -69,10 +71,10 @@
                             <span class="help-block error">{{$errors->first('colony')}}</span>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="btn-list">
-                            <input type="submit" class="btn btn-primary" name="submit" value="Submit">
-                            <a class="btn btn-secondary" href="http://127.0.0.1:8000/get_societies">Cancel</a>
+                    <div class="col-sm-6 mt-4">
+                        <div class="btn-list mt-3">
+                            <input type="submit" class="btn btn-primary mhada-btn-pill" name="submit" value="Submit">
+                            <a class="btn btn-secondary mhada-btn-pill" href="http://127.0.0.1:8000/get_societies">Cancel</a>
                         </div>        
                     </div>
                 </div>

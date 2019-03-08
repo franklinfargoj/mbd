@@ -58,8 +58,8 @@
                     </div>
                     <div class="col-sm-6 mt-4">
                         <div class="btn-list mt-3">
-                            <input type="submit" class="btn btn-primary" name="submit" value="Submit">
-                            <a class="btn btn-secondary" href="{{ route('get_buildings', [encrypt($building->society_id)]) }}">Cancel</a>
+                            <input type="submit" class="btn btn-primary mhada-btn-pill" name="submit" value="Submit">
+                            <a class="btn btn-secondary mhada-btn-pill" href="{{ route('get_buildings', [encrypt($building->society_id)]) }}">Cancel</a>
                         </div>
                     </div>
                 </div>

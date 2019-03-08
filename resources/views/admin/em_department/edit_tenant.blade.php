@@ -148,8 +148,8 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="btn-list">
-                                    <input type="submit" class="btn btn-primary" name="submit" value="Submit">
-                                    <a class="btn btn-secondary" href="{{ route('get_tenants', [encrypt($tenant->building_id)]) }}">Cancel</a>
+                                    <input type="submit" class="btn btn-primary mhada-btn-pill" name="submit" value="Submit">
+                                    <a class="btn btn-secondary mhada-btn-pill" href="{{ route('get_tenants', [encrypt($tenant->building_id)]) }}">Cancel</a>
                                 </div>
                             </div>
                         </div>
