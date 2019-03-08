@@ -17,11 +17,11 @@ class NocCCSocietyDocumentsMasterTableSeeder extends Seeder
 
         if(count($data) == 0){
         	$doc_mas_entry= [
-                [
-                    'application_id'   => 10,
-                    'language_id'   => 1,
-                    'name' => "Offer letter"
-                ],
+//                [
+//                    'application_id'   => 10,
+//                    'language_id'   => 1,
+//                    'name' => "Offer letter"
+//                ],
                 [
                     'application_id'   => 10,
                     'language_id'   => 1,
@@ -44,11 +44,11 @@ class NocCCSocietyDocumentsMasterTableSeeder extends Seeder
 
         if(count($data1) == 0){
         	$doc_mas_entry1= [
-                [
-                    'application_id'   => 21,
-                    'language_id'   => 1,
-                    'name' => "Offer letter"
-                ],
+//                [
+//                    'application_id'   => 21,
+//                    'language_id'   => 1,
+//                    'name' => "Offer letter"
+//                ],
                 [
                     'application_id'   => 21,
                     'language_id'   => 1,
