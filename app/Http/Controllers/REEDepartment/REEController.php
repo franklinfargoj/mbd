@@ -1709,14 +1709,23 @@ class REEController extends Controller
         $content = str_replace('_', "", $_POST['ckeditorText']);
         $folder_name = 'Draft_noc_cc';
 
-        /*$header_file = view('admin.REE_department.offer_letter_header');        
+        /*$header_file = view('admin.REE_department.offer_letter_header');
         $footer_file = view('admin.REE_department.offer_letter_footer');*/
-        $header_file = '';
-        $footer_file = '';
+//        $header_file = '';
+//        $footer_file = '';
 
-        $pdf = \App::make('dompdf.wrapper');
+        $header_file = view('admin.REE_department.offer_letter_header');
+        $footer_file = view('admin.REE_department.offer_letter_footer');
 
-        $pdf->loadHTML($header_file.$content.$footer_file);
+        $pdf = new Mpdf();
+        $pdf->autoScriptToLang = true;
+        $pdf->autoLangToFont = true;
+
+        $pdf->WriteHTML($header_file.$content.$footer_file);
+        
+//        $pdf = \App::make('dompdf.wrapper');
+
+//        $pdf->loadHTML($header_file.$content.$footer_file);
 
         $fileName = time().'draft_noc_cc_'.$id.'.pdf';
         $filePath = $folder_name."/".$fileName;
