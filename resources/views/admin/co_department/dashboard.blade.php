@@ -65,7 +65,7 @@
                     <p class="db__card__title">Tripartite Agreement Department Pendency</p>
                 </div>
             @endif
-            <div class="db__card revalidation no-margin-sm" data-module="Offer Letter Revalidation">
+            <div class="db__card revalidation" data-module="Offer Letter Revalidation">
                 <div class="db__card__img-wrap db-color-8">
                     <h3 class="db__card__count">{{$ol_reval_count}}</h3>
                 </div>

@@ -962,12 +962,12 @@ table.dataTable tbody tr:nth-child(even):focus {
     margin-right: 0;
 }
 
-.m-subheader .m-subheader__title.m-subheader__title--separator:after {
+/*.m-subheader .m-subheader__title.m-subheader__title--separator:after {
     content: "-";
     display: inline-block;
     padding-left: 15px;
 }
-
+*/
 .m-subheader {
     padding: 0;
 }
@@ -3672,16 +3672,22 @@ label.site-visit-label {
 
 .mhada-dash-new .db__card{
     padding: 15px;
+    -webkit-box-shadow: 2px 2px 25px 2px rgba(184,184,184,1);
+    -moz-box-shadow: 2px 2px 25px 2px rgba(184,184,184,1);
+    box-shadow: 2px 2px 25px 2px rgba(184,184,184,1);
+    margin-top: 0;
+    margin-bottom: 40px;
 }
 
 .mhada-dash-new .db__card__img-wrap{
-    max-width: 85px;
-    height: 60px;
+    max-width: 60px;
+    height: 50px;
     margin-bottom: 15px;
+    margin-top: 0;
 }
 
 .mhada-dash-new .db__card .db__card__count{
-    font-size: 32px;
+    font-size: 22px;
 }
 
 .mhada-dash-new .db__card__title{
@@ -3698,6 +3704,61 @@ label.site-visit-label {
     height: 370px;
     overflow: auto;
     /*max-height: 100%;*/
+}
+
+.mhada-full-modal .m-subheader--top{
+    margin-bottom: 0;
+}
+
+.mhada-dash-new{
+    margin-top: -20px;
+}
+
+.mhada-dash-new .m-subheader--top{
+    margin-bottom: 0;
+}
+
+.mhada-dash-new .db-wrapper{
+    margin: 15px 0;
+}
+
+.mhada-full-modal .m-subheader__title{
+    margin-top: -15px !important;
+}
+
+#ajaxchartdiv{
+    height: 373px;
+    -webkit-box-shadow: 2px 2px 25px 2px rgba(184,184,184,1);
+    -moz-box-shadow: 2px 2px 25px 2px rgba(184,184,184,1);
+    box-shadow: 2px 2px 25px 2px rgba(184,184,184,1);
+}
+
+/*society offer letter changes*/
+.options{
+    padding: 25px;
+}
+
+.options p{
+    display: inline-block;
+    margin: 0 0 15px 15px;
+    border: 1px solid #aeaeae;
+    transition: all 0.35s linear;
+    cursor: pointer;
+}
+
+.options p a{
+    padding: 10px;
+    display: inline-block;
+    text-decoration: none;
+    transition: all 0.35s linear;
+}
+
+.options p:hover{
+    background: #fd8560;
+}
+
+.options p:hover a{
+    color: #fff;
 }
 
 @media screen and (max-width: 1920px) and (min-width: 1400px) {

@@ -346,5 +346,16 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
 
 
 
+        //removing offer letter document from noc cc
+        $offer_letter_docs = \App\NocCCSocietyDocumentsMaster::where([
+                    'name' => "Offer letter"
+                ])->pluck('id');
+
+        if($offer_letter_docs){
+            \App\NocCCSocietyDocumentsMaster::where([
+                'name' => "Offer letter"
+            ])->delete();
+        }
+
     }
 }
