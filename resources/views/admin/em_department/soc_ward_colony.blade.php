@@ -18,7 +18,7 @@
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center" id="search_box">
-            <h3 class="m-subheader__title m-subheader__title--separator">Update Society Ward & Colony Details</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">Ward & Colony Details</h3>
             {{ Breadcrumbs::render('em') }}
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left"
@@ -35,7 +35,7 @@
 
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <h4 class="m-subheader__title--hint mb-4" style="margin-left: 0;">Ward & Coloney -
+                        <h4 class="m-subheader__title--hint mb-4" style="margin-left: 0;">Ward & Coloney for
                             {{$society[0]->society_name}}</h4>
                     </div>
                 </div>

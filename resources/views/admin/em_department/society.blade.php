@@ -52,7 +52,7 @@
                                             </div>
 
                                             <div class="col-md-3">
-                                                <a href="{{ url('get_societies') }}" class="btn m-btn--pill m-btn--custom btn-primary">Refresh</a>
+                                                <a href="{{ url('get_societies') }}" class="btn m-btn--pill m-btn--custom btn-primary">Reset</a>
                                             </div>
 
                                         </div>
