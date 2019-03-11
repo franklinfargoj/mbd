@@ -168,495 +168,498 @@
                                                 The built up area permitted as per statement below.
                                             </strong>
                                         </p>
-                                        <table style="width: 100%; text-align: center; border-collapse: collapse;">
-                                            <thead style="text-align: center;">
-                                                <tr>
-                                                    <th style="width: 10%; border: 1px solid #000; padding: 5px 10px">Sr.No</th>
-                                                    <th style="width: 65%; border: 1px solid #000; padding: 5px 10px">Built up Area</th>
-                                                    <th style="width: 35%; border: 1px solid #000; padding: 5px 10px">In m2.</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">1.</td>
-                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">
-                                                        <p>Plot area as per demarcation</p>
-                                                        <p>i. Area as per Lease Deed <b> {{ isset($data) ? $data->lease_deed_area  : '' }} m<sup>2</sup> </b></p>
-                                                        <p>ii. Additional Land <b> {{ isset($data) ? $data->land_area  : '' }} m<sup>2</sup> </b></p>
-                                                    </td>
-                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">
-                                                    <b> {{ isset($data) ? $data->plot_area  : '' }} </b></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">2.</td>
-                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">
-                                                        <p>Built up Area permissible  <b> {{ isset($data) ? $data->plot_area  : '' }} m<sup>2</sup> </b> * <b> {{ isset($data) ? $data->fsi  : '' }} FSI </b></p>
-                                                    </td>
-                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">
-                                                    <b> {{ isset($data) ? $data->buildup_area  : '' }} </b></span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">3.</td>
-                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">
-                                                        <p>i)No of tenement <b> {{ isset($data) ? $data->tenement_no  : '' }} </b></p>
-                                                        <p>iI)Area as per tenement <b> {{ isset($data) ? $data->tenement_area  : '' }} m<sup>2</sup></b></p>
-                                                    </td>
-                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">
-                                                    <b> {{ isset($data) ? $data->total_tenement_area  : '' }} </b></span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">4.</td>
-                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">
-                                                        <p>From discretionary 10% quota of HOD, VP/A from balance built up area of layout</p>
-                                                    </td>
-                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">
-                                                    {{ isset($data) ? $data->balance_buildup_area  : '' }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">5.</td>
-                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">
-                                                        <p>Total BUA permissable (sr 2+3+4)</p>
-                                                    </td>
-                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">{{ isset($data) ? $data->total_permissable_bua  : '' }}</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">6.</td>
-                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">
-                                                        <p>Total build up area permitted for obtaining I.O.D /I.O.A</p>
-                                                    </td>
-                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">{{ isset($data) ? $data->total_buildup_area  : '' }}</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">7.</td>
-                                                    <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">
-                                                        <p>i)Area permitted to NOC  <b> {{ isset($data) ? $data->noc_permitted_area  : '' }} m<sup>2</sup> </b></p>
-                                                        <p>i)Existing build up area  <b> {{ isset($data) ? $data->existing_buildup_area  : '' }} m<sup>2</sup> </b></p>
-                                                    </td>
-                                                    <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">
-                                                    <b> {{ isset($data) ? $data->total_existing_permitted_area  : '' }} </b></span></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>        
-                                              
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td >
-                                        <ol start="6">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            No additional F.S.I. should be utilized other than mentioned above and carpet area for existing members / tenements should be retained as per Govt. G.R. शासन निर्णय क्र।बैठक ११०९/प्र।क्र।३६/गृनिभ। मंत्रालय dated 26/08/2009.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td >
-                                        <ol start="7">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            The work should be carried out within the land underneath &amp; appurtenant to the society / society's building or plot leased by the Board / as per approved subdivision.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td >
-                                        <ol start="8">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            Responsibility of any damage or loss of adjoining properties if any will vest entirely with the society and M.H.& A. D. Board will not be responsible in any manner.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td >
-                                        <ol start="9">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            The user of this construction under this NOC should be restricted to <strong>RESIDENTIAL </strong>purpose only. Separate permission for other user will have to be obtained.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td >
-                                        <ol start="10">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            Barbed wire fencing/ chain link Compound wall along boundary line is permitted after getting demarcation fixed from the Executive Engineer Kurla  Division, Mumbai Board.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td  >
-                                        <ol start="11">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            The Society shall have to construct and maintain separate underground water tank, pump house and overhead water tank to meet requirement of the proposed and existing development and obtain separate water meter &amp; water connection.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td >
-                                        <ol start="12">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            The society shall have to obtain approval for amended plans as and when amended else the NOC for Occupation Certificate from EE,BP Cell, Greater Mumbai / MHADA  will not be granted.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td >
-                                        <ol start="13">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            One set of plan along with letter should be forwarded to the office of Resident Executive Engineer / Mumbai Board as token of your approval.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td >
-                                        <ol start="14">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            The Chief Officer / Mumbai Board reserve the right to cancel NOC without giving any notice.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td >
-                                        <ol start="15">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            All the terms and conditions mentioned in earlier Offer letter, NOC letter &amp; the accompanying list (Annexure-I ) appended to this letter will be applicable to the society.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td >
-                                        <ol start="16">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            The redevelopment proposal should be prepared adhering to the Development Plan reservation, Building regulations and any other rules applicable to building construction by the EE,BP Cell, Greater Mumbai / MHADA.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td >
-                                        <ol start="17">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            The plans of the proposed building shall be submitted to EE,BP Cell, Greater Mumbai / MHADA within six months from the date of issue of this NOC positively for its approval, failing which the NOC will stand cancelled.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td  >
-                                        <ol start="18">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            The NOC holder will have to communicate the actual date of commencement of work and to submit progress report of the redevelopment scheme by every month till completion of scheme to the Executive Engineer / Kurla Divn. / M.B. under intimation to this office.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td >
-                                        <ol start="19">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            If NOC holder fails to start the redevelopment work within 12 months from the date of issue of NOC, the right is reserved to cancel the NOC by this office.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td  >
-                                        <ol start="20">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            The reconstruction of new building for the rehabilitation of old occupiers shall be completed within a period of 30 months from the date of issue of this NOC. In case NOC holder fails to do so, extension to the above time limit may be granted depending on the merits of the case and on payment of an extension fee as may be decided by the office from time to time.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td >
-                                        <ol start="21">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            The road widening that may be proposed in the revised layout will be binding on the society &amp; the society should handover the affected area of road widening to the MCGM at their own cost.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td >
-                                        <ol start="22">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            All terms &amp; conditions of lease deed and sale deed are binding on the society.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td >
-                                        <ol start="23">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            After issue of NOC, during course of demolition of old buildings &amp; during course of redevelopment work if any mishap / collapse occur, the entire responsibility of the same will lie with NOC holder. However all the necessary precautionary measures shall be taken to avoid mishap / collapse and the work of demolition &amp; redevelopment shall be carried out under strict supervision of Architect and R.C.C. Consultant.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td >
-                                        <ol start="24">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            The proposal of issue of NOC for obtaining occupation Certificate from EE,BP Cell, Greater Mumbai / MHADA to the newly constructed building will have to be submitted along-with the following documents / information.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px; text-align: center;" lang="en-US" align="justify">
-                                            a)
-                                        </p>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            Copy of approved plan along-with copy of IOD &amp; C.C. from EE,BP Cell, Greater Mumbai / MHADA. The name of the occupiers against concerned tenements proposed to be allotted in new building should be clearly shown in the plan along-with carpet area to be given. Matching statement i.e. Name of occupant, Room No., existing area and proposed allotted area.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px; text-align: center;" lang="en-US" align="justify">
-                                            b)
-                                        </p>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            The concerned Architect &amp; NOC Holder / Developer should give certificate that the newly constructed building is in accordance with the plans approved by EE,BP Cell, Greater Mumbai / MHADA &amp; the tenements constructed for rehabilitation of the occupiers of building are as per the areas and amenities as prescribed in the agreement executed with the occupiers.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;  text-align: center;" lang="en-US" align="justify">
-                                            c)
-                                        </p>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            Photographs of the newly constructed building taken from various angles.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td >
-                                        <ol start="25">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            If it is subsequently found that the documents / information submitted with your application for NOC are incorrect or forged, mis-leading then this NOC will be cancelled and NOC holder will be held responsible for the consequences / losses, if any thereof if arises in future.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td >
-                                        <ol start="26">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            Necessary trial pits / trial bores shall be taken at the captioned property to ascertain the bearing capacity of the soil and foundation shall be designed accordingly. R.C.C. design of the new proposed building shall be prepared taking into account the aspect of Mumbai Seismic Zone and same should be got approved from R.C.C. Consultant / Structural Engineer, registered with MCGM.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td>
-                                        <ol start="27">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            MHADA reserve its right to withdraw, change, alter, amend their offer letter and conditions mentioned therein in future at any point of time without giving any reason to do so.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td>
-                                        <ol start="28">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            On approval to revised layout plan by EE,BP Cell, Greater Mumbai / MHADA, all terms &amp; conditions laid down therein shall be binding on the society.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td >
-                                        <ol start="29">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            By this letter you are requested not to issue Occupation Certificate unless consent letter duly signed by Chief Officer / Mumbai Board is obtained and submitted to your Department by the applicant.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td >
-                                        <ol start="30">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            This NOC is issued for the purpose of IOD/ IOA and approval of plans for BUA of <strong>___________ m
-                                            <sup>2</sup></strong>  as shown in condition No. 5 of this letter. The Commencement Certificate shall be issued for BUA <strong>___________ m<sup>2 </sup></strong>(for Residential use)<sup> </sup>[i.e. <strong>___________ m<sup>2 </sup> </strong>(for Residential use) permitted through this NOC. (Proportionate to the first installment paid by the Society as per offer letter under reference no. 1) and <strong>___________ m <sup>2</sup></strong>  Existing Built up area.]
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td>
-                                        <ol start="31">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            After approval of layout with 3.00 FSI from Architect Layout Cell, Greater Mumbai / MHADA society will be entitled to additional Pro-rata share of FSI as per approved layout. Further society's allotted Pro-rata share as per this NOC will be adjusted against it's allotted pro-rata share as an when layout is approved by the Architect Layout Cell, Greater Mumbai / MHADA with 3.00 FSI.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td>
-                                        <ol start="32">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            Allotment of the layout pro-rata B.U.A. in this case will not create any imbalance of F.S.I. / B.U.A. in the layout though the same is not yet approved as per FSI 3.00 as per D.C.R. 33(5) dated 08/10/2013 Government notification.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td>
-                                        <ol start="33">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            Society has to ensure that Contractors / Sub-Contractors appointed by the society or Developer of the Society, who are in charge of construction work; shall be registered with MBOCWW Board &amp; are required to fulfill the obligations as contemplated in Building and other construction workers (Regulation of Employment and condition of service) Act,1996. And further these Contractors / Sub-Contractors are required to fulfill all the conditions stipulated in the above Act, for the benefits of workers.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr valign="top">
-                                    <td>
-                                        <ol start="34">
-                                            <li>
-                                            </li>
-                                        </ol>
-                                    </td>
-                                    <td >
-                                        <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            All the dues should be cleared by Society before issue of Occupation Certificate.
-                                        </p>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                    </center>
+                    <table style="width: 720px; text-align: center; border-collapse: collapse;" border="1">
+                        <thead style="text-align: center;">
+                            <tr>
+                                <th style="width: 10%; border: 1px solid #000; padding: 5px 10px">Sr.No</th>
+                                <th style="width: 65%; border: 1px solid #000; padding: 5px 10px">Built up Area</th>
+                                <th style="width: 35%; border: 1px solid #000; padding: 5px 10px">In m2.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">1.</td>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">
+                                    <p>Plot area as per demarcation</p>
+                                    <p>i. Area as per Lease Deed <b> {{ isset($data) ? $data->lease_deed_area  : '' }} m<sup>2</sup> </b></p>
+                                    <p>ii. Additional Land <b> {{ isset($data) ? $data->land_area  : '' }} m<sup>2</sup> </b></p>
+                                </td>
+                                <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">
+                                <b> {{ isset($data) ? $data->plot_area  : '' }} </b></td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">2.</td>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">
+                                    <p>Built up Area permissible  <b> {{ isset($data) ? $data->plot_area  : '' }} m<sup>2</sup> </b> * <b> {{ isset($data) ? $data->fsi  : '' }} FSI </b></p>
+                                </td>
+                                <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">
+                                <b> {{ isset($data) ? $data->buildup_area  : '' }} </b></span></td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">3.</td>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">
+                                    <p>i)No of tenement <b> {{ isset($data) ? $data->tenement_no  : '' }} </b></p>
+                                    <p>iI)Area as per tenement <b> {{ isset($data) ? $data->tenement_area  : '' }} m<sup>2</sup></b></p>
+                                </td>
+                                <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">
+                                <b> {{ isset($data) ? $data->total_tenement_area  : '' }} </b></span></td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">4.</td>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">
+                                    <p>From discretionary 10% quota of HOD, VP/A from balance built up area of layout</p>
+                                </td>
+                                <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">
+                                {{ isset($data) ? $data->balance_buildup_area  : '' }}</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">5.</td>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">
+                                    <p>Total BUA permissable (sr 2+3+4)</p>
+                                </td>
+                                <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">{{ isset($data) ? $data->total_permissable_bua  : '' }}</span></td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">6.</td>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">
+                                    <p>Total build up area permitted for obtaining I.O.D /I.O.A</p>
+                                </td>
+                                <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">{{ isset($data) ? $data->total_buildup_area  : '' }}</span></td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">7.</td>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">
+                                    <p>i)Area permitted to NOC  <b> {{ isset($data) ? $data->noc_permitted_area  : '' }} m<sup>2</sup> </b></p>
+                                    <p>i)Existing build up area  <b> {{ isset($data) ? $data->existing_buildup_area  : '' }} m<sup>2</sup> </b></p>
+                                </td>
+                                <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">
+                                <b> {{ isset($data) ? $data->total_existing_permitted_area  : '' }} </b></span></td>
+                            </tr>
+                        </tbody>
+                    </table> 
+                    <table style="width: 720px; text-align: center; border-collapse: collapse;" border="1">
+                    <tbody>
+                        <tr valign="top">
+                            <td >
+                                <ol start="6">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    No additional F.S.I. should be utilized other than mentioned above and carpet area for existing members / tenements should be retained as per Govt. G.R. शासन निर्णय क्र।बैठक ११०९/प्र।क्र।३६/गृनिभ। मंत्रालय dated 26/08/2009.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td >
+                                <ol start="7">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The work should be carried out within the land underneath &amp; appurtenant to the society / society's building or plot leased by the Board / as per approved subdivision.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td >
+                                <ol start="8">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    Responsibility of any damage or loss of adjoining properties if any will vest entirely with the society and M.H.& A. D. Board will not be responsible in any manner.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td >
+                                <ol start="9">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The user of this construction under this NOC should be restricted to <strong>RESIDENTIAL </strong>purpose only. Separate permission for other user will have to be obtained.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td >
+                                <ol start="10">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    Barbed wire fencing/ chain link Compound wall along boundary line is permitted after getting demarcation fixed from the Executive Engineer Kurla  Division, Mumbai Board.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td  >
+                                <ol start="11">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The Society shall have to construct and maintain separate underground water tank, pump house and overhead water tank to meet requirement of the proposed and existing development and obtain separate water meter &amp; water connection.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td >
+                                <ol start="12">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The society shall have to obtain approval for amended plans as and when amended else the NOC for Occupation Certificate from EE,BP Cell, Greater Mumbai / MHADA  will not be granted.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td >
+                                <ol start="13">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    One set of plan along with letter should be forwarded to the office of Resident Executive Engineer / Mumbai Board as token of your approval.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td >
+                                <ol start="14">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The Chief Officer / Mumbai Board reserve the right to cancel NOC without giving any notice.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td >
+                                <ol start="15">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    All the terms and conditions mentioned in earlier Offer letter, NOC letter &amp; the accompanying list (Annexure-I ) appended to this letter will be applicable to the society.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td >
+                                <ol start="16">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The redevelopment proposal should be prepared adhering to the Development Plan reservation, Building regulations and any other rules applicable to building construction by the EE,BP Cell, Greater Mumbai / MHADA.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td >
+                                <ol start="17">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The plans of the proposed building shall be submitted to EE,BP Cell, Greater Mumbai / MHADA within six months from the date of issue of this NOC positively for its approval, failing which the NOC will stand cancelled.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td  >
+                                <ol start="18">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The NOC holder will have to communicate the actual date of commencement of work and to submit progress report of the redevelopment scheme by every month till completion of scheme to the Executive Engineer / Kurla Divn. / M.B. under intimation to this office.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td >
+                                <ol start="19">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    If NOC holder fails to start the redevelopment work within 12 months from the date of issue of NOC, the right is reserved to cancel the NOC by this office.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td  >
+                                <ol start="20">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The reconstruction of new building for the rehabilitation of old occupiers shall be completed within a period of 30 months from the date of issue of this NOC. In case NOC holder fails to do so, extension to the above time limit may be granted depending on the merits of the case and on payment of an extension fee as may be decided by the office from time to time.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td >
+                                <ol start="21">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The road widening that may be proposed in the revised layout will be binding on the society &amp; the society should handover the affected area of road widening to the MCGM at their own cost.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td >
+                                <ol start="22">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    All terms &amp; conditions of lease deed and sale deed are binding on the society.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td >
+                                <ol start="23">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    After issue of NOC, during course of demolition of old buildings &amp; during course of redevelopment work if any mishap / collapse occur, the entire responsibility of the same will lie with NOC holder. However all the necessary precautionary measures shall be taken to avoid mishap / collapse and the work of demolition &amp; redevelopment shall be carried out under strict supervision of Architect and R.C.C. Consultant.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td >
+                                <ol start="24">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The proposal of issue of NOC for obtaining occupation Certificate from EE,BP Cell, Greater Mumbai / MHADA to the newly constructed building will have to be submitted along-with the following documents / information.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px; text-align: center;" lang="en-US" align="justify">
+                                    a)
+                                </p>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    Copy of approved plan along-with copy of IOD &amp; C.C. from EE,BP Cell, Greater Mumbai / MHADA. The name of the occupiers against concerned tenements proposed to be allotted in new building should be clearly shown in the plan along-with carpet area to be given. Matching statement i.e. Name of occupant, Room No., existing area and proposed allotted area.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px; text-align: center;" lang="en-US" align="justify">
+                                    b)
+                                </p>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The concerned Architect &amp; NOC Holder / Developer should give certificate that the newly constructed building is in accordance with the plans approved by EE,BP Cell, Greater Mumbai / MHADA &amp; the tenements constructed for rehabilitation of the occupiers of building are as per the areas and amenities as prescribed in the agreement executed with the occupiers.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;  text-align: center;" lang="en-US" align="justify">
+                                    c)
+                                </p>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    Photographs of the newly constructed building taken from various angles.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td >
+                                <ol start="25">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    If it is subsequently found that the documents / information submitted with your application for NOC are incorrect or forged, mis-leading then this NOC will be cancelled and NOC holder will be held responsible for the consequences / losses, if any thereof if arises in future.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td >
+                                <ol start="26">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    Necessary trial pits / trial bores shall be taken at the captioned property to ascertain the bearing capacity of the soil and foundation shall be designed accordingly. R.C.C. design of the new proposed building shall be prepared taking into account the aspect of Mumbai Seismic Zone and same should be got approved from R.C.C. Consultant / Structural Engineer, registered with MCGM.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td>
+                                <ol start="27">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    MHADA reserve its right to withdraw, change, alter, amend their offer letter and conditions mentioned therein in future at any point of time without giving any reason to do so.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td>
+                                <ol start="28">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    On approval to revised layout plan by EE,BP Cell, Greater Mumbai / MHADA, all terms &amp; conditions laid down therein shall be binding on the society.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td >
+                                <ol start="29">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    By this letter you are requested not to issue Occupation Certificate unless consent letter duly signed by Chief Officer / Mumbai Board is obtained and submitted to your Department by the applicant.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td >
+                                <ol start="30">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    This NOC is issued for the purpose of IOD/ IOA and approval of plans for BUA of <strong>___________ m
+                                    <sup>2</sup></strong>  as shown in condition No. 5 of this letter. The Commencement Certificate shall be issued for BUA <strong>___________ m<sup>2 </sup></strong>(for Residential use)<sup> </sup>[i.e. <strong>___________ m<sup>2 </sup> </strong>(for Residential use) permitted through this NOC. (Proportionate to the first installment paid by the Society as per offer letter under reference no. 1) and <strong>___________ m <sup>2</sup></strong>  Existing Built up area.]
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td>
+                                <ol start="31">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    After approval of layout with 3.00 FSI from Architect Layout Cell, Greater Mumbai / MHADA society will be entitled to additional Pro-rata share of FSI as per approved layout. Further society's allotted Pro-rata share as per this NOC will be adjusted against it's allotted pro-rata share as an when layout is approved by the Architect Layout Cell, Greater Mumbai / MHADA with 3.00 FSI.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td>
+                                <ol start="32">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    Allotment of the layout pro-rata B.U.A. in this case will not create any imbalance of F.S.I. / B.U.A. in the layout though the same is not yet approved as per FSI 3.00 as per D.C.R. 33(5) dated 08/10/2013 Government notification.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td>
+                                <ol start="33">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    Society has to ensure that Contractors / Sub-Contractors appointed by the society or Developer of the Society, who are in charge of construction work; shall be registered with MBOCWW Board &amp; are required to fulfill the obligations as contemplated in Building and other construction workers (Regulation of Employment and condition of service) Act,1996. And further these Contractors / Sub-Contractors are required to fulfill all the conditions stipulated in the above Act, for the benefits of workers.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td>
+                                <ol start="34">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    All the dues should be cleared by Society before issue of Occupation Certificate.
+                                </p>
+                            </td>
+                        </tr>              
+                        </tbody>
+                    </table>
+                </center>
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
                         It is, therefore, directed that the proposed work should be carried out strictly adhering to the terms and conditions as mentioned above. In case of any breach to above condition &amp; other terms and conditions annexed herewith, the NOC will stand cancelled.
                     </p>
@@ -755,6 +758,7 @@
                     <p lang="en-GB">
                         The additional buildable area is granted as per policy laid down by MHADA vide NOC mentioned above as per resolution no.5998 dated:09/01/2004 and amended A.R.No.6041, dt.29/7/2004, A.R.No. 6260 Dt. 04/06/2007 , A. R. 6349 dated 25/11/2008, A. R. No. 6383 dated 24/02/2009 ,A.R. No. 6397 dated 5/05/2009 &amp; A.R. No. 6422 dated 07.08.2009 are subject to following terms and conditions.
                     </p>
+                    <center>
                     <table style="width: 720px; border: 1px solid #000; border-collapse: collapse;">
                         <tbody>
                             <tr valign="top">
@@ -1019,6 +1023,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    </center>
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
                         <strong>(Draft approved by CO/MB)</strong>
                     </p>
