@@ -118,30 +118,34 @@
                         session()->get('role_name')==config('commanConfig.senior_architect') ||
                         session()->get('role_name')==config('commanConfig.architect')
                     )
+                        <div class="db__card appointing_architect" data-module="Appointing Architect">
+                            <div class="db__card__img-wrap db-color-5">
+                                <h3 class="db__card__count">{{$appointing_count}}</h3>
+                            </div>
+                            <p class="db__card__title">Appointing Architect</p>
+                        </div>
+
+                    @if(session()->get('role_name')==config('commanConfig.architect'))
                     <div class="db__card revision" data-module="Layout Approval Department Pendency">
                         <div class="db__card__img-wrap db-color-16">
                             <h3 class="db__card__count">-</h3>
                         </div>
                         <p class="db__card__title">Layout Approval Department Pendency</p>
                     </div>
-                    <div class="db__card revision" data-module="Layout Approval Subordinate Pendencies">
-                        <div class="db__card__img-wrap db-color-16">
-                            <h3 class="db__card__count">-</h3>
-                        </div>
-                        <p class="db__card__title">Layout Approval Subordinate Pendencies</p>
-                    </div>
-                    <div class="db__card appointing_architect" data-module="Appointing Architect">
-                        <div class="db__card__img-wrap db-color-5">
-                            <h3 class="db__card__count">{{$appointing_count}}</h3>
-                        </div>
-                        <p class="db__card__title">Appointing Architect</p>
-                    </div>
-                    <div class="db__card appointing_architect" data-module="Appointing Architect Subordinate Pendency">
-                        <div class="db__card__img-wrap db-color-5">
-                            <h3 class="db__card__count">-</h3>
-                        </div>
-                        <p class="db__card__title">Appointing Architect Subordinate Pendency</p>
-                    </div>
+                            <div class="db__card revision" data-module="Layout Approval Subordinate Pendencies">
+                                <div class="db__card__img-wrap db-color-16">
+                                    <h3 class="db__card__count">-</h3>
+                                </div>
+                                <p class="db__card__title">Layout Approval Subordinate Pendencies</p>
+                            </div>
+
+                            <div class="db__card appointing_architect" data-module="Appointing Architect Subordinate Pendency">
+                                <div class="db__card__img-wrap db-color-5">
+                                    <h3 class="db__card__count">-</h3>
+                                </div>
+                                <p class="db__card__title">Appointing Architect Subordinate Pendency</p>
+                            </div>
+                        @endif
                 @endif
             @endif
         </div>
