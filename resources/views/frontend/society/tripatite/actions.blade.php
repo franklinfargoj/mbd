@@ -35,7 +35,7 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
                     <span class="m-menu__link-text">View Application</span>
                 </a>
             </li>
-        @if(isset($applicationCount) && $applicationCount <= 0)
+{{--        @if(isset($applicationCount) && $applicationCount <= 0)--}}
 
             @if($ol_applications->current_status_id != config('commanConfig.applicationStatus.draft_tripartite_agreement') && $ol_applications->current_status_id != config('commanConfig.applicationStatus.approved_tripartite_agreement'))
                 <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='tripartite_application_form_edit')?'m-menu__item--active':''}}">
@@ -81,7 +81,7 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
                     </a>
                 </li>
             @endif
-        @endif
+        {{--@endif--}}
     @endif
         @if($status == '2')
             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='tripartite_application_form_preview')?'m-menu__item--active':''}}">

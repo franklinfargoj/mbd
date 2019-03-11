@@ -62,23 +62,39 @@
                         @if($i != 0) @php $i++; @endphp @endif
                         <div class="m-form__group row mhada-lease-margin">
                             @if(isset($form_fields[$i]))
+
+                            @php
+                            if($form_fields[$i] == 'revised_offer_letter_date' || $form_fields[$i] == 'revised_offer_letter_number')
+                                $required = '';
+                            else{
+                                 $required = 'required';
+                                }
+                            @endphp
+
                                 <div class="col-sm-4 form-group">
                                     <label class="col-form-label" for="{{ $form_fields[$i] }}">@php $labels = implode(' ', explode('_', $form_fields[$i])); echo ucwords($labels); @endphp:</label>
                                     @if(strpos($form_fields[$i], 'date') != null)
-                                        @php echo $comm_func->form_fields($form_fields[$i], 'date', '', '', '', '', 'required') @endphp
+                                        @php echo $comm_func->form_fields($form_fields[$i], 'date', '', '', '', '', $required) @endphp
                                     @else
-                                        @php echo $comm_func->form_fields($form_fields[$i], 'text', '', '', '', '', 'required') @endphp
+                                        @php echo $comm_func->form_fields($form_fields[$i], 'text', '', '', '', '', $required) @endphp
                                     @endif
                                     <span class="help-block">{{ $errors->first($form_fields[$i]) }}</span>
                                 </div>
                             @endif
                             @if(isset($form_fields[$i+1]))
+                                    @php
+                                        if($form_fields[$i+1] == 'revised_offer_letter_number' || $form_fields[$i+1] == 'revised_offer_letter_date')
+                                            $required = '';
+                                        else{
+                                             $required = 'required';
+                                            }
+                                    @endphp
                                 <div class="col-sm-4 offset-sm-1 form-group">
                                     <label class="col-form-label" for="{{ $form_fields[$i+1] }}">@php $labels = implode(' ', explode('_', $form_fields[$i+1])); echo ucwords($labels); @endphp:</label>
                                     @if(strpos($form_fields[$i+1], 'date') != null)
-                                        @php echo $comm_func->form_fields($form_fields[$i+1], 'date', '', '', '', '', 'required') @endphp
+                                        @php echo $comm_func->form_fields($form_fields[$i+1], 'date', '', '', '', '', $required) @endphp
                                     @else
-                                        @php echo $comm_func->form_fields($form_fields[$i+1], 'text', '', '', '', '', 'required') @endphp
+                                        @php echo $comm_func->form_fields($form_fields[$i+1], 'text', '', '', '', '', $required) @endphp
                                     @endif
                                     <span class="help-block">{{ $errors->first($form_fields[$i+1]) }}</span>
                                 </div>

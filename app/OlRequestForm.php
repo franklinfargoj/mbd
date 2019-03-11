@@ -12,7 +12,6 @@ class OlRequestForm extends Model
         'date_of_meeting',
         'resolution_no',
         'architect_name',
-        'developer_name',
         'ol_vide_no',
         'ol_issue_date',
         'reason_for_revalidation',
@@ -23,6 +22,7 @@ class OlRequestForm extends Model
         'revised_offer_letter_number',
         'revised_offer_letter_date',
         'noc_for_iod_purpose_number',
-        'noc_for_iod_purpose_date'
+        'noc_for_iod_purpose_date',
+        'developer_name'
     ];
 }

@@ -94,12 +94,13 @@ return [
     ],*/
 
     'tripartite_fields' => [
-        'offer_letter_number',
-        'offer_letter_date',
         'revised_offer_letter_number',
         'revised_offer_letter_date',
+        'offer_letter_number',
+        'offer_letter_date',
         'noc_for_iod_purpose_number',
-        'noc_for_iod_purpose_date'
+        'noc_for_iod_purpose_date',
+        'developer_name'
     ],
 
 //    'society_details_fields' => [
