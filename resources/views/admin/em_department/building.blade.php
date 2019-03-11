@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+
 @section('actions')
 @include('admin.em_department.action',compact('ol_application'))
 @endsection
@@ -34,26 +35,28 @@
                         <div class="row align-items-center mb-0">
                             <div class="col-md-3">
                                 <div class="form-group m-form__group">
+                                    <label class="col-form-label">Building Number</label>
                                     <input type="text" id="building_no" name="building_no" class="form-control form-control--custom m-input"
-                                        placeholder="Building Number" value="{{$building_no}}">
+                                        placeholder="" value="{{$building_no}}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group m-form__group">
+                                    <label class="col-form-label">Building Name</label>
                                     <input type="text" id="building_name" name="building_name" class="form-control form-control--custom m-input"
-                                        placeholder="Building Name" value="{{$building_name}}">
+                                        placeholder="" value="{{$building_name}}">
                                 </div>
                             </div>
                             @php
                             // $status = isset($getData['update_status'])? $getData['update_status'] : '';
                             @endphp
 
-                            <div class="col">
+                            <div class="col-md-6 mt-4">
                                 <div class="form-group m-form__group">
-                                    <div class="btn-list">
-                                        <button type="submit" class="btn m-btn--pill m-btn--custom btn-primary">Search</button>
+                                    <div class="btn-list mt-3">
+                                        <button type="submit" class="btn m-btn--pill m-btn--custom btn-primary mhada-btn-pill">Search</button>
                                         <button type="reset" onclick="window.location.href='{{ route("get_buildings",[encrypt($society_id)]) }}'"
-                                            class="btn m-btn--pill m-btn--custom btn-metal">Reset</button>
+                                            class="btn m-btn--pill m-btn--custom btn-metal mhada-btn-pill">Reset</button>
                                     </div>
                                 </div>
                             </div>
@@ -67,7 +70,7 @@
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
         <div class='btn-icon-list'>
-            <a href="{{route('add_building', [encrypt($society_id)])}}" class='btn m-btn--pill m-btn--custom btn-primary pull-right'
+            <a href="{{route('add_building', [encrypt($society_id)])}}" class='mhada-btn-pill btn m-btn--pill m-btn--custom btn-primary pull-right'
                 style="">Add Building</a>
         </div>
 

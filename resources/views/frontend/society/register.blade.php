@@ -1,5 +1,6 @@
 @extends('frontend.rti.login')
 @section('body')
+
 <div class="m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login--singin" id="m_login" style="position: relative;">
     <div class="container-fluid">
         <div class="row">
