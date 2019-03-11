@@ -88,24 +88,28 @@
                     </div>
                     <p class="db__card__title">NOC</p>
                 </div>
+                @if(session()->get('role_name') == config('commanConfig.ree_branch_head'))
                 <div class="db__card noc_pending" data-module="NOC Department Pendency">
                     <div class="db__card__img-wrap db-color-5">
                         <h3 class="db__card__count">{{$noc_pending_count}}</h3>
                     </div>
                     <p class="db__card__title">NOC Department Pendency</p>
                 </div>
+                @endif
                 <div class="db__card noc no-margin-xl" data-module="NOC (CC)">
                     <div class="db__card__img-wrap db-color-5">
                         <h3 class="db__card__count">{{$noc_cc_count}}</h3>
                     </div>
                     <p class="db__card__title">NOC (CC)</p>
                 </div>
+                @if(session()->get('role_name') == config('commanConfig.ree_branch_head'))
                 <div class="db__card noc_pending" data-module="NOC (CC) Department Pendency">
                     <div class="db__card__img-wrap db-color-5">
                         <h3 class="db__card__count">{{$noc_cc_pending_count}}</h3>
                     </div>
                     <p class="db__card__title">NOC (CC) Department Pendency</p>
                 </div>
+                @endif
 
             <div class="db__card revision no-margin-sm" data-module="Revision in Layout">
                 <div class="db__card__img-wrap db-color-5">
