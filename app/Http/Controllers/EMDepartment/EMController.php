@@ -413,17 +413,20 @@ class EMController extends Controller
     }
 
     public function getsocieties(Request $request, Datatables $datatables){
-        // dd($request->id);
+      //dd($request->id);
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'society_name','name' => 'society_name','title' => 'Society Name'],
+            ['data' => 'ward_name','name' => 'ward_name','title' => 'Ward'],
+            ['data' => 'col_name','name' => 'col_name','title' => 'Colony'],
+            ['data' => 'billname','name' => 'billname','title' => 'Bill type'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
 
         $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
         $layout_data = MasterLayout::whereIn('id', $layouts)->get();
-       // dd($layout_data);
+        //dd($layout_data->toArray());
         $wards = MasterWard::whereIn('layout_id', $layouts)->pluck('id');
         //dd($wards);
         $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
@@ -431,7 +434,7 @@ class EMController extends Controller
         
         //done by shrikant sabne
         //$societies = SocietyDetail::whereIn('colony_id', $colonies)->paginate(10);
-        if ($request->has('layout') && '' != $request->get('layout')) {
+        if ($request->has('layout') && $request->get('layout') != '') {
             $wards = MasterWard::where('layout_id', '=', decrypt($request->input('layout')))->pluck('id');
             $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
             $layout_id = decrypt($request->input('layout'));
@@ -441,12 +444,19 @@ class EMController extends Controller
            
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
         
-            if ($request->has('layout') && '' != $request->get('layout')) {
-                $societies = SocietyDetail::selectRaw('@rownum  := @rownum  + 1 AS rownum,lm_society_detail.*')->where('layout_id', decrypt($request->input('layout')));
+            if ($request->has('layout') && $request->get('layout') != '') {
+                $societies = SocietyDetail::selectRaw('@rownum  := @rownum  + 1 AS rownum,lm_society_detail.*,master_colonies.name as col_name,master_wards.name as ward_name,master_society_bill_level.name as billname')
+                    ->join('master_wards','master_wards.layout_id','=','lm_society_detail.layout_id')
+                    ->join('master_society_bill_level','master_society_bill_level.id','=','lm_society_detail.society_bill_level')
+                    ->join('master_colonies','master_colonies.id','=','lm_society_detail.colony_id')
+                    ->where('lm_society_detail.layout_id',decrypt($request->input('layout')));
             } else {
-                 $societies = SocietyDetail::selectRaw('@rownum  := @rownum  + 1 AS rownum,lm_society_detail.*');
+                $societies = SocietyDetail::selectRaw('@rownum  := @rownum  + 1 AS rownum,lm_society_detail.*,master_colonies.name as col_name,master_wards.name as ward_name,master_society_bill_level.name as billname')
+                     ->join('master_wards','master_wards.layout_id','=','lm_society_detail.layout_id')
+                     ->join('master_society_bill_level','master_society_bill_level.id','=','lm_society_detail.society_bill_level')
+                     ->join('master_colonies','master_colonies.id','=','lm_society_detail.colony_id');
             }
-            
+
             return $datatables->of($societies)
                 ->editColumn('actions', function ($societies){
                     return "<div class='d-flex btn-icon-list'>

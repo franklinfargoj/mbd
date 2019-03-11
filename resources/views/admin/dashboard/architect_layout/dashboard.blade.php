@@ -21,7 +21,7 @@
         <div class="d-flex flex-wrap db-wrapper">
                 <div class="db__card revision"  data-module = "Layout Approval">
                     <div class="db__card__img-wrap db-color-1">
-                        <h3 class="db__card__count">-</h3>
+                        <h3 class="db__card__count">{{$architect_layout_count}}</h3>
                     </div>
                     <p class="db__card__title">Layout Approval</p>
                 </div>

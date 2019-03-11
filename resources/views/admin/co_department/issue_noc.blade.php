@@ -45,7 +45,7 @@
             </div>
         </div>
     </div>
-    @if($noc_application->status->status_id == config('commanConfig.applicationStatus.NOC_Generation'))
+    @if(isset($noc_application->status) && $noc_application->status->status_id == config('commanConfig.applicationStatus.NOC_Generation'))
     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
         <div class="portlet-body">
             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">

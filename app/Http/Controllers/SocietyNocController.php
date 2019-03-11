@@ -83,16 +83,16 @@ class SocietyNocController extends Controller
     }
 
     public function save_noc_application_self(Request $request){
+
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
 
-        $validatedData = $request->validate([
-            'demand_draft_amount' => 'required|numeric|digits_between:0,8',
-            'demand_draft_bank' => 'required|regex:/^[\pL\s\-]+$/u',
-            'offer_letter_number' => 'required|regex:/^[\w-]*$/',
-            'demand_draft_number' => 'required|numeric|digits_between:6,19',
-            'demand_draft_date' => 'different:offer_letter_date'
-        ]);
-
+        // $validatedData = $request->validate([
+        //     'demand_draft_amount' => 'required|numeric|digits_between:0,8',
+        //     'demand_draft_bank' => 'required|regex:/^[\pL\s\-]+$/u',
+        //     'offer_letter_number' => 'required',
+        //     'demand_draft_number' => 'required|numeric|digits_between:6,19',
+        //     'demand_draft_date' => 'different:offer_letter_date'
+        // ]);
         $input = array(
             'society_id' => $society_details->id,
             'offer_letter_date' => date('Y-m-d', strtotime($request->input('offer_letter_date'))),
@@ -101,9 +101,17 @@ class SocietyNocController extends Controller
             'demand_draft_number' => $request->input('demand_draft_number'),
             'demand_draft_date' => date('Y-m-d', strtotime($request->input('demand_draft_date'))),
             'demand_draft_bank' => $request->input('demand_draft_bank'),
+
+            'offsite_infra_charges' => $request->input('offsite_infra_charges'),
+            'offsite_infra_receipt' => $request->input('offsite_infra_receipt'),
+            'offsite_infra_charges_receipt_date' => $request->input('offsite_infra_charges_receipt_date'),
+            'water_charges_amount' => $request->input('water_charges_amount'),
+            'water_charges_receipt_number' => $request->input('water_charges_receipt_number'),
+
             'created_at' => date('Y-m-d H-i-s'),
             'updated_at' => null
         );
+        
         $last_inserted_id = NocRequestForm::create($input);
 
         $application_master_id_spec = $request->input('application_master_id');
@@ -244,8 +252,15 @@ class SocietyNocController extends Controller
             'demand_draft_amount' => $request->demand_draft_amount,
             'demand_draft_number' => $request->demand_draft_number,
             'demand_draft_date' => date('Y-m-d', strtotime($request->demand_draft_date)),
-            'demand_draft_bank' => $request->demand_draft_bank,
+            // 'demand_draft_bank' => $request->demand_draft_bank,
+            
+            'offsite_infra_charges' => $request->offsite_infra_charges,
+            'offsite_infra_receipt' => $request->offsite_infra_receipt,
+            'offsite_infra_charges_receipt_date' => $request->offsite_infra_charges_receipt_date,
+            'water_charges_amount' => $request->water_charges_amount,
+            'water_charges_receipt_number' => $request->water_charges_receipt_number,
         );
+        // dd($update_input);
         NocRequestForm::where('society_id', $society->id)->where('id', $request->request_form_id)->update($update_input);
 
         $a = NocApplication::where('id',$request->applicationId)->update(['layout_id' => $request->layout_id]);
@@ -255,6 +270,7 @@ class SocietyNocController extends Controller
     }
 
     public function displaySocietyDocuments($applicationId){
+
         $applicationId = decrypt($applicationId);
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $application = NocApplication::where('id',$applicationId)->with(['noc_application_master', 'nocApplicationStatus' => function($q){
@@ -265,6 +281,8 @@ class SocietyNocController extends Controller
         $documents = NocSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['documents_uploaded' => function($q) use ($society,$applicationId){
             $q->where('society_id', $society->id)->where('application_id',$applicationId)->get();
         }])->get();
+
+        // dd($documents);
         foreach ($documents as $key => $value) {
             $document_ids[] = $value->id;
         }
@@ -475,7 +493,8 @@ class SocietyNocController extends Controller
 
         $noc_applications = $application_details;
         $check_upload_avail = 1;
-        return view('frontend.society.upload_downloaded_noc_app', compact('noc_applications', 'application_details','check_upload_avail'));
+        $applicationCount = $this->getForwardedApplication();
+        return view('frontend.society.upload_downloaded_noc_app', compact('noc_applications', 'application_details','check_upload_avail','applicationCount'));
     }
 
     public function download_noc_application($applicationId){
@@ -487,13 +506,14 @@ class SocietyNocController extends Controller
         $noc_application = NocApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->with(['request_form', 'applicationMasterLayout'])->first();
         $layouts = MasterLayout::all(); 
         $id = $noc_application->application_master_id;
-        // dd($id);
+        $ntw = new \NTWIndia\NTWIndia();
+        $fileName = $noc_application->application_no.'.pdf';
         $mpdf = new Mpdf();
         $mpdf->autoScriptToLang = true;
         $mpdf->autoLangToFont = true;
-        $contents = view('frontend.society.display_noc_application', compact('society_details', 'noc_application', 'layouts', 'id'));
+        $contents = view('frontend.society.display_noc_application', compact('society_details', 'noc_application', 'layouts', 'id','ntw'));
         $mpdf->WriteHTML($contents);
-        $mpdf->Output();
+        $mpdf->Output($fileName,'I');
 
     }
 
@@ -581,34 +601,33 @@ class SocietyNocController extends Controller
         return redirect()->route('society_offer_letter_dashboard');
     }
 
-    public function viewSocietyDocuments(){
+    public function viewSocietyDocuments($applicationId){
+        
+        $applicationId = decrypt($applicationId);
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();      
-        $application = NocApplication::where('society_id', $society->id)->with(['nocApplicationStatus' => function($q){
+        $application = NocApplication::where('id',$applicationId)->where('society_id', $society->id)->with(['nocApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->first();
         
-        $documents = NocSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['documents_uploaded' => function($q) use ($society){
-            $q->where('society_id', $society->id)->get();
+        $documents = NocSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['documents_uploaded' => function($q) use ($society,$applicationId){
+            $q->where('society_id', $society->id)->where('application_id',$applicationId)->get();
         }])->get();
 
         foreach ($documents as $key => $value) {
             $document_ids[] = $value->id;
         }
-        $optional_docs = config('commanConfig.optional_docs_society_noc');
-//        dd($documents);
+        $optional_docs = $this->getOptionalDocument($application->application_master_id);
+        $docs_count = NocSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('is_optional',0)->count();
         $docs_uploaded_count = 0;
         $docs_count = 0;
-        foreach($documents as $documents_key => $documents_val) {
-            if (in_array($documents_key + 1, $optional_docs) == false) {
-                $docs_count++;
-                if (count($documents_val->documents_uploaded) > 0) {
+        foreach($documents as $documents_key => $documents_val){
+                if($documents_val->is_optional == 0 && count($documents_val->documents_uploaded) > 0){
                     $docs_uploaded_count++;
                 }
-            }
         }
         $noc_applications = $application;
-        $documents_uploaded = NocSocietyDocumentsStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->get();
-        $documents_comment = NocSocietyDocumentsComment::where('society_id', $society->id)->first();
+        $documents_uploaded = NocSocietyDocumentsStatus::where('application_id',$applicationId)->where('society_id', $society->id)->whereIn('document_id', $document_ids)->get();
+        $documents_comment = NocSocietyDocumentsComment::where('application_id',$applicationId)->where('society_id', $society->id)->first();
         
         return view('frontend.society.view_society_uploaded_documents_noc', compact('documents', 'optional_docs', 'docs_uploaded_count','docs_count', 'noc_applications','documents_uploaded', 'documents_comment', 'society'));
     }

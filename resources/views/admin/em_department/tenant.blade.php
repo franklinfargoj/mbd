@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+
 @section('actions')
 @include('admin.em_department.action',compact('ol_application'))
 @endsection
@@ -31,7 +32,7 @@
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
         <div class='btn-icon-list'>
-            <a href="{{route('add_tenant', [$building_id])}}" class='btn m-btn--pill m-btn--custom btn-primary pull-right'
+            <a href="{{route('add_tenant', [$building_id])}}" class='mhada-btn-pill btn m-btn--pill m-btn--custom btn-primary pull-right'
                 style="">Add Tenant</a>
         </div>
         <div class="m-portlet__body">

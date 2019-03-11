@@ -1,5 +1,7 @@
 @extends('admin.layouts.app')
+
 @section('actions')
+
     @include('admin.em_department.action',compact('ol_application'))
 @endsection
 @section('content')
@@ -32,6 +34,9 @@
                                     <form action="{{route('get_societies')}}" method="get">
                                         <div class="row">    
                                             <div class="col-md-4">
+
+                                                <label for="layout">Select Layout</label>
+
                                                 <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                                     id="layout" name="layout">
                                                     <option value="" style="font-weight: normal;">Select Layout</option>
@@ -44,9 +49,14 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col-md-3">
-                                                <input type="submit" value="Search" class="submit-button btn m-btn--pill m-btn--custom btn-primary">
+                                            <div class="col-md-1 mt-4">
+                                                <input type="submit" value="Search" class="mt-1 submit-button btn m-btn--pill m-btn--custom btn-primary mhada-btn-pill">
                                             </div>
+
+                                            <div class="col-md-1 mt-4">
+                                                <a href="{{ url('get_societies') }}" class="mt-1 btn m-btn--pill m-btn--custom btn-primary mhada-btn-pill">Reset</a>
+                                            </div>
+
                                         </div>
                                     </form>
                                 </div>
@@ -69,7 +79,6 @@
             <!--begin: Datatable -->
             {!! $html->table() !!}
             <!--end: Datatable -->
-            
         </div>
     </div>
     <input type="hidden" id="myModalBtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" />

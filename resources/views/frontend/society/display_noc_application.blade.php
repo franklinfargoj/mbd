@@ -21,7 +21,21 @@
 
 
                 <p style="font-weight: bold;">Dear Sir,</p>
-                <p style="text-indent: 80px;">Reference is requested to the subject mentioned above vide Reference MHADA issued us the offer letter for additional FSI. Accordingly we have made payment to the Chief Accounts officer vide Demand draft / Pay order of Rs <span style="width: 200px; border-bottom: 1px solid #000;">{{ $noc_application->request_form->demand_draft_amount }}</span> in favour of Chief accounts officer,Mumbai board,MHADA bearing No <span style="width: 100px; border-bottom: 1px solid #000;">{{ $noc_application->request_form->demand_draft_number }}</span> Dtd <span style="width: 200px; border-bottom: 1px solid #000;">{{ date('j F Y',strtotime($noc_application->request_form->demand_draft_date)) }}</span> drawn on <span style="width: 100px; border-bottom: 1px solid #000;">{{ $noc_application->request_form->demand_draft_bank }}</span> towards first installment payment of allotment of said FSI. A copy of the receipt is enclosed herewith for your reference. Also we are submitting various Undertakings & Indemnity Bonds and No Dues Certificate as mentioned in the Offer Letter.</p>
+                <p>
+                            As per the differed payment facility granted by MHADA, we have made the payment of  RS. 
+                            <span style="width: 50px; border-bottom: 1px solid #000;"> {{ isset($noc_application->request_form) ? $noc_application->request_form->demand_draft_amount : '' }} </span>
+                            
+                            ({{ $ntw->numToWord((($noc_application->request_form) != '' && ($noc_application->request_form->demand_draft_amount) != '') ? $noc_application->request_form->demand_draft_amount : 0 ) }}) 
+                             vide recipt No :  <span style="width: 50px; border-bottom: 1px solid #000;"> {{ isset($noc_application->request_form) ? $noc_application->request_form->demand_draft_number : '' }}</span>
+                            &&  <span style="width: 50px; border-bottom: 1px solid #000;"> {{ isset($noc_application->request_form) ? $noc_application->request_form->water_charges_receipt_number : '' }} 
+                            </span>. Dtd <span style="width: 50px; border-bottom: 1px solid #000;">{{ isset($noc_application->request_form) ? date('j F Y',strtotime($noc_application->request_form->demand_draft_date)) : '' }}</span>
+                             in the office of Chief Accounts Officer, Mumbai Board being 1 st installement as per table -2 of the Offer Letter under ref No 1 And, demand draft for an amount of Rs. 
+                             <span style="width: 50px; border-bottom: 1px solid #000;"> {{ isset($noc_application->request_form) ? $noc_application->request_form->offsite_infra_charges : '' }}</span>
+                             ({{ $ntw->numToWord((($noc_application->request_form) != '' && ($noc_application->request_form->offsite_infra_charges) != '') ? $noc_application->request_form->offsite_infra_charges : 0 ) }}) being offsite infrastructure charges is deposited with Accounts Officer Building Permission MHADA vide receipt No . 
+                             <span style="width: 50px; border-bottom: 1px solid #000;">{{ isset($noc_application->request_form) ? $noc_application->request_form->offsite_infra_receipt : '' }} </span>
+                               Dtd <span style="width: 50px; border-bottom: 1px solid #000;">{{ isset($noc_application->request_form) ? date('j F Y',strtotime($noc_application->request_form->offsite_infra_charges_receipt_date)) : '' }}</span>
+                        </p>
+                        <p>Whereas, vide our letter under ref no .2 we have already submitted the Indemnity bond and Undertakings. Now, we are submitting here with the No Dues Certificate along with the payment receipts. Therefore, we here by request you to issue.</p>
                 <p>Hence we request you to grant us the No Objection Certificate at the earliest..</p>
                 <p>Thanking you,</p>
                 <p>Yours Truly</p>

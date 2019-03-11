@@ -8,6 +8,7 @@ use App\HearingSchedule;
 use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
 use App\Http\Controllers\OcDashboardController;
 use App\Http\Controllers\Tripartite\TripartiteDashboardController;
+use App\Layout\ArchitectLayout;
 use App\Role;
 use App\RtiDepartmentUser;
 use Illuminate\Http\Request;
@@ -35,6 +36,7 @@ use App\OcApplication;
 use App\OcApplicationStatusLog;
 use App\OcSrutinyQuestionMaster;
 use App\OcEEScrutinyAnswer;
+use App\NOCBuildupArea;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
 use App\Http\Controllers\SocietyNocController;
 use App\Http\Controllers\SocietyNocforCCController;
@@ -790,8 +792,8 @@ class COController extends Controller
             'user_id' => Auth::user()->id,
             'role_id' => session()->get('role_id')
         ])->orderBy('id', 'desc')->first();
-
-        return view('admin.co_department.scrutiny-remark-noc', compact('arrData','noc_application'));
+        $data = NOCBuildupArea::where('application_id',$applicationId)->first();
+        return view('admin.co_department.scrutiny-remark-noc', compact('arrData','noc_application','data'));
     }
 
     public function nocforCCScrutinyRemarks(Request $request,$applicationId){
@@ -1076,6 +1078,7 @@ class COController extends Controller
         $oc_pendency_count = $oc_pending_dashboard_data['Total Number of Applications'];
 
         //Revision in Layout
+        $architect_layout_count = ArchitectLayout::all()->count();
 
         //Layout Approval
 
@@ -1118,7 +1121,7 @@ class COController extends Controller
 
         $todaysHearing = $hearing;
 
-        return view('admin.co_department.dashboard',compact('todaysHearing','oc_pendency_count','todays_hearing_count','conveyanceRoles','hearing_count','ol_count','ol_pending_count','conveyance_count','conveyance_pending_count','tripartite_count','tripartite_pending_count','ol_reval_count','ol_reval_pending_count',
+        return view('admin.co_department.dashboard',compact('architect_layout_count','todaysHearing','oc_pendency_count','todays_hearing_count','conveyanceRoles','hearing_count','ol_count','ol_pending_count','conveyance_count','conveyance_pending_count','tripartite_count','tripartite_pending_count','ol_reval_count','ol_reval_pending_count',
             'noc_count','noc_cc_count','noc_pending_count','noc_cc_pending_count','oc_count'));
     }
 

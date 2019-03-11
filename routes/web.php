@@ -1139,6 +1139,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('/dashboard/land','VillageDetailController@ajaxDashboard')->name('dashboard.ajax.land');
     Route::post('/sc_ddashboard', 'conveyance\conveyanceCommonController@ajaxDashboard')->name('dashboard.ajax.conveyance');
     Route::post('/hearing-ddashboard', 'HearingController@ajaxDashboard')->name('hearing.dashboard.ajax');
+    Route::post('/appointing_architect_ddashboard','Dashboard\AppointingArchitectController@ajaxDashboard')->name('appointing_architect_dashboard.ajax');
 
 
 });
@@ -1221,7 +1222,7 @@ Route::get('upload_noc_application/{id}','SocietyNocController@showuploadNoc')->
 Route::post('add_uploaded_documents_comment_noc','SocietyNocController@addSocietyDocumentsComment')->name('add_documents_comment_noc');
 Route::get('society_noc_application_download/{id}','SocietyNocController@download_noc_application')->name('society_noc_application_download');
 Route::post('upload_society_noc','SocietyNocController@uploadNocAfterSign')->name('upload_society_noc');
-Route::get('documents_uploaded_noc','SocietyNocController@viewSocietyDocuments')->name('documents_uploaded_noc');
+Route::get('documents_uploaded_noc/{id}','SocietyNocController@viewSocietyDocuments')->name('documents_uploaded_noc');
 Route::post('resubmit_noc_application','SocietyNocController@resubmitNocApplication')->name('resubmit_noc_application');
 
 //NOC --REE Department Routes
@@ -1234,7 +1235,10 @@ Route::get('create_edit_noc/{id}', 'REEDepartment\REEController@createEditNoc')-
 Route::post('save_draft_noc', 'REEDepartment\REEController@saveDraftNoc')->name('ree.save_draft_noc');
 Route::post('upload_draft_noc/{id}', 'REEDepartment\REEController@uploadDraftNoc')->name('ree.upload_draft_noc');
 Route::get('/scrutiny-remark-noc/{application_id}', 'REEDepartment\REEController@scrutinyRemarkNocByREE')->name('ree.scrutiny-remark-noc');
+
+Route::get('/noc_variation_report/{application_id}', 'REEDepartment\REEController@nocVariationReport')->name('ree.noc_variation_report');
 Route::post('/noc-scrutiny-verfication', 'REEDepartment\REEController@nocScrutinyVerification')->name('ree.scrutiny_verification');
+Route::post('/save_noc_scrutiny', 'REEDepartment\REEController@SaveNOCScrutiny')->name('ree.save_noc_scrutiny');
 Route::post('upload_ree_note_noc','REEDepartment\REEController@uploadOfficeNoteNocRee')->name('ree.upload_office-note-noc');
 Route::get('ree_forward_application_noc/{id}','REEDepartment\REEController@forwardApplicationNoc')->name('ree.forward_application_noc');
 Route::post('ree_forward_noc_application_data','REEDepartment\REEController@sendForwardNocApplication')->name('ree.forward_noc_application_data');

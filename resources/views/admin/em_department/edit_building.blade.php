@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+
 @section('actions')
 @include('admin.em_department.action',compact('ol_application'))
 @endsection
@@ -33,36 +34,32 @@
             <input type="hidden" value="{{ old('id', $building->id) }}" name="id" />
             <input type="hidden" value="{{ old('society_id', $building->society_id) }}" name="society_id" />
 
-            <div class="m-portlet__body m-portlet__body--spaced">
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label">Building / Chawl Name</label>
-                        <div class="@if($errors->has('name')) has-error @endif">
-                            <input type="text" name="name" id="name" class="form-control form-control--custom m-input"
-                                value="{{old('name', $building->name)}}" required>
-                            <span class="help-block">{{$errors->first('name')}}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label">Building / Chawl Number</label>
-                        <div class="@if($errors->has('building_no')) has-error @endif">
-                            <input type="text" name="building_no" id="building_no" class="form-control form-control--custom m-input"
-                                value="{{old('building_no', $building->building_no)}}" required>
-                            <span class="help-block">{{$errors->first('building_no')}}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
-                    <div class="m-form__actions px-0">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="btn-list">
-                                    <input type="submit" class="btn btn-primary" name="submit" value="Submit">
-                                    <a class="btn btn-secondary" href="{{ route('get_buildings', [encrypt($building->society_id)]) }}">Cancel</a>
-                                </div>
+            <div class="">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class=" form-group">
+                            <label class="col-form-label">Building / Chawl Name</label>
+                            <div class="@if($errors->has('name')) has-error @endif">
+                                <input type="text" name="name" id="name" class="form-control form-control--custom m-input"
+                                    value="{{old('name', $building->name)}}" required>
+                                <span class="help-block">{{$errors->first('name')}}</span>
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label class="col-form-label">Building / Chawl Number</label>
+                            <div class="@if($errors->has('building_no')) has-error @endif">
+                                <input type="text" name="building_no" id="building_no" class="form-control form-control--custom m-input"
+                                    value="{{old('building_no', $building->building_no)}}" required>
+                                <span class="help-block">{{$errors->first('building_no')}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mt-4">
+                        <div class="btn-list mt-3">
+                            <input type="submit" class="btn btn-primary mhada-btn-pill" name="submit" value="Submit">
+                            <a class="btn btn-secondary mhada-btn-pill" href="{{ route('get_buildings', [encrypt($building->society_id)]) }}">Cancel</a>
                         </div>
                     </div>
                 </div>
