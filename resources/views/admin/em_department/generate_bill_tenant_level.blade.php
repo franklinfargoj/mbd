@@ -140,6 +140,10 @@
                             </div>
                         </div>
                     </div>
+
+                    <div>
+                        <a href="{{ url('generate_tenant_bill') }}" class="btn btn-secondary mhada-btn-pill">Cancel</a>
+                    </div>
         
                 </div>
             </div>
