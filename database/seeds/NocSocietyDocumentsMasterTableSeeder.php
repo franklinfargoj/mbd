@@ -54,8 +54,7 @@ class NocSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => 4,
                     'language_id'   => $language,
                     'name' => "Indemnity bond / Undertaking",
-                    'is_optional' => 0,
-                    'has_many' => 1
+                    'is_optional' => 0
                 ], 
                 [
                     'application_id'   => 4,
@@ -189,8 +188,7 @@ class NocSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => 15,
                     'language_id'   => $language,
                     'name' => "Indemnity bond / Undertaking",
-                    'is_optional' => 0,
-                    'has_many' => 1
+                    'is_optional' => 0
                 ], 
                 [
                     'application_id'   => 15,
