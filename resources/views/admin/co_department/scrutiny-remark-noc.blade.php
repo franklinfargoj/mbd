@@ -237,8 +237,9 @@
                   </div>
                </div>
             </div>
-
-<div>
+           
+             @if(isset($noc_application->noc_application_master) && $noc_application->noc_application_master->model == 'Premium')
+            <div>
                <div class="m-portlet m-portlet--no-top-shadow">
                   <div class="tab-content">
                      <div>
@@ -310,7 +311,8 @@
                      </div>
                   </div>
                </div>
-            </div>            
+            </div> 
+            @endif           
             <!-- <div class="tab-pane" id="three" aria-expanded="false">
                three
                </div> -->
