@@ -1044,7 +1044,7 @@
     {{--end ajax call for Count Table and Pie chart(revision in layout,Layout Approval)--}}
 
 
-    {{--ajax call for Count Table and Pie chart(revalidation)--}}
+    {{--ajax call for Count Table and Pie chart(appointing_architect)--}}
     <script>
         var dashboard = "{{route('dashboard.ajax')}}";
         $(".appointing_architect").on("click", function () {
@@ -1086,7 +1086,7 @@
 
                         var chart_count = 0;
                         var i = 1;
-                        $.each(data[0], function (index, data) {
+                        $.each(data, function (index, data) {
 
                             html += "<tr>\n" +
                                 "<td class=\"text-center\">" + i + "</td>" +
@@ -1156,7 +1156,7 @@
         });
 
     </script>
-    {{--end ajax call for Count Table and Pie chart(revalidation)--}}
+    {{--end ajax call for Count Table and Pie chart(appointing_architect)--}}
 
     {{--ajax call for Count Table and Pie chart(OC)--}}
     <script>
