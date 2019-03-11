@@ -113,20 +113,20 @@
 
             <div class="db__card revision no-margin-sm" data-module="Revision in Layout">
                 <div class="db__card__img-wrap db-color-5">
-                    <h3 class="db__card__count">-</h3>
+                    <h3 class="db__card__count">{{$architect_layout_count}}</h3>
                 </div>
                 <p class="db__card__title">Revision in Layout</p>
             </div>
             <div class="db__card revision" data-module="Layout Approval">
                 <div class="db__card__img-wrap db-color-5">
-                    <h3 class="db__card__count">-</h3>
+                    <h3 class="db__card__count">{{$architect_layout_count}}</h3>
                 </div>
                 <p class="db__card__title">Layout Approval</p>
             </div>
             @if (session()->get('role_name') == config('commanConfig.ree_branch_head'))
                 <div class="db__card revision" data-module="Layout Approval Subordinate Pendency">
                     <div class="db__card__img-wrap db-color-5">
-                        <h3 class="db__card__count">-</h3>
+                        <h3 class="db__card__count">{{$architect_layout_count}}</h3>
                     </div>
                     <p class="db__card__title">Layout Approval Subordinate Pendency</p>
                 </div>

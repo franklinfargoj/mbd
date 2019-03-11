@@ -7,6 +7,7 @@ use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
 use App\Http\Requests\village_detail\EditVillageDetailRequest;
 use App\Http\Requests\village_detail\VillageDetailRequest;
 use App\LandSource;
+use App\Layout\ArchitectLayout;
 use App\SocietyDetail;
 use App\VillageDetail;
 use App\DeletedVillages;
@@ -606,7 +607,11 @@ lm_village_detail.updated_at'))->get();
      */
     public function dashboard(){
 
-        return view('admin.common.land_dashboard');
+        //Revision in Layout
+        $architect_layout_count = ArchitectLayout::all()->count();
+        $land_count = VillageDetail::get()->count();
+
+        return view('admin.common.land_dashboard',compact('architect_layout_count','land_count'));
 
     }
 

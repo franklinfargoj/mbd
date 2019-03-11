@@ -115,19 +115,19 @@
             </div>
             <div class="db__card revision no-margin-xl" data-module="Revision in Layout">
                 <div class="db__card__img-wrap db-color-16">
-                    <h3 class="db__card__count">-</h3>
+                    <h3 class="db__card__count">{{$architect_layout_count}}</h3>
                 </div>
                 <p class="db__card__title">Revision in Layout</p>
             </div>
             <div class="db__card revision no-margin-sm" data-module="Layout Approval">
                 <div class="db__card__img-wrap db-color-17">
-                    <h3 class="db__card__count">-</h3>
+                    <h3 class="db__card__count">{{$architect_layout_count}}</h3>
                 </div>
                 <p class="db__card__title">Layout Approval</p>
             </div>
             <div class="db__card revision" data-module="Layout Approval Pendency">
                 <div class="db__card__img-wrap db-color-18">
-                    <h3 class="db__card__count">-</h3>
+                    <h3 class="db__card__count">{{$architect_layout_count}}</h3>
                 </div>
                 <p class="db__card__title">Layout Approval Pendency</p>
             </div>

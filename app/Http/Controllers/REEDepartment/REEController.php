@@ -2017,12 +2017,13 @@ class REEController extends Controller
         $oc_pendency_count = $oc_pending_dashboard_data['Total Number of Applications'];
 
         //Revision in Layout
+        $architect_layout_count = ArchitectLayout::all()->count();
 
         //Layout Approval
 
         //Layout Approval Subordinate Pendency
 
-        return view('admin.REE_department.dashboard',compact('ol_count','ol_pending_count','oc_count','oc_pendency_count','tripartite_count','tripartite_pending_count','ol_reval_count','ol_reval_pending_count',
+        return view('admin.REE_department.dashboard',compact('architect_layout_count','ol_count','ol_pending_count','oc_count','oc_pendency_count','tripartite_count','tripartite_pending_count','ol_reval_count','ol_reval_pending_count',
             'noc_count','noc_cc_count','noc_pending_count','noc_cc_pending_count','offerLetterRoles'));
     }
 
