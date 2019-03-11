@@ -1139,6 +1139,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('/dashboard/land','VillageDetailController@ajaxDashboard')->name('dashboard.ajax.land');
     Route::post('/sc_ddashboard', 'conveyance\conveyanceCommonController@ajaxDashboard')->name('dashboard.ajax.conveyance');
     Route::post('/hearing-ddashboard', 'HearingController@ajaxDashboard')->name('hearing.dashboard.ajax');
+    Route::post('/appointing_architect_ddashboard','Dashboard\AppointingArchitectController@ajaxDashboard')->name('appointing_architect_dashboard.ajax');
 
 
 });

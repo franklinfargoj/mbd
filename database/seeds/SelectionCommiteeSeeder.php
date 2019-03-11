@@ -66,8 +66,13 @@ class SelectionCommiteeSeeder extends Seeder
                 'name'=>'appointing_architect_dashboard',
                 'display_name'=>'appointing_architect_dashboard',
                 'description'=>'appointing_architect_dashboard'
-            ]
-            
+            ],
+            [
+                'name'=>'appointing_architect_dashboard.ajax',
+                'display_name'=>'appointing_architect_dashboard AJAX',
+                'description'=>'appointing_architect_dashboard ajax'
+            ],
+
         ];
         if(Role::where(['name'=>'selection_commitee'])->first())
             {

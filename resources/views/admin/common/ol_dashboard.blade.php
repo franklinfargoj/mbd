@@ -99,7 +99,7 @@
                 )
                     <div class="db__card revision" data-module="Revision in Layout">
                         <div class="db__card__img-wrap db-color-5">
-                            <h3 class="db__card__count">-
+                            <h3 class="db__card__count">{{$architect_layout_counts}}
                             </h3>
                         </div>
                         <p class="db__card__title">Revision in Layout</p>
@@ -108,7 +108,7 @@
                 @if(!((session()->get('role_name')==config('commanConfig.ee_junior_engineer')) || (session()->get('role_name')==config('commanConfig.ee_deputy_engineer'))))
                     <div class="db__card revision" data-module="Layout Approval">
                         <div class="db__card__img-wrap db-color-5">
-                            <h3 class="db__card__count">-</h3>
+                            <h3 class="db__card__count">{{$architect_layout_counts}}</h3>
                         </div>
                         <p class="db__card__title">Layout Approval</p>
                     </div>
@@ -128,20 +128,20 @@
                     @if(session()->get('role_name')==config('commanConfig.architect'))
                     <div class="db__card revision" data-module="Layout Approval Department Pendency">
                         <div class="db__card__img-wrap db-color-16">
-                            <h3 class="db__card__count">-</h3>
+                            <h3 class="db__card__count">{{$architect_layout_counts}}</h3>
                         </div>
                         <p class="db__card__title">Layout Approval Department Pendency</p>
                     </div>
                             <div class="db__card revision" data-module="Layout Approval Subordinate Pendencies">
                                 <div class="db__card__img-wrap db-color-16">
-                                    <h3 class="db__card__count">-</h3>
+                                    <h3 class="db__card__count">{{$architect_layout_counts}}</h3>
                                 </div>
                                 <p class="db__card__title">Layout Approval Subordinate Pendencies</p>
                             </div>
 
                             <div class="db__card appointing_architect" data-module="Appointing Architect Subordinate Pendency">
                                 <div class="db__card__img-wrap db-color-5">
-                                    <h3 class="db__card__count">-</h3>
+                                    <h3 class="db__card__count">{{$appointing_count}}</h3>
                                 </div>
                                 <p class="db__card__title">Appointing Architect Subordinate Pendency</p>
                             </div>
