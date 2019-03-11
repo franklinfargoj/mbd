@@ -51,6 +51,8 @@ use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 use Mpdf\Mpdf;
 use App\LayoutUser;
+use App\Layout\ArchitectLayout;
+
 
 class REEController extends Controller
 {
@@ -1319,8 +1321,9 @@ class REEController extends Controller
 
         $roleId = Role::where('name', '=', config('commanConfig.ree_branch_head'))->value('id');
         $reeHead = User::where('role_id',$roleId)->value('name');
+        $data = NOCBuildupArea::where('application_id',$applicatonId)->first();
         
-        return view('admin.REE_department.'.$blade,compact('applicatonId','content','model','calculationData','custom','table1','reeHead'));
+        return view('admin.REE_department.'.$blade,compact('applicatonId','content','model','calculationData','custom','table1','reeHead','data'));
     }
 
     public function saveDraftNoc(Request $request){
@@ -1712,14 +1715,29 @@ class REEController extends Controller
         $content = str_replace('_', "", $_POST['ckeditorText']);
         $folder_name = 'Draft_noc_cc';
 
-        /*$header_file = view('admin.REE_department.offer_letter_header');        
+        /*$header_file = view('admin.REE_department.offer_letter_header');
         $footer_file = view('admin.REE_department.offer_letter_footer');*/
-        $header_file = '';
-        $footer_file = '';
+//        $header_file = '';
+//        $footer_file = '';
 
-        $pdf = \App::make('dompdf.wrapper');
+        $header_file = view('admin.REE_department.offer_letter_header');
+        $footer_file = view('admin.REE_department.offer_letter_footer');
+//
+        $pdf = new Mpdf();
+        $pdf->autoScriptToLang = true;
+        $pdf->autoLangToFont = true;
+//        $pdf->setAutoBottomMargin = 'stretch';
+//        $pdf->setAutoTopMargin = 'stretch';
+//        $pdf->SetHTMLHeader($header_file);
+//        $pdf->SetHTMLFooter($footer_file);
+//        $pdf->WriteHTML($content);
 
-        $pdf->loadHTML($header_file.$content.$footer_file);
+//        dd($content);
+        $pdf->WriteHTML($header_file.$content.$footer_file);
+
+//        $pdf = \App::make('dompdf.wrapper');
+
+//        $pdf->loadHTML($header_file.$content.$footer_file);
 
         $fileName = time().'draft_noc_cc_'.$id.'.pdf';
         $filePath = $folder_name."/".$fileName;
@@ -1727,8 +1745,8 @@ class REEController extends Controller
         if (!(Storage::disk('ftp')->has($folder_name))) {            
             Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
         } 
-        Storage::disk('ftp')->put($filePath, $pdf->output());
-        $file = $pdf->output();
+        Storage::disk('ftp')->put($filePath, $pdf->output($fileName,'S'));
+//        $file = $pdf->output();
 
         $folder_name1 = 'text_noc_cc';
 
@@ -2002,12 +2020,13 @@ class REEController extends Controller
         $oc_pendency_count = $oc_pending_dashboard_data['Total Number of Applications'];
 
         //Revision in Layout
+        $architect_layout_count = ArchitectLayout::all()->count();
 
         //Layout Approval
 
         //Layout Approval Subordinate Pendency
 
-        return view('admin.REE_department.dashboard',compact('ol_count','ol_pending_count','oc_count','oc_pendency_count','tripartite_count','tripartite_pending_count','ol_reval_count','ol_reval_pending_count',
+        return view('admin.REE_department.dashboard',compact('architect_layout_count','ol_count','ol_pending_count','oc_count','oc_pendency_count','tripartite_count','tripartite_pending_count','ol_reval_count','ol_reval_pending_count',
             'noc_count','noc_cc_count','noc_pending_count','noc_cc_pending_count','offerLetterRoles'));
     }
 
@@ -2847,7 +2866,7 @@ class REEController extends Controller
         
         $data = $request['area']; 
         NOCBuildupArea::updateOrCreate(['application_id'=>$request->applicationId],$data); 
-        return back();  
+        return back()->with('success', 'Data Saved successfully');
     }
 
     public function nocVariationReport($applicationId){

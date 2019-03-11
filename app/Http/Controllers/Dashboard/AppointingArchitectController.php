@@ -12,7 +12,10 @@ class AppointingArchitectController extends Controller
 {
     public function index()
     {
-        return view('admin.dashboard.appointing_architect.main');
+        //apponting architect
+        $architect_dashboard = new AppointingArchitectController();
+        $appointing_count = $architect_dashboard->total_number_of_application();
+        return view('admin.dashboard.appointing_architect.main',compact('appointing_count'));
     }
     public function total_number_of_application()
     {
@@ -63,4 +66,43 @@ class AppointingArchitectController extends Controller
                 ->orderBy('id', 'desc');
         })->get()->count();
     }
+
+    public function ajaxDashboard(Request $request){
+
+        if ($request->ajax()) {
+            $this->architect_dashboard = new AppointingArchitectController();
+
+            if($request->module_name == 'Appointing Architect'){
+                if (in_array(session()->get('role_name'),array(config('commanConfig.junior_architect'),config('commanConfig.senior_architect'),config('commanConfig.architect'),config('commanConfig.selection_commitee')))) {
+                    $data['Total Number of Applications']=$this->architect_dashboard->total_number_of_application();
+                    $data['Total Shortlisted Application'] = $this->architect_dashboard->total_shortlisted_application();
+                    $data['Total Final Application'] = $this->architect_dashboard->total_final_application();
+                    $data['Pending at Current User'] = $this->architect_dashboard->pending_at_current_user();
+
+                    return $data;
+                }
+            }
+
+            if($request->module_name == 'Appointing Architect Subordinate Pendency'){
+                if (in_array(session()->get('role_name'),array(config('commanConfig.junior_architect'),config('commanConfig.senior_architect'),config('commanConfig.architect'),config('commanConfig.selection_commitee')))) {
+                    $pending_at_jr_architect = $this->architect_dashboard->pending_at_user(array(config('commanConfig.junior_architect')));
+                    $pending_at_sr_architect = $this->architect_dashboard->pending_at_user(array(config('commanConfig.senior_architect')));
+                    $pending_at_architect = $this->architect_dashboard->pending_at_user(array(config('commanConfig.architect')));
+                    $pending_at_selection_committee = $this->architect_dashboard->pending_at_user(array(config('commanConfig.selection_commitee')));
+
+                    $data['Pending at Junior Architect'] = $pending_at_jr_architect;
+                    $data['Pending at Senior Architect'] = $pending_at_sr_architect;
+                    $data['Pending at Architect'] = $pending_at_architect;
+                    $data['Pending at Selection Comitee'] = $pending_at_selection_committee;
+
+                    return $data;
+                }
+            }
+
+
+        }
+
+    }
+
+
 }

@@ -41,7 +41,7 @@ class AddOffsiteInfrastructureInNocRequestFormDetails extends Migration
                 $table->tinyInteger('is_deleted')->after('parent')->default(0);                
             } 
             if (!Schema::hasColumn('noc_society_documents_master', 'sort_by')){
-                $table->tinyInteger('sort_by')->after('has_many')->default(0);                
+                $table->tinyInteger('sort_by')->default(0);                
             }        
         });
     }

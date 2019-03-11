@@ -1773,8 +1773,11 @@ class CommonController extends Controller
         $oc_pending_count = $oc_pending_data['Total Number of Applications'];
 
 
+        //architect layout
+        $architect_layout_counts = ArchitectLayout::all()->count();
 
-        return view('admin.common.ol_dashboard',compact('conveyanceRoles','oc_count','oc_pending_count','dashboardData1','renewalRoles','appointing_count','offerLetterRoles','ol_count','ol_pending_count','conveyance_count','conveyance_pending_count','renewal_count','renewal_pending_count','reval_count'));
+
+        return view('admin.common.ol_dashboard',compact('architect_layout_counts','conveyanceRoles','oc_count','oc_pending_count','dashboardData1','renewalRoles','appointing_count','offerLetterRoles','ol_count','ol_pending_count','conveyance_count','conveyance_pending_count','renewal_count','renewal_pending_count','reval_count'));
 
     }
 
@@ -1881,7 +1884,7 @@ class CommonController extends Controller
                 $this->architect_dashboard = new ArchitectLayoutDashboardController();
 
                 if (in_array(session()->get('role_name'), array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head')))) {
-                    $data['Total Number of Applications'] = $this->architect_dashboard->total_no_of_appln_for_revision();
+                    $data['Total Number of Applications for revision'] = $this->architect_dashboard->total_no_of_appln_for_revision();
                     $data['Application Pending'] = $this->architect_dashboard->pending_layout_before_layout_and_excel();
                     $data['Application Forwarded'] = $this->architect_dashboard->forwarded_layout_before_layout_and_excel();
 

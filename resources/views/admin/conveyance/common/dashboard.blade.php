@@ -88,7 +88,7 @@
                 @if((session()->get('role_name')==config('commanConfig.estate_manager')))
                     <div class="db__card revision"  data-module="Revision in Layout">
                         <div class="db__card__img-wrap db-color-5">
-                            <h3 class="db__card__count">-</h3>
+                            <h3 class="db__card__count">{{$architect_layout_count}}</h3>
                         </div>
                         <p class="db__card__title">Revision in Layout</p>
                     </div>
