@@ -1319,8 +1319,9 @@ class REEController extends Controller
 
         $roleId = Role::where('name', '=', config('commanConfig.ree_branch_head'))->value('id');
         $reeHead = User::where('role_id',$roleId)->value('name');
+        $data = NOCBuildupArea::where('application_id',$applicatonId)->first();
         
-        return view('admin.REE_department.'.$blade,compact('applicatonId','content','model','calculationData','custom','table1','reeHead'));
+        return view('admin.REE_department.'.$blade,compact('applicatonId','content','model','calculationData','custom','table1','reeHead','data'));
     }
 
     public function saveDraftNoc(Request $request){
@@ -2847,7 +2848,7 @@ class REEController extends Controller
         
         $data = $request['area']; 
         NOCBuildupArea::updateOrCreate(['application_id'=>$request->applicationId],$data); 
-        return back();  
+        return back()->with('success', 'Data Saved successfully');
     }
 
     public function nocVariationReport($applicationId){

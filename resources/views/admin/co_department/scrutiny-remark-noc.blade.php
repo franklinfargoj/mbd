@@ -2,6 +2,14 @@
 @section('actions')
 @include('admin.co_department.action_noc',compact('noc_application'))
 @endsection
+@section('css')
+<style type="text/css">
+   .text-box{
+      width: 173px;
+    height: 35px;
+   }
+</style>
+@endsection
 @section('content')
 @if(session()->has('success'))
 <div class="alert alert-success display_msg">

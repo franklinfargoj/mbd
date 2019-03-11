@@ -412,7 +412,7 @@ $route=\Request::route()->getName();
                                 </ul>
                             </li>
 {{--                            @if(Session::get('ol_application_count') == 1 || Session::get('oc_application_count') == 1 || Session::get('noc_application_count') == 1 || Session::get('noc_cc_application_count') == 1)--}}
-                                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route == 'society_offer_letter_dashboard')? 'm-menu__item--active': '' }}">
+                               <!--  <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route == 'society_offer_letter_dashboard')? 'm-menu__item--active': '' }}">
                                     <a href="{{ route('society_offer_letter_dashboard') }}" class="m-menu__link m-menu__toggle">
                                         <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                              viewBox="0 0 510 510">
@@ -425,7 +425,7 @@ $route=\Request::route()->getName();
                                             </span>
                                         </span>
                                     </a>
-                                </li>
+                                </li> -->
                             {{--@endif--}}
                             {{--<li id="dev-redevelopment" class="collapse">--}}
                                 {{--<ul class="list-unstyled">--}}
