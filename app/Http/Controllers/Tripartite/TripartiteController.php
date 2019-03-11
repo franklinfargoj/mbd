@@ -255,8 +255,8 @@ class TripartiteController extends Controller
         $pdf_folder_name = 'Draft_tripartite_agreement';
         $header_file = '';
         $footer_file = '';
-        $header_file = view('admin.REE_department.offer_letter_header');
-        $footer_file = view('admin.REE_department.offer_letter_footer');
+//        $header_file = view('admin.REE_department.offer_letter_header');
+//        $footer_file = view('admin.REE_department.offer_letter_footer');
 
         $pdf = new Mpdf([
             'default_font_size' => 9,

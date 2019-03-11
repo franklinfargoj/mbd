@@ -8,6 +8,7 @@
 
             </div>
         </div>
+
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
 
@@ -102,11 +103,14 @@
                             {{--<input type="text" id="tripartite_agreement_number" name="tripartite_agreement_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('tripartite_agreement_number') }}" required>--}}
                             {{--<span class="help-block">{{$errors->first('tripartite_agreement_number')}}</span>--}}
                         {{--</div>--}}
+
+                        @if($id == '21')
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="developer_name">Developer Name:  {{--<span class="star">*</span>--}}</label>
                             <input type="text" id="developer_name" name="developer_name" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('developer_name') }}" required>
                             <span class="help-block">{{$errors->first('developer_name')}}</span>
                         </div>
+                        @endif
                     </div>
 
                     <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">

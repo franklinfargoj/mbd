@@ -5,6 +5,7 @@ namespace App\Http\Controllers\REEDepartment;
 use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
 use App\Http\Controllers\OcDashboardController;
 use App\Http\Controllers\Tripartite\TripartiteDashboardController;
+use App\Layout\ArchitectLayout;
 use App\REENote;
 use App\Role;
 use Illuminate\Http\Request;

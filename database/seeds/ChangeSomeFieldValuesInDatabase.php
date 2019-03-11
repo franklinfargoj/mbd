@@ -357,5 +357,25 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
             ])->delete();
         }
 
+        //update tripartite doc name to 'Approved IOD / IOA'
+        $tripartite_docs = \App\OlSocietyDocumentsMaster::where([
+            'name' => "Approved NOC - IOD"
+        ])->pluck('id');
+
+        if($tripartite_docs){
+            \App\OlSocietyDocumentsMaster::where('name' , "Approved NOC - IOD")->update(['name' => 'Approved IOD / IOA']);
+        }
+
+        //removing "Draft of triprtite agreement" doc from tripartite
+        $tripartite_document = \App\OlSocietyDocumentsMaster::where([
+            'name' => "Draft of triprtite agreement if available"
+        ])->pluck('id');
+
+        if($tripartite_document){
+            \App\OlSocietyDocumentsMaster::where([
+                'name' => "Draft of triprtite agreement if available"
+            ])->delete();
+        }
+
     }
 }

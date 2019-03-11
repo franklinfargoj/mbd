@@ -6,30 +6,28 @@
             </div>
             <div>
                 <p>
-                <p style="display: block; font-weight: bold; line-height: 0; margin-top: 5px; margin-bottom: 5px;">To,</p>
-                <p style="display: block; font-weight: bold; line-height: 0; margin-top: 5px; margin-bottom: 5px;">The Resident Executive Engineer, (R.E.E),</p>
-                <table style="margin-left: -5px; margin-top: 5px; margin-bottom: 5px;">
-                    <tbody>
-                    <tr>
-                        {{--<td style="font-size: 18px;">The Resident Executive Engineer, (R.E.E),</td>--}}
-                        {{--<td style="border-bottom: 1px solid #000; font-size: 18px;">MHADA, Mumbai Board</td>--}}
-                        {{--<td style="font-size: 18px;">Kalanagar, Bandra - (E),</td>--}}
-                    </tr>
-                    </tbody>
-                </table>
-                {{--<p style="display: block; margin-top: 3px; margin-bottom: 3px;">The Resident Executive Engineer, (R.E.E),</p>--}}
-                <p style="display: block; margin-top: 3px; margin-bottom: 3px;">MHADA, Mumbai Board,</p>
-                <p style="display: block; margin-top: 3px; margin-bottom: 3px;">Kalanagar, Bandra - (E),</p>
-                <p style="display: block; margin-top: 3px; margin-bottom: 3px;">Mumbai-400 051.</p>
+                    <p style="display: block; font-weight: bold; line-height: 0; margin-top: 5px; margin-bottom: 5px;">To,</p>
+                    <p style="display: block; font-weight: bold; line-height: 0; margin-top: 5px; margin-bottom: 5px;">The Executive Engineer,</p>
+                    <p style="display: block; margin-top: 3px; margin-bottom: 3px;">MHADA,</p>
+                    <p style="display: block; margin-top: 3px; margin-bottom: 3px;">Gruha Nirman Bhuvan,</p>
+                    <p style="display: block; margin-top: 3px; margin-bottom: 3px;">Bandra East,</p>
+                    <p style="display: block; margin-top: 3px; margin-bottom: 3px;">Mumbai-400 051.</p>
                 </p>
             </div>
         </div>
         <div>
             <div style="line-height: 1.5;">
-                <p style="text-indent: 80px;"><span style="display: block; font-weight: bold;">Subject :- </span>Proposed redevelopment of the existing <span style="width: 50px; border-bottom: 1px solid #000;">{{ $society_details->building_no }}</span>, known as <span style="width: 200px; border-bottom: 1px solid #000;">{{ $society_details->name }}</span> along with O.B. No. and adjacent plot No. , bearing CTS No.(pt.) of Village - .</p>
-                <p style="font-weight: bold;">Dear Sir,</p>
-                <p>Herewith we are submitting draft copy of Tripartite Agreement to be executed as per the Offer Letter No <span><b>{{ $ol_applications->request_form->offer_letter_number }}</b></span>, Dated <b>{{ $ol_applications->request_form->offer_letter_date }}</b> and Revised Offer Letter No. <b>{{ $ol_applications->request_form->revised_offer_letter_number }}</b>, Dated <b>{{ $ol_applications->request_form->revised_offer_letter_date }}</b> and Revised NOC for IOD Purpose <b>{{ $ol_applications->request_form->noc_for_iod_purpose_number }}</b>, Dated <b>{{ $ol_applications->request_form->noc_for_iod_purpose_date }}</b>.</p>
-                <p>So please acknowledge the receipt of the same.</p>
+                <p  style="text-indent: 80px;"><span style="display: block; font-weight: bold;">Subject :- </span> Proposed Redevelopment of Residential building of {{ $society_details->name }}, on plot number {{ $society_details->building_no }}, {{ $society_details->address }}.</p>
+
+                <p style="text-indent: 80px;"><span style="display: block; font-weight: bold;">Ref :- </span>1. Offer Letter No. {{ $ol_applications->request_form->offer_letter_number }} dated {{date('j F Y',strtotime($ol_applications->request_form->offer_letter_number))}}</p>
+                <span style="margin-left: 36px"></span>2. NOC for IOD purpose bearing No. {{ $ol_applications->request_form->noc_for_iod_purpose_number }} dated {{date('j F Y',strtotime($ol_applications->request_form->noc_for_iod_purpose_date))}}</p>
+
+                <p style="font-weight: bold;">Dear Sir/ Madam,</p>
+                <p>
+                    We enclose herewith the TRI-PARTY Agreement between MHADA of the first part, {{ $society_details->name }} second part, {{$ol_applications->request_form->developer_name}} third part for grant of No Objection Certificate for the purpose of redevelopment.
+                </p>
+                <p>We request your goodselves to please arrange to excute the Tri-Party Agreement and issue us the NOC and CC to proceed further.</p>
+                <p>Please do the needful at the earliest and oblige.</p>
             </div>
             <div style="margin-top: 30px;">
                 <div style="float: right; text-align: right;">
