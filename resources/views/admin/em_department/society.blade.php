@@ -49,12 +49,14 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col-md-1 mt-4">
+                                            <div class="col-md-6 mt-4 d-flex">
+                                            <div class="btn-list">
                                                 <input type="submit" value="Search" class="mt-1 submit-button btn m-btn--pill m-btn--custom btn-primary mhada-btn-pill">
                                             </div>
 
-                                            <div class="col-md-1 mt-4">
+                                            <div class="btn-list ml-4">
                                                 <a href="{{ url('get_societies') }}" class="mt-1 btn m-btn--pill m-btn--custom btn-primary mhada-btn-pill">Reset</a>
+                                            </div>
                                             </div>
 
                                         </div>

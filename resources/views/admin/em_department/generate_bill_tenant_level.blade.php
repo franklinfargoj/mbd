@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+
 @section('actions')
     @include('admin.em_department.action',compact('ol_application'))
 @endsection
@@ -32,8 +33,9 @@
                 </div>
 
                     <div class="row align-items-center mb-3">                            
-                        <div class="col-md-4">
+                        <div class="col-sm-4">
                             <div class="form-group m-form__group">
+                                <label class="col-form-label">Select Layout</label>
                                 <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout" required>
                                     <option value="" style="font-weight: normal;">Select Layout</option>
                                     @foreach($layout_data as $key => $value)
@@ -45,12 +47,10 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>                          
-                    </div>
-
-                        <div class="row align-items-center mb-3">                            
-                            <div class="col-md-4">
+                        </div>   
+                        <div class="col-sm-4 offset-sm-1">
                                 <div class="form-group m-form__group ward-div">
+                                    <label class="col-form-label">Select Ward</label>
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="wards" name="wards" required>
                                         <option value="" style="font-weight: normal;">Select Ward</option>
                                         @foreach($wards_data as $key => $value)
@@ -62,12 +62,12 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            </div>                          
-                        </div>
-
+                            </div>                        
+                    </div>
                     <div class="row align-items-center mb-3">                            
-                        <div class="col-md-4">
+                        <div class="col-sm-4">
                             <div class="form-group m-form__group colony_select">
+                                <label class="col-form-label">Select Colony</label>
                                 <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="colony" name="colony" required>
                                     <option value="" style="font-weight: normal;">Select Colony</option>
                                     @foreach($colonies_data as $key => $value)
@@ -79,12 +79,10 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>                          
-                    </div>
-
-                    <div class="row align-items-center mb-3">                            
-                        <div class="col-md-4">
+                        </div> 
+                        <div class="col-sm-4 offset-sm-1">
                             <div class="form-group m-form__group society_select">
+                                <label class="col-form-label">Select Societies</label>
                                 <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="society" name="society" required>
                                     <option value="" style="font-weight: normal;" selected>Select Societies</option>
                                     @if(isset($society_name)) 
@@ -99,8 +97,9 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>                          
+                        </div>                             
                     </div>
+
                     @if(isset($buildingId) && isset($building_name) && $buildingId !=0) 
                         <div class="row align-items-center mb-3 building">                            
                             <div class="col-md-12">
@@ -121,29 +120,25 @@
                         </div>
                     @endif
                     
-                    <div class="row align-items-center mb-3">                            
-                        <div class="col-md-12">
-                            <div class="form-group m-form__group tenant-list">
-                            
-                            </div>
-                        </div>                          
-                    </div>
+               
                     <div class="row align-items-center mb-3">   
                         <div class=" col-md-12 building_select">
                             
                         </div>
                     </div>
-                    <div class="row align-items-center">           
-                        <div class="col-md-9">
-                            <div class="form-group m-form__group">
-                                <input type="submit" class="submit-button btn m-btn--pill m-btn--custom btn-primary" name="search" value="Search" disabled>
+                    
+                    <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                    <div class="m-form__actions px-0">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="btn-list">
+                                    <input type="submit" class="submit-button btn m-btn--pill m-btn--custom btn-primary mhada-btn-pill" name="search" value="Search" disabled>
+                                    <a href="{{ url('generate_tenant_bill') }}" class="btn btn-secondary mhada-btn-pill">Cancel</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <div>
-                        <a href="{{ url('generate_tenant_bill') }}" class="btn btn-secondary mhada-btn-pill">Cancel</a>
-                    </div>
+                </div>
         
                 </div>
             </div>
