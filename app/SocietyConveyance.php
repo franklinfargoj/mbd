@@ -25,13 +25,26 @@ class SocietyConveyance extends Model
         'non_agricultural_tax',
         'society_address',
         'template_file',
-        'prev_lease_agreement_no'
+        'prev_lease_agreement_no',
+        'nature_of_building',
+        'tax_paid_to_MHADA_or_BMC',
+        'service_charge'
     ];
 
 
     public function scheme_names()
     {
         return $this->hasOne('App\MasterTenantType', 'id','scheme_name');
+    }
+
+    public function building_nature()
+    {
+        return $this->hasOne('App\NatureOfBuilding', 'id','nature_of_building');
+    }
+
+    public function service_charges()
+    {
+        return $this->hasOne('App\ServiceCharge', 'id','service_charge');
     }
 
 }

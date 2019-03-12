@@ -146,6 +146,23 @@
                                                value="{{ $sc_application->societyApplication->address }}" readonly>
                                     </div>
                                 </div>
+                                <div class="form-group m-form__group row">
+                                    <div class="col-sm-6 application-fields">
+                                        <label class="application-form-label" for="">१२. इमारतीचे स्वरूप</label>
+                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name="society_address"
+                                               value="{{ $sc_application->sc_form_request->building_nature->name  }}" readonly>
+                                    </div>
+                                    <div class="col-sm-6 application-fields">
+                                        <label class="application-form-label" for="">१३. म्हाडा किंवा बीएमसीला दिलेला कर</label>
+                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name="society_address"
+                                               value="{{ $sc_application->sc_form_request->tax_paid_to_MHADA_or_BMC}}" readonly>
+                                    </div>
+                                    <div class="col-sm-6 application-fields">
+                                        <label class="application-form-label" for="">१४. सेवा शुल्क</label>
+                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name="society_address"
+                                               value="{{ $sc_application->sc_form_request->service_charges->name }}" readonly>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="letter-form-footer d-flex font-weight-semi-bold mt-5">

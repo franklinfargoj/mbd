@@ -24,11 +24,11 @@
                     <i class="la la-bell-o"></i> List of Bonafide Allottees
                 </a>
             </li>
-            <li class="nav-item m-tabs__item em_tabs" id="section-3">
-                <a class="nav-link m-tabs__link" data-toggle="tab" href="#society-resolution" role="tab" aria-selected="true">
-                    <i class="la la-bell-o"></i> Covering Letter
-                </a>
-            </li>
+            {{--<li class="nav-item m-tabs__item em_tabs" id="section-3">--}}
+                {{--<a class="nav-link m-tabs__link" data-toggle="tab" href="#society-resolution" role="tab" aria-selected="true">--}}
+                    {{--<i class="la la-bell-o"></i> Covering Letter--}}
+                {{--</a>--}}
+            {{--</li>--}}
         </ul>
     </div>
 
@@ -309,7 +309,13 @@
                                 <div class="text-center">{{ session('success') }}</div>
                             </div>
                         @endif
+
                         <div class=" row-list">
+                            @if (session('error_list_of_allottees'))
+                                <div class="alert alert-danger society_registered">
+                                    <div class="text-center">{{ session('error_list_of_allottees') }}</div>
+                                </div>
+                            @endif
                             <div class="row">
                                 @if($society_list_docs['अधिकृत सभासदांची यादी (पती व पत्नी संयुक्त नावे)']->sc_document_status != null)
                                     <div class="col-md-6">
@@ -320,11 +326,11 @@
                                                     <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')) }}</div>
                                                 </div>
                                             @endif
-                                            @if (session('error'))
+                                            {{--@if (session('error'))
                                                 <div class="alert alert-danger society_registered">
                                                     <div class="text-center">{{ session('error') }}</div>
                                                 </div>
-                                            @endif
+                                            @endif--}}
                                         </p>
                                             <p>Click to download generated list of allottees in xls format</p>
                                             {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
@@ -344,11 +350,11 @@
                                                 <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')) }}</div>
                                             </div>
                                         @endif
-                                        @if (session('error'))
-                                            <div class="alert alert-danger society_registered">
-                                                <div class="text-center">{{ session('error') }}</div>
-                                            </div>
-                                            @endif
+                                        {{--@if (session('error'))--}}
+                                            {{--<div class="alert alert-danger society_registered">--}}
+                                                {{--<div class="text-center">{{ session('error') }}</div>--}}
+                                            {{--</div>--}}
+                                            {{--@endif--}}
                                             </p>
                                             <form action="{{ route('em.save_list_of_allottees') }}" id="list_of_allottees" method="post" enctype="multipart/form-data">
                                                 @csrf
@@ -376,82 +382,82 @@
                 </div>
             </div>        
         </div>
-        <div class="tab-pane section-3" id="society-resolution" role="tabpanel">
-            <!-- Covering Letter div here -->
-            <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
-                @if (session('success'))
-                    <div class="alert alert-success society_registered">
-                        <div class="text-center">{{ session('success') }}</div>
-                    </div>
-                @endif
-                <div class="portlet-body">
-                    <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
-                        <div class="m-subheader">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div>
-                                        <h5>Download Covering Letter</h5>
-                                        <p>
-                                        @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')))
-                                            <div class="alert alert-success society_registered">
-                                                <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')) }}</div>
-                                            </div>
-                                        @endif
-                                        @if (session('error'))
-                                        <div class="alert alert-danger society_registered">
-                                            <div class="text-center">{{ session('error') }}</div>
-                                        </div>
-                                        @endif
-                                        </p>
-                                        <p>Click to download Covering Letter in pdf format</p><p></p>
+        {{--<div class="tab-pane section-3" id="society-resolution" role="tabpanel">--}}
+            {{--<!-- Covering Letter div here -->--}}
+            {{--<div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">--}}
+                {{--@if (session('success'))--}}
+                    {{--<div class="alert alert-success society_registered">--}}
+                        {{--<div class="text-center">{{ session('success') }}</div>--}}
+                    {{--</div>--}}
+                {{--@endif--}}
+                {{--<div class="portlet-body">--}}
+                    {{--<div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">--}}
+                        {{--<div class="m-subheader">--}}
+                            {{--<div class="row">--}}
+                                {{--<div class="col-sm-6">--}}
+                                    {{--<div>--}}
+                                        {{--<h5>Download Covering Letter</h5>--}}
+                                        {{--<p>--}}
+                                        {{--@if (session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')))--}}
+                                            {{--<div class="alert alert-success society_registered">--}}
+                                                {{--<div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')) }}</div>--}}
+                                            {{--</div>--}}
+                                        {{--@endif--}}
+                                        {{--@if (session('error'))--}}
+                                        {{--<div class="alert alert-danger society_registered">--}}
+                                            {{--<div class="text-center">{{ session('error') }}</div>--}}
+                                        {{--</div>--}}
+                                        {{--@endif--}}
+                                        {{--</p>--}}
+                                        {{--<p>Click to download Covering Letter in pdf format</p><p></p>--}}
                                         {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
-                                        @if(!empty($covering_letter_docs['em_covering_letter']->sc_document_status))
-                                            <a href="{{ config('commanConfig.storage_server').'/'.$covering_letter_docs['em_covering_letter']->sc_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
-                                                Download</a>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 border-left">
-                                    <div class="d-flex flex-column h-100">
-                                        <h5>Upload Covering Letter</h5>
-                                        <span class="hint-text">Click on 'Upload' to upload Covering Letter</span>
-                                        <p>
-                                        @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))
-                                            <div class="alert alert-success society_registered">
-                                                <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')) }}</div>
-                                            </div>
-                                        @endif
-                                        @if (session('error'))
-                                        <div class="alert alert-danger society_registered">
-                                            <div class="text-center">{{ session('error') }}</div>
-                                        </div>
-                                        @endif
-                                        </p>
-                                        <form action="{{ route('em.save_covering_letter') }}" id="em_covering_letter" method="post" enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="custom-file">
-                                                <input class="custom-file-input pdfcheck" name="covering_letter" type="file"
-                                                       id="test-upload_3" required="required">
-                                                <label class="custom-file-label" for="test-upload_3">Choose
-                                                    file...</label>
-                                                <span class="text-danger" id="file_error"></span>
-                                                <input type="hidden" id="applicationId" name="applicationId" value="{{ $data->id }}">
-                                                @if($covering_letter_docs['em_covering_letter']->sc_document_status !=null )
-                                                    <a href="{{ config('commanConfig.storage_server').'/'.$covering_letter_docs['em_covering_letter']->sc_document_status->document_path }}" target="_blank" rel="noopener">Uploaded Covering Letter</a>
-                                                @endif
-                                            </div>
-                                            <div class="mt-auto">
-                                                <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>            
-        </div>
+                                        {{--@if(!empty($covering_letter_docs['em_covering_letter']->sc_document_status))--}}
+                                            {{--<a href="{{ config('commanConfig.storage_server').'/'.$covering_letter_docs['em_covering_letter']->sc_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">--}}
+                                                {{--Download</a>--}}
+                                        {{--@endif--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div class="col-sm-6 border-left">--}}
+                                    {{--<div class="d-flex flex-column h-100">--}}
+                                        {{--<h5>Upload Covering Letter</h5>--}}
+                                        {{--<span class="hint-text">Click on 'Upload' to upload Covering Letter</span>--}}
+                                        {{--<p>--}}
+                                        {{--@if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))--}}
+                                            {{--<div class="alert alert-success society_registered">--}}
+                                                {{--<div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')) }}</div>--}}
+                                            {{--</div>--}}
+                                        {{--@endif--}}
+                                        {{--@if (session('error'))--}}
+                                        {{--<div class="alert alert-danger society_registered">--}}
+                                            {{--<div class="text-center">{{ session('error') }}</div>--}}
+                                        {{--</div>--}}
+                                        {{--@endif--}}
+                                        {{--</p>--}}
+                                        {{--<form action="{{ route('em.save_covering_letter') }}" id="em_covering_letter" method="post" enctype="multipart/form-data">--}}
+                                            {{--@csrf--}}
+                                            {{--<div class="custom-file">--}}
+                                                {{--<input class="custom-file-input pdfcheck" name="covering_letter" type="file"--}}
+                                                       {{--id="test-upload_3" required="required">--}}
+                                                {{--<label class="custom-file-label" for="test-upload_3">Choose--}}
+                                                    {{--file...</label>--}}
+                                                {{--<span class="text-danger" id="file_error"></span>--}}
+                                                {{--<input type="hidden" id="applicationId" name="applicationId" value="{{ $data->id }}">--}}
+                                                {{--@if($covering_letter_docs['em_covering_letter']->sc_document_status !=null )--}}
+                                                    {{--<a href="{{ config('commanConfig.storage_server').'/'.$covering_letter_docs['em_covering_letter']->sc_document_status->document_path }}" target="_blank" rel="noopener">Uploaded Covering Letter</a>--}}
+                                                {{--@endif--}}
+                                            {{--</div>--}}
+                                            {{--<div class="mt-auto">--}}
+                                                {{--<button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>--}}
+                                            {{--</div>--}}
+                                        {{--</form>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+            {{--</div>            --}}
+        {{--</div>--}}
     </div>
     <!-- Modal -->
     <div class="modal modal-large fade" id="myModal" role="dialog">
@@ -583,7 +589,6 @@
             // });
 
             //cookies setting for tabs
-            $(".display_msg").delay("slow").slideUp("slow");
 
             var id = Cookies.get('sectionId');
             if (id != undefined) {
@@ -609,6 +614,7 @@
                 });
             }
             showUploadedFileName();
+            $(".display_msg").delay("slow").slideUp("slow");
 
             // $('#no_dues_certi_upload').validate({
             //     rules:{

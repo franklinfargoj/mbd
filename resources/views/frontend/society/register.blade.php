@@ -158,7 +158,15 @@
                                                     <span class="help-block">{{$errors->first('conf_society_password')}}</span>
                                                 </div>
                                                 </div>
-
+                                            <div class="col-sm-6 mhada-sign-up">
+                                                <div class="form-group m-form__group @if($errors->has('chairman_name')) has-error @endif">
+                                                    <label for="ChairmanMobileNumber" class="col-form-label">Chairman Name</label>
+                                                    <input id="ChairmanMobileNumber" class="form-control form-control--custom m-input" type="text"
+                                                           placeholder="" name="chairman_name"
+                                                           value="{{ old('chairman_name') }}">
+                                                    <span class="text-danger">{{$errors->first('chairman_name')}}</span>
+                                                </div>
+                                            </div>
                                             <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('secretary_name')) has-error @endif">
                                                     <label for="SecretaryName" class="col-form-label">Secretary Name</label>
@@ -168,15 +176,7 @@
                                                     <span class="help-block">{{$errors->first('secretary_name')}}</span>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 mhada-sign-up">
-                                                <div class="form-group m-form__group @if($errors->has('chairman_name')) has-error @endif">
-                                                    <label for="ChairmanMobileNumber" class="col-form-label">Chairman Name</label>
-                                                    <input id="ChairmanMobileNumber" class="form-control form-control--custom m-input" type="text"
-                                                           placeholder="" name="chairman_name"
-                                                           value="{{ old('chairman_name') }}">
-                                                    <span class="text-danger">{{$errors->first('chairman_name')}}</span>
-                                                </div>
-                                            </div>                                                                                       
+
                                             <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('society_architect_name')) has-error @endif">
                                                     <label for="ArchitectName" class="col-form-label">Architect Name <span class="star">*</span></label>

@@ -88,5 +88,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ChangeSomeFieldValuesInDatabase::class);
 
         $this->call(OcScrutinyQuestionMasterTable::class);
+
+        $this->call(NatureOfBuildingSeeder::class);
+        $this->call(ServiceChargeTableSeeder::class);
     }
 }

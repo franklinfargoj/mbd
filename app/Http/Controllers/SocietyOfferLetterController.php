@@ -324,7 +324,7 @@ class SocietyOfferLetterController extends Controller
         $ol_application_count = count(OlApplication::where('society_id', $society_details->id)->get());
         Session::put('ol_application_count', $ol_application_count);
 
-        $sc_application_count = count(SocietyConveyance::where('society_id', $society_details->id)->get());
+        $sc_application_count = count(scApplication::where('society_id', $society_details->id)->get());
         Session::put('sc_application_count', $sc_application_count);
 
         $sr_application_count = count(RenewalApplication::where('society_id', $society_details->id)->get());
