@@ -36,7 +36,7 @@
                         <div class="m-form__group row mhada-lease-margin">
                             @if(isset($field_names[$i]))
                                 <div class="col-sm-4 form-group">
-                                    <label class="col-form-label" for="{{ $field_names[$i] }}">@php $labels = implode(' ', explode('_', $field_names[$i])); echo ucwords($labels); @endphp:</label>
+                                    <label class="col-form-label" for="{{ $field_names[$i] }}">@php if($field_names[$i] == 'property_tax' || $field_names[$i] == 'water_bill' || $field_names[$i] == 'non_agricultural_tax' || $field_names[$i] == 'tax_paid_to_MHADA_or_BMC' || $field_names[$i] == 'service_charge'){ $rs = '(&#8377;)'; }else{ $rs = ''; } $prefix = $rs; $labels = implode(' ', explode('_', $field_names[$i])); echo ucwords($labels).$prefix; @endphp:</label>
                                     @if($field_names[$i] == 'society_address')
                                         @php echo $comm_func->form_fields($field_names[$i], 'textarea','' , '', $society_details->address, 'readonly') @endphp
                                         {{--<textarea id="society_address" name="society_address" class="form-control form-control--custom form-control--fixed-height m-input" readonly>{{ $society_details->address }}</textarea>--}}
@@ -52,6 +52,10 @@
                                         @endif
                                     @elseif($field_names[$i] == 'scheme_name')
                                         @php echo $comm_func->form_fields($field_names[$i], 'select', $master_tenant_type, 'name', $sc_application->sc_form_request->scheme_names->id, '', 'required') @endphp
+                                    @elseif($field_names[$i] == 'nature_of_building')
+                                        @php echo $comm_func->form_fields($field_names[$i], 'select', $building_nature, 'name', $sc_application->sc_form_request->nature_of_building, '', 'required') @endphp
+                                    @elseif($field_names[$i] == 'service_charge')
+                                        @php echo $comm_func->form_fields($field_names[$i], 'select', $service_charge_names, 'name', $sc_application->sc_form_request->service_charge, '', 'required') @endphp
                                     @else
                                         @php echo $comm_func->form_fields($field_names[$i], 'text', '', '', $sc_application->sc_form_request[$field_names[$i]]) @endphp
                                         {{--<input type="text" id="{{ $field_names[$i+1] }}" name="{{ $field_names[$i+1] }}" class="form-control form-control--custom m-input @if(strpos($field_names[$i+1], 'date') != null) m_datepicker @endif" @if($field_names[$i+1] == 'society_name' || $field_names[$i+1] == 'society_no') value="@if($field_names[$i+1] == 'society_name') {{ $society_details->name }} @else {{ $society_details->building_no }} @endif" readonly @endif>--}}
@@ -61,7 +65,7 @@
                             @endif
                             @if(isset($field_names[$i+1]))
                                 <div class="col-sm-4 offset-sm-1 form-group">
-                                    <label class="col-form-label" for="{{ $field_names[$i+1] }}">@php $labels = implode(' ', explode('_', $field_names[$i+1])); echo ucwords($labels); @endphp:</label>
+                                    <label class="col-form-label" for="{{ $field_names[$i+1] }}">@php if($field_names[$i+1] == 'property_tax' || $field_names[$i+1] == 'water_bill' || $field_names[$i+1] == 'non_agricultural_tax' || $field_names[$i+1] == 'tax_paid_to_MHADA_or_BMC' || $field_names[$i+1] == 'service_charge'){ $rs = '(&#8377;)'; }else{ $rs = ''; } $prefix = $rs; $labels = implode(' ', explode('_', $field_names[$i+1])); echo ucwords($labels).$prefix; @endphp:</label>
                                     @if($field_names[$i+1] == 'society_address')
                                         @php echo  $comm_func->form_fields($field_names[$i+1], 'textarea','' , '', $society_details->address, 'readonly') @endphp
                                         {{--<textarea id="society_address" name="society_address" class="form-control form-control--custom form-control--fixed-height m-input" readonly>{{ $society_details->address }}</textarea>--}}
@@ -77,6 +81,10 @@
                                         @endif
                                     @elseif($field_names[$i+1] == 'scheme_name')
                                         @php echo $comm_func->form_fields($field_names[$i+1], 'select', $master_tenant_type, 'name', $sc_application->sc_form_request->scheme_names->id, '', 'required') @endphp
+                                    @elseif($field_names[$i+1] == 'nature_of_building')
+                                        @php echo $comm_func->form_fields($field_names[$i+1], 'select', $building_nature, 'name', $sc_application->sc_form_request->nature_of_building, '', 'required') @endphp
+                                    @elseif($field_names[$i+1] == 'service_charge')
+                                        @php echo $comm_func->form_fields($field_names[$i+1], 'select', $service_charge_names, 'name', $sc_application->sc_form_request->service_charge, '', 'required') @endphp
                                     @else
                                         @php echo $comm_func->form_fields($field_names[$i+1], 'text', '', '', $sc_application->sc_form_request[$field_names[$i+1]]) @endphp
                                         {{--<input type="text" id="{{ $field_names[$i+1] }}" name="{{ $field_names[$i+1] }}" class="form-control form-control--custom m-input @if(strpos($field_names[$i+1], 'date') != null) m_datepicker @endif" @if($field_names[$i+1] == 'society_name' || $field_names[$i+1] == 'society_no') value="@if($field_names[$i+1] == 'society_name') {{ $society_details->name }} @else {{ $society_details->building_no }} @endif" readonly @endif>--}}

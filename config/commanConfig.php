@@ -376,11 +376,11 @@ return [
         // 'final' => 5
     ],
     'sc_excel_headers' => [
-        'Sr No', 'Tenament No', 'Tenament Name', 'Residential/Non-Residential'
+        'Sr No', 'Tenament No', 'Tenament Full Name', 'Residential/Non-Residential'
     ],
 
     'sc_excel_headers_em' => [
-        'Sr No', 'Tenament No', 'Tenament Name', 'Residential/Non-Residential', 'Carpet area of Each Tenement (Sq.Mtrs)', 'Cost of Construction of each tenement (In Rs.)', 'Premium of Land of Each Tenement (In Rs.)'
+        'Sr No', 'Tenament No', 'Tenament Full Name', 'Residential/Non-Residential', 'Carpet area of Each Tenement (Sq.Mtrs)', 'Cost of Construction of each tenement (In Rs.)', 'Premium of Land of Each Tenement (In Rs.)'
     ],
 
     'optional_docs_premium' => [
