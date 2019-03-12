@@ -202,7 +202,7 @@
                                        --}}
                                        <tr>
                                           <td>{{ $i }}.</td>
-                                          <td>{{ $each_question->question }}</td>
+                                          <td><p>{{ $each_question->question }}</p></td>
                                           <td>
                                              <label class="m-radio m-radio--primary">
                                              <input {{$disabled}} type="radio" name="answer[{{$i}}]"
@@ -223,6 +223,7 @@
                                           $checked = '';
                                           }
                                           @endphp
+
                                           <td>
                                              <label class="m-radio m-radio--primary">
                                              <input {{$disabled}} type="radio" name="answer[{{$i}}]"
@@ -237,7 +238,15 @@
                                              @else
                                              {{'Not Applicable'}};
                                              @endif
+                                             @if($each_question->is_upload == 1)
+                                                <div class="custom-file mt-3">
+                                                   <input class="custom-file-input" name="ee_office_note_oc" type="file" id="test-upload" required>
+                                                   <label class="custom-file-label" for="test-upload">Choose
+                                                file...</label>
+                                                </div>
+                                          @endif
                                           </td>
+               
                                        </tr>
                                        @php
                                        $i++;

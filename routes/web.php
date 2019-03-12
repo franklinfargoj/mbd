@@ -1213,6 +1213,7 @@ Route::get('/show_form_self_noc/{id}', 'SocietyNocController@show_form_self_noc'
 Route::get('/show_form_dev_noc/{id}', 'SocietyNocController@show_form_dev_noc')->name('show_form_dev_noc');
 Route::post('/save_noc_application_self', 'SocietyNocController@save_noc_application_self')->name('save_noc_application_self');
 Route::get('society_noc_preview/{id}','SocietyNocController@showNocApplication')->name('society_noc_preview');
+Route::get('show_noc_sign_application/{id}','SocietyNocController@displaySingedNOCApplication')->name('show_noc_sign_application');
 Route::get('society_noc_edit/{id}','SocietyNocController@editNocApplication')->name('society_noc_edit');
 Route::post('society_noc_update','SocietyNocController@updateNocApplication')->name('society_noc_update');
 Route::get('documents_upload_noc/{id}','SocietyNocController@displaySocietyDocuments')->name('documents_upload_noc');

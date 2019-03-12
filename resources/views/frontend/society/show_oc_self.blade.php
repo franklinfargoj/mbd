@@ -17,7 +17,7 @@
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="application_type_id">Layout:</label>
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layouts" name="layout_id" required>
+                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" data-live-search="true" id="layouts" name="layout_id" required>
                                 @foreach($layouts as $layout)
                                     <option value="{{ $layout['id'] }}">{{ $layout['layout_name'] }}</option>
                                 @endforeach
@@ -66,6 +66,18 @@
                             </select>
                             <span class="help-block">{{$errors->first('is_full_oc')}}</span>
 
+                        </div>
+                    </div>
+                     <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="noc_number">NOC Number:</label>
+                            <input type="text" id="noc_number" name="noc_number" class="form-control form-control--custom m-input" value="" required>
+                            <span class="help-block">{{$errors->first('name')}}</span>
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="m_datepicker">NOC Date:</label>
+                             <input type="text" id="m_datepicker" name="noc_date" data-date-end-date="+0d" class="form-control form-control--custom m-input m_datepicker" value="{{ (isset($data) && $data->request_form->date_of_meeting) ? date(config('commanConfig.dateFormat'), strtotime($data->request_form->date_of_meeting)) : '' }}" required>
+                            <span class="help-block">{{$errors->first('address')}}</span>
                         </div>
                     </div>
 

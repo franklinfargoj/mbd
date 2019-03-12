@@ -75,7 +75,7 @@ class SocietyNocController extends Controller
 
         if (isset($data) && $applicationCount == 0){
             return redirect()->route('society_noc_edit',encrypt($data->id));
-        }elseif($applicationCount > 0){
+        }elseif(isset($data) &&  $applicationCount > 0){
             return redirect()->route('society_noc_preview',encrypt($data->id));
         }else{
             return view('frontend.society.show_form_self_noc', compact('society_details', 'id', 'self_type', 'dev_type', 'ids', 'layouts'));  
@@ -943,5 +943,39 @@ class SocietyNocController extends Controller
         })->count();
 
         return $count;
+    }
+
+    public function displaySingedNOCApplication($applicationId){
+
+        $applicationId = decrypt($applicationId);
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $noc_application = NocApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->where('society_id', $society->id)->with(['request_form', 'applicationMasterLayout', 'nocApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        }])->first();
+        $layouts = MasterLayout::all();
+        $id = $noc_application->application_master_id;
+        $noc_applications = $noc_application;
+
+        $documents = NocSocietyDocumentsMaster::where('application_id', $noc_application->application_master_id)->with(['documents_uploaded' => function($q) use ($society,$applicationId){
+            $q->where('society_id', $society->id)->where('application_id',$applicationId)->get();
+        }])->get();
+
+        $optional_docs = $this->getOptionalDocument($noc_application->application_master_id);
+        $docs_uploaded_count = 0;
+        $docs_count = NocSocietyDocumentsMaster::where('application_id', $noc_application->application_master_id)->where('is_optional',0)->count();
+
+        foreach($documents as $documents_key => $documents_val){
+                if($documents_val->is_optional == 0 && count($documents_val->documents_uploaded) > 0){
+                    $docs_uploaded_count++;
+                }
+        }
+
+        $check_upload_avail = 0;
+        if($docs_uploaded_count >= $docs_count)
+        {
+            $check_upload_avail = 1;
+        }
+        $applicationCount = $this->getForwardedApplication();
+        return view('frontend.society.show_signed_noc_application', compact('noc_applications', 'noc_application', 'id' , 'check_upload_avail','applicationCount'));
     }
 }

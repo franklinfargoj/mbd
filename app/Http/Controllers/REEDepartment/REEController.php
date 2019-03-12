@@ -52,7 +52,7 @@ use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 use Mpdf\Mpdf;
 use App\LayoutUser;
-use App\Layout\ArchitectLayout;
+// use App\Layout\ArchitectLayout;
 
 
 class REEController extends Controller
