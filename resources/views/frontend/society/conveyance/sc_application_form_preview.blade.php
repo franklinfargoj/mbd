@@ -127,11 +127,33 @@
                                                {{--name="society_address" value="{{ $sc_application->societyApplication->address }}">--}}
                                     {{--</div>--}}
                                 {{--</div>--}}
+                            {{--<div style="margin-bottom: 5px;">--}}
+                                {{--<div style="font-size: 16px;">--}}
+                                    {{--<p style="margin-bottom: 10px;">११. संस्थेचा अधिकृत पत्ता</p>--}}
+                                    {{--<span style="font-weight: bold;"> &nbsp; {{ $sc_application->societyApplication->address }} &nbsp; </span>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
                             <div style="margin-bottom: 5px;">
-                                <div style="font-size: 16px;">
-                                    <p style="margin-bottom: 10px;">११. संस्थेचा अधिकृत पत्ता</p>
+                                <div style="width: 50%; float: left;">
+                                    <label  for="">११. संस्थेचा अधिकृत पत्ता:</label>
                                     <span style="font-weight: bold;"> &nbsp; {{ $sc_application->societyApplication->address }} &nbsp; </span>
                                 </div>
+                                <div style="width: 50%; float: left;">
+                                    <label  for="">१२. इमारतीचे स्वरूप:</label>
+                                    <span style="font-weight: bold;"> &nbsp; {{ $sc_application->sc_form_request->building_nature->name }} &nbsp; </span>
+                                </div>
+                                <div style="clear: both;"></div>
+                            </div>
+                            <div style="margin-bottom: 5px;">
+                                <div style="width: 50%; float: left;">
+                                    <label  for="">१३. म्हाडा किंवा बीएमसीला दिलेला कर:</label>
+                                    <span style="font-weight: bold;"> &nbsp; {{ $sc_application->sc_form_request->tax_paid_to_MHADA_or_BMC }} &nbsp; </span>
+                                </div>
+                                <div style="width: 50%; float: left;">
+                                    <label  for="">१४. सेवा शुल्क:</label>
+                                    <span style="font-weight: bold;"> &nbsp; {{ $sc_application->sc_form_request->service_charges->name }} &nbsp; </span>
+                                </div>
+                                <div style="clear: both;"></div>
                             </div>
                             {{--<div style="margin-bottom: 5px;"><br/>--}}
                                 {{--<span style="font-weight: bold;font-size: 1em">Bank Details :</span>--}}

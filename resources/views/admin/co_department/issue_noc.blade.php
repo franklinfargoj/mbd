@@ -51,18 +51,19 @@
             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                 <div class="">
                     <h3 class="section-title section-title--small">
-                        Approve NOC</h3>
+                        Remarks by CO</h3>
                 </div>
-                <div class="m-radio-inline">
+                    <input type="hidden" name="is_approved" value="1">
+                <!-- <div class="m-radio-inline">
                     <label class="m-radio m-radio--primary">
                         <input type="radio" name="is_approved" class="forward-application" value="1" checked="">
                         Approve NOC
                         <span></span>
                     </label>
-                </div>
+                </div> -->
                 <div class="remarks-suggestions">
                     <div class="mt-3">
-                        <label for="demarkation_comments">Remarks by CO</label>
+                        <!-- <label for="demarkation_comments"></label> -->
                         <textarea id="remark" rows="5" cols="30" class="form-control form-control--custom"
                             name="remark"></textarea>
                     </div>

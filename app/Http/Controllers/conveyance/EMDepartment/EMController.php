@@ -49,8 +49,8 @@ class EMController extends Controller
         $no_dues_certificate_docs_defined = config('commanConfig.documents.em_conveyance.no_dues_certificate');
         $society_list_defined = config('commanConfig.documents.em_conveyance.society_list');
         $bonafide_docs_defined = config('commanConfig.documents.em_conveyance.bonafide');
-        $covering_letter_docs_defined = config('commanConfig.documents.em_conveyance.covering_letter');
-        $documents = $this->conveyance_common->getDocumentIds(array_merge($no_dues_certificate_docs_defined, $society_list_defined, $bonafide_docs_defined, $covering_letter_docs_defined), $data->sc_application_master_id, $data->id);
+//        $covering_letter_docs_defined = config('commanConfig.documents.em_conveyance.covering_letter');
+        $documents = $this->conveyance_common->getDocumentIds(array_merge($no_dues_certificate_docs_defined, $society_list_defined, $bonafide_docs_defined/*, $covering_letter_docs_defined*/), $data->sc_application_master_id, $data->id);
 
         foreach($documents as $document){
             if(in_array($document->document_name, $no_dues_certificate_docs_defined) == 1){
@@ -77,14 +77,14 @@ class EMController extends Controller
                     $society_list_docs[$document->document_name]['sc_document_status'] = '';
                 }
             }
-            if(in_array($document->document_name, $covering_letter_docs_defined) == 1){
-                $covering_letter_docs[$document->document_name] = $document;
-                if($document->sc_document_status != null){
-                    $covering_letter_docs[$document->document_name]['sc_document_status'] = $document->sc_document_status;
-                }else{
-                    $covering_letter_docs[$document->document_name]['sc_document_status'] = '';
-                }
-            }
+//            if(in_array($document->document_name, $covering_letter_docs_defined) == 1){
+//                $covering_letter_docs[$document->document_name] = $document;
+//                if($document->sc_document_status != null){
+//                    $covering_letter_docs[$document->document_name]['sc_document_status'] = $document->sc_document_status;
+//                }else{
+//                    $covering_letter_docs[$document->document_name]['sc_document_status'] = '';
+//                }
+//            }
         }
 //        dd($bonafide_docs['bonafide_list']->sc_document_status->document_path);
 
@@ -132,6 +132,7 @@ class EMController extends Controller
 
                 $message = config('commanConfig.no_dues_certificate.redirect_message.upload');
                 $message_status = config('commanConfig.no_dues_certificate.redirect_message_status.upload');
+                return back()->with('success','No Dues Certificate uploaded successfully.');
             }
         }else{
             //pdf format no dues certificate
@@ -192,10 +193,10 @@ class EMController extends Controller
                 SocietyConveyanceDocumentStatus::insert($inputs);
                 $message = config('commanConfig.no_dues_certificate.redirect_message.draft_text');
                 $message_status = config('commanConfig.no_dues_certificate.redirect_message_status.draft_text');
+                return back()->with('success','No Dues Certificate generated successfully.');
             }
 
         }
-        return back()->with('success','No Dues Certificate uploaded successfully.');
         // return redirect()->route('em.scrutiny_remark',$id);
     }
 
@@ -454,16 +455,16 @@ class EMController extends Controller
                     }else{
                         
                         // return redirect()->route('em.scrutiny_remark')->with('error', "Excel file headers doesn't match")->withInput();
-                        return redirect()->back()->with('error', "Excel file headers doesn't match")->withInput();
+                        return redirect()->back()->with('error_list_of_allottees', "Excel file headers doesn't match")->withInput();
                     }
                 }else{
                     // return redirect()->route('em.scrutiny_remark')->with('error', "Excel file is empty.")->withInput();
-                    return redirect()->back()->with('error', "Excel file is empty.")->withInput();
+                    return redirect()->back()->with('error_list_of_allottees', "Excel file is empty.")->withInput();
                 }
             }
         }else{
             // return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
-            return redirect()->back()->withErrors('error', "Excel file headers doesn't match")->withInput();
+            return redirect()->back()->withErrors('error_list_of_allottees', "Excel file headers doesn't match")->withInput();
         }
     }
 

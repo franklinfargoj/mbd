@@ -143,14 +143,17 @@
                                                         {{--</div>--}}
                                                         {{--</div>--}}
                                                         <div class="mt-3 btn-list">
-                                                            @if(isset($sc_registrar_details['Sale Deed Agreement']))
-                                                            @if(!$sc_registrar_details['Sale Deed Agreement']!=null && 
-                                                            ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || 
-                                                            $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued')))
+                                                            {{--@if(isset($sc_registrar_details['Sale Deed Agreement']))--}}
+                                                            {{--@if(!$sc_registrar_details['Sale Deed Agreement']!=null && --}}
+                                                            {{--($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || --}}
+                                                            {{--$sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued')))--}}
+                                                                {{--<button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>--}}
+                                                            {{--@endif--}}
+                                                            {{--@else--}}
+                                                            {{--<button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>--}}
+                                                            {{--@endif--}}
+                                                            @if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease'))
                                                                 <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
-                                                            @endif
-                                                            @else
-                                                            <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
                                                             @endif
                                                             <a href="{{route('society_conveyance.index')}}" class="btn btn-secondary">Cancel</a>
                                                         </div>
@@ -266,13 +269,17 @@
                                                                     {{--</div>--}}
                                                                 {{--</div>--}}
                                                                 <div class="mt-3 btn-list">
-                                                                @if(isset($sc_registrar_details))
-                                                                @if(!(isset($sc_registrar_details['Lease Deed Agreement']) && ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued'))))
-                                                                    <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
-                                                                @endif
-                                                                @else
-                                                                <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
-                                                                @endif
+                                                                {{--@if(isset($sc_registrar_details))--}}
+                                                                {{--@if(!(isset($sc_registrar_details['Lease Deed Agreement']) && ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued'))))--}}
+                                                                    {{--<button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>--}}
+                                                                {{--@endif--}}
+                                                                {{--@else--}}
+                                                                {{--<button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>--}}
+                                                                {{--@endif--}}
+                                                                    @if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease'))
+{{--                                                                        @php dd(config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease')); @endphp--}}
+                                                                        <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
+                                                                    @endif
                                                                 <a href="{{route('society_conveyance.index')}}" class="btn btn-secondary">Cancel</a>
                                                             </div>
                                                         </div>

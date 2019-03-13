@@ -43,14 +43,22 @@ class SocietyTripatiteController extends Controller
         $society_details = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $ol_form_request_fields = new OlRequestForm;
 
+//        dd($ol_form_request_fields);
         foreach($ol_form_request_fields->getFillable() as $key => $value){
             if(in_array($value, config('commanConfig.tripartite_fields'))){
-                $form_fields[] = $value;
+
+                if($id == 9){
+                    if($value != 'developer_name'){
+                        $form_fields[] = $value;
+                    }
+                }
+                if($id == 20){
+                    $form_fields[] = $value;
+                }
             }
         }
         $layouts = MasterLayout::all();
         $comm_func = $this->CommonController;
-
         $data = OlApplication::where('user_id', auth()->user()->id)->where('application_master_id',$id)->with(['request_form', 'ol_application_master', 'applicationMasterLayout'])->orderBy('id','desc')->first();
 
         if (isset($data)){
@@ -125,7 +133,14 @@ class SocietyTripatiteController extends Controller
 
         foreach($ol_form_request_fields->getFillable() as $key => $value){
             if(in_array($value, config('commanConfig.tripartite_fields'))){
-                $form_fields[] = $value;
+                if($ol_applications->application_master_id == 9){
+                    if($value != 'developer_name'){
+                        $form_fields[] = $value;
+                    }
+                }
+                if($ol_applications->application_master_id == 20){
+                    $form_fields[] = $value;
+                }
                 $form_fields_values[$value] = $ol_applications->request_form->$value;
             }
         }
@@ -141,7 +156,7 @@ class SocietyTripatiteController extends Controller
         foreach($documents as $document){
             if($document->is_optional == '0'){
                 $documents_complusory++;
-                if(!empty($document->documents_uploaded)){
+                if(count($document->documents_uploaded) > 0){
                     $documents_uploaded_complusory++;
                 }
             }
@@ -215,7 +230,14 @@ class SocietyTripatiteController extends Controller
 
         foreach($ol_form_request_fields->getFillable() as $key => $value){
             if(in_array($value, config('commanConfig.tripartite_fields'))){
-                $form_fields[] = $value;
+                if($id == 9){
+                    if($value != 'developer_name'){
+                        $form_fields[] = $value;
+                    }
+                }
+                if($id == 20){
+                    $form_fields[] = $value;
+                }
             }
         }
         $layouts = MasterLayout::all();
@@ -300,7 +322,7 @@ class SocietyTripatiteController extends Controller
         foreach($documents as $document){
             if($document->is_optional == '0'){
                 $documents_complusory++;
-                if(!empty($document->documents_uploaded)){
+                if(count($document->documents_uploaded) > 0){
                     $documents_uploaded_complusory++;
                 }
             }
@@ -325,7 +347,6 @@ class SocietyTripatiteController extends Controller
         $documents = OlSocietyDocumentsMaster::where('application_id', $ol_applications->application_master_id)->where('is_admin', 0)->with(['documents_uploaded' => function($q) use ($society){
             $q->where('society_id', $society->id)->get();
         }])->get();
-//        dd($documents);
 
         $document_ids = array_pluck($documents, 'id');
         $documents_uploaded = OlSocietyDocumentsStatus::with('document_name')->where('society_id', $society->id)->whereIn('document_id', $document_ids)->get();
@@ -367,14 +388,19 @@ class SocietyTripatiteController extends Controller
         
         $documents_complusory = 0;
         $documents_uploaded_complusory = 0;
+
+//        dd($documents);
         foreach($documents as $document){
+
             if($document->is_optional == '0'){
                 $documents_complusory++;
-                if(!empty($document->documents_uploaded)){
+//                dd(!empty($document->documents_uploaded));
+                if(count($document->documents_uploaded) > 0 ){
                     $documents_uploaded_complusory++;
                 }
             }
         }
+//        dd($documents_uploaded_complusory);
         return view('frontend.society.tripatite.show_society_documents', compact('ol_applications', 'documents', 'documents_uploaded', 'documents_comment', 'id', 'society', 'society_details', 'show_comment_tab', 'documents_uploaded_complusory', 'documents_complusory'));
 
     }

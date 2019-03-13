@@ -94,12 +94,13 @@ return [
     ],*/
 
     'tripartite_fields' => [
-        'offer_letter_number',
-        'offer_letter_date',
         'revised_offer_letter_number',
         'revised_offer_letter_date',
+        'offer_letter_number',
+        'offer_letter_date',
         'noc_for_iod_purpose_number',
-        'noc_for_iod_purpose_date'
+        'noc_for_iod_purpose_date',
+        'developer_name'
     ],
 
 //    'society_details_fields' => [
@@ -376,11 +377,11 @@ return [
         // 'final' => 5
     ],
     'sc_excel_headers' => [
-        'Sr No', 'Tenament No', 'Tenament Name', 'Residential/Non-Residential'
+        'Sr No', 'Tenament No', 'Tenament Full Name', 'Residential/Non-Residential'
     ],
 
     'sc_excel_headers_em' => [
-        'Sr No', 'Tenament No', 'Tenament Name', 'Residential/Non-Residential', 'Carpet area of Each Tenement (Sq.Mtrs)', 'Cost of Construction of each tenement (In Rs.)', 'Premium of Land of Each Tenement (In Rs.)'
+        'Sr No', 'Tenament No', 'Tenament Full Name', 'Residential/Non-Residential', 'Carpet area of Each Tenement (Sq.Mtrs)', 'Cost of Construction of each tenement (In Rs.)', 'Premium of Land of Each Tenement (In Rs.)'
     ],
 
     'optional_docs_premium' => [

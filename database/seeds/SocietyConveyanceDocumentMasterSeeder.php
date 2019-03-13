@@ -44,7 +44,7 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
                 'is_optional'       => '0'
             ],
             [
-                'document_name'       => 'पावती',
+                'document_name'       => 'No Dues Certificate',
                 'application_type_id' => $conveyanceId,
                 'society_flag'        => '1',
                 'language_id'         => $mLanguage,
