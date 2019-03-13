@@ -650,10 +650,32 @@ class SocietyTripatiteController extends Controller
             $q->where('society_flag', '1')->orderBy('id', 'desc');
         }])->first();
         $tripartite_letter1 = null;
+        $tripartite_letter2 = null;
         $tripartite_agreement = $this->CommonController->get_tripartite_agreements($ol_applications->id, config('commanConfig.tripartite_agreements.drafted'));
 
 //        dd($tripartite_agreement);
-        return view('frontend.society.tripatite.show_tripartite_agreement', compact('tripartite_letter1','society', 'ol_applications', 'tripartite_agreement', 'id'));
+        return view('frontend.society.tripatite.show_tripartite_agreement', compact('tripartite_letter1','tripartite_letter2','society', 'ol_applications', 'tripartite_agreement', 'id'));
+    }
+
+    /**
+     * Shows stamped and signed tripartite letter for execution and registration.
+     * Author: Amar Prajapati
+     * @param  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show_tripartite_letter2($id){
+        $id = decrypt($id);
+        $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
+        $ol_applications = OlApplication::where('society_id', $society->id)->where('id', $id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        }])->first();
+
+        $tripartite_letter2 = $this->CommonController->get_tripartite_letter1($ol_applications->id, config('commanConfig.tripartite_agreements.letter_2_draft'));
+//        dd($tripartite_letter1);
+
+        $tripartite_letter1 = null;
+        $tripartite_agreement = null;
+        return view('frontend.society.tripatite.show_tripartite_agreement', compact('tripartite_letter1','tripartite_letter2','society', 'ol_applications', 'tripartite_agreement', 'id'));
     }
 
     /**
@@ -671,10 +693,11 @@ class SocietyTripatiteController extends Controller
 
         $tripartite_letter1 = $this->CommonController->get_tripartite_letter1($ol_applications->id, config('commanConfig.tripartite_agreements.letter_1_draft'));
 //        dd($tripartite_letter1);
-
+        $tripartite_letter2 = null;
         $tripartite_agreement = null;
-        return view('frontend.society.tripatite.show_tripartite_agreement', compact('tripartite_letter1','society', 'ol_applications', 'tripartite_agreement', 'id'));
+        return view('frontend.society.tripatite.show_tripartite_agreement', compact('tripartite_letter1','tripartite_letter2','society', 'ol_applications', 'tripartite_agreement', 'id'));
     }
+
 
     /**
      * Uploads stamped tripartite agreement.
