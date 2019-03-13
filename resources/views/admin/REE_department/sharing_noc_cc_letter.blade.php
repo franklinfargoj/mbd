@@ -70,7 +70,7 @@
                 </p>
                 <p lang="en-GB" align="justify">
                     One Set of plan approved by M.C.G.M. duly certified by the Architect should
-                    be submitted to this office, where in MHADA share of <input class="letter-form-input" type="text" id="" name="area" value=""> (Including fungible) &amp; proportionate car
+                    be submitted to this office, where in MHADA share of <strong><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m</u><sup>2</sup></strong> (Including fungible) &amp; proportionate car
                     parking &amp; amenities shall be provided for MHADA share tenements.
                 </p>
                 <p lang="en-GB">

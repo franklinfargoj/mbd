@@ -21,10 +21,11 @@
                 <div style="clear: both;"></div>
                 <p style="display: block; font-weight: bold; float: left;width: 10%;">Ref :- </p>
                 <div style="width: 90%;float: left;margin-top: 0px;margin-left: 0;">
-                    1. Offer Letter No. <span style="width: 200px; border-bottom: 1px solid #000;">{{ $noc_application->request_form->offer_letter_number }}</span> dated <span style="width: 200px; border-bottom: 1px solid #000;">{{date('j F Y',strtotime($noc_application->request_form->offer_letter_date))}}</span>
-                    <p>2. IOD Hearing No. <span style="width: 200px; border-bottom: 1px solid #000;">{{ $noc_application->request_form->noc_no }}</span> dated <span style="width: 200px; border-bottom: 1px solid #000;">{{date('j F Y',strtotime($noc_application->request_form->noc_date))}}</span></p>
-                
-                    <p>3. Tripartite Agreement Dated 
+                    1. Offer Letter No. <span style="width: 200px; border-bottom: 1px solid #000;">{{ $noc_application->request_form->offer_letter_number }}</span> Dated <span style="width: 200px; border-bottom: 1px solid #000;">{{date('j F Y',strtotime($noc_application->request_form->offer_letter_date))}}</span>
+                    <p>2. IOD Bearing No. <span style="width: 200px; border-bottom: 1px solid #000;">{{ $noc_application->request_form->noc_no }}</span> Dated <span style="width: 200px; border-bottom: 1px solid #000;">{{date('j F Y',strtotime($noc_application->request_form->noc_date))}}</span></p>
+                    <p>3. MCGM IOD No. <span style="width: 200px; border-bottom: 1px solid #000;">{{ $noc_application->request_form->mcgm_iod_number }}</span> Dated <span style="width: 200px; border-bottom: 1px solid #000;">{{date('j F Y',strtotime($noc_application->request_form->mcgm_iod_date))}}</span></p>
+
+                    <p>4. Tripartite Agreement Dated
                         <span style="width: 200px; border-bottom: 1px solid #000;">{{date('j F Y',strtotime($noc_application->request_form->tripartite_agreement_date))}}</span>
                     </p>
                 </div>
