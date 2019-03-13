@@ -1317,6 +1317,8 @@ Route::post('/scrutiny-verification-oc', 'EEDepartment\EEController@oCScrutinyVe
 Route::post('upload_ee_note_oc','EEDepartment\EEController@uploadOfficeNoteOcEE')->name('ee.upload_office-note-oc');
 Route::get('ee-forward-application-oc/{id}','EEDepartment\EEController@forwardApplicationOcEE')->name('ee-forward-application-oc');
 Route::post('ee_forward_oc_application_data','EEDepartment\EEController@sendForwardOcApplication')->name('ee.forward_oc_application_data');
+Route::post('upload_oc_scrutiny_documents','EEDepartment\EEController@uploadOCScrutinyDocuments')->name('ee.upload_oc_scrutiny_documents');
+Route::post('delete_oc_note','EEDepartment\EEController@deleteOCNote')->name('ee.delete_oc_note');
 
 // EM Routes consent for OC
 

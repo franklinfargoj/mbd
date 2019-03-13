@@ -26,6 +26,7 @@ use App\Role;
 use App\SocietyOfferLetter;
 use App\SocietyDetail;
 use App\MasterBuilding;
+use App\OCEENote;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -237,6 +238,8 @@ class EEController extends Controller
 
         // Get Application last Status
         // dd($arrData);*/
+        $arrData['eeNote'] = OCEENote::where('application_id',$application_id)
+        ->orderBy('id','DESC')->get();
         $arrData['get_last_status'] = OcApplicationStatusLog::where([
                 'application_id' =>  $application_id,
                 'user_id' => Auth::user()->id,
@@ -259,7 +262,8 @@ class EEController extends Controller
                 'user_id' => Auth::user()->id,
                 'question_id' => isset($request->question_id[$key]) ? $request->question_id[$key] : NULL,
                 'answer' => isset($request->answer[$key]) ? $request->answer[$key] : NULL,
-                'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL
+                'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL,
+                'document_path' => isset($request->document_path[$key]) ? $request->document_path[$key] : NULL
             ];
         }
         // insert into ol_consent_verification_details table
@@ -280,14 +284,19 @@ class EEController extends Controller
 
             $file = $request->file('ee_office_note_oc');
             $extension = $file->getClientOriginalExtension();
-            $file_name = time().'ee_office_note_oc.'.$extension;
+            $file_name = $file->getClientOriginalName();
             $folder_name = "ee_office_note_oc";
             $path = $folder_name."/".$file_name;
 
             if($extension == "pdf") {
 
                 $fileUpload = $this->comman->ftpFileUpload($folder_name,$request->file('ee_office_note_oc'),$file_name);
-
+                $data[] = [
+                'application_id' => $applicationId,
+                'user_id' => Auth::user()->id,
+                'document_path' => $path
+                ];
+                OCEENote::insert($data);
                 OcApplication::where('id',$applicationId)->update(["ee_office_note_oc" => $path]);
 
                 return back()->with('success', 'Office Note has been uploaded successfully');
@@ -1076,5 +1085,53 @@ class EEController extends Controller
 
         $pdf->WriteHTML($header_file.$view.$footer_file);  
         $pdf->Output('variation_report.pdf', 'D');
+    }
+
+    public function uploadOCScrutinyDocuments(Request $request){
+        // dd("hi");
+        $file = $request->file('file');
+        $applicationId = $request->application_id;
+        $questionId = $request->question_id;
+
+        if ($file->getClientMimeType() == 'application/pdf') {
+
+            $extension = $request->file('file')->getClientOriginalExtension();
+            $folderName = 'OC_Scrunity_Documents';
+            $fileName = time().'_oc_scrutiny_'.$applicationId.'.'.$extension;
+            $path = $folderName.'/'.$fileName;
+
+            $this->comman->ftpFileUpload($folderName,$file,$fileName);
+
+            $data = [
+                'application_id' => $applicationId,
+                'user_id' => Auth::user()->id,
+                'question_id' => $questionId,
+                'document_path' => $path
+            ];
+            OcEEScrutinyAnswer::updateOrCreate(['application_id'=>$applicationId, 'question_id' => $questionId],$data);
+
+            $status = 'success'; 
+            $data =  config('commanConfig.storage_server').'/'.$path;
+            $filePath =  $path;
+        }else{
+             $status = 'error';  
+             $data = ''; 
+             $filePath = '';
+        }
+        $response['data'] = $data; 
+        $response['filePath'] = $filePath; 
+        $response['status'] = $status; 
+        return response(json_encode($response), 200); 
+    }
+
+    public function deleteOCNote(Request $request){
+        if (isset($request->oldFile) && isset($request->id)){
+            Storage::disk('ftp')->delete($request->oldFile);
+            OCEENote::where('id',$request->id)->delete(); 
+            $status = 'success';           
+        }else{
+             $status = 'error';
+        }
+        return $status;   
     }
 }

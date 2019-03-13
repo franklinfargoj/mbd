@@ -2,7 +2,22 @@
 @section('actions')
 @include('admin.ee_department.action_oc',compact('oc_application'))
 @endsection
+@section('css')
+<style>
+    .loader {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url('/img/loading-spinner-blue.gif') 50% 50% no-repeat rgb(249,249,249);
+    opacity: .8;
+}
+</style>
+@endsection
 @section('content')
+<div class="loader" style="display:none;"></div>
 @if(session()->has('success'))
 <div class="alert alert-success display_msg">
    {{ session()->get('success') }}
@@ -174,7 +189,7 @@
                                        $i = 1;
                                        @endphp
                                        <input type="hidden" name="society_id" value="{{ $arrData['society_detail']->id }}">
-                                       <input type="hidden" name="application_id" value="{{ $oc_application->id }}">
+                                       <input type="hidden" name="application_id" id="application_id" value="{{ $oc_application->id }}">
                                        @foreach($arrData['scrutiny_questions_oc'] as
                                        $each_question)
                                        <input type="hidden" name="question_id[{{$i}}]" value="{{ $each_question->id }}">
@@ -237,12 +252,26 @@
                                              name="remark[{{$i}}]" id="remark-one">{{ isset($arrData['scrutiny_answers_to_questions'][$each_question->id]) ? $arrData['scrutiny_answers_to_questions'][$each_question->id]['remark'] : '' }}</textarea>
                                              @else
                                              {{'Not Applicable'}};
-                                             @endif
+                                             @endif 
                                              @if($each_question->is_upload == 1)
+
+                                             <input type="hidden" id="question_id" value="{{ isset($each_question) ? $each_question->id : '' }}">
                                                 <div class="custom-file mt-3">
-                                                   <input class="custom-file-input" name="ee_office_note_oc" type="file" id="test-upload" required>
-                                                   <label class="custom-file-label" for="test-upload">Choose
+                                                   <input class="custom-file-input file-upload" type="file" id="test-upload_{{$each_question->id}}" data-index = "{{$each_question->id}}" {{(isset($arrData['scrutiny_answers_to_questions'][$each_question->id]['document_path'])) ? '' : 'required' }}>
+                                                   <label class="custom-file-label" for="test-upload_{{$each_question->id}}">Choose
                                                 file...</label>
+                                                <input type="hidden" id="document_{{$each_question->id}}" name="document_path[{{$i}}]" value="{{isset($arrData['scrutiny_answers_to_questions'][$each_question->id]['document_path']) ? isset($arrData['scrutiny_answers_to_questions'][$each_question->id]['document_path']) : '' }}"> 
+                                                @php
+                                                if(isset($arrData['scrutiny_answers_to_questions'][$each_question->id]['document_path'])){
+                                                   $displayFile = "display:block";
+                                                }else{
+                                                   $displayFile = "display:none";
+                                                }
+
+                                                @endphp
+                                                <span class="text-danger file_error_{{$each_question->id}}"></span>
+                                                 <a target="_blank" class="btn-link" id="file_{{$each_question->id}}" href="{{isset($arrData['scrutiny_answers_to_questions'][$each_question->id]['document_path']) ? config('commanConfig.storage_server').'/'.$arrData['scrutiny_answers_to_questions'][$each_question->id]['document_path'] : ''}}" style="{{$displayFile}}" download >Download</a>
+                                                
                                                 </div>
                                           @endif
                                           </td>
@@ -286,17 +315,15 @@
                   <div class="portlet-body">
                      <div class="m-portlet__body m-portlet__body--table">
                         <div class="m-subheader" style="padding: 0;">
-                           <div class="d-flex align-items-center justify-content-center">
+                           <div class="d-flex">
                               <h3 class="section-title">
                                  Note
                               </h3>
                            </div>
                         </div>
                         <div class="m-section__content mb-0 table-responsive">
-                           <div class="container">
-                              <div class="row">
-                                 @if(isset($oc_application->ee_office_note_oc) && !empty($oc_application->ee_office_note_oc))
-                                 <div class="col-sm-6">
+                                 
+                                 <!-- <div class="col-sm-6">
                                     <div class="d-flex flex-column h-100 two-cols">
                                        <h5>Download Note</h5>
                                        <div class="mt-auto">
@@ -306,8 +333,7 @@
                                           </a>
                                        </div>
                                     </div>
-                                 </div>
-                                 @else
+                                 </div> -->
                                  <div class="col-sm-6" style="{{ $display }}">
                                     <div class="d-flex flex-column h-100 two-cols">
                                        <h5>Upload Note</h5>
@@ -330,9 +356,54 @@
                                        </form>
                                     </div>
                                  </div>
-                                 @endif
+                        </div>
+                        @if(isset($arrData['eeNote']) && count($arrData['eeNote']) > 0)
+                        <div class="m-section__content mb-0 table-responsive" style="margin-top: 30px">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="d-flex flex-column h-100 two-cols">
+                                            <h5>Download EE Note</h5>
+                                               
+                                                    <div class="table-responsive">
+                                                    <table class="mt-2 table"> 
+                                                    <tbody>
+
+                                                    @foreach($arrData['eeNote'] as $note)  
+                                                        <tr>
+                                                            <td>                                                                    @php
+                                                        if($note->document_name){
+                                                            $fileName = explode(".",$note->document_name)[0]; 
+                                                        }elseif($note->document_path){
+                                                            $fileName = explode(".",explode('/',$note->document_path)[1])[0];
+                                                        }
+                                                        @endphp 
+
+                                                        {{ isset($fileName) ? $fileName : ''}} 
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <a class="btn-link" download href="{{ config('commanConfig.storage_server').'/'.$note->document_path}} " target="_blank" download>
+                                                        Download </a> 
+                                                            </td>
+                                                            <td class="text-center" style="{{$style}}">
+                                                                <i class="fa fa-close icon2 d-icon hide-print" id="{{ isset($note->id) ? $note->id : '' }}" onclick="removeDocuments(this.id)"></i>
+                                                                <input type="hidden" name= "oldFile" id="oldFile_{{$note->id}}" value="{{ isset($note->document_path) ? $note->document_path : '' }}"> 
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                    </tbody>    
+                                                    </table>
+
+                                                @elseif(isset($arrData['get_last_status']) && ($arrData['get_last_status']->status_id ==
+            config('commanConfig.applicationStatus.forwarded')))
+                                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                                    * Note : EE note not available. </span>
+                                                @endif
+                                        </div>
+                                    </div>
+                                </div>
                               </div>
-                           </div>
+                              </div>
                         </div>
                      </div>
                   </div>
@@ -427,6 +498,74 @@
            return false;
        }
    });
+
+   $(".file-upload").change(function(){
+      var questionId = $(this).attr('data-index');
+      var myfile = $(this).val();
+      console.log(myfile);
+      var ext = myfile.split('.').pop();
+      if (ext == "pdf"){
+          $(".loader").show();
+          var fileData = $(this).prop('files')[0];
+          var applicationId = $("#application_id").val();
+          
+          var form_data = new FormData();
+          form_data.append('file', fileData);  
+          form_data.append('application_id', applicationId);  
+          form_data.append('question_id', questionId);  
+          form_data.append('_token', document.getElementsByName("_token")[0].value);
+
+          $.ajax({
+              url: "/upload_oc_scrutiny_documents", // point to server-side PHP script
+              data: form_data,
+              type: 'POST',
+              contentType: false, // The content type used when sending data to the server.
+              cache: false, // To unable request pages to be cached
+              processData: false,
+              success: function(result) {
+               var  res = JSON.parse(result);
+               console.log(res);
+               if (res.status == 'success'){
+                  $(".file_error_"+questionId).text("");
+                  $("#file_"+questionId).css("display","block")
+                  $("#file_"+questionId).attr("href", res.data);
+                  $("#document_"+questionId).val(res.filePath);
+               }
+                  $(".loader").hide();
+                  // if(data == 'success')
+                      // $("#file_error_"+id).css("display","none");
+              }
+          });
+      }else{
+         $(".file_error_"+questionId).text("Invalid type of file uploaded (only pdf allowed).");
+      }
+   });
+
+   function removeDocuments(id) {
+     
+        var oldFile = $("#oldFile_"+id).val();
+        var form_data = new FormData();
+        form_data.append('id', id);
+        form_data.append('oldFile', oldFile);
+        form_data.append('_token', document.getElementsByName("_token")[0].value);
+        $(".loader").show();
+   
+            $.ajax({
+                url: "/delete_oc_note",
+                data: form_data,
+                type: 'POST',
+                contentType: false,
+                cache: false, 
+                processData: false,
+                success: function(data) {
+                    console.log(data);
+                    $(".loader").hide();
+                    if (data == 'success'){
+                        location.reload();
+                    }
+                }
+            })        
+    }
    
 </script>
 @endsection
