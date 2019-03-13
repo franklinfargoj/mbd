@@ -182,6 +182,8 @@ $disabled=isset($disabled)?$disabled:0;
     @if($ol_application->current_phase == 1 || $ol_application->current_phase == 2)
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body" style="padding-right: 0;">
+
+            @if(!($ol_application->current_phase == 2))
             @if(session()->get('role_name')==config('commanConfig.ree_junior'))
             <h3 class="section-title section-title--small mb-0">Letter For Stamp Duty:</h3>
                 <div class=" row-list">
@@ -193,6 +195,7 @@ $disabled=isset($disabled)?$disabled:0;
                         </div>
                     </div>
                 </div>
+            @endif
             @endif
             <div class="w-100 row-list">
                 <div class="">
@@ -254,6 +257,7 @@ $disabled=isset($disabled)?$disabled:0;
     @if($ol_application->current_status_id == config('commanConfig.applicationStatus.draft_tripartite_agreement'))
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body" style="padding-right: 0;">
+                @if(!($ol_application->current_phase == 2))
                 @if(session()->get('role_name')==config('commanConfig.ree_junior'))
                     <h3 class="section-title section-title--small mb-0">Letter for Execution and Registartion of Agreement:</h3>
                     <div class=" row-list">
@@ -265,6 +269,7 @@ $disabled=isset($disabled)?$disabled:0;
                             </div>
                         </div>
                     </div>
+                @endif
                 @endif
                 <div class="w-100 row-list">
                     <div class="">
@@ -287,7 +292,9 @@ $disabled=isset($disabled)?$disabled:0;
                                 </div>
                             </div>
 
-                                <div class="col-sm-6 border-left">
+                            @if(!($ol_application->current_phase == 2))
+
+                            <div class="col-sm-6 border-left">
                                     <div class="d-flex flex-column h-100">
                                         <h5>Upload Signed & Scanned Letter For Execution and Registartion</h5>
                                         <form action="{{route('upload_signed_tripartite_letter2')}}" method="post"
@@ -311,7 +318,7 @@ $disabled=isset($disabled)?$disabled:0;
                                         </form>
                                     </div>
                                 </div>
-                            {{--@endif--}}
+                            @endif
                         </div>
                     </div>
                 </div>

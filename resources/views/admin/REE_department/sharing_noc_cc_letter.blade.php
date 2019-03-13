@@ -59,19 +59,18 @@
                 <p lang="en-GB" align="justify">
                     The Applicant has complied all formalities for obtaining Consent letter for
                     grant of Commencement Certificate. There is no objection to issue
-                    Commencement Certificate for the proposed work on plot bearing CTS No. 1070
-                    (Pt.) at village-Mulund, Mumbai -400 081 from M.H.&amp; A.D. Board's side
+                    Commencement Certificate for the proposed work on plot bearing <span style="font-weight: bold;">{{($model->eeApplicationSociety->address) ? $model->eeApplicationSociety->address : ''}}</span> from M.H.&amp; A.D. Board's side
                     regarding the proposal submitted by them on plot armaturing 1369.42 m2
                     (i.e. 1001.11 m2 as per lease deed + 368.31 m2 additional land in form of
                     Tit Bit) as per demarcation plan.
                 </p>
                 <p lang="en-GB" align="justify">
                     Now, by this letter Commencement Certificate may be permitted as per the
-                    plan approved by your office under No. CE/5282/BPES/AT, dated 18.02.2016.
+                    plan approved by your office under MCGM IOD Number. <span style="font-weight: bold;">{{($model->request_form->mcgm_iod_number ?$model->request_form->mcgm_iod_number:'')}}</span>, Dated <span style="font-weight: bold;">{{($model->request_form->mcgm_iod_date ? date('d-m-Y',strtotime($model->request_form->mcgm_iod_date)) : '')}}.</span>
                 </p>
                 <p lang="en-GB" align="justify">
                     One Set of plan approved by M.C.G.M. duly certified by the Architect should
-                be submitted to this office, where in MHADA share of    <strong>460.38 m2</strong> (Including fungible) &amp; proportionate car
+                    be submitted to this office, where in MHADA share of <input class="letter-form-input" type="text" id="" name="area" value=""> (Including fungible) &amp; proportionate car
                     parking &amp; amenities shall be provided for MHADA share tenements.
                 </p>
                 <p lang="en-GB">
