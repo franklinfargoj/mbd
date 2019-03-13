@@ -498,7 +498,18 @@ class ReePermissionSeeder extends Seeder
                 'name'=>'ree.noc_variation_report',
                 'display_name'=>'noc variation report',
                 'description'=>'noc variation report'
-            ]
+            ],
+            [
+                'name'=>'saveTripartiteLetterForStampDuty',
+                'display_name'=>'saveTripartiteLetterForStampDuty',
+                'description'=>'saveTripartiteLetterForStampDuty'
+            ],
+            [
+                'name'=>'upload_signed_tripartite_letter1',
+                'display_name'=>'upload_signed_tripartite_letter1',
+                'description'=>'upload_signed_tripartite_letter1'
+            ],
+
         ];
 
         // Role

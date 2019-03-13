@@ -818,6 +818,11 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
         Route::post('/setTripartiteRemark','Tripartite\TripartiteController@setTripartiteRemark')->name('tripartite.setTripartiteRemark');
         Route::get('tripartite_forward_application/{application_id}','Tripartite\TripartiteController@forward_application')->name('tripartite.forward_application');
         Route::post('tripartite_forward_application','Tripartite\TripartiteController@saveForwardApplication')->name('tripartite.post_forward_application');
+
+        Route::post('/saveTripartiteLetterForStampDuty','Tripartite\TripartiteController@saveTripartiteLetterForStampDuty')->name('saveTripartiteLetterForStampDuty');
+        Route::post('/upload_signed_tripartite_letter1','Tripartite\TripartiteController@upload_signed_tripartite_letter1')->name('upload_signed_tripartite_letter1');
+
+
     });
     //End tripartite
     //Society Renewal

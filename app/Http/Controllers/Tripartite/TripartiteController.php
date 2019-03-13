@@ -294,6 +294,115 @@ class TripartiteController extends Controller
         }
     }
 
+
+    public function saveTripartiteLetterForStampDuty(Request $request)
+    {
+        $id = $request->letterapplicationId;
+        $ol_application = $this->comman->getOlApplication($id);
+        $content = str_replace('_', "", $_POST['ckeditorTextletter1']);
+
+        $pdf_folder_name = 'tripartite_letter_for_stamp_duty';
+        $header_file = '';
+        $footer_file = '';
+//        $header_file = view('admin.REE_department.offer_letter_header');
+//        $footer_file = view('admin.REE_department.offer_letter_footer');
+
+        $pdf = new Mpdf([
+            'default_font_size' => 9,
+            'default_font' => 'Times New Roman',
+        ]);
+        $pdf->autoScriptToLang = true;
+        $pdf->autoLangToFont = true;
+        $pdf->setAutoBottomMargin = 'stretch';
+        $pdf->setAutoTopMargin = 'stretch';
+        $pdf->SetHTMLHeader($header_file);
+        $pdf->SetHTMLFooter($footer_file);
+        $pdf->WriteHTML($content);
+        $fileName = 'tripartite_letter_for_stamp_duty' . $ol_application->application_no . '.pdf';
+        $filePath = $pdf_folder_name . "/" . $fileName;
+
+        if (!(Storage::disk('ftp')->has($pdf_folder_name))) {
+            Storage::disk('ftp')->makeDirectory($pdf_folder_name, $mode = 0777, true, true);
+        }
+        Storage::disk('ftp')->put($filePath, $pdf->output($fileName, 'S'));
+        //$file = $pdf->output();
+
+        $text_folder_name = 'tripartite_text_letter_for_stamp_duty';
+
+        if (!(Storage::disk('ftp')->has($text_folder_name))) {
+            Storage::disk('ftp')->makeDirectory($text_folder_name, $mode = 0777, true, true);
+        }
+        $file_nm = "tripartite_text_letter_for_stamp_duty_" . $ol_application->application_no . '.txt';
+        $filePath1 = $text_folder_name . "/" . $file_nm;
+        Storage::disk('ftp')->put($filePath1, $content);
+        $this->set_tripartite_letter1($ol_application, config('commanConfig.tripartite_agreements.letter_1_text'), $filePath1);
+        $this->set_tripartite_letter1($ol_application, config('commanConfig.tripartite_agreements.letter_1_draft'), $filePath, $this->get_document_status_by_name('draft'));
+
+        if ((session()->get('role_name') == config('commanConfig.ree_junior')) && $this->get_tripartite_letter1($ol_application->id, config('commanConfig.tripartite_agreements.letter_1_draft')) != null) {
+            return back()->with('success', 'Letter for stamp duty generated successfully.');
+        }
+    }
+
+    public function get_tripartite_letter1($ol_application_id, $agreement_type)
+    {
+        $ol_application = $this->comman->getOlApplication($ol_application_id);
+        $document_type_id = $ol_application->application_master_id;
+        $agreement_type = $agreement_type;
+        $OlSocietyDocumentsMaster = OlSocietyDocumentsMaster::where(['application_id' => $document_type_id, 'name' => $agreement_type])->first();
+        if ($OlSocietyDocumentsMaster) {
+            $documents_id = $OlSocietyDocumentsMaster->id;
+            return OlSocietyDocumentsStatus::where(['application_id'=>$ol_application_id ,'society_id' => $ol_application->society_id, 'document_id' => $OlSocietyDocumentsMaster->id])->orderBy('id', 'desc')->first();
+        }
+        return null;
+    }
+
+    public function set_tripartite_letter1($ol_application, $agreement_type, $path, $status_id = 0)
+    {
+        $document_type_id = $ol_application->application_master_id;
+        $agreement_type = $agreement_type;
+        $OlSocietyDocumentsMaster = OlSocietyDocumentsMaster::where(['application_id' => $document_type_id, 'name' => $agreement_type])->first();
+        if ($OlSocietyDocumentsMaster) {
+            $document_type_id = $ol_application->application_master_id;
+            $agreement_type = $agreement_type;
+
+            $OlSocietyDocumentsStatus = new OlSocietyDocumentsStatus;
+            $OlSocietyDocumentsStatus->application_id = $ol_application->id;
+            $OlSocietyDocumentsStatus->society_id = $ol_application->society_id;
+            $OlSocietyDocumentsStatus->document_id = $OlSocietyDocumentsMaster->id;
+            $OlSocietyDocumentsStatus->society_document_path = $path;
+            $OlSocietyDocumentsStatus->status_id = $status_id;
+            $OlSocietyDocumentsStatus->save();
+            if ($OlSocietyDocumentsStatus) {
+                return $OlSocietyDocumentsStatus;
+            }
+        }
+        return null;
+    }
+
+    public function upload_signed_tripartite_letter1(Request $request)
+    {
+        $applicationId = $request->applicationId;
+        $ol_application = $this->comman->getOlApplication($applicationId);
+        if ($request->file('signed_tripartite_letter_1')) {
+            $file = $request->file('signed_tripartite_letter_1');
+            $extension = $file->getClientOriginalExtension();
+            $file_name = 'signed_tripartite_letter_1_' . $applicationId . '.' . $extension;
+            $folder_name = "signed_tripartite_letter_1";
+            if ($extension == "pdf") {
+                $fileUpload = $this->comman->ftpFileUpload($folder_name, $request->file('signed_tripartite_letter_1'), $file_name);
+
+                $status = $this->get_document_status_by_name('Stamped_Signed');
+
+                $this->set_tripartite_agreements($ol_application, config('commanConfig.tripartite_agreements.drafted'), $fileUpload, $status);
+                return redirect()->back()->with('success', 'Tripartite letter for stamp duty has been uploaded successfully.');
+            } else {
+                return redirect()->back()->with('error', 'Invalid format. pdf file only.');
+            }
+        }
+    }
+
+
+
     public function upload_signed_tripartite_agreement(Request $request)
     {
         $applicationId = $request->applicationId;
@@ -373,6 +482,24 @@ class TripartiteController extends Controller
             $content = "";
         }
 
+        $tripartite_agrement['text_letter1_name'] = $this->get_tripartite_letter1($ol_application->id, config('commanConfig.tripartite_agreements.letter_1_text'));
+        $tripartite_agrement['drafted_tripartite_letter1'] = $this->get_tripartite_letter1($ol_application->id, config('commanConfig.tripartite_agreements.letter_1_draft'));
+
+
+        if ($tripartite_agrement['text_letter1_name'] != null) {
+            $text_doc_path = $tripartite_agrement['text_letter1_name']->society_document_path;
+            if ($text_doc_path != null) {
+                $content_letter_1 = Storage::disk('ftp')->get($text_doc_path);
+            } else {
+                $content_letter_1 = "";
+            }
+        } else {
+            $content_letter_1 = "";
+        }
+
+
+
+
         $tripatiet_remark_history = $this->getTripartiteRemarks($applicationId);
 
         $societyData['ree_Jr_id'] = (session()->get('role_name') == config('commanConfig.ree_junior'));
@@ -384,7 +511,7 @@ class TripartiteController extends Controller
         $LAroleId = Role::where('name', '=', config('commanConfig.la_engineer'))->value('id');
         $LAName = User::where('role_id',$LAroleId)->value('name');
        
-        return view('admin.tripartite.tripartite_agreement', compact('approved_by_co', 'stamped_and_signed', 'stamped_by_society', 'societyData', 'applicationLog', 'ol_application', 'tripatiet_remark_history', 'tripartite_agrement', 'content','coName','LAName'));
+        return view('admin.tripartite.tripartite_agreement', compact('approved_by_co', 'stamped_and_signed', 'stamped_by_society', 'societyData', 'applicationLog', 'ol_application', 'tripatiet_remark_history', 'tripartite_agrement', 'content','coName','LAName','content_letter_1'));
     }
 
     public function ree_note($applicationId)
@@ -675,6 +802,7 @@ class TripartiteController extends Controller
     // forward and revert application
     public function forwardApplication(Request $request)
     {
+
         $society_flag = 0;
         $is_reverted_to_society = 0;
         $is_approved_agreement = 0;
@@ -730,6 +858,8 @@ class TripartiteController extends Controller
         //     $Tostatus = config('commanConfig.applicationStatus.in_process');
         // }
 
+//        dd($sc_application->current_status_id == config('commanConfig.applicationStatus.approved_tripartite_agreement') || $sc_application->current_status_id == config('commanConfig.applicationStatus.draft_tripartite_agreement'));
+
         $application = [[
             'application_id' => $request->applicationId,
             'user_id' => auth()->user()->id,
@@ -758,7 +888,16 @@ class TripartiteController extends Controller
             ],
         ];
 
-        \DB::transaction(function () use ($is_reverted_to_society, $request, $application, $is_approved_agreement) {
+        $ree_junior_role_id = Role::where('name',config('commanConfig.ree_junior'))->pluck('id')->toArray();
+
+        \DB::transaction(function () use ($is_reverted_to_society, $request, $application, $is_approved_agreement, $ree_junior_role_id) {
+
+            if(in_array($request->to_role_id,$ree_junior_role_id)){
+                $tripartite_application = OlApplication::findOrFail($request->applicationId);
+                $tripartite_application->current_phase = $tripartite_application->current_phase + 1;
+                $tripartite_application->save();
+            }
+
             if ($is_reverted_to_society == 1) {
                 OlApplication::where('id', $request->applicationId)->update(['is_reverted_to_society' => $is_reverted_to_society]);
             }
