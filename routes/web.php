@@ -824,6 +824,9 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
         Route::post('/saveTripartiteLetterForStampDuty','Tripartite\TripartiteController@saveTripartiteLetterForStampDuty')->name('saveTripartiteLetterForStampDuty');
         Route::post('/upload_signed_tripartite_letter1','Tripartite\TripartiteController@upload_signed_tripartite_letter1')->name('upload_signed_tripartite_letter1');
 
+        Route::post('/saveTripartiteLetterForExecutionRegistraion','Tripartite\TripartiteController@saveTripartiteLetterForExecutionRegistraion')->name('saveTripartiteLetterForExecutionRegistraion');
+        Route::post('/upload_signed_tripartite_letter2','Tripartite\TripartiteController@upload_signed_tripartite_letter2')->name('upload_signed_tripartite_letter2');
+
 
     });
     //End tripartite

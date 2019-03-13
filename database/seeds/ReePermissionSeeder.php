@@ -509,6 +509,17 @@ class ReePermissionSeeder extends Seeder
                 'display_name'=>'upload_signed_tripartite_letter1',
                 'description'=>'upload_signed_tripartite_letter1'
             ],
+            [
+                'name'=>'saveTripartiteLetterForExecutionRegistraion',
+                'display_name'=>'saveTripartiteLetterForExecutionRegistraion',
+                'description'=>'saveTripartiteLetterForExecutionRegistraion'
+            ],
+            [
+                'name'=>'upload_signed_tripartite_letter2',
+                'display_name'=>'upload_signed_tripartite_letter2',
+                'description'=>'upload_signed_tripartite_letter2'
+            ],
+
 
         ];
 
