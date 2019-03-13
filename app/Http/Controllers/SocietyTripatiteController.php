@@ -649,9 +649,31 @@ class SocietyTripatiteController extends Controller
         $ol_applications = OlApplication::where('society_id', $society->id)->where('id', $id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc');
         }])->first();
+        $tripartite_letter1 = null;
         $tripartite_agreement = $this->CommonController->get_tripartite_agreements($ol_applications->id, config('commanConfig.tripartite_agreements.drafted'));
 
-        return view('frontend.society.tripatite.show_tripartite_agreement', compact('society', 'ol_applications', 'tripartite_agreement', 'id'));
+//        dd($tripartite_agreement);
+        return view('frontend.society.tripatite.show_tripartite_agreement', compact('tripartite_letter1','society', 'ol_applications', 'tripartite_agreement', 'id'));
+    }
+
+    /**
+     * Shows stamped and signed tripartite letter for stamp duty.
+     * Author: Amar Prajapati
+     * @param  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show_tripartite_letter1($id){
+        $id = decrypt($id);
+        $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
+        $ol_applications = OlApplication::where('society_id', $society->id)->where('id', $id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        }])->first();
+
+        $tripartite_letter1 = $this->CommonController->get_tripartite_letter1($ol_applications->id, config('commanConfig.tripartite_agreements.letter_1_draft'));
+//        dd($tripartite_letter1);
+
+        $tripartite_agreement = null;
+        return view('frontend.society.tripatite.show_tripartite_agreement', compact('tripartite_letter1','society', 'ol_applications', 'tripartite_agreement', 'id'));
     }
 
     /**

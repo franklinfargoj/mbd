@@ -544,6 +544,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         Route::get('tripartite_agreement/{id}', 'SocietyTripatiteController@show_tripartite_agreement')->name('show_tripartite_agreement');
         Route::post('upload_tripartite_agreement', 'SocietyTripatiteController@upload_tripartite_agreement')->name('upload_tripartite_agreement');
 
+        Route::get('tripartite_letter1/{id}', 'SocietyTripatiteController@show_tripartite_letter1')->name('show_tripartite_letter1');
+
         //tripartite end
 
         //Society Conveyance

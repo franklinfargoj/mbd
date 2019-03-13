@@ -4196,6 +4196,20 @@ class CommonController extends Controller
         return null;
     }
 
+    public function get_tripartite_letter1($ol_application_id, $agreement_type)
+    {
+        $ol_application = $this->getOlApplication($ol_application_id);
+        $document_type_id = $ol_application->application_master_id;
+        $agreement_type = $agreement_type;
+        $OlSocietyDocumentsMaster = OlSocietyDocumentsMaster::where(['application_id' => $document_type_id, 'name' => $agreement_type])->first();
+        if ($OlSocietyDocumentsMaster) {
+            $documents_id = $OlSocietyDocumentsMaster->id;
+            return OlSocietyDocumentsStatus::where(['application_id'=>$ol_application_id ,'society_id' => $ol_application->society_id, 'document_id' => $OlSocietyDocumentsMaster->id])->orderBy('id', 'desc')->first();
+        }
+        return null;
+    }
+
+
     public function set_tripartite_agreements($ol_application, $agreement_type, $path, $status_id = 0)
     {
         $document_type_id = $ol_application->application_master_id;

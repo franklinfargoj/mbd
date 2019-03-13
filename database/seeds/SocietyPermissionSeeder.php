@@ -652,7 +652,12 @@ class SocietyPermissionSeeder extends Seeder
                 'name' => 'show_offer_sign_application',
                 'display_name' => 'show offer letter sign application',
                 'description'  => 'show offer letter sign application'
-            ]
+            ],
+            [
+                'name'         => 'show_tripartite_letter1',
+                'display_name' => 'Tripartite Letter for Stamp Duty',
+                'description'  => 'Tripartite Letter for Stamp Duty'
+            ],
         ];
         
         if(count($society)==0){
