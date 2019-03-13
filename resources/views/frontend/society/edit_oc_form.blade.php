@@ -73,6 +73,18 @@
 
                         </div>
                     </div>
+                     <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="noc_number">NOC Number:</label>
+                            <input type="text" id="noc_number" name="noc_number" class="form-control form-control--custom m-input" value="{{ isset($oc_application->request_form) ? $oc_application->request_form->noc_number : '' }}" required>
+                            <span class="help-block">{{$errors->first('name')}}</span>
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="m_datepicker">NOC Date:</label>
+                             <input type="text" id="m_datepicker" name="noc_date" data-date-end-date="+0d" class="form-control form-control--custom m-input m_datepicker" value="{{ (isset($oc_application->request_form) && $oc_application->request_form->noc_date) ? date(config('commanConfig.dateFormat'), strtotime($oc_application->request_form->noc_date)) : '' }}" required>
+                            <span class="help-block">{{$errors->first('address')}}</span>
+                        </div>
+                    </div>
 
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">

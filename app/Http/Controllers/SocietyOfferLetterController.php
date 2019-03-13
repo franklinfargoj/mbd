@@ -553,7 +553,7 @@ class SocietyOfferLetterController extends Controller
 
     public function get_docs_count($application, $society){
     
-        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['documents_uploaded' =>function($q)use($society,$application){
+        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('is_deleted',0)->with(['documents_uploaded' =>function($q)use($society,$application){
             $q->where('society_id', $society->id)->where('application_id',$application->id)->get();
         }])->get();
 
@@ -567,7 +567,8 @@ class SocietyOfferLetterController extends Controller
 
         $optional_docs = $this->getOptionalDocument($application->application_master_id);
         $docs_uploaded_count = 0;
-        $docs_count = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('is_deleted',0)->where('is_optional',0)->count();
+        $docs_count = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)
+        ->where('is_deleted',0)->where('is_optional',0)->count();
 
         foreach($documents as $documents_key => $documents_val){
                 if($documents_val->is_optional == 0 && count($documents_val->documents_uploaded) > 0){
@@ -785,7 +786,6 @@ class SocietyOfferLetterController extends Controller
     }
 
     public function save_oc_application_self(Request $request){
-        
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $input = array(
             'society_id' => $society_details->id,
@@ -794,6 +794,8 @@ class SocietyOfferLetterController extends Controller
             'developer_name' => $request->input('developer_name'),
             'is_full_oc' => $request->input('is_full_oc'),
             'construction_details' => $request->input('construction_details'),
+            'noc_number' => $request->input('noc_number'),
+            'noc_date' => $request->input('noc_date'),
             'updated_at' => null
         );
         $last_inserted_id = OlRequestForm::create($input);
@@ -1168,7 +1170,8 @@ class SocietyOfferLetterController extends Controller
         $check_upload_avail = $document['check_upload_avail'];
         $docs_count = $document['docs_count'];
         $docs_count = $document['docs_count'];
-        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($society,$applicationId){
+        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)
+        ->where('is_deleted',0)->with(['oc_documents_uploaded' => function($q) use ($society,$applicationId){
             $q->where('society_id', $society->id)->where('application_id',$applicationId)->get();
         }])->get();
         $documents_uploaded = $docs_uploaded_count = $document['docs_uploaded_count'];
@@ -1421,7 +1424,7 @@ class SocietyOfferLetterController extends Controller
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->orderBy('id', 'desc')->first();
 
-        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($society){
+        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('is_deleted',0)->with(['oc_documents_uploaded' => function($q) use ($society){
             $q->where('society_id', $society->id)->get();
         }])->get();
         $document = $this->getOCDocumentUploadCount($application);
@@ -1454,7 +1457,7 @@ class SocietyOfferLetterController extends Controller
         $master_ids = config('commanConfig.new_offer_letter_master_ids');
         $application = OlApplication::where('id',$applicationId)->where('society_id', $society->id)->whereIn('application_master_id', $master_ids)->first();
 
-        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('id', $request->input('document_id'))->with(['documents_uploaded' => function($q) use ($society,$applicationId){
+        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('is_deleted',0)->where('id', $request->input('document_id'))->with(['documents_uploaded' => function($q) use ($society,$applicationId){
                     $q->where('society_id', $society->id)->where('application_id',$applicationId)
                     ->get();
                 }])->get();        
@@ -1494,7 +1497,7 @@ class SocietyOfferLetterController extends Controller
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $application = OlApplication::where('id',$request->applicationId)->where('society_id', $society->id)->orderBy('id','desc')->first();
 
-        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('id', $request->input('document_id'))->with(['reval_documents_uploaded' => function($q) use ($society,$application){
+        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('is_deleted',0)->where('id', $request->input('document_id'))->with(['reval_documents_uploaded' => function($q) use ($society,$application){
             $q->where('society_id', $society->id)->where('application_id',$application->id)->get();
         }])->get();
 
@@ -1593,7 +1596,7 @@ class SocietyOfferLetterController extends Controller
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $application = OcApplication::where('id',$request->applicationId)->where('society_id', $society->id)->orderBy('id','desc')->first();
 
-        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('id', $request->input('document_id'))->with(['oc_documents_uploaded' => function($q) use ($society,$applicationId){
+        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('is_deleted',0)->where('id', $request->input('document_id'))->with(['oc_documents_uploaded' => function($q) use ($society,$applicationId){
             $q->where('society_id', $society->id)->where('application_id',$applicationId)->get();
         }])->get();
 
@@ -1917,6 +1920,8 @@ class SocietyOfferLetterController extends Controller
             'developer_name' => $request->developer_name,
             'construction_details' => $request->construction_details,
             'is_full_oc' => $request->is_full_oc,
+            'noc_number' => $request->noc_number,
+            'noc_date' => $request->noc_date,
         );
         OlRequestForm::where('society_id', $society->id)->where('id', $request->request_form_id)->update($update_input);
         OcApplication::where('id',$request->applicationId)->update(['layout_id' => $request->layout_id]);
@@ -2038,7 +2043,7 @@ class SocietyOfferLetterController extends Controller
         $document = $this->getOCDocumentUploadCount($oc_applications);
         $check_upload_avail = $document['check_upload_avail'];
 
-        $documents = OlSocietyDocumentsMaster::where('application_id', $application_details->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($society){
+        $documents = OlSocietyDocumentsMaster::where('application_id', $application_details->application_master_id)->where('is_deleted',0)->with(['oc_documents_uploaded' => function($q) use ($society){
             $q->where('society_id', $society->id)->get();
         }])->get();
 
@@ -2711,20 +2716,20 @@ class SocietyOfferLetterController extends Controller
     // get optional document Id's
     public function getOCOptionalDocument($masterId){
 
-        $optional_docs = OlSocietyDocumentsMaster::where('application_id', $masterId)
+        $optional_docs = OlSocietyDocumentsMaster::where('application_id', $masterId)->where('is_deleted',0)
         ->where('is_optional',1)->pluck('id')->toArray();
         return $optional_docs;
     }
 
     public function getOCDocumentUploadCount($oc_application){
     $document = [];   
-    $documents = OlSocietyDocumentsMaster::where('application_id', $oc_application->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($oc_application){
+    $documents = OlSocietyDocumentsMaster::where('application_id', $oc_application->application_master_id)->where('is_deleted',0)->with(['oc_documents_uploaded' => function($q) use ($oc_application){
             $q->where('society_id', $oc_application->society_id)
             ->where('application_id',$oc_application->id)->get();
         }])->get();
 
         $document['optional_docs'] = $this->getOCOptionalDocument($oc_application->application_master_id);
-        $document['docs_count'] = OlSocietyDocumentsMaster::where('application_id', $oc_application->application_master_id)->where('is_optional',0)->count();
+        $document['docs_count'] = OlSocietyDocumentsMaster::where('application_id', $oc_application->application_master_id)->where('is_optional',0)->where('is_deleted',0)->count();
         $docs_uploaded_count = 0;
 
         foreach($documents as $documents_key => $documents_val){

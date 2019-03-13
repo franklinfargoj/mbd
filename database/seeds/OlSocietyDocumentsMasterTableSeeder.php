@@ -677,72 +677,84 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $app,
                     'language_id'   => $english_lang[0]['id'],
                     'is_optional'=>0,
+                    'is_deleted' => 1,
                     'name' => "संस्थेचा अर्ज परिशिष्ट अ प्रमाणे "
                 ],
                 [
                     'application_id'   => $app,
                     'language_id'   => $english_lang[0]['id'],
                     'is_optional'=>0,
+                    'is_deleted' => 0,
                     'name' => "Latest Approved Drawings"
                 ],
                 [
                     'application_id'   => $app,
                     'language_id'   => $english_lang[0]['id'],
                     'is_optional'=>0,
+                    'is_deleted' => 0,
                     'name' => "Matching statement"
                 ],
                 [
                     'application_id'   => $app,
                     'language_id'   => $english_lang[0]['id'],
                     'is_optional'=>0,
+                    'is_deleted' => 0,
                     'name' => "Stability certificate from structure consultant"
                 ],
                 [
                     'application_id'   => $app,
                     'language_id'   => $english_lang[0]['id'],
                     'is_optional'=>0,
+                    'is_deleted' => 0,
                     'name' => "Completion certificate from society architect"
                 ],
                 [
                     'application_id'   => $app,
                     'language_id'   => $english_lang[0]['id'],
                     'is_optional'=>0,
+                    'is_deleted' => 0,
                     'name' => "Supplymentry lease deed"
                 ],
                 [
                     'application_id'   => $app,
                     'language_id'   => $english_lang[0]['id'],
                     'is_optional'=>0,
+                    'is_deleted' => 0,
                     'name' => "Building photos from 4 sides - front side"
                 ],
                 [
                     'application_id'   => $app,
                     'language_id'   => $english_lang[0]['id'],
-                    'is_optional'=>1,
+                    'is_optional'=>0,
+                    'is_deleted' => 0,
                     'name' => "Building photos from 4 sides - side 2"
                 ],
                 [
                     'application_id'   => $app,
                     'language_id'   => $english_lang[0]['id'],
                     'is_optional'=>0,
+                    'is_deleted' => 0,
                     'name' => "Building photos from 4 sides - side 3"
                 ],
                 [
                     'application_id'   => $app,
                     'language_id'   => $english_lang[0]['id'],
                     'is_optional'=>0,
+                    'is_deleted' => 0,
                     'name' => "Building photos from 4 sides - side 4"
                 ],
                 [
                     'application_id'   => $app,
                     'language_id'   => $english_lang[0]['id'],
                     'is_optional'=>0,
+                    'is_deleted' => 0,
                     'name' => "Google Image"
                 ],
                 [
                     'application_id'   => $app,
                     'language_id'   => $english_lang[0]['id'],
                     'is_optional'=>1,
+                    'is_deleted' => 0,
                     'name' => "Other"
                 ]
             ];
