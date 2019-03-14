@@ -1657,7 +1657,7 @@ class CommonController extends Controller
             $insert_application_log[$status_in_words][$key]['remark'] = '';
             $insert_application_log[$status_in_words][$key]['is_active'] = 1;
             $insert_application_log[$status_in_words][$key]['phase'] = ($sc_application->current_status_id == config('commanConfig.applicationStatus.approved_tripartite_agreement') || $sc_application->current_status_id == config('commanConfig.applicationStatus.draft_tripartite_agreement'))? 1 : 0 ;
-            $insert_application_log[$status_in_words][$key]['created_at'] = date('Y-m-d');
+            $insert_application_log[$status_in_words][$key]['created_at'] = date('Y-m-d H:i:s');
             $application_log_status = $insert_application_log[$status_in_words];
 
             if($status == 2){
@@ -1672,7 +1672,7 @@ class CommonController extends Controller
                 $insert_application_log[$status_in_words_1][$key]['remark'] = '';
                 $insert_application_log[$status_in_words_1][$key]['is_active'] = 1;
                 $insert_application_log[$status_in_words_1][$key]['phase'] = ($sc_application->current_status_id == config('commanConfig.applicationStatus.approved_tripartite_agreement') || $sc_application->current_status_id == config('commanConfig.applicationStatus.draft_tripartite_agreement'))? 1 : 0 ;
-                $insert_application_log[$status_in_words_1][$key]['created_at'] = date('Y-m-d');
+                $insert_application_log[$status_in_words_1][$key]['created_at'] = date('Y-m-d H:i:s');
                 $application_log_status = array_merge($insert_application_log[$status_in_words], $insert_application_log[$status_in_words_1]);
             }
             $i++;
