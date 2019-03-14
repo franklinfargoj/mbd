@@ -155,7 +155,7 @@
                               <div class="table-responsive">
                                  <table class="table">
                                     <thead class="thead-default">
-                                       <th>#</th>
+                                       <th>Sr.No</th>
                                        <th class="table-data--xl">Topics</th>
                                        <th>Yes</th>
                                        <th>No</th>
@@ -251,7 +251,7 @@
                                  <table class="table">
                                     <thead class="thead-default">
                                        <th>Sr.No</th>
-                                       <th class="table-data--xl">Build up Area</th>
+                                       <th class="table-data--xl">Buitup area permitted as per statement below</th>
                                        <th>In m2</th>
                                     </thead>
                                     <tbody>

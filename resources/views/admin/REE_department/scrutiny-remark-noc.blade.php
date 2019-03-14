@@ -172,7 +172,7 @@
                               <div class="table-responsive">
                                  <table class="table">
                                     <thead class="thead-default">
-                                       <th>#</th>
+                                       <th>Sr.No</th>
                                        <th class="table-data--xl">Topics</th>
                                        <th>Yes</th>
                                        <th>No</th>
@@ -285,7 +285,7 @@
                                     <table class="table">
                                        <thead class="thead-default">
                                           <th>Sr.No</th>
-                                          <th class="table-data--xl">Build up Area</th>
+                                          <th class="table-data--xl">Buitup area permitted as per statement below</th>
                                           <th>In m2</th>
                                        </thead>
                                        <tbody>
@@ -526,8 +526,8 @@
      var land = $("#land_area").val();
       var total = (parseFloat(lease_deed) + parseFloat(land));
      if (!isNaN(total)){
-      $("#plot_area").val(total);
-      $("#plot_area1").val(total);
+      $("#plot_area").val(total.toFixed(2));
+      $("#plot_area1").val(total.toFixed(2));
      }
      calculateBuildupArea();
      calculateTotalBUA();
@@ -538,21 +538,21 @@
        var plot_area = $("#plot_area1").val();
       var total = (parseFloat(val) * parseFloat(plot_area));
       if (!isNaN(total)){
-         $("#buildup_area").val(total);
+         $("#buildup_area").val(total.toFixed(2));
       }
    }
 
    $("#fsi").keyup(function(){
       calculateBuildupArea();
       calculateTotalBUA();   
-   });
+   }); 
 
    $(".tenement_area").keyup(function(){
       var tenementNo = $("#tenement_no").val();
       var tenementArea = $("#tenement_area").val();
       var total = (parseFloat(tenementNo) * parseFloat(tenementArea));
       if (!isNaN(total)){
-         $("#total_tenement_area").val(total);
+         $("#total_tenement_area").val(total.toFixed(2));
       }
       calculateTotalBUA();
    });
@@ -563,7 +563,7 @@
       var balArea = $("#balance_buildup_area").val();
       var total = (parseFloat(buildupArea) + parseFloat(tenementArea) + parseFloat(balArea));
       if (!isNaN(total)){
-         $("#total_permissable_bua").val(total);
+         $("#total_permissable_bua").val(total.toFixed(2));
       }
    }
 
@@ -572,7 +572,7 @@
       var area = $("#existing_buildup_area").val();
       var total = (parseFloat(nocPermitted) + parseFloat(area));
       if (!isNaN(total)){
-         $("#total_existing_permitted_area").val(total);
+         $("#total_existing_permitted_area").val(total.toFixed(2));
       }
    });
    

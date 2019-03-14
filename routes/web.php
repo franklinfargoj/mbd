@@ -1351,7 +1351,7 @@ Route::get('society_oc_documents/{id}','REEDepartment\REEController@societyOcDoc
 Route::get('em_scrutiny_oc_ree/{id}','REEDepartment\REEController@viewEMScrutinyOc')->name('ree.em_scrutiny_oc_ree');
 Route::get('ee_scrutiny_oc_ree/{id}','REEDepartment\REEController@viewEEScrutinyOc')->name('ree.ee_scrutiny_oc_ree');
 Route::get('generate_oc_certificate/{id}','REEDepartment\REEController@generateOccertificate')->name('ree.generate_oc_certificate');
-Route::get('create_edit_oc/{id}', 'REEDepartment\REEController@createEditConsentOc')->name('ree.create_edit_oc');
+Route::post('create_edit_oc', 'REEDepartment\REEController@createEditConsentOc')->name('ree.create_edit_oc');
 Route::post('save_draft_consent_oc', 'REEDepartment\REEController@saveDraftConsentOc')->name('ree.save_draft_consent_oc');
 Route::post('upload_draft_consent_oc/{id}', 'REEDepartment\REEController@uploadDraftConsentforOc')->name('ree.upload_draft_consent_oc');
 Route::get('/ree-note-consentoc/{application_id}', 'REEDepartment\REEController@uploadNoteConsentOC')->name('ree.ree-note-consentoc');

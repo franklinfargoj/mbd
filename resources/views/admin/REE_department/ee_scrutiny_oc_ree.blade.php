@@ -7,7 +7,7 @@
 <div class="alert alert-success display_msg">
    {{ session()->get('success') }}
 </div>
-@endif
+@endif 
 @if(session()->has('error'))
 <div class="alert alert-success display_msg">
    {{ session()->get('error') }}
@@ -144,6 +144,7 @@
                            <h3 class="section-title">
                                  <center>EE Scrutiny Pointers</center>
                            </h3>
+
                            @if(isset($oc_application->ee_scrutiny_completed) && $oc_application->ee_scrutiny_completed == 1)
                            <div class="table-checklist m-portlet__body m-portlet__body--table table--box-input">
                               <div class="table-responsive">
@@ -194,7 +195,8 @@
                                           $checked = '';
                                           }
                                           @endphp
-                                          <td>
+
+                                          <td> 
                                              <label class="m-radio m-radio--primary">
                                              <input {{$disabled}} type="radio" name="answer[{{$i}}]"
                                              value="0" {{ $checked }}>
@@ -214,6 +216,10 @@
                                              echo 'Not Applicable';
                                              }
                                              @endphp
+                                             @if($each_question->is_upload == 1)
+
+                                                <a target="_blank" class="btn-link" id="file_{{$each_question->id}}" href="{{isset($arrData['scrutiny_answers_to_questions'][$each_question->id]['document_path']) ? config('commanConfig.storage_server').'/'.$arrData['scrutiny_answers_to_questions'][$each_question->id]['document_path'] : ''}}" download >Download</a>
+                                             @endif
                                           </td>
                                        </tr>
                                        @php
