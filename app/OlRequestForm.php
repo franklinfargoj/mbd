@@ -23,6 +23,8 @@ class OlRequestForm extends Model
         'revised_offer_letter_date',
         'noc_for_iod_purpose_number',
         'noc_for_iod_purpose_date',
-        'developer_name'
+        'developer_name',
+        'noc_date',
+        'noc_number'
     ];
 }

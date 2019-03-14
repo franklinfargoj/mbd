@@ -65,7 +65,7 @@ $disabled=isset($disabled)?$disabled:0;
                         <p>सोबत :- </p>
                         @include('frontend.society.society_formation._application_attachments',compact('sf_documents','sf_application','disabled'))
                     </div>
-                    <div class="letter-form-footer d-flex font-weight-semi-bold mt-5">
+                    {{-- <div class="letter-form-footer d-flex font-weight-semi-bold mt-5">
                         <div class="ml-auto text-right">
                             <p class="mb-5">
                                 <span class="d-flex">
@@ -79,13 +79,9 @@ $disabled=isset($disabled)?$disabled:0;
                                 <span class="d-flex">
                                     मुंबई मंडळ, मुंबई
                                 </span>
-                                {{-- <span class="d-flex">अध्यक्ष <input class="letter-form-input letter-form-input--xl"
-                                        type="text" id="" name="" value=""></span>
-                                <span class="d-flex mt-3">सचिव <input class="letter-form-input letter-form-input--xl"
-                                        type="text" id="" name="" value=""></span> --}}
                             </p>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                         <div class="m-form__actions px-0">
                             <div class="row">

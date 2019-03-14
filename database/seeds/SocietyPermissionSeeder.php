@@ -652,6 +652,11 @@ class SocietyPermissionSeeder extends Seeder
                 'name' => 'show_offer_sign_application',
                 'display_name' => 'show offer letter sign application',
                 'description'  => 'show offer letter sign application'
+            ],
+            [
+                'name' => 'show_noc_sign_application',
+                'display_name' => 'show NOC sign application',
+                'description'  => 'show NOC sign application'
             ]
         ];
         

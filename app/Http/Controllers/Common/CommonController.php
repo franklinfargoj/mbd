@@ -4178,7 +4178,7 @@ class CommonController extends Controller
     public function getSocietyDocumentsforOC($applicationId)
     {
         $application = OcApplication::where('id', $applicationId)->first();
-        $societyDocuments = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['oc_documents_uploaded' => function($q) use ($application){$q->where('society_id', $application->society_id)->where('application_id',$application->id);
+        $societyDocuments = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('is_deleted',0)->with(['oc_documents_uploaded' => function($q) use ($application){$q->where('society_id', $application->society_id)->where('application_id',$application->id);
         }])->get();
         return $societyDocuments;
     }      

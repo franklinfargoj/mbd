@@ -1116,7 +1116,7 @@ if($latest){
                             <div class="portlet-body">
                                 <div class="m-portlet__body m-portlet__body--table">
                                     <div class="m-subheader" style="padding: 0;">
-                                        <div class="d-flex align-items-center justify-content-center">
+                                        <div class="d-flex">
                                             <h3 class="section-title">
                                                 Note
                                             </h3>
@@ -1170,7 +1170,7 @@ if($latest){
                                                                     }
                                                                     @endphp 
 
-                                                                    {{ isset($fileName) ? $fileName : ''}} : 
+                                                                    {{ isset($fileName) ? $fileName : ''}} 
                                                                         </td>
                                                                         <td class="text-center">
                                                                             <a class="btn-link" download href="{{ config('commanConfig.storage_server').'/'.$note->document_path}} " target="_blank" download>
