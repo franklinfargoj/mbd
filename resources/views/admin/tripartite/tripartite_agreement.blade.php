@@ -120,7 +120,7 @@ $disabled=isset($disabled)?$disabled:0;
                 <div class="row">
                     <div class="col-md-12">
                         <a href="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                            Edit Agrrement</a>
+                            Edit Agreement</a>
                         <!-- <button type="submit">Edit offer Letter </button> -->
                     </div>
                 </div>
@@ -179,7 +179,7 @@ $disabled=isset($disabled)?$disabled:0;
     </div>
 
     {{--letter 1--}}
-    @if($ol_application->current_phase > 1)
+    @if(($ol_application->current_phase > 1) && (($applicationLog->status_id == config('commanConfig.applicationStatus.in_process')) || $generated_letter1 != null || $stamped_signed_letter1 != null))
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body" style="padding-right: 0;">
 
@@ -199,7 +199,8 @@ $disabled=isset($disabled)?$disabled:0;
                     @endif
             @endif
 
-                <div class="w-100 row-list">
+                @if($generated_letter1 != null || $stamped_signed_letter1 != null)
+                    <div class="w-100 row-list">
                 <div class="">
                     <div class="row">
                         <div class="col-sm-6">
@@ -233,8 +234,8 @@ $disabled=isset($disabled)?$disabled:0;
                                                 <div class="custom-file">
                                                     <input class="custom-file-input pdfcheck" name="signed_tripartite_letter_1"
                                                            type="file"
-                                                           id="test-upload" required="required">
-                                                    <label class="custom-file-label" for="test-upload">Choose
+                                                           id="test1-upload" required="required">
+                                                    <label class="custom-file-label" for="test1-upload">Choose
                                                         file...</label>
                                                     <span class="text-danger" id="file_error"></span>
                                                 </div>
@@ -251,13 +252,14 @@ $disabled=isset($disabled)?$disabled:0;
                     </div>
                 </div>
             </div>
+                @endif
         </div>
     </div>
     @endif
     {{--letter 1 end--}}
 
     {{--letter 2--}}
-    @if(($ol_application->current_phase > 2) /*&& ($applicationLog->status_id != config('commanConfig.applicationStatus.forwarded'))*/)
+    @if(($ol_application->current_phase > 2) && (($applicationLog->status_id == config('commanConfig.applicationStatus.in_process')) || $generated_letter2 != null || $stamped_signed_letter2 != null))
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body" style="padding-right: 0;">
                 @if($ol_application->current_phase == 3)
@@ -308,8 +310,8 @@ $disabled=isset($disabled)?$disabled:0;
                                             <div class="custom-file">
                                                 <input class="custom-file-input pdfcheck" name="signed_tripartite_letter_2"
                                                        type="file"
-                                                       id="test-upload" required="required">
-                                                <label class="custom-file-label" for="test-upload">Choose
+                                                       id="test2-upload" required="required">
+                                                <label class="custom-file-label" for="test2-upload">Choose
                                                     file...</label>
                                                 <span class="text-danger" id="file_error"></span>
                                             </div>

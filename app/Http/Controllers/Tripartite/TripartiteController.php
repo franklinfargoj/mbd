@@ -592,8 +592,28 @@ class TripartiteController extends Controller
         $tripartite_agrement['text_letter1_name'] = $this->get_tripartite_letter1($ol_application->id, config('commanConfig.tripartite_agreements.letter_1_text'));
         $tripartite_agrement['drafted_tripartite_letter1'] = $this->get_tripartite_letter1($ol_application->id, config('commanConfig.tripartite_agreements.letter_1_draft'));
 
+        $stamped_signed_letter1 = null;
+        $generated_letter1 = null;
+        if($tripartite_agrement['drafted_tripartite_letter1'] != null){
+            $generated_letter1 = ($this->get_document_status_by_name('draft') == $tripartite_agrement['drafted_tripartite_letter1']->status_id);
+            $stamped_signed_letter1 = ($this->get_document_status_by_name('Stamped_Signed') == $tripartite_agrement['drafted_tripartite_letter1']->status_id);
+        }
+
+//        $generated_letter1 = null;
+//        if($tripartite_agrement['drafted_tripartite_letter2'] != null){
+//            $generated_letter1 = ($this->get_document_status_by_name('draft') == $tripartite_agrement['drafted_tripartite_letter1']->status_id);
+//        }
+
         $tripartite_agrement['text_letter2_name'] = $this->get_tripartite_letter1($ol_application->id, config('commanConfig.tripartite_agreements.letter_2_text'));
         $tripartite_agrement['drafted_tripartite_letter2'] = $this->get_tripartite_letter1($ol_application->id, config('commanConfig.tripartite_agreements.letter_2_draft'));
+
+
+        $stamped_signed_letter2 = null;
+        $generated_letter2 = null;
+        if($tripartite_agrement['drafted_tripartite_letter2'] != null){
+            $generated_letter2 = ($this->get_document_status_by_name('draft') == $tripartite_agrement['drafted_tripartite_letter2']->status_id);
+            $stamped_signed_letter2 = ($this->get_document_status_by_name('Stamped_Signed') == $tripartite_agrement['drafted_tripartite_letter2']->status_id);
+        }
 
 
         if ($tripartite_agrement['text_letter1_name'] != null) {
@@ -630,7 +650,7 @@ class TripartiteController extends Controller
         $LAroleId = Role::where('name', '=', config('commanConfig.la_engineer'))->value('id');
         $LAName = User::where('role_id',$LAroleId)->value('name');
        
-        return view('admin.tripartite.tripartite_agreement', compact('approved_by_co', 'stamped_and_signed', 'stamped_by_society', 'societyData', 'applicationLog', 'ol_application', 'tripatiet_remark_history', 'tripartite_agrement', 'content','coName','LAName','content_letter_1','content_letter_2'));
+        return view('admin.tripartite.tripartite_agreement', compact('approved_by_co', 'stamped_and_signed', 'stamped_by_society', 'societyData', 'applicationLog', 'ol_application', 'tripatiet_remark_history', 'tripartite_agrement', 'content','coName','LAName','content_letter_1','content_letter_2','generated_letter1','stamped_signed_letter1','generated_letter2','stamped_signed_letter2'));
     }
 
     public function ree_note($applicationId)
@@ -978,7 +998,6 @@ class TripartiteController extends Controller
         // }
 
 //        dd($sc_application->current_status_id == config('commanConfig.applicationStatus.approved_tripartite_agreement') || $sc_application->current_status_id == config('commanConfig.applicationStatus.draft_tripartite_agreement'));
-
         $application = [[
             'application_id' => $request->applicationId,
             'user_id' => auth()->user()->id,
@@ -1009,10 +1028,10 @@ class TripartiteController extends Controller
 
         $ree_junior_role_id = Role::where('name',config('commanConfig.ree_junior'))->pluck('id')->toArray();
 
-        \DB::transaction(function () use ($is_reverted_to_society, $request, $application, $is_approved_agreement, $ree_junior_role_id) {
+        \DB::transaction(function () use ($is_reverted_to_society, $request, $application, $is_approved_agreement, $ree_junior_role_id, $status) {
 
+            $tripartite_application = OlApplication::findOrFail($request->applicationId);
             if(in_array($request->to_role_id,$ree_junior_role_id)){
-                $tripartite_application = OlApplication::findOrFail($request->applicationId);
                 $tripartite_application->current_phase = $tripartite_application->current_phase + 1;
                 $tripartite_application->save();
             }
@@ -1023,6 +1042,12 @@ class TripartiteController extends Controller
             if ($is_approved_agreement != 0) {
                 OlApplication::where('id', $request->applicationId)->update(['current_status_id' => $is_approved_agreement,'is_approve_offer_letter'=>($is_approved_agreement==config('commanConfig.applicationStatus.approved_tripartite_agreement')?1:0)]);
             }
+
+            $letter2 = $this->get_tripartite_agreements($request->applicationId, config('commanConfig.tripartite_agreements.letter_2_draft'));
+            if($letter2 != null){
+                OlApplication::where('id', $request->applicationId)->update(['current_phase' => $tripartite_application->current_phase + 1]);
+            }
+
             OlApplicationStatus::where('application_id',$request->applicationId)
                     ->whereIn('user_id', [auth()->user()->id,$request->to_user_id ])
                     ->update(array('is_active' => 0));
