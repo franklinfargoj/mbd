@@ -51,7 +51,7 @@ use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 use Mpdf\Mpdf;
 use App\LayoutUser;
-// use App\Layout\ArchitectLayout;
+use App\Layout\ArchitectLayout;
 
 
 class REEController extends Controller
@@ -2580,8 +2580,10 @@ class REEController extends Controller
         return view('admin.REE_department.generate-consent-oc',compact('societyData','oc_application','applicationLog'));
     }
 
-    public function createEditConsentOc(Request $request,$applicatonId){
-        
+    public function createEditConsentOc(Request $request){
+        $applicatonId = $request->applicationId;
+        $OcType = $request->oc_type;
+        $application = OcApplication::where('id',$applicatonId)->update(['oc_type' => $request->OcType]);
         $model = OcApplication::with('oc_application_master','eeApplicationSociety','request_form')->where('id',$applicatonId)->first();
 
         $blade =  "oc_draft_copy";
@@ -2594,7 +2596,7 @@ class REEController extends Controller
            $content = ""; 
         }
 
-        return view('admin.REE_department.'.$blade,compact('applicatonId','content','model'));
+        return view('admin.REE_department.'.$blade,compact('applicatonId','content','model','OcType','application'));
     }
 
     public function saveDraftConsentOc(Request $request){

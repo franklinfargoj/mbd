@@ -29,6 +29,7 @@ class OcApplication extends Model
         'is_approve_oc',
         'drafted_oc' ,
         'text_oc' ,
+        'oc_type' ,
     ];
 
     public function request_form(){

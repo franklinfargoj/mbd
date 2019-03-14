@@ -61,7 +61,7 @@ $route=\Request::route()->getName();
                         <path fill="#fff" d="M0 387.6v96.9h96.9l280.5-283.05-96.9-96.9L0 387.6zm451.35-260.1c10.2-10.2 10.2-25.5 0-35.7L392.7 33.149c-10.2-10.2-25.5-10.2-35.7 0l-45.9 45.9 96.9 96.9 43.35-48.449zm-221.85 306l-51 51H510v-51H229.5z"/>
                     </svg>
                 </span>
-                <span class="m-menu__link-text">EM Scrutiny</span>
+                <span class="m-menu__link-text">EM No Due</span>
             </a>
         </li>
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ree.ee_scrutiny_oc_ree')?'m-menu__item--active':''}}">

@@ -132,20 +132,44 @@
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body" style="padding-right: 0;">
                 <h3 class="section-title section-title--small mb-0">Consent for Oc:</h3>
+                <div class="col-md-12 raw">
+                    <div class="col-md-2">
+                      <span> Type : </span>
+                    </div>
+                    <div class="col-md-5">
+                      <span> Full OC </span>
+                      <label class="m-radio m-radio--primary">
+                         <input type="radio" name="oc_type" value="full_oc" checked>
+                         <span></span>
+                      </label>
+                    </div>
+                    <div class="col-md-5">
+                       <span> Part OC </span>
+                       <label class="m-radio m-radio--primary">
+                         <input type="radio" name="oc_type" value="part_oc">
+                         <span></span>
+                      </label>
+                    </div>
+                  </div>
                 <div class="row field-row">
                     <div class="col-md-6">
-                        <p class="font-weight-semi-bold">View Consent for Oc</p>
                         <p>Click to view generated Consent for Oc in PDF format</p>
                         @if($applicationData->oc_path)   
                         <a href="{{config('commanConfig.storage_server').'/'.$applicationData-> oc_path}}" class="btn btn-primary" target="_blank" rel="noopener"> 
                         View Consent for Oc</a>
                         @endif
                         <p></p>
+
                         @if($applicationData->ree_Jr_id && !empty($applicationData->oc_path) && $applicationData->OC_Generation_status == config('commanConfig.applicationStatus.OC_Approved'))
                         <hr>
-                        <a href="{{route('ree.create_edit_oc',$applicationData->id)}}" class="btn btn-primary">
+                        <form action="{{route('ree.create_edit_oc')}}" method="post" enctype="multipart/form-data">
+                          @csrf
+                        <input type="hidden" name="applicationId" value="{{ $oc_application->id }}">  
+                        <input type="hidden" name="oc_type" value="{{ $oc_application->oc_type }}">  
+                        <button type="submit" class="btn btn-primary">
                         Edit Draft Consent for Oc
-                        </a>
+                        </button>
+                        </form>
                         <a target="_blank" style="margin-top: 2%" href="{{config('commanConfig.storage_server').'/'.$oc_application->drafted_oc}}" class="btn btn-primary">Download Draft Consent Oc</a> 
                         @endif
                     </div>
