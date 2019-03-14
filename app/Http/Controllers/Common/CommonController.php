@@ -1678,8 +1678,21 @@ class CommonController extends Controller
             $i++;
         }
 
-        $inserted_application_log = OlApplicationStatus::insert($application_log_status);
-        return $inserted_application_log;
+        $ree_junior_role_id = Role::where('name',config('commanConfig.ree_junior'))->pluck('id')->toArray();
+
+        \DB::transaction(function () use ($sc_application, $user, $application_log_status, $ree_junior_role_id, $status) {
+
+            if($status == config('commanConfig.applicationStatus.forwarded'))
+            if (in_array($user->role_id, $ree_junior_role_id)) {
+                $sc_application->current_phase = $sc_application->current_phase + 1;
+                $sc_application->save();
+            }
+
+            $inserted_application_log = OlApplicationStatus::insert($application_log_status);
+
+            return $inserted_application_log;
+        });
+
     }
 
 
@@ -4191,6 +4204,8 @@ class CommonController extends Controller
         $OlSocietyDocumentsMaster = OlSocietyDocumentsMaster::where(['application_id' => $document_type_id, 'name' => $agreement_type])->first();
         if ($OlSocietyDocumentsMaster) {
             $documents_id = $OlSocietyDocumentsMaster->id;
+
+
             return OlSocietyDocumentsStatus::where(['application_id'=>$ol_application_id ,'society_id' => $ol_application->society_id, 'document_id' => $OlSocietyDocumentsMaster->id])->orderBy('id','desc')->first();
         }
         return null;

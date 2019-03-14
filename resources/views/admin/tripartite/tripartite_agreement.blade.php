@@ -179,25 +179,27 @@ $disabled=isset($disabled)?$disabled:0;
     </div>
 
     {{--letter 1--}}
-    @if($ol_application->current_phase == 1 || $ol_application->current_phase == 2)
+    @if($ol_application->current_phase > 1)
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body" style="padding-right: 0;">
 
-            @if(!($ol_application->current_phase == 2))
             @if(session()->get('role_name')==config('commanConfig.ree_junior'))
-            <h3 class="section-title section-title--small mb-0">Letter For Stamp Duty:</h3>
-                <div class=" row-list">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <a href="" class="btn btn-primary" data-toggle="modal" data-target="#myletter1Modal">
-                                    Generate/ Edit Letter For Stamp Duty</a>
-                            <!-- <button type="submit">Edit offer Letter </button> -->
+                    @if($ol_application->current_phase == 2)
+
+                        <h3 class="section-title section-title--small mb-0">Letter For Stamp Duty:</h3>
+                        <div class=" row-list">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a href="" class="btn btn-primary" data-toggle="modal" data-target="#myletter1Modal">
+                                            Generate/ Edit Letter For Stamp Duty</a>
+                                    <!-- <button type="submit">Edit offer Letter </button> -->
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    @endif
             @endif
-            @endif
-            <div class="w-100 row-list">
+
+                <div class="w-100 row-list">
                 <div class="">
                     <div class="row">
                         <div class="col-sm-6">
@@ -219,32 +221,33 @@ $disabled=isset($disabled)?$disabled:0;
                         </div>
 
                         @if(session()->get('role_name')==config('commanConfig.ree_branch_head'))
-                        <div class="col-sm-6 border-left">
-                                    <div class="d-flex flex-column h-100">
-                                        <h5>Upload Signed & Scanned Letter For Stamp Duty</h5>
-                                        <form action="{{route('upload_signed_tripartite_letter1')}}" method="post"
-                                              enctype="multipart/form-data">
-                                            @csrf
-                                            <input type="hidden" id="applicationId" name="applicationId"
-                                                   value="{{ $ol_application->id }}">
-                                            <div class="custom-file">
-                                                <input class="custom-file-input pdfcheck" name="signed_tripartite_letter_1"
-                                                       type="file"
-                                                       id="test-upload" required="required">
-                                                <label class="custom-file-label" for="test-upload">Choose
-                                                    file...</label>
-                                                <span class="text-danger" id="file_error"></span>
-                                            </div>
-                                            <div class="mt-auto">
-                                                <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">
-                                                    Upload
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                        </div>
+                            @if($ol_application->current_phase == 2)
+                                <div class="col-sm-6 border-left">
+                                        <div class="d-flex flex-column h-100">
+                                            <h5>Upload Signed & Scanned Letter For Stamp Duty</h5>
+                                            <form action="{{route('upload_signed_tripartite_letter1')}}" method="post"
+                                                  enctype="multipart/form-data">
+                                                @csrf
+                                                <input type="hidden" id="applicationId" name="applicationId"
+                                                       value="{{ $ol_application->id }}">
+                                                <div class="custom-file">
+                                                    <input class="custom-file-input pdfcheck" name="signed_tripartite_letter_1"
+                                                           type="file"
+                                                           id="test-upload" required="required">
+                                                    <label class="custom-file-label" for="test-upload">Choose
+                                                        file...</label>
+                                                    <span class="text-danger" id="file_error"></span>
+                                                </div>
+                                                <div class="mt-auto">
+                                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">
+                                                        Upload
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                            </div>
+                            @endif
                         @endif
-                        {{--@endif--}}
                     </div>
                 </div>
             </div>
@@ -254,10 +257,10 @@ $disabled=isset($disabled)?$disabled:0;
     {{--letter 1 end--}}
 
     {{--letter 2--}}
-    @if($ol_application->current_status_id == config('commanConfig.applicationStatus.draft_tripartite_agreement'))
+    @if(($ol_application->current_phase > 2) /*&& ($applicationLog->status_id != config('commanConfig.applicationStatus.forwarded'))*/)
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body" style="padding-right: 0;">
-                @if(!($ol_application->current_phase == 2))
+                @if($ol_application->current_phase == 3)
                 @if(session()->get('role_name')==config('commanConfig.ree_junior'))
                     <h3 class="section-title section-title--small mb-0">Letter for Execution and Registartion of Agreement:</h3>
                     <div class=" row-list">
@@ -292,7 +295,7 @@ $disabled=isset($disabled)?$disabled:0;
                                 </div>
                             </div>
 
-                            @if(!($ol_application->current_phase == 2))
+                            @if($ol_application->current_phase > 2 && $ol_application->current_phase <= 3)
 
                             <div class="col-sm-6 border-left">
                                     <div class="d-flex flex-column h-100">

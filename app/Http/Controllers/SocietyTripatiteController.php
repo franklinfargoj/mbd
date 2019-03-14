@@ -46,15 +46,7 @@ class SocietyTripatiteController extends Controller
 //        dd($ol_form_request_fields);
         foreach($ol_form_request_fields->getFillable() as $key => $value){
             if(in_array($value, config('commanConfig.tripartite_fields'))){
-
-                if($id == 9){
-                    if($value != 'developer_name'){
-                        $form_fields[] = $value;
-                    }
-                }
-                if($id == 20){
                     $form_fields[] = $value;
-                }
             }
         }
         $layouts = MasterLayout::all();
@@ -92,6 +84,7 @@ class SocietyTripatiteController extends Controller
             'layout_id' => $request->layout_id,
             'request_form_id' => $ol_request_form_id->id,
             'application_master_id' => $request->application_master_id,
+            'developer_name' => $request->developer_name,
             'application_no' => 'MHD'.str_pad($ol_request_form_id->id, 5, '0', STR_PAD_LEFT),
             'current_status_id' => config('commanConfig.applicationStatus.in_process')
         );
@@ -133,14 +126,8 @@ class SocietyTripatiteController extends Controller
 
         foreach($ol_form_request_fields->getFillable() as $key => $value){
             if(in_array($value, config('commanConfig.tripartite_fields'))){
-                if($ol_applications->application_master_id == 9){
-                    if($value != 'developer_name'){
-                        $form_fields[] = $value;
-                    }
-                }
-                if($ol_applications->application_master_id == 20){
-                    $form_fields[] = $value;
-                }
+                $form_fields[] = $value;
+
                 $form_fields_values[$value] = $ol_applications->request_form->$value;
             }
         }
@@ -230,14 +217,8 @@ class SocietyTripatiteController extends Controller
 
         foreach($ol_form_request_fields->getFillable() as $key => $value){
             if(in_array($value, config('commanConfig.tripartite_fields'))){
-                if($id == 9){
-                    if($value != 'developer_name'){
-                        $form_fields[] = $value;
-                    }
-                }
-                if($id == 20){
-                    $form_fields[] = $value;
-                }
+
+                $form_fields[] = $value;
             }
         }
         $layouts = MasterLayout::all();
