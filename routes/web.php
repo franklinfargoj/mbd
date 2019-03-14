@@ -544,6 +544,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         Route::get('tripartite_agreement/{id}', 'SocietyTripatiteController@show_tripartite_agreement')->name('show_tripartite_agreement');
         Route::post('upload_tripartite_agreement', 'SocietyTripatiteController@upload_tripartite_agreement')->name('upload_tripartite_agreement');
 
+        Route::get('tripartite_letter1/{id}', 'SocietyTripatiteController@show_tripartite_letter1')->name('show_tripartite_letter1');
+        Route::get('tripartite_letter2/{id}', 'SocietyTripatiteController@show_tripartite_letter2')->name('show_tripartite_letter2');
+
         //tripartite end
 
         //Society Conveyance
@@ -818,6 +821,14 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
         Route::post('/setTripartiteRemark','Tripartite\TripartiteController@setTripartiteRemark')->name('tripartite.setTripartiteRemark');
         Route::get('tripartite_forward_application/{application_id}','Tripartite\TripartiteController@forward_application')->name('tripartite.forward_application');
         Route::post('tripartite_forward_application','Tripartite\TripartiteController@saveForwardApplication')->name('tripartite.post_forward_application');
+
+        Route::post('/saveTripartiteLetterForStampDuty','Tripartite\TripartiteController@saveTripartiteLetterForStampDuty')->name('saveTripartiteLetterForStampDuty');
+        Route::post('/upload_signed_tripartite_letter1','Tripartite\TripartiteController@upload_signed_tripartite_letter1')->name('upload_signed_tripartite_letter1');
+
+        Route::post('/saveTripartiteLetterForExecutionRegistraion','Tripartite\TripartiteController@saveTripartiteLetterForExecutionRegistraion')->name('saveTripartiteLetterForExecutionRegistraion');
+        Route::post('/upload_signed_tripartite_letter2','Tripartite\TripartiteController@upload_signed_tripartite_letter2')->name('upload_signed_tripartite_letter2');
+
+
     });
     //End tripartite
     //Society Renewal

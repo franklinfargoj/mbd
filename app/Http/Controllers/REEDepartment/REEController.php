@@ -5,6 +5,7 @@ namespace App\Http\Controllers\REEDepartment;
 use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
 use App\Http\Controllers\OcDashboardController;
 use App\Http\Controllers\Tripartite\TripartiteDashboardController;
+use App\Layout\ArchitectLayout;
 use App\REENote;
 use App\Role;
 use Illuminate\Http\Request;
@@ -51,7 +52,6 @@ use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 use Mpdf\Mpdf;
 use App\LayoutUser;
-use App\Layout\ArchitectLayout;
 
 
 class REEController extends Controller

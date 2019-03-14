@@ -120,7 +120,7 @@ $disabled=isset($disabled)?$disabled:0;
                 <div class="row">
                     <div class="col-md-12">
                         <a href="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                            Edit Agrrement</a>
+                            Edit Agreement</a>
                         <!-- <button type="submit">Edit offer Letter </button> -->
                     </div>
                 </div>
@@ -177,6 +177,162 @@ $disabled=isset($disabled)?$disabled:0;
             </div>
         </div>
     </div>
+
+    {{--letter 1--}}
+    @if(($ol_application->current_phase > 1) && (($applicationLog->status_id == config('commanConfig.applicationStatus.in_process')) || $generated_letter1 != null || $stamped_signed_letter1 != null))
+    <div class="m-portlet m-portlet--mobile m_panel">
+        <div class="m-portlet__body" style="padding-right: 0;">
+
+            @if(session()->get('role_name')==config('commanConfig.ree_junior'))
+                    @if($ol_application->current_phase == 2)
+
+                        <h3 class="section-title section-title--small mb-0">Letter For Stamp Duty:</h3>
+                        <div class=" row-list">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a href="" class="btn btn-primary" data-toggle="modal" data-target="#myletter1Modal">
+                                            Generate/ Edit Letter For Stamp Duty</a>
+                                    <!-- <button type="submit">Edit offer Letter </button> -->
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+            @endif
+
+                @if($generated_letter1 != null || $stamped_signed_letter1 != null)
+                    <div class="w-100 row-list">
+                <div class="">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="d-flex flex-column h-100">
+                                <h5>Download Letter For Stamp Duty</h5>
+                                <br/>
+                                <div class="mt-auto">
+
+                                    @if($tripartite_agrement['drafted_tripartite_letter1'])
+                                        <a target="_blank"
+                                           href="{{config('commanConfig.storage_server').'/'.$tripartite_agrement['drafted_tripartite_letter1']->society_document_path}}"
+                                           class="btn btn-primary">Download</a>
+                                    @else
+                                        <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+    * Note : Letter For Stamp Duty not available. </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        @if(session()->get('role_name')==config('commanConfig.ree_branch_head'))
+                            @if($ol_application->current_phase == 2)
+                                <div class="col-sm-6 border-left">
+                                        <div class="d-flex flex-column h-100">
+                                            <h5>Upload Signed & Scanned Letter For Stamp Duty</h5>
+                                            <form action="{{route('upload_signed_tripartite_letter1')}}" method="post"
+                                                  enctype="multipart/form-data">
+                                                @csrf
+                                                <input type="hidden" id="applicationId" name="applicationId"
+                                                       value="{{ $ol_application->id }}">
+                                                <div class="custom-file">
+                                                    <input class="custom-file-input pdfcheck" name="signed_tripartite_letter_1"
+                                                           type="file"
+                                                           id="test1-upload" required="required">
+                                                    <label class="custom-file-label" for="test1-upload">Choose
+                                                        file...</label>
+                                                    <span class="text-danger" id="file_error"></span>
+                                                </div>
+                                                <div class="mt-auto">
+                                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">
+                                                        Upload
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                            </div>
+                            @endif
+                        @endif
+                    </div>
+                </div>
+            </div>
+                @endif
+        </div>
+    </div>
+    @endif
+    {{--letter 1 end--}}
+
+    {{--letter 2--}}
+    @if(($ol_application->current_phase > 2) && (($applicationLog->status_id == config('commanConfig.applicationStatus.in_process')) || $generated_letter2 != null || $stamped_signed_letter2 != null))
+        <div class="m-portlet m-portlet--mobile m_panel">
+            <div class="m-portlet__body" style="padding-right: 0;">
+                @if($ol_application->current_phase == 3)
+                @if(session()->get('role_name')==config('commanConfig.ree_junior'))
+                    <h3 class="section-title section-title--small mb-0">Letter for Execution and Registartion of Agreement:</h3>
+                    <div class=" row-list">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="" class="btn btn-primary" data-toggle="modal" data-target="#myletter2Modal">
+                                    Generate/ Edit Letter for Execution and Registartion of Agreement</a>
+                                <!-- <button type="submit">Edit offer Letter </button> -->
+                            </div>
+                        </div>
+                    </div>
+                @endif
+                @endif
+                <div class="w-100 row-list">
+                    <div class="">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="d-flex flex-column h-100">
+                                    <h5>Download Letter for Execution and Registartion of Agreement</h5>
+                                    <br/>
+                                    <div class="mt-auto">
+
+                                        @if($tripartite_agrement['drafted_tripartite_letter2'])
+                                            <a target="_blank"
+                                               href="{{config('commanConfig.storage_server').'/'.$tripartite_agrement['drafted_tripartite_letter2']->society_document_path}}"
+                                               class="btn btn-primary">Download</a>
+                                        @else
+                                            <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+    * Note : Letter for Execution and Registartion of Agreement not available. </span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if($ol_application->current_phase > 2 && $ol_application->current_phase <= 3)
+
+                            <div class="col-sm-6 border-left">
+                                    <div class="d-flex flex-column h-100">
+                                        <h5>Upload Signed & Scanned Letter For Execution and Registartion</h5>
+                                        <form action="{{route('upload_signed_tripartite_letter2')}}" method="post"
+                                              enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" id="applicationId" name="applicationId"
+                                                   value="{{ $ol_application->id }}">
+                                            <div class="custom-file">
+                                                <input class="custom-file-input pdfcheck" name="signed_tripartite_letter_2"
+                                                       type="file"
+                                                       id="test2-upload" required="required">
+                                                <label class="custom-file-label" for="test2-upload">Choose
+                                                    file...</label>
+                                                <span class="text-danger" id="file_error"></span>
+                                            </div>
+                                            <div class="mt-auto">
+                                                <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">
+                                                    Upload
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+    {{--letter 2--}}
+
+
     @if(count($tripatiet_remark_history)>0)
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body">
@@ -258,7 +414,7 @@ $disabled=isset($disabled)?$disabled:0;
                     {{-- <input type="hidden" id="document_id" name="text_document_id" value="{{ $no_dues_certificate_docs['text_no_dues_certificate']->id }}">
                     <input type="hidden" id="document_id" name="pdf_document_id" value="{{ $no_dues_certificate_docs['drafted_no_dues_certificate']->id }}">
                     --}}
-                       
+
                     <textarea id="ckeditorText" name="ckeditorText" style="display: none;">
                         @if($content)
                             {{ $content}}
@@ -315,6 +471,145 @@ $disabled=isset($disabled)?$disabled:0;
         </div>
     </div>
 </div>
+
+    {{--letter 1 modal--}}
+<div class="modal modal-large fade" id="myletter1Modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Agreement</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="" action="{{route('saveTripartiteLetterForStampDuty')}}" method="POST">
+                    @csrf
+                    <input type="hidden" id="letterapplicationId" name="letterapplicationId" value="{{ $ol_application->id }}">
+                    {{-- <input type="hidden" id="document_id" name="text_document_id" value="{{ $no_dues_certificate_docs['text_no_dues_certificate']->id }}">
+                    <input type="hidden" id="document_id" name="pdf_document_id" value="{{ $no_dues_certificate_docs['drafted_no_dues_certificate']->id }}">
+                    --}}
+
+                    <textarea id="ckeditorTextletter1" name="ckeditorTextletter1" style="display: none;">
+                        @if($content_letter_1)
+                            {{ $content_letter_1}}
+                        @else
+                            <div style="" id="">
+                                    <h3 style="text-decoration: underline; text-align: center; margin-bottom: 30px;font-size:17px"><b>Agreement</b></h3>
+                                    <p> This Agreement dated this  __________  day of ________________________________ 2012 between the MAHARASHTRA HOUSING AND AREA DEVELOPMENT AUTHORITY a Statutory Corporation duly constituted under the Maharashtra Housing and Area Development Act 1976 (Mah XXVIII of  1977) having its office at Griha Nirman Bhavan, Kala Nagar, Bandra(E), Mumbai 400 051 the Party of the <b>First Part </b> (hereinafter referred to as 'the Authority' which expression shall unless to context requires otherwise include its successors and assigns) through the Mumbai Board a regional unit of the Authority of the <b>First Part</b>.</p>
+                                    <p> And ____________________________ having its office at __________________________ the Party of the Second Part (Society) (hereinafter referred to as the Party of the Second Part and Third part Developer which expression shall unless to the context requires otherwise include its successors and                         of the Second Part.  as well as third party.
+                                    </p>
+                                    <p>WHEREAS the Party of the Second Part & Third Part has applied for grant of No Objection Certificate (hereinafter referred to as the NOC) to the Mumbai Board a regional unit of the Authority for the purpose of redevelopment of Bldg.No.<b> {{ isset($ol_application->eeApplicationSociety->building_no) ? $ol_application->eeApplicationSociety->building_no : '' }}</b> Society Name  <b> {{ isset($ol_application->eeApplicationSociety->name) ? $ol_application->eeApplicationSociety->name : '' }}</b> bearing CTS  No. ______________  situated at <b> {{ isset($ol_application->eeApplicationSociety) ? $ol_application->eeApplicationSociety->address : '' }}
+                                    </b>Mumbai. </p>
+                                    <p> (hereinafter referred to as "the said property") in accordance with the provisions of DCR Nos.33(5) of the Development Control Regulations for Greater Mumbai,1991 (hereinafter referred to as "the DCR"); </p>
+                                    <p>  WHEREAS the proposal of the Party of the Second & Third Part for the purpose of redevelopment of the said property has been duly scrutinized by the Mumbai Board and placed before the meeting of the Mumbai Board held on           ;</p>
+                                    <p>  WHEREAS the Mumbai Board in its meeting held on          approved the proposal of the Party of the Second Part for grant of NOC for redevelopment of the said property vide Resolution No.<b> {{ isset($ol_application->request_form) ? $ol_application->request_form->noc_for_iod_purpose_number : '' }} </b> dated <b> {{ isset($ol_application->request_form) ? $ol_application->request_form->noc_for_iod_purpose_date : '' }} </b> and it is proposed to grant NOC for redevelopment to the Party of the Second Part; </p>
+                                    <p>  WHEREAS after redevelopment, taking into consideration the provisions of revised DCR No.33(5), sharing area is to be surrendered to the Authority by the Party of the Second Part & Third Part which works out to  built up area ______________ sq.mtr. + fungible area ______________ sq.mtr. total built up area _____ sq.mtr. having tenements _________ of ____ sq.mt. unit carpet area. </p>
+                                    <p>WHEREAS it is necessary to execute the Agreement in order to ensure to get the above area to the Authority within prescribed time limit so as to utilize the same in accordance with the provisions of DCR 33(5) 2C (i) MHAD Act,1976 and the Rules, Regulations made under the said Act;</p>
+                                    <p>WHEREAS the Party of the Second Part has agreed to abide  by and be bound by all the terms and conditions prescribed for the NOC  issued for the purpose of redevelopment;</p>
+                                    <p> AND WHEREAS it is expedient and necessary to execute this Agreement in pursuance of the NOC sanctioned for the purpose of redevelopment of the said property on the terms and conditions and covenants hereinafter appearing.</p>
+                                    <p><b>NOW THIS AGREEMENT WITNESSETH as follows:-</b></p>
+                                    <p>1. The Authority through its regional Board i.e. Mumbai Board will issue NOC in favor of Party of the Second describing the terms and conditions. It is agreed that all the terms and conditions mentioned in the NOC as well as recitals  shall form part of the Agreement.</p>
+                                    <p> 2. The Party of the Second Part shall prepare plans of the proposed building indicating therein the sharing area to be handed over to the Authority and submits for the approval of the Authority/Mumbai Board within a period of One months from the date of issue of Offer Letter.</p>
+                                    <p> 3. The Party of the Second Part shall after approval granted by the Authority/Mumbai Board  prepare the plans and submit the same for approval of MCGM within a period of Three months from the date offer letter of /Mumbai Board after evaluating agreement.</p>
+                                    <p> 4. If the Party of the Second Part fails to submit the plans to the MCGM within a period of Three months from its approval by the Authority, the NOC is liable to be cancelled and in such a case this Agreement shall stand automatically terminated.</p>
+                                    <p>5. The Party of the Second Part shall as per direction of the Authority make provision for the residential tenements of 27.88 for EWS / 45 m2 for LIG carpet area (each) minimum in the plans of the proposed building for the purpose of handing over MHADA share. the same to the Authority by way of surplus BUA  area.</p>
+                                    <p>6. The Party of the Second Part shall after issuance of IOD and approval to the Plans by MCGM, show on the plans of the proposed/s and the tenements to be handed over to the Authority / Mumbai Board and certified copies of the Plans shall be submitted to the Authority//Mumbai Board.</p>
+                                    <p> 7. The Party of the Second Part shall commence and construct tenements to be handed over by way of sharing BUA built up area to the Authority <b>within 24 months of date of issue of NOC or within extended time period that may be granted in case of genuine hardship faced which are beyond the control of the Party of the Second Part.</b></p>
+                                    <p>8. The Executive Engineer of the /Mumbai Board / Bandra / Ghatkopar Div in charge of this project shall supervise the construction work of tenements to be handed over by way of sharing built up area to the Authority.  from time to time, at least once in a month, he will visit the site and issue appropriate instructions regarding the work to the Party of the Second Part  and Party of the Second Part shall abide  by and be bound by the same and for carrying out the work accordingly as per the instructions of the Ex. Engineer.</p>
+                                    <p>9. The Party of the Second Part shall complete the construction of tenements in all the respets to be surrendered to MHADA by way of 2/3 sharing area on or before <b>(24 months from the date of NOC) </b>"TIME BEING ESSENCE OF CONTRACT". In case of the work is not completed as per the time limit as above, the Party of the Second Part will be entitled for extension of time limit only on the ground of reasons beyond control of the Party of the Second Part.</p>
+                                    <p>10. The Party of the Second Part shall furnish all the necessary documents such as copy of approved plans along with copies of IOD and CC from MCGM, In addition to that the Party of the Second Part along with its Architect shall furnish certificate to the Authority to the effect that newly constructed building has been built in accordance with the plans approved by MCGM and the tenements constructed by way of surplus built up area as well as constructed for own sale component. </p>
+                                    <p>11. The Party of the Second Part shall take necessary trial pits/trial bores in the said property to ascertain the bearing capacity of the soil and foundation shall be designed accordingly. R.C.C. design of the new proposed building shall be prepared taking into account the aspect of Mumbai Seismic Zone and same should be got approved from R.C.C. Consultant/Structural Engineer, registered with MCGM.</p>
+                                    <p>12. The Party of the Second Part shall as far as possible construct separate building for rehabilitation of existing tenants and for the purpose of free sale, taking into account the plot area of the said property. The NOC holder has to form the independent Co. op. Hsg. Society for rehab building of tenants as well as for free sale component after giving possession to the existing tenants and prospective buyers. <b>The developer shall make provision of surplus tenements in rehab building only when separate buildings are constructed and as far as possible in rehab part of composite building in form of tenements having carpet area of 27.88 m2  EWS / 45 m2 For LIG .</b></p>
+                                    <p>13. <b>The NOC holder shall hand over BUA area at the time of demanding occupation permission. The permission to obtain Occupation Certificate for free sale building / Portion of Bldg shall not be given by Mumbai Board unless the BUA share tenements are dully handed Over to Mumbai Board.</b> It is agreed that in case inspite of the notices in writing given from time to time, without any proper reasons, the NOC holder fails to hand over built up area to the Authority, the Ex.Engineer in charge shall enter into the premises & sharing  BUA area and complete the balance work at the risk and costs of the Party of the Second Part and recover the costs thereof from them.</p>
+                                    <p>14. In case of any dispute vis-à-vis surrendering the sharing built up area to the Authority, the same shall be referred to the VP&CEO/A whose decision shall be final and binding on both the parties.</p>
+                                    <p>15. <b>The Authority is exempted from payment of Stamp Duty as per the Government Notification No.STP-1356/N dated 15.02.1957 issued by the Revenue and Forest Department, Government of Maharashtra read with Law and Judiciary Department's Order dated 13.09.1994. A copy of said order is annexed herewith.</b></p>
+                                   </div>
+                        @endif
+
+                                </textarea>
+                    <input type="submit" value="save" style="background-color: #f0791b;border-color: #f0791b;color: #fff !important;font-family: Poppins;cursor: pointer;display: inline-block;font-weight: 400;text-align: center;white-space: nowrap;vertical-align: middle;border: 1px solid transparent;transition: all .15s ease-in-out;border-radius: .25rem;line-height: 1.25;padding: .65rem 1.25rem;font-size: 1rem;">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{{--letter 1 modal end--}}
+
+{{--letter 1 modal--}}
+<div class="modal modal-large fade" id="myletter2Modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Agreement</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="" action="{{route('saveTripartiteLetterForExecutionRegistraion')}}" method="POST">
+                    @csrf
+                    <input type="hidden" id="letter2applicationId" name="letter2applicationId" value="{{ $ol_application->id }}">
+                    {{-- <input type="hidden" id="document_id" name="text_document_id" value="{{ $no_dues_certificate_docs['text_no_dues_certificate']->id }}">
+                    <input type="hidden" id="document_id" name="pdf_document_id" value="{{ $no_dues_certificate_docs['drafted_no_dues_certificate']->id }}">
+                    --}}
+
+                    <textarea id="ckeditorTextletter2" name="ckeditorTextletter2" style="display: none;">
+                        @if($content_letter_2)
+                            {{ $content_letter_2}}
+                        @else
+                            <div style="" id="">
+                                    <h3 style="text-decoration: underline; text-align: center; margin-bottom: 30px;font-size:17px"><b>Agreement</b></h3>
+                                    <p> This Agreement dated this  __________  day of ________________________________ 2012 between the MAHARASHTRA HOUSING AND AREA DEVELOPMENT AUTHORITY a Statutory Corporation duly constituted under the Maharashtra Housing and Area Development Act 1976 (Mah XXVIII of  1977) having its office at Griha Nirman Bhavan, Kala Nagar, Bandra(E), Mumbai 400 051 the Party of the <b>First Part </b> (hereinafter referred to as 'the Authority' which expression shall unless to context requires otherwise include its successors and assigns) through the Mumbai Board a regional unit of the Authority of the <b>First Part</b>.</p>
+                                    <p> And ____________________________ having its office at __________________________ the Party of the Second Part (Society) (hereinafter referred to as the Party of the Second Part and Third part Developer which expression shall unless to the context requires otherwise include its successors and                         of the Second Part.  as well as third party.
+                                    </p>
+                                    <p>WHEREAS the Party of the Second Part & Third Part has applied for grant of No Objection Certificate (hereinafter referred to as the NOC) to the Mumbai Board a regional unit of the Authority for the purpose of redevelopment of Bldg.No.<b> {{ isset($ol_application->eeApplicationSociety->building_no) ? $ol_application->eeApplicationSociety->building_no : '' }}</b> Society Name  <b> {{ isset($ol_application->eeApplicationSociety->name) ? $ol_application->eeApplicationSociety->name : '' }}</b> bearing CTS  No. ______________  situated at <b> {{ isset($ol_application->eeApplicationSociety) ? $ol_application->eeApplicationSociety->address : '' }}
+                                    </b>Mumbai. </p>
+                                    <p> (hereinafter referred to as "the said property") in accordance with the provisions of DCR Nos.33(5) of the Development Control Regulations for Greater Mumbai,1991 (hereinafter referred to as "the DCR"); </p>
+                                    <p>  WHEREAS the proposal of the Party of the Second & Third Part for the purpose of redevelopment of the said property has been duly scrutinized by the Mumbai Board and placed before the meeting of the Mumbai Board held on           ;</p>
+                                    <p>  WHEREAS the Mumbai Board in its meeting held on          approved the proposal of the Party of the Second Part for grant of NOC for redevelopment of the said property vide Resolution No.<b> {{ isset($ol_application->request_form) ? $ol_application->request_form->noc_for_iod_purpose_number : '' }} </b> dated <b> {{ isset($ol_application->request_form) ? $ol_application->request_form->noc_for_iod_purpose_date : '' }} </b> and it is proposed to grant NOC for redevelopment to the Party of the Second Part; </p>
+                                    <p>  WHEREAS after redevelopment, taking into consideration the provisions of revised DCR No.33(5), sharing area is to be surrendered to the Authority by the Party of the Second Part & Third Part which works out to  built up area ______________ sq.mtr. + fungible area ______________ sq.mtr. total built up area _____ sq.mtr. having tenements _________ of ____ sq.mt. unit carpet area. </p>
+                                    <p>WHEREAS it is necessary to execute the Agreement in order to ensure to get the above area to the Authority within prescribed time limit so as to utilize the same in accordance with the provisions of DCR 33(5) 2C (i) MHAD Act,1976 and the Rules, Regulations made under the said Act;</p>
+                                    <p>WHEREAS the Party of the Second Part has agreed to abide  by and be bound by all the terms and conditions prescribed for the NOC  issued for the purpose of redevelopment;</p>
+                                    <p> AND WHEREAS it is expedient and necessary to execute this Agreement in pursuance of the NOC sanctioned for the purpose of redevelopment of the said property on the terms and conditions and covenants hereinafter appearing.</p>
+                                    <p><b>NOW THIS AGREEMENT WITNESSETH as follows:-</b></p>
+                                    <p>1. The Authority through its regional Board i.e. Mumbai Board will issue NOC in favor of Party of the Second describing the terms and conditions. It is agreed that all the terms and conditions mentioned in the NOC as well as recitals  shall form part of the Agreement.</p>
+                                    <p> 2. The Party of the Second Part shall prepare plans of the proposed building indicating therein the sharing area to be handed over to the Authority and submits for the approval of the Authority/Mumbai Board within a period of One months from the date of issue of Offer Letter.</p>
+                                    <p> 3. The Party of the Second Part shall after approval granted by the Authority/Mumbai Board  prepare the plans and submit the same for approval of MCGM within a period of Three months from the date offer letter of /Mumbai Board after evaluating agreement.</p>
+                                    <p> 4. If the Party of the Second Part fails to submit the plans to the MCGM within a period of Three months from its approval by the Authority, the NOC is liable to be cancelled and in such a case this Agreement shall stand automatically terminated.</p>
+                                    <p>5. The Party of the Second Part shall as per direction of the Authority make provision for the residential tenements of 27.88 for EWS / 45 m2 for LIG carpet area (each) minimum in the plans of the proposed building for the purpose of handing over MHADA share. the same to the Authority by way of surplus BUA  area.</p>
+                                    <p>6. The Party of the Second Part shall after issuance of IOD and approval to the Plans by MCGM, show on the plans of the proposed/s and the tenements to be handed over to the Authority / Mumbai Board and certified copies of the Plans shall be submitted to the Authority//Mumbai Board.</p>
+                                    <p> 7. The Party of the Second Part shall commence and construct tenements to be handed over by way of sharing BUA built up area to the Authority <b>within 24 months of date of issue of NOC or within extended time period that may be granted in case of genuine hardship faced which are beyond the control of the Party of the Second Part.</b></p>
+                                    <p>8. The Executive Engineer of the /Mumbai Board / Bandra / Ghatkopar Div in charge of this project shall supervise the construction work of tenements to be handed over by way of sharing built up area to the Authority.  from time to time, at least once in a month, he will visit the site and issue appropriate instructions regarding the work to the Party of the Second Part  and Party of the Second Part shall abide  by and be bound by the same and for carrying out the work accordingly as per the instructions of the Ex. Engineer.</p>
+                                    <p>9. The Party of the Second Part shall complete the construction of tenements in all the respets to be surrendered to MHADA by way of 2/3 sharing area on or before <b>(24 months from the date of NOC) </b>"TIME BEING ESSENCE OF CONTRACT". In case of the work is not completed as per the time limit as above, the Party of the Second Part will be entitled for extension of time limit only on the ground of reasons beyond control of the Party of the Second Part.</p>
+                                    <p>10. The Party of the Second Part shall furnish all the necessary documents such as copy of approved plans along with copies of IOD and CC from MCGM, In addition to that the Party of the Second Part along with its Architect shall furnish certificate to the Authority to the effect that newly constructed building has been built in accordance with the plans approved by MCGM and the tenements constructed by way of surplus built up area as well as constructed for own sale component. </p>
+                                    <p>11. The Party of the Second Part shall take necessary trial pits/trial bores in the said property to ascertain the bearing capacity of the soil and foundation shall be designed accordingly. R.C.C. design of the new proposed building shall be prepared taking into account the aspect of Mumbai Seismic Zone and same should be got approved from R.C.C. Consultant/Structural Engineer, registered with MCGM.</p>
+                                    <p>12. The Party of the Second Part shall as far as possible construct separate building for rehabilitation of existing tenants and for the purpose of free sale, taking into account the plot area of the said property. The NOC holder has to form the independent Co. op. Hsg. Society for rehab building of tenants as well as for free sale component after giving possession to the existing tenants and prospective buyers. <b>The developer shall make provision of surplus tenements in rehab building only when separate buildings are constructed and as far as possible in rehab part of composite building in form of tenements having carpet area of 27.88 m2  EWS / 45 m2 For LIG .</b></p>
+                                    <p>13. <b>The NOC holder shall hand over BUA area at the time of demanding occupation permission. The permission to obtain Occupation Certificate for free sale building / Portion of Bldg shall not be given by Mumbai Board unless the BUA share tenements are dully handed Over to Mumbai Board.</b> It is agreed that in case inspite of the notices in writing given from time to time, without any proper reasons, the NOC holder fails to hand over built up area to the Authority, the Ex.Engineer in charge shall enter into the premises & sharing  BUA area and complete the balance work at the risk and costs of the Party of the Second Part and recover the costs thereof from them.</p>
+                                    <p>14. In case of any dispute vis-à-vis surrendering the sharing built up area to the Authority, the same shall be referred to the VP&CEO/A whose decision shall be final and binding on both the parties.</p>
+                                    <p>15. <b>The Authority is exempted from payment of Stamp Duty as per the Government Notification No.STP-1356/N dated 15.02.1957 issued by the Revenue and Forest Department, Government of Maharashtra read with Law and Judiciary Department's Order dated 13.09.1994. A copy of said order is annexed herewith.</b></p>
+                                   </div>
+                        @endif
+
+                                </textarea>
+                    <input type="submit" value="save" style="background-color: #f0791b;border-color: #f0791b;color: #fff !important;font-family: Poppins;cursor: pointer;display: inline-block;font-weight: 400;text-align: center;white-space: nowrap;vertical-align: middle;border: 1px solid transparent;transition: all .15s ease-in-out;border-radius: .25rem;line-height: 1.25;padding: .65rem 1.25rem;font-size: 1rem;">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{{--letter 1 modal end--}}
+
+
+
 @endsection
 @section('css')
 <style>
@@ -341,6 +636,23 @@ $disabled=isset($disabled)?$disabled:0;
     });
 
 </script>
+<script>
+    CKEDITOR.disableAutoInline = true;
+    CKEDITOR.replace('ckeditorTextletter1', {
+        height: 700,
+        allowedContent: true
+    });
+
+</script>
+<script>
+    CKEDITOR.disableAutoInline = true;
+    CKEDITOR.replace('ckeditorTextletter2', {
+        height: 700,
+        allowedContent: true
+    });
+
+</script>
+
 <script>
     function upload_attachment(id, number) {
         $(".loader").show();
