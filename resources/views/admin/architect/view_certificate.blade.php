@@ -4,7 +4,7 @@
         <div style="float: left; width: 63%;">&nbsp;</div>
         <div style="float: left; width: 37%;">
             <div style="text-align: left;">
-                <span>ARCH/M.B/ARCH. PANEL/312/2018</span>
+                <span>ARCH/M.B/ARCH. PANEL/312/{{date('Y')}}</span>
             </div>
             <div style="text-align: left;">
                 <span>Date:</span>

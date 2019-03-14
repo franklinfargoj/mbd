@@ -377,6 +377,16 @@ class EEUserSeeder extends Seeder
                 'name'=>'dashboard.ajax',
                 'display_name'=>'view dashboard dynamically',
                 'description'=>'view dashboard dynamically'
+            ],
+            [
+                'name'=>'ee.upload_oc_scrutiny_documents',
+                'display_name'=>'upload oc scrutiny documents',
+                'description'=>'upload oc scrutiny documents'
+            ],
+            [
+                'name'=>'ee.delete_oc_note',
+                'display_name'=>'delete oc note',
+                'description'=>'delete oc note'
             ]
 
         ];

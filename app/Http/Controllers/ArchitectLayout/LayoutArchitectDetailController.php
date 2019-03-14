@@ -47,7 +47,7 @@ class LayoutArchitectDetailController extends Controller
             ['data' => 'application_master_id', 'name' => 'application_master_id', 'title' => 'Model'],
             ['data' => 'created_at', 'name' => 'created_date', 'title' => 'Submission Date', 'class' => 'datatable-date'],
             ['data' => 'updated_at', 'name' => 'updated_at', 'title' => 'Issued Date', 'class' => 'datatable-date'],
-            ['data' => 'status', 'name' => 'status', 'title' => 'Status'],
+            ['data' => 'status', 'name' => 'status', 'title' => 'Society'],
             ['data' => 'action', 'name' => 'action', 'title' => 'Action'],
         ];
         if ($datatables->getRequest()->ajax()) {
@@ -91,14 +91,15 @@ class LayoutArchitectDetailController extends Controller
                     return '-';
                 })
                 ->editColumn('status', function ($ol_applications) {
-                    $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $ol_applications->olApplicationStatus[0]->status_id)[0]);
-                    $status_display = '';
-                    foreach ($status as $status_value) {$status_display .= ucwords($status_value) . ' ';}
-                    $status_color = '';
-                    if ($status_display == 'Sent To Society') {
-                        $status_display = 'Approved';
-                    }
-                    return '<div class="d-flex btn-icon-list"><span class="m-badge m-badge--' . config('commanConfig.applicationStatusColor.' . $ol_applications->olApplicationStatus[0]->status_id) . ' m-badge--wide">' . $status_display . '</span></div>';
+                    return $ol_applications->eeApplicationSociety->name;
+                    // $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $ol_applications->olApplicationStatus[0]->status_id)[0]);
+                    // $status_display = '';
+                    // foreach ($status as $status_value) {$status_display .= ucwords($status_value) . ' ';}
+                    // $status_color = '';
+                    // if ($status_display == 'Sent To Society') {
+                    //     $status_display = 'Approved';
+                    // }
+                    // return '<div class="d-flex btn-icon-list"><span class="m-badge m-badge--' . config('commanConfig.applicationStatusColor.' . $ol_applications->olApplicationStatus[0]->status_id) . ' m-badge--wide">' . $status_display . '</span></div>';
                 })
                 ->editColumn('action', function ($ol_applications) {
                     $certificate_link = "-";

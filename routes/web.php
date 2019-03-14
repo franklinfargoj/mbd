@@ -1224,6 +1224,7 @@ Route::get('/show_form_self_noc/{id}', 'SocietyNocController@show_form_self_noc'
 Route::get('/show_form_dev_noc/{id}', 'SocietyNocController@show_form_dev_noc')->name('show_form_dev_noc');
 Route::post('/save_noc_application_self', 'SocietyNocController@save_noc_application_self')->name('save_noc_application_self');
 Route::get('society_noc_preview/{id}','SocietyNocController@showNocApplication')->name('society_noc_preview');
+Route::get('show_noc_sign_application/{id}','SocietyNocController@displaySingedNOCApplication')->name('show_noc_sign_application');
 Route::get('society_noc_edit/{id}','SocietyNocController@editNocApplication')->name('society_noc_edit');
 Route::post('society_noc_update','SocietyNocController@updateNocApplication')->name('society_noc_update');
 Route::get('documents_upload_noc/{id}','SocietyNocController@displaySocietyDocuments')->name('documents_upload_noc');
@@ -1327,6 +1328,8 @@ Route::post('/scrutiny-verification-oc', 'EEDepartment\EEController@oCScrutinyVe
 Route::post('upload_ee_note_oc','EEDepartment\EEController@uploadOfficeNoteOcEE')->name('ee.upload_office-note-oc');
 Route::get('ee-forward-application-oc/{id}','EEDepartment\EEController@forwardApplicationOcEE')->name('ee-forward-application-oc');
 Route::post('ee_forward_oc_application_data','EEDepartment\EEController@sendForwardOcApplication')->name('ee.forward_oc_application_data');
+Route::post('upload_oc_scrutiny_documents','EEDepartment\EEController@uploadOCScrutinyDocuments')->name('ee.upload_oc_scrutiny_documents');
+Route::post('delete_oc_note','EEDepartment\EEController@deleteOCNote')->name('ee.delete_oc_note');
 
 // EM Routes consent for OC
 
