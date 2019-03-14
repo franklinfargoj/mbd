@@ -3943,18 +3943,22 @@ class CommonController extends Controller
 
 //        $eeTotalPendingCount = $dyceTotalPendingCount = $reeTotalPendingCount
 //        = $coTotalPendingCount = $vpTotalPendingCount = $capTotalPendingCount = 0;
+        $new_offer_letter_master_ids = config('commanConfig.new_offer_letter_master_ids');
 
-        $eeTotalPendingCount = OlApplicationStatus::where('is_active',1)
+        $eeTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($new_offer_letter_master_ids){
+            $q->whereIn('application_master_id', $new_offer_letter_master_ids);
+        })->where('is_active',1)
             ->where('status_id',config('commanConfig.applicationStatus.in_process'))
             ->whereIn('role_id',$eeRoleData)
             ->get()->count();
 
-        $dyceTotalPendingCount = OlApplicationStatus::where('is_active',1)
+        $dyceTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($new_offer_letter_master_ids){
+            $q->whereIn('application_master_id', $new_offer_letter_master_ids);
+        })->where('is_active',1)
             ->where('status_id',config('commanConfig.applicationStatus.in_process'))
             ->whereIn('role_id',$dyceRoleData)
             ->get()->count();
 
-        $new_offer_letter_master_ids = config('commanConfig.new_offer_letter_master_ids');
 
         $reeTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($new_offer_letter_master_ids){
                 $q->whereIn('application_master_id', $new_offer_letter_master_ids);
@@ -4027,18 +4031,22 @@ class CommonController extends Controller
 
 //        $eeTotalPendingCount = $dyceTotalPendingCount = $reeTotalPendingCount
 //        = $coTotalPendingCount = $vpTotalPendingCount = $capTotalPendingCount = 0;
+        $reval_application_type_ids= config('commanConfig.revalidation_master_ids');
 
-        $eeTotalPendingCount = OlApplicationStatus::where('is_active',1)
+        $eeTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($reval_application_type_ids){
+            $q->whereIn('application_master_id', $reval_application_type_ids);
+        })->where('is_active',1)
             ->where('status_id',config('commanConfig.applicationStatus.in_process'))
             ->whereIn('role_id',$eeRoleData)
             ->get()->count();
 
-        $dyceTotalPendingCount = OlApplicationStatus::where('is_active',1)
+        $dyceTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($reval_application_type_ids){
+            $q->whereIn('application_master_id', $reval_application_type_ids);
+        })->where('is_active',1)
             ->where('status_id',config('commanConfig.applicationStatus.in_process'))
             ->whereIn('role_id',$dyceRoleData)
             ->get()->count();
 
-        $reval_application_type_ids= config('commanConfig.revalidation_master_ids');
 
         $reeTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($reval_application_type_ids){
             $q->whereIn('application_master_id', $reval_application_type_ids);
