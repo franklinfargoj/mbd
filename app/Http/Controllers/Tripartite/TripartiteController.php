@@ -649,8 +649,12 @@ class TripartiteController extends Controller
 
         $LAroleId = Role::where('name', '=', config('commanConfig.la_engineer'))->value('id');
         $LAName = User::where('role_id',$LAroleId)->value('name');
-       
-        return view('admin.tripartite.tripartite_agreement', compact('approved_by_co', 'stamped_and_signed', 'stamped_by_society', 'societyData', 'applicationLog', 'ol_application', 'tripatiet_remark_history', 'tripartite_agrement', 'content','coName','LAName','content_letter_1','content_letter_2','generated_letter1','stamped_signed_letter1','generated_letter2','stamped_signed_letter2'));
+
+        $society_id = $ol_application->society_id;
+        $society_details = SocietyOfferLetter::find($society_id);
+
+
+        return view('admin.tripartite.tripartite_agreement', compact('approved_by_co', 'society_details','stamped_and_signed', 'stamped_by_society', 'societyData', 'applicationLog', 'ol_application', 'tripatiet_remark_history', 'tripartite_agrement', 'content','coName','LAName','content_letter_1','content_letter_2','generated_letter1','stamped_signed_letter1','generated_letter2','stamped_signed_letter2'));
     }
 
     public function ree_note($applicationId)
