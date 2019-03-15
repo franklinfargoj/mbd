@@ -55,7 +55,7 @@
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="date_of_meeting">Date of Resolution: <span class="star">*</span></label>
-                            <input type="text" id="m_datepicker" data-date-end-date="+0d" name="date_of_meeting" class="form-control form-control--custom m-input m_datepicker" value="{{ old('date_of_meeting') }}" required>
+                            <input type="text" id="date_of_meeting" data-date-end-date="+0d" name="date_of_meeting" class="form-control form-control--custom m-input m_datepicker" value="{{ old('date_of_meeting') }}" required>
                             <span class="help-block">{{$errors->first('date_of_meeting')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
