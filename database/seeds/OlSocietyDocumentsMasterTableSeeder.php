@@ -803,20 +803,48 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'is_optional'=>0,
                     'is_admin' => 0
                 ],
-                [
-                    'application_id'   => $app,
-                    'language_id'   => $english_lang[0]['id'],
-                    'name' => "Draft of triprtite agreement if available",
-                    'is_optional'=>1,
-                    'is_admin' => 0
-                ],
+//                [
+//                    'application_id'   => $app,
+//                    'language_id'   => $english_lang[0]['id'],
+//                    'name' => "Draft of triprtite agreement if available",
+//                    'is_optional'=>1,
+//                    'is_admin' => 0
+//                ],
                 [
                     'application_id'   => $app,
                     'language_id'   => $english_lang[0]['id'],
                     'name' => "Other",
                     'is_optional'=>1,
                     'is_admin' => 0
-                ]
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "drafted_letter_for_stamp_duty",
+                    'is_optional'=>0,
+                    'is_admin'=>1
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "text_letter_for_stamp_duty",
+                    'is_optional'=>0,
+                    'is_admin'=>1
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "drafted_letter_for_execution_and_registration",
+                    'is_optional'=>0,
+                    'is_admin'=>1
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "text_letter_for_execution_and_registration",
+                    'is_optional'=>0,
+                    'is_admin'=>1
+                ],
             ];
             foreach($app_insertArr as $app_insertAr)
             { 

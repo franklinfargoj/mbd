@@ -133,31 +133,54 @@
          <div id="show-noc">
             <div class="m-portlet m-portlet--mobile m_panel">
                <div class="m-portlet__body" style="padding-right: 0;">
+               <form action="{{route('ree.create_edit_oc')}}" method="post" enctype="multipart/form-data">
+                  @csrf
+                  <input type="hidden" name="applicationId" value="{{ $societyData->id }}">
                   @if($societyData->ree_Jr_id && empty($oc_application->oc_path))
                   <h3 class="section-title section-title--small mb-0">Consent for OC:</h3>
+                  <div class="col-md-12 raw">
+                    <div class="col-md-2">
+                      <span> Type : </span>
+                    </div>
+                    <div class="col-md-5">
+                      <span> Full OC </span>
+                      <label class="m-radio m-radio--primary">
+                         <input type="radio" name="oc_type" value="full_oc" checked>
+                         <span></span>
+                      </label>
+                    </div>
+                    <div class="col-md-5">
+                       <span> Part OC </span>
+                       <label class="m-radio m-radio--primary">
+                         <input type="radio" name="oc_type" value="part_oc">
+                         <span></span>
+                      </label>
+                    </div>
+                  </div>
                   <div class=" row-list">
                      <div class="row">
                         <div class="col-md-12">
                            <p class="font-weight-semi-bold">
                             @if(!empty($oc_application->drafted_oc))
-                            Edit Draft Consent for OC
+                              Edit Draft Consent for OC
                             @else
-                            Generate Draft Consent for OC
+                              Generate Draft Consent for OC
                             @endif
                            </p>
                            <p>Click to view generated OC in PDF format</p>
-                           <a href="{{route('ree.create_edit_oc',$societyData->id)}}" class="btn btn-primary">
+                           <button type="submit" class="btn btn-primary">
                                @if(!empty($oc_application->drafted_oc))
                                 Edit
                                @else
                                 Generate
                                @endif
-                            </a>
+                            </button>
                            <!-- <button type="submit">Edit offer Letter </button> -->
                         </div>
                      </div>
                   </div>
                   @endif
+                  </form>
                   @if(!empty($oc_application->drafted_oc))
                   <div class="w-100 row-list">
                      <div class="">

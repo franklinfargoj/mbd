@@ -43,6 +43,10 @@
 
 @endsection
 @section('js')
+
+
+    <script type="text/javascript" src="{{ asset('/js/amcharts.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/pie.js') }}"></script>
     {{--ajax call for Count Table and Pie chart(Layout Approval)--}}
     <script>
         var dashboard = "{{route('dashboard.ajax')}}";

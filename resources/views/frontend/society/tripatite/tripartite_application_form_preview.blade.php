@@ -66,7 +66,7 @@
                         </div>
 
                         @if((isset($applicationCount) && $applicationCount <= 0) && $ol_applications->olApplicationStatus[0]->status_id == config('commanConfig.applicationStatus.pending') && $ol_applications->current_status_id != config('commanConfig.applicationStatus.draft_tripartite_agreement'))
-                            <a href="{{ route('tripartite_application_form_edit', $ol_applications->id) }}" class="btn btn-primary">
+                            <a href="{{ route('tripartite_application_form_edit', encrypt($ol_applications->id)) }}" class="btn btn-primary">
                                 Back
                             </a>
                             <span style="float:right;margin-right: 20px">

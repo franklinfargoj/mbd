@@ -657,7 +657,17 @@ class SocietyPermissionSeeder extends Seeder
                 'name' => 'show_noc_sign_application',
                 'display_name' => 'show NOC sign application',
                 'description'  => 'show NOC sign application'
-            ]
+            ],
+[
+                'name'         => 'show_tripartite_letter1',
+                'display_name' => 'Tripartite Letter for Stamp Duty',
+                'description'  => 'Tripartite Letter for Stamp Duty'
+            ],
+            [
+                'name'         => 'show_tripartite_letter2',
+                'display_name' => 'Tripartite Letter for Execution and registration',
+                'description'  => 'Tripartite Letter for Execution and registration'
+            ],
         ];
         
         if(count($society)==0){

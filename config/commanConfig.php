@@ -78,7 +78,7 @@ return [
        'approved_tripartite_agreement'=>23,
        'OC_Approved' => 24, 
        'OC_Generation' => 25,
-       'sent_for_stamp_duty_registration'=>26
+       'sent_for_stamp_duty_registration'=>26,
    ],
 
 
@@ -252,7 +252,12 @@ return [
         'text'=>'text_tripartite_agreement',
         'drafted'=>'drafted_tripartite_agreement',
         'drafted_signed'=>'drafted_signed_tripartite_agreement',
-        'ree_note'=>'tripartite_ree_note'
+        'ree_note'=>'tripartite_ree_note',
+        'letter_1_draft' => 'drafted_letter_for_stamp_duty',
+        'letter_1_text' => 'text_letter_for_stamp_duty',
+        'letter_2_draft' => 'drafted_letter_for_execution_and_registration',
+        'letter_2_text' => 'text_letter_for_execution_and_registration'
+
     ],
 
     // sc Application types 
