@@ -14,9 +14,9 @@
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
 
-            <form id="save_noc_application_dev" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{ route('society_noc_cc_update') }}">
+            <form id="save_noc_application_dev" role="form" method="post" class="m-form m-form--rows m-form--label-align-right floating-labels-form" action="{{ route('society_noc_cc_update') }}">
                 @csrf
-                <div class="form-group m-form__group row">
+                <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="application_type_id">Application Type:</label>
                             <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layouts" name="layout_id" required>
@@ -27,7 +27,7 @@
                             <span class="help-block">{{$errors->first('application_type_id')}}</span>
                         </div>
                     </div>
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="preceding_officer_name">Department:</label>
                             <input type="text" id="department_name" name="department_name" class="form-control form-control--custom m-input" value="Resident Executive Engineer" readonly>
@@ -42,7 +42,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="name">Society Name:</label>
                             <input type="text" id="name" name="name" class="form-control form-control--custom m-input" value="{{ $society_details->name }}" readonly>
@@ -55,7 +55,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="offer_letter_number">Offer Letter Number:</label>
                             <input type="text" id="offer_letter_number" name="offer_letter_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->offer_letter_number }}" required>
@@ -69,7 +69,7 @@
                     </div>
 
 
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
                             <label class="col-form-label" for="mcgm_iod_number">MCGM IOD Number :</label>
                             <input type="text" id="mcgm_iod_number" name="mcgm_iod_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->mcgm_iod_number }}" required>
@@ -82,7 +82,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
                             <label class="col-form-label" for="noc_no">NOC for IOD Number :</label>
                             <input type="text" id="noc_no" name="noc_no" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->noc_no }}" required>
@@ -94,7 +94,7 @@
                             <span class="help-block">{{$errors->first('noc_date')}}</span>
                         </div>
                     </div>
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
                             <label class="col-form-label" for="tripartite_agreement_date">Tripartite agreement date :</label>
                             <input type="text" id="m_datepicker" name="tripartite_agreement_date" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->tripartite_agreement_date)) }}" required>
