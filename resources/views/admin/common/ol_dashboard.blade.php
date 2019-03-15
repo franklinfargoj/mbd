@@ -1120,7 +1120,7 @@
 
                             var chartData = [];
 
-                            $.each((data[0]), function (index, data) {
+                            $.each((data), function (index, data) {
                                 obj = {};
                                 if (index != 'Total Number of Applications') {
                                     obj['status'] = index;
