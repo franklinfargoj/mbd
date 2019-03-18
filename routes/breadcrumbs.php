@@ -1413,6 +1413,16 @@ Breadcrumbs::for('society_tripartite_agreement', function ($trail, $id) {
 });
 
 
+Breadcrumbs::for('society_tripartite_letter_for_stamp_duty', function ($trail, $id) {
+    $trail->parent('society_tripartite');
+    $trail->push('Tripartite Letter For Stamp Duty', route('show_tripartite_agreement', $id));
+});
+
+Breadcrumbs::for('society_tripartite_letter_for_execution_and_registration', function ($trail, $id) {
+    $trail->parent('society_tripartite');
+    $trail->push('Tripartite Letter For Execution and Registration', route('show_tripartite_agreement', $id));
+});
+
 //Tripartite Agreement
 Breadcrumbs::for('tripartite',function($trail){
     $trail->push('Home',route('tripartite.index'));
