@@ -311,7 +311,7 @@
                                     </div>
                                 </div>
 
-                                @if($ol_application->current_phase > 2 && $ol_application->current_phase <= 3)
+                                @if($ol_application->current_phase > 2 && $ol_application->current_phase <= 4)
 
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100">
@@ -576,7 +576,7 @@
                                 {{ $content_letter_2}}
                             @else
                                 <div style="" id="">
-                                    <p style="font-size: 16px; line-height: 1.5;margin-left: 70%; margin-bottom: 0;"><span>NO.CO/MB/REE/F-682/&nbsp;&nbsp;&nbsp;/2018</span><br/>
+                                    <p style="font-size: 16px; line-height: 1.5;margin-left: 65%; margin-bottom: 0;"><span>NO.CO/MB/REE/F-682/&nbsp;&nbsp;&nbsp;/2018</span><br/>
                                         <span>Date:</span>
                                     </p>
                                     <div style="clear: both;height: 0;"></div>

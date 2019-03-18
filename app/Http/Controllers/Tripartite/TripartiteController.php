@@ -1072,9 +1072,11 @@ class TripartiteController extends Controller
 
         $ree_junior_role_id = Role::where('name',config('commanConfig.ree_junior'))->pluck('id')->toArray();
 
+
         \DB::transaction(function () use ($is_reverted_to_society, $request, $application, $is_approved_agreement, $ree_junior_role_id, $status) {
 
             $tripartite_application = OlApplication::findOrFail($request->applicationId);
+
             if(in_array($request->to_role_id,$ree_junior_role_id)){
                 $tripartite_application->current_phase = $tripartite_application->current_phase + 1;
                 $tripartite_application->save();
@@ -1086,12 +1088,7 @@ class TripartiteController extends Controller
             if ($is_approved_agreement != 0) {
                 OlApplication::where('id', $request->applicationId)->update(['current_status_id' => $is_approved_agreement,'is_approve_offer_letter'=>($is_approved_agreement==config('commanConfig.applicationStatus.approved_tripartite_agreement')?1:0)]);
             }
-
-            $letter2 = $this->get_tripartite_agreements($request->applicationId, config('commanConfig.tripartite_agreements.letter_2_draft'));
-            if($letter2 != null){
-                OlApplication::where('id', $request->applicationId)->update(['current_phase' => $tripartite_application->current_phase + 1]);
-            }
-
+            
             OlApplicationStatus::where('application_id',$request->applicationId)
                     ->whereIn('user_id', [auth()->user()->id,$request->to_user_id ])
                     ->update(array('is_active' => 0));
