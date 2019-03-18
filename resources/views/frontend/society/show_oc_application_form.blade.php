@@ -63,9 +63,8 @@
           We therefore request you to kindly grant us the NOC for  @if($oc_application->request_form->is_full_oc==1) Full OC @else Part OC @endif for rehab unit and sale component as mentioned above at the earliest.
                     </p>
 
-                    <p>
-                        Thanking you,
-                    </p>
+                    <p>Thanking you,</p>
+                    <p>{{ ($oc_applications->request_form->architect_name)}}</p>
                     <p>
                         Yours faithfully,
                     </p>

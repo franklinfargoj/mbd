@@ -201,6 +201,7 @@
                                              <span></span>
                                              </label>
                                           </td>
+
                                           <td>
                                              @php
                                              if($each_question->remarks_applicable == 1)
@@ -214,7 +215,10 @@
                                              echo 'Not Applicable';
                                              }
                                              @endphp
-                                          </td>
+                                          @if($each_question->is_upload == 1)
+                                                <a target="_blank" class="btn-link" id="file_{{$each_question->id}}" href="{{isset($arrData['scrutiny_answers_to_questions'][$each_question->id]['document_path']) ? config('commanConfig.storage_server').'/'.$arrData['scrutiny_answers_to_questions'][$each_question->id]['document_path'] : ''}}" download >Download</a>
+                                             @endif
+                                          </td> 
                                        </tr>
                                        @php
                                        $i++;
@@ -240,13 +244,60 @@
                   <div class="portlet-body">
                      <div class="m-portlet__body m-portlet__body--table">
                         <div class="m-subheader" style="padding: 0;">
-                           <div class="d-flex align-items-center justify-content-center">
-                              <h3 class="section-title">
-                                 Office Note
-                              </h3>
+                           <div class="d-flex">
+                              <h4 class="section-title">
+                                 EE Note
+                              </h4>
                            </div>
                         </div>
+                        @if(isset($arrData['eeNote']) && count($arrData['eeNote']) > 0)
                         <div class="m-section__content mb-0 table-responsive">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="d-flex flex-column h-100 two-cols">
+                                            <h5>Download EE Note</h5>
+                                               
+                                                    <div class="table-responsive">
+                                                    <table class="mt-2 table table-hover" id="dtBasicExample"> 
+                                                    <tbody>
+
+                                                    @foreach($arrData['eeNote'] as $note)  
+                                                        <tr>
+                                                            <td>                                                                    @php
+                                                        if($note->document_name){
+                                                            $fileName = explode(".",$note->document_name)[0]; 
+                                                        }elseif($note->document_path){
+                                                            $fileName = explode(".",explode('/',$note->document_path)[1])[0];
+                                                        }
+                                                        @endphp 
+
+                                                        {{ isset($fileName) ? $fileName : ''}} 
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <a class="btn-link" download href="{{ config('commanConfig.storage_server').'/'.$note->document_path}} " target="_blank" download>
+                                                        Download </a> 
+                                                            </td>
+                                                            <td class="text-center" style="{{$style}}">
+                                                                <i class="fa fa-close icon2 d-icon hide-print" id="{{ isset($note->id) ? $note->id : '' }}" onclick="removeDocuments(this.id)"></i>
+                                                                <input type="hidden" name= "oldFile" id="oldFile_{{$note->id}}" value="{{ isset($note->document_path) ? $note->document_path : '' }}"> 
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                    </tbody>    
+                                                    </table>
+
+                                                @elseif(isset($arrData['get_last_status']) && ($arrData['get_last_status']->status_id == config('commanConfig.applicationStatus.forwarded')))
+                                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                                    * Note : EE note not available. </span>
+                                                @endif
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                              </div>
+                        </div>
+                        <!-- <div class="m-section__content mb-0 table-responsive">
                            <div class="container">
                               <div class="row">
                                  @if(isset($oc_application->ee_office_note_oc) && !empty($oc_application->ee_office_note_oc))
@@ -270,7 +321,7 @@
                                  @endif
                               </div>
                            </div>
-                        </div>
+                        </div> -->
                      </div>
                   </div>
                </div>

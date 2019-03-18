@@ -1989,15 +1989,14 @@ class SocietyOfferLetterController extends Controller
         $oc_application = OcApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->with(['request_form', 'applicationMasterLayout'])->orderBy('id','desc')->first();
         $layouts = MasterLayout::all();
         $id = $oc_application->application_master_id;
-
-
+        $fileName = $oc_application->application_no.'.pdf';
         $mpdf = new Mpdf();
         $mpdf->autoScriptToLang = true;
         $mpdf->autoLangToFont = true;
         $contents = view('frontend.society.display_society_oc_application', compact('society_details', 'oc_application', 'layouts', 'id'));
-        $mpdf->WriteHTML($contents);
-        $mpdf->Output();
 
+        $mpdf->WriteHTML($contents);
+        $mpdf->Output($fileName,'I');
     }
 
     /**

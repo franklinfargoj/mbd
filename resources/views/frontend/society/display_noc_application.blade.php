@@ -2,7 +2,7 @@
     <div style="font-size: 18px;">
         <div>
             <div style="text-align: center;">
-                <h3 style="font-weight: bold; margin-top: 5px; margin-bottom: 5px;">अर्जाचा नमुना</h3>
+                <!-- <h3 style="font-weight: bold; margin-top: 5px; margin-bottom: 5px;">अर्जाचा नमुना</h3> -->
             </div>
             <div>
                 <p>
@@ -40,7 +40,7 @@
                 <p>Thanking you,</p>
                 <p>Yours Truly</p>
             </div>
-            <div style="margin-top: 30px;">
+            <div style="margin-top: 0px;">
                 <div style="float: left; text-align: left;">
                     <p style="margin-top: 0; margin-bottom: 5px;font-weight:bold;">For {{$society_details->name}}</p>
                         <p style="display: block; margin-top: 5px; margin-bottom: 5px;">Chairman /Secretary / Treasurer</p>

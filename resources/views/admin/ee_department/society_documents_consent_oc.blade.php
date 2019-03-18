@@ -19,7 +19,7 @@
                   <thead class="thead-default">
                      <tr>
                         <th width="10%">
-                           #
+                           Sr.No
                         </th>
                         <th width="90%">
                            तपशील

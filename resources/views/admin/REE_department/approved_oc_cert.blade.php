@@ -128,52 +128,70 @@
     </div>
     <!-- end -->
     <!-- Site Visit -->
-        <input type="hidden" name="applicationId" value="{{$applicationData->id}}">
+
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body" style="padding-right: 0;">
+            <form action="{{route('ree.create_edit_oc')}}" method="post">
+              @csrf
+                <input type="hidden" name="applicationId" value="{{$applicationData->id}}">
                 <h3 class="section-title section-title--small mb-0">Consent for Oc:</h3>
-                <div class="col-md-12 raw">
-                    <div class="col-md-2">
+
+                <div class="m-form__group form-group mt-2 mb-2">
+                        <div class="m-radio-inline">
+                        <label for="" class="mr-2">Type :- </label>
+                        <label class="m-radio m-radio--primary">
+                            <input type="radio" name="oc_type" value="full_oc" checked> Full OC
+                            <span></span>
+                        </label>
+                        <label class="m-radio m-radio--primary">
+                            <input type="radio" name="oc_type" value="part_oc"> Part OC
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+
+                 <!-- <div class="row">
+                     <div class="col-md-12 raw d-flex p-0 mt-4 mb-4">
+                    <div class="mhada-oc-radio">
                       <span> Type : </span>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-2">
                       <span> Full OC </span>
                       <label class="m-radio m-radio--primary">
                          <input type="radio" name="oc_type" value="full_oc" checked>
-                         <span></span>
+                         <span class="mhada-radio-custom"></span>
                       </label>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-2">
                        <span> Part OC </span>
                        <label class="m-radio m-radio--primary">
                          <input type="radio" name="oc_type" value="part_oc">
-                         <span></span>
+                         <span class="mhada-radio-custom"></span>
                       </label>
                     </div>
                   </div>
+                 </div> -->
                 <div class="row field-row">
                     <div class="col-md-6">
                         <p>Click to view generated Consent for Oc in PDF format</p>
                         @if($applicationData->oc_path)   
-                        <a href="{{config('commanConfig.storage_server').'/'.$applicationData-> oc_path}}" class="btn btn-primary" target="_blank" rel="noopener"> 
-                        View Consent for Oc</a>
+                        <!-- <a href="{{config('commanConfig.storage_server').'/'.$applicationData-> oc_path}}" class="btn btn-primary" target="_blank" rel="noopener"> 
+                        View Consent for Oc</a> -->
                         @endif
                         <p></p>
 
                         @if($applicationData->ree_Jr_id && !empty($applicationData->oc_path) && $applicationData->OC_Generation_status == config('commanConfig.applicationStatus.OC_Approved'))
+                       <!--  <a target="_blank" style="margin-top: 2%" href="{{config('commanConfig.storage_server').'/'.$oc_application->drafted_oc}}" class="btn btn-primary">Download Draft Consent Oc</a>  -->
                         <hr>
-                        <form action="{{route('ree.create_edit_oc')}}" method="post" enctype="multipart/form-data">
-                          @csrf
                         <input type="hidden" name="applicationId" value="{{ $oc_application->id }}">  
                         <input type="hidden" name="oc_type" value="{{ $oc_application->oc_type }}">  
                         <button type="submit" class="btn btn-primary">
                         Edit Draft Consent for Oc
                         </button>
-                        </form>
-                        <a target="_blank" style="margin-top: 2%" href="{{config('commanConfig.storage_server').'/'.$oc_application->drafted_oc}}" class="btn btn-primary">Download Draft Consent Oc</a> 
                         @endif
                     </div>
-                    @if($applicationData->ree_Jr_id && !empty($applicationData->oc_path) && $applicationData->OC_Generation_status == config('commanConfig.applicationStatus.OC_Approved'))
+                </form>
+                    @if($applicationData->ree_Jr_id && $applicationData->OC_Generation_status == config('commanConfig.applicationStatus.in_process')) || ($applicationData->OC_Generation_status == config('commanConfig.applicationStatus.OC_Approved') && (session()->get('role_name') == config('commanConfig.ree_branch_head'))))
                     <div class="col-sm-6 border-left">
                         <div class="d-flex flex-column h-100">
                             <h5>Upload Consent for Oc</h5>
@@ -198,7 +216,43 @@
                 </div>
             </div>
         </div>
+    @if($applicationData->OC_Generation_status == config('commanConfig.applicationStatus.OC_Approved'))
+     <div class="m-portlet m-portlet--mobile m_panel">
+        <div class="m-portlet__body table--box-input">
+            <p class="heading"> </p>
+            <div class="col-xs-12 row row-list">
+               <div class="col-sm-6">
+                  <div class="d-flex flex-column h-100">
+                     <h5>Download Draft Consent for OC</h5>
+                     <div class="mt-auto">
+                    @if(empty($oc_application->oc_path))
+                        <a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$oc_application->drafted_oc}}"
+                           class="btn btn-primary">Download</a>
+                    @else
+                       <a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$oc_application->oc_path}}"
+                           class="btn btn-primary">Download</a> 
+                    @endif
+                     </div>
+                  </div>
+               </div> 
+               @if(isset($oc_application->final_oc_agreement))
+                   <div class="col-sm-6">
+                      <div class="d-flex flex-column h-100">
+                         <h5>Download Final Consent for OC</h5>
+                         <div class="mt-auto">
+                        
+                            <a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$oc_application->final_oc_agreement}}"
+                               class="btn btn-primary">Download</a>
+                         </div>
+                      </div>
+                   </div>
+                @endif
+            </div>
+        </div>
+    </div>  
+    @endif  
     <!-- end  -->
+
     <!-- Demarkation verification -->
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body table--box-input">

@@ -37,6 +37,7 @@ use App\OcApplicationStatusLog;
 use App\OcSrutinyQuestionMaster;
 use App\OcEEScrutinyAnswer;
 use App\NOCBuildupArea;
+use App\OCEENote;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
 use App\Http\Controllers\SocietyNocController;
 use App\Http\Controllers\SocietyNocforCCController;
@@ -1523,6 +1524,7 @@ class COController extends Controller
         $arrData['scrutiny_questions_oc'] = OcSrutinyQuestionMaster::all();
 
         $arrData['scrutiny_answers_to_questions'] = OcEEScrutinyAnswer::where('application_id', $applicationId)->get()->keyBy('question_id')->toArray();
+        $arrData['eeNote'] = OCEENote::where('application_id',$applicationId)->orderBy('id','DESC')->get();
 
         $arrData['get_last_status'] = OcApplicationStatusLog::where([
                 'application_id' =>  $applicationId,
