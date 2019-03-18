@@ -39,6 +39,11 @@ class RedevelopementController extends Controller
                     config('commanConfig.ee_branch_head'),
                     config('commanConfig.ee_deputy_engineer'),
                     config('commanConfig.ee_junior_engineer'),
+                    config('commanConfig.ee_deputy_engineer'),
+                    config('commanConfig.ee_junior_engineer'),
+                    config('commanConfig.dyce_branch_head'),
+                    config('commanConfig.dyce_deputy_engineer'),
+                    config('commanConfig.dyce_jr_user'),
                 ))->pluck('id')->toArray();
                 break;
             case config('commanConfig.ree_branch_head'):
@@ -76,11 +81,30 @@ class RedevelopementController extends Controller
                 break;
         }
         //if(auth()->user()->role)
-        $period_title = config('commanConfig.pendency_report_periods')[$request->period];
+        //dd($request->period);
+        $period_title = isset(config('commanConfig.pendency_report_periods')[$request->period])?config('commanConfig.pendency_report_periods')[$request->period]:"";
         $period = explode('-', $request->period);
-        if (count($period) == 2) {
+       // dd($period_title);
+        if (count($period) == 2 || count($period) == 1) {
             $fileName = date('Y_m_d_H_i_s') . '_period_wise_pendency.pdf';
-            $data = OlApplicationStatus::join('ol_applications', 'ol_application_status_log.application_id', '=', 'ol_applications.id')
+            if($period_title=="")
+            {
+                $data = OlApplicationStatus::join('ol_applications', 'ol_application_status_log.application_id', '=', 'ol_applications.id')
+                ->join('ol_societies', 'ol_applications.society_id', '=', 'ol_societies.id')
+                ->join('ol_application_master', 'ol_application_master.id', '=', 'ol_applications.application_master_id')
+                ->join('users', 'users.id', '=', 'ol_application_status_log.user_id')
+                ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->where('ol_application_status_log.is_active', 1)
+                ->whereIn('ol_application_status_log.role_id', $roles)
+                ->where('ol_application_status_log.status_id', config('commanConfig.applicationStatus.in_process'))
+                // ->where(DB::raw('DATEDIFF(NOW(),ol_application_status_log.created_at)'), '>=', $period[0])
+                // ->where(DB::raw('DATEDIFF(NOW(),ol_application_status_log.created_at)'), '<=', $period[1])
+                ->whereIn('ol_applications.layout_id', $layouts)
+                ->get(['roles.name as Role','ol_applications.application_no', 'ol_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),ol_application_status_log.created_at) as days_pending')]);
+                
+            }else
+            {
+                $data = OlApplicationStatus::join('ol_applications', 'ol_application_status_log.application_id', '=', 'ol_applications.id')
                 ->join('ol_societies', 'ol_applications.society_id', '=', 'ol_societies.id')
                 ->join('ol_application_master', 'ol_application_master.id', '=', 'ol_applications.application_master_id')
                 ->join('users', 'users.id', '=', 'ol_application_status_log.user_id')
@@ -92,6 +116,8 @@ class RedevelopementController extends Controller
                 ->where(DB::raw('DATEDIFF(NOW(),ol_application_status_log.created_at)'), '<=', $period[1])
                 ->whereIn('ol_applications.layout_id', $layouts)
                 ->get(['roles.name as Role','ol_applications.application_no', 'ol_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),ol_application_status_log.created_at) as days_pending')]);
+            
+            }
             //dd($data);
             if (count($data) > 0) {
 
