@@ -273,7 +273,7 @@ class LayoutArchitectController extends Controller
                 $master_log[$log->id]['description']=(isset($log)? $log->remark : '');
             }
         }
-        ksort($master_log);
+        krsort($master_log);
         return $master_log;
         
     }
