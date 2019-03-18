@@ -17,11 +17,19 @@
         </div>
         <div>
             <div style="line-height: 1.5;">
-                <p  style="text-indent: 80px;"><span style="display: block; font-weight: bold;">Subject :- </span> Proposed Redevelopment of Residential building of {{ $society_details->name }}, on plot number {{ $society_details->building_no }}, {{ $society_details->address }}.</p>
-
-                <p style="text-indent: 80px;"><span style="display: block; font-weight: bold;">Ref :- </span>1. Offer Letter No. {{ $ol_applications->request_form->offer_letter_number }} dated {{date('j F Y',strtotime($ol_applications->request_form->offer_letter_number))}}</p>
-                <span style="margin-left: 36px"></span>2. NOC for IOD purpose bearing No. {{ $ol_applications->request_form->noc_for_iod_purpose_number }} dated {{date('j F Y',strtotime($ol_applications->request_form->noc_for_iod_purpose_date))}}</p>
-
+                <div style="width: 100%;margin-left: 80px;">
+                    <p style="float: left; font-weight: bold;margin: 15px 0 0 0;width: 15%;">Subject :- </p>
+                    <p style="float: left;margin: 0;width: 85%;">Proposed Redevelopment of Residential building of {{ $society_details->name }}, on plot number {{ $society_details->building_no }}, {{ $society_details->address }}.</p>
+                </div>
+                
+                    <div style="width: 100%;margin-left: 80px;margin-top: 15px;">
+                        <p style="float: left; font-weight: bold;margin: 0px;width: 15%;"><span class="font-weight-semi-bold">Ref :- </p>
+                        <div style="float: left;margin: 0;width: 85%;">
+                            <p style="margin: 0;">1. Offer Letter No. {{ $ol_applications->request_form->offer_letter_number }} dated {{date('j F Y',strtotime($ol_applications->request_form->offer_letter_number))}}</p>
+                            <p style="margin: 0;">2. NOC for IOD purpose bearing No. {{ $ol_applications->request_form->noc_for_iod_purpose_number }} dated {{date('j F Y',strtotime($ol_applications->request_form->noc_for_iod_purpose_date))}}</p>
+                        </div>
+                    </div>
+     
                 <p style="font-weight: bold;">Dear Sir/ Madam,</p>
                 <p>
                     We enclose herewith the TRI-PARTY Agreement between MHADA of the first part, {{ $society_details->name }} second part, {{$ol_applications->request_form->developer_name}} third part for grant of No Objection Certificate for the purpose of redevelopment.
