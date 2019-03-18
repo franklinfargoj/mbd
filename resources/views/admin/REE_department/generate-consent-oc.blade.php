@@ -187,7 +187,7 @@
                         <div class="row">
                            <div class="col-sm-6">
                               <div class="d-flex flex-column h-100">
-                                 <h5>Download Consent for OC</h5>
+                                 <h5>Download Draft Consent for OC</h5>
                                  <div class="mt-auto">
                                 @if(empty($oc_application->oc_path))
                                     <a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$oc_application->drafted_oc}}"
@@ -195,6 +195,17 @@
                                 @else
                                    <a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$oc_application->oc_path}}"
                                        class="btn btn-primary">Download</a> 
+                                @endif
+                                 </div>
+                              </div>
+                           </div> 
+                           <div class="col-sm-6">
+                              <div class="d-flex flex-column h-100">
+                                 <h5>Download Final Consent for OC</h5>
+                                 <div class="mt-auto">
+                                @if(isset($oc_application->final_oc_agreement))
+                                    <a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$oc_application->final_oc_agreement}}"
+                                       class="btn btn-primary">Download</a>
                                 @endif
                                  </div>
                               </div>

@@ -71,7 +71,7 @@
 
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="demand_draft_amount">Premium pay order amount (rs) : <span class="star">*</span></label>
+                            <label class="col-form-label" for="demand_draft_amount">Premium pay order amount (Rs.) : <span class="star">*</span></label>
                             <input type="text" id="demand_draft_amount" name="demand_draft_amount" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->demand_draft_amount }}" required>
                             <span class="help-block">{{$errors->first('demand_draft_amount')}}</span>
                         </div>
@@ -89,7 +89,7 @@
                             <span class="help-block">{{$errors->first('demand_draft_date')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="demand_draft_bank">Offsite Infrastructure charges amount(rs) :<span class="star">*</span></label>
+                            <label class="col-form-label" for="demand_draft_bank">Offsite Infrastructure charges amount(Rs.) :<span class="star">*</span></label>
                             <input type="text" id="offsite_infra_charges" name="offsite_infra_charges" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->offsite_infra_charges }}" required>
                             <span class="help-block">{{$errors->first('offsite_infra_charges')}}</span>
                         </div>
@@ -110,7 +110,7 @@
 
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="water_charges_amount">Water charges amount(rs) : <span class="star">*</span></label>
+                            <label class="col-form-label" for="water_charges_amount">Water charges amount(Rs.) : <span class="star">*</span></label>
                             <input type="text" id="water_charges_amount" name="water_charges_amount" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->water_charges_amount }}" required>
                             <span class="help-block">{{$errors->first('water_charges_amount')}}</span>
                         </div>

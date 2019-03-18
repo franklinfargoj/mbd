@@ -3795,3 +3795,12 @@ label.site-visit-label {
 
     
 }
+
+.mhada-radio-custom{
+    top: -4px !important;
+    left: 6px !important;
+}
+
+.mhada-oc-radio{
+    width: 10%;
+}

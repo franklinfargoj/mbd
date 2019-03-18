@@ -41,6 +41,7 @@ use App\NOCBuildupArea;
 use App\Http\Controllers\SocietyNocController;
 use App\Http\Controllers\SocietyNocforCCController;
 use App\OlDcrRateMaster;
+use App\OCEENote;
 use App\User;
 use Config;
 use Auth;
@@ -2553,6 +2554,7 @@ class REEController extends Controller
         $arrData['scrutiny_questions_oc'] = OcSrutinyQuestionMaster::all();
 
         $arrData['scrutiny_answers_to_questions'] = OcEEScrutinyAnswer::where('application_id', $applicationId)->get()->keyBy('question_id')->toArray();
+        $arrData['eeNote'] = OCEENote::where('application_id',$applicationId)->orderBy('id','DESC')->get();
 
         $arrData['get_last_status'] = OcApplicationStatusLog::where([
                 'application_id' =>  $applicationId,
@@ -2594,13 +2596,15 @@ class REEController extends Controller
         }else{
            $content = ""; 
         }
-
-        return view('admin.REE_department.'.$blade,compact('applicatonId','content','model','OcType','application'));
+        $status = $this->CommonController->getCurrentStatusOc($applicatonId);
+       
+        return view('admin.REE_department.'.$blade,compact('applicatonId','content','model','OcType','application','status'));
     }
 
     public function saveDraftConsentOc(Request $request){
-
-        $oc_application = $this->CommonController->getOcApplication($request->applicationId);
+        // dd($request->applicationId);
+        $applicationId = $request->applicationId;
+        $oc_application = $this->CommonController->getOcApplication($applicationId);
 
         $id = $request->applicationId;
         $content = str_replace('_', "", $_POST['ckeditorText']);
@@ -2635,17 +2639,23 @@ class REEController extends Controller
         $filePath1 = $folder_name1."/".$file_nm;
 
         Storage::disk('ftp')->put($filePath1, $content);
+        $status = $this->CommonController->getCurrentStatusOc($applicationId);
 
-        OcApplication::where('id',$request->applicationId)->update(["drafted_oc" => $filePath, "text_oc" => $filePath1]);
+        if ($status->status_id == config('commanConfig.applicationStatus.in_process')){
+            OcApplication::where('id',$applicationId)->update(["drafted_oc" => $filePath, "text_oc" => $filePath1]);
+        }else if($status->status_id == config('commanConfig.applicationStatus.OC_Approved')){
+            OcApplication::where('id',$applicationId)->update(["final_oc_agreement" => $filePath, "text_oc" => $filePath1]);
+        }
 
         \Session::flash('success_msg', 'Changes in OC draft has been saved successfully..');
         
-        if((session()->get('role_name') == config('commanConfig.ree_junior')) && !empty($oc_application->oc_path) && ($oc_application->is_approve_oc == 1))
+        if((session()->get('role_name') == config('commanConfig.ree_junior')) && $status->status_id == config('commanConfig.applicationStatus.OC_Approved'))
         {
             return redirect('approved_consent_oc_letter/'.$request->applicationId)->with('success', 'Changes in OC has been incorporated successfully.');
-        }
-
+        }else{
+            
         return redirect('generate_oc_certificate/'.$request->applicationId);
+        }
     }
 
     public function uploadDraftConsentforOc(Request $request,$applicationId){

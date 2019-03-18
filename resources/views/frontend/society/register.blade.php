@@ -1,6 +1,5 @@
 @extends('frontend.rti.login')
 @section('body')
-
 <div class="m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login--singin" id="m_login" style="position: relative;">
     <div class="container-fluid">
         <div class="row">
@@ -179,7 +178,7 @@
 
                                             <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('society_architect_name')) has-error @endif">
-                                                    <label for="ArchitectName" class="col-form-label">Architect Name <span class="star">*</span></label>
+                                                    <label for="ArchitectName" class="col-form-label">Architect/ Licence Surveyor Name<span class="star">*</span></label>
                                                     <input id="ArchitectName" class="form-control form-control--custom m-input" type="text"
                                                            placeholder="" name="society_architect_name"
                                                            value="{{ old('society_architect_name') }}">

@@ -178,7 +178,7 @@
                               <div class="table-responsive">
                                  <table class="table">
                                     <thead class="thead-default">
-                                       <th>#</th>
+                                       <th>Sr.No</th>
                                        <th class="table-data--xl">Topics</th>
                                        <th>Yes</th>
                                        <th>No</th>
@@ -337,7 +337,7 @@
                                  <div class="col-sm-6" style="{{ $display }}">
                                     <div class="d-flex flex-column h-100 two-cols">
                                        <h5>Upload Note</h5>
-                                       <span class="hint-text">Click on 'Upload' to upload EE - Cover letter</span>
+                                       <span class="hint-text">Click on 'Upload' to upload EE Note</span>
                                        <form action="{{ route('ee.upload_office-note-oc') }}" method="post"
                                           enctype="multipart/form-data" style="margin-left: -2%;">
                                           @csrf
@@ -354,7 +354,7 @@
                                                 id="uploadBtn">Upload</button>
                                           </div>
                                        </form>
-                                    </div>
+                                    </div> 
                                  </div>
                         </div>
                         @if(isset($arrData['eeNote']) && count($arrData['eeNote']) > 0)
@@ -366,7 +366,7 @@
                                             <h5>Download EE Note</h5>
                                                
                                                     <div class="table-responsive">
-                                                    <table class="mt-2 table"> 
+                                                    <table class="mt-2 table table-hover" id="dtBasicExample"> 
                                                     <tbody>
 
                                                     @foreach($arrData['eeNote'] as $note)  
@@ -394,8 +394,7 @@
                                                     </tbody>    
                                                     </table>
 
-                                                @elseif(isset($arrData['get_last_status']) && ($arrData['get_last_status']->status_id ==
-            config('commanConfig.applicationStatus.forwarded')))
+                                                @elseif(isset($arrData['get_last_status']) && ($arrData['get_last_status']->status_id == config('commanConfig.applicationStatus.forwarded')))
                                                 <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
                                                     * Note : EE note not available. </span>
                                                 @endif
@@ -566,6 +565,15 @@
                 }
             })        
     }
+
+   $(document).ready(function () {
+      $('#dtBasicExample').DataTable();
+      $('.dataTables_length').addClass('bs-select');
+
+      $('#dtBasicExample_wrapper > .row:first-child').remove();
+    });  
+
+    $('#dtBasicExample').dataTable({searching: false, ordering:false, info: false});
    
 </script>
 @endsection
