@@ -600,7 +600,9 @@ class TripartiteController extends Controller
             ->where('phase',0)
             ->orderBy('id', 'desc')->first();
 
-        $approved_proposal_date_by_co = date("d-m-Y", strtotime($approved_proposal_status->created_at));
+        if(isset($approved_proposal_status)){
+            $approved_proposal_date_by_co = date("d-m-Y", strtotime($approved_proposal_status->created_at));
+        }
 
 //        dd($approved_proposal_date_by_co);
         $tripartite_agrement['text_agreement_name'] = $this->get_tripartite_agreements($ol_application->id, config('commanConfig.tripartite_agreements.text'));

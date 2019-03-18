@@ -571,6 +571,16 @@
                         <input type="hidden" id="document_id" name="pdf_document_id" value="{{ $no_dues_certificate_docs['drafted_no_dues_certificate']->id }}">
                         --}}
 
+                       @php
+                           if(isset($approved_proposal_date_by_co)){
+                                $approved_proposal_date_by_co = $approved_proposal_date_by_co;
+                           }else{
+                                $approved_proposal_date_by_co = '';
+                           }
+
+                       @endphp
+
+
                         <textarea id="ckeditorTextletter2" name="ckeditorTextletter2" style="display: none;">
                         @if($content_letter_2)
                                 {{ $content_letter_2}}
