@@ -13,7 +13,7 @@
     <div class="container-fluid mhada-dash-new">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
-                <h3 class="m-subheader__title">Dashboard</h3>
+                <h3 class="m-subheader__title">Dashboardaa</h3>
             </div>
         </div>
 
@@ -53,7 +53,7 @@
                     @endif
                 @endif
 
-                <div class="db__card tripartite no-margin-sm" data-module="Tripartite Agreement">
+                <div class="db__card tripartite " data-module="Tripartite Agreement">
                     <div class="db__card__img-wrap db-color-3">
                         <h3 class="db__card__count">{{$tripartite_count}}</h3>
                     </div>
@@ -111,7 +111,7 @@
                 </div>
                 @endif
 
-            <div class="db__card revision no-margin-sm" data-module="Revision in Layout">
+            <div class="db__card revision " data-module="Revision in Layout">
                 <div class="db__card__img-wrap db-color-5">
                     <h3 class="db__card__count">{{$architect_layout_count}}</h3>
                 </div>

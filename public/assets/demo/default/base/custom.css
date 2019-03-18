@@ -3629,12 +3629,20 @@ label.site-visit-label {
 
 .mhada-full-modal .modal-dialog{
     position: fixed;
-      margin: 0;
-      width: 80%;
-      height: 100%;
-      padding: 0;
-      max-width: 100%;
-      transform: translate(12%,8%) !important;
+    margin: 0;
+    width: 80%;
+    height: 100%;
+    padding: 0;
+    max-width: 100%;
+    transform: translate(12%,8%) !important;
+}
+
+.mhada-full-modal a{
+    color: #fff !important;
+}
+
+.mhada-full-modal .modal-content{
+    min-height: 460px;
 }
 
 .db__card+.db__card{
@@ -3656,6 +3664,11 @@ label.site-visit-label {
 
 .mhada-full-modal .modal-body{
     padding: 0 25px 0 25px !important;
+}
+
+.mhada-full-modal .m-portlet{
+    height: 380px !important;
+    overflow: auto !important;
 }
 
 .mhada-reset-form .m-login__container.m-login--right-box{
@@ -3728,9 +3741,9 @@ label.site-visit-label {
 
 #ajaxchartdiv{
     height: 373px;
-    -webkit-box-shadow: 2px 2px 25px 2px rgba(184,184,184,1);
-    -moz-box-shadow: 2px 2px 25px 2px rgba(184,184,184,1);
-    box-shadow: 2px 2px 25px 2px rgba(184,184,184,1);
+    -webkit-box-shadow: 2px 2px 25px 2px rgb(230, 230, 230);
+    -moz-box-shadow: 2px 2px 25px 2px rgb(230, 230, 230);
+    box-shadow: 2px 2px 25px 2px rgb(230, 230, 230);
 }
 
 /*society offer letter changes*/

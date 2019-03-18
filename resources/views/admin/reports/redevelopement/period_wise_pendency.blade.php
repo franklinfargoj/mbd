@@ -30,8 +30,8 @@
                             </div>
                         </div> --}}
                         <div class="col-md-4">
-                            <select required name="period" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input">
-                                <option value="">Select Period</option>
+                            <select name="period" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input">
+                                <option value="">All</option>
                                 @foreach(config('commanConfig.pendency_report_periods') as $key=>$value)
                                 <option value="{{ $key }}">{{ $value }}</option>
                                 @endforeach

@@ -62,7 +62,7 @@
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="offer_letter_date">Offer Letter Date:</label>
-                            <input type="text" id="m_datepicker" name="offer_letter_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('offer_letter_date') }}" required>
+                            <input type="text" id="offer_letter_date" name="offer_letter_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('offer_letter_date') }}" required>
                             <span class="help-block">{{$errors->first('offer_letter_date')}}</span>
                         </div>
                     </div>
@@ -75,7 +75,7 @@
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group"> <!-- offset-sm-1 -->
                             <label class="col-form-label" for="mcgm_iod_date">MCGM IOD Date :</label>
-                            <input type="text" id="m_datepicker" name="mcgm_iod_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('mcgm_iod_date') }}" required>
+                            <input type="text" id="mcgm_iod_date" name="mcgm_iod_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('mcgm_iod_date') }}" required>
                             <span class="help-block">{{$errors->first('mcgm_iod_date')}}</span>
                         </div>
                     </div>
@@ -88,14 +88,14 @@
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group"> <!-- offset-sm-1 -->
                             <label class="col-form-label" for="noc_date">NOC for IOD Date :</label>
-                            <input type="text" id="m_datepicker" name="noc_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('noc_date') }}" required>
+                            <input type="text" id="noc_date" name="noc_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('noc_date') }}" required>
                             <span class="help-block">{{$errors->first('noc_date')}}</span>
                         </div>
                     </div>
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
                             <label class="col-form-label" for="tripartite_agreement_date">Tripartite Agreement Date :</label>
-                            <input type="text" id="m_datepicker" name="tripartite_agreement_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('tripartite_agreement_date') }}" required>
+                            <input type="text" id="tripartite_agreement_date" name="tripartite_agreement_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('tripartite_agreement_date') }}" required>
                             <span class="help-block">{{$errors->first('tripartite_agreement_date')}}</span>
                         </div>
                         {{--<div class="col-sm-4 offset-sm-1 form-group"> <!-- offset-sm-1 -->--}}
@@ -103,14 +103,11 @@
                             {{--<input type="text" id="tripartite_agreement_number" name="tripartite_agreement_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('tripartite_agreement_number') }}" required>--}}
                             {{--<span class="help-block">{{$errors->first('tripartite_agreement_number')}}</span>--}}
                         {{--</div>--}}
-
-                        @if($id == '21')
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="developer_name">Developer Name:  {{--<span class="star">*</span>--}}</label>
                             <input type="text" id="developer_name" name="developer_name" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('developer_name') }}" required>
                             <span class="help-block">{{$errors->first('developer_name')}}</span>
                         </div>
-                        @endif
                     </div>
 
                     <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">

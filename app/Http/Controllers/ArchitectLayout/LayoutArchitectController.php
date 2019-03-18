@@ -273,7 +273,7 @@ class LayoutArchitectController extends Controller
                 $master_log[$log->id]['description']=(isset($log)? $log->remark : '');
             }
         }
-        ksort($master_log);
+        krsort($master_log);
         return $master_log;
         
     }
@@ -285,7 +285,20 @@ class LayoutArchitectController extends Controller
         $layout_id = decrypt($layout_id);
         $ArchitectLayout = ArchitectLayout::with(['layout_details'])->find($layout_id);
         $parentData = $this->comman->getForwardApplicationArchitectParentData();
-        $arrData['parentData'] = $parentData['parentData'];
+        //dd($parentData['parentData']);
+        $arrData['parentData']=array();
+        if($parentData['parentData']!=null)
+        {
+            foreach($parentData['parentData'] as $parent_data)
+            {
+                if(LayoutUser::where(['user_id'=>$parent_data->id,'layout_id'=>$layout_id])->first())
+                {
+                    $arrData['parentData'][]=$parent_data;
+                }
+            }
+        }
+        
+        $arrData['parentData'] = $arrData['parentData'];
         $arrData['role_name'] = $parentData['role_name'];
         $architectlogs = $this->comman->getLogOfArchitectLayoutApplication($layout_id);
         $Emlogs = $this->comman->getLogOfEmLayoutApplication($layout_id);

@@ -1,268 +1,443 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-@include('admin.tripartite.actions',compact('ol_application'))
+    @include('admin.tripartite.actions',compact('ol_application'))
 @endsection
 @section('content')
-@php
-$disabled=isset($disabled)?$disabled:0;
-@endphp
-<div class="col-md-12">
-    <div class="m-subheader px-0 m-subheader--top">
-        <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title m-subheader__title--separator">Tripartite Agreement</h3>
-            {{ Breadcrumbs::render('tripartite_agreement',$ol_application->id) }}
-            <div class="ml-auto btn-list">
-                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
-                {{-- <a href="?print=1" target="_blank" class="btn print-icon" rel="noopener"><img src="{{asset('/img/print-icon.svg')}}"
-                        title="print"></a> --}}
+    @php
+        $disabled=isset($disabled)?$disabled:0;
+    @endphp
+    <div class="col-md-12">
+        <div class="m-subheader px-0 m-subheader--top">
+            <div class="d-flex align-items-center">
+                <h3 class="m-subheader__title m-subheader__title--separator">Tripartite Agreement</h3>
+                {{ Breadcrumbs::render('tripartite_agreement',$ol_application->id) }}
+                <div class="ml-auto btn-list">
+                    <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left"
+                                                                              style="padding-right: 8px;"></i>Back</a>
+                    {{-- <a href="?print=1" target="_blank" class="btn print-icon" rel="noopener"><img src="{{asset('/img/print-icon.svg')}}"
+                            title="print"></a> --}}
+                </div>
             </div>
         </div>
-    </div>
-    <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
-        <div class="portlet-body">
-            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
-                <div class="m-subheader">
-                    <div class="d-flex align-items-center">
-                        <h3 class="section-title section-title--small">
-                            Society Details:
-                        </h3>
-                    </div>
-                    <div class="row field-row">
-                        <div class="col-sm-6 field-col">
-                            <div class="d-flex">
-                                <span class="field-name">Application Number:</span>
-                                <span class="field-value">{{ $ol_application->application_no }}</span>
-                            </div>
+        <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
+            <div class="portlet-body">
+                <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
+                    <div class="m-subheader">
+                        <div class="d-flex align-items-center">
+                            <h3 class="section-title section-title--small">
+                                Society Details:
+                            </h3>
                         </div>
-                        <div class="col-sm-6 field-col">
-                            <div class="d-flex">
-                                <span class="field-name">Application Date:</span>
-                                <span class="field-value">{{ date(config('commanConfig.dateFormat'),
+                        <div class="row field-row">
+                            <div class="col-sm-6 field-col">
+                                <div class="d-flex">
+                                    <span class="field-name">Application Number:</span>
+                                    <span class="field-value">{{ $ol_application->application_no }}</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 field-col">
+                                <div class="d-flex">
+                                    <span class="field-name">Application Date:</span>
+                                    <span class="field-value">{{ date(config('commanConfig.dateFormat'),
                                     strtotime($ol_application->submitted_at)) }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-6 field-col">
-                            <div class="d-flex">
-                                <span class="field-name">Society Registration No:</span>
-                                <span class="field-value">{{(isset($ol_application->eeApplicationSociety)
+                            <div class="col-sm-6 field-col">
+                                <div class="d-flex">
+                                    <span class="field-name">Society Registration No:</span>
+                                    <span class="field-value">{{(isset($ol_application->eeApplicationSociety)
                                     ? $ol_application->eeApplicationSociety->registration_no : '')}}</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-6 field-col">
-                            <div class="d-flex">
-                                <span class="field-name">Society Name:</span>
-                                <span class="field-value">{{
+                            <div class="col-sm-6 field-col">
+                                <div class="d-flex">
+                                    <span class="field-name">Society Name:</span>
+                                    <span class="field-value">{{
                                     $ol_application->eeApplicationSociety->name }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-6 field-col">
-                            <div class="d-flex">
-                                <span class="field-name">Society Address:</span>
-                                <span class="field-value">{{
+                            <div class="col-sm-6 field-col">
+                                <div class="d-flex">
+                                    <span class="field-name">Society Address:</span>
+                                    <span class="field-value">{{
                                     $ol_application->eeApplicationSociety->address }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-6 field-col">
-                            <div class="d-flex">
-                                <span class="field-name">Building Number:</span>
-                                <span class="field-value">{{
+                            <div class="col-sm-6 field-col">
+                                <div class="d-flex">
+                                    <span class="field-name">Building Number:</span>
+                                    <span class="field-value">{{
                                     $ol_application->eeApplicationSociety->building_no }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="m-subheader">
-                    <div class="d-flex align-items-center">
-                        <h3 class="section-title section-title--small">
-                            Appointed Architect Details:
-                        </h3>
-                    </div>
-                    <div class="row field-row">
-                        <div class="col-sm-6 field-col">
-                            <div class="d-flex">
-                                <span class="field-name">Name of Architect:</span>
-                                <span class="field-value">{{
-                                    $ol_application->eeApplicationSociety->name_of_architect }}</span>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 field-col">
-                            <div class="d-flex">
-                                <span class="field-name">Architect Mobile Number:</span>
-                                <span class="field-value">{{
-                                    $ol_application->eeApplicationSociety->architect_mobile_no }}</span>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 field-col">
-                            <div class="d-flex">
-                                <span class="field-name">Architect Address:</span>
-                                <span class="field-value">{{
-                                    $ol_application->eeApplicationSociety->architect_address }}</span>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 field-col">
-                            <div class="d-flex">
-                                <span class="field-name">Architect Telephone Number:</span>
-                                <span class="field-value">{{
-                                    $ol_application->eeApplicationSociety->architect_telephone_no }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="m-portlet m-portlet--mobile m_panel">
-        <div class="m-portlet__body" style="padding-right: 0;">
-            @if($societyData['ree_Jr_id'] && $applicationLog->status_id
-            !=config('commanConfig.applicationStatus.forwarded') && ($stamped_by_society!=1 && $approved_by_co!=1))
-            <h3 class="section-title section-title--small mb-0">Tripartite Agreement:</h3>
-            <div class=" row-list">
-                <div class="row">
-                    <div class="col-md-12">
-                        <a href="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                            Edit Agrrement</a>
-                        <!-- <button type="submit">Edit offer Letter </button> -->
-                    </div>
-                </div>
-            </div>
-            @endif
-            <div class="w-100 row-list">
-                <div class="">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="d-flex flex-column h-100">
-                                <h5>Download Tripartite Agreement</h5>
-                                <div class="mt-auto">
-
-                                    @if($tripartite_agrement['drafted_tripartite_agreement'])
-                                    <a target="_blank" href="{{config('commanConfig.storage_server').'/'.$tripartite_agrement['drafted_tripartite_agreement']->society_document_path}}"
-                                        class="btn btn-primary">Download</a>
-                                    @else
-                                    <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                        * Note : Offer Letter not available. </span>
-                                    @endif
                                 </div>
                             </div>
                         </div>
-                        @if(((session()->get('role_name')==config('commanConfig.ree_branch_head') && $applicationLog->status_id
-                        !=config('commanConfig.applicationStatus.forwarded') && ($stamped_by_society==1 || $stamped_and_signed==1) && $approved_by_co!=1) || 
-                        (session()->get('role_name')==config('commanConfig.co_engineer') && $applicationLog->status_id
-                        !=config('commanConfig.applicationStatus.forwarded') && ($approved_by_co==1 || $stamped_by_society==1 || $stamped_and_signed==1))) || 
-                        ((session()->get('role_name')==config('commanConfig.ree_junior') && $applicationLog->status_id
-                        !=config('commanConfig.applicationStatus.forwarded') && $stamped_by_society!=1 && $stamped_and_signed!=1 && $approved_by_co!=1)))
-                        @if($applicationLog->status_id !=config('commanConfig.applicationStatus.sent_for_stamp_duty_registration'))
-                        <div class="col-sm-6 border-left">
-                            <div class="d-flex flex-column h-100">
-                                <h5>Upload Signed & scanned Tripartite Agreement</h5>
-                                <form action="{{route('upload_signed_tripartite_agreement')}}" method="post" enctype="multipart/form-data">
-                                    @csrf
-                                    <input type="hidden" id="applicationId" name="applicationId" value="{{ $ol_application->id }}">
-                                    <div class="custom-file">
-                                        <input class="custom-file-input pdfcheck" name="signed_agreement" type="file"
-                                            id="test-upload" required="required">
-                                        <label class="custom-file-label" for="test-upload">Choose
-                                            file...</label>
-                                        <span class="text-danger" id="file_error"></span>
-                                    </div>
-                                    <div class="mt-auto">
-                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                    </div>
-                                </form>
+                    </div>
+                    <div class="m-subheader">
+                        <div class="d-flex align-items-center">
+                            <h3 class="section-title section-title--small">
+                                Appointed Architect Details:
+                            </h3>
+                        </div>
+                        <div class="row field-row">
+                            <div class="col-sm-6 field-col">
+                                <div class="d-flex">
+                                    <span class="field-name">Name of Architect:</span>
+                                    <span class="field-value">{{
+                                    $ol_application->eeApplicationSociety->name_of_architect }}</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 field-col">
+                                <div class="d-flex">
+                                    <span class="field-name">Architect Mobile Number:</span>
+                                    <span class="field-value">{{
+                                    $ol_application->eeApplicationSociety->architect_mobile_no }}</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 field-col">
+                                <div class="d-flex">
+                                    <span class="field-name">Architect Address:</span>
+                                    <span class="field-value">{{
+                                    $ol_application->eeApplicationSociety->architect_address }}</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 field-col">
+                                <div class="d-flex">
+                                    <span class="field-name">Architect Telephone Number:</span>
+                                    <span class="field-value">{{
+                                    $ol_application->eeApplicationSociety->architect_telephone_no }}</span>
+                                </div>
                             </div>
                         </div>
-                        @endif
-                        @endif
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    @if(count($tripatiet_remark_history)>0)
-    <div class="m-portlet m-portlet--mobile m_panel">
-        <div class="m-portlet__body">
-            <h3 class="section-title section-title--small">Remarks on Tripartite Agreement </h3>
-            <div class="remark-body">
-                <div class="remarks-section">
-                    @foreach($tripatiet_remark_history as $history)
-                    {{-- <div class="card">
-                        <div class="card-header">
-                            {{config('commanConfig.la_engineer')==$history->Roles->name?'Riders By':'Remark By'}} 
-                            {{ isset($history->Roles->display_name) ? $history->Roles->display_name : '' }}
-                        </div>
-                        <div class="card-body">
-                          <p class="card-text">{{ isset($history->remark)? $history->remark : '' }}</p>
-                        </div>
-                    </div> --}}
-                    <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container" data-scrollbar-shown="true"
-                        data-scrollable="true" data-max-height="150">
-                        <div class="remarks-section__data">
-                        <p class="remarks-section__data__row"><span>{{config('commanConfig.la_engineer')==$history->Roles->name?'Riders By':'Remark By'}} {{
-                                    isset($history->Roles->display_name) ? $history->Roles->display_name : '' }}
-                        </p>
-                        <p class="">
-                       
-                        <span>{{ isset($history->remark)? $history->remark : '' }}</span>
-                        </p>
+        <div class="m-portlet m-portlet--mobile m_panel">
+            <div class="m-portlet__body" style="padding-right: 0;">
+                @if($societyData['ree_Jr_id'] && $applicationLog->status_id
+                !=config('commanConfig.applicationStatus.forwarded') && ($stamped_by_society!=1 && $approved_by_co!=1))
+                    <h3 class="section-title section-title--small mb-0">Tripartite Agreement:</h3>
+                    <div class=" row-list">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                    Edit Agreement</a>
+                                <!-- <button type="submit">Edit offer Letter </button> -->
+                            </div>
                         </div>
                     </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
+                @endif
+                <div class="w-100 row-list">
+                    <div class="">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="d-flex flex-column h-100">
+                                    <h5>Download Tripartite Agreement</h5>
+                                    <div class="mt-auto">
 
-    @if((session()->get('role_name')==config('commanConfig.ree_junior') || session()->get('role_name')==config('commanConfig.co_engineer') || session()->get('role_name')==config('commanConfig.la_engineer')) && $applicationLog->status_id
-    !=config('commanConfig.applicationStatus.forwarded'))
-    <div class="m-portlet m-portlet--mobile m_panel">
-        <div class="m-portlet__body">
-            @if(session()->get('role_name')==config('commanConfig.la_engineer'))
-            <h3 class="section-title section-title--small">Riders</h3>
-            @else
-            <h3 class="section-title section-title--small">Remark</h3>
-            @endif
-            <div class="col-xs-12 row">
-                <div class="col-md-12">
-                    <form action="{{route('tripartite.setTripartiteRemark')}}" method="POST">
+                                        @if($tripartite_agrement['drafted_tripartite_agreement'])
+                                            <a target="_blank"
+                                               href="{{config('commanConfig.storage_server').'/'.$tripartite_agrement['drafted_tripartite_agreement']->society_document_path}}"
+                                               class="btn btn-primary">Download</a>
+                                        @else
+                                            <span class="error"
+                                                  style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                        * Note : Offer Letter not available. </span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            @if(((session()->get('role_name')==config('commanConfig.ree_branch_head') && $applicationLog->status_id
+                            !=config('commanConfig.applicationStatus.forwarded') && ($stamped_by_society==1 || $stamped_and_signed==1) && $approved_by_co!=1) ||
+                            (session()->get('role_name')==config('commanConfig.co_engineer') && $applicationLog->status_id
+                            !=config('commanConfig.applicationStatus.forwarded') && ($approved_by_co==1 || $stamped_by_society==1 || $stamped_and_signed==1))) ||
+                            ((session()->get('role_name')==config('commanConfig.ree_junior') && $applicationLog->status_id
+                            !=config('commanConfig.applicationStatus.forwarded') && $stamped_by_society!=1 && $stamped_and_signed!=1 && $approved_by_co!=1)))
+                                @if($applicationLog->status_id !=config('commanConfig.applicationStatus.sent_for_stamp_duty_registration'))
+                                    <div class="col-sm-6 border-left">
+                                        <div class="d-flex flex-column h-100">
+                                            <h5>Upload Signed & scanned Tripartite Agreement</h5>
+                                            <form action="{{route('upload_signed_tripartite_agreement')}}" method="post"
+                                                  enctype="multipart/form-data">
+                                                @csrf
+                                                <input type="hidden" id="applicationId" name="applicationId"
+                                                       value="{{ $ol_application->id }}">
+                                                <div class="custom-file">
+                                                    <input class="custom-file-input pdfcheck" name="signed_agreement"
+                                                           type="file"
+                                                           id="test-upload" required="required">
+                                                    <label class="custom-file-label" for="test-upload">Choose
+                                                        file...</label>
+                                                    <span class="text-danger" id="file_error"></span>
+                                                </div>
+                                                <div class="mt-auto">
+                                                    <button type="submit" class="btn btn-primary btn-custom"
+                                                            id="uploadBtn">Upload
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{--letter 1--}}
+        @if(($ol_application->current_phase > 1) || $generated_letter1 != null || $stamped_signed_letter1 != null)
+            <div class="m-portlet m-portlet--mobile m_panel">
+                <div class="m-portlet__body" style="padding-right: 0;">
+
+                    @if(session()->get('role_name')==config('commanConfig.ree_junior'))
+                        @if(($ol_application->current_phase == 2) && ($applicationLog->status_id == config('commanConfig.applicationStatus.in_process')))
+
+                            <h3 class="section-title section-title--small mb-0">Letter For Stamp Duty:</h3>
+                            <div class=" row-list">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <a href="" class="btn btn-primary" data-toggle="modal"
+                                           data-target="#myletter1Modal">
+                                            Generate/ Edit Letter For Stamp Duty</a>
+                                        <!-- <button type="submit">Edit offer Letter </button> -->
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    @endif
+
+
+                    <div class="w-100 row-list">
+                        <div class="">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="d-flex flex-column h-100">
+                                        <h5>Download Letter For Stamp Duty</h5>
+                                        <br/>
+                                        <div class="mt-auto">
+
+                                            @if($tripartite_agrement['drafted_tripartite_letter1'] || $generated_letter1 != null || $stamped_signed_letter1 != null)
+                                                <a target="_blank"
+                                                   href="{{config('commanConfig.storage_server').'/'.$tripartite_agrement['drafted_tripartite_letter1']->society_document_path}}"
+                                                   class="btn btn-primary">Download</a>
+                                            @else
+                                                <span class="error"
+                                                      style="display: block;color: #ce2323;margin-bottom: 17px;">
+    * Note : Letter For Stamp Duty not available. </span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                @if(session()->get('role_name')==config('commanConfig.ree_branch_head'))
+                                    @if($ol_application->current_phase == 2)
+                                        <div class="col-sm-6 border-left">
+                                            <div class="d-flex flex-column h-100">
+                                                <h5>Upload Signed & Scanned Letter For Stamp Duty</h5>
+                                                <form action="{{route('upload_signed_tripartite_letter1')}}"
+                                                      method="post"
+                                                      enctype="multipart/form-data">
+                                                    @csrf
+                                                    <input type="hidden" id="applicationId" name="applicationId"
+                                                           value="{{ $ol_application->id }}">
+                                                    <div class="custom-file">
+                                                        <input class="custom-file-input pdfcheck"
+                                                               name="signed_tripartite_letter_1"
+                                                               type="file"
+                                                               id="test1-upload" required="required">
+                                                        <label class="custom-file-label" for="test1-upload">Choose
+                                                            file...</label>
+                                                        <span class="text-danger" id="file_error"></span>
+                                                    </div>
+                                                    <div class="mt-auto">
+                                                        <button type="submit" class="btn btn-primary btn-custom"
+                                                                id="uploadBtn">
+                                                            Upload
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+        {{--letter 1 end--}}
+
+        {{--letter 2--}}
+        @if(($ol_application->current_phase > 2) && (($applicationLog->status_id == config('commanConfig.applicationStatus.in_process')) || $generated_letter2 != null || $stamped_signed_letter2 != null))
+            <div class="m-portlet m-portlet--mobile m_panel">
+                <div class="m-portlet__body" style="padding-right: 0;">
+                    @if($ol_application->current_phase == 3)
+                        @if(session()->get('role_name')==config('commanConfig.ree_junior'))
+                            <h3 class="section-title section-title--small mb-0">Letter for Execution and Registartion of
+                                Agreement:</h3>
+                            <div class=" row-list">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <a href="" class="btn btn-primary" data-toggle="modal"
+                                           data-target="#myletter2Modal">
+                                            Generate/ Edit Letter for Execution and Registartion of Agreement</a>
+                                        <!-- <button type="submit">Edit offer Letter </button> -->
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    @endif
+                    <div class="w-100 row-list">
+                        <div class="">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="d-flex flex-column h-100">
+                                        <h5>Download Letter for Execution and Registartion of Agreement</h5>
+                                        <br/>
+                                        <div class="mt-auto">
+
+                                            @if($tripartite_agrement['drafted_tripartite_letter2'])
+                                                <a target="_blank"
+                                                   href="{{config('commanConfig.storage_server').'/'.$tripartite_agrement['drafted_tripartite_letter2']->society_document_path}}"
+                                                   class="btn btn-primary">Download</a>
+                                            @else
+                                                <span class="error"
+                                                      style="display: block;color: #ce2323;margin-bottom: 17px;">
+    * Note : Letter for Execution and Registartion of Agreement not available. </span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @if($ol_application->current_phase > 2 && $ol_application->current_phase <= 3)
+
+                                    <div class="col-sm-6 border-left">
+                                        <div class="d-flex flex-column h-100">
+                                            <h5>Upload Signed & Scanned Letter For Execution and Registartion</h5>
+                                            <form action="{{route('upload_signed_tripartite_letter2')}}" method="post"
+                                                  enctype="multipart/form-data">
+                                                @csrf
+                                                <input type="hidden" id="applicationId" name="applicationId"
+                                                       value="{{ $ol_application->id }}">
+                                                <div class="custom-file">
+                                                    <input class="custom-file-input pdfcheck"
+                                                           name="signed_tripartite_letter_2"
+                                                           type="file"
+                                                           id="test2-upload" required="required">
+                                                    <label class="custom-file-label" for="test2-upload">Choose
+                                                        file...</label>
+                                                    <span class="text-danger" id="file_error"></span>
+                                                </div>
+                                                <div class="mt-auto">
+                                                    <button type="submit" class="btn btn-primary btn-custom"
+                                                            id="uploadBtn">
+                                                        Upload
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+        {{--letter 2--}}
+
+
+        @if(count($tripatiet_remark_history)>0)
+            <div class="m-portlet m-portlet--mobile m_panel">
+                <div class="m-portlet__body">
+                    <h3 class="section-title section-title--small">Remarks on Tripartite Agreement </h3>
+                    <div class="remark-body">
+                        <div class="remarks-section">
+                            @foreach($tripatiet_remark_history as $history)
+                                {{-- <div class="card">
+                                    <div class="card-header">
+                                        {{config('commanConfig.la_engineer')==$history->Roles->name?'Riders By':'Remark By'}}
+                                        {{ isset($history->Roles->display_name) ? $history->Roles->display_name : '' }}
+                                    </div>
+                                    <div class="card-body">
+                                      <p class="card-text">{{ isset($history->remark)? $history->remark : '' }}</p>
+                                    </div>
+                                </div> --}}
+                                <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                                     data-scrollbar-shown="true"
+                                     data-scrollable="true" data-max-height="150">
+                                    <div class="remarks-section__data">
+                                        <p class="remarks-section__data__row">
+                                            <span>{{config('commanConfig.la_engineer')==$history->Roles->name?'Riders By':'Remark By'}} {{
+                                    isset($history->Roles->display_name) ? $history->Roles->display_name : '' }}
+                                        </p>
+                                        <p class="">
+
+                                            <span>{{ isset($history->remark)? $history->remark : '' }}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+        @if((session()->get('role_name')==config('commanConfig.ree_junior') || session()->get('role_name')==config('commanConfig.co_engineer') || session()->get('role_name')==config('commanConfig.la_engineer')) && $applicationLog->status_id
+        !=config('commanConfig.applicationStatus.forwarded'))
+            <div class="m-portlet m-portlet--mobile m_panel">
+                <div class="m-portlet__body">
+                    @if(session()->get('role_name')==config('commanConfig.la_engineer'))
+                        <h3 class="section-title section-title--small">Riders</h3>
+                    @else
+                        <h3 class="section-title section-title--small">Remark</h3>
+                    @endif
+                    <div class="col-xs-12 row">
+                        <div class="col-md-12">
+                            <form action="{{route('tripartite.setTripartiteRemark')}}" method="POST">
+                                @csrf
+                                <input type="hidden" id="applicationId" name="applicationId"
+                                       value="{{ $ol_application->id }}">
+                                <textarea rows="4" cols="63" name="remark"></textarea>
+                                <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+        {{-- <div class="m-portlet">
+            <div id="printdiv">
+                <form class="letter-form m-form" action="" method="post" id="society-conveyance-application" enctype="multipart/form-data">
+                    @csrf
+
+                </form>
+            </div>
+        </div> --}}
+    </div>
+
+    <div class="modal modal-large fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Agreement</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="" action="{{route('saveTripartiteagreement')}}" method="POST">
                         @csrf
                         <input type="hidden" id="applicationId" name="applicationId" value="{{ $ol_application->id }}">
-                        <textarea rows="4" cols="63" name="remark"></textarea>
-                        <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
-    {{-- <div class="m-portlet">
-        <div id="printdiv">
-            <form class="letter-form m-form" action="" method="post" id="society-conveyance-application" enctype="multipart/form-data">
-                @csrf
+                        {{-- <input type="hidden" id="document_id" name="text_document_id" value="{{ $no_dues_certificate_docs['text_no_dues_certificate']->id }}">
+                        <input type="hidden" id="document_id" name="pdf_document_id" value="{{ $no_dues_certificate_docs['drafted_no_dues_certificate']->id }}">
+                        --}}
 
-            </form>
-        </div>
-    </div> --}}
-</div>
-
-<div class="modal modal-large fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Agreement</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="" action="{{route('saveTripartiteagreement')}}" method="POST">
-                    @csrf
-                    <input type="hidden" id="applicationId" name="applicationId" value="{{ $ol_application->id }}">
-                    {{-- <input type="hidden" id="document_id" name="text_document_id" value="{{ $no_dues_certificate_docs['text_no_dues_certificate']->id }}">
-                    <input type="hidden" id="document_id" name="pdf_document_id" value="{{ $no_dues_certificate_docs['drafted_no_dues_certificate']->id }}">
-                    --}}
-                       
-                    <textarea id="ckeditorText" name="ckeditorText" style="display: none;">
+                        <textarea id="ckeditorText" name="ckeditorText" style="display: none;">
                         @if($content)
-                            {{ $content}}
-                        @else
+                                {{ $content}}
+                            @else
                                 <div style="" id=""> 
                                     <h3 style="text-decoration: underline; text-align: center; margin-bottom: 30px;font-size:17px"><b>Agreement</b></h3>
                                     <p> This Agreement dated this  __________  day of ________________________________ 2012 between the MAHARASHTRA HOUSING AND AREA DEVELOPMENT AUTHORITY a Statutory Corporation duly constituted under the Maharashtra Housing and Area Development Act 1976 (Mah XXVIII of  1977) having its office at Griha Nirman Bhavan, Kala Nagar, Bandra(E), Mumbai 400 051 the Party of the <b>First Part </b> (hereinafter referred to as 'the Authority' which expression shall unless to context requires otherwise include its successors and assigns) through the Mumbai Board a regional unit of the Authority of the <b>First Part</b>.</p>
@@ -302,95 +477,256 @@ $disabled=isset($disabled)?$disabled:0;
                                     <p>_____________ DATED THIS  ________ DAY OF  __________________________      2016 AHARASHTRA HOUSING AND AREA DEVELOPMENT AUTHORITY. AND AGREEMENT</p>
                                     <p style="text-align:right;">SHRI <b> {{(isset($LAName) ? $LAName : '' )}} </b> LEGAL ADVISER/MHADA.</p>
                                 </div>
-                        @endif        
+                            @endif
                            
                                 </textarea>
-                    <input type="submit" value="save" style="background-color: #f0791b;border-color: #f0791b;color: #fff !important;font-family: Poppins;cursor: pointer;display: inline-block;font-weight: 400;text-align: center;white-space: nowrap;vertical-align: middle;border: 1px solid transparent;transition: all .15s ease-in-out;border-radius: .25rem;line-height: 1.25;padding: .65rem 1.25rem;font-size: 1rem;">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" value="save"
+                               style="background-color: #f0791b;border-color: #f0791b;color: #fff !important;font-family: Poppins;cursor: pointer;display: inline-block;font-weight: 400;text-align: center;white-space: nowrap;vertical-align: middle;border: 1px solid transparent;transition: all .15s ease-in-out;border-radius: .25rem;line-height: 1.25;padding: .65rem 1.25rem;font-size: 1rem;">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    {{--letter 1 modal--}}
+    <div class="modal modal-large fade" id="myletter1Modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Agreement</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="" action="{{route('saveTripartiteLetterForStampDuty')}}" method="POST">
+                        @csrf
+                        <input type="hidden" id="letterapplicationId" name="letterapplicationId"
+                               value="{{ $ol_application->id }}">
+                        {{-- <input type="hidden" id="document_id" name="text_document_id" value="{{ $no_dues_certificate_docs['text_no_dues_certificate']->id }}">
+                        <input type="hidden" id="document_id" name="pdf_document_id" value="{{ $no_dues_certificate_docs['drafted_no_dues_certificate']->id }}">
+                        --}}
+
+                        <textarea id="ckeditorTextletter1" name="ckeditorTextletter1" style="display: none;">
+                        @if($content_letter_1)
+                                {{ $content_letter_1}}
+                            @else
+                                <div style="" id="">
+                                    <p>जा.क्र्./नि.का.अ./मुं.मं./&nbsp;&nbsp;&nbsp;/१८<br>
+                                        <span>दिनांक:-_____________</span><br></p>
+                                    <p>प्रति,<br>
+                                        अध्यक्ष/सचिव, <br>
+                                        <span>{{$society_details->name}},</span><br/>
+                                        <span>{{$society_details->address}}.</span></p><br/>
+                                    <p>विषय:- {{$society_details->name}},{{$society_details->address}} या इमारतीचा पुनर्विकासाकरिता सुधारित वि.नि.नि. ३३(५) नुसार त्रिपक्षीय करारनामा करणे संदर्भात मुद्रांक शुल्क भरणेबाबत.</p>
+                                    <p>संदर्भ:- मा.विधी सल्लागार / प्रा. यांची  मंजुरी क्र्.&nbsp;&nbsp;&nbsp;दि.</p>
+                                    <p>महोदय,</p>
+                                    <p>उपरोक्त विषयास अनुसरून मा.विधी सल्लागार / प्रा. यांनी इमारतीचा त्रिपक्षीय करारनामा करणे संदर्भात मसुद्यास मान्यता दिलेली असून सदर मसुदा मान्य असल्याबाबत नमूद करून त्याची प्रत, तसेच त्रिपक्षीय करारनामा हिरव्या लीगल पेपरवर टंकलिखित करून व मुद्रांक शुल्क भरणा करून पुढील कार्यवाहीसाठी कार्यालयात सादर करण्यात यावा.</p><br/><br/>
+                                    <p>आपला विश्वासू  </p><br/>
+                                    <p>निवासी कार्यकारी अभियंता,</p>
+                                    <p>मुंबई मंडळ </p>
+                                </div>
+                            @endif
+
+                                </textarea>
+                        <input type="submit" value="save"
+                               style="background-color: #f0791b;border-color: #f0791b;color: #fff !important;font-family: Poppins;cursor: pointer;display: inline-block;font-weight: 400;text-align: center;white-space: nowrap;vertical-align: middle;border: 1px solid transparent;transition: all .15s ease-in-out;border-radius: .25rem;line-height: 1.25;padding: .65rem 1.25rem;font-size: 1rem;">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {{--letter 1 modal end--}}
+
+    {{--letter 1 modal--}}
+    <div class="modal modal-large fade" id="myletter2Modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Agreement</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="" action="{{route('saveTripartiteLetterForExecutionRegistraion')}}" method="POST">
+                        @csrf
+                        <input type="hidden" id="letter2applicationId" name="letter2applicationId"
+                               value="{{ $ol_application->id }}">
+                        {{-- <input type="hidden" id="document_id" name="text_document_id" value="{{ $no_dues_certificate_docs['text_no_dues_certificate']->id }}">
+                        <input type="hidden" id="document_id" name="pdf_document_id" value="{{ $no_dues_certificate_docs['drafted_no_dues_certificate']->id }}">
+                        --}}
+
+                        <textarea id="ckeditorTextletter2" name="ckeditorTextletter2" style="display: none;">
+                        @if($content_letter_2)
+                                {{ $content_letter_2}}
+                            @else
+                                <div style="" id="">
+                                    <p><span>NO.CO/MB/REE/F-682/____/2018</span><br/>
+                                        <span>Date:</span></p>
+                                    <br/><br/>
+                                    <p>
+                                        <span>To,</span><br/>
+                                        <span>The Joint Sub Registrar,</span><br/>
+                                        <span>Andheri,Mumbai</span>
+                                    </p><br/>
+                                    <p>Sub: Execution of agreenment for redevelopment of property at existing
+                                    <p>{{$society_details->name}},{{$society_details->address}}.</p></p>
+                                    <br/>
+                                    <p style="display: block; font-weight: bold; float: left;width: 10%;">Ref :- </p>
+                                        <div style="width: 90%;float: left;margin-top: 0px;margin-left: 0;">
+                                            1. NOC FOR IOD Purpose NO. <span style="width: 200px; border-bottom: 1px solid #000;">________</span> Dated <span style="width: 200px; border-bottom: 1px solid #000;">________</span>
+                                            <p> 2. Society's Developer letter for agreement dated:</p>
+                                        </div>
+
+                                    <p>Sir,</p>
+                                    <p>
+                                        With reference to the subject matter, Hon. VP/A has approved the above mentioned proposal on 30/10/2015.As per conditions of the NOC
+                                        issued vide ref. no. 1 BUA share of MHADA has to be handed over by the {{$society_details->name,$society_details->address}}.
+                                        In this regard MHADA & {{$society_details->name}} have to enter into agreement. First part MHADA,second part {{$society_details->name}}, third part is
+                                        {{$society_details->developer_name}}.
+                                    </p><br/>
+                                    <p>
+                                        The agreement has been signed on behalf of first part by Shri.Deependra Singh Kushwah, Chief Officer, Mumbai Board on
+                                        behalf of MHADA. Hence the same is forwarded to your office for execution and registartion.
+                                    </p><br/>
+                                    <p>
+                                        However it is to inform you that Shri. Deependra Singh Kushwah, Chief Officer Mumbai Board is exempted to appear
+                                        at Sub Registrar's Office as per the provisions of Sec.88 of Indian Registration Act. 1908. Accordingly you may execute
+                                        and register the document without insisting the peresence of the party of first part.
+                                    </p><br>
+                                    <p>
+                                        This is for your favour of information and necessary action.
+                                    </p>
+                                    <div style="margin-top: 30px;">
+                                        <div style="float: left; text-align: left;">
+                                                <p style="display: block; margin-top: 5px; margin-bottom: 5px;">Asst. Engr. /Deputy Eng. / Ass.Arch./ Res. Exe. Eng.</p>
+                                        </div><br/><br/><br/>
+                                        <p>
+                                            (Dependra Singh Kushwah)<br/>
+                                            Chief Officer, Mumbai Board.
+                                        </p>
+                                    </div>
+                                </div>
+                            @endif
+
+                                </textarea>
+                        <input type="submit" value="save"
+                               style="background-color: #f0791b;border-color: #f0791b;color: #fff !important;font-family: Poppins;cursor: pointer;display: inline-block;font-weight: 400;text-align: center;white-space: nowrap;vertical-align: middle;border: 1px solid transparent;transition: all .15s ease-in-out;border-radius: .25rem;line-height: 1.25;padding: .65rem 1.25rem;font-size: 1rem;">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {{--letter 1 modal end--}}
+
+
+
 @endsection
 @section('css')
-<style>
-    .loader {
-        position: fixed;
-        left: 0px;
-        top: 0px;
-        width: 100%;
-        height: 100%;
-        z-index: 9999;
-        background: url('/img/loading-spinner-blue.gif') 50% 50% no-repeat rgb(249, 249, 249);
-        opacity: .8;
-    }
+    <style>
+        .loader {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: url('/img/loading-spinner-blue.gif') 50% 50% no-repeat rgb(249, 249, 249);
+            opacity: .8;
+        }
 
-</style>
+    </style>
 @endsection
 @section('js')
-<script src="{{ asset('vendor/unisharp/laravel-ckeditor/ckeditor.js') }}"></script>
-<script>
-    CKEDITOR.disableAutoInline = true;
-    CKEDITOR.replace('ckeditorText', {
-        height: 700,
-        allowedContent: true
-    });
-
-</script>
-<script>
-    function upload_attachment(id, number) {
-        $(".loader").show();
-        var master_document_id = document.getElementById('master_document_id_' + number).value;
-        var document_status_id = document.getElementById('document_status_id_' + number).value;
-        var sf_application_id = document.getElementById('sf_application_id').value;
-
-
-        document.getElementById('sf_doc_error_' + number).value = "";
-        var file_data = $('#' + id).prop('files')[0];
-        var form_data = new FormData();
-        form_data.append('file', file_data);
-        form_data.append('master_document_id', master_document_id);
-        form_data.append('document_status_id', document_status_id);
-        form_data.append('sf_application_id', sf_application_id);
-        //console.log(form_data)
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-Token': '{{csrf_token()}}'
-            }
+    <script src="{{ asset('vendor/unisharp/laravel-ckeditor/ckeditor.js') }}"></script>
+    <script>
+        CKEDITOR.disableAutoInline = true;
+        CKEDITOR.replace('ckeditorText', {
+            height: 700,
+            allowedContent: true
         });
-        $.ajax({
-            url: "{{url('upload_sf_application_attachment')}}", // point to server-side PHP script
-            data: form_data,
-            type: 'POST',
-            contentType: false, // The content type used when sending data to the server.
-            cache: false, // To unable request pages to be cached
-            processData: false,
-            success: function (data) {
-                $(".loader").hide();
-                console.log(data)
-                if (data.status == true) {
-                    $("#uploaded_file_" + number).prop("href", data.file_path)
-                    $("#uploaded_file_" + number).css("display", "block");
-                    document.getElementById('document_status_id_' + number).value = data.doc_id
-                    document.getElementById('sf_doc_error_' + number).innerHTML = "";
-                } else {
-                    document.getElementById(id).value = null;
-                    document.getElementById('sf_doc_error_' + number).innerHTML = data.message;
+
+    </script>
+    <script>
+        CKEDITOR.disableAutoInline = true;
+        CKEDITOR.replace('ckeditorTextletter1', {
+            height: 700,
+            allowedContent: true
+        });
+
+    </script>
+    <script>
+        CKEDITOR.disableAutoInline = true;
+        CKEDITOR.replace('ckeditorTextletter2', {
+            height: 700,
+            allowedContent: true
+        });
+
+    </script>
+
+    <script>
+        function upload_attachment(id, number) {
+            $(".loader").show();
+            var master_document_id = document.getElementById('master_document_id_' + number).value;
+            var document_status_id = document.getElementById('document_status_id_' + number).value;
+            var sf_application_id = document.getElementById('sf_application_id').value;
+
+
+            document.getElementById('sf_doc_error_' + number).value = "";
+            var file_data = $('#' + id).prop('files')[0];
+            var form_data = new FormData();
+            form_data.append('file', file_data);
+            form_data.append('master_document_id', master_document_id);
+            form_data.append('document_status_id', document_status_id);
+            form_data.append('sf_application_id', sf_application_id);
+            //console.log(form_data)
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-Token': '{{csrf_token()}}'
                 }
-            }
-        });
-        showUploadedFileName();
-    }
+            });
+            $.ajax({
+                url: "{{url('upload_sf_application_attachment')}}", // point to server-side PHP script
+                data: form_data,
+                type: 'POST',
+                contentType: false, // The content type used when sending data to the server.
+                cache: false, // To unable request pages to be cached
+                processData: false,
+                success: function (data) {
+                    $(".loader").hide();
+                    console.log(data)
+                    if (data.status == true) {
+                        $("#uploaded_file_" + number).prop("href", data.file_path)
+                        $("#uploaded_file_" + number).css("display", "block");
+                        document.getElementById('document_status_id_' + number).value = data.doc_id
+                        document.getElementById('sf_doc_error_' + number).innerHTML = "";
+                    } else {
+                        document.getElementById(id).value = null;
+                        document.getElementById('sf_doc_error_' + number).innerHTML = data.message;
+                    }
+                }
+            });
+            showUploadedFileName();
+        }
 
-    function showUploadedFileName() {
-        $('.custom-file-input').change(function (e) {
-            $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
-        });
-    }
+        function showUploadedFileName() {
+            $('.custom-file-input').change(function (e) {
+                $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
+            });
+        }
 
-</script>
+    </script>
 @endsection

@@ -256,7 +256,7 @@
                                              @if($each_question->is_upload == 1)
 
                                              <input type="hidden" id="question_id" value="{{ isset($each_question) ? $each_question->id : '' }}">
-                                                <div class="custom-file mt-3">
+                                                <div class="custom-file mt-3" style="{{$style}}">
                                                    <input class="custom-file-input file-upload" type="file" id="test-upload_{{$each_question->id}}" data-index = "{{$each_question->id}}" {{(isset($arrData['scrutiny_answers_to_questions'][$each_question->id]['document_path'])) ? '' : 'required' }}>
                                                    <label class="custom-file-label" for="test-upload_{{$each_question->id}}">Choose
                                                 file...</label>
@@ -270,9 +270,9 @@
 
                                                 @endphp
                                                 <span class="text-danger file_error_{{$each_question->id}}"></span>
-                                                 <a target="_blank" class="btn-link" id="file_{{$each_question->id}}" href="{{isset($arrData['scrutiny_answers_to_questions'][$each_question->id]['document_path']) ? config('commanConfig.storage_server').'/'.$arrData['scrutiny_answers_to_questions'][$each_question->id]['document_path'] : ''}}" style="{{$displayFile}}" download >Download</a>
                                                 
                                                 </div>
+                                                 <a target="_blank" class="btn-link" id="file_{{$each_question->id}}" href="{{isset($arrData['scrutiny_answers_to_questions'][$each_question->id]['document_path']) ? config('commanConfig.storage_server').'/'.$arrData['scrutiny_answers_to_questions'][$each_question->id]['document_path'] : ''}}" style="{{$displayFile}}" download >Download</a>
                                           @endif
                                           </td>
                

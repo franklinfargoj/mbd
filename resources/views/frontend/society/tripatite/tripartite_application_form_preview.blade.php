@@ -43,7 +43,11 @@
 
                     <div class="m-content letter-form-content">
                         <div class="letter-form-subject">
-                            <p><span class="font-weight-semi-bold">Subject :- </span> Proposed Redevelopment of Residential building of<input class="letter-form-input" type="text" id="" name="name" value="{{ $society_details->name }}" readonly>, on plot number<input class="letter-form-input" type="text" id="" name="building_no" value="{{ $society_details->building_no }}" readonly>, <input class="letter-form-input" type="text" id="" name="address" value="{{ $society_details->address }}" readonly>.</p>
+                            <p style="float: left;width: 10%;"><span class="font-weight-semi-bold">Subject :- </span></p>
+                            <p style="margin-top: 0;float: left;width: 90%;">Proposed Redevelopment of Residential building of<input class="letter-form-input" type="text" id="" name="name" value="{{ $society_details->name }}" readonly>, on plot number<input class="letter-form-input" type="text" id="" name="building_no" value="{{ $society_details->building_no }}" readonly>, <input class="letter-form-input" type="text" id="" name="address" value="{{ $society_details->address }}" readonly>.</p>
+
+
+
                             <p><span class="font-weight-semi-bold">Ref :- </span>1. Offer Letter No. <input class="letter-form-input" type="text" id="" name="offer_letter_number" value="{{ $ol_applications->request_form->offer_letter_number }}" readonly> dated <input class="letter-form-input" type="text" id="" name="offer_letter_date" value="{{date('j F Y',strtotime($ol_applications->request_form->offer_letter_number))}}" readonly></p>
                             <span style="margin-left: 36px"></span>2. NOC for IOD purpose bearing No. <input class="letter-form-input" type="text" id="" name="noc_no" value="{{ $ol_applications->request_form->noc_for_iod_purpose_number }}" readonly> dated <input class="letter-form-input" type="text" id="" name="noc_date" value="{{date('j F Y',strtotime($ol_applications->request_form->noc_for_iod_purpose_date))}}" readonly></p>
                             <hr>
@@ -66,7 +70,7 @@
                         </div>
 
                         @if((isset($applicationCount) && $applicationCount <= 0) && $ol_applications->olApplicationStatus[0]->status_id == config('commanConfig.applicationStatus.pending') && $ol_applications->current_status_id != config('commanConfig.applicationStatus.draft_tripartite_agreement'))
-                            <a href="{{ route('tripartite_application_form_edit', $ol_applications->id) }}" class="btn btn-primary">
+                            <a href="{{ route('tripartite_application_form_edit', encrypt($ol_applications->id)) }}" class="btn btn-primary">
                                 Back
                             </a>
                             <span style="float:right;margin-right: 20px">

@@ -271,7 +271,8 @@ class ArchitectApplicationController extends Controller
         // ];
 
         // ArchitectApplicationStatusLog::insert($forward_application);
-        return redirect()->back()->with('success', "Marks updated succesfully!!!");
+        return redirect()->route('architect_application')->with('success', "Marks updated succesfully!!!");
+        //return redirect()->back()->with('success', "Marks updated succesfully!!!");
     }
 
     public function getGenerateCertificate($encryptedId)

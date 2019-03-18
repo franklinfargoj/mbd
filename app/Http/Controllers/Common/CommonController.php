@@ -1657,7 +1657,7 @@ class CommonController extends Controller
             $insert_application_log[$status_in_words][$key]['remark'] = '';
             $insert_application_log[$status_in_words][$key]['is_active'] = 1;
             $insert_application_log[$status_in_words][$key]['phase'] = ($sc_application->current_status_id == config('commanConfig.applicationStatus.approved_tripartite_agreement') || $sc_application->current_status_id == config('commanConfig.applicationStatus.draft_tripartite_agreement'))? 1 : 0 ;
-            $insert_application_log[$status_in_words][$key]['created_at'] = date('Y-m-d');
+            $insert_application_log[$status_in_words][$key]['created_at'] = date('Y-m-d H:i:s');
             $application_log_status = $insert_application_log[$status_in_words];
 
             if($status == 2){
@@ -1672,14 +1672,27 @@ class CommonController extends Controller
                 $insert_application_log[$status_in_words_1][$key]['remark'] = '';
                 $insert_application_log[$status_in_words_1][$key]['is_active'] = 1;
                 $insert_application_log[$status_in_words_1][$key]['phase'] = ($sc_application->current_status_id == config('commanConfig.applicationStatus.approved_tripartite_agreement') || $sc_application->current_status_id == config('commanConfig.applicationStatus.draft_tripartite_agreement'))? 1 : 0 ;
-                $insert_application_log[$status_in_words_1][$key]['created_at'] = date('Y-m-d');
+                $insert_application_log[$status_in_words_1][$key]['created_at'] = date('Y-m-d H:i:s');
                 $application_log_status = array_merge($insert_application_log[$status_in_words], $insert_application_log[$status_in_words_1]);
             }
             $i++;
         }
 
-        $inserted_application_log = OlApplicationStatus::insert($application_log_status);
-        return $inserted_application_log;
+        $ree_junior_role_id = Role::where('name',config('commanConfig.ree_junior'))->pluck('id')->toArray();
+
+        \DB::transaction(function () use ($sc_application, $user, $application_log_status, $ree_junior_role_id, $status) {
+
+            if($status == config('commanConfig.applicationStatus.forwarded'))
+            if (in_array($user->role_id, $ree_junior_role_id)) {
+                $sc_application->current_phase = $sc_application->current_phase + 1;
+                $sc_application->save();
+            }
+
+            $inserted_application_log = OlApplicationStatus::insert($application_log_status);
+
+            return $inserted_application_log;
+        });
+
     }
 
 
@@ -3930,18 +3943,22 @@ class CommonController extends Controller
 
 //        $eeTotalPendingCount = $dyceTotalPendingCount = $reeTotalPendingCount
 //        = $coTotalPendingCount = $vpTotalPendingCount = $capTotalPendingCount = 0;
+        $new_offer_letter_master_ids = config('commanConfig.new_offer_letter_master_ids');
 
-        $eeTotalPendingCount = OlApplicationStatus::where('is_active',1)
+        $eeTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($new_offer_letter_master_ids){
+            $q->whereIn('application_master_id', $new_offer_letter_master_ids);
+        })->where('is_active',1)
             ->where('status_id',config('commanConfig.applicationStatus.in_process'))
             ->whereIn('role_id',$eeRoleData)
             ->get()->count();
 
-        $dyceTotalPendingCount = OlApplicationStatus::where('is_active',1)
+        $dyceTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($new_offer_letter_master_ids){
+            $q->whereIn('application_master_id', $new_offer_letter_master_ids);
+        })->where('is_active',1)
             ->where('status_id',config('commanConfig.applicationStatus.in_process'))
             ->whereIn('role_id',$dyceRoleData)
             ->get()->count();
 
-        $new_offer_letter_master_ids = config('commanConfig.new_offer_letter_master_ids');
 
         $reeTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($new_offer_letter_master_ids){
                 $q->whereIn('application_master_id', $new_offer_letter_master_ids);
@@ -4014,18 +4031,22 @@ class CommonController extends Controller
 
 //        $eeTotalPendingCount = $dyceTotalPendingCount = $reeTotalPendingCount
 //        = $coTotalPendingCount = $vpTotalPendingCount = $capTotalPendingCount = 0;
+        $reval_application_type_ids= config('commanConfig.revalidation_master_ids');
 
-        $eeTotalPendingCount = OlApplicationStatus::where('is_active',1)
+        $eeTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($reval_application_type_ids){
+            $q->whereIn('application_master_id', $reval_application_type_ids);
+        })->where('is_active',1)
             ->where('status_id',config('commanConfig.applicationStatus.in_process'))
             ->whereIn('role_id',$eeRoleData)
             ->get()->count();
 
-        $dyceTotalPendingCount = OlApplicationStatus::where('is_active',1)
+        $dyceTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($reval_application_type_ids){
+            $q->whereIn('application_master_id', $reval_application_type_ids);
+        })->where('is_active',1)
             ->where('status_id',config('commanConfig.applicationStatus.in_process'))
             ->whereIn('role_id',$dyceRoleData)
             ->get()->count();
 
-        $reval_application_type_ids= config('commanConfig.revalidation_master_ids');
 
         $reeTotalPendingCount = OlApplicationStatus::whereHas('OlApplication', function($q) use ($reval_application_type_ids){
             $q->whereIn('application_master_id', $reval_application_type_ids);
@@ -4191,10 +4212,26 @@ class CommonController extends Controller
         $OlSocietyDocumentsMaster = OlSocietyDocumentsMaster::where(['application_id' => $document_type_id, 'name' => $agreement_type])->first();
         if ($OlSocietyDocumentsMaster) {
             $documents_id = $OlSocietyDocumentsMaster->id;
+
+
             return OlSocietyDocumentsStatus::where(['application_id'=>$ol_application_id ,'society_id' => $ol_application->society_id, 'document_id' => $OlSocietyDocumentsMaster->id])->orderBy('id','desc')->first();
         }
         return null;
     }
+
+    public function get_tripartite_letter1($ol_application_id, $agreement_type)
+    {
+        $ol_application = $this->getOlApplication($ol_application_id);
+        $document_type_id = $ol_application->application_master_id;
+        $agreement_type = $agreement_type;
+        $OlSocietyDocumentsMaster = OlSocietyDocumentsMaster::where(['application_id' => $document_type_id, 'name' => $agreement_type])->first();
+        if ($OlSocietyDocumentsMaster) {
+            $documents_id = $OlSocietyDocumentsMaster->id;
+            return OlSocietyDocumentsStatus::where(['application_id'=>$ol_application_id ,'society_id' => $ol_application->society_id, 'document_id' => $OlSocietyDocumentsMaster->id])->orderBy('id', 'desc')->first();
+        }
+        return null;
+    }
+
 
     public function set_tripartite_agreements($ol_application, $agreement_type, $path, $status_id = 0)
     {

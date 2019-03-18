@@ -544,6 +544,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         Route::get('tripartite_agreement/{id}', 'SocietyTripatiteController@show_tripartite_agreement')->name('show_tripartite_agreement');
         Route::post('upload_tripartite_agreement', 'SocietyTripatiteController@upload_tripartite_agreement')->name('upload_tripartite_agreement');
 
+        Route::get('tripartite_letter1/{id}', 'SocietyTripatiteController@show_tripartite_letter1')->name('show_tripartite_letter1');
+        Route::get('tripartite_letter2/{id}', 'SocietyTripatiteController@show_tripartite_letter2')->name('show_tripartite_letter2');
+
         //tripartite end
 
         //Society Conveyance
@@ -818,6 +821,14 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
         Route::post('/setTripartiteRemark','Tripartite\TripartiteController@setTripartiteRemark')->name('tripartite.setTripartiteRemark');
         Route::get('tripartite_forward_application/{application_id}','Tripartite\TripartiteController@forward_application')->name('tripartite.forward_application');
         Route::post('tripartite_forward_application','Tripartite\TripartiteController@saveForwardApplication')->name('tripartite.post_forward_application');
+
+        Route::post('/saveTripartiteLetterForStampDuty','Tripartite\TripartiteController@saveTripartiteLetterForStampDuty')->name('saveTripartiteLetterForStampDuty');
+        Route::post('/upload_signed_tripartite_letter1','Tripartite\TripartiteController@upload_signed_tripartite_letter1')->name('upload_signed_tripartite_letter1');
+
+        Route::post('/saveTripartiteLetterForExecutionRegistraion','Tripartite\TripartiteController@saveTripartiteLetterForExecutionRegistraion')->name('saveTripartiteLetterForExecutionRegistraion');
+        Route::post('/upload_signed_tripartite_letter2','Tripartite\TripartiteController@upload_signed_tripartite_letter2')->name('upload_signed_tripartite_letter2');
+
+
     });
     //End tripartite
     //Society Renewal
@@ -1340,7 +1351,7 @@ Route::get('society_oc_documents/{id}','REEDepartment\REEController@societyOcDoc
 Route::get('em_scrutiny_oc_ree/{id}','REEDepartment\REEController@viewEMScrutinyOc')->name('ree.em_scrutiny_oc_ree');
 Route::get('ee_scrutiny_oc_ree/{id}','REEDepartment\REEController@viewEEScrutinyOc')->name('ree.ee_scrutiny_oc_ree');
 Route::get('generate_oc_certificate/{id}','REEDepartment\REEController@generateOccertificate')->name('ree.generate_oc_certificate');
-Route::get('create_edit_oc/{id}', 'REEDepartment\REEController@createEditConsentOc')->name('ree.create_edit_oc');
+Route::post('create_edit_oc', 'REEDepartment\REEController@createEditConsentOc')->name('ree.create_edit_oc');
 Route::post('save_draft_consent_oc', 'REEDepartment\REEController@saveDraftConsentOc')->name('ree.save_draft_consent_oc');
 Route::post('upload_draft_consent_oc/{id}', 'REEDepartment\REEController@uploadDraftConsentforOc')->name('ree.upload_draft_consent_oc');
 Route::get('/ree-note-consentoc/{application_id}', 'REEDepartment\REEController@uploadNoteConsentOC')->name('ree.ree-note-consentoc');

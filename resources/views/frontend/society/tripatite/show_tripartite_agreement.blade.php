@@ -3,7 +3,9 @@
     @include('frontend.society.tripatite.actions',compact('ol_applications'))
 @endsection
 @section('content')
-    <div class="col-md-12">
+
+    @if(isset($tripartite_agreement))
+        <div class="col-md-12">
         <!-- BEGIN: Subheader -->
         <div class="m-subheader px-0">
             <div class="d-flex">
@@ -85,6 +87,101 @@
             </div>
         </div>
     </div>
+    @endif
+
+    @if(isset($tripartite_letter1))
+        <div class="col-md-12">
+            <!-- BEGIN: Subheader -->
+            <div class="m-subheader px-0">
+                <div class="d-flex">
+                    {{ Breadcrumbs::render('society_tripartite_agreement', $id) }}
+                    <div class="ml-auto btn-list">
+                        <a href="{{url()->previous()}}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                    </div>
+                </div>
+                @if (session('success'))
+                    <div class="alert alert-success society_registered">
+                        <div class="text-center">{{ session('success') }}</div>
+                    </div>
+                @endif
+                <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
+                    <li class="nav-item m-tabs__item em_tabs" id="section-1">
+                        <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#stamp-duty-letter" role="tab"
+                           aria-selected="false">
+                            <i class="la la-cog"></i> Letter For Stamp Duty
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tab-content">
+                <div class="tab-pane section-1 active show" id="stamp-duty-letter" role="tabpanel">
+                    <div class="m-portlet m-portlet--mobile m_panel">
+                        <div class="m-portlet__body" style="padding-right: 0;">
+                            <div class=" row-list">
+                                <div class="row">
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <span class="hint-text">Click on 'Download' to download Letter For Stamp Duty</span>
+                                                <p></p>
+                                                <a href="{{ config('commanConfig.storage_server') .'/'. $tripartite_letter1->society_document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download Letter For Stamp Duty</a>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    @if(isset($tripartite_letter2))
+        <div class="col-md-12">
+            <!-- BEGIN: Subheader -->
+            <div class="m-subheader px-0">
+                <div class="d-flex">
+                    {{ Breadcrumbs::render('society_tripartite_agreement', $id) }}
+                    <div class="ml-auto btn-list">
+                        <a href="{{url()->previous()}}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                    </div>
+                </div>
+                @if (session('success'))
+                    <div class="alert alert-success society_registered">
+                        <div class="text-center">{{ session('success') }}</div>
+                    </div>
+                @endif
+                <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
+                    <li class="nav-item m-tabs__item em_tabs" id="section-1">
+                        <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#stamp-duty-letter" role="tab"
+                           aria-selected="false">
+                            <i class="la la-cog"></i> Letter For Execution and Registration
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tab-content">
+                <div class="tab-pane section-1 active show" id="stamp-duty-letter" role="tabpanel">
+                    <div class="m-portlet m-portlet--mobile m_panel">
+                        <div class="m-portlet__body" style="padding-right: 0;">
+                            <div class=" row-list">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <span class="hint-text">Click on 'Download' to download Letter For Execution and Registration</span>
+                                            <p></p>
+                                            <a href="{{ config('commanConfig.storage_server') .'/'. $tripartite_letter2->society_document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download Letter For Letter For Execution and Registration</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 @endsection
 @section('datatablejs')
     <script src="{{ asset('vendor/unisharp/laravel-ckeditor/ckeditor.js') }}"></script>
