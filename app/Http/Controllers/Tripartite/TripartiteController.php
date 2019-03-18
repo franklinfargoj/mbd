@@ -302,10 +302,10 @@ class TripartiteController extends Controller
         $content = str_replace('_', "", $_POST['ckeditorTextletter1']);
 
         $pdf_folder_name = 'tripartite_letter_for_stamp_duty';
-        $header_file = '';
-        $footer_file = '';
-//        $header_file = view('admin.REE_department.offer_letter_header');
-//        $footer_file = view('admin.REE_department.offer_letter_footer');
+//        $header_file = '';
+//        $footer_file = '';
+        $header_file = view('admin.REE_department.offer_letter_header');
+        $footer_file = view('admin.REE_department.offer_letter_footer');
 
         $pdf = new Mpdf([
             'default_font_size' => 9,
@@ -568,6 +568,41 @@ class TripartiteController extends Controller
         $applicationId = decrypt($applicationId);
         $ol_application = $this->comman->getOlApplication($applicationId);
         $applicationLog = $this->comman->getCurrentStatus($applicationId);
+
+
+        $co_role_id = Role::where('name',config('commanConfig.co_engineer'))->value('id');
+        $co_user = User::where('role_id',$co_role_id)->first()->toArray();
+
+        $ree_jr_role_id = Role::where('name',config('commanConfig.ree_junior'))->value('id');
+        $ree_jr_user = User::where('role_id',$ree_jr_role_id)->first()->toArray();
+
+        $ree_ass_role_id = Role::where('name',config('commanConfig.ree_assistant_engineer'))->value('id');
+        $ree_ass_user = User::where('role_id',$ree_ass_role_id)->first()->toArray();
+
+        $ree_dy_role_id = Role::where('name',config('commanConfig.ree_deputy_engineer'))->value('id');
+        $ree_dy_user = User::where('role_id',$ree_dy_role_id)->first()->toArray();
+
+        $ree_head_role_id = Role::where('name',config('commanConfig.ree_branch_head'))->value('id');
+        $ree_head_user = User::where('role_id',$ree_head_role_id)->first()->toArray();
+
+
+        $users = array();
+        $users['co'] = $co_user;
+        $users['ree_junior'] = $ree_jr_user;
+        $users['ree_deputy'] = $ree_dy_user;
+        $users['ree_ass'] = $ree_ass_user;
+        $users['ree_head'] = $ree_head_user;
+
+        $approved_proposal_status = OlApplicationStatus::where('application_id', $applicationId)
+            ->where('user_id', $co_user['id'])
+            ->where('role_id', $co_role_id)
+            ->where('to_user_id',$ree_jr_user['id'])
+            ->where('phase',0)
+            ->orderBy('id', 'desc')->first();
+
+        $approved_proposal_date_by_co = date("d-m-Y", strtotime($approved_proposal_status->created_at));
+
+//        dd($approved_proposal_date_by_co);
         $tripartite_agrement['text_agreement_name'] = $this->get_tripartite_agreements($ol_application->id, config('commanConfig.tripartite_agreements.text'));
         $tripartite_agrement['drafted_tripartite_agreement'] = $this->get_tripartite_agreements($ol_application->id, config('commanConfig.tripartite_agreements.drafted'));
         //$tripartite_agrement['drafted_signed_tripartite_agreement'] = $this->get_tripartite_agreements($ol_application->id, config('commanConfig.tripartite_agreements.drafted_signed'));
@@ -654,7 +689,12 @@ class TripartiteController extends Controller
         $society_details = SocietyOfferLetter::find($society_id);
 
 
-        return view('admin.tripartite.tripartite_agreement', compact('approved_by_co', 'society_details','stamped_and_signed', 'stamped_by_society', 'societyData', 'applicationLog', 'ol_application', 'tripatiet_remark_history', 'tripartite_agrement', 'content','coName','LAName','content_letter_1','content_letter_2','generated_letter1','stamped_signed_letter1','generated_letter2','stamped_signed_letter2'));
+        return view('admin.tripartite.tripartite_agreement', compact('approved_by_co', 'society_details','stamped_and_signed', 'stamped_by_society', 'societyData', 'applicationLog', 'ol_application', 'tripatiet_remark_history', 'tripartite_agrement',
+            'content','coName','LAName',
+            'content_letter_1','content_letter_2','generated_letter1',
+            'stamped_signed_letter1','generated_letter2','stamped_signed_letter2',
+            'users','approved_proposal_date_by_co'
+            ));
     }
 
     public function ree_note($applicationId)

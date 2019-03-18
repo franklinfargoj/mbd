@@ -514,26 +514,27 @@
                                 {{ $content_letter_1}}
                             @else
                                 <div style="" id="">
-                                    <p style="float: right;margin-bottom: 0;">जा.क्र्./नि.का.अ./मुं.मं./&nbsp;&nbsp;&nbsp;/१८<br>
-                                        <span>दिनांक:-_____________</span><br>
+                                    <p style="margin-left:70% ;font-size: 16px; line-height: 1.5;margin-bottom: 0;">जा.क्र्./नि.का.अ./मुं.मं./&nbsp;&nbsp;&nbsp;/१८<br>
+                                        <span style="font-size: 16px; line-height: 1.5;">दिनांक:-_____________</span><br>
                                     </p>
                                     <div style="clear: both;"></div>
-                                    <p style="margin-top: 0;">प्रति,<br>
+                                    <p style="font-size: 16px; line-height: 1.5;margin-top: 0;">प्रति,<br>
                                         अध्यक्ष/सचिव, <br>
                                         <span>{{$society_details->name}},</span><br/>
                                         <span>{{$society_details->address}}.</span>
                                     </p>
 
-                                    <div style="margin-left: 80px;width: 100%;">
+                                    <div style="font-size: 16px; line-height: 1.5;margin-left: 80px;width: 100%;">
                                         <p>विषय:- {{$society_details->name}},{{$society_details->address}} या इमारतीचा पुनर्विकासाकरिता सुधारित वि.नि.नि. ३३(५) नुसार त्रिपक्षीय करारनामा करणे संदर्भात मुद्रांक शुल्क भरणेबाबत.</p>
                                     </div>
                                     
-                                    <p style="margin-left: 80px;">संदर्भ:- मा.विधी सल्लागार / प्रा. यांची  मंजुरी क्र्.&nbsp;&nbsp;&nbsp;दि.</p>
-                                    <p>महोदय,</p>
-                                    <p style="margin-left: 40px;">उपरोक्त विषयास अनुसरून मा.विधी सल्लागार / प्रा. यांनी इमारतीचा त्रिपक्षीय करारनामा करणे संदर्भात मसुद्यास मान्यता दिलेली असून सदर मसुदा मान्य असल्याबाबत नमूद करून त्याची प्रत, तसेच त्रिपक्षीय करारनामा हिरव्या लीगल पेपरवर टंकलिखित करून व मुद्रांक शुल्क भरणा करून पुढील कार्यवाहीसाठी कार्यालयात सादर करण्यात यावा.</p><br/><br/>
-                                    <p>आपला विश्वासू  </p><br/>
-                                    <p>निवासी कार्यकारी अभियंता,</p>
-                                    <p>मुंबई मंडळ </p>
+                                    {{--<p style="margin-left: 80px;">संदर्भ:- मा.विधी सल्लागार / प्रा. यांची  मंजुरी क्र्.&nbsp;&nbsp;&nbsp;दि.</p>--}}
+                                    <p style="font-size: 16px; line-height: 1.5;">महोदय,</p>
+                                    <p style="font-size: 16px; line-height: 1.5;margin-left: 40px;">उपरोक्त विषयास अनुसरून मा.विधी सल्लागार / प्रा. यांनी इमारतीचा त्रिपक्षीय करारनामा करणे संदर्भात मसुद्यास मान्यता दिलेली असून सदर मसुदा मान्य असल्याबाबत नमूद करून त्याची प्रत, तसेच त्रिपक्षीय करारनामा हिरव्या लीगल पेपरवर टंकलिखित करून व मुद्रांक शुल्क भरणा करून पुढील कार्यवाहीसाठी कार्यालयात सादर करण्यात यावा.</p><br/><br/>
+
+                                    <p style="font-size: 16px; line-height: 1.5;margin-left: 70%;"><span>आपला विश्वासू, </span><br/><br/>
+                                    <span>निवासी कार्यकारी अभियंता,</span><br/>
+                                    <span>मुंबई मंडळ </span></p>
                                 </div>
                             @endif
 
@@ -575,52 +576,52 @@
                                 {{ $content_letter_2}}
                             @else
                                 <div style="" id="">
-                                    <p style="float: right; margin-bottom: 0;"><span>NO.CO/MB/REE/F-682/____/2018</span><br/>
+                                    <p style="font-size: 16px; line-height: 1.5;margin-left: 70%; margin-bottom: 0;"><span>NO.CO/MB/REE/F-682/&nbsp;&nbsp;&nbsp;/2018</span><br/>
                                         <span>Date:</span>
                                     </p>
                                     <div style="clear: both;height: 0;"></div>
-                                    <p style="margin-top: 0;">
+                                    <p style="font-size: 16px; line-height: 1.5;margin-top: 0;">
                                         
                                         <span>To,</span><br>
                                         <span>The Joint Sub Registrar,</span><br>
                                         <span>Andheri,Mumbai</span>
                                     </p>
-                                    <p style="margin-left: 80px;">Sub: Execution of agreenment for redevelopment of property at existing
+                                    <p style="font-size: 16px; line-height: 1.5;margin-left: 80px;">Sub: Execution of agreenment for redevelopment of property at existing
                                     <span>{{$society_details->name}},{{$society_details->address}}.</span></p>
                                     
-                                    <p style="display: block; font-weight: bold; float: left;width: 5%;margin-left: 80px;margin-top: 0;">Ref :- </p>
-                                        <div style="width: 80%;float: left;margin-top: 0px;margin-left: 0;">
-                                            1. NOC FOR IOD Purpose NO. <span style="width: 200px; border-bottom: 1px solid #000;">________</span> Dated <span style="width: 200px; border-bottom: 1px solid #000;">________</span>
+                                    <p style="font-size: 16px; line-height: 1.5;display: block; font-weight: bold; float: left;width: 5%;margin-left: 80px;margin-top: 0;">Ref :- </p>
+                                        <div style="font-size: 16px; line-height: 1.5;width: 80%;float: left;margin-top: 0px;margin-left: 0;">
+                                            1. NOC FOR IOD Purpose NO. <span style="width: 200px; border-bottom: 1px solid #000;">{{$ol_application->request_form->noc_for_iod_purpose_number}}</span> Dated <span style="width: 200px; border-bottom: 1px solid #000;">{{$ol_application->request_form->noc_for_iod_purpose_date}}</span>
                                             <p> 2. Society's Developer letter for agreement dated:</p>
                                         </div>
                                         <div style="clear: both;height: 0;"></div>
-                                    <p>Sir,</p>
-                                    <div style="margin-left: 40px;">
+                                    <p style="font-size: 16px; line-height: 1.5;">Sir,</p>
+                                    <div style="font-size: 16px; line-height: 1.5;margin-left: 40px;">
                                         <p>
-                                        With reference to the subject matter, Hon. VP/A has approved the above mentioned proposal on 30/10/2015.As per conditions of the NOC
+                                            With reference to the subject matter, Hon. VP/A has approved the above mentioned proposal on <span>{{$approved_proposal_date_by_co}}</span>.As per conditions of the NOC
                                         issued vide ref. no. 1 BUA share of MHADA has to be handed over by the {{$society_details->name,$society_details->address}}.
                                         In this regard MHADA & {{$society_details->name}} have to enter into agreement. First part MHADA,second part {{$society_details->name}}, third part is
-                                        {{$society_details->developer_name}}.
+                                        {{$ol_application->request_form->developer_name}}.
                                     </p>
                                     <p>
-                                        The agreement has been signed on behalf of first part by Shri.Deependra Singh Kushwah, Chief Officer, Mumbai Board on
-                                        behalf of MHADA. Hence the same is forwarded to your office for execution and registartion.
+                                        The agreement has been signed on behalf of first part by <span>{{$users['co']['name']}}</span>, Chief Officer, Mumbai Board on
+                                        behalf of MHADA. Hence the same is forwarded to your office for execution and registration.
                                     </p>
                                     <p>
-                                        However it is to inform you that Shri. Deependra Singh Kushwah, Chief Officer Mumbai Board is exempted to appear
+                                        However it is to inform you that <span>{{$users['co']['name']}}</span>, Chief Officer Mumbai Board is exempted to appear
                                         at Sub Registrar's Office as per the provisions of Sec.88 of Indian Registration Act. 1908. Accordingly you may execute
                                         and register the document without insisting the peresence of the party of first part.
                                     </p>
                                     <p>
                                         This is for your favour of information and necessary action.
                                     </p>
-                                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">Asst. Engr. /Deputy Eng. / Ass.Arch./ Res. Exe. Eng.</p>
+                                        <p style="font-size: 16px; line-height: 1.5;display: block; margin-top: 5px; margin-bottom: 5px;">Asst. Engr.(<span>{{$users['ree_junior']['name']}}</span>) /Deputy Eng.(<span>{{$users['ree_deputy']['name']}}</span>) / Ass.Arch.(<span>{{$users['ree_ass']['name']}}</span>)/ Res. Exe. Eng.(<span>{{$users['ree_head']['name']}}</span>)</p>
                                     </div>
                                     
-                                    <div style="margin-top: 30px;">
+                                    <div style="font-size: 16px; line-height: 1.5;margin-top: 30px;">
                                         
-                                        <p>
-                                            (Dependra Singh Kushwah)<br/>
+                                        <p style="font-size: 16px; line-height: 1.5;margin-left: 40px;">
+                                            (<span>{{$users['co']['name']}}</span>)<br/>
                                             Chief Officer, Mumbai Board.
                                         </p>
                                     </div>
