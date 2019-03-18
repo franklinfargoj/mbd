@@ -291,13 +291,12 @@ class LayoutArchitectController extends Controller
         {
             foreach($parentData['parentData'] as $parent_data)
             {
-                if(LayoutUser::where(['user_id'=>$parent_data->id,'layout_id'=>$layout_id])->first())
+                if(LayoutUser::where(['user_id'=>$parent_data->id,'layout_id'=>$ArchitectLayout->layout_name])->first())
                 {
                     $arrData['parentData'][]=$parent_data;
                 }
             }
         }
-        
         $arrData['parentData'] = $arrData['parentData'];
         $arrData['role_name'] = $parentData['role_name'];
         $architectlogs = $this->comman->getLogOfArchitectLayoutApplication($layout_id);
