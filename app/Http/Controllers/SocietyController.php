@@ -49,19 +49,23 @@ class SocietyController extends Controller
         $getData = [
             'society_name' =>session()->get('society_name'),
             'sr_no' =>session()->get('sr_no'),
-            'village' =>session()->get('village')
-
+            'village' =>session()->get('village'),
+            'society_layout'    => session()->get('society_layout'),
         ];
 
-        $society_data = SocietyDetail::join('other_land','lm_society_detail.other_land_id', '=', 'other_land.id')
-            ->join('village_societies','village_societies.society_id','=','lm_society_detail.id');
+        $society_data = SocietyDetail::leftjoin('other_land','lm_society_detail.other_land_id', '=', 'other_land.id')
+            ->leftjoin('village_societies','village_societies.society_id','=','lm_society_detail.id');
 
         if($getData['society_name'])
         {
             $society_data = $society_data->where('society_name', 'like', '%'.$getData['society_name'].'%');
         }
 
-//
+        if($getData['society_layout'])
+        {
+            $society_data = $society_data->where('layout_id', '=', $getData['society_layout']);
+        }
+
         if($getData['village'])
         {
             $society_data = $society_data->whereHas('Villages', function($qu) use ($getData){
@@ -188,6 +192,7 @@ class SocietyController extends Controller
      */
     public function index(Request $request, Datatables $datatables)
     {
+        //dd('ok');
         $header_data = $this->header_data;
         $getData = $request->all();
         $columns = [
@@ -207,17 +212,22 @@ class SocietyController extends Controller
                 'sr_no'       => session()->get('sr_no'),
                 'village'     => session()->get('village'),
                 'lease_status'=> session()->get('lease_status'),
-
+                'society_layout'       => session()->get('society_layout'),
             ];
 
-            $society_data = SocietyDetail::join('other_land','lm_society_detail.other_land_id', '=', 'other_land.id')
-            ->join('village_societies','village_societies.society_id','=','lm_society_detail.id')
-            ->join('lm_lease_detail','lm_lease_detail.society_id','=','lm_society_detail.id');
+            $society_data = SocietyDetail::leftjoin('other_land','lm_society_detail.other_land_id', '=', 'other_land.id')
+            ->leftjoin('village_societies','village_societies.society_id','=','lm_society_detail.id')
+            ->leftjoin('lm_lease_detail','lm_lease_detail.society_id','=','lm_society_detail.id');
 
 
             if($getData['society_name'])
             {
                 $society_data = $society_data->where('society_name', 'like', '%'.$getData['society_name'].'%');
+            }
+            //dd($getData);
+            if($getData['society_layout'])
+            {
+                $society_data = $society_data->where('layout_id', '=', $getData['society_layout']);
             }
 
 //
@@ -276,6 +286,7 @@ class SocietyController extends Controller
             lm_society_detail.surplus_charges,
             lm_society_detail.surplus_charges_last_date,
             other_land.land_name'))->distinct('id')->get();
+            //dd($society_data);
             if(count($society_data) == 0){
                 $dataListMaster = [];
                 $dataList = [];
@@ -391,6 +402,14 @@ class SocietyController extends Controller
                 session()->forget('society_name');
             }
 
+            if($request->society_layout)
+            {
+                session()->put('society_layout',$request->society_layout);
+                $society_data = $society_data->where('layout_id', '=', $request->society_layout);
+            }else{
+                session()->forget('society_layout');
+            }
+            //layout_id
             if($request->village)
             {
                 session()->put('village',$request->village);
@@ -460,10 +479,11 @@ class SocietyController extends Controller
                 ->make(true);
         }
         $villages = VillageDetail::get();
-//        dd($getData);
+        $layouts = MasterLayout::get();
+        //dd($layouts);
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
-        return view('admin.society_detail.index', compact('html','header_data','villages','getData'));
+        return view('admin.society_detail.index', compact('html','header_data','villages','getData','layouts'));
     }
 
     protected function getParameters() {

@@ -52,9 +52,21 @@
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                             data-live-search="true" id="village" name="village">
                                         <option value="" style="font-weight: normal;">Select Village</option>
-                                        {{--@foreach($villages as $village)--}}
-                                            {{--<option value="{{$village->id}}" {{ isset($getData['village'])? (($getData['village'] == $village->id ) ? 'selected' : '') : '' }} >{{$village->village_name}}</option>--}}
-                                        {{--@endforeach--}}
+                                        @foreach($villages as $village)
+                                            <option value="{{$village->id}}" {{ isset($getData['village'])? (($getData['village'] == $village->id ) ? 'selected' : '') : '' }} >{{$village->village_name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 p-m-0">
+                                <div class="form-group m-form__group">
+                                    <label for="" class="col-form-label mhada-multiple-label">Select Layout</label>
+                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
+                                            data-live-search="true" id="society_layout" name="society_layout">
+                                        <option value="" style="font-weight: normal;">Select Layout</option>
+                                        @foreach($layouts as $layout)
+                                            <option value="{{$layout->id}}" {{ isset($getData['society_layout'])? (($getData['society_layout'] == $layout->id ) ? 'selected' : '') : '' }} >{{$layout->layout_name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
