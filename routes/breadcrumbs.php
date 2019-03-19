@@ -569,6 +569,21 @@ Breadcrumbs::for('reval_calculation_sheet', function ($trail,$id) {
     $trail->push('reval calculation sheet', route('ol_reval_calculation_sheet.show',$id));
 });
 
+Breadcrumbs::for('reval_co_calculation_sheet', function ($trail,$id) {
+    $trail->parent('co_reval');
+    $trail->push('reval calculation sheet', route('co.show_reval_calculation_sheet',$id));
+});
+
+Breadcrumbs::for('reval_cap_calculation_sheet', function ($trail,$id) {
+    $trail->parent('cap_reval');
+    $trail->push('reval calculation sheet', route('cap.show_reval_calculation_sheet',$id));
+});
+
+Breadcrumbs::for('reval_vp_calculation_sheet', function ($trail,$id) {
+    $trail->parent('vp_reval');
+    $trail->push('reval calculation sheet', route('vp.show_reval_calculation_sheet',$id));
+});
+
 Breadcrumbs::for('approved_offer_letter', function ($trail,$id) {
     $trail->parent('ree');
     $trail->push('Offer Letter', route('ree.approved_offer_letter',$id));

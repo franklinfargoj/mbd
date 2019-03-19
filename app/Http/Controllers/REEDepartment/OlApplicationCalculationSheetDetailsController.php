@@ -9,6 +9,7 @@ use App\OlCustomCalculationSheet;
 use App\OlFsiCalculationSheet;
 use App\OlDcrRateMaster;
 use App\OlApplication;
+use App\OlApplicationMaster;
 use App\REENote;
 //use Barryvdh\DomPDF\PDF;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -64,6 +65,7 @@ class OlApplicationCalculationSheetDetailsController extends Controller
         // $applicationId = $id; 
         $user = Auth::user();
         $ol_application = $this->CommonController->getOlApplication($applicationId);
+        
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         $calculationSheetDetails = OlApplicationCalculationSheetDetails::where('application_id','=',$applicationId)->get();
 
@@ -83,8 +85,16 @@ class OlApplicationCalculationSheetDetailsController extends Controller
         }  
         $REEController = new REEController();                         
         $ol_application->folder = $REEController->getCurrentRoleFolderName();
-
-        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));
+        $folder = $action = '';
+        $master = OlApplicationMaster::where('id',$ol_application->application_master_id)->value('title');
+        if ($master == 'New - Offer Letter'){
+            $folder = 'REE_department.action';
+            $action = '.action';
+        }elseif($master = 'Revalidation Of Offer Letter'){
+            $folder = 'REE_department.reval_action';
+            $action = '.reval_action';
+        }
+        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','folder','master','action'));
     }
  
 

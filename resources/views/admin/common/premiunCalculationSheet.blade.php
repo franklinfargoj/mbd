@@ -3,14 +3,15 @@
 
 @endphp
 @extends('admin.layouts.sidebarAction')
-@section('actions')
+@section('actions') 
 
     @if($route_name=='ree.show_reval_calculation_sheet'  || $route_name=='co.show_reval_calculation_sheet' || $route_name=='cap.show_reval_calculation_sheet' || $route_name=='vp.show_reval_calculation_sheet')
 
-        @include('admin.'.$ol_application->folder.'.reval_action',compact('ol_application'))
+        @include('admin.'.$ol_application->folder.$action,compact('ol_application'))
+
 
     @else
-        @include('admin.'.$ol_application->folder.'.action',compact('ol_application'))
+        @include('admin.'.$ol_application->folder.$action,compact('ol_application'))
     @endif
 @endsection
 @section('content')
@@ -28,8 +29,15 @@
             @elseif($route_name=='cap.show_calculation_sheet')
             {{ Breadcrumbs::render('calculation_sheet_cap',$ol_application->id) }}
             @elseif($route_name=='ree.show_calculation_sheet')
-            {{ Breadcrumbs::render('REE_calculation',$ol_application->id) }}
+            {{ Breadcrumbs::render('REE_calculation',$ol_application->id) }} @elseif($route_name=='ol_calculation_sheet.show')
+            {{ Breadcrumbs::render('reval_calculation_sheet',$ol_application->id) }}
+            @elseif($route_name=='co.show_reval_calculation_sheet')
+            {{ Breadcrumbs::render('reval_co_calculation_sheet',$ol_application->id) }}@elseif($route_name=='cap.show_reval_calculation_sheet')
+            {{ Breadcrumbs::render('reval_cap_calculation_sheet',$ol_application->id) }}
+            @elseif($route_name=='vp.show_reval_calculation_sheet')
+            {{ Breadcrumbs::render('reval_vp_calculation_sheet',$ol_application->id) }}
             @else
+
             @endif
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>

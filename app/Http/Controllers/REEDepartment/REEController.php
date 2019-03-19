@@ -38,6 +38,7 @@ use App\NocCCApplicationStatus;
 use App\NocSrutinyQuestionMaster;
 use App\NocReeScrutinyAnswer;
 use App\NOCBuildupArea;
+use App\OlApplicationMaster;
 use App\Http\Controllers\SocietyNocController;
 use App\Http\Controllers\SocietyNocforCCController;
 use App\OlDcrRateMaster;
@@ -463,6 +464,14 @@ class REEController extends Controller
         if ($model->ol_application_master->model == 'Premium'){
 
             $calculationData = OlApplication::with(['premiumCalculationSheet','eeApplicationSociety'])->where('id',$applicatonId)->first();
+            $fsi_calculation = OlFsiCalculationSheet::where('application_id',$applicatonId)->first();
+            $premium = OlApplicationCalculationSheetDetails::where('application_id',$applicatonId)->first();
+
+            if ($fsi_calculation){
+                $calculationData->premiumCalculationSheet = $fsi_calculation;
+            }else {
+                $calculationData->premiumCalculationSheet = $premium;
+            } 
             $blade =  "premiun_reval_offer_letter";
 
         }else if($model->ol_application_master->model == 'Sharing') {
@@ -500,7 +509,10 @@ class REEController extends Controller
             ->where('parent_id',$table1Id)->get()->toArray();
         $summary = $this->getSummaryData($applicatonId);
 
-        return view('admin.REE_department.'.$blade,compact('applicatonId','calculationData','content','table1','custom','summary'));
+        $role_id = Role::where('name', '=', config('commanConfig.ree_branch_head'))->value('id');
+        $ree_head = User::where('role_id',$role_id)->value('name');
+
+        return view('admin.REE_department.'.$blade,compact('applicatonId','calculationData','content','table1','custom','summary','ree_head'));
     }
 // 
     public function saveOfferLetter(Request $request){
@@ -615,7 +627,7 @@ class REEController extends Controller
             Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
         }
         Storage::disk('ftp')->put($filePath, $pdf->Output($fileName, 'S'));
-        $file = $pdf->output();
+        // $file = $pdf->output();
 
         //text offer letter
 
@@ -825,6 +837,15 @@ class REEController extends Controller
            $route = 'admin.common.'.$blade; 
            $calculationSheetDetails = $user->calculationSheetDetails;
         }
+
+        $action = '';
+        $master = OlApplicationMaster::where('id',$ol_application->application_master_id)->value('title');
+        if ($master == 'New - Offer Letter'){
+            $action = '.action';
+        }elseif($master = 'Revalidation Of Offer Letter'){
+            $action = '.reval_action';
+        }
+
         $folder = $this->getCurrentRoleFolderName();
         $status = $this->CommonController->getCurrentStatus($applicationId); 
         $reeNote = REENote::where('application_id',$applicationId)->orderBy('id','DESC')->first(); 
@@ -832,7 +853,7 @@ class REEController extends Controller
         $buldingNumber = OlCustomCalculationSheet::where('application_id',$applicationId)
             ->where('title','total_no_of_buildings')->value('amount');
        
-        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','summary','status','reeNote','folder','buldingNumber'));
+        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','summary','status','reeNote','folder','buldingNumber','action'));
 
     }
 
@@ -841,15 +862,61 @@ class REEController extends Controller
     {
         $applicationId = $id;
         $user = $this->CommonController->showCalculationSheet($applicationId);
-        $ol_application = $this->CommonController->getOlApplication($applicationId); //echo "<pre>";print_r($ol_application);exit;
-        $ol_application->folder = 'REE_department';
-        $folder = 'REE_department';
-        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+        $ol_application = $this->CommonController->getOlApplication($applicationId); 
+
+        $this->getCustomCalculationData($ol_application,$applicationId);
+        $summary = $this->getSummaryData($applicationId);
+
+         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         $calculationSheetDetails = $user->calculationSheetDetails;
         $dcr_rates = $user->dcr_rates;
         $blade = $user->blade;
         $arrData['reeNote'] = $user->areeNote;
-        return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','folder'));
+
+        //latest calculation data
+        $custom = OlCustomCalculationSheet::where('application_id',$applicationId)->first();
+        $premium = OlApplicationCalculationSheetDetails::where('application_id',$applicationId)->first(); 
+        $fsiCalculation = OlFsiCalculationSheet::where('application_id',$applicationId)->first(); 
+
+        if ($fsiCalculation){
+            $route = 'admin.REE_department.view_fsi_calculation_sheet';
+            $calculationSheetDetails = $fsiCalculation;
+        }else if ($custom) {
+            $route = 'admin.REE_department.view_custom_premium_calculation_sheet';
+        }else {
+           $route = 'admin.common.'.$blade; 
+           $calculationSheetDetails = $user->calculationSheetDetails;
+        }
+
+        $action = '';
+        $master = OlApplicationMaster::where('id',$ol_application->application_master_id)->value('title');
+        if ($master == 'New - Offer Letter'){
+            $action = '.action';
+        }elseif($master = 'Revalidation Of Offer Letter'){
+            $action = '.reval_action';
+        }
+
+        $folder = $this->getCurrentRoleFolderName();
+        $status = $this->CommonController->getCurrentStatus($applicationId); 
+        $reeNote = REENote::where('application_id',$applicationId)->orderBy('id','DESC')->first(); 
+
+        $ol_application->folder = $folder;
+        $buldingNumber = OlCustomCalculationSheet::where('application_id',$applicationId)
+            ->where('title','total_no_of_buildings')->value('amount');
+
+        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','summary','status','reeNote','folder','buldingNumber','action'));
+
+        //echo "<pre>";print_r($ol_application);exit;
+        // $ol_application->folder = 'REE_department';
+        // $folder = 'REE_department';
+        // $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+        // $calculationSheetDetails = $user->calculationSheetDetails;
+        // $dcr_rates = $user->dcr_rates;
+        // $blade = $user->blade;
+        // $arrData['reeNote'] = $user->areeNote;
+
+            
+        // return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','folder'));
 
     }
     
@@ -1007,8 +1074,18 @@ class REEController extends Controller
             $route = 'admin.REE_department.view_custom_premium_calculation_sheet';
         }
 
+         $folder1 = '';
+        $master = OlApplicationMaster::where('id',$ol_application->application_master_id)->value('title');
+        if ($master == 'New - Offer Letter'){
+            $folder1 = 'REE_department.action';
+            $action = '.action';
+        }elseif($master = 'Revalidation Of Offer Letter'){
+            $folder1 = 'REE_department.reval_action';
+            $action = '.reval_action';
+        }
+
         $folder = $this->getCurrentRoleFolderName();
-        return view($route,compact('ol_application','user','summary','status','reeNote','buldingNumber','folder')); 
+        return view($route,compact('ol_application','user','summary','status','reeNote','buldingNumber','folder1','folder','master','action')); 
     }
 
     public function getCustomCalculationData($data,$applicationId){
@@ -2846,9 +2923,17 @@ class REEController extends Controller
             $route = 'admin.REE_department.fsi_calculation_sheet';
         } else{
             $route = 'admin.REE_department.view_fsi_calculation_sheet';
+        }
+        $folder1;
+         $master = OlApplicationMaster::where('id',$ol_application->application_master_id)->value('title');
+        if ($master == 'New - Offer Letter'){
+            $folder1 = 'REE_department.action';
+            $action = '.action';
+        }elseif($master = 'Revalidation Of Offer Letter'){
+            $folder1 = 'REE_department.reval_action';
+            $action = '.reval_action';
         }              
-
-        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','folder'));                    
+        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','folder','folder1','master','action'));                    
     }
 
     public function saveFsiCalculationData(Request $request){
@@ -2900,6 +2985,14 @@ class REEController extends Controller
 
         $pdf->WriteHTML($header_file.$view);  
         $pdf->Output('variation_report.pdf', 'D');
+    }
+
+    //revalidation calculations option with formula and custom
+    public function displayRevalCalculationOptions(Request $request,$applicationId){
+
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+        return view('admin.REE_department.show_reval_calculation_options',compact('ol_application'));
     }
         
 }
