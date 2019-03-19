@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.app') 
 @section('content')
     <div class="col-md-12">
         <div class="m-subheader px-0 m-subheader--top">
@@ -17,7 +17,7 @@
                     <div class="form-group m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="application_type_id">Application Type:</label>
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layouts" name="layout_id" required>
+                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layouts" name="layout_id" data-live-search="true" required>
                                 @foreach($layouts as $layout)
                                     <option value="{{ $layout['id'] }}">{{ $layout['layout_name'] }}</option>
                                 @endforeach

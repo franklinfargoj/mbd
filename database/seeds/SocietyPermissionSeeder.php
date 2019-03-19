@@ -668,6 +668,11 @@ class SocietyPermissionSeeder extends Seeder
                 'display_name' => 'Tripartite Letter for Execution and registration',
                 'description'  => 'Tripartite Letter for Execution and registration'
             ],
+            [
+                'name'         => 'show_reval_sign_application',
+                'display_name' => 'show reval sign application',
+                'description'  => 'show reval sign application'
+            ],
         ];
         
         if(count($society)==0){

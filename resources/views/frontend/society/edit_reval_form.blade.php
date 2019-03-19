@@ -20,7 +20,7 @@
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="application_type_id">Application Type:</label>
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layouts" name="layout_id" required>
+                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layouts" name="layout_id" data-live-search="true" required>
                                 @foreach($layouts as $layout)
                                     @if($ol_applications->layout_id == $layout['id'])
                                         <option value="{{ $layout['id'] }}" selected>{{ $layout['layout_name'] }}</option>
