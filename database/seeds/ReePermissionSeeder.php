@@ -519,7 +519,11 @@ class ReePermissionSeeder extends Seeder
                 'display_name'=>'upload_signed_tripartite_letter2',
                 'description'=>'upload_signed_tripartite_letter2'
             ],
-
+            [
+                'name'=>'scrutiny_report_by_em',
+                'display_name'=>'scrutiny_report_by_em',
+                'description'=>'scrutiny_report_by_em'
+            ]
 
         ];
 

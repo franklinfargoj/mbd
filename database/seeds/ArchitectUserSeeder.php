@@ -274,6 +274,11 @@ class ArchitectUserSeeder extends Seeder
                     'display_name' => 'architect ajax dashboard',
                     'description' => 'architect ajax dashboard',
                 ],
+                [
+                    'name'=>'scrutiny_report_by_em',
+                    'display_name'=>'scrutiny_report_by_em',
+                    'description'=>'scrutiny_report_by_em'
+                ]
                 
             ];
  

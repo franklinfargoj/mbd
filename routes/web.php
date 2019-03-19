@@ -699,7 +699,7 @@ Route::post('post_ree_checklist_and_remark_report','ArchitectLayout\LayoutArchit
 
 //scrutiny report of ee em ree and lm
 Route::get('scrutiny_of_ee_em_lm_ree/{layout_id}','ArchitectLayout\LayoutArchitectController@get_scrutiny_of_ee_em_lm_ree')->name('architect_Layout_scrutiny_of_ee_em_lm_ree');
-
+Route::post('scrutiny_report_by_em','ArchitectLayout\LayoutArchitectController@scrutiny_report_by_em')->name('scrutiny_report_by_em');
 //architect layout prepare layout and excel
 Route::get('architect_layout_prepare_layout_excel/{layout_id}','ArchitectLayout\LayoutArchitectController@prepare_layout_excel')->name('architect_layout_prepare_layout_excel');
 Route::post('uploadLayoutandExcelAjax','ArchitectLayout\LayoutArchitectController@uploadLayoutandExcelAjax')->name('uploadLayoutandExcelAjax');
