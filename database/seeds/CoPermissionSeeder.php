@@ -467,10 +467,15 @@ class CoPermissionSeeder extends Seeder
                 'description'=>'noc variation report'
             ],
             [
-            'name'=>'upload_signed_tripartite_letter2',
-            'display_name'=>'upload_signed_tripartite_letter2',
-            'description'=>'upload_signed_tripartite_letter2'
-        ],
+                'name'=>'upload_signed_tripartite_letter2',
+                'display_name'=>'upload_signed_tripartite_letter2',
+                'description'=>'upload_signed_tripartite_letter2'
+            ],
+            [
+                'name'=>'estate-conveyance.period_wise_pendency_report',
+                'display_name'=>'estate-conveyance.period_wise_pendency_report',
+                'description'=>'estate-conveyance.period_wise_pendency_report'
+            ],
         ];
         $ree_role_id = Role::where('name', 'ree_engineer')->value('id');
         if ($ree_role_id == null) {

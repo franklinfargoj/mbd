@@ -345,6 +345,11 @@ class DYCOPermissions extends Seeder
                 'display_name'=>'generate Lease Agreement',
                 'description'=>'generate Lease Agreement' 
             ],
+            [
+                'name'=>'estate-conveyance.period_wise_pendency_report',
+                'display_name'=>'estate-conveyance.period_wise_pendency_report',
+                'description'=>'estate-conveyance.period_wise_pendency_report'
+            ],
         ];
 
         //dycdo

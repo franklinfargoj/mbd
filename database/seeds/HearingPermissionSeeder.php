@@ -459,6 +459,11 @@ class HearingPermissionSeeder extends Seeder
                 'display_name' => 'Shows hearing dashboard ajax',
                 'description' => 'Shows hearing dashboard ajax'
             ],
+            [
+                'name'=>'estate-conveyance.period_wise_pendency_report',
+                'display_name'=>'estate-conveyance.period_wise_pendency_report',
+                'description'=>'estate-conveyance.period_wise_pendency_report'
+            ],
 
         ];
         $permission_role_joint_co = [];

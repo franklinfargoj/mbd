@@ -278,7 +278,12 @@ class ArchitectUserSeeder extends Seeder
                     'name'=>'scrutiny_report_by_em',
                     'display_name'=>'scrutiny_report_by_em',
                     'description'=>'scrutiny_report_by_em'
-                ]
+                ],
+                [
+                    'name'=>'estate-conveyance.period_wise_pendency_report',
+                    'display_name'=>'estate-conveyance.period_wise_pendency_report',
+                    'description'=>'estate-conveyance.period_wise_pendency_report'
+                ],
                 
             ];
  

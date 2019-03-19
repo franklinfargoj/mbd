@@ -493,6 +493,11 @@ class EmPermissionSeeder extends Seeder
                 'display_name' => 'Ajax EM dashboard',
                 'description'  => 'Ajax EM dashboard'
             ],
+            [
+                'name'=>'estate-conveyance.period_wise_pendency_report',
+                'display_name'=>'estate-conveyance.period_wise_pendency_report',
+                'description'=>'estate-conveyance.period_wise_pendency_report'
+            ],
         ];
 
         $permission_role = [];
