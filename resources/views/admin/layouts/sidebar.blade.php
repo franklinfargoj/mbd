@@ -984,9 +984,17 @@ $route=\Request::route()->getName();
             </ul>
             <!-- comment-->
         </li>
-        @if(session()->get('role_name')==config('commanConfig.co_engineer') ||session()->get('role_name')==config('commanConfig.ee_branch_head') || session()->get('role_name')==config('commanConfig.ree_branch_head') || session()->get('role_name')==config('commanConfig.dyce_branch_head'))
-                        <li class="m-menu__item {{$route=='redevelopement.period_wise_pendency_report'?'':'collapsed'}}"
-                        data-toggle="collapse" data-target="#redevelopment-report">
+        @if(session()->get('role_name')==config('commanConfig.co_engineer') ||session()->get('role_name')==config('commanConfig.ee_branch_head') || session()->get('role_name')==config('commanConfig.ree_branch_head') || session()->get('role_name')==config('commanConfig.dyce_branch_head') ||
+            session()->get('role_name')==config('commanConfig.architect') ||
+            session()->get('role_name')==config('commanConfig.joint_co') ||
+            session()->get('role_name')==config('commanConfig.la_engineer') ||
+            session()->get('role_name')==config('commanConfig.dyco_engineer') ||
+            session()->get('role_name')==config('commanConfig.dycdo_engineer') ||
+            session()->get('role_name')==config('commanConfig.estate_manager')
+
+        )
+                        <li class="m-menu__item {{(($route=='redevelopement.period_wise_pendency_report')) ? '' : 'collapsed'}}"
+                        data-toggle="collapse" data-target="#pendency-report">
                             <a href="{{ route('redevelopement.period_wise_pendency_report') }}" class="m-menu__link m-menu__toggle">
                                 <span class="m-menu__link-title">
                                     <span class="m-menu__link-wrap">
@@ -998,24 +1006,57 @@ $route=\Request::route()->getName();
                                 </span>
                             </a>
                         </li>
-                        
-                        <li id="redevelopment-report" class="collapse {{($route=='redevelopement.period_wise_pendency_report')?'show':''}}">
+
+
+                            <li id="pendency-report" class="collapse {{($route=='redevelopement.period_wise_pendency_report')?'show':''}}">
                             <ul class="list-unstyled">
-                                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='redevelopement.period_wise_pendency_report')?'m-menu__item--active':''}}"
+
+                                @if(session()->get('role_name')==config('commanConfig.co_engineer') ||session()->get('role_name')==config('commanConfig.ee_branch_head') || session()->get('role_name')==config('commanConfig.ree_branch_head') || session()->get('role_name')==config('commanConfig.dyce_branch_head'))
+                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='redevelopement.period_wise_pendency_report')?'m-menu__item--active':''}}"
+                                        aria-haspopup="true">
+                                        <a href="{{ route('redevelopement.period_wise_pendency_report') }}" class="m-menu__link m-menu__toggle">
+                                            <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                            <span class="m-menu__link-title">
+                                                <span class="m-menu__link-wrap">
+                                                    <span class="m-menu__link-text">
+                                                        Period wise Redevelopment Pendency Report
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </li>
+                                @endif
+
+
+                                @if(session()->get('role_name')==config('commanConfig.architect') ||
+                                    session()->get('role_name')==config('commanConfig.joint_co') ||
+                                    session()->get('role_name')==config('commanConfig.la_engineer') ||
+                                    session()->get('role_name')==config('commanConfig.dyco_engineer') ||
+                                    session()->get('role_name')==config('commanConfig.dycdo_engineer') ||
+                                    session()->get('role_name')==config('commanConfig.estate_manager') ||
+                                    session()->get('role_name')==config('commanConfig.co_engineer') ||
+                                    session()->get('role_name')==config('commanConfig.ee_branch_head')
+                                )
+                                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='estate-conveyance.period_wise_pendency_report')?'m-menu__item--active':''}}"
                                     aria-haspopup="true">
-                                    <a href="{{ route('redevelopement.period_wise_pendency_report') }}" class="m-menu__link m-menu__toggle">
+                                    <a href="{{ route('estate-conveyance.period_wise_pendency_report') }}" class="m-menu__link m-menu__toggle">
                                         <i class="m-menu__link-icon flaticon-line-graph"></i>
                                         <span class="m-menu__link-title">
                                             <span class="m-menu__link-wrap">
                                                 <span class="m-menu__link-text">
-                                                    Periodwise Pendency Report
+                                                    Period wise Estate & Conveyance Pendency Report
                                                 </span>
                                             </span>
                                         </span>
                                     </a>
                                 </li>
+                                @endif
+
+
                             </ul>
                         </li>
+
+
                         @endif
                 @if(Session::all()['role_name'] == 'ee_engineer')
                 {{-- <li class="m-menu__item {{($route=='society_detail.billing_level')?'m-menu__item--active':''}}">
