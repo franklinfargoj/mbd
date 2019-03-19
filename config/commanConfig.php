@@ -441,9 +441,9 @@ return [
         '10', '21'
     ],
 
-    'oc_master_ids' => [
-        '5', '11' , '16' , '22'
-    ],
+//    'oc_master_ids' => [
+//        '5', '11' , '16' , '22'
+//    ],
 
     'tripartite_master_ids' => [
         '9', '20'
@@ -512,6 +512,15 @@ return [
         'route_id'=>2,
         'Unicode'=>0,
         'IP'=>'180.149.241.179'
+    ],
+
+    'module_names'=>[
+        'New - Offer Letter' => 'new_offer_letter_master_ids',
+        'Revalidation Of Offer Letter'=>'revalidation_master_ids',
+        'Tripartite Agreement'=>'tripartite_master_ids',
+        'Application for NOC'=>'noc_master_ids',
+        'Consent for OC'=>'oc_master_ids',
+        'Application for CC'=>'noc_cc_master_ids'
     ]
 
 ];
