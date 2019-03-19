@@ -70,7 +70,7 @@
                         @foreach($layout_detail->ee_reports as $ee_report)
                         <li><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$ee_report->upload_file}}">{{$ee_report->name_of_documents}}</a></li>
                         @endforeach
-                        <li><a class="btn-link report-by" data-toggle="modal" data-target="#myModal" data-id="{{$layout_detail->id}}" data-branch="EE">report by EE</a></li>                        
+                        <li><a href="javascript:void(0)" class="btn-link report-by" data-toggle="modal" data-target="#myModal" data-id="{{$layout_detail->id}}" data-branch="EE">report by EE</a></li>                        
                     </ul>
                 </td>
                 <td>
@@ -78,7 +78,7 @@
                         @foreach($layout_detail->em_reports as $em_report)
                         <li><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$em_report->upload_file}}">{{$em_report->name_of_documents}}</a></li>
                         @endforeach
-                        <li><a class="btn-link report-by" data-toggle="modal" data-target="#myModal" data-id="{{$layout_detail->id}}" data-branch="EM">report by EM</a></li>
+                        <li><a href="javascript:void(0)" class="btn-link report-by" data-toggle="modal" data-target="#myModal" data-id="{{$layout_detail->id}}" data-branch="EM">report by EM</a></li>
                     </ul>
                 </td>
                 <td>
@@ -86,7 +86,7 @@
                         @foreach($layout_detail->land_reports as $land_report)
                         <li><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$land_report->upload_file}}">{{$land_report->name_of_documents}}</a></li>
                         @endforeach
-                        <li><a class="btn-link report-by" data-toggle="modal" data-target="#myModal" data-id="{{$layout_detail->id}}" data-branch="Land">report by Land</a></li>
+                        <li><a href="javascript:void(0)"  class="btn-link report-by" data-toggle="modal" data-target="#myModal" data-id="{{$layout_detail->id}}" data-branch="Land">report by Land</a></li>
                     </ul>
                 </td>
                 <td>
@@ -94,7 +94,7 @@
                         @foreach($layout_detail->ree_reports as $ree_report)
                         <li><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$ree_report->upload_file}}">{{$ree_report->name_of_documents}}</a></li>
                         @endforeach
-                        <li><a class="btn-link report-by" data-toggle="modal" data-target="#myModal" data-id="{{$layout_detail->id}}" data-branch="REE">report by REE</a></li>
+                        <li><a href="javascript:void(0)" class="btn-link report-by" data-toggle="modal" data-target="#myModal" data-id="{{$layout_detail->id}}" data-branch="REE">report by REE</a></li>
                     </ul>
                 </td>
                 <td><a class="btn-link" href="{{route('view_court_case_or_dispute_on_land',['layout_detail_id'=>encrypt($layout_detail->id)])}}">View
