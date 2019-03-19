@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Reports;
 
 use App\Http\Controllers\Controller;
 use App\LayoutUser;
+use App\NocApplicationStatus;
+use App\NocCCApplicationStatus;
+use App\OcApplication;
+use App\OcApplicationStatusLog;
 use App\OlApplicationMaster;
 use App\OlApplicationStatus;
 use App\Role;
@@ -64,7 +68,6 @@ class RedevelopementController extends Controller
             $report_format = $request->excel;
         }
 
-
         if (count($period) == 2 || count($period) == 1) {
 
             if($request->module_master_id == 'new_offer_letter_master_ids' ||
@@ -73,12 +76,30 @@ class RedevelopementController extends Controller
                 $data = $this->getofferLetterData($period_title,$period,$master_ids,$layouts,$roles);
             }
 
-            $this->generateReport($data,$report_format);
+            if($request->module_master_id == 'oc_master_ids'){
+                $data = $this->getOcData($period_title,$period,$master_ids,$layouts,$roles);
+            }
 
+            if($request->module_master_id == 'noc_master_ids'){
+                $data = $this->getNocData($period_title,$period,$master_ids,$layouts,$roles);
+            }
+
+            if($request->module_master_id == 'noc_cc_master_ids'){
+                $data = $this->getNoCcData($period_title,$period,$master_ids,$layouts,$roles);
+            }
+
+            if($data){
+                $result = $this->generateReport($data,$report_format,$period_title);
+                if(!$result){
+                    return back()->with('error', 'No Record Found');
+                }
+            }else{
+                return back()->with('error', 'No Record Found');
+
+            }
         } else {
             return back()->with('error', 'Invalid Request');
         }
-
     }
 
     /**
@@ -228,18 +249,151 @@ class RedevelopementController extends Controller
     }
 
     /**
+     * Consent for OC report Data.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return $data
+     */
+    public function getOcData($period_title,$period,$master_ids,$layouts,$roles){
+        if($period_title=="")
+        {
+            $data = OcApplicationStatusLog::join('oc_applications', 'oc_application_status_log.application_id', '=', 'oc_applications.id')
+                ->join('ol_societies', 'oc_applications.society_id', '=', 'ol_societies.id')
+                ->join('ol_application_master', 'ol_application_master.id', '=', 'oc_applications.application_master_id')
+                ->join('users', 'users.id', '=', 'oc_application_status_log.user_id')
+                ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->where('oc_application_status_log.is_active', 1)
+                ->whereIn('oc_application_status_log.role_id', $roles)
+                ->where('oc_application_status_log.status_id', config('commanConfig.applicationStatus.in_process'))
+                // ->where(DB::raw('DATEDIFF(NOW(),oc_application_status_log.created_at)'), '>=', $period[0])
+                // ->where(DB::raw('DATEDIFF(NOW(),oc_application_status_log.created_at)'), '<=', $period[1])
+                ->whereIn('oc_applications.layout_id', $layouts)
+                ->whereIn('oc_applications.application_master_id',$master_ids)
+                ->get(['roles.name as Role','oc_applications.application_no', 'oc_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),oc_application_status_log.created_at) as days_pending')]);
+
+        }else
+        {
+            $data = OcApplicationStatusLog::join('oc_applications', 'oc_application_status_log.application_id', '=', 'oc_applications.id')
+                ->join('ol_societies', 'oc_applications.society_id', '=', 'ol_societies.id')
+                ->join('ol_application_master', 'ol_application_master.id', '=', 'oc_applications.application_master_id')
+                ->join('users', 'users.id', '=', 'oc_application_status_log.user_id')
+                ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->where('oc_application_status_log.is_active', 1)
+                ->whereIn('oc_application_status_log.role_id', $roles)
+                ->where('oc_application_status_log.status_id', config('commanConfig.applicationStatus.in_process'))
+                ->where(DB::raw('DATEDIFF(NOW(),oc_application_status_log.created_at)'), '>=', $period[0])
+                ->where(DB::raw('DATEDIFF(NOW(),oc_application_status_log.created_at)'), '<=', $period[1])
+                ->whereIn('oc_applications.layout_id', $layouts)
+                ->whereIn('oc_applications.application_master_id',$master_ids)
+                ->get(['roles.name as Role','oc_applications.application_no', 'oc_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),oc_application_status_log.created_at) as days_pending')]);
+
+        }
+        return $data;
+    }
+
+
+    /**
+     * NOC report Data.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return $data
+     */
+    public function getNocData($period_title,$period,$master_ids,$layouts,$roles){
+        if($period_title=="")
+        {
+            $data = NocApplicationStatus::join('noc_applications', 'noc_application_status_log.application_id', '=', 'noc_applications.id')
+                ->join('ol_societies', 'noc_applications.society_id', '=', 'ol_societies.id')
+                ->join('ol_application_master', 'ol_application_master.id', '=', 'noc_applications.application_master_id')
+                ->join('users', 'users.id', '=', 'noc_application_status_log.user_id')
+                ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->where('noc_application_status_log.is_active', 1)
+                ->whereIn('noc_application_status_log.role_id', $roles)
+                ->where('noc_application_status_log.status_id', config('commanConfig.applicationStatus.in_process'))
+                // ->where(DB::raw('DATEDIFF(NOW(),noc_application_status_log.created_at)'), '>=', $period[0])
+                // ->where(DB::raw('DATEDIFF(NOW(),noc_application_status_log.created_at)'), '<=', $period[1])
+                ->whereIn('noc_applications.layout_id', $layouts)
+                ->whereIn('noc_applications.application_master_id',$master_ids)
+                ->get(['roles.name as Role','noc_applications.application_no', 'noc_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),noc_application_status_log.created_at) as days_pending')]);
+
+        }else
+        {
+            $data = NocApplicationStatus::join('noc_applications', 'noc_application_status_log.application_id', '=', 'noc_applications.id')
+                ->join('ol_societies', 'noc_applications.society_id', '=', 'ol_societies.id')
+                ->join('ol_application_master', 'ol_application_master.id', '=', 'noc_applications.application_master_id')
+                ->join('users', 'users.id', '=', 'noc_application_status_log.user_id')
+                ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->where('noc_application_status_log.is_active', 1)
+                ->whereIn('noc_application_status_log.role_id', $roles)
+                ->where('noc_application_status_log.status_id', config('commanConfig.applicationStatus.in_process'))
+                ->where(DB::raw('DATEDIFF(NOW(),noc_application_status_log.created_at)'), '>=', $period[0])
+                ->where(DB::raw('DATEDIFF(NOW(),noc_application_status_log.created_at)'), '<=', $period[1])
+                ->whereIn('noc_applications.layout_id', $layouts)
+                ->whereIn('noc_applications.application_master_id',$master_ids)
+                ->get(['roles.name as Role','noc_applications.application_no', 'noc_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),noc_application_status_log.created_at) as days_pending')]);
+
+        }
+        return $data;
+    }
+
+    /**
+     * NOC report Data.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return $data
+     */
+    public function getNoCcData($period_title,$period,$master_ids,$layouts,$roles){
+        if($period_title == "")
+        {
+            $data = NocCCApplicationStatus::join('noc_cc_applications', 'noc_cc_application_status_log.application_id', '=', 'noc_cc_applications.id')
+                ->join('ol_societies', 'noc_cc_applications.society_id', '=', 'ol_societies.id')
+                ->join('ol_application_master', 'ol_application_master.id', '=', 'noc_cc_applications.application_master_id')
+                ->join('users', 'users.id', '=', 'noc_cc_application_status_log.user_id')
+                ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->where('noc_cc_application_status_log.is_active', 1)
+                ->whereIn('noc_cc_application_status_log.role_id', $roles)
+                ->where('noc_cc_application_status_log.status_id', config('commanConfig.applicationStatus.in_process'))
+                // ->where(DB::raw('DATEDIFF(NOW(),noc_cc_application_status_log.created_at)'), '>=', $period[0])
+                // ->where(DB::raw('DATEDIFF(NOW(),noc_cc_application_status_log.created_at)'), '<=', $period[1])
+                ->whereIn('noc_cc_applications.layout_id', $layouts)
+                ->whereIn('noc_cc_applications.application_master_id',$master_ids)
+                ->get(['roles.name as Role','noc_cc_applications.application_no', 'noc_cc_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),noc_cc_application_status_log.created_at) as days_pending')]);
+
+        }else
+        {
+            $data = NocCCApplicationStatus::join('noc_cc_applications', 'noc_cc_application_status_log.application_id', '=', 'noc_cc_applications.id')
+                ->join('ol_societies', 'noc_cc_applications.society_id', '=', 'ol_societies.id')
+                ->join('ol_application_master', 'ol_application_master.id', '=', 'noc_cc_applications.application_master_id')
+                ->join('users', 'users.id', '=', 'noc_cc_application_status_log.user_id')
+                ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->where('noc_cc_application_status_log.is_active', 1)
+                ->whereIn('noc_cc_application_status_log.role_id', $roles)
+                ->where('noc_cc_application_status_log.status_id', config('commanConfig.applicationStatus.in_process'))
+                ->where(DB::raw('DATEDIFF(NOW(),noc_cc_application_status_log.created_at)'), '>=', $period[0])
+                ->where(DB::raw('DATEDIFF(NOW(),noc_cc_application_status_log.created_at)'), '<=', $period[1])
+                ->whereIn('noc_cc_applications.layout_id', $layouts)
+                ->whereIn('noc_cc_applications.application_master_id',$master_ids)
+                ->get(['roles.name as Role','noc_cc_applications.application_no', 'noc_cc_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),noc_cc_application_status_log.created_at) as days_pending')]);
+
+        }
+        return $data;
+    }
+
+    /**
      * Generate the Report in excel or pdf format.
      *
      * Author: Prajakta Sisale.
      *
      * @return \Illuminate\Http\Response
      */
-    public function generateReport($data, $report_format){
+    public function generateReport($data, $report_format,$period_title){
         $fileName = date('Y_m_d_H_i_s') . '_period_wise_pendency.pdf';
 
         if (count($data) > 0) {
 
-            if($report_format=='pdf')
+            if($report_format == 'pdf')
             {
                 $content = view('admin.reports.redevelopement._period_wise_pendency', compact('data', 'period_title'));
                 $header_file = view('admin.REE_department.offer_letter_header');
@@ -258,7 +412,7 @@ class RedevelopementController extends Controller
                 $pdf->WriteHTML($content);
                 $pdf->Output($fileName, 'D');
             }
-            if($report_format=='excel')
+            if($report_format == 'excel')
             {
                 $dataListMaster = [];
                 $i=1;
@@ -287,8 +441,10 @@ class RedevelopementController extends Controller
                 })->download('csv');
             }
 
+            return true;
+
         } else {
-            return back()->with('error', 'No Record Found');
+            return false;
         }
     }
 }
