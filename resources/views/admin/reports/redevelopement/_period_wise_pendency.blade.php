@@ -1,4 +1,9 @@
-<h3>PeriodWisePendency:-({{$period_title}})</h3>
+@php
+if($period_title == "")
+    $period_title = "All";
+@endphp
+
+<h3>PeriodWisePendency({{$module_name}}):-({{$period_title}})</h3>
 <table style="border-collapse:collapse;width:100%;text-align:center;padding:5px;" border="1">
     <thead>
         <tr>

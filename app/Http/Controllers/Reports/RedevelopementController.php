@@ -68,12 +68,14 @@ class RedevelopementController extends Controller
             $report_format = $request->excel;
         }
 
+
         if (count($period) == 2 || count($period) == 1) {
 
             if($request->module_master_id == 'new_offer_letter_master_ids' ||
                 $request->module_master_id == 'revalidation_master_ids' ||
                 $request->module_master_id == 'tripartite_master_ids') {
                 $data = $this->getofferLetterData($period_title,$period,$master_ids,$layouts,$roles);
+
             }
 
             if($request->module_master_id == 'oc_master_ids'){
@@ -89,7 +91,16 @@ class RedevelopementController extends Controller
             }
 
             if($data){
-                $result = $this->generateReport($data,$report_format,$period_title);
+
+                $modules = config('commanConfig.module_names');
+
+                foreach ($modules as $key => $value){
+                    if($value == $request->module_master_id){
+                        $module_name = $key;
+                    }
+                }
+
+                $result = $this->generateReport($data, $report_format, $period_title, $module_name);
                 if(!$result){
                     return back()->with('error', 'No Record Found');
                 }
@@ -388,14 +399,14 @@ class RedevelopementController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function generateReport($data, $report_format,$period_title){
+    public function generateReport($data, $report_format, $period_title, $module_name){
         $fileName = date('Y_m_d_H_i_s') . '_period_wise_pendency.pdf';
 
         if (count($data) > 0) {
 
             if($report_format == 'pdf')
             {
-                $content = view('admin.reports.redevelopement._period_wise_pendency', compact('data', 'period_title'));
+                $content = view('admin.reports.redevelopement._period_wise_pendency', compact('data', 'period_title','module_name'));
                 $header_file = view('admin.REE_department.offer_letter_header');
                 $footer_file = view('admin.REE_department.offer_letter_footer');
                 //$pdf = \App::make('dompdf.wrapper');
