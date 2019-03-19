@@ -443,7 +443,8 @@ class RedevelopementController extends Controller
                     $i++;
                 }
 
-                return Excel::create(date('Y_m_d_H_i_s') . '_period_wise_pendency', function($excel) use($dataListMaster){
+                $module_name = str_replace(' ','_',$module_name);
+                return Excel::create(date('Y_m_d_H_i_s') . '_period_wise_pendency_'.$module_name, function($excel) use($dataListMaster){
 
                     $excel->sheet('mySheet', function($sheet) use($dataListMaster)
                     {
