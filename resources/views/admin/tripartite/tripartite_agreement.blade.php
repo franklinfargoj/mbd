@@ -524,20 +524,17 @@
                                         <span>{{$society_details->address}}.</span>
                                     </p>
 
-                                    <div style="font-size: 16px; line-height: 1.5;margin-left: 80px;width: 95%;">
-                                        <p style="vertical-align: top;
-    margin: 0%;
-    width: 8%;
-    display: inline-block;">विषय:-</p> <p style="margin: 0%;
-    display: inline-block;
-    width: 85%;">{{$society_details->name}},{{$society_details->address}} या इमारतीचा पुनर्विकासाकरिता सुधारित वि.नि.नि. ३३(५) नुसार त्रिपक्षीय करारनामा करणे संदर्भात मुद्रांक शुल्क भरणेबाबत.</p>
+                                    <div style="font-size: 16px; line-height: 1.5;margin-left: 80px;">
+                                        <p style="vertical-align: top;margin: 0%;width: 9%;float: left;">विषय:-</p> 
+                                        <p style="margin: 0%;float: left;width: 90%;">{{$society_details->name}},{{$society_details->address}} या इमारतीचा पुनर्विकासाकरिता सुधारित वि.नि.नि. ३३(५) नुसार त्रिपक्षीय करारनामा करणे संदर्भात मुद्रांक शुल्क भरणेबाबत.</p>
                                     </div>
+                                    <div style="clear: both;"></div>
                                     
                                     {{--<p style="margin-left: 80px;">संदर्भ:- मा.विधी सल्लागार / प्रा. यांची  मंजुरी क्र्.&nbsp;&nbsp;&nbsp;दि.</p>--}}
                                     <p style="font-size: 16px; line-height: 1.5;">महोदय,</p>
                                     <p style="font-size: 16px; line-height: 1.5;text-indent: 80px;width: 95%;">उपरोक्त विषयास अनुसरून मा.विधी सल्लागार / प्रा. यांनी इमारतीचा त्रिपक्षीय करारनामा करणे संदर्भात मसुद्यास मान्यता दिलेली असून सदर मसुदा मान्य असल्याबाबत नमूद करून त्याची प्रत, तसेच त्रिपक्षीय करारनामा हिरव्या लीगल पेपरवर टंकलिखित करून व मुद्रांक शुल्क भरणा करून पुढील कार्यवाहीसाठी कार्यालयात सादर करण्यात यावा.</p><br/><br/>
 
-                                    <p style="font-size: 16px; line-height: 1.5;margin-left: 85%"><span>आपला विश्वासू, </span><br/><br/>
+                                    <p style="font-size: 16px; line-height: 1.5;margin-left: 75%"><span>आपला विश्वासू, </span><br/><br/>
                                     <span>निवासी कार्यकारी अभियंता,</span><br/>
                                             <span>मुंबई मंडळ </span></p>
                                 </div>
