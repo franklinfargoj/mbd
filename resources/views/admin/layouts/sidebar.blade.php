@@ -807,8 +807,7 @@ $route=\Request::route()->getName();
                         </span>
                     </a>
                 </li>
-                
-                <li id="society-actions" class="collapse {{($route=='tripartite.index' || $route=='co_applications.noc_cc' || $route=='ree_applications.noc_cc' || $route=='co_applications.noc' || $route=='ree_applications.noc' || $route=='cap_applications.reval' || $route=='vp_applications.reval' || $route=='co_applications.reval' || $route=='ree_applications.reval' || $route=='ree_applications.index' || $route=='ee.index' || $route=='dyce.index' || $route=='co.index' || $route=='vp.index' || $route=='ee.consent_for_oc' || $route=='em.consent_for_oc' || $route == 'ree_applications.consent_oc')?'show':''}}">
+                <li id="society-actions" class="collapse {{($route=='tripartite.index' || $route=='co_applications.noc_cc' || $route=='ree_applications.noc_cc' || $route=='co_applications.noc' || $route=='ree_applications.noc' || $route=='cap_applications.reval' || $route=='vp_applications.reval' || $route=='co_applications.reval' || $route=='ree_applications.reval' || $route=='ree_applications.index' || $route=='ee.index' || $route=='dyce.index' || $route=='co.index' || $route=='cap.index' || $route=='vp.index' || $route=='ee.consent_for_oc' || $route=='em.consent_for_oc' || $route == 'ree_applications.consent_oc')?'show':''}}">
                     <ul class="list-unstyled">
                     @if (isset($route) && (in_array('ree_applications.index', session()->get('permission')) ||
                     in_array('ee.index', session()->get('permission')) ||
@@ -820,6 +819,8 @@ $route=\Request::route()->getName();
                     in_array('ree_applications.noc_cc', session()->get('permission'))||
                     in_array('co_applications.noc_cc', session()->get('permission'))
                     ))
+
+
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2  {{( $route=='ee.index' || $route=='dyce.index' || $route=='ree_applications.index' || $route=='co.index' || $route=='cap.index' || $route=='vp.index' || $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' || $route=='documents_uploaded' || $route=='documents_upload')?'m-menu__item--active':''}}">
                             <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">
                                 {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"--}}
