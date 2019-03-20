@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Reports;
 
+use App\conveyance\RenewalApplicationLog;
 use App\conveyance\scApplication;
 use App\conveyance\scApplicationLog;
 use App\conveyance\scApplicationType;
@@ -72,9 +73,14 @@ class EstateConveyanceController extends Controller
         }
 
         if (count($period) == 2 || count($period) == 1) {
-            
+
             if($request->module_master_id == '1') {
                 $data = $this->getConveyanceData($period_title,$period,$master_id,$layouts,$roles);
+
+            }
+
+            if($request->module_master_id == '2') {
+                $data = $this->getRenewalData($period_title,$period,$master_id,$layouts,$roles);
 
             }
 
@@ -206,7 +212,7 @@ class EstateConveyanceController extends Controller
     }
 
     /**
-     * Offer letter report Data.
+     * Conveyance report Data.
      *
      * Author: Prajakta Sisale.
      *
@@ -254,6 +260,61 @@ class EstateConveyanceController extends Controller
                 ->whereIn('sc_application.layout_id', $layouts)
                 ->where('sc_application.sc_application_master_id',$master_id)
                 ->get(['roles.name as Role','sc_application.application_no', 'sc_application_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'users.name as User', DB::raw('DATEDIFF(NOW(),sc_application_log.created_at) as days_pending')]);
+
+        }
+        return $data;
+    }
+
+    /**
+     * Renewal report Data.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return $data
+     */
+    public function getRenewalData($period_title,$period,$master_id,$layouts,$roles){
+
+        $status = array(config('commanConfig.renewal_status.in_process'),
+                        config('commanConfig.renewal_status.Draft_Renewal_of_Lease_deed'),
+                        config('commanConfig.renewal_status.Approved_Renewal_of_Lease'),
+                        config('commanConfig.renewal_status.Send_society_to_pay_stamp_duty'),
+                        config('commanConfig.renewal_status.Registered_lease_deed'),
+                        config('commanConfig.renewal_status.Stamp_Renewal_of_Lease_deed'),
+                        config('commanConfig.renewal_status.Stamp_Sign_Renewal_of_Lease_deed'),
+                        config('commanConfig.renewal_status.Send_society_for_registration_of_Lease_deed'));
+
+
+        if($period_title=="")
+        {
+            $data = RenewalApplicationLog::join('renewal_application', 'renewal_application_log.application_id', '=', 'renewal_application.id')
+                ->join('ol_societies', 'renewal_application.society_id', '=', 'ol_societies.id')
+                ->join('sc_application_master', 'sc_application_master.id', '=', 'renewal_application.application_master_id')
+                ->join('users', 'users.id', '=', 'renewal_application_log.user_id')
+                ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->where('renewal_application_log.is_active', 1)
+                ->whereIn('renewal_application_log.role_id', $roles)
+                ->whereIn('renewal_application_log.status_id', $status)
+                ->whereIn('renewal_application.layout_id', $layouts)
+                ->where('renewal_application.application_master_id',$master_id)
+                ->get(['roles.name as Role','renewal_application.application_no', 'renewal_application_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'users.name as User', DB::raw('DATEDIFF(NOW(),renewal_application_log.created_at) as days_pending')]);
+
+        }else
+        {
+
+
+            $data = RenewalApplicationLog::join('renewal_application', 'renewal_application_log.application_id', '=', 'renewal_application.id')
+                ->join('ol_societies', 'renewal_application.society_id', '=', 'ol_societies.id')
+                ->join('sc_application_master', 'sc_application_master.id', '=', 'renewal_application.application_master_id')
+                ->join('users', 'users.id', '=', 'renewal_application_log.user_id')
+                ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->where('renewal_application_log.is_active', 1)
+                ->whereIn('renewal_application_log.role_id', $roles)
+                ->whereIn('renewal_application_log.status_id', $status)
+                ->where(DB::raw('DATEDIFF(NOW(),renewal_application_log.created_at)'), '>=', $period[0])
+                ->where(DB::raw('DATEDIFF(NOW(),renewal_application_log.created_at)'), '<=', $period[1])
+                ->whereIn('renewal_application.layout_id', $layouts)
+                ->where('renewal_application.application_master_id',$master_id)
+                ->get(['roles.name as Role','renewal_application.application_no', 'renewal_application_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'users.name as User', DB::raw('DATEDIFF(NOW(),renewal_application_log.created_at) as days_pending')]);
 
         }
         return $data;
