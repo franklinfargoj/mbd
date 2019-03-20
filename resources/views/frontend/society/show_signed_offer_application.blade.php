@@ -1,7 +1,12 @@
 @extends('frontend.layouts.sidebarAction')
 @section('actions')
+@if($module == 'Offer')
     @include('frontend.society.actions',compact('ol_applications'))
-@endsection
+
+@elseif($module == 'Revalidation')
+    @include('frontend.society.reval_actions',compact('ol_applications'))
+@endif
+@endsection  
 @section('content')
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
