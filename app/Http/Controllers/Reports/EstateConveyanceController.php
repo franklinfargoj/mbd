@@ -71,11 +71,8 @@ class EstateConveyanceController extends Controller
             }
         }
 
-//        dd($module_name);
-
         if (count($period) == 2 || count($period) == 1) {
-
-
+            
             if($request->module_master_id == '1') {
                 $data = $this->getConveyanceData($period_title,$period,$master_id,$layouts,$roles);
 
@@ -238,8 +235,6 @@ class EstateConveyanceController extends Controller
                 ->where('sc_application_log.is_active', 1)
                 ->whereIn('sc_application_log.role_id', $roles)
                 ->whereIn('sc_application_log.status_id', $status)
-                // ->where(DB::raw('DATEDIFF(NOW(),ol_application_status_log.created_at)'), '>=', $period[0])
-                // ->where(DB::raw('DATEDIFF(NOW(),ol_application_status_log.created_at)'), '<=', $period[1])
                 ->whereIn('sc_application.layout_id', $layouts)
                 ->where('sc_application.sc_application_master_id',$master_id)
                 ->get(['roles.name as Role','sc_application.application_no', 'sc_application_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'users.name as User', DB::raw('DATEDIFF(NOW(),sc_application_log.created_at) as days_pending')]);
@@ -254,8 +249,8 @@ class EstateConveyanceController extends Controller
                 ->where('sc_application_log.is_active', 1)
                 ->whereIn('sc_application_log.role_id', $roles)
                 ->whereIn('sc_application_log.status_id', $status)
-                 ->where(DB::raw('DATEDIFF(NOW(),sc_application_log.created_at)'), '>=', $period[0])
-                 ->where(DB::raw('DATEDIFF(NOW(),sc_application_log.created_at)'), '<=', $period[1])
+                ->where(DB::raw('DATEDIFF(NOW(),sc_application_log.created_at)'), '>=', $period[0])
+                ->where(DB::raw('DATEDIFF(NOW(),sc_application_log.created_at)'), '<=', $period[1])
                 ->whereIn('sc_application.layout_id', $layouts)
                 ->where('sc_application.sc_application_master_id',$master_id)
                 ->get(['roles.name as Role','sc_application.application_no', 'sc_application_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'users.name as User', DB::raw('DATEDIFF(NOW(),sc_application_log.created_at) as days_pending')]);
@@ -281,7 +276,6 @@ class EstateConveyanceController extends Controller
                 $content = view('admin.reports.estate_conveyance._period_wise_pendency', compact('data', 'period_title','module_name'));
                 $header_file = view('admin.REE_department.offer_letter_header');
                 $footer_file = view('admin.REE_department.offer_letter_footer');
-                //$pdf = \App::make('dompdf.wrapper');
                 $pdf = new Mpdf([
                     'default_font_size' => 9,
                     'default_font' => 'Times New Roman',
