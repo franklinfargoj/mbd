@@ -790,6 +790,11 @@ Breadcrumbs::for('view_reval_application_ree', function ($trail,$id) {
     $trail->push('View Application', route('ree.view_reval_application',$id));
 });
 
+Breadcrumbs::for('reval_Forward_Application_ree', function ($trail,$id) {
+    $trail->parent('ree_reval');
+    $trail->push('Forward Application', route('ree.view_reval_application',$id));
+});
+
 Breadcrumbs::for('view_noc_application_ree', function ($trail,$id) {
     $trail->parent('ree_noc');
     $trail->push('View Application', route('ree.view_application_noc',$id));

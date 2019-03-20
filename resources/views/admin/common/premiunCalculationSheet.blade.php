@@ -30,6 +30,7 @@
             {{ Breadcrumbs::render('calculation_sheet_cap',$ol_application->id) }}
             @elseif($route_name=='ree.show_calculation_sheet')
             {{ Breadcrumbs::render('REE_calculation',$ol_application->id) }} @elseif($route_name=='ol_calculation_sheet.show')
+            {{ Breadcrumbs::render('reval_calculation_sheet',$ol_application->id) }}@elseif($route_name=='ree.show_reval_calculation_sheet')
             {{ Breadcrumbs::render('reval_calculation_sheet',$ol_application->id) }}
             @elseif($route_name=='co.show_reval_calculation_sheet')
             {{ Breadcrumbs::render('reval_co_calculation_sheet',$ol_application->id) }}@elseif($route_name=='cap.show_reval_calculation_sheet')
