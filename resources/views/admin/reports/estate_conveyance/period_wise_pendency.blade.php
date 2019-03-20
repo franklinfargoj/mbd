@@ -16,7 +16,7 @@
                 <div class="row align-items-center row--filter">
                     <div class="col-md-12">
 
-                        <form class="form-group m-form__group row align-items-center mb-0" method="get" action="{{ route('redevelopement_pending_reports') }}">
+                        <form class="form-group m-form__group row align-items-center mb-0" method="get" action="{{ route('estate_conveyance_pending_reports') }}">
                             {{-- <div class="col-md-2">
                                 <div class="form-group m-form__group">
                                     <input type="text" name="from_date" id="from_date" class="form-control form-control--custom m-input m_datepicker"
@@ -38,14 +38,14 @@
                                     @endforeach
                                 </select>
                             </div>
-                            {{--<div class="col-md-4 form-group">--}}
-                                {{--<select required name="module_master_id" title="Please Select Module" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input">--}}
+                            <div class="col-md-4 form-group">
+                                <select required name="module_master_id" title="Please Select Module" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input">
                                     {{--<option value="">All</option>--}}
-                                    {{--@foreach($module_names as $key=>$value)--}}
-                                        {{--<option value="{{$value}}">{{ $key }}</option>--}}
-                                    {{--@endforeach--}}
-                                {{--</select>--}}
-                            {{--</div>--}}
+                                    @foreach($module_names as $key=>$value)
+                                        <option value="{{$value['id']}}">{{ $value['application_type'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <div class="col">
                                 <div class="form-group m-form__group">
                                     <div class="btn-list">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reports;
 
 use App\conveyance\scApplication;
+use App\conveyance\scApplicationType;
 use App\Http\Controllers\Controller;
 use App\LayoutUser;
 use App\NocApplicationStatus;
@@ -30,10 +31,14 @@ class EstateConveyanceController extends Controller
     public function period_wise_pendency()
     {
 
-        $module_names = '';
+        $module_names = scApplicationType::get()->toArray();
 
         return view('admin.reports.estate_conveyance.period_wise_pendency',compact('module_names'));
     }
 
+    public function estate_conveyance_pending_reports(){
+
+        die('dfsdfsdf');
+    }
 
 }

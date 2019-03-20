@@ -133,6 +133,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('redevelopement_pending_reports','Reports\RedevelopementController@redevelopement_pending_reports')->name('redevelopement_pending_reports');
 
     Route::get('estate_conveyance_period_wise_pendency_report','Reports\EstateConveyanceController@period_wise_pendency')->name('estate-conveyance.period_wise_pendency_report');
+    Route::get('estate_conveyance_pending_reports','Reports\EstateConveyanceController@estate_conveyance_pending_reports')->name('estate_conveyance_pending_reports');
 
     //Reports end
     // RTI Routes
