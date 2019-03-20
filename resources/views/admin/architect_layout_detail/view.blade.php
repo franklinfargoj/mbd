@@ -143,13 +143,8 @@
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
-<<<<<<< HEAD
-        <div class="modal-body">
-          <p id="project-id">No Records Found</p>
-=======
         <div class="modal-body p-0">
           <p id="project-id">Some text in the modal.</p>
->>>>>>> 01632e6b6e36d1d2f105429173771345654d8a19
         </div>
         
       </div>
@@ -181,7 +176,7 @@
         </tr>
         <tr>
             <th>Excel</th>
-            <td><a target="_blank" href="{{config('commanConfig.storage_server')}}/<%=excel%>"><img class="pdf-icon" src="{{asset('/img/excel-icon.svg')}}"></a></a></td>
+            <td><a target="_blank" href="{{config('commanConfig.storage_server')}}/<%=excel%>"><img class="pdf-icon" src="{{asset('/img/excel-icon.svg')}}"></a></td>
         </tr>
         <tr>
             <th>Architect Note</th>
