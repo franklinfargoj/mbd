@@ -24,6 +24,12 @@
             {{ Breadcrumbs::render('calculation_sheet_cap',$ol_application->id) }}
             @elseif($route_name=='ree.show_calculation_sheet')
             {{ Breadcrumbs::render('REE_calculation',$ol_application->id) }}
+            @elseif($route_name=='ree.show_reval_calculation_sheet')
+            {{ Breadcrumbs::render('reval_calculation_sheet',$ol_application->id) }}
+            @elseif($route_name=='cap.show_reval_calculation_sheet')
+            {{ Breadcrumbs::render('reval_cap_calculation_sheet',$ol_application->id) }}
+            @elseif($route_name=='vp.show_reval_calculation_sheet')
+            {{ Breadcrumbs::render('reval_vp_calculation_sheet',$ol_application->id) }}
             @else
             @endif
             <div class="ml-auto btn-list">
