@@ -387,7 +387,17 @@ class EEUserSeeder extends Seeder
                 'name'=>'ee.delete_oc_note',
                 'display_name'=>'delete oc note',
                 'description'=>'delete oc note'
-            ]
+            ],
+            [
+                'name'=>'estate-conveyance.period_wise_pendency_report',
+                'display_name'=>'estate-conveyance.period_wise_pendency_report',
+                'description'=>'estate-conveyance.period_wise_pendency_report'
+            ],
+            [
+                'name'=>'estate_conveyance_pending_reports',
+                'display_name'=>'redevelopement_pending_reports',
+                'description'=>'redevelopement_pending_reports'
+            ],
 
         ];
 

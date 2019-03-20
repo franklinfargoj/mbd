@@ -3804,3 +3804,24 @@ label.site-visit-label {
 .mhada-oc-radio{
     width: 10%;
 }
+
+.mhada-vld-modal .modal-dialog{
+    width: 100%;
+    margin: 30px auto;
+    max-width: 700px;
+    height: 700px;
+    overflow: auto;
+}
+
+.mhada-vld-modal .m-portlet{
+    padding: 0 15px;
+}
+
+.mhada-vld-modal .modal-header button{
+    width: 100%;
+    text-align: right;
+}
+
+.mhada-vld-modal .section-title{
+    margin-bottom: 10px;
+}
