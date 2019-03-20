@@ -123,7 +123,7 @@
     </div>
 </div>
 <!-- Modal -->
-<div id="myModal" class="modal fade mhada-vld-modal" role="dialog">
+<div id="myModal" class="modal fade mhada-vld-modal test" role="dialog">
     <div class="modal-dialog">
       <!-- Modal content-->
       <div class="modal-content">
