@@ -1153,8 +1153,8 @@ class SocietyOfferLetterController extends Controller
                 }
             }
         }
-
-        return view('frontend.society.society_upload_reval_documents', compact('documents','ol_applications',  'optional_docs', 'docs_count', 'docs_uploaded_count', 'documents_uploaded', 'society', 'application', 'documents_comment'));
+        $applicationCount = $this->getForwardedRevalApplication();
+        return view('frontend.society.society_upload_reval_documents', compact('documents','ol_applications',  'optional_docs', 'docs_count', 'docs_uploaded_count', 'documents_uploaded', 'society', 'application', 'documents_comment','applicationCount'));
     }
 
 
@@ -1849,8 +1849,9 @@ class SocietyOfferLetterController extends Controller
         $layouts = MasterLayout::all();
         $id = $ol_application->application_master_id;
         $ol_applications = $ol_application;
+        $applicationCount = $this->getForwardedRevalApplication();
 
-        return view('frontend.society.edit_reval_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id'));
+        return view('frontend.society.edit_reval_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id','applicationCount'));
     }
 
     public function editOcApplication($applicationId){
@@ -1943,7 +1944,7 @@ class SocietyOfferLetterController extends Controller
         $master_ids = config('commanConfig.new_offer_letter_master_ids');
         $ol_application = OlApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->whereIn('application_master_id', $master_ids)->with(['request_form', 'applicationMasterLayout'])->first();
        
-        $fileName = $ol_application->application_no.'.pdf';
+        $fileName = 'Offer_'.$ol_application->application_no.'.pdf';
 
         $layouts = MasterLayout::all(); 
         $id = $ol_application->application_master_id;
@@ -1970,13 +1971,13 @@ class SocietyOfferLetterController extends Controller
         $old_ol_application = OlApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->where('society_id', $society->id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc');
         }])->first();
-
+        $fileName = 'Reval_'.$ol_application->application_no.'.pdf';
         $mpdf = new Mpdf();
         $mpdf->autoScriptToLang = true;
         $mpdf->autoLangToFont = true;
         $contents = view('frontend.society.display_society_reval_offer_letter_application', compact('society_details', 'ol_application', 'layouts', 'id','old_ol_application'));
         $mpdf->WriteHTML($contents);
-        $mpdf->Output();
+        $mpdf->Output($fileName,'I');
 
     }
 
@@ -1989,15 +1990,14 @@ class SocietyOfferLetterController extends Controller
         $oc_application = OcApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->with(['request_form', 'applicationMasterLayout'])->orderBy('id','desc')->first();
         $layouts = MasterLayout::all();
         $id = $oc_application->application_master_id;
-
-
+        $fileName = $oc_application->application_no.'.pdf';
         $mpdf = new Mpdf();
         $mpdf->autoScriptToLang = true;
         $mpdf->autoLangToFont = true;
         $contents = view('frontend.society.display_society_oc_application', compact('society_details', 'oc_application', 'layouts', 'id'));
-        $mpdf->WriteHTML($contents);
-        $mpdf->Output();
 
+        $mpdf->WriteHTML($contents);
+        $mpdf->Output($fileName,'I');
     }
 
     /**
@@ -2029,8 +2029,9 @@ class SocietyOfferLetterController extends Controller
             $q->where('society_flag', '1')->orderBy('id', 'desc');
         }])->orderBy('id', 'desc')->first();
         $ol_applications = $application_details;
+        $applicationCount = $this->getForwardedRevalApplication();
 
-        return view('frontend.society.upload_download_reval_offer_letter_application_form', compact('ol_applications', 'application_details'));
+        return view('frontend.society.upload_download_reval_offer_letter_application_form', compact('ol_applications', 'application_details','applicationCount'));
     }
 
     public function showuploadOcAfterSign($applicationId){
@@ -2781,7 +2782,23 @@ class SocietyOfferLetterController extends Controller
         $society_details = SocietyOfferLetter::find($ol_applications->society_id);
         $documents_arr = $this->get_docs_count($ol_applications, $society_details);
         $applicationCount = $this->getForwardedApplication();
-        return view('frontend.society.show_signed_offer_application',compact('ol_applications','documents_arr','applicationCount'));
+        $module = 'Offer';
+        return view('frontend.society.show_signed_offer_application',compact('ol_applications','documents_arr','applicationCount','module'));
+    }    
+
+    // show reval uploaded application pdf
+    public function showRevalSignApplication($applicationId){
+      
+        $applicationId = decrypt($applicationId); 
+        $ol_applications = OlApplication::where('id',$applicationId)->with(['olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        }])->first(); 
+
+        $society_details = SocietyOfferLetter::find($ol_applications->society_id);
+        $documents_arr = $this->get_docs_count($ol_applications, $society_details);
+        $applicationCount = $this->getForwardedApplication();
+        $module = 'Revalidation';
+        return view('frontend.society.show_signed_offer_application',compact('ol_applications','documents_arr','applicationCount','module'));
     }
 
 }

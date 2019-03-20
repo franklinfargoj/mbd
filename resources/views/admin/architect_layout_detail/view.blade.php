@@ -70,6 +70,7 @@
                         @foreach($layout_detail->ee_reports as $ee_report)
                         <li><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$ee_report->upload_file}}">{{$ee_report->name_of_documents}}</a></li>
                         @endforeach
+                        <li><a href="javascript:void(0)" class="btn-link report-by" data-toggle="modal" data-target="#myModal" data-id="{{$layout_detail->id}}" data-branch="EE">report by EE</a></li>                        
                     </ul>
                 </td>
                 <td>
@@ -77,6 +78,7 @@
                         @foreach($layout_detail->em_reports as $em_report)
                         <li><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$em_report->upload_file}}">{{$em_report->name_of_documents}}</a></li>
                         @endforeach
+                        <li><a href="javascript:void(0)" class="btn-link report-by" data-toggle="modal" data-target="#myModal" data-id="{{$layout_detail->id}}" data-branch="EM">report by EM</a></li>
                     </ul>
                 </td>
                 <td>
@@ -84,6 +86,7 @@
                         @foreach($layout_detail->land_reports as $land_report)
                         <li><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$land_report->upload_file}}">{{$land_report->name_of_documents}}</a></li>
                         @endforeach
+                        <li><a href="javascript:void(0)"  class="btn-link report-by" data-toggle="modal" data-target="#myModal" data-id="{{$layout_detail->id}}" data-branch="Land">report by Land</a></li>
                     </ul>
                 </td>
                 <td>
@@ -91,11 +94,11 @@
                         @foreach($layout_detail->ree_reports as $ree_report)
                         <li><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$ree_report->upload_file}}">{{$ree_report->name_of_documents}}</a></li>
                         @endforeach
+                        <li><a href="javascript:void(0)" class="btn-link report-by" data-toggle="modal" data-target="#myModal" data-id="{{$layout_detail->id}}" data-branch="REE">report by REE</a></li>
                     </ul>
                 </td>
                 <td><a class="btn-link" href="{{route('view_court_case_or_dispute_on_land',['layout_detail_id'=>encrypt($layout_detail->id)])}}">View
                         Details</a></td>
-
                     <td>
                         @if($i==1 && (session()->get('role_name') == config('commanConfig.junior_architect')))
                         @php $status=getLastStatusIdArchitectLayout($ArchitectLayout->id); @endphp
@@ -119,4 +122,54 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"></h4>
+        </div>
+        <div class="modal-body">
+          <p id="project-id">Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+@endsection
+@section('js')
+<script>
+$(document).ready(function () {
+        $(document).on("click", ".report-by", function () {
+            var layout_detail_id = $(this).data('id');
+            var branch = $(this).data('branch');
+            // console.log(branch)
+            // console.log(layout_detail_id)
+            $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-Token': '{{csrf_token()}}'
+                    }
+                });
+            $.ajax({
+                    url: '{{route("scrutiny_report_by_em")}}',
+                    method: 'post',
+                    data: {
+                        layout_detail_id: layout_detail_id,
+                        branch:branch
+                    },
+                    success: function (data) {
+                        //console.log(data)
+                        $(".modal-body #project-id").html(data);
+                    }
+                })
+          //  console.log(projectId)
+            //$(".modal-body #project-id").html(projectId);
+        });
+    });
+</script>
 @endsection

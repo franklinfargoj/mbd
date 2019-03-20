@@ -519,8 +519,16 @@ class ReePermissionSeeder extends Seeder
                 'display_name'=>'upload_signed_tripartite_letter2',
                 'description'=>'upload_signed_tripartite_letter2'
             ],
-
-
+            [
+                'name'=>'scrutiny_report_by_em',
+                'display_name'=>'scrutiny_report_by_em',
+                'description'=>'scrutiny_report_by_em'
+            ],
+            [
+                'name'=>'ree.reval_calculation_sheet_options',
+                'display_name'=>'reval calculation sheet options',
+                'description'=>'reval calculation sheet options'
+            ]
         ];
 
         // Role

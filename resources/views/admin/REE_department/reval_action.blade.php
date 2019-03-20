@@ -74,9 +74,9 @@
 
             @if($ol_application->model->ol_application_master->model == 'Premium')
 
-                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ol_reval_calculation_sheet.show')?'m-menu__item--active':''}}"
+                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ree.reval_calculation_sheet_options' || $route=='ree_applications.custom_calculation_sheet' || $route=='ol_calculation_sheet.show' || $route=='ree.fsi_calculation_application')?'m-menu__item--active':''}}"
                     aria-haspopup="true">
-                    <a class="m-menu__link m-menu__toggle" title="Prepare Calculation Sheet" href="{{url('ol_reval_calculation_sheet',$ol_application->id)}}">
+                    <a class="m-menu__link m-menu__toggle" title="Prepare Calculation Sheet" href="{{route('ree.reval_calculation_sheet_options',$ol_application->id)}}">
                        <span class="sidebar-icon sidebar-menu-icon--level-1">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                         <path fill="#fff" d="M81 0v469.702L121.607 512h268.786L431 469.702V0H81zm320 457.632L377.607 482H134.393L111 457.632V192.334h290v265.298zM180.503 162.334V95.875h150.994v66.459H180.503zm220.497 0h-39.503V65.875H150.503v96.459H111V30h290v132.334z"/>

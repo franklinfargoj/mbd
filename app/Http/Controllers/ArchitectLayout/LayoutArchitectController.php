@@ -1213,6 +1213,48 @@ class LayoutArchitectController extends Controller
         return view('admin.architect_layout.scrutiny_of_ee_em_lm_ree', compact('ArchitectLayout'));
     }
 
+    public function scrutiny_report_by_em(Request $request)
+    {
+        $layout_id=$request->layout_detail_id;
+        $latest_architect_layout_detail = ArchitectLayoutDetail::where(['id' => $layout_id])->first();
+        //dd($latest_architect_layout_detail->id);
+        $ArchitectLayout = ArchitectLayout::with(['layout_details', 'ee_scrutiny_reports' => function ($q) use ($latest_architect_layout_detail) {
+            return $q->where('architect_layout_detail_id', $latest_architect_layout_detail->id);
+        }, 'em_scrutiny_reports' => function ($q) use ($latest_architect_layout_detail) {
+            return $q->where('architect_layout_detail_id', $latest_architect_layout_detail->id);
+        }, 'land_scrutiny_reports' => function ($q) use ($latest_architect_layout_detail) {
+            return $q->where('architect_layout_detail_id', $latest_architect_layout_detail->id);
+        }, 'ree_scrutiny_reports' => function ($q) use ($latest_architect_layout_detail) {
+            return $q->where('architect_layout_detail_id', $latest_architect_layout_detail->id);
+        }, 'ee_scrutiny_checklist_and_remarks' => function ($q) use ($latest_architect_layout_detail) {
+            return $q->where('architect_layout_detail_id', $latest_architect_layout_detail->id);
+        }, 'land_scrutiny_checklist_and_remarks' => function ($q) use ($latest_architect_layout_detail) {
+            return $q->where('architect_layout_detail_id', $latest_architect_layout_detail->id);
+        }, 'em_scrutiny_checklist_and_remarks' => function ($q) use ($latest_architect_layout_detail) {
+            return $q->where('architect_layout_detail_id', $latest_architect_layout_detail->id);
+        }, 'ree_scrutiny_checklist_and_remarks' => function ($q) use ($latest_architect_layout_detail) {
+            return $q->where('architect_layout_detail_id', $latest_architect_layout_detail->id);
+        }])->find($latest_architect_layout_detail->architect_layout_id);
+
+        //return $ArchitectLayout;
+        if($request->branch=='EM')
+        {
+        return view('admin.architect_layout.scrutiny_report_by_ee_em_le_ree.scrutiny_by_em',compact('ArchitectLayout'));            
+        }
+        if($request->branch=='REE')
+        {
+        return view('admin.architect_layout.scrutiny_report_by_ee_em_le_ree.scrutiny_by_ree',compact('ArchitectLayout'));            
+        }
+        if($request->branch=='EE')
+        {
+        return view('admin.architect_layout.scrutiny_report_by_ee_em_le_ree.scrutiny_by_ee',compact('ArchitectLayout'));            
+        }
+        if($request->branch=='Land')
+        {
+        return view('admin.architect_layout.scrutiny_report_by_ee_em_le_ree.scrutiny_by_lm',compact('ArchitectLayout'));            
+        }
+    }
+
     public function prepare_layout_excel($layout_id)
     {
         $layout_id = decrypt($layout_id);
@@ -1240,6 +1282,7 @@ class LayoutArchitectController extends Controller
             }
 
         }
+        $latest_architect_layout_detail = ArchitectLayoutDetail::where(['architect_layout_id' => $request->architect_layout_id])->orderBy('id', 'desc')->first();
         if ($file->getClientMimeType() == 'application/pdf' || $request->field_name == 'layout_in_excel') {
             $extension = $request->file('file')->getClientOriginalExtension();
             $dir = 'architect_layout_details';
@@ -1253,10 +1296,12 @@ class LayoutArchitectController extends Controller
                     if ($get_id) {
                         $PrepareLayoutExcelLog = PrepareLayoutExcelLog::find($get_id->id);
                         $PrepareLayoutExcelLog->upload_layout_in_pdf_format = $storage;
+                        $PrepareLayoutExcelLog->architect_layout_detail_id=$latest_architect_layout_detail->id;
                         $PrepareLayoutExcelLog->save();
                     } else {
 
                         $PrepareLayoutExcelLog = new PrepareLayoutExcelLog;
+                        $PrepareLayoutExcelLog->architect_layout_detail_id=$latest_architect_layout_detail->id;
                         $PrepareLayoutExcelLog->architect_layout_id = $request->architect_layout_id;
                         $PrepareLayoutExcelLog->upload_layout_in_pdf_format = $storage;
                         $PrepareLayoutExcelLog->save();
@@ -1268,6 +1313,7 @@ class LayoutArchitectController extends Controller
                     if ($get_id) {
                         $PrepareLayoutExcelLog = PrepareLayoutExcelLog::find($get_id->id);
                         $PrepareLayoutExcelLog->upload_layout_in_excel_format = $storage;
+                        $PrepareLayoutExcelLog->architect_layout_detail_id=$latest_architect_layout_detail->id;
                         $PrepareLayoutExcelLog->save();
 
                     } else {
@@ -1275,6 +1321,7 @@ class LayoutArchitectController extends Controller
                         $PrepareLayoutExcelLog = new PrepareLayoutExcelLog;
                         $PrepareLayoutExcelLog->architect_layout_id = $request->architect_layout_id;
                         $PrepareLayoutExcelLog->upload_layout_in_excel_format = $storage;
+                        $PrepareLayoutExcelLog->architect_layout_detail_id=$latest_architect_layout_detail->id;
                         $PrepareLayoutExcelLog->save();
                     }
                 }
@@ -1283,12 +1330,14 @@ class LayoutArchitectController extends Controller
                     $get_id = PrepareLayoutExcelLog::where(['architect_layout_id' => $request->architect_layout_id])->orderBy('id', 'desc')->first();
                     if ($get_id) {
                         $PrepareLayoutExcelLog = PrepareLayoutExcelLog::find($get_id->id);
+                        $PrepareLayoutExcelLog->architect_layout_detail_id=$latest_architect_layout_detail->id;
                         $PrepareLayoutExcelLog->upload_architect_note = $storage;
                         $PrepareLayoutExcelLog->save();
                     } else {
 
                         $PrepareLayoutExcelLog = new PrepareLayoutExcelLog;
                         $PrepareLayoutExcelLog->architect_layout_id = $request->architect_layout_id;
+                        $PrepareLayoutExcelLog->architect_layout_detail_id=$latest_architect_layout_detail->id;
                         $PrepareLayoutExcelLog->upload_architect_note = $storage;
                         $PrepareLayoutExcelLog->save();
                     }

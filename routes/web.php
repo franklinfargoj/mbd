@@ -365,6 +365,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('ree_forward_reval_application/{id}','REEDepartment\REEController@forwardRevalApplication')->name('ree.forward_reval_application');
 
+    Route::get('reval_calculation_sheet_options/{id}','REEDepartment\REEController@displayRevalCalculationOptions')->name('ree.reval_calculation_sheet_options');
+
     Route::get('download_cap_note/{id}','REEDepartment\REEController@downloadCapNote')->name('ree.download_cap_note');
     Route::get('download_reval_cap_note/{id}','REEDepartment\REEController@downloadRevalCapNote')->name('ree.download_reval_cap_note');
     
@@ -407,7 +409,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     // Route::get('society_ee_documents/{id}','CODepartment\COController@societyEEDocuments')->name('co.society_EE_documents');
     Route::get('co_society_reval_document/{id}','CODepartment\COController@societyRevalDocuments')->name('co.society_reval_documents');
 
-    Route::get('reval_calculation_sheet_co/{id}','CODepartment\COController@showRevalCalculationSheet')->name('co.show_reval_calculation_sheet');
+    Route::get('reval_calculation_sheet_co/{id}','REEDepartment\REEController@showRevalCalculationSheet')->name('co.show_reval_calculation_sheet');
 
     // Route::get('ee_Scrutiny_Remark/{id}','CODepartment\COController@eeScrutinyRemark')->name('co.EE_Scrutiny_Remark');
 
@@ -431,7 +433,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('cap_society_reval_document/{id}','CAPDepartment\CAPController@societyRevalDocuments')->name('cap.society_reval_documents');
 
-    Route::get('reval_calculation_sheet_cap/{id}','CAPDepartment\CAPController@showRevalCalculationSheet')->name('cap.show_reval_calculation_sheet');
+    Route::get('reval_calculation_sheet_cap/{id}','REEDepartment\REEController@showRevalCalculationSheet')->name('cap.show_reval_calculation_sheet');
 
     Route::get('society_EE_document/{id}','CAPDepartment\CAPController@societyEEDocuments')->name('cap.society_EE_documents');
     // Route::get('ee_scrutiny_remarks/{id}','CAPDepartment\CAPController@eeScrutinyRemark')->name('cap.EE_scrutiny_remark');
@@ -454,7 +456,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('vp_society_reval_document/{id}','VPDepartment\VPController@societyRevalDocuments')->name('vp.society_reval_documents');
 
-    Route::get('reval_calculation_sheet_vp/{id}','VPDepartment\VPController@showRevalCalculationSheet')->name('vp.show_reval_calculation_sheet');
+    Route::get('reval_calculation_sheet_vp/{id}','REEDepartment\REEController@showRevalCalculationSheet')->name('vp.show_reval_calculation_sheet');
 
 
     Route::get('society_EE_document_vp/{id}','VPDepartment\VPController@societyEEDocuments')->name('vp.society_EE_documents');
@@ -592,6 +594,10 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     });
 
     Route::get('/show_reval_self/{id}', 'SocietyOfferLetterController@show_reval_self')->name('show_reval_self');
+    
+    Route::get('show_reval_sign_application/{id}', 
+            'SocietyOfferLetterController@showRevalSignApplication')->name('show_reval_sign_application');
+
     Route::get('/show_reval_dev/{id}', 'SocietyOfferLetterController@show_reval_dev')->name('show_reval_dev');
     Route::post('/save_offer_letter_application_reval_self', 'SocietyOfferLetterController@save_offer_letter_application_reval_self')->name('save_offer_letter_application_reval_self');
     Route::post('/save_offer_letter_application_reval_dev', 'SocietyOfferLetterController@save_offer_letter_application_reval_dev')->name('save_offer_letter_application_reval_dev');
@@ -699,7 +705,7 @@ Route::post('post_ree_checklist_and_remark_report','ArchitectLayout\LayoutArchit
 
 //scrutiny report of ee em ree and lm
 Route::get('scrutiny_of_ee_em_lm_ree/{layout_id}','ArchitectLayout\LayoutArchitectController@get_scrutiny_of_ee_em_lm_ree')->name('architect_Layout_scrutiny_of_ee_em_lm_ree');
-
+Route::post('scrutiny_report_by_em','ArchitectLayout\LayoutArchitectController@scrutiny_report_by_em')->name('scrutiny_report_by_em');
 //architect layout prepare layout and excel
 Route::get('architect_layout_prepare_layout_excel/{layout_id}','ArchitectLayout\LayoutArchitectController@prepare_layout_excel')->name('architect_layout_prepare_layout_excel');
 Route::post('uploadLayoutandExcelAjax','ArchitectLayout\LayoutArchitectController@uploadLayoutandExcelAjax')->name('uploadLayoutandExcelAjax');

@@ -919,6 +919,11 @@ $(document).ready(function() {
         }
     });
 
+    jQuery.validator.addMethod("validatemobile", function(value, element) {
+        // allow any non-whitespace characters as the host part
+        return this.optional( element ) || /^\(?([1-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test( value );
+      }, 'Please enter a valid Mobile Number.');
+
     $("#appointing_architect_signup").validate({
         rules: {
             name: "required",
@@ -930,7 +935,8 @@ $(document).ready(function() {
                 required: true,
                 minlength: 10,
                 maxlength: 10,
-                number: true
+                number: true,
+                validatemobile:true
             },
             address: "required",
             password: "required",

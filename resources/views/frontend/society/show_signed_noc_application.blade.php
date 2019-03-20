@@ -2,7 +2,7 @@
 @section('actions')
    @include('frontend.society.actions_noc',compact('noc_applications'))
 @endsection
-@section('content')
+@section('content') 
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">

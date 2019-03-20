@@ -14,6 +14,7 @@
                 <a href="{{url()->previous()}}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                 </div>
             </div>
+
             @if (session('success'))
                 <div class="alert alert-success society_registered">
                     <div class="text-center">{{ session('success') }}</div>
@@ -94,7 +95,7 @@
             <!-- BEGIN: Subheader -->
             <div class="m-subheader px-0">
                 <div class="d-flex">
-                    {{ Breadcrumbs::render('society_tripartite_agreement', $id) }}
+                    {{ Breadcrumbs::render('society_tripartite_letter_for_stamp_duty', $id) }}
                     <div class="ml-auto btn-list">
                         <a href="{{url()->previous()}}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                     </div>
@@ -141,7 +142,7 @@
             <!-- BEGIN: Subheader -->
             <div class="m-subheader px-0">
                 <div class="d-flex">
-                    {{ Breadcrumbs::render('society_tripartite_agreement', $id) }}
+                    {{ Breadcrumbs::render('society_tripartite_letter_for_execution_and_registration', $id) }}
                     <div class="ml-auto btn-list">
                         <a href="{{url()->previous()}}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                     </div>
