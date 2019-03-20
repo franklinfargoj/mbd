@@ -1033,7 +1033,6 @@ $route=\Request::route()->getName();
                                     session()->get('role_name')==config('commanConfig.joint_co') ||
                                     session()->get('role_name')==config('commanConfig.la_engineer') ||
                                     session()->get('role_name')==config('commanConfig.dyco_engineer') ||
-                                    session()->get('role_name')==config('commanConfig.dycdo_engineer') ||
                                     session()->get('role_name')==config('commanConfig.estate_manager') ||
                                     session()->get('role_name')==config('commanConfig.co_engineer') ||
                                     session()->get('role_name')==config('commanConfig.ee_branch_head')
