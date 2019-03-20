@@ -70,7 +70,9 @@
                         @foreach($layout_detail->ee_reports as $ee_report)
                         <li><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$ee_report->upload_file}}">{{$ee_report->name_of_documents}}</a></li>
                         @endforeach
+                        @if($layout_detail->ee_scrutiny_reports!=null)
                         <li><a href="javascript:void(0)" class="btn-link report-by" data-toggle="modal" data-target="#myModal" data-id="{{$layout_detail->id}}" data-branch="EE">report by EE</a></li>                        
+                        @endif
                     </ul>
                 </td>
                 <td>
@@ -78,7 +80,9 @@
                         @foreach($layout_detail->em_reports as $em_report)
                         <li><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$em_report->upload_file}}">{{$em_report->name_of_documents}}</a></li>
                         @endforeach
+                        @if($layout_detail->em_scrutiny_reports!=null)
                         <li><a href="javascript:void(0)" class="btn-link report-by" data-toggle="modal" data-target="#myModal" data-id="{{$layout_detail->id}}" data-branch="EM">report by EM</a></li>
+                        @endif
                     </ul>
                 </td>
                 <td>
@@ -86,7 +90,9 @@
                         @foreach($layout_detail->land_reports as $land_report)
                         <li><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$land_report->upload_file}}">{{$land_report->name_of_documents}}</a></li>
                         @endforeach
+                        @if($layout_detail->land_scrutiny_reports!=null)
                         <li><a href="javascript:void(0)"  class="btn-link report-by" data-toggle="modal" data-target="#myModal" data-id="{{$layout_detail->id}}" data-branch="Land">report by Land</a></li>
+                        @endif
                     </ul>
                 </td>
                 <td>
@@ -94,18 +100,21 @@
                         @foreach($layout_detail->ree_reports as $ree_report)
                         <li><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$ree_report->upload_file}}">{{$ree_report->name_of_documents}}</a></li>
                         @endforeach
+                        @if($layout_detail->ree_scrutiny_reports!=null)
                         <li><a href="javascript:void(0)" class="btn-link report-by" data-toggle="modal" data-target="#myModal" data-id="{{$layout_detail->id}}" data-branch="REE">report by REE</a></li>
+                        @endif
                     </ul>
                 </td>
                 <td><a class="btn-link" href="{{route('view_court_case_or_dispute_on_land',['layout_detail_id'=>encrypt($layout_detail->id)])}}">View
                         Details</a></td>
                     <td>
+                        <ul>
                         @if($i==1 && (session()->get('role_name') == config('commanConfig.junior_architect')))
                         @php $status=getLastStatusIdArchitectLayout($ArchitectLayout->id); @endphp
                         @if($status!="")
                         @if($status->status_id!=config('commanConfig.architect_layout_status.forward') &&
                         $status->status_id!=config('commanConfig.architect_layout_status.reverted') )
-                        <a class="btn-link" href="{{route('architect_layout_detail.edit',['layout_detail_id'=>encrypt($layout_detail->id)])}}">Edit</a>
+                        <li><a class="btn-link" href="{{route('architect_layout_detail.edit',['layout_detail_id'=>encrypt($layout_detail->id)])}}">Edit</a></li>
                         @else
                         <center> - </center>
                         @endif
@@ -113,6 +122,10 @@
                         @else
                         <center> - </center>
                         @endif
+                        @if($layout_detail->layout_excel_and_note!=null)
+                        <li><a  href="javascript:void(0)" class="btn-link layout-excel" data-toggle="modal" data-mdata="{{$layout_detail->layout_excel_and_note}}" data-target="#layoutAndExcel">excel and layout</a></li>
+                        @endif
+                        </ul>
                     </td>
                 </tr>
 
@@ -132,15 +145,48 @@
           <h4 class="modal-title"></h4>
         </div>
         <div class="modal-body">
-          <p id="project-id">Some text in the modal.</p>
+          <p id="project-id">No Records Found</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
-  
     </div>
   </div>
+  <!-- Modal -->
+<div id="layoutAndExcel" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Layout and Excel</h4>
+        </div>
+        <div class="modal-body excel-layout-data">
+        </div>
+        {{-- <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div> --}}
+      </div>
+    </div>
+  </div>
+
+<script id="blog" type="template">
+    <table class="table">
+        <tr>
+            <th>Layout</th>
+            <td><a target="_blank" href="{{config('commanConfig.storage_server')}}/<%=layout%>"><img class="pdf-icon" src="{{asset('/img/pdf-icon.svg')}}"></a></td>
+        </tr>
+        <tr>
+            <th>Excel</th>
+            <td><a target="_blank" href="{{config('commanConfig.storage_server')}}/<%=excel%>"><img class="pdf-icon" src="{{asset('/img/excel-icon.svg')}}"></a></a></td>
+        </tr>
+        <tr>
+            <th>Architect Note</th>
+            <td><a target="_blank" href="{{config('commanConfig.storage_server')}}/<%=architect_note%>"><img class="pdf-icon" src="{{asset('/img/pdf-icon.svg')}}"></a></td>
+        </tr>
+    </table>
+</script> 
 @endsection
 @section('js')
 <script>
@@ -169,6 +215,17 @@ $(document).ready(function () {
                 })
           //  console.log(projectId)
             //$(".modal-body #project-id").html(projectId);
+        });
+        $(document).on('click','.layout-excel',function(){
+            var data=$(this).data('mdata');
+            var temp = $.trim($('#blog').html());
+           // $.each(JSON.parse(data), function(index, data) {
+                var x = temp.replace(/<%=layout%>/, data.upload_layout_in_pdf_format).replace(/<%=excel%>/, data.upload_layout_in_excel_format).replace(/<%=architect_note%>/, data.upload_architect_note);
+                //console.log(x)
+                $('.excel-layout-data').html(x);
+            //});
+            //$("#excel-layout-data").html(data.upload_layout_in_pdf_format)
+            console.log(data);
         });
     });
 </script>
