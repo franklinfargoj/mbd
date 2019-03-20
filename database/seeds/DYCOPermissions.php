@@ -350,6 +350,11 @@ class DYCOPermissions extends Seeder
                 'display_name'=>'estate-conveyance.period_wise_pendency_report',
                 'description'=>'estate-conveyance.period_wise_pendency_report'
             ],
+            [
+                'name'=>'estate_conveyance_pending_reports',
+                'display_name'=>'redevelopement_pending_reports',
+                'description'=>'redevelopement_pending_reports'
+            ],
         ];
 
         //dycdo

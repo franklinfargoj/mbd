@@ -284,7 +284,12 @@ class ArchitectUserSeeder extends Seeder
                     'display_name'=>'estate-conveyance.period_wise_pendency_report',
                     'description'=>'estate-conveyance.period_wise_pendency_report'
                 ],
-                
+                [
+                    'name'=>'estate_conveyance_pending_reports',
+                    'display_name'=>'redevelopement_pending_reports',
+                    'description'=>'redevelopement_pending_reports'
+                ],
+
             ];
  
             $delete_permission_id=Permission::where(['name'=>'architect_layout_get_scrtiny'])->first();
