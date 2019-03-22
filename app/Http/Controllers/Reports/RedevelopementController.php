@@ -155,6 +155,13 @@ class RedevelopementController extends Controller
                     config('commanConfig.ree_deputy_engineer'),
                     config('commanConfig.ree_assistant_engineer'),
                     config('commanConfig.ree_branch_head'),
+                    config('commanConfig.ee_branch_head'),
+                    config('commanConfig.ee_deputy_engineer'),
+                    config('commanConfig.ee_junior_engineer'),
+                    config('commanConfig.dyce_branch_head'),
+                    config('commanConfig.dyce_deputy_engineer'),
+                    config('commanConfig.dyce_jr_user'),
+                    config('commanConfig.co_engineer')
                 ))->pluck('id')->toArray();
                 break;
             case config('commanConfig.dyce_branch_head'):
