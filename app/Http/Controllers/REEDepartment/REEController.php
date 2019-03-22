@@ -2391,8 +2391,9 @@ class REEController extends Controller
             'offerLetterApprovedNotIssuedToSociety' => $offerLetterApprovedNotIssuedToSociety,
             'offerLetterIssuedToSociety' => $offerLetterIssuedToSociety,
             'offerLetterForwardedForIssueingToSociety' => $offerLetterForwardedForIssueingToSociety,
-            'sepeartion'=> ['Total Pending Applications'=> $inProcess,
-                    'Total Pending Proposals'=> $offerLetterGeneration],
+            'sepeartion'=> ['Total Pending Applications'=> $inProcess + $offerLetterGeneration,
+                    'Total Pending Proposals'=> $inProcess,
+                    'Total Pending Drafted Offer Letter'=> $offerLetterGeneration],
             ];
         return $count;
 

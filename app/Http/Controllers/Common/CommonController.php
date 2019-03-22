@@ -4484,4 +4484,17 @@ class CommonController extends Controller
         );
         return $roles;
     }
+
+    /**
+     * Login user's layout.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return $layouts
+     */
+    public function layouts(){
+        $layouts = LayoutUser::where(['user_id' => auth()->user()->id])->pluck('layout_id')->toArray();
+
+        return $layouts;
+    }
 }
