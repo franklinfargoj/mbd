@@ -398,6 +398,11 @@ class EEUserSeeder extends Seeder
                 'display_name'=>'redevelopement_pending_reports',
                 'description'=>'redevelopement_pending_reports'
             ],
+            [
+                'name'=>'scrutiny_report_by_em',
+                'display_name'=>'scrutiny_report_by_em',
+                'description'=>'scrutiny_report_by_em'
+            ],
 
         ];
 
