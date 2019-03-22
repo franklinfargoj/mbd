@@ -221,6 +221,17 @@ class RedevelopementController extends Controller
      * @return $data
      */
     public function getofferLetterData($period_title,$period,$master_ids,$layouts,$roles){
+
+        $status = array(config('commanConfig.applicationStatus.in_process'),
+            config('commanConfig.applicationStatus.pending'),
+            config('commanConfig.applicationStatus.offer_letter_generation'),
+            config('commanConfig.applicationStatus.offer_letter_approved'),
+            config('commanConfig.applicationStatus.draft_offer_letter_generated'),
+
+            //not added tripartite and revalidarion pending sttaus
+
+        );
+
         if($period_title=="")
         {
             $data = OlApplicationStatus::join('ol_applications', 'ol_application_status_log.application_id', '=', 'ol_applications.id')
@@ -230,7 +241,7 @@ class RedevelopementController extends Controller
                 ->join('roles', 'roles.id', '=', 'users.role_id')
                 ->where('ol_application_status_log.is_active', 1)
                 ->whereIn('ol_application_status_log.role_id', $roles)
-                ->where('ol_application_status_log.status_id', config('commanConfig.applicationStatus.in_process'))
+                ->whereIn('ol_application_status_log.status_id', $status)
                 // ->where(DB::raw('DATEDIFF(NOW(),ol_application_status_log.created_at)'), '>=', $period[0])
                 // ->where(DB::raw('DATEDIFF(NOW(),ol_application_status_log.created_at)'), '<=', $period[1])
                 ->whereIn('ol_applications.layout_id', $layouts)
@@ -246,7 +257,7 @@ class RedevelopementController extends Controller
                 ->join('roles', 'roles.id', '=', 'users.role_id')
                 ->where('ol_application_status_log.is_active', 1)
                 ->whereIn('ol_application_status_log.role_id', $roles)
-                ->where('ol_application_status_log.status_id', config('commanConfig.applicationStatus.in_process'))
+                ->whereIn('noc_application_status_log.status_id', $status)
                 ->where(DB::raw('DATEDIFF(NOW(),ol_application_status_log.created_at)'), '>=', $period[0])
                 ->where(DB::raw('DATEDIFF(NOW(),ol_application_status_log.created_at)'), '<=', $period[1])
                 ->whereIn('ol_applications.layout_id', $layouts)
@@ -265,6 +276,14 @@ class RedevelopementController extends Controller
      * @return $data
      */
     public function getOcData($period_title,$period,$master_ids,$layouts,$roles){
+
+        $status = array(config('commanConfig.applicationStatus.in_process'),
+            config('commanConfig.applicationStatus.pending'),
+            config('commanConfig.applicationStatus.OC_Generation'),
+            config('commanConfig.applicationStatus.OC_Approved'),
+        );
+
+
         if($period_title=="")
         {
             $data = OcApplicationStatusLog::join('oc_applications', 'oc_application_status_log.application_id', '=', 'oc_applications.id')
@@ -274,7 +293,7 @@ class RedevelopementController extends Controller
                 ->join('roles', 'roles.id', '=', 'users.role_id')
                 ->where('oc_application_status_log.is_active', 1)
                 ->whereIn('oc_application_status_log.role_id', $roles)
-                ->where('oc_application_status_log.status_id', config('commanConfig.applicationStatus.in_process'))
+                ->whereIn('oc_application_status_log.status_id', $status)
                 // ->where(DB::raw('DATEDIFF(NOW(),oc_application_status_log.created_at)'), '>=', $period[0])
                 // ->where(DB::raw('DATEDIFF(NOW(),oc_application_status_log.created_at)'), '<=', $period[1])
                 ->whereIn('oc_applications.layout_id', $layouts)
@@ -290,7 +309,7 @@ class RedevelopementController extends Controller
                 ->join('roles', 'roles.id', '=', 'users.role_id')
                 ->where('oc_application_status_log.is_active', 1)
                 ->whereIn('oc_application_status_log.role_id', $roles)
-                ->where('oc_application_status_log.status_id', config('commanConfig.applicationStatus.in_process'))
+                ->whereIn('oc_application_status_log.status_id', $status)
                 ->where(DB::raw('DATEDIFF(NOW(),oc_application_status_log.created_at)'), '>=', $period[0])
                 ->where(DB::raw('DATEDIFF(NOW(),oc_application_status_log.created_at)'), '<=', $period[1])
                 ->whereIn('oc_applications.layout_id', $layouts)
@@ -310,6 +329,13 @@ class RedevelopementController extends Controller
      * @return $data
      */
     public function getNocData($period_title,$period,$master_ids,$layouts,$roles){
+
+        $status = array(config('commanConfig.applicationStatus.in_process'),
+            config('commanConfig.applicationStatus.pending'),
+            config('commanConfig.applicationStatus.NOC_Generation'),
+            config('commanConfig.applicationStatus.NOC_Issued'),
+        );
+
         if($period_title=="")
         {
             $data = NocApplicationStatus::join('noc_applications', 'noc_application_status_log.application_id', '=', 'noc_applications.id')
@@ -319,7 +345,7 @@ class RedevelopementController extends Controller
                 ->join('roles', 'roles.id', '=', 'users.role_id')
                 ->where('noc_application_status_log.is_active', 1)
                 ->whereIn('noc_application_status_log.role_id', $roles)
-                ->where('noc_application_status_log.status_id', config('commanConfig.applicationStatus.in_process'))
+                ->whereIn('noc_application_status_log.status_id', $status)
                 // ->where(DB::raw('DATEDIFF(NOW(),noc_application_status_log.created_at)'), '>=', $period[0])
                 // ->where(DB::raw('DATEDIFF(NOW(),noc_application_status_log.created_at)'), '<=', $period[1])
                 ->whereIn('noc_applications.layout_id', $layouts)
@@ -335,7 +361,7 @@ class RedevelopementController extends Controller
                 ->join('roles', 'roles.id', '=', 'users.role_id')
                 ->where('noc_application_status_log.is_active', 1)
                 ->whereIn('noc_application_status_log.role_id', $roles)
-                ->where('noc_application_status_log.status_id', config('commanConfig.applicationStatus.in_process'))
+                ->whereIn('noc_application_status_log.status_id', $status)
                 ->where(DB::raw('DATEDIFF(NOW(),noc_application_status_log.created_at)'), '>=', $period[0])
                 ->where(DB::raw('DATEDIFF(NOW(),noc_application_status_log.created_at)'), '<=', $period[1])
                 ->whereIn('noc_applications.layout_id', $layouts)
@@ -354,6 +380,13 @@ class RedevelopementController extends Controller
      * @return $data
      */
     public function getNoCcData($period_title,$period,$master_ids,$layouts,$roles){
+
+        $status = array(config('commanConfig.applicationStatus.in_process'),
+            config('commanConfig.applicationStatus.pending'),
+            config('commanConfig.applicationStatus.NOC_Generation'),
+            config('commanConfig.applicationStatus.NOC_Issued'),
+        );
+
         if($period_title == "")
         {
             $data = NocCCApplicationStatus::join('noc_cc_applications', 'noc_cc_application_status_log.application_id', '=', 'noc_cc_applications.id')
@@ -363,7 +396,7 @@ class RedevelopementController extends Controller
                 ->join('roles', 'roles.id', '=', 'users.role_id')
                 ->where('noc_cc_application_status_log.is_active', 1)
                 ->whereIn('noc_cc_application_status_log.role_id', $roles)
-                ->where('noc_cc_application_status_log.status_id', config('commanConfig.applicationStatus.in_process'))
+                ->whereIn('noc_cc_application_status_log.status_id', $status)
                 // ->where(DB::raw('DATEDIFF(NOW(),noc_cc_application_status_log.created_at)'), '>=', $period[0])
                 // ->where(DB::raw('DATEDIFF(NOW(),noc_cc_application_status_log.created_at)'), '<=', $period[1])
                 ->whereIn('noc_cc_applications.layout_id', $layouts)
@@ -379,7 +412,7 @@ class RedevelopementController extends Controller
                 ->join('roles', 'roles.id', '=', 'users.role_id')
                 ->where('noc_cc_application_status_log.is_active', 1)
                 ->whereIn('noc_cc_application_status_log.role_id', $roles)
-                ->where('noc_cc_application_status_log.status_id', config('commanConfig.applicationStatus.in_process'))
+                ->whereIn('noc_cc_application_status_log.status_id', $status)
                 ->where(DB::raw('DATEDIFF(NOW(),noc_cc_application_status_log.created_at)'), '>=', $period[0])
                 ->where(DB::raw('DATEDIFF(NOW(),noc_cc_application_status_log.created_at)'), '<=', $period[1])
                 ->whereIn('noc_cc_applications.layout_id', $layouts)
