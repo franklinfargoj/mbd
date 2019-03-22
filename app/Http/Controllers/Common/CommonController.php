@@ -4150,7 +4150,6 @@ class CommonController extends Controller
 
         $dashboardData1['Total Number of Applications'] = $total_pending_at_department;
 
-        dd($dashboardData1);
         return array_reverse($dashboardData1);
     }
 
