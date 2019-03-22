@@ -62,7 +62,7 @@ class ArchitectLayoutEEScrtinyQuestionMasterSeeder extends Seeder
                 'gruoup_in'=>''
             ],
             ['language_id' => 1,
-                'title' => 'Any other additional information relating to the development on the above referred plots & transits tenements status, any proposal of redevelopment of transit camp, turn key scheme.',
+                'title' => 'Any other additional information relating to the development on the above referred plots & transits tenements status, any proposal of redevelopment of transit camp & turn key schemes, latest position of said scheme.',
                 'is_options' => 0,
                 'label1' => '',
                 'label2' => '',
