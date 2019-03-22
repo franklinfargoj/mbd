@@ -226,10 +226,7 @@ class RedevelopementController extends Controller
             config('commanConfig.applicationStatus.pending'),
             config('commanConfig.applicationStatus.offer_letter_generation'),
             config('commanConfig.applicationStatus.offer_letter_approved'),
-            config('commanConfig.applicationStatus.draft_offer_letter_generated'),
-
-            //not added tripartite and revalidarion pending sttaus
-
+            config('commanConfig.applicationStatus.draft_offer_letter_generated')
         );
 
         if($period_title=="")

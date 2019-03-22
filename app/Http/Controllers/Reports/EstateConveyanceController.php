@@ -3,19 +3,12 @@
 namespace App\Http\Controllers\Reports;
 
 use App\conveyance\RenewalApplicationLog;
-use App\conveyance\scApplication;
 use App\conveyance\scApplicationLog;
 use App\conveyance\scApplicationType;
+use App\conveyance\SfApplicationStatusLog;
 use App\Http\Controllers\Controller;
 use App\LayoutUser;
-use App\NocApplicationStatus;
-use App\NocCCApplicationStatus;
-use App\OcApplication;
-use App\OcApplicationStatusLog;
-use App\OlApplicationMaster;
-use App\OlApplicationStatus;
 use App\Role;
-use App\SocietyConveyanceApplicationType;
 use DB;
 use Illuminate\Http\Request;
 use Mpdf\Mpdf;
@@ -83,6 +76,12 @@ class EstateConveyanceController extends Controller
                 $data = $this->getRenewalData($period_title,$period,$master_id,$layouts,$roles);
 
             }
+
+            if($request->module_master_id == '3') {
+                $data = $this->getFormationData($period_title,$period,$master_id,$layouts,$roles);
+
+            }
+
 
             if($data){
 
@@ -266,6 +265,53 @@ class EstateConveyanceController extends Controller
     }
 
     /**
+     * Society Formation report Data.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return $data
+     */
+    public function getFormationData($period_title,$period,$master_id,$layouts,$roles){
+
+        $status = array(config('commanConfig.renewal_status.in_process'));
+
+        if($period_title=="")
+        {
+            $data = SfApplicationStatusLog::join('sf_applications', 'sf_application_status_logs.application_id', '=', 'sf_applications.id')
+                ->join('ol_societies', 'sf_applications.society_id', '=', 'ol_societies.id')
+                ->join('sc_application_master', 'sc_application_master.id', '=', 'sf_applications.sc_application_master_id')
+                ->join('users', 'users.id', '=', 'sf_application_status_logs.user_id')
+                ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->where('sf_application_status_logs.open', 1)
+                ->whereIn('sf_application_status_logs.role_id', $roles)
+                ->whereIn('sf_application_status_logs.status_id', $status)
+                ->whereIn('sf_applications.layout_id', $layouts)
+                ->where('sf_applications.sc_application_master_id',$master_id)
+                ->get(['roles.name as Role','sf_applications.application_no', 'sf_application_status_logs.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'users.name as User', DB::raw('DATEDIFF(NOW(),sf_application_status_logs.created_at) as days_pending')]);
+
+        }else
+        {
+
+
+            $data = SfApplicationStatusLog::join('sf_applications', 'sf_application_status_logs.application_id', '=', 'sf_applications.id')
+                ->join('ol_societies', 'sf_applications.society_id', '=', 'ol_societies.id')
+                ->join('sc_application_master', 'sc_application_master.id', '=', 'sf_applications.sc_application_master_id')
+                ->join('users', 'users.id', '=', 'sf_application_status_logs.user_id')
+                ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->where('sf_application_status_logs.open', 1)
+                ->whereIn('sf_application_status_logs.role_id', $roles)
+                ->whereIn('sf_application_status_logs.status_id', $status)
+                ->where(DB::raw('DATEDIFF(NOW(),sf_application_status_logs.created_at)'), '>=', $period[0])
+                ->where(DB::raw('DATEDIFF(NOW(),sf_application_status_logs.created_at)'), '<=', $period[1])
+                ->whereIn('sf_applications.layout_id', $layouts)
+                ->where('sf_applications.sc_application_master_id',$master_id)
+                ->get(['roles.name as Role','sf_applications.application_no', 'sf_application_status_logs.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'users.name as User', DB::raw('DATEDIFF(NOW(),sf_application_status_logs.created_at) as days_pending')]);
+
+        }
+        return $data;
+    }
+
+    /**
      * Renewal report Data.
      *
      * Author: Prajakta Sisale.
@@ -275,13 +321,13 @@ class EstateConveyanceController extends Controller
     public function getRenewalData($period_title,$period,$master_id,$layouts,$roles){
 
         $status = array(config('commanConfig.renewal_status.in_process'),
-                        config('commanConfig.renewal_status.Draft_Renewal_of_Lease_deed'),
-                        config('commanConfig.renewal_status.Approved_Renewal_of_Lease'),
-                        config('commanConfig.renewal_status.Send_society_to_pay_stamp_duty'),
-                        config('commanConfig.renewal_status.Registered_lease_deed'),
-                        config('commanConfig.renewal_status.Stamp_Renewal_of_Lease_deed'),
-                        config('commanConfig.renewal_status.Stamp_Sign_Renewal_of_Lease_deed'),
-                        config('commanConfig.renewal_status.Send_society_for_registration_of_Lease_deed'));
+            config('commanConfig.renewal_status.Draft_Renewal_of_Lease_deed'),
+            config('commanConfig.renewal_status.Approved_Renewal_of_Lease'),
+            config('commanConfig.renewal_status.Send_society_to_pay_stamp_duty'),
+            config('commanConfig.renewal_status.Registered_lease_deed'),
+            config('commanConfig.renewal_status.Stamp_Renewal_of_Lease_deed'),
+            config('commanConfig.renewal_status.Stamp_Sign_Renewal_of_Lease_deed'),
+            config('commanConfig.renewal_status.Send_society_for_registration_of_Lease_deed'));
 
 
         if($period_title=="")
