@@ -12,6 +12,8 @@ use App\Events\SmsHitEvent;
 */
 Route::get('send_sms',function(){
     event(new SmsHitEvent('9769121477','testing'));
+
+
     
     // $curl_handle=curl_init();
     // curl_setopt($curl_handle,CURLOPT_URL,'http://www.hindit.co.in/API/pushsms.aspx?loginID=t1mhada&password=Mh@d@18&mobile=9769121477&text=test&senderid=MHADAB&route_id=2&Unicode=0&IP=180.149.241.179');
@@ -29,6 +31,8 @@ Route::get('send_sms',function(){
 // Login_Id#>&password=<#password#>&mobile=98********&text=<#message#>&senderid=<#Sende
 // rID#>&route_id=<#route_id#>&Unicode=0&IP=x.x.x.x
 });
+Route::get('send_mail','EmailMsg\EmailMsgConfigration@abc')->name('sendEmail');
+
 Route::get('testing',function(){
     return \App\Layout\ArchitectLayout::whereHas('ArchitectLayoutStatusLog',function($q){
         $q->where('user_id',18)->where('current_status',1)->where('status_id',3);
