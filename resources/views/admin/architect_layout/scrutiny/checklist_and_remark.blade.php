@@ -5,27 +5,27 @@
 @endif
     <input type="hidden" id="upload_file_route_name" name="upload_file_route_name" value="{{$upload_file_route_name}}">
     <input type="hidden" id="architect_layout_id" name="architect_layout_id" value="{{$ArchitectLayout->id}}">
-    <div class="optionBox">
+    <div class="optionBox mhada-optionbox">
 
         @php $j=0; @endphp
         @foreach ($check_list_and_remarks as $item)
         <div class="block">
             <input type="hidden" name="report_id[]" id="report_id_{{$j}}" value="{{$item->id}}">
             @if($item->question!="")
-            <p style="font-size: 16px"><strong>{{$item->question->title}}</strong></p>
+            <p style="font-size: 16px" class="mhada-optionbox-p"><strong>{{$item->question->title}}</strong></p>
             @if($item->question->is_options==1)
-            <p>
+            <p class="mhada-optionbox-radio">
                 <input {{$read_only!=0?'disabled':''}} type="radio" name="lable[{{$j}}]" value="1" {{$item->label1==1?'checked':''}}>{{$item->question->label1}}
                 <input {{$read_only!=0?'disabled':''}} type="radio" name="lable[{{$j}}]" value="2" {{$item->label2==1?'checked':''}}>{{$item->question->label2}}
             </p>
             @endif
             @endif
-            <div class="m-form__group row">
-                <div class="col-lg-3 form-group">
+            <div class="m-form__group row mhada-optionbox-rows">
+                <div class="col-lg-2 form-group mb-0 mhada-optionbox-br">
                     <label for="Upload_Cts_Plan">Remark</label>
                 </div>
-                <div class="col-lg-7 form-group">
-                    <div class="custom-file">
+                <div class="col-lg-7 form-group mb-0 mhada-optionbox-bl">
+                    <div class="custom-file mb-0 ">
                         <textarea {{$read_only!=0?'disabled':''}} type="text" name="remark[]" id="remark" class="form-control form-control--custom form-control--fixed-height">{{$item->remark }}</textarea>
                         @if ($errors->has('remark'))
                         <span class="error">{{ $errors->first('remark') }}</span>
@@ -33,11 +33,11 @@
                     </div>
                 </div>
             </div>
-            <div class="m-form__group row">
-                <div class="col-lg-3 form-group">
+            <div class="m-form__group row mhada-optionbox-rows">
+                <div class="col-lg-2 form-group mb-0 mhada-optionbox-br mhada-optionbox-br-ur">
                     <label for="Upload_Cts_Plan">Upload Report</label>
                 </div>
-                <div class="col-lg-7 form-group">
+                <div class="col-lg-7 form-group mb-0 mhada-optionbox-bl mhada-optionbox-br-down">
                     <div class="custom-file">
                         <input {{$read_only!=0?'disabled':''}} class="custom-file-input" name="report[]" type="file" id="report_file_{{$j}}" onchange="upload_report(this.id,'report_id_{{$j}}','report_file_{{$j}}','report_file_link_{{$j}}')">
                         <label class="custom-file-label" for="report_file_{{$j}}">Choose file...</label>
