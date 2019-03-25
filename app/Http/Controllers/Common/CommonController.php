@@ -1435,7 +1435,7 @@ class CommonController extends Controller
             
         }
         ksort($final_detail_array);
-        //dd($final_detail_array);
+       // dd($final_detail_array);
         return $final_detail_array;
 
     }

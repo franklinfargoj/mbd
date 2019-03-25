@@ -30,24 +30,25 @@
                     Questionnaire
                 </h3>
             </div>
-            <div class="remarks-suggestions">
+            <div class="remarks-suggestions mhada-optionbox">
+                    @php $o=1; @endphp
                     @forelse ($ArchitectLayout->ree_scrutiny_checklist_and_remarks as $item)
                     <div class="block">
                         <input type="hidden" name="report_id[]" value="{{$item->id}}">
                         @if($item->question!="")
-                        <p style="font-size: 16px"><strong>{{$item->question->title}}</strong></p>
+                        <p style="font-size: 16px" class="mhada-optionbox-p"><strong>{{$o}} . {{$item->question->title}}</strong></p>
                         @if($item->question->is_options==1)
-                        <p>
+                        <p class="mhada-optionbox-radio">
                             <input type="radio" disabled value="1" {{$item->label1==1?'checked':''}}>{{$item->question->label1}}
                             <input type="radio" disabled value="2" {{$item->label2==1?'checked':''}}>{{$item->question->label2}}
                         </p>
                         @endif
                         @endif
-                        <div class="m-form__group row">
-                            <div class="col-lg-3 form-group">
+                        <div class="m-form__group row mhada-optionbox-rows">
+                            <div class="col-lg-2 form-group mb-0 mhada-optionbox-br">
                                 <label for="Upload_Cts_Plan">Remark</label>
                             </div>
-                            <div class="col-lg-7 form-group">
+                            <div class="col-lg-7 form-group mb-0 mhada-optionbox-bl">
                                 <div class="custom-file">
                                     <textarea type="text" disabled name="remark[]" id="remark" class="form-control form-control--custom form-control--fixed-height">{{$item->remark }}</textarea>
                                     @if ($errors->has('remark'))
@@ -56,11 +57,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="m-form__group row">
-                            <div class="col-lg-3 form-group">
+                        <div class="m-form__group row mhada-optionbox-rows">
+                            <div class="col-lg-2 form-group mb-0 mhada-optionbox-br">
                                 <label for="Upload_Cts_Plan">Upload Report</label>
                             </div>
-                            <div class="col-lg-7 form-group">
+                            <div class="col-lg-7 form-group mb-0 mhada-optionbox-bl">
                                 <div class="custom-file">
                                     <a target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$item->file}}"
                                         style="display:{{$item->file!=''?'block':'none'}}">Download</a>
@@ -68,6 +69,7 @@
                             </div>
                         </div>
                     </div>
+                    @php $o++; @endphp
                     @empty
                     No checklist and remark found
                     @endforelse

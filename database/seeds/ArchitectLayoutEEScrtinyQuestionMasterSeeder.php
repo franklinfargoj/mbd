@@ -14,12 +14,12 @@ class ArchitectLayoutEEScrtinyQuestionMasterSeeder extends Seeder
     {
         $questions = [
             ['language_id' => 1,
-                'title' => 'Plot boundary & area of plot as per site measurement',
+                'title' => 'Plot boundary & Certified Plot as per actual measurement',
                 'is_options' => 0,
                 'label1' => '',
                 'label2' => '',
                 'rank'=>1,
-                'gruoup_in'=>''
+                'group_in'=>''
             ],
             ['language_id' => 1,
                 'title' => 'Plan showing the extension  carried out if any by the exsiting occupants and the area under the extension.',
@@ -27,7 +27,7 @@ class ArchitectLayoutEEScrtinyQuestionMasterSeeder extends Seeder
                 'label1' => '',
                 'label2' => '',
                 'rank'=>2,
-                'gruoup_in'=>''
+                'group_in'=>''
             ],
             ['language_id' => 1,
                 'title' => 'Report regarding unauthorized work carried out if any and whether your department has regularized the same, if yes, copies of correspondence should be submitted along with.',
@@ -35,7 +35,7 @@ class ArchitectLayoutEEScrtinyQuestionMasterSeeder extends Seeder
                 'label1' => 'Yes',
                 'label2' => 'No',
                 'rank'=>4,
-                'gruoup_in'=>''
+                'group_in'=>''
             ],
             ['language_id' => 1,
                 'title' => 'Change of user if any documentary evidence regarding NOC granted if any for the change of user.',
@@ -43,7 +43,7 @@ class ArchitectLayoutEEScrtinyQuestionMasterSeeder extends Seeder
                 'label1' => '',
                 'label2' => '',
                 'rank'=>5,
-                'gruoup_in'=>''
+                'group_in'=>''
             ],
             ['language_id' => 1,
                 'title' => 'Requested to submit details report regarding current of existing water supply/sewage network with ref. to the layout & proposal.',
@@ -51,7 +51,7 @@ class ArchitectLayoutEEScrtinyQuestionMasterSeeder extends Seeder
                 'label1' => '',
                 'label2' => '',
                 'rank'=>6,
-                'gruoup_in'=>''
+                'group_in'=>''
             ],
             ['language_id' => 1,
                 'title' => 'Report regarding accessibility of all the plots & also requested to inform whether the roads, D. P. reservations, Amenities, Open spaces, R.G. are handed over to MCGM or not & if yes submit receipts of this office',
@@ -59,7 +59,7 @@ class ArchitectLayoutEEScrtinyQuestionMasterSeeder extends Seeder
                 'label1' => 'Yes',
                 'label2' => 'No',
                 'rank'=>7,
-                'gruoup_in'=>''
+                'group_in'=>''
             ],
             ['language_id' => 1,
                 'title' => 'Any other additional information relating to the development on the above referred plots & transits tenements status, any proposal of redevelopment of transit camp & turn key schemes, latest position of said scheme.',
@@ -67,7 +67,7 @@ class ArchitectLayoutEEScrtinyQuestionMasterSeeder extends Seeder
                 'label1' => '',
                 'label2' => '',
                 'rank'=>8,
-                'gruoup_in'=>''
+                'group_in'=>''
             ],
             // ['language_id' => 1,
             //     'title' => 'Request to demarcate the plots which are allotted under section 16/Tender with name of society.',
@@ -81,7 +81,7 @@ class ArchitectLayoutEEScrtinyQuestionMasterSeeder extends Seeder
                 'label1' => '',
                 'label2' => '',
                 'rank'=>14,
-                'gruoup_in'=>1
+                'group_in'=>1
             ],
             ['language_id' => 1,
                 'title' => 'Encroachment report.',
@@ -89,7 +89,7 @@ class ArchitectLayoutEEScrtinyQuestionMasterSeeder extends Seeder
                 'label1' => '',
                 'label2' => '',
                 'rank'=>3,
-                'gruoup_in'=>1
+                'group_in'=>1
             ],
             ['language_id' => 1,
                 'title' => 'Demarcation as per the Layout.',
@@ -97,7 +97,7 @@ class ArchitectLayoutEEScrtinyQuestionMasterSeeder extends Seeder
                 'label1' => '',
                 'label2' => '',
                 'rank'=>9,
-                'gruoup_in'=>1
+                'group_in'=>1
             ],
             ['language_id' => 1,
                 'title' => 'Demarcation as per the Society.',
@@ -105,7 +105,7 @@ class ArchitectLayoutEEScrtinyQuestionMasterSeeder extends Seeder
                 'label1' => '',
                 'label2' => '',
                 'rank'=>10,
-                'gruoup_in'=>1
+                'group_in'=>1
             ],
             ['language_id' => 1,
                 'title' => 'Demarcation as per the RG/PG/G/Road.',
@@ -113,7 +113,7 @@ class ArchitectLayoutEEScrtinyQuestionMasterSeeder extends Seeder
                 'label1' => '',
                 'label2' => '',
                 'rank'=>11,
-                'gruoup_in'=>1
+                'group_in'=>1
             ],
             ['language_id' => 1,
                 'title' => 'Demarcation as per the Amenities & Vacant residential',
@@ -121,7 +121,7 @@ class ArchitectLayoutEEScrtinyQuestionMasterSeeder extends Seeder
                 'label1' => '',
                 'label2' => '',
                 'rank'=>12,
-                'gruoup_in'=>''
+                'group_in'=>''
             ],
             ['language_id' => 1,
                 'title' => 'Demarcation as per the Encroachment/Other.',
@@ -129,7 +129,7 @@ class ArchitectLayoutEEScrtinyQuestionMasterSeeder extends Seeder
                 'label1' => '',
                 'label2' => '',
                 'rank'=>13,
-                'gruoup_in'=>''
+                'group_in'=>''
             ],
         ];
         ArchitectLayoutEEScrtinyQuestionMaster::truncate();
@@ -145,7 +145,7 @@ class ArchitectLayoutEEScrtinyQuestionMasterSeeder extends Seeder
                 $ArchitectLayoutEEScrtinyQuestionMaster->label1 = $question['label1'];
                 $ArchitectLayoutEEScrtinyQuestionMaster->label2 = $question['label2'];
                 $ArchitectLayoutEEScrtinyQuestionMaster->rank = $question['rank'];
-                $ArchitectLayoutEEScrtinyQuestionMaster->gruoup_in = $question['gruoup_in'];
+                $ArchitectLayoutEEScrtinyQuestionMaster->group_in = $question['group_in'];
                 $ArchitectLayoutEEScrtinyQuestionMaster->save();
             }
 

@@ -135,6 +135,11 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('estate_conveyance_period_wise_pendency_report','Reports\EstateConveyanceController@period_wise_pendency')->name('estate-conveyance.period_wise_pendency_report');
     Route::get('estate_conveyance_pending_reports','Reports\EstateConveyanceController@estate_conveyance_pending_reports')->name('estate_conveyance_pending_reports');
 
+    Route::get('architect_period_wise_pendency_report','Reports\architectController@period_wise_pendency')->name('architect.period_wise_pendency_report');
+    Route::get('architect_pending_reports','Reports\architectController@architect_pending_reports')->name('architect_pending_reports');
+
+
+
     //Reports end
     // RTI Routes
 
