@@ -81,7 +81,7 @@ class ArchitectLayoutEEScrtinyQuestionMasterSeeder extends Seeder
                 'label1' => '',
                 'label2' => '',
                 'rank'=>14,
-                'gruoup_in'=>'demarcation'
+                'gruoup_in'=>1
             ],
             ['language_id' => 1,
                 'title' => 'Encroachment report.',
@@ -89,7 +89,7 @@ class ArchitectLayoutEEScrtinyQuestionMasterSeeder extends Seeder
                 'label1' => '',
                 'label2' => '',
                 'rank'=>3,
-                'gruoup_in'=>'demarcation'
+                'gruoup_in'=>1
             ],
             ['language_id' => 1,
                 'title' => 'Demarcation as per the Layout.',
@@ -97,7 +97,7 @@ class ArchitectLayoutEEScrtinyQuestionMasterSeeder extends Seeder
                 'label1' => '',
                 'label2' => '',
                 'rank'=>9,
-                'gruoup_in'=>'demarcation'
+                'gruoup_in'=>1
             ],
             ['language_id' => 1,
                 'title' => 'Demarcation as per the Society.',
@@ -105,7 +105,7 @@ class ArchitectLayoutEEScrtinyQuestionMasterSeeder extends Seeder
                 'label1' => '',
                 'label2' => '',
                 'rank'=>10,
-                'gruoup_in'=>'demarcation'
+                'gruoup_in'=>1
             ],
             ['language_id' => 1,
                 'title' => 'Demarcation as per the RG/PG/G/Road.',
@@ -113,7 +113,7 @@ class ArchitectLayoutEEScrtinyQuestionMasterSeeder extends Seeder
                 'label1' => '',
                 'label2' => '',
                 'rank'=>11,
-                'gruoup_in'=>'demarcation'
+                'gruoup_in'=>1
             ],
             ['language_id' => 1,
                 'title' => 'Demarcation as per the Amenities & Vacant residential',
@@ -132,6 +132,7 @@ class ArchitectLayoutEEScrtinyQuestionMasterSeeder extends Seeder
                 'gruoup_in'=>''
             ],
         ];
+        ArchitectLayoutEEScrtinyQuestionMaster::truncate();
         foreach ($questions as $question) {
             $ArchitectLayoutEEScrtinyQuestionMaster = ArchitectLayoutEEScrtinyQuestionMaster::where(['title' => $question['title']])->first();
             if ($ArchitectLayoutEEScrtinyQuestionMaster) {
@@ -143,6 +144,8 @@ class ArchitectLayoutEEScrtinyQuestionMasterSeeder extends Seeder
                 $ArchitectLayoutEEScrtinyQuestionMaster->is_options = $question['is_options'];
                 $ArchitectLayoutEEScrtinyQuestionMaster->label1 = $question['label1'];
                 $ArchitectLayoutEEScrtinyQuestionMaster->label2 = $question['label2'];
+                $ArchitectLayoutEEScrtinyQuestionMaster->rank = $question['rank'];
+                $ArchitectLayoutEEScrtinyQuestionMaster->gruoup_in = $question['gruoup_in'];
                 $ArchitectLayoutEEScrtinyQuestionMaster->save();
             }
 

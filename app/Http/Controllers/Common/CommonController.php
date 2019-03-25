@@ -1401,6 +1401,7 @@ class CommonController extends Controller
 
     public function get_ee_checklist_and_remarks($layout_id, $user_id)
     {
+        $final_detail_array=array();
         $latest_architect_layout_detail=ArchitectLayoutDetail::where(['architect_layout_id'=>$layout_id])->orderBy('id','desc')->first();
         $ArchitectLayoutLmScrtinyQuestionMaster = ArchitectLayoutEEScrtinyQuestionMaster::all();
         foreach ($ArchitectLayoutLmScrtinyQuestionMaster as $data) {
@@ -1418,8 +1419,24 @@ class CommonController extends Controller
             }
         }
 
-        $final_detail = ArchitectLayoutEEScrtinyQuestionDetail::with(['question'])->where(['architect_layout_id' => $layout_id,'architect_layout_detail_id'=>$latest_architect_layout_detail->id])->get();
-        return $final_detail;
+        $final_detail = ArchitectLayoutEEScrtinyQuestionDetail::with(['question'])->where(['architect_layout_id' => $layout_id,'architect_layout_detail_id'=>$latest_architect_layout_detail->id])->get()->sortBy(function ($batch) { 
+            return $batch->question['rank']; 
+        });
+        $k=100;
+        foreach($final_detail as $final_detai)
+        {
+            if($final_detai->question!=null)
+            {
+                $final_detail_array[$final_detai->question['rank']]=$final_detai;
+            }else
+            {
+                $final_detail_array[$k++]=$final_detai;
+            }
+            
+        }
+        ksort($final_detail_array);
+        //dd($final_detail_array);
+        return $final_detail_array;
 
     }
 

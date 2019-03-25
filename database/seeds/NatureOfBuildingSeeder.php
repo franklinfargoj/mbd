@@ -30,12 +30,12 @@ class NatureOfBuildingSeeder extends Seeder
             NatureOfBuilding::insert($names);
         }else{
             foreach($names as $name){
-                foreach($building_natures as $building_nature){
-                    if($building_nature->name == $name['name']){
-                        continue;
-                    }else{
-                        NatureOfBuilding::insert($name);
-                    }
+                if(NatureOfBuilding::where(['name'=>$name['name']])->first())
+                {
+                    //continue;
+                }else
+                {
+                    NatureOfBuilding::insert($name);
                 }
             }
         }
