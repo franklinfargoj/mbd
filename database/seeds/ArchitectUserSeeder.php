@@ -286,8 +286,18 @@ class ArchitectUserSeeder extends Seeder
                 ],
                 [
                     'name'=>'estate_conveyance_pending_reports',
-                    'display_name'=>'redevelopement_pending_reports',
-                    'description'=>'redevelopement_pending_reports'
+                    'display_name'=>'estate_conveyance_pending_reports',
+                    'description'=>'estate_conveyance_pending_reports'
+                ],
+                [
+                    'name'=>'architect.period_wise_pendency_report',
+                    'display_name'=>'architect.period_wise_pendency_report',
+                    'description'=>'architect.period_wise_pendency_report'
+                ],
+                [
+                    'name'=>'architect_pending_reports',
+                    'display_name'=>'architect_pending_reports',
+                    'description'=>'architect_pending_reports'
                 ],
 
             ];

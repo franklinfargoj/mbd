@@ -21,6 +21,7 @@ class SapPermissionSeeder extends Seeder
                 'name'=>'architect_layout_dashboard',
                 'display_name' => 'Dashboard for Architect',
                 'description' => 'Dashboard for Architect'
+
             ],
             [
                 'name' => 'architect_Layout_scrutiny_of_ee_em_lm_ree',
@@ -81,6 +82,16 @@ class SapPermissionSeeder extends Seeder
                 'name' => 'dashboard.ajax',
                 'display_name' => 'ajax dashboard',
                 'description' => 'Ajax Dashboard',
+            ],
+            [
+                'name'=>'architect.period_wise_pendency_report',
+                'display_name'=>'architect.period_wise_pendency_report',
+                'description'=>'architect.period_wise_pendency_report'
+            ],
+            [
+                'name'=>'architect_pending_reports',
+                'display_name'=>'architect_pending_reports',
+                'description'=>'architect_pending_reports'
             ],
         ];
     
