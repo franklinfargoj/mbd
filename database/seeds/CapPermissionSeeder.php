@@ -184,7 +184,17 @@ class CapPermissionSeeder extends Seeder
                 'name'=>'dashboard.ajax',
                 'display_name'=>'view dashboard dynamically',
                 'description'=>'view dashboard dynamically'
-            ]
+            ],
+            [
+                'name'=>'architect.period_wise_pendency_report',
+                'display_name'=>'architect.period_wise_pendency_report',
+                'description'=>'architect.period_wise_pendency_report'
+            ],
+            [
+                'name'=>'architect_pending_reports',
+                'display_name'=>'architect_pending_reports',
+                'description'=>'architect_pending_reports'
+            ],
         ];
 
         $cap_manager = Role::where('name', '=', 'cap_engineer')->first();
