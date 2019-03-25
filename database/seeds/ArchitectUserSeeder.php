@@ -288,6 +288,16 @@ class ArchitectUserSeeder extends Seeder
                     'name'=>'estate_conveyance_pending_reports',
                     'display_name'=>'redevelopement_pending_reports',
                     'description'=>'redevelopement_pending_reports'
+                ], 
+                [
+                    'name'=>'conveyance.upload_architect_note',
+                    'display_name'=>'upload architect note',
+                    'description'=>'upload architect note'
+                ],
+                [
+                    'name'=>'conveyance.delete_architect_note',
+                    'display_name'=>'delete architect note',
+                    'description'=>'delete architect note'
                 ],
 
             ];

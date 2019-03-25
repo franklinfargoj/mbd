@@ -1067,6 +1067,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     //Architect
 
     Route::post('save_architect_scrutiny_remark', 'conveyance\conveyanceCommonController@SaveArchitectScrutinyRemark')->name('conveyance.save_architect_scrutiny_remark');
+    Route::post('upload_architect_note', 'conveyance\conveyanceCommonController@uploadArchitectNote')->name('conveyance.upload_architect_note');
+    Route::post('delete_architect_note', 'conveyance\conveyanceCommonController@deleteArchitectNote')->name('conveyance.delete_architect_note');
 
     //EE 
 
