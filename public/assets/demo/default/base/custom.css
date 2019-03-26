@@ -3865,3 +3865,10 @@ label.site-visit-label {
     margin: 0;
 }
 
+.mhada-optionbox-radio input{
+    margin-right: 5px;
+}
+
+.mhada-optionbox-radio input:last-child{
+    margin-left: 15px;
+}
