@@ -92,7 +92,7 @@
 
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="district">District:<span class="star">*</span></label>
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="district" name="district">
+                            <select title="Select District" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="district" name="district">
                                 <option value="Andheri">Andheri</option>
                                 <option value="Bandra">Bandra</option>
                                 <option value="Dadar">Dadar</option>
@@ -115,7 +115,7 @@
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="taluka">Taluka:<span class="star">*</span></label>
                         <div class="m-input-icon m-input-icon--right">
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="taluka" name="taluka">
+                            <select title="Select Taluka" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="taluka" name="taluka">
                                 <option value="Kurla">Kurla</option>
                                 <option value="Andheri">Andheri</option>
                                 <option value="Santacruz">Santacruz</option>
@@ -232,7 +232,7 @@
 
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="other_land_id">Others:<span class="star">*</span></label>
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
+                            <select title="Select Type of Building" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                     id="other_land_id" name="other_land_id">
                                 @foreach($arrData['other_land'] as $other_land_details)
                                     <option value="{{ $other_land_details->id  }}">{{ $other_land_details->land_name }}</option>

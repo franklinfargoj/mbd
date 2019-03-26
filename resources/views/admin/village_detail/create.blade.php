@@ -43,7 +43,7 @@
 
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label transition-none" for="land_source_id">Land Source:<span class="star">*</span></label>
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="land_source_id" name="land_source_id">
+                            <select title="Select Land Source" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="land_source_id" name="land_source_id">
                                 @foreach($arrData['land_source'] as $landDetails)
                                     <option value="{{ $landDetails->id  }}">{{ $landDetails->source_name }}</option>
                                 @endforeach
@@ -64,7 +64,7 @@
 
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label transition-none" for="district">District:<span class="star">*</span></label>
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="district" name="district">
+                            <select title="Select District" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="district" name="district">
                                 <option value="Andheri">Andheri</option>
                                 <option value="Bandra">Bandra</option>
                                 <option value="Dadar">Dadar</option>
@@ -78,7 +78,7 @@
 
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label transition-none" for="taluka">Taluka:<span class="star">*</span></label>
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="taluka" name="taluka">
+                            <select title="Select Taluka" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="taluka" name="taluka">
                                 <option value="Kurla">Kurla</option>
                                 <option value="Andheri">Andheri</option>
                                 <option value="Santacruz">Santacruz</option>
@@ -201,7 +201,7 @@
                     
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label transition-none" for="remark">Remark:<span class="star">*</span></label>
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="remark" name="remark">
+                            <select title="Select Remark"  class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="remark" name="remark">
                                 <option value="Test 1">Test 1</option>
                                 <option value="Test 2">Test 2</option>
                                 <option value="other">Other</option>
