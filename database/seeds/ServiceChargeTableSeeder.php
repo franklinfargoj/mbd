@@ -21,20 +21,24 @@ class ServiceChargeTableSeeder extends Seeder
             ]
         ];
 
-        $service_charge_names = ServiceCharge::all();
+        $service_charge_names = ServiceCharge::pluck('name')->toArray();
 
         if(count($service_charge_names) == 0){
             ServiceCharge::insert($names);
         }else{
             foreach ($names as $name){
-                foreach ($service_charge_names as $service_charge_name){
-                    if($name['name'] == $service_charge_name->name){
-                        continue;
-                    }else{
-                        ServiceCharge::insert($name);
-                    }
+                if(!in_array($name['name'],$service_charge_names)){
+                    ServiceCharge::insert($name);   
                 }
-            }
+            }    
+                // foreach ($service_charge_names as $service_charge_name){
+                    // if($name['name'] == $service_charge_name->name){
+                    //     continue;
+                    // }else{
+                    //     ServiceCharge::insert($name);
+                    // }
+                // }
+            // }
         }
     }
 }

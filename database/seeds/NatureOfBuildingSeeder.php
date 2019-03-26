@@ -24,18 +24,14 @@ class NatureOfBuildingSeeder extends Seeder
             ]
         ];
 
-        $building_natures = NatureOfBuilding::all();
+        $building_natures = NatureOfBuilding::pluck('name')->toArray();
         
         if(count($building_natures) == 0){
             NatureOfBuilding::insert($names);
         }else{
             foreach($names as $name){
-                foreach($building_natures as $building_nature){
-                    if($building_nature->name == $name['name']){
-                        continue;
-                    }else{
-                        NatureOfBuilding::insert($name);
-                    }
+                if(!in_array($name['name'],$building_natures)){
+                    NatureOfBuilding::insert($name);
                 }
             }
         }

@@ -1145,7 +1145,7 @@ if($latest){
                                                 </div>
                                             </form>
                                         </div>
-                                    </div>
+                                    </div> 
 
                                      @if(isset($arrData['eeNote']) && count($arrData['eeNote']) > 0)
                                     
@@ -1193,8 +1193,8 @@ if($latest){
                                                 </div>
                                             </div>
                                         </div>
+                                        </div>
                                     </div>
-                                </div>
                             </div>
                         </div>
                     </div>
