@@ -247,6 +247,31 @@ class LAPermission extends Seeder
                 'display_name'=>'conveyance dashboard ajax',
                 'description'=>'conveyance dashboard ajax'
             ],
+            [
+                'name'=>'estate-conveyance.period_wise_pendency_report',
+                'display_name'=>'estate-conveyance.period_wise_pendency_report',
+                'description'=>'estate-conveyance.period_wise_pendency_report'
+            ],
+            [
+                'name'=>'estate_conveyance_pending_reports',
+                'display_name'=>'redevelopement_pending_reports',
+                'description'=>'redevelopement_pending_reports'
+            ],
+            [
+                'name'=>'architect.period_wise_pendency_report',
+                'display_name'=>'architect.period_wise_pendency_report',
+                'description'=>'architect.period_wise_pendency_report'
+            ],
+            [
+                'name'=>'architect_pending_reports',
+                'display_name'=>'architect_pending_reports',
+                'description'=>'architect_pending_reports'
+            ],
+            [
+                'name'=>'scrutiny_report_by_em',
+                'display_name'=>'scrutiny_report_by_em',
+                'description'=>'scrutiny_report_by_em'
+            ],
         ];
 
         $role_id = Role::where('name', '=', 'la_engineer')->first();

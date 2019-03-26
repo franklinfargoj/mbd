@@ -903,7 +903,6 @@ class REEController extends Controller
         $ol_application->folder = $folder;
         $buldingNumber = OlCustomCalculationSheet::where('application_id',$applicationId)
             ->where('title','total_no_of_buildings')->value('amount');
-
         return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','summary','status','reeNote','folder','buldingNumber','action'));
 
         //echo "<pre>";print_r($ol_application);exit;
@@ -2392,8 +2391,9 @@ class REEController extends Controller
             'offerLetterApprovedNotIssuedToSociety' => $offerLetterApprovedNotIssuedToSociety,
             'offerLetterIssuedToSociety' => $offerLetterIssuedToSociety,
             'offerLetterForwardedForIssueingToSociety' => $offerLetterForwardedForIssueingToSociety,
-            'sepeartion'=> ['Total Pending Applications'=> $inProcess,
-                    'Total Pending Proposals'=> $offerLetterGeneration],
+            'sepeartion'=> ['Total Pending Applications'=> $inProcess + $offerLetterGeneration,
+                    'Total Pending Proposals'=> $inProcess,
+                    'Total Pending Drafted Offer Letter'=> $offerLetterGeneration],
             ];
         return $count;
 

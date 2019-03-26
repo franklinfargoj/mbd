@@ -37,6 +37,7 @@ $route_name=\Request::route()->getName();
             {{ Breadcrumbs::render('calculation_sheet_vp',$ol_application->id) }}       
         @elseif($route_name=='ree.show_calculation_sheet') 
             {{ Breadcrumbs::render('REE_calculation',$ol_application->id) }} @elseif($route_name=='ree_applications.custom_calculation_sheet') 
+            {{ Breadcrumbs::render('reval_calculation_sheet',$ol_application->id) }} @elseif($route_name=='ree.show_reval_calculation_sheet') 
             {{ Breadcrumbs::render('reval_calculation_sheet',$ol_application->id) }} 
             @elseif($route_name=='co.show_reval_calculation_sheet')
             {{ Breadcrumbs::render('reval_co_calculation_sheet',$ol_application->id) }}@elseif($route_name=='cap.show_reval_calculation_sheet')

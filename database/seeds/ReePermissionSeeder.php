@@ -528,7 +528,17 @@ class ReePermissionSeeder extends Seeder
                 'name'=>'ree.reval_calculation_sheet_options',
                 'display_name'=>'reval calculation sheet options',
                 'description'=>'reval calculation sheet options'
-            ]
+            ],
+            [
+                'name'=>'architect.period_wise_pendency_report',
+                'display_name'=>'architect.period_wise_pendency_report',
+                'description'=>'architect.period_wise_pendency_report'
+            ],
+            [
+                'name'=>'architect_pending_reports',
+                'display_name'=>'architect_pending_reports',
+                'description'=>'architect_pending_reports'
+            ],
         ];
 
         // Role

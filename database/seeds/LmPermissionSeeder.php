@@ -224,6 +224,21 @@ class LmPermissionSeeder extends Seeder
                 'display_name' => 'Land Dashboard using ajax',
                 'description' => 'Shows Land Dashboard using ajax'
             ],
+            [
+                'name'=>'architect.period_wise_pendency_report',
+                'display_name'=>'architect.period_wise_pendency_report',
+                'description'=>'architect.period_wise_pendency_report'
+            ],
+            [
+                'name'=>'architect_pending_reports',
+                'display_name'=>'architect_pending_reports',
+                'description'=>'architect_pending_reports'
+            ],
+            [
+                'name'=>'scrutiny_report_by_em',
+                'display_name'=>'scrutiny_report_by_em',
+                'description'=>'scrutiny_report_by_em'
+            ],
         ];
 
         $land_manager = Role::where('name', '=', 'LM')->select('id')->first();

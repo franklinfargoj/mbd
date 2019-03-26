@@ -181,22 +181,22 @@
             $('.block:last').after(
                 '<div class="block">' +
                 '<input type="hidden" name="report_id[]" id="report_id_' + count + '" value="">' +
-                '<div class="m-form__group row">' +
-                '<div class="col-lg-3 form-group">' +
+                '<div class="m-form__group row mhada-optionbox-rows">' +
+                '<div class="col-lg-2 form-group mb-0 mhada-optionbox-br">' +
                 '<label for="Upload_Cts_Plan">Remark</label>' +
                 '</div>' +
-                '<div class="col-lg-7 form-group">' +
-                '<div class="custom-file">' +
+                '<div class="col-lg-7 form-group mb-0 mhada-optionbox-bl">' +
+                '<div class="custom-file mb-0 ">' +
                 '<textarea type="text" name="remark[]" id="remark" class="form-control form-control--custom form-control--fixed-height"></textarea>' +
                 '<span class="error"></span>' +
                 '</div>' +
                 '</div>' +
                 '</div>' +
-                '<div class="m-form__group row">' +
-                '<div class="col-lg-3 form-group">' +
+                '<div class="m-form__group row mhada-optionbox-rows">' +
+                '<div class="col-lg-2 form-group mb-0 mhada-optionbox-br mhada-optionbox-br-ur">' +
                 '<label for="Upload_Cts_Plan">Upload Report</label>' +
                 '</div>' +
-                '<div class="col-lg-7 form-group">' +
+                '<div class="col-lg-7 form-group mb-0 mhada-optionbox-bl mhada-optionbox-br-down">' +
                 '<div class="custom-file">' +
                 '<input class="custom-file-input" name="crz_remark_plan[]" type="file" onchange="upload_report(this.id,\'report_id_' +
                 count + '\',\'report_file_' + count + '\',\'report_file_link_' + count +

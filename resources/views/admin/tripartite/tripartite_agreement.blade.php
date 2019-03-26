@@ -513,9 +513,9 @@
                         @if($content_letter_1)
                                 {{ $content_letter_1}}
                             @else
-                                <div style="" id="">
-                                    <p style="margin-left:70% ;font-size: 16px; line-height: 1.5;margin-bottom: 0;">जा.क्र्./नि.का.अ./मुं.मं./&nbsp;&nbsp;&nbsp;/१८<br>
-                                        <span style="font-size: 16px; line-height: 1.5;">दिनांक:-_____________</span><br>
+                                <div style="max-width: 100%;overflow: hidden; width: 100%;" id="">
+                                    <p style=" text-align:right;font-size: 16px; line-height: 1.5;margin-bottom: 0;margin-left: 72%;">जा.क्र्./नि.का.अ./मुं.मं./&nbsp;&nbsp;&nbsp;/१८<br>
+                                        <span style="font-size: 16px;line-height: 1.5;">दिनांक:-<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span><br>
                                     </p>
                                     <div style="clear: both;"></div>
                                     <p style="font-size: 16px; line-height: 1.5;margin-top: 0;">प्रति,<br>
@@ -524,17 +524,19 @@
                                         <span>{{$society_details->address}}.</span>
                                     </p>
 
-                                    <div style="font-size: 16px; line-height: 1.5;margin-left: 80px;width: 100%;">
-                                        <p>विषय:- {{$society_details->name}},{{$society_details->address}} या इमारतीचा पुनर्विकासाकरिता सुधारित वि.नि.नि. ३३(५) नुसार त्रिपक्षीय करारनामा करणे संदर्भात मुद्रांक शुल्क भरणेबाबत.</p>
+                                    <div style="font-size: 16px; line-height: 1.5;margin-left: 80px;">
+                                        <p style="vertical-align: top;margin: 0%;width: 9%;float: left;">विषय:-</p> 
+                                        <p style="margin: 0%;float: left;width: 90%;">{{$society_details->name}},{{$society_details->address}} या इमारतीचा पुनर्विकासाकरिता सुधारित वि.नि.नि. ३३(५) नुसार त्रिपक्षीय करारनामा करणे संदर्भात मुद्रांक शुल्क भरणेबाबत.</p>
                                     </div>
+                                    <div style="clear: both;"></div>
                                     
                                     {{--<p style="margin-left: 80px;">संदर्भ:- मा.विधी सल्लागार / प्रा. यांची  मंजुरी क्र्.&nbsp;&nbsp;&nbsp;दि.</p>--}}
                                     <p style="font-size: 16px; line-height: 1.5;">महोदय,</p>
-                                    <p style="font-size: 16px; line-height: 1.5;margin-left: 40px;">उपरोक्त विषयास अनुसरून मा.विधी सल्लागार / प्रा. यांनी इमारतीचा त्रिपक्षीय करारनामा करणे संदर्भात मसुद्यास मान्यता दिलेली असून सदर मसुदा मान्य असल्याबाबत नमूद करून त्याची प्रत, तसेच त्रिपक्षीय करारनामा हिरव्या लीगल पेपरवर टंकलिखित करून व मुद्रांक शुल्क भरणा करून पुढील कार्यवाहीसाठी कार्यालयात सादर करण्यात यावा.</p><br/><br/>
+                                    <p style="font-size: 16px; line-height: 1.5;text-indent: 80px;width: 95%;">उपरोक्त विषयास अनुसरून मा.विधी सल्लागार / प्रा. यांनी इमारतीचा त्रिपक्षीय करारनामा करणे संदर्भात मसुद्यास मान्यता दिलेली असून सदर मसुदा मान्य असल्याबाबत नमूद करून त्याची प्रत, तसेच त्रिपक्षीय करारनामा हिरव्या लीगल पेपरवर टंकलिखित करून व मुद्रांक शुल्क भरणा करून पुढील कार्यवाहीसाठी कार्यालयात सादर करण्यात यावा.</p><br/><br/>
 
-                                    <p style="font-size: 16px; line-height: 1.5;margin-left: 70%;"><span>आपला विश्वासू, </span><br/><br/>
+                                    <p style="font-size: 16px; line-height: 1.5;margin-left: 75%"><span>आपला विश्वासू, </span><br/><br/>
                                     <span>निवासी कार्यकारी अभियंता,</span><br/>
-                                    <span>मुंबई मंडळ </span></p>
+                                            <span>मुंबई मंडळ </span></p>
                                 </div>
                             @endif
 

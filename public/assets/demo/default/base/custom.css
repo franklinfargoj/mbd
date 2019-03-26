@@ -3792,8 +3792,6 @@ label.site-visit-label {
     .no-margin-sm{
         margin-left: 0 !important;
     }
-
-    
 }
 
 .mhada-radio-custom{
@@ -3804,3 +3802,66 @@ label.site-visit-label {
 .mhada-oc-radio{
     width: 10%;
 }
+
+.mhada-vld-modal .modal-dialog{
+    width: 100%;
+    margin: 30px auto;
+    max-width: 700px;
+    height: 700px;
+    overflow: auto;
+}
+
+.mhada-vld-modal .m-portlet{
+    padding: 0 15px;
+}
+
+.mhada-vld-modal .modal-header button{
+    width: 100%;
+    text-align: right;
+}
+
+.mhada-vld-modal .section-title{
+    margin-bottom: 10px;
+}
+
+.mhada-optionbox{
+    border-left: 1px solid #aeaeae;
+    border-right: 1px solid #aeaeae;
+    border-top: 1px solid #aeaeae;
+    margin-bottom: 20px;
+}
+
+.mhada-optionbox-p{
+    border-bottom: 1px solid #aeaeae;
+    padding: 10px;
+    margin-bottom: 0;
+}
+
+.mhada-optionbox-rows{
+    margin: 0;
+    border-bottom: 1px solid #aeaeae;
+}
+
+.mhada-optionbox-br{
+    border-right: 1px solid #aeaeae;
+    padding: 25px 10px 0 10px;
+}
+
+.mhada-optionbox-bl{
+    padding: 15px 25px;
+}
+
+.mhada-optionbox-br-ur{
+    padding: 35px 10px 0px 10px;
+}
+
+.mhada-optionbox-br-down{
+    padding: 25px 10px 15px 25px;
+}
+
+.mhada-optionbox-radio{
+    border-bottom: 1px solid #aeaeae;
+    padding: 15px;
+    margin: 0;
+}
+

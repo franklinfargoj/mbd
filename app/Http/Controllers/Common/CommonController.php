@@ -8,6 +8,7 @@ use App\conveyance\RenewalApplicationLog;
 use App\Http\Controllers\Dashboard\AppointingArchitectController;
 use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
 use App\Http\Controllers\OcDashboardController;
+use App\LayoutUser;
 use Illuminate\Http\Request;
 use App\DashboardHeader;
 use App\EENote;
@@ -1400,6 +1401,7 @@ class CommonController extends Controller
 
     public function get_ee_checklist_and_remarks($layout_id, $user_id)
     {
+        $final_detail_array=array();
         $latest_architect_layout_detail=ArchitectLayoutDetail::where(['architect_layout_id'=>$layout_id])->orderBy('id','desc')->first();
         $ArchitectLayoutLmScrtinyQuestionMaster = ArchitectLayoutEEScrtinyQuestionMaster::all();
         foreach ($ArchitectLayoutLmScrtinyQuestionMaster as $data) {
@@ -1417,8 +1419,24 @@ class CommonController extends Controller
             }
         }
 
-        $final_detail = ArchitectLayoutEEScrtinyQuestionDetail::with(['question'])->where(['architect_layout_id' => $layout_id,'architect_layout_detail_id'=>$latest_architect_layout_detail->id])->get();
-        return $final_detail;
+        $final_detail = ArchitectLayoutEEScrtinyQuestionDetail::with(['question'])->where(['architect_layout_id' => $layout_id,'architect_layout_detail_id'=>$latest_architect_layout_detail->id])->get()->sortBy(function ($batch) { 
+            return $batch->question['rank']; 
+        });
+        $k=100;
+        foreach($final_detail as $final_detai)
+        {
+            if($final_detai->question!=null)
+            {
+                $final_detail_array[$final_detai->question['rank']]=$final_detai;
+            }else
+            {
+                $final_detail_array[$k++]=$final_detai;
+            }
+            
+        }
+        ksort($final_detail_array);
+       // dd($final_detail_array);
+        return $final_detail_array;
 
     }
 
@@ -2068,6 +2086,8 @@ class CommonController extends Controller
 
         $new_offer_letter_master_ids = config('commanConfig.new_offer_letter_master_ids');
 
+        $layouts = $this->layouts();
+
         $applicationData = OlApplication::with([
             'olApplicationStatus' => function ($q) use ($role_id,$user_id) {
                 $q->where('user_id', $user_id)
@@ -2082,7 +2102,9 @@ class CommonController extends Controller
                     ->where('society_flag', 0)
                     ->where('is_active',1)
                     ->orderBy('id', 'desc');
-            })->whereIn('application_master_id',$new_offer_letter_master_ids)->get()->toArray();
+            })
+            ->whereIn('layout_id',$layouts)
+            ->whereIn('application_master_id',$new_offer_letter_master_ids)->get()->toArray();
 
         return $applicationData;
     }
@@ -4106,8 +4128,16 @@ class CommonController extends Controller
      */
     public function getToatalPendingApplicationsAtUser($roleIds){
 
-        $users =User::whereIn('role_id',$roleIds)
+        $layouts =$this->layouts();
+
+        $users =User::join('layout_user', 'layout_user.user_id', '=', 'users.id')
+            ->whereIn('layout_user.layout_id',$layouts)
+            ->whereIn('role_id',$roleIds)
             ->get()->toArray();
+
+//        dd($users);
+
+        $dashboardData1 = null;
 
         $total_pending_at_department = 0;
         foreach ($users as $user){
@@ -4115,12 +4145,28 @@ class CommonController extends Controller
             $count = OlApplicationStatus::where('user_id',$user['id'])
                 ->where('status_id',config('commanConfig.applicationStatus.in_process'))
                 ->where('is_active',1)->get()->count();
-            $dashboardData1['Application Pending At '.$user['name']] = $count;
+//            $count = OlApplicationStatus::whereHas('olApplication',function($q) use ($layouts){
+//                $q->whereIn('layout_id',$layouts);
+//            })->where('user_id',$user['id'])
+//                ->where('status_id',config('commanConfig.applicationStatus.in_process'))
+//                ->where('is_active',1)->get()->count();
+
+
+//            $layout_name = MasterLayout::where('id',$user['layout_id'])->value('layout_name');
+
+            if(isset($dashboardData1['Application Pending At '.$user['name']]) && $dashboardData1['Application Pending At '.$user['name']]){
+                $dashboardData1['Application Pending At '.$user['name']] += $count;
+            }else{
+                $dashboardData1['Application Pending At '.$user['name']] = $count;
+            }
 
             $total_pending_at_department += $count;
 
+
         }
+
         $dashboardData1['Total Number of Applications'] = $total_pending_at_department;
+
         return array_reverse($dashboardData1);
     }
 
@@ -4483,5 +4529,18 @@ class CommonController extends Controller
             config('commanConfig.vp_engineer'),
         );
         return $roles;
+    }
+
+    /**
+     * Login user's layout.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return $layouts
+     */
+    public function layouts(){
+        $layouts = LayoutUser::where(['user_id' => auth()->user()->id])->pluck('layout_id')->toArray();
+
+        return $layouts;
     }
 }
