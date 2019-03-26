@@ -267,6 +267,11 @@ class LAPermission extends Seeder
                 'display_name'=>'architect_pending_reports',
                 'description'=>'architect_pending_reports'
             ],
+            [
+                'name'=>'scrutiny_report_by_em',
+                'display_name'=>'scrutiny_report_by_em',
+                'description'=>'scrutiny_report_by_em'
+            ],
         ];
 
         $role_id = Role::where('name', '=', 'la_engineer')->first();

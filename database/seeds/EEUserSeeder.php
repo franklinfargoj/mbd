@@ -399,6 +399,11 @@ class EEUserSeeder extends Seeder
                 'description'=>'redevelopement_pending_reports'
             ],
             [
+                'name'=>'scrutiny_report_by_em',
+                'display_name'=>'scrutiny_report_by_em',
+                'description'=>'scrutiny_report_by_em'
+            ],
+            [
                 'name'=>'architect.period_wise_pendency_report',
                 'display_name'=>'architect.period_wise_pendency_report',
                 'description'=>'architect.period_wise_pendency_report'
