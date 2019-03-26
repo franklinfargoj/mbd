@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\mailMsgSentDetails;
 use App\Events\SmsHitEvent;
 use Config;
+use App\User;
 use Mail;
 
 class EmailMsgConfigration extends Controller
@@ -16,12 +17,14 @@ class EmailMsgConfigration extends Controller
 		
 		$mobile = $societyDetails['society_contact_no'];
         $content = config('commanConfig.msg_content.society_registration');
-        $msgResponse = $this->sendMsg($mobile,$content);
+        $this->sendMsg($mobile,$content);
 
         $email = $societyDetails['society_email'];
         $emailContent = config('commanConfig.email_content.society_registration');
         $emailContent = str_replace("<username>",$email,$emailContent);
-        $mailResponse = $this->sendEmail($email,$emailContent);
+
+        $emailSubject = config('commanConfig.email_subject.society_registration');
+        $mailResponse = $this->sendEmail($email,$emailContent,$emailSubject);
 
         $societyDetails['msg_content'] = $content;
         $societyDetails['mail_content'] = $email;
@@ -33,27 +36,55 @@ class EmailMsgConfigration extends Controller
 	// send mail and msg at society application submission
 	public function ApplicationSubmissionEmailMsg($data){
 
-		$msgContent = config('commanConfig.msg_content.society_submission');
-		$msgResponse = $this->sendMsg($data->contact_no,$msgContent);
+        $msgContent = config('commanConfig.msg_content.society_submission');
+        $msgContent = str_replace("<application type>",$data->application_type,$msgContent);
+        $msgContent = str_replace("<application number>",$data->application_no,$msgContent);
+        $this->sendMsg($data->contact_no,$msgContent);
 
-		$this->sendMailMsgTouser($data->users);
-		$this->sendMailMsgToDepartmentHead($data->users);
+        $emailContent = config('commanConfig.email_content.society_submission');
+        $emailContent = str_replace("<application type>",$data->application_type,$emailContent);
+        $emailContent = str_replace("<Society name>",$data->name,$emailContent);
+        $emailContent = str_replace("<application number>",$data->application_no,$emailContent);
+        
+        $emailSubject = config('commanConfig.email_subject.society_submission');
+        $emailSubject = str_replace("<application type>",$data->application_type,$emailSubject);
+        $mailResponse = $this->sendEmail($data->email,$emailContent,$emailSubject);
+        
+		$this->sendMailMsgTouser($data);
+		// $this->sendMailMsgToDepartmentHead($data);
 		// $msgResponse = $this->sendMsg($data->users->mobile_no,$userContent);
 	}
 
-	// send email and sms to specific user
+	// send email and sms to specific user 
 	public function sendMailMsgTouser($data){
 
-		$msgContent = config('commanConfig.msg_content.user_application');
-		$this->sendMsg($data->mobile_no,$msgContent);
-		$mailContent = config('commanConfig.mail_content.user_application');
-		$mailResponse = $this->sendEmail($data->email,$mailContent);
+        $userMsgContent = config('commanConfig.msg_content.user_application');
+        $userMsgContent = str_replace("<application type>",$data->application_type,$userMsgContent);
+        $userMsgContent = str_replace("<Society name>",$data->name,$userMsgContent);
+        $userMsgContent = str_replace("<application Number>",$data->application_no,$userMsgContent);
+
+        $userMailContent = config('commanConfig.email_content.user_application');
+        $userMailContent = str_replace("<application type>",$data->application_type,$userMailContent);
+        $userMailContent = str_replace("<Society name>",$data->name,$userMailContent);
+        $userMailContent = str_replace("<application Number>",$data->application_no,$userMailContent);
+
+        $userMailSub = config('commanConfig.email_subject.user_application');
+        $userMailSub = str_replace("<application type>",$data->application_type,$userMailSub);
+
+        $this->sendMsg($data->users->mobile_no,$userMsgContent);
+        $mailResponse = $this->sendEmail($data->users->email,$userMailContent,$userMailSub);
+
+        $userData['msg_content'] = $userMsgContent;
+        $userData['mail_content'] = $userMailContent;
+        $userData['mobile_no'] = $data->users->mobile_no;
+        $userData['email'] = $data->users->email;
+        $mailResponse = $this->saveMailMsgSentDetails($userData);
 	}
 
 	// send email and sms to department head
 	public function sendMailMsgToDepartmentHead($data){
-		
-		$deptHead = $this->getDepartmentHeadDetails($data->id);
+		// dd($data->users->id);
+		$deptHead = $this->getDepartmentHeadDetails($data->users->id);
 		$msgContent = config('commanConfig.msg_content.head_application');
 		$this->sendMsg($data->mobile_no,$msgContent);
 		$mailContent = config('commanConfig.mail_content.head_application');
@@ -62,22 +93,28 @@ class EmailMsgConfigration extends Controller
 
 	// get department head details as per user
 	public function getDepartmentHeadDetails($userId){
-		dd($userId);
+
+        $user = User::with(['roles.parent.parentUser'])->where('users.id', $userId)->first();
+        // dd($user);
+        $roles = array_get($user, 'roles');
+        $parent = array_get($roles[0], 'parent');
+        $arrData['parentData'] = array_get($parent, 'parentUser');
+        $arrData['role_name'] = strtoupper(str_replace('_', ' ', $parent['name']));
 	}
 
 	// function to send msg
 	private function sendMsg($mobile,$content){
 		event(new SmsHitEvent($mobile,$content));
-		return 'success';
+		// return 'success';
 	}
 
 	// function to send email
-    private function sendEmail($email,$emailContent){
+    private function sendEmail($email,$emailContent,$subject){
         
         $data = array("content" => $emailContent);   
-        $a = Mail::send('email/mail_content', $data, function($message) use ($email) {
+        $a = Mail::send('email/mail_content', $data, function($message) use ($email,$subject) {
             $message->to($email)
-                    ->subject('Registration on Mumbai board portal');
+                    ->subject($subject);
             $message->from('bhavna.salunkhe@neosofttech.com','MHADA');
         });
        return 'success';
@@ -110,6 +147,6 @@ class EmailMsgConfigration extends Controller
     	$to_email = 'bhavanasalunkhe145@gmail.com';
     	$emailContent = config('commanConfig.email_content.society_registration');
     	$emailContent = str_replace("<username>",$to_email,$emailContent);
-            dd($emailContent);
+            // dd($emailContent);
     }
 }
