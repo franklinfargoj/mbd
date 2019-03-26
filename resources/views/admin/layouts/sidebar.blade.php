@@ -1295,7 +1295,7 @@
 
 
                 <li id="pendency-report"
-                    class="collapse {{($route=='redevelopement.period_wise_pendency_report')?'show':''}}">
+                    class="collapse {{(($route=='redevelopement.period_wise_pendency_report') || ($route=='estate-conveyance.period_wise_pendency_report') || ($route=='architect.period_wise_pendency_report')  ) ?'show':''}}">
                     <ul class="list-unstyled">
 
                         @if(session()->get('role_name')==config('commanConfig.co_engineer') ||session()->get('role_name')==config('commanConfig.ee_branch_head') || session()->get('role_name')==config('commanConfig.ree_branch_head') || session()->get('role_name')==config('commanConfig.dyce_branch_head'))
