@@ -156,7 +156,7 @@ class SocietyOfferLetterController extends Controller
             $societyDetails = $request->all();
             $societyDetails['user_id'] = $last_inserted_id->id;
             $EmailMsgConfigration = new EmailMsgConfigration();
-            // $EmailMsgConfigration->SocietyRegistrationEmailMsg($societyDetails);
+            $EmailMsgConfigration->SocietyRegistrationEmailMsg($societyDetails);
             
             return redirect()->route('society_offer_letter.index')->with('registered', 'Society registered successfully!');
         }
@@ -2137,7 +2137,7 @@ class SocietyOfferLetterController extends Controller
                 $data['application_type'] = $application_name->ol_application_master->title."(".$application_name->ol_application_master->model.")";
 
                 $EmailMsgConfigration = new EmailMsgConfigration();
-                // $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
+                $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
                 //Code added by Prajakta >>start
                 DB::beginTransaction();
                 try {

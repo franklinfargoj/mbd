@@ -535,6 +535,11 @@ return [
         'society_submission'=>'Congratulations! You have successfully submitted application for <application type>. Your application number is <application number>.',
         'user_application' => 'You have received new application for <application type>, of society <Society name> with application ID <application Number>',
         'head_application' => 'You have received new application for <application type>, of society <Society name> with application ID <application Number>',
-    ] 
+    ],
+    'email_subject' => [
+        'society_registration'=> 'Registration on Mumbai board portal',
+        'society_submission'=> 'Application for <application type> – Mumbai Board, MHADA',
+        'user_application' => 'New application for <application type>'
+    ]
 
 ];
