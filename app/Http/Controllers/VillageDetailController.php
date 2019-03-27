@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Board;
+use App\District;
 use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
 use App\Http\Requests\village_detail\EditVillageDetailRequest;
 use App\Http\Requests\village_detail\VillageDetailRequest;
 use App\LandSource;
 use App\Layout\ArchitectLayout;
 use App\SocietyDetail;
+use App\Taluka;
 use App\VillageDetail;
 use App\DeletedVillages;
 use App\LeaseDetail;
@@ -376,7 +378,10 @@ lm_village_detail.updated_at'))->get();
         $arrData['board'] = Board::where('status', 1)->get();
         $arrData['land_source'] = LandSource::where('status', 1)->get();
 
-        return view('admin.village_detail.create', compact('header_data', 'arrData'));
+        $districts = District::get();
+        $talukas = Taluka::get();
+
+        return view('admin.village_detail.create', compact('header_data', 'arrData','districts','talukas'));
     }
 
     /**
@@ -481,8 +486,11 @@ lm_village_detail.updated_at'))->get();
         $arrData['board'] = Board::where('status', 1)->get();
         $arrData['land_source'] = LandSource::where('status', 1)->get();
         $arrData['village_data'] = VillageDetail::FindOrFail($id)->toArray();
-        // dd($arrData['village_data']['7_12_mhada_name']);
-        return view('admin.village_detail.edit', compact('header_data', 'arrData'));
+
+        $districts = District::get();
+        $talukas = Taluka::get();
+//         dd($arrData['village_data']);
+        return view('admin.village_detail.edit', compact('header_data', 'arrData','districts','talukas'));
     }
 
     /**

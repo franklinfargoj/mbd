@@ -74,9 +74,9 @@
                         <label class="col-form-label" for="district">District:<span class="star">*</span></label>
                         <div class="m-input-icon m-input-icon--right">
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="district" name="district">
-                                <option value="Andheri">Andheri</option>
-                                <option value="Bandra">Bandra</option>
-                                <option value="Dadar">Dadar</option>
+                                @foreach($districts as $district)
+                                    <option value="{{$district->id}}" {{($district->id == $arrData['village_data']['district']) ? 'selected' : '' }}>{{$district->district_name}}</option>
+                                @endforeach
                             </select>
                             <span class="help-block">{{$errors->first('district')}}</span>
                         </div>
@@ -130,7 +130,7 @@
                         {{--<textarea id="remark" name="remark" class="form-control form-control--custom form-control--fixed-height m-input">{{ $arrData['village_data']['remark'] }}</textarea>--}}
                         {{--<span class="help-block">{{$errors->first('remark')}}</span>--}}
                     {{--</div>--}}
-                    <div class="col-sm-4 form-group">
+                    <div class="col-sm-4 form-group" id="other">
                             <label class="col-form-label" for="other_remark">Entered Remark:<span class="star">*</span></label>
                             <textarea id="other_remark" name="other_remark" class="form-control form-control--custom form-control--fixed-height m-input">{{$arrData['village_data']['other_remark']}}</textarea>
                             <span class="help-block">{{$errors->first('other_remark')}}</span>

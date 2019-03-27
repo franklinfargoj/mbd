@@ -65,9 +65,9 @@
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label transition-none" for="district">District:<span class="star">*</span></label>
                             <select title="Select District" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="district" name="district">
-                                <option value="Andheri">Andheri</option>
-                                <option value="Bandra">Bandra</option>
-                                <option value="Dadar">Dadar</option>
+                                @foreach($districts as $district)
+                                    <option value="{{$district->id}}">{{$district->district_name}}</option>
+                                @endforeach
                             </select>
                             <span class="help-block">{{$errors->first('district')}}</span>
                         {{--<div class="m-input-icon m-input-icon--right">--}}
