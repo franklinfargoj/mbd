@@ -352,7 +352,6 @@ var SnippetLogin = function() {
                         },
                         taluka: {
                             required: !0,
-                            lettersonly: true
                         },
                         total_area: {
                             required: !0,
@@ -438,7 +437,6 @@ var SnippetLogin = function() {
                         },
                         taluka: {
                             required: !0,
-                            lettersonly: true
                         },
                         total_area: {
                             required: !0,

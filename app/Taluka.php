@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Taluka extends Model
 {
-    protected $table = "districts";
+    protected $table = "taluka";
     protected $primaryKey = 'id';
     protected $fillable = [
         'taluka_name',

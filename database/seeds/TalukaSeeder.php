@@ -52,7 +52,7 @@ class TalukaSeeder extends Seeder
                 ]
             ];
 
-            \App\District::insert($talukas_data);
+            \App\Taluka::insert($talukas_data);
 
         }
     }

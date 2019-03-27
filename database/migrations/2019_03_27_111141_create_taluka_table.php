@@ -16,14 +16,8 @@ class CreateTalukaTable extends Migration
         Schema::create('taluka', function (Blueprint $table) {
             $table->increments('id');
             $table->string('taluka_name')->nullable();
-            $table->integer('district_id')->unsigned();
+            $table->integer('district_id')->nullable();
             $table->timestamps();
-        });
-
-        Schema::table('taluka', function($table) {
-
-            $table->foreign('district_id')->references('id')->on('districts');
-
         });
 
     }

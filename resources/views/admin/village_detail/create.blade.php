@@ -79,9 +79,9 @@
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label transition-none" for="taluka">Taluka:<span class="star">*</span></label>
                             <select title="Select Taluka" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="taluka" name="taluka">
-                                <option value="Kurla">Kurla</option>
-                                <option value="Andheri">Andheri</option>
-                                <option value="Santacruz">Santacruz</option>
+                                @foreach($talukas as $taluka)
+                                    <option value="{{$taluka->id}}">{{$taluka->taluka_name}}</option>
+                                @endforeach
                             </select>
                             <span class="help-block">{{$errors->first('taluka')}}</span>
                         {{--<div class="m-input-icon m-input-icon--right">--}}
