@@ -239,6 +239,12 @@ class LmPermissionSeeder extends Seeder
                 'display_name'=>'scrutiny_report_by_em',
                 'description'=>'scrutiny_report_by_em'
             ],
+            [
+                'name'=>'getTalukaByAjax',
+                'display_name'=>'get taluka of districts',
+                'description'=>'get taluka of districts'
+            ],
+
         ];
 
         $land_manager = Role::where('name', '=', 'LM')->select('id')->first();

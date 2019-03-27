@@ -11,7 +11,13 @@
                 <a target="_blank" href="{{route('village_detail.print')}}" class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
             </div>
         </div>
-
+        @if(Session::has('success'))
+            <div class="alert alert-success fade in alert-dismissible show display_msg" style="margin-top:18px;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true" style="font-size:20px">×</span>
+                </button> {{ Session::get('success') }}
+            </div>
+        @endif
         <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
@@ -40,10 +46,10 @@
 
                             <div class="col-md-3 p-m-0">
                                 <div class="form-group m-form__group focused">
-                                    <label for="villageLandSource" class="col-form-label mhada-multiple-label">Select Land</label>
-                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
+                                    <label for="villageLandSource" class="col-form-label mhada-multiple-label">Select Land Source</label>
+                                    <select title="Select Land Source" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                             id="villageLandSource" name="villageLandSource">
-                                        <option value="" style="font-weight: normal;">Select Land</option>
+                                        {{--<option value="" style="font-weight: normal;">Select Land Source</option>--}}
                                         @foreach($lands as $land)
                                             <option value="{{$land->id}}"  {{ isset($getData['villageLandSource'])? (($getData['villageLandSource'] == $land->id) ? 'selected' : '') : '' }}>{{$land->source_name}}</option>
                                         @endforeach
@@ -68,13 +74,7 @@
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
-        @if(Session::has('success'))
-        <div class="alert alert-success fade in alert-dismissible show" style="margin-top:18px;">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true" style="font-size:20px">×</span>
-            </button> {{ Session::get('success') }}
-        </div>
-        @endif
+
         
         <div class="m-portlet__body data-table--custom data-table--icons data-table--actions">
             <!--begin: Search Form -->
