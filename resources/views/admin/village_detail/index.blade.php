@@ -11,7 +11,13 @@
                 <a target="_blank" href="{{route('village_detail.print')}}" class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
             </div>
         </div>
-
+        @if(Session::has('success'))
+            <div class="alert alert-success fade in alert-dismissible show display_msg" style="margin-top:18px;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true" style="font-size:20px">×</span>
+                </button> {{ Session::get('success') }}
+            </div>
+        @endif
         <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
@@ -68,13 +74,7 @@
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
-        @if(Session::has('success'))
-        <div class="alert alert-success fade in alert-dismissible show" style="margin-top:18px;">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true" style="font-size:20px">×</span>
-            </button> {{ Session::get('success') }}
-        </div>
-        @endif
+
         
         <div class="m-portlet__body data-table--custom data-table--icons data-table--actions">
             <!--begin: Search Form -->
