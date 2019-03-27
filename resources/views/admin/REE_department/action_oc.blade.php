@@ -77,10 +77,13 @@ $route=\Request::route()->getName();
         @if((session()->get('role_name') == config('commanConfig.ree_junior') && $oc_application->OC_Generation_status == 0) || $oc_application->OC_Generation_status == config('commanConfig.applicationStatus.OC_Generation'))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ree.generate_oc_certificate')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" href="{{ route('ree.generate_oc_certificate', $oc_application->id) }}">
-                <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
-                    <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                        fill="#FFF" />
-                </svg>
+                <span class="sidebar-icon sidebar-menu-icon--level-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                      <path fill="#fff" d="M465.229 215.91L256.044 352.199 46.859 215.91.088 240.255l255.956 166.116L512 240.255z"/>
+                      <path fill="#fff" d="M465.229 305.863l-209.185 136.29-209.185-136.29L.088 330.209l255.956 166.116L512 330.209zM155.163 68.298l-46.579 24.776 71.88 46.509 45.305-27.576zM179.975 174.983l-72.946 44.402 50.365 32.816 70.958-45.916zM254.36 129.706l-45.941 27.964 47.533 30.757 45.6-29.507zM329.762 176.385l-46.21 29.9 70.964 45.916 47.611-31.021zM355.945 67.872l-72.854 44.345 46.322 28.676 73.907-47.822z"/>
+                      <path fill="#fff" d="M255.952 224.143l-71.053 45.977 71.057 46.298 71.055-46.297zM78.291 109.189L0 150.302l79.174 50.935 72.847-44.341zM255.956 15.675l-70.147 36.32 68.69 42.523 70.671-43.019zM433.614 109.185l-75.991 49.171 72.264 44.737 82.025-52.791z"/>
+                    </svg>
+                </span>
                 <span class="m-menu__link-text">Consent for OC</span>
             </a>
         </li>
@@ -103,10 +106,13 @@ $route=\Request::route()->getName();
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ree.approved_consent_oc_letter')?'m-menu__item--active':''}}"
             aria-haspopup="true">
             <a class="m-menu__link m-menu__toggle" title="Offer Letter" href="{{route('ree.approved_consent_oc_letter',$oc_application->id)}}">
-                <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
-                    <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                        fill="#FFF" />
-                </svg>
+                <span class="sidebar-icon sidebar-menu-icon--level-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                      <path fill="#fff" d="M465.229 215.91L256.044 352.199 46.859 215.91.088 240.255l255.956 166.116L512 240.255z"/>
+                      <path fill="#fff" d="M465.229 305.863l-209.185 136.29-209.185-136.29L.088 330.209l255.956 166.116L512 330.209zM155.163 68.298l-46.579 24.776 71.88 46.509 45.305-27.576zM179.975 174.983l-72.946 44.402 50.365 32.816 70.958-45.916zM254.36 129.706l-45.941 27.964 47.533 30.757 45.6-29.507zM329.762 176.385l-46.21 29.9 70.964 45.916 47.611-31.021zM355.945 67.872l-72.854 44.345 46.322 28.676 73.907-47.822z"/>
+                      <path fill="#fff" d="M255.952 224.143l-71.053 45.977 71.057 46.298 71.055-46.297zM78.291 109.189L0 150.302l79.174 50.935 72.847-44.341zM255.956 15.675l-70.147 36.32 68.69 42.523 70.671-43.019zM433.614 109.185l-75.991 49.171 72.264 44.737 82.025-52.791z"/>
+                    </svg>
+                </span>
                 <span class="m-menu__link-text">Approved Consent for Oc</span></a>
         </li>
         @endif

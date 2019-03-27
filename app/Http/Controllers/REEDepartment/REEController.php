@@ -2654,14 +2654,14 @@ class REEController extends Controller
         $societyData->ree_branch_head = (session()->get('role_name') == config('commanConfig.ree_branch_head')); 
 
         //$societyData->drafted_offer_letter = OlApplication::where('id',$applicationId)->value('drafted_offer_letter');   
-      
+        // dd($oc_application->oc_type);
         return view('admin.REE_department.generate-consent-oc',compact('societyData','oc_application','applicationLog'));
     }
 
     public function createEditConsentOc(Request $request){
         $applicatonId = $request->applicationId;
         $OcType = $request->oc_type;
-        $application = OcApplication::where('id',$applicatonId)->update(['oc_type' => $request->OcType]);
+        $application = OcApplication::where('id',$applicatonId)->update(['oc_type' => $OcType]);
         $model = OcApplication::with('oc_application_master','eeApplicationSociety','request_form')->where('id',$applicatonId)->first();
 
         $blade =  "oc_draft_copy";
@@ -2674,7 +2674,6 @@ class REEController extends Controller
            $content = ""; 
         }
         $status = $this->CommonController->getCurrentStatusOc($applicatonId);
-       
         return view('admin.REE_department.'.$blade,compact('applicatonId','content','model','OcType','application','status'));
     }
 
@@ -2886,6 +2885,7 @@ class REEController extends Controller
                 ->where('id',$applicationId)->orderBy('id','DESC')->first();
 
         $applicationData->ree_Jr_id = (session()->get('role_name') == config('commanConfig.ree_junior'));
+        $applicationData->ree_head = (session()->get('role_name') == config('commanConfig.ree_branch_head'));
 
         $this->CommonController->getREEForwardRevertLogOc($applicationData,$applicationId); 
        

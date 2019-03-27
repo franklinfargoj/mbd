@@ -128,59 +128,51 @@
     </div>
     <!-- end -->
     <!-- Site Visit -->
-
+        @php $disable = ''; 
+          if($applicationData->ree_Jr_id && $applicationLog->status_id != config('commanConfig.applicationStatus.forwarded') && $applicationLog->status_id !=
+          config('commanConfig.applicationStatus.reverted') && (!isset($oc_application->oc_path))){
+            $disable = '';
+          }else{
+            $disable = 'disabled';
+          }
+          @endphp
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body" style="padding-right: 0;">
             <form action="{{route('ree.create_edit_oc')}}" method="post">
               @csrf
                 <input type="hidden" name="applicationId" value="{{$applicationData->id}}">
-                <h3 class="section-title section-title--small mb-0">Consent for Oc:</h3>
+                <h3 class="section-title section-title--small mb-0 ml-3">Consent for Oc:</h3>
 
-                <div class="m-form__group form-group mt-2 mb-2">
-                        <div class="m-radio-inline">
-                        <label for="" class="mr-2">Type :- </label>
-                        <label class="m-radio m-radio--primary">
-                            <input type="radio" name="oc_type" value="full_oc" checked> Full OC
-                            <span></span>
-                        </label>
-                        <label class="m-radio m-radio--primary">
-                            <input type="radio" name="oc_type" value="part_oc"> Part OC
-                            <span></span>
-                        </label>
+                <div class="m-form__group form-group mt-2 mb-2 ml-3">
+                    <div class="m-radio-inline">
+                      <label for="" class="mr-2">Type :- </label>
+                      <label class="m-radio m-radio--primary">
+                      @if(isset($oc_application->oc_type))
+                        <input type="radio" name="oc_type" value="full_oc" {{isset($oc_application->oc_type) && $oc_application->oc_type == 'full_oc' ? 'checked' : '' }} {{$disable}}> Full OC
+                          <span></span>
+                      @else
+                          <input type="radio" name="oc_type" value="full_oc" checked {{$disable}}> Full OC
+                          <span></span>
+                      @endif    
+                      </label>
+                      <label class="m-radio m-radio--primary">
+                          <input type="radio" name="oc_type" value="part_oc" {{isset($oc_application->oc_type) && $oc_application->oc_type == 'part_oc' ? 'checked' : '' }} {{$disable}}> Part OC
+                          <span></span>
+                      </label>
                     </div>
                 </div>
 
-                 <!-- <div class="row">
-                     <div class="col-md-12 raw d-flex p-0 mt-4 mb-4">
-                    <div class="mhada-oc-radio">
-                      <span> Type : </span>
-                    </div>
-                    <div class="col-md-2">
-                      <span> Full OC </span>
-                      <label class="m-radio m-radio--primary">
-                         <input type="radio" name="oc_type" value="full_oc" checked>
-                         <span class="mhada-radio-custom"></span>
-                      </label>
-                    </div>
-                    <div class="col-md-2">
-                       <span> Part OC </span>
-                       <label class="m-radio m-radio--primary">
-                         <input type="radio" name="oc_type" value="part_oc">
-                         <span class="mhada-radio-custom"></span>
-                      </label>
-                    </div>
-                  </div>
-                 </div> -->
+            @if($applicationData->ree_Jr_id && !empty($applicationData->oc_path) && $applicationData->OC_Generation_status == config('commanConfig.applicationStatus.OC_Approved'))
                 <div class="row field-row">
                     <div class="col-md-6">
-                        <p>Click to view generated Consent for Oc in PDF format</p>
+                        
                         @if($applicationData->oc_path)   
                         <!-- <a href="{{config('commanConfig.storage_server').'/'.$applicationData-> oc_path}}" class="btn btn-primary" target="_blank" rel="noopener"> 
                         View Consent for Oc</a> -->
                         @endif
                         <p></p>
 
-                        @if($applicationData->ree_Jr_id && !empty($applicationData->oc_path) && $applicationData->OC_Generation_status == config('commanConfig.applicationStatus.OC_Approved'))
+                        <p>Click to view generated Consent for Oc in PDF format</p>
                        <!--  <a target="_blank" style="margin-top: 2%" href="{{config('commanConfig.storage_server').'/'.$oc_application->drafted_oc}}" class="btn btn-primary">Download Draft Consent Oc</a>  -->
                         <hr>
                         <input type="hidden" name="applicationId" value="{{ $oc_application->id }}">  
@@ -188,11 +180,11 @@
                         <button type="submit" class="btn btn-primary">
                         Edit Draft Consent for Oc
                         </button>
-                        @endif
                     </div>
+            @endif
                 </form>
-                    @if($applicationData->ree_Jr_id && $applicationData->OC_Generation_status == config('commanConfig.applicationStatus.in_process')) || ($applicationData->OC_Generation_status == config('commanConfig.applicationStatus.OC_Approved') && (session()->get('role_name') == config('commanConfig.ree_branch_head'))))
-                    <div class="col-sm-6 border-left">
+                    @if($applicationData->ree_head && $applicationData->OC_Generation_status == config('commanConfig.applicationStatus.in_process') || ($applicationData->OC_Generation_status == config('commanConfig.applicationStatus.OC_Approved')))
+                    <div class="col-sm-6 mt-4">
                         <div class="d-flex flex-column h-100">
                             <h5>Upload Consent for Oc</h5>
                             <span class="hint-text">Click on 'Upload' to upload Consent for Oc</span>
@@ -216,7 +208,7 @@
                 </div>
             </div>
         </div>
-    @if($applicationData->OC_Generation_status == config('commanConfig.applicationStatus.OC_Approved'))
+    @if($applicationData->OC_Generation_status == config('commanConfig.applicationStatus.OC_Approved') || $applicationData->OC_Generation_status == config('commanConfig.applicationStatus.sent_to_society'))
      <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body table--box-input">
             <p class="heading"> </p>

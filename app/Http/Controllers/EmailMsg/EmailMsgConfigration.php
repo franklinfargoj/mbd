@@ -8,6 +8,7 @@ use App\mailMsgSentDetails;
 use App\Events\SmsHitEvent;
 use Config;
 use App\User;
+use App\Role;
 use Mail;
 
 class EmailMsgConfigration extends Controller
@@ -17,14 +18,14 @@ class EmailMsgConfigration extends Controller
 		
 		$mobile = $societyDetails['society_contact_no'];
         $content = config('commanConfig.msg_content.society_registration');
-        $this->sendMsg($mobile,$content);
+        // $this->sendMsg($mobile,$content);
 
         $email = $societyDetails['society_email'];
         $emailContent = config('commanConfig.email_content.society_registration');
         $emailContent = str_replace("<username>",$email,$emailContent);
 
         $emailSubject = config('commanConfig.email_subject.society_registration');
-        $mailResponse = $this->sendEmail($email,$emailContent,$emailSubject);
+        // $mailResponse = $this->sendEmail($email,$emailContent,$emailSubject);
 
         $societyDetails['msg_content'] = $content;
         $societyDetails['mail_content'] = $email;
@@ -85,35 +86,52 @@ class EmailMsgConfigration extends Controller
 	public function sendMailMsgToDepartmentHead($data){
 
 		$deptHead = $this->getDepartmentHeadDetails($data->users->id,$data->layout_id);
-        // dd()
-		$msgContent = config('commanConfig.msg_content.head_application');
-		$this->sendMsg($data->mobile_no,$msgContent);
-		$mailContent = config('commanConfig.mail_content.head_application');
-		$mailResponse = $this->sendEmail($data->email,$mailContent);
+        $msgContent = config('commanConfig.msg_content.head_application');
+        $msgContent = str_replace("<application type>",$data->application_type,$msgContent);
+        $msgContent = str_replace("<Society name>",$data->name,$msgContent);
+        $msgContent = str_replace("<application Number>",$data->application_no,$msgContent);
+		
+        $mailContent = config('commanConfig.email_content.head_application');
+        $mailContent = str_replace("<application type>",$data->application_type,$mailContent);
+        $mailContent = str_replace("<Society name>",$data->name,$mailContent);
+        $mailContent = str_replace("<application Number>",$data->application_no,$mailContent);
+        
+        $emailSub = config('commanConfig.email_subject.head_application');
+        $emailSub = str_replace("<application type>",$data->application_type,$emailSub);
+        
+        // $this->sendMsg($data->mobile_no,$msgContent);
+        // $mailResponse = $this->sendEmail($data->email,$mailContent,$emailSub);
 	}
 
 	// get department head details as per user
 	public function getDepartmentHeadDetails($userId,$layoutId){
 
         $user = User::with(['roles'])->where('id', $userId)->first();
-        $this->getDepartmentHeadName($user->roles[0]->name);
-        
-        $parentRoleId = $user->roles[0]->parent_id;
-        
-        $parentUser = User::where('role_id',$parentRoleId)->with(['LayoutUser' => function($q) use($layoutId){
+        $head = $this->getDepartmentHeadName($user->roles[0]->name);
+        $headRoleId = Role::where('name',$head)->value('id');
+                
+        $headUser = User::where('role_id',$headRoleId)->with(['LayoutUser' => function($q) use($layoutId){
             $q->where('layout_id',$layoutId);
         }])->whereHas('LayoutUser', function($q) use($layoutId) {
            $q->where('layout_id',$layoutId);
         })->first();
 
-        return $parentUser;
+        return $headUser;
 	}
 
     public function getDepartmentHeadName($userName){
         
-        if ($userName == config('commanConfig.ree_junior') || $userName == config('commanConfig.ree_junior') || $userName == config('commanConfig.ree_junior')){
-
+        if ($userName == config('commanConfig.ee_junior_engineer') || $userName == config('commanConfig.ee_deputy_engineer') || $userName == config('commanConfig.ee_branch_head')){
+            $head = config('commanConfig.ee_branch_head');
         }
+        else if ($userName == config('commanConfig.dyce_jr_user') || $userName == config('commanConfig.dyce_deputy_engineer') || $userName == config('commanConfig.dyce_branch_head')){
+            $head = config('commanConfig.dyce_branch_head');
+        }
+        else if ($userName == config('commanConfig.ree_junior') || $userName == config('commanConfig.ree_deputy_engineer') || $userName == config('commanConfig.ree_assistant_engineer') || $userName == config('commanConfig.ree_branch_head')){
+            $head = config('commanConfig.ree_branch_head');
+        }
+
+        return $head;
     }
 
 	// function to send msg
