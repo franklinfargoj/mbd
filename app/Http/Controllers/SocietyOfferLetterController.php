@@ -2134,6 +2134,7 @@ class SocietyOfferLetterController extends Controller
                 $data = $society;
                 $data['users'] = $users[0];
                 $data['application_no'] = $application_name->application_no;
+                $data['layout_id'] = $application_name->layout_id;
                 $data['application_type'] = $application_name->ol_application_master->title."(".$application_name->ol_application_master->model.")";
 
                 $EmailMsgConfigration = new EmailMsgConfigration();

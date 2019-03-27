@@ -39,7 +39,7 @@ class EmailMsgConfigration extends Controller
         $msgContent = config('commanConfig.msg_content.society_submission');
         $msgContent = str_replace("<application type>",$data->application_type,$msgContent);
         $msgContent = str_replace("<application number>",$data->application_no,$msgContent);
-        $this->sendMsg($data->contact_no,$msgContent);
+        // $this->sendMsg($data->contact_no,$msgContent);
 
         $emailContent = config('commanConfig.email_content.society_submission');
         $emailContent = str_replace("<application type>",$data->application_type,$emailContent);
@@ -48,10 +48,10 @@ class EmailMsgConfigration extends Controller
         
         $emailSubject = config('commanConfig.email_subject.society_submission');
         $emailSubject = str_replace("<application type>",$data->application_type,$emailSubject);
-        $mailResponse = $this->sendEmail($data->email,$emailContent,$emailSubject);
+        // $mailResponse = $this->sendEmail($data->email,$emailContent,$emailSubject);
         
 		$this->sendMailMsgTouser($data);
-		// $this->sendMailMsgToDepartmentHead($data);
+		$this->sendMailMsgToDepartmentHead($data);
 		// $msgResponse = $this->sendMsg($data->users->mobile_no,$userContent);
 	}
 
@@ -71,8 +71,8 @@ class EmailMsgConfigration extends Controller
         $userMailSub = config('commanConfig.email_subject.user_application');
         $userMailSub = str_replace("<application type>",$data->application_type,$userMailSub);
 
-        $this->sendMsg($data->users->mobile_no,$userMsgContent);
-        $mailResponse = $this->sendEmail($data->users->email,$userMailContent,$userMailSub);
+        // $this->sendMsg($data->users->mobile_no,$userMsgContent);
+        // $this->sendEmail($data->users->email,$userMailContent,$userMailSub);
 
         $userData['msg_content'] = $userMsgContent;
         $userData['mail_content'] = $userMailContent;
@@ -83,8 +83,9 @@ class EmailMsgConfigration extends Controller
 
 	// send email and sms to department head
 	public function sendMailMsgToDepartmentHead($data){
-		// dd($data->users->id);
-		$deptHead = $this->getDepartmentHeadDetails($data->users->id);
+
+		$deptHead = $this->getDepartmentHeadDetails($data->users->id,$data->layout_id);
+        // dd()
 		$msgContent = config('commanConfig.msg_content.head_application');
 		$this->sendMsg($data->mobile_no,$msgContent);
 		$mailContent = config('commanConfig.mail_content.head_application');
@@ -92,15 +93,28 @@ class EmailMsgConfigration extends Controller
 	}
 
 	// get department head details as per user
-	public function getDepartmentHeadDetails($userId){
+	public function getDepartmentHeadDetails($userId,$layoutId){
 
-        $user = User::with(['roles.parent.parentUser'])->where('users.id', $userId)->first();
-        // dd($user);
-        $roles = array_get($user, 'roles');
-        $parent = array_get($roles[0], 'parent');
-        $arrData['parentData'] = array_get($parent, 'parentUser');
-        $arrData['role_name'] = strtoupper(str_replace('_', ' ', $parent['name']));
+        $user = User::with(['roles'])->where('id', $userId)->first();
+        $this->getDepartmentHeadName($user->roles[0]->name);
+        
+        $parentRoleId = $user->roles[0]->parent_id;
+        
+        $parentUser = User::where('role_id',$parentRoleId)->with(['LayoutUser' => function($q) use($layoutId){
+            $q->where('layout_id',$layoutId);
+        }])->whereHas('LayoutUser', function($q) use($layoutId) {
+           $q->where('layout_id',$layoutId);
+        })->first();
+
+        return $parentUser;
 	}
+
+    public function getDepartmentHeadName($userName){
+        
+        if ($userName == config('commanConfig.ree_junior') || $userName == config('commanConfig.ree_junior') || $userName == config('commanConfig.ree_junior')){
+
+        }
+    }
 
 	// function to send msg
 	private function sendMsg($mobile,$content){
