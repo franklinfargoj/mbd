@@ -72,6 +72,7 @@ Route::get('hearing/print','HearingController@print_data')->name('hearing.print'
 //village details print
 Route::get('village_detail/print','VillageDetailController@print_data')->name('village_detail.print');
 
+
 //society details print
 Route::get('society_detail/print','SocietyController@print_data')->name('society_detail.print');
 
@@ -1397,6 +1398,8 @@ Route::post('save_forward_oc_Application','CODepartment\COController@sendForward
 
 
 
+//get taluka on selection of district
+Route::post('/getTalukaByAjax','VillageDetailController@getTalukaByAjax')->name('getTalukaByAjax');
 
 //import the societies.
 
