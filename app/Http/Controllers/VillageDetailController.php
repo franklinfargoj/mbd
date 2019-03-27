@@ -469,8 +469,9 @@ lm_village_detail.updated_at'))->get();
         $arrData['board'] = Board::where('status', 1)->get();
         $arrData['land_source'] = LandSource::where('status', 1)->get();
         $arrData['village_data'] = VillageDetail::FindOrFail($id)->toArray();
-
-        return view('admin.village_detail.show', compact('header_data', 'arrData'));
+        $districts = District::get();
+        $talukas = Taluka::get();
+        return view('admin.village_detail.show', compact('header_data', 'arrData','districts','talukas'));
     }
 
     /**

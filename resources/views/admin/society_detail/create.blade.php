@@ -93,9 +93,9 @@
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="district">District:<span class="star">*</span></label>
                             <select title="Select District" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="district" name="district">
-                                <option value="Andheri">Andheri</option>
-                                <option value="Bandra">Bandra</option>
-                                <option value="Dadar">Dadar</option>
+                                @foreach($districts as $district)
+                                    <option value="{{$district->id}}">{{$district->district_name}}</option>
+                                @endforeach
                             </select>
                             <span class="text-danger">{{$errors->first('district')}}</span>
                         {{--<div class="m-input-icon m-input-icon--right">--}}
@@ -116,9 +116,9 @@
                         <label class="col-form-label" for="taluka">Taluka:<span class="star">*</span></label>
                         <div class="m-input-icon m-input-icon--right">
                             <select title="Select Taluka" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="taluka" name="taluka">
-                                <option value="Kurla">Kurla</option>
-                                <option value="Andheri">Andheri</option>
-                                <option value="Santacruz">Santacruz</option>
+                                @foreach($talukas as $taluka)
+                                    <option value="{{$taluka->id}}">{{$taluka->taluka_name}}</option>
+                                @endforeach
                             </select>
                             <span class="text-danger">{{$errors->first('taluka')}}</span>
                         </div>
