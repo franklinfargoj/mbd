@@ -55,4 +55,13 @@ class VillageDetail extends Model
     {
         return $this->belongsToMany('App\SocietyDetail', 'village_societies', 'village_id', 'society_id');
     }
+
+    public function getDistrictName(){
+        return $this->hasOne('App\District', 'id','district');
+
+    }
+    public function getTalukaName(){
+        return $this->hasOne('App\Taluka', 'id','taluka');
+
+    }
 }

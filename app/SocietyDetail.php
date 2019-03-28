@@ -71,4 +71,18 @@ class SocietyDetail extends Model
     {
         return $this->hasMany('App\LeaseDetail', 'society_id')->orderBy('id','desc');
     }
+
+    public function getDistrictName(){
+        return $this->hasOne('App\District', 'id','district');
+
+    }
+    public function getTalukaName(){
+        return $this->hasOne('App\Taluka', 'id','taluka');
+
+    }
+    public function getLayoutName(){
+        return $this->hasOne('App\MasterLayout', 'id','layout_id');
+
+    }
+
 }

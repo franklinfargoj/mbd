@@ -274,8 +274,10 @@ class architectController extends Controller
             if($report_format == 'pdf')
             {
                 $content = view('admin.reports.architect._period_wise_pendency', compact('data', 'period_title','module_name'));
-                $header_file = view('admin.REE_department.offer_letter_header');
-                $footer_file = view('admin.REE_department.offer_letter_footer');
+                $header_file = '';
+                $footer_file = '';
+//                $header_file = view('admin.REE_department.offer_letter_header');
+//                $footer_file = view('admin.REE_department.offer_letter_footer');
                 //$pdf = \App::make('dompdf.wrapper');
                 $pdf = new Mpdf([
                     'default_font_size' => 9,
