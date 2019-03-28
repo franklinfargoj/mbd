@@ -11,6 +11,9 @@ class DatabaseSeeder extends Seeder
      */ 
     public function run()
     {
+
+        $this->call(DistrictSeeder::class);
+        $this->call(TalukaSeeder::class);
         $this->call(AddEEDivisionsSeeder::class);
         // $this->call(MasterLayoutSeeder::class);
         $this->call(ResolutionTypesTableSeeder::class);
