@@ -136,7 +136,7 @@
                                                 </a>
                                                 @else
                                                 <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                                    *Note : DYCDO note is not available.</span>
+                                                    *Note : DYCDO note is not uploaded.</span>
                                                 @endif
                                                 </div>
                                             </div>

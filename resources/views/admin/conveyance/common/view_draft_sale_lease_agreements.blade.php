@@ -49,8 +49,8 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->DraftSaleAgreement->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftSaleAgreement->document_path }}" target="_blank">
+                                                @if(isset($data->DraftGeneratedSale->document_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftGeneratedSale->document_path }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -83,8 +83,8 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
-                                                @if(isset($data->DraftLeaseAgreement->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftLeaseAgreement->document_path }}" target="_blank">
+                                                @if(isset($data->DraftGeneratedLease->document_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftGeneratedLease->document_path }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
