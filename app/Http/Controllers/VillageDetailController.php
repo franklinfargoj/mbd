@@ -488,8 +488,9 @@ lm_village_detail.updated_at'))->get();
         $arrData['village_data'] = VillageDetail::FindOrFail($id)->toArray();
 
         $districts = District::get();
+        $talukas = Taluka::get();
 //         dd($arrData['village_data']);
-        return view('admin.village_detail.edit', compact('header_data', 'arrData','districts'));
+        return view('admin.village_detail.edit', compact('header_data', 'arrData','districts','talukas'));
     }
 
     /**
