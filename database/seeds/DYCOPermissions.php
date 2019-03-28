@@ -355,6 +355,11 @@ class DYCOPermissions extends Seeder
                 'display_name'=>'redevelopement_pending_reports',
                 'description'=>'redevelopement_pending_reports'
             ],
+            [
+                'name'=>'dyco.approveDaftSaleLeaseAgreement',
+                'display_name'=>'generate approve Daft Sale Lease Agreement',
+                'description'=>'generate approve Daft Sale Lease Agreement'
+            ],
         ];
 
         //dycdo

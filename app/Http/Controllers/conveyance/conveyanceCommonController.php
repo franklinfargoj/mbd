@@ -899,11 +899,14 @@ class conveyanceCommonController extends Controller
         $data = scApplication::with(['scApplicationLog','ConveyanceSalePriceCalculation'])
         ->where('id',$applicationId)->first();
         $Applicationtype= $data->sc_application_master_id;
-        $Agreementstatus = ApplicationStatusMaster::where('status_name','=','Draft')->value('id');
-      
         $draftSaleId   = $this->getScAgreementId($this->SaleAgreement,$Applicationtype);
         $draftLeaseId  = $this->getScAgreementId($this->LeaseAgreement,$Applicationtype);
 
+        $draft = ApplicationStatusMaster::where('status_name','=','generate_draft')->value('id');
+        $data->DraftGeneratedSale = $this->getScAgreement($draftSaleId,$applicationId,$draft);
+        $data->DraftGeneratedLease = $this->getScAgreement($draftLeaseId,$applicationId,$draft);
+
+        $Agreementstatus = ApplicationStatusMaster::where('status_name','=','Draft')->value('id');
         $data->DraftSaleAgreement  = $this->getScAgreement($draftSaleId,$applicationId,$Agreementstatus);
         $data->DraftLeaseAgreement = $this->getScAgreement($draftLeaseId,$applicationId,$Agreementstatus);
 

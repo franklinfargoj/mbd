@@ -9,7 +9,6 @@
     {{ session()->get('success') }}
 </div> 
 @endif
-
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
@@ -65,13 +64,28 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @if(isset($data->DraftGeneratedSale))
+                                        <div class="col-sm-6 border-left">
+                                            <div class="d-flex flex-column h-100 two-cols">
+                                                <h5>Download</h5>
+                                                <span class="hint-text">Click to download Sale Deed Agreement </span>
+                                                <div class="mt-auto">
+                                                    
+                                                    <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftGeneratedSale->document_path }}" target="_blank">
+                                                    <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                                            Download </Button>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </div>
                 </div>  
             </div>   
-            <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+            <!-- <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
                         <div class="m-section__content mb-0 table-responsive">
@@ -120,7 +134,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Add Send to JT CO here -->
         </div>
@@ -148,6 +162,20 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @if(isset($data->DraftGeneratedLease))
+                                        <div class="col-sm-6 border-left">
+                                            <div class="d-flex flex-column h-100 two-cols">
+                                                <h5>Download</h5>
+                                                <span class="hint-text">Click to download Lease Deed Agreement</span>
+                                                <div class="mt-auto">    
+                                                    <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftGeneratedLease->document_path }}" target="_blank">
+                                                    <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                                            Download </Button>
+                                                    </a>  
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -155,7 +183,7 @@
                 </div>  
             </div>  
 
-            <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+            <!-- <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
                         <div class="m-section__content mb-0 table-responsive">
@@ -203,7 +231,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
     @if(count($data->AgreementComments) > 0)       
