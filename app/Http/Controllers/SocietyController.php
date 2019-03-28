@@ -55,7 +55,8 @@ class SocietyController extends Controller
             'society_layout'    => session()->get('society_layout'),
         ];
 
-        $society_data = SocietyDetail::leftjoin('other_land','lm_society_detail.other_land_id', '=', 'other_land.id')
+        $society_data = SocietyDetail::with('getDistrictName','getTalukaName','getLayoutName')
+            ->leftjoin('other_land','lm_society_detail.other_land_id', '=', 'other_land.id')
             ->leftjoin('village_societies','village_societies.society_id','=','lm_society_detail.id');
 
         if($getData['society_name'])
@@ -158,11 +159,11 @@ class SocietyController extends Controller
                     $dataList['Sr. No.'] = $i;   
                     $dataList['Society Name'] = $dataList_value['society_name'];
                     $dataList['Society Reg. No.'] = $dataList_value['society_reg_no'];
-                    $dataList['District'] = $dataList_value['district'];
-                    $dataList['Taluka'] = $dataList_value['taluka'];
+                    $dataList['District'] = $dataList_value['getDistrictName']['district_name'];
+                    $dataList['Taluka'] = $dataList_value['getTalukaName']['taluka_name'];
                     $dataList['Village'] = $this->getVillages($dataList_value['id']);
-                    $layout_name = MasterLayout::where('id',$dataList_value['layout_id'])->value('layout_name');
-                    $dataList['Layout'] = $layout_name ?? NULL;
+//                    $layout_name = MasterLayout::where('id',$dataList_value['layout_id'])->value('layout_name');
+                    $dataList['Layout'] = $dataList_value['getLayoutName']['layout_name'] ?? NULL;
                     $dataList['Survey Number'] = $dataList_value['survey_number'];
                     $dataList['CTS Number'] = $dataList_value['cts_number'];
                     $dataList['Name Of Chairman'] = $dataList_value['chairman'] ?? NULL;
@@ -217,7 +218,7 @@ class SocietyController extends Controller
                 'society_layout'       => session()->get('society_layout'),
             ];
 
-            $society_data = SocietyDetail::leftjoin('other_land','lm_society_detail.other_land_id', '=', 'other_land.id')
+            $society_data = SocietyDetail::with('getDistrictName','getTalukaName','getLayoutName')->leftjoin('other_land','lm_society_detail.other_land_id', '=', 'other_land.id')
             ->leftjoin('village_societies','village_societies.society_id','=','lm_society_detail.id')
             ->leftjoin('lm_lease_detail','lm_lease_detail.society_id','=','lm_society_detail.id');
 
@@ -326,11 +327,12 @@ class SocietyController extends Controller
                     $dataList['Sr. No.'] = $i;
                     $dataList['Society Name'] = $dataList_value['society_name'];
                     $dataList['Society Reg. No.'] = $dataList_value['society_reg_no'];
-                    $dataList['District'] = $dataList_value['district'];
-                    $dataList['Taluka'] = $dataList_value['taluka'];
+                    $dataList['District'] = $dataList_value['getDistrictName']['district_name'];
+                    $dataList['Taluka'] = $dataList_value['getTalukaName']['taluka_name'];
                     $dataList['Village'] = $this->getVillages($dataList_value['id']);
-                    $layout_name = MasterLayout::where('id',$dataList_value['layout_id'])->value('layout_name');
-                    $dataList['Layout'] = $layout_name ?? NULL;
+                    $dataList['Layout'] = $dataList_value['getLayoutName']['layout_name'] ?? NULL;
+//                    $layout_name = MasterLayout::where('id',$dataList_value['layout_id'])->value('layout_name');
+//                    $dataList['Layout'] = $layout_name ?? NULL;
                     $dataList['Survey Number'] = $dataList_value['survey_number'];
                     $dataList['CTS Number'] = $dataList_value['cts_number'];
                     $dataList['Name Of Chairman'] = $dataList_value['chairman'] ?? NULL;
