@@ -261,7 +261,7 @@ class RedevelopementController extends Controller
                 ->join('roles', 'roles.id', '=', 'users.role_id')
                 ->where('ol_application_status_log.is_active', 1)
                 ->whereIn('ol_application_status_log.role_id', $roles)
-                ->whereIn('noc_application_status_log.status_id', $status)
+                ->whereIn('ol_application_status_log.status_id', $status)
                 ->where(DB::raw('DATEDIFF(NOW(),ol_application_status_log.created_at)'), '>=', $period[0])
                 ->where(DB::raw('DATEDIFF(NOW(),ol_application_status_log.created_at)'), '<=', $period[1])
                 ->whereIn('ol_applications.layout_id', $layouts)

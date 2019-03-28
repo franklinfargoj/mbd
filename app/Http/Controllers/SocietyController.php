@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\District;
 use App\Http\Requests\society_detail\SocietyDetailRequest;
 use App\LeaseDetail;
 use App\MasterLayout;
 use App\OtherLand;
 use App\SocietyDetail;
 use App\MasterSociety;
+use App\Taluka;
 use App\VillageDetail;
 use App\VillageSociety;
 use Illuminate\Http\Request;
@@ -507,8 +509,10 @@ class SocietyController extends Controller
         $arrData['other_land'] = OtherLand::where('status', 1)->get();
         $arrData['villages'] = VillageDetail::get();
         $arrData['layouts'] = MasterLayout::get();
-        //dd($arrData);
-        return view('admin.society_detail.create', compact('header_data', 'arrData'));
+        $districts = District::get();
+        $talukas = Taluka::get();
+//        dd($arrData);
+        return view('admin.society_detail.create', compact('header_data', 'arrData','districts','talukas'));
     }
 
     /**
@@ -578,7 +582,10 @@ class SocietyController extends Controller
         }
         $arrData['layouts'] = MasterLayout::get();
 
-        return view('admin.society_detail.show', compact('header_data', 'arrData', 'id','villages_belongs'));
+        $districts = District::get();
+        $talukas = Taluka::get();
+
+        return view('admin.society_detail.show', compact('header_data', 'arrData', 'id','villages_belongs','districts','talukas'));
     }
 
     /**
@@ -602,8 +609,10 @@ class SocietyController extends Controller
         $arrData['villages'] = VillageDetail::get();
         $arrData['layouts'] = MasterLayout::get();
 
+        $districts = District::get();
+        $talukas = Taluka::get();
 
-        return view('admin.society_detail.edit', compact('header_data', 'arrData', 'id','villages_belongs'));
+        return view('admin.society_detail.edit', compact('header_data', 'arrData', 'id','villages_belongs','districts','talukas'));
     }
 
     /**

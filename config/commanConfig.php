@@ -521,6 +521,26 @@ return [
         'Application for NOC'=>'noc_master_ids',
         'Consent for OC'=>'oc_master_ids',
         'Application for CC'=>'noc_cc_master_ids'
+    ],
+
+    // email and msg content
+    'email_content'=>[
+        'society_registration'=>'You have successfully registered on MHADA portal with username: <username>, Now you can login to apply for various MHADA Mumbai board services, using username & password that you have created while registration.',
+        'society_submission'=>'Your application for <application type> of <Society name> have been successfully sent to MHADA. Your application number is <application number>.',
+        'user_application' => 'You have received new application for <application type>, of society <Society name> with application ID <application Number>',
+        'head_application' => 'Your department have received new application for <application type>, of society <Society name> with application ID <application Number>.',
+    ],
+    'msg_content'=>[
+        'society_registration'=>'Congratulations! You have registered successfully on MHADA Mumbai portal. Now you can login to apply for various MHADA Mumbai board services, using valid login credentials.',
+        'society_submission'=>'Congratulations! You have successfully submitted application for <application type>. Your application number is <application number>.',
+        'user_application' => 'You have received new application for <application type>, of society <Society name> with application ID <application Number>',
+        'head_application' => 'Your department have received new application for <application type>, of society <Society name> with application ID <application Number>.',
+    ],
+    'email_subject' => [
+        'society_registration'=> 'Registration on Mumbai board portal',
+        'society_submission'=> 'Application for <application type> – Mumbai Board, MHADA',
+        'user_application' => 'New application for <application type>',
+        'head_application' => 'New application in your dept. for <application type>'
     ]
 
 ];

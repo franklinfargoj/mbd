@@ -43,7 +43,7 @@
 
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label transition-none" for="land_source_id">Land Source:<span class="star">*</span></label>
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="land_source_id" name="land_source_id">
+                            <select title="Select Land Source" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="land_source_id" name="land_source_id">
                                 @foreach($arrData['land_source'] as $landDetails)
                                     <option value="{{ $landDetails->id  }}">{{ $landDetails->source_name }}</option>
                                 @endforeach
@@ -64,10 +64,10 @@
 
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label transition-none" for="district">District:<span class="star">*</span></label>
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="district" name="district">
-                                <option value="Andheri">Andheri</option>
-                                <option value="Bandra">Bandra</option>
-                                <option value="Dadar">Dadar</option>
+                            <select title="Select District" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="district" name="district">
+                                @foreach($districts as $district)
+                                    <option value="{{$district->id}}">{{$district->district_name}}</option>
+                                @endforeach
                             </select>
                             <span class="help-block">{{$errors->first('district')}}</span>
                         {{--<div class="m-input-icon m-input-icon--right">--}}
@@ -78,12 +78,17 @@
 
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label transition-none" for="taluka">Taluka:<span class="star">*</span></label>
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="taluka" name="taluka">
-                                <option value="Kurla">Kurla</option>
-                                <option value="Andheri">Andheri</option>
-                                <option value="Santacruz">Santacruz</option>
-                            </select>
-                            <span class="help-block">{{$errors->first('taluka')}}</span>
+
+                        <div id="taluka">
+                        <select {{--title="Select Taluka"--}} class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="taluka" name="taluka">
+                            <option value="select">Select Taluka</option>
+                                {{--@foreach($talukas as $taluka)--}}
+                                    {{--<option value="{{$taluka->id}}">{{$taluka->taluka_name}}</option>--}}
+                                {{--@endforeach--}}
+                        </select>
+                        </div>
+
+                        <span class="help-block">{{$errors->first('taluka')}}</span>
                         {{--<div class="m-input-icon m-input-icon--right">--}}
                             {{--<input type="text" id="taluka" name="taluka" class="form-control form-control--custom" class="form-control form-control--custom m-input"  value="{{ old('taluka') }}">--}}
                             {{--<span class="help-block">{{$errors->first('taluka')}}</span>--}}
@@ -201,7 +206,7 @@
                     
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label transition-none" for="remark">Remark:<span class="star">*</span></label>
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="remark" name="remark">
+                            <select title="Select Remark"  class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="remark" name="remark">
                                 <option value="Test 1">Test 1</option>
                                 <option value="Test 2">Test 2</option>
                                 <option value="other">Other</option>
@@ -255,5 +260,39 @@
         });
 
 
+    </script>
+
+    <script>
+        $(document).on('change', '#district', function(){
+            var id = $(this).val();
+//console.log(id);
+//return false;
+            $.ajax({
+                headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                url:"{{URL::route('getTalukaByAjax')}}",
+                type: 'POST',
+                data: {district_id: id},
+                success: function(response){
+//console.log(response);
+                    $('#taluka').html(response);
+                }
+            });
+        });
+
+        {{--function getTaluka(val) {--}}
+            {{--$.ajax({--}}
+                {{--headers: {--}}
+                    {{--'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
+                {{--},--}}
+                {{--type: "POST",--}}
+                {{--url: "{{route('getTalukaByAjax')}}",--}}
+                {{--data:'district_id='+val,--}}
+                {{--success: function(data){--}}
+                    {{--$(".taluka").html(data);--}}
+                {{--}--}}
+            {{--});--}}
+        {{--}--}}
     </script>
 @endsection

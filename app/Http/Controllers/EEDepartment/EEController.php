@@ -943,6 +943,7 @@ class EEController extends Controller
     }
 
     public function uploadEENote(Request $request){
+        
         $applicationId   = $request->application_id;
         if ($request->file('ee_note')){
 

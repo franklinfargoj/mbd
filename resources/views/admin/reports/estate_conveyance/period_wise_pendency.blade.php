@@ -4,7 +4,7 @@
     <div class="col-md-12">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
-                <h3 class="m-subheader__title m-subheader__title--separator">Reports - PeriodWisePendency</h3>
+                <h3 class="m-subheader__title m-subheader__title--separator">Reports - Period Wise Pendency (Estate & Conveyance)</h3>
             <!-- <button type="button" class="btn btn-transparent ml-auto" data-toggle="collapse" data-target="#filter">
                 <img class="filter-icon" src="{{asset('/img/filter-icon.svg')}}">Filter
             </button> -->

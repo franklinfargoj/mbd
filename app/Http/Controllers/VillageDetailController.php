@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Board;
+use App\District;
 use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
 use App\Http\Requests\village_detail\EditVillageDetailRequest;
 use App\Http\Requests\village_detail\VillageDetailRequest;
 use App\LandSource;
 use App\Layout\ArchitectLayout;
 use App\SocietyDetail;
+use App\Taluka;
 use App\VillageDetail;
 use App\DeletedVillages;
 use App\LeaseDetail;
@@ -376,7 +378,10 @@ lm_village_detail.updated_at'))->get();
         $arrData['board'] = Board::where('status', 1)->get();
         $arrData['land_source'] = LandSource::where('status', 1)->get();
 
-        return view('admin.village_detail.create', compact('header_data', 'arrData'));
+        $districts = District::get();
+        $talukas = Taluka::get();
+
+        return view('admin.village_detail.create', compact('header_data', 'arrData','districts','talukas'));
     }
 
     /**
@@ -464,8 +469,9 @@ lm_village_detail.updated_at'))->get();
         $arrData['board'] = Board::where('status', 1)->get();
         $arrData['land_source'] = LandSource::where('status', 1)->get();
         $arrData['village_data'] = VillageDetail::FindOrFail($id)->toArray();
-
-        return view('admin.village_detail.show', compact('header_data', 'arrData'));
+        $districts = District::get();
+        $talukas = Taluka::get();
+        return view('admin.village_detail.show', compact('header_data', 'arrData','districts','talukas'));
     }
 
     /**
@@ -481,8 +487,10 @@ lm_village_detail.updated_at'))->get();
         $arrData['board'] = Board::where('status', 1)->get();
         $arrData['land_source'] = LandSource::where('status', 1)->get();
         $arrData['village_data'] = VillageDetail::FindOrFail($id)->toArray();
-        // dd($arrData['village_data']['7_12_mhada_name']);
-        return view('admin.village_detail.edit', compact('header_data', 'arrData'));
+
+        $districts = District::get();
+//         dd($arrData['village_data']);
+        return view('admin.village_detail.edit', compact('header_data', 'arrData','districts'));
     }
 
     /**
@@ -709,6 +717,33 @@ lm_village_detail.updated_at'))->get();
 
 //        dd($lease_count);
         return $lease_count;
+
+    }
+
+    public function getTalukaByAjax(Request $request){
+        if($request->ajax()){
+            $talukas = Taluka::where('district_id',$request->district_id)->get();
+
+//            $html = '';
+            $html = '<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="taluka" name="taluka">';
+            $html .= '<option value="" style="font-weight: normal;">Select Taluka</option>';
+
+            foreach($talukas as $key => $value){
+                $html .= '<option value="'.$value->id.'">'.$value->taluka_name.'</option>';
+            }
+            $html .= '</select>';
+
+            return $html;
+        }
+
+
+//            $html = '<option value="Select Taluka">Select Taluka</option>';
+//            foreach($talukas as $key => $value){
+//                $html .= '<option value="'.$value->id.'">'.$value->taluka_name.'</option>';
+//            }
+//
+//            return $html;
+//        }
 
     }
 

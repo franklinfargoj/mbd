@@ -31,6 +31,7 @@ use DB;
 use App\conveyance\ScChecklistMaster;
 use App\conveyance\ScChecklistScrutinyStatus;
 use App\Http\Controllers\conveyance\renewalCommonController;
+use App\conveyance\ConveyanceArchitectNote;
 use App\LayoutUser;
 
 class conveyanceCommonController extends Controller
@@ -590,9 +591,11 @@ class conveyanceCommonController extends Controller
         $documentId = $this->getDocumentId($document,$data->sc_application_master_id);
         $data->conveyance_map = $this->getDocumentStatus($applicationId,$documentId); 
         $data->em_document = $this->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
-        $data->status = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);       
+        $data->status = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);  
+        $architectNote = ConveyanceArchitectNote::where('application_id',$applicationId)
+        ->orderBy('id','DESC')->get();
 
-        return view('admin.conveyance.architect_department.scrutiny_remark',compact('data'));
+        return view('admin.conveyance.architect_department.scrutiny_remark',compact('data','architectNote'));
     }  
 
     // save conveyance Architect scrutiny remark
@@ -1408,5 +1411,45 @@ class conveyanceCommonController extends Controller
         $status['noc'] = config('commanConfig.conveyance_status.NOC_Issued');
 
         return $status;
-    }    
+    } 
+
+    // upload architect note in conveyance module(multiple)
+    public function uploadArchitectNote(Request $request){
+        $applicationId   = $request->applicationId;
+        if ($request->file('architect_note')){
+
+            $file = $request->file('architect_note');
+            $extension = $file->getClientOriginalExtension();
+            $file_name =$file->getClientOriginalName();
+            $folder_name = "Conveyance_Architect_Note";
+            $path = $folder_name."/".$file_name;
+
+            if($extension == "pdf") {
+
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name);
+
+                    $fileData[] = array('document_path' => $path,
+                        'application_id' => $applicationId,
+                        'user_id' => Auth::user()->id);
+
+                $data = ConveyanceArchitectNote::insert($fileData);
+                return back()->with('success', 'Architect Note uploaded successfully.');
+            }else{
+                return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
+            }
+        }
+    } 
+
+    // delete architect note in conveyance module
+    public function deleteArchitectNote(Request $request){
+        
+        if (isset($request->oldFile) && isset($request->id)){
+            Storage::disk('ftp')->delete($request->oldFile);
+            ConveyanceArchitectNote::where('id',$request->id)->delete(); 
+            $status = 'success';           
+        }else{
+             $status = 'error';
+        }
+        return $status;
+    }  
 }      

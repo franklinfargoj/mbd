@@ -12,6 +12,8 @@ use App\Events\SmsHitEvent;
 */
 Route::get('send_sms',function(){
     event(new SmsHitEvent('9769121477','testing'));
+
+
     
     // $curl_handle=curl_init();
     // curl_setopt($curl_handle,CURLOPT_URL,'http://www.hindit.co.in/API/pushsms.aspx?loginID=t1mhada&password=Mh@d@18&mobile=9769121477&text=test&senderid=MHADAB&route_id=2&Unicode=0&IP=180.149.241.179');
@@ -29,6 +31,8 @@ Route::get('send_sms',function(){
 // Login_Id#>&password=<#password#>&mobile=98********&text=<#message#>&senderid=<#Sende
 // rID#>&route_id=<#route_id#>&Unicode=0&IP=x.x.x.x
 });
+Route::get('send_mail','EmailMsg\EmailMsgConfigration@abc')->name('sendEmail');
+
 Route::get('testing',function(){
     return \App\Layout\ArchitectLayout::whereHas('ArchitectLayoutStatusLog',function($q){
         $q->where('user_id',18)->where('current_status',1)->where('status_id',3);
@@ -67,6 +71,7 @@ Route::get('hearing/print','HearingController@print_data')->name('hearing.print'
 
 //village details print
 Route::get('village_detail/print','VillageDetailController@print_data')->name('village_detail.print');
+
 
 //society details print
 Route::get('society_detail/print','SocietyController@print_data')->name('society_detail.print');
@@ -1068,6 +1073,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     //Architect
 
     Route::post('save_architect_scrutiny_remark', 'conveyance\conveyanceCommonController@SaveArchitectScrutinyRemark')->name('conveyance.save_architect_scrutiny_remark');
+    Route::post('upload_architect_note', 'conveyance\conveyanceCommonController@uploadArchitectNote')->name('conveyance.upload_architect_note');
+    Route::post('delete_architect_note', 'conveyance\conveyanceCommonController@deleteArchitectNote')->name('conveyance.delete_architect_note');
 
     //EE 
 
@@ -1391,6 +1398,8 @@ Route::post('save_forward_oc_Application','CODepartment\COController@sendForward
 
 
 
+//get taluka on selection of district
+Route::post('/getTalukaByAjax','VillageDetailController@getTalukaByAjax')->name('getTalukaByAjax');
 
 //import the societies.
 
