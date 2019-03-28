@@ -38,4 +38,9 @@ class OlApplicationStatus extends Model
         return $this->belongsTo('App\OlApplication', 'application_id','id');
     }
 
+    public function getLayoutName(){
+        return $this->hasOne('App\MasterLayout', 'id','layout_id');
+
+    }
+
 }
