@@ -135,151 +135,148 @@
         enctype="multipart/form-data">
 
         @csrf
-        <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
+        <div class="m-portlet m-portlet--mobile m_panel">
             <div class="portlet-body">
-                <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
-                    <div class="">
-                        <h3 class="section-title section-title--small">
-                            Site Visit:
-                        </h3>
-                    </div>
-                    <div class="">
-                        <div class="row">
-                            <div class="col-md-6 site_v">
-								<div class="d-flex align-items-center mb-5">
-									<label class="site-visit-label">Society Name:</label>
-									<input type="text" class="txtbox form-control form-control--custom m_input" name="society_name" id="society_name" value="{{(isset($applicationData->eeApplicationSociety->name) ? $applicationData->eeApplicationSociety->name : '')}}"
-										readonly>
-								</div>
-                              
-                                @if($is_view)
-                                    <?php $i=1;?>
-                                    @if(isset($applicationData->SiteVisitorOfficers))
-                                        @foreach($applicationData->SiteVisitorOfficers as $officerName)
-                                            @if(!empty($officerName))
-                                            <div class="officer_name_{{$i}}">
-            									<div class="d-flex align-items-center mb-5">
-            										<label class="site-visit-label">Name of Officer:</label>
-            										<input type="text" class="txtbox form-control form-control--custom m_input" name="officer_name[]" id="officer_name"
-            											value="{{$officerName}}">
-            										<i class="fa fa-close icon2 d-icon hide-print" id="icon_{{$i}}" onclick="removeOfficerName(this.id)"></i>
-            									</div>
-                                            </div>
-                                            @endif
-                                            <?php $i++;?>
-                                        @endforeach
-                                    @else
-                                    <div class="officer_name_0">
-    									<div class="d-flex align-items-center mb-5">
-    										<label class="site-visit-label">Name of Officer: <span class="star">*</span></label>
-    										<div class="position-relative" >
-    											<input type="text" class="txtbox form-control form-control--custom m_input" name="officer_name[]" id="officer_name" >
-                                                
-                                                <i class="fa fa-close icon d-icon close-icon hide-print" id="icon_0" onclick="removeOfficerName(this.id)" style="visibility: hidden"></i>
-    										</div>									
-    									</div>
-                                    </div> 
-                                        
-                                    @endif
-                                    @if(isset($applicationData->SiteVisitorOfficers) && count($applicationData->SiteVisitorOfficers) < 3)
-                                    @endif
-                                @else
-                                    <div class="officer_name">
-                                        <div class="d-flex align-items-center mb-5">
-                                            <label class="site-visit-label">Name of Officer: </label>
-                                            <div class="position-relative">
-                                                <span class="field-value" style="word-break: break-all;">{{$applicationData->site_visit_officers}}</span>
-                                            </div>                                  
-                                        </div>
-                                    </div>                                
-                                @endif
-                                @if($is_view)
-                                    <div class="col-md-6 add_more_div" style="left: 173px;top: -40px;"> 
-                                        <a class="btn-link hide-print" id="add_more_text" onclick="addMoreText(this);" style="cursor: pointer;{{ 
-                                            (isset($applicationData->SiteVisitorOfficers) && count($applicationData->SiteVisitorOfficers) >= 3) ? 'display: none' : '' }}">add more </a>
-                                    </div>
-                                @endif    
-                            </div>
-
-                            <div class="col-md-6">
-								<div class="d-flex align-items-center mb-5">
-									<label class="site-visit-label">Building number:</label>
-									<input type="text" class="txtbox b_text form-control form-control--custom m_input" name="building_no" id="building_no" value="{{(isset($applicationData->eeApplicationSociety->building_no) ? $applicationData->eeApplicationSociety->building_no : '')}}"
-										readonly>
-								</div>
-								<div class="d-flex align-items-center mb-5">
-									<label class="site-visit-label">Date of site visit: <span class="star">*</span></label>
-                                    <div class="position-relative">
-									<input type="text" class="txtbox v_text form-control form-control--custom m-input {{($is_view ? 'm_datepicker' : '' )}}"
-										name="visit_date" id="visit_date" value="{{(isset($applicationData->date_of_site_visit) ? date('d-m-Y',strtotime($applicationData->date_of_site_visit)) : '')}}" {{(!($is_view) ? 'readonly' : '' )}}>
-                                    </div>    
-								</div>
-                            </div>
-                            <div class="col-md-12 all_documents hide-print">
+                <h3 class="section-title section-title--small">
+                    Site Visit:
+                </h3>
+                <div class="">
+                    <div class="row">
+                        <div class="col-md-6 site_v">
+							<div class="d-flex align-items-center mb-5">
+								<label class="site-visit-label">Society Name:</label>
+								<input type="text" class="txtbox form-control form-control--custom m_input" name="society_name" id="society_name" value="{{(isset($applicationData->eeApplicationSociety->name) ? $applicationData->eeApplicationSociety->name : '')}}"
+									readonly>
+							</div>
+                          
                             @if($is_view)
-                                <?php $i=2;?>
-                                @if(isset($applicationData->visitDocuments))
-                                    @foreach($applicationData->visitDocuments as $documents)
-                                     
-                                    <div class="col-md-12 row align-items-center mb-5 upload_doc_{{$i}}">
-                                        <div class="col-md-3">
-                                            <label class="site-visit-label">Upload Site Photos: </label>
-                                        </div>    
-                                        <div class="col-md-6 custom-file custom-file--fixed mb-0 position-relative">
-                                            <input type="file" class="file custom-file-input file_ext upload_file_{{$i}}" name="document[]" id="test-upload_{{$i}}">
-                                            <label class="custom-file-label" for="test-upload_{{$i}}" id="file_label_{{$i}}">{{isset(explode('/',$documents->document_path)[1]) ? explode('/',$documents->document_path)[1] : ''}}</label>
-                                            <span id="file_error_{{$i}}" class="text-danger"></span>
-    										<input type="hidden" class="upload_doc_{{$i}}" id="documentId" name="documentId[]"
-                                            value="{{$documents->id}}" readonly>
-    										<i class="fa fa-close doc2 close-icon" id="document_{{$i}}" onclick="removeDocuments(this.id)"></i>
-    										<span></span>
+                                <?php $i=1;?>
+                                @if(isset($applicationData->SiteVisitorOfficers))
+                                    @foreach($applicationData->SiteVisitorOfficers as $officerName)
+                                        @if(!empty($officerName))
+                                        <div class="officer_name_{{$i}}">
+        									<div class="d-flex align-items-center mb-5">
+        										<label class="site-visit-label">Name of Officer:</label>
+        										<input type="text" class="txtbox form-control form-control--custom m_input" name="officer_name[]" id="officer_name"
+        											value="{{$officerName}}">
+        										<i class="fa fa-close icon2 d-icon hide-print" id="icon_{{$i}}" onclick="removeOfficerName(this.id)"></i>
+        									</div>
                                         </div>
-                                    </div>
-                                    <?php $i++;?>
+                                        @endif
+                                        <?php $i++;?>
                                     @endforeach
+                                @else
+                                <div class="officer_name_0">
+									<div class="d-flex align-items-center mb-5">
+										<label class="site-visit-label">Name of Officer: <span class="star">*</span></label>
+										<div class="position-relative" >
+											<input type="text" class="txtbox form-control form-control--custom m_input" name="officer_name[]" id="officer_name" >
+                                            
+                                            <i class="fa fa-close icon d-icon close-icon hide-print" id="icon_0" onclick="removeOfficerName(this.id)" style="visibility: hidden"></i>
+										</div>									
+									</div>
+                                </div> 
+                                    
                                 @endif
-                                @php if(count($applicationData->visitDocuments) == 0){
-                                    $required = 'required';
-                                }else{
-                                    $required = '';
-                                } @endphp
+                                @if(isset($applicationData->SiteVisitorOfficers) && count($applicationData->SiteVisitorOfficers) < 3)
+                                @endif
+                            @else
+                                <div class="officer_name">
+                                    <div class="d-flex align-items-center mb-5">
+                                        <label class="site-visit-label">Name of Officer: </label>
+                                        <div class="position-relative">
+                                            <span class="field-value" style="word-break: break-all;">{{$applicationData->site_visit_officers}}</span>
+                                        </div>                                  
+                                    </div>
+                                </div>                                
+                            @endif
+                            @if($is_view)
+                                <div class="col-md-6 add_more_div" style="left: 173px;top: -40px;"> 
+                                    <a class="btn-link hide-print" id="add_more_text" onclick="addMoreText(this);" style="cursor: pointer;{{ 
+                                        (isset($applicationData->SiteVisitorOfficers) && count($applicationData->SiteVisitorOfficers) >= 3) ? 'display: none' : '' }}">add more </a>
+                                </div>
+                            @endif    
+                        </div>
 
-                                <div class="col-md-12 row align-items-center mb-5 upload_doc_1">
-                                <div class="col-md-3">
-                                    <label class="site-visit-label">Upload Site Photos: <span class="star">*</span></label>
+                        <div class="col-md-6">
+							<div class="d-flex align-items-center mb-5">
+								<label class="site-visit-label">Building number:</label>
+								<input type="text" class="txtbox b_text form-control form-control--custom m_input" name="building_no" id="building_no" value="{{(isset($applicationData->eeApplicationSociety->building_no) ? $applicationData->eeApplicationSociety->building_no : '')}}"
+									readonly>
+							</div>
+							<div class="d-flex align-items-center mb-5">
+								<label class="site-visit-label">Date of site visit: <span class="star">*</span></label>
+                                <div class="position-relative">
+								<input type="text" class="txtbox v_text form-control form-control--custom m-input {{($is_view ? 'm_datepicker' : '' )}}"
+									name="visit_date" id="visit_date" value="{{(isset($applicationData->date_of_site_visit) ? date('d-m-Y',strtotime($applicationData->date_of_site_visit)) : '')}}" {{(!($is_view) ? 'readonly' : '' )}}>
                                 </div>    
+							</div>
+                        </div>
+                        <div class="col-md-12 all_documents hide-print">
+                        @if($is_view)
+                            <?php $i=2;?>
+                            @if(isset($applicationData->visitDocuments))
+                                @foreach($applicationData->visitDocuments as $documents)
+                                 
+                                <div class="col-md-12 row align-items-center mb-5 upload_doc_{{$i}}">
+                                    <div class="col-md-3">
+                                        <label class="site-visit-label">Upload Site Photos: </label>
+                                    </div>    
                                     <div class="col-md-6 custom-file custom-file--fixed mb-0 position-relative">
-                                        <input type="file" class="file custom-file-input file_ext upload_file_1" name="document[]" id="test-upload_1" {{ $required }}>
-                                        <label class="custom-file-label" for="test-upload_1" id="file_label_1">Choose file ...</label>
-                                        <span id="file_error_1" class="text-danger"></span>
-                                        <span class="file_required text-danger"></span> 
-                                        <p>
-										<a class="btn-link" id="add_more_1" onclick="addMoreDocuments(this);" style="margin-top: 12px;cursor: pointer;">add more</a></p>
-										<i class="fa fa-close doc close-icon" id="document_1" onclick="removeDocuments(this.id)"></i>
+                                        <input type="file" class="file custom-file-input file_ext upload_file_{{$i}}" name="document[]" id="test-upload_{{$i}}">
+                                        <label class="custom-file-label" for="test-upload_{{$i}}" id="file_label_{{$i}}">{{isset(explode('/',$documents->document_path)[1]) ? explode('/',$documents->document_path)[1] : ''}}</label>
+                                        <span id="file_error_{{$i}}" class="text-danger"></span>
+										<input type="hidden" class="upload_doc_{{$i}}" id="documentId" name="documentId[]"
+                                        value="{{$documents->id}}" readonly>
+										<i class="fa fa-close doc2 close-icon" id="document_{{$i}}" onclick="removeDocuments(this.id)"></i>
+										<span></span>
                                     </div>
                                 </div>
-                            @else
-                                @foreach($applicationData->visitDocuments as $data)
-                                @php $fileName = explode('/',$data->document_path)[1];
-                                     $imgIcon = explode('.',$fileName)[1];
-                                @endphp        
+                                <?php $i++;?>
+                                @endforeach
+                            @endif
+                            @php if(count($applicationData->visitDocuments) == 0){
+                                $required = 'required';
+                            }else{
+                                $required = '';
+                            } @endphp
 
-                                    <div class="col-xs-12 field-col">
-                                        <div class="d-flex">
-                                            <span style="width: 170px;">Upload Site Photos: </span>
-                                            <a href="{{config('commanConfig.storage_server').'/'.$data->document_path}}" target="_blank">
-                                            @if($imgIcon == 'pdf')
-                                             <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}">
-                                            
-                                            @else
-                                            <i class="pdf-icon fa fa-file-image-o" aria-hidden="true" style="color: #862727;font-size: 19px;"></i>  
-                                            @endif
-                                           <span class="field-value" style="padding-left: 15px;">{{ (isset(explode('/',$data->document_path)[1]) ? explode('/',$data->document_path)[1]: '') }}</span></a>
-                                        </div>
+                            <div class="col-md-12 row align-items-center mb-5 upload_doc_1">
+                            <div class="col-md-3">
+                                <label class="site-visit-label">Upload Site Photos: <span class="star">*</span></label>
+                            </div>    
+                                <div class="col-md-6 custom-file custom-file--fixed mb-0 position-relative">
+                                    <input type="file" class="file custom-file-input file_ext upload_file_1" name="document[]" id="test-upload_1" {{ $required }}>
+                                    <label class="custom-file-label" for="test-upload_1" id="file_label_1">Choose file ...</label>
+                                    <span id="file_error_1" class="text-danger"></span>
+                                    <span class="file_required text-danger"></span> 
+                                    <p>
+									<a class="btn-link" id="add_more_1" onclick="addMoreDocuments(this);" style="margin-top: 12px;cursor: pointer;">add more</a></p>
+									<i class="fa fa-close doc close-icon" id="document_1" onclick="removeDocuments(this.id)"></i>
+                                </div>
+                            </div>
+                        @else
+                            @foreach($applicationData->visitDocuments as $data)
+                            @php $fileName = explode('/',$data->document_path)[1];
+                                 $imgIcon = explode('.',$fileName)[1];
+                            @endphp        
+
+                                <div class="col-xs-12 field-col">
+                                    <div class="d-flex">
+                                        <span style="width: 170px;">Upload Site Photos: </span>
+                                        <a href="{{config('commanConfig.storage_server').'/'.$data->document_path}}" target="_blank">
+                                        @if($imgIcon == 'pdf')
+                                         <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}">
+                                        
+                                        @else
+                                        <i class="pdf-icon fa fa-file-image-o" aria-hidden="true" style="color: #862727;font-size: 19px;"></i>  
+                                        @endif
+                                       <span class="field-value" style="padding-left: 15px;">{{ (isset(explode('/',$data->document_path)[1]) ? explode('/',$data->document_path)[1]: '') }}</span></a>
                                     </div>
-                                @endforeach                            
-                            @endif   
-                        </div>
+                                </div>
+                            @endforeach                            
+                        @endif   
+                    </div>
                     </div>
                 </div>
             </div>
@@ -287,21 +284,17 @@
         <!-- end 
 
         <!-- Demarkation verification -->
-        <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
-            <div class="portlet-body">
-                <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
-					<div class="">
-						<h3 class="section-title section-title--small">
-							Demarcation verification:
-						</h3>
+        <div class="m-portlet m-portlet--mobile m_panel">
+            <div class="m-portlet__body margin_top">
+				<h3 class="section-title section-title--small">
+					Demarcation verification:
+				</h3>
+				<div class="remarks-suggestions">
+					<div class="mt-3 table--box-input">
+						<label for="demarkation_comments">Comments: <span class="star">*</span></label>
+						<textarea id="demarkation_comments" rows="5" cols="30" class="form-control form-control--custom" name="demarkation_comments" {{(!($is_view) ? 'readonly' : '' )}}>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
 					</div>
-					<div class="remarks-suggestions">
-						<div class="mt-3 table--box-input">
-							<label for="demarkation_comments">Comments: <span class="star">*</span></label>
-							<textarea id="demarkation_comments" rows="5" cols="30" class="form-control form-control--custom" name="demarkation_comments" {{(!($is_view) ? 'readonly' : '' )}}>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
-						</div>
-					</div>
-                </div>
+				</div>
             </div>
         </div>
         <!-- end  -->

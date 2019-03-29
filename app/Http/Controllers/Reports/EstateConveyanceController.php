@@ -237,12 +237,13 @@ class EstateConveyanceController extends Controller
                 ->join('sc_application_master', 'sc_application_master.id', '=', 'sc_application.sc_application_master_id')
                 ->join('users', 'users.id', '=', 'sc_application_log.user_id')
                 ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->join('master_layout', 'master_layout.id', '=', 'sc_application.layout_id')
                 ->where('sc_application_log.is_active', 1)
                 ->whereIn('sc_application_log.role_id', $roles)
                 ->whereIn('sc_application_log.status_id', $status)
                 ->whereIn('sc_application.layout_id', $layouts)
                 ->where('sc_application.sc_application_master_id',$master_id)
-                ->get(['roles.name as Role','sc_application.application_no', 'sc_application_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'users.name as User', DB::raw('DATEDIFF(NOW(),sc_application_log.created_at) as days_pending')]);
+                ->get(['roles.name as Role','sc_application.application_no','master_layout.layout_name as layout_name', 'sc_application_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'users.name as User', DB::raw('DATEDIFF(NOW(),sc_application_log.created_at) as days_pending')]);
 
         }else
         {
@@ -251,6 +252,7 @@ class EstateConveyanceController extends Controller
                 ->join('sc_application_master', 'sc_application_master.id', '=', 'sc_application.sc_application_master_id')
                 ->join('users', 'users.id', '=', 'sc_application_log.user_id')
                 ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->join('master_layout', 'master_layout.id', '=', 'sc_application.layout_id')
                 ->where('sc_application_log.is_active', 1)
                 ->whereIn('sc_application_log.role_id', $roles)
                 ->whereIn('sc_application_log.status_id', $status)
@@ -258,7 +260,7 @@ class EstateConveyanceController extends Controller
                 ->where(DB::raw('DATEDIFF(NOW(),sc_application_log.created_at)'), '<=', $period[1])
                 ->whereIn('sc_application.layout_id', $layouts)
                 ->where('sc_application.sc_application_master_id',$master_id)
-                ->get(['roles.name as Role','sc_application.application_no', 'sc_application_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'users.name as User', DB::raw('DATEDIFF(NOW(),sc_application_log.created_at) as days_pending')]);
+                ->get(['roles.name as Role','sc_application.application_no','master_layout.layout_name as layout_name', 'sc_application_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'users.name as User', DB::raw('DATEDIFF(NOW(),sc_application_log.created_at) as days_pending')]);
 
         }
         return $data;
@@ -282,12 +284,13 @@ class EstateConveyanceController extends Controller
                 ->join('sc_application_master', 'sc_application_master.id', '=', 'sf_applications.sc_application_master_id')
                 ->join('users', 'users.id', '=', 'sf_application_status_logs.user_id')
                 ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->join('master_layout', 'master_layout.id', '=', 'sf_applications.layout_id')
                 ->where('sf_application_status_logs.open', 1)
                 ->whereIn('sf_application_status_logs.role_id', $roles)
                 ->whereIn('sf_application_status_logs.status_id', $status)
                 ->whereIn('sf_applications.layout_id', $layouts)
                 ->where('sf_applications.sc_application_master_id',$master_id)
-                ->get(['roles.name as Role','sf_applications.application_no', 'sf_application_status_logs.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'users.name as User', DB::raw('DATEDIFF(NOW(),sf_application_status_logs.created_at) as days_pending')]);
+                ->get(['roles.name as Role','sf_applications.application_no','master_layout.layout_name as layout_name', 'sf_application_status_logs.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'users.name as User', DB::raw('DATEDIFF(NOW(),sf_application_status_logs.created_at) as days_pending')]);
 
         }else
         {
@@ -298,6 +301,7 @@ class EstateConveyanceController extends Controller
                 ->join('sc_application_master', 'sc_application_master.id', '=', 'sf_applications.sc_application_master_id')
                 ->join('users', 'users.id', '=', 'sf_application_status_logs.user_id')
                 ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->join('master_layout', 'master_layout.id', '=', 'sf_applications.layout_id')
                 ->where('sf_application_status_logs.open', 1)
                 ->whereIn('sf_application_status_logs.role_id', $roles)
                 ->whereIn('sf_application_status_logs.status_id', $status)
@@ -305,7 +309,7 @@ class EstateConveyanceController extends Controller
                 ->where(DB::raw('DATEDIFF(NOW(),sf_application_status_logs.created_at)'), '<=', $period[1])
                 ->whereIn('sf_applications.layout_id', $layouts)
                 ->where('sf_applications.sc_application_master_id',$master_id)
-                ->get(['roles.name as Role','sf_applications.application_no', 'sf_application_status_logs.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'users.name as User', DB::raw('DATEDIFF(NOW(),sf_application_status_logs.created_at) as days_pending')]);
+                ->get(['roles.name as Role','sf_applications.application_no','master_layout.layout_name as layout_name', 'sf_application_status_logs.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'users.name as User', DB::raw('DATEDIFF(NOW(),sf_application_status_logs.created_at) as days_pending')]);
 
         }
         return $data;
@@ -337,12 +341,13 @@ class EstateConveyanceController extends Controller
                 ->join('sc_application_master', 'sc_application_master.id', '=', 'renewal_application.application_master_id')
                 ->join('users', 'users.id', '=', 'renewal_application_log.user_id')
                 ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->join('master_layout', 'master_layout.id', '=', 'renewal_application.layout_id')
                 ->where('renewal_application_log.is_active', 1)
                 ->whereIn('renewal_application_log.role_id', $roles)
                 ->whereIn('renewal_application_log.status_id', $status)
                 ->whereIn('renewal_application.layout_id', $layouts)
                 ->where('renewal_application.application_master_id',$master_id)
-                ->get(['roles.name as Role','renewal_application.application_no', 'renewal_application_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'users.name as User', DB::raw('DATEDIFF(NOW(),renewal_application_log.created_at) as days_pending')]);
+                ->get(['roles.name as Role','renewal_application.application_no','master_layout.layout_name as layout_name', 'renewal_application_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'users.name as User', DB::raw('DATEDIFF(NOW(),renewal_application_log.created_at) as days_pending')]);
 
         }else
         {
@@ -353,6 +358,7 @@ class EstateConveyanceController extends Controller
                 ->join('sc_application_master', 'sc_application_master.id', '=', 'renewal_application.application_master_id')
                 ->join('users', 'users.id', '=', 'renewal_application_log.user_id')
                 ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->join('master_layout', 'master_layout.id', '=', 'renewal_application.layout_id')
                 ->where('renewal_application_log.is_active', 1)
                 ->whereIn('renewal_application_log.role_id', $roles)
                 ->whereIn('renewal_application_log.status_id', $status)
@@ -360,7 +366,7 @@ class EstateConveyanceController extends Controller
                 ->where(DB::raw('DATEDIFF(NOW(),renewal_application_log.created_at)'), '<=', $period[1])
                 ->whereIn('renewal_application.layout_id', $layouts)
                 ->where('renewal_application.application_master_id',$master_id)
-                ->get(['roles.name as Role','renewal_application.application_no', 'renewal_application_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'users.name as User', DB::raw('DATEDIFF(NOW(),renewal_application_log.created_at) as days_pending')]);
+                ->get(['roles.name as Role','renewal_application.application_no','master_layout.layout_name as layout_name', 'renewal_application_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'users.name as User', DB::raw('DATEDIFF(NOW(),renewal_application_log.created_at) as days_pending')]);
 
         }
         return $data;
@@ -381,8 +387,10 @@ class EstateConveyanceController extends Controller
             if($report_format == 'pdf')
             {
                 $content = view('admin.reports.estate_conveyance._period_wise_pendency', compact('data', 'period_title','module_name'));
-                $header_file = view('admin.REE_department.offer_letter_header');
-                $footer_file = view('admin.REE_department.offer_letter_footer');
+                $header_file = '';
+                $footer_file = '';
+//                $header_file = view('admin.REE_department.offer_letter_header');
+//                $footer_file = view('admin.REE_department.offer_letter_footer');
                 $pdf = new Mpdf([
                     'default_font_size' => 9,
                     'default_font' => 'Times New Roman',
@@ -405,6 +413,7 @@ class EstateConveyanceController extends Controller
                     $dataList = [];
                     $dataList['id'] = $i;
                     $dataList['Application No'] = $datas->application_no;
+                    $dataList['Layout Name'] = $datas->layout_name;
                     $dataList['Submission Date'] = $datas->created_at;
                     $dataList['Society Name'] = $datas->society_name;
                     $dataList['Building No'] = $datas->building_no;

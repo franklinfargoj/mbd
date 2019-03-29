@@ -243,6 +243,7 @@ class RedevelopementController extends Controller
                 ->join('ol_application_master', 'ol_application_master.id', '=', 'ol_applications.application_master_id')
                 ->join('users', 'users.id', '=', 'ol_application_status_log.user_id')
                 ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->join('master_layout', 'master_layout.id', '=', 'ol_applications.layout_id')
                 ->where('ol_application_status_log.is_active', 1)
                 ->whereIn('ol_application_status_log.role_id', $roles)
                 ->whereIn('ol_application_status_log.status_id', $status)
@@ -250,8 +251,7 @@ class RedevelopementController extends Controller
                 // ->where(DB::raw('DATEDIFF(NOW(),ol_application_status_log.created_at)'), '<=', $period[1])
                 ->whereIn('ol_applications.layout_id', $layouts)
                 ->whereIn('ol_applications.application_master_id',$master_ids)
-                ->get(['roles.name as Role','ol_applications.application_no', 'ol_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),ol_application_status_log.created_at) as days_pending')]);
-
+                ->get(['roles.name as Role','ol_applications.application_no','master_layout.layout_name as layout_name', 'ol_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),ol_application_status_log.created_at) as days_pending')]);
         }else
         {
             $data = OlApplicationStatus::join('ol_applications', 'ol_application_status_log.application_id', '=', 'ol_applications.id')
@@ -259,6 +259,7 @@ class RedevelopementController extends Controller
                 ->join('ol_application_master', 'ol_application_master.id', '=', 'ol_applications.application_master_id')
                 ->join('users', 'users.id', '=', 'ol_application_status_log.user_id')
                 ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->join('master_layout', 'master_layout.id', '=', 'ol_applications.layout_id')
                 ->where('ol_application_status_log.is_active', 1)
                 ->whereIn('ol_application_status_log.role_id', $roles)
                 ->whereIn('ol_application_status_log.status_id', $status)
@@ -266,7 +267,7 @@ class RedevelopementController extends Controller
                 ->where(DB::raw('DATEDIFF(NOW(),ol_application_status_log.created_at)'), '<=', $period[1])
                 ->whereIn('ol_applications.layout_id', $layouts)
                 ->whereIn('ol_applications.application_master_id',$master_ids)
-                ->get(['roles.name as Role','ol_applications.application_no', 'ol_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),ol_application_status_log.created_at) as days_pending')]);
+                ->get(['roles.name as Role','ol_applications.application_no', 'master_layout.layout_name as layout_name','ol_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),ol_application_status_log.created_at) as days_pending')]);
 
         }
         return $data;
@@ -295,6 +296,7 @@ class RedevelopementController extends Controller
                 ->join('ol_application_master', 'ol_application_master.id', '=', 'oc_applications.application_master_id')
                 ->join('users', 'users.id', '=', 'oc_application_status_log.user_id')
                 ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->join('master_layout', 'master_layout.id', '=', 'oc_applications.layout_id')
                 ->where('oc_application_status_log.is_active', 1)
                 ->whereIn('oc_application_status_log.role_id', $roles)
                 ->whereIn('oc_application_status_log.status_id', $status)
@@ -302,7 +304,7 @@ class RedevelopementController extends Controller
                 // ->where(DB::raw('DATEDIFF(NOW(),oc_application_status_log.created_at)'), '<=', $period[1])
                 ->whereIn('oc_applications.layout_id', $layouts)
                 ->whereIn('oc_applications.application_master_id',$master_ids)
-                ->get(['roles.name as Role','oc_applications.application_no', 'oc_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),oc_application_status_log.created_at) as days_pending')]);
+                ->get(['roles.name as Role','oc_applications.application_no','master_layout.layout_name as layout_name', 'oc_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),oc_application_status_log.created_at) as days_pending')]);
 
         }else
         {
@@ -311,6 +313,7 @@ class RedevelopementController extends Controller
                 ->join('ol_application_master', 'ol_application_master.id', '=', 'oc_applications.application_master_id')
                 ->join('users', 'users.id', '=', 'oc_application_status_log.user_id')
                 ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->join('master_layout', 'master_layout.id', '=', 'oc_applications.layout_id')
                 ->where('oc_application_status_log.is_active', 1)
                 ->whereIn('oc_application_status_log.role_id', $roles)
                 ->whereIn('oc_application_status_log.status_id', $status)
@@ -318,7 +321,7 @@ class RedevelopementController extends Controller
                 ->where(DB::raw('DATEDIFF(NOW(),oc_application_status_log.created_at)'), '<=', $period[1])
                 ->whereIn('oc_applications.layout_id', $layouts)
                 ->whereIn('oc_applications.application_master_id',$master_ids)
-                ->get(['roles.name as Role','oc_applications.application_no', 'oc_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),oc_application_status_log.created_at) as days_pending')]);
+                ->get(['roles.name as Role','oc_applications.application_no','master_layout.layout_name as layout_name', 'oc_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),oc_application_status_log.created_at) as days_pending')]);
 
         }
         return $data;
@@ -347,6 +350,7 @@ class RedevelopementController extends Controller
                 ->join('ol_application_master', 'ol_application_master.id', '=', 'noc_applications.application_master_id')
                 ->join('users', 'users.id', '=', 'noc_application_status_log.user_id')
                 ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->join('master_layout', 'master_layout.id', '=', 'noc_applications.layout_id')
                 ->where('noc_application_status_log.is_active', 1)
                 ->whereIn('noc_application_status_log.role_id', $roles)
                 ->whereIn('noc_application_status_log.status_id', $status)
@@ -354,7 +358,7 @@ class RedevelopementController extends Controller
                 // ->where(DB::raw('DATEDIFF(NOW(),noc_application_status_log.created_at)'), '<=', $period[1])
                 ->whereIn('noc_applications.layout_id', $layouts)
                 ->whereIn('noc_applications.application_master_id',$master_ids)
-                ->get(['roles.name as Role','noc_applications.application_no', 'noc_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),noc_application_status_log.created_at) as days_pending')]);
+                ->get(['roles.name as Role','noc_applications.application_no','master_layout.layout_name as layout_name', 'noc_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),noc_application_status_log.created_at) as days_pending')]);
 
         }else
         {
@@ -363,6 +367,7 @@ class RedevelopementController extends Controller
                 ->join('ol_application_master', 'ol_application_master.id', '=', 'noc_applications.application_master_id')
                 ->join('users', 'users.id', '=', 'noc_application_status_log.user_id')
                 ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->join('master_layout', 'master_layout.id', '=', 'noc_applications.layout_id')
                 ->where('noc_application_status_log.is_active', 1)
                 ->whereIn('noc_application_status_log.role_id', $roles)
                 ->whereIn('noc_application_status_log.status_id', $status)
@@ -370,7 +375,7 @@ class RedevelopementController extends Controller
                 ->where(DB::raw('DATEDIFF(NOW(),noc_application_status_log.created_at)'), '<=', $period[1])
                 ->whereIn('noc_applications.layout_id', $layouts)
                 ->whereIn('noc_applications.application_master_id',$master_ids)
-                ->get(['roles.name as Role','noc_applications.application_no', 'noc_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),noc_application_status_log.created_at) as days_pending')]);
+                ->get(['roles.name as Role','noc_applications.application_no','master_layout.layout_name as layout_name', 'noc_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),noc_application_status_log.created_at) as days_pending')]);
 
         }
         return $data;
@@ -398,6 +403,7 @@ class RedevelopementController extends Controller
                 ->join('ol_application_master', 'ol_application_master.id', '=', 'noc_cc_applications.application_master_id')
                 ->join('users', 'users.id', '=', 'noc_cc_application_status_log.user_id')
                 ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->join('master_layout', 'master_layout.id', '=', 'noc_cc_applications.layout_id')
                 ->where('noc_cc_application_status_log.is_active', 1)
                 ->whereIn('noc_cc_application_status_log.role_id', $roles)
                 ->whereIn('noc_cc_application_status_log.status_id', $status)
@@ -405,7 +411,7 @@ class RedevelopementController extends Controller
                 // ->where(DB::raw('DATEDIFF(NOW(),noc_cc_application_status_log.created_at)'), '<=', $period[1])
                 ->whereIn('noc_cc_applications.layout_id', $layouts)
                 ->whereIn('noc_cc_applications.application_master_id',$master_ids)
-                ->get(['roles.name as Role','noc_cc_applications.application_no', 'noc_cc_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),noc_cc_application_status_log.created_at) as days_pending')]);
+                ->get(['roles.name as Role','noc_cc_applications.application_no','master_layout.layout_name as layout_name', 'noc_cc_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),noc_cc_application_status_log.created_at) as days_pending')]);
 
         }else
         {
@@ -414,6 +420,7 @@ class RedevelopementController extends Controller
                 ->join('ol_application_master', 'ol_application_master.id', '=', 'noc_cc_applications.application_master_id')
                 ->join('users', 'users.id', '=', 'noc_cc_application_status_log.user_id')
                 ->join('roles', 'roles.id', '=', 'users.role_id')
+                ->join('master_layout', 'master_layout.id', '=', 'noc_cc_applications.layout_id')
                 ->where('noc_cc_application_status_log.is_active', 1)
                 ->whereIn('noc_cc_application_status_log.role_id', $roles)
                 ->whereIn('noc_cc_application_status_log.status_id', $status)
@@ -421,7 +428,7 @@ class RedevelopementController extends Controller
                 ->where(DB::raw('DATEDIFF(NOW(),noc_cc_application_status_log.created_at)'), '<=', $period[1])
                 ->whereIn('noc_cc_applications.layout_id', $layouts)
                 ->whereIn('noc_cc_applications.application_master_id',$master_ids)
-                ->get(['roles.name as Role','noc_cc_applications.application_no', 'noc_cc_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),noc_cc_application_status_log.created_at) as days_pending')]);
+                ->get(['roles.name as Role','noc_cc_applications.application_no','master_layout.layout_name as layout_name', 'noc_cc_application_status_log.created_at', 'ol_societies.name as society_name', 'ol_societies.building_no', 'ol_application_master.model', 'users.name as User', DB::raw('DATEDIFF(NOW(),noc_cc_application_status_log.created_at) as days_pending')]);
 
         }
         return $data;
@@ -442,8 +449,10 @@ class RedevelopementController extends Controller
             if($report_format == 'pdf')
             {
                 $content = view('admin.reports.redevelopement._period_wise_pendency', compact('data', 'period_title','module_name'));
-                $header_file = view('admin.REE_department.offer_letter_header');
-                $footer_file = view('admin.REE_department.offer_letter_footer');
+                $header_file = '';
+                $footer_file = '';
+//                $header_file = view('admin.REE_department.offer_letter_header');
+//                $footer_file = view('admin.REE_department.offer_letter_footer');
                 //$pdf = \App::make('dompdf.wrapper');
                 $pdf = new Mpdf([
                     'default_font_size' => 9,
@@ -467,6 +476,7 @@ class RedevelopementController extends Controller
                     $dataList = [];
                     $dataList['id'] = $i;
                     $dataList['Application No'] = $datas->application_no;
+                    $dataList['Layout Name'] = $datas->layout_name;
                     $dataList['Submission Date'] = $datas->created_at;
                     $dataList['Society Name'] = $datas->society_name;
                     $dataList['Building No'] = $datas->building_no;

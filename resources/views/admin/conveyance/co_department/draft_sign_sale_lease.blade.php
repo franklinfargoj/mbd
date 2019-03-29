@@ -56,12 +56,16 @@
                                 $document = $data->SignSaleAgreement->document_path;
                             else if(isset($data->DraftSaleAgreement->document_path))
                                 $document = $data->DraftSaleAgreement->document_path;
+                            else if(isset($data->DraftGeneratedSale->document_path))
+                                $document = $data->DraftGeneratedSale->document_path;
                         @endphp
                         @php
                              if(isset($data->SignLeaseAgreement->document_path) && session()->get('role_name') != config('commanConfig.joint_co')) 
                                 $document1 = $data->SignLeaseAgreement->document_path;
                             else if(isset($data->DraftLeaseAgreement->document_path))
                                 $document1 = $data->DraftLeaseAgreement->document_path;
+                            else if(isset($data->DraftGeneratedLease->document_path))
+                                $document1 = $data->DraftGeneratedLease->document_path;
                         @endphp
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
@@ -81,7 +85,7 @@
                                         </div>
                                     </div>
                                     @if($data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted') )
-                                    <div class="col-sm-6 border-left">
+                                    <!-- div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload</h5>
                                             <span class="hint-text">Click to upload Sale Deed Agreement</span>
@@ -101,7 +105,7 @@
                                                 <button type="submit" class="btn btn-primary mt-3 upload_btn" id="sale_btn" style="display:block">Upload</button>   
                                             </div> 
                                         </div>
-                                    </div>
+                                    </div> -->
                                     @endif
                                 </div>
                             </div>
@@ -138,7 +142,7 @@
                                         </div>
                                     </div>
                                     @if($data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted') )
-                                    <div class="col-sm-6 border-left">
+                                   <!--  <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload</h5>
                                             <span class="hint-text">Click to upload Lease Deed Agreement</span>
@@ -157,7 +161,7 @@
                                                     <button type="submit" id="lease_btn" class="btn btn-primary mt-3 upload_btn" style="display:block">Upload</button>   
                                                  </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     @endif                                    
                                 </div>
                             </div>

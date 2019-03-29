@@ -43,12 +43,16 @@
             $document = $data->SignSaleAgreement->document_path;
         else if(isset($data->DraftSaleAgreement->document_path))
             $document = $data->DraftSaleAgreement->document_path;
+        else if(isset($data->DraftGeneratedSale->document_path))
+            $document = $data->DraftGeneratedSale->document_path;    
     @endphp
     @php
         if(isset($data->SignLeaseAgreement->document_path) )
             $document1 = $data->SignLeaseAgreement->document_path;
         else if(isset($data->DraftLeaseAgreement->document_path))
             $document1 = $data->DraftLeaseAgreement->document_path;
+        else if(isset($data->DraftGeneratedLease->document_path))
+            $document1 = $data->DraftGeneratedLease->document_path;    
     @endphp    
 
 <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">    

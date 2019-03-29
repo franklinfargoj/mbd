@@ -70,29 +70,17 @@
                                 @endforeach
                             </select>
                             <span class="help-block">{{$errors->first('district')}}</span>
-                        {{--<div class="m-input-icon m-input-icon--right">--}}
-                            {{--<input type="text" id="district" name="district" class="form-control form-control--custom m-input"  value="{{ old('district') }}">--}}
-                            {{--<span class="help-block">{{$errors->first('district')}}</span>--}}
-                        {{--</div>--}}
+
                     </div>
 
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label transition-none" for="taluka">Taluka:<span class="star">*</span></label>
-
                         <div id="taluka">
                         <select {{--title="Select Taluka"--}} class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="taluka" name="taluka">
-                            <option value="select">Select Taluka</option>
-                                {{--@foreach($talukas as $taluka)--}}
-                                    {{--<option value="{{$taluka->id}}">{{$taluka->taluka_name}}</option>--}}
-                                {{--@endforeach--}}
+                            <option value=" " selected>Select Taluka</option>
                         </select>
                         </div>
-
                         <span class="help-block">{{$errors->first('taluka')}}</span>
-                        {{--<div class="m-input-icon m-input-icon--right">--}}
-                            {{--<input type="text" id="taluka" name="taluka" class="form-control form-control--custom" class="form-control form-control--custom m-input"  value="{{ old('taluka') }}">--}}
-                            {{--<span class="help-block">{{$errors->first('taluka')}}</span>--}}
-                        {{--</div>--}}
                     </div>
 
                     <div class="col-sm-4 form-group">
@@ -277,9 +265,15 @@
                 success: function(response){
 //console.log(response);
                     $('#taluka').html(response);
+                    $('.m_selectpicker').selectpicker();
+
                 }
             });
+
+
         });
+
+
 
         {{--function getTaluka(val) {--}}
             {{--$.ajax({--}}

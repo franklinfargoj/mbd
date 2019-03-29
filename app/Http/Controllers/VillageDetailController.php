@@ -53,7 +53,7 @@ class VillageDetailController extends Controller
             'villageLandSource' =>session()->get('villageLandSource')
 
         ];
-        $village_data = VillageDetail::with(['villageLandSource', 'villageBoard'])
+        $village_data = VillageDetail::with(['villageLandSource', 'villageBoard','getDistrictName','getTalukaName'])
         ->where('user_id', Auth::user()->id)
         ->where('role_id', session()->get('role_id'))->join('boards', 'lm_village_detail.board_id', '=', 'boards.id')->join('land_source', 'lm_village_detail.land_source_id', '=', 'land_source.id');
 
@@ -116,7 +116,6 @@ lm_village_detail.updated_at'))->get();
             }else{
                 $i=1;
                 foreach ($village_data as $dataList_key => $dataList_value) {
-                    
                     $dataList = [];
                     $dataList['id'] = $i;
                     $dataList['Board'] = $dataList_value['board'];
@@ -125,8 +124,8 @@ lm_village_detail.updated_at'))->get();
                     $dataList['Land Source'] = $dataList_value['source'];
                     $dataList['Other Land Source'] = $dataList_value['other_land_source'] ?? NULL;
                     $dataList['Land Address'] = $dataList_value['land_address'];
-                    $dataList['District'] = $dataList_value['district'];
-                    $dataList['Taluka'] = $dataList_value['taluka'];
+                    $dataList['District'] = $dataList_value['getDistrictName']['district_name'];
+                    $dataList['Taluka'] = $dataList_value['getTalukaName']['taluka_name'];
                     $dataList['Total Area'] = $dataList_value['total_area'];
                     $dataList['Possession Date'] = $dataList_value['possession_date'];
                     $dataList['Remark'] = $dataList_value['remark'];
@@ -181,7 +180,7 @@ lm_village_detail.updated_at'))->get();
 
             ];
 
-            $village_data = VillageDetail::with(['villageLandSource', 'villageBoard'])
+            $village_data = VillageDetail::with(['villageLandSource', 'villageBoard','getDistrictName','getTalukaName'])
                                             ->where('user_id', Auth::user()->id)
                                             ->where('role_id', session()->get('role_id'))->join('boards', 'lm_village_detail.board_id', '=', 'boards.id')->join('land_source', 'lm_village_detail.land_source_id', '=', 'land_source.id');
 
@@ -255,8 +254,8 @@ lm_village_detail.updated_at'))->get();
                     $dataList['Land Source'] = $dataList_value['source'];
                     $dataList['Other Land Source'] = $dataList_value['other_land_source'] ?? NULL;
                     $dataList['Land Address'] = $dataList_value['land_address'];
-                    $dataList['District'] = $dataList_value['district'];
-                    $dataList['Taluka'] = $dataList_value['taluka'];
+                    $dataList['District'] = $dataList_value['getDistrictName']['district_name'];
+                    $dataList['Taluka'] = $dataList_value['getTalukaName']['taluka_name'];
                     $dataList['Total Area'] = $dataList_value['total_area'];
                     $dataList['Possession Date'] = $dataList_value['possession_date'];
                     $dataList['Remark'] = $dataList_value['remark'];
@@ -379,9 +378,8 @@ lm_village_detail.updated_at'))->get();
         $arrData['land_source'] = LandSource::where('status', 1)->get();
 
         $districts = District::get();
-        $talukas = Taluka::get();
 
-        return view('admin.village_detail.create', compact('header_data', 'arrData','districts','talukas'));
+        return view('admin.village_detail.create', compact('header_data', 'arrData','districts'));
     }
 
     /**
@@ -489,8 +487,9 @@ lm_village_detail.updated_at'))->get();
         $arrData['village_data'] = VillageDetail::FindOrFail($id)->toArray();
 
         $districts = District::get();
-//         dd($arrData['village_data']);
-        return view('admin.village_detail.edit', compact('header_data', 'arrData','districts'));
+        $talukas = Taluka::get();
+//         dd($arrData['village_data']['taluka']);
+        return view('admin.village_detail.edit', compact('header_data', 'arrData','districts','talukas'));
     }
 
     /**
@@ -729,7 +728,7 @@ lm_village_detail.updated_at'))->get();
             $html .= '<option value="" style="font-weight: normal;">Select Taluka</option>';
 
             foreach($talukas as $key => $value){
-                $html .= '<option value="'.$value->id.'">'.$value->taluka_name.'</option>';
+                $html .= '<option value="'.$value->id.'"'.(($request->taluka == $value->id) ? 'selected' : "").">".$value->taluka_name.'</option>';
             }
             $html .= '</select>';
 

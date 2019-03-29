@@ -8,6 +8,7 @@
     <thead>
     <tr>
         <th>Application No</th>
+        <th>Layout Name</th>
         <th>Submission Date</th>
         <th>Society Name</th>
         <th>Building No</th>
@@ -19,6 +20,7 @@
     @foreach ($data as $item)
         <tr>
             <td>{{$item->application_no}}</td>
+            <td>{{$item->layout_name}}</td>
             <td>{{$item->created_at}}</td>
             <td>{{$item->society_name}}</td>
             <td>{{$item->building_no}}</td>
