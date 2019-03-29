@@ -120,9 +120,17 @@ class DYCEController extends Controller
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->log = $this->CommonController->getCurrentStatus($applicationId);
         $is_view = session()->get('role_name') == config('commanConfig.dyce_jr_user'); 
-        $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);  
+        $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);
+        $folder = $this->CommonController->getCurrentRoleFolderName();
+        if (session()->get('role_name') == config('commanConfig.dyce_jr_user') && $ol_application->log->status_id == config('commanConfig.applicationStatus.in_process')){
+            $blade = 'admin.DYCE_department.scrutiny_remark';
+        }else{
+            $blade = 'admin.common.view_dyce_scrutiny';
+        }
 
-        return view('admin.DYCE_department.scrutiny_remark',compact('applicationData','is_view','ol_application'));
+        // dd($blade);
+
+        return view($blade,compact('applicationData','is_view','ol_application','folder'));
     } 
 
     // function used to update details and upload documents by DYCE 
