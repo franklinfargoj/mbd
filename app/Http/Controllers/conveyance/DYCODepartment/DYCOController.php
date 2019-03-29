@@ -249,31 +249,45 @@ class DYCOController extends Controller
         $applicationId = decrypt($applicationId);
         $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
         $Applicationtype= $data->sc_application_master_id;
+        $saleId   = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype);
+        $leaseId  = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype);    
 
-        //Aprove status 
+        //Aprove draft status 
+        $approveStatus = ApplicationStatusMaster::where('status_name','=','approve_draft')->value('id');
+        $data->ApproveDraftSaleAgreement=$this->common->getScAgreement($saleId,$applicationId,$approveStatus);
+        $data->ApprovedDraftLeaseAgreement=$this->common->getScAgreement($leaseId,$applicationId,$approveStatus);
+
+         //Aprove status 
         $Agreementstatus = ApplicationStatusMaster::where('status_name','=','Approved')->value('id');
-        
-        $approvedSaleId   = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype);
-        $approvedLeaseId  = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype);    
-
-        $data->ApprovedSaleAgreement  = $this->common->getScAgreement($approvedSaleId,$applicationId,$Agreementstatus);
-        $data->ApprovedLeaseAgreement = $this->common->getScAgreement($approvedLeaseId,$applicationId,$Agreementstatus);
+        $data->ApprovedSaleAgreement=$this->common->getScAgreement($saleId,$applicationId,$Agreementstatus);
+        $data->ApprovedLeaseAgreement=$this->common->getScAgreement($leaseId,$applicationId,$Agreementstatus);
 
         //draft and sign status
         $signstatus = ApplicationStatusMaster::where('status_name','=','Draft_Sign')->value('id');
-        $signSaleId   = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype);
-        $signLeaseId  = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype);    
-
-        $data->SignSaleAgreement  = $this->common->getScAgreement($signSaleId,$applicationId,$signstatus);
-        $data->SignLeaseAgreement = $this->common->getScAgreement($signLeaseId,$applicationId,$signstatus); 
+        $data->SignSaleAgreement  = $this->common->getScAgreement($saleId,$applicationId,$signstatus);
+        $data->SignLeaseAgreement = $this->common->getScAgreement($leaseId,$applicationId,$signstatus); 
 
         //draft status
         $draftSatus = ApplicationStatusMaster::where('status_name','=','Draft')->value('id');
-        $draftSaleId   = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype);
-        $draftLeaseId  = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype);    
+        $data->draftSaleAgreement  = $this->common->getScAgreement($saleId,$applicationId,$draftSatus);
+        $data->draftLeaseAgreement = $this->common->getScAgreement($leaseId,$applicationId,$draftSatus);
 
-        $data->draftSaleAgreement  = $this->common->getScAgreement($draftSaleId,$applicationId,$draftSatus);
-        $data->draftLeaseAgreement = $this->common->getScAgreement($draftLeaseId,$applicationId,$draftSatus);         
+        //generated text sale and lease agreement
+
+        $text = ApplicationStatusMaster::where('status_name','=','text')->value('id');
+        $data->textSaleAgreement = $this->common->getScAgreement($saleId,$applicationId,$text);
+        $data->textLeaseAgreement = $this->common->getScAgreement($leaseId,$applicationId,$text);
+    
+        if(isset($data->textSaleAgreement->document_path)){
+            $saleContent = Storage::disk('ftp')->get($data->textSaleAgreement->document_path);
+        }else{
+            $saleContent = "";
+
+        }if(isset($data->textLeaseAgreement->document_path)){
+            $leaseContent = Storage::disk('ftp')->get($data->textLeaseAgreement->document_path);
+        }else{
+            $leaseContent = "";
+        }         
 
         $data->is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer'); 
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);   
@@ -300,8 +314,8 @@ class DYCOController extends Controller
         }else{
             $route = 'admin.conveyance.common.view_approved_sale_lease_agreement';
         }   
-      
-        return view($route,compact('data'));      
+    
+        return view($route,compact('data','saleContent','leaseContent'));      
     } 
 
     //save Approved lease and sale Agreement by dycdo
@@ -367,7 +381,7 @@ class DYCOController extends Controller
         
         if (isset($status) && $status == 'success'){
             scApplication::where('id',$applicationId)->update(['approved_by_dycdo' => '1']);
-            return back()->with('success', 'Agreements uploaded successfully.'); 
+            return back()->with('success', 'Agreement uploaded successfully.'); 
         } else{
             return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
         }        
@@ -1371,8 +1385,131 @@ class DYCOController extends Controller
                 
             }
         }
-    return back()->with('success', 'Agreements Generated Successfully.');
+        return back()->with('success', 'Agreement Generated Successfully.');
     }
+
+    // save approve generated conveyance sale and lease agreement 
+    public function approveDaftSaleLeaseAgreement(Request $request){
+
+        $applicationId = $request->applicationId;
+        $sale_folder_name  = "Conveyance_Draft_Sale_Agreement";
+        $lease_folder_name = "Conveyance_Draft_Lease_Agreement";
+        
+        $data = scApplication::where('id',$applicationId)->first();
+        $Applicationtype = $data->sc_application_master_id;
+        $draft = ApplicationStatusMaster::where('status_name','=','approve_draft')->value('id');
+        $text = ApplicationStatusMaster::where('status_name','=','text')->value('id');
+
+        $id = $request->applicationId;
+        if ($request->saleAgreement){
+            $saleContent = str_replace('_', "", $request->saleAgreement);
+
+        }if ($request->leaseAgreement){
+            $leaseContent = str_replace('_', "", $request->leaseAgreement);
+        }
+        
+        $pdf = new Mpdf();
+        $pdf->autoScriptToLang = true;
+        $pdf->autoLangToFont = true; 
+        $header_file = view('admin.REE_department.offer_letter_header');        
+        $footer_file = view('admin.REE_department.offer_letter_footer');
+
+        if (isset($saleContent)){
+
+            $saleId = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype);
+            $saleData = $this->common->getScAgreement($saleId,$applicationId,$draft);
+            $pdf->WriteHTML($header_file.$saleContent.$footer_file);
+            $fileName = time().'approve_generated_sale_agreement_'.$id.'.pdf';
+            $filePath = $sale_folder_name."/".$fileName;
+
+            try{
+                if (!(Storage::disk('ftp')->has($sale_folder_name))) {            
+                    Storage::disk('ftp')->makeDirectory($sale_folder_name, $mode = 0777, true, true);
+                } 
+                if ($request->oldDraftSale){
+                    Storage::disk('ftp')->delete($request->oldDraftSale);
+                }
+                Storage::disk('ftp')->put($filePath, $pdf->Output($fileName, 'S'));
+
+                if ($saleData){
+                        $this->common->updateScAgreement($applicationId,$saleId,$filePath,$draft);
+                    }else{
+                        $this->common->createScAgreement($applicationId,$saleId,$filePath,$draft);  
+                }      
+                
+                //save sale agreement in text format
+
+                $folder_name1 = 'Conveyance_Text_Sale_Agreement';
+
+                if (!(Storage::disk('ftp')->has($folder_name1))) {            
+                    Storage::disk('ftp')->makeDirectory($folder_name1, $mode = 0777, true, true);
+                }        
+                $file_nm =  time()."approve_text_sale_agreement_".$id.'.txt';
+                $filePath1 = $folder_name1."/".$file_nm;
+                
+                if ($request->oldTextSale){
+                    Storage::disk('ftp')->delete($request->oldTextSale);
+                }
+                Storage::disk('ftp')->put($filePath1, $saleContent);
+
+                $textSaleData = $this->common->getScAgreement($saleId,$applicationId,$text);
+                if ($textSaleData){
+                        $this->common->updateScAgreement($applicationId,$saleId,$filePath1,$text);
+                    }else{
+                        $this->common->createScAgreement($applicationId,$saleId,$filePath1,$text);  
+                }                    
+
+            }catch(Exception $e){
+                
+            }
+        }        
+
+        if (isset($leaseContent)){
+
+            $leaseId = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype);
+            $leaseData = $this->common->getScAgreement($leaseId,$applicationId,$draft);
+            $pdf->WriteHTML($header_file.$leaseContent.$footer_file);
+            $fileName = time().'approve_generated_lease_agreement_'.$id.'.pdf';
+            $filePath = $lease_folder_name."/".$fileName;
+
+            try{
+                if (!(Storage::disk('ftp')->has($lease_folder_name))) {            
+                    Storage::disk('ftp')->makeDirectory($lease_folder_name, $mode = 0777, true, true);
+                } 
+                Storage::disk('ftp')->delete($request->oldDraftLease);
+                Storage::disk('ftp')->put($filePath, $pdf->Output($fileName, 'S'));
+
+                if ($leaseData){
+                        $this->common->updateScAgreement($applicationId,$leaseId,$filePath,$draft);
+                    }else{
+                        $this->common->createScAgreement($applicationId,$leaseId,$filePath,$draft);  
+                }      
+                
+                //save lease agreement in text format
+
+                $folder_name1 = 'Conveyance_Text_Lease_Agreement';
+
+                if (!(Storage::disk('ftp')->has($folder_name1))) {            
+                    Storage::disk('ftp')->makeDirectory($folder_name1, $mode = 0777, true, true);
+                }        
+                $file_nm =  time()."approve_lease_agreement_".$id.'.txt';
+                $filePath1 = $folder_name1."/".$file_nm;
+                Storage::disk('ftp')->delete($request->oldtextLease);
+                Storage::disk('ftp')->put($filePath1, $leaseContent);
+
+                $textSaleData = $this->common->getScAgreement($leaseId,$applicationId,$text);
+                if ($textSaleData){
+                        $this->common->updateScAgreement($applicationId,$leaseId,$filePath1,$text);
+                    }else{
+                        $this->common->createScAgreement($applicationId,$leaseId,$filePath1,$text);  
+                }                    
+
+            }catch(Exception $e){
+                
+            }
+        }
+        return back()->with('success', 'Agreement Generated Successfully.');
+    }    
 
     //generate renewal lease draft Agreement 
     public function generateLeaseAgreement(Request $request){
