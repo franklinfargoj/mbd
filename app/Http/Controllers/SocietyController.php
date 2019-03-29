@@ -841,8 +841,9 @@ class SocietyController extends Controller
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
         $villages = VillageDetail::get();
+        $layouts = MasterLayout::get();
 
-        return view('admin.society_detail.index', compact('html','villages','header_data','getData', 'id'));
+        return view('admin.society_detail.index', compact('html','villages','header_data','getData', 'id','layouts'));
     }
 
 
