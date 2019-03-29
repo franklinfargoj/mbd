@@ -65,30 +65,6 @@
                             <span class="text-danger">{{$errors->first('society_reg_no')}}</span>
                     </div>
 
-                    {{--<div class="col-sm-4 form-group">--}}
-                        {{--<label class="col-form-label" for="district">District:</label>--}}
-                        {{--<div class="m-input-icon m-input-icon--right">--}}
-                            {{--<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="district" name="district">--}}
-                                {{--<option value="Andheri">Andheri</option>--}}
-                                {{--<option value="Bandra">Bandra</option>--}}
-                                {{--<option value="Dadar">Dadar</option>--}}
-                            {{--</select>--}}
-                            {{--<span class="help-block">{{$errors->first('district')}}</span>--}}
-                        {{--</div>--}}
-                        {{--<div class="m-input-icon m-input-icon--right">--}}
-                        {{--<input type="text" id="district" name="district" class="form-control form-control--custom m-input"  value="{{ old('district') }}">--}}
-                        {{--<span class="help-block">{{$errors->first('district')}}</span>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-
-                    {{--<div class="col-sm-4 form-group">--}}
-                        {{--<label class="col-form-label" for="district">District:</label>--}}
-                        {{--<div class="m-input-icon m-input-icon--right">--}}
-                            {{--<input type="text" id="district" name="district" class="form-control form-control--custom m-input"--}}
-                                {{--value="{{ old('district') }}">--}}
-                            {{--<span class="help-block">{{$errors->first('district')}}</span>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
 
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="district">District:<span class="star">*</span></label>
@@ -98,34 +74,18 @@
                                 @endforeach
                             </select>
                             <span class="text-danger">{{$errors->first('district')}}</span>
-                        {{--<div class="m-input-icon m-input-icon--right">--}}
-                        {{--<input type="text" id="district" name="district" class="form-control form-control--custom m-input"  value="{{ old('district') }}">--}}
-                        {{--<span class="help-block">{{$errors->first('district')}}</span>--}}
-                        {{--</div>--}}
+
                     </div>
-                    {{--<div class="col-sm-4 form-group">--}}
-                        {{--<label class="col-form-label" for="taluka">Taluka:</label>--}}
-                        {{--<div class="m-input-icon m-input-icon--right">--}}
-                            {{--<input type="text" id="taluka" name="taluka" class="form-control form-control--custom m-input"--}}
-                                {{--value="{{ old('taluka') }}">--}}
-                            {{--<span class="help-block">{{$errors->first('taluka')}}</span>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
 
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="taluka">Taluka:<span class="star">*</span></label>
-                        <div class="m-input-icon m-input-icon--right">
-                            <select title="Select Taluka" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="taluka" name="taluka">
-                                @foreach($talukas as $taluka)
-                                    <option value="{{$taluka->id}}">{{$taluka->taluka_name}}</option>
-                                @endforeach
+                        <label class="col-form-label transition-none" for="taluka">Taluka:<span class="star">*</span></label>
+                        <div id="taluka">
+                            <select {{--title="Select Taluka"--}} class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="taluka" name="taluka">
+                                <option value=" " selected>Select Taluka</option>
                             </select>
-                            <span class="text-danger">{{$errors->first('taluka')}}</span>
                         </div>
-                        {{--<div class="m-input-icon m-input-icon--right">--}}
-                        {{--<input type="text" id="taluka" name="taluka" class="form-control form-control--custom" class="form-control form-control--custom m-input"  value="{{ old('taluka') }}">--}}
-                        {{--<span class="help-block">{{$errors->first('taluka')}}</span>--}}
-                        {{--</div>--}}
+                        <span class="help-block">{{$errors->first('taluka')}}</span>
+
                     </div>
 
                     <div class="col-sm-4 form-group">
@@ -317,6 +277,31 @@
             else{
                 $(".hide").hide();
             }
+        });
+
+    </script>
+
+    <script>
+        $(document).on('change', '#district', function(){
+            var id = $(this).val();
+//console.log(id);
+//return false;
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url:"{{URL::route('getTalukaByAjax')}}",
+                type: 'POST',
+                data: {district_id: id},
+                success: function(response){
+//console.log(response);
+                    $('#taluka').html(response);
+                    $('.m_selectpicker').selectpicker();
+
+                }
+            });
+
+
         });
 
     </script>
