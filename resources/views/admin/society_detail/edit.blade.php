@@ -85,17 +85,16 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="taluka">Taluka:<span class="star">*</span></label>
-                        <div class="m-input-icon m-input-icon--right">
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="taluka" name="taluka">
-                                @foreach($talukas as $taluka)
-                                    <option value="{{$taluka->id}}" {{($taluka->id == $arrData['society_data']['taluka']) ? 'selected' : '' }}>{{$taluka->taluka_name}}</option>
-                                @endforeach
-                            </select>
-                            <span class="text-danger">{{$errors->first('taluka')}}</span>
-                        </div>
+                <div class="col-sm-4 form-group">
+                    <label class="col-form-label transition-none" for="taluka">Taluka:<span class="star">*</span></label>
+                    <div id="taluka">
+                        <select {{--title="Select Taluka"--}} class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="taluka" name="taluka">
+                            <option value=" " selected>Select Taluka</option>
+                        </select>
                     </div>
+                    <span class="help-block">{{$errors->first('taluka')}}</span>
+
+                </div>
 
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="survey_number">Survey Number:<span class="star">*</span></label>

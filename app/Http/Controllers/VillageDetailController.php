@@ -378,9 +378,8 @@ lm_village_detail.updated_at'))->get();
         $arrData['land_source'] = LandSource::where('status', 1)->get();
 
         $districts = District::get();
-        $talukas = Taluka::get();
 
-        return view('admin.village_detail.create', compact('header_data', 'arrData','districts','talukas'));
+        return view('admin.village_detail.create', compact('header_data', 'arrData','districts'));
     }
 
     /**

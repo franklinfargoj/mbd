@@ -80,25 +80,17 @@
                             </select>
                             <span class="help-block">{{$errors->first('district')}}</span>
                         </div>
-                        {{--<label class="col-form-label" for="district">District:</label>--}}
-                        {{--<input type="text" id="district" name="district" class="form-control form-control--custom m-input"--}}
-                            {{--value="{{ $arrData['village_data']['district'] }}">--}}
-                        {{--<span class="help-block">{{$errors->first('district')}}</span>--}}
+
                     </div>
 
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="taluka">Taluka:<span class="star">*</span></label>
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="taluka" name="taluka">
-                                @foreach($talukas as $taluka)
-                                    <option value="{{$taluka->id}}" {{($taluka->id == $arrData['village_data']['taluka']) ? 'selected' : '' }}>{{$taluka->taluka_name}}</option>
-                                @endforeach
+                        <label class="col-form-label transition-none" for="taluka">Taluka:<span class="star">*</span></label>
+                        <div id="taluka">
+                            <select {{--title="Select Taluka"--}} class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="taluka" name="taluka">
+                                <option value=" " selected>Select Taluka</option>
                             </select>
-                            <span class="help-block">{{$errors->first('taluka')}}</span>
-
-                        {{--<label class="col-form-label" for="taluka">Taluka:</label>--}}
-                        {{--<input type="text" id="taluka" name="taluka" class="form-control form-control--custom m-input"--}}
-                            {{--value="{{ $arrData['village_data']['taluka'] }}">--}}
-                        {{--<span class="help-block">{{$errors->first('taluka')}}</span>--}}
+                        </div>
+                        <span class="help-block">{{$errors->first('taluka')}}</span>
                     </div>
 
                     <div class="col-sm-4 form-group">
@@ -268,4 +260,29 @@
         else $("#other_land_source").hide();
     });
 </script>
+<script>
+    $(document).on('change', '#district', function(){
+        var id = $(this).val();
+//console.log(id);
+//return false;
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url:"{{URL::route('getTalukaByAjax')}}",
+            type: 'POST',
+            data: {district_id: id},
+            success: function(response){
+//console.log(response);
+                $('#taluka').html(response);
+                $('.m_selectpicker').selectpicker();
+
+            }
+        });
+
+
+    });
+
+</script>
+
 @endsection

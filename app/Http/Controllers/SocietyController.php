@@ -512,9 +512,8 @@ class SocietyController extends Controller
         $arrData['villages'] = VillageDetail::get();
         $arrData['layouts'] = MasterLayout::get();
         $districts = District::get();
-        $talukas = Taluka::get();
 //        dd($arrData);
-        return view('admin.society_detail.create', compact('header_data', 'arrData','districts','talukas'));
+        return view('admin.society_detail.create', compact('header_data', 'arrData','districts'));
     }
 
     /**
