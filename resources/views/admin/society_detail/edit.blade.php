@@ -305,4 +305,49 @@
         });
 
     </script>
+
+    <script>
+
+        var district_id = $('#district').val();
+
+        var taluka = "{{$arrData['society_data']['taluka']}}"
+
+        if(district_id != null){
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url:"{{URL::route('getTalukaByAjax')}}",
+                type: 'POST',
+                data: {district_id: district_id , taluka: taluka},
+                success: function(response){
+//console.log(response);
+                    $('#taluka').html(response);
+                    $('.m_selectpicker').selectpicker();
+                }
+            });
+
+        }
+
+        $(document).on('change', '#district', function(){
+            var id = $(this).val();
+//console.log(id);
+//return false;
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url:"{{URL::route('getTalukaByAjax')}}",
+                type: 'POST',
+                data: {district_id: id},
+                success: function(response){
+//console.log(response);
+                    $('#taluka').html(response);
+                    $('.m_selectpicker').selectpicker();
+                }
+            });
+        });
+
+
+    </script>
 @endsection

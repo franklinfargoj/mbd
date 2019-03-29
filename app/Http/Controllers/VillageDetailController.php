@@ -488,7 +488,7 @@ lm_village_detail.updated_at'))->get();
 
         $districts = District::get();
         $talukas = Taluka::get();
-//         dd($arrData['village_data']);
+//         dd($arrData['village_data']['taluka']);
         return view('admin.village_detail.edit', compact('header_data', 'arrData','districts','talukas'));
     }
 
@@ -728,7 +728,7 @@ lm_village_detail.updated_at'))->get();
             $html .= '<option value="" style="font-weight: normal;">Select Taluka</option>';
 
             foreach($talukas as $key => $value){
-                $html .= '<option value="'.$value->id.'">'.$value->taluka_name.'</option>';
+                $html .= '<option value="'.$value->id.'"'.(($request->taluka == $value->id) ? 'selected' : "").">".$value->taluka_name.'</option>';
             }
             $html .= '</select>';
 
