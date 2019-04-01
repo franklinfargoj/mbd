@@ -85,4 +85,8 @@ class SocietyDetail extends Model
 
     }
 
+    public function getLandName(){
+        return $this->hasOne('App\OtherLand', 'id','other_land_id');
+
+    }
 }
