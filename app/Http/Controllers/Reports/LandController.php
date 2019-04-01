@@ -57,7 +57,7 @@ class LandController extends Controller
         }
 
         if($societies){
-            $result = $this->generateReport($societies, $report_format, $village_names);
+            $result = $this->generateVillageSocietyReport($societies, $report_format, $village_names);
             if(!$result){
                 return back()->with('error', 'No Record Found');
             }
@@ -74,7 +74,7 @@ class LandController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function generateReport($data, $report_format, $village_names){
+    public function generateVillageSocietyReport($data, $report_format, $village_names){
         $fileName = date('Y_m_d_H_i_s') . '_village_society_report.pdf';
         $village_names = implode(',',$village_names);
 
@@ -149,6 +149,58 @@ class LandController extends Controller
         } else {
             return false;
         }
+    }
+
+    /**
+     * Generate the village - society area report.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function village_society_area_reports(Request $request)
+    {
+
+        $village_ids = $request->village_id;
+
+        $village_names = VillageDetail::whereIn('id',$village_ids)->pluck('village_name')->toArray();
+
+//        $societies = SocietyDetail::whereHas('Villages', function($q) use ($village_ids){
+//            $q->whereIn('id',$village_ids);
+//        })->get();
+
+        $societies = VillageSociety::with('getVillageDetails','getSocietyDetails')
+            ->whereIn('village_id',$village_ids)
+            ->orderBy('village_id')
+            ->get();
+
+        if($request->pdf == 'pdf'){
+            $report_format = $request->pdf;
+        }
+        else{
+            $report_format = $request->excel;
+        }
+
+        if($societies){
+            $result = $this->generateVillageSocietyAreaReport($societies, $report_format, $village_names);
+            if(!$result){
+                return back()->with('error', 'No Record Found');
+            }
+        }else{
+            return back()->with('error', 'No Record Found');
+
+        }
+    }
+
+    /**
+     * Generate the Report in excel or pdf format.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function generateVillageSocietyAreaReport($data, $report_format, $village_names){
+        dd('to be continued...');
     }
 
 }

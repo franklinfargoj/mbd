@@ -1380,14 +1380,13 @@
                                         <span class="m-menu__link-title">
                                             <span class="m-menu__link-wrap">
                                                 <span class="m-menu__link-text">
-                                                    Village - Society Report
+                                                    Land Report
                                                 </span>
                                             </span>
                                         </span>
                                     </a>
                                 </li>
                             @endif
-
                     </ul>
                 </li>
 

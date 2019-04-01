@@ -146,6 +146,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('land_village_society_reports','Reports\LandController@land_village_society_reports')->name('land.village_society_reports');
     Route::get('village_society_reports','Reports\LandController@village_society_reports')->name('village_society_reports');
 
+    Route::get('village_society_area_reports','Reports\LandController@village_society_area_reports')->name('village_society_area_reports');
+
 
 
     //Reports end
