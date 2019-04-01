@@ -275,6 +275,11 @@
             @if(isset($noc_application->noc_application_master) && $noc_application->noc_application_master->model == 'Premium')
                <div>
                   <div class="m-portlet m-portlet--no-top-shadow">
+                  <div class="d-flex align-items-center">
+                        <h3 class="section-title section-title--small">
+                           NOC Calculation Sheet:
+                        </h3>
+                     </div>
                      <div class="tab-content">
                         <div>
                            <form class="form--custom" action="{{ route('ree.save_noc_scrutiny') }}" method="post">
