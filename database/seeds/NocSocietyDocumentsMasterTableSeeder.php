@@ -29,25 +29,25 @@ class NocSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => 4,
                     'language_id'   => $language,
-                    'name' => "Receipts of offsite infrastructure charges",
+                    'name' => "Receipts of offsite infrastructure charges paid to planning authority MHADA",
                     'is_optional' => 0
                 ],
                 [
                     'application_id'   => 4,
                     'language_id'   => $language,
-                    'name' => "Receipts of premium charges 1",
+                    'name' => "Receipts of premium charges paid to Mumbai board",
                     'is_optional' => 0
                 ],
+                // [
+                //     'application_id'   => 4,
+                //     'language_id'   => $language,
+                //     'name' => "Receipts of premium charges 2",
+                //     'is_optional' => 0
+                // ], 
                 [
                     'application_id'   => 4,
                     'language_id'   => $language,
-                    'name' => "Receipts of premium charges 2",
-                    'is_optional' => 0
-                ], 
-                [
-                    'application_id'   => 4,
-                    'language_id'   => $language,
-                    'name' => "Water charges receipt",
+                    'name' => "Receipt of water charges",
                     'is_optional' => 0
                 ],
                 [
@@ -83,7 +83,7 @@ class NocSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => 4,
                     'language_id'   => $language,
-                    'name' => "Undertaking of registration of label",
+                    'name' => "Undertaking of registration of labor",
                     'is_optional' => 0,
                     'parent' => 6,
                     'sort_by' =>4
@@ -98,7 +98,7 @@ class NocSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => 4,
                     'language_id'   => $language,
                     'name' => "Society Resolution",
-                    'is_optional' => 1
+                    'is_optional' => 0
                 ],
                 [
                     'application_id'   => 4,
@@ -120,22 +120,44 @@ class NocSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => 8,
                     'language_id'   => 1,
-                    'name' => "Offer letter"
+                    'name' => "Offer letter",
+                    'is_optional' => 0
                 ],
                 [
                     'application_id'   => 8,
                     'language_id'   => 1,
-                    'name' => "Society Resolution"
+                    'name' => "Society Resolution",
+                    'is_optional' => 1
                 ],
                 [
                     'application_id'   => 8,
                     'language_id'   => 1,
-                    'name' => "Receipts of offsite infrastructure charges paid to BMC"
+                    'name' => "Receipts of offsite infrastructure charges paid to Mumbai board",
+                    'is_optional' => 0
                 ],
                 [
                     'application_id'   => 8,
                     'language_id'   => 1,
-                    'name' => "Indemnity bond / Undertaking"
+                    'name' => "Receipts of offsite infrastructure charges paid to planning authority",
+                    'is_optional' => 0
+                ],
+                [
+                    'application_id'   => 8,
+                    'language_id'   => 1,
+                    'name' => "Water charges receipt",
+                    'is_optional' => 0
+                ],
+                [
+                    'application_id'   => 8,
+                    'language_id'   => 1,
+                    'name' => "Undertaking form 5",
+                    'is_optional' => 0
+                ],
+                [
+                    'application_id'   => 8,
+                    'language_id'   => 1,
+                    'name' => "Undertaking for acceptance of offer letter",
+                    'is_optional' => 0
                 ],
                 [
                     'application_id'   => 8,
@@ -163,25 +185,25 @@ class NocSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => 15,
                     'language_id'   => $language,
-                    'name' => "Receipts of offsite infrastructure charges",
+                    'name' => "Receipts of offsite infrastructure charges paid to planning authority MHADA",
                     'is_optional' => 0
                 ],
                 [
                     'application_id'   => 15,
                     'language_id'   => $language,
-                    'name' => "Receipts of premium charges 1",
+                    'name' => "Receipts of premium charges paid to Mumbai board",
                     'is_optional' => 0
                 ],
+                // [
+                //     'application_id'   => 15,
+                //     'language_id'   => $language,
+                //     'name' => "Receipts of premium charges 2",
+                //     'is_optional' => 0
+                // ], 
                 [
                     'application_id'   => 15,
                     'language_id'   => $language,
-                    'name' => "Receipts of premium charges 2",
-                    'is_optional' => 0
-                ], 
-                [
-                    'application_id'   => 15,
-                    'language_id'   => $language,
-                    'name' => "Water charges receipt",
+                    'name' => "Receipt of water charges",
                     'is_optional' => 0
                 ],
                 [
@@ -217,7 +239,7 @@ class NocSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => 15,
                     'language_id'   => $language,
-                    'name' => "Undertaking of registration of label",
+                    'name' => "Undertaking of registration of labor",
                     'is_optional' => 0,
                     'parent' => 6,
                     'sort_by' =>4
@@ -232,7 +254,7 @@ class NocSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => 15,
                     'language_id'   => $language,
                     'name' => "Society Resolution",
-                    'is_optional' => 1
+                    'is_optional' => 0
                 ],
                 [
                     'application_id'   => 15,
@@ -254,22 +276,44 @@ class NocSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => 19,
                     'language_id'   => 1,
-                    'name' => "Offer letter"
+                    'name' => "Offer letter",
+                    'is_optional' => 0
                 ],
                 [
                     'application_id'   => 19,
                     'language_id'   => 1,
-                    'name' => "Society Resolution"
+                    'name' => "Society Resolution",
+                    'is_optional' => 1
                 ],
                 [
                     'application_id'   => 19,
                     'language_id'   => 1,
-                    'name' => "Receipts of offsite infrastructure charges paid to BMC"
+                    'name' => "Receipts of offsite infrastructure charges paid to Mumbai board",
+                    'is_optional' => 0
+                ], 
+                [
+                    'application_id'   => 19,
+                    'language_id'   => 1,
+                    'name' => "Receipts of offsite infrastructure charges paid to planning authority",
+                    'is_optional' => 0
                 ],
                 [
                     'application_id'   => 19,
                     'language_id'   => 1,
-                    'name' => "Indemnity bond / Undertaking"
+                    'name' => "Water charges receipt",
+                    'is_optional' => 0
+                ],
+                [
+                    'application_id'   => 19,
+                    'language_id'   => 1,
+                    'name' => "Undertaking form 5",
+                    'is_optional' => 0
+                ],
+                [
+                    'application_id'   => 19,
+                    'language_id'   => 1,
+                    'name' => "Undertaking for acceptance of offer letter",
+                    'is_optional' => 0
                 ],
                 [
                     'application_id'   => 19,
