@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reports;
 
 use App\Http\Controllers\Controller;
+use App\MasterLayout;
 use App\SocietyDetail;
 use App\VillageDetail;
 use App\VillageSociety;
@@ -24,7 +25,9 @@ class LandController extends Controller
     {
         $villages = VillageDetail::get();
 
-        return view('admin.reports.land.village_society_reports',compact('villages'));
+        $layouts = MasterLayout::get();
+
+        return view('admin.reports.land.village_society_reports',compact('villages','layouts'));
     }
     /**
      * Generate the village - society report.
@@ -59,10 +62,10 @@ class LandController extends Controller
         if($societies){
             $result = $this->generateVillageSocietyReport($societies, $report_format, $village_names);
             if(!$result){
-                return back()->with('error', 'No Record Found');
+                return back()->with('error1', 'No Record Found');
             }
         }else{
-            return back()->with('error', 'No Record Found');
+            return back()->with('error1', 'No Record Found');
 
         }
     }
@@ -184,10 +187,10 @@ class LandController extends Controller
         if($societies){
             $result = $this->generateVillageSocietyAreaReport($societies, $report_format, $village_names);
             if(!$result){
-                return back()->with('error', 'No Record Found');
+                return back()->with('error2', 'No Record Found');
             }
         }else{
-            return back()->with('error', 'No Record Found');
+            return back()->with('error2', 'No Record Found');
 
         }
     }
@@ -200,7 +203,253 @@ class LandController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function generateVillageSocietyAreaReport($data, $report_format, $village_names){
-        dd('to be continued...');
+
+        $fileName = date('Y_m_d_H_i_s') . '_village_society_area_report.pdf';
+        $village_names = implode(',',$village_names);
+
+        if (count($data) > 0) {
+
+            $dataListMaster = [];
+            $i=1;
+            $total_society_area = 0;
+            $total_village_area = 0;
+
+            foreach ($data as $key => $datas) {
+
+                $dataList = [];
+                $dataList['id'] = $i;
+
+
+                if($key > 0){
+                    if($datas->getVillageDetails->village_name == $dataListMaster[$key - 1]['Village Name']){
+                        $village = $datas->getVillageDetails->village_name;
+                    }
+
+                    if($village == $datas->getVillageDetails->village_name){
+                        $dataList['Village Name'] = "";
+                        $dataList['Village Total Area(m.sq.)'] = "";
+                    }else{
+                        $dataList['Village Name'] = $datas->getVillageDetails->village_name;
+                        $village_area = $datas->getVillageDetails->total_area;
+                        $dataList['Village Total Area(m.sq.)'] = $village_area;
+
+                        $total_village_area += $village_area;
+
+                    }
+                } else{
+                    $dataList['Village Name'] = $datas->getVillageDetails->village_name;
+                    $village_area = $datas->getVillageDetails->total_area;
+                    $dataList['Village Total Area(m.sq.)'] = $village_area;
+                    $total_village_area += $village_area;
+
+                }
+
+                $dataList['Society Name'] = $datas->getSocietyDetails['society_name'] ;
+                $dataList['Society Area(m.sq.)'] = $datas->getSocietyDetails['area'] ;
+
+                $total_society_area += $datas->getSocietyDetails['area'];
+
+                $dataListKeys = array_keys($dataList);
+                $dataListMaster[]=$dataList;
+                $i++;
+            }
+
+            $dataListMaster[] = [ 'id' => '',
+                'Village Name' => '',
+                'Village Total Area(m.sq.)' => '',
+                'Society Name'=> '',
+                'Society Area(m.sq.)'=> ''
+            ];
+
+            $dataListMaster[] = [ 'id' => '',
+                'Village Name' => 'Village Total Area(m.sq.)',
+                'Village Total Area(m.sq.)' => $total_village_area,
+                'Society Name'=> 'Society Total Area(m.sq.)',
+                'Society Area(m.sq.)'=> $total_society_area
+            ];
+
+            if($report_format == 'pdf')
+            {
+                $content = view('admin.reports.land._village_society_area_report', compact('dataListMaster','village_names'));
+                $header_file = '';
+                $footer_file = '';
+
+                $pdf = new Mpdf([
+                    'default_font_size' => 9,
+                    'default_font' => 'Times New Roman',
+                ]);
+                $pdf->autoScriptToLang = true;
+                $pdf->autoLangToFont = true;
+                $pdf->setAutoBottomMargin = 'stretch';
+                $pdf->setAutoTopMargin = 'stretch';
+                $pdf->SetHTMLHeader($header_file);
+                $pdf->SetHTMLFooter($footer_file);
+                $pdf->WriteHTML($content);
+                $pdf->Output($fileName, 'D');
+            }
+            if($report_format == 'excel')
+            {
+
+                $village_names = str_replace(',','_',$village_names);
+                return Excel::create(date('Y_m_d_H_i_s') . '_village_society_area_report_'.$village_names, function($excel) use($dataListMaster){
+
+                    $excel->sheet('mySheet', function($sheet) use($dataListMaster)
+                    {
+                        $sheet->fromArray($dataListMaster);
+                    });
+                })->download('csv');
+            }
+
+            return true;
+
+        } else {
+            return false;
+        }
     }
 
+    /**
+     * Generate the layout - village - society area report.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function village_society_layout_area_reports(Request $request)
+    {
+
+        $layout_ids = $request->layout_id;
+
+        $layout_names = MasterLayout::whereIn('id',$layout_ids)->pluck('layout_name')->toArray();
+
+        $societies = SocietyDetail::with('getLayoutName','villages')
+            ->whereIn('layout_id',$layout_ids)
+            ->orderBy('layout_id')
+            ->get();
+
+        if($request->pdf == 'pdf'){
+            $report_format = $request->pdf;
+        }
+        else{
+            $report_format = $request->excel;
+        }
+
+        if($societies){
+            $result = $this->generateVillageSocietyLayoutAreaReport($societies, $report_format, $layout_names);
+            if(!$result){
+                return back()->with('error3', 'No Record Found');
+            }
+        }else{
+            return back()->with('error3', 'No Record Found');
+
+        }
+    }
+
+
+    /**
+     * Generate the Report in excel or pdf format.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function generateVillageSocietyLayoutAreaReport($data, $report_format, $layout_names){
+
+        $fileName = date('Y_m_d_H_i_s') . '_layout_village_society_area_report.pdf';
+        $layout_names = implode(',',$layout_names);
+
+        if (count($data) > 0) {
+
+            $dataListMaster = [];
+            $i=1;
+            $layout_village_area = 0;
+
+            foreach ($data as $key => $datas) {
+
+                $village_ids = array();
+                foreach ($datas->villages as $village){
+
+                    if(!(in_array($village->id, $village_ids))){
+
+                        $village_ids[] += $village->id;
+
+                        $dataList = [];
+                        $dataList['id'] = $i;
+
+                        if($key > 0){
+                            if($datas->getLayoutName->layout_name == $dataListMaster[$key - 1]['Layout Name'] ){
+                                $layout = $datas->getLayoutName->layout_name;
+                            }
+                            if($layout == $datas->getLayoutName->layout_name){
+                                $dataList['Layout Name'] = "";
+                            }else{
+                                $dataList['Layout Name'] = $datas->getVillageDetails->village_name;
+                            }
+                        }
+                        else{
+                            $dataList['Layout Name'] = $datas->getLayoutName->layout_name;
+
+                        }
+
+                        $dataList['Village Name'] = $village->village_name;
+                        $dataList['Village Area(m.sq.)'] = $village->total_area ;
+
+                        $layout_village_area += $village->total_area;
+
+                        $dataListKeys = array_keys($dataList);
+                        $dataListMaster[]=$dataList;
+                        $i++;
+
+                    }
+                }
+            }
+            $dataListMaster[] = [ 'id' => '',
+                'Layout Name' => '',
+                'Village Name' => '',
+                'Village Area(m.sq.)'=> '',
+            ];
+
+            $dataListMaster[] = [ 'id' => '',
+                'Layout Name' => '',
+                'Village Name' => 'Total Layout Area ',
+                'Village Area(m.sq.)'=> $layout_village_area,
+            ];
+
+            if($report_format == 'pdf')
+            {
+                $content = view('admin.reports.land._layout_village_society_area_report', compact('dataListMaster','layout_names'));
+                $header_file = '';
+                $footer_file = '';
+
+                $pdf = new Mpdf([
+                    'default_font_size' => 9,
+                    'default_font' => 'Times New Roman',
+                ]);
+                $pdf->autoScriptToLang = true;
+                $pdf->autoLangToFont = true;
+                $pdf->setAutoBottomMargin = 'stretch';
+                $pdf->setAutoTopMargin = 'stretch';
+                $pdf->SetHTMLHeader($header_file);
+                $pdf->SetHTMLFooter($footer_file);
+                $pdf->WriteHTML($content);
+                $pdf->Output($fileName, 'D');
+            }
+            if($report_format == 'excel')
+            {
+
+                $village_names = str_replace(',','_',$village_names);
+                return Excel::create(date('Y_m_d_H_i_s') . '_layout_village_society_area_report_'.$village_names, function($excel) use($dataListMaster){
+
+                    $excel->sheet('mySheet', function($sheet) use($dataListMaster)
+                    {
+                        $sheet->fromArray($dataListMaster);
+                    });
+                })->download('csv');
+            }
+
+            return true;
+
+        } else {
+            return false;
+        }
+    }
 }
