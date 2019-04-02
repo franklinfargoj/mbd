@@ -296,9 +296,19 @@
                                       </tr>
                                       <tr>
                                          <td>7</td>
-                                         <td><p>i)Area permitted to NOC <input type="text" name="area[noc_permitted_area]" id="noc_permitted_area" class="noc_area form-control--custom text-box number" value="{{ isset($data) ? $data->noc_permitted_area : '' }}" {{$disabled}}></p>
-                                          <p>ii) Existing build up area <input type="text" 
-                                          name="area[existing_buildup_area]" id="existing_buildup_area" class="noc_area form-control--custom text-box number" value="{{ isset($data) ? $data->existing_buildup_area : '' }}" {{$disabled}}></p>
+                                         <td>
+                                             <p>i) Existing build up area <input type="text" 
+                                             name="area[existing_buildup_area]" id="existing_buildup_area" class="noc_area form-control--custom text-box number" value="{{ isset($data) ? $data->existing_buildup_area : '' }}" {{$disabled}}>
+                                             </p>
+                                             <p>ii)BUA already allotted vide as lease,
+                                                   <div class="col-sm-4 form-group">
+                                                    <label class="col-form-label" for="m_datepicker"> NOC date: </label>
+                                                    <input type="text" id="m_datepicker" name="area[noc_date]" data-date-end-date="+0d" class="form-control form-control--custom m-input m_datepicker" value="{{ isset($data) ? date(config('commanConfig.dateFormat'), strtotime($data->noc_date)) : '' }}" required {{$disabled}}>
+                                                    <span class="help-block"></span> 
+                                                </div> 
+                                                 if any <input type="text" name="area[noc_vide_lease]" id="noc_vide_lease" class="noc_area form-control--custom text-box number" value="{{ isset($data) ? $data->noc_vide_lease : '' }}" {{$disabled}}></p>
+
+                                             <p>iii)BUA permitted through this NOC <input type="text" name="area[noc_permitted_area]" id="noc_permitted_area" class="noc_area form-control--custom text-box number" value="{{ isset($data) ? $data->noc_permitted_area : '' }}" {{$disabled}}></p>
                                          </td>
                                          <td><input type="text" name="area[total_existing_permitted_area]" id="total_existing_permitted_area" class="form-control--custom text-box number" readonly value="{{ isset($data) ? $data->total_existing_permitted_area : '' }}"></td>
                                       </tr>
