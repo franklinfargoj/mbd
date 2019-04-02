@@ -294,50 +294,83 @@
                                           <th>In m2</th>
                                        </thead>
                                        <tbody>
+                                       @php 
+                                          if (isset($noc_application->OlCalculationSheet)){
+                                             $lease = $noc_application->OlCalculationSheet->area_as_per_lease_agreement; 
+                                             $tit = $noc_application->OlCalculationSheet->area_of_tit_bit_plot;
+
+                                             $vpPio = str_replace(",", "", $noc_application->OlCalculationSheet->area_in_reserved_seats_for_vp_pio);
+                                             $tenament = str_replace(",", "", $noc_application->OlCalculationSheet->permissible_proratata_area);
+
+                                             $plotArea = str_replace(",", "", $lease) + str_replace(",", "", $tit);
+
+                                             $buildupArea = $plotArea * str_replace(",", "", $noc_application->OlCalculationSheet->permissible_carpet_area_coordinates);
+
+                                             $totalBUA = $buildupArea + $vpPio + $tenament;
+
+                                          }
+                                       @endphp
                                          <tr>
 
                                             <td>1</td>
                                             <td><p>Plot Area as per demarcation </p>
-                                                <p> i) Area as per Lead Deed <input type="text" id="lease_deed_area" name="area[lease_deed_area]" class="number plot_area form-control--custom text-box" value="{{ isset($data) ? $data->lease_deed_area : '' }}" {{$disabled}}></p>
+                                                <p> i) Area as per Lead Deed <input type="text" id="lease_deed_area" name="area[lease_deed_area]" class="number plot_area form-control--custom text-box" value="{{ isset($data) ? $data->lease_deed_area : (isset($noc_application->OlCalculationSheet) ? $noc_application->OlCalculationSheet->area_as_per_lease_agreement : '') }}" {{$disabled}}></p>
+
                                                 <p> ii) Additional land <input type="text" id="land_area" 
-                                                name="area[land_area]" class="plot_area number form-control--custom text-box" value="{{ isset($data) ? $data->land_area : '' }}" {{$disabled}}></p>
+                                                name="area[land_area]" class="plot_area number form-control--custom text-box" value="{{ isset($data) ? $data->land_area : 
+                                                (isset($noc_application->OlCalculationSheet) ? $noc_application->OlCalculationSheet->area_of_tit_bit_plot : '') }}" {{$disabled}}></p>
                                             </td>
-                                            <td><input type="text" id="plot_area" name="area[plot_area]" value="{{ isset($data) ? $data->plot_area : '' }}" class="form-control--custom text-box number" readonly></td>
+                                            <td><input type="text" id="plot_area" name="area[plot_area]" value="{{ isset($data) ? $data->plot_area : (isset($plotArea) ? number_format($plotArea) : '') }}" class="form-control--custom text-box number" readonly></td>
                                          </tr>
                                          <tr>
                                             <td>2</td>
-                                            <td>Build up Area permissible <input type="text" id="plot_area1" class="form-control--custom text-box" readonly value="{{ isset($data) ? $data->plot_area : '' }}"> * <input type="text" name="area[fsi]" class="number form-control--custom text-box" id="fsi" value="{{ isset($data) ? $data->fsi : '' }}" {{$disabled}}> FSI</td>
-                                            <td><input type="text" name="area[buildup_area]" class="form-control--custom text-box" id="buildup_area" value="{{ isset($data) ? $data->buildup_area : '' }}" readonly></td>
+                                            <td>Build up Area permissible <input type="text" id="plot_area1" class="form-control--custom text-box" readonly value="{{ isset($data) ? $data->plot_area : (isset($plotArea) ? $plotArea : '') }}"> * <input type="text" name="area[fsi]" class="number form-control--custom text-box" id="fsi" value="{{ isset($data) ? $data->fsi : (isset($noc_application->OlCalculationSheet) ? $noc_application->OlCalculationSheet->permissible_carpet_area_coordinates : '') }}" {{$disabled}}> FSI</td>
+                                            <td>
+                                            <input type="text" name="area[buildup_area]" class="form-control--custom text-box" id="buildup_area" value="{{ isset($data) ? $data->buildup_area : (isset($buildupArea) ? number_format($buildupArea) : '') }}" readonly></td>
                                          </tr>
                                          <tr>
                                             <td>3</td>
                                             <td>
                                                <p> i)No of tenement <input type="text" id="tenement_no" 
-                                               name="area[tenement_no]" class="tenement_area form-control--custom text-box number" value="{{ isset($data) ? $data->tenement_no : '' }}" {{$disabled}}></p>
-                                               <p> i)Area as per tenement <input type="text" id="tenement_area" name="area[tenement_area]" class="tenement_area form-control--custom text-box number" value="{{ isset($data) ? $data->tenement_area : '' }}" {{$disabled}}></p>
+                                               name="area[tenement_no]" class="tenement_area form-control--custom text-box number" value="{{ isset($data) ? $data->tenement_no : 
+                                               (isset($noc_application->OlCalculationSheet) ? $noc_application->OlCalculationSheet->total_house : '') }}" {{$disabled}}></p>
+
+                                               <p> i)Area as per tenement <input type="text" id="tenement_area" name="area[tenement_area]" class="tenement_area form-control--custom text-box number" value="{{ isset($data) ? $data->tenement_area : 
+                                               (isset($noc_application->OlCalculationSheet) ? $noc_application->OlCalculationSheet->sqm_area_per_slot : '') }}" {{$disabled}}></p>
                                             </td>
-                                            <td><input type="text" name="area[total_tenement_area]" id="total_tenement_area" value="{{ isset($data) ? $data->total_tenement_area : '' }}" class="form-control--custom text-box" readonly></td>
+                                            <td><input type="text" name="area[total_tenement_area]" id="total_tenement_area" value="{{ isset($data) ? $data->total_tenement_area : (isset($noc_application->OlCalculationSheet) ? $noc_application->OlCalculationSheet->permissible_proratata_area : '') }}" class="form-control--custom text-box" readonly></td>
                                          </tr>
                                          <tr>
                                             <td>4</td>
                                             <td>From discretionary 10% quota of HOD, VP/A from balance built up area of layout</td>
-                                            <td><input type="text" class="form-control--custom text-box number" name="area[balance_buildup_area]" id="balance_buildup_area" value="{{ isset($data) ? $data->balance_buildup_area : '' }}" onkeyup="calculateTotalBUA()" {{$disabled}}> </td>
+                                            <td><input type="text" class="form-control--custom text-box number" name="area[balance_buildup_area]" id="balance_buildup_area" value="{{ isset($data) ? $data->balance_buildup_area : (isset($noc_application->OlCalculationSheet) ? $noc_application->OlCalculationSheet->area_in_reserved_seats_for_vp_pio : '') }}" onkeyup="calculateTotalBUA()" {{$disabled}}> </td>
                                          </tr>
                                          <tr>
                                             <td>5</td>
                                             <td>Total BUA permissable (sr 2+3+4)</td>
-                                            <td><input type="text" name="area[total_permissable_bua]" id="total_permissable_bua" class="form-control--custom text-box number" readonly value="{{ isset($data) ? $data->total_permissable_bua : '' }}"></td>
+                                            <td><input type="text" name="area[total_permissable_bua]" id="total_permissable_bua" class="form-control--custom text-box number" readonly value="{{ isset($data) ? $data->total_permissable_bua : 
+                                            (isset($totalBUA) ? number_format($totalBUA) : '' )}}"></td>
                                          </tr>
                                          <tr>
                                             <td>6</td>
                                             <td> Total build up area permitted for obtaining I.O.D /I.O.A</td>
-                                            <td><input type="text" name="area[total_buildup_area]" class="form-control--custom text-box number" value="{{ isset($data) ? $data->total_buildup_area : '' }}" {{$disabled}}> </td>
+                                            <td><input type="text" id="total_buildup_area" name="area[total_buildup_area]" class="form-control--custom text-box number" value="{{ isset($data) ? $data->total_buildup_area : (isset($totalBUA) ? number_format($totalBUA) : '') }}" {{$disabled}}> </td>
                                          </tr>
                                          <tr>
                                             <td>7</td>
-                                            <td><p>i)Area permitted to NOC <input type="text" name="area[noc_permitted_area]" id="noc_permitted_area" class="noc_area form-control--custom text-box number" value="{{ isset($data) ? $data->noc_permitted_area : '' }}" {{$disabled}}></p>
-                                             <p>ii) Existing build up area <input type="text" 
-                                             name="area[existing_buildup_area]" id="existing_buildup_area" class="noc_area form-control--custom text-box number" value="{{ isset($data) ? $data->existing_buildup_area : '' }}" {{$disabled}}></p>
+                                            <td>
+                                                <p>i) Existing build up area <input type="text" 
+                                                name="area[existing_buildup_area]" id="existing_buildup_area" class="noc_area form-control--custom text-box number" value="{{ isset($data) ? $data->existing_buildup_area : '' }}" {{$disabled}}>
+                                                </p>
+                                                <p>ii)BUA already allotted vide as lease,
+                                                   <div class="col-sm-4 form-group">
+                                                    <label class="col-form-label" for="m_datepicker"> NOC date: </label>
+                                                    <input type="text" id="m_datepicker" name="area[noc_date]" data-date-end-date="+0d" class="form-control form-control--custom m-input m_datepicker" value="{{ isset($data) ? date(config('commanConfig.dateFormat'), strtotime($data->noc_date)) : '' }}" required {{$disabled}}>
+                                                    <span class="help-block"></span> 
+                                                </div> 
+                                                 if any <input type="text" name="area[noc_vide_lease]" id="noc_vide_lease" class="noc_area form-control--custom text-box number" value="{{ isset($data) ? $data->noc_vide_lease : '' }}" {{$disabled}}></p>
+
+                                                <p>iii)BUA permitted through this NOC <input type="text" name="area[noc_permitted_area]" id="noc_permitted_area" class="noc_area form-control--custom text-box number" value="{{ isset($data) ? $data->noc_permitted_area : '' }}" {{$disabled}}></p>
                                             </td>
                                             <td><input type="text" name="area[total_existing_permitted_area]" id="total_existing_permitted_area" class="form-control--custom text-box number" readonly value="{{ isset($data) ? $data->total_existing_permitted_area : '' }}"></td>
                                          </tr>
@@ -527,8 +560,8 @@
 
    $(".plot_area").keyup(function(){
 
-     var lease_deed = $("#lease_deed_area").val();
-     var land = $("#land_area").val();
+     var lease_deed = $("#lease_deed_area").val().replace(/,/g, "") || 0;
+     var land = $("#land_area").val().replace(/,/g, "") || 0;
       var total = (parseFloat(lease_deed) + parseFloat(land));
      if (!isNaN(total)){
       $("#plot_area").val(total.toFixed(2));
@@ -539,7 +572,7 @@
    });
 
    function calculateBuildupArea(){
-      var val = $("#fsi").val();
+      var val = $("#fsi").val().replace(/,/g, "") || 0;
        var plot_area = $("#plot_area1").val();
       var total = (parseFloat(val) * parseFloat(plot_area));
       if (!isNaN(total)){
@@ -553,8 +586,8 @@
    }); 
 
    $(".tenement_area").keyup(function(){
-      var tenementNo = $("#tenement_no").val();
-      var tenementArea = $("#tenement_area").val();
+      var tenementNo = $("#tenement_no").val().replace(/,/g, "") || 0;
+      var tenementArea = $("#tenement_area").val().replace(/,/g, "") || 0;
       var total = (parseFloat(tenementNo) * parseFloat(tenementArea));
       if (!isNaN(total)){
          $("#total_tenement_area").val(total.toFixed(2));
@@ -563,19 +596,22 @@
    });
 
    function calculateTotalBUA(){
-      var buildupArea = $("#buildup_area").val();
-      var tenementArea = $("#total_tenement_area").val();
-      var balArea = $("#balance_buildup_area").val();
+      var buildupArea = $("#buildup_area").val().replace(/,/g, "") || 0;
+      var tenementArea = $("#total_tenement_area").val().replace(/,/g, "") || 0;
+      var balArea = $("#balance_buildup_area").val().replace(/,/g, "") || 0;
       var total = (parseFloat(buildupArea) + parseFloat(tenementArea) + parseFloat(balArea));
       if (!isNaN(total)){
          $("#total_permissable_bua").val(total.toFixed(2));
+         $("#total_buildup_area").val(total.toFixed(2));
       }
    }
 
    $(".noc_area").keyup(function(){
-      var nocPermitted = $("#noc_permitted_area").val();
-      var area = $("#existing_buildup_area").val();
-      var total = (parseFloat(nocPermitted) + parseFloat(area));
+      var nocPermitted = $("#noc_permitted_area").val() || 0;
+      var area = $("#existing_buildup_area").val() || 0;
+      var videLease = $("#noc_vide_lease").val() || 0;
+
+      var total = (parseFloat(nocPermitted) + parseFloat(area) + parseFloat(videLease));
       if (!isNaN(total)){
          $("#total_existing_permitted_area").val(total.toFixed(2));
       }
