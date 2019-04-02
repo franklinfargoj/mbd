@@ -9,8 +9,8 @@
                 <img class="filter-icon" src="{{asset('/img/filter-icon.svg')}}">Filter
             </button> -->
             </div>
-            @if(Session::has('error'))
-                <p class="alert alert-danger mt-2">{{ Session::get('error') }}</p>
+            @if(Session::has('error1'))
+                <p class="alert alert-danger mt-2">{{ Session::get('error1') }}</p>
             @endif
             <div class="m-portlet m-portlet--compact filter-wrap">
                 <div class="row align-items-center row--filter">
@@ -48,8 +48,8 @@
                 <img class="filter-icon" src="{{asset('/img/filter-icon.svg')}}">Filter
             </button> -->
             </div>
-            @if(Session::has('error'))
-                <p class="alert alert-danger mt-2">{{ Session::get('error') }}</p>
+            @if(Session::has('error2'))
+                <p class="alert alert-danger mt-2">{{ Session::get('error2') }}</p>
             @endif
             <div class="m-portlet m-portlet--compact filter-wrap">
                 <div class="row align-items-center row--filter">
@@ -87,8 +87,8 @@
                 <img class="filter-icon" src="{{asset('/img/filter-icon.svg')}}">Filter
             </button> -->
             </div>
-            @if(Session::has('error'))
-                <p class="alert alert-danger mt-2">{{ Session::get('error') }}</p>
+            @if(Session::has('error3'))
+                <p class="alert alert-danger mt-2">{{ Session::get('error3') }}</p>
             @endif
             <div class="m-portlet m-portlet--compact filter-wrap">
                 <div class="row align-items-center row--filter">
