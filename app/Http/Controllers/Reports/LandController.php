@@ -363,33 +363,39 @@ class LandController extends Controller
             $i=1;
             $layout_village_area = 0;
 
+            $village_ids = array();
             foreach ($data as $key => $datas) {
+                $dataList = [];
 
-                $village_ids = array();
-                foreach ($datas->villages as $village){
+
+                foreach ($datas->villages as $key1 =>$village){
 
                     if(!(in_array($village->id, $village_ids))){
 
                         $village_ids[] += $village->id;
 
-                        $dataList = [];
-                        $dataList['id'] = $i;
 
-                        if($key > 0){
-                            if($datas->getLayoutName->layout_name == $dataListMaster[$key - 1]['Layout Name'] ){
+                        if($key1 > 0){
+                            if($datas->getLayoutName->layout_name == $dataListMaster[$key1 - 1]['Layout Name'] ){
                                 $layout = $datas->getLayoutName->layout_name;
                             }
                             if($layout == $datas->getLayoutName->layout_name){
                                 $dataList['Layout Name'] = "";
                             }else{
+                                $dataList['id'] = $i;
+
                                 $dataList['Layout Name'] = $datas->getVillageDetails->village_name;
+//                                $i++;
+
                             }
                         }
                         else{
+                            $dataList['id'] = $i;
+
                             $dataList['Layout Name'] = $datas->getLayoutName->layout_name;
+//                            $i++;
 
                         }
-
                         $dataList['Village Name'] = $village->village_name;
                         $dataList['Village Area(m.sq.)'] = $village->total_area ;
 
@@ -402,6 +408,7 @@ class LandController extends Controller
                     }
                 }
             }
+
             $dataListMaster[] = [ 'id' => '',
                 'Layout Name' => '',
                 'Village Name' => '',
@@ -413,7 +420,7 @@ class LandController extends Controller
                 'Village Name' => 'Total Layout Area ',
                 'Village Area(m.sq.)'=> $layout_village_area,
             ];
-
+            
             if($report_format == 'pdf')
             {
                 $content = view('admin.reports.land._layout_village_society_area_report', compact('dataListMaster','layout_names'));
