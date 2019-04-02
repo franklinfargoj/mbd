@@ -143,6 +143,11 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('architect_period_wise_pendency_report','Reports\architectController@period_wise_pendency')->name('architect.period_wise_pendency_report');
     Route::get('architect_pending_reports','Reports\architectController@architect_pending_reports')->name('architect_pending_reports');
 
+    Route::get('land_village_society_reports','Reports\LandController@land_village_society_reports')->name('land.village_society_reports');
+    Route::get('village_society_reports','Reports\LandController@village_society_reports')->name('village_society_reports');
+
+    Route::get('village_society_area_reports','Reports\LandController@village_society_area_reports')->name('village_society_area_reports');
+
 
 
     //Reports end
