@@ -259,6 +259,11 @@ class LmPermissionSeeder extends Seeder
                 'display_name'=>'village_society_area_reports',
                 'description'=>'village_society_area_reports'
             ],
+            [
+                'name'=>'village_society_layout_area_reports',
+                'display_name'=>'village_society_layout_area_reports',
+                'description'=>'village_society_layout_area_reports'
+            ],
 
         ];
 
