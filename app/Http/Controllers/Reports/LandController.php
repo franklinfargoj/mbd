@@ -92,6 +92,8 @@ class LandController extends Controller
                 $pdf = new Mpdf([
                     'default_font_size' => 9,
                     'default_font' => 'Times New Roman',
+                    'orientation' => 'L',
+                    'format' => 'A4-L',
                 ]);
                 $pdf->autoScriptToLang = true;
                 $pdf->autoLangToFont = true;
