@@ -225,7 +225,7 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
             @endif
         @endif
 
-        @if($ol_applications->current_phase > 3)
+        @if($ol_applications->current_phase >= 4)
             @if(($ol_applications->current_status_id == config('commanConfig.applicationStatus.draft_tripartite_agreement')) || $ol_applications->current_status_id == config('commanConfig.applicationStatus.approved_tripartite_agreement') || ($status == config('commanConfig.applicationStatus.forwarded') && $ol_applications->current_status_id == config('commanConfig.applicationStatus.draft_tripartite_agreement')))
                 <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='show_tripartite_letter2')?'m-menu__item--active':''}}">
                     <a class="m-menu__link m-menu__toggle" title="Letter For Stamp Duty"

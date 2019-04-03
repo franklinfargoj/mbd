@@ -500,7 +500,6 @@ class TripartiteController extends Controller
                 $fileUpload = $this->comman->ftpFileUpload($folder_name, $request->file('signed_tripartite_letter_2'), $file_name);
 
                 $status = $this->get_document_status_by_name('Stamped_Signed');
-
                 $this->set_tripartite_agreements($ol_application, config('commanConfig.tripartite_agreements.letter_2_draft'), $fileUpload, $status);
                 return redirect()->back()->with('success', 'Tripartite letter for execution and registration has been uploaded successfully.');
             } else {
@@ -994,12 +993,18 @@ class TripartiteController extends Controller
         $sc_application = OlApplication::where('id', $request->applicationId)->first();
 
         if ($request->check_status == 1) {
-
             if ($request->to_role_id == $this->get_society_role_from_user_id($request->to_user_id)) {
                 $society_flag = 1;
                 $agreement = $this->get_tripartite_agreements($request->applicationId, config('commanConfig.tripartite_agreements.drafted'));
-                if ($agreement) {
-                    if ($agreement->status_id == $this->get_document_status_by_name('Approved')) {
+                $letter2 =   $this->get_tripartite_letter2($request->applicationId, config('commanConfig.tripartite_agreements.letter_2_draft'));
+                if ($agreement || $letter2) {
+                    $letter_2 = '';
+                    if(isset($letter2)){
+                        $letter_2 = $letter2->status_id == $this->get_document_status_by_name('Stamped_Signed');
+                    }
+//dd(($agreement->status_id == $this->get_document_status_by_name('Approved')) || $letter_2);
+                    if (($agreement->status_id == $this->get_document_status_by_name('Approved')) || $letter_2
+                    ) {
                         $is_approved_agreement = config('commanConfig.applicationStatus.approved_tripartite_agreement');
                         $status = config('commanConfig.applicationStatus.approved_tripartite_agreement');
                         $Tostatus = config('commanConfig.applicationStatus.approved_tripartite_agreement');
@@ -1020,7 +1025,6 @@ class TripartiteController extends Controller
             }
 
         } else {
-
             if ($request->to_role_id == $this->get_society_role_from_user_id($request->to_user_id)) {
                 $is_reverted_to_society = 1;
                 $society_flag = 1;
@@ -1030,7 +1034,6 @@ class TripartiteController extends Controller
                 $status = config('commanConfig.applicationStatus.reverted');
                 $Tostatus = config('commanConfig.applicationStatus.in_process');
             }
-
         }
 
         //$Tostatus = config('commanConfig.applicationStatus.in_process');
@@ -1079,7 +1082,7 @@ class TripartiteController extends Controller
 
             $tripartite_application = OlApplication::findOrFail($request->applicationId);
 
-            if(in_array($request->to_role_id,$ree_junior_role_id)){
+            if(in_array($request->to_role_id,$ree_junior_role_id) && !($status == config('commanConfig.applicationStatus.reverted'))){
                 $tripartite_application->current_phase = $tripartite_application->current_phase + 1;
                 $tripartite_application->save();
             }
