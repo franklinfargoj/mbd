@@ -1476,6 +1476,17 @@ class REEController extends Controller
     public function scrutinyRemarkNocByREE($application_id)
     {
         $noc_application = $this->CommonController->getNocApplication($application_id);
+
+        //get values from premium calculation nd FSI calculation table
+        $calculation = OlApplicationCalculationSheetDetails::where('society_id',$noc_application->society_id)->select('area_of_tit_bit_plot','area_as_per_lease_agreement','permissible_carpet_area_coordinates','total_house','sqm_area_per_slot','permissible_proratata_area','area_in_reserved_seats_for_vp_pio')->first();
+
+        if (isset($calculation)){
+            $noc_application->OlCalculationSheet = $calculation;
+        }else{
+            $noc_application->OlCalculationSheet = OlFsiCalculationSheet::where('society_id',$noc_application->society_id)->select('area_of_tit_bit_plot','area_as_per_lease_agreement','permissible_carpet_area_coordinates','total_house','sqm_area_per_slot','permissible_proratata_area','area_in_reserved_seats_for_vp_pio')->first();
+        }
+        
+        // dd($noc_application->society_id);
         $noc_application->status = $this->CommonController->getCurrentStatusNoc($application_id);
 
         $application_master_id = NocApplication::where('society_id', $noc_application->eeApplicationSociety->id)->value('application_master_id');

@@ -8,7 +8,6 @@
     <meta content="ie=edge" http-equiv="X-UA-Compatible">
     <title>NOC</title>
 </head>
-
 <body>
     <div class="m_portlet">
         <form action="{{route('ree.save_draft_noc')}}" id="OfferLetterFRM" method="post" name="OfferLetterFRM">
@@ -277,7 +276,7 @@
             <!-- Table 2 starts here -->
 
 
-                    <h3 style="text-transform: uppercase; font-weight: bold; text-decoration: underline; text-align: center; margin-top: 70px;">
+                   <!--  <h3 style="text-transform: uppercase; font-weight: bold; text-decoration: underline; text-align: center; margin-top: 70px;">
                     Statement B (Particulars of Payment)</h3>
 
                 <table style="width: 720px; text-align: center; border-collapse: collapse; table-layout: fixed;">
@@ -345,9 +344,9 @@
                             <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ isset($calculationData) ? str_replace( ',', '',$calculationData->amount_to_b_paid_to_municipal_corporation) : '' }}</td>
                         </tr>
                     </tbody>
-                </table>
-                            <table  border="1" style="width: 720px; border-collapse: collapse;">
-                            <tbody>
+                </table> -->
+                    <table  border="1" style="width: 720px; border-collapse: collapse;">
+                        <tbody>
                             <tr valign="top">
                                 <td>
                                     <ol start="7">
@@ -356,7 +355,7 @@
                                 </td>
                                 <td>
                                     <p><br></p>
-                                    <p style="padding-left: 5px; padding-right: 5px;">Total permissible area for sharing is <strong>{{ isset($calculationData) ? $calculationData->remaining_area : '________' }} m<sup>2</sup></strong>. Out of this net built up share  <strong>{{ isset($calculationData) ? $calculationData->mhada_share : '________' }} m<sup>2</sup></strong> (with fungible <strong>{{ isset($calculationData) ? $calculationData->mhada_share_with_fungib : '________' }} m<sup>2</sup></strong>) shall be handed over to MHADA free of cost in form of constructed residential tenements of carpet area upto ________ <sup> m2 </sup> each.</p>
+                                    <p style="padding-left: 5px; padding-right: 5px;">Total permissible area for sharing is <strong>{{ isset($calculationData) ? $calculationData->remaining_area : '________' }} m<sup>2</sup></strong>. Out of this net built up share  <strong>{{ isset($calculationData) ? $calculationData->mhada_share : '________' }} m<sup>2</sup></strong> (with fungible <strong>{{ isset($calculationData) ? $calculationData->mhada_share_with_fungib : '________' }} m<sup>2</sup></strong>) shall be handed over to MHADA free of cost in form of constructed residential tenements of carpet area upto <strong>45 </strong> <sup> m2 </sup> each.</p>
                                     <p><br></p>
                                 </td>
                             </tr>
@@ -745,11 +744,209 @@
                                     </ol>
                                 </td>
                                 <td>
-                                    <p style="padding-left: 5px; padding-right: 5px;">Constructed area to be surrendered should comprise of tenements having carpet area up to ________ m2 accordingly you have to submit the plans to the authority prior to NOC.</p>
+                                    <p style="padding-left: 5px; padding-right: 5px;">Constructed area to be surrendered should comprise of tenements having carpet area up to
+                                     <strong> 45 </strong> m2 accordingly you have to submit the plans to the authority prior to NOC.</p>
                                     <p><br></p>
                                 </td>
                             </tr>
                             <tr valign="top">
+                                <td>
+                                    <ol start="41">
+                                        <li></li>
+                                    </ol>
+                                </td>
+                                <td>
+                                    <p style="padding-left: 5px; padding-right: 5px;">All the terms and conditions mentioned in the Layout which was processed to M.C.G.M shall be applicable to the society.</p>
+                                    <p><br></p>
+                                </td>
+                            </tr>
+                            <tr valign="top">
+                                <td>
+                                    <ol start="42">
+                                        <li></li>
+                                    </ol>
+                                </td>
+                                <td>
+                                    <p style="padding-left: 5px; padding-right: 5px;">The set of plans approved by S.P.A./ MHADA duly certified by the Architect should be submitted to this office before commencement of work.</p>
+                                    <p><br></p>
+                                </td>
+                            </tr>
+                            <tr valign="top">
+                                <td>
+                                    <ol start="43">
+                                        <li></li>
+                                    </ol>
+                                </td>
+                                <td>
+                                    <p style="padding-left: 5px; padding-right: 5px;">The society will have to construct and maintain separate tank if necessary with approval of M.C.G.M.</p>
+                                    <p><br></p>
+                                </td>
+                            </tr>
+                            <tr valign="top">
+                                <td>
+                                    <ol start="44">
+                                        <li></li>
+                                    </ol>
+                                </td>
+                                <td>
+                                    <p style="padding-left: 5px; padding-right: 5px;">The society will have to submit stability of the redeveloped structure / proposed work through Registered Licensed Structural Engineer by S.P.A./ MHADA.</p>
+                                    <p><br></p>
+                                </td>
+                            </tr>
+                            <tr valign="top">
+                                <td>
+                                    <ol start="45">
+                                        <li></li>
+                                    </ol>
+                                </td>
+                                <td>
+                                    <p style="padding-left: 5px; padding-right: 5px;">The society will have to obtain separate P. R. card as per the approved sub division / plot leased out by the board duly signed by S. L. R. before asking for Occupation Permission from S.P.A./ MHADA.</p>
+                                    <p><br></p>
+                                </td>
+                            </tr>
+                            <tr valign="top">
+                                <td>
+                                    <ol start="46">
+                                        <li></li>
+                                    </ol>
+                                </td>
+                                <td>
+                                    <p style="padding-left: 5px; padding-right: 5px;">The society will have to obtain approval for amended plans as and when the Society amends the plans.</p>
+                                    <p><br></p>
+                                </td>
+                            </tr>
+                            <tr valign="top">
+                                <td>
+                                    <ol start="47">
+                                        <li></li>
+                                    </ol>
+                                </td>
+                                <td>
+                                    <p style="padding-left: 5px; padding-right: 5px;">The society should submit undertaking on Rs. 250/- Stamp paper for not having any objection if the newly developable plots are either developed by the Board or by the allotted of the Board in Kannamwar Nagar layout.</p>
+                                    <p><br></p>
+                                </td>
+                            </tr>
+                            <tr valign="top">
+                                <td>
+                                    <ol start="48">
+                                        <li></li>
+                                    </ol>
+                                </td>
+                                <td>
+                                    <p style="padding-left: 5px; padding-right: 5px;">The Society will have to hand over the set back area free of cost to MCGM &amp; proof of the same will have to be submitted to this office. The society will have to inform about form encroachment to M.C.G.M. at their own cost and M.H.A.D. Board shall not be held responsible.</p>
+                                    <p><br></p>
+                                </td>
+                            </tr>
+                            <tr valign="top">
+                                <td>
+                                    <ol start="49">
+                                        <li></li>
+                                    </ol>
+                                </td>
+                                <td>
+                                    <p style="padding-left: 5px; padding-right: 5px;">The pro-rata charges towards construction of D. P. as implemented by MCGM will be paid from the premium received from the society for the purchase of additional BUA for which receipts shall be submitted by the society from MCGM in favour of Chief Accounts Officer / MHAD Board.</p>
+                                    <p><br></p>
+                                </td>
+                            </tr>
+                            <tr valign="top">
+                                <td>
+                                    <ol start="50">
+                                        <li></li>
+                                    </ol>
+                                </td>
+                                <td>
+                                    <p style="padding-left: 5px; padding-right: 5px;">The Society will have to submit Undertaking on Rs. 250/- stamp paper agreeing to pay the difference in premium if any as and when MHADA reviews the policy for allotment of F.S.I. / T.D.R. (Form V).</p>
+                                    <p><br></p>
+                                </td>
+                            </tr><tr valign="top">
+                                <td>
+                                    <ol start="51">
+                                        <li></li>
+                                    </ol>
+                                </td>
+                                <td>
+                                    <p style="padding-left: 5px; padding-right: 5px;">Before issuing the NOC for Occupation Tanker Water or Extra Water charges payment clearance should be produced by the Society.</p>
+                                    <p><br></p>
+                                </td>
+                            </tr>
+                            <tr valign="top">
+                                <td>
+                                    <ol start="52">
+                                        <li></li>
+                                    </ol>
+                                </td>
+                                <td>
+                                    <p style="padding-left: 5px; padding-right: 5px;">The redevelopment Proposal should be approved adhering to the Development Plan reservation, Building regulations and any other rules applicable to Building construction by the Building Proposal Dept. in S.P.A./ MHADA.</p>
+                                    <p><br></p>
+                                </td>
+                            </tr>
+                            <tr valign="top">
+                                <td>
+                                    <ol start="53">
+                                        <li></li>
+                                    </ol>
+                                </td>
+                                <td>
+                                    <p style="padding-left: 5px; padding-right: 5px;">The charges as may be levied by S.P.A./ MHADA, from time to time (apart from FSI charges), for e.g. Pro-rata charges for Roads, shall be paid by the society to S.P.A./ MHADA directly, on demand from S.P.A./ MHADA.</p>
+                                    <p><br></p>
+                                </td>
+                            </tr>
+                            <tr valign="top">
+                                <td>
+                                    <ol start="54">
+                                        <li></li>
+                                    </ol>
+                                </td>
+                                <td>
+                                    <p style="padding-left: 5px; padding-right: 5px;">The society shall indemnify MHADA against any legal action regarding payment of stamp duty for a) Transfer of built tenements to beneficiaries and b) Purchase of balance FSI /T. D. R. etc. as may be required under provisions of Stamp Duty Act.</p>
+                                    <p><br></p>
+                                </td>
+                            </tr>
+                            <tr valign="top">
+                                <td>
+                                    <ol start="55">
+                                        <li></li>
+                                    </ol>
+                                </td>
+                                <td>
+                                    <p style="padding-left: 5px; padding-right: 5px;">It is therefore, directed that the proposed work should be carried out strictly adhering to the terms and conditions mentioned as above. In case of any breach to above condition the NOC will stand cancelled.</p>
+                                    <p><br></p>
+                                </td>
+                            </tr>
+                            <tr valign="top">
+                                <td>
+                                    <ol start="56">
+                                        <li></li>
+                                    </ol>
+                                </td>
+                                <td>
+                                    <p style="padding-left: 5px; padding-right: 5px;">This allotment is subject to payment of Stamp duty if / as and when may be imposed by the Govt. of Maharashtra (Under the relevance provisions of Maharashtra Stamp Duty Act. The allottee will have to submit an Undertaking to this effect on Stamp paper worth Rs.100/-).</p>
+                                    <p><br></p>
+                                </td>
+                            </tr>
+                            <tr valign="top">
+                                <td>
+                                    <ol start="57">
+                                        <li></li>
+                                    </ol>
+                                </td>
+                                <td>
+                                    <p style="padding-left: 5px; padding-right: 5px;">MCGM has incurred expenditure for on site infrastructure prior to modification in DCR 33 (5) and after modification in DCR 33 (5). The Pro-rata premium shall be payable by the society as and when competent authority communicates to you.</p>
+                                    <p><br></p>
+                                </td>
+                            </tr><tr valign="top">
+                                <td>
+                                    <ol start="58">
+                                        <li></li>
+                                    </ol>
+                                </td>
+                                <td>
+                                    <p style="padding-left: 5px; padding-right: 5px;">The Pro-rata premium for approval of revised layout under DCR 33 (5) with <strong>{{ isset($calculationData) ? $calculationData->permissible_carpet_area_coordinates : '________' }} </strong> FSI shall also be payable by society as and when communicated to you.</p>
+                                    <p><br></p>
+                                </td>
+                            </tr>
+
+                          <!--   <tr valign="top">
                                 <td>
                                     <ol start="41">
                                         <li></li>
@@ -769,7 +966,7 @@
                                 <td>
                                     <p style="padding-left: 5px; padding-right: 5px;">The further IOD for redevelopment shall be issued after payment of Offsite infrastructure charges of <strong> {{ isset($calculationData) ? $calculationData->off_site_infrastructure_fee : '________' }} Rs.</strong> to MCGM as intimated in the offer letter No. <strong> {{($model->request_form->offer_letter_number ?$model->request_form->offer_letter_number:'')}} </strong> Dated – <strong>{{($model->request_form->offer_letter_date ? date('d-m-Y',strtotime($model->request_form->offer_letter_date)) : '')}}</strong>.</p>
                                 </td>
-                            </tr>
+                            </tr> -->
                         </tbody>
                     </table>
                 </center>
@@ -830,9 +1027,9 @@
                     </tbody>
                 </table>
                 <p><br></p>
-                <p align="center"><b>ANNEXURE–I</b></p>
-                <p><b>(Conditions made applicable to NOC granted vide No. CO /MB /REE/NOC /F-976/ /2018, Date :______________________)</b></p>
-                <h2 align="center" lang="en-IN">TERMS AND CONDITIONS</h2>
+               <!--  <p align="center"><b>ANNEXURE–I</b></p>
+                <p><b>(Conditions made applicable to NOC granted vide No. CO /MB /REE/NOC /F-976/ /2018, Date :______________________)</b></p> -->
+                <!-- <h2 align="center" lang="en-IN">TERMS AND CONDITIONS</h2>
                 <p>The additional build able area is granted as per policy laid down by MHADA vied NOC mentioned above as per DCR 33(5), dated 08.10.2013 &amp; it's modification dated 03.07.2017 &amp; MHADA's resolution no.5998 dated:09/01/2004 and amended A.R.No.6041, dt.29/7/2004, A.R. No. 6260 Dt. 04/06/2007, A. R. 6349 dated 25/11/2008, A. R. No. 6383 dated 24/02/2009, A. R. No. 6397 dated 5/05/2009 &amp; A.R. No. 6422 dated 07.08.2009 are subject to following terms and conditions.</p>
                 <p><br></p>
                 <table border="1" style="width: 720px; border-collapse: collapse;">
@@ -1055,7 +1252,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <p><br></p>
+                <p><br></p> -->
                 @endif
                 </textarea>
             <input id="submit" style="background-color: #f0791b;border-color: #f0791b;color: #fff !important;font-family: Poppins;cursor: pointer;display: inline-block;font-weight: 400;text-align: center;white-space: nowrap;vertical-align: middle;border: 1px solid transparent;transition: all .15s ease-in-out;border-radius: .25rem;line-height: 1.25;padding: .65rem 1.25rem;font-size: 1rem;"
