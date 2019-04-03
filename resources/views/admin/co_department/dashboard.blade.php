@@ -82,7 +82,7 @@
                     <h3 class="m-subheader__title">Hearing</h3>
                 </div>
             </div>
-            <div class="db__card hearing_summary" data-module="Hearing Summary">
+            <div class="db__card hearing_summary no-margin-sm" data-module="Hearing Summary">
                 <div class="db__card__img-wrap db-color-1">
                     <h3 class="db__card__count">{{$hearing_count}}</h3>
                 </div>
@@ -124,31 +124,31 @@
                     <p class="db__card__title">Tripartite Agreement Department Pendency</p>
                 </div>
             @endif
-            <div class="db__card revalidation" data-module="Offer Letter Revalidation">
+            <div class="db__card revalidation no-margin-sm" data-module="Offer Letter Revalidation">
                 <div class="db__card__img-wrap db-color-8">
                     <h3 class="db__card__count">{{$ol_reval_count}}</h3>
                 </div>
                 <p class="db__card__title">Offer Letter Revalidation</p>
             </div>
-            <div class="db__card revalidation_pending" data-module="Offer Letter Revalidation Department Pendency">
+            <div class="db__card revalidation_pending " data-module="Offer Letter Revalidation Department Pendency">
                 <div class="db__card__img-wrap db-color-9">
                     <h3 class="db__card__count">{{$ol_reval_pending_count}}</h3>
                 </div>
                 <p class="db__card__title">Offer Letter Revalidation Department Pendency</p>
             </div>
-            <div class="db__card consent_oc" data-module="Consent for OC">
+            <div class="db__card consent_oc " data-module="Consent for OC">
                 <div class="db__card__img-wrap db-color-4">
                     <h3 class="db__card__count">{{$oc_count}}</h3>
                 </div>
                 <p class="db__card__title">Consent for OC</p>
             </div>
-            <div class="db__card consent_oc_pendency no-margin-sm" data-module="Consent for OC Department Pendency">
+            <div class="db__card consent_oc_pendency " data-module="Consent for OC Department Pendency">
                 <div class="db__card__img-wrap db-color-5">
                     <h3 class="db__card__count">{{$oc_pendency_count}}</h3>
                 </div>
                 <p class="db__card__title">Consent for OC Department Pendency</p>
             </div>
-            <div class="db__card noc" data-module="NOC">
+            <div class="db__card noc no-margin-sm" data-module="NOC">
                 <div class="db__card__img-wrap db-color-12" >
                     <h3 class="db__card__count">{{$noc_count}}</h3>
                 </div>
@@ -166,7 +166,7 @@
                 </div>
                 <p class="db__card__title">NOC (CC)</p>
             </div>
-            <div class="db__card noc_pending  no-margin-sm" data-module="NOC (CC) Department Pendency">
+            <div class="db__card noc_pending " data-module="NOC (CC) Department Pendency">
                 <div class="db__card__img-wrap db-color-15">
                     <h3 class="db__card__count">{{$noc_cc_pending_count}}</h3>
                 </div>
