@@ -61,7 +61,10 @@ class SocietyNocController extends Controller
     public function show_form_self_noc($id){
         $ids = explode('_', $id);
         $id = $ids[0];
+
+        $model = OlApplicationMaster::where('id',$id)->value('model');
         $ol_application = OlApplicationMaster::with(['ol_application_type' => function($q){ $q->orderBy('id', 'desc'); }])->where('id', $id)->get();
+
         if($ol_application[0]->ol_application_type[0]->route_name == null && strrchr($ol_application[0]->ol_application_type[0]->title, 'Self')){
             $self_type = 1;
         }else{
@@ -78,12 +81,11 @@ class SocietyNocController extends Controller
         }elseif(isset($data) &&  $applicationCount > 0){
             return redirect()->route('society_noc_preview',encrypt($data->id));
         }else{
-            return view('frontend.society.show_form_self_noc', compact('society_details', 'id', 'self_type', 'dev_type', 'ids', 'layouts'));  
+            return view('frontend.society.show_form_self_noc', compact('society_details', 'id', 'self_type', 'dev_type', 'ids', 'layouts','model'));  
         }       
     }
 
     public function save_noc_application_self(Request $request){
-
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
 
         // $validatedData = $request->validate([
@@ -107,11 +109,11 @@ class SocietyNocController extends Controller
             'offsite_infra_charges_receipt_date' => $request->input('offsite_infra_charges_receipt_date'),
             'water_charges_amount' => $request->input('water_charges_amount'),
             'water_charges_receipt_number' => $request->input('water_charges_receipt_number'),
+            'water_charges_date' => $request->input('water_charges_date'),
 
             'created_at' => date('Y-m-d H-i-s'),
             'updated_at' => null
         );
-        
         $last_inserted_id = NocRequestForm::create($input);
 
         $application_master_id_spec = $request->input('application_master_id');
@@ -185,6 +187,8 @@ class SocietyNocController extends Controller
         $id = $noc_application->application_master_id;
         $noc_applications = $noc_application;
 
+        $noc_applications->model = OlApplicationMaster::where('id',$noc_applications->application_master_id)->value('model');
+
         $documents = NocSocietyDocumentsMaster::where('application_id', $noc_application->application_master_id)->with(['documents_uploaded' => function($q) use ($society,$applicationId){
             $q->where('society_id', $society->id)->where('application_id',$applicationId)->get();
         }])->get();
@@ -215,6 +219,8 @@ class SocietyNocController extends Controller
         $society_details = SocietyOfferLetter::find($society->id);
         $noc_application = NocApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->with(['request_form', 'noc_application_master', 'applicationMasterLayout'])->first();
         
+        $model = OlApplicationMaster::where('id',$noc_application->application_master_id)->value('model');
+
         $documents = NocSocietyDocumentsMaster::where('application_id', $noc_application->application_master_id)->with(['documents_uploaded' => function($q) use ($society,$applicationId){
             $q->where('society_id', $society->id)->where('application_id',$applicationId)->get();
         }])->get();
@@ -240,7 +246,7 @@ class SocietyNocController extends Controller
             $check_upload_avail = 1;
         }
 
-        return view('frontend.society.edit_form_noc', compact('society_details', 'noc_applications', 'noc_application', 'layouts', 'id','check_upload_avail','applicationCount'));
+        return view('frontend.society.edit_form_noc', compact('society_details', 'noc_applications', 'noc_application', 'layouts', 'id','check_upload_avail','applicationCount','model'));
     }
 
     public function updateNocApplication(Request $request){
@@ -259,6 +265,7 @@ class SocietyNocController extends Controller
             'offsite_infra_charges_receipt_date' => $request->offsite_infra_charges_receipt_date,
             'water_charges_amount' => $request->water_charges_amount,
             'water_charges_receipt_number' => $request->water_charges_receipt_number,
+            'water_charges_date' => $request->water_charges_date,
         );
         // dd($update_input);
         NocRequestForm::where('society_id', $society->id)->where('id', $request->request_form_id)->update($update_input);

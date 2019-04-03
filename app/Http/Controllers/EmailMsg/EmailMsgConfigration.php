@@ -147,7 +147,7 @@ class EmailMsgConfigration extends Controller
         $a = Mail::send('email/mail_content', $data, function($message) use ($email,$subject) {
             $message->to($email)
                     ->subject($subject);
-            $message->from('bhavna.salunkhe@neosofttech.com','MHADA');
+            $message->from('bhavanasalunkhe145@gmail.com','MHADA');
         });
        return 'success';
     }

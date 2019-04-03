@@ -20,7 +20,19 @@ class NocScrutinyQuestionMasterTable extends Seeder
     		$questionArr = [
                 [
                     'language_id'   => 1,
-                    'question' => "Receipts of payment according to offer letter",
+                    'question' => "Receipts of premium amount and offsite infrastructure charges paid to Mumbai board",
+                    'remarks_applicable' => 1,
+                ], 
+                // [
+                //     'language_id'   => 1,
+                //     'question' => "Receipts of payment according to offer letter",
+                //     'remarks_applicable' => 1,
+                // ],
+
+                // newly added
+                [
+                    'language_id'   => 1,
+                    'question' => "Receipts of offsite infrastructure charges paid to planning Authority, MHADA",
                     'remarks_applicable' => 1,
                 ],
                 [

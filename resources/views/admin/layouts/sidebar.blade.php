@@ -1298,7 +1298,7 @@
 
 
                 <li id="pendency-report"
-                    class="collapse {{(($route=='redevelopement.period_wise_pendency_report') || ($route=='estate-conveyance.period_wise_pendency_report') || ($route=='architect.period_wise_pendency_report')  ) ?'show':''}}">
+                    class="collapse {{(($route=='redevelopement.period_wise_pendency_report') || ($route=='land.village_society_reports') || ($route=='estate-conveyance.period_wise_pendency_report') || ($route=='architect.period_wise_pendency_report')  ) ?'show':''}}">
                     <ul class="list-unstyled">
 
                         @if(session()->get('role_name')==config('commanConfig.co_engineer') ||session()->get('role_name')==config('commanConfig.ee_branch_head') || session()->get('role_name')==config('commanConfig.ree_branch_head') || session()->get('role_name')==config('commanConfig.dyce_branch_head'))
@@ -1371,7 +1371,22 @@
                                 </li>
                             @endif
 
-
+                            @if(session()->get('role_name')==config('commanConfig.land_manager'))
+                                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='land.village_society_reports')?'m-menu__item--active':''}}"
+                                    aria-haspopup="true">
+                                    <a href="{{ route('land.village_society_reports') }}"
+                                       class="m-menu__link m-menu__toggle">
+                                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                        <span class="m-menu__link-title">
+                                            <span class="m-menu__link-wrap">
+                                                <span class="m-menu__link-text">
+                                                    Land Report
+                                                </span>
+                                            </span>
+                                        </span>
+                                    </a>
+                                </li>
+                            @endif
                     </ul>
                 </li>
 

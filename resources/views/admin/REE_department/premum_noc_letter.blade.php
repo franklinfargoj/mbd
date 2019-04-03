@@ -7,8 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>NOC</title>
 </head>
-    
 <body>
+
     <div class="m_portlet">
         <form id="OfferLetterFRM" action="{{ route('ree.save_draft_noc')}}" method="post">
             @csrf
@@ -31,7 +31,7 @@
                             </div>
                             <div style="clear: both;"></div>
                         </div>
-                        <h3 style="text-decoration: underline; text-align: center;">NOC</h3>
+                        <!-- <h3 style="text-decoration: underline; text-align: center;">NOC</h3> -->
                         <p> </p>
                         <div style="margin-top: -15px;">
                             <p style="margin-bottom:0; line-height:0.25;">To,</p>
@@ -82,7 +82,7 @@
                     <ol type="i">
                         <li> 
                             <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                i) The above allotment is on sub-divided plot as per demarcation admeasuring about <strong>{{ isset($calculationData) ? $calculationData->area_as_per_lease_agreement : '________' }} m<sup>2</sup></strong> (Lease Area). The total built up area should be permitted up to existing BUA <strong>{{ isset($calculationData) ? $calculationData->existing_construction_area : '________'}} m<sup>2</sup></strong> + <strong>{{ isset($calculationData) ? $calculationData->proratata_construction_area : '________'}} m<sup>2</sup></strong> (for residential use) [i.e. ________ m<sup>2</sup> in the form of additional BUA + ___________ m<sup>2</sup> in the form of balance built up area of layout (Pro-rata)] to be allotted now thus total BUA = <strong>{{ isset($calculationData) ? $calculationData->total_permissible_construction_area : '________'}} m<sup>2</sup></strong> only.
+                                i) The above allotment is on sub-divided plot as per demarcation admeasuring about <strong>{{ isset($data) ? $data->plot_area : '________' }} m<sup>2</sup></strong> (Lease Area). The total built up area should be permitted up to existing BUA <strong>{{ isset($data) ? $data->noc_permitted_area : '________'}} m<sup>2</sup></strong> + <strong>{{ isset($data) ? $data->existing_buildup_area : '________'}} m<sup>2</sup></strong> (for residential use) [i.e. ________ m<sup>2</sup> in the form of additional BUA + ___________ m<sup>2</sup> in the form of balance built up area of layout (Pro-rata)] to be allotted now thus total BUA = <strong>{{ isset($data) ? $data->total_permissable_bua : '________'}} m<sup>2</sup></strong> only.
                             </p>
                         </li>
                         <li>
@@ -90,9 +90,9 @@
                                 Allotment of total BUA of <strong>{{ isset($calculationData) ? $calculationData->total_permissible_construction_area : '________'}} m<sup>2</sup></strong> (for residential use) is permitted for I.O.D./ I.O.A. purpose only.
                             </p>
                         </li>
-                        <li>
+                        <li> 
                             <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                Since the Society has paid first installment i.e. 25 % amount of premium towards additional built up area of <strong>{{ isset($calculationData) ? $calculationData->proratata_construction_area : '________'}} m<sup>2</sup></strong> as per A.R. Resolution 6749, Dt. 11.07.2017, hence Commencement certificate shall be issued for<strong>________ </strong>m<sup>2 </sup>(for Residential use) <sup> </sup>[i.e. <strong>________ </strong>m<sup>2 </sup>permitted through this NOC. (Proportionate to the first installment paid by the Society as per offer letter under reference no. 1) and <strong>{{ isset($calculationData) ? $calculationData->existing_construction_area : '________'}} m<sup>2</sup></strong> Existing Built up area.
+                                Since the Society has paid first installment i.e. 25 % amount of premium towards additional built up area of <strong>{{ isset($data) ? $data->total_tenement_area : '________'}} m<sup>2</sup></strong> as per A.R. Resolution 6749, Dt. 11.07.2017, hence Commencement certificate shall be issued for <strong>{{ isset($data) ? $data->total_existing_permitted_area : '________'}} </strong>m<sup>2 </sup>(for Residential use) <sup> </sup>[i.e. <strong>{{ isset($data) ? $data->existing_buildup_area : '________'}} </strong>m<sup>2 </sup>permitted through this NOC. (Proportionate to the first installment paid by the Society as per offer letter under reference no. 1) and <strong>{{ isset($calculationData) ? $calculationData->existing_construction_area : '________'}} m<sup>2</sup></strong> Existing Built up area.
                             </p>
                         </li>
                     </ol>
@@ -600,8 +600,8 @@
                             </td>
                             <td >
                                 <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                    This NOC is issued for the purpose of IOD/ IOA and approval of plans for BUA of <strong>___________ m
-                                    <sup>2</sup></strong>  as shown in condition No. 5 of this letter. The Commencement Certificate shall be issued for BUA <strong>___________ m<sup>2 </sup></strong>(for Residential use)<sup> </sup>[i.e. <strong>___________ m<sup>2 </sup> </strong>(for Residential use) permitted through this NOC. (Proportionate to the first installment paid by the Society as per offer letter under reference no. 1) and <strong>___________ m <sup>2</sup></strong>  Existing Built up area.]
+                                    This NOC is issued for the purpose of IOD/ IOA and approval of plans for BUA of <strong>{{ isset($data) ? $data->total_permissable_bua : '________'}} m<sup>2</sup></strong>  as shown in condition No. 5 of this letter. The Commencement Certificate shall be issued for BUA <strong>{{ isset($data) ? $data->total_existing_permitted_area : '________'}} m<sup>2</sup></strong>(for Residential use)<sup> </sup>[i.e. <strong>___________ m<sup>2 </sup> </strong>(for Residential use) permitted through this NOC. (Proportionate to the first installment paid by the Society as per offer letter under reference no. 1) and 
+                                    <strong>{{ isset($data) ? $data->existing_buildup_area : '________'}} m<sup>2</sup></strong>  Existing Built up area.]
                                 </p>
                             </td>
                         </tr>
@@ -695,12 +695,12 @@
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="left">
                         <strong>\</strong>
                     </p>
-                    <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                    <p style="padding-left: 5px; padding-right: 5px; margin-top: 200px" lang="en-US" align="justify">
                         <strong>Copy to:</strong> The Secretary, The Secretary, Building No.<strong>{{($model->eeApplicationSociety->building_no ? $model->eeApplicationSociety->building_no : '')}} </strong>, known {{($model->eeApplicationSociety->name ? $model->eeApplicationSociety->name : '')}} ( {{($model->eeApplicationSociety->address ? $model->eeApplicationSociety->address : '')}} ). ENCL.- ANNEXURE – I.
                     </p>
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
                         <strong>Copy to </strong>
-                        <strong>Licensed Surveyor</strong> : _______________________.
+                        <strong>Licensed Surveyor</strong> : {{ isset($model->eeApplicationSociety) ? $model->eeApplicationSociety->name_of_architect : '' }} , {{ isset($model->eeApplicationSociety) ? $model->eeApplicationSociety->architect_address: '' }} .
                     </p>
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
                         Copy forwarded to information and necessary action in the matter to the: -

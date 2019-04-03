@@ -244,6 +244,26 @@ class LmPermissionSeeder extends Seeder
                 'display_name'=>'get taluka of districts',
                 'description'=>'get taluka of districts'
             ],
+            [
+                'name'=>'land.village_society_reports',
+                'display_name'=>'land.village_society_reports',
+                'description'=>'land.village_society_reports'
+            ],
+            [
+                'name'=>'village_society_reports',
+                'display_name'=>'village_society_reports',
+                'description'=>'village_society_reports'
+            ],
+            [
+                'name'=>'village_society_area_reports',
+                'display_name'=>'village_society_area_reports',
+                'description'=>'village_society_area_reports'
+            ],
+            [
+                'name'=>'village_society_layout_area_reports',
+                'display_name'=>'village_society_layout_area_reports',
+                'description'=>'village_society_layout_area_reports'
+            ],
 
         ];
 
