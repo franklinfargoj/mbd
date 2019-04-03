@@ -125,9 +125,9 @@ class architectController extends Controller
                     config('commanConfig.cap_engineer'),
                 ))->pluck('id')->toArray();
                 break;
-            case config('commanConfig.ree_branch_head'):
+            case config('commanConfig.land_manager'):
                 $roles = Role::whereIn('name', array(
-                    config('commanConfig.co_engineer'),
+                    config('commanConfig.land_manager'),
                 ))->pluck('id')->toArray();
                 break;
             case config('commanConfig.ree_branch_head'):
@@ -136,6 +136,7 @@ class architectController extends Controller
                     config('commanConfig.ree_deputy_engineer'),
                     config('commanConfig.ree_assistant_engineer'),
                     config('commanConfig.ree_branch_head'),
+                    config('commanConfig.co_engineer'),
                 ))->pluck('id')->toArray();
                 break;
             case config('commanConfig.co_engineer'):
@@ -218,7 +219,6 @@ class architectController extends Controller
         $status = array(config('commanConfig.architect_layout_status.scrutiny_pending'),
             config('commanConfig.architect_layout_status.sent_for_revision'));
 
-
         if($period_title=="")
         {
             $data = $data = ArchitectLayoutStatusLog::join('architect_layouts', 'architect_layout_status_logs.architect_layout_id', '=', 'architect_layouts.id')
@@ -234,7 +234,7 @@ class architectController extends Controller
                 ->whereIn('architect_layouts.layout_name', $layouts)
                 ->whereHas('architect_layout', function ($q) {
                     $q->where('layout_excel_status', 0);})
-                ->whereIn('status_id', $status)
+//                ->whereIn('status_id', $status)
                 ->get(['roles.name as Role','architect_layouts.layout_no', 'architect_layout_status_logs.created_at','master_layout.layout_name as layout_name', 'users.name as User', DB::raw('DATEDIFF(NOW(),architect_layout_status_logs.created_at) as days_pending')]);
 
         }else
@@ -251,7 +251,7 @@ class architectController extends Controller
                 ->whereIn('architect_layouts.layout_name', $layouts)
                 ->whereHas('architect_layout', function ($q) {
                         $q->where('layout_excel_status', 0);})
-                ->whereIn('status_id', $status)
+//                ->whereIn('status_id', $status)
                 ->get(['roles.name as Role','architect_layouts.layout_no', 'architect_layout_status_logs.created_at','master_layout.layout_name as layout_name', 'users.name as User', DB::raw('DATEDIFF(NOW(),architect_layout_status_logs.created_at) as days_pending')]);
 
         }
