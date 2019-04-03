@@ -2801,4 +2801,18 @@ class SocietyOfferLetterController extends Controller
         $module = 'Revalidation';
         return view('frontend.society.show_signed_offer_application',compact('ol_applications','documents_arr','applicationCount','module'));
     }
+
+    public function downloadApprovedOfferLetter($applicationId){
+
+        $applicationId = decrypt($applicationId); 
+        $ol_applications = OlApplication::where('id',$applicationId)->with(['olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        }])->first(); 
+
+        $society_details = SocietyOfferLetter::find($ol_applications->society_id);
+        $documents_arr = $this->get_docs_count($ol_applications, $society_details);
+        $applicationCount = $this->getForwardedApplication();
+        $module = 'Offer';
+        return view('frontend.society.download_approved_offer_letter',compact('ol_applications','documents_arr','applicationCount','module'));
+    }
 }
