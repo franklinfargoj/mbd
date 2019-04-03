@@ -17,150 +17,6 @@
                 <h3 class="m-subheader__title">Dashboard</h3>
             </div>
         </div> -->
-
-            <div class="d-flex flex-wrap db-wrapper">
-                <div class="m-subheader px-0 m-subheader--top col-sm-12 mb-3">
-                    <div class="d-flex align-items-center">
-                        <h3 class="m-subheader__title">Dashboard</h3>
-                    </div>
-                </div>
-                <div class="db__card hearing_summary" data-module="Hearing Summary">
-                <div class="db__card__img-wrap db-color-1">
-                    <h3 class="db__card__count">{{$hearing_count}}</h3>
-                </div>
-                <p class="db__card__title">Hearing Summary</p>
-                </div>
-                <div class="db__card offer_letter" data-module="Offer Letter">
-                    <div class="db__card__img-wrap db-color-2">
-                        <h3 class="db__card__count">{{$ol_count}}</h3>
-                    </div>
-                    <p class="db__card__title">Offer Letter</p>
-                </div>
-                <div class="db__card pending_counts" data-module="Offer Letter Department Pendency">
-                    <div class="db__card__img-wrap db-color-3">
-                        <h3 class="db__card__count">{{$ol_pending_count}}</h3>
-                    </div>
-                    <p class="db__card__title">Offer Letter Department Pendency</p>
-                </div>
-                <div class="db__card consent_oc" data-module="Consent for OC">
-                    <div class="db__card__img-wrap db-color-4">
-                        <h3 class="db__card__count">{{$oc_count}}</h3>
-                    </div>
-                    <p class="db__card__title">Consent for OC</p>
-                </div>
-                <div class="db__card consent_oc_pendency no-margin-sm" data-module="Consent for OC Department Pendency">
-                    <div class="db__card__img-wrap db-color-5">
-                        <h3 class="db__card__count">{{$oc_pendency_count}}</h3>
-                    </div>
-                    <p class="db__card__title">Consent for OC Department Pendency</p>
-                </div>
-            </div>
-            
-            <div class="d-flex flex-wrap db-wrapper">
-                <div class="m-subheader px-0 m-subheader--top col-sm-12 mb-3">
-                    <div class="d-flex align-items-center">
-                        <h3 class="m-subheader__title">Dashboard</h3>
-                    </div>
-                </div>
-                @if($tripartite_data['dashboardData'])
-                    <div class="db__card tripartite no-margin-xl" data-module="Tripartite Agreement">
-                        <div class="db__card__img-wrap db-color-6">
-                            <h3 class="db__card__count">{{$tripartite_count}}</h3>
-                        </div>
-                        <p class="db__card__title">Tripartite Agreement</p>
-                    </div>
-                @endif
-                @if($tripartite_data['dashboardData_head'])
-                    <div class="db__card tripartite_pending" data-module="Tripartite Agreement Department Pendency">
-                        <div class="db__card__img-wrap db-color-7">
-                            <h3 class="db__card__count">{{$tripartite_pending_count}}</h3>
-                        </div>
-                        <p class="db__card__title">Tripartite Agreement Department Pendency</p>
-                    </div>
-                @endif
-                <div class="db__card revalidation" data-module="Offer Letter Revalidation">
-                    <div class="db__card__img-wrap db-color-8">
-                        <h3 class="db__card__count">{{$ol_reval_count}}</h3>
-                    </div>
-                    <p class="db__card__title">Offer Letter Revalidation</p>
-                </div>
-                <div class="db__card revalidation_pending" data-module="Offer Letter Revalidation Department Pendency">
-                    <div class="db__card__img-wrap db-color-9">
-                        <h3 class="db__card__count">{{$ol_reval_pending_count}}</h3>
-                    </div>
-                    <p class="db__card__title">Offer Letter Revalidation Department Pendency</p>
-                </div>
-                <div class="db__card conveyance no-margin-sm" data-module="Society Conveyance">
-                    <div class="db__card__img-wrap db-color-10">
-                        <h3 class="db__card__count">{{$conveyance_count}}</h3>
-                    </div>
-                    <p class="db__card__title">Society Conveyance</p>
-                </div>
-            </div>
-
-            <div class="d-flex flex-wrap db-wrapper">
-                <div class="m-subheader px-0 m-subheader--top col-sm-12 mb-3">
-                    <div class="d-flex align-items-center">
-                        <h3 class="m-subheader__title">Dashboard</h3>
-                    </div>
-                </div>
-                <div class="db__card conveyance_pending no-margin-xl" data-module="Society Conveyance Department Pendency">
-                    <div class="db__card__img-wrap db-color-11">
-                        <h3 class="db__card__count">{{$conveyance_pending_count}}</h3>
-                    </div>
-                    <p class="db__card__title">Society Conveyance Department Pendency</p>
-                </div>
-                <div class="db__card noc" data-module="NOC">
-                    <div class="db__card__img-wrap db-color-12" >
-                        <h3 class="db__card__count">{{$noc_count}}</h3>
-                    </div>
-                    <p class="db__card__title">NOC</p>
-                </div>
-                <div class="db__card noc_pending" data-module="NOC Department Pendency">
-                    <div class="db__card__img-wrap db-color-13">
-                        <h3 class="db__card__count">{{$noc_pending_count}}</h3>
-                    </div>
-                    <p class="db__card__title">NOC Department Pendency</p>
-                </div>
-                <div class="db__card noc" data-module="NOC (CC)">
-                    <div class="db__card__img-wrap db-color-14">
-                        <h3 class="db__card__count">{{$noc_cc_count}}</h3>
-                    </div>
-                    <p class="db__card__title">NOC (CC)</p>
-                </div>
-                <div class="db__card noc_pending  no-margin-sm" data-module="NOC (CC) Department Pendency">
-                    <div class="db__card__img-wrap db-color-15">
-                        <h3 class="db__card__count">{{$noc_cc_pending_count}}</h3>
-                    </div>
-                    <p class="db__card__title">NOC (CC) Department Pendency</p>
-                </div>
-            </div>
-            <div class="d-flex flex-wrap db-wrapper">
-                <div class="m-subheader px-0 m-subheader--top col-sm-12 mb-3">
-                    <div class="d-flex align-items-center">
-                        <h3 class="m-subheader__title">Dashboard</h3>
-                    </div>
-                </div>
-                <div class="db__card revision no-margin-xl" data-module="Revision in Layout">
-                    <div class="db__card__img-wrap db-color-16">
-                        <h3 class="db__card__count">{{$architect_layout_count}}</h3>
-                    </div>
-                    <p class="db__card__title">Revision in Layout</p>
-                </div>
-                <div class="db__card revision" data-module="Layout Approval">
-                    <div class="db__card__img-wrap db-color-17">
-                        <h3 class="db__card__count">{{$architect_layout_count}}</h3>
-                    </div>
-                    <p class="db__card__title">Layout Approval</p>
-                </div>
-                <div class="db__card revision" data-module="Layout Approval Pendency">
-                    <div class="db__card__img-wrap db-color-18">
-                        <h3 class="db__card__count">{{$architect_layout_count}}</h3>
-                    </div>
-                    <p class="db__card__title">Layout Approval Pendency</p>
-                </div>
-            </div>
-
         {{--Todays Hearing--}}
         <div class="hearing-accordion-wrapper">
 
@@ -220,6 +76,155 @@
             @endif
         </div>
         {{--End Todays Hearing--}}
+        <div class="d-flex flex-wrap db-wrapper">
+            <div class="m-subheader px-0 m-subheader--top col-sm-12 mb-3">
+                <div class="d-flex align-items-center">
+                    <h3 class="m-subheader__title">Hearing</h3>
+                </div>
+            </div>
+            <div class="db__card hearing_summary" data-module="Hearing Summary">
+                <div class="db__card__img-wrap db-color-1">
+                    <h3 class="db__card__count">{{$hearing_count}}</h3>
+                </div>
+                <p class="db__card__title">Hearing Summary</p>
+            </div>
+        </div>
+
+        <div class="d-flex flex-wrap db-wrapper">
+            <div class="m-subheader px-0 m-subheader--top col-sm-12 mb-3">
+                <div class="d-flex align-items-center">
+                    <h3 class="m-subheader__title">Redevelopment</h3>
+                </div>
+            </div>
+            <div class="db__card offer_letter" data-module="Offer Letter">
+                <div class="db__card__img-wrap db-color-2">
+                    <h3 class="db__card__count">{{$ol_count}}</h3>
+                </div>
+                <p class="db__card__title">Offer Letter</p>
+            </div>
+            <div class="db__card pending_counts" data-module="Offer Letter Department Pendency">
+                <div class="db__card__img-wrap db-color-3">
+                    <h3 class="db__card__count">{{$ol_pending_count}}</h3>
+                </div>
+                <p class="db__card__title">Offer Letter Department Pendency</p>
+            </div>
+            @if($tripartite_data['dashboardData'])
+                <div class="db__card tripartite no-margin-xl" data-module="Tripartite Agreement">
+                    <div class="db__card__img-wrap db-color-6">
+                        <h3 class="db__card__count">{{$tripartite_count}}</h3>
+                    </div>
+                    <p class="db__card__title">Tripartite Agreement</p>
+                </div>
+            @endif
+            @if($tripartite_data['dashboardData_head'])
+                <div class="db__card tripartite_pending" data-module="Tripartite Agreement Department Pendency">
+                    <div class="db__card__img-wrap db-color-7">
+                        <h3 class="db__card__count">{{$tripartite_pending_count}}</h3>
+                    </div>
+                    <p class="db__card__title">Tripartite Agreement Department Pendency</p>
+                </div>
+            @endif
+            <div class="db__card revalidation" data-module="Offer Letter Revalidation">
+                <div class="db__card__img-wrap db-color-8">
+                    <h3 class="db__card__count">{{$ol_reval_count}}</h3>
+                </div>
+                <p class="db__card__title">Offer Letter Revalidation</p>
+            </div>
+            <div class="db__card revalidation_pending" data-module="Offer Letter Revalidation Department Pendency">
+                <div class="db__card__img-wrap db-color-9">
+                    <h3 class="db__card__count">{{$ol_reval_pending_count}}</h3>
+                </div>
+                <p class="db__card__title">Offer Letter Revalidation Department Pendency</p>
+            </div>
+            <div class="db__card consent_oc" data-module="Consent for OC">
+                <div class="db__card__img-wrap db-color-4">
+                    <h3 class="db__card__count">{{$oc_count}}</h3>
+                </div>
+                <p class="db__card__title">Consent for OC</p>
+            </div>
+            <div class="db__card consent_oc_pendency no-margin-sm" data-module="Consent for OC Department Pendency">
+                <div class="db__card__img-wrap db-color-5">
+                    <h3 class="db__card__count">{{$oc_pendency_count}}</h3>
+                </div>
+                <p class="db__card__title">Consent for OC Department Pendency</p>
+            </div>
+            <div class="db__card noc" data-module="NOC">
+                <div class="db__card__img-wrap db-color-12" >
+                    <h3 class="db__card__count">{{$noc_count}}</h3>
+                </div>
+                <p class="db__card__title">NOC</p>
+            </div>
+            <div class="db__card noc_pending" data-module="NOC Department Pendency">
+                <div class="db__card__img-wrap db-color-13">
+                    <h3 class="db__card__count">{{$noc_pending_count}}</h3>
+                </div>
+                <p class="db__card__title">NOC Department Pendency</p>
+            </div>
+            <div class="db__card noc" data-module="NOC (CC)">
+                <div class="db__card__img-wrap db-color-14">
+                    <h3 class="db__card__count">{{$noc_cc_count}}</h3>
+                </div>
+                <p class="db__card__title">NOC (CC)</p>
+            </div>
+            <div class="db__card noc_pending  no-margin-sm" data-module="NOC (CC) Department Pendency">
+                <div class="db__card__img-wrap db-color-15">
+                    <h3 class="db__card__count">{{$noc_cc_pending_count}}</h3>
+                </div>
+                <p class="db__card__title">NOC (CC) Department Pendency</p>
+            </div>
+        </div>
+
+
+            
+            <div class="d-flex flex-wrap db-wrapper">
+                <div class="m-subheader px-0 m-subheader--top col-sm-12 mb-3">
+                    <div class="d-flex align-items-center">
+                        <h3 class="m-subheader__title">Estate & Conveyance</h3>
+                    </div>
+                </div>
+
+                <div class="db__card conveyance no-margin-sm" data-module="Society Conveyance">
+                    <div class="db__card__img-wrap db-color-10">
+                        <h3 class="db__card__count">{{$conveyance_count}}</h3>
+                    </div>
+                    <p class="db__card__title">Society Conveyance</p>
+                </div>
+                <div class="db__card conveyance_pending no-margin-xl" data-module="Society Conveyance Department Pendency">
+                    <div class="db__card__img-wrap db-color-11">
+                        <h3 class="db__card__count">{{$conveyance_pending_count}}</h3>
+                    </div>
+                    <p class="db__card__title">Society Conveyance Department Pendency</p>
+                </div>
+            </div>
+
+            <div class="d-flex flex-wrap db-wrapper">
+                <div class="m-subheader px-0 m-subheader--top col-sm-12 mb-3">
+                    <div class="d-flex align-items-center">
+                        <h3 class="m-subheader__title">Architect</h3>
+                    </div>
+                </div>
+                <div class="db__card revision no-margin-xl" data-module="Revision in Layout">
+                    <div class="db__card__img-wrap db-color-16">
+                        <h3 class="db__card__count">{{$architect_layout_count}}</h3>
+                    </div>
+                    <p class="db__card__title">Revision in Layout</p>
+                </div>
+                <div class="db__card revision" data-module="Layout Approval">
+                    <div class="db__card__img-wrap db-color-17">
+                        <h3 class="db__card__count">{{$architect_layout_count}}</h3>
+                    </div>
+                    <p class="db__card__title">Layout Approval</p>
+                </div>
+                <div class="db__card revision" data-module="Layout Approval Pendency">
+                    <div class="db__card__img-wrap db-color-18">
+                        <h3 class="db__card__count">{{$architect_layout_count}}</h3>
+                    </div>
+                    <p class="db__card__title">Layout Approval Pendency</p>
+                </div>
+            </div>
+
+
+
     </div>
 
 
