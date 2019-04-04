@@ -673,6 +673,11 @@ class SocietyPermissionSeeder extends Seeder
                 'display_name' => 'show reval sign application',
                 'description'  => 'show reval sign application'
             ],
+            [
+                'name'         => 'download_approved_offer_letter',
+                'display_name' => 'download approved offer letter',
+                'description'  => 'download approved offer letter'
+            ],
         ];
         
         if(count($society)==0){

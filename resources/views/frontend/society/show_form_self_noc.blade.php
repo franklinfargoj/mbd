@@ -18,7 +18,7 @@
 
             <form id="save_noc_application_self" role="form" method="post" class="m-form m-form--rows m-form--label-align-right floating-labels-form" action="{{ route('save_noc_application_self') }}">
                 @csrf
-                <div class="m-portlet__body m-portlet__body--spaced">
+                <div class="m-portlet__body m-portlet__body--spaced mhada-lg-tag">
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-xl-4 col-lg-6 form-group">
                             <label class="col-form-label mhada-multiple-label" for="application_type_id">Select layout: <span class="star">*</span></label>

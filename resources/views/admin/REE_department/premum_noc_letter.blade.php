@@ -233,8 +233,9 @@
                             <tr>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">7.</td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">
-                                    <p>i)Area permitted to NOC  <b> {{ isset($data) ? $data->noc_permitted_area  : '' }} m<sup>2</sup> </b></p>
                                     <p>i)Existing build up area  <b> {{ isset($data) ? $data->existing_buildup_area  : '' }} m<sup>2</sup> </b></p>
+                                    <p>ii)BUA already allotted vide as lease, NOC date: <b> {{ isset($data) ? $data->noc_date  : '' }} </b> if any <b> {{ isset($data) ? $data->noc_vide_lease  : '' }} </b>  </p>
+                                    <p>iii)BUA permitted through this NOC  <b> {{ isset($data) ? $data->noc_permitted_area  : '' }} m<sup>2</sup> </b></p>
                                 </td>
                                 <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">
                                 <b> {{ isset($data) ? $data->total_existing_permitted_area  : '' }} </b></span></td>

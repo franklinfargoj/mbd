@@ -3872,3 +3872,11 @@ label.site-visit-label {
 .mhada-optionbox-radio input:last-child{
     margin-left: 15px;
 }
+
+@media (min-width: 1200px) and (max-width: 1400px){
+    .mhada-lg-tag .col-xl-4.form-group{
+        width: 45% !important;
+        flex: 45%;
+        max-width: 45%;
+    }
+}
