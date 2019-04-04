@@ -7,6 +7,9 @@
         <th>Layout Name</th>
         <th>Village Name</th>
         <th>Village Area(m.sq.)</th>
+        <th>Society Name</th>
+        <th>Society Area(m.sq)</th>
+
     </tr>
     </thead>
     <tbody>
@@ -16,6 +19,8 @@
             <td>{{$data['Layout Name']}}</td>
             <td>{{$data['Village Name']}}</td>
             <td>{{$data['Village Area(m.sq.)']}}</td>
+            <td>{{$data['Society Name']}}</td>
+            <td>{{$data['Society Area(m.sq)']}}</td>
         </tr>
     @endforeach
     </tbody>

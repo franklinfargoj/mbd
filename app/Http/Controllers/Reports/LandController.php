@@ -92,6 +92,8 @@ class LandController extends Controller
                 $pdf = new Mpdf([
                     'default_font_size' => 9,
                     'default_font' => 'Times New Roman',
+                    'orientation' => 'L',
+                    'format' => 'A4-L',
                 ]);
                 $pdf->autoScriptToLang = true;
                 $pdf->autoLangToFont = true;
@@ -362,8 +364,10 @@ class LandController extends Controller
             $dataListMaster = [];
             $i=1;
             $layout_village_area = 0;
-
+            $society_area = 0;
             $village_ids = array();
+
+//            dd($data);
             foreach ($data as $key => $datas) {
                 $dataList = [];
 
@@ -398,6 +402,8 @@ class LandController extends Controller
                         }
                         $dataList['Village Name'] = $village->village_name;
                         $dataList['Village Area(m.sq.)'] = $village->total_area ;
+                        $dataList['Society Name'] = $datas->society_name;
+                        $dataList['Society Area(m.sq)'] = $datas->area;
 
                         $layout_village_area += $village->total_area;
 
@@ -405,22 +411,43 @@ class LandController extends Controller
                         $dataListMaster[]=$dataList;
                         $i++;
 
+                    }else{
+                        $dataList['id'] = $i;
+                        $dataList['Layout Name'] = $datas->getLayoutName->layout_name;
+                        $dataList['Village Name'] = '';
+                        $dataList['Village Area(m.sq.)'] = '' ;
+                        $dataList['Society Name'] = $datas->society_name;
+                        $dataList['Society Area(m.sq)'] = $datas->area;
+
+
+                        $dataListKeys = array_keys($dataList);
+                        $dataListMaster[]=$dataList;
+                        $i++;
+
                     }
                 }
+
+
+                $society_area += $datas->area;
+
             }
 
             $dataListMaster[] = [ 'id' => '',
                 'Layout Name' => '',
                 'Village Name' => '',
                 'Village Area(m.sq.)'=> '',
+                'Society Name' => '',
+                'Society Area(m.sq)' => ''
             ];
 
             $dataListMaster[] = [ 'id' => '',
                 'Layout Name' => '',
                 'Village Name' => 'Total Layout Area ',
                 'Village Area(m.sq.)'=> $layout_village_area,
+                'Society Name' => 'Total Society Area',
+                'Society Area(m.sq)' => $society_area
             ];
-            
+
             if($report_format == 'pdf')
             {
                 $content = view('admin.reports.land._layout_village_society_area_report', compact('dataListMaster','layout_names'));
@@ -443,8 +470,8 @@ class LandController extends Controller
             if($report_format == 'excel')
             {
 
-                $village_names = str_replace(',','_',$village_names);
-                return Excel::create(date('Y_m_d_H_i_s') . '_layout_village_society_area_report_'.$village_names, function($excel) use($dataListMaster){
+                $layout_names = str_replace(',','_',$layout_names);
+                return Excel::create(date('Y_m_d_H_i_s') . '_layout_village_society_area_report_'.$layout_names, function($excel) use($dataListMaster){
 
                     $excel->sheet('mySheet', function($sheet) use($dataListMaster)
                     {

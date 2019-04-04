@@ -14,19 +14,26 @@
 @section('content')
 
     <div class="container-fluid mhada-dash-new">
-        <div class="m-subheader px-0 m-subheader--top">
-            <div class="d-flex align-items-center">
-                <h3 class="m-subheader__title">Dashboard</h3>
-            </div>
-        </div>
 
         <div class="d-flex flex-wrap db-wrapper">
-            @php $chart = 0;@endphp
+            <div class="m-subheader px-0 m-subheader--top col-sm-12 mb-3">
+                <div class="d-flex align-items-center">
+                    <h3 class="m-subheader__title">Land</h3>
+                </div>
+            </div>
             <div class="db__card land" data-module="Land Summary">
                 <div class="db__card__img-wrap db-color-1">
                     <h3 class="db__card__count">{{$land_count}}</h3>
                 </div>
                 <p class="db__card__title">Land Summary</p>
+            </div>
+        </div>
+
+        <div class="d-flex flex-wrap db-wrapper">
+            <div class="m-subheader px-0 m-subheader--top col-sm-12 mb-3">
+                <div class="d-flex align-items-center">
+                    <h3 class="m-subheader__title">Architect</h3>
+                </div>
             </div>
             <div class="db__card revision" data-module="Revision in Layout">
                 <div class="db__card__img-wrap db-color-2">
@@ -35,6 +42,7 @@
                 <p class="db__card__title">Revision in Layout</p>
             </div>
         </div>
+
         <!-- Modal for count table and pie chart popup -->
         <div class="modal fade mhada-full-modal" id="getCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
