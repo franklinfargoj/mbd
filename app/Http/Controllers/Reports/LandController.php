@@ -81,11 +81,76 @@ class LandController extends Controller
         $fileName = date('Y_m_d_H_i_s') . '_village_society_report.pdf';
         $village_names = implode(',',$village_names);
 
+        $total_area = 0;
+        $total_conveyance_area = 0;
+        $dataListMaster = [];
+        $i=1;
+        foreach ($data as $datas) {
+            $dataList = [];
+            $dataList['id'] = $i;
+            $dataList['Village'] = $datas->getVillageDetails->village_name;
+            $dataList['Society Name'] = $datas->getSocietyDetails['society_name'] ;
+            $dataList['Society Reg. No.'] = $datas->getSocietyDetails['society_reg_no'] ;
+            $dataList['District'] = $datas->getSocietyDetails['getDistrictName']['district_name'] ;
+            $dataList['Taluka'] = $datas->getSocietyDetails['getTalukaName']['taluka_name'] ;
+            $dataList['Layout'] = $datas->getSocietyDetails->getLayoutName->layout_name  ?? NULL;
+            $dataList['Survey Number'] = $datas->getSocietyDetails['survey_number'] ;
+            $dataList['CTS Number'] = $datas->getSocietyDetails['cts_number'] ;
+            $dataList['Name Of Chairman'] = $datas->getSocietyDetails['chairman'] ?? NULL;
+            $dataList['Mobile no. Of Chairman'] = $datas->getSocietyDetails['chairman_mob_no'] ?? NULL;
+            $dataList['Name Of Secretary'] = $datas->getSocietyDetails['secretary'] ?? NULL;
+            $dataList['Mobile no. Of Secretary'] = $datas->getSocietyDetails['secretary_mob_no'] ?? NULL;
+            $dataList['Society Address'] = $datas->getSocietyDetails['society_address'] ;
+            $dataList['Society Email Id'] = $datas->getSocietyDetails['society_email_id'] ?? NULL;
+            $dataList['Area'] = $datas->getSocietyDetails['area'] ;
+            $dataList['Date mentioned on service tax letters'] = $datas->getSocietyDetails['date_on_service_tax'] ;
+            $dataList['Surplus Charges'] = $datas->getSocietyDetails['surplus_charges'] ;
+            $dataList['Last date of paying surplus charges'] = $datas->getSocietyDetails['surplus_charges_last_date'] ;
+            $dataList['Land Name'] = $datas->getSocietyDetails->getLandName['land_name'] ;
+            $dataList['Is Society Conveyed ?'] = ($datas->getSocietyDetails['society_conveyed'] == 1) ? 'yes' : 'no';;
+            $dataList['Date Of Conveyance'] = $datas->getSocietyDetails['date_of_conveyance'] ?? NULL;
+            $dataList['Area Of Conveyance'] = $datas->getSocietyDetails['area_of_conveyance'] ?? NULL;
+
+            $total_area += $datas->getSocietyDetails['area'];
+            $total_conveyance_area += $datas->getSocietyDetails['area_of_conveyance'];
+
+            $dataListKeys = array_keys($dataList);
+            $dataListMaster[]=$dataList;
+            $i++;
+        }
+
+        $dataListMaster[] = ['id' => '',
+            'Village' => '',
+            'Society Name' => '',
+            'Society Reg. No.' => '',
+            'District' => '',
+            'Taluka' => '',
+            'Layout' => '',
+            'Survey Number' => '',
+            'CTS Number' => '',
+            'Name Of Chairman' => '',
+            'Mobile no. Of Chairman' => '',
+            'Name Of Secretary' => '',
+            'Mobile no. Of Secretary' => '',
+            'Society Address' => '',
+            'Society Email Id' => 'Total Area',
+            'Area' => $total_area,
+            'Date mentioned on service tax letters' => '',
+            'Surplus Charges' => '',
+            'Last date of paying surplus charges' => '',
+            'Land Name' => '',
+            'Is Society Conveyed ?' => '',
+            'Date Of Conveyance' => 'Total Conveyance Area',
+            'Area Of Conveyance' => $total_conveyance_area
+        ];
+
+
+
         if (count($data) > 0) {
 
             if($report_format == 'pdf')
             {
-                $content = view('admin.reports.land._village_society_report', compact('data','village_names'));
+                $content = view('admin.reports.land._village_society_report', compact('dataListMaster','village_names'));
                 $header_file = '';
                 $footer_file = '';
 
@@ -106,39 +171,6 @@ class LandController extends Controller
             }
             if($report_format == 'excel')
             {
-
-                $dataListMaster = [];
-                $i=1;
-                foreach ($data as $datas) {
-                    $dataList = [];
-                    $dataList['id'] = $i;
-                    $dataList['Village'] = $datas->getVillageDetails->village_name;
-                    $dataList['Society Name'] = $datas->getSocietyDetails['society_name'] ;
-                    $dataList['Society Reg. No.'] = $datas->getSocietyDetails['society_reg_no'] ;
-                    $dataList['District'] = $datas->getSocietyDetails['getDistrictName']['district_name'] ;
-                    $dataList['Taluka'] = $datas->getSocietyDetails['getTalukaName']['taluka_name'] ;
-                    $dataList['Layout'] = $datas->getSocietyDetails->getLayoutName->layout_name  ?? NULL;
-                    $dataList['Survey Number'] = $datas->getSocietyDetails['survey_number'] ;
-                    $dataList['CTS Number'] = $datas->getSocietyDetails['cts_number'] ;
-                    $dataList['Name Of Chairman'] = $datas->getSocietyDetails['chairman'] ?? NULL;
-                    $dataList['Mobile no. Of Chairman'] = $datas->getSocietyDetails['chairman_mob_no'] ?? NULL;
-                    $dataList['Name Of Secretary'] = $datas->getSocietyDetails['secretary'] ?? NULL;
-                    $dataList['Mobile no. Of Secretary'] = $datas->getSocietyDetails['secretary_mob_no'] ?? NULL;
-                    $dataList['Society Address'] = $datas->getSocietyDetails['society_address'] ;
-                    $dataList['Society Email Id'] = $datas->getSocietyDetails['society_email_id'] ?? NULL;
-                    $dataList['Area'] = $datas->getSocietyDetails['area'] ;
-                    $dataList['Date mentioned on service tax letters'] = $datas->getSocietyDetails['date_on_service_tax'] ;
-                    $dataList['Surplus Charges'] = $datas->getSocietyDetails['surplus_charges'] ;
-                    $dataList['Last date of paying surplus charges'] = $datas->getSocietyDetails['surplus_charges_last_date'] ;
-                    $dataList['Land Name'] = $datas->getSocietyDetails->getLandName['land_name'] ;
-                    $dataList['Is Society Conveyed ?'] = ($datas->getSocietyDetails['society_conveyed'] == 1) ? 'yes' : 'no';;
-                    $dataList['Date Of Conveyance'] = $datas->getSocietyDetails['date_of_conveyance'] ?? NULL;
-                    $dataList['Area Of Conveyance'] = $datas->getSocietyDetails['area_of_conveyance'] ?? NULL;
-                    $dataListKeys = array_keys($dataList);
-                    $dataListMaster[]=$dataList;
-                    $i++;
-                }
-
                 $village_names = str_replace(',','_',$village_names);
                 return Excel::create(date('Y_m_d_H_i_s') . '_village_society_'.$village_names, function($excel) use($dataListMaster){
 
