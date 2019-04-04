@@ -25,7 +25,7 @@
     </div>
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
         <div class="">
-            <form class="m-form m-form--rows m-form--label-align-right" method="post" enctype='multipart/form-data'
+            {{-- <form class="m-form m-form--rows m-form--label-align-right" method="post" enctype='multipart/form-data' --}}
 
         <div class="m-portlet__body m-portlet__body--spaced">
             <form id="add_building" class="m-form m-form--rows m-form--label-align-right" method="post" enctype='multipart/form-data'
