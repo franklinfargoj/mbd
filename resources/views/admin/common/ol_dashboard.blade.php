@@ -12,31 +12,37 @@
 
 @section('content')
     <div class="container-fluid mhada-dash-new">
-        <div class="m-subheader px-0 m-subheader--top">
-            <div class="d-flex align-items-center">
-                <h3 class="m-subheader__title">Dashboard</h3>
-            </div>
-        </div>
 
-        <div class="d-flex flex-wrap db-wrapper">
-            @if(in_array(session()->get('role_name'),$offerLetterRoles))
-            @if( !((session()->get('role_name') == config('commanConfig.junior_architect')) || (session()->get('role_name') == config('commanConfig.architect')) || (session()->get('role_name') == config('commanConfig.senior_architect'))))
-                <div class="db__card counts" data-module="Offer Letter">
-                    <div class="db__card__img-wrap db-color-1">
-                        <h3 class="db__card__count">{{$ol_count}}</h3>
+        @if($ol_count != null  ||
+        $ol_pending_count != null ||
+        $oc_count != null ||
+        $oc_pending_count != null ||
+        $reval_count != null)
+            <div class="d-flex flex-wrap db-wrapper">
+                {{--@php dd($ol_count || ($dashboardData1 != null) || $oc_count || $oc_pending_count || $reval_count ); @endphp--}}
+                <div class="m-subheader px-0 m-subheader--top col-sm-12 mb-3">
+                    <div class="d-flex align-items-center">
+                        <h3 class="m-subheader__title">Redevelopment</h3>
                     </div>
-                    <p class="db__card__title">Offer Letter</p>
                 </div>
-                @if($dashboardData1)
-                    <div class="db__card pending_counts" data-module="Offer Letter Subordinate Pendency">
-                        <div class="db__card__img-wrap db-color-2">
-                            <h3 class="db__card__count">{{$ol_pending_count}}</h3>
+                @if(in_array(session()->get('role_name'),$offerLetterRoles))
+                    {{--                @if( !((session()->get('role_name') == config('commanConfig.junior_architect')) || (session()->get('role_name') == config('commanConfig.architect')) || (session()->get('role_name') == config('commanConfig.senior_architect'))))--}}
+                    <div class="db__card counts" data-module="Offer Letter">
+                        <div class="db__card__img-wrap db-color-1">
+                            <h3 class="db__card__count">{{$ol_count}}</h3>
                         </div>
-                        <p class="db__card__title">Offer Letter Subordinate Pendency</p>
+                        <p class="db__card__title">Offer Letter</p>
                     </div>
+                    @if($dashboardData1)
+                        <div class="db__card pending_counts" data-module="Offer Letter Subordinate Pendency">
+                            <div class="db__card__img-wrap db-color-2">
+                                <h3 class="db__card__count">{{$ol_pending_count}}</h3>
+                            </div>
+                            <p class="db__card__title">Offer Letter Subordinate Pendency</p>
+                        </div>
+                    @endif
+                    {{--@endif--}}
                 @endif
-            @endif
-            @endif
                 @if(in_array(session()->get('role_name'),array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'))))
                     <div class="db__card consent_oc" data-module="Consent for OC">
                         <div class="db__card__img-wrap db-color-2">
@@ -51,35 +57,58 @@
                             </div>
                             <p class="db__card__title">Consent for OC Subordinate Pendency</p>
                         </div>
-                     @endif
+                    @endif
                 @endif
+                @if (in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'), config('commanConfig.vp_engineer'))))
+                    <div class="db__card revalidation" data-module="Offer Letter Revalidation">
+                        <div class="db__card__img-wrap db-color-4">
+                            <h3 class="db__card__count">{{$reval_count}}</h3>
+                        </div>
+                        <p class="db__card__title">Offer Letter Revalidation</p>
+                    </div>
+                @endif
+            </div>
+        @endif
 
-            @if(in_array(session()->get('role_name'),$conveyanceRoles))
+        @if($conveyance_count != null ||
+        $conveyance_pending_count != null ||
+        $renewal_count != null ||
+        $renewal_pending_count != null )
+            <div class="d-flex flex-wrap db-wrapper">
+                <div class="m-subheader px-0 m-subheader--top col-sm-12 mb-3">
+                    <div class="d-flex align-items-center">
+                        <h3 class="m-subheader__title">Estate & Conveyance</h3>
+                    </div>
+                </div>
+                @if(in_array(session()->get('role_name'),$conveyanceRoles))
                     <div class="db__card conveyance" data-module="Society Conveyance">
                         <div class="db__card__img-wrap db-color-3">
                             <h3 class="db__card__count">{{$conveyance_count}}</h3>
                         </div>
                         <p class="db__card__title">Society Conveyance</p>
                     </div>
-            @endif
-            @if (in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'), config('commanConfig.vp_engineer'))))
-                <div class="db__card revalidation" data-module="Offer Letter Revalidation">
-                    <div class="db__card__img-wrap db-color-4">
-                        <h3 class="db__card__count">{{$reval_count}}</h3>
-                    </div>
-                    <p class="db__card__title">Offer Letter Revalidation</p>
-                </div>
-            @endif
-            @if(in_array(session()->get('role_name'),$renewalRoles))
+                @endif
+
+                @if(in_array(session()->get('role_name'),$renewalRoles))
                     <div class="db__card counts0" data-module="Society Renewal">
                         <div class="db__card__img-wrap db-color-4">
                             <h3 class="db__card__count">{{$renewal_count}}</h3>
                         </div>
                         <p class="db__card__title">Society Renewal</p>
                     </div>
-            @endif
+                @endif
+            </div>
+        @endif
 
-            @if((session()->get('role_name')==config('commanConfig.junior_architect'))||
+        @if($appointing_count != null ||
+        $architect_layout_counts != null)
+            <div class="d-flex flex-wrap db-wrapper">
+                <div class="m-subheader px-0 m-subheader--top col-sm-12 mb-3">
+                    <div class="d-flex align-items-center">
+                        <h3 class="m-subheader__title">Architect</h3>
+                    </div>
+                </div>
+                @if((session()->get('role_name')==config('commanConfig.junior_architect'))||
                 (session()->get('role_name')==config('commanConfig.senior_architect')) ||
                 (session()->get('role_name')==config('commanConfig.architect')) ||
                 session()->get('role_name')==config('commanConfig.land_manager') ||
@@ -91,32 +120,32 @@
                 in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'))) ||
                 in_array(session()->get('role_name'),array(config('commanConfig.vp_engineer'))))
 
-                @if(!((session()->get('role_name')==config('commanConfig.cap_engineer'))
-                || (session()->get('role_name')==config('commanConfig.junior_architect'))
-                || (session()->get('role_name')==config('commanConfig.senior_architect'))
-                || (session()->get('role_name')==config('commanConfig.architect')))
-                || (session()->get('role_name')==config('commanConfig.estate_manager'))
-                )
-                    <div class="db__card revision" data-module="Revision in Layout">
-                        <div class="db__card__img-wrap db-color-5">
-                            <h3 class="db__card__count">{{$architect_layout_counts}}
-                            </h3>
+                    @if(!((session()->get('role_name')==config('commanConfig.cap_engineer'))
+                    || (session()->get('role_name')==config('commanConfig.junior_architect'))
+                    || (session()->get('role_name')==config('commanConfig.senior_architect'))
+                    || (session()->get('role_name')==config('commanConfig.architect')))
+                    || (session()->get('role_name')==config('commanConfig.estate_manager'))
+                    )
+                        <div class="db__card revision" data-module="Revision in Layout">
+                            <div class="db__card__img-wrap db-color-5">
+                                <h3 class="db__card__count">{{$architect_layout_counts}}
+                                </h3>
+                            </div>
+                            <p class="db__card__title">Revision in Layout</p>
                         </div>
-                        <p class="db__card__title">Revision in Layout</p>
-                    </div>
-                @endif
-                @if(!((session()->get('role_name')==config('commanConfig.ee_junior_engineer')) || (session()->get('role_name')==config('commanConfig.ee_deputy_engineer'))))
-                    <div class="db__card revision" data-module="Layout Approval">
-                        <div class="db__card__img-wrap db-color-5">
-                            <h3 class="db__card__count">{{$architect_layout_counts}}</h3>
+                    @endif
+                    @if(!((session()->get('role_name')==config('commanConfig.ee_junior_engineer')) || (session()->get('role_name')==config('commanConfig.ee_deputy_engineer'))))
+                        <div class="db__card revision" data-module="Layout Approval">
+                            <div class="db__card__img-wrap db-color-5">
+                                <h3 class="db__card__count">{{$architect_layout_counts}}</h3>
+                            </div>
+                            <p class="db__card__title">Layout Approval</p>
                         </div>
-                        <p class="db__card__title">Layout Approval</p>
-                    </div>
-                @endif
+                    @endif
 
-                @if(session()->get('role_name')==config('commanConfig.junior_architect') ||
-                        session()->get('role_name')==config('commanConfig.senior_architect') ||
-                        session()->get('role_name')==config('commanConfig.architect')
+                    @if(session()->get('role_name')==config('commanConfig.junior_architect') ||
+                    session()->get('role_name')==config('commanConfig.senior_architect') ||
+                    session()->get('role_name')==config('commanConfig.architect')
                     )
                         <div class="db__card appointing_architect" data-module="Appointing Architect">
                             <div class="db__card__img-wrap db-color-5">
@@ -125,13 +154,13 @@
                             <p class="db__card__title">Appointing Architect</p>
                         </div>
 
-                    @if(session()->get('role_name')==config('commanConfig.architect'))
-                    <div class="db__card revision" data-module="Layout Approval Department Pendency">
-                        <div class="db__card__img-wrap db-color-16">
-                            <h3 class="db__card__count">{{$architect_layout_counts}}</h3>
-                        </div>
-                        <p class="db__card__title">Layout Approval Department Pendency</p>
-                    </div>
+                        @if(session()->get('role_name')==config('commanConfig.architect'))
+                            <div class="db__card revision" data-module="Layout Approval Department Pendency">
+                                <div class="db__card__img-wrap db-color-16">
+                                    <h3 class="db__card__count">{{$architect_layout_counts}}</h3>
+                                </div>
+                                <p class="db__card__title">Layout Approval Department Pendency</p>
+                            </div>
                             <div class="db__card revision" data-module="Layout Approval Subordinate Pendencies">
                                 <div class="db__card__img-wrap db-color-16">
                                     <h3 class="db__card__count">{{$architect_layout_counts}}</h3>
@@ -139,69 +168,19 @@
                                 <p class="db__card__title">Layout Approval Subordinate Pendencies</p>
                             </div>
 
-                            <div class="db__card appointing_architect" data-module="Appointing Architect Subordinate Pendency">
+                            <div class="db__card appointing_architect no-margin-sm"
+                                 data-module="Appointing Architect Subordinate Pendency">
                                 <div class="db__card__img-wrap db-color-5">
                                     <h3 class="db__card__count">{{$appointing_count}}</h3>
                                 </div>
                                 <p class="db__card__title">Appointing Architect Subordinate Pendency</p>
                             </div>
                         @endif
+                    @endif
                 @endif
-            @endif
-        </div>
-
-        <!-- Modal for count table and pie chart popup -->
-        <div class="modal fade mhada-full-modal" id="getCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">×</button>
-                    </div>
-                    <div class="modal-body" id="count_table">
-
-                    </div>
-                </div>
             </div>
-        </div>
+        @endif
 
-        <!-- Modal for application pending bifergation -->
-        <div class="modal fade" id="pending" role="dialog">
-            <div class="modal-dialog">
-
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Pending Applications</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div class="modal-body" id="pending_applications">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Model for sent to society bifergation-->
-        <div class="modal fade" id="sendToSociety" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Applications Sent to Society</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div class="modal-body" id="sent_to_society">
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 @endsection
 

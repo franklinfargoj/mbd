@@ -11,13 +11,13 @@
 @endsection
 @section('content')
     <div class="container-fluid mhada-dash-new">
-        <div class="m-subheader px-0 m-subheader--top">
-            <div class="d-flex align-items-center">
-                <h3 class="m-subheader__title">Dashboardaa</h3>
-            </div>
-        </div>
 
         <div class="d-flex flex-wrap db-wrapper">
+            <div class="m-subheader px-0 m-subheader--top col-sm-12 mb-3">
+                <div class="d-flex align-items-center">
+                    <h3 class="m-subheader__title">Redevelopment</h3>
+                </div>
+            </div>
             @if(in_array(session()->get('role_name'),$offerLetterRoles))
                 <div class="db__card counts" data-module="Offer Letter">
                     <div class="db__card__img-wrap db-color-1">
@@ -36,29 +36,38 @@
                 @endif
             @endif
 
-                @if(in_array(session()->get('role_name'), array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head'))))
-                    <div class="db__card consent_oc" data-module="Consent for OC">
-                        <div class="db__card__img-wrap db-color-2">
-                            <h3 class="db__card__count">{{$oc_count}}</h3>
-                        </div>
-                        <p class="db__card__title">Consent for OC</p>
+            @if(in_array(session()->get('role_name'), array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head'))))
+                <div class="db__card consent_oc" data-module="Consent for OC">
+                    <div class="db__card__img-wrap db-color-2">
+                        <h3 class="db__card__count">{{$oc_count}}</h3>
                     </div>
-                    @if(session()->get('role_name') == config('commanConfig.ree_branch_head'))
+                    <p class="db__card__title">Consent for OC</p>
+                </div>
+                @if(session()->get('role_name') == config('commanConfig.ree_branch_head'))
                     <div class="db__card consent_oc_pendency" data-module="Consent for OC Department Pendency">
                         <div class="db__card__img-wrap db-color-4">
                             <h3 class="db__card__count">{{$oc_pendency_count}}</h3>
                         </div>
                         <p class="db__card__title">Consent for OC Department Pendency</p>
                     </div>
-                    @endif
                 @endif
+            @endif
 
-                <div class="db__card tripartite " data-module="Tripartite Agreement">
-                    <div class="db__card__img-wrap db-color-3">
-                        <h3 class="db__card__count">{{$tripartite_count}}</h3>
-                    </div>
-                    <p class="db__card__title">Tripartite Agreement</p>
+            @php
+                if(session()->get('role_name') == config('commanConfig.ree_branch_head')){
+                    $class = 'no-margin-sm';
+                }else{
+                    $class = '';
+                }
+
+            @endphp
+
+            <div class="db__card tripartite <?php echo $class; ?>" data-module="Tripartite Agreement">
+                <div class="db__card__img-wrap db-color-3">
+                    <h3 class="db__card__count">{{$tripartite_count}}</h3>
                 </div>
+                <p class="db__card__title">Tripartite Agreement</p>
+            </div>
             @if(session()->get('role_name') == config('commanConfig.ree_branch_head'))
                 <div class="db__card tripartite_pending no-margin-xl" data-module="Tripartite Agreement Department Pendency">
                     <div class="db__card__img-wrap db-color-4">
@@ -68,49 +77,59 @@
                 </div>
             @endif
 
-                <div class="db__card revalidation" data-module="Offer Letter Revalidation">
-                    <div class="db__card__img-wrap db-color-5">
-                        <h3 class="db__card__count">{{$ol_reval_count}}</h3>
-                    </div>
-                    <p class="db__card__title">Offer Letter Revalidation</p>
+
+            <div class="db__card revalidation" data-module="Offer Letter Revalidation">
+                <div class="db__card__img-wrap db-color-5">
+                    <h3 class="db__card__count">{{$ol_reval_count}}</h3>
                 </div>
-                @if(session()->get('role_name') == config('commanConfig.ree_branch_head'))
+                <p class="db__card__title">Offer Letter Revalidation</p>
+            </div>
+            @if(session()->get('role_name') == config('commanConfig.ree_branch_head'))
                 <div class="db__card revalidation_pending" data-module="Offer Letter Revalidation Department Pendency">
                     <div class="db__card__img-wrap db-color-5">
                         <h3 class="db__card__count">{{$ol_reval_pending_count}}</h3>
                     </div>
                     <p class="db__card__title">Offer Letter Revalidation Department Pendency</p>
                 </div>
-                @endif
-                <div class="db__card noc no-margin-sm" data-module="NOC">
-                    <div class="db__card__img-wrap db-color-5">
-                        <h3 class="db__card__count">{{$noc_count}}</h3>
-                    </div>
-                    <p class="db__card__title">NOC</p>
+            @endif
+
+            <div class="db__card noc no-margin-sm" data-module="NOC">
+                <div class="db__card__img-wrap db-color-5">
+                    <h3 class="db__card__count">{{$noc_count}}</h3>
                 </div>
-                @if(session()->get('role_name') == config('commanConfig.ree_branch_head'))
+                <p class="db__card__title">NOC</p>
+            </div>
+            @if(session()->get('role_name') == config('commanConfig.ree_branch_head'))
                 <div class="db__card noc_pending" data-module="NOC Department Pendency">
                     <div class="db__card__img-wrap db-color-5">
                         <h3 class="db__card__count">{{$noc_pending_count}}</h3>
                     </div>
                     <p class="db__card__title">NOC Department Pendency</p>
                 </div>
-                @endif
-                <div class="db__card noc no-margin-xl" data-module="NOC (CC)">
-                    <div class="db__card__img-wrap db-color-5">
-                        <h3 class="db__card__count">{{$noc_cc_count}}</h3>
-                    </div>
-                    <p class="db__card__title">NOC (CC)</p>
+            @endif
+
+            <div class="db__card noc no-margin-xl" data-module="NOC (CC)">
+                <div class="db__card__img-wrap db-color-5">
+                    <h3 class="db__card__count">{{$noc_cc_count}}</h3>
                 </div>
-                @if(session()->get('role_name') == config('commanConfig.ree_branch_head'))
+                <p class="db__card__title">NOC (CC)</p>
+            </div>
+            @if(session()->get('role_name') == config('commanConfig.ree_branch_head'))
                 <div class="db__card noc_pending" data-module="NOC (CC) Department Pendency">
                     <div class="db__card__img-wrap db-color-5">
                         <h3 class="db__card__count">{{$noc_cc_pending_count}}</h3>
                     </div>
                     <p class="db__card__title">NOC (CC) Department Pendency</p>
                 </div>
-                @endif
+            @endif
+        </div>
 
+        <div class="d-flex flex-wrap db-wrapper">
+            <div class="m-subheader px-0 m-subheader--top col-sm-12 mb-3">
+                <div class="d-flex align-items-center">
+                    <h3 class="m-subheader__title">Architect</h3>
+                </div>
+            </div>
             <div class="db__card revision " data-module="Revision in Layout">
                 <div class="db__card__img-wrap db-color-5">
                     <h3 class="db__card__count">{{$architect_layout_count}}</h3>
@@ -132,6 +151,8 @@
                 </div>
             @endif
         </div>
+
+
     </div>
 
     <!-- Modal for count table and pie chart popup -->
