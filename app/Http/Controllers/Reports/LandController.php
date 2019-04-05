@@ -81,11 +81,76 @@ class LandController extends Controller
         $fileName = date('Y_m_d_H_i_s') . '_village_society_report.pdf';
         $village_names = implode(',',$village_names);
 
+        $total_area = 0;
+        $total_conveyance_area = 0;
+        $dataListMaster = [];
+        $i=1;
+        foreach ($data as $datas) {
+            $dataList = [];
+            $dataList['id'] = $i;
+            $dataList['Village'] = $datas->getVillageDetails->village_name;
+            $dataList['Society Name'] = $datas->getSocietyDetails['society_name'] ;
+            $dataList['Society Reg. No.'] = $datas->getSocietyDetails['society_reg_no'] ;
+            $dataList['District'] = $datas->getSocietyDetails['getDistrictName']['district_name'] ;
+            $dataList['Taluka'] = $datas->getSocietyDetails['getTalukaName']['taluka_name'] ;
+            $dataList['Layout'] = $datas->getSocietyDetails->getLayoutName->layout_name  ?? NULL;
+            $dataList['Survey Number'] = $datas->getSocietyDetails['survey_number'] ;
+            $dataList['CTS Number'] = $datas->getSocietyDetails['cts_number'] ;
+            $dataList['Name Of Chairman'] = $datas->getSocietyDetails['chairman'] ?? NULL;
+            $dataList['Mobile no. Of Chairman'] = $datas->getSocietyDetails['chairman_mob_no'] ?? NULL;
+            $dataList['Name Of Secretary'] = $datas->getSocietyDetails['secretary'] ?? NULL;
+            $dataList['Mobile no. Of Secretary'] = $datas->getSocietyDetails['secretary_mob_no'] ?? NULL;
+            $dataList['Society Address'] = $datas->getSocietyDetails['society_address'] ;
+            $dataList['Society Email Id'] = $datas->getSocietyDetails['society_email_id'] ?? NULL;
+            $dataList['Area'] = $datas->getSocietyDetails['area'] ;
+            $dataList['Date mentioned on service tax letters'] = $datas->getSocietyDetails['date_on_service_tax'] ;
+            $dataList['Surplus Charges'] = $datas->getSocietyDetails['surplus_charges'] ;
+            $dataList['Last date of paying surplus charges'] = $datas->getSocietyDetails['surplus_charges_last_date'] ;
+            $dataList['Land Name'] = $datas->getSocietyDetails->getLandName['land_name'] ;
+            $dataList['Is Society Conveyed ?'] = ($datas->getSocietyDetails['society_conveyed'] == 1) ? 'yes' : 'no';;
+            $dataList['Date Of Conveyance'] = $datas->getSocietyDetails['date_of_conveyance'] ?? NULL;
+            $dataList['Area Of Conveyance'] = $datas->getSocietyDetails['area_of_conveyance'] ?? NULL;
+
+            $total_area += $datas->getSocietyDetails['area'];
+            $total_conveyance_area += $datas->getSocietyDetails['area_of_conveyance'];
+
+            $dataListKeys = array_keys($dataList);
+            $dataListMaster[]=$dataList;
+            $i++;
+        }
+
+        $dataListMaster[] = ['id' => '',
+            'Village' => '',
+            'Society Name' => '',
+            'Society Reg. No.' => '',
+            'District' => '',
+            'Taluka' => '',
+            'Layout' => '',
+            'Survey Number' => '',
+            'CTS Number' => '',
+            'Name Of Chairman' => '',
+            'Mobile no. Of Chairman' => '',
+            'Name Of Secretary' => '',
+            'Mobile no. Of Secretary' => '',
+            'Society Address' => '',
+            'Society Email Id' => 'Total Area',
+            'Area' => $total_area,
+            'Date mentioned on service tax letters' => '',
+            'Surplus Charges' => '',
+            'Last date of paying surplus charges' => '',
+            'Land Name' => '',
+            'Is Society Conveyed ?' => '',
+            'Date Of Conveyance' => 'Total Conveyance Area',
+            'Area Of Conveyance' => $total_conveyance_area
+        ];
+
+
+
         if (count($data) > 0) {
 
             if($report_format == 'pdf')
             {
-                $content = view('admin.reports.land._village_society_report', compact('data','village_names'));
+                $content = view('admin.reports.land._village_society_report', compact('dataListMaster','village_names'));
                 $header_file = '';
                 $footer_file = '';
 
@@ -106,39 +171,6 @@ class LandController extends Controller
             }
             if($report_format == 'excel')
             {
-
-                $dataListMaster = [];
-                $i=1;
-                foreach ($data as $datas) {
-                    $dataList = [];
-                    $dataList['id'] = $i;
-                    $dataList['Village'] = $datas->getVillageDetails->village_name;
-                    $dataList['Society Name'] = $datas->getSocietyDetails['society_name'] ;
-                    $dataList['Society Reg. No.'] = $datas->getSocietyDetails['society_reg_no'] ;
-                    $dataList['District'] = $datas->getSocietyDetails['getDistrictName']['district_name'] ;
-                    $dataList['Taluka'] = $datas->getSocietyDetails['getTalukaName']['taluka_name'] ;
-                    $dataList['Layout'] = $datas->getSocietyDetails->getLayoutName->layout_name  ?? NULL;
-                    $dataList['Survey Number'] = $datas->getSocietyDetails['survey_number'] ;
-                    $dataList['CTS Number'] = $datas->getSocietyDetails['cts_number'] ;
-                    $dataList['Name Of Chairman'] = $datas->getSocietyDetails['chairman'] ?? NULL;
-                    $dataList['Mobile no. Of Chairman'] = $datas->getSocietyDetails['chairman_mob_no'] ?? NULL;
-                    $dataList['Name Of Secretary'] = $datas->getSocietyDetails['secretary'] ?? NULL;
-                    $dataList['Mobile no. Of Secretary'] = $datas->getSocietyDetails['secretary_mob_no'] ?? NULL;
-                    $dataList['Society Address'] = $datas->getSocietyDetails['society_address'] ;
-                    $dataList['Society Email Id'] = $datas->getSocietyDetails['society_email_id'] ?? NULL;
-                    $dataList['Area'] = $datas->getSocietyDetails['area'] ;
-                    $dataList['Date mentioned on service tax letters'] = $datas->getSocietyDetails['date_on_service_tax'] ;
-                    $dataList['Surplus Charges'] = $datas->getSocietyDetails['surplus_charges'] ;
-                    $dataList['Last date of paying surplus charges'] = $datas->getSocietyDetails['surplus_charges_last_date'] ;
-                    $dataList['Land Name'] = $datas->getSocietyDetails->getLandName['land_name'] ;
-                    $dataList['Is Society Conveyed ?'] = ($datas->getSocietyDetails['society_conveyed'] == 1) ? 'yes' : 'no';;
-                    $dataList['Date Of Conveyance'] = $datas->getSocietyDetails['date_of_conveyance'] ?? NULL;
-                    $dataList['Area Of Conveyance'] = $datas->getSocietyDetails['area_of_conveyance'] ?? NULL;
-                    $dataListKeys = array_keys($dataList);
-                    $dataListMaster[]=$dataList;
-                    $i++;
-                }
-
                 $village_names = str_replace(',','_',$village_names);
                 return Excel::create(date('Y_m_d_H_i_s') . '_village_society_'.$village_names, function($excel) use($dataListMaster){
 
@@ -323,10 +355,12 @@ class LandController extends Controller
 
         $layout_names = MasterLayout::whereIn('id',$layout_ids)->pluck('layout_name')->toArray();
 
-        $societies = SocietyDetail::with('getLayoutName','villages')
+        $societies = SocietyDetail::join('master_layout','layout_id','=','master_layout.id')
+            ->join('village_societies','lm_society_detail.id','=','village_societies.society_id')
+            ->join('lm_village_detail','village_societies.village_id','=','lm_village_detail.id')
             ->whereIn('layout_id',$layout_ids)
             ->orderBy('layout_id')
-            ->get();
+            ->get(['master_layout.layout_name','lm_village_detail.village_name','lm_village_detail.total_area','lm_society_detail.society_name','lm_society_detail.area']);
 
         if($request->pdf == 'pdf'){
             $report_format = $request->pdf;
@@ -365,73 +399,129 @@ class LandController extends Controller
             $i=1;
             $layout_village_area = 0;
             $society_area = 0;
-            $village_ids = array();
 
-//            dd($data);
-            foreach ($data as $key => $datas) {
+            $latest_village = '';
+            $latest_layout = '';
+
+            foreach ($data as $key => $datas){
                 $dataList = [];
 
-
-                foreach ($datas->villages as $key1 =>$village){
-
-                    if(!(in_array($village->id, $village_ids))){
-
-                        $village_ids[] += $village->id;
+                $dataList['id'] = $i;
 
 
-                        if($key1 > 0){
-                            if($datas->getLayoutName->layout_name == $dataListMaster[$key1 - 1]['Layout Name'] ){
-                                $layout = $datas->getLayoutName->layout_name;
-                            }
-                            if($layout == $datas->getLayoutName->layout_name){
-                                $dataList['Layout Name'] = "";
-                            }else{
-                                $dataList['id'] = $i;
+                    if($datas->layout_name == $latest_layout){
+                        $dataList['Layout Name'] = '';
+                    }
+                    else{
+                        $latest_layout = $datas->layout_name;
+                        $dataList['Layout Name'] = $datas->layout_name;
+                    }
 
-                                $dataList['Layout Name'] = $datas->getVillageDetails->village_name;
-//                                $i++;
-
-                            }
-                        }
-                        else{
-                            $dataList['id'] = $i;
-
-                            $dataList['Layout Name'] = $datas->getLayoutName->layout_name;
-//                            $i++;
-
-                        }
-                        $dataList['Village Name'] = $village->village_name;
-                        $dataList['Village Area(m.sq.)'] = $village->total_area ;
-                        $dataList['Society Name'] = $datas->society_name;
-                        $dataList['Society Area(m.sq)'] = $datas->area;
-
-                        $layout_village_area += $village->total_area;
-
-                        $dataListKeys = array_keys($dataList);
-                        $dataListMaster[]=$dataList;
-                        $i++;
+                    if($datas->village_name == $latest_village){
+                        $dataList['Village Name'] = '';
+                        $dataList['Village Area(m.sq.)'] = '';
 
                     }else{
-                        $dataList['id'] = $i;
-                        $dataList['Layout Name'] = $datas->getLayoutName->layout_name;
-                        $dataList['Village Name'] = '';
-                        $dataList['Village Area(m.sq.)'] = '' ;
-                        $dataList['Society Name'] = $datas->society_name;
-                        $dataList['Society Area(m.sq)'] = $datas->area;
+                        $latest_village = $datas->village_name;
+                        $dataList['Village Name'] = $datas->village_name;
 
-
-                        $dataListKeys = array_keys($dataList);
-                        $dataListMaster[]=$dataList;
-                        $i++;
+                        $layout_village_area += $datas->total_area;
+                        $dataList['Village Area(m.sq.)'] = $datas->total_area ;
 
                     }
-                }
 
+                    $dataList['Society Name'] = $datas->society_name;
 
-                $society_area += $datas->area;
+                    $society_area += $datas->area;
+                    $dataList['Society Area(m.sq)'] = $datas->area;
+
+                    $dataListKeys = array_keys($dataList);
+                    $dataListMaster[]=$dataList;
+                    $i++;
 
             }
 
+//            foreach ($data as $key => $datas) {
+////                dd($datas);
+//                $dataList = [];
+//
+//                $layout = $datas->layout_name;
+//
+//                $dataList['id'] = $i;
+//
+//                $latest_layout = $layout;
+//                $dataList['Layout Name'] = $layout;
+//                $village_name = $datas->village_name;
+//                $dataList['Village Name'] = $village_name;
+//                $dataList['Village Area(m.sq.)'] = $datas->total_area ;
+//                $dataList['Society Name'] = $datas->society_name;
+//                $dataList['Society Area(m.sq)'] = $datas->area;
+////                foreach ($datas->villages as $key1 =>$village){
+////
+////                    $village_name = $village->village_name;
+////
+////                    if(!(in_array($village->id, $village_ids))){
+////
+////                       if($key1 > 0) {
+////                            if ($village_name == $dataListMaster[$key1 - 1]['Village Name']) {
+////                                $dataList['Village Name'] = '';
+////                                $dataList['Village Area(m.sq.)'] = '' ;
+////
+////                            } else {
+////                                $dataList['Village Name'] = $village_name;
+////                                $latest_village = $village_name;
+////                                $dataList['Village Area(m.sq.)'] = $village->total_area ;
+////
+////                            }
+////                        }
+////                        else{
+////                            $latest_village = $village_name;
+////                            $dataList['Village Name'] = $village_name;
+////                            $dataList['Village Area(m.sq.)'] = $village->total_area ;
+////
+////                        }
+////
+////                        $village_ids[] += $village->id;
+////
+////                        $dataList['Society Name'] = $datas->society_name;
+////                        $dataList['Society Area(m.sq)'] = $datas->area;
+////
+////                        $layout_village_area += $village->total_area;
+////
+////                        $dataListKeys = array_keys($dataList);
+////                        $dataListMaster[]=$dataList;
+////                        $i++;
+////
+////                    }
+////                    else{
+////                        $dataList['id'] = $i;
+////
+////                            if($latest_village == $village_name){
+////                                $dataList['Village Name'] = '';
+////                            }
+////                            else{
+////                                $latest_village = $village_name;
+////                                $dataList['Village Name'] = $village_name;
+////                            }
+////
+////                        $dataList['Village Area(m.sq.)'] = '' ;
+////                        $dataList['Society Name'] = $datas->society_name;
+////                        $dataList['Society Area(m.sq)'] = $datas->area;
+////
+////                        $dataListKeys = array_keys($dataList);
+////                        $dataListMaster[]=$dataList;
+////                        $i++;
+////
+////                    }
+////                }
+//
+//                $layout_village_area += $datas->total_area;
+//
+//                $society_area += $datas->area;
+//
+//            }
+
+//                        dd($dataListMaster);
             $dataListMaster[] = [ 'id' => '',
                 'Layout Name' => '',
                 'Village Name' => '',
