@@ -29,31 +29,31 @@
     </tr>
     </thead>
     <tbody>
-    @foreach ($data as $key => $datas)
+    @foreach ($dataListMaster as $key => $data)
         <tr>
-            <td>{{$key + 1}}</td>
-            <td>{{$datas->getVillageDetails['village_name']}}</td>
-            <td>{{$datas->getSocietyDetails['society_name']}}</td>
-            <td>{{$datas->getSocietyDetails['society_reg_no']}}</td>
-            <td>{{$datas->getSocietyDetails['getDistrictName']['district_name']}}</td>
-            <td>{{$datas->getSocietyDetails['getTalukaName']['taluka_name']}}</td>
-            <td>{{$datas->getSocietyDetails->getLayoutName->layout_name}}</td>
-            <td>{{$datas->getSocietyDetails['survey_number']}}</td>
-            <td>{{$datas->getSocietyDetails['cts_number']}}</td>
-            <td>{{$datas->getSocietyDetails['chairman']}}</td>
-            <td>{{$datas->getSocietyDetails['chairman_mob_no'] }}</td>
-            <td>{{$datas->getSocietyDetails['secretary']}}</td>
-            <td>{{$datas->getSocietyDetails['secretary_mob_no']}}</td>
-            <td>{{$datas->getSocietyDetails['society_address']}}</td>
-            <td>{{$datas->getSocietyDetails['society_email_id']}}</td>
-            <td>{{$datas->getSocietyDetails['area']}}</td>
-            <td>{{$datas->getSocietyDetails['date_on_service_tax']}}</td>
-            <td>{{$datas->getSocietyDetails['surplus_charges']}}</td>
-            <td>{{ $datas->getSocietyDetails['surplus_charges_last_date']}}</td>
-            <td>{{$datas->getSocietyDetails->getLandName['land_name'] }}</td>
-            <td>{{($datas->getSocietyDetails['society_conveyed'] == 1) ? 'yes' : 'no'}}</td>
-            <td>{{$datas->getSocietyDetails['date_of_conveyance']}}</td>
-            <td>{{$datas->getSocietyDetails['area_of_conveyance']}}</td>
+            <td>{{$data['id']}}</td>
+            <td>{{$data['Village']}}</td>
+            <td>{{$data['Society Name']}}</td>
+            <td>{{$data['Society Reg. No.']}}</td>
+            <td>{{$data['District']}}</td>
+            <td>{{$data['Taluka']}}</td>
+            <td>{{$data['Layout']}}</td>
+            <td>{{$data['Survey Number']}}</td>
+            <td>{{$data['CTS Number']}}</td>
+            <td>{{$data['Name Of Chairman']}}</td>
+            <td>{{$data['Mobile no. Of Chairman'] }}</td>
+            <td>{{$data['Name Of Secretary']}}</td>
+            <td>{{$data['Mobile no. Of Secretary']}}</td>
+            <td>{{$data['Society Address']}}</td>
+            <td>{{$data['Society Email Id']}}</td>
+            <td>{{$data['Area']}}</td>
+            <td>{{$data['Date mentioned on service tax letters']}}</td>
+            <td>{{$data['Surplus Charges']}}</td>
+            <td>{{$data['Last date of paying surplus charges']}}</td>
+            <td>{{$data['Land Name'] }}</td>
+            <td>{{$data['Is Society Conveyed ?']}}</td>
+            <td>{{$data['Date Of Conveyance']}}</td>
+            <td>{{$data['Area Of Conveyance']}}</td>
         </tr>
     @endforeach
     </tbody>

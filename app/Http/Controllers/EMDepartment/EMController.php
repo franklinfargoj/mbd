@@ -417,9 +417,9 @@ class EMController extends Controller
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'society_name','name' => 'society_name','title' => 'Society Name'],
-            ['data' => 'ward_name','name' => 'ward_name','title' => 'Ward'],
-            ['data' => 'col_name','name' => 'col_name','title' => 'Colony'],
-            ['data' => 'billname','name' => 'billname','title' => 'Bill type'],
+            ['data' => 'ward_name','name' => 'ward_name','title' => 'Ward','searchable' => false],
+            ['data' => 'col_name','name' => 'col_name','title' => 'Colony','searchable' => false],
+            ['data' => 'billname','name' => 'billname','title' => 'Bill type','searchable' => false],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
@@ -446,15 +446,15 @@ class EMController extends Controller
         
             if ($request->has('layout') && $request->get('layout') != '') {
                 $societies = SocietyDetail::selectRaw('@rownum  := @rownum  + 1 AS rownum,lm_society_detail.*,master_colonies.name as col_name,master_wards.name as ward_name,master_society_bill_level.name as billname')
-                    ->join('master_wards','master_wards.layout_id','=','lm_society_detail.layout_id')
-                    ->join('master_society_bill_level','master_society_bill_level.id','=','lm_society_detail.society_bill_level')
-                    ->join('master_colonies','master_colonies.id','=','lm_society_detail.colony_id')
+                    ->leftjoin('master_wards','master_wards.layout_id','=','lm_society_detail.layout_id')
+                    ->leftjoin('master_society_bill_level','master_society_bill_level.id','=','lm_society_detail.society_bill_level')
+                    ->leftjoin('master_colonies','master_colonies.id','=','lm_society_detail.colony_id')
                     ->where('lm_society_detail.layout_id',decrypt($request->input('layout')));
             } else {
                 $societies = SocietyDetail::selectRaw('@rownum  := @rownum  + 1 AS rownum,lm_society_detail.*,master_colonies.name as col_name,master_wards.name as ward_name,master_society_bill_level.name as billname')
-                     ->join('master_wards','master_wards.layout_id','=','lm_society_detail.layout_id')
-                     ->join('master_society_bill_level','master_society_bill_level.id','=','lm_society_detail.society_bill_level')
-                     ->join('master_colonies','master_colonies.id','=','lm_society_detail.colony_id');
+                     ->leftjoin('master_wards','master_wards.layout_id','=','lm_society_detail.layout_id')
+                     ->leftjoin('master_society_bill_level','master_society_bill_level.id','=','lm_society_detail.society_bill_level')
+                     ->leftjoin('master_colonies','master_colonies.id','=','lm_society_detail.colony_id');
             }
 
             return $datatables->of($societies)
