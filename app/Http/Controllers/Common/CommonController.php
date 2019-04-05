@@ -1759,53 +1759,97 @@ class CommonController extends Controller
 
         $offerLetterRoles = $this->getOfferLetterRoles();
 
-        //offer letter
-        $ol_count = count($this->getApplicationData($role_id,$user_id));
+        $ol_count = null;
+        $ol_pending_count = null;
+        $oc_count = null;
+        $oc_pending_count = null;
+        $reval_count = null;
+        $conveyance_count = null;
+        $conveyance_pending_count = null;
+        $renewal_count = null;
+        $renewal_pending_count = null;
+        $appointing_count = null;
+        $architect_layout_counts = null;
 
-        //offer letter subordinate pendency
-        $dashboardData1 = null;
-        if($role_id == $eeHeadId){
-            $dashboardData1 = $this->getToatalPendingApplicationsAtUser($ee);
-            $ol_pending_count = $dashboardData1['Total Number of Applications'];
+        if(in_array(session()->get('role_name'),$offerLetterRoles))
+        {
+            //offer letter
+            $ol_count = count($this->getApplicationData($role_id,$user_id));
+
+            //offer letter subordinate pendency
+            $dashboardData1 = null;
+            if($role_id == $eeHeadId){
+                $dashboardData1 = $this->getToatalPendingApplicationsAtUser($ee);
+                $ol_pending_count = $dashboardData1['Total Number of Applications'];
+            }
+            if($role_id == $dyceHeadId){
+                $dashboardData1 = $this->getToatalPendingApplicationsAtUser($dyce);
+                $ol_pending_count = $dashboardData1['Total Number of Applications'];
+            }
         }
-        if($role_id == $dyceHeadId){
-            $dashboardData1 = $this->getToatalPendingApplicationsAtUser($dyce);
-            $ol_pending_count = $dashboardData1['Total Number of Applications'];
+
+        if(in_array(session()->get('role_name'),array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'))))
+        {
+            // Oc
+            $oc_dashboard = new OcDashboardController();
+            $ocData = $oc_dashboard->getApplicationData($role_id,$user_id);
+            $oc_count = count($ocData);
+
+            // OC Subordinate Pendency
+            $oc_pending_data = $this->getToatalPendingOcApplicationsAtUser($ee);
+            $oc_pending_count = $oc_pending_data['Total Number of Applications'];
+
         }
 
-        //society Conveyance
-        $conveyance_count = count($conveyanceCommonController->getApplicationData($role_id,$user_id));
+        if (in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'), config('commanConfig.vp_engineer'))))
+        {
+            //offer letter revalidation
+            $reval_count = count($this->getRevalApplicationData($role_id,$user_id));
+        }
 
-        //society Conveyance subordinate pendency
-        $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();
-        $conveyance_pending_count = $pendingApplications['Total Number of Applications'];
+        if(in_array(session()->get('role_name'),$conveyanceRoles))
+        {
+            //society Conveyance
+            $conveyance_count = count($conveyanceCommonController->getApplicationData($role_id,$user_id));
 
-        //society Renewal
-        $renewal_count = count($renewal->getApplicationData($role_id,$user_id));
+            //society Conveyance subordinate pendency
+            $pendingApplications = $conveyanceCommonController->getApplicationPendingAtDepartment();
+            $conveyance_pending_count = $pendingApplications['Total Number of Applications'];
 
-        //society renewal subordinate pendency
-        $renewalPendingApplications = $renewal->getApplicationPendingAtDepartment();
-        $renewal_pending_count = $renewalPendingApplications['Total Number of Applications'];
+        }
 
-        //offer letter revalidation
-        $reval_count = count($this->getRevalApplicationData($role_id,$user_id));
+        if(in_array(session()->get('role_name'),$renewalRoles))
+        {
+            //society Renewal
+            $renewal_count = count($renewal->getApplicationData($role_id,$user_id));
 
-        //apponting architect
-        $architect_dashboard = new AppointingArchitectController();
-        $appointing_count = $architect_dashboard->total_number_of_application();
-
-        // Oc
-        $oc_dashboard = new OcDashboardController();
-        $ocData = $oc_dashboard->getApplicationData($role_id,$user_id);
-        $oc_count = count($ocData);
-
-        // OC Subordinate Pendency
-        $oc_pending_data = $this->getToatalPendingOcApplicationsAtUser($ee);
-        $oc_pending_count = $oc_pending_data['Total Number of Applications'];
+            //society renewal subordinate pendency
+            $renewalPendingApplications = $renewal->getApplicationPendingAtDepartment();
+            $renewal_pending_count = $renewalPendingApplications['Total Number of Applications'];
+        }
 
 
-        //architect layout
-        $architect_layout_counts = ArchitectLayout::all()->count();
+
+
+        if((session()->get('role_name')==config('commanConfig.junior_architect'))||
+        (session()->get('role_name')==config('commanConfig.senior_architect')) ||
+        (session()->get('role_name')==config('commanConfig.architect')) ||
+        session()->get('role_name')==config('commanConfig.land_manager') ||
+        session()->get('role_name')==config('commanConfig.estate_manager') ||
+        in_array(session()->get('role_name'),array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'))) ||
+        in_array(session()->get('role_name'),array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head'))) ||
+        in_array(session()->get('role_name'),array(config('commanConfig.co_engineer'))) ||
+        in_array(session()->get('role_name'),array(config('commanConfig.senior_architect_planner'))) ||
+        in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'))) ||
+        in_array(session()->get('role_name'),array(config('commanConfig.vp_engineer'))))
+        {
+            //apponting architect
+            $architect_dashboard = new AppointingArchitectController();
+            $appointing_count = $architect_dashboard->total_number_of_application();
+
+            //architect layout
+            $architect_layout_counts = ArchitectLayout::all()->count();
+        }
 
 
         return view('admin.common.ol_dashboard',compact('architect_layout_counts','conveyanceRoles','oc_count','oc_pending_count','dashboardData1','renewalRoles','appointing_count','offerLetterRoles','ol_count','ol_pending_count','conveyance_count','conveyance_pending_count','renewal_count','renewal_pending_count','reval_count'));
