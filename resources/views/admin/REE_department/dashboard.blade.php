@@ -123,7 +123,7 @@
                 </div>
             @endif
         </div>
-        
+
         <div class="d-flex flex-wrap db-wrapper">
             <div class="m-subheader px-0 m-subheader--top col-sm-12 mb-3">
                 <div class="d-flex align-items-center">

@@ -17,76 +17,81 @@
                 <h3 class="m-subheader__title">Dashboard</h3>
             </div>
         </div> -->
-        {{--Todays Hearing--}}
-        <div class="hearing-accordion-wrapper">
 
-            <div class="m-portlet m-portlet--compact hearing-accordion mb-0">
-                <div class="d-flex justify-content-between align-items-center">
-                    <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100 collapsed"
-                       data-toggle="collapse" href="#todays-hearing">
-                        <span class="form-accordion-title">Today's Hearing ({{$todays_hearing_count}})</span>
-                        @if($todaysHearing)
-                            <span class="hearing-accordion-icon"></span>
-                        @endif
-                    </a>
-                </div>
-            </div>
-
-            @if($todays_hearing_count)
-                <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="todays-hearing"
-                     data-parent="#accordion">
-                    @foreach($todaysHearing as $hearing)
-                        <div class="row no-gutters hearing-row">
-                            <div class="col-12 no-shadow">
-                                <div class="app-card-section-title">Today's Hearing</div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="m-portlet app-card text-center">
-                                    <h2 class="app-heading">Case Year</h2>
-                                    <h2 class="app-no mb-0">{{$hearing['case_year']}}</h2>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="m-portlet app-card text-center">
-                                    <h2 class="app-heading">Case NO</h2>
-                                    <h2 class="app-no mb-0">{{$hearing['id']}}</h2>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="m-portlet app-card text-center">
-                                    <h2 class="app-heading">Hearing Time</h2>
-                                    <h2 class="app-no mb-0">{{$hearing['hearing_schedule']['preceding_time']}}</h2>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="m-portlet app-card text-center">
-                                    <h2 class="app-heading">Applicant Name</h2>
-                                    <h2 class="app-no mb-0">{{$hearing['applicant_name']}}</h2>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="m-portlet app-card text-center">
-                                    <a href="{{route('hearing.show',encrypt($hearing['id']))}}" class="app-no app-no--view mb-0">View
-                                        Details</a>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            @endif
-        </div>
-        {{--End Todays Hearing--}}
-        <div class="d-flex flex-wrap db-wrapper">
-            <div class="m-subheader px-0 m-subheader--top col-sm-12 mb-3">
+        <div>
+            <div class="m-subheader px-0 m-subheader--top">
                 <div class="d-flex align-items-center">
                     <h3 class="m-subheader__title">Hearing</h3>
                 </div>
             </div>
-            <div class="db__card hearing_summary no-margin-sm" data-module="Hearing Summary">
-                <div class="db__card__img-wrap db-color-1">
-                    <h3 class="db__card__count">{{$hearing_count}}</h3>
+
+            {{--Todays Hearing--}}
+            <div class="hearing-accordion-wrapper">
+
+                <div class="m-portlet m-portlet--compact hearing-accordion mb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100 collapsed"
+                           data-toggle="collapse" href="#todays-hearing">
+                            <span class="form-accordion-title">Today's Hearing ({{$todays_hearing_count}})</span>
+                            @if($todaysHearing)
+                                <span class="hearing-accordion-icon"></span>
+                            @endif
+                        </a>
+                    </div>
                 </div>
-                <p class="db__card__title">Hearing Summary</p>
+
+                @if($todays_hearing_count)
+                    <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="todays-hearing"
+                         data-parent="#accordion">
+                        @foreach($todaysHearing as $hearing)
+                            <div class="row no-gutters hearing-row">
+                                <div class="col-12 no-shadow">
+                                    <div class="app-card-section-title">Today's Hearing</div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="m-portlet app-card text-center">
+                                        <h2 class="app-heading">Case Year</h2>
+                                        <h2 class="app-no mb-0">{{$hearing['case_year']}}</h2>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="m-portlet app-card text-center">
+                                        <h2 class="app-heading">Case NO</h2>
+                                        <h2 class="app-no mb-0">{{$hearing['id']}}</h2>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="m-portlet app-card text-center">
+                                        <h2 class="app-heading">Hearing Time</h2>
+                                        <h2 class="app-no mb-0">{{$hearing['hearing_schedule']['preceding_time']}}</h2>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="m-portlet app-card text-center">
+                                        <h2 class="app-heading">Applicant Name</h2>
+                                        <h2 class="app-no mb-0">{{$hearing['applicant_name']}}</h2>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="m-portlet app-card text-center">
+                                        <a href="{{route('hearing.show',encrypt($hearing['id']))}}" class="app-no app-no--view mb-0">View
+                                            Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+            {{--End Todays Hearing--}}
+
+            <div class="d-flex flex-wrap db-wrapper">
+                <div class="db__card hearing_summary no-margin-sm" data-module="Hearing Summary">
+                    <div class="db__card__img-wrap db-color-1">
+                        <h3 class="db__card__count">{{$hearing_count}}</h3>
+                    </div>
+                    <p class="db__card__title">Hearing Summary</p>
+                </div>
             </div>
         </div>
 
