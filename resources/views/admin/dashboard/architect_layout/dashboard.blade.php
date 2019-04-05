@@ -14,7 +14,7 @@
     <div class="container-fluid mhada-dash-new">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
-                <h3 class="m-subheader__title">Dashboard</h3>
+                <h3 class="m-subheader__title">Architect</h3>
             </div>
         </div>
 

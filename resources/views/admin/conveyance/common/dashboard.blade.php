@@ -10,31 +10,16 @@
     <link href="{{asset('/css/dashboard/custom.css')}}" rel="stylesheet" type="text/css"/>
 @endsection
 @section('content')
+
+
+
     <div class="container-fluid mhada-dash-new">
-        <div class="m-subheader px-0 m-subheader--top">
-            <div class="d-flex align-items-center">
-                <h3 class="m-subheader__title">Dashboard</h3>
-            </div>
-        </div>
-
+        @if(session()->get('role_name') == config('commanConfig.estate_manager') || session()->get('role_name') == config('commanConfig.la_engineer'))
         <div class="d-flex flex-wrap db-wrapper">
-            @if(in_array(session()->get('role_name'),$conveyanceRoles))
-                    <div class="db__card conveyance" data-module = "Society Conveyance">
-                        <div class="db__card__img-wrap db-color-1">
-                            <h3 class="db__card__count">{{$conveyance_count}}</h3>
-                        </div>
-                        <p class="db__card__title">Society Conveyance</p>
-                    </div>
-                @if(session()->get('role_name') == config('commanConfig.dyco_engineer'))
-                        <div class="db__card conveyance_pending" data-module = "Society Conveyance Subordinate Pendency">
-                            <div class="db__card__img-wrap db-color-6">
-                                <h3 class="db__card__count">{{$conveyance_pending_count}}</h3>
-                            </div>
-                            <p class="db__card__title">Society Conveyance Subordinate Pendency</p>
-                        </div>
-                @endif
-            @endif
-
+            <div class="m-subheader px-0 m-subheader--top col-sm-12 mb-3">
+                <div class="d-flex align-items-center">
+                    <h3 class="m-subheader__title">Redevelopment</h3>
+                </div>
                 @if(session()->get('role_name') == config('commanConfig.estate_manager'))
                     <div class="db__card consent_oc" data-module="Consent for OC">
                         <div class="db__card__img-wrap db-color-2">
@@ -45,61 +30,93 @@
                 @endif
 
 
-            @if(session()->get('role_name') == config('commanConfig.la_engineer'))
+                @if(session()->get('role_name') == config('commanConfig.la_engineer'))
                     <div class="db__card tripartite" data-module="Tripartite Agreement">
                         <div class="db__card__img-wrap db-color-2">
                             <h3 class="db__card__count">{{$tripartite_count}}</h3>
                         </div>
                         <p class="db__card__title">Tripartite Agreement</p>
                     </div>
-            @endif
-
-                @if(in_array(session()->get('role_name'),$renewalRoles))
-                        <div class="db__card renewal" data-module = "Society Renewal">
-                            <div class="db__card__img-wrap db-color-4">
-                                <h3 class="db__card__count">{{$renewal_count}}</h3>
-                            </div>
-                            <p class="db__card__title">Society Renewal</p>
-                        </div>
-
-
-                        @if(session()->get('role_name') == config('commanConfig.dyco_engineer'))
-                             <div class="db__card renewal_pending" data-module = "Society Renewal Subordinate Pendency">
-                                    <div class="db__card__img-wrap db-color-5">
-                                        <h3 class="db__card__count">{{$renewal_pending_count}}</h3>
-                                    </div>
-                                    <p class="db__card__title">Society Renewal Subordinate Pendency</p>
-                            </div>
-                        @endif
-
                 @endif
+            </div>
+        </div>
+        @endif
+        <div class="d-flex flex-wrap db-wrapper">
+            <div class="m-subheader px-0 m-subheader--top col-sm-12 mb-3">
+                <div class="d-flex align-items-center">
+                    <h3 class="m-subheader__title">Estate & Conveyance</h3>
+                </div>
+            </div>
 
-                @if((session()->get('role_name')==config('commanConfig.estate_manager'))||
-                    (session()->get('role_name')==config('commanConfig.dyco_engineer')) ||
-                    (session()->get('role_name')==config('commanConfig.dycdo_engineer')))
-                        <div class="db__card conveyance_pending" data-module = "Society Formation">
-                            <div class="db__card__img-wrap db-color-5">
-                                <h3 class="db__card__count">{{$society_formation_count}}</h3>
-                            </div>
-                            <p class="db__card__title">Society Formation</p>
+            @if(in_array(session()->get('role_name'),$conveyanceRoles))
+                <div class="db__card conveyance" data-module = "Society Conveyance">
+                    <div class="db__card__img-wrap db-color-1">
+                        <h3 class="db__card__count">{{$conveyance_count}}</h3>
+                    </div>
+                    <p class="db__card__title">Society Conveyance</p>
+                </div>
+                @if(session()->get('role_name') == config('commanConfig.dyco_engineer'))
+                    <div class="db__card conveyance_pending" data-module = "Society Conveyance Subordinate Pendency">
+                        <div class="db__card__img-wrap db-color-6">
+                            <h3 class="db__card__count">{{$conveyance_pending_count}}</h3>
                         </div>
-                @endif
-
-                @if((session()->get('role_name')==config('commanConfig.estate_manager')))
-                    <div class="db__card revision"  data-module="Revision in Layout">
-                        <div class="db__card__img-wrap db-color-5">
-                            <h3 class="db__card__count">{{$architect_layout_count}}</h3>
-                        </div>
-                        <p class="db__card__title">Revision in Layout</p>
+                        <p class="db__card__title">Society Conveyance Subordinate Pendency</p>
                     </div>
                 @endif
+            @endif
+            @if(in_array(session()->get('role_name'),$renewalRoles))
+                <div class="db__card renewal" data-module = "Society Renewal">
+                    <div class="db__card__img-wrap db-color-4">
+                        <h3 class="db__card__count">{{$renewal_count}}</h3>
+                    </div>
+                    <p class="db__card__title">Society Renewal</p>
+                </div>
+
+
+                @if(session()->get('role_name') == config('commanConfig.dyco_engineer'))
+                    <div class="db__card renewal_pending" data-module = "Society Renewal Subordinate Pendency">
+                        <div class="db__card__img-wrap db-color-5">
+                            <h3 class="db__card__count">{{$renewal_pending_count}}</h3>
+                        </div>
+                        <p class="db__card__title">Society Renewal Subordinate Pendency</p>
+                    </div>
+                @endif
+            @endif
+            @if((session()->get('role_name')==config('commanConfig.estate_manager'))||
+                    (session()->get('role_name')==config('commanConfig.dyco_engineer')) ||
+                    (session()->get('role_name')==config('commanConfig.dycdo_engineer')))
+                <div class="db__card conveyance_pending no-margin-sm" data-module = "Society Formation">
+                    <div class="db__card__img-wrap db-color-5">
+                        <h3 class="db__card__count">{{$society_formation_count}}</h3>
+                    </div>
+                    <p class="db__card__title">Society Formation</p>
+                </div>
+            @endif
 
         </div>
+
+        @if((session()->get('role_name')==config('commanConfig.estate_manager')))
+        <div class="d-flex flex-wrap db-wrapper">
+            <div class="m-subheader px-0 m-subheader--top col-sm-12 mb-3">
+                <div class="d-flex align-items-center">
+                    <h3 class="m-subheader__title">Architect</h3>
+                </div>
+            </div>
+                <div class="db__card revision"  data-module="Revision in Layout">
+                    <div class="db__card__img-wrap db-color-5">
+                        <h3 class="db__card__count">{{$architect_layout_count}}</h3>
+                    </div>
+                    <p class="db__card__title">Revision in Layout</p>
+                </div>
+        </div>
+        @endif
+
+    </div>
+
 
 
     <!-- end -->
 
-    </div>
     <!-- Modal for count table and pie chart popup -->
     <div class="modal fade mhada-full-modal" id="getCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
