@@ -542,5 +542,4 @@ return [
         'user_application' => 'New application for <application type>',
         'head_application' => 'New application in your dept. for <application type>'
     ]
-
 ];
