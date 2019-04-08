@@ -10,6 +10,7 @@ use Config;
 use App\User;
 use App\Role;
 use Mail;
+use Hash;
 
 class EmailMsgConfigration extends Controller
 {
@@ -193,6 +194,10 @@ class EmailMsgConfigration extends Controller
     }
 
     public function abc(){
+        $encrypt_password = 1234;
+        $hashed = Hash::make($encrypt_password);
+        dd($hashed);
+
     	$to_email = 'bhavanasalunkhe145@gmail.com';
     	$emailContent = config('commanConfig.email_content.society_registration');
     	$emailContent = str_replace("<username>",$to_email,$emailContent);
