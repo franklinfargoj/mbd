@@ -1390,7 +1390,7 @@ class REEController extends Controller
         }else{
            $content = ""; 
         }
-
+        dd($content);
         $table1Id = OlCustomCalculationMasterModel::where('name','Calculation_Table-A')->value('id');       
         $table1 = OlCustomCalculationSheet::where('society_id',$model->society_id)
         ->where('parent_id',$table1Id)->get()->toArray();
