@@ -137,6 +137,8 @@
                 </div>
             </div>
         </div>
+
+        @if(session()->get('role_name') == config('commanConfig.ree_junior'))
         <div class="tab-content">
             <div class="tab-pane active show" id="generate-offer-letter" role="tabpanel" style="{{$style1}}">
                 <div class="m-portlet m-portlet--mobile m_panel">
@@ -150,15 +152,16 @@
                 </div>
             </div>
         </div>
+        @endif
 
-        <div id="show-offer-letter" style="{{$style}}">
+        <div id="show-offer-letter">
 
             <div class="m-portlet m-portlet--mobile m_panel">
                 <div class="m-portlet__body" style="padding-right: 0;">
 
                     @if($societyData->ree_Jr_id)
                     <h3 class="section-title section-title--small mb-0">Offer Letter:</h3>
-                    <div class=" row-list">
+                    <div class=" row-list " style="{{$style}}">
                         <div class="row">
                             <div class="col-md-12">
                                 <p class="font-weight-semi-bold">Edit Offer letter</p>
@@ -170,7 +173,7 @@
                         </div>
                     </div>
                     @endif
-                    <div class="w-100 row-list">
+                    <div class="w-100 row-list" style="{{$style1}}">
                         <div class="">
                             <div class="row">
                                 <div class="col-sm-6">
@@ -220,7 +223,7 @@
             </div>
 
             @if($societyData->ree_branch_head && $societyData->status_offer_letter ==
-            config('commanConfig.applicationStatus.offer_letter_generation') && $applicationLog->status_id !=
+            config('commanConfig.applicationStatus.offer_letter_generated') && $applicationLog->status_id !=
             config('commanConfig.applicationStatus.forwarded'))
             <form role="form" id="sendForApproval" style="margin-top: 30px;" name="sendForApproval" class="form-horizontal"
                 method="post" action="{{ route('ree.send_for_approval')}}" enctype="multipart/form-data">
@@ -248,6 +251,9 @@
             </form>
             @endif
         </div>
+
+
+
     </div>
 </div>
 @endsection
