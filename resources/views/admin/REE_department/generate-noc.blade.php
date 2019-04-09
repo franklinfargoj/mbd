@@ -133,7 +133,7 @@
          <div id="show-noc">
             <div class="m-portlet m-portlet--mobile m_panel">
                <div class="m-portlet__body" style="padding-right: 0;">
-                  @if($societyData->ree_Jr_id && empty($noc_application->final_draft_noc_path))
+                  @if($societyData->ree_Jr_id && $applicationLog->status_id != config('commanConfig.applicationStatus.forwarded'))
                   <h3 class="section-title section-title--small mb-0">Noc:</h3>
                   <div class=" row-list">
                      <div class="row">
@@ -176,8 +176,8 @@
                                  </div>
                               </div>
                            </div>
-                           @if($societyData->ree_Jr_id && $applicationLog->status_id !=
-                           config('commanConfig.applicationStatus.forwarded') && empty($noc_application->final_draft_noc_path))
+                           @if($applicationLog->status_id !=
+                           config('commanConfig.applicationStatus.forwarded'))
                            <div class="col-sm-6 border-left">
                               <div class="d-flex flex-column h-100">
                                  <h5>Upload Noc</h5>
@@ -193,7 +193,8 @@
                                        <span class="text-danger" id="file_error"></span>
                                     </div>
                                     <div class="mt-auto">
-                                       <button type="submit" onclick="return confirm('Are you sure you want to upload the draft copy of NOC.Please note once you upload, the same would be finalized and would be uneditable.');" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                       <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                       <!-- <button type="submit" onclick="return confirm('Are you sure you want to upload the draft copy of NOC.Please note once you upload, the same would be finalized and would be uneditable.');" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button> -->
                                     </div>
                                  </form>
                               </div>

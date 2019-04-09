@@ -131,17 +131,17 @@
         <input type="hidden" name="applicationId" value="{{$applicationData->id}}">
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body" style="padding-right: 0;">
-                <h3 class="section-title section-title--small mb-0">NOC:</h3>
+                <h3 class="section-title section-title--small mb-0">Download NOC:</h3>
                 <div class="row field-row">
                     <div class="col-md-6">
-                        <p class="font-weight-semi-bold">View NOC</p>
+                        <!-- <p class="font-weight-semi-bold">View NOC</p> -->
                         <p>Click to view generated NOC in PDF format</p>
                         @if($applicationData->final_draft_noc_path)   
                         <a href="{{config('commanConfig.storage_server').'/'.$applicationData->final_draft_noc_path}}" class="btn btn-primary" target="_blank" rel="noopener"> 
                         View NOC</a>
                         @endif
                         <p></p>
-                        @if($applicationData->ree_Jr_id && !empty($applicationData->final_draft_noc_path) && $applicationData->noc_generation_status == config('commanConfig.applicationStatus.NOC_Issued'))
+                        @if($applicationData->ree_Jr_id && !empty($applicationData->final_draft_noc_path) &&  $status->status_id != config('commanConfig.applicationStatus.forwarded'))
                         <hr>
                         <a href="{{route('ree.create_edit_noc',$applicationData->id)}}" class="btn btn-primary">
                         Edit Draft NOC
@@ -149,7 +149,8 @@
                         <a target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->draft_noc_path}}" class="btn btn-primary">Download Draft NOC</a> 
                         @endif
                     </div>
-                    @if($applicationData->ree_Jr_id && !empty($applicationData->final_draft_noc_path) && $applicationData->noc_generation_status == config('commanConfig.applicationStatus.NOC_Issued'))
+
+                    @if(($applicationData->ree_Jr_id || session()->get('role_name') == config('commanConfig.ree_branch_head')) && $status->status_id != config('commanConfig.applicationStatus.forwarded') && $status->status_id != config('commanConfig.applicationStatus.sent_to_society'))
                     <div class="col-sm-6 border-left">
                         <div class="d-flex flex-column h-100">
                             <h5>Upload Noc</h5>
@@ -165,7 +166,8 @@
                             <span class="text-danger" id="file_error"></span>
                             </div>
                             <div class="mt-auto">
-                            <button type="submit" onclick="return confirm('Are you sure you want to upload the draft copy of NOC.Please note once you upload, the same would be finalized and would be uneditable.');" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                           <!--  <button type="submit" onclick="return confirm('Are you sure you want to upload the draft copy of NOC.Please note once you upload, the same would be finalized and would be uneditable.');" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button> -->
                             </div>
                             </form>
                         </div>

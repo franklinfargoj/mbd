@@ -19,7 +19,7 @@
     <p style="padding-left: 1000px; padding-right: 5px;" lang="en-US" align="justify">
         <strong>(Draft approved by CO/MB)</strong>
     </p>
-    <table style="width: 80%; border-collapse: collapse;" align="right">
+    <table style="width: 100%; border-collapse: collapse;">
         <tbody>
             <tr valign="top">
                 <td width="226">

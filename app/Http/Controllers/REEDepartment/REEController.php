@@ -1449,6 +1449,7 @@ class REEController extends Controller
 
         }else if ($status->status_id == config('commanConfig.applicationStatus.NOC_Issued') && session()->get('role_name') == config('commanConfig.ree_junior')) {
 
+            NocApplication::where('id',$request->applicationId)->update(["draft_noc_path" => $filePath, "draft_noc_text_path" => $filePath1]);
             return redirect('approved_noc_letter/'.$request->applicationId)->with('success', 'Changes in NOC has been incorporated successfully.');
         }
 
@@ -1464,7 +1465,6 @@ class REEController extends Controller
     }
 
     public function uploadDraftNoc(Request $request,$applicationId){
-        
         if ($request->file('noc_letter')) {
             $file = $request->file('noc_letter');
             $extension = $file->getClientOriginalExtension();
@@ -1665,9 +1665,10 @@ class REEController extends Controller
        
        // get Co log
         $co = Role::where('name',config('commanConfig.co_engineer'))->value('id');
-        $applicationData->coLog = NocApplicationStatus::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();   
+        $applicationData->coLog = NocApplicationStatus::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
+        $status = $this->getNOCApplicationStatus($applicationId);   
 
-        return view('admin.REE_department.approved_noc_cert',compact('applicationData','noc_application','ree_head'));
+        return view('admin.REE_department.approved_noc_cert',compact('applicationData','noc_application','ree_head','status'));
     }
 
     public function sendissuedNOCToSociety(Request $request){

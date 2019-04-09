@@ -60,7 +60,7 @@ $route=\Request::route()->getName();
             <span class="m-menu__link-text">REE Scrutiny</span>
          </a>
       </li>
-      @if(isset($noc_application->final_draft_noc_path) && !empty($noc_application->final_draft_noc_path) && $noc_application->noc_generation_status == config('commanConfig.applicationStatus.NOC_Generation'))
+      @if(isset($noc_application->final_draft_noc_path) && ($noc_application->noc_generation_status == config('commanConfig.applicationStatus.NOC_Generation') || $noc_application->noc_generation_status == config('commanConfig.applicationStatus.NOC_Issued')))
       <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='co.approve_noc')?'m-menu__item--active':''}}">
          <a class="m-menu__link m-menu__toggle" title="Approve Noc" href="{{route('co.approve_noc',$noc_application->id)}}">
            <span class="sidebar-icon sidebar-menu-icon--level-1">
