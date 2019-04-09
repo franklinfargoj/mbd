@@ -182,6 +182,59 @@
         @endif
 
     </div>
+    <!-- Modal for count table and pie chart popup -->
+    <div class="modal fade mhada-full-modal" id="getCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                </div>
+                <div class="modal-body" id="count_table">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for application pending bifergation -->
+    <div class="modal fade" id="pending" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Pending Applications</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" id="pending_applications">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Model for sent to society bifergation-->
+    <div class="modal fade" id="sendToSociety" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Applications Sent to Society</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" id="sent_to_society">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('js')
@@ -258,6 +311,7 @@
                             "                </div>\n" +
                             "            </div>";
 
+                        console.log(html);
                         $('#count_table').html(html);
 
                         if (chart_count) {
