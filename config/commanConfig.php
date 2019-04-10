@@ -531,6 +531,7 @@ return [
         'user_application' => 'You have received new application for <application type>, of society <Society name> with application ID <application Number>',
         'head_application' => 'Your department have received new application for <application type>, of society <Society name> with application ID <application Number>.',
         'reject_application' => 'Your Application is rejected for <application type>, of society <Society name> with application ID <application Number>.',
+        'revert_application' => 'You have reverted new application for <application type>, of society <Society name> with application ID <application Number>',
     ],
     'msg_content'=>[
         'society_registration'=>'Congratulations! You have registered successfully on MHADA Mumbai portal. Now you can login to apply for various MHADA Mumbai board services, using valid login credentials.',
@@ -538,12 +539,14 @@ return [
         'user_application' => 'You have received new application for <application type>, of society <Society name> with application ID <application Number>',
         'head_application' => 'Your department have received new application for <application type>, of society <Society name> with application ID <application Number>.',
         'reject_application' => 'Your Application is rejected for <application type>, of society <Society name> with application ID <application Number>.',
+        'revert_application' => 'You have reverted new application for <application type>, of society <Society name> with application ID <application Number>',
     ],
     'email_subject' => [
         'society_registration'=> 'Registration on Mumbai board portal',
         'society_submission'=> 'Application for <application type> – Mumbai Board, MHADA',
         'user_application' => 'New application for <application type>',
         'head_application' => 'New application in your dept. for <application type>',
-        'reject_application' => 'Your application is rejected for <application type>'
+        'reject_application' => 'Your application is rejected for <application type>',
+        'revert_application' => 'Your application is reverted for <application type>'
     ]
 ];

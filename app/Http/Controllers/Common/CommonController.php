@@ -1061,8 +1061,9 @@ class CommonController extends Controller
             'phase'=>1,
             'created_at' => Carbon::now(),
             ],
-        ];
-            $this->RejectApplicationMailMsg($request->applicationId);
+        ];  
+            $EmailMsgConfigration = new EmailMsgConfigration();
+            $response = $EmailMsgConfigration->RejectApplicationMailMsg($request->applicationId);
         }
         //Code added by Prajakta >>start
         DB::beginTransaction();
@@ -4647,32 +4648,5 @@ class CommonController extends Controller
         $layouts = LayoutUser::where(['user_id' => auth()->user()->id])->pluck('layout_id')->toArray();
 
         return $layouts;
-    }
-
-    // send mail and msg to society on reject offer letter application
-    public function RejectApplicationMailMsg($applicationId){
-
-        $applicationData = OlApplication::where('id',$applicationId)->with('ol_application_master','eeApplicationSociety')->first();
-
-        $data = $applicationData->eeApplicationSociety;
-        $data['application_no'] = $applicationData->application_no;
-        $data['application_type'] = $applicationData->ol_application_master->title."(".$applicationData->ol_application_master->model.")";
-        
-        $emailSubject = config('commanConfig.email_subject.reject_application');
-        $emailContent = str_replace("<application type>",$data->application_type,$emailSubject);
-
-        $emailContent = config('commanConfig.email_content.reject_application');
-        $emailContent = str_replace("<application type>",$data->application_type,$emailContent);
-        $emailContent = str_replace("<Society name>",$data->name,$emailContent);
-        $emailContent = str_replace("<application Number>",$data->application_no,$emailContent);
-
-        $msgContent = config('commanConfig.msg_content.reject_application');
-        $msgContent = str_replace("<application type>",$data->application_type,$msgContent);
-        $msgContent = str_replace("<Society name>",$data->name,$msgContent);
-        $msgContent = str_replace("<application Number>",$data->application_no,$msgContent);
-
-        $EmailMsgConfigration = new EmailMsgConfigration();
-        $EmailMsgConfigration->sendMsg($data->contact_no,$msgContent);
-        $EmailMsgConfigration->sendEmail($data->email,$emailContent,$emailSubject);
     }
 }

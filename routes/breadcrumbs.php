@@ -211,6 +211,11 @@ Breadcrumbs::for('documents_upload', function ($trail,$id) {
     $trail->push('Documents Upload(Offer Letter)', route('documents_upload',$id));
 });
 
+Breadcrumbs::for('rejected_remark', function ($trail,$id) {
+    $trail->push('Listing', route('society_offer_letter_dashboard'));
+    $trail->push('Rejected Remark', route('view_rejected_remark',$id));
+});
+
 Breadcrumbs::for('noc_documents_upload', function ($trail,$id) {
     $trail->push('Listing', route('society_offer_letter_dashboard'));
     $trail->push('Upload documents (NOC)', route('documents_upload_noc',$id));

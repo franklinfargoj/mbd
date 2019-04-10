@@ -2827,5 +2827,20 @@ class SocietyOfferLetterController extends Controller
         $applicationCount = $this->getForwardedApplication();
         $module = 'Offer';
         return view('frontend.society.download_approved_offer_letter',compact('ol_applications','documents_arr','applicationCount','module'));
+    }    
+
+    // display ree head remark on offer letter reject application
+    public function viewRejectedRemark($applicationId){
+
+        $applicationId = decrypt($applicationId); 
+        $ol_applications = OlApplication::where('id',$applicationId)->with(['olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+        }])->first(); 
+
+        $society_details = SocietyOfferLetter::find($ol_applications->society_id);
+        $documents_arr = $this->get_docs_count($ol_applications, $society_details);
+        $applicationCount = $this->getForwardedApplication();
+        $module = 'Offer';
+        return view('frontend.society.view_rejected_remark',compact('ol_applications','documents_arr','applicationCount','module'));
     }
 }

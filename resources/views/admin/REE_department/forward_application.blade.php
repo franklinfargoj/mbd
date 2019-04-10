@@ -207,7 +207,7 @@
                                         <div class="m-form__group form-group">
                                             <div class="m-radio-inline">
 
-                                                @if($arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.offer_letter_approved') && $arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.offer_letter_generation'))
+                                                @if($arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.forwarded') || ($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation') && session()->get('role_name') == config('commanConfig.ree_branch_head') && !isset($applicationData->drafted_offer_letter)))
                                                 <label class="m-radio m-radio--primary">
                                                     <input type="hidden" name="user_id">
                                                     <input type="hidden" name="role_id">
@@ -228,12 +228,15 @@
                                                     <span></span>
                                                 </label>
                                                 @endif
+
+                                                @if(session()->get('role_name') == config('commanConfig.ree_branch_head') && $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation'))
                                                 <label class="m-radio m-radio--primary">
                                                     <input type="radio" name="remarks_suggestion"
                                                         id="remark" class="forward-application"
                                                         value="2"> Reject Application
                                                     <span></span>
                                                 </label>
+                                                @endif
                                             </div>
 
                                             @if($arrData['get_current_status']->status_id
@@ -247,7 +250,7 @@
                                                 <span></span>
                                             </label>
                                             @else
-                                                @if($arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.offer_letter_approved') && $arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.offer_letter_generation'))
+                                                @if($arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.forwarded') || ($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation') && session()->get('role_name') == config('commanConfig.ree_branch_head') && !isset($applicationData->drafted_offer_letter)))
                                                     <div class="form-group m-form__group row mt-3 parent-data"
                                                         id="select_dropdown">
                                                         <label class="col-form-label col-lg-2 col-sm-12">
@@ -311,6 +314,8 @@
                                                 </div>
                                             </div>
                                             @endif
+
+                                            @if(session()->get('role_name') == config('commanConfig.ree_branch_head') && $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation'))
                                             <div class="form-group m-form__group row mt-3 rejected-data"
                                                 style="display: none">
                                                 <label class="col-form-label col-lg-2 col-sm-12">
@@ -326,6 +331,7 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                            @endif
 
                                             <div class="mt-3 table--box-input">
                                                 <label for="remark">Remark:</label>
