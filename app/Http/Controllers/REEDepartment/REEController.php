@@ -240,8 +240,6 @@ class REEController extends Controller
 
 
     public function sendForwardApplication(Request $request){
-
-//        dd($request->all());
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($request->applicationId);
 
         // Added OR Condition by Prajakta Sisale
