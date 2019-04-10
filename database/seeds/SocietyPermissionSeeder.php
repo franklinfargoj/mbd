@@ -678,6 +678,11 @@ class SocietyPermissionSeeder extends Seeder
                 'display_name' => 'download approved offer letter',
                 'description'  => 'download approved offer letter'
             ],
+            [
+                'name'         => 'view_rejected_remark',
+                'display_name' => 'view rejected remark',
+                'description'  => 'view rejected remark'
+            ],
         ];
         
         if(count($society)==0){

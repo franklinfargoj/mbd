@@ -540,6 +540,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         Route::get('download_approved_offer_letter/{id}', 
             'SocietyOfferLetterController@downloadApprovedOfferLetter')->name('download_approved_offer_letter');
 
+        Route::get('view_rejected_remark/{id}', 
+            'SocietyOfferLetterController@viewRejectedRemark')->name('view_rejected_remark');
+
         Route::get('society_offer_letter_edit/{id}', 'SocietyOfferLetterController@editOfferLetterApplication')->name('society_offer_letter_edit');
         Route::post('society_offer_letter_update', 'SocietyOfferLetterController@updateOfferLetterApplication')->name('society_offer_letter_update');
 
@@ -918,7 +921,7 @@ Route::get('sharing-calculation-sheet', 'REEDepartment\REEController@SharingCalc
 Route::get('offer_letter','REEDepartment\REEController@offerLetter')->name('offer_letter');
 
 // Route::get('pdfMerge', 'REEDepartment\REEController@pdfMerge')->name('ree.pdfMerge');
-Route::get('approved_offer_lettershow_form_dev/{id}','REEDepartment\REEController@approvedOfferLetter')->name('ree.approved_offer_letter');
+Route::get('approved_offer_letter/{id}','REEDepartment\REEController@approvedOfferLetter')->name('ree.approved_offer_letter');
 Route::get('generate_offer_letter/{id}', 'REEDepartment\REEController@GenerateOfferLetter')->name('ree.generate_offer_letter');
 
 Route::get('approved_reval_offer_letter/{id}','REEDepartment\REEController@approvedRevalOfferLetter')->name('ree.approved_reval_offer_letter');

@@ -68,6 +68,7 @@ use App\ArchitectApplicationStatusLog;
 use App\OlConsentVerificationDetails;
 use App\OlSocietyDocumentsComment;
 use App\mailMsgSentDetails;
+use App\Http\Controllers\EmailMsg\EmailMsgConfigration;
 
 class CommonController extends Controller
 {
@@ -981,7 +982,8 @@ class CommonController extends Controller
 
     public function generateOfferLetterREE($request)
     {
-        $forward_application = [[
+        if ($request->check_status == 1) {
+            $forward_application = [[
             'application_id' => $request->applicationId,
             'user_id' => Auth::user()->id,
             'role_id' => session()->get('role_id'),
@@ -993,21 +995,76 @@ class CommonController extends Controller
             'phase' => 1,
             'created_at' => Carbon::now(),
         ],
-
-            [
-                'application_id' => $request->applicationId,
-                'user_id' => $request->to_user_id,
-                'role_id' => $request->to_role_id,
-                'status_id' => config('commanConfig.applicationStatus.offer_letter_generation'),
-                'to_user_id' => null,
-                'to_role_id' => null,
-                'remark' => $request->remark,
-                'is_active' => 1,
-                'phase'=>1,
-                'created_at' => Carbon::now(),
+        [
+            'application_id' => $request->applicationId,
+            'user_id' => $request->to_user_id,
+            'role_id' => $request->to_role_id,
+            'status_id' => config('commanConfig.applicationStatus.offer_letter_generation'),
+            'to_user_id' => null,
+            'to_role_id' => null,
+            'remark' => $request->remark,
+            'is_active' => 1,
+            'phase'=>1,
+            'created_at' => Carbon::now(),
             ],
         ];
-
+        } else if ($request->check_status == 0){
+            $forward_application = [[
+            'application_id' => $request->applicationId,
+            'user_id' => Auth::user()->id,
+            'role_id' => session()->get('role_id'),
+            'status_id' => config('commanConfig.applicationStatus.reverted'),
+            'to_user_id' => $request->to_user_id,
+            'to_role_id' => $request->to_role_id,
+            'remark' => $request->remark,
+            'is_active' => 1,
+            'phase' => 1,
+            'created_at' => Carbon::now(),
+        ],
+        [
+            'application_id' => $request->applicationId,
+            'user_id' => $request->to_user_id,
+            'role_id' => $request->to_role_id,
+            'status_id' => config('commanConfig.applicationStatus.offer_letter_generation'),
+            'to_user_id' => null,
+            'to_role_id' => null,
+            'remark' => $request->remark,
+            'is_active' => 1,
+            'phase'=>1,
+            'created_at' => Carbon::now(),
+            ],
+        ];
+        } else if ($request->check_status == 2){
+            $forward_application = [[
+            'application_id' => $request->applicationId,
+            'user_id' => Auth::user()->id,
+            'role_id' => session()->get('role_id'),
+            'status_id' => config('commanConfig.applicationStatus.reverted'),
+            'to_user_id' => $request->to_child_id,
+            'to_role_id' => $request->to_role_id,
+            'remark' => $request->remark,
+            'is_active' => 1,
+            'society_flag' => 0,
+            'phase' => 1,
+            'created_at' => Carbon::now(),
+        ],
+        [
+            'application_id' => $request->applicationId,
+            'user_id' => $request->to_child_id,
+            'role_id' => $request->to_role_id,
+            'status_id' => config('commanConfig.applicationStatus.Rejected'),
+            'to_user_id' => null,
+            'to_role_id' => null,
+            'remark' => $request->remark,
+            'is_active' => 1,
+            'society_flag' => 1,
+            'phase'=>1,
+            'created_at' => Carbon::now(),
+            ],
+        ];  
+            $EmailMsgConfigration = new EmailMsgConfigration();
+            $response = $EmailMsgConfigration->RejectApplicationMailMsg($request->applicationId);
+        }
         //Code added by Prajakta >>start
         DB::beginTransaction();
         try {
@@ -1016,7 +1073,12 @@ class CommonController extends Controller
                 ->update(array('is_active' => 0));
 
             OlApplicationStatus::insert($forward_application);
-            OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_generation')]);
+
+            if ($request->check_status == 2) {
+                OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.Rejected')]);   
+            }else{
+                OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_generation')]);    
+            }
 
             DB::commit();
         } catch (\Exception $ex) {

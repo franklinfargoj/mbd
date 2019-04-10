@@ -137,8 +137,6 @@
                 </div>
             </div>
         </div>
-
-        @if(session()->get('role_name') == config('commanConfig.ree_junior'))
         <div class="tab-content">
             <div class="tab-pane active show" id="generate-offer-letter" role="tabpanel" style="{{$style1}}">
                 <div class="m-portlet m-portlet--mobile m_panel">
@@ -152,28 +150,29 @@
                 </div>
             </div>
         </div>
-        @endif
 
-        <div id="show-offer-letter">
+        <div id="show-offer-letter" style="{{$style}}">
 
             <div class="m-portlet m-portlet--mobile m_panel">
                 <div class="m-portlet__body" style="padding-right: 0;">
 
                     @if($societyData->ree_Jr_id)
                     <h3 class="section-title section-title--small mb-0">Offer Letter:</h3>
-                    <div class=" row-list " style="{{$style}}">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p class="font-weight-semi-bold">Edit Offer letter</p>
-                                <p>Click to view generated offer letter in PDF format</p>
-                                <a href="{{route('ree.edit_offer_letter',encrypt($societyData->id))}}" class="btn btn-primary">
-                                    Edit</a>
-                                <!-- <button type="submit">Edit offer Letter </button> -->
+                        @if($societyData->ree_Jr_id && $applicationLog->status_id != config('commanConfig.applicationStatus.forwarded'))
+                            <div class=" row-list">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="font-weight-semi-bold">Edit Offer letter</p>
+                                        <p>Click to view generated offer letter in PDF format</p>
+                                        <a href="{{route('ree.edit_offer_letter',encrypt($societyData->id))}}" class="btn btn-primary">
+                                            Edit</a>
+                                        <!-- <button type="submit">Edit offer Letter </button> -->
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        @endif
                     @endif
-                    <div class="w-100 row-list" style="{{$style1}}">
+                    <div class="w-100 row-list">
                         <div class="">
                             <div class="row">
                                 <div class="col-sm-6">
@@ -204,12 +203,9 @@
                                                     id="test-upload" required="required">
                                                 <label class="custom-file-label" for="test-upload">Choose
                                                     file...</label>
-                                                @if(isset($societyData->offer_letter_document_path))
-                                                 <a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server').'/'.$societyData->offer_letter_document_path }}" download>Download</a> 
-                                                @endif    
                                                 <span class="text-danger" id="file_error"></span>
                                             </div>
-                                            <div class="mt-2">
+                                            <div class="mt-auto">
                                                 <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
                                             </div>
                                         </form>
@@ -223,7 +219,7 @@
             </div>
 
             @if($societyData->ree_branch_head && $societyData->status_offer_letter ==
-            config('commanConfig.applicationStatus.offer_letter_generated') && $applicationLog->status_id !=
+            config('commanConfig.applicationStatus.offer_letter_generation') && $applicationLog->status_id !=
             config('commanConfig.applicationStatus.forwarded'))
             <form role="form" id="sendForApproval" style="margin-top: 30px;" name="sendForApproval" class="form-horizontal"
                 method="post" action="{{ route('ree.send_for_approval')}}" enctype="multipart/form-data">
@@ -251,9 +247,6 @@
             </form>
             @endif
         </div>
-
-
-
     </div>
 </div>
 @endsection

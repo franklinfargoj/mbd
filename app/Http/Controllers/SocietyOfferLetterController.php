@@ -2128,17 +2128,8 @@ class SocietyOfferLetterController extends Controller
                     }
                 }
 
-                $application_name = OlApplication::where('society_id', $society->id)->with('ol_application_master')->first();
+                $application_name = OlApplication::where('id', $request->input('id'))->where('society_id', $society->id)->with('ol_application_master')->first();
 
-                //send application submission mail and msg to society and respective department
-                $data = $society;
-                $data['users'] = $users[0];
-                $data['application_no'] = $application_name->application_no;
-                $data['layout_id'] = $application_name->layout_id;
-                $data['application_type'] = $application_name->ol_application_master->title."(".$application_name->ol_application_master->model.")";
-
-                $EmailMsgConfigration = new EmailMsgConfigration();
-                $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
                 //Code added by Prajakta >>start
                 DB::beginTransaction();
                 try {
@@ -2154,17 +2145,15 @@ class SocietyOfferLetterController extends Controller
                 }
                 //Code added by Prajakta >>end
 
+                 //send application submission mail and msg to society and respective department
+                $data = $society;
+                $data['users'] = $users;
+                $data['application_no'] = $application_name->application_no;
+                $data['layout_id'] = $application_name->layout_id;
+                $data['application_type'] = $application_name->ol_application_master->title."(".$application_name->ol_application_master->model.")";
 
-                // $societyDetails['user_id'] = $last_inserted_id->id;
-                // $EmailMsgConfigration = new EmailMsgConfigration();
-                // $EmailMsgConfigration->SocietyRegistrationEmailMsg($societyDetails);
-
-                // $mobileNo = $society->contact_no; 
-                //     $msgText = 'Congratulations! You have successfully submitted application for '.$model->title.'('.$model->model.'), Your application number is '.$application->application_no.'.'; 
-
-                //     $response = event(new SmsHitEvent($mobileNo,$msgText));
-
-                //     $response = $this->CommonController->saveMsgSentDetails($mobileNo,$msgText,$society->user_id); 
+                $EmailMsgConfigration = new EmailMsgConfigration();
+                $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
             
             }else{
                 return redirect()->back()->with('error_uploaded_file', 'Invalid type of file uploaded (only pdf allowed)');
@@ -2174,8 +2163,9 @@ class SocietyOfferLetterController extends Controller
     }
 
     public function uploadRevalOfferLetterAfterSign(Request $request){
+        
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $application_name = OlApplication::where('society_id', $society->id)->with('ol_application_master')->get();
+        $application_name = OlApplication::where('id',$request->id)->with('ol_application_master')->first();
         $society_remark = OlSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id', 'desc')->first();
         if($request->file('reval_offer_letter_application_form'))
         {
@@ -2192,9 +2182,9 @@ class SocietyOfferLetterController extends Controller
                     'application_path' => $path,
                     'submitted_at' => date('Y-m-d H-i-s')
                 );
-                OlApplication::where('society_id', $society->id)->where('id', $request->input('id'))->update($input);
+                OlApplication::where('society_id', $society->id)->where('id', $request->id)->update($input);
                 $role_id = Role::where('name','like', 'ree_junior_engineer')->first();
-                $application = OlApplication::where('society_id', $society->id)->where('id', $request->input('id'))->first();
+                $application = OlApplication::where('society_id', $society->id)->where('id', $request->id)->first();
 
                 $user_ids = RoleUser::where('role_id', $role_id->id)->get()->toArray();
                 $user_ids = array_column($user_ids, 'user_id');
@@ -2233,6 +2223,18 @@ class SocietyOfferLetterController extends Controller
                         $i++;
                     }
                 }
+
+                //send application submission mail and msg to society and respective department
+
+                $data = $society;
+                dd($application_name);
+                $data['users'] = $users;
+                $data['application_no'] = $application_name->application_no;
+                $data['layout_id'] = $application_name->layout_id;
+                $data['application_type'] = $application_name->ol_application_master->title."(".$application_name->ol_application_master->model.")";
+                $EmailMsgConfigration = new EmailMsgConfigration();
+                $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
+
 //                OlApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
 
                 //Code added by Prajakta >>start
@@ -2260,7 +2262,7 @@ class SocietyOfferLetterController extends Controller
 
     public function uploadOcAfterSign(Request $request){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        // $application_name = OcApplication::where('id',$request->applicationId)->where('society_id', $society->id)->with('oc_application_master')->get();
+        $application_name = OcApplication::where('id',$request->applicationId)->where('society_id', $society->id)->with('oc_application_master')->first();
         $society_remark = OcSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id', 'desc')->first();
         if($request->file('oc_application_form'))
         {
@@ -2323,6 +2325,17 @@ class SocietyOfferLetterController extends Controller
                         $i++;
                     }
                 }
+                //send application submission mail and msg to society and respective department
+                
+                $data = $society;
+                $data['users'] = $users;
+                $data['application_no'] = $application_name->application_no;
+                $data['layout_id'] = $application_name->layout_id;
+                $data['application_type'] = $application_name->oc_application_master->title."(".$application_name->oc_application_master->model.")";
+
+                $EmailMsgConfigration = new EmailMsgConfigration();
+                $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
+
                 OcApplicationStatusLog::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
             }else{
                 return redirect()->back()->with('error_uploaded_file', 'Invalid type of file uploaded (only pdf allowed)');
@@ -2814,5 +2827,20 @@ class SocietyOfferLetterController extends Controller
         $applicationCount = $this->getForwardedApplication();
         $module = 'Offer';
         return view('frontend.society.download_approved_offer_letter',compact('ol_applications','documents_arr','applicationCount','module'));
+    }    
+
+    // display ree head remark on offer letter reject application
+    public function viewRejectedRemark($applicationId){
+
+        $applicationId = decrypt($applicationId); 
+        $ol_applications = OlApplication::where('id',$applicationId)->with(['olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+        }])->first(); 
+
+        $society_details = SocietyOfferLetter::find($ol_applications->society_id);
+        $documents_arr = $this->get_docs_count($ol_applications, $society_details);
+        $applicationCount = $this->getForwardedApplication();
+        $module = 'Offer';
+        return view('frontend.society.view_rejected_remark',compact('ol_applications','documents_arr','applicationCount','module'));
     }
 }

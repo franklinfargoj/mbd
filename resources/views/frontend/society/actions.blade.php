@@ -25,7 +25,6 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
 </li>
 <li id="ree-actions" class="collapse show">
 	<ul class="list-unstyled">
-		@if($status == '4' || $status == '3')
 		<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='society_offer_letter_preview')?'m-menu__item--active':''}}">
 			<a class="m-menu__link m-menu__toggle" title="View Application" href="{{ route('society_offer_letter_preview',encrypt($ol_applications->id)) }}">
 				<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -35,6 +34,7 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
 				<span class="m-menu__link-text">View Application</span>
 			</a>
 		</li>
+		@if($status == '4' || $status == '3')
 		@if(isset($applicationCount) && $applicationCount <= 0)
 		<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='society_offer_letter_edit')?'m-menu__item--active':''}}">
 			<a class="m-menu__link m-menu__toggle" title="Edit Application" href="{{ route('society_offer_letter_edit',encrypt($ol_applications->id)) }}">
@@ -69,8 +69,8 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
             </li>
         @endif
 		@endif
-		@if($status == '2' || $status == '7')
-			<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='society_offer_letter_preview')?'m-menu__item--active':''}}">
+		@if($status == '2' || $status == '7' || $status == config('commanConfig.applicationStatus.Rejected'))
+			<!-- <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='society_offer_letter_preview')?'m-menu__item--active':''}}">
 				<a class="m-menu__link m-menu__toggle" title="View Application" href="{{ route('society_offer_letter_preview',encrypt($ol_applications->id)) }}">
 					<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
 						<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
@@ -78,7 +78,7 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
 					</svg>
 					<span class="m-menu__link-text">View Application</span>
 				</a>
-			</li>
+			</li> -->
 			<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='documents_uploaded')?'m-menu__item--active':''}}">
 				<a class="m-menu__link m-menu__toggle" title="View Documents" href="{{ route('documents_uploaded',encrypt($ol_applications->id)) }}">
 					<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -107,6 +107,17 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
 							  fill="#FFF" />
 					</svg>
 					<span class="m-menu__link-text">Approved Offer Letter</span>
+				</a>
+			</li>
+			@endif
+			@if($status == config('commanConfig.applicationStatus.Rejected'))
+			<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='view_rejected_remark')?'m-menu__item--active':''}}">
+				<a class="m-menu__link m-menu__toggle" title="Rejected Remark" href="{{ route('view_rejected_remark',encrypt($ol_applications->id)) }}" rel="noopener">
+					<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+						<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+							  fill="#FFF" />
+					</svg>
+					<span class="m-menu__link-text">Rejected Remark </span>
 				</a>
 			</li>
 			@endif

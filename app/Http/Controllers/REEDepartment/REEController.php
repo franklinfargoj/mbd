@@ -240,8 +240,6 @@ class REEController extends Controller
 
 
     public function sendForwardApplication(Request $request){
-
-//        dd($request->all());
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($request->applicationId);
 
         // Added OR Condition by Prajakta Sisale
@@ -1390,16 +1388,17 @@ class REEController extends Controller
         }else{
            $content = ""; 
         }
-
+        
         $table1Id = OlCustomCalculationMasterModel::where('name','Calculation_Table-A')->value('id');       
         $table1 = OlCustomCalculationSheet::where('society_id',$model->society_id)
         ->where('parent_id',$table1Id)->get()->toArray();
-
-        $roleId = Role::where('name', '=', config('commanConfig.ree_branch_head'))->value('id');
-        $reeHead = User::where('role_id',$roleId)->value('name');
         $data = NOCBuildupArea::where('application_id',$applicatonId)->first();
+        // get athorities name as per layout
+        $authority = $this->getAuthorityNames($model->layout_id); 
+        $status = $this->getNOCApplicationStatus($applicatonId);
+        $AuthoritySign = view('admin.REE_department.authority_sign',compact('authority','status'));
         
-        return view('admin.REE_department.'.$blade,compact('applicatonId','content','model','calculationData','custom','table1','reeHead','data'));
+        return view('admin.REE_department.'.$blade,compact('applicatonId','content','model','calculationData','custom','table1','data','AuthoritySign','status'));
     }
 
     public function saveDraftNoc(Request $request){
@@ -1410,14 +1409,18 @@ class REEController extends Controller
         $content = str_replace('_', "", $_POST['ckeditorText']);
         $folder_name = 'Draft_noc';
 
+        // get athorities name as per layout
+        $authority = $this->getAuthorityNames($noc_application->layout_id); 
+        $status = $this->getNOCApplicationStatus($request->applicationId);
+
+        $AuthoritySign = view('admin.REE_department.authority_sign',compact('authority','status'));
         $header_file = view('admin.REE_department.offer_letter_header');        
         $footer_file = view('admin.REE_department.offer_letter_footer');
 
         $pdf = new Mpdf();
         $pdf->autoScriptToLang = true;
         $pdf->autoLangToFont = true; 
-
-        $pdf->WriteHTML($header_file.$content.$footer_file);
+        $pdf->WriteHTML($header_file.$content.$AuthoritySign.$footer_file);
 
         $fileName = time().'draft_noc_'.$id.'.pdf';
         $filePath = $folder_name."/".$fileName;
@@ -1425,10 +1428,8 @@ class REEController extends Controller
         if (!(Storage::disk('ftp')->has($folder_name))) {            
             Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
         } 
-        // return $pdf->stream();
         Storage::disk('ftp')->put($filePath, $pdf->output($fileName, 'S'));
         // $file = $pdf->output();
-
         $folder_name1 = 'text_noc';
 
         if (!(Storage::disk('ftp')->has($folder_name1))) {            
@@ -1439,20 +1440,29 @@ class REEController extends Controller
 
         Storage::disk('ftp')->put($filePath1, $content);
 
-        NocApplication::where('id',$request->applicationId)->update(["draft_noc_path" => $filePath, "draft_noc_text_path" => $filePath1]);
+        if ($status->status_id == config('commanConfig.applicationStatus.in_process') && session()->get('role_name') == config('commanConfig.ree_junior')){
 
-        \Session::flash('success_msg', 'Changes in Noc draft has been saved successfully..');
+            NocApplication::where('id',$request->applicationId)->update(["draft_noc_path" => $filePath, "draft_noc_text_path" => $filePath1]);  
+            return redirect('generate_noc/'.$request->applicationId)->with('success', 'Changes in NOC has been incorporated successfully.');
 
-        if((session()->get('role_name') == config('commanConfig.ree_junior')) && !empty($noc_application->final_draft_noc_path) && ($noc_application->noc_generation_status != config('commanConfig.applicationStatus.NOC_Issued')))
-        {
+        }else if ($status->status_id == config('commanConfig.applicationStatus.NOC_Issued') && session()->get('role_name') == config('commanConfig.ree_junior')) {
+
+            NocApplication::where('id',$request->applicationId)->update(["draft_noc_path" => $filePath, "draft_noc_text_path" => $filePath1]);
             return redirect('approved_noc_letter/'.$request->applicationId)->with('success', 'Changes in NOC has been incorporated successfully.');
         }
 
-        return redirect('generate_noc/'.$request->applicationId);
+        // \Session::flash('success_msg', 'Changes in Noc draft has been saved successfully..');
+
+        // if((session()->get('role_name') == config('commanConfig.ree_junior')) && !empty($noc_application->final_draft_noc_path) && ($noc_application->noc_generation_status != config('commanConfig.applicationStatus.NOC_Issued')))
+        // {
+        //     return redirect('approved_noc_letter/'.$request->applicationId)->with('success', 'Changes in NOC has been incorporated successfully.');
+        // }else{
+        //     return redirect('generate_noc/'.$request->applicationId);
+        // }
+
     }
 
     public function uploadDraftNoc(Request $request,$applicationId){
-        
         if ($request->file('noc_letter')) {
             $file = $request->file('noc_letter');
             $extension = $file->getClientOriginalExtension();
@@ -1653,9 +1663,10 @@ class REEController extends Controller
        
        // get Co log
         $co = Role::where('name',config('commanConfig.co_engineer'))->value('id');
-        $applicationData->coLog = NocApplicationStatus::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();   
+        $applicationData->coLog = NocApplicationStatus::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
+        $status = $this->getNOCApplicationStatus($applicationId);   
 
-        return view('admin.REE_department.approved_noc_cert',compact('applicationData','noc_application','ree_head'));
+        return view('admin.REE_department.approved_noc_cert',compact('applicationData','noc_application','ree_head','status'));
     }
 
     public function sendissuedNOCToSociety(Request $request){
@@ -3005,6 +3016,41 @@ class REEController extends Controller
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         return view('admin.REE_department.show_reval_calculation_options',compact('ol_application'));
     }
-        
+
+    // get user name for authority sign in agreement(NOC)
+    public function getAuthorityNames($layoutId){
+        $data = [];
+        $data['reeJunior']=Role::where('name', '=', config('commanConfig.ree_junior'))->value('id');
+        $data['reeDeputy']=Role::where('name', '=', config('commanConfig.ree_deputy_engineer'))->value('id');
+        $data['reeAssistant']=Role::where('name', '=', config('commanConfig.ree_assistant_engineer'))->value('id');
+        $data['reeHead']=Role::where('name', '=', config('commanConfig.ree_branch_head'))->value('id');
+        $data['co']=Role::where('name', '=', config('commanConfig.co_engineer'))->value('id');
+        return $this->getUserIds($data,$layoutId);
+    }
+
+    // get user id as per layout id for authority sign in agreement
+    public function getUserIds($data,$layoutId){
+        $result = [];
+        if (isset($data)){
+            foreach($data as $key=>$role){
+                $headUser = User::where('role_id',$role)->with(['roleDetails','LayoutUser' => function($q) use($layoutId){
+                    $q->where('layout_id',$layoutId);
+                }])->whereHas('LayoutUser', function($q) use($layoutId) {
+                   $q->where('layout_id',$layoutId);
+                })->first();
+
+                $result[$key] = $headUser;
+            }
+        }
+        return $result;
+    }
+
+    public function getNOCApplicationStatus($application_id)
+    {
+        $status = NocApplicationStatus::where('application_id', $application_id)
+            ->where('user_id', Auth::user()->id)->where('role_id', session()->get('role_id'))
+            ->orderBy('id', 'desc')->first();
+        return $status;    
+    } 
 }
  

@@ -670,33 +670,14 @@
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
                         <strong>Encl.: Annexure-I.</strong>
                     </p>
-                    <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                    <!-- <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
                         <strong>(Draft approved by CO/MB) </strong>
                     </p>
-                    <table style="width: 80%; border-collapse: collapse;" align="right">
-                        <tbody>
-                            <tr valign="top">
-                                <td width="226">
-                                    <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="right">
-                                        Sd/-
-                                    </p>
-                                    <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="right">
-                                        ({{ isset($reeHead) ? $reeHead : '________'}})
-                                    </p>
-                                    <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="right">
-                                        <strong>Resident Executive Engineer.</strong>
-                                    </p>
-                                    <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="right">
-                                        <strong>M. H. &amp; A. D. Board</strong>
-                                    </p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                     -->
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="left">
                         <strong>\</strong>
                     </p>
-                    <p style="padding-left: 5px; padding-right: 5px; margin-top: 200px" lang="en-US" align="justify">
+                    <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
                         <strong>Copy to:</strong> The Secretary, The Secretary, Building No.<strong>{{($model->eeApplicationSociety->building_no ? $model->eeApplicationSociety->building_no : '')}} </strong>, known {{($model->eeApplicationSociety->name ? $model->eeApplicationSociety->name : '')}} ( {{($model->eeApplicationSociety->address ? $model->eeApplicationSociety->address : '')}} ). ENCL.- ANNEXURE – I.
                     </p>
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
@@ -724,27 +705,8 @@
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
                         3. Copy to Sr.Clerk for MIS record.
                     </p>
-                    <table style="width: 100%; border-collapse: collapse;" align="right">
-                        <tbody>
-                            <tr valign="top">
-                                <td width="226">
-                                    <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="right">
-                                        Sd/-
-                                    </p>
-                                    <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="right">
-                                        ({{ isset($reeHead) ? $reeHead : '________'}})
-                                    </p>
-                                    <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="right">
-                                        <strong>Resident Executive Engineer.</strong>
-                                    </p>
-                                    <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="right">
-                                        <strong>M. H. &amp; A. D. Board</strong>
-                                    </p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="center">
+                    
+                    <p style="padding-left: 5px; padding-right: 5px;margin-top: 200px" lang="en-US" align="center">
                         <em><u>ANNEXURE –I</u></em>
                     </p>
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="left">
@@ -1025,27 +987,6 @@
                         </tbody>
                     </table>
                     </center>
-                    <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                        <strong>(Draft approved by CO/MB)</strong>
-                    </p>
-                    <table style="width: 100%; border-collapse: collapse;" align="right">
-                        <tbody>
-                            <tr valign="top">
-                                <td width="100%">
-                                    <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="right">
-                                        ({{ isset($reeHead) ? $reeHead : '________'}})
-                                    </p>
-                                    <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="right">
-                                        <strong>Resident Executive Engineer.</strong>
-                                    </p>
-                                    <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="right">
-                                        <strong>M. H. &amp; A. D. Board</strong>
-                                    </p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
                     @endif
 
             </textarea>

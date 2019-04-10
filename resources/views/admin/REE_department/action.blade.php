@@ -146,7 +146,7 @@ $route=\Request::route()->getName();
         @endif--}}
 
         @if($ol_application->status_offer_letter ==
-        config('commanConfig.applicationStatus.offer_letter_generation'))
+        config('commanConfig.applicationStatus.offer_letter_generation') || $ol_application->status_offer_letter == config('commanConfig.applicationStatus.Rejected'))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ree.generate_offer_letter')?'m-menu__item--active':''}}"
             aria-haspopup="true">
             <a class="m-menu__link m-menu__toggle" title="Offer Letter" href="{{route('ree.generate_offer_letter',encrypt($ol_application->id))}}">
@@ -160,9 +160,7 @@ $route=\Request::route()->getName();
         </li>
         @endif        
 
-        @if($ol_application->status_offer_letter ==
-        config('commanConfig.applicationStatus.offer_letter_approved') || $ol_application->status_offer_letter ==
-        config('commanConfig.applicationStatus.sent_to_society'))
+        @if($ol_application->status_offer_letter == config('commanConfig.applicationStatus.offer_letter_approved') || $ol_application->status_offer_letter == config('commanConfig.applicationStatus.sent_to_society'))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ree.approved_offer_letter')?'m-menu__item--active':''}}"
             aria-haspopup="true">
             <a class="m-menu__link m-menu__toggle" title="Offer Letter" href="{{route('ree.approved_offer_letter',encrypt($ol_application->id))}}">

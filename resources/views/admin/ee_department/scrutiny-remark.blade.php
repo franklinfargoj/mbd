@@ -433,7 +433,7 @@ if($latest){
                                     Consent Verification</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link nested_t" data-toggle="pill" href="#demarcation" id="nested_tab_3" next_tab = "nested_tab_2" data-tab="Demarcation">
+                                <a class="nav-link nested_t" data-toggle="pill" href="#demarcation" id="nested_tab_2" next_tab = "nested_tab_3" data-tab="Demarcation">
                                     Demarcation</a>
                             </li>
                             <li class="nav-item">
@@ -1145,7 +1145,7 @@ if($latest){
                                                 </div>
                                             </form>
                                         </div>
-                                    </div> 
+                                    </div>  
 
                                      @if(isset($arrData['eeNote']) && count($arrData['eeNote']) > 0)
                                     
@@ -1156,10 +1156,16 @@ if($latest){
                                                     <div class="d-flex flex-column h-100 two-cols">
                                                         <h5>Download EE Note</h5>
                                                            
-                                                                <div class="table-responsive">
-                                                                <table class="mt-2 table"> 
+                                                                <div class="table-responsive" >
+                                                                <table class="mt-2 table" id="dtBasicExample">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Document Name</th>
+                                                                        <th class="text-center">Download</th>
+                                                                        <th class="text-center" style="{{$style}}">Delete</th>   
+                                                                    </tr>
+                                                                </thead> 
                                                                 <tbody>
-
                                                                 @foreach($arrData['eeNote'] as $note)  
                                                                     <tr>
                                                                         <td>                                                                    @php
@@ -1204,11 +1210,7 @@ if($latest){
         </div>
     </div>
 </div>
-
 @endsection
-
-
-
 @section('js')
 <!-- <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script> -->
 <script>
@@ -1298,6 +1300,12 @@ if($latest){
 
     $(document).ready(function () {
 
+        // initialize datatable
+        $('.dataTables_length').addClass('bs-select');
+        $('#dtBasicExample_wrapper > .row:first-child').remove();
+        $('#dtBasicExample').dataTable({searching: false, ordering:false, info: false});
+
+        // keep selected tab id in session
         var id = Cookies.get('sectionId');
         if (id != undefined && id != 'undefined') {
             $(".panel").removeClass('active');
@@ -1311,7 +1319,7 @@ if($latest){
         }
         //nested tabs
         var nestedTab = Cookies.get('nestedTab');
-
+        console.log(nestedTab);
         if (nestedTab != undefined && nestedTab != 'undefined') {
             $(".nested_t").removeClass('active');
             $("#" + nestedTab).addClass('active');
