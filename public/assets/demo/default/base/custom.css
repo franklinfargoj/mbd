@@ -3880,3 +3880,38 @@ label.site-visit-label {
         max-width: 45%;
     }
 }
+
+    .mhada-custom-pdf{
+        background: #ffffff url("../../../../img/pdf-icon.svg") no-repeat left;
+        padding-left: 40px;
+        height: 40px;
+        border-color: white;
+        outline:none;
+        border: 0;
+        margin-top: 25px;
+        text-indent: -1000px;
+    }
+
+    .mhada-custom-pdf:hover{
+        outline: none;
+        margin-top: 25px;
+        background-color: transparent !important;
+        border-color: transparent !important;
+    }
+    .mhada-custom-excel{
+        background: #ffffff url("../../../../img/excel-icon.svg") no-repeat left;
+        padding-left: 40px;
+        height: 40px;
+        border-color: white;
+        outline:none;
+        border: 0;
+        margin-top: 25px;
+        text-indent: -1000px;
+    }
+
+    .mhada-custom-excel:hover{
+        outline: none;
+        margin-top: 25px;
+        background-color: transparent !important;
+        border-color: transparent !important;
+    }
