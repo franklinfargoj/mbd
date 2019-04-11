@@ -49,13 +49,13 @@ class ColonyController extends Controller
                     return $i;
                 })
                 ->editColumn('name', function ($colony_data) {
-                    return $colony_data->name;
+                    return $colony_data->name ?? '';
                 })
                 ->editColumn('ward_id', function ($colony_data) {
-                    return $colony_data->getWardName->name;
+                    return $colony_data->getWardName->name ?? '';
                 })
                 ->editColumn('layout_name', function ($colony_data) {
-                    return $colony_data->getWardName->getLayoutName->layout_name;
+                    return $colony_data->getWardName->getLayoutName->layout_name ?? '';
                 })
                 ->editColumn('actions', function ($colony_data) {
                     return view('admin.crud_admin.colony.action', compact('colony_data'))->render();
