@@ -214,7 +214,7 @@
                 <div class="row">
                     <div class="col-lg-12 mb-0">
                         <div class="btn-list">
-                            <a href="{{url('/village_detail')}}" class="btn btn-secondary">Back</a>
+                            <a href="{{url('/village_detail')}}" class="btn btn-secondary">Cancel</a>
                         </div>
                     </div>
                 </div>
