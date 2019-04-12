@@ -179,23 +179,25 @@
                                  </div>
                               </div>
                            </div>
-                           <div class="col-sm-6">
-                              <div class="d-flex flex-column h-100 two-cols">
-                                 <form class="nav-tabs-form" id ="DueForm" role="form" method="POST" action="{{ route('em.upload_oc_no_dues_certificate')}}" enctype="multipart/form-data">
-                                 @csrf
-                                    <input type="hidden" name="applicationId" value="{{ $oc_application->id }}">
-                                    <h5>Upload</h5>
-                                    <span class="hint-text">Click to upload No Dues Certificate</span>
-                                    <div class="custom-file">
-                                      <input class="custom-file-input" name="no_due_certificate" type="file" id="test-upload1">
-                                       <label class="custom-file-label" for="test-upload1">Choose file...</label>
-                                       <div class="mt-3">
-                                         <input type="submit" class="btn btn-primary mt-3 upload_btn" id="sale_btn" style="display:block" value="Upload">  
+                           @if($oc_application->status->status_id != config('commanConfig.applicationStatus.forwarded'))
+                              <div class="col-sm-6">
+                                 <div class="d-flex flex-column h-100 two-cols">
+                                    <form class="nav-tabs-form" id ="DueForm" role="form" method="POST" action="{{ route('em.upload_oc_no_dues_certificate')}}" enctype="multipart/form-data">
+                                    @csrf
+                                       <input type="hidden" name="applicationId" value="{{ $oc_application->id }}">
+                                       <h5>Upload</h5>
+                                       <span class="hint-text">Click to upload No Dues Certificate</span>
+                                       <div class="custom-file">
+                                         <input class="custom-file-input" name="no_due_certificate" type="file" id="test-upload1">
+                                          <label class="custom-file-label" for="test-upload1">Choose file...</label>
+                                          <div class="mt-3">
+                                            <input type="submit" class="btn btn-primary mt-3 upload_btn" id="sale_btn" style="display:block" value="Upload">  
+                                          </div>
                                        </div>
-                                    </div>
-                                 </form>
-                              </div> 
-                           </div>
+                                    </form>
+                                 </div> 
+                              </div>
+                           @endif
                         </div>
                      </div>
                   </div>

@@ -993,7 +993,7 @@ class EEController extends Controller
         $ol_application = $this->comman->downloadOfferLetter($applicationId);
         $ol_application->folder = 'ee_department';
         $ol_application->status = $this->comman->getCurrentStatus($applicationId);
-        $ol_application->comments = $this->comman->getSocietyDocumentComments($ol_application->society_id);
+        $ol_application->comments = $this->comman->getSocietyDocumentComments($applicationId);
         return view('admin.common.offer_letter', compact('ol_application'));
     }    
 
