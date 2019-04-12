@@ -2709,24 +2709,24 @@ class REEController extends Controller
     }
 
     public function saveDraftConsentOc(Request $request){
-        // dd($request->applicationId);
         $applicationId = $request->applicationId;
         $oc_application = $this->CommonController->getOcApplication($applicationId);
-
+        $status = $this->CommonController->getCurrentStatusOc($applicationId);
         $id = $request->applicationId;
         $content = str_replace('_', "", $_POST['ckeditorText']);
         $folder_name = 'Draft_consent_oc';
 
-        /*$header_file = view('admin.REE_department.offer_letter_header');        
-        $footer_file = view('admin.REE_department.offer_letter_footer');*/
-        $header_file = '';
-        $footer_file = '';
+        // get athorities name as per layout
+        $authority = $this->getAuthorityNames($oc_application->layout_id); 
+        $AuthoritySign = view('admin.REE_department.authority_sign',compact('authority','status'));
+        $header_file = view('admin.REE_department.offer_letter_header');        
+        $footer_file = view('admin.REE_department.offer_letter_footer');
 
         $pdf = new Mpdf();
         $pdf->autoScriptToLang = true;
         $pdf->autoLangToFont = true; 
 
-        $pdf->WriteHTML($content);
+        $pdf->WriteHTML($header_file.$content.$AuthoritySign.$footer_file);
 
         $fileName = time().'draft_consent_oc_'.$id.'.pdf';
         $filePath = $folder_name."/".$fileName;
@@ -2746,7 +2746,7 @@ class REEController extends Controller
         $filePath1 = $folder_name1."/".$file_nm;
 
         Storage::disk('ftp')->put($filePath1, $content);
-        $status = $this->CommonController->getCurrentStatusOc($applicationId);
+        
 
         if ($status->status_id == config('commanConfig.applicationStatus.in_process')){
             OcApplication::where('id',$applicationId)->update(["drafted_oc" => $filePath, "text_oc" => $filePath1]);
@@ -2766,19 +2766,23 @@ class REEController extends Controller
     }
 
     public function uploadDraftConsentforOc(Request $request,$applicationId){
-        
         if ($request->file('oc_letter')) {
             $file = $request->file('oc_letter');
             $extension = $file->getClientOriginalExtension();
             $file_name = time().'_uploaded_oc_'.$applicationId.'.'.$extension;
             $folder_name = "uploaded_oc";
-
+            $status = $this->CommonController->getCurrentStatusOc($applicationId);
             if ($extension == "pdf") {
 
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('oc_letter'),$file_name);
 
-                    $draftNocPath = $folder_name."/".$file_name; 
-                    OcApplication::where('id',$applicationId)->update(["oc_path" => $draftNocPath]);
+                    $draftNocPath = $folder_name."/".$file_name;
+
+                    if ($status->status_id == config('commanConfig.applicationStatus.OC_Approved')){
+                        OcApplication::where('id',$applicationId)->update(["final_oc_agreement" => $draftNocPath]);
+                    } else{
+                        OcApplication::where('id',$applicationId)->update(["oc_path" => $draftNocPath]);
+                    }
 
                     return redirect()->back()->with('success', 'Draft copy of OC has been uploaded successfully.');
             } else {
@@ -2922,8 +2926,8 @@ class REEController extends Controller
        
        // get Co log
         $co = Role::where('name',config('commanConfig.co_engineer'))->value('id');
-        $applicationData->coLog = OcApplicationStatusLog::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();   
-
+        $applicationData->coLog = OcApplicationStatusLog::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
+        $oc_application->status = $this->CommonController->getCurrentStatusOc($applicationId);   
         return view('admin.REE_department.approved_oc_cert',compact('applicationData','oc_application','ree_head'));
     }
 
