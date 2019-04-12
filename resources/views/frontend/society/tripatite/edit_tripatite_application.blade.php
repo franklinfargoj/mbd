@@ -32,7 +32,7 @@
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="preceding_officer_name">Department:</label>
-                            <input type="text" id="department_name" name="department_name" class="form-control form-control--custom m-input" value="EE" readonly>
+                            <input type="text" id="department_name" name="department_name" class="form-control form-control--custom m-input" value="Resident Executive Engineer" readonly>
                             <input type="hidden" name="application_master_id" value="{{ $ol_applications->application_master_id }}" required>
                             <input type="hidden" name="application_id" value="{{ $ol_applications->id }}" required>
                             <span class="help-block">{{$errors->first('department_name')}}</span>
