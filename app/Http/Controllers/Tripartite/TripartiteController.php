@@ -1080,14 +1080,16 @@ class TripartiteController extends Controller
             ],
         ];
 
-        $ree_junior_role_id = Role::where('name',config('commanConfig.ree_junior'))->pluck('id')->toArray();
+//        dd($request->to_role_id);
 
+//        $ree_junior_role_id = Role::where('name',config('commanConfig.ree_junior'))->pluck('id')->toArray();
+        $society_role_id = Role::where('name','society')->value('id');
 
-        \DB::transaction(function () use ($is_reverted_to_society, $request, $application, $is_approved_agreement, $ree_junior_role_id, $status) {
+        \DB::transaction(function () use ($is_reverted_to_society, $request, $application, $is_approved_agreement, $society_role_id,$status) {
 
             $tripartite_application = OlApplication::findOrFail($request->applicationId);
 
-            if(in_array($request->to_role_id,$ree_junior_role_id) && !($status == config('commanConfig.applicationStatus.reverted'))){
+            if(($request->to_role_id == $society_role_id) && !($status == config('commanConfig.applicationStatus.reverted'))){
                 $tripartite_application->current_phase = $tripartite_application->current_phase + 1;
                 $tripartite_application->save();
             }
