@@ -40,7 +40,6 @@
                     </div>
                     <!-- END: Subheader -->
 
-
                     <div class="m-content letter-form-content">
                         <div class="letter-form-subject">
                             <p style="float: left;width: 10%;"><span class="font-weight-semi-bold">Subject :- </span></p>
@@ -48,7 +47,7 @@
 
                             <p style="float: left;width: 10%;margin: 0;"><span class="font-weight-semi-bold">Ref :- </p>
                             <div style="margin-top: 0;float: left;width: 90%;">
-                                <p>1. Offer Letter No. <input class="letter-form-input" type="text" id="" name="offer_letter_number" value="{{ $ol_applications->request_form->offer_letter_number }}" readonly> dated <input class="letter-form-input" type="text" id="" name="offer_letter_date" value="{{date('j F Y',strtotime($ol_applications->request_form->offer_letter_number))}}" readonly></p>
+                                <p>1. Offer Letter No. <input class="letter-form-input" type="text" id="" name="offer_letter_number" value="{{ $ol_applications->request_form->offer_letter_number }}" readonly> dated <input class="letter-form-input" type="text" id="" name="offer_letter_date" value="{{date('j F Y',strtotime($ol_applications->request_form->offer_letter_date))}}" readonly></p>
                                 <p></span>2. NOC for IOD purpose bearing No. <input class="letter-form-input" type="text" id="" name="noc_no" value="{{ $ol_applications->request_form->noc_for_iod_purpose_number }}" readonly> dated <input class="letter-form-input" type="text" id="" name="noc_date" value="{{date('j F Y',strtotime($ol_applications->request_form->noc_for_iod_purpose_date))}}" readonly>
                             </p>
                             </div>
