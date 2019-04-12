@@ -1666,4 +1666,21 @@ class EMController extends Controller
             }
         }
     }
+
+    // upload no dues certificate in OC
+    public function uploadOCNoDuesCertificate(Request $request){
+        $request->applicationId; 
+        $folder_name = 'No_Dues_Cert_Oc';
+        $file  = $request->file('no_due_certificate');   
+        if ($file){
+            $extension  = $file->getClientOriginalExtension(); 
+            $file_name  = time().'_no_dues_'.$applicationId.'.'.$extension; 
+            $file_path  = $folder_name.'/'.$file_name;
+
+            if ($extension == "pdf") {
+                $this->CommonController->ftpFileUpload($folder_name,$file,$file_name); 
+            }
+        }
+        OcApplication::where('id',$request->applicationId)->update(["no_dues_certificate_draft" => $filePath]);
+    }
 }

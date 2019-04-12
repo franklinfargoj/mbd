@@ -157,18 +157,18 @@ class EmailMsgConfigration extends Controller
 
 	// function to send msg
 	public function sendMsg($mobile,$content){
-		event(new SmsHitEvent($mobile,$content));
+		// event(new SmsHitEvent($mobile,$content));
 	}
 
 	// function to send email
     public function sendEmail($email,$emailContent,$subject){
         
-        $data = array("content" => $emailContent);   
-        $a = Mail::send('email/mail_content', $data, function($message) use ($email,$subject) {
-            $message->to($email)
-                    ->subject($subject);
-            $message->from('bhavna.salunkhe@neosofttech.com','MHADA');
-        });
+        // $data = array("content" => $emailContent);   
+        // $a = Mail::send('email/mail_content', $data, function($message) use ($email,$subject) {
+        //     $message->to($email)
+        //             ->subject($subject);
+        //     $message->from('bhavna.salunkhe@neosofttech.com','MHADA');
+        // });
        return 'success';
     }
 

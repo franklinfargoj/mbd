@@ -1135,4 +1135,30 @@ class EEController extends Controller
         }
         return $status;   
     }
+
+    // variation report for OC EE scrutiny questions and answers
+    public function OCVariationReport(Request $request,$applicationId){
+        
+        $data = OcEEScrutinyAnswer::where('application_id',$applicationId)->with('scrutinyQuestions')->get();
+        $validReport = $IvalidReport = [];
+        if (isset($data) && count($data) > 0){
+            foreach($data as $value){
+                if (isset($value->answer) && $value->answer == 1){
+                    $validReport [] = $value;
+                }else {
+                    $IvalidReport [] = $value;
+                }
+            }
+        }
+        $view = view('admin.ee_department.oc_ee_variation_report',compact('data','IvalidReport','validReport'));
+        $header_file = view('admin.REE_department.offer_letter_header');        
+        $footer_file = view('admin.REE_department.offer_letter_footer');
+
+        $pdf = new Mpdf();
+        $pdf->autoScriptToLang = true;
+        $pdf->autoLangToFont = true;
+
+        $pdf->WriteHTML($header_file.$view.$footer_file);  
+        $pdf->Output('variation_report.pdf', 'D');
+    }
 }
