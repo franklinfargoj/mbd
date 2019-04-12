@@ -99,7 +99,6 @@ class SocietyTripatiteController extends Controller
         }
         $users = User::whereIn('id', $select_user_ids)->get();
 
-        dd($users);
         $insert_arr = array(
             'users' => $users
         );
