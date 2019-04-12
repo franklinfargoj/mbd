@@ -85,7 +85,7 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">REE Note</span>
             </a>
         </li>
-        @if(isset($oc_application->oc_path) && !empty($oc_application->oc_path) && $oc_application->OC_Generation_status == config('commanConfig.applicationStatus.OC_Generation'))
+        @if(isset($oc_application->oc_path) && !empty($oc_application->oc_path) && ($oc_application->OC_Generation_status == config('commanConfig.applicationStatus.OC_Generation') || $oc_application->OC_Generation_status == config('commanConfig.applicationStatus.OC_Approved')))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='co.approve_consent_oc')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" href="{{ route('co.approve_consent_oc', $oc_application->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
