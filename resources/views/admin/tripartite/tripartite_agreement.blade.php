@@ -19,6 +19,12 @@
                 </div>
             </div>
         </div>
+        @if(Session::has('error'))
+            <p class="alert alert-danger mt-2">{{ Session::get('error') }}</p>
+        @endif
+        @if(Session::has('success'))
+            <p class="alert alert-success mt-2">{{ Session::get('success') }}</p>
+        @endif
         <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
             <div class="portlet-body">
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
