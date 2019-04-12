@@ -28,6 +28,7 @@
    {{ session()->get('error') }}
 </div>
 @endif
+
 <div class="custom-wrapper">
    <div class="col-md-12">
       <div class="d-flex">
@@ -190,6 +191,7 @@
                                        @endphp
                                        <input type="hidden" name="society_id" value="{{ $arrData['society_detail']->id }}">
                                        <input type="hidden" name="application_id" id="application_id" value="{{ $oc_application->id }}">
+
                                        @foreach($arrData['scrutiny_questions_oc'] as
                                        $each_question)
                                        <input type="hidden" name="question_id[{{$i}}]" value="{{ $each_question->id }}">
@@ -214,14 +216,15 @@
                                        }
                                        }
                                        @endphp
-                                       --}}
+                                       --}} 
+                                       
                                        <tr>
-                                          <td>{{ $i }}.</td>
+                                          <td>{{ isset($each_question->group) && isset($each_question->sort_by) ? $each_question->group.'.'.$each_question->sort_by : $each_question->group }}</td>
                                           <td><p>{{ $each_question->question }}</p></td>
                                           <td>
                                              <label class="m-radio m-radio--primary">
                                              <input {{$disabled}} type="radio" name="answer[{{$i}}]"
-                                             value="1" required
+                                             value="1" {{($each_question->is_compulsory == 1) ? 'required' : '' }}
                                              {{ (isset($arrData['scrutiny_answers_to_questions'][$each_question->id]) && $arrData['scrutiny_answers_to_questions'][$each_question->id]['answer'] == 1) ? 'checked' : '' }}>
                                              <span></span>
                                              </label>
@@ -293,6 +296,9 @@
                               </div>
                            </div>
                            <button type="submit" style="{{ $style }}" class="btn btn-primary saveBtn" next_tab = "nested_tab_2">Save</button>
+                           @if(isset($arrData['scrutiny_answers_to_questions']) && count($arrData['scrutiny_answers_to_questions']) > 0)
+                              <a href="{{ route('ee.oc_ee_variation_report',$oc_application->id)}}" class="btn btn-primary">Generate Variation Report</a>
+                           @endif
                         </form>
                      </div>
                   </div>
@@ -367,6 +373,13 @@
                                                
                                                     <div class="table-responsive">
                                                     <table class="mt-2 table table-hover" id="dtBasicExample"> 
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Document Name</th>
+                                                            <th class="text-center">Download</th>
+                                                            <th class="text-center" style="{{$style}}">Delete</th>   
+                                                        </tr>
+                                                    </thead>
                                                     <tbody>
 
                                                     @foreach($arrData['eeNote'] as $note)  
@@ -553,7 +566,7 @@
                 url: "/delete_oc_note",
                 data: form_data,
                 type: 'POST',
-                contentType: false,
+                contentType: false, 
                 cache: false, 
                 processData: false,
                 success: function(data) {

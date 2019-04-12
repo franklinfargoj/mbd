@@ -11,7 +11,7 @@
 @if(session()->has('error'))
 <div class="alert alert-success display_msg">
    {{ session()->get('error') }}
-</div>
+</div> 
 @endif
 <div class="custom-wrapper">
    <div class="col-md-12">
@@ -150,7 +150,7 @@
                               <div class="table-responsive">
                                  <table class="table">
                                     <thead class="thead-default">
-                                       <th>#</th>
+                                       <th>Sr.No</th>
                                        <th class="table-data--xl">Topics</th>
                                        <th>Yes</th>
                                        <th>No</th>
@@ -173,7 +173,7 @@
                                        }
                                        @endphp
                                        <tr>
-                                          <td>{{ $i }}.</td>
+                                          <td>{{ isset($each_question->group) && isset($each_question->sort_by) ? $each_question->group.'.'.$each_question->sort_by : $each_question->group }}</td>
                                           <td>{{ $each_question->question }}</td>
                                           <td>
                                              <label class="m-radio m-radio--primary">
@@ -226,10 +226,20 @@
                                        $i++;
                                        @endphp
                                        @endforeach
+                                       <tr>
+                                          <td colspan="2">Additional Remarks (If any)</td>
+                                          <td colspan="3">
+                                             <textarea {{$disabled}} class="form-control form-control--custom form-control--textarea"
+                                             name="ee_additional_remarks" id="remark-one">{{ isset($oc_application->ee_additional_remarks) ? $oc_application->ee_additional_remarks : '' }}</textarea>
+                                          </td>
+                                       </tr>
                                     </tbody>
                                  </table>
                               </div>
                            </div>
+                           @if(isset($arrData['scrutiny_answers_to_questions']) && count($arrData['scrutiny_answers_to_questions']) > 0)
+                              <a href="{{ route('ee.oc_ee_variation_report',$oc_application->id)}}" class="btn btn-primary">Generate Variation Report</a>
+                           @endif
                            @else
                            <div class="col-sm-12" >
                               <div class="d-flex flex-column h-100">
@@ -262,6 +272,13 @@
                                                
                                                     <div class="table-responsive">
                                                     <table class="mt-2 table table-hover" id="dtBasicExample"> 
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Document Name</th>
+                                                            <th class="text-center">Download</th>
+                                                            <th class="text-center" style="{{$style}}">Delete</th>   
+                                                        </tr>
+                                                    </thead>
                                                     <tbody>
 
                                                     @foreach($arrData['eeNote'] as $note)  

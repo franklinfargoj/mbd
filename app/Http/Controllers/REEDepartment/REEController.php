@@ -557,13 +557,17 @@ class REEController extends Controller
         // OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath]);
         OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath, "text_offer_letter" => $filePath1]);
 
-
+        $currentStatus = config('commanConfig.applicationStatus.draft_offer_letter_generated');
+        $status = $this->CommonController->getCurrentStatus($request->applicationId);
+        if ($status->status_id == config('commanConfig.applicationStatus.offer_letter_approved')){
+            $currentStatus = config('commanConfig.applicationStatus.offer_letter_approved');
+        }
         //Code added by Prajakta >>start
         $generated_offer_letter = [
             'application_id' => $request->applicationId,
             'user_id' => Auth::user()->id,
             'role_id' => session()->get('role_id'),
-            'status_id' => config('commanConfig.applicationStatus.draft_offer_letter_generated'),
+            'status_id' => $currentStatus,
             'to_user_id' => NULL,
             'to_role_id' => NULL,
             'remark' => NULL,
@@ -589,7 +593,12 @@ class REEController extends Controller
         }
         //Code added by Prajakta >>end
         $applicationId = encrypt($request->applicationId);
-        return redirect('generate_offer_letter/'.$applicationId)->with('success','Offer Letter generated successfully..');
+        $route = 'generate_offer_letter/'.$applicationId;
+        if ($status->status_id == config('commanConfig.applicationStatus.offer_letter_approved')){
+            $route = 'approved_offer_letter/'.$applicationId;
+        }
+        
+        return redirect($route)->with('success','Offer Letter generated successfully..');
     }
 
     public function saveRevalOfferLetter(Request $request){
@@ -733,9 +742,9 @@ class REEController extends Controller
        
        // get Co log
         $co = Role::where('name',config('commanConfig.co_engineer'))->value('id');
-        $applicationData->coLog = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();   
-
-        return view('admin.REE_department.approved_offer_letter',compact('applicationData','ol_application','ree_head'));
+        $applicationData->coLog=OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
+        $status = $this->CommonController->getCurrentStatus($applicationId);   
+        return view('admin.REE_department.approved_offer_letter',compact('applicationData','ol_application','ree_head','status'));
     }
 
     public function approvedRevalOfferLetter(Request $request,$applicationId){

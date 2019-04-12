@@ -1369,6 +1369,7 @@ Route::get('ee-forward-application-oc/{id}','EEDepartment\EEController@forwardAp
 Route::post('ee_forward_oc_application_data','EEDepartment\EEController@sendForwardOcApplication')->name('ee.forward_oc_application_data');
 Route::post('upload_oc_scrutiny_documents','EEDepartment\EEController@uploadOCScrutinyDocuments')->name('ee.upload_oc_scrutiny_documents');
 Route::post('delete_oc_note','EEDepartment\EEController@deleteOCNote')->name('ee.delete_oc_note');
+Route::get('oc_ee_variation_report/{id}','EEDepartment\EEController@OCVariationReport')->name('ee.oc_ee_variation_report');
 
 // EM Routes consent for OC
 
@@ -1376,6 +1377,9 @@ Route::get('consentoc_em','EMDepartment\EMController@consent_for_oc')->name('em.
 Route::get('view_oc_application_em/{id}','EMDepartment\EMController@viewOCApplication')->name('em.view_oc_application');
 Route::get('society_documents_oc_em/{id}', 'EMDepartment\EMController@societyDocumentsOC')->name('em.society_documents_oc');
 Route::get('no_dues_certificate_em_oc/{id}', 'EMDepartment\EMController@generateNoDueCertificateOc')->name('em.no_dues_certifitce');
+
+Route::post('upload_oc_no_dues_certificate', 'EMDepartment\EMController@uploadOCNoDuesCertificate')->name('em.upload_oc_no_dues_certificate');
+
 Route::get('create_edit_noduecert/{id}', 'EMDepartment\EMController@createEditNoDueCert')->name('em.create_edit_ndc');
 Route::post('save_no_dues_cert_em', 'EMDepartment\EMController@saveNoDuesCertOc')->name('em.save_no_dues_cert_oc');
 Route::post('upload_em_note_oc','EMDepartment\EMController@uploadOfficeNoteOcEM')->name('em.upload_office-note-oc');
