@@ -1755,15 +1755,17 @@ class CommonController extends Controller
                 $insert_application_log[$status_in_words_1][$key]['created_at'] = date('Y-m-d H:i:s');
                 $application_log_status = array_merge($insert_application_log[$status_in_words], $insert_application_log[$status_in_words_1]);
             }
+            $to_role_id = $user->role_id;
+
             $i++;
         }
 
         $ree_junior_role_id = Role::where('name',config('commanConfig.ree_junior'))->pluck('id')->toArray();
 
-        \DB::transaction(function () use ($sc_application, $user, $application_log_status, $ree_junior_role_id, $status) {
+        \DB::transaction(function () use ($sc_application, $user, $application_log_status, $ree_junior_role_id, $status, $to_role_id) {
 
             if($status == config('commanConfig.applicationStatus.forwarded'))
-            if (in_array($user->role_id, $ree_junior_role_id)) {
+            if (in_array($to_role_id, $ree_junior_role_id)) {
                 $sc_application->current_phase = $sc_application->current_phase + 1;
                 $sc_application->save();
             }

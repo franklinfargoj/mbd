@@ -49,8 +49,8 @@
                         <div class="col">
                             <div class="form-group m-form__group">
                                 <div class="btn-list">
-                                    <input type="submit" class="btn m-btn--pill m-btn--custom btn-primary" name="pdf" value="pdf">
-                                    <input type="submit" class="btn m-btn--pill m-btn--custom btn-primary" name="excel" value="excel">
+                                    <input type="submit" class="btn mhada-custom-pdf" name="pdf" value="pdf">
+                                    <input type="submit" class="btn mhada-custom-excel" name="excel" value="excel">
                                     {{-- <button type="submit" class="btn m-btn--pill m-btn--custom btn-metal">Reset</button>
                                     --}}
                                     {{-- <a href="{{route('pending_rti')}}" class="btn m-btn--pill m-btn--custom btn-metal">Reset</a>

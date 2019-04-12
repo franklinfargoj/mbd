@@ -521,18 +521,23 @@ class TripartiteController extends Controller
             if ($extension == "pdf") {
                 $fileUpload = $this->comman->ftpFileUpload($folder_name, $request->file('signed_agreement'), $file_name);
                 $drafted_agreement = $this->get_tripartite_agreements($ol_application->id, config('commanConfig.tripartite_agreements.drafted'));
-                if (($drafted_agreement->status_id == $this->get_document_status_by_name('Stamped')) || ($drafted_agreement->status_id == $this->get_document_status_by_name('Stamped_Signed'))) {
-                    if (session()->get('role_name') == config('commanConfig.co_engineer')) {
-                        $status = $this->get_document_status_by_name('Approved');
-                    } else {
-                        $status = $this->get_document_status_by_name('Stamped_Signed');
-                    }
+                if($drafted_agreement){
+                    if (($drafted_agreement->status_id == $this->get_document_status_by_name('Stamped')) || ($drafted_agreement->status_id == $this->get_document_status_by_name('Stamped_Signed'))) {
+                        if (session()->get('role_name') == config('commanConfig.co_engineer')) {
+                            $status = $this->get_document_status_by_name('Approved');
+                        } else {
+                            $status = $this->get_document_status_by_name('Stamped_Signed');
+                        }
 
-                } else {
-                    $status = $this->get_document_status_by_name('Draft_Sign');
+                    } else {
+                        $status = $this->get_document_status_by_name('Draft_Sign');
+                    }
+                    $this->set_tripartite_agreements($ol_application, config('commanConfig.tripartite_agreements.drafted'), $fileUpload, $status);
+                    return redirect()->back()->with('success', 'Draft copy of Agreement has been uploaded successfully.');
+                }else{
+                    return redirect()->back()->with('error', 'Draft copy of Agreement has not been generated');
                 }
-                $this->set_tripartite_agreements($ol_application, config('commanConfig.tripartite_agreements.drafted'), $fileUpload, $status);
-                return redirect()->back()->with('success', 'Draft copy of Agreement has been uploaded successfully.');
+
             } else {
                 return redirect()->back()->with('error', 'Invalid format. pdf file only.');
             }
