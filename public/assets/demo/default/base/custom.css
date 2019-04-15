@@ -3874,10 +3874,11 @@ label.site-visit-label {
 }
 
 @media (min-width: 1200px) and (max-width: 1400px){
-    .mhada-lg-tag .col-xl-4.form-group{
-        width: 45% !important;
-        flex: 45%;
-        max-width: 45%;
+    .mhada-lg-tag .col-xl-5.form-group{
+        width: 50% !important;
+        flex: 50%;
+        max-width: 50%;
+        margin-left: 0;
     }
 }
 
