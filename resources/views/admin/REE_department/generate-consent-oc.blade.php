@@ -210,7 +210,7 @@
                                        class="btn btn-primary">Download</a> 
                                 @endif
                                  </div>
-                              </div>
+                              </div> 
                            </div> 
                            @if(isset($oc_application->final_oc_agreement)) 
                            <div class="col-sm-6">
@@ -226,8 +226,8 @@
                            </div>
                            @endif
 
-                           @if($societyData->ree_Jr_id && $applicationLog->status_id !=
-                           config('commanConfig.applicationStatus.forwarded') && (!isset($oc_application->oc_path)))
+                           @if($applicationLog->status_id !=
+                           config('commanConfig.applicationStatus.forwarded'))
                            <div class="col-sm-6 border-left">
                               <div class="d-flex flex-column h-100">
                                  <h5>Upload Consent for OC</h5>
@@ -243,7 +243,8 @@
                                        <span class="text-danger" id="file_error"></span>
                                     </div>
                                     <div class="mt-auto">
-                                       <button type="submit" onclick="return confirm('Are you sure you want to upload the draft copy of Consent for OC.Please note once you upload, the same would be finalized and would be uneditable.');" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                       <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                      <!--  <button type="submit" onclick="return confirm('Are you sure you want to upload the draft copy of Consent for OC.Please note once you upload, the same would be finalized and would be uneditable.');" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button> -->
                                     </div>
                                  </form>
                               </div>

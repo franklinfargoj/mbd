@@ -179,6 +179,25 @@
                                  </div>
                               </div>
                            </div>
+                           @if($oc_application->status->status_id != config('commanConfig.applicationStatus.forwarded'))
+                              <div class="col-sm-6">
+                                 <div class="d-flex flex-column h-100 two-cols">
+                                    <form class="nav-tabs-form" id ="DueForm" role="form" method="POST" action="{{ route('em.upload_oc_no_dues_certificate')}}" enctype="multipart/form-data">
+                                    @csrf
+                                       <input type="hidden" name="applicationId" value="{{ $oc_application->id }}">
+                                       <h5>Upload</h5>
+                                       <span class="hint-text">Click to upload No Dues Certificate</span>
+                                       <div class="custom-file">
+                                         <input class="custom-file-input" name="no_due_certificate" type="file" id="test-upload1">
+                                          <label class="custom-file-label" for="test-upload1">Choose file...</label>
+                                          <div class="mt-3">
+                                            <input type="submit" class="btn btn-primary mt-3 upload_btn" id="sale_btn" style="display:block" value="Upload">  
+                                          </div>
+                                       </div>
+                                    </form>
+                                 </div> 
+                              </div>
+                           @endif
                         </div>
                      </div>
                   </div>
@@ -186,6 +205,7 @@
                </div>
             </div>
          </div>
+
          <div class="tab-pane show" id="covering_letter">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                <div class="portlet-body">
@@ -275,6 +295,19 @@
    $(document).ready(function () {
        $(".display_msg").delay(5000).slideUp(300);
    });
+
+    $("#DueForm").validate({
+         rules: {
+             no_due_certificate: {
+                 required : true,
+                 extension: "pdf"
+             }          
+         }, messages: {
+             no_due_certificate: {
+                 extension: "Invalid type of file uploaded (only pdf allowed)."
+             }
+         }
+     });
    
 </script>
 @endsection

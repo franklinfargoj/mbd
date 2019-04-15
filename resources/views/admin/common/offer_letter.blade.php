@@ -52,9 +52,8 @@
         </div>
     </div>
      <div class="col-md-12">
-       <iframe src="{{ config('commanConfig.storage_server').'/'.isset($ol_application->application_path) ? $ol_application->application_path : '' }}" width="1000" height="600"></iframe>
+       <iframe src="{{ config('commanConfig.storage_server').'/'.isset($ol_application->application_path) ? $ol_application->application_path : '' }}" width="940" height="600"></iframe>
     </div>   
-
     @if($ol_application->comments) 
     <div class="col-md-12">
         <div class="m-portlet m-portlet--creative m-portlet--first m-portlet--bordered-semi mb-0">

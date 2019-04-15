@@ -24,6 +24,14 @@
 </div>
 @endif
 
+@php
+if(isset($societyData->offer_letter_document_path))
+    $document=$societyData->offer_letter_document_path;
+else if(isset($societyData->drafted_offer_letter))
+    $document = $societyData->drafted_offer_letter;
+
+@endphp       
+
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="d-flex">
@@ -180,11 +188,11 @@
                                         <h5>Download Offer Letter</h5>
                                         <div class="mt-auto">
 
-                                            @if($societyData->drafted_offer_letter)
-                                            <a href="{{config('commanConfig.storage_server').'/'.$societyData->drafted_offer_letter}}" class="btn btn-primary" target="_blank">Download</a>
+                                            @if(isset($societyData->drafted_offer_letter) || isset($societyData->offer_letter_document_path))
+                                            <a href="{{config('commanConfig.storage_server').'/'.$document}}" class="btn btn-primary" target="_blank">Download</a>
                                             @else
                                             <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                                * Note : Offer Letter not available. </span>
+                                                * Note : Offer Letter is not generated. </span>
                                             @endif
                                         </div>
                                     </div>
@@ -220,7 +228,7 @@
 
             @if($societyData->ree_branch_head && $societyData->status_offer_letter ==
             config('commanConfig.applicationStatus.offer_letter_generation') && $applicationLog->status_id !=
-            config('commanConfig.applicationStatus.forwarded'))
+            config('commanConfig.applicationStatus.forwarded') && isset($document))
             <form role="form" id="sendForApproval" style="margin-top: 30px;" name="sendForApproval" class="form-horizontal"
                 method="post" action="{{ route('ree.send_for_approval')}}" enctype="multipart/form-data">
                 @csrf
