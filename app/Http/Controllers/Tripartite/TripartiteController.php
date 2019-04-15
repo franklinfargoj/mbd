@@ -1080,16 +1080,26 @@ class TripartiteController extends Controller
             ],
         ];
 
-//        dd($request->to_role_id);
+//        dd(session()->get('role_name'));
 
 //        $ree_junior_role_id = Role::where('name',config('commanConfig.ree_junior'))->pluck('id')->toArray();
-        $society_role_id = Role::where('name','society')->value('id');
 
-        \DB::transaction(function () use ($is_reverted_to_society, $request, $application, $is_approved_agreement, $society_role_id,$status) {
+        if(session()->get('role_name') == config('commanConfig.co_engineer')){
+            $to_role_id = Role::where('name',config('commanConfig.ree_junior'))->value('id');
+
+        }
+        else if (session()->get('role_name') == config('commanConfig.ree_branch_head')){
+            $to_role_id = Role::where('name','society')->value('id');
+        }
+        else {
+            $to_role_id = null;
+        }
+
+        \DB::transaction(function () use ($is_reverted_to_society, $request, $application, $is_approved_agreement, $to_role_id,$status) {
 
             $tripartite_application = OlApplication::findOrFail($request->applicationId);
 
-            if(($request->to_role_id == $society_role_id) && !($status == config('commanConfig.applicationStatus.reverted'))){
+            if(($request->to_role_id == $to_role_id) && !($status == config('commanConfig.applicationStatus.reverted'))){
                 $tripartite_application->current_phase = $tripartite_application->current_phase + 1;
                 $tripartite_application->save();
             }
