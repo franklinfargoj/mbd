@@ -5,7 +5,7 @@
         <!-- BEGIN: Subheader -->
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
-                <h3 class="m-subheader__title m-subheader__title--separator">Application Status Detail</h3>
+                <h3 class="m-subheader__title m-subheader__title--separator">Application Status Details</h3>
                 {{ Breadcrumbs::render('application_status_detail') }}
                 {{--<div class="btn-list text-right ml-auto">--}}
                     {{--<a href="{{route('roles.index',['excel'=>'excel'])}}" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></a>--}}
