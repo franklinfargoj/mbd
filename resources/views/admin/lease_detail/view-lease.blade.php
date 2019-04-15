@@ -76,10 +76,6 @@
                 </div>
 
                 <div class="m-form__group row mhada-lease-margin">
-                    
-                </div>
-
-                <div class="m-form__group row mhada-lease-margin">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="lease_rent_start_month">Month to start collection of lease
                             rent:</label>
@@ -112,14 +108,16 @@
                                 readonly value="{{ date(config('commanConfig.dateFormat'), strtotime($arrData['lease_data']->lease_renewal_date)) }}">
                             <span class="help-block">{{$errors->first('lease_renewal_date')}}</span>
                         </div>
+                    </div>
                 </div>
 
                 <!-- <div class="m-form__group row mhada-lease-margin">
                     
                     </div> -->
+                <div class="m-form__group row mhada-lease-margin">
 
                     @if($arrData['lease_data']->lease_renewed_period)
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="lease_renewed_period">Period of renewed Lease:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="lease_renewed_period" name="lease_renewed_period" class="form-control form-control--custom m-input"
@@ -128,37 +126,38 @@
                         </div>
                     </div>
                     @endif
+
+                        @if($arrData['lease_data']->rent_per_renewed_lease || $arrData['lease_data']->interest_per_renewed_lease_agreement)
+                                <div class="col-sm-4 form-group">
+                                    <label class="col-form-label" for="rent_per_renewed_lease">Lease rent as per renewed lease:</label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" id="rent_per_renewed_lease" name="rent_per_renewed_lease" class="form-control form-control--custom m-input"
+                                               value="{{ $arrData['lease_data']->rent_per_renewed_lease }}" readonly>
+                                        <span class="help-block">{{$errors->first('rent_per_renewed_lease')}}</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4 form-group">
+                                    <label class="col-form-label" for="interest_per_renewed_lease_agreement">Interest as per
+                                        renewed Lease agreement, in %:</label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" id="interest_per_renewed_lease_agreement" name="interest_per_renewed_lease_agreement"
+                                               class="form-control form-control--custom m-input" value="{{ $arrData['lease_data']->interest_per_renewed_lease_agreement }}" readonly>
+                                        <span class="help-block">{{$errors->first('interest_per_renewed_lease_agreement')}}</span>
+                                    </div>
+                                </div>
+                        @endif
+
                 </div>
 
-                @if($arrData['lease_data']->rent_per_renewed_lease || $arrData['lease_data']->interest_per_renewed_lease_agreement)
-                <div class="m-form__group row mhada-lease-margin">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="rent_per_renewed_lease">Lease rent as per renewed lease:</label>
-                        <div class="m-input-icon m-input-icon--right">
-                            <input type="text" id="rent_per_renewed_lease" name="rent_per_renewed_lease" class="form-control form-control--custom m-input"
-                                value="{{ $arrData['lease_data']->rent_per_renewed_lease }}" readonly>
-                            <span class="help-block">{{$errors->first('rent_per_renewed_lease')}}</span>
-                        </div>
-                    </div>
 
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="interest_per_renewed_lease_agreement">Interest as per
-                            renewed Lease agreement, in %:</label>
-                        <div class="m-input-icon m-input-icon--right">
-                            <input type="text" id="interest_per_renewed_lease_agreement" name="interest_per_renewed_lease_agreement"
-                                class="form-control form-control--custom m-input" value="{{ $arrData['lease_data']->interest_per_renewed_lease_agreement }}" readonly>
-                            <span class="help-block">{{$errors->first('interest_per_renewed_lease_agreement')}}</span>
-                        </div>
-                    </div>
-                </div>
-                @endif
 
                 @if($arrData['lease_data']->month_rent_per_renewed_lease)
                 <div class="m-form__group row mhada-lease-margin">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="month_rent_per_renewed_lease">Month to start collection of
                             lease rent as per renewed lease:</label>
-                        <div class="m-input-icon m-input-icon--right">
+                        <div class="m-input-icon m-input-icon--right" style="padding-top: 10px;">
                             <select disabled class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                 id="month_rent_per_renewed_lease" name="month_rent_per_renewed_lease">
                                 @foreach($arrData['month_data'] as $month)
