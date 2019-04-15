@@ -231,7 +231,7 @@
                     <div class="row">
                         <div class="col-sm-4 mb-0">
                             <div class="btn-list">
-                                <a href="{{url('/society_detail/'.$arrData['society_data']->village_id)}}" class="btn btn-secondary">Back</a>
+                                <a href="{{url('/society_detail/'.$arrData['society_data']->village_id)}}" class="btn btn-secondary">Cancel</a>
                             </div>
                         </div>
                     </div>

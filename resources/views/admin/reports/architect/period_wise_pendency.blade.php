@@ -16,9 +16,10 @@
                 <div class="row align-items-center row--filter">
                     <div class="col-md-12">
 
-                        <form class="form-group m-form__group row align-items-center mb-0" method="get" action="{{ route('architect_pending_reports') }}">
+                        <form class="form-group m-form__group row align-items-center mb-0 floating-labels-form" method="get" action="{{ route('architect_pending_reports') }}">
 
                             <div class="col-md-4 form-group">
+                                <label class="col-form-label mhada-multiple-label" for="period" style="">Period Range:<span class="star">*</span></label>
                                 <select name="period" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input">
                                     <option value="">All</option>
                                     @foreach(config('commanConfig.pendency_report_periods') as $key=>$value)
