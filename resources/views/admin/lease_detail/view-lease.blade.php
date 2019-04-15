@@ -176,7 +176,7 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="btn-list">
-                                    <a href="{{ url()->previous() }}" class="btn btn-secondary">Back</a>
+                                    <a href="{{ url()->previous() }}" class="btn btn-secondary">Cancel</a>
                                 </div>
                             </div>
                         </div>
