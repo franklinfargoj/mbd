@@ -5,6 +5,9 @@
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title m-subheader__title{{----separator--}}">Profile</h3>
                 {{ Breadcrumbs::render('admin_profile') }}
+                <div class="ml-auto btn-list">
+                    <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                </div>
             </div>
             <p class="sub-title">
                 @if (session('success'))
