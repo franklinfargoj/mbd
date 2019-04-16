@@ -73,7 +73,7 @@
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="m_datepicker">Date of Resolution: <span class="star">*</span></label>
-                            <input type="text" id="m_datepicker" name="date_of_meeting" data-date-end-date="+0d" class="form-control form-control--custom m-input m_datepicker" value="{{ (isset($data) && $data->request_form->date_of_meeting) ? date(config('commanConfig.dateFormat'), strtotime($data->request_form->date_of_meeting)) : '' }}" required>
+                            <input type="text" id="m_datepicker" name="date_of_meeting" data-date-end-date="+0d" class="form-control form-control--custom m-input m_datepicker" value="{{ (isset($data) && $data->request_form->date_of_meeting) ? date(config('commanConfig.dateFormat'), strtotime($data->request_form->date_of_meeting)) : '' }}" required readonly>
                             <span class="help-block">{{$errors->first('date_of_meeting')}}</span>
                         </div> 
                         <div class="col-sm-4 offset-sm-1 form-group">
