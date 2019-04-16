@@ -3,7 +3,7 @@
 <table style="border-collapse:collapse;width:100%;text-align:center;padding:5px;" border="1">
     <thead>
     <tr>
-        <th>No</th>
+        <th>Sr.No</th>
         <th>Layout Name</th>
         <th>Village Name</th>
         <th>Village Area(m.sq.)</th>
