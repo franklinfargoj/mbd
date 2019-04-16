@@ -1386,6 +1386,11 @@ Breadcrumbs::for('society_renewal',function($trail){
     $trail->push('Home',route('society_renewal.index'));
 });
 
+Breadcrumbs::for('society_renewal_application_form', function ($trail) {
+    $trail->parent('society_renewal');
+    $trail->push('Application Form (Renewal)', route('society_renewal.create'));
+});
+
 Breadcrumbs::for('society_renewal_view_application', function ($trail, $id) {
     $trail->parent('society_renewal');
     $trail->push('View Application', route('society_renewal.show', $id));
