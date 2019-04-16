@@ -299,7 +299,7 @@ class architectController extends Controller
                 foreach ($data as $datas) {
 
                     $dataList = [];
-                    $dataList['id'] = $i;
+                    $dataList['Sr.No'] = $i;
                     $dataList['Layout No'] = $datas->layout_no;
                     $dataList['Submission Date'] = $datas->created_at;
                     $dataList['Layout Name'] = $datas->layout_name;
