@@ -18,7 +18,7 @@
 
                         <form class="form-group m-form__group row align-items-center mb-0 floating-labels-form" method="get" action="{{ route('village_society_reports') }}">
 
-                            <h3 class="m-subheader__title m-subheader__title--separator col-sm-12 mb-4">Village & Society Detials</h3>
+                            <h3 class="m-subheader__title m-subheader__title--separator col-sm-12 mb-4 mhada-inner-head">Village & Society Detials</h3>
                             <div class="col-sm-4 form-group">
                                 <label class="col-form-label mhada-multiple-label" for="villages-select" style="">Villages:<span class="star">*</span></label>
                                 <select required title="Please Select Village" data-live-search="true" id="villages-select" multiple class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
@@ -52,7 +52,7 @@
                     <div class="col-md-12">
 
                         <form class="form-group m-form__group row align-items-center mb-0 floating-labels-form" method="get" action="{{ route('village_society_area_reports') }}">
-                            <h3 class="m-subheader__title m-subheader__title--separator col-sm-12 mb-4">Village & Society Area Comparison</h3>
+                            <h3 class="m-subheader__title m-subheader__title--separator col-sm-12 mb-4 mhada-inner-head">Village & Society Area Comparison</h3>
                             <div class="col-sm-4 form-group">
                                 <label class="col-form-label mhada-multiple-label" for="villages-select" style="">Villages:<span class="star">*</span></label>
                                 <select required title="Please Select Village" data-live-search="true" id="villages-select" multiple class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
@@ -86,7 +86,7 @@
                     <div class="col-md-12">
 
                         <form class="form-group m-form__group row align-items-center mb-0 floating-labels-form" method="get" action="{{ route('village_society_layout_area_reports') }}">
-                            <h3 class="m-subheader__title m-subheader__title--separator col-sm-12 mb-4">Layout, Village & Society Area Comparison</h3>
+                            <h3 class="m-subheader__title m-subheader__title--separator col-sm-12 mb-4 mhada-inner-head">Layout, Village & Society Area Comparison</h3>
                             <div class="col-sm-4 form-group">
                                 <label class="col-form-label mhada-multiple-label" for="villages-select" style="">Layouts:<span class="star">*</span></label>
                                 <select required title="Please Select Layout" data-live-search="true" id="layout-select" multiple class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"

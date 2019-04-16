@@ -3914,3 +3914,8 @@ label.site-visit-label {
         background-color: transparent !important;
         border-color: transparent !important;
     }
+
+    .mhada-inner-head{
+        font-size: 18px !important;
+    margin-top: -5px !important;
+    }
