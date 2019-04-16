@@ -1,0 +1,25 @@
+[2019-04-15 19:25:04.294] [sharedprocess] [info] main {"machineId":"4deb7e505157e3752dd0e4bfffdb43c5f2130487eea433cf5a9aa32a5b8e9f31"}
+[2019-04-15 19:25:04.375] [sharedprocess] [info] Scanned user extensions: 0
+[2019-04-15 19:25:04.389] [sharedprocess] [info] Scanned user extensions: 0
+[2019-04-15 19:25:04.394] [sharedprocess] [info] Scanned user extensions: 0
+[2019-04-15 19:25:04.464] [sharedprocess] [info] Scanned system extensions: 72
+[2019-04-15 19:25:04.469] [sharedprocess] [info] Scanned system extensions: 72
+[2019-04-15 19:25:04.472] [sharedprocess] [info] Scanned system extensions: 72
+[2019-04-15 19:25:05.039] [sharedprocess] [info] Scanned user extensions: 0
+[2019-04-15 19:25:44.309] [sharedprocess] [info] Starting to clean up unused language packs.
+[2019-04-15 19:25:55.128] [sharedprocess] [info] Scanned user extensions: 0
+[2019-04-15 19:25:55.133] [sharedprocess] [info] Scanned user extensions: 0
+[2019-04-15 19:25:55.136] [sharedprocess] [info] Scanned user extensions: 0
+[2019-04-15 19:25:55.143] [sharedprocess] [info] Scanned user extensions: 0
+[2019-04-15 19:25:55.220] [sharedprocess] [info] Scanned system extensions: 72
+[2019-04-15 19:25:55.226] [sharedprocess] [info] Scanned system extensions: 72
+[2019-04-15 19:25:55.231] [sharedprocess] [info] Scanned system extensions: 72
+[2019-04-15 19:26:03.108] [sharedprocess] [info] Installing extension: eamodio.gitlens
+[2019-04-15 19:26:03.109] [sharedprocess] [info] Scanned user extensions: 0
+[2019-04-15 19:26:06.072] [sharedprocess] [info] Downloaded extension: eamodio.gitlens /tmp/0fa1c284-835f-4cd3-95ee-3a9f5f7b3fd2
+[2019-04-15 19:26:06.492] [sharedprocess] [info] Extracted extension to /root/.vscode/extensions/.eamodio.gitlens-9.6.0: eamodio.gitlens
+[2019-04-15 19:26:06.492] [sharedprocess] [info] Renamed to /root/.vscode/extensions/eamodio.gitlens-9.6.0
+[2019-04-15 19:26:06.505] [sharedprocess] [info] Installation completed. eamodio.gitlens
+[2019-04-15 19:26:06.522] [sharedprocess] [info] Extensions installed successfully: eamodio.gitlens
+[2019-04-15 19:30:05.255] [sharedprocess] [info] Scanned user extensions: 1
+[2019-04-15 19:35:05.284] [sharedprocess] [info] Scanned user extensions: 1

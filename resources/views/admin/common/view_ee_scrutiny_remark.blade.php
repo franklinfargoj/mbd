@@ -58,8 +58,12 @@
                                     Society Details:
                                 </h3>
                                 <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto">
-                                    <img src="{{asset('/img/print-icon.svg')}}" 
-                                            style="max-width: 22px;display:none" class="printBtn hide-print"></a>
+                                    <img src="{{asset('/img/print-icon.svg')}}" style="max-width: 22px;display:none" class="printBtn hide-print"></a>
+
+                                    @if($consentCount > 0)
+                                        <a href="{{ route('ee_variation_report',$ol_application->id)}}">       
+                                        <i class="fa fa-file-text hide-print report" aria-hidden="true" title="generate variation report" style="margin-left: 15px;font-size: 24px;color: #af2222;cursor: pointer;display:none;" ></i></a>
+                                    @endif         
                             </div>
                             <div class="row field-row">
                                 <div class="col-sm-6 field-col">
@@ -325,15 +329,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                    @if($consentCount > 0)
-                                        <a class="btn btn-primary hide-print" href="{{ route('ee_variation_report',$ol_application->id)}}"> Generate Variation Report</a>
-                                    @endif  
+                                         
                                         <div class="table-checklist m-portlet__body m-portlet__body--table" style="margin-top: 10px">
                                             <div class="table-responsive">
                                                 <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                                     <thead class="thead-default">
-                                                        <th style="width:10%">#</th>
+                                                        <th style="width:10%">Sr.no</th>
                                                         <th class="table-data--xl" style="width:50%">मुद्दा / तपशील</th>
                                                         <th style="width:5%">होय</th>
                                                         <th style="width:5%">नाही</th>
@@ -430,17 +431,74 @@
 
                                         <div class="table-checklist m-portlet__body m-portlet__body--table">
                                             <div class="table-responsive">
+                                            <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
+                                                 <thead class="thead-default">
+                                                        <th style="width:10%">Sr.no</th>
+                                                        <th style="width: 55%;">Area</th>
+                                                        <th style="width:35%">Value (sq.mt)</th>
+                                                    <tr>
+                                                        <tr>
+                                                        <td>1</td>
+                                                        <td>एकूण भूखंडाचे क्षेत्रफळ</td>
+                                                        <td><input readonly type="text" class="form-control form-control--custom number" required="" value="{{ isset($landDetails->total_area) ? $landDetails->total_area : '' }}" name="land[total_area]" id="total_area" readonly placeholder="0.00"></td>
+                                                        
+                                                        </tr>
+                                                        <td>1.a</td>
+
+                                                        <td>भाडेपट्टा करारनामा नुसार क्षेत्रफळ <span class="star">*</span></td>
+                                                        <td><input readonly type="text" class="form-control form-control--custom total_area number" required="" value="{{ isset($landDetails->lease_agreement_area) ? $landDetails->lease_agreement_area : '' }}" name="land[lease_agreement_area]" id="lease_agreement_area" placeholder=""></td>
+                                                    </tr> 
+                                                                                   
+                                                    <tr>
+                                                         <td>1.b</td>    
+                                                        <td>टिट बिट भूखंडाचे क्षेत्रफळ  <span class="star">*</span></td>
+                                                        <td><input readonly type="text" class="form-control form-control--custom total_area number" required="" value="{{ isset($landDetails->tit_bit_area) ? $landDetails->tit_bit_area : '' }}" name="land[tit_bit_area]" id="tit_bit_area" placeholder=""></td>
+                                                    </tr>
+                                                    <tr>
+                                                         <td>1.c</td>    
+                                                        <td>आर जी भूखंडाचे क्षेत्रफळ <span class="star">*</span></td>
+                                                        <td><input readonly type="text" class="form-control form-control--custom total_area number" required="" value="{{ ($landDetails != '' && isset($landDetails->rg_plot_area)) ? $landDetails->rg_plot_area : '' }}" name="land[rg_plot_area]" id="rg_plot_area" placeholder=""></td>
+                                                    </tr>
+                                                    <tr>
+                                                         <td>1.d</td>    
+                                                        <td>पि जि भूखंडाचे क्षेत्रफळ <span class="star">*</span></td>
+                                                        <td><input readonly type="text" class="form-control form-control--custom total_area number" required="" value="{{ ($landDetails != '' && isset($landDetails->pg_plot_area)) ? $landDetails->pg_plot_area : '' }}" name="land[pg_plot_area]" id="pg_plot_area" placeholder=""></td>
+                                                    </tr>
+                                                    <tr>
+                                                         <td>1.e</td>    
+                                                        <td>Road setback  area <span class="star">*</span></td>
+                                                        <td><input readonly type="text" class="form-control form-control--custom total_area number" required="" value="{{ isset($landDetails->road_setback_area) ? $landDetails->road_setback_area : '' }}" name="land[road_setback_area]" id="road_setback_area" placeholder=""></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1.f</td>    
+                                                        <td>Encroachment area <span class="star">*</span></td>
+                                                        <td><input readonly type="text" class="form-control form-control--custom total_area number number" required="" value="{{ isset($landDetails->encroachment_area) ? $landDetails->encroachment_area : '' }}" name="land[encroachment_area]" id="encroachment_area" placeholder=""></td>
+                                                    </tr>
+                                                    <tr>
+                                                         <td>1.g</td>    
+                                                        <td>इतर क्षेत्रफळ  <span class="star">*</span></td>
+                                                        <td><input readonly type="text" class="form-control form-control--custom total_area number number" required="" value="{{ isset($landDetails->another_area) ? $landDetails->another_area : '' }}" name="land[another_area]" id="another_area" placeholder=""></td>
+
+                                                    </tr>
+                                                       <tr>
+                                                        <td>2.</td>
+                                                        <td>अभिन्यासातील भूखंडाचे क्षेत्रफळ <span class="star">*</span></td>
+                                                        <td><input type="text" class="form-control form-control--custom number" required="" value="{{ isset($landDetails->stag_plot_area) ? $landDetails->stag_plot_area : '' }}" name="land[stag_plot_area]" 
+                                                        id="stag_plot_area" placeholder="" readonly></td>
+                                                    </tr>  
+                                                </table>
+
                                                 <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                                     <thead class="thead-default">
-                                                        <th style="width:10%">#</th>
+                                                        <th style="width:10%">Sr.no</th>
                                                         <th class="table-data--xl" style="width:50%">मुद्दा / तपशील</th>
                                                         <th style="width:5%">होय</th>
                                                         <th style="width:5%">नाही</th>
                                                         <th style="width:30%">शेरा</th>
                                                     </thead>
                                                     <tbody>
-                                                        <?php $i = 2; ?>
-                                                        <tr>
+                                                        <?php $i = 3; ?>
+                                                   <!--      <tr>
                                                         <td>1</td>
                                                         <td colspan="4">
                                                             <span>एकूण भूखंडाचे क्षेत्रफळ </span>
@@ -494,7 +552,7 @@
                                                                 </tr>
                                                             </table>
                                                         </td>
-                                                        </tr>
+                                                        </tr> -->
                                                         @foreach($eeScrutinyData->DemarkQuetions as $data)
                                                         <tr>
                                                             <td>{{$i}}</td>
@@ -582,7 +640,7 @@
                                             <div class="table-responsive">
                                                 <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                                     <thead class="thead-default">
-                                                        <th style="width:10%">#</th>
+                                                        <th style="width:10%">Sr.no</th>
                                                         <th class="table-data--xl" style="width:50%">मुद्दा / तपशील</th>
                                                         <th style="width:5%">होय</th>
                                                         <th style="width:5%">नाही</th>
@@ -653,7 +711,7 @@
                                             <div class="table-responsive">
                                                 <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;margin-top: 30px">
                                                     <thead class="thead-default">
-                                                        <th style="width:10%">#</th>
+                                                        <th style="width:10%">Sr.no</th>
                                                         <th class="table-data--xl" style="width:50%">मुद्दा / तपशील</th>
                                                         <th style="width:5%">होय</th>
                                                         <th style="width:5%">नाही</th>
@@ -717,27 +775,29 @@
                                         <div class="mt-3">
                                             @if(count($eeScrutinyData->eeNote) > 0)
                                                 <div class="table-responsive">
-                                                <table class="mt-2 table"> 
+                                                <table class="mt-2 table" id="dtBasicExample"> 
+                                                <thead>
+                                                    <tr>
+                                                        <th>Document Name</th>
+                                                        <th class="text-center">Download</th>
+                                                    </tr>
+                                                </thead> 
                                                 <tbody>                                        
                                                 @foreach($eeScrutinyData->eeNote as $note)
                                                 <tr>
                                                     <td> 
-                                                <!-- <div class="mt-auto">  -->
-                                                <!-- <span>  -->
-                                                @php
-                                                if($note->document_name){
-                                                    $fileName = explode(".",$note->document_name)[0]; 
-                                                }elseif($note->document_path){
-                                                    $fileName = explode(".",explode('/',$note->document_path)[1])[0];
-                                                }
-                                                @endphp 
+                                                        @php
+                                                        if($note->document_name){
+                                                            $fileName = explode(".",$note->document_name)[0]; 
+                                                        }elseif($note->document_path){
+                                                            $fileName = explode(".",explode('/',$note->document_path)[1])[0];
+                                                        }
+                                                        @endphp 
 
-                                                {{ isset($fileName) ? $fileName : ''}} : 
+                                                        {{ isset($fileName) ? $fileName : ''}}  
                                                 </td>
                                                 <td class="text-center">
-                                                    <a download class="btn-link" href="{{ config('commanConfig.storage_server').'/'.$note->document_path}} " target="_blank" download>
-                                                                        Download </a>
-                
+                                                    <a download class="btn-link" href="{{ config('commanConfig.storage_server').'/'.$note->document_path}} " target="_blank" download> Download </a>
                                                 </td>
                                             </tr>
                                                 @endforeach 
@@ -771,10 +831,12 @@
 
     $("#checklist_scrunity").click(function(){
         $(".printBtn").css("display","block");
+        $(".report").css("display","block");
     });    
 
     $(".v-tabs").click(function(){
         $(".printBtn").css("display","none");
+        $(".report").css("display","none");
     });
 
     $(".nested_t").click(function(){
@@ -782,5 +844,10 @@
         $("#selected_tab").html(selected_tab);
     });
     
+    $(document).ready(function () {
+
+        $('#dtBasicExample_wrapper > .row:first-child').remove();
+        $('#dtBasicExample').dataTable({searching: false, ordering:false, info: false});
+    });    
 </script>
 @endsection    

@@ -83,7 +83,7 @@
                                         <thead class="thead-default">
                                             <tr>
                                                 <th class="table-data--xs" style = "border-style: ridge;">
-                                                    #
+                                                    Sr.no
                                                 </th>
                                                 <th style = "border-style: ridge;">
                                                     तपशील
@@ -522,7 +522,7 @@
                                             <thead class="thead-default">
                                                 <tr>
                                                     <th class="table-data--xs" style = "border-style: ridge;">
-                                                        #
+                                                        Sr.no
                                                     </th>
                                                     <th style = "border-style: ridge;">
                                                         तपशील
@@ -730,7 +730,7 @@
                                         <thead class="thead-default">
                                             <tr>
                                                 <th class="table-data--xs" style = "border-style: ridge;">
-                                                    #
+                                                    Sr.no
                                                 </th>
                                                 <th style = "border-style: ridge;">
                                                     तपशील
@@ -944,7 +944,7 @@
                                         <thead class="thead-default">
                                             <tr>
                                                 <th class="table-data--xs" style = "border-style: ridge;">
-                                                    #
+                                                    Sr.no
                                                 </th>
                                                 <th style = "border-style: ridge;">
                                                     तपशील
