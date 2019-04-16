@@ -1039,7 +1039,7 @@ class CommonController extends Controller
             'application_id' => $request->applicationId,
             'user_id' => Auth::user()->id,
             'role_id' => session()->get('role_id'),
-            'status_id' => config('commanConfig.applicationStatus.reverted'),
+            'status_id' => config('commanConfig.applicationStatus.Rejected'),
             'to_user_id' => $request->to_child_id,
             'to_role_id' => $request->to_role_id,
             'remark' => $request->remark,
