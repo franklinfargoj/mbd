@@ -29,7 +29,7 @@
                     {{-- <div class="d-flex align-items-center">
                         <h3 class="section-title section-title--small">
                         </h3>
-                    </div> --}}
+                    </div> --}} 
                     <div class="row">
                         <div class="col-lg-12 form-group">
                             <table class="table">
