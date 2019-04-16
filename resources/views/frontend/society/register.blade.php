@@ -86,7 +86,9 @@
 
                                             <div class="col-sm-6 mhada-sign-up">
                                                 <div class="form-group m-form__group @if($errors->has('society_email')) has-error @endif">
-                                                    <label for="EmailAddress" class="col-form-label">Email Address / Username <span class="star">*</span></label>
+                                                    <label for="EmailAddress" class="col-form-label">
+                                                    Society Email / Username <span class="star">*</span>
+                                                    </label>
                                                     <input id="EmailAddress" class="form-control form-control--custom m-input" type="email"
 
                                                            placeholder="" name="society_email" value="{{ old('society_email') }}">
