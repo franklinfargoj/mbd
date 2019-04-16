@@ -79,7 +79,7 @@ return [
        'OC_Approved' => 24, 
        'OC_Generation' => 25,
        'sent_for_stamp_duty_registration'=>26,
-       'Rejected' => 28
+       'Rejected' => 29
    ],
 
 
@@ -286,7 +286,7 @@ return [
         '23' => 'success', 
         '26'=>'info',
         '27'=>'success',
-        '28' => 'danger',
+        '29' => 'danger',
     ],
 
     'architect_applicationStatus' => [
