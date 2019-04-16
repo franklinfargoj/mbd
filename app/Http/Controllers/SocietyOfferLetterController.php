@@ -654,7 +654,7 @@ class SocietyOfferLetterController extends Controller
 
         if (isset($data) && $applicationCount == 0){
             return redirect()->route('society_oc_edit',encrypt($data->id));
-        }elseif($applicationCount > 0){
+        }elseif(isset($data) && $applicationCount > 0){
             return redirect()->route('society_oc_preview',encrypt($data->id));
         }else{
             return view('frontend.society.show_oc_self', compact('society_details', 'id', 'ids', 'layouts','applicationCount'));
@@ -883,11 +883,13 @@ class SocietyOfferLetterController extends Controller
         $layouts = MasterLayout::all();
         
         $applicationCount = $this->getForwardedOCApplication();
-        $data = OcApplication::where('user_id', Auth::user()->id)->where('application_master_id',$id)
+        $masterIds = OlApplicationMaster::where('title','Consent for OC')->pluck('id')->toArray();
+        $data = OcApplication::where('user_id', Auth::user()->id)->whereIn('application_master_id',$masterIds)
         ->with(['request_form', 'applicationMasterLayout'])->first();
+
         if (isset($data) && $applicationCount == 0){
             return redirect()->route('society_oc_edit',encrypt($data->id));
-        }elseif($applicationCount > 0){
+        }elseif(isset($data) && $applicationCount > 0){
             return redirect()->route('society_oc_preview',encrypt($data->id));
         }else{
             return view('frontend.society.show_oc_dev', compact('society_details', 'id', 'ids', 'layouts'));

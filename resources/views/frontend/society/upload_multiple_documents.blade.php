@@ -143,8 +143,8 @@
                 processData: false,
                 success: function(response) { 
                     if (response.status == 'success'){
-                        $(".loader").hide();
                         location.reload();
+                        $(".loader").hide();
                     }else{
                         alert('Something went wrong, Please contact Admin.');
                     }

@@ -10,6 +10,7 @@
                 {{ Breadcrumbs::render('society_offer_letter_edit',$ol_applications->id) }}&nbsp;({{ $ol_application->ol_application_master->model }})
             </div>
         </div>
+
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
 
@@ -39,7 +40,11 @@
                             <span class="star">*</span> </label>
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" data-live-search="true" id="layouts" name="layout_id" required>
                                 @foreach($layouts as $layout)
-                                    <option value="{{ $layout['id'] }}">{{ $layout['layout_name'] }}</option>
+                                    @if(isset($ol_applications) && $ol_applications->layout_id == $layout['id'])
+                                        <option value="{{ $layout['id'] }}" selected>{{ $layout['layout_name'] }}</option>
+                                    @else
+                                        <option value="{{ $layout['id'] }}">{{ $layout['layout_name'] }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                             <span class="help-block">{{$errors->first('application_type_id')}}</span>
@@ -67,7 +72,7 @@
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="date_of_meeting">Resolution Date: <span class="star">*</span></label>
-                            <input type="text" id="m_datepicker" name="date_of_meeting" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($ol_application->request_form->date_of_meeting)) }}">
+                            <input type="text" id="m_datepicker" name="date_of_meeting" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($ol_application->request_form->date_of_meeting)) }}" readonly>
                             <span class="help-block">{{$errors->first('date_of_meeting')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">

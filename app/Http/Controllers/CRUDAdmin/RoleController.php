@@ -26,7 +26,7 @@ class RoleController extends Controller
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'name','name' => 'name','title' => 'Name'],
-            ['data' => 'display_name','name' => 'display_name','title' => 'Dispaly Name'],
+            ['data' => 'display_name','name' => 'display_name','title' => 'Display Name'],
             ['data' => 'description','name' => 'description','title' => 'Description'],
             ['data' => 'redirect_to', 'name' => 'redirect_to', 'title' => 'Redirect To'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],

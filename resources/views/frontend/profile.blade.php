@@ -23,6 +23,7 @@
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
             <form id="update_profile" role="form" method="post" class="m-form m-form--rows m-form--label-align-right floating-labels-form" action=" @if(session()->all(['role_name']) == config('commanConfig.society_offer_letter')) {{ route('society.update_profile') }} @else {{ route('admin.update_profile') }} @endif " enctype="multipart/form-data">
                 @csrf
+
                 <div class="m-portlet__body m-portlet__body--spaced">
                     @for($i=0; $i < count($field_names); $i++)
                         @if($i != 0) @php $i++; @endphp @endif
@@ -36,7 +37,12 @@
                                 @if($type != 'hidden')
                                     <div class="col-sm-4 form-group">
                                         <label class="col-form-label" for="{{ $field_names[$i] }}">@php $labels = implode(' ', explode('_', $field_names[$i])); echo ucwords($labels); @endphp:</label>
-                                        @if($field_names[$i] != 'email') @php echo $comm_func->form_fields($field_names[$i], $type, '', '', $value, '') @endphp @else @php echo $value; @endphp @endif
+                                        @if($field_names[$i] == 'email')
+                                            @php  $readonly = 'readonly'; @endphp
+                                        @else
+                                            @php $readonly = ''; @endphp
+                                        @endif
+                                        @php echo $comm_func->form_fields($field_names[$i], $type, '', '', $value, $readonly) @endphp {{--@else @php echo $value; @endphp--}}
                                         <span class="help-block" id="{{ $field_names[$i] }}-error">{{$errors->first($field_names[$i])}}</span>
                                     </div>
                                 @endif
@@ -50,7 +56,12 @@
                                     @if($type_1 != 'hidden')
                                         <div class="col-sm-4 form-group">
                                             <label class="col-form-label" for="{{ $field_names[$i+1] }}">@php $labels = implode(' ', explode('_', $field_names[$i+1])); echo ucwords($labels); @endphp:</label>
-                                            @if($field_names[$i+1] != 'email') @php echo $comm_func->form_fields($field_names[$i+1], $type_1, '', '', $value_1, '') @endphp @else <p> <b> @php echo $value_1; @endphp </b> </p> @endif
+                                            @if($field_names[$i+1] == 'email')
+                                                @php  $readonly = 'readonly'; @endphp
+                                            @else
+                                                @php $readonly = ''; @endphp
+                                            @endif
+                                            @php echo $comm_func->form_fields($field_names[$i+1], $type_1, '', '', $value_1, $readonly) @endphp {{--@else <p style=""> <b> @php echo $value_1; @endphp </b> </p>--}}
                                             <input type="hidden" name="id" value="{{ encrypt($users->id) }}">
                                             <span class="help-block" id="{{ $field_names[$i+1] }}-error">{{$errors->first($field_names[$i+1])}}</span>
                                         </div>

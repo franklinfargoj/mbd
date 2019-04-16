@@ -1063,6 +1063,7 @@ function geturl(view_route) {
 }
 
 $(document).ready(function() {
+    $('input').attr('autocomplete', 'off');
     $(".display_msg")
         .delay(5000)
         .slideUp(300);
