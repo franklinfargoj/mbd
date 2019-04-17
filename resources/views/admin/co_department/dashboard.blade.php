@@ -342,7 +342,7 @@
                             "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    <th style=\"width: 15%;\">Action</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n" ;
@@ -456,7 +456,7 @@
                             "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    <th style=\"width: 15%;\">Action</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n" ;
@@ -571,7 +571,7 @@
                             "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n" ;
 
@@ -686,7 +686,7 @@
                             "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    <th style=\"width: 15%;\">Action</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n" ;
@@ -814,7 +814,7 @@
                             "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n" ;
 
@@ -926,7 +926,7 @@
                             "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    <th style=\"width: 15%;\">Action</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n" ;
@@ -1041,7 +1041,7 @@
                             "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n" ;
 
@@ -1150,7 +1150,7 @@
                             "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    <th style=\"width: 15%;\">Action</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n" ;
@@ -1200,10 +1200,10 @@
                             html_pending +=
                                 "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
                                 "                                <table class=\"table text-center\">\n" +
-                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                    <thead>\n" +
                                 "                                        <tr>\n" +
                                 "                                            <th>Header</th>\n" +
-                                "                                            <th>Count</th>\n" +
+                                "                                            <th>Counts</th>\n" +
                                 "                                        </tr>\n" +
                                 "                                    </thead>\n" +
                                 "                                    <tbody id=\"pending_applications\">\n";
@@ -1226,10 +1226,10 @@
                             html_sent_to_society +=
                                 "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
                                 "                                <table class=\"table text-center\">\n" +
-                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                    <thead>\n" +
                                 "                                        <tr>\n" +
                                 "                                            <th>Header</th>\n" +
-                                "                                            <th>Count</th>\n" +
+                                "                                            <th>Counts</th>\n" +
                                 "                                        </tr>\n" +
                                 "                                    </thead>\n" +
                                 "                                    <tbody id=\"pending_applications\">\n";
@@ -1331,7 +1331,7 @@
                             "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n" ;
 
@@ -1442,7 +1442,7 @@
                             "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n" ;
 
@@ -1555,10 +1555,10 @@
                             "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
-                            "                                    <thead class=\"thead-default\">\n" +
+                            "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    <th style=\"width: 15%;\">Action</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n" ;
@@ -1608,10 +1608,10 @@
                             html_pending +=
                                 "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
                                 "                                <table class=\"table text-center\">\n" +
-                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                    <thead>\n" +
                                 "                                        <tr>\n" +
                                 "                                            <th>Header</th>\n" +
-                                "                                            <th>Count</th>\n" +
+                                "                                            <th>Counts</th>\n" +
                                 "                                        </tr>\n" +
                                 "                                    </thead>\n" +
                                 "                                    <tbody id=\"pending_applications\">\n";
@@ -1710,10 +1710,10 @@
                             "                        <div class=\"m-portlet mhada-m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
-                            "                                    <thead class=\"thead-default\">\n" +
+                            "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n" ;
 
@@ -1825,7 +1825,7 @@
                             "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    <th style=\"width: 15%;\">Action</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n";
@@ -1939,7 +1939,7 @@
                             "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n";
 

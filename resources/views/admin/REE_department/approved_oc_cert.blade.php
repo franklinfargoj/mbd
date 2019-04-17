@@ -129,7 +129,7 @@
     <!-- end -->
     <!-- Site Visit -->
         @php $disable = ''; 
-          if($applicationData->ree_Jr_id && $applicationLog->status_id != config('commanConfig.applicationStatus.forwarded') && $applicationLog->status_id !=
+          if($applicationData->ree_Jr_id && $oc_application->status_id != config('commanConfig.applicationStatus.forwarded') && $oc_application->status_id !=
           config('commanConfig.applicationStatus.reverted') && (!isset($oc_application->oc_path))){
             $disable = '';
           }else{
@@ -162,7 +162,7 @@
                     </div>
                 </div>
 
-            @if($applicationData->ree_Jr_id && !empty($applicationData->oc_path) && $applicationData->OC_Generation_status == config('commanConfig.applicationStatus.OC_Approved'))
+            @if($applicationData->ree_Jr_id && !empty($applicationData->oc_path) && $applicationData->OC_Generation_status == config('commanConfig.applicationStatus.OC_Approved') && $oc_application->status->status_id != config('commanConfig.applicationStatus.forwarded'))
                 <div class="row field-row">
                     <div class="col-md-6">
                         
@@ -183,7 +183,7 @@
                     </div>
             @endif
                 </form>
-                    @if($applicationData->ree_head && $applicationData->OC_Generation_status == config('commanConfig.applicationStatus.in_process') || ($applicationData->OC_Generation_status == config('commanConfig.applicationStatus.OC_Approved')))
+                    @if($applicationData->ree_head && ($applicationData->OC_Generation_status == config('commanConfig.applicationStatus.in_process') || ($applicationData->OC_Generation_status == config('commanConfig.applicationStatus.OC_Approved'))) && $oc_application->status->status_id != config('commanConfig.applicationStatus.forwarded'))
                     <div class="col-sm-6 mt-4">
                         <div class="d-flex flex-column h-100">
                             <h5>Upload Consent for Oc</h5>
@@ -199,7 +199,7 @@
                             <span class="text-danger" id="file_error"></span>
                             </div>
                             <div class="mt-auto">
-                            <button type="submit" onclick="return confirm('Are you sure you want to upload the copy of Consent for OC.Please note once you upload, the same would be finalized and would be uneditable.');" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
                             </div>
                             </form>
                         </div>

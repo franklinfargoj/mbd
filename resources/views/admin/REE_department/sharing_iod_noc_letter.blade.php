@@ -974,20 +974,6 @@
                 <p style="padding-left: 5px; padding-right: 5px;">It is, therefore, directed that the proposed work should be carried out strictly adhering to the terms and conditions as mentioned above. In case of any breach to above condition &amp; other terms and conditions annexed herewith, the NOC will stand cancelled.</p>
                 <p>Now, MHADA is considering the proposal for amendment of the layout for <strong>{{ isset($calculationData) ? $calculationData->permissible_carpet_area_coordinates : '________' }} </strong> FSI. Further <strong>{{ isset($calculationData) ? $calculationData->permissible_carpet_area_coordinates : '________' }} </strong> FSI is granted to the applicant on the notionally sub-divided area, hence the proposal should be considered for <strong>{{ isset($calculationData) ? $calculationData->permissible_carpet_area_coordinates : '________' }} </strong> FSI and all the directives given in the DCR 33(5), dated 08.10.2013 &amp; it's modification dated 03.07.2017 shall be applicable to the applicant.</p>
                 <p>Encl.: Annexure-I</p>
-            
-                <p><b>(Draft approved by CO/MB)</b></p>
-                <table style="width: 100%; border-collapse: collapse;">
-                    <tbody>
-                        <tr valign="top">
-                            <td align="right">
-                                <p>Sd/-</p>
-                                <p>({{ isset($reeHead) ? $reeHead : '________'}})</p>
-                                <p><b>Resident Executive Engineer.</b></p>
-                                <p><b>M. H. &amp; A. D. Board</b></p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
                 
                 <p><b>Copy to</b> : The Secretary,Bldg.No.<strong>{{($model->eeApplicationSociety->building_no ? $model->eeApplicationSociety->building_no : '')}}</strong>, known as 
                 <strong> {{($model->eeApplicationSociety->name ? $model->eeApplicationSociety->name : '')}} ( {{($model->eeApplicationSociety->address ? $model->eeApplicationSociety->address : '')}} )</strong></p>
@@ -1011,21 +997,6 @@
                 <p>3) Chief Accounts Office/M.B.</p>
                 <p>He is directed to recover the amount of offer letter on time &amp; furnish certified copy to this office. As well as check above calculation of offer letter thoroughly. If any changes/irregularities found in the said offer letter intimate to this office accordingly.</p>
                 <p style="top:30px">4) Sr. Clerk for MIS record.</p>
-                <p><b>(Draft approved by CO/MB)</b></p>
-                <p><br></p>
-                <table style="width: 100%; border-collapse: collapse;">
-                    <tbody>
-                        <tr valign="top">
-                            <td align="right">
-                                <p><br></p>
-                                <p>Sd/-</p>
-                                <p>({{ isset($reeHead) ? $reeHead : '________'}})</p>
-                                <p><b>Resident Executive Engineer.</b></p>
-                                <p><b>M. H. &amp; A. D. Board</b></p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
                 <p><br></p>
                <!--  <p align="center"><b>ANNEXURE–I</b></p>
                 <p><b>(Conditions made applicable to NOC granted vide No. CO /MB /REE/NOC /F-976/ /2018, Date :______________________)</b></p> -->

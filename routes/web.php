@@ -540,6 +540,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         Route::get('download_approved_offer_letter/{id}', 
             'SocietyOfferLetterController@downloadApprovedOfferLetter')->name('download_approved_offer_letter');
 
+        Route::get('view_rejected_remark/{id}', 
+            'SocietyOfferLetterController@viewRejectedRemark')->name('view_rejected_remark');
+
         Route::get('society_offer_letter_edit/{id}', 'SocietyOfferLetterController@editOfferLetterApplication')->name('society_offer_letter_edit');
         Route::post('society_offer_letter_update', 'SocietyOfferLetterController@updateOfferLetterApplication')->name('society_offer_letter_update');
 
@@ -918,7 +921,7 @@ Route::get('sharing-calculation-sheet', 'REEDepartment\REEController@SharingCalc
 Route::get('offer_letter','REEDepartment\REEController@offerLetter')->name('offer_letter');
 
 // Route::get('pdfMerge', 'REEDepartment\REEController@pdfMerge')->name('ree.pdfMerge');
-Route::get('approved_offer_lettershow_form_dev/{id}','REEDepartment\REEController@approvedOfferLetter')->name('ree.approved_offer_letter');
+Route::get('approved_offer_letter/{id}','REEDepartment\REEController@approvedOfferLetter')->name('ree.approved_offer_letter');
 Route::get('generate_offer_letter/{id}', 'REEDepartment\REEController@GenerateOfferLetter')->name('ree.generate_offer_letter');
 
 Route::get('approved_reval_offer_letter/{id}','REEDepartment\REEController@approvedRevalOfferLetter')->name('ree.approved_reval_offer_letter');
@@ -1366,6 +1369,7 @@ Route::get('ee-forward-application-oc/{id}','EEDepartment\EEController@forwardAp
 Route::post('ee_forward_oc_application_data','EEDepartment\EEController@sendForwardOcApplication')->name('ee.forward_oc_application_data');
 Route::post('upload_oc_scrutiny_documents','EEDepartment\EEController@uploadOCScrutinyDocuments')->name('ee.upload_oc_scrutiny_documents');
 Route::post('delete_oc_note','EEDepartment\EEController@deleteOCNote')->name('ee.delete_oc_note');
+Route::get('oc_ee_variation_report/{id}','EEDepartment\EEController@OCVariationReport')->name('ee.oc_ee_variation_report');
 
 // EM Routes consent for OC
 
@@ -1373,6 +1377,9 @@ Route::get('consentoc_em','EMDepartment\EMController@consent_for_oc')->name('em.
 Route::get('view_oc_application_em/{id}','EMDepartment\EMController@viewOCApplication')->name('em.view_oc_application');
 Route::get('society_documents_oc_em/{id}', 'EMDepartment\EMController@societyDocumentsOC')->name('em.society_documents_oc');
 Route::get('no_dues_certificate_em_oc/{id}', 'EMDepartment\EMController@generateNoDueCertificateOc')->name('em.no_dues_certifitce');
+
+Route::post('upload_oc_no_dues_certificate', 'EMDepartment\EMController@uploadOCNoDuesCertificate')->name('em.upload_oc_no_dues_certificate');
+
 Route::get('create_edit_noduecert/{id}', 'EMDepartment\EMController@createEditNoDueCert')->name('em.create_edit_ndc');
 Route::post('save_no_dues_cert_em', 'EMDepartment\EMController@saveNoDuesCertOc')->name('em.save_no_dues_cert_oc');
 Route::post('upload_em_note_oc','EMDepartment\EMController@uploadOfficeNoteOcEM')->name('em.upload_office-note-oc');

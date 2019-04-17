@@ -91,7 +91,7 @@ class SocietyTripatiteController extends Controller
         $ol_application = OlApplication::create($input_arr_ol_applications);
 
         $role_id = Role::where('name', config('commanConfig.ree_junior'))->first();
-        $user_ids = RoleUser::where('role_id', $role_id->id)->get();
+        $user_ids = RoleUser::where('role_id', $role_id->id)->pluck('user_id')->toArray();
         $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
 
         foreach ($layout_user_ids as $key => $value) {
@@ -186,7 +186,7 @@ class SocietyTripatiteController extends Controller
         $ol_application = OlApplication::where('id', $request->application_id)->update($input_arr_ol_applications);
 
         $role_id = Role::where('name', config('commanConfig.ree_junior'))->first();
-        $user_ids = RoleUser::where('role_id', $role_id->id)->get();
+        $user_ids = RoleUser::where('role_id', $role_id->id)->pluck('user_id')->toArray();
         $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
 
         foreach ($layout_user_ids as $key => $value) {
@@ -227,9 +227,14 @@ class SocietyTripatiteController extends Controller
         $data = OlApplication::where('user_id', auth()->user()->id)->where('application_master_id',$id)->with(['request_form', 'ol_application_master', 'applicationMasterLayout'])->orderBy('id','desc')->first();
 
         if (isset($data)){
-            return redirect()->route('tripartite_application_form_edit',encrypt($data->id));
+            if($data->current_phase > 0){
+                return redirect()->route('tripartite_application_form_preview',encrypt($data->id));
+            }
+            else{
+                return redirect()->route('tripartite_application_form_edit',encrypt($data->id));
+            }
         }else{
-            return view('frontend.society.tripatite.show_tripatite_dev', compact('society_details', 'id', 'ids', 'layouts', 'form_fields', 'layouts', 'comm_func'));  
+            return view('frontend.society.tripatite.show_tripatite_dev', compact('society_details', 'id', 'ids', 'layouts', 'form_fields', 'layouts', 'comm_func'));
         }        
     }
 
@@ -262,7 +267,7 @@ class SocietyTripatiteController extends Controller
 
 
         $role_id = Role::where('name', config('commanConfig.ree_junior'))->first();
-        $user_ids = RoleUser::where('role_id', $role_id->id)->get();
+        $user_ids = RoleUser::where('role_id', $role_id->id)->pluck('user_id')->toArray();
         $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
 
         foreach ($layout_user_ids as $key => $value) {
@@ -437,7 +442,7 @@ class SocietyTripatiteController extends Controller
 
 
         $role_id = Role::where('name', config('commanConfig.ree_junior'))->first();
-        $user_ids = RoleUser::where('role_id', $role_id->id)->get();
+        $user_ids = RoleUser::where('role_id', $role_id->id)->pluck('user_id')->toArray();
         $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
         foreach ($layout_user_ids as $key => $value) {
             $select_user_ids[] = $value['user_id'];
@@ -597,9 +602,10 @@ class SocietyTripatiteController extends Controller
                 $role_id = Role::where('name', config('commanConfig.ree_junior'))->first();
                 $ol_applications = OlApplication::where('society_id', $society->id)->where('id', $request->input('id'))->first();
 
-                $user_ids = RoleUser::where('role_id', $role_id->id)->get();
 
+                $user_ids = RoleUser::where('role_id', $role_id->id)->pluck('user_id')->toArray();
                 $layout_user_ids = LayoutUser::where('layout_id', $ol_applications->layout_id)->whereIn('user_id', $user_ids)->get();
+
                 foreach ($layout_user_ids as $key => $value) {
                     $select_user_ids[] = $value['user_id'];
                 }

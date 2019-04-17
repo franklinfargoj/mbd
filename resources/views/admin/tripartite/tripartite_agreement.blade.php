@@ -19,6 +19,12 @@
                 </div>
             </div>
         </div>
+        @if(Session::has('error'))
+            <p class="alert alert-danger mt-2">{{ Session::get('error') }}</p>
+        @endif
+        @if(Session::has('success'))
+            <p class="alert alert-success mt-2">{{ Session::get('success') }}</p>
+        @endif
         <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
             <div class="portlet-body">
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
@@ -273,7 +279,7 @@
         @if(($ol_application->current_phase > 2) && (($applicationLog->status_id == config('commanConfig.applicationStatus.in_process')) || $generated_letter2 != null || $stamped_signed_letter2 != null))
             <div class="m-portlet m-portlet--mobile m_panel">
                 <div class="m-portlet__body" style="padding-right: 0;">
-                    @if($ol_application->current_phase == 3)
+                    @if($ol_application->current_phase == 4)
                         @if(session()->get('role_name')==config('commanConfig.ree_junior'))
                             <h3 class="section-title section-title--small mb-0">Letter for Execution and Registartion of
                                 Agreement:</h3>

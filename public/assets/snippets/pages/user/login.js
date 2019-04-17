@@ -677,9 +677,12 @@ var SnippetLogin = function() {
                     rules: {
                         lease_rule_other: {
                             required: !0,
+                            alphanumeric:true
+
                         },
                         lease_basis: {
-                            required: !0
+                            required: !0,
+                            alphanumeric:true
                         },
                         area: {
                             required: !0,

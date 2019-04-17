@@ -24,6 +24,14 @@
 </div>
 @endif
 
+@php
+if(isset($societyData->offer_letter_document_path))
+    $document=$societyData->offer_letter_document_path;
+else if(isset($societyData->drafted_offer_letter))
+    $document = $societyData->drafted_offer_letter;
+
+@endphp       
+
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="d-flex">
@@ -158,17 +166,19 @@
 
                     @if($societyData->ree_Jr_id)
                     <h3 class="section-title section-title--small mb-0">Offer Letter:</h3>
-                    <div class=" row-list">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p class="font-weight-semi-bold">Edit Offer letter</p>
-                                <p>Click to view generated offer letter in PDF format</p>
-                                <a href="{{route('ree.edit_offer_letter',encrypt($societyData->id))}}" class="btn btn-primary">
-                                    Edit</a>
-                                <!-- <button type="submit">Edit offer Letter </button> -->
+                        @if($societyData->ree_Jr_id && $applicationLog->status_id != config('commanConfig.applicationStatus.forwarded'))
+                            <div class=" row-list">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="font-weight-semi-bold">Edit Offer letter</p>
+                                        <p>Click to view generated offer letter in PDF format</p>
+                                        <a href="{{route('ree.edit_offer_letter',encrypt($societyData->id))}}" class="btn btn-primary">
+                                            Edit</a>
+                                        <!-- <button type="submit">Edit offer Letter </button> -->
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        @endif
                     @endif
                     <div class="w-100 row-list">
                         <div class="">
@@ -178,11 +188,11 @@
                                         <h5>Download Offer Letter</h5>
                                         <div class="mt-auto">
 
-                                            @if($societyData->drafted_offer_letter)
-                                            <a href="{{config('commanConfig.storage_server').'/'.$societyData->drafted_offer_letter}}" class="btn btn-primary" target="_blank">Download</a>
+                                            @if(isset($societyData->drafted_offer_letter) || isset($societyData->offer_letter_document_path))
+                                            <a href="{{config('commanConfig.storage_server').'/'.$document}}" class="btn btn-primary" target="_blank">Download</a>
                                             @else
                                             <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                                * Note : Offer Letter not available. </span>
+                                                * Note : Offer Letter is not generated. </span>
                                             @endif
                                         </div>
                                     </div>
@@ -201,12 +211,9 @@
                                                     id="test-upload" required="required">
                                                 <label class="custom-file-label" for="test-upload">Choose
                                                     file...</label>
-                                                @if(isset($societyData->offer_letter_document_path))
-                                                 <a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server').'/'.$societyData->offer_letter_document_path }}" download>Download</a> 
-                                                @endif    
                                                 <span class="text-danger" id="file_error"></span>
                                             </div>
-                                            <div class="mt-2">
+                                            <div class="mt-auto">
                                                 <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
                                             </div>
                                         </form>
@@ -221,7 +228,7 @@
 
             @if($societyData->ree_branch_head && $societyData->status_offer_letter ==
             config('commanConfig.applicationStatus.offer_letter_generation') && $applicationLog->status_id !=
-            config('commanConfig.applicationStatus.forwarded'))
+            config('commanConfig.applicationStatus.forwarded') && isset($document))
             <form role="form" id="sendForApproval" style="margin-top: 30px;" name="sendForApproval" class="form-horizontal"
                 method="post" action="{{ route('ree.send_for_approval')}}" enctype="multipart/form-data">
                 @csrf

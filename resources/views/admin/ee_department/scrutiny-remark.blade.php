@@ -194,13 +194,16 @@ if($latest){
                     config('commanConfig.applicationStatus.forwarded')))
                     { $style = "display:none";
                     $disabled='disabled';
+                    $readonly = 'readonly';
                     }elseif (session()->get('role_name') != config('commanConfig.ee_junior_engineer'))
                     { $style = "display:none";
                     $disabled='disabled';
+                    $readonly = 'readonly';
                     }else
                     {
                     $style = "";
                     $disabled="";
+                    $readonly = '';
                     }
                     @endphp
 <div class="panel active section-1" id="document-scrunity">
@@ -433,7 +436,7 @@ if($latest){
                                     Consent Verification</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link nested_t" data-toggle="pill" href="#demarcation" id="nested_tab_3" next_tab = "nested_tab_2" data-tab="Demarcation">
+                                <a class="nav-link nested_t" data-toggle="pill" href="#demarcation" id="nested_tab_2" next_tab = "nested_tab_3" data-tab="Demarcation">
                                     Demarcation</a>
                             </li>
                             <li class="nav-item">
@@ -481,9 +484,8 @@ if($latest){
                                                         <label for="name">अभिन्यास (Layout):<span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
-                                                        <input type="text" {{$disabled}} class="form-control form-control--custom"
-                                                            name="layout" id="name" value="{{ isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->layout : $layoutName }}"
-                                                            required>
+                                                        <input type="text" class="form-control form-control--custom"
+                                                            name="layout" id="name" value="{{ isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->layout : $layoutName }}" {{ $readonly }} required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -493,7 +495,7 @@ if($latest){
                                                         <label for="notice_detail">नोटीस चा तपशील: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
-                                                        <input {{$disabled}} type="text" class="form-control form-control--custom"
+                                                        <input {{$readonly}} type="text" class="form-control form-control--custom"
                                                             value="{{ isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->details_of_notice : $noticeDetails }}"
                                                             name="details_of_notice" id="notice_detail" placeholder=""
                                                             required>
@@ -506,7 +508,7 @@ if($latest){
                                                         <label for="investigation_officer">तपासणी अधिकाऱ्यांचे नाव: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
-                                                        <input {{$disabled}} type="text" class="form-control form-control--custom"
+                                                        <input {{$readonly}} type="text" class="form-control form-control--custom"
                                                             value="{{ isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->investigation_officer_name : $officierName}}"
                                                             name="investigation_officer_name" id="investigation_officer"
                                                             required>
@@ -519,7 +521,7 @@ if($latest){
                                                         <label for="m_datepicker">तपासणी दिनांक: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
-                                                        <input {{$disabled}} type="text" class="form-control form-control--custom m_datepicker"
+                                                        <input {{$readonly}} type="text" class="form-control form-control--custom m_datepicker"
                                                             value="{{isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->date_of_investigation : $investDate }}"
                                                             name="date_of_investigation" required placeholder="">
                                                     </div>
@@ -577,7 +579,7 @@ if($latest){
                                                                 </label>
                                                             </td>
                                                             <td>
-                                                                <textarea {{$disabled}} style="border-top: none;resize: none;" class="form-control form-control--custom form-control--textarea"
+                                                                <textarea {{$readonly}} style="border-top: none;resize: none;" class="form-control form-control--custom form-control--textarea"
                                                                     name="remark[{{$i}}]" id="remark-one">{{ isset($arrData['consent_verification_details_data'][$consent_question->id]) ? $arrData['consent_verification_details_data'][$consent_question->id]['remark'] : '' }}</textarea>
                                                             </td>
                                                         </tr>
@@ -628,7 +630,7 @@ if($latest){
                                                         <label for="name">अभिन्यास (Layout):<span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
-                                                        <input {{$disabled}} type="text" class="form-control form-control--custom"
+                                                        <input {{$readonly}} type="text" class="form-control form-control--custom"
                                                             required value="{{ isset($arrData['demarcation_checkist_data']) ? $arrData['demarcation_checkist_data']->layout : $layoutName}}"
                                                             name="layout" id="name">
                                                     </div>
@@ -640,7 +642,7 @@ if($latest){
                                                         <label for="building-no">नोटीस चा तपशील: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
-                                                        <input {{$disabled}} type="text" class="form-control form-control--custom"
+                                                        <input {{$readonly}} type="text" class="form-control form-control--custom"
                                                             required value="{{ isset($arrData['demarcation_checkist_data']) ? $arrData['demarcation_checkist_data']->details_of_notice : $noticeDetails }}"
                                                             name="details_of_notice" id="building-no" placeholder="">
                                                     </div>
@@ -652,7 +654,7 @@ if($latest){
                                                         <label for="name">तपासणी अधिकाऱ्यांचे नाव: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
-                                                        <input {{$disabled}} type="text" class="form-control form-control--custom"
+                                                        <input {{$readonly}} type="text" class="form-control form-control--custom"
                                                             required value="{{ isset($arrData['demarcation_checkist_data']) ? $arrData['demarcation_checkist_data']->investigation_officer_name : $officierName}}"
                                                             name="investigation_officer_name" id="name">
                                                     </div>
@@ -664,7 +666,7 @@ if($latest){
                                                         <label for="building-no">स्थळ पाहणी दिनांक:<span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
-                                                        <input {{$disabled}} type="text" class="form-control form-control--custom m_datepicker"
+                                                        <input {{$readonly}} type="text" class="form-control form-control--custom m_datepicker"
                                                             required value="{{isset($arrData['demarcation_checkist_data']) ? $arrData['demarcation_checkist_data']->date_of_investigation : $investDate }}"
                                                             name="date_of_investigation" id="demarcation_date" placeholder="">
                                                     </div>
@@ -683,53 +685,54 @@ if($latest){
                                                         <tr>
                                                         <td>1</td>
                                                         <td>एकूण भूखंडाचे क्षेत्रफळ</td>
-                                                        <td><input {{$disabled}} type="text" class="form-control form-control--custom number" required="" value="{{ isset($landDetails->total_area) ? $landDetails->total_area : '' }}" name="land[total_area]" id="total_area" readonly placeholder="0.00"></td>
+                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom number" required="" value="{{ isset($landDetails->total_area) ? $landDetails->total_area : '' }}" name="land[total_area]" id="total_area" readonly placeholder="0.00"></td>
                                                         
                                                         </tr>
                                                         <td>1.a</td>
 
                                                         <td>भाडेपट्टा करारनामा नुसार क्षेत्रफळ <span class="star">*</span></td>
-                                                        <td><input {{$disabled}} type="text" class="form-control form-control--custom total_area number" required="" value="{{ isset($landDetails->lease_agreement_area) ? $landDetails->lease_agreement_area : '' }}" name="land[lease_agreement_area]" id="lease_agreement_area" placeholder=""></td>
+                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom total_area number" required="" value="{{ isset($landDetails->lease_agreement_area) ? $landDetails->lease_agreement_area : '' }}" name="land[lease_agreement_area]" id="lease_agreement_area" placeholder=""></td>
                                                     </tr> 
                                                                                    
                                                     <tr>
                                                          <td>1.b</td>    
                                                         <td>टिट बिट भूखंडाचे क्षेत्रफळ  <span class="star">*</span></td>
-                                                        <td><input {{$disabled}} type="text" class="form-control form-control--custom total_area number" required="" value="{{ isset($landDetails->tit_bit_area) ? $landDetails->tit_bit_area : '' }}" name="land[tit_bit_area]" id="tit_bit_area" placeholder=""></td>
+                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom total_area number" required="" value="{{ isset($landDetails->tit_bit_area) ? $landDetails->tit_bit_area : '' }}" name="land[tit_bit_area]" id="tit_bit_area" placeholder=""></td>
                                                     </tr>
                                                     <tr>
                                                          <td>1.c</td>    
                                                         <td>आर जी भूखंडाचे क्षेत्रफळ <span class="star">*</span></td>
-                                                        <td><input {{$disabled}} type="text" class="form-control form-control--custom total_area number" required="" value="{{ ($landDetails != '' && isset($landDetails->rg_plot_area)) ? $landDetails->rg_plot_area : '' }}" name="land[rg_plot_area]" id="rg_plot_area" placeholder=""></td>
+                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom total_area number" required="" value="{{ ($landDetails != '' && isset($landDetails->rg_plot_area)) ? $landDetails->rg_plot_area : '' }}" name="land[rg_plot_area]" id="rg_plot_area" placeholder=""></td>
                                                     </tr>
                                                     <tr>
                                                          <td>1.d</td>    
                                                         <td>पि जि भूखंडाचे क्षेत्रफळ <span class="star">*</span></td>
-                                                        <td><input {{$disabled}} type="text" class="form-control form-control--custom total_area number" required="" value="{{ ($landDetails != '' && isset($landDetails->pg_plot_area)) ? $landDetails->pg_plot_area : '' }}" name="land[pg_plot_area]" id="pg_plot_area" placeholder=""></td>
+                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom total_area number" required="" value="{{ ($landDetails != '' && isset($landDetails->pg_plot_area)) ? $landDetails->pg_plot_area : '' }}" name="land[pg_plot_area]" id="pg_plot_area" placeholder=""></td>
                                                     </tr>
                                                     <tr>
                                                          <td>1.e</td>    
                                                         <td>Road setback  area <span class="star">*</span></td>
-                                                        <td><input {{$disabled}} type="text" class="form-control form-control--custom total_area number" required="" value="{{ isset($landDetails->road_setback_area) ? $landDetails->road_setback_area : '' }}" name="land[road_setback_area]" id="road_setback_area" placeholder=""></td>
+                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom total_area number" required="" value="{{ isset($landDetails->road_setback_area) ? $landDetails->road_setback_area : '' }}" name="land[road_setback_area]" id="road_setback_area" placeholder=""></td>
                                                     </tr>
                                                     <tr>
                                                         <td>1.f</td>    
                                                         <td>Encroachment area <span class="star">*</span></td>
-                                                        <td><input {{$disabled}} type="text" class="form-control form-control--custom total_area number number" required="" value="{{ isset($landDetails->encroachment_area) ? $landDetails->encroachment_area : '' }}" name="land[encroachment_area]" id="encroachment_area" placeholder=""></td>
+                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom total_area number number" required="" value="{{ isset($landDetails->encroachment_area) ? $landDetails->encroachment_area : '' }}" name="land[encroachment_area]" id="encroachment_area" placeholder=""></td>
                                                     </tr>
                                                     <tr>
                                                          <td>1.g</td>    
                                                         <td>इतर क्षेत्रफळ  <span class="star">*</span></td>
-                                                        <td><input {{$disabled}} type="text" class="form-control form-control--custom total_area number number" required="" value="{{ isset($landDetails->another_area) ? $landDetails->another_area : '' }}" name="land[another_area]" id="another_area" placeholder=""></td>
+                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom total_area number number" required="" value="{{ isset($landDetails->another_area) ? $landDetails->another_area : '' }}" name="land[another_area]" id="another_area" placeholder=""></td>
 
                                                     </tr>
                                                        <tr>
                                                         <td>2.</td>
                                                         <td>अभिन्यासातील भूखंडाचे क्षेत्रफळ <span class="star">*</span></td>
-                                                        <td><input {{$disabled}} type="text" class="form-control form-control--custom number" required="" value="{{ isset($landDetails->stag_plot_area) ? $landDetails->stag_plot_area : '' }}" name="land[stag_plot_area]" 
+                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom number" required="" value="{{ isset($landDetails->stag_plot_area) ? $landDetails->stag_plot_area : '' }}" name="land[stag_plot_area]" 
                                                         id="stag_plot_area" placeholder=""></td>
                                                     </tr>  
                                                 </table>
+                                                
                                                 <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
                                                     <thead class="thead-default">
                                                         <th style="width:10%">Sr.no</th>
@@ -838,7 +841,7 @@ if($latest){
                                                         <label for="name">अभिन्यास (Layout):<span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
-                                                        <input {{$disabled}} type="text" class="form-control form-control--custom"
+                                                        <input {{$readonly}} type="text" class="form-control form-control--custom"
                                                             required value="{{ isset($arrData['tit_bit_checkist_data']) ? $arrData['tit_bit_checkist_data']->layout : $layoutName }}"
                                                             name="layout" id="name">
                                                     </div>
@@ -850,7 +853,7 @@ if($latest){
                                                         <label for="building-no">नोटीस चा तपशील: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
-                                                        <input {{$disabled}} type="text" class="form-control form-control--custom"
+                                                        <input {{$readonly}} type="text" class="form-control form-control--custom"
                                                             required value="{{ isset($arrData['tit_bit_checkist_data']) ? $arrData['tit_bit_checkist_data']->details_of_notice : $noticeDetails }}"
                                                             name="details_of_notice" id="building-no" placeholder="">
                                                     </div>
@@ -862,7 +865,7 @@ if($latest){
                                                         <label for="name">तपासणी अधिकाऱ्यांचे नाव: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
-                                                        <input {{$disabled}} type="text" class="form-control form-control--custom"
+                                                        <input {{$readonly}} type="text" class="form-control form-control--custom"
                                                             required value="{{ isset($arrData['tit_bit_checkist_data']) ? $arrData['tit_bit_checkist_data']->investigation_officer_name : $officierName}}"
                                                             name="investigation_officer_name" id="name">
                                                     </div>
@@ -874,7 +877,7 @@ if($latest){
                                                         <label for="building-no">स्थळ पाहणी दिनांक:<span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
-                                                        <input {{$disabled}} type="text" class="form-control form-control--custom m_datepicker"
+                                                        <input {{$readonly}} type="text" class="form-control form-control--custom m_datepicker"
                                                             required value="{{isset($arrData['tit_bit_checkist_data']) ? $arrData['tit_bit_checkist_data']->date_of_investigation : $investDate }}"
                                                             name="date_of_investigation" id="tit_bit_date" placeholder="">
                                                     </div>
@@ -973,7 +976,7 @@ if($latest){
                                                         <label for="name">संस्थेचे नाव:</label>
                                                     </div> 
                                                     <div class="col-sm-8">
-                                                        <input {{$disabled}} type="text" class="form-control form-control--custom"
+                                                        <input {{$readonly}} type="text" class="form-control form-control--custom"
                                                             disabled value="{{ $arrData['society_detail']->eeApplicationSociety->name }}"
                                                             id="name">
                                                     </div>
@@ -985,7 +988,7 @@ if($latest){
                                                         <label for="building-no">इमारत क्र: </label>
                                                     </div>
                                                     <div class="col-sm-8">
-                                                        <input {{$disabled}} type="text" class="form-control form-control--custom"
+                                                        <input {{$readonly}} type="text" class="form-control form-control--custom"
                                                             disabled value="{{ $arrData['society_detail']->eeApplicationSociety->building_no }}"
                                                             id="building-no" placeholder="">
                                                     </div>
@@ -997,7 +1000,7 @@ if($latest){
                                                         <label for="name">अभिन्यास (Layout):<span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
-                                                        <input {{$disabled}} type="text" class="form-control form-control--custom"
+                                                        <input {{$readonly}} type="text" class="form-control form-control--custom"
                                                             required value="{{ isset($arrData['rg_checkist_data']) ? $arrData['rg_checkist_data']->layout : $layoutName}}"
                                                             name="layout" id="name">
                                                     </div>
@@ -1009,7 +1012,7 @@ if($latest){
                                                         <label for="building-no">नोटीस चा तपशील: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
-                                                        <input {{$disabled}} type="text" class="form-control form-control--custom"
+                                                        <input {{$readonly}} type="text" class="form-control form-control--custom"
                                                             name="details_of_notice" id="building-no" placeholder=""
                                                             required value="{{ isset($arrData['rg_checkist_data']) ? $arrData['rg_checkist_data']->details_of_notice : $noticeDetails }}">
                                                     </div>
@@ -1072,10 +1075,10 @@ if($latest){
                                                                 </label></td> -->
                                                             <td>
                                                             @if($rg_question->question == 'सिमांकन नकाशानुसार R.G चे एकूण क्षेत्रफळ किती आहे ?')
-                                                                <textarea {{$disabled}} class="form-control form-control--custom form-control--textarea"
+                                                                <textarea {{$readonly}} class="form-control form-control--custom form-control--textarea"
                                                                     name="remark[{{ $i }}]" style="border-top: none;resize: none;" id="remark-one" {{ $required }}>{{ isset($arrData['rg_details_data'][$rg_question->id]) ? $arrData['rg_details_data'][$rg_question->id]['remark'] : ($landDetails!="" ? $landDetails->rg_plot_area : '') }}</textarea>
                                                             @else
-                                                                <textarea {{$disabled}} class="form-control form-control--custom form-control--textarea"
+                                                                <textarea {{$readonly}} class="form-control form-control--custom form-control--textarea"
                                                                     name="remark[{{ $i }}]" style="border-top: none;resize: none;" id="remark-one" {{ $required }}>{{ isset($arrData['rg_details_data'][$rg_question->id]) ? $arrData['rg_details_data'][$rg_question->id]['remark'] : '' }}</textarea>
                                                             @endif        
                                                                     
@@ -1145,7 +1148,7 @@ if($latest){
                                                 </div>
                                             </form>
                                         </div>
-                                    </div> 
+                                    </div>  
 
                                      @if(isset($arrData['eeNote']) && count($arrData['eeNote']) > 0)
                                     
@@ -1156,10 +1159,16 @@ if($latest){
                                                     <div class="d-flex flex-column h-100 two-cols">
                                                         <h5>Download EE Note</h5>
                                                            
-                                                                <div class="table-responsive">
-                                                                <table class="mt-2 table"> 
+                                                                <div class="table-responsive" >
+                                                                <table class="mt-2 table" id="dtBasicExample">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Document Name</th>
+                                                                        <th class="text-center">Download</th>
+                                                                        <th class="text-center" style="{{$style}}">Delete</th>   
+                                                                    </tr>
+                                                                </thead> 
                                                                 <tbody>
-
                                                                 @foreach($arrData['eeNote'] as $note)  
                                                                     <tr>
                                                                         <td>                                                                    @php
@@ -1204,11 +1213,7 @@ if($latest){
         </div>
     </div>
 </div>
-
 @endsection
-
-
-
 @section('js')
 <!-- <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script> -->
 <script>
@@ -1298,6 +1303,12 @@ if($latest){
 
     $(document).ready(function () {
 
+        // initialize datatable
+        $('.dataTables_length').addClass('bs-select');
+        $('#dtBasicExample_wrapper > .row:first-child').remove();
+        $('#dtBasicExample').dataTable({searching: false, ordering:false, info: false});
+
+        // keep selected tab id in session
         var id = Cookies.get('sectionId');
         if (id != undefined && id != 'undefined') {
             $(".panel").removeClass('active');
@@ -1311,7 +1322,7 @@ if($latest){
         }
         //nested tabs
         var nestedTab = Cookies.get('nestedTab');
-
+        console.log(nestedTab);
         if (nestedTab != undefined && nestedTab != 'undefined') {
             $(".nested_t").removeClass('active');
             $("#" + nestedTab).addClass('active');

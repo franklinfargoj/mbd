@@ -106,7 +106,7 @@
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="btn-list">
-                                        <a href="{{url('/society_offer_letter_dashboard')}}" class="btn btn-secondary">Cancel</a>
+                                        <a href="{{ route('society_offer_letter_dashboard') }}" class="btn btn-secondary">Cancel</a>
                                         <button type="submit"  class="btn btn-primary">Save</button>
                                     </div>
                                 </div>

@@ -34,6 +34,7 @@ use Auth;
 use Hash;
 use Session;
 use App\Mail\SocietyOfferLetterForgotPassword;
+use App\Http\Controllers\EmailMsg\EmailMsgConfigration;
 use Storage;
 
 class SocietyNocController extends Controller
@@ -73,12 +74,14 @@ class SocietyNocController extends Controller
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $layouts = MasterLayout::all();
 
-        $data = NocApplication::where('user_id', Auth::user()->id)->where('application_master_id',$id)->orderBy('id','desc')->first();
+        $masterIds = OlApplicationMaster::whereIn('title',['Application for NOC','Application for NOC - IOD'])->pluck('id')->toArray();
+        $data = NocApplication::where('user_id', Auth::user()->id)->whereIn('application_master_id',$masterIds)
+        ->orderBy('id','desc')->first();
         $applicationCount = $this->getForwardedApplication();
 
         if (isset($data) && $applicationCount == 0){
             return redirect()->route('society_noc_edit',encrypt($data->id));
-        }elseif(isset($data) &&  $applicationCount > 0){
+        }elseif(isset($data) && $applicationCount > 0){
             return redirect()->route('society_noc_preview',encrypt($data->id));
         }else{
             return view('frontend.society.show_form_self_noc', compact('society_details', 'id', 'self_type', 'dev_type', 'ids', 'layouts','model'));  
@@ -528,7 +531,7 @@ class SocietyNocController extends Controller
 
         $applicationId = $request->applicationId;
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $application_name = NocApplication::where('id',$applicationId)->where('society_id', $society->id)->with('noc_application_master')->get();
+        $application_name = NocApplication::where('id',$applicationId)->where('society_id', $society->id)->with('noc_application_master')->first();
         $society_remark = NocSocietyDocumentsComment::where('application_id',$applicationId)->where('society_id', $society->id)->orderBy('id', 'desc')->first();
         if($request->file('noc_application_form'))
         {
@@ -600,6 +603,18 @@ class SocietyNocController extends Controller
                 } catch (\Exception $ex) {
                     DB::rollback();
                 }
+
+                //send application submission mail and msg to society and respective department
+                $data = $society;
+                $data['users'] = $users;
+                $data['application_no'] = $application_name->application_no;
+                $data['layout_id'] = $application_name->layout_id;
+                $data['application_type'] = $application_name->noc_application_master->title."(".$application_name->noc_application_master->model.")";
+
+                $EmailMsgConfigration = new EmailMsgConfigration();
+                $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
+
+
 /*                    NocApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));*/
             }else{
                 return redirect()->back()->with('error_uploaded_file', 'Invalid type of file uploaded (only pdf allowed)');

@@ -13,7 +13,7 @@
                         <thead>
                         <th style="width: 10%;">Sr. No</th>
                         <th style="width: 60%;" class="text-center">Stages</th>
-                        <th style="width: 15%;" class="text-left">Count</th>
+                        <th style="width: 15%;" class="text-left">Counts</th>
                         {{--<th style="width: 15%;">Action</th>--}}
                         </thead>
                         <tbody>
@@ -70,7 +70,7 @@
                         <thead>
                         <th style="width: 10%;">Sr. No</th>
                         <th style="width: 60%;" class="text-center">Stages</th>
-                        <th style="width: 15%;" class="text-left">Count</th>
+                        <th style="width: 15%;" class="text-left">Counts</th>
                         {{--<th style="width: 15%;">Action</th>--}}
                         </thead>
                         <tbody>

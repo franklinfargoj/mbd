@@ -3874,9 +3874,48 @@ label.site-visit-label {
 }
 
 @media (min-width: 1200px) and (max-width: 1400px){
-    .mhada-lg-tag .col-xl-4.form-group{
-        width: 45% !important;
-        flex: 45%;
-        max-width: 45%;
+    .mhada-lg-tag .col-xl-5.form-group{
+        width: 50% !important;
+        flex: 50%;
+        max-width: 50%;
+        margin-left: 0;
     }
 }
+
+    .mhada-custom-pdf{
+        background: #ffffff url("../../../../img/pdf-icon.svg") no-repeat left;
+        padding-left: 40px;
+        height: 35px;
+        border-color: white;
+        outline:none;
+        border: 0;
+        text-indent: -1000px;
+        margin-bottom: 10px;
+    }
+
+    .mhada-custom-pdf:hover{
+        outline: none;
+        background-color: transparent !important;
+        border-color: transparent !important;
+    }
+    .mhada-custom-excel{
+        background: #ffffff url("../../../../img/excel-icon.svg") no-repeat left;
+        padding-left: 40px;
+        height: 35px;
+        border-color: white;
+        outline:none;
+        border: 0;
+        text-indent: -1000px;
+        margin-bottom: 10px;
+    }
+
+    .mhada-custom-excel:hover{
+        outline: none;
+        background-color: transparent !important;
+        border-color: transparent !important;
+    }
+
+    .mhada-inner-head{
+        font-size: 18px !important;
+    margin-top: -5px !important; 
+    }

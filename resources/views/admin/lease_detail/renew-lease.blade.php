@@ -17,7 +17,7 @@
             @csrf
             <input type="hidden" name="society_id" value="{{ $id }}">
             <div class="m-portlet__body m-portlet__body--spaced">
-                <div class="form-group m-form__group row mhada-lease-margin">
+                <div class="m-form__group row mhada-lease-margin">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="lease_rule_other">Lease rule 16 & other:</label>
                         <div class="m-input-icon m-input-icon--right">
@@ -46,8 +46,7 @@
                     </div>
                 </div>
 
-                <div class="form-group m-form__group row mhada-lease-margin">
-                    
+                <div class="m-form__group row mhada-lease-margin">
 
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="lease_period">Lease Period(in Yrs.):</label>
@@ -79,7 +78,7 @@
                     </div>
                 </div>
 
-                <div class="form-group m-form__group row mhada-lease-margin">
+                <div class="m-form__group row mhada-lease-margin">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="lease_rent_start_month">Month to start collection of lease
                             rent:</label>
@@ -115,7 +114,7 @@
                     </div>
                 </div>
 
-                <div class="form-group m-form__group row mhada-lease-margin">
+                <div class="m-form__group row mhada-lease-margin">
 
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="lease_renewed_period">Period of renewed Lease:</label>
@@ -145,11 +144,11 @@
                     </div>
                 </div>
 
-                <div class="form-group m-form__group row mhada-lease-margin">
+                <div class="m-form__group row mhada-lease-margin">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="month_rent_per_renewed_lease">Month to start collection of
                             lease rent as per renewed lease:</label>
-                        <div class="m-input-icon m-input-icon--right">
+                        <div class="m-input-icon m-input-icon--right" style="padding-top: 10px;">
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                 id="month_rent_per_renewed_lease" name="month_rent_per_renewed_lease">
                                 @foreach($arrData['month_data'] as $month)

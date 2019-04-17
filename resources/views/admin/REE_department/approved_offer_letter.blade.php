@@ -9,6 +9,13 @@
 @endsection
 @section('content')
 
+@php 
+if (isset($applicationData->drafted_offer_letter))
+    $document = $applicationData->drafted_offer_letter;
+else if(isset($applicationData->offer_letter_document_path)) 
+    $document = $applicationData->offer_letter_document_path; 
+@endphp
+
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
@@ -129,27 +136,30 @@
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body" style="padding-right: 0;">
                 <h3 class="section-title section-title--small mb-0">Offer Letter:</h3>
-                <div class="row field-row">
+                <div class="row field-row"> 
+                @if($status->status_id != config('commanConfig.applicationStatus.forwarded') && session()->get('role_name') == config('commanConfig.ee_junior_engineer'))
                     <div class="col-md-12 row-list">
-                        <p class="font-weight-semi-bold">View Offer letter</p>
-                        <p>Click to view generated offer letter in PDF format</p>
-
-                         @if($applicationData->offer_letter_document_path)   
-                            <a href="{{config('commanConfig.storage_server').'/'.$applicationData->offer_letter_document_path}}" class="btn btn-primary" target="_blank" rel="noopener"> 
-                            View</a>
+                        @if($applicationData->offer_letter_document_path)   
+                            <p class="font-weight-semi-bold">View Offer letter</p>
+                            <p>Click to view generated offer letter in PDF format</p>
+                            <a href="{{route('ree.edit_offer_letter',encrypt($applicationData->id))}}" class="btn btn-primary" target="_blank" rel="noopener"> 
+                            Edit</a> 
+                        @else
+                        <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                         * Note : Offer Letter is not generated. </span>    
                         @endif
-                        <!-- <button type="submit" class="btn btn-primary">View offer Letter </button> -->
                     </div>
-                    <!-- </div>                 -->
-                    <!-- <div class="row field-row"> -->
+                @endif    
+                    @if(isset($document))
                     <div class="col-md-12 row-list">
                         <p class="font-weight-semi-bold">Download Offer letter</p>
                         <p>Click on below button to download offer letter.</p>
 
-                        @if($applicationData->offer_letter_document_path)   
-                            <a href=" {{config('commanConfig.storage_server').'/'.$applicationData->offer_letter_document_path}}" class="btn btn-primary" download target="_blank"> Download</a>
+                        @if(isset($document))   
+                            <a href=" {{config('commanConfig.storage_server').'/'.$document}}" class="btn btn-primary" download target="_blank"> Download</a>
                         @endif    
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -176,7 +186,7 @@
         </div>
         <!-- end  -->
         <!-- Encrochment verification -->
-        @if($ree_head && $applicationData->status_offer_letter != config('commanConfig.applicationStatus.sent_to_society'))
+        @if($ree_head && $applicationData->status_offer_letter != config('commanConfig.applicationStatus.sent_to_society') && $applicationData->status_offer_letter != config('commanConfig.applicationStatus.Rejected'))
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body table--box-input">
                 <h3 class="section-title section-title--small">Send to Society:</h3>

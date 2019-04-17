@@ -31,7 +31,7 @@ class ApplicationStatusController extends Controller
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'status_name','name' => 'status_name','title' => 'Status Name'],
-            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+            ['data' => 'actions','name' => 'actions','title' => 'Action','searchable' => false,'orderable'=>false],
         ];
 //dd($datatables->getRequest()->ajax());
         if ($datatables->getRequest()->ajax()) {

@@ -521,18 +521,23 @@ class TripartiteController extends Controller
             if ($extension == "pdf") {
                 $fileUpload = $this->comman->ftpFileUpload($folder_name, $request->file('signed_agreement'), $file_name);
                 $drafted_agreement = $this->get_tripartite_agreements($ol_application->id, config('commanConfig.tripartite_agreements.drafted'));
-                if (($drafted_agreement->status_id == $this->get_document_status_by_name('Stamped')) || ($drafted_agreement->status_id == $this->get_document_status_by_name('Stamped_Signed'))) {
-                    if (session()->get('role_name') == config('commanConfig.co_engineer')) {
-                        $status = $this->get_document_status_by_name('Approved');
-                    } else {
-                        $status = $this->get_document_status_by_name('Stamped_Signed');
-                    }
+                if($drafted_agreement){
+                    if (($drafted_agreement->status_id == $this->get_document_status_by_name('Stamped')) || ($drafted_agreement->status_id == $this->get_document_status_by_name('Stamped_Signed'))) {
+                        if (session()->get('role_name') == config('commanConfig.co_engineer')) {
+                            $status = $this->get_document_status_by_name('Approved');
+                        } else {
+                            $status = $this->get_document_status_by_name('Stamped_Signed');
+                        }
 
-                } else {
-                    $status = $this->get_document_status_by_name('Draft_Sign');
+                    } else {
+                        $status = $this->get_document_status_by_name('Draft_Sign');
+                    }
+                    $this->set_tripartite_agreements($ol_application, config('commanConfig.tripartite_agreements.drafted'), $fileUpload, $status);
+                    return redirect()->back()->with('success', 'Draft copy of Agreement has been uploaded successfully.');
+                }else{
+                    return redirect()->back()->with('error', 'Draft copy of Agreement has not been generated');
                 }
-                $this->set_tripartite_agreements($ol_application, config('commanConfig.tripartite_agreements.drafted'), $fileUpload, $status);
-                return redirect()->back()->with('success', 'Draft copy of Agreement has been uploaded successfully.');
+
             } else {
                 return redirect()->back()->with('error', 'Invalid format. pdf file only.');
             }
@@ -1075,14 +1080,26 @@ class TripartiteController extends Controller
             ],
         ];
 
-        $ree_junior_role_id = Role::where('name',config('commanConfig.ree_junior'))->pluck('id')->toArray();
+//        dd(session()->get('role_name'));
 
+//        $ree_junior_role_id = Role::where('name',config('commanConfig.ree_junior'))->pluck('id')->toArray();
 
-        \DB::transaction(function () use ($is_reverted_to_society, $request, $application, $is_approved_agreement, $ree_junior_role_id, $status) {
+        if(session()->get('role_name') == config('commanConfig.co_engineer')){
+            $to_role_id = Role::where('name',config('commanConfig.ree_junior'))->value('id');
+
+        }
+        else if (session()->get('role_name') == config('commanConfig.ree_branch_head')){
+            $to_role_id = Role::where('name','society')->value('id');
+        }
+        else {
+            $to_role_id = null;
+        }
+
+        \DB::transaction(function () use ($is_reverted_to_society, $request, $application, $is_approved_agreement, $to_role_id,$status) {
 
             $tripartite_application = OlApplication::findOrFail($request->applicationId);
 
-            if(in_array($request->to_role_id,$ree_junior_role_id) && !($status == config('commanConfig.applicationStatus.reverted'))){
+            if(($request->to_role_id == $to_role_id) && !($status == config('commanConfig.applicationStatus.reverted'))){
                 $tripartite_application->current_phase = $tripartite_application->current_phase + 1;
                 $tripartite_application->save();
             }

@@ -413,6 +413,11 @@ class EEUserSeeder extends Seeder
                 'display_name'=>'architect_pending_reports',
                 'description'=>'architect_pending_reports'
             ],
+            [
+                'name'=>'ee.oc_ee_variation_report',
+                'display_name'=>'oc ee variation report',
+                'description'=>'oc ee variation report'
+            ],
 
         ];
 

@@ -82,7 +82,7 @@
                             "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n" ;
 
