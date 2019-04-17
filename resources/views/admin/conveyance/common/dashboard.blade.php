@@ -272,7 +272,7 @@
                             html_pending +=
                                 "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
                                 "                                <table class=\"table text-center\">\n" +
-                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                    <thead>\n" +
                                 "                                        <tr>\n" +
                                 "                                            <th>Header</th>\n" +
                                 "                                            <th>Counts</th>\n" +
@@ -298,7 +298,7 @@
                             html_sent_to_society +=
                                 "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
                                 "                                <table class=\"table text-center\">\n" +
-                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                    <thead>\n" +
                                 "                                        <tr>\n" +
                                 "                                            <th>Header</th>\n" +
                                 "                                            <th>Counts</th>\n" +
@@ -515,7 +515,7 @@
                             "                        <div class=\"m-portlet db-table\">\n" +
                             "                            <div class=\"table-responsive\">\n" +
                             "                                <table class=\"table text-center\">\n" +
-                            "                                    <thead class=\"thead-default\">\n" +
+                            "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
                             "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
@@ -567,7 +567,7 @@
                             html_pending +=
                                 "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
                                 "                                <table class=\"table text-center\">\n" +
-                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                    <thead>\n" +
                                 "                                        <tr>\n" +
                                 "                                            <th>Header</th>\n" +
                                 "                                            <th>Counts</th>\n" +
@@ -730,7 +730,7 @@
                             html_pending +=
                                 "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
                                 "                                <table class=\"table text-center\">\n" +
-                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                    <thead>\n" +
                                 "                                        <tr>\n" +
                                 "                                            <th>Header</th>\n" +
                                 "                                            <th>Counts</th>\n" +
@@ -756,7 +756,7 @@
                             html_sent_to_society +=
                                 "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
                                 "                                <table class=\"table text-center\">\n" +
-                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                    <thead>\n" +
                                 "                                        <tr>\n" +
                                 "                                            <th>Header</th>\n" +
                                 "                                            <th>Counts</th>\n" +

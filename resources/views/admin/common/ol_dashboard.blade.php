@@ -558,7 +558,7 @@
                             html_pending +=
                                 "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
                                 "                                <table class=\"table text-center\">\n" +
-                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                    <thead>\n" +
                                 "                                        <tr>\n" +
                                 "                                            <th>Header</th>\n" +
                                 "                                            <th>Counts</th>\n" +
@@ -584,7 +584,7 @@
                             html_sent_to_society +=
                                 "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
                                 "                                <table class=\"table text-center\">\n" +
-                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                    <thead>\n" +
                                 "                                        <tr>\n" +
                                 "                                            <th>Header</th>\n" +
                                 "                                            <th>Counts</th>\n" +
@@ -745,7 +745,7 @@
                             html_pending +=
                                 "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
                                 "                                <table class=\"table text-center\">\n" +
-                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                    <thead>\n" +
                                 "                                        <tr>\n" +
                                 "                                            <th>Header</th>\n" +
                                 "                                            <th>Counts</th>\n" +
@@ -771,7 +771,7 @@
                             html_sent_to_society +=
                                 "                            <div class=\"table-responsive m-portlet__body--table\">\n" +
                                 "                                <table class=\"table text-center\">\n" +
-                                "                                    <thead class=\"thead-default\">\n" +
+                                "                                    <thead>\n" +
                                 "                                        <tr>\n" +
                                 "                                            <th>Header</th>\n" +
                                 "                                            <th>Counts</th>\n" +
