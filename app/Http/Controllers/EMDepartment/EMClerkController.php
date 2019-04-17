@@ -288,7 +288,7 @@ class EMClerkController extends Controller
                 return date('M', mktime(0, 0, 0, $arrear->ac_month, 10));
             })
             ->editColumn('payment_status', function ($arrear){
-                if($arrear->payment_status == null){
+                if($arrear->payment_status == ""){
                      return 'Not Calculated';
                 } elseif ($arrear->payment_status == 0) {
                      return 'Not Paid';
