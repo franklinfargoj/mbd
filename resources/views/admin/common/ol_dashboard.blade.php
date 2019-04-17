@@ -280,7 +280,7 @@
                             "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    <th style=\"width: 15%;\">Action</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n";
@@ -395,7 +395,7 @@
                             "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n";
 
@@ -507,7 +507,7 @@
                             "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    <th style=\"width: 15%;\">Action</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n";
@@ -561,7 +561,7 @@
                                 "                                    <thead class=\"thead-default\">\n" +
                                 "                                        <tr>\n" +
                                 "                                            <th>Header</th>\n" +
-                                "                                            <th>Count</th>\n" +
+                                "                                            <th>Counts</th>\n" +
                                 "                                        </tr>\n" +
                                 "                                    </thead>\n" +
                                 "                                    <tbody id=\"pending_applications\">\n";
@@ -587,7 +587,7 @@
                                 "                                    <thead class=\"thead-default\">\n" +
                                 "                                        <tr>\n" +
                                 "                                            <th>Header</th>\n" +
-                                "                                            <th>Count</th>\n" +
+                                "                                            <th>Counts</th>\n" +
                                 "                                        </tr>\n" +
                                 "                                    </thead>\n" +
                                 "                                    <tbody id=\"pending_applications\">\n";
@@ -693,7 +693,7 @@
                             "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    <th style=\"width: 15%;\">Action</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n";
@@ -748,7 +748,7 @@
                                 "                                    <thead class=\"thead-default\">\n" +
                                 "                                        <tr>\n" +
                                 "                                            <th>Header</th>\n" +
-                                "                                            <th>Count</th>\n" +
+                                "                                            <th>Counts</th>\n" +
                                 "                                        </tr>\n" +
                                 "                                    </thead>\n" +
                                 "                                    <tbody id=\"pending_applications\">\n";
@@ -774,7 +774,7 @@
                                 "                                    <thead class=\"thead-default\">\n" +
                                 "                                        <tr>\n" +
                                 "                                            <th>Header</th>\n" +
-                                "                                            <th>Count</th>\n" +
+                                "                                            <th>Counts</th>\n" +
                                 "                                        </tr>\n" +
                                 "                                    </thead>\n" +
                                 "                                    <tbody id=\"pending_applications\">\n";
@@ -885,7 +885,7 @@
                             "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    <th style=\"width: 15%;\">Action</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n";
@@ -1004,7 +1004,7 @@
                             "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n";
 
@@ -1117,7 +1117,7 @@
                             "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n";
 
@@ -1232,7 +1232,7 @@
                             "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    <th style=\"width: 15%;\">Action</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n";
@@ -1346,7 +1346,7 @@
                             "                                    <thead>\n" +
                             "                                    <th style=\"width: 10%;\">Sr. No</th>\n" +
                             "                                    <th style=\"width: 60%;\" class=\"text-center\">Stages</th>\n" +
-                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Count</th>\n" +
+                            "                                    <th style=\"width: 15%;\" class=\"text-left\">Counts</th>\n" +
                             "                                    </thead>\n" +
                             "                                    </tbody>\n";
 
