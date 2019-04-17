@@ -1351,9 +1351,9 @@ class EMController extends Controller
             } else {
                 $realMonth = $realMonth - 1;
             }
-
+            //dd($realMonth." ".$request->tenant_id);
             $data['arreasCalculation'] = ArrearCalculation::where('tenant_id',$request->tenant_id)->where('month',$realMonth)->where('payment_status','0')->get();
-
+            //dd($data['arreasCalculation']);
             $currentMonth = date('m');
             if($currentMonth < 4) {
                 if($currentMonth == 1) {
@@ -1416,8 +1416,9 @@ class EMController extends Controller
                                     ->orderBy('id','DESC')
                                     ->first();
             }
-
+            //dd($check);
         if(is_null($check) || $check == ''){
+           // dd('ok');
             $bill = new TransBillGenerate;
             $bill->tenant_id = $request->tenant_id;
             $bill->building_id = $request->building_id;

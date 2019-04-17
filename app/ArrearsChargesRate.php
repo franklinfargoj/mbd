@@ -16,6 +16,8 @@ class ArrearsChargesRate extends Model
     */
     protected $dates = ['deleted_at'];
 
+    protected $table="arrears_charges_rates";
+
     public function tenanttype() {
     	return $this->hasOne(MasterTenantType::class,'id','tenant_type');
     }

@@ -152,27 +152,74 @@ class BillingDetailController extends Controller
                 // $arreas_calculations =  $arreas_calculations->where('tenant_id', $request->tenant_id);
             }
 
+
+            //dd($request->building_id." ".$request->society_id);
+            // $arreas_calculations = TransBillGenerate::with('trans_payment')->where('trans_bill_generate.society_id',$request->society_id)
+            // ->where('trans_bill_generate.building_id',$request->building_id)
+            // ->leftjoin('service_charges_rates', function($join)
+            //     {
+            //         $join->on('service_charges_rates.building_id', '=', 'trans_bill_generate.building_id');
+            //         $join->on('service_charges_rates.society_id','=', 'trans_bill_generate.society_id');
+            //         $join->on('service_charges_rates.year','=', 'trans_bill_generate.bill_year');
+            //     })
+            // ->leftjoin('arrear_calculation', function($join)
+            //     {
+            //         $join->on('arrear_calculation.building_id', '=', 'trans_bill_generate.building_id');
+            //         $join->on('arrear_calculation.society_id','=', 'trans_bill_generate.society_id');
+            //         $join->on('arrear_calculation.year','=', 'trans_bill_generate.bill_year');
+            //         $join->on('arrear_calculation.month','=', 'trans_bill_generate.bill_month');
+            //     })
+            //     ->leftjoin('arrears_charges_rates', function($join)
+            //     {
+            //         $join->on('arrears_charges_rates.building_id', '=', 'trans_bill_generate.building_id');
+            //         $join->on('arrears_charges_rates.society_id','=', 'trans_bill_generate.society_id');
+            //         $join->on('arrears_charges_rates.year','=', 'trans_bill_generate.bill_year');
+            //     })->where(DB::raw('trans_bill_generate.id'),'=',function($q) use($request){
+            //         $q->from('trans_bill_generate')
+            //         ->select('id')
+            //         ->where('bill_month','=',DB::raw('trans_bill_generate.bill_month'))
+            //         ->where('tenant_id', '=', $request->tenant_id)
+            //         ->limit(1)
+            //         ->orderBy('id', 'desc');
+            //     })
+            //   ->selectRaw('trans_bill_generate.*,service_charges_rates.water_charges,service_charges_rates.electric_city_charge,service_charges_rates.pump_man_and_repair_charges,service_charges_rates.external_expender_charge,service_charges_rates.administrative_charge,service_charges_rates.lease_rent,service_charges_rates.na_assessment,service_charges_rates.other,arrear_calculation.old_intrest_amount,arrear_calculation.difference_intrest_amount,arrear_calculation.year as ac_year,arrear_calculation.month as ac_month,arrear_calculation.oir_year,arrear_calculation.oir_month,arrears_charges_rates.old_rate')->whereIn('bill_year',$select_year)->where('trans_bill_generate.tenant_id', $request->tenant_id)->orderBy('trans_bill_generate.id','desc')->groupBy('trans_bill_generate.bill_month');
+            //     $arreas_calculations=$arreas_calculations->get()->toArray();
+            //     echo "<pre>";
+            //     print_r($arreas_calculations);
+            //     dd('ok');
             if ($datatables->getRequest()->ajax()) {
                 if($request->has('tenant_id') && !empty($request->tenant_id)) {
-                    $arreas_calculations = TransBillGenerate::with('trans_payment')->where('trans_bill_generate.society_id',$request->society_id)
-                    ->where('trans_bill_generate.building_id',$request->building_id)->leftjoin('service_charges_rates', function($join)
-                        {
-                            $join->on('service_charges_rates.building_id', '=', 'trans_bill_generate.building_id');
-                            $join->on('service_charges_rates.society_id','=', 'trans_bill_generate.society_id');
-                            $join->on('service_charges_rates.year','=', 'trans_bill_generate.bill_year');
-                        })->leftjoin('arrear_calculation', function($join)
-                        {
-                            $join->on('arrear_calculation.building_id', '=', 'trans_bill_generate.building_id');
-                            $join->on('arrear_calculation.society_id','=', 'trans_bill_generate.society_id');
-                            $join->on('arrear_calculation.year','=', 'trans_bill_generate.bill_year');
-                            $join->on('arrear_calculation.month','=', 'trans_bill_generate.bill_month');
-                        })
-                        ->leftjoin('arrears_charges_rates', function($join)
-                        {
-                            $join->on('arrears_charges_rates.building_id', '=', 'trans_bill_generate.building_id');
-                            $join->on('arrears_charges_rates.society_id','=', 'trans_bill_generate.society_id');
-                            $join->on('arrears_charges_rates.year','=', 'trans_bill_generate.bill_year');
-                        })->selectRaw('trans_bill_generate.*,service_charges_rates.water_charges,service_charges_rates.electric_city_charge,service_charges_rates.pump_man_and_repair_charges,service_charges_rates.external_expender_charge,service_charges_rates.administrative_charge,service_charges_rates.lease_rent,service_charges_rates.na_assessment,service_charges_rates.other,arrear_calculation.old_intrest_amount,arrear_calculation.difference_intrest_amount,arrear_calculation.year as ac_year,arrear_calculation.month as ac_month,arrear_calculation.oir_year,arrear_calculation.oir_month,arrears_charges_rates.old_rate')->whereIn('bill_year',$select_year)->where('trans_bill_generate.tenant_id', $request->tenant_id)->groupBy('trans_bill_generate.tenant_id');
+                    $arreas_calculations = TransBillGenerate::with('trans_payment')
+                    ->where('trans_bill_generate.society_id',$request->society_id)
+                    ->where('trans_bill_generate.building_id',$request->building_id)
+                    ->leftjoin('service_charges_rates', function($join)
+                    {
+                        $join->on('service_charges_rates.building_id', '=', 'trans_bill_generate.building_id');
+                        $join->on('service_charges_rates.society_id','=', 'trans_bill_generate.society_id');
+                        $join->on('service_charges_rates.year','=', 'trans_bill_generate.bill_year');
+                    })
+                    ->leftjoin('arrear_calculation', function($join)
+                    {
+                        $join->on('arrear_calculation.building_id', '=', 'trans_bill_generate.building_id');
+                        $join->on('arrear_calculation.society_id','=', 'trans_bill_generate.society_id');
+                        $join->on('arrear_calculation.year','=', 'trans_bill_generate.bill_year');
+                        $join->on('arrear_calculation.month','=', 'trans_bill_generate.bill_month');
+                    })
+                    ->leftjoin('arrears_charges_rates', function($join)
+                    {
+                        $join->on('arrears_charges_rates.building_id', '=', 'trans_bill_generate.building_id');
+                        $join->on('arrears_charges_rates.society_id','=', 'trans_bill_generate.society_id');
+                        $join->on('arrears_charges_rates.year','=', 'trans_bill_generate.bill_year');
+                    })
+                    ->where(DB::raw('trans_bill_generate.id'),'=',function($q) use($request){
+                        $q->from('trans_bill_generate')
+                        ->select('id')
+                        ->where('bill_month','=',DB::raw('trans_bill_generate.bill_month'))
+                        ->where('tenant_id', '=', $request->tenant_id)
+                        ->limit(1)
+                        ->orderBy('id', 'desc');
+                    })
+                    ->selectRaw('trans_bill_generate.*,service_charges_rates.water_charges,service_charges_rates.electric_city_charge,service_charges_rates.pump_man_and_repair_charges,service_charges_rates.external_expender_charge,service_charges_rates.administrative_charge,service_charges_rates.lease_rent,service_charges_rates.na_assessment,service_charges_rates.other,arrear_calculation.old_intrest_amount,arrear_calculation.difference_intrest_amount,arrear_calculation.year as ac_year,arrear_calculation.month as ac_month,arrear_calculation.oir_year,arrear_calculation.oir_month,arrears_charges_rates.old_rate')->whereIn('bill_year',$select_year)->where('trans_bill_generate.tenant_id', $request->tenant_id)->orderBy('trans_bill_generate.created_at','desc')->groupBy('trans_bill_generate.tenant_id');
                 } else {
                     $arreas_calculations = DB::select('select 
                             sum(balance_amount) as balance_amount,

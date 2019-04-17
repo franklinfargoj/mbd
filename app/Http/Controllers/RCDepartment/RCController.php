@@ -45,6 +45,7 @@ use App\TransBillGenerate;
 use App\TransPayment;
 use App\DdDetails;
 use Illuminate\Support\Facades\Redirect;
+use Mpdf\Mpdf;
 
 class RCController extends Controller
 {
@@ -1072,9 +1073,9 @@ class RCController extends Controller
 
      public function downloadReceiptTenant(Request $request) { 
         if($request->bill_no){
-            
-            $receipt = TransPayment::with('dd_details')->with('bill_details')->where('bill_no', '=', $request->bill_no)->first();
-        // print_r($receipt);exit;
+            //dd($request->bill_no);
+            $receipt = TransPayment::with('dd_details')->with('bill_details')->where('id', '=', $request->bill_no)->first();
+         //print_r($receipt);exit;
 
             $data['building'] = MasterBuilding::find($request->building_id);
             $data['society'] = SocietyDetail::find($data['building']->society_id);
@@ -1082,11 +1083,27 @@ class RCController extends Controller
             $data['bill'] = $receipt;
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
             
-             if($request->flag) {
+             if($request->flag!=null) {
+                 
                 return  $data;
             } else {
-                $pdf = PDF::loadView('admin.rc_department.payment_receipt_tenant', $data);
-                return $pdf->download('payment_receipt_tenant'.date('YmdHis').'.pdf');
+                // dd('ok');
+                //$pdf = PDF::loadView('admin.rc_department.payment_receipt_tenant', $data);
+                $content=view('admin.rc_department.payment_receipt_tenant', $data);
+                
+                $fileName='payment_receipt_tenant'.date('YmdHis').'.pdf';
+                $pdf=new Mpdf([
+                    'default_font_size' => 9,
+                    'default_font' => 'Times New Roman'
+                ]);
+                $pdf->autoScriptToLang = true;
+                $pdf->autoLangToFont = true;
+                $pdf->setAutoBottomMargin = 'stretch';
+                $pdf->setAutoTopMargin = 'stretch';
+                $pdf->WriteHTML($content);
+                return $pdf->Output($fileName, 'D');
+                //dd($pdf);
+                //return $pdf->download('payment_receipt_tenant'.date('YmdHis').'.pdf');
             }
         }
      }
