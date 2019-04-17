@@ -227,9 +227,14 @@ class SocietyTripatiteController extends Controller
         $data = OlApplication::where('user_id', auth()->user()->id)->where('application_master_id',$id)->with(['request_form', 'ol_application_master', 'applicationMasterLayout'])->orderBy('id','desc')->first();
 
         if (isset($data)){
-            return redirect()->route('tripartite_application_form_edit',encrypt($data->id));
+            if($data->current_phase > 0){
+                return redirect()->route('tripartite_application_form_preview',encrypt($data->id));
+            }
+            else{
+                return redirect()->route('tripartite_application_form_edit',encrypt($data->id));
+            }
         }else{
-            return view('frontend.society.tripatite.show_tripatite_dev', compact('society_details', 'id', 'ids', 'layouts', 'form_fields', 'layouts', 'comm_func'));  
+            return view('frontend.society.tripatite.show_tripatite_dev', compact('society_details', 'id', 'ids', 'layouts', 'form_fields', 'layouts', 'comm_func'));
         }        
     }
 
