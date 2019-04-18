@@ -40,7 +40,11 @@ class SocietyTripatiteController extends Controller
     public function show_tripatite_self($id){
         $ids = explode('_', $id);
         $id = $ids[0];
+
+        $tripartite_application_master_ids = config('commanConfig.tripartite_master_ids');
+
         $society_details = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
+
         $ol_form_request_fields = new OlRequestForm;
 
 //        dd($ol_form_request_fields);
@@ -51,10 +55,19 @@ class SocietyTripatiteController extends Controller
         }
         $layouts = MasterLayout::all();
         $comm_func = $this->CommonController;
-        $data = OlApplication::where('user_id', auth()->user()->id)->where('application_master_id',$id)->with(['request_form', 'ol_application_master', 'applicationMasterLayout'])->orderBy('id','desc')->first();
+        $data = OlApplication::where('user_id', auth()->user()->id)
+            ->whereIn('application_master_id',$tripartite_application_master_ids)
+            ->with(['request_form', 'ol_application_master', 'applicationMasterLayout'])
+            ->orderBy('id','desc')
+            ->first();
 
         if (isset($data)){
-            return redirect()->route('tripartite_application_form_edit',encrypt($data->id));
+            if($data->current_phase > 0){
+                return redirect()->route('tripartite_application_form_preview',encrypt($data->id));
+            }
+            else{
+                return redirect()->route('tripartite_application_form_edit',encrypt($data->id));
+            }
         }else{
             return view('frontend.society.tripatite.show_tripatite_self', compact('society_details', 'id', 'ids', 'layouts', 'form_fields', 'layouts', 'comm_func'));   
         }        
@@ -215,6 +228,9 @@ class SocietyTripatiteController extends Controller
         $society_details = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
         $ol_form_request_fields = new OlRequestForm;
 
+        $tripartite_application_master_ids = config('commanConfig.tripartite_master_ids');
+
+
         foreach($ol_form_request_fields->getFillable() as $key => $value){
             if(in_array($value, config('commanConfig.tripartite_fields'))){
 
@@ -224,7 +240,11 @@ class SocietyTripatiteController extends Controller
         $layouts = MasterLayout::all();
         $comm_func = $this->CommonController;
 
-        $data = OlApplication::where('user_id', auth()->user()->id)->where('application_master_id',$id)->with(['request_form', 'ol_application_master', 'applicationMasterLayout'])->orderBy('id','desc')->first();
+        $data = OlApplication::where('user_id', auth()->user()->id)
+            ->whereIn('application_master_id',$tripartite_application_master_ids)
+            ->with(['request_form', 'ol_application_master', 'applicationMasterLayout'])
+            ->orderBy('id','desc')->first();
+
 
         if (isset($data)){
             if($data->current_phase > 0){
