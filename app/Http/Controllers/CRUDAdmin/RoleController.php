@@ -190,6 +190,7 @@ class RoleController extends Controller
         'date'               => date('Y-m-d'),
         'time'               => date("h:i:s"),
         'reason'             => $request->input('delete_message'),
+        'ip_address'         => $request->ip()
     ]);
 
         return redirect()->back()->with(['success'=> 'Role deleted succesfully']);

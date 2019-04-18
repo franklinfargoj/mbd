@@ -14,5 +14,6 @@ class DeletedRoles extends Model
         'date',
         'time',
         'reason',
+        'ip_address'
     ];
 }
