@@ -17,7 +17,7 @@ use Auth;
 class EmailMsgConfigration extends Controller
 {
      public function __construct(){
-        $this->isEmailActive = env('active_email_integration');
+        $this->isEmailActive = env('ACTIVE_EMAIL_INTEGRATION');
      }
 
 	// send mail and msg at society registration
