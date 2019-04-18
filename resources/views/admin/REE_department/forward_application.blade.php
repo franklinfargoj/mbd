@@ -250,7 +250,11 @@
                                                 <span></span>
                                             </label>
                                             @else
-                                                @if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.in_process') || ($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved') && session()->get('role_name') != config('commanConfig.ree_branch_head')) || ($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation') && session()->get('role_name') != config('commanConfig.ree_branch_head') ))
+                                                @if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.in_process') ||
+
+                                                 ($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved') && session()->get('role_name') != config('commanConfig.ree_branch_head')) || 
+
+                                                (($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation')|| $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.draft_offer_letter_generated')) && session()->get('role_name') != config('commanConfig.ree_branch_head') ))
                                                     <div class="form-group m-form__group row mt-3 parent-data"
                                                         id="select_dropdown">
                                                         <label class="col-form-label col-lg-2 col-sm-12">
