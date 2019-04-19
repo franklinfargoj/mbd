@@ -1762,12 +1762,25 @@ class CommonController extends Controller
 
         $ree_junior_role_id = Role::where('name',config('commanConfig.ree_junior'))->pluck('id')->toArray();
 
-        \DB::transaction(function () use ($sc_application, $user, $application_log_status, $ree_junior_role_id, $status, $to_role_id) {
+        $society_role_id = Role::where('name','society')->value('id');
 
-            if($status == config('commanConfig.applicationStatus.forwarded'))
-            if (in_array($to_role_id, $ree_junior_role_id)) {
-                $sc_application->current_phase = $sc_application->current_phase + 1;
-                $sc_application->save();
+        if($sc_application_last_id != null){
+
+            $is_reverted_to_society = OlApplication::where('is_reverted_to_society',1)
+                ->where('id',$sc_application_last_id)
+                ->get()->toArray();
+        }else{
+            $is_reverted_to_society = 0;
+        }
+
+
+        \DB::transaction(function () use ($sc_application, $user, $application_log_status, $ree_junior_role_id, $status, $to_role_id, $is_reverted_to_society) {
+
+            if($status == config('commanConfig.applicationStatus.forwarded')) {
+                if (in_array($to_role_id, $ree_junior_role_id) && (count($is_reverted_to_society) == 0)) {
+                    $sc_application->current_phase = $sc_application->current_phase + 1;
+                    $sc_application->save();
+                }
             }
 
             $inserted_application_log = OlApplicationStatus::insert($application_log_status);
