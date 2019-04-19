@@ -270,7 +270,14 @@
                                                     <label for="society_documents_comment">Additional
                                                         Information:</label>
                                                     <div class="@if($errors->has('society_documents_comment')) has-error @endif">
-                                                        <textarea disabled name="society_documents_comment" rows="5"
+                                                        @php
+                                                                if($ol_applications->current_phase <= 1){
+                                                                $disabled = '';
+                                                                }else{
+                                                                $disabled = 'disabled';
+                                                                }
+                                                                @endphp
+                                                        <textarea <?php echo $disabled; ?> name="society_documents_comment" rows="5"
                                                                   cols="30" id="society_documents_comment"
                                                                   class="form-control form-control--custom"
                                                                   @if($ol_applications->olApplicationStatus[0]->status_id !== config('commanConfig.applicationStatus.pending')) readonly @endif>@if($documents_comment) {{ $documents_comment->society_documents_comment }} @endif</textarea>
@@ -282,7 +289,9 @@
                                                 </div>
                                                 @if($ol_applications->olApplicationStatus[0]->status_id == config('commanConfig.applicationStatus.pending'))
                                                     <div class="mt-3 btn-list">
-                                                        {{--<button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>--}}
+                                                        @if($ol_applications->current_phase <= 1)
+                                                        <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
+                                                        @endif
                                                         <a href="{{route('society_offer_letter_dashboard')}}"
                                                            class="btn btn-secondary">Cancel</a>
                                                     </div>

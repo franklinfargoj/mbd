@@ -168,7 +168,7 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
 
             @endif
         @endif
-        @if($status == '2' || $ol_applications->current_phase <= 1)
+        @if($status == '2')
             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='tripartite_application_form_preview')?'m-menu__item--active':''}}">
                 <a class="m-menu__link m-menu__toggle" title="View Application"
                    href="{{ route('tripartite_application_form_preview', encrypt($ol_applications->id)) }}">
