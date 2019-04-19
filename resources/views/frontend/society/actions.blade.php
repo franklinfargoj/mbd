@@ -99,7 +99,7 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
 			</li>
 			@endif
 
-			@if(isset($ol_applications->offer_letter_document_path))
+			@if(isset($ol_applications->offer_letter_document_path) && $status == config('commanConfig.applicationStatus.sent_to_society'))
 			<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='download_approved_offer_letter')?'m-menu__item--active':''}}">
 				<a class="m-menu__link m-menu__toggle" title="Signed Application for Offer Letter" href="{{ route('download_approved_offer_letter',encrypt($ol_applications->id)) }}" rel="noopener">
 					<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">

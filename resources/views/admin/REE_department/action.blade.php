@@ -94,7 +94,7 @@ $route=\Request::route()->getName();
         </li> 
         @elseif($ol_application->model->ol_application_master->model == 'Premium')
 
-        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ree_applications.calculation_sheet_options' || $route=='ol_calculation_sheet.show' || $route=='ree.fsi_calculation_application' || $route=='ree_applications.custom_calculation_sheet')?'m-menu__item--active':''}}"
+        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ree_applications.calculation_sheet_options' || $route=='ol_calculation_sheet.show' || $route=='ree.fsi_calculation_application' || $route=='ree_applications.custom_calculation_sheet' || $route == 'ree.get_calculation_sheet' || $route == 'ree.show_calculation_sheet')?'m-menu__item--active':''}}"
             aria-haspopup="true">
             <a class="m-menu__link m-menu__toggle" title="Prepare Calculation Sheet" href="{{route('ree_applications.calculation_sheet_options',encrypt($ol_application->id))}}">
                 <span class="sidebar-icon sidebar-menu-icon--level-1">
