@@ -128,30 +128,81 @@ else if(isset($applicationData->offer_letter_document_path))
     <!-- end -->
 
     <!-- Site Visit -->
-    <form role="form" id="approved_letter" name="approved_letter" class="form-horizontal" method="post" action="{{route('ree.send_letter_society')}}"
-        enctype="multipart/form-data">
+    
 
         @csrf
         <input type="hidden" name="applicationId" value="{{$applicationData->id}}">
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body" style="padding-right: 0;">
-                <h3 class="section-title section-title--small mb-0">Offer Letter:</h3>
-                <div class="row field-row"> 
-                @if($status->status_id != config('commanConfig.applicationStatus.forwarded') && session()->get('role_name') == config('commanConfig.ee_junior_engineer'))
-                    <div class="col-md-12 row-list">
-                        @if($applicationData->offer_letter_document_path)   
-                            <p class="font-weight-semi-bold">View Offer letter</p>
-                            <p>Click to view generated offer letter in PDF format</p>
-                            <a href="{{route('ree.edit_offer_letter',encrypt($applicationData->id))}}" class="btn btn-primary" target="_blank" rel="noopener"> 
-                            Edit</a> 
-                        @else
-                        <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                         * Note : Offer Letter is not generated. </span>    
-                        @endif
+                @if($status->status_id != config('commanConfig.applicationStatus.forwarded') && session()->get('role_name') == config('commanConfig.ree_junior'))
+                    <div class=" row-list">
+                        <div class="row">
+                            <div class="col-md-6 row-list">
+                                @if($applicationData->offer_letter_document_path)   
+                                    <p class="font-weight-semi-bold">Offer letter</p>
+                                    <p>Click to edit generated offer letter in PDF format</p>
+                                    <a href="{{route('ree.edit_offer_letter',encrypt($applicationData->id))}}" class="btn btn-primary" target="_blank" rel="noopener"> 
+                                    Edit</a>   
+                                @endif
+                            </div>
+                            <div class="col-sm-6 border-left">
+                                <p class="font-weight-semi-bold">Download Draft offer letter</p>
+                                <p>Click to view generated offer letter in PDF format</p>
+                                @if(isset($applicationData->drafted_offer_letter))
+                                    <a href="{{config('commanConfig.storage_server').'/'.$applicationData->drafted_offer_letter}}" class="btn btn-primary" target="_blank">Download</a>
+                                    @else
+                                    <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                        * Note : Offer Letter is not generated. </span>
+                                @endif
+                            </div>
+                        </div>
                     </div>
-                @endif    
-                    @if(isset($document))
-                    <div class="col-md-12 row-list">
+                @endif
+
+                <div class="w-100 row-list">
+                    <div class="">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="d-flex flex-column h-100">
+                                    <p class="font-weight-semi-bold">Download Signed uploaded Offer Letter</p>
+                                    <p>Click to download uploaded signed offer letter in PDF format</p>
+                                    <div class="mt-auto">
+                                        @if(isset($applicationData->offer_letter_document_path))
+                                        <a href="{{config('commanConfig.storage_server').'/'.$applicationData->offer_letter_document_path}}" class="btn btn-primary btn-w115" target="_blank">Download</a>
+                                        @else
+                                        <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                            * Note : Offer Letter is not uploaded. </span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            @if($status->status_id != config('commanConfig.applicationStatus.forwarded') && $status->status_id != config('commanConfig.applicationStatus.sent_to_society') && (session()->get('role_name') == config('commanConfig.ree_junior') || session()->get('role_name') == config('commanConfig.ree_branch_head')))
+                                <div class="col-sm-6 border-left">
+                                    <div class="d-flex flex-column h-100">
+                                        <p class="font-weight-semi-bold">Upload Offer Letter</p>
+                                        <span class="hint-text">Click on 'Upload' to upload offer letter</span>
+                                        <form action="{{route('ree.upload_offer_letter',$applicationData->id)}}" method="post" enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="custom-file">
+                                                <input class="custom-file-input pdfcheck" name="offer_letter" type="file"
+                                                    id="test-upload" required="required">
+                                                <label class="custom-file-label" for="test-upload">Choose
+                                                    file...</label>
+                                                <span class="text-danger" id="file_error"></span>
+                                            </div>
+                                            <div class="mt-auto">
+                                                <button type="submit" class="btn btn-primary btn-w115" id="uploadBtn">Upload</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                   <!--  @if(isset($document))
+                    <div class="col-md-6 row-list">
                         <p class="font-weight-semi-bold">Download Offer letter</p>
                         <p>Click on below button to download offer letter.</p>
 
@@ -159,8 +210,29 @@ else if(isset($applicationData->offer_letter_document_path))
                             <a href=" {{config('commanConfig.storage_server').'/'.$document}}" class="btn btn-primary" download target="_blank"> Download</a>
                         @endif    
                     </div>
-                    @endif
-                </div>
+                    @endif -->
+                    <!-- <div class="col-sm-6 border-left">
+                        <div class="d-flex flex-column h-100">
+                            <p class="font-weight-semi-bold">Upload Offer Letter</p>
+                            <span class="hint-text">Click on 'Upload' to upload offer letter</span>
+                            <form action="{{route('ree.upload_offer_letter',$applicationData->id)}}" method="post"
+                                enctype="multipart/form-data">
+                                @csrf
+                                <div class="custom-file">
+                                    <input class="custom-file-input pdfcheck" name="offer_letter" type="file"
+                                        id="test-upload" required="required">
+                                    <label class="custom-file-label" for="test-upload">Choose
+                                        file...</label>
+                                    <span class="text-danger" id="file_error"></span>
+                                </div>
+                                <div class="mt-auto">
+                                    <button type="submit" class="btn btn-primary btn-w115" id="uploadBtn">Upload</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div> -->
+
+                <!-- </div> -->
             </div>
         </div>
         <!-- end  -->
@@ -186,20 +258,23 @@ else if(isset($applicationData->offer_letter_document_path))
         </div>
         <!-- end  -->
         <!-- Encrochment verification -->
-        @if($ree_head && $applicationData->status_offer_letter != config('commanConfig.applicationStatus.sent_to_society') && $applicationData->status_offer_letter != config('commanConfig.applicationStatus.Rejected'))
-        <div class="m-portlet m-portlet--mobile m_panel">
-            <div class="m-portlet__body table--box-input">
-                <h3 class="section-title section-title--small">Send to Society:</h3>
-                <div class="col-xs-12 row">
-                    <div class="col-md-12">
-                        <p class="font-weight-semi-bold">Remark</p>
-                        <textarea rows="4" cols="63" name="remark" class="form-control form-control--custom"></textarea>
-                        <button type="submit" class="btn btn-primary mt-3">Send offer Letter </button>
+    @if($ree_head && $applicationData->status_offer_letter != config('commanConfig.applicationStatus.sent_to_society') && $applicationData->status_offer_letter != config('commanConfig.applicationStatus.Rejected'))
+        <form role="form" id="approved_letter" name="approved_letter" class="form-horizontal" method="post" action="{{route('ree.send_letter_society')}}" enctype="multipart/form-data">
+        @csrf
+        <input type="hidden" name="applicationId" value="{{$applicationData->id}}">
+            <div class="m-portlet m-portlet--mobile m_panel">
+                <div class="m-portlet__body table--box-input">
+                    <h3 class="section-title section-title--small">Send to Society:</h3>
+                    <div class="col-xs-12 row">
+                        <div class="col-md-12">
+                            <p class="font-weight-semi-bold">Remark</p>
+                            <textarea rows="4" cols="63" name="remark" class="form-control form-control--custom"></textarea>
+                            <button type="submit" class="btn btn-primary mt-3">Send offer Letter </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        @endif
-    </form>
+        </form>
+    @endif
 </div>
 @endsection

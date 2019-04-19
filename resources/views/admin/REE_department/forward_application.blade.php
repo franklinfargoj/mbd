@@ -3,7 +3,6 @@
 @include('admin.REE_department.action',compact('ol_application'))
 @endsection
 @section('content')
-
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="d-flex">
@@ -327,9 +326,9 @@
                                                 </label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
                                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
-                                                        name="to_child_id" id="to_society_id">
+                                                        name="to_society_id" id="to_society_id">
                                                         @if(isset($applicationData->eeApplicationSociety->name))
-                                                        <option value="{{ $applicationData->eeApplicationSociety->user_id }}" data-role="{{ $applicationData->eeApplicationSociety->role_id }}">
+                                                        <option value="{{ $applicationData->userDetails->id }}" data-role="{{ $applicationData->userDetails->role_id }}">
                                                             {{ $applicationData->eeApplicationSociety->name }} (Society)</option>
                                                         @endif
                                                     </select>

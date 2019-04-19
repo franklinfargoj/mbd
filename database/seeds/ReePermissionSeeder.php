@@ -539,6 +539,11 @@ class ReePermissionSeeder extends Seeder
                 'display_name'=>'architect_pending_reports',
                 'description'=>'architect_pending_reports'
             ],
+            [
+                'name'=>'ree.get_calculation_sheet',
+                'display_name'=>'get calculation sheet',
+                'description'=>'get calculation sheet'
+            ],
         ];
 
         // Role

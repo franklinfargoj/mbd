@@ -1,6 +1,5 @@
 @php
     $route_name=\Request::route()->getName();
-
 @endphp
 @extends('admin.layouts.sidebarAction')
 @section('actions') 
@@ -15,6 +14,8 @@
     @endif
 @endsection
 @section('content')
+
+@php $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
   
 <div class="custom-wrapper">
     <div class="col-md-12">
@@ -44,6 +45,7 @@
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
         </div>
+
         <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
             <li class="nav-item m-tabs__item">
                 <a class="nav-link m-tabs__link" data-toggle="tab" href="#one" role="tab" aria-selected="false">
@@ -108,7 +110,7 @@
                                                 <th class="table-data--xs" style = "border-style: ridge;">
                                                     #
                                                 </th>
-                                                <th style = "border-style: ridge;">
+                                                <th style = "border-style: ridge;width:30px">
                                                     तपशील
                                                 </th>
                                                 <th class="table-data--md" style = "border-style: ridge;">
@@ -417,17 +419,30 @@
                                             </tr>
                                             <tr>
                                                 <td style = "border-style: ridge;"></td>
-                                                <td>
-                                                    2. दर (DCR % of tb 1 pt 12)
-                                                    <input type="text" readonly class="form-control form-control--custom"
-                                                           name="dcr_rate_in_percentage" id="dcr_rate_in_percentage" value="{{ isset($calculationSheetDetails[0]->dcr_rate_in_percentage) ? $calculationSheetDetails[0]->dcr_rate_in_percentage.'%' : '0%' }}" />
-
+                                                <td style = "border-style: ridge;">
+                                                    2. दर
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" readonly class="total_amount form-control form-control--custom"
-                                                           name="calculated_dcr_rate_val" id="calculated_dcr_rate_val"
-                                                           value="{{ isset($calculationSheetDetails[0]->calculated_dcr_rate_val) ? $calculationSheetDetails[0]->calculated_dcr_rate_val : 0 }}" />
+                                                    <div class="col-sm-12" style="margin-bottom: 12px;padding: 0px">
+                                                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input subtn" name="dcr_rate" id="dcr_rate" disabled>
 
+                                                        @if(count($calculationSheetDetails) == 0 && !isset($calculationSheetDetails->dcr_rate))
+                                                            <option value="" selected disabled>Select</option>
+                                                        @endif
+                                                            @if($DCRrate)
+                                                            @foreach($DCRrate as $value)
+                                                                @if(isset($calculationSheetDetails->dcr_rate) && $calculationSheetDetails->dcr_rate == $value)
+                                                                    <option value="{{$value}}" selected> {{$value}}</option>
+                                                                @else
+                                                                    <option value="{{$value}}"> {{$value}}</option>
+                                                                @endif
+                                                            @endforeach
+                                                            @endif
+                                                        </select>  
+                                                    </div>                                                      
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
+                                                           name="calculated_dcr_rate_val" id="calculated_dcr_rate_val"
+                                                           value="<?php if(isset($calculationSheetDetails[0]->calculated_dcr_rate_val)) { echo $calculationSheetDetails[0]->calculated_dcr_rate_val; } ?>" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -648,7 +663,7 @@
                                                 <th class="table-data--xs" style = "border-style: ridge;">
                                                     #
                                                 </th>
-                                                <th style = "border-style: ridge;">
+                                                <th style = "border-style: ridge;width:30px">
                                                     तपशील
                                                 </th>
                                                 <th class="table-data--md" style = "border-style: ridge;">
@@ -781,7 +796,7 @@
                                                 <th class="table-data--xs" style = "border-style: ridge;">
                                                     #
                                                 </th>
-                                                <th style = "border-style: ridge;">
+                                                <th style = "border-style: ridge;width:30px">
                                                     तपशील
                                                 </th>
                                                 <th class="table-data--md" style = "border-style: ridge;">
@@ -966,7 +981,7 @@
                                                 <th class="table-data--xs" style = "border-style: ridge;">
                                                     #
                                                 </th>
-                                                <th style = "border-style: ridge;">
+                                                <th style = "border-style: ridge;width:30px">
                                                     तपशील
                                                 </th>
                                                 <th class="table-data--md" style = "border-style: ridge;">
@@ -1026,7 +1041,7 @@
                                             <th class="table-data--xs" style = "border-style: ridge;">
                                                 #
                                             </th>
-                                            <th style = "border-style: ridge;">
+                                            <th style = "border-style: ridge;width:30px">
                                                 तपशील
                                             </th>
                                             <th class="table-data--md" style = "border-style: ridge;">

@@ -89,7 +89,7 @@
                                                 <th class="table-data--xs" style = "border-style: ridge;">
                                                     #
                                                 </th>
-                                                <th style = "border-style: ridge;"> तपशील </th>
+                                                <th style = "border-style: ridge;width:30px"> तपशील </th>
                                                 <th class="table-data--md" style = "border-style: ridge;"> रक्कम रु
                                                 </th>
                                             </tr>
@@ -407,7 +407,7 @@
                                                 <th class="table-data--xs" style = "border-style: ridge;">
                                                     #
                                                 </th>
-                                                <th style = "border-style: ridge;">
+                                                <th style = "border-style: ridge;width:30px">
                                                     तपशील
                                                 </th>
                                                 <th class="table-data--md" style = "border-style: ridge;">
@@ -504,7 +504,7 @@
                                                 <th class="table-data--xs" style = "border-style: ridge;">
                                                     #
                                                 </th>
-                                                <th style = "border-style: ridge;">
+                                                <th style = "border-style: ridge;width:30px">
                                                     तपशील
                                                 </th>
                                                 <th class="table-data--md" style = "border-style: ridge;">
@@ -617,7 +617,7 @@
                                                 <th class="table-data--xs" style = "border-style: ridge;">
                                                     #
                                                 </th>
-                                                <th style = "border-style: ridge;">
+                                                <th style = "border-style: ridge;width:30px">
                                                     तपशील
                                                 </th>
                                                 <th class="table-data--md" style = "border-style: ridge;">
