@@ -1766,9 +1766,7 @@ class CommonController extends Controller
 
         if($sc_application_last_id != null){
 
-            $is_reverted_to_society = OlApplication::where('is_reverted_to_society',1)
-                ->where('id',$sc_application_last_id)
-                ->get()->toArray();
+            $is_reverted_to_society = OlApplication::where('id', $sc_application->id)->value('is_reverted_to_society');
         }else{
             $is_reverted_to_society = 0;
         }
@@ -1777,7 +1775,12 @@ class CommonController extends Controller
         \DB::transaction(function () use ($sc_application, $user, $application_log_status, $ree_junior_role_id, $status, $to_role_id, $is_reverted_to_society) {
 
             if($status == config('commanConfig.applicationStatus.forwarded')) {
-                if (in_array($to_role_id, $ree_junior_role_id) && (count($is_reverted_to_society) == 0)) {
+
+                if ($is_reverted_to_society == 1) {
+                    OlApplication::where('id', $sc_application->id)->update(['is_reverted_to_society' => 0]);
+                }
+
+                if (in_array($to_role_id, $ree_junior_role_id) && ($is_reverted_to_society == 0)) {
                     $sc_application->current_phase = $sc_application->current_phase + 1;
                     $sc_application->save();
                 }
