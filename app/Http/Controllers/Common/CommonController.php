@@ -158,7 +158,7 @@ class CommonController extends Controller
     public function getForwardApplication($applicationId)
     {
 
-        $applicationData = OlApplication::with(['eeApplicationSociety'])
+        $applicationData = OlApplication::with(['eeApplicationSociety','userDetails'])
             ->where('id', $applicationId)->orderBy('id', 'DESC')->first();
 
         return $applicationData;
@@ -1023,7 +1023,7 @@ class CommonController extends Controller
         ],
         [
             'application_id' => $request->applicationId,
-            'user_id' => $request->to_user_id,
+            'user_id' => $request->to_child_id,
             'role_id' => $request->to_role_id,
             'status_id' => config('commanConfig.applicationStatus.offer_letter_generation'),
             'to_user_id' => null,
@@ -1040,7 +1040,7 @@ class CommonController extends Controller
             'user_id' => Auth::user()->id,
             'role_id' => session()->get('role_id'),
             'status_id' => config('commanConfig.applicationStatus.Rejected'),
-            'to_user_id' => $request->to_child_id,
+            'to_user_id' => $request->to_society_id,
             'to_role_id' => $request->to_role_id,
             'remark' => $request->remark,
             'is_active' => 1,
@@ -1050,7 +1050,7 @@ class CommonController extends Controller
         ],
         [
             'application_id' => $request->applicationId,
-            'user_id' => $request->to_child_id,
+            'user_id' => $request->to_society_id,
             'role_id' => $request->to_role_id,
             'status_id' => config('commanConfig.applicationStatus.Rejected'),
             'to_user_id' => null,
@@ -1095,11 +1095,13 @@ class CommonController extends Controller
 
         $arr = array();
         $arr = Auth::user();
+        $FSI = '';
         $model = OlApplication::with('ol_application_master')->where('id', $applicationId)->first();
         if ($model->ol_application_master->model == 'Premium') {
             $arr->calculationSheetDetails = OlApplicationCalculationSheetDetails::where('application_id', '=', $applicationId)->get();
 
             $arr->blade = 'premiunCalculationSheet';
+            $arr->FSI = '3 FSI';
 
         } elseif ($model->ol_application_master->model == 'Sharing') {
 
