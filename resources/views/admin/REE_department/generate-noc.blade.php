@@ -137,7 +137,7 @@
                   <h3 class="section-title section-title--small mb-0">Noc:</h3>
                   <div class=" row-list">
                      <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                            <p class="font-weight-semi-bold">
                             @if(!empty($noc_application->draft_noc_path))
                             Edit Draft Noc
@@ -145,8 +145,8 @@
                             Generate Draft Noc
                             @endif
                            </p>
-                           <p>Click to view generated Noc in PDF format</p>
-                           <a href="{{route('ree.create_edit_noc',$societyData->id)}}" class="btn btn-primary">
+                           <p>Click to generate Noc in PDF format</p>
+                           <a href="{{route('ree.create_edit_noc',$societyData->id)}}" class="btn btn-primary btn-w115">
                                @if(!empty($noc_application->draft_noc_path))
                                 Edit
                                @else
@@ -154,6 +154,21 @@
                                @endif
                             </a>
                            <!-- <button type="submit">Edit offer Letter </button> -->
+                        </div>
+                        <div class="col-md-6 border-left">
+                          <div class="d-flex flex-column h-100">
+                             <p class="font-weight-semi-bold">Download Draft Noc</p>
+                             <p>Click to download Draft Noc in PDF format</p>
+                             <div class="mt-auto">
+                            @if(isset($noc_application->draft_noc_path))
+                                <a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->draft_noc_path}}"
+                                   class="btn btn-primary btn-w115">Download</a>
+                            @else
+                              <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                              * Note : Draft NOC is not generated. </span>
+                            @endif
+                             </div>
+                          </div>
                         </div>
                      </div>
                   </div>
@@ -164,14 +179,15 @@
                         <div class="row">
                            <div class="col-sm-6">
                               <div class="d-flex flex-column h-100">
-                                 <h5>Download Draft Noc</h5>
+                                 <p class="font-weight-semi-bold">Download uploaded NOC</p>
+                                 <span class="hint-text">Click to download signed and uploaded Noc</span>
                                  <div class="mt-auto">
-                                @if(empty($noc_application->final_draft_noc_path))
-                                    <a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->draft_noc_path}}"
-                                       class="btn btn-primary">Download</a>
+                                @if(isset($noc_application->final_draft_noc_path))
+                                    <a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->final_draft_noc_path}}"
+                                       class="btn btn-primary btn-w115">Download</a>
                                 @else
-                                   <a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->final_draft_noc_path}}"
-                                       class="btn btn-primary">Download</a> 
+                                   <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                              * Note : NOC agreement is not uploaded. </span>
                                 @endif
                                  </div>
                               </div>
@@ -180,7 +196,7 @@
                            config('commanConfig.applicationStatus.forwarded'))
                            <div class="col-sm-6 border-left">
                               <div class="d-flex flex-column h-100">
-                                 <h5>Upload Noc</h5>
+                                 <p class="font-weight-semi-bold">Upload Noc</p>
                                  <span class="hint-text">Click on 'Upload' to upload Noc</span>
                                  <form action="{{route('ree.upload_draft_noc',$societyData->id)}}" method="post"
                                     enctype="multipart/form-data">
@@ -193,7 +209,7 @@
                                        <span class="text-danger" id="file_error"></span>
                                     </div>
                                     <div class="mt-auto">
-                                       <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                       <button type="submit" class="btn btn-primary btn-custom btn-w115" id="uploadBtn">Upload</button>
                                        <!-- <button type="submit" onclick="return confirm('Are you sure you want to upload the draft copy of NOC.Please note once you upload, the same would be finalized and would be uneditable.');" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button> -->
                                     </div>
                                  </form>
