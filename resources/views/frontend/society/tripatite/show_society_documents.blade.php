@@ -9,7 +9,8 @@
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title m-subheader__title--separator">Upload documents</h3>
                 {{ Breadcrumbs::render('society_tripartite_documents_upload', $id) }}
-                <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left"
+                                                                                  style="padding-right: 8px;"></i>Back</a>
             </div>
         </div>
         <!-- END: Subheader -->
@@ -55,8 +56,10 @@
                                 <tr>
                                     <td>{{ $i }}</td>
                                     <td>
-                                        {{ $document->name }}<span class="compulsory-text">@if($document->is_optional == 1)<small><span style="color: green;">(Optional
-                                            Document)</span></small> @else <small>(Compulsory Document)</small> @endif</span>
+                                        {{ $document->name }}<span class="compulsory-text">@if($document->is_optional == 1)
+                                                <small><span style="color: green;">(Optional
+                                            Document)</span></small> @else
+                                                <small>(Compulsory Document)</small> @endif</span>
                                     </td>
                                     <td class="text-center">
                                         <h2 class="m--font-danger">
@@ -78,25 +81,35 @@
                                             @foreach($document->documents_uploaded as $document_uploaded)
                                                 @if($document_uploaded['society_id'] == $society->id)
                                                     <span>
-                                        <a href="{{ config('commanConfig.storage_server').'/'.$document_uploaded['society_document_path'] }}" data-value='{{ $document->id }}'
-                                           class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
+                                        <a href="{{ config('commanConfig.storage_server').'/'.$document_uploaded['society_document_path'] }}"
+                                           data-value='{{ $document->id }}'
+                                           class="upload_documents" target="_blank" rel="noopener" download><button
+                                                    type="submit" class="btn btn-primary btn-custom">
                                                 Download</button></a>
                                                         @if($ol_applications->olApplicationStatus[0]->status_id == config('commanConfig.applicationStatus.pending'))
-                                        <a href="{{ route('delete_tripartite_docs', encrypt($document_uploaded->id)) }}" data-value='{{ $document_uploaded->id }}'
-                                           class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
+                                                            @if($ol_applications->current_phase <= 1)
+                                                                <a href="{{ route('delete_tripartite_docs', encrypt($document_uploaded->id)) }}"
+                                                                   data-value='{{ $document_uploaded->id }}'
+                                                                   class="upload_documents"><button type="submit"
+                                                                                                    class="btn btn-primary btn-custom">
                                                 <i class="fa fa-trash"></i></button></a>
                                                             @endif
+                                                        @endif
                                     </span>
                                                 @else
                                                     @if($ol_applications->olApplicationStatus[0]->status_id == config('commanConfig.applicationStatus.pending'))
-                                                        <form action="{{ route('upload_tripartite_docs') }}" method="post" enctype='multipart/form-data'
+                                                        <form action="{{ route('upload_tripartite_docs') }}"
+                                                              method="post" enctype='multipart/form-data'
                                                               id="upload_documents_form_{{ $document->id }}">
                                                             @csrf
                                                             <div class="custom-file">
-                                                                <input class="custom-file-input" name="document_name" type="file" class=""
+                                                                <input class="custom-file-input" name="document_name"
+                                                                       type="file" class=""
                                                                        id="test-upload_{{ $document->id }}" required>
-                                                                <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
-                                                                <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
+                                                                <input class="form-control m-input" type="hidden"
+                                                                       name="document_id" value="{{ $document->id }}">
+                                                                <label class="custom-file-label"
+                                                                       for="test-upload_{{ $document->id }}">Choose
                                                                     file ...</label>
                                                                 <span class="help-block">
                                                     @if(session('error_'.$document->id))
@@ -105,7 +118,9 @@
                                                 </span>
                                                             </div>
                                                             <br>
-                                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                                            <button type="submit" class="btn btn-primary btn-custom"
+                                                                    id="uploadBtn">Upload
+                                                            </button>
                                                         </form>
                                                     @else
                                                         -
@@ -113,29 +128,41 @@
                                                 @endif
                                             @endforeach
                                         @else
-                                            @if($ol_applications->olApplicationStatus[0]->status_id == config('commanConfig.applicationStatus.pending'))
-                                                <form action="{{ route('upload_tripartite_docs') }}" method="post" enctype='multipart/form-data'
-                                                      id="upload_documents_form_{{ $document->id }}">
-                                                    @csrf
-                                                     <input type="hidden" name="application_id" value="{{ $ol_applications->id }}">
-                                                    <div class="custom-file @if(session('error_'.$document->id)) has-error @endif">
-                                                        <input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}"
-                                                               required>
-                                                        <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
-                                                        <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
-                                                            file ...</label>
-                                                        <span class="help-block text-danger">
+                                            @if($ol_applications->current_phase <= 1)
+                                                @if($ol_applications->olApplicationStatus[0]->status_id == config('commanConfig.applicationStatus.pending'))
+                                                    <form action="{{ route('upload_tripartite_docs') }}" method="post"
+                                                          enctype='multipart/form-data'
+                                                          id="upload_documents_form_{{ $document->id }}">
+                                                        @csrf
+                                                        <input type="hidden" name="application_id"
+                                                               value="{{ $ol_applications->id }}">
+                                                        <div class="custom-file @if(session('error_'.$document->id)) has-error @endif">
+                                                            <input class="custom-file-input" name="document_name"
+                                                                   type="file" id="test-upload_{{ $document->id }}"
+                                                                   required>
+                                                            <input class="form-control m-input" type="hidden"
+                                                                   name="document_id" value="{{ $document->id }}">
+                                                            <label class="custom-file-label"
+                                                                   for="test-upload_{{ $document->id }}">Choose
+                                                                file ...</label>
+                                                            <span class="help-block text-danger">
                                                     @if(session('error_'.$document->id))
-                                                                {{session('error_'.$document->id)}}
-                                                            @endif
+                                                                    {{session('error_'.$document->id)}}
+                                                                @endif
                                                 </span>
-                                                    </div>
-                                                    <br>
-                                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn_{{ $document->id }}">Upload</button>
-                                                </form>
+                                                        </div>
+                                                        <br>
+                                                        <button type="submit" class="btn btn-primary btn-custom"
+                                                                id="uploadBtn_{{ $document->id }}">Upload
+                                                        </button>
+                                                    </form>
+                                                @else
+                                                    -
+                                                @endif
                                             @else
                                                 -
                                             @endif
+
                                         @endif
                                     </td>
                                 </tr>
@@ -168,32 +195,45 @@
                                             strtotime($ol_applications->olApplicationStatus[0]->created_at))}}</span>
                                                     </p>
                                                     <p class="remarks-section__data__row"><span>Time:</span><span>{{date('h:i:sa',
-                                            strtotime($ol_applications->olApplicationStatus[0]->created_at))}}</span></p>
+                                            strtotime($ol_applications->olApplicationStatus[0]->created_at))}}</span>
+                                                    </p>
                                                     <p class="remarks-section__data__row"><span>Action:</span><span>Sent
                                             to Society</span></p>
-                                                    <p class="remarks-section__data__row"><span>Description:</span><span>{{$ol_applications->olApplicationStatus[0]->remark}}</span></p>
+                                                    <p class="remarks-section__data__row">
+                                                        <span>Description:</span><span>{{$ol_applications->olApplicationStatus[0]->remark}}</span>
+                                                    </p>
                                                 </div>
 
                                                 <div class="remarks-section__data">
-                                                    <form action="{{ route('add_uploaded_documents_remark') }}" method="post" enctype='multipart/form-data'>
+                                                    <form action="{{ route('add_uploaded_documents_remark') }}"
+                                                          method="post" enctype='multipart/form-data'>
                                                         @csrf
                                                         <div class="form-group">
                                                             <label class="col-form-label">Remark</label>
                                                             <div class="col-md-8 @if($errors->has('society_documents_comment')) has-error @endif">
                                                                 <div class="input-icon right">
-                                                                    <textarea name="remark" id="remark" class="form-control m-input">{{old('remark')}}</textarea>
+                                                                    <textarea name="remark" id="remark"
+                                                                              class="form-control m-input">{{old('remark')}}</textarea>
                                                                     <span class="help-block">{{$errors->first('remark')}}</span>
-                                                                    <input type="hidden" name="user_id" id="user_id" class="form-control m-input"
+                                                                    <input type="hidden" name="user_id" id="user_id"
+                                                                           class="form-control m-input"
                                                                            value="{{ $ol_applications->olApplicationStatus[0]->user_id }}">
-                                                                    <input type="hidden" name="role_id" id="role_id" class="form-control m-input"
+                                                                    <input type="hidden" name="role_id" id="role_id"
+                                                                           class="form-control m-input"
                                                                            value="{{ $ol_applications->olApplicationStatus[0]->role_id }}">
-                                                                    <input type="hidden" name="application_id" id="application_id" class="form-control m-input"
+                                                                    <input type="hidden" name="application_id"
+                                                                           id="application_id"
+                                                                           class="form-control m-input"
                                                                            value="{{ $ol_applications->id }}">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <br>
-                                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Submit</button>
+                                                        @if($ol_applications->current_phase <= 1)
+                                                            <button type="submit" class="btn btn-primary btn-custom"
+                                                                    id="uploadBtn">Submit
+                                                            </button>
+                                                        @endif
                                                     </form>
                                                 </div>
                                             </div>
@@ -222,22 +262,38 @@
                                         <div class="">
                                             <h3 class="section-title section-title--small">Submit Application:</h3>
                                         </div>
-                                        <form action="{{ route('add_tripartite_documents_comment') }}" method="post" enctype='multipart/form-data'>
+                                        <form action="{{ route('add_tripartite_documents_comment') }}" method="post"
+                                              enctype='multipart/form-data'>
                                             @csrf
                                             <div class="remarks-suggestions table--box-input">
                                                 <div class="mt-3">
-                                                    <label for="society_documents_comment">Additional Information:</label>
+                                                    <label for="society_documents_comment">Additional
+                                                        Information:</label>
                                                     <div class="@if($errors->has('society_documents_comment')) has-error @endif">
-                                                        <textarea name="society_documents_comment" rows="5" cols="30" id="society_documents_comment" class="form-control form-control--custom" @if($ol_applications->olApplicationStatus[0]->status_id !== config('commanConfig.applicationStatus.pending')) readonly @endif>@if($documents_comment) {{ $documents_comment->society_documents_comment }} @endif</textarea>
-                                                        <input type="hidden" name="application_id" id="application_id" class="form-control m-input"
+                                                        @php
+                                                                if($ol_applications->current_phase <= 1){
+                                                                $disabled = '';
+                                                                }else{
+                                                                $disabled = 'disabled';
+                                                                }
+                                                                @endphp
+                                                        <textarea <?php echo $disabled; ?> name="society_documents_comment" rows="5"
+                                                                  cols="30" id="society_documents_comment"
+                                                                  class="form-control form-control--custom"
+                                                                  @if($ol_applications->olApplicationStatus[0]->status_id !== config('commanConfig.applicationStatus.pending')) readonly @endif>@if($documents_comment) {{ $documents_comment->society_documents_comment }} @endif</textarea>
+                                                        <input type="hidden" name="application_id" id="application_id"
+                                                               class="form-control m-input"
                                                                value="{{ $ol_applications->id }}">
                                                         <span class="help-block">{{$errors->first('society_documents_comment')}}</span>
                                                     </div>
                                                 </div>
                                                 @if($ol_applications->olApplicationStatus[0]->status_id == config('commanConfig.applicationStatus.pending'))
                                                     <div class="mt-3 btn-list">
+                                                        @if($ol_applications->current_phase <= 1)
                                                         <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
-                                                        <a href="{{route('society_offer_letter_dashboard')}}" class="btn btn-secondary">Cancel</a>
+                                                        @endif
+                                                        <a href="{{route('society_offer_letter_dashboard')}}"
+                                                           class="btn btn-secondary">Cancel</a>
                                                     </div>
                                                 @endif
                                             </div>
