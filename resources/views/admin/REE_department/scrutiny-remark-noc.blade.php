@@ -416,7 +416,7 @@
                                     <div class="d-flex flex-column h-100 two-cols">
                                        <h5>Download Note</h5>
                                        <div class="mt-auto">
-                                          <a download href="{{ config('commanConfig.storage_server').'/'.$noc_application->ree_office_note_noc}} ">
+                                          <a target="_blank" download href="{{ config('commanConfig.storage_server').'/'.$noc_application->ree_office_note_noc}} ">
                                           <button class="btn btn-primary">
                                           Download Note</button>
                                           </a>
