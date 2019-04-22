@@ -15,19 +15,52 @@
     {{ session()->get('success') }}
 </div>
 @endif
-
+@php $FSIOptions = ['3 FSI','2.5 FSI','Custom']; @endphp
 <div class="custom-wrapper">
     <div class="col-md-12">
-        <div class="d-flex">
-        @if($master == 'New - Offer Letter')
-            {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }}
-        @else
-            {{ Breadcrumbs::render('reval_calculation_sheet',$ol_application->id) }}
-        @endif    
-            <div class="ml-auto btn-list">
-                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+        <div class="m-subheader px-0 m-subheader--top">
+            <div class="d-flex align-items-center">
+                <h3 class="m-subheader__title m-subheader__title--separator">Calculation Sheet </h3>
+                @if($master == 'New - Offer Letter')
+                    {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }}
+                @else
+                    {{ Breadcrumbs::render('reval_calculation_sheet',$ol_application->id) }}
+                @endif 
+                <div class="ml-auto btn-list">
+                    <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                </div>
             </div>
         </div>
+
+        <!-- display fsi options  -->
+        @if($status->status_id != config('commanConfig.applicationStatus.forwarded') && session()->get('role_name') == config('commanConfig.ree_junior') && $exists == 1)
+        <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+            <div class="portlet-body">
+                <form class="nav-tabs-form" role="form" method="post" action="{{ route('ree.get_calculation_sheet') }}">
+                @csrf
+                    <input name="applicationId" type="hidden" value="{{ $applicationId }}" />
+                    <div class="form-group m-form__group row parent-data" id="select_dropdown">
+                        <label class="col-form-label col-lg-2 col-sm-12"> Select FSI: </label>
+                        <div class="col-lg-4 col-md-9 col-sm-12">
+                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" name="fsi" id="fsi">
+                                @if(isset($FSIOptions))
+                                    @foreach($FSIOptions as $value)
+                                        @if(isset($FSI) && $FSI == $value)
+                                            <option value="{{ $value }}" selected> {{$value}} </option>
+                                        @else
+                                            <option value="{{ $value }}"> {{$value}} </option>
+                                        @endif    
+                                    @endforeach
+                                @endif        
+                            </select>
+                        </div>
+                        <input type="submit" class="btn btn-primary btn-next" value="Submit" />
+                    </div>
+                </form>
+            </div>
+        </div> 
+        @endif
+        
         <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom"
             role="tablist">
             <li class="nav-item m-tabs__item">

@@ -376,6 +376,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     // REE Department Routes
 
     Route::resource('ree_applications', 'REEDepartment\REEController');
+    Route::post('get_calculation_sheet', 'REEDepartment\REEController@getCalculationSheet')->name('ree.get_calculation_sheet');
     // Route::get('society_ee_document/{id}','REEDepartment\REEController@societyEEDocuments')->name('ree.society_EE_documents');
     Route::get('society_reval_document/{id}','REEDepartment\REEController@societyRevalDocuments')->name('ree.society_reval_documents');
 
@@ -445,6 +446,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('co_forward_reval_application/{id}','CODepartment\COController@forwardRevalApplication')->name('co.forward_reval_application');
     Route::post('co_forward_reval_Application_data','CODepartment\COController@sendForwardRevalApplication')->name('co.forward_reval_application_data');
+    Route::get('approve_offer_letter/{id}','CODepartment\COController@approveOfferLetter')->name('co.approve_offer_letter');
 
 
     // CAP department route
@@ -941,7 +943,7 @@ Route::get('view_reval_application_ree/{id}','REEDepartment\REEController@viewRe
 Route::get('calculation_sheet_ree/{id}','REEDepartment\REEController@showCalculationSheet')->name('ree.show_calculation_sheet');
 Route::get('reval_calculation_sheet_ree/{id}','REEDepartment\REEController@showRevalCalculationSheet')->name('ree.show_reval_calculation_sheet');
 
-Route::get('approve_offer_letter/{id}','CODepartment\COController@approveOfferLetter')->name('co.approve_offer_letter');
+// Route::get('approve_offer_letter/{id}','CODepartment\COController@approveOfferLetter')->name('co.approve_offer_letter');
 Route::post('send_approved_offer_letter','CODepartment\COController@approvedOfferLetter')->name('co.send_approved_offer_letter');
 Route::get('approve_reval_offer_letter/{id}','CODepartment\COController@approveRevalOfferLetter')->name('co.approve_reval_offer_letter');
 Route::post('send_approved_reval_offer_letter','CODepartment\COController@approvedRevalOfferLetter')->name('co.send_approved_reval_offer_letter');

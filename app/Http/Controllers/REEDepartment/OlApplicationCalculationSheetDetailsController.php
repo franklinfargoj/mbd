@@ -88,13 +88,23 @@ class OlApplicationCalculationSheetDetailsController extends Controller
         $folder = $action = '';
         $master = OlApplicationMaster::where('id',$ol_application->application_master_id)->value('title');
         if ($master == 'New - Offer Letter'){
-            $folder = 'REE_department.action';
+            $folder1 = 'REE_department.action';
             $action = '.action';
         }elseif($master = 'Revalidation Of Offer Letter'){
-            $folder = 'REE_department.reval_action';
+            $folder1 = 'REE_department.reval_action';
             $action = '.reval_action';
         }
-        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','folder','master','action'));
+
+        $custom = OlCustomCalculationSheet::where('application_id',$applicationId)->first();
+        $premium = OlApplicationCalculationSheetDetails::where('application_id',$applicationId)->first(); 
+        $fsiCalculation = OlFsiCalculationSheet::where('application_id',$applicationId)->first(); 
+
+        $exists = 0;
+        if (isset($custom) || isset($premium) || isset($fsiCalculation)){
+            $exists = 1;
+        }
+        $FSI = '3 FSI';
+        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','folder','master','action','folder1','status','FSI','exists'));
     }
  
 

@@ -37,11 +37,7 @@
                     @foreach($societyDocuments as $data)
                     
                     <tr>
-                        <td>@if($data->parent != 0)
-                                {{$data->parent }}.{{$data->sort_by}}
-                             @else
-                                {{$i}}
-                            @endif</td>
+                        <td>{{$data->group }}.{{($data->sort_by != 0) ? $data->sort_by : ''}}</td>
                         <td>{{($data->name)}}
 
                             @if(isset($data->is_optional) && $data->is_optional == 1)
@@ -58,9 +54,6 @@
                             @endif
                         </td>
                     </tr>
-                     @php if($data->parent == 0){
-                        $i++;
-                    }  @endphp
                     @endforeach
                     @endif
                 </tbody>

@@ -43,11 +43,7 @@
                             @php $i=1; @endphp
                             @foreach($documents as $document)
                             <tr>
-                                <td>@if($document->parent != 0)
-                                        {{$document->parent }}.{{$document->sort_by}}
-                                     @else
-                                        {{$i}}
-                                    @endif</td>
+                                <td>{{$document->group }}.{{($document->sort_by != 0) ? $document->sort_by : ''}}</td>
                                 <td>
                                     {{ $document->name }}
                                     @if($document->is_optional == 0)
@@ -91,9 +87,6 @@
                                     @endif
                                 </td>
                             </tr>
-                            @php if($document->parent == 0){
-                                $i++;
-                            }  @endphp
                             @endforeach
                         </tbody>
                     </table>

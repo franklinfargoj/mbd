@@ -78,7 +78,7 @@
                         <div class="col-xl-5 col-lg-6 form-group"> <!--  -->
                             <label class="col-form-label" for="demand_draft_amount">
                             Premium pay order amount (Rs.): <span class="star">*</span></label>
-                            <input type="text" id="demand_draft_amount" name="demand_draft_amount" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('demand_draft_amount') }}" required>
+                            <input type="text" id="demand_draft_amount" name="demand_draft_amount" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ old('demand_draft_amount') }}" required>
                             <span class="help-block">{{$errors->first('demand_draft_amount')}}</span>
                         </div>
                         <div class="col-xl-5 offset-xl-1 col-lg-6 form-group"> <!--  -->
@@ -96,7 +96,7 @@
                         </div>
                         <div class="col-xl-5 offset-xl-1 col-lg-6 form-group"> <!--  -->
                             <label class="col-form-label" for="offsite_infra_charges">Offsite Infrastructure charges amount(Rs.) : <span class="star">*</span></label>
-                            <input type="text" id="offsite_infra_charges" name="offsite_infra_charges" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('offsite_infra_charges') }}" required>
+                            <input type="text" id="offsite_infra_charges" name="offsite_infra_charges" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ old('offsite_infra_charges') }}" required>
                             <span class="help-block">{{$errors->first('offsite_infra_charges')}}</span>
                         </div>
                     </div> 
@@ -118,7 +118,7 @@
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-xl-5 col-lg-6 form-group"> <!--  -->
                             <label class="col-form-label" for="water_charges_amount">Water charges amount(Rs.) : <span class="star">*</span></label>
-                            <input type="text" id="water_charges_amount" name="water_charges_amount" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('water_charges_amount') }}" required>
+                            <input type="text" id="water_charges_amount" name="water_charges_amount" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ old('water_charges_amount') }}" required>
                             <span class="help-block">{{$errors->first('water_charges_amount')}}</span>
                         </div>
                         <div class="col-xl-5 offset-xl-1 col-lg-6 form-group"> <!--  -->
@@ -142,7 +142,7 @@
                         <div class="col-xl-5 col-lg-6 form-group"> <!--  -->
                             <label class="col-form-label" for="demand_draft_amount">
                             Offsite infrastructure charges paid to MHADA (Rs.): <span class="star">*</span></label>
-                            <input type="text" id="demand_draft_amount" name="demand_draft_amount" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('demand_draft_amount') }}" required>
+                            <input type="text" id="demand_draft_amount" name="demand_draft_amount" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ old('demand_draft_amount') }}" required>
                             <span class="help-block">{{$errors->first('demand_draft_amount')}}</span>
                         </div>
                         <div class="col-xl-5 offset-xl-1 col-lg-6 form-group"> <!--  -->
@@ -160,7 +160,7 @@
                         </div>
                         <div class="col-xl-5 offset-xl-1 col-lg-6 form-group"> <!--  -->
                             <label class="col-form-label" for="offsite_infra_charges">Offsite Infrastructure charges paid to planning authority(Rs.) : <span class="star">*</span></label>
-                            <input type="text" id="offsite_infra_charges" name="offsite_infra_charges" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('offsite_infra_charges') }}" required>
+                            <input type="text" id="offsite_infra_charges" name="offsite_infra_charges" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ old('offsite_infra_charges') }}" required>
                             <span class="help-block">{{$errors->first('offsite_infra_charges')}}</span>
                         </div>
                     </div> 
@@ -182,7 +182,7 @@
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-xl-5 form-group"> <!--  -->
                             <label class="col-form-label" for="water_charges_amount">Water charges amount(Rs.) : <span class="star">*</span></label>
-                            <input type="text" id="water_charges_amount" name="water_charges_amount" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('water_charges_amount') }}" required>
+                            <input type="text" id="water_charges_amount" name="water_charges_amount" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ old('water_charges_amount') }}" required>
                             <span class="help-block">{{$errors->first('water_charges_amount')}}</span>
                         </div>
                         <div class="col-xl-5 offset-xl-1 form-group"> <!--  -->

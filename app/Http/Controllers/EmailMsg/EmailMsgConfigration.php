@@ -16,6 +16,7 @@ use Auth;
 
 class EmailMsgConfigration extends Controller
 {
+    public $isEmailActive;
      public function __construct(){
         $this->isEmailActive = env('ACTIVE_EMAIL_INTEGRATION');
      }
