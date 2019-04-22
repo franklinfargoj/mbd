@@ -36,7 +36,7 @@
                 <span style="margin-left: 36px"></span>2. IOD Bearing No. <input class="letter-form-input" type="text" id="" name="noc_no" value="{{ $noc_application->request_form->noc_no }}" readonly> Dated <input class="letter-form-input" type="text" id="" name="noc_date" value="{{date('j F Y',strtotime($noc_application->request_form->noc_date))}}" readonly></p>
                 <span style="margin-left: 36px"></span>3. MCGM IOD No. <input class="letter-form-input" type="text" id="" name="mcgm_iod_number" value="{{ $noc_application->request_form->mcgm_iod_number }}" readonly> Dated <input class="letter-form-input" type="text" id="" name="mcgm_iod_date" value="{{date('j F Y',strtotime($noc_application->request_form->mcgm_iod_date))}}" readonly></p>
                 <span style="margin-left: 36px"></span>4. Tripartite Agreement Dated <input class="letter-form-input" type="text" id="" name="tripartite_agreement_date" value="{{date('j F Y',strtotime($noc_application->request_form->tripartite_agreement_date))}}" readonly></p>
-                <hr>
+
                 <p class="font-weight-semi-bold">Dear Sir,</p>
                 <p>
                     Enclosing herewith the TRI-PARTY Agreement between MHADA first part,   <input class="letter-form-input" type="text" id="" name="name" value="{{ $society_details->name }}" readonly> second part, <input class="letter-form-input" type="text" id="" name="developer_name" value="{{$noc_application->request_form->developer_name}}" readonly> third part, being registered on payment of all necessary charges.
