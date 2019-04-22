@@ -29,7 +29,8 @@
                         <span style="width: 200px; border-bottom: 1px solid #000;">{{date('j F Y',strtotime($noc_application->request_form->tripartite_agreement_date))}}</span>
                     </p>
                 </div>
-                
+
+
                 <p style="font-weight: bold;">Dear Sir,</p>
                 <p style="text-indent: 80px;">
                     Enclosing herewith the TRI-PARTY Agreement between MHADA first part,   <span style="width: 200px; border-bottom: 1px solid #000;">{{ $society_details->name }} </span> second part, <span style="width: 200px; border-bottom: 1px solid #000;">{{$noc_application->request_form->developer_name}} </span> third part, being registered on payment of all necessary charges.
