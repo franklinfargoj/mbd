@@ -4,6 +4,58 @@
 @endsection
 @section('content')
 
+
+
+    {{--@if(session()->get('role_name') == config('commanConfig.ree_branch_head'))--}}
+
+        {{--@if($data->parent)--}}
+            {{--@foreach($data->parent as $parent)--}}
+                {{--@if($ol_application->current_phase == 1 || $ol_application->current_phase == 4)--}}
+                    {{--<span>{{ 'if'.$parent->id}}</span>--}}
+
+                    {{--@if($co_role_id == $parent->role_id)--}}
+
+                        {{--<span>{{ 'ifif'.$parent->id}}</span>--}}
+                        {{--<span>{{ $parent->role_id }}</span>--}}
+                        {{--<span>{{ $parent->name }}</span>--}}
+
+                        {{--<option value="{{ $parent->id}}"--}}
+                                {{--data-role="{{ $parent->role_id }}">{{$parent->name }}--}}
+                            {{--({{ $parent->roles[0]->display_name }})--}}
+                        {{--</option>--}}
+                    {{--@endif--}}
+                {{--@elseif ($ol_application->current_phase == 2 || $ol_application->current_phase == 5)--}}
+                    {{--<span>{{ 'elseif'.$society_role_id}}</span>--}}
+
+                    {{--@if($society_role_id == $parent->role_id)--}}
+                        {{--<span>{{ 'elseifif'.$parent->id}}</span>--}}
+                        {{--<span>{{ $parent->role_id }}</span>--}}
+                        {{--<span>{{ $parent->name }}</span>--}}
+                        {{--<option value="{{ $parent->id}}"--}}
+                                {{--data-role="{{ $parent->role_id }}">{{$parent->name }}--}}
+                            {{--({{ $parent->roles[0]->display_name }})--}}
+                        {{--</option>--}}
+                    {{--@endif--}}
+                {{--@else--}}
+                    {{--<span>{{ 'else'.$parent->id}}</span>--}}
+                    {{--<span>{{ $parent->role_id }}</span>--}}
+                    {{--<span>{{ $parent->name }}</span>--}}
+                    {{--<option value="{{ $parent->id}}"--}}
+                            {{--data-role="{{ $parent->role_id }}">{{$parent->name }}--}}
+                        {{--({{ $parent->roles[0]->display_name }})--}}
+                    {{--</option>--}}
+                {{--@endif--}}
+            {{--@endforeach--}}
+        {{--@endif--}}
+    {{--@else--}}
+        {{--@if($data->parent)--}}
+            {{--@foreach($data->parent as $parent)--}}
+                {{--<option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{--}}
+                                                            {{--$parent->name }} ({{ $parent->roles[0]->display_name }})</option>--}}
+            {{--@endforeach--}}
+        {{--@endif--}}
+    {{--@endif--}}
+
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="d-flex">
@@ -198,16 +250,18 @@
                                                 @endif
                                             </div>
 
-                                            {{--@php dd($co_role_id) @endphp--}}
                                             <div class="form-group m-form__group row mt-3 parent-data" id="select_dropdown">
                                                 <label class="col-form-label col-lg-2 col-sm-12">
                                                     Forward To:
                                                 </label>
+                                                {{--@php dd($ol_application->current_phase);@endphp--}}
+
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
                                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                                         id="to_user">
                                                         @if(session()->get('role_name') == config('commanConfig.ree_branch_head'))
-                                                            @if($data->parent)
+
+                                                        @if($data->parent)
                                                                 @foreach($data->parent as $parent)
                                                                     @if($ol_application->current_phase == 1 || $ol_application->current_phase == 4)
                                                                         @if($co_role_id == $parent->role_id)
