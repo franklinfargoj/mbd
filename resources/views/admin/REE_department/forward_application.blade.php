@@ -291,7 +291,7 @@
                                                     </div>
                                                     @endif
 
-                                            @if($arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.offer_letter_approved'))
+                                            @if(session()->get('role_name') != config('commanConfig.ree_junior'))
                                             <div class="form-group m-form__group row mt-3 child-data"
                                                 style="display: none">
                                                 <label class="col-form-label col-lg-2 col-sm-12">
