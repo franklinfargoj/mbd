@@ -19,3 +19,4 @@ yarn-error.log
 config/database.php
 resources/lang/marathi_font/*
 .gitignore
+/~
