@@ -738,7 +738,10 @@ class REEController extends Controller
                 ->where('id',$applicationId)->orderBy('id','DESC')->first();
 
         // $this->CommonController->getREEForwardRevertLog($applicationData,$applicationId); 
-       
+
+       // get logs of ree head         
+       $ree_branch_head = Role::where('name',config('commanConfig.ree_branch_head'))->value('id');         
+       $applicationData->ReeLog = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$ree_branch_head)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
        // get Co log
         $co = Role::where('name',config('commanConfig.co_engineer'))->value('id');
         $applicationData->coLog=OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();

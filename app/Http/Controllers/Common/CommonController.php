@@ -710,33 +710,56 @@ class CommonController extends Controller
 
     public function forwardApprovedApplication($request)
     {
-        if ($request->check_status == 1) {
-            $forward_application = [[
-                'application_id' => $request->applicationId,
-                'user_id' => Auth::user()->id,
-                'role_id' => session()->get('role_id'),
-                'status_id' => config('commanConfig.applicationStatus.forwarded'),
-                'to_user_id' => $request->to_user_id,
-                'to_role_id' => $request->to_role_id,
-                'remark' => $request->remark,
-                'is_active' => 1,
-                'phase' => 2,
-                'created_at' => Carbon::now(),
-            ],
+        $to_user_id = $society_flag = $user_status = $to_user_status = $to_society_flag = 0;
+        if ($request->check_status == 1) { 
+            $to_user_id = $request->to_user_id;
+            $to_society_flag = 0;
+            $user_status = config('commanConfig.applicationStatus.forwarded');
+            $to_user_status = config('commanConfig.applicationStatus.offer_letter_approved');
 
-                [
-                    'application_id' => $request->applicationId,
-                    'user_id' => $request->to_user_id,
-                    'role_id' => $request->to_role_id,
-                    'status_id' => config('commanConfig.applicationStatus.offer_letter_approved'),
-                    'to_user_id' => null,
-                    'to_role_id' => null,
-                    'remark' => $request->remark,
-                    'is_active' => 1,
-                    'phase' => 2,
-                    'created_at' => Carbon::now(),
-                ],
-            ];
+        } else if ($request->check_status == 0){
+            $to_user_id = $request->to_child_id;
+            $to_society_flag = 0;
+            $user_status = config('commanConfig.applicationStatus.reverted');
+            $to_user_status = config('commanConfig.applicationStatus.offer_letter_approved');
+        }else if ($request->check_status == 2){
+            $to_user_id = $request->to_society_id;
+            $to_society_flag = 1;
+            $user_status = config('commanConfig.applicationStatus.Rejected');
+            $to_user_status = config('commanConfig.applicationStatus.Rejected');
+        }
+            
+        $application = [[
+            'application_id' => $request->applicationId,
+            'user_id' => Auth::user()->id,
+            'role_id' => session()->get('role_id'),
+            'status_id' => $user_status,
+            'to_user_id' => $to_user_id,
+            'to_role_id' => $request->to_role_id,
+            'remark' => $request->remark,
+            'is_active' => 1,
+            'phase' => 2,
+            'society_flag' => $society_flag,
+            'created_at' => Carbon::now(),
+        ],
+        [
+            'application_id' => $request->applicationId,
+            'user_id' => $to_user_id,
+            'role_id' => $request->to_role_id,
+            'status_id' => $to_user_status,
+            'to_user_id' => null,
+            'to_role_id' => null,
+            'remark' => $request->remark,
+            'is_active' => 1,
+            'phase' => 2,
+            'society_flag' => $to_society_flag,
+            'created_at' => Carbon::now(),
+        ],
+        ];
+        if ($request->check_status == 2){
+            $EmailMsgConfigration = new EmailMsgConfigration();
+            $response = $EmailMsgConfigration->RejectApplicationMailMsg($request->applicationId);
+        }
 
             //Code added by Prajakta >>start
             DB::beginTransaction();
@@ -745,8 +768,8 @@ class CommonController extends Controller
                     ->whereIn('user_id', [Auth::user()->id,$request->to_user_id])
                     ->update(array('is_active' => 0));
 
-                OlApplicationStatus::insert($forward_application);
-                OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_approved')]);
+                OlApplicationStatus::insert($application);
+                OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => $to_user_status]);
 
                 DB::commit();
             } catch (\Exception $ex) {
@@ -754,13 +777,6 @@ class CommonController extends Controller
 //                return response()->json(['error' => $ex->getMessage()], 500);
             }
             //Code added by Prajakta >>end
-
-
-
-//            echo "in forward";
-            //            dd($forward_application);
-             }
-
         return true;
     }
 
@@ -782,7 +798,6 @@ class CommonController extends Controller
                 'phase' => 2,
                 'created_at' => Carbon::now(),
             ],
-
             [
                 'application_id' => $request->applicationId,
                 'user_id' => $society_details->user_id,
@@ -797,6 +812,9 @@ class CommonController extends Controller
                 'created_at' => Carbon::now(),
             ],
         ];
+        // send offer letter approval mail to society
+        $EmailMsgConfigration = new EmailMsgConfigration();
+        $response = $EmailMsgConfigration->sendOfferLetterApprovalNotification($request->applicationId);
 
         //Code added by Prajakta >>start
         DB::beginTransaction();
@@ -982,89 +1000,58 @@ class CommonController extends Controller
 
     public function generateOfferLetterREE($request)
     {
-        if ($request->check_status == 1) {
-            $forward_application = [[
-            'application_id' => $request->applicationId,
-            'user_id' => Auth::user()->id,
-            'role_id' => session()->get('role_id'),
-            'status_id' => config('commanConfig.applicationStatus.forwarded'),
-            'to_user_id' => $request->to_user_id,
-            'to_role_id' => $request->to_role_id,
-            'remark' => $request->remark,
-            'is_active' => 1,
-            'phase' => 1,
-            'created_at' => Carbon::now(),
-        ],
-        [
-            'application_id' => $request->applicationId,
-            'user_id' => $request->to_user_id,
-            'role_id' => $request->to_role_id,
-            'status_id' => config('commanConfig.applicationStatus.offer_letter_generation'),
-            'to_user_id' => null,
-            'to_role_id' => null,
-            'remark' => $request->remark,
-            'is_active' => 1,
-            'phase'=>1,
-            'created_at' => Carbon::now(),
-            ],
-        ];
+        $to_user_id = $society_flag = $to_society_flag = $user_status = $to_user_status = 0;
+        if ($request->check_status == 1) { 
+            $to_user_id = $request->to_user_id;
+            $to_society_flag = 0;
+            $user_status = config('commanConfig.applicationStatus.forwarded');
+            $to_user_status = config('commanConfig.applicationStatus.offer_letter_generation');
+
         } else if ($request->check_status == 0){
+            $to_user_id = $request->to_child_id;
+            $to_society_flag = 0;
+            $user_status = config('commanConfig.applicationStatus.reverted');
+            $to_user_status = config('commanConfig.applicationStatus.offer_letter_generation');
+        }else if ($request->check_status == 2){
+            $to_user_id = $request->to_society_id;
+            $to_society_flag = 1;
+            $user_status = config('commanConfig.applicationStatus.Rejected');
+            $to_user_status = config('commanConfig.applicationStatus.Rejected');
+        }
+
             $forward_application = [[
             'application_id' => $request->applicationId,
             'user_id' => Auth::user()->id,
             'role_id' => session()->get('role_id'),
-            'status_id' => config('commanConfig.applicationStatus.reverted'),
-            'to_user_id' => $request->to_user_id,
+            'status_id' => $user_status,
+            'to_user_id' => $to_user_id,
             'to_role_id' => $request->to_role_id,
             'remark' => $request->remark,
             'is_active' => 1,
             'phase' => 1,
+            'society_flag' => $society_flag,
             'created_at' => Carbon::now(),
         ],
         [
             'application_id' => $request->applicationId,
-            'user_id' => $request->to_child_id,
+            'user_id' => $to_user_id,
             'role_id' => $request->to_role_id,
-            'status_id' => config('commanConfig.applicationStatus.offer_letter_generation'),
+            'status_id' => $to_user_status,
             'to_user_id' => null,
             'to_role_id' => null,
             'remark' => $request->remark,
             'is_active' => 1,
             'phase'=>1,
+            'society_flag' => $to_society_flag,
             'created_at' => Carbon::now(),
             ],
         ];
-        } else if ($request->check_status == 2){
-            $forward_application = [[
-            'application_id' => $request->applicationId,
-            'user_id' => Auth::user()->id,
-            'role_id' => session()->get('role_id'),
-            'status_id' => config('commanConfig.applicationStatus.Rejected'),
-            'to_user_id' => $request->to_society_id,
-            'to_role_id' => $request->to_role_id,
-            'remark' => $request->remark,
-            'is_active' => 1,
-            'society_flag' => 0,
-            'phase' => 1,
-            'created_at' => Carbon::now(),
-        ],
-        [
-            'application_id' => $request->applicationId,
-            'user_id' => $request->to_society_id,
-            'role_id' => $request->to_role_id,
-            'status_id' => config('commanConfig.applicationStatus.Rejected'),
-            'to_user_id' => null,
-            'to_role_id' => null,
-            'remark' => $request->remark,
-            'is_active' => 1,
-            'society_flag' => 1,
-            'phase'=>1,
-            'created_at' => Carbon::now(),
-            ],
-        ];  
+        
+        if ($request->check_status == 2){
             $EmailMsgConfigration = new EmailMsgConfigration();
             $response = $EmailMsgConfigration->RejectApplicationMailMsg($request->applicationId);
         }
+
         //Code added by Prajakta >>start
         DB::beginTransaction();
         try {
