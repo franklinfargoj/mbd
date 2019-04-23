@@ -4136,12 +4136,18 @@ class CommonController extends Controller
             ->where('role_id',$roles['cap_engineer'])
             ->get()->count();
 
+        $approvedOfferLetters = OlApplication::whereIn('application_master_id', $new_offer_letter_master_ids)
+        ->where('is_approve_offer_letter',1)->get()->count();
+
+
         $totalPendingApplications = $eeTotalPendingCount + $dyceTotalPendingCount + $reeTotalPendingCount
             + $coTotalPendingCount + $vpTotalPendingCount + $capTotalPendingCount;
 
 
         $dashboardData1 = array();
-        $dashboardData1['Total Number of Applications'] = $totalPendingApplications;
+        $dashboardData1['Total Number of Applications Received to MHADA for Approval'] = $approvedOfferLetters + $totalPendingApplications;
+        $dashboardData1['Total Applications Approved & Sent to Society '] = $approvedOfferLetters;
+        $dashboardData1['Total Number of Applications pending at department'] = $totalPendingApplications;
         $dashboardData1['Applications Pending at EE Department'] = $eeTotalPendingCount;
         $dashboardData1['Applications Pending at DyCE'] = $dyceTotalPendingCount;
         $dashboardData1['Applications Pending at REE'] = $reeTotalPendingCount;

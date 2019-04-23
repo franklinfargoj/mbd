@@ -607,10 +607,12 @@
 
                             $.each((data), function (index, data) {
                                 obj = {};
-                                if (index != 'Total Number of Applications') {
-                                    obj['status'] = index;
-                                    obj['value'] = data;
-                                    chartData.push(obj);
+                                if (index != 'Total Number of Applications Received to MHADA for Approval') {
+                                    if (index != 'Total Number of Applications pending at department'){
+                                        obj['status'] = index;
+                                        obj['value'] = data;
+                                        chartData.push(obj);
+                                    }
                                 }
 
                             });
