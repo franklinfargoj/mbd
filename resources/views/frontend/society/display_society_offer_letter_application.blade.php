@@ -11,7 +11,7 @@
                         <tbody>
                             <tr>
                                 <td style="font-size: 18px;">कार्यकारी अभियंता,</td>
-                                <td style="border-bottom: 1px solid #000; font-size: 18px;">EE</td>
+                                <td style="border-bottom: 1px solid #000; font-size: 18px;">{{ isset($division) ? $division : '' }}</td>
                                 <td style="font-size: 18px;">विभाग,</td>
                             </tr>
                         </tbody>

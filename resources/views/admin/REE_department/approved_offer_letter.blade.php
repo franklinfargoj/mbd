@@ -141,7 +141,7 @@ else if(isset($applicationData->offer_letter_document_path))
                                 @if($applicationData->offer_letter_document_path)   
                                     <p class="font-weight-semi-bold">Offer letter</p>
                                     <p>Click to edit generated offer letter in PDF format</p>
-                                    <a href="{{route('ree.edit_offer_letter',encrypt($applicationData->id))}}" class="btn btn-primary" target="_blank" rel="noopener"> 
+                                    <a href="{{route('ree.edit_offer_letter',encrypt($applicationData->id))}}" class="btn btn-primary btn-w115" target="_blank" rel="noopener"> 
                                     Edit</a>   
                                 @endif
                             </div>
@@ -176,7 +176,7 @@ else if(isset($applicationData->offer_letter_document_path))
                                     </div>
                                 </div>
                             </div>
-                            @if($status->status_id != config('commanConfig.applicationStatus.forwarded') && $status->status_id != config('commanConfig.applicationStatus.sent_to_society') && (session()->get('role_name') == config('commanConfig.ree_junior') || session()->get('role_name') == config('commanConfig.ree_branch_head')))
+                            @if($status->status_id != config('commanConfig.applicationStatus.forwarded') && $status->status_id != config('commanConfig.applicationStatus.sent_to_society') && $status->status_id != config('commanConfig.applicationStatus.reverted') && (session()->get('role_name') == config('commanConfig.ree_junior') || session()->get('role_name') == config('commanConfig.ree_branch_head')))
                                 <div class="col-sm-6 border-left">
                                     <div class="d-flex flex-column h-100">
                                         <p class="font-weight-semi-bold">Upload Offer Letter</p>
@@ -245,7 +245,7 @@ else if(isset($applicationData->offer_letter_document_path))
                 <div class="col-xs-12 row row-list">
                     <div class="col-md-12">
                         <p class="font-weight-semi-bold">Remark by REE</p>
-                        <textarea rows="4" cols="63" name="demarkation_comments" class="form-control form-control--custom" readonly>{{(isset($applicationData->reeForwardLog) ? $applicationData->reeForwardLog->remark : '')}}</textarea>
+                        <textarea rows="4" cols="63" name="demarkation_comments" class="form-control form-control--custom" readonly>{{ isset($applicationData->ReeLog->remark) ? $applicationData->ReeLog->remark : '' }}</textarea>
                     </div>
                 </div>
                 <div class="col-xs-12 row row-list border-0">
@@ -258,10 +258,11 @@ else if(isset($applicationData->offer_letter_document_path))
         </div>
         <!-- end  -->
         <!-- Encrochment verification -->
-    @if($ree_head && $applicationData->status_offer_letter != config('commanConfig.applicationStatus.sent_to_society') && $applicationData->status_offer_letter != config('commanConfig.applicationStatus.Rejected'))
+    @if($ree_head && $status->status_id != config('commanConfig.applicationStatus.sent_to_society') && $status->status_id != config('commanConfig.applicationStatus.Rejected') && $status->status_id != config('commanConfig.applicationStatus.reverted'))
         <form role="form" id="approved_letter" name="approved_letter" class="form-horizontal" method="post" action="{{route('ree.send_letter_society')}}" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="applicationId" value="{{$applicationData->id}}">
+        <input type="hidden" name="societyId" value="{{$applicationData->society_id}}">
             <div class="m-portlet m-portlet--mobile m_panel">
                 <div class="m-portlet__body table--box-input">
                     <h3 class="section-title section-title--small">Send to Society:</h3>

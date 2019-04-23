@@ -24,6 +24,7 @@
                             {{-- <input type="text" id="department_name" name="department_name" class="form-control form-control--custom m-input" value="EE" readonly> --}}
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" data-live-search="true" id="department_name" name="department_name" required>
                                 <option value="">Select</option>
+                                <!-- ee division set by EEDivisionComposer -->
                                 @foreach($ee_divisions as $ee_division)
                                     <option {{($ol_application->department!=''?$ol_application->department->id:'')==$ee_division->id?'selected':''}} value="{{ $ee_division->id }}">{{ $ee_division->division }}</option>
                                 @endforeach

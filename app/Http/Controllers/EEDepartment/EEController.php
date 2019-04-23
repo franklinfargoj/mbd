@@ -698,12 +698,14 @@ class EEController extends Controller
 
     public function addDocumentScrutiny(Request $request)
     {
-        
         $document_status = OlSocietyDocumentsStatus::where('application_id',$request->applicationId)
         ->where('document_id',$request->document_status_id)->first();
 
         $ee_document_scrutiny = [
             'comment_by_EE' => $request->remark,
+            'document_id' => $request->document_status_id,
+            'application_id' => $request->applicationId,
+            'society_id' => $request->society_id,
         ];
 
         $time = time();
@@ -724,8 +726,7 @@ class EEController extends Controller
             }
 
         }
-        // dd($document_status);
-        $document_status->update($ee_document_scrutiny);
+        OlSocietyDocumentsStatus::updateOrCreate(['application_id' => $request->applicationId, 'document_id' => $request->document_status_id, 'society_id' => $request->society_id],$ee_document_scrutiny);
 
         return redirect()->back();
         //insert into ol_society_document_status table

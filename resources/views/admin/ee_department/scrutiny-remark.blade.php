@@ -291,6 +291,8 @@ if($latest){
 
                                             <input type="hidden" name="document_status_id"
                                                 value="{{ $document->id }}">
+                                            <input type="hidden" name="society_id"
+                                                value="{{ isset($ol_application->id) ? $ol_application->society_id : '' }}">
                                             <input type="hidden" name="applicationId" value="{{ isset($ol_application->id) ? $ol_application->id : '' }}">    
                                             <div class="modal-body table--box-input">
                                                 <div class="mb-4">
@@ -341,8 +343,8 @@ if($latest){
                                                 <div class="mb-4">
                                                     <label for="remark">Remark:</label>
                                                     <textarea class="form-control form-control--custom"
-                                                        name="comment_by_EE" id="comment_by_EE_{{ $i }}"
-                                                        cols="30" rows="5"></textarea>
+                                                        name="comment_by_EE" id="ee-comment{{$i}}"
+                                                        cols="30" rows="5"> {{ isset($document->documents_uploaded[0]) ? $document->documents_uploaded[0]->comment_by_EE : '' }}</textarea>
                                                 </div>
 
                                                 <div class="custom-file">
@@ -521,9 +523,8 @@ if($latest){
                                                         <label for="m_datepicker">तपासणी दिनांक: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
-                                                        <input {{$readonly}} type="text" class="form-control form-control--custom m_datepicker"
-                                                            value="{{isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->date_of_investigation : $investDate }}"
-                                                            name="date_of_investigation" required placeholder="">
+                                                        <input {{$readonly}} type="text" class="form-control form-control--custom m_datepicker" value="{{isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->date_of_investigation : $investDate }}"
+                                                            name="date_of_investigation" required readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -668,7 +669,7 @@ if($latest){
                                                     <div class="col-sm-8">
                                                         <input {{$readonly}} type="text" class="form-control form-control--custom m_datepicker"
                                                             required value="{{isset($arrData['demarcation_checkist_data']) ? $arrData['demarcation_checkist_data']->date_of_investigation : $investDate }}"
-                                                            name="date_of_investigation" id="demarcation_date" placeholder="">
+                                                            name="date_of_investigation" id="demarcation_date" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -879,7 +880,7 @@ if($latest){
                                                     <div class="col-sm-8">
                                                         <input {{$readonly}} type="text" class="form-control form-control--custom m_datepicker"
                                                             required value="{{isset($arrData['tit_bit_checkist_data']) ? $arrData['tit_bit_checkist_data']->date_of_investigation : $investDate }}"
-                                                            name="date_of_investigation" id="tit_bit_date" placeholder="">
+                                                            name="date_of_investigation" id="tit_bit_date" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -945,7 +946,7 @@ if($latest){
                                                             <td>
                                                             @if($tit_bit->question == 'फुटकळ भूखंडाचे एकूण क्षेत्रफळ किती ?')
                                                                 <textarea {{$disabled}} class="form-control form-control--custom form-control--textarea"
-                                                                    name="remark[{{ $i }}]" style="border-top: none;resize: none;" id="remark-one" {{ $required }}>{{ isset($arrData['tit_bit_details_data'][$tit_bit->id]) ? $arrData['tit_bit_details_data'][$tit_bit->id]['remark'] : ($landDetails!="" ? $landDetails->pg_plot_area : '') }}</textarea>
+                                                                    name="remark[{{ $i }}]" style="border-top: none;resize: none;" id="remark-one" {{ $required }}>{{ isset($arrData['tit_bit_details_data'][$tit_bit->id]) ? $arrData['tit_bit_details_data'][$tit_bit->id]['remark'] : ($landDetails!="" ? $landDetails->tit_bit_area : '') }}</textarea>
                                                             @else        
                                                             
                                                                 <textarea {{$disabled}} class="form-control form-control--custom form-control--textarea"
@@ -1014,7 +1015,7 @@ if($latest){
                                                     <div class="col-sm-8">
                                                         <input {{$readonly}} type="text" class="form-control form-control--custom"
                                                             name="details_of_notice" id="building-no" placeholder=""
-                                                            required value="{{ isset($arrData['rg_checkist_data']) ? $arrData['rg_checkist_data']->details_of_notice : $noticeDetails }}">
+                                                            required value="{{ isset($arrData['rg_checkist_data']) ? $arrData['rg_checkist_data']->details_of_notice : $noticeDetails }}" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1229,7 +1230,7 @@ if($latest){
             },
             cache: false,
             success: function (res) {
-                $("#comment_by_EE_" + id).val(res.comment_by_EE);
+                $("#ee-comment" + id).val(res.comment_by_EE);
                 $("#oldFileName_" + id).val(res.EE_document_path);
 
                 $("#fileName_" + id).val(res.EE_document_path);

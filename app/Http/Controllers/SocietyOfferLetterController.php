@@ -24,6 +24,7 @@ use App\MasterLayout;
 use App\LayoutUser;
 use App\User;
 use App\RoleUser;
+use App\EEDivision;
 use App\Role;
 use App\Http\Controllers\Common\CommonController;
 use File;
@@ -1840,7 +1841,6 @@ class SocietyOfferLetterController extends Controller
         $ol_applications = $ol_application;
         $documents_arr = $this->get_docs_count($ol_application, $society_details);
         $applicationCount = $this->getForwardedApplication();
-
         return view('frontend.society.edit_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id', 'documents_arr','applicationCount'));
     }
 
@@ -1958,7 +1958,8 @@ class SocietyOfferLetterController extends Controller
         $mpdf = new Mpdf();
         $mpdf->autoScriptToLang = true;
         $mpdf->autoLangToFont = true;
-        $contents = view('frontend.society.display_society_offer_letter_application', compact('society_details', 'ol_application', 'layouts', 'id','comment'));
+        $division = EEDivision::where('id',$ol_application->department_id)->where('status',1)->value('division');
+        $contents = view('frontend.society.display_society_offer_letter_application', compact('society_details', 'ol_application', 'layouts', 'id','comment','division'));
         $mpdf->WriteHTML($contents);
         $mpdf->Output($fileName,'I');
 
