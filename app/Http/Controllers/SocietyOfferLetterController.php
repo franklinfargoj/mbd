@@ -2229,7 +2229,6 @@ class SocietyOfferLetterController extends Controller
                 //send application submission mail and msg to society and respective department
 
                 $data = $society;
-                dd($application_name);
                 $data['users'] = $users;
                 $data['application_no'] = $application_name->application_no;
                 $data['layout_id'] = $application_name->layout_id;

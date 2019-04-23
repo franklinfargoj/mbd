@@ -77,10 +77,14 @@ class SocietyNocController extends Controller
         $masterIds = OlApplicationMaster::whereIn('title',['Application for NOC','Application for NOC - IOD'])->pluck('id')->toArray();
         $data = NocApplication::where('user_id', Auth::user()->id)->whereIn('application_master_id',$masterIds)
         ->orderBy('id','desc')->first();
+
+        $currentApplication=NocApplication::where('user_id', Auth::user()->id)->where('application_master_id',$id)
+        ->orderBy('id','desc')->first();
+        
         $applicationCount = $this->getForwardedApplication();
 
-        if (isset($data) && $applicationCount == 0){
-            return redirect()->route('society_noc_edit',encrypt($data->id));
+        if (isset($currentApplication) && $applicationCount == 0){
+            return redirect()->route('society_noc_edit',encrypt($currentApplication->id));
         }elseif(isset($data) && $applicationCount > 0){
             return redirect()->route('society_noc_preview',encrypt($data->id));
         }else{

@@ -910,7 +910,7 @@ class RCController extends Controller
                     if(!$data['serviceChargesRate']){
                         return redirect()->back()->with('warning', 'Service charge Rates Not added into system.');
                     }
-
+                    
                     $data['Tenant_bill_id'] = DB::table('building_tenant_bill_association')->where('building_id', '=', $request->building_id)->where('bill_month', '=',  $data['month'])->where('bill_year', '=', $bill_year)->orderBy('id','DESC')->first();
 
                     $bill_ids = '';
@@ -921,9 +921,9 @@ class RCController extends Controller
 
                     //  echo '<pre>';
                     // print_r($data['TransBillGenerate']);exit;
-
+                    
                     $data['arrear_ids'] = TransBillGenerate::whereIn('id',explode(',', $bill_ids))->pluck('arrear_id')->toArray();
-
+                    
 
                     $data['arrear_ids_temp'] = [];
                     if($data['arrear_ids']) {
@@ -1028,7 +1028,7 @@ class RCController extends Controller
 
         $receipt = TransPayment::with('dd_details')->with('bill_details')->whereIn('bill_no', $bill_ids)->where('building_id', '=', $request->building_id)->where('society_id', '=', $data['building']->society_id)->get();
 
-                // dd($receipt);
+        //dd($receipt);
         $data['bill_amount'] = 0;
         $data['amount_paid'] = 0;
         $data['credit_amount'] = 0;
@@ -1065,8 +1065,21 @@ class RCController extends Controller
         if($request->flag) {
             return $data; 
         } else {
-            $pdf = PDF::loadView('admin.rc_department.payment_receipt_society', $data);
-            return $pdf->download('payment_receipt_society'.date('YmdHis').'.pdf');
+           // $pdf = PDF::loadView('admin.rc_department.payment_receipt_society', $data);
+           $content=view('admin.rc_department.payment_receipt_society', $data);
+                
+            $fileName='payment_receipt_society'.date('YmdHis').'.pdf';
+            $pdf=new Mpdf([
+                'default_font_size' => 9,
+                'default_font' => 'Times New Roman'
+            ]);
+            $pdf->autoScriptToLang = true;
+            $pdf->autoLangToFont = true;
+            $pdf->setAutoBottomMargin = 'stretch';
+            $pdf->setAutoTopMargin = 'stretch';
+            $pdf->WriteHTML($content);
+            return $pdf->Output($fileName, 'D');
+           // return $pdf->download('payment_receipt_society'.date('YmdHis').'.pdf');
         }
      }
 

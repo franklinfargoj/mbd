@@ -68,7 +68,7 @@ class EMClerkController extends Controller
             $wards = MasterWard::where('layout_id', '=', decrypt($request->id))->pluck('id');
             $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
 
-            $societies = SocietyDetail::whereIn('layout_id',decrypt($request->id))->get();
+            $societies = SocietyDetail::where('layout_id',decrypt($request->id))->get();
 
             $html = '<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="society" name="society" required>
                                         <option value="" style="font-weight: normal;">Select Society</option>';
