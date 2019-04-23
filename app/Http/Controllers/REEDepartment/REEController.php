@@ -2174,7 +2174,7 @@ class REEController extends Controller
         $ol_pending_data = NULL;
         if($role_id == $reeHeadId){
             $ol_pending_data = $this->CommonController->getTotalCountsOfApplicationsPending();
-            $ol_pending_count = $ol_pending_data['Total Number of Applications'];
+            $ol_pending_count = $ol_pending_data['Total Number of Applications Received to MHADA for Approval'];
         }
 
         //Tripartite Agreement
