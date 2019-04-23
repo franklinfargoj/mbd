@@ -15,12 +15,16 @@
 @endif
 <div class="custom-wrapper">
    <div class="col-md-12">
-      <div class="d-flex">
-         {{ Breadcrumbs::render('scrutiny-remark-noc-cc',$noc_application->id) }}
-         <div class="ml-auto btn-list">
-            <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
-         </div>
-      </div>
+       <!-- BEGIN: Subheader -->
+       <div class="m-subheader px-0 m-subheader--top">
+           <div class="d-flex align-items-center">
+               <h3 class="m-subheader__title m-subheader__title--separator">
+                   REE Note </h3>
+               {{ Breadcrumbs::render('scrutiny-remark-noc-cc',$noc_application->id) }}
+               <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+           </div>
+       </div>
+
       <div id="tabbed-content" class="">
          <ul id="top-tabs" class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom tabs">
             <li class="nav-item m-tabs__item active" data-target="#ree-scrunity" id="section-1">
@@ -142,7 +146,7 @@
                           <div class="portlet-body">
                               <div class="m-portlet__body m-portlet__body--table">
                                   <div class="" style="padding: 0;">
-                                      <div class="d-flex align-items-center justify-content-center">
+                                      <div class="d-flex align-items-center">
                                           <h3 class="section-title">
                                               Ree Note
                                           </h3>

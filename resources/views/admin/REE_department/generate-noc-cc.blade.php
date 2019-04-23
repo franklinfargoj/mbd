@@ -20,12 +20,15 @@
        @endif
     </div>
    <div class="col-md-12">
-      <div class="d-flex">
-         {{ Breadcrumbs::render('generate_noc_cc',$noc_application->id) }}
-         <div class="ml-auto btn-list">
-            <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
-         </div>
-      </div>
+       <!-- BEGIN: Subheader -->
+       <div class="m-subheader px-0 m-subheader--top">
+           <div class="d-flex align-items-center">
+               <h3 class="m-subheader__title m-subheader__title--separator">
+                   Generate NOC </h3>
+               {{ Breadcrumbs::render('generate_noc_cc',$noc_application->id) }}
+               <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+           </div>
+       </div>
       <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
          <li class="nav-item m-tabs__item">
             <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#generate-offer-letter" role="tab"
