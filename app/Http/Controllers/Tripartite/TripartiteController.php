@@ -777,12 +777,18 @@ class TripartiteController extends Controller
         $parent = "";
         if ($result) {
             $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
-            $layout_ids = array_column($layout_id_array, 'layout_id');
+
+//            $layout_ids = array_column($layout_id_array, 'layout_id');
+
+            $layout_ids = OlApplication::where('id',$applicationId)->value('layout_id');
+
             $parent = User::with(['roles', 'LayoutUser' => function ($q) use($layout_ids){
-                $q->whereIn('layout_id', $layout_ids);
+//                $q->whereIn('layout_id', $layout_ids);
+                $q->where('layout_id', $layout_ids);
             }])->whereHas('LayoutUser', function ($q)  use($layout_ids){
-                    $q->whereIn('layout_id', $layout_ids);
-                })->whereIn('role_id', $result)->get();
+//                    $q->whereIn('layout_id', $layout_ids);
+                $q->where('layout_id', $layout_ids);
+            })->whereIn('role_id', $result)->get();
         }
         $approved_by_co = 0;
         if (session()->get('role_name') == config('commanConfig.ree_branch_head')) {
@@ -966,9 +972,15 @@ class TripartiteController extends Controller
         $CoLogs = $this->getLogsOfCoDepartment($applicationId);
         $LaLogs = $this->getLogsOfLaDepartment($applicationId);
         $master_log = $this->get_master_log_of_status(array($societyLogs, $ReeLogs, $CoLogs, $LaLogs));
-        //dd($master_log);
-        return view('admin.tripartite.forward_application', compact('master_log', 'ol_application', 'applicationId', 'tripartite_application', 'data', 'societyLogs', 'ReeLogs', 'CoLogs', 'LaLogs'));
+//        dd($ol_application->current_phase);
+
+        $co_role_id = Role::where('name', config('commanConfig.co_engineer'))->value('id');
+        $society_role_id = Role::where('name', 'society')->value('id');
+
+
+        return view('admin.tripartite.forward_application', compact('co_role_id','society_role_id','master_log', 'ol_application', 'applicationId', 'tripartite_application', 'data', 'societyLogs', 'ReeLogs', 'CoLogs', 'LaLogs'));
     }
+
 
     public function saveForwardApplication(Request $request)
     {

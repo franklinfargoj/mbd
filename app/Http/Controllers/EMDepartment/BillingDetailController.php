@@ -221,76 +221,108 @@ class BillingDetailController extends Controller
                     })
                     ->selectRaw('trans_bill_generate.*,service_charges_rates.water_charges,service_charges_rates.electric_city_charge,service_charges_rates.pump_man_and_repair_charges,service_charges_rates.external_expender_charge,service_charges_rates.administrative_charge,service_charges_rates.lease_rent,service_charges_rates.na_assessment,service_charges_rates.other,arrear_calculation.old_intrest_amount,arrear_calculation.difference_intrest_amount,arrear_calculation.year as ac_year,arrear_calculation.month as ac_month,arrear_calculation.oir_year,arrear_calculation.oir_month,arrears_charges_rates.old_rate')->whereIn('bill_year',$select_year)->where('trans_bill_generate.tenant_id', $request->tenant_id)->orderBy('trans_bill_generate.created_at','desc')->groupBy('trans_bill_generate.tenant_id');
                 } else {
-                    $arreas_calculations = DB::select('select 
-                            sum(balance_amount) as balance_amount,
-                            sum(amount_paid) as amount_paid,
-                            sum(total_bill) as total_bill,
-                            building_id,
-                            society_id,
-                            water_charges,
-                            electric_city_charge,
-                            pump_man_and_repair_charges,
-                            external_expender_charge,
-                            administrative_charge,
-                            lease_rent,
-                            na_assessment,
-                            other,
-                            sum(arrear_bill) as arrear_bill,
-                            old_intrest_amount,
-                            difference_intrest_amount,
-                            bill_month,
-                            bill_year,
-                            bill_no,
-                            id
-                            from (SELECT
-                                DISTINCT(trans_bill_generate.tenant_id),
-                                service_charges_rates.water_charges,
-                                service_charges_rates.electric_city_charge,
-                                service_charges_rates.pump_man_and_repair_charges,
-                                service_charges_rates.external_expender_charge,
-                                service_charges_rates.administrative_charge,
-                                service_charges_rates.lease_rent,
-                                service_charges_rates.na_assessment,
-                                service_charges_rates.other,
-                                arrear_calculation.old_intrest_amount,
-                                arrear_calculation.difference_intrest_amount,
-                                arrear_calculation.year AS ac_year,
-                                arrear_calculation.month AS ac_month,
-                                arrear_calculation.oir_year,
-                                arrear_calculation.oir_month,
-                                arrears_charges_rates.old_rate,
-                                trans_bill_generate.balance_amount,
-                                trans_bill_generate.building_id,
-                                trans_bill_generate.society_id,
-                                trans_payment.amount_paid,
-                                trans_bill_generate.arrear_bill,
-                                trans_bill_generate.total_bill,
-                                trans_bill_generate.bill_month,
-                                trans_bill_generate.bill_year,
-                                group_concat(trans_payment.bill_no separator ",") as bill_no,
-                                trans_bill_generate.id as id
-                            FROM
-                                `trans_bill_generate`
-                            LEFT JOIN
-                                `service_charges_rates`
-                            ON
-                                `service_charges_rates`.`building_id` = `trans_bill_generate`.`building_id` AND `service_charges_rates`.`society_id` = `trans_bill_generate`.`society_id` AND `service_charges_rates`.`year` = `trans_bill_generate`.`bill_year`
-                            LEFT JOIN
-                                `arrear_calculation`
-                            ON
-                                `arrear_calculation`.`building_id` = `trans_bill_generate`.`building_id` AND `arrear_calculation`.`society_id` = `trans_bill_generate`.`society_id` AND `arrear_calculation`.`year` = `trans_bill_generate`.`bill_year` AND `arrear_calculation`.`month` = `trans_bill_generate`.`bill_month`
-                            LEFT JOIN
-                                `arrears_charges_rates`
-                            ON
-                                `arrears_charges_rates`.`building_id` = `trans_bill_generate`.`building_id` AND `arrears_charges_rates`.`society_id` = `trans_bill_generate`.`society_id` AND `arrears_charges_rates`.`year` = `trans_bill_generate`.`bill_year`
-                            LEFT JOIN
-                                `trans_payment`
-                            ON
-                                `trans_payment`.`building_id` = `trans_bill_generate`.`building_id` AND `trans_payment`.`society_id` = `trans_bill_generate`.`society_id`
-                            WHERE
-                                `trans_bill_generate`.`society_id` = '.$request->society_id.' AND `trans_bill_generate`.`building_id` = '.$request->building_id.' AND `bill_year` IN ('.implode(',',$select_year).') AND `trans_bill_generate`.`deleted_at` IS NULL
-                            GROUP BY trans_bill_generate.tenant_id
-                            ) l');
+                    $arreas_calculations = TransBillGenerate::with('trans_payment')
+                    ->where('trans_bill_generate.society_id',$request->society_id)
+                    ->where('trans_bill_generate.building_id',$request->building_id)
+                    ->leftjoin('service_charges_rates', function($join)
+                    {
+                        $join->on('service_charges_rates.building_id', '=', 'trans_bill_generate.building_id');
+                        $join->on('service_charges_rates.society_id','=', 'trans_bill_generate.society_id');
+                        $join->on('service_charges_rates.year','=', 'trans_bill_generate.bill_year');
+                    })
+                    ->leftjoin('arrear_calculation', function($join)
+                    {
+                        $join->on('arrear_calculation.building_id', '=', 'trans_bill_generate.building_id');
+                        $join->on('arrear_calculation.society_id','=', 'trans_bill_generate.society_id');
+                        $join->on('arrear_calculation.year','=', 'trans_bill_generate.bill_year');
+                        $join->on('arrear_calculation.month','=', 'trans_bill_generate.bill_month');
+                    })
+                    ->leftjoin('arrears_charges_rates', function($join)
+                    {
+                        $join->on('arrears_charges_rates.building_id', '=', 'trans_bill_generate.building_id');
+                        $join->on('arrears_charges_rates.society_id','=', 'trans_bill_generate.society_id');
+                        $join->on('arrears_charges_rates.year','=', 'trans_bill_generate.bill_year');
+                    })
+                    ->where(DB::raw('trans_bill_generate.id'),'=',function($q) use($request){
+                        $q->from('trans_bill_generate')
+                        ->select('id')
+                        ->where('bill_month','=',DB::raw('trans_bill_generate.bill_month'))
+                        //->where('tenant_id', '=', $request->tenant_id)
+                        ->limit(1)
+                        ->orderBy('id', 'desc');
+                    })
+                    ->selectRaw('trans_bill_generate.*,service_charges_rates.water_charges,service_charges_rates.electric_city_charge,service_charges_rates.pump_man_and_repair_charges,service_charges_rates.external_expender_charge,service_charges_rates.administrative_charge,service_charges_rates.lease_rent,service_charges_rates.na_assessment,service_charges_rates.other,arrear_calculation.old_intrest_amount,arrear_calculation.difference_intrest_amount,arrear_calculation.year as ac_year,arrear_calculation.month as ac_month,arrear_calculation.oir_year,arrear_calculation.oir_month,arrears_charges_rates.old_rate')->whereIn('bill_year',$select_year)->orderBy('trans_bill_generate.created_at','desc')->groupBy('trans_bill_generate.tenant_id');
+               
+                    // $arreas_calculations = DB::select('select 
+                    //         sum(balance_amount) as balance_amount,
+                    //         sum(amount_paid) as amount_paid,
+                    //         sum(total_bill) as total_bill,
+                    //         building_id,
+                    //         society_id,
+                    //         water_charges,
+                    //         electric_city_charge,
+                    //         pump_man_and_repair_charges,
+                    //         external_expender_charge,
+                    //         administrative_charge,
+                    //         lease_rent,
+                    //         na_assessment,
+                    //         other,
+                    //         sum(arrear_bill) as arrear_bill,
+                    //         old_intrest_amount,
+                    //         difference_intrest_amount,
+                    //         bill_month,
+                    //         bill_year,
+                    //         bill_no,
+                    //         id
+                    //         from (SELECT
+                    //             DISTINCT(trans_bill_generate.tenant_id),
+                    //             service_charges_rates.water_charges,
+                    //             service_charges_rates.electric_city_charge,
+                    //             service_charges_rates.pump_man_and_repair_charges,
+                    //             service_charges_rates.external_expender_charge,
+                    //             service_charges_rates.administrative_charge,
+                    //             service_charges_rates.lease_rent,
+                    //             service_charges_rates.na_assessment,
+                    //             service_charges_rates.other,
+                    //             arrear_calculation.old_intrest_amount,
+                    //             arrear_calculation.difference_intrest_amount,
+                    //             arrear_calculation.year AS ac_year,
+                    //             arrear_calculation.month AS ac_month,
+                    //             arrear_calculation.oir_year,
+                    //             arrear_calculation.oir_month,
+                    //             arrears_charges_rates.old_rate,
+                    //             trans_bill_generate.balance_amount,
+                    //             trans_bill_generate.building_id,
+                    //             trans_bill_generate.society_id,
+                    //             trans_payment.amount_paid,
+                    //             trans_bill_generate.arrear_bill,
+                    //             trans_bill_generate.total_bill,
+                    //             trans_bill_generate.bill_month,
+                    //             trans_bill_generate.bill_year,
+                    //             group_concat(trans_payment.bill_no separator ",") as bill_no,
+                    //             trans_bill_generate.id as id
+                    //         FROM
+                    //             `trans_bill_generate`
+                    //         LEFT JOIN
+                    //             `service_charges_rates`
+                    //         ON
+                    //             `service_charges_rates`.`building_id` = `trans_bill_generate`.`building_id` AND `service_charges_rates`.`society_id` = `trans_bill_generate`.`society_id` AND `service_charges_rates`.`year` = `trans_bill_generate`.`bill_year`
+                    //         LEFT JOIN
+                    //             `arrear_calculation`
+                    //         ON
+                    //             `arrear_calculation`.`building_id` = `trans_bill_generate`.`building_id` AND `arrear_calculation`.`society_id` = `trans_bill_generate`.`society_id` AND `arrear_calculation`.`year` = `trans_bill_generate`.`bill_year` AND `arrear_calculation`.`month` = `trans_bill_generate`.`bill_month`
+                    //         LEFT JOIN
+                    //             `arrears_charges_rates`
+                    //         ON
+                    //             `arrears_charges_rates`.`building_id` = `trans_bill_generate`.`building_id` AND `arrears_charges_rates`.`society_id` = `trans_bill_generate`.`society_id` AND `arrears_charges_rates`.`year` = `trans_bill_generate`.`bill_year`
+                    //         LEFT JOIN
+                    //             `trans_payment`
+                    //         ON
+                    //             `trans_payment`.`building_id` = `trans_bill_generate`.`building_id` AND `trans_payment`.`society_id` = `trans_bill_generate`.`society_id`
+                    //         WHERE
+                    //             `trans_bill_generate`.`society_id` = '.$request->society_id.' AND `trans_bill_generate`.`building_id` = '.$request->building_id.' AND `bill_year` IN ('.implode(',',$select_year).') AND `trans_bill_generate`.`deleted_at` IS NULL
+                    //         GROUP BY trans_bill_generate.tenant_id
+                    //         ) l');
                 }
                  // $arreas_calculations = $arreas_calculations->toSql();   
 
@@ -546,8 +578,9 @@ class BillingDetailController extends Controller
                                             'society_id'=>encrypt($society->id),'month'=> $arreas_calculations->bill_month,'year'=> $arreas_calculations->bill_year,'id'=>$arreas_calculations->id]);
                                 $button = "<div class='d-flex btn-icon-list'>
                                     <a href='".$url."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>Donwload Bill</a>";
-                                if($arreas_calculations->total_bill != $arreas_calculations->balance_amount) {
-                                    $url = route('downloadReceipt', ['building_id'=>encrypt($building->id),'society_id'=>encrypt($building->society_id),'bill_no'=>encrypt($arreas_calculations->bill_no)]);   
+                                if(count($arreas_calculations->trans_payment)) {  
+                              // if($arreas_calculations->total_bill != $arreas_calculations->balance_amount) {
+                                    $url = route('downloadReceipt', ['building_id'=>encrypt($building->id),'society_id'=>encrypt($building->society_id),'bill_no'=>encrypt($arreas_calculations->id)]);   
 
                                     $button.= "<a href='".$url."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Download Receipt</a></div>";
                                 }

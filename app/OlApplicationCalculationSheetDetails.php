@@ -58,6 +58,7 @@ class OlApplicationCalculationSheetDetails extends Model
         'proratata_construction_area',
         'remaining_area',
         'redirekner_val',
+        'dcr_rate',
         'scrutiny_fee'
     ];
 }
