@@ -1107,6 +1107,7 @@ $("a[href$='#scrutiny-history-tab']").on('click',function(){
     $('#forward-application-tab').removeClass('active')
 })
 
+
 $(".number").keypress(function(){
     var key = window.event ? event.keyCode : event.which;
   if (event.keyCode == 8 || event.keyCode == 45

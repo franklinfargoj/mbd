@@ -19,30 +19,29 @@
   
 <div class="custom-wrapper">
     <div class="col-md-12">
-        <div class="d-flex"> 
-      
-            @if($route_name=='co.show_calculation_sheet')
-            {{ Breadcrumbs::render('calculation_sheet_co',$ol_application->id) }}
-
-            @elseif($route_name=='vp.show_calculation_sheet')
-
-            {{ Breadcrumbs::render('calculation_sheet_vp',$ol_application->id) }}
-            @elseif($route_name=='cap.show_calculation_sheet')
-            {{ Breadcrumbs::render('calculation_sheet_cap',$ol_application->id) }}
-            @elseif($route_name=='ree.show_calculation_sheet')
-            {{ Breadcrumbs::render('REE_calculation',$ol_application->id) }} @elseif($route_name=='ol_calculation_sheet.show')
-            {{ Breadcrumbs::render('reval_calculation_sheet',$ol_application->id) }}@elseif($route_name=='ree.show_reval_calculation_sheet')
-            {{ Breadcrumbs::render('reval_calculation_sheet',$ol_application->id) }}
-            @elseif($route_name=='co.show_reval_calculation_sheet')
-            {{ Breadcrumbs::render('reval_co_calculation_sheet',$ol_application->id) }}@elseif($route_name=='cap.show_reval_calculation_sheet')
-            {{ Breadcrumbs::render('reval_cap_calculation_sheet',$ol_application->id) }}
-            @elseif($route_name=='vp.show_reval_calculation_sheet')
-            {{ Breadcrumbs::render('reval_vp_calculation_sheet',$ol_application->id) }}
-            @else
-
-            @endif
-            <div class="ml-auto btn-list">
-                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+        <div class="m-subheader px-0 m-subheader--top">
+            <div class="d-flex align-items-center">
+                <h3 class="m-subheader__title m-subheader__title--separator">Calculation Sheet </h3>
+                @if($route_name=='co.show_calculation_sheet')
+                    {{ Breadcrumbs::render('calculation_sheet_co',$ol_application->id) }}
+                @elseif($route_name=='cap.show_calculation_sheet') 
+                    {{ Breadcrumbs::render('calculation_sheet_cap',$ol_application->id) }}
+                @elseif($route_name=='vp.show_calculation_sheet') 
+                    {{ Breadcrumbs::render('calculation_sheet_vp',$ol_application->id) }}       
+                @elseif($route_name=='ree.show_calculation_sheet') 
+                    {{ Breadcrumbs::render('REE_calculation',$ol_application->id) }} @elseif($route_name=='ree_applications.custom_calculation_sheet') 
+                    {{ Breadcrumbs::render('reval_calculation_sheet',$ol_application->id) }} @elseif($route_name=='ree.show_reval_calculation_sheet') 
+                    {{ Breadcrumbs::render('reval_calculation_sheet',$ol_application->id) }} 
+                    @elseif($route_name=='co.show_reval_calculation_sheet')
+                    {{ Breadcrumbs::render('reval_co_calculation_sheet',$ol_application->id) }}@elseif($route_name=='cap.show_reval_calculation_sheet')
+                    {{ Breadcrumbs::render('reval_cap_calculation_sheet',$ol_application->id) }}
+                    @elseif($route_name=='vp.show_reval_calculation_sheet')
+                    {{ Breadcrumbs::render('reval_vp_calculation_sheet',$ol_application->id) }}
+                    @else  
+                @endif
+                <div class="ml-auto btn-list">
+                    <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                </div>
             </div>
         </div>
 
