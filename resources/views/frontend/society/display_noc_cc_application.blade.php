@@ -29,7 +29,7 @@
                         <span style="width: 200px; border-bottom: 1px solid #000;">{{date('j F Y',strtotime($noc_application->request_form->tripartite_agreement_date))}}</span>
                     </p>
                 </div>
-                <hr>
+
 
                 <p style="font-weight: bold;">Dear Sir,</p>
                 <p style="text-indent: 80px;">

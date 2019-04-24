@@ -388,16 +388,25 @@ class TripartiteController extends Controller
             $extension = $file->getClientOriginalExtension();
             $file_name = 'signed_tripartite_letter_1_' . $applicationId . '.' . $extension;
             $folder_name = "signed_tripartite_letter_1";
+
+            $drafted_tripartite_letter1 = $this->get_tripartite_letter1($applicationId, config('commanConfig.tripartite_agreements.letter_1_draft'));
+
             if ($extension == "pdf") {
-                $fileUpload = $this->comman->ftpFileUpload($folder_name, $request->file('signed_tripartite_letter_1'), $file_name);
+                if ($drafted_tripartite_letter1 != null) {
+                    $fileUpload = $this->comman->ftpFileUpload($folder_name, $request->file('signed_tripartite_letter_1'), $file_name);
 
-                $status = $this->get_document_status_by_name('Stamped_Signed');
+                    $status = $this->get_document_status_by_name('Stamped_Signed');
 
-                $this->set_tripartite_agreements($ol_application, config('commanConfig.tripartite_agreements.letter_1_draft'), $fileUpload, $status);
-                return redirect()->back()->with('success', 'Tripartite letter for stamp duty has been uploaded successfully.');
+                    $this->set_tripartite_agreements($ol_application, config('commanConfig.tripartite_agreements.letter_1_draft'), $fileUpload, $status);
+                    return redirect()->back()->with('success', 'Tripartite letter for stamp duty has been uploaded successfully.');
+
+                } else {
+                    return redirect()->back()->with('error', 'Draft copy of letter for stamp duty has not been generated');
+                }
             } else {
                 return redirect()->back()->with('error', 'Invalid format. pdf file only.');
             }
+
         }
     }
 
@@ -496,12 +505,24 @@ class TripartiteController extends Controller
             $extension = $file->getClientOriginalExtension();
             $file_name = 'signed_tripartite_letter_2_' . $applicationId . '.' . $extension;
             $folder_name = "signed_tripartite_letter_2";
-            if ($extension == "pdf") {
-                $fileUpload = $this->comman->ftpFileUpload($folder_name, $request->file('signed_tripartite_letter_2'), $file_name);
 
-                $status = $this->get_document_status_by_name('Stamped_Signed');
-                $this->set_tripartite_agreements($ol_application, config('commanConfig.tripartite_agreements.letter_2_draft'), $fileUpload, $status);
-                return redirect()->back()->with('success', 'Tripartite letter for execution and registration has been uploaded successfully.');
+            $drafted_tripartite_letter2 = $this->get_tripartite_letter1($ol_application->id, config('commanConfig.tripartite_agreements.letter_2_draft'));
+
+            if ($extension == "pdf") {
+
+                if ($drafted_tripartite_letter2 != null) {
+                    $fileUpload = $this->comman->ftpFileUpload($folder_name, $request->file('signed_tripartite_letter_2'), $file_name);
+
+                    $status = $this->get_document_status_by_name('Stamped_Signed');
+
+                    $this->set_tripartite_agreements($ol_application, config('commanConfig.tripartite_agreements.letter_2_draft'), $fileUpload, $status);
+
+                    return redirect()->back()->with('success', 'Tripartite letter for execution and registration has been uploaded successfully.');
+
+                } else {
+                    return redirect()->back()->with('error', 'Draft copy of letter for execution and registration has not been generated');
+
+                }
             } else {
                 return redirect()->back()->with('error', 'Invalid format. pdf file only.');
             }

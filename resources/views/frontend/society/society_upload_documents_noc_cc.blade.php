@@ -180,6 +180,8 @@
                                             <label class="col-form-label">Remark</label>
                                             <div class="col-md-8 @if($errors->has('society_documents_comment')) has-error @endif">
                                                 <div class="input-icon right">
+                                                    <input type="hidden" name="application_id" id="application_id" class="form-control m-input"
+                                                           value="{{ $application->id }}">
                                                     <textarea name="remark" id="remark" class="form-control m-input">{{old('remark')}}</textarea>
                                                     <span class="help-block">{{$errors->first('remark')}}</span>
                                                     <input type="hidden" name="user_id" id="user_id" class="form-control m-input"

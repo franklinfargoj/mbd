@@ -846,6 +846,11 @@ Breadcrumbs::for('scrutiny-remark-noc', function ($trail,$id) {
 
 });
 
+Breadcrumbs::for('view_application_noc_cc', function ($trail,$id) {
+    $trail->parent('ree_noc_cc');
+    $trail->push('View Application', route('cap.view_application',$id));
+});
+
 Breadcrumbs::for('scrutiny-remark-noc-cc', function ($trail,$id) {
     $trail->parent('ree_noc_cc');
     $trail->push('REE Note', route('ree.scrutiny-remark-noc-cc',$id));

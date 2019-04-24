@@ -5,12 +5,12 @@
 @section('content')
 <div class="custom-wrapper">
    <div class="col-md-12">
-      <div class="d-flex">
-         {{ Breadcrumbs::render('Forward_Application_ree_noc_cc',$noc_application->id) }}
-         <div class="ml-auto btn-list">
-            <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
-         </div>
-      </div>
+       <div class="m-subheader px-0 m-subheader--top">
+           <div class="d-flex align-items-center">
+               {{ Breadcrumbs::render('Forward_Application_ree_noc_cc',$noc_application->id) }}
+               <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+           </div>
+       </div>
       <div class="">
          <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom">
             <li class="nav-item m-tabs__item" data-target="#document-scrunity">

@@ -445,6 +445,7 @@ class SocietyNocforCCController extends Controller
     }
 
     public function addSocietyDocumentsComment(Request $request){
+
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $comments = '';
         if(!empty($request->input('society_documents_comment'))){
@@ -453,11 +454,20 @@ class SocietyNocforCCController extends Controller
             $comments = 'N.A.';
         }
         $input = array(
+            'application_id' => 1,
             'society_id' => $society->id,
             'society_documents_comment' => $comments,
         );
 
-        NocCCSocietyDocumentsComment::where('society_id', $society->id)->update($input);
+//        $is_comment = NocCCSocietyDocumentsComment::where('society_id', $society->id)->update($input);
+        $is_comment = NocCCSocietyDocumentsComment::where('society_id', $society->id)->get();
+
+        if(count($is_comment) == 0){
+            NocCCSocietyDocumentsComment::create($input);
+        }else{
+            NocCCSocietyDocumentsComment::where('society_id', $society->id)->update($input);
+        }
+
         return redirect()->route('upload_noc_application_cc');
     }
 

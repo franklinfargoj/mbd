@@ -1017,7 +1017,7 @@ class COController extends Controller
 
         //Offer Letter Subordinate Pendency
         $ol_pending_data = $this->CommonController->getTotalCountsOfApplicationsPending();
-        $ol_pending_count = $ol_pending_data['Total Number of Applications'];
+        $ol_pending_count = $ol_pending_data['Total Number of Applications Received to MHADA for Approval'];
 
         //Tripartite Agreement
         $tripartite_data = Null;
