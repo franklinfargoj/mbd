@@ -208,7 +208,7 @@
                 <div class="col-md-12">
                     <p class="font-weight-semi-bold">Remark</p>
                     <textarea rows="4" cols="63" required name="remark" class="form-control form-control--custom"></textarea>
-                    <button type="submit" class="btn btn-primary mt-3" onclick="return confirm('Are you sure you want to sent this NOC to society?');">Send NOC </button>
+                    <button type="submit" class="btn btn-primary mt-3" {{--onclick="return confirm('Are you sure you want to sent this NOC to society?');"--}}>Send NOC </button>
                 </div>
             </div>
         </div>
