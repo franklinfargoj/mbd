@@ -550,7 +550,10 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
         Route::get('society_offer_letter_application_download/{id}', 'SocietyOfferLetterController@generate_pdf')->name('society_offer_letter_application_download');
         Route::get('upload_society_offer_letter_application/{id}', 'SocietyOfferLetterController@showuploadOfferLetterAfterSign')->name('upload_society_offer_letter_application');
+        
         Route::post('upload_society_offer_letter', 'SocietyOfferLetterController@uploadOfferLetterAfterSign')->name('upload_society_offer_letter');
+
+        Route::post('submit_offer_letter_application', 'SocietyOfferLetterController@submitOfferLetterApplication')->name('submit_offer_letter_application');
 
         Route::get('society_applications', 'SocietyOfferLetterController@society_applications')->name('society_applications');
         //route for society Application Page

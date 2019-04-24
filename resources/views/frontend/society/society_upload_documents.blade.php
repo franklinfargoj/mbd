@@ -174,14 +174,15 @@
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                         <div class="">
-                            <h3 class="section-title section-title--small">Submit Application:</h3>
+                            <!-- <h3 class="section-title section-title--small">Submit Application:</h3> -->
+                            <h3 class="section-title section-title--small">Additional Information:</h3>
                         </div>
                         <form action="{{ route('add_documents_comment') }}" method="post" enctype='multipart/form-data'>
                             @csrf
                             <input type="hidden" name="applicationId" value="{{ isset($ol_applications->id) ? $ol_applications->id : '' }}">
                             <div class="remarks-suggestions table--box-input">
                                 <div class="mt-3">
-                                    <label for="society_documents_comment">Additional Information:</label>
+                                    <!-- <label for="society_documents_comment">Additional Information:</label> -->
                                     <div class="@if($errors->has('society_documents_comment')) has-error @endif">
                                         <textarea name="society_documents_comment" rows="5" cols="30" id="society_documents_comment" class="form-control form-control--custom">@if(!empty($documents_comment) && isset($documents_comment->society_documents_comment)){{ $documents_comment->society_documents_comment }}@endif</textarea>
                                         <span class="help-block">{{$errors->first('society_documents_comment')}}</span>
