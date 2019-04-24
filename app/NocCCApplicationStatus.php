@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\NocCCApplication;
 class NocCCApplicationStatus extends Model
 {
     protected $table = 'noc_cc_application_status_log';
@@ -27,5 +27,11 @@ class NocCCApplicationStatus extends Model
     {
         return $this->hasOne('App\Role', 'id','role_id');
     }
+
+    public function nocCCApplication()
+    {
+        return $this->belongsTo('App\NocCCApplication', 'application_id','id');
+    }
+
 
 }

@@ -196,7 +196,7 @@
                                        <span class="text-danger" id="file_error"></span>
                                     </div>
                                     <div class="mt-auto">
-                                       <button type="submit" onclick="return confirm('Are you sure you want to upload the draft copy of NOC.Please note once you upload, the same would be finalized and would be uneditable.');" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                       <button type="submit" {{--onclick="return confirm('Are you sure you want to upload the draft copy of NOC.Please note once you upload, the same would be finalized and would be uneditable.');"--}} class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
                                     </div>
                                  </form>
                               </div>

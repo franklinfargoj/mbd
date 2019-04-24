@@ -1061,7 +1061,7 @@ class COController extends Controller
 
         //NOC (CC)
         $nocforCCModuleController = new SocietyNocforCCController();
-        $nocforCCApplication = $nocforCCModuleController->getApplicationListDashboard('REE');
+        $nocforCCApplication = $nocforCCModuleController->getApplicationListDashboard('CO');
         $noc_cc_data = $nocforCCApplication['app_data'];
         $noc_cc_count = $noc_cc_data['Total Number of Applications'][0];
 
