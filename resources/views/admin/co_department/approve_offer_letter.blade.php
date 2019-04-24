@@ -64,7 +64,7 @@
                     <div class="mt-3">
                         <label for="demarkation_comments">Remark</label>
                         <textarea id="remark" rows="5" cols="30" class="form-control form-control--custom"
-                            name="remark" {{ $ol_application->status->status_id == config('commanConfig.applicationStatus.forwarded') ? 'readonly' : '' }}> {{(isset($applicationData->coLog) ? $applicationData->coLog->remark : '')}}</textarea>
+                            name="remark" {{ $ol_application->status->status_id == config('commanConfig.applicationStatus.forwarded') ? 'readonly' : '' }}> {{(isset($applicationData->coLog) && $ol_application->status->status_id == config('commanConfig.applicationStatus.forwarded') ? $applicationData->coLog->remark : '')}}</textarea>
                     </div>
                     @if($ol_application->status->status_id == config('commanConfig.applicationStatus.offer_letter_generation'))
                         <div class="mt-3 btn-list">

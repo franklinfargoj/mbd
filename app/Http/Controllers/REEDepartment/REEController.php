@@ -448,10 +448,9 @@ class REEController extends Controller
         ->where('parent_id',$table1Id)->get()->toArray();
         $summary = $this->getSummaryData($applicatonId);
 
-
         $role_id = Role::where('name', '=', config('commanConfig.ree_branch_head'))->value('id');
         $ree_head = User::where('role_id',$role_id)->value('name');
-        
+
         return view('admin.REE_department.'.$blade,compact('applicatonId','calculationData','content','table1','custom','summary','ree_head'));
     }
 
@@ -685,7 +684,12 @@ class REEController extends Controller
     }
 
     public function uploadOfferLetter(Request $request,$applicationId){
-        
+        $reeHead = config('commanConfig.ree_branch_head');
+        $status = $this->CommonController->getCurrentStatus($applicationId);
+        if ($status->status_id == config('commanConfig.applicationStatus.offer_letter_approved') && session()->get('role_name') == $reeHead) {
+           OlApplication::where('id',$applicationId)->update(['is_offer_letter_uploaded' => 1]); 
+        }
+
         if ($request->file('offer_letter')) {
             $file = $request->file('offer_letter');
             $extension = $file->getClientOriginalExtension();
@@ -1124,7 +1128,6 @@ class REEController extends Controller
 
     //calculations option with formula and custom
     public function displayCalculationSheetOptions(Request $request,$applicationId){
-        
         $applicationId = decrypt($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->model=OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();

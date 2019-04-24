@@ -164,22 +164,22 @@ else if(isset($societyData->drafted_offer_letter))
             <div class="m-portlet m-portlet--mobile m_panel">
                 <div class="m-portlet__body" style="padding-right: 0;">
 
-                    @if($societyData->ree_Jr_id)
                     <!-- <h3 class="section-title section-title--small mb-0">Offer Letter:</h3> -->
-                        @if($societyData->ree_Jr_id && $applicationLog->status_id != config('commanConfig.applicationStatus.forwarded'))
                             <div class=" row-list">
                                 <div class="row">
-                                    <div class="col-sm-6">
-                                        <p class="font-weight-semi-bold">Offer letter</p>
-                                        <p>Click to generate draft offer letter</p>
-                                        <a href="{{route('ree.edit_offer_letter',encrypt($societyData->id))}}" class="btn btn-primary btn-w115">
-                                        @if($societyData->drafted_offer_letter)
-                                            Edit
-                                        @else
-                                            Generate
-                                        @endif</a>
-                                    </div>
-                                    <div class="col-sm-6 border-left">
+                                    @if($societyData->ree_Jr_id && $applicationLog->status_id != config('commanConfig.applicationStatus.forwarded'))
+                                        <div class="col-sm-6">
+                                            <p class="font-weight-semi-bold">Offer letter</p>
+                                            <p>Click to generate draft offer letter</p>
+                                            <a href="{{route('ree.edit_offer_letter',encrypt($societyData->id))}}" class="btn btn-primary btn-w115">
+                                            @if($societyData->drafted_offer_letter)
+                                                Edit
+                                            @else
+                                                Generate
+                                            @endif</a>
+                                        </div>
+                                    @endif
+                                    <div class="col-sm-6 {{ $applicationLog->status_id == config('commanConfig.applicationStatus.forwarded') || $applicationLog->status_id == config('commanConfig.applicationStatus.offer_letter_generation') ? '' : 'border-left' }}">
                                         <p class="font-weight-semi-bold">Download Draft offer letter</p>
                                         <p>Click to view generated offer letter in PDF format</p>
                                         @if(isset($societyData->drafted_offer_letter))
@@ -191,26 +191,22 @@ else if(isset($societyData->drafted_offer_letter))
                                     </div>
                                 </div>
                             </div>
-                        @endif
-                    @endif
-                    <div class="w-100 row-list">
+                    <div class="w-100">
                         <div class="">
                             <div class="row">
+                            @if(isset($societyData->offer_letter_document_path))
                                 <div class="col-sm-6">
                                     <div class="d-flex flex-column h-100">
                                         <p class="font-weight-semi-bold">Download Signed uploaded Offer Letter</p>
                                         <p>Click to download uploaded signed offer letter in PDF format</p>
                                         <div class="mt-auto">
-                                            @if(isset($societyData->offer_letter_document_path))
                                             <a href="{{config('commanConfig.storage_server').'/'.$societyData->offer_letter_document_path}}" class="btn btn-primary" target="_blank">Download</a>
-                                            @else
-                                            <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                                * Note : Offer Letter is not uploaded. </span>
-                                            @endif
                                         </div>
                                     </div>
                                 </div>
-                                @if(($societyData->ree_Jr_id || $societyData->ree_branch_head) && ($applicationLog->status_id == config('commanConfig.applicationStatus.offer_letter_generation') || $applicationLog->status_id == config('commanConfig.applicationStatus.draft_offer_letter_generated')) && isset($societyData->drafted_offer_letter))
+                                @endif
+
+                                @if($societyData->ree_branch_head && ($applicationLog->status_id == config('commanConfig.applicationStatus.offer_letter_generation') || $applicationLog->status_id == config('commanConfig.applicationStatus.draft_offer_letter_generated')) && isset($societyData->drafted_offer_letter))
                                 <div class="col-sm-6 border-left">
                                     <div class="d-flex flex-column h-100">
                                         <p class="font-weight-semi-bold">Upload Offer Letter</p>
