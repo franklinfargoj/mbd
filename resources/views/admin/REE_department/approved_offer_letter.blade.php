@@ -9,6 +9,12 @@
 @endsection
 @section('content')
 
+@if(session()->has('success'))
+<div class="alert alert-success display_msg">
+    {{ session()->get('success') }}
+</div>
+@endif
+
 @php 
 if (isset($applicationData->drafted_offer_letter))
     $document = $applicationData->drafted_offer_letter;
@@ -134,18 +140,18 @@ else if(isset($applicationData->offer_letter_document_path))
         <input type="hidden" name="applicationId" value="{{$applicationData->id}}">
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body" style="padding-right: 0;">
-                @if($status->status_id != config('commanConfig.applicationStatus.forwarded') && session()->get('role_name') == config('commanConfig.ree_junior'))
+                
                     <div class=" row-list">
                         <div class="row">
+                        @if($status->status_id != config('commanConfig.applicationStatus.forwarded') && session()->get('role_name') == config('commanConfig.ree_junior'))
                             <div class="col-md-6 row-list">
-                                @if($applicationData->offer_letter_document_path)   
                                     <p class="font-weight-semi-bold">Offer letter</p>
                                     <p>Click to edit generated offer letter in PDF format</p>
                                     <a href="{{route('ree.edit_offer_letter',encrypt($applicationData->id))}}" class="btn btn-primary btn-w115" target="_blank" rel="noopener"> 
                                     Edit</a>   
-                                @endif
                             </div>
-                            <div class="col-sm-6 border-left">
+                        @endif
+                            <div class="col-sm-6 {{ ($status->status_id == config('commanConfig.applicationStatus.forwarded') || $status->status_id == config('commanConfig.applicationStatus.offer_letter_approved') || $status->status_id == config('commanConfig.applicationStatus.sent_to_society') || $status->status_id == config('commanConfig.applicationStatus.Rejected') || $status->status_id == config('commanConfig.applicationStatus.reverted')) ? '' : 'border-left' }}">
                                 <p class="font-weight-semi-bold">Download Draft offer letter</p>
                                 <p>Click to view generated offer letter in PDF format</p>
                                 @if(isset($applicationData->drafted_offer_letter))
@@ -157,26 +163,22 @@ else if(isset($applicationData->offer_letter_document_path))
                             </div>
                         </div>
                     </div>
-                @endif
 
                 <div class="w-100 row-list">
                     <div class="">
                         <div class="row">
+                            @if(isset($applicationData->offer_letter_document_path))
                             <div class="col-sm-6">
                                 <div class="d-flex flex-column h-100">
-                                    <p class="font-weight-semi-bold">Download Signed uploaded Offer Letter</p>
+                                    <p class="font-weight-semi-bold">Download signed uploaded Offer Letter</p>
                                     <p>Click to download uploaded signed offer letter in PDF format</p>
                                     <div class="mt-auto">
-                                        @if(isset($applicationData->offer_letter_document_path))
                                         <a href="{{config('commanConfig.storage_server').'/'.$applicationData->offer_letter_document_path}}" class="btn btn-primary btn-w115" target="_blank">Download</a>
-                                        @else
-                                        <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                            * Note : Offer Letter is not uploaded. </span>
-                                        @endif
                                     </div>
                                 </div>
                             </div>
-                            @if($status->status_id != config('commanConfig.applicationStatus.forwarded') && $status->status_id != config('commanConfig.applicationStatus.sent_to_society') && $status->status_id != config('commanConfig.applicationStatus.reverted') && (session()->get('role_name') == config('commanConfig.ree_junior') || session()->get('role_name') == config('commanConfig.ree_branch_head')))
+                            @endif
+                            @if($status->status_id != config('commanConfig.applicationStatus.forwarded') && $status->status_id != config('commanConfig.applicationStatus.sent_to_society') && $status->status_id != config('commanConfig.applicationStatus.reverted') && session()->get('role_name') == config('commanConfig.ree_branch_head'))
                                 <div class="col-sm-6 border-left">
                                     <div class="d-flex flex-column h-100">
                                         <p class="font-weight-semi-bold">Upload Offer Letter</p>
@@ -256,6 +258,7 @@ else if(isset($applicationData->offer_letter_document_path))
                 </div>
             </div>
         </div>
+
         <!-- end  -->
         <!-- Encrochment verification -->
     @if($ree_head && $status->status_id != config('commanConfig.applicationStatus.sent_to_society') && $status->status_id != config('commanConfig.applicationStatus.Rejected') && $status->status_id != config('commanConfig.applicationStatus.reverted'))
@@ -270,7 +273,11 @@ else if(isset($applicationData->offer_letter_document_path))
                         <div class="col-md-12">
                             <p class="font-weight-semi-bold">Remark</p>
                             <textarea rows="4" cols="63" name="remark" class="form-control form-control--custom"></textarea>
-                            <button type="submit" class="btn btn-primary mt-3">Send offer Letter </button>
+                            <button type="submit" class="btn btn-primary mt-3" {{ ($applicationData->is_offer_letter_uploaded == 0) ? 'disabled' : '' }}>Send offer Letter </button> 
+                            @if($applicationData->is_offer_letter_uploaded == 0)
+                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                 * Note : Please upload offer letter to send to society. </span>
+                            @endif
                         </div>
                     </div>
                 </div>

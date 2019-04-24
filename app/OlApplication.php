@@ -26,6 +26,7 @@ class OlApplication extends Model
         'encrochment_verification_comment',
         'date_of_site_visit',
         'site_visit_officers',
+        'is_offer_letter_uploaded',
     ];
 
     public function eeApplicationSociety()
