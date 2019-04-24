@@ -754,7 +754,7 @@ class SocietyNocforCCController extends Controller
             'app_data' => array(
                 'Total Number of Applications' => array(
                     $total_number_of_application,
-                    'co_noc_cc_applications?dashboard_redicted=1&submitted_at_from=&submitted_at_to=&update_status='
+                    'co_noc_cc_applications'
                 ),
                 'Application Pending at CO' => array(
                     $total_pending_application_with_me,
@@ -855,7 +855,7 @@ class SocietyNocforCCController extends Controller
                 'app_data' => array(
                     'Total Number of Applications' => array(
                         $total_number_of_application,
-                        'ree_noc_cc_applications?dashboard_redicted=1&submitted_at_from=&submitted_at_to=&update_status='
+                        'ree_noc_cc_applications'
                     ),
                     'Application Pending with me' => array(
                         $total_pending_application_with_me,
