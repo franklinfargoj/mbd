@@ -910,26 +910,28 @@
                         var i = 1;
                         $.each(data, function (index, data) {
 
-//                            console.log(data[1]);
-                            html += "<tr>\n" +
-                                "<td class=\"text-center\">" + i + "</td>" +
-                                "<td>" + index + "</td>\n" +
-                                "<td class=\"text-center\"><span class=\"count-circle\">" + data[0] + "</span></td>\n"+
-                                "<td>\n" ;
+                            console.log(data);
+                            if(index != 'seperation'){
+                                html += "<tr>\n" +
+                                    "<td class=\"text-center\">" + i + "</td>" +
+                                    "<td>" + index + "</td>\n" +
+                                    "<td class=\"text-center\"><span class=\"count-circle\">" + data[0] + "</span></td>\n"+
+                                    "<td>\n" ;
 
-                            if (data[1] == "pending_noc_cc") {
-                                html += "<a href=\"" + baseUrl+"/" + data[1] + "\" class=\"btn btn-action\" data-toggle=\"modal\"\n" +
-                                    "             data-target=\"#pending_noc_cc_application\">View</a>";
-                            }
-                            else {
-                                html += "<a href=\"" + baseUrl + "/" + data[1] + "\"class=\"btn btn-action\">View</a>\n";
+                                if (data[1] == "pending_noc_cc") {
+                                    html += "<a href=\"" + baseUrl+"/" + data[1] + "\" class=\"btn btn-action\" data-toggle=\"modal\"\n" +
+                                        "             data-target=\"#pending_noc_cc_application\">View</a>";
+                                }
+                                else {
+                                    html += "<a href=\"" + baseUrl + "/" + data[1] + "\"class=\"btn btn-action\">View</a>\n";
 
-                            }
+                                }
 
                                 html += "</td>\n" +
-                                        "</tr>";
-                            chart_count += data[0];
-                            i++;
+                                    "</tr>";
+                                chart_count += data[0];
+                                i++;
+                            }
                         });
 
                         html += "</tbody>\n" +
