@@ -693,6 +693,8 @@ class SocietyNocforCCController extends Controller
             $status_dashboard = $this->getStatusDashboard($applicationData);
         }
 
+
+//        dd($status_dashboard);
         return $status_dashboard;
     }
 
@@ -829,6 +831,8 @@ class SocietyNocforCCController extends Controller
         $totalForwarded = 0;
         $application_sent_for_compliance = 0;
         $approved_noc_forwarded_for_issueing_to_society = 0;
+        $application_pending_for_NOC_draft = 0;
+        $drafted_NOC_pending = 0;
 
         $proposal_sent_for_approval_to_co = 0;
         $approved_noc_but_not_issued_to_society = 0;
@@ -837,6 +841,7 @@ class SocietyNocforCCController extends Controller
         $total_allover_pending_application = 0;
         $total_pending_application_at_ree = 0;
         $total_pending_application_at_co = 0;
+
 
         $ree_roles = $this->getREERoles();
 
@@ -852,7 +857,7 @@ class SocietyNocforCCController extends Controller
             if($phase == 0){
                 switch ( $status )
                 {
-                    case config('commanConfig.applicationStatus.in_process'): $total_pending_application_with_me += 1; break;
+                    case config('commanConfig.applicationStatus.in_process'): $total_pending_application_with_me += 1; $application_pending_for_NOC_draft += 1; break;
                     case config('commanConfig.applicationStatus.forwarded'): $totalForwarded += 1; break;
                     case config('commanConfig.applicationStatus.reverted'): $application_sent_for_compliance += 1 ; break;
                     default:
@@ -863,7 +868,7 @@ class SocietyNocforCCController extends Controller
 //                dd($application);
                 switch ( $status )
                 {
-                    case config('commanConfig.applicationStatus.NOC_Generation'): $total_pending_application_with_me += 1; break;
+                    case config('commanConfig.applicationStatus.NOC_Generation'): $total_pending_application_with_me += 1; $drafted_NOC_pending +=1;break;
                     case (config('commanConfig.applicationStatus.forwarded') /*&& $application['drafted_offer_letter']*/) : $proposal_sent_for_approval_to_co += 1; break;
                     case config('commanConfig.applicationStatus.reverted'): $application_sent_for_compliance += 1 ; break;
                     default:
@@ -875,7 +880,7 @@ class SocietyNocforCCController extends Controller
                 switch ( $status )
                 {
 
-                    case config('commanConfig.applicationStatus.NOC_Issued'): $approved_noc_but_not_issued_to_society += 1; break;
+                    case config('commanConfig.applicationStatus.NOC_Issued'): $approved_noc_but_not_issued_to_society += 1;  break;
                     case config('commanConfig.applicationStatus.forwarded'): $approved_noc_forwarded_for_issueing_to_society += 1; break;
                     case config('commanConfig.applicationStatus.reverted'): $application_sent_for_compliance += 1 ; break;
                     case config('commanConfig.applicationStatus.sent_to_society'): $approved_and_issued_noc += 1; break;
@@ -924,7 +929,7 @@ class SocietyNocforCCController extends Controller
                     ),
                     'Applications Pending with me' => array(
                         $total_pending_application_with_me,
-                        'ree_noc_cc_applications?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process')
+                        'pending_noc_cc'
                     ),
                     'Applications Forwarded' => array(
                         $totalForwarded,
@@ -951,12 +956,17 @@ class SocietyNocforCCController extends Controller
                         $approved_and_issued_noc,
                         'ree_noc_cc_applications?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.sent_to_society')
                     ),
+                    'seperation'=> array('Total Pending Applications'=> $application_pending_for_NOC_draft + $drafted_NOC_pending,
+                        'Total Pending Application for Draft'=> $application_pending_for_NOC_draft,
+                        'Total Pending Drafted NOC(CC)'=> $drafted_NOC_pending),
+
                 ),
                 'pending_data' => array(
                     'Total Number of Applications' => $total_allover_pending_application,
                     'Applications pending at REE' => $total_pending_application_at_ree,
                     'Applications pending at CO' => $total_pending_application_at_co
                 ),
+
             );
     }
 
