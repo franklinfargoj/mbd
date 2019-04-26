@@ -176,7 +176,7 @@
                                                         file...</label>
                                                     <span class="text-danger" id="file_error"></span>
                                                 </div>
-                                                <div class="mt-auto">
+                                                <div class="mt-auto" style="float:right">
                                                     <button type="submit" class="btn btn-primary btn-custom"
                                                             id="uploadBtn">Upload
                                                     </button>
@@ -256,7 +256,7 @@
                                                             file...</label>
                                                         <span class="text-danger" id="file_error"></span>
                                                     </div>
-                                                    <div class="mt-auto">
+                                                    <div class="mt-auto" style="float:right">
                                                         <button type="submit" class="btn btn-primary btn-custom"
                                                                 id="uploadBtn">
                                                             Upload
@@ -336,7 +336,7 @@
                                                         file...</label>
                                                     <span class="text-danger" id="file_error"></span>
                                                 </div>
-                                                <div class="mt-auto">
+                                                <div class="mt-auto" style="float:right">
                                                     <button type="submit" class="btn btn-primary btn-custom"
                                                             id="uploadBtn">
                                                         Upload
