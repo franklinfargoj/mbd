@@ -373,8 +373,8 @@
                                 </div> --}}
                                 <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
                                      data-scrollbar-shown="true"
-                                     data-scrollable="true" data-max-height="150">
-                                    <div class="remarks-section__data">
+                                     data-scrollable="true" >
+                                    <div class="remarks-section__data" style="padding: 5px!important">
                                         <p class="remarks-section__data__row">
                                             <span>{{config('commanConfig.la_engineer')==$history->Roles->name?'Riders By':'Remark By'}} {{
                                     isset($history->Roles->display_name) ? $history->Roles->display_name : '' }}
