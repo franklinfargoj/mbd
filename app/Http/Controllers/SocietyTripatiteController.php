@@ -588,7 +588,7 @@ class SocietyTripatiteController extends Controller
         $mpdf->autoLangToFont = true;
         $contents = view('frontend.society.tripatite.display_society_tripartite_application', compact('society_details', 'ol_applications', 'layouts', 'id'));
         $mpdf->WriteHTML($contents);
-        $mpdf->Output();
+        $mpdf->Output('society_tripartite_application.pdf','I');
     }
 
 
