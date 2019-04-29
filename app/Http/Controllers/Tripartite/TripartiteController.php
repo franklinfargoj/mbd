@@ -40,7 +40,6 @@ class TripartiteController extends Controller
         $getData = $request->all();
 
         $columns = [
-            ['data' => 'radio', 'name' => 'radio', 'title' => '', 'searchable' => false],
             ['data' => 'rownum', 'name' => 'rownum', 'title' => 'Sr No.', 'searchable' => false],
             ['data' => 'application_no', 'name' => 'application_no', 'title' => 'Application Number'],
             ['data' => 'submitted_at', 'name' => 'submitted_at', 'title' => 'Date', 'class' => 'datatable-date'],
@@ -49,6 +48,8 @@ class TripartiteController extends Controller
             ['data' => 'eeApplicationSociety.address', 'name' => 'eeApplicationSociety.address', 'title' => 'Address', 'class' => 'datatable-address'],
 //            ['data' => 'model','name' => 'model','title' => 'Model'],
             ['data' => 'Status', 'name' => 'current_status_id', 'title' => 'Status'],
+            ['data' => 'radio', 'name' => 'radio', 'title' => 'Action', 'searchable' => false],
+
             // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
@@ -59,10 +60,6 @@ class TripartiteController extends Controller
             return $datatables->of($ee_application_data)
                 ->editColumn('rownum', function ($listArray) {
                     static $i = 0; $i++;return $i;
-                })
-                ->editColumn('radio', function ($ee_application_data) {
-                    $url = route('tripartite.view_application', encrypt($ee_application_data->id));
-                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="' . $url . '" name="village_data_id"><span></span></label>';
                 })
                 ->editColumn('eeApplicationSociety.name', function ($listArray) {
                     return $listArray->eeApplicationSociety->name;
@@ -91,6 +88,13 @@ class TripartiteController extends Controller
                 })
                 ->editColumn('submitted_at', function ($listArray) {
                     return date(config('commanConfig.dateFormat'), strtotime($listArray->created_at));
+                })
+                ->editColumn('radio', function ($ee_application_data) {
+                    $url = route('tripartite.view_application', encrypt($ee_application_data->id));
+                    return '<a href="'.$url.'" onclick="geturl(this.value);" name="village_data_id" class="d-flex flex-column align-items-center"><span class="btn-icon btn-icon--view">
+                        <img src="'. asset("img/view-icon.svg").'">
+                    </span>View</span></a>';
+//                    return '<input type="submit" onclick="geturl(this.value);"  name="village_data_id"><span></span>';
                 })
             // ->editColumn('actions', function ($ee_application_data) use($request) {
             //     return view('admin.ee_department.actions', compact('ee_application_data', 'request'))->render();
