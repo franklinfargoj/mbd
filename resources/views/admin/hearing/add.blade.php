@@ -20,7 +20,7 @@
             <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="preceding_officer_name">Name of Presiding Officer:</label>
+                        <label class="col-form-label" for="preceding_officer_name">Name of Presiding Officer<span class="star">*</span>:</label>
                             <input type="text" id="preceding_officer_name" name="preceding_officer_name" class="form-control form-control--custom m-input" value="{{ old('preceding_officer_name') }}">
                             <span class="help-block">{{$errors->first('preceding_officer_name')}}</span>
                     </div>
@@ -32,7 +32,7 @@
                     {{--</div>--}}
 
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="case_year">Case Year:</label>
+                        <label class="col-form-label" for="case_year">Case Year<span class="star">*</span>:</label>
                         <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="case_year" name="case_year">
                             @php
                                 $start_year = date('Y', strtotime('-15 year'));
@@ -49,7 +49,7 @@
 
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="application_type_id">Application Type:</label>
+                        <label class="col-form-label" for="application_type_id">Application Type<span class="star">*</span>:</label>
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="application_type_id" name="application_type_id">
                                 @foreach($arrData['application_type'] as $application_type)
                                     <option value="{{ $application_type->id  }}">{{ $application_type->application_type }}</option>
@@ -74,13 +74,13 @@
 
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="applicant_name">Name of Applicant:</label>
+                        <label class="col-form-label" for="applicant_name">Name of Applicant<span class="star">*</span>:</label>
                             <input type="text" id="applicant_name" name="applicant_name" class="form-control form-control--custom m-input"  value="{{ old('applicant_name') }}">
                             <span class="help-block">{{$errors->first('applicant_name')}}</span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="applicant_mobile_no">Mobile Number:</label>
+                        <label class="col-form-label" for="applicant_mobile_no">Mobile Number<span class="star">*</span>:</label>
                             <input type="text" id="applicant_mobile_no" name="applicant_mobile_no" class="form-control form-control--custom m-input"  value="{{ old('applicant_mobile_no') }}">
                             <span class="help-block">{{$errors->first('applicant_mobile_no')}}</span>
                     </div>
@@ -88,7 +88,7 @@
 
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="applicant_address">Address:</label>
+                        <label class="col-form-label" for="applicant_address">Address<span class="star">*</span>:</label>
                             <textarea id="applicant_address" name="applicant_address" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('applicant_address') }}</textarea>
                             <span class="help-block">{{$errors->first('applicant_address')}}</span>
                     </div>
@@ -109,13 +109,13 @@
 
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="respondent_name">Name of Respondent:</label>
+                        <label class="col-form-label" for="respondent_name">Name of Respondent<span class="star">*</span>:</label>
                             <input type="text" id="respondent_name" name="respondent_name" class="form-control form-control--custom"  value="{{ old('respondent_name') }}">
                             <span class="help-block">{{$errors->first('respondent_name')}}</span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="respondent_mobile_no">Mobile Number:</label>
+                        <label class="col-form-label" for="respondent_mobile_no">Mobile Number<span class="star">*</span>:</label>
                             <input type="text" id="respondent_mobile_no" name="respondent_mobile_no" class="form-control form-control--custom"  value="{{ old('respondent_mobile_no') }}">
                             <span class="help-block">{{$errors->first('respondent_mobile_no')}}</span>
                     </div>
@@ -123,7 +123,7 @@
 
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="respondent_address">Address:</label>
+                        <label class="col-form-label" for="respondent_address">Address<span class="star">*</span>:</label>
                             <textarea id="respondent_address" name="respondent_address" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('respondent_address') }}</textarea>
                             <span class="help-block">{{$errors->first('respondent_address')}}</span>
                     </div>
@@ -144,13 +144,13 @@
 
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="case_type">Case Type:</label>
+                        <label class="col-form-label" for="case_type">Case Type<span class="star">*</span>:</label>
                             <input type="text" id="case_type" name="case_type" class="form-control form-control--custom m-input"  value="{{ old('case_type') }}">
                             <span class="help-block">{{$errors->first('case_type')}}</span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="office_year">Year:</label>
+                        <label class="col-form-label" for="office_year">Year<span class="star">*</span>:</label>
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="office_year" name="office_year">
                                 @php
                                     $start_year = date('Y', strtotime('-15 year'));
@@ -167,14 +167,14 @@
 
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="office_number">Phone Number:</label>
+                        <label class="col-form-label" for="office_number">Phone Number<span class="star">*</span>:</label>
                             <input type="text" id="office_number" name="office_number" class="form-control form-control--custom m-input"  value="{{ old('office_number') }}">
 
                             <span class="help-block">{{$errors->first('office_number')}}</span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="office_date">Date:</label>
+                        <label class="col-form-label" for="office_date">Date<span class="star">*</span>:</label>
                             <input type="text" id="office_date" name="office_date" class="form-control form-control--custom m-input m_datepicker"  value="{{ old('office_date') }}">
                             <span class="help-block">{{$errors->first('office_date')}}</span>
                     </div>
@@ -182,13 +182,13 @@
 
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="office_tehsil">Tehsil:</label>
+                        <label class="col-form-label" for="office_tehsil">Tehsil<span class="star">*</span>:</label>
                             <input type="text" id="office_tehsil" name="office_tehsil" class="form-control form-control--custom m-input"  value="{{ old('office_tehsil') }}">
                             <span class="help-block">{{$errors->first('office_tehsil')}}</span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="office_village">Village:</label>
+                        <label class="col-form-label" for="office_village">Village<span class="star">*</span>:</label>
                             <input type="text" id="office_village" name="office_village" class="form-control form-control--custom" value="{{ old('office_village') }}">
                             <span class="help-block">{{$errors->first('office_village')}}</span>
                     </div>
@@ -196,7 +196,7 @@
 
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="office_remark">Remarks:</label>
+                        <label class="col-form-label" for="office_remark">Remarks<span class="star">*</span>:</label>
                             <textarea id="office_remark" name="office_remark" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('office_remark') }}</textarea>
                             <span class="help-block">{{$errors->first('office_remark')}}</span>
                     </div>
