@@ -117,14 +117,33 @@
                                         <td> {{ $log->prePostSchedule['0']->date }}</td>
                                         <td> {{ $log->prePostSchedule['0']->time }}</td>
                                         <td>
-                                            <div class="d-flex justify-content-center btn-icon-list">
-                                                N.A.
-                                            </div>
+{{--                                            @php dd($log->case_template) @endphp--}}
+                                            @if($log->prePostSchedule['0']->hearing_schedule_id == $log->id)
+                                                <div class="d-flex justify-content-center btn-icon-list">
+                                                    <a href="{{ $log->case_template }}"
+                                                    target="_blank">
+                                                        <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}">
+                                                    </a>
+                                                </div>
+                                            @else
+                                                <div class="d-flex justify-content-center btn-icon-list">
+                                                    N.A.
+                                                </div>
+                                            @endif
                                         </td>
                                         <td>
-                                            <div class="d-flex justify-content-center btn-icon-list">
-                                                N.A.
-                                            </div>
+                                            @if($log->prePostSchedule['0']->hearing_schedule_id == $log->id)
+                                                <div class="d-flex justify-content-center btn-icon-list">
+                                                    <a href="{{$log->update_supporting_documents }}"
+                                                       target="_blank">
+                                                        <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}">
+                                                    </a>
+                                                </div>
+                                            @else
+                                                <div class="d-flex justify-content-center btn-icon-list">
+                                                    N.A.
+                                                </div>
+                                            @endif
                                             {{--@if($log->upload_judgement_case)--}}
                                             {{--<a href="{{ config('commanConfig.storage_server').'/'.$log->upload_judgement_case }}" target="_blank"> <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>--}}
                                             {{--@endif--}}

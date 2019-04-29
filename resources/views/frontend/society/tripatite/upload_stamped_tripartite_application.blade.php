@@ -45,7 +45,7 @@
                                                 </span>
                                                     <input type="hidden" name="id" value="{{ $ol_applications->id }}">
                                                 </div>
-                                                <div class="mt-auto">
+                                                <div class="mt-auto" style="float:right">
                                                     <button type="submit" class="btn btn-primary btn-custom"
                                                             id="uploadBtn">Upload & Submit</button>
                                                 </div>

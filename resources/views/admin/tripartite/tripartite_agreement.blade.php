@@ -444,7 +444,7 @@
                         @if($content)
                                 {{ $content}}
                             @else
-                                <div style="" id=""> 
+                                <div style="text-align: justify" id="">
                                     <h3 style="text-decoration: underline; text-align: center; margin-bottom: 30px;font-size:17px"><b>Agreement</b></h3>
                                     <p> This Agreement dated this  __________  day of ________________________________ 2012 between the MAHARASHTRA HOUSING AND AREA DEVELOPMENT AUTHORITY a Statutory Corporation duly constituted under the Maharashtra Housing and Area Development Act 1976 (Mah XXVIII of  1977) having its office at Griha Nirman Bhavan, Kala Nagar, Bandra(E), Mumbai 400 051 the Party of the <b>First Part </b> (hereinafter referred to as 'the Authority' which expression shall unless to context requires otherwise include its successors and assigns) through the Mumbai Board a regional unit of the Authority of the <b>First Part</b>.</p>
                                     <p> And ____________________________ having its office at __________________________ the Party of the Second Part (Society) (hereinafter referred to as the Party of the Second Part and Third part Developer which expression shall unless to the context requires otherwise include its successors and                         of the Second Part.  as well as third party.
@@ -519,7 +519,7 @@
                         @if($content_letter_1)
                                 {{ $content_letter_1}}
                             @else
-                                <div style="max-width: 100%;overflow: hidden; width: 100%;" id="">
+                                <div style="text-align:justify;max-width: 100%;overflow: hidden; width: 100%;" id="">
                                     <p style=" text-align:right;font-size: 16px; line-height: 1.5;margin-bottom: 0;margin-left: 72%;">जा.क्र्./नि.का.अ./मुं.मं./&nbsp;&nbsp;&nbsp;/१८<br>
                                         <span style="font-size: 16px;line-height: 1.5;">दिनांक:-<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span><br>
                                     </p>
@@ -593,7 +593,7 @@
                         @if($content_letter_2)
                                 {{ $content_letter_2}}
                             @else
-                                <div style="" id="">
+                                <div style="text-align:justify;" id="">
                                     <p style="font-size: 16px; line-height: 1.5;margin-left: 65%; margin-bottom: 0;"><span>NO.CO/MB/REE/F-682/&nbsp;&nbsp;&nbsp;/2018</span><br/>
                                         <span>Date:</span>
                                     </p>
