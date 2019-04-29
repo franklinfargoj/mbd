@@ -19,11 +19,7 @@
 	    <td style="font-size: 15px;padding-left: 10px">
 	    {{ isset($data->consentQuestions->question) ? $data->consentQuestions->question : '' }}</td> 
 	    <td style="padding-left: 10px">
-		    @if(isset($data->answer) && $data->answer == 1)
-		    	<span>होय</span>
-		   	@else
 		   		<span>नाही</span>
-		   	@endif 	
 	    </td>
 	    <td style="font-size: 15px;padding-left: 10px;padding-right: 10px">
 	    {{ isset($data->remark) ? $data->remark : '' }}</td>
@@ -52,11 +48,7 @@
 	    <td style="font-size: 15px;padding-left: 10px">
 	    {{ isset($data->consentQuestions->question) ? $data->consentQuestions->question : '' }}</td> 
 	    <td style="padding-left: 10px">
-		    @if(isset($data->answer) && $data->answer == 1)
 		    	<span>होय</span>
-		   	@else
-		   		<span>नाही</span>
-		   	@endif 	
 	    </td>
 	    <td style="font-size: 15px;padding-left: 10px;padding-right: 10px">
 	    {{ isset($data->remark) ? $data->remark : '' }}</td>

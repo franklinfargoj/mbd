@@ -13,6 +13,7 @@ class OlConsentVerificationQuestion extends Seeder
      */
     public function run()
     {
+        OlConsentVerificationQuestionMaster::truncate();
         $data = OlConsentVerificationQuestionMaster::all();
         $languageId = LanguageMaster::where(['language'=>'marathi'])
         							 ->value('id');
@@ -30,7 +31,7 @@ class OlConsentVerificationQuestion extends Seeder
             ],                 [
                 'language_id'   => $languageId,
                 'question' => "नसल्यास एकूण मान्यता प्राप्त ५१ % सभासदांची पुनर्विकासास सहमती आहे काय ?",
-                'expected_answer'   => 0,
+                'expected_answer'   => 1,
             ],                 [
                 'language_id'   => $languageId,
                 'question' => "सर्व मान्यता प्राप्त सभासदांनी ओळखपत्र, भागधारक प्रमाणपत्र इत्यादी कागदपत्रे सादर केलेले आहेत काय ?",

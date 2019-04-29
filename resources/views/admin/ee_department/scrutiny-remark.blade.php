@@ -89,7 +89,7 @@ if($latest){
                                     <img src="{{asset('/img/print-icon.svg')}}" 
                                             style="max-width: 22px;display:none" class="printBtn hide-print"></a>
                                     @if(count($arrData['consent_verification_details_data']) > 0)
-                                    <a href="{{ route('ee_variation_report',$arrData['society_detail']->id)}}">       
+                                    <a href="{{route('ee_variation_report',$arrData['society_detail']->id)}}">       
                                     <i class="fa fa-file-text hide-print report" aria-hidden="true" title="generate variation report" style="margin-left: 15px;font-size: 24px;color: #af2222;cursor: pointer;" ></i></a>
                                     @endif       
                                 </div>
@@ -1307,7 +1307,7 @@ if($latest){
         // initialize datatable
         $('.dataTables_length').addClass('bs-select');
         $('#dtBasicExample_wrapper > .row:first-child').remove();
-        $('#dtBasicExample').dataTable({searching: false, ordering:false, info: false});
+        // $('#dtBasicExample').dataTable({searching: false, ordering:false, info: false});
 
         // keep selected tab id in session
         var id = Cookies.get('sectionId');

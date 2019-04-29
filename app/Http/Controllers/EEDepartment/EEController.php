@@ -1064,17 +1064,17 @@ class EEController extends Controller
         ->get(); 
         if ($ConsentData){
             foreach($ConsentData as $data){
+
                 if (isset($data->consentQuestions->expected_answer)){
                     if ($data->answer != $data->consentQuestions->expected_answer){
                         $report [] = $data;
                     }else{
                        $validReport [] = $data;  
                     }
-                }else{
-                    $validReport [] = $data;
                 }
             }  
         }
+        // dd($report);
         $landDetails = OlDemarcationLandArea::where('application_id',$id)->first();
         $view =  view('admin.ee_department.variation_report', compact('report','validReport','landDetails')); 
 
