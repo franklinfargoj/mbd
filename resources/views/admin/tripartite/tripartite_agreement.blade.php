@@ -176,7 +176,7 @@
                                                         file...</label>
                                                     <span class="text-danger" id="file_error"></span>
                                                 </div>
-                                                <div class="mt-auto">
+                                                <div class="mt-auto" style="float:right">
                                                     <button type="submit" class="btn btn-primary btn-custom"
                                                             id="uploadBtn">Upload
                                                     </button>
@@ -256,7 +256,7 @@
                                                             file...</label>
                                                         <span class="text-danger" id="file_error"></span>
                                                     </div>
-                                                    <div class="mt-auto">
+                                                    <div class="mt-auto" style="float:right">
                                                         <button type="submit" class="btn btn-primary btn-custom"
                                                                 id="uploadBtn">
                                                             Upload
@@ -288,7 +288,7 @@
                                     <div class="col-md-12">
                                         <a href="" class="btn btn-primary" data-toggle="modal"
                                            data-target="#myletter2Modal">
-                                            Generate/ Edit Letter for Execution and Registartion of Agreement</a>
+                                            Generate/ Edit Letter</a>
                                         <!-- <button type="submit">Edit offer Letter </button> -->
                                     </div>
                                 </div>
@@ -336,7 +336,7 @@
                                                         file...</label>
                                                     <span class="text-danger" id="file_error"></span>
                                                 </div>
-                                                <div class="mt-auto">
+                                                <div class="mt-auto" style="float:right">
                                                     <button type="submit" class="btn btn-primary btn-custom"
                                                             id="uploadBtn">
                                                         Upload
@@ -373,8 +373,8 @@
                                 </div> --}}
                                 <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
                                      data-scrollbar-shown="true"
-                                     data-scrollable="true" data-max-height="150">
-                                    <div class="remarks-section__data">
+                                     data-scrollable="true" >
+                                    <div class="remarks-section__data" style="padding: 5px!important">
                                         <p class="remarks-section__data__row">
                                             <span>{{config('commanConfig.la_engineer')==$history->Roles->name?'Riders By':'Remark By'}} {{
                                     isset($history->Roles->display_name) ? $history->Roles->display_name : '' }}
@@ -491,9 +491,9 @@
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
+                {{--<div class="modal-footer">--}}
+                    {{--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>--}}
+                {{--</div>--}}
             </div>
         </div>
     </div>
@@ -552,9 +552,9 @@
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
+                {{--<div class="modal-footer">--}}
+                    {{--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>--}}
+                {{--</div>--}}
             </div>
         </div>
     </div>
@@ -652,9 +652,9 @@
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
+                {{--<div class="modal-footer">--}}
+                    {{--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>--}}
+                {{--</div>--}}
             </div>
         </div>
     </div>

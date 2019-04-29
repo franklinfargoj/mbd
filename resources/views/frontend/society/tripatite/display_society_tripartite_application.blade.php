@@ -37,12 +37,18 @@
                 <p>We request your goodselves to please arrange to excute the Tri-Party Agreement and issue us the NOC and CC to proceed further.</p>
                 <p>Please do the needful at the earliest and oblige.</p>
             </div>
-            <div style="margin-top: 30px;">
-                <div style="float: right; text-align: right;">
-                    <p style="margin-top: 0; margin-bottom: 60px;">Thanking You,</p>
-                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">Best Regards</p>
+            <div>
+                <div style="float: left; text-align: left;">
+                    <p>Thanking You,</p>
+                    <p style="display: block;">Yours faithfully,</p>
                     {{--<p style="display: block; margin-top: 5px; margin-bottom: 5px;">------- स.गृ.नि. संस्था मर्या.</p>--}}
                 </div>
+            </div>
+            <div>
+                    <p>
+                        <span style="float: left; font-weight: bold;width: 15%;">For {{ $society_details->name }}</span><br/><br/><br/>
+                        <span class="d-block">Chairman /Secretary / Treasurer</span>
+                    </p>
             </div>
         </div>
     </div>
