@@ -288,7 +288,7 @@
                                     <div class="col-md-12">
                                         <a href="" class="btn btn-primary" data-toggle="modal"
                                            data-target="#myletter2Modal">
-                                            Generate/ Edit Letter for Execution and Registartion of Agreement</a>
+                                            Generate/ Edit Letter</a>
                                         <!-- <button type="submit">Edit offer Letter </button> -->
                                     </div>
                                 </div>
