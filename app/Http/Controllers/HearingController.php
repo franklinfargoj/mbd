@@ -854,6 +854,8 @@ class HearingController extends Controller
             ->where('id', $hearing_id)
             ->orderBy('id', 'desc')
             ->first();
+
+//        dd($hearing_data);
         return view('admin.hearing.hearing_log',compact('hearing_data'));
 
     }
