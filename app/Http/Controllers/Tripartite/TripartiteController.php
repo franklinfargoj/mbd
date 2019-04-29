@@ -91,7 +91,7 @@ class TripartiteController extends Controller
                 })
                 ->editColumn('radio', function ($ee_application_data) {
                     $url = route('tripartite.view_application', encrypt($ee_application_data->id));
-                    return '<a href="'.$url.'" onclick="geturl(this.value);" name="village_data_id" class="d-flex flex-column align-items-center"><span class="btn-icon btn-icon--view">
+                    return '<a style="width: 60px;"  href="'.$url.'" onclick="geturl(this.value);" name="village_data_id" class="d-flex flex-column align-items-center"><span class="btn-icon btn-icon--view">
                         <img src="'. asset("img/view-icon.svg").'">
                     </span>View</span></a>';
 //                    return '<input type="submit" onclick="geturl(this.value);"  name="village_data_id"><span></span>';
