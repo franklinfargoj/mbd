@@ -377,5 +377,14 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
             ])->delete();
         }
 
+        // change display name of la enginner as LA Engineer
+        $la_enginner_role_id = Role::where([
+            'name' => config('commanConfig.la_engineer')
+        ])->pluck('id');
+
+        if($la_enginner_role_id){
+            Role::where('name', config('commanConfig.la_engineer'))->update(['display_name' => 'LA Engineer']);
+        }
+
     }
 }

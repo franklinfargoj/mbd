@@ -1,4 +1,4 @@
-<div id="printdiv">
+<div id="printdiv" style="text-align: justify">
     <div style="font-size: 18px;">
         <div>
             <div style="text-align: center;">

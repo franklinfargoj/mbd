@@ -17,7 +17,7 @@
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="application_type_id">Layout:</label>
-                            <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layouts" name="layout_id" required>
+                            <select title="Select layout" data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layouts" name="layout_id" required>
                                 @foreach($layouts as $layout)
                                     <option value="{{ $layout['id'] }}">{{ $layout['layout_name'] }}</option>
                                 @endforeach

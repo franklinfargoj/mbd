@@ -91,9 +91,9 @@ class TripartiteController extends Controller
                 })
                 ->editColumn('radio', function ($ee_application_data) {
                     $url = route('tripartite.view_application', encrypt($ee_application_data->id));
-                    return '<a style="width: 60px;"  href="'.$url.'" onclick="geturl(this.value);" name="village_data_id" class="d-flex flex-column align-items-center"><span class="btn-icon btn-icon--view">
+                    return '<div class="d-flex btn-icon-list"><a href="'.$url.'" onclick="geturl(this.value);" name="village_data_id" class="d-flex flex-column align-items-left"><span class="btn-icon btn-icon--view">
                         <img src="'. asset("img/view-icon.svg").'">
-                    </span>View</span></a>';
+                    </span>View</span></a></div>';
 //                    return '<input type="submit" onclick="geturl(this.value);"  name="village_data_id"><span></span>';
                 })
             // ->editColumn('actions', function ($ee_application_data) use($request) {
@@ -114,7 +114,7 @@ class TripartiteController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering' => 'isSorted',
-            "order" => [1, "asc"],
+            "order" => [1, "desc"],
             "pageLength" => $this->list_num_of_records_per_page,
         ];
     }
