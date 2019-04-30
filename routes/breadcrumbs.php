@@ -289,7 +289,7 @@ Breadcrumbs::for('society_oc_edit', function ($trail,$id) {
 
 Breadcrumbs::for('noc_edit', function ($trail,$id) {
     $trail->parent('society_dashboard');
-    $trail->push('Edit NOC Application(NOC)', route('society_noc_edit',$id));
+    $trail->push('Edit Application(NOC)', route('society_noc_edit',$id));
 });
 
 Breadcrumbs::for('noc_cc_edit', function ($trail) {
