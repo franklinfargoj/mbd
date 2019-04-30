@@ -273,13 +273,14 @@ class SocietyOfferLetterController extends Controller
     public function dashboard(DataTables $datatables, Request $request)
     {
         $columns = [
-            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application No.'],
             ['data' => 'application_type','name' => 'application_type','title' => 'Application Type'],
             ['data' => 'application_master_id','name' => 'application_master_id','title' => 'Model'],
             ['data' => 'created_at','name' => 'created_date','title' => 'Submission Date', 'class' => 'datatable-date'],
             ['data' => 'status','name' => 'status','title' => 'Status'],
+            ['data' => 'radio','name' => 'radio','title' => 'Action','searchable' => false],
+
 //            ['data' => 'model','name' => 'model','title' => 'Model','searchable' => false,'orderable'=>false],
         ];
 //        $self_premium = OlApplicationMaster::where('title', 'New - Offer Letter')->where('model', 'Premium')->where('parent_id', '1')->select('id')->get();
@@ -431,44 +432,7 @@ class SocietyOfferLetterController extends Controller
 
 
             return $datatables->of($ol_applications)
-                ->editColumn('radio', function ($ol_applications) use($reval_master_ids_arr,$oc_master_ids_arr) {
-                     
-                    $url = route('society_offer_letter_preview', encrypt($ol_applications->id));
-                    $reval_url = route('society_reval_offer_letter_preview',encrypt($ol_applications->id));
-                    $oc_url= route('society_oc_preview',encrypt($ol_applications->id));
-                    $url_noc = route('society_noc_preview',encrypt($ol_applications->id));
-                    $url_noc_cc = route('society_noc_cc_preview');
-                    $url_tripartite = route('tripartite_application_form_preview', encrypt($ol_applications->id));
-//                    dd($ol_applications->ol_application_master);
 
-                    if(isset($ol_applications->is_noc_application))
-                    {
-                        return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url_noc.'" name="ol_applications_id"><span></span></label>';
-                    }
-                    elseif($ol_applications->is_noc_cc_application)
-                    {
-                        return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url_noc_cc.'" name="ol_applications_id"><span></span></label>';
-                    }
-                    elseif(in_array($ol_applications->application_master_id,$reval_master_ids_arr))
-                    {
-                        return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$reval_url .'" name="ol_applications_id"><span></span></label>';
-
-                    }
-                    elseif(in_array($ol_applications->application_master_id,$oc_master_ids_arr))
-                    {
-                        return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$oc_url .'" name="ol_applications_id"><span></span></label>';
-
-                    }
-                    elseif(in_array($ol_applications->application_master_id,config('commanConfig.tripartite_master_ids')))
-                    {
-                        return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url_tripartite .'" name="ol_applications_id"><span></span></label>';
-
-                    }
-                    else{
-
-                        return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="ol_applications_id"><span></span></label>';
-                    }
-                })
                 ->editColumn('rownum', function ($ol_applications) {
                     static $i = 0;
                     $i++;
@@ -528,6 +492,50 @@ class SocietyOfferLetterController extends Controller
                 })
                 ->editColumn('model', function ($ol_applications) {
                     return view('frontend.society.actions', compact('ol_applications', 'status_display'))->render();
+                })
+                ->editColumn('radio', function ($ol_applications) use($reval_master_ids_arr,$oc_master_ids_arr) {
+
+                    $url = route('society_offer_letter_preview', encrypt($ol_applications->id));
+                    $reval_url = route('society_reval_offer_letter_preview',encrypt($ol_applications->id));
+                    $oc_url= route('society_oc_preview',encrypt($ol_applications->id));
+                    $url_noc = route('society_noc_preview',encrypt($ol_applications->id));
+                    $url_noc_cc = route('society_noc_cc_preview');
+                    $url_tripartite = route('tripartite_application_form_preview', encrypt($ol_applications->id));
+//                    dd($ol_applications->ol_application_master);
+
+                    if(isset($ol_applications->is_noc_application))
+                    {
+                        return '<div class="d-flex btn-icon-list"><a href="' . $url . '" onclick="geturl(this.value);" name="ol_applications_id" class="d-flex flex-column align-items-left"><span class="btn-icon btn-icon--view">
+                        <img src="' . asset("img/view-icon.svg") . '">
+                    </span>View</span></a></div>';                     }
+                    elseif($ol_applications->is_noc_cc_application)
+                    {
+                        return '<div class="d-flex btn-icon-list"><a href="'.$url_noc_cc.'" onclick="geturl(this.value);" name="ol_applications_id" class="d-flex flex-column align-items-left"><span class="btn-icon btn-icon--view">
+                        <img src="'. asset("img/view-icon.svg").'">
+                    </span>View</span></a></div>';                     }
+                    elseif(in_array($ol_applications->application_master_id,$reval_master_ids_arr))
+                    {
+                        return '<div class="d-flex btn-icon-list"><a href="'.$reval_url.'" onclick="geturl(this.value);" name="ol_applications_id" class="d-flex flex-column align-items-left"><span class="btn-icon btn-icon--view">
+                        <img src="'. asset("img/view-icon.svg").'">
+                    </span>View</span></a></div>';
+                    }
+                    elseif(in_array($ol_applications->application_master_id,$oc_master_ids_arr))
+                    {
+                        return '<div class="d-flex btn-icon-list"><a href="'.$oc_url.'" onclick="geturl(this.value);" name="ol_applications_id" class="d-flex flex-column align-items-left"><span class="btn-icon btn-icon--view">
+                        <img src="'. asset("img/view-icon.svg").'">
+                    </span>View</span></a></div>';
+                    }
+                    elseif(in_array($ol_applications->application_master_id,config('commanConfig.tripartite_master_ids')))
+                    {
+                        return '<div class="d-flex btn-icon-list align-items-left"><a  href="'.$url_tripartite.'" onclick="geturl(this.value);" name="ol_applications_id" class="d-flex flex-column"><span class="btn-icon btn-icon--view">
+                        <img src="'. asset("img/view-icon.svg").'">
+                    </span>View</span></a></div>';
+                    }
+                    else{
+
+                        return '<div class="d-flex btn-icon-list"><a href="'.$url.'" onclick="geturl(this.value);" name="ol_applications_id" class="d-flex flex-column align-items-left"><span class="btn-icon btn-icon--view">
+                        <img src="'. asset("img/view-icon.svg").'">
+                    </span>View</span></a></div>';                     }
                 })
                 ->rawColumns(['radio', 'application_no', 'application_type', 'application_master_id', 'created_at','status','model'])
                 ->make(true);
