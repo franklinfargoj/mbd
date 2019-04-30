@@ -63,7 +63,18 @@ class TripartiteController extends Controller
                     static $i = 0; $i++;return $i;
                 })
                 ->editColumn('application_type', function ($listArray) {
-                    return $listArray->ol_application_master->ol_application_type[0]->title."\n".'('.$listArray->ol_application_master->model.')' ;
+                    $application_type = '';
+                    $type = $listArray->ol_application_master->ol_application_type[0]->title;
+                    if (strpos($type, 'Self') !== false) {
+                        $application_type = 'Self';
+                    }elseif(strpos($type, 'Developer') !== false){
+                        $application_type = 'Through Developer';
+                    }else{
+                        $application_type = '-';
+                    }
+
+                    return $application_type."\n".'('.$listArray->ol_application_master->model.')' ;
+
                 })
                 ->editColumn('eeApplicationSociety.name', function ($listArray) {
                     return $listArray->eeApplicationSociety->name;
