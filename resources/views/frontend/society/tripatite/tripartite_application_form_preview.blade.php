@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="m-portlet">
-            <div id="printdiv">
+            <div id="printdiv" style="text-align:justify;">
                 <form class="letter-form m-form" action="{{ route('society_conveyance.store') }}" method="post" id="society-conveyance-application" enctype="multipart/form-data">
                     @csrf
                     <!-- BEGIN: Subheader -->

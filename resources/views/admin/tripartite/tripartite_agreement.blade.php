@@ -531,7 +531,7 @@
                                     </p>
 
                                     <div style="font-size: 16px; line-height: 1.5;margin-left: 80px;">
-                                        <p style="vertical-align: top;margin: 0%;width: 9%;float: left;">विषय:-</p> 
+                                        <p style="vertical-align: top;margin: 0%;width: 9%;float: left;">विषय:-</p>
                                         <p style="margin: 0%;float: left;width: 90%;">{{$society_details->name}},{{$society_details->address}} या इमारतीचा पुनर्विकासाकरिता सुधारित वि.नि.नि. ३३(५) नुसार त्रिपक्षीय करारनामा करणे संदर्भात मुद्रांक शुल्क भरणेबाबत.</p>
                                     </div>
                                     <div style="clear: both;"></div>
