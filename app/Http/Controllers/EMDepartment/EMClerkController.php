@@ -148,7 +148,8 @@ class EMClerkController extends Controller
             ['data' => 'total_amount', 'name' => 'total_amount','title' => 'Final Rent Amount','searchable' => false],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false]
         ];
-
+        // $tenant = MasterTenant::with('arrear')->where('master_tenants.building_id', '=', decrypt($request->building))->selectRaw('@rownum  := @rownum  + 1 AS rownum, master_tenants.*,master_tenants.id as mtid');
+        // dd($tenant->get());
         if ($datatables->getRequest()->ajax()) {            
           
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
@@ -167,11 +168,19 @@ class EMClerkController extends Controller
                 
             })
             ->editColumn('total_amount', function ($tenant){
-                if($tenant->total_amount == null){
-                     return 'Not Calculated';
-                } else {
-                    return $tenant->total_amount;
-                }                               
+                //dump($tenant->arrear);
+                if($tenant->arrear->count()>0)
+                {
+                    return $tenant->arrear[0]->total_amount;
+                }else
+                {
+                    return 'Not Calculated';
+                }
+                // if($tenant == null){
+                //      return 'Not Calculated';
+                // } else {
+                //     return $tenant->total_amount;
+                // }                               
             })
             ->editColumn('actions', function ($tenant){
                 // if($tenant->total_amount == null || $tenant->payment_status == null || $tenant->payment_status == 0 ){
@@ -418,7 +427,7 @@ class EMClerkController extends Controller
     public function getArrearChargesByYears(Request $request) {
         if($request->has('start_year') && !empty($request->start_year) && $request->has('ida_year') && !empty($request->ida_year) && $request->has('society_id') &&!empty($request->society_id) && $request->has('building_id') &&!empty($request->building_id) && $request->has('ior_year') && !empty($request->ior_year)) {
             $years = [];
-
+            
             if($request->ida_month <= 3) {
                 $request->ida_year = $request->ida_year - 1;
             }
@@ -444,13 +453,13 @@ class EMClerkController extends Controller
                     $isYearHaveCharges = false;
                 }
             }
-            // print_r($years);exit;
+             //print_r($arrearCharges);exit;
             if(false == $isYearHaveCharges) {
                 echo json_encode(['result'=>false]);
             } else {
 
                 $arrearCharges = ArrearsChargesRate::where('society_id',decrypt($request->society_id))->where('building_id',decrypt($request->building_id))->whereIn('year',$years)->orderBy('id','DESC')->get();
-
+                //dd($arrearCharges);
                 echo json_encode(['result' => true,'data' => $arrearCharges]);
             }
         } else {

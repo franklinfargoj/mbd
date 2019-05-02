@@ -74,10 +74,10 @@
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout" required>
                                         <option value="" style="font-weight: normal;">Select old rate</option>
-                                        <option value="EWS" {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;" >EWS</option>
-                                        <option value="LIG" {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;" >LIG</option>
-                                        <option value="MIG" {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;" >MIG</option>
-                                        <option value="HIG" {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;" >HIG</option>
+                                        <option value="EWS" {{$tenant->tenanttype->name=='EWS'?'selected':''}} {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;" >EWS</option>
+                                        <option value="LIG" {{$tenant->tenanttype->name=='LIG'?'selected':''}} {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;" >LIG</option>
+                                        <option value="MIG" {{$tenant->tenanttype->name=='MIG'?'selected':''}} {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;" >MIG</option>
+                                        <option value="HIG" {{$tenant->tenanttype->name=='HIG'?'selected':''}} {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;" >HIG</option>
                                     </select>
                                 </div>
                             </div> 
@@ -85,10 +85,10 @@
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout" required>
                                         <option value="" style="font-weight: normal;">Select revised rate</option>
-                                        <option value="EWS" {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;">EWS</option>
-                                        <option value="LIG"  {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;">LIG</option>
-                                        <option value="MIG" {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;">MIG</option>
-                                        <option value="HIG" {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;">HIG</option>
+                                        <option value="EWS" {{$tenant->tenanttype->name=='EWS'?'selected':''}} {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;">EWS</option>
+                                        <option value="LIG" {{$tenant->tenanttype->name=='EWS'?'selected':''}} {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;">LIG</option>
+                                        <option value="MIG" {{$tenant->tenanttype->name=='EWS'?'selected':''}} {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;">MIG</option>
+                                        <option value="HIG" {{$tenant->tenanttype->name=='EWS'?'selected':''}}{{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;">HIG</option>
                                     </select>
                                 </div>
                             </div>                        
@@ -457,13 +457,13 @@ function monthDiff(d1, d2) {
                                 var end_date = new Date(bill_year,bill_month,01);
 
                                 var dates = dateRange(ior_year+'-'+ior_month+'-'+01,bill_year+'-'+bill_month+'-'+01);                    
-
+                                //console.log(dates)
                                 var start_date_int = new Date(ida_year, ida_month, 01);
                                 var end_date_int = new Date(bill_year, bill_month, 01);
                                 
                                 var datesint = dateRange(ida_year+'-'+ida_month+'-'+01,bill_year+'-'+bill_month+'-'+01);                    
 
-                                console.log(dates);
+                                //console.log(datesint+"ok");
 
                                 if(null != dates ) {
                                     var old_intrest_amount_temp = 0;

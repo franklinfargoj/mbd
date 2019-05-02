@@ -55,7 +55,7 @@ class ArrearsCalculationController extends Controller
 	        }else {
                 $select_year = date('Y');
             }
-
+			
 	        $tenant = '';
 	        $columns = [
 	            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -78,7 +78,7 @@ class ArrearsCalculationController extends Controller
 	            DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
 	            $arrear_calculations = ArrearCalculation::selectRaw('@rownum  := @rownum  + 1 AS rownum,arrear_calculation.*')->where('society_id',$request->society_id)->where('building_id',$request->building_id)->groupBy(['year','month','building_id','society_id']);
 
-	            $arrear_charges = ArrearsChargesRate::Where('year',$select_year)->where('society_id',$request->society_id)->where('building_id',$request->building_id)->first();
+	            $arrear_charges = ArrearsChargesRate::where('society_id',$request->society_id)->where('building_id',$request->building_id)->first();
 
 	            if($request->has('tenant_id') && !empty($request->tenant_id)) {
 	            	$arrear_calculations = $arrear_calculations->where('tenant_id', $request->tenant_id);
@@ -86,23 +86,23 @@ class ArrearsCalculationController extends Controller
 
 	            return $datatables->of($arrear_calculations)
 	            ->editColumn('tenant_type', function ($arrear_calculations) use ($arrear_charges){
-	                return $arrear_charges->tenant_type;
+	                return $arrear_charges!=""?$arrear_charges->tenant_type:'';
 	                
 	            })
 	            ->editColumn('old_rate', function ($arrear_calculations) use ($arrear_charges){
-	                return $arrear_charges->old_rate;
+	                return $arrear_charges!=""?$arrear_charges->old_rate:'-';
 	                
 	            })
 	            ->editColumn('revise_rate', function ($arrear_calculations) use ($arrear_charges){
-	                return $arrear_charges->revise_rate;
+	                return $arrear_charges!=""?$arrear_charges->revise_rate:'-';
 	                
 	            })
 	            ->editColumn('interest_on_old_rate', function ($arrear_calculations) use ($arrear_charges){
-	                return $arrear_charges->interest_on_old_rate;
+	                return $arrear_charges!=""?$arrear_charges->interest_on_old_rate:'-';
 	                
 	            })
 	            ->editColumn('interest_on_differance', function ($arrear_calculations) use ($arrear_charges){
-	                return $arrear_charges->interest_on_differance;
+	                return $arrear_charges!=""?$arrear_charges->interest_on_differance:'-';
 	                
 	            })
 	            ->editColumn('month', function ($arrear_calculations){

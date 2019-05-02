@@ -371,9 +371,9 @@
                                 // bill_month = bill_month - 1;
                                 var start_date = new Date(ior_year,ior_month,01);
                                 var end_date = new Date(bill_year,bill_month,01);
-
+                                console.log('date')
                                 var dates = dateRange(ior_year+'-'+ior_month+'-'+01,bill_year+'-'+bill_month+'-'+01);                    
-
+                                console.log(dates)
                                 var start_date_int = new Date(ida_year, ida_month, 01);
                                 var end_date_int = new Date(bill_year, bill_month, 01);
                                 
