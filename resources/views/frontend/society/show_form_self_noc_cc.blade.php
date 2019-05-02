@@ -17,7 +17,7 @@
                 <div class="m-portlet__body m-portlet__body--spaced">
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label mhada-multiple-label" for="application_type_id" >asdSelect Layout:</label>
+                            <label class="col-form-label mhada-multiple-label" for="application_type_id" >Select Layout:</label>
                             <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layouts" name="layout_id" required>
                                 <option value="">Select Layout</option>
                                 @foreach($layouts as $layout)
