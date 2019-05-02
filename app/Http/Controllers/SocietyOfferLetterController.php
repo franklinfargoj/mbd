@@ -430,10 +430,13 @@ class SocietyOfferLetterController extends Controller
 //             dd($ol_applications);
             $reval_master_ids_arr = config('commanConfig.revalidation_master_ids');
 
-            return $datatables->of($ol_applications )
+
+            return $datatables->of($ol_applications)
 
                 ->editColumn('rownum', function ($ol_applications) {
-                    static $i = 0; $i++;return $i;
+                    static $i = 0;
+                    $i++;
+                    return $i;
                 })
                 ->editColumn('application_no', function ($ol_applications) use($reval_master_ids_arr,$oc_master_ids_arr) {
 
