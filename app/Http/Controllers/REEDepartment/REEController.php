@@ -1349,6 +1349,7 @@ class REEController extends Controller
                     DB::beginTransaction();
                     try{
                         $calculationData->save(); 
+                        OlApplication::where('id',$applicationId)->update(['drafted_offer_letter' => NULL, 'text_offer_letter' => NULL]);
                         OlFsiCalculationSheet::where('application_id',$applicationId)->delete();
                         OlApplicationCalculationSheetDetails::where('application_id',$applicationId)->delete();
                         DB::commit();
@@ -3100,6 +3101,7 @@ class REEController extends Controller
         DB::beginTransaction();
         try {
             OlFsiCalculationSheet::updateOrCreate(['application_id'=>$applicationId],$request->all());
+            OlApplication::where('id',$applicationId)->update(['drafted_offer_letter' => NULL, 'text_offer_letter' => NULL]);
             OlApplicationCalculationSheetDetails::where('application_id',$applicationId)->delete();
             OlCustomCalculationSheet::where('application_id',$applicationId)->delete();
             DB::commit();

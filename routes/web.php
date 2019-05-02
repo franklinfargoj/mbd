@@ -374,7 +374,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('forward_Application_data','DYCEDepartment\DYCEController@sendForwardApplication')->name('dyce.forward_application_data');
 
     // REE Department Routes
-
+    Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
     Route::resource('ree_applications', 'REEDepartment\REEController');
     Route::post('get_calculation_sheet', 'REEDepartment\REEController@getCalculationSheet')->name('ree.get_calculation_sheet');
     // Route::get('society_ee_document/{id}','REEDepartment\REEController@societyEEDocuments')->name('ree.society_EE_documents');
@@ -966,7 +966,7 @@ Route::get('view_application_ee/{id}','EEDepartment\EEController@viewApplication
 Route::get('view_application_vp/{id}','VPDepartment\VPController@viewApplication')->name('vp.view_application');
 Route::get('calculation_sheet_vp/{id}','REEDepartment\REEController@showCalculationSheet')->name('vp.show_calculation_sheet');
 
-Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
+
 
 
 
