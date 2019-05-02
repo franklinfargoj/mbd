@@ -170,6 +170,7 @@ class OlApplicationCalculationSheetDetailsController extends Controller
         DB::beginTransaction();
         try{
             OlApplicationCalculationSheetDetails::updateOrCreate(['application_id'=>$applicationId],$request->all());
+            OlApplication::where('id',$applicationId)->update(['drafted_offer_letter' => NULL, 'text_offer_letter' => NULL]);
             OlCustomCalculationSheet::where('application_id',$applicationId)->delete();
             OlFsiCalculationSheet::where('application_id',$applicationId)->delete();
 
