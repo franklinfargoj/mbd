@@ -496,7 +496,7 @@ class SocietyNocforCCController extends Controller
         $mpdf->autoLangToFont = true;
         $contents = view('frontend.society.display_noc_cc_application', compact('society_details', 'noc_application', 'layouts', 'id'));
         $mpdf->WriteHTML($contents);
-        $mpdf->Output();
+        $mpdf->Output('society_noc_cc_application.pdf','I');
 
     }
 
