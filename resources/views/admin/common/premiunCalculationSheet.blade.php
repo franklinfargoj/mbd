@@ -425,12 +425,12 @@
                                                     <div class="col-sm-12" style="margin-bottom: 12px;padding: 0px">
                                                         <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input subtn" name="dcr_rate" id="dcr_rate" disabled>
 
-                                                        @if(count($calculationSheetDetails) == 0 && !isset($calculationSheetDetails->dcr_rate))
+                                                        @if(count($calculationSheetDetails) == 0 && !isset($calculationSheetDetails[0]->dcr_rate))
                                                             <option value="" selected disabled>Select</option>
                                                         @endif
                                                             @if($DCRrate)
                                                             @foreach($DCRrate as $value)
-                                                                @if(isset($calculationSheetDetails->dcr_rate) && $calculationSheetDetails->dcr_rate == $value)
+                                                                @if(isset($calculationSheetDetails[0]->dcr_rate) && $calculationSheetDetails[0]->dcr_rate == $value)
                                                                     <option value="{{$value}}" selected> {{$value}}</option>
                                                                 @else
                                                                     <option value="{{$value}}"> {{$value}}</option>

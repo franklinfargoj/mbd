@@ -678,6 +678,10 @@ table.dataTable tbody tr:nth-child(even):focus {
     vertical-align: middle;
 }
 
+.dataTables_wrapper table.dataTable tbody td {
+    cursor: auto;
+}
+
 .dataTables_wrapper table.dataTable thead th {
     font-weight: 500;
     background-color: #c6c6c6;
@@ -3043,6 +3047,7 @@ label.site-visit-label {
     font-size: 10px;
     color: #252525;
     text-align: center;
+    cursor: pointer;
 }
 
 .dataTables_wrapper table.dataTable .btn-icon-list a:hover {

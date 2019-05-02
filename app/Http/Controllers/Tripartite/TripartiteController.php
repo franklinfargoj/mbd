@@ -42,6 +42,7 @@ class TripartiteController extends Controller
         $columns = [
             ['data' => 'rownum', 'name' => 'rownum', 'title' => 'Sr No.', 'searchable' => false],
             ['data' => 'application_no', 'name' => 'application_no', 'title' => 'Application Number'],
+            ['data' => 'application_type', 'name' => 'application_type', 'title' => 'Application Type'],
             ['data' => 'submitted_at', 'name' => 'submitted_at', 'title' => 'Date', 'class' => 'datatable-date'],
             ['data' => 'eeApplicationSociety.name', 'name' => 'eeApplicationSociety.name', 'title' => 'Society Name'],
             ['data' => 'eeApplicationSociety.building_no', 'name' => 'eeApplicationSociety.building_no', 'title' => 'Building No'],
@@ -61,6 +62,20 @@ class TripartiteController extends Controller
                 ->editColumn('rownum', function ($listArray) {
                     static $i = 0; $i++;return $i;
                 })
+                ->editColumn('application_type', function ($listArray) {
+                    $application_type = '';
+                    $type = $listArray->ol_application_master->ol_application_type[0]->title;
+                    if (strpos($type, 'Self') !== false) {
+                        $application_type = 'Self';
+                    }elseif(strpos($type, 'Developer') !== false){
+                        $application_type = 'Through Developer';
+                    }else{
+                        $application_type = '-';
+                    }
+
+                    return $application_type."\n".'('.$listArray->ol_application_master->model.')' ;
+
+                })
                 ->editColumn('eeApplicationSociety.name', function ($listArray) {
                     return $listArray->eeApplicationSociety->name;
                 })
@@ -72,7 +87,6 @@ class TripartiteController extends Controller
                 })
                 ->editColumn('Status', function ($listArray) use ($request) {
                     $status = $listArray->olApplicationStatusForLoginListing[0]->status_id;
-                    // dd(config('commanConfig.applicationStatusColor.'.$status));
                     if ($request->update_status) {
                         if ($request->update_status == $status) {
                             $config_array = array_flip(config('commanConfig.applicationStatus'));
@@ -91,9 +105,9 @@ class TripartiteController extends Controller
                 })
                 ->editColumn('radio', function ($ee_application_data) {
                     $url = route('tripartite.view_application', encrypt($ee_application_data->id));
-                    return '<a style="width: 60px;"  href="'.$url.'" onclick="geturl(this.value);" name="village_data_id" class="d-flex flex-column align-items-center"><span class="btn-icon btn-icon--view">
+                    return '<div class="d-flex btn-icon-list"><a href="'.$url.'" onclick="geturl(this.value);" name="village_data_id" class="d-flex flex-column align-items-left"><span class="btn-icon btn-icon--view">
                         <img src="'. asset("img/view-icon.svg").'">
-                    </span>View</span></a>';
+                    </span>View</span></a></div>';
 //                    return '<input type="submit" onclick="geturl(this.value);"  name="village_data_id"><span></span>';
                 })
             // ->editColumn('actions', function ($ee_application_data) use($request) {
@@ -114,7 +128,7 @@ class TripartiteController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering' => 'isSorted',
-            "order" => [1, "asc"],
+            "order" => [1, "desc"],
             "pageLength" => $this->list_num_of_records_per_page,
         ];
     }
@@ -141,7 +155,7 @@ class TripartiteController extends Controller
         $ol_applications = OlApplication::where('id', $id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function ($q) {
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->first();
-       
+
         $documents = OlSocietyDocumentsMaster::where('application_id', $ol_applications->application_master_id)->where('is_admin', 0)->with(['documents_uploaded' => function ($q) use ($ol_application) {
             $q->where('society_id', $ol_application->society_id)->where('application_id',$ol_application->id)->get();
         }])->get();
@@ -708,7 +722,7 @@ class TripartiteController extends Controller
         $tripatiet_remark_history = $this->getTripartiteRemarks($applicationId);
 
         $societyData['ree_Jr_id'] = (session()->get('role_name') == config('commanConfig.ree_junior'));
-        $societyData['ree_branch_head'] = (session()->get('role_name') == config('commanConfig.ree_branch_head')); 
+        $societyData['ree_branch_head'] = (session()->get('role_name') == config('commanConfig.ree_branch_head'));
 
         $roleId = Role::where('name', '=', config('commanConfig.co_engineer'))->value('id');
         $coName = User::where('role_id',$roleId)->value('name');
@@ -826,10 +840,10 @@ class TripartiteController extends Controller
                 } else {
                     $parent = $parent->merge($society_user);
                     //$parent = $parent;
-                }                
+                }
             }
         }
-        
+
         return $parent;
     }
 
@@ -1147,7 +1161,7 @@ class TripartiteController extends Controller
             if ($is_approved_agreement != 0) {
                 OlApplication::where('id', $request->applicationId)->update(['current_status_id' => $is_approved_agreement,'is_approve_offer_letter'=>($is_approved_agreement==config('commanConfig.applicationStatus.approved_tripartite_agreement')?1:0)]);
             }
-            
+
             OlApplicationStatus::where('application_id',$request->applicationId)
                     ->whereIn('user_id', [auth()->user()->id,$request->to_user_id ])
                     ->update(array('is_active' => 0));

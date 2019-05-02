@@ -37,7 +37,7 @@
 
         <input type="hidden" name="applicationId" value="{{(isset($applicationId) ? $applicationId : '')}}">
         <div class="panel" id="ee-note">
-            <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+            <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow" style="padding-left: 0px;">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
                         {{-- <div class="m-subheader" style="padding: 0;">
