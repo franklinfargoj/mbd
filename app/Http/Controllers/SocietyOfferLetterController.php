@@ -2327,7 +2327,7 @@ class SocietyOfferLetterController extends Controller
             $oc_applications = $oc_applications->get();
             $ol_applications = $ol_applications->toBase()->merge($oc_applications);
 
-            $noc_applications = NocolApplication::select('*')->where('society_id', $society->id)->with(['application_master', 'ol_application_master', 'olApplicationStatus' => function($q){
+            $noc_applications = NocolApplication::select('*')->where('society_id', $society->id)->with(['ol_application_master', 'ol_application_master', 'olApplicationStatus' => function($q){
                 $q->where('society_flag', '1')->orderBy('id', 'desc');
             } ]);
 
@@ -2335,7 +2335,7 @@ class SocietyOfferLetterController extends Controller
             $noc_applications = $noc_applications->get();
             $ol_applications = $ol_applications->toBase()->merge($noc_applications);
 
-            $noc_cc_applications = NocCColApplication::select('*')->where('society_id', $society->id)->with(['application_master', 'ol_application_master', 'olApplicationStatus' => function($q){
+            $noc_cc_applications = NocCColApplication::select('*')->where('society_id', $society->id)->with(['ol_application_master', 'ol_application_master', 'olApplicationStatus' => function($q){
                 $q->where('society_flag', '1')->orderBy('id', 'desc');
             } ]);
 

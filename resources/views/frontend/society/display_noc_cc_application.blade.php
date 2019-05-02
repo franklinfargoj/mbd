@@ -16,7 +16,7 @@
             </div>
         </div>
         <div>
-            <div style="line-height: 1.5;">
+            <div style="line-height: 1.5; text-align: justify;">
                 
                     <p style="float: left; font-weight: bold; width: 15%;">Subject :- </p>
                     <p style="width: 85%;float: left;margin-top: 0px;margin-left: 0;">Proposed Redevelopment of Residential building of <span style="width: 200px; border-bottom: 1px solid #000;">{{ $society_details->name }}</span>, on plot number <span style="width: 200px; border-bottom: 1px solid #000;">{{ $society_details->building_no }}</span>, <span style="width: 200px; border-bottom: 1px solid #000;">{{ $society_details->address }}</span>.Issue of NOC & CC.</p>
@@ -33,15 +33,16 @@
                     </p>
                 </div>
 
-
-                <p style="font-weight: bold;">Dear Sir,</p>
-                <p style="text-indent: 80px;">
-                    Enclosing herewith the TRI-PARTY Agreement between MHADA first part,   <span style="width: 200px; border-bottom: 1px solid #000;">{{ $society_details->name }} </span> second part, <span style="width: 200px; border-bottom: 1px solid #000;">{{$noc_application->request_form->developer_name}} </span> third part, being registered on payment of all necessary charges.
-                </p>
-                <p>We now request your goodselves to proceed further for the issue NOC & CC at the earliest and oblige. </p>
-                <p>Kindly do the needful. </p>
-                <p>Thanking You,</p>
-                <p>Yours faithfully,</p>
+                <div style="text-align: justify;">
+                    <p style="font-weight: bold;">Dear Sir,</p>
+                    <p style="text-indent: 80px;">
+                        Enclosing herewith the TRI-PARTY Agreement between MHADA first part,   <span style="width: 200px; border-bottom: 1px solid #000;">{{ $society_details->name }} </span> second part, <span style="width: 200px; border-bottom: 1px solid #000;">{{$noc_application->request_form->developer_name}} </span> third part, being registered on payment of all necessary charges.
+                    </p>
+                    <p>We now request your goodselves to proceed further for the issue NOC & CC at the earliest and oblige. </p>
+                    <p>Kindly do the needful. </p>
+                    <p>Thanking You,</p>
+                    <p>Yours faithfully,</p>
+                </div>
             </div>
             <div style="margin-top: 30px;">
                 <div style="float: left; text-align: left;">
