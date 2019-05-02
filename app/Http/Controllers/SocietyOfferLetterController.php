@@ -505,7 +505,7 @@ class SocietyOfferLetterController extends Controller
 
                     if(isset($ol_applications->is_noc_application))
                     {
-                        return '<div class="d-flex btn-icon-list"><a href="' . $url . '" onclick="geturl(this.value);" name="ol_applications_id" class="d-flex flex-column align-items-left"><span class="btn-icon btn-icon--view">
+                        return '<div class="d-flex btn-icon-list"><a href="' . $url_noc . '" onclick="geturl(this.value);" name="ol_applications_id" class="d-flex flex-column align-items-left"><span class="btn-icon btn-icon--view">
                         <img src="' . asset("img/view-icon.svg") . '">
                     </span>View</span></a></div>';                     }
                     elseif($ol_applications->is_noc_cc_application)
