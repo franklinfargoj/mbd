@@ -808,8 +808,8 @@ $route=\Request::route()->getName();
                     </li>
                  @endif
                  @if(session()->get('role_name')!=config('commanConfig.appointing_architect'))
-                 <li class="m-menu__item @if ($route == 'society_applications') m-menu__item--active @endif" aria-haspopup="true">
-                     <a href="{{ route('society_applications') }}" class="m-menu__link">
+                 <li class="m-menu__item @if ($route == 'society_offer_letter_dashboard') m-menu__item--active @endif" aria-haspopup="true">
+                     <a href="{{ route('society_offer_letter_dashboard') }}" class="m-menu__link">
                          <i class="m-menu__link-icon flaticon-line-graph"></i>
                          <span class="m-menu__link-title">
                             <span class="m-menu__link-wrap">
