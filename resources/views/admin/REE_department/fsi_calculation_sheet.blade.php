@@ -22,6 +22,11 @@
 </style> 
 @php $FSIOptions = ['3 FSI','2.5 FSI','Custom']; 
 $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
+
+<input type="hidden" id="status" value="{{ ($status->status_id == config('commanConfig.applicationStatus.draft_offer_letter_generated') ? 'true' : 'false') }}">
+
+<input type="hidden" id="draftedOfferLetter" value="{{ isset($ol_application->drafted_offer_letter) ? $ol_application->drafted_offer_letter : '' }}">
+
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="m-subheader px-0 m-subheader--top">
@@ -668,7 +673,8 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary btn-next subtn" value="Next" /> </td>
+                                                <td colspan="3" align="right">
+                                                <input type="submit" name="submit" class="btn btn-primary btn-next subtn subt-btn" value="Next" /> </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -968,8 +974,7 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
                                             </tr>
                                             <tr>
                                                 <td colspan="3" align="right">
-                                                <input type="submit" name="submit" class="btn btn-primary btn-next
-                                                subtn" value="Next" /> </td>
+                                                <input type="submit" name="submit" class="btn btn-primary btn-next subtn subt-btn" value="Next" /> </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1175,7 +1180,7 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary btn-next subtn" value="Next" /> </td>
+                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary btn-next subtn subt-btn" value="Next" /> </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1248,7 +1253,7 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary btn-next subtn" value="Next" /> </td>
+                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary btn-next subtn subt-btn" value="Next" /> </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1994,5 +1999,15 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
         }
         totalAmountInRs();
     }); 
+
+    $(".subt-btn").click(function(){
+        var exists = '<?php echo count($exists); ?>';
+        var status = $("#status").val();
+        var offerLetter = $("#draftedOfferLetter").val();
+
+        if (exists > 0 && status == 'true' && offerLetter != '') {
+            confirm("Are you sure you want to change calculation sheet. If you change calculation sheet then you have to re-generate offer letter.");
+        }
+    });
 </script>
 @endsection
