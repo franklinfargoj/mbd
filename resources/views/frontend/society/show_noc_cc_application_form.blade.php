@@ -29,7 +29,7 @@
             </div>
         </div>
         <!-- END: Subheader -->
-        <div class="m-content letter-form-content">
+        <div class="m-content letter-form-content" style="text-align: justify">
             <div class="letter-form-subject">
                 <p><span class="font-weight-semi-bold">Subject :- </span> Proposed Redevelopment of Residential building of<input class="letter-form-input" type="text" id="" name="name" value="{{ $society_details->name }}" readonly>, on plot number<input class="letter-form-input" type="text" id="" name="building_no" value="{{ $society_details->building_no }}" readonly>, <input class="letter-form-input" type="text" id="" name="address" value="{{ $society_details->address }}" readonly>.Issue of NOC & CC.</p>
                 <p><span class="font-weight-semi-bold">Ref :- </span>1. Offer Letter No. <input class="letter-form-input" type="text" id="" name="offer_letter_number" value="{{ $noc_application->request_form->offer_letter_number }}" readonly> Dated <input class="letter-form-input" type="text" id="" name="offer_letter_date" value="{{date('j F Y',strtotime($noc_application->request_form->offer_letter_date))}}" readonly></p>

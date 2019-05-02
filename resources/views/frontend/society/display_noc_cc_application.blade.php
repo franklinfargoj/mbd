@@ -1,6 +1,9 @@
 <div id="printdiv">
     <div style="font-size: 18px;">
         <div>
+            <div style="text-align: center;">
+                <h6 style="font-weight: bold; margin-top: 5px; margin-bottom: 5px; margin-left: 550px">Date: {{ date('d-m-Y', strtotime($noc_application->created_at)) }}</h6>
+            </div>
             <div>
                 <p>
 
