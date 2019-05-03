@@ -235,7 +235,7 @@ else if(isset($societyData->drafted_offer_letter))
                 </div>
             </div>
 
-            @if($societyData->ree_branch_head && ($applicationLog->status_id == config('commanConfig.applicationStatus.offer_letter_generation') || $applicationLog->status_id == config('commanConfig.applicationStatus.draft_offer_letter_generated')) && (isset($societyData->drafted_offer_letter) || isset($societyData->offer_letter_document_path)))
+            @if($societyData->ree_branch_head && ($applicationLog->status_id == config('commanConfig.applicationStatus.offer_letter_generation') || $applicationLog->status_id == config('commanConfig.applicationStatus.draft_offer_letter_generated')) && (isset($societyData->drafted_offer_letter) && isset($societyData->offer_letter_document_path)))
             <form role="form" id="sendForApproval" style="margin-top: 30px;" name="sendForApproval" class="form-horizontal"
                 method="post" action="{{ route('ree.send_for_approval')}}" enctype="multipart/form-data">
                 @csrf
