@@ -23,7 +23,7 @@
 @php $FSIOptions = ['3 FSI','2.5 FSI','Custom']; 
 $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
 
-<input type="hidden" id="status" value="{{ ($status->status_id == config('commanConfig.applicationStatus.draft_offer_letter_generated') ? 'true' : 'false') }}">
+<input type="hidden" id="status" value="{{ (($status->status_id == config('commanConfig.applicationStatus.draft_offer_letter_generated') || $status->status_id == config('commanConfig.applicationStatus.offer_letter_approved') || $status->status_id == config('commanConfig.applicationStatus.offer_letter_generation')) ? 'true' : 'false') }}">
 
 <input type="hidden" id="draftedOfferLetter" value="{{ isset($ol_application->drafted_offer_letter) ? $ol_application->drafted_offer_letter : '' }}">
 

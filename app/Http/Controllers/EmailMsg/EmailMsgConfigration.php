@@ -51,6 +51,7 @@ class EmailMsgConfigration extends Controller
             $msgContent = config('commanConfig.msg_content.society_submission');
             $msgContent = str_replace("<application type>",$data->application_type,$msgContent);
             $msgContent = str_replace("<application number>",$data->application_no,$msgContent);
+
             $this->sendMsg($data->contact_no,$msgContent);
 
             $emailContent = config('commanConfig.email_content.society_submission');
@@ -61,7 +62,7 @@ class EmailMsgConfigration extends Controller
             $emailSubject = config('commanConfig.email_subject.society_submission');
             $emailSubject = str_replace("<application type>",$data->application_type,$emailSubject);
             $mailResponse = $this->sendEmail($data->email,$emailContent,$emailSubject);
-            
+
     		$this->sendMailMsgTouser($data);
     		$this->sendMailMsgToDepartmentHead($data);
         }

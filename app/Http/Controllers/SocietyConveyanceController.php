@@ -29,6 +29,7 @@ use Storage;
 use Mpdf\Mpdf;
 use App\conveyance\scRegistrationDetails;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
+use App\Http\Controllers\EmailMsg\EmailMsgConfigration;
 use App\ApplicationStatusMaster;
 use App\MasterTenantType;
 use DB;
@@ -776,7 +777,6 @@ class SocietyConveyanceController extends Controller
             $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
             $this->conveyance_common->uploadDocumentStatus($request->id, config('commanConfig.documents.society.stamp_conveyance_application'), $path);
 
-            $role_id = Role::where('name', config('commanConfig.dycdo_engineer'))->first();
             if ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending')) {
                 if ($sc_application->from_user_id != NULL) {
                     $status_new = $sc_application->application_status;
@@ -784,19 +784,38 @@ class SocietyConveyanceController extends Controller
                     $status_new = NULL;
                 }
             }
-            $user_ids = RoleUser::where('role_id', $role_id->id)->get();
+            $role_id = Role::where('name', config('commanConfig.dycdo_engineer'))->value('id');
+            $users = User::where('role_id',$role_id)->with(['LayoutUser' => function($query)use($sc_application){
+            $query->where('layout_id',$sc_application->layout_id);
+            }])->whereHas('LayoutUser', function($query)use($sc_application){
+                $query->where('layout_id',$sc_application->layout_id);
+            })->get();
 
-            $layout_user_ids = LayoutUser::where('layout_id', $sc_application->layout_id)->whereIn('user_id', $user_ids)->get();
+            //optimize below code with above query (Bhavana)
 
-            foreach ($layout_user_ids as $key => $value) {
-                $select_user_ids[] = $value['user_id'];
-            }
+            // $user_ids = RoleUser::where('role_id', $role_id)->get();
+            // $layout_user_ids = LayoutUser::where('layout_id', $sc_application->layout_id)->whereIn('user_id', $user_ids)->get();
 
-            $users = User::whereIn('id', $select_user_ids)->get();
+            // foreach ($layout_user_ids as $key => $value) {
+            //     $select_user_ids[] = $value['user_id'];
+            // }
+
+            // $users = User::whereIn('id', $select_user_ids)->get();
             if(count($users) > 0){
                 $insert_arr = array(
                     'users' => $users
                 );
+
+                //send application submission mail and msg to society and respective department
+                $data = $society;
+                $data['users'] = $users;
+                $data['application_no'] = $sc_application->application_no;
+                $data['layout_id'] = $sc_application->layout_id;
+                $data['application_type'] = $sc_application->scApplicationType->application_type;
+                
+                $EmailMsgConfigration = new EmailMsgConfigration();
+                $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
+
                 $inserted_application_log = $this->CommonController->sc_application_status_society($insert_arr, config('commanConfig.conveyance_status.forwarded'), $sc_application, $status_new);
                 scApplication::where('id', $sc_application->id)->update(['application_status' => config('commanConfig.conveyance_status.in_process')]);
             }

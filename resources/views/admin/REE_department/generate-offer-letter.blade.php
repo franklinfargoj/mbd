@@ -196,7 +196,7 @@ else if(isset($societyData->drafted_offer_letter))
                             <div class="row">
                              @if($societyData->ree_branch_head && ($applicationLog->status_id == config('commanConfig.applicationStatus.offer_letter_generation') || $applicationLog->status_id == config('commanConfig.applicationStatus.draft_offer_letter_generated')) && isset($societyData->drafted_offer_letter))
                                 <div class="col-sm-6 row-list">
-                                    <div class="d-flex flex-column h-100">
+                                    <!-- <div class="d-flex flex-column h-100"> -->
                                         <p class="font-weight-semi-bold">Upload Offer Letter</p>
                                         <span class="hint-text">Click on 'Upload' to upload offer letter</span>
                                         <form action="{{route('ree.upload_offer_letter',$societyData->id)}}" method="post"
@@ -213,15 +213,15 @@ else if(isset($societyData->drafted_offer_letter))
                                                 <button type="submit" class="btn btn-primary btn-w115" id="uploadBtn">Upload</button>
                                             </div>
                                         </form>
-                                    </div>
+                                    <!-- </div> -->
                                 </div>
                                 @endif
                             @if(isset($societyData->offer_letter_document_path))
-                                <div class="col-sm-6 border-left">
+                                <div class="col-sm-6 border-left mt-3">
                                     <div class="d-flex flex-column h-100">
                                         <p class="font-weight-semi-bold">Download Signed uploaded Offer Letter</p>
                                         <p>Click to download uploaded signed offer letter in PDF format</p>
-                                        <div class="mt-auto">
+                                        <div class="mt-4">
                                             <a href="{{config('commanConfig.storage_server').'/'.$societyData->offer_letter_document_path}}" class="btn btn-primary" target="_blank">Download</a>
                                         </div>
                                     </div>
