@@ -136,28 +136,67 @@
          <div id="show-noc">
             <div class="m-portlet m-portlet--mobile m_panel">
                <div class="m-portlet__body" style="padding-right: 0;">
-                  @if($societyData->ree_Jr_id && empty($noc_application->final_draft_noc_path))
-                  <h3 class="section-title section-title--small mb-0">Noc:</h3>
+                  @if($societyData->ree_Jr_id)
+                  <h3 class="section-title section-title--small mb-0">NOC (CC):</h3>
                   <div class=" row-list">
                      <div class="row">
-                        <div class="col-md-12">
-                           <p class="font-weight-semi-bold">
-                            @if(!empty($noc_application->draft_noc_path))
-                            Edit Draft Noc
-                            @else
-                            Generate Draft Noc
-                            @endif
-                           </p>
-                           <p>Click to view generated Noc in PDF format</p>
-                           <a href="{{route('ree.create_edit_noc_cc',$societyData->id)}}" class="btn btn-primary">
-                               @if(!empty($noc_application->draft_noc_path))
-                                Edit
-                               @else
-                                Generate
-                               @endif
-                            </a>
-                           <!-- <button type="submit">Edit offer Letter </button> -->
-                        </div>
+                         <div class="col-md-12">
+                             @if($applicationLog->status_id ==
+                           config('commanConfig.applicationStatus.forwarded'))
+                                 @if($noc_application->draft_noc_path != null)
+                                     <div class="col-sm-12" style="display: block; float: right;">
+                                         <h5>Download Draft NOC</h5>
+                                         <div class="mt-auto">
+                                             {{--@if(empty($noc_application->final_draft_noc_path))--}}
+                                             {{--<a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->draft_noc_path}}"--}}
+                                             {{--class="btn btn-primary">Download</a>--}}
+                                             {{--@else--}}
+                                             {{--<a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->final_draft_noc_path}}"--}}
+                                             {{--class="btn btn-primary">Download</a>--}}
+                                             {{--@endif--}}
+                                             <a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->draft_noc_path}}"
+                                                class="btn btn-primary">Download</a>
+                                         </div>
+                                     </div>
+                                 @endif
+                             @else
+                                 <div class="col-md-6 " style="display: block; float: left;">
+                                     <p class="font-weight-semi-bold">
+                                         {{--@if(!empty($noc_application->draft_noc_path))--}}
+                                         {{--Edit Draft Noc--}}
+                                         {{--@else--}}
+                                         {{--Generate Draft Noc--}}
+                                         {{--@endif--}}
+                                     </p>
+                                     <p>Click to view generated Noc in PDF format</p>
+                                     <a href="{{route('ree.create_edit_noc_cc',$societyData->id)}}" class="btn btn-primary">
+                                         {{--@if(!empty($noc_application->draft_noc_path))--}}
+                                         {{--Edit--}}
+                                         {{--@else--}}
+                                         {{--Generate--}}
+                                         {{--@endif--}}
+                                         Generate/ Edit Draft NOC
+                                     </a>
+                                     <!-- <button type="submit">Edit offer Letter </button> -->
+                                 </div>
+                                 @if($noc_application->draft_noc_path != null)
+                                     <div class="col-sm-6 border-left" style="display: block; float: right;">
+                                         <h5>Download Draft NOC</h5>
+                                         <div class="mt-auto">
+                                             {{--@if(empty($noc_application->final_draft_noc_path))--}}
+                                             {{--<a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->draft_noc_path}}"--}}
+                                             {{--class="btn btn-primary">Download</a>--}}
+                                             {{--@else--}}
+                                             {{--<a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->final_draft_noc_path}}"--}}
+                                             {{--class="btn btn-primary">Download</a>--}}
+                                             {{--@endif--}}
+                                             <a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->draft_noc_path}}"
+                                                class="btn btn-primary">Download</a>
+                                         </div>
+                                     </div>
+                                 @endif
+                             @endif
+                         </div>
                      </div>
                   </div>
                   @endif
@@ -167,20 +206,30 @@
                         <div class="row">
                            <div class="col-sm-6">
                               <div class="d-flex flex-column h-100">
-                                 <h5>Download Draft Noc</h5>
-                                 <div class="mt-auto">
-                                @if(empty($noc_application->final_draft_noc_path))
-                                    <a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->draft_noc_path}}"
-                                       class="btn btn-primary">Download</a>
-                                @else
-                                   <a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->final_draft_noc_path}}"
-                                       class="btn btn-primary">Download</a> 
-                                @endif
-                                 </div>
+                                 <h5>Download Scanned and Signed NOC</h5>
+                                {{--@if(empty($noc_application->final_draft_noc_path))--}}
+                                    {{--<a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->draft_noc_path}}"--}}
+                                       {{--class="btn btn-primary">Download</a>--}}
+                                {{--@else--}}
+                                   {{--<a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->final_draft_noc_path}}"--}}
+                                       {{--class="btn btn-primary">Download</a>--}}
+                                {{--@endif--}}
+                                     @if($noc_application->final_draft_noc_path)
+                                      <div class="mt-auto" style="margin-left: 15px;">
+
+                                      <a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->final_draft_noc_path}}"
+                                        class="btn btn-primary">Download</a>
+                                      </div>
+                                     @else
+                                      <div class="mt-auto" style="margin-left: 15px;    margin-top: 10%!important;">
+
+                                      <span style="padding-bottom: 15px;color: #ce2323;" class="error">*Note: Scanned copy of NOC not available.</span>
+                                      </div>
+                                  @endif
                               </div>
                            </div>
                            @if($societyData->ree_Jr_id && $applicationLog->status_id !=
-                           config('commanConfig.applicationStatus.forwarded') && empty($noc_application->final_draft_noc_path))
+                           config('commanConfig.applicationStatus.forwarded'))
                            <div class="col-sm-6 border-left">
                               <div class="d-flex flex-column h-100">
                                  <h5>Upload Noc</h5>

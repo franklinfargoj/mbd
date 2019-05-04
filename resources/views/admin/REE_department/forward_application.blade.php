@@ -223,10 +223,13 @@
                                                         <span></span>
                                                     </label>
                                                 @endif
-
                                                 <!-- reject block to reject application to society. will display only REE head -->
 
-                                                @if(session()->get('role_name') == config('commanConfig.ree_branch_head') && ($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation') || $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved')))
+                                                @if(session()->get('role_name') == config('commanConfig.ree_branch_head') 
+                                                && (($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation') 
+                                                && (!isset($applicationData->drafted_offer_letter)))
+
+                                                || $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved')))
 
                                                     <label class="m-radio m-radio--primary">
                                                         <input type="radio" name="remarks_suggestion"

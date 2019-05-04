@@ -17,7 +17,7 @@
                 <div class="m-portlet__body m-portlet__body--spaced">
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label mhada-multiple-label" for="application_type_id" >asdSelect Layout:</label>
+                            <label class="col-form-label mhada-multiple-label" for="application_type_id" >Select Layout:</label>
                             <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layouts" name="layout_id" required>
                                 <option value="">Select Layout</option>
                                 @foreach($layouts as $layout)
@@ -62,7 +62,7 @@
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="offer_letter_date">Offer Letter Date:</label>
-                            <input type="text" id="offer_letter_date" name="offer_letter_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('offer_letter_date') }}" required>
+                            <input readonly type="text" id="offer_letter_date" name="offer_letter_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('offer_letter_date') }}" required>
                             <span class="help-block">{{$errors->first('offer_letter_date')}}</span>
                         </div>
                     </div>
@@ -75,7 +75,7 @@
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group"> <!-- offset-sm-1 -->
                             <label class="col-form-label" for="mcgm_iod_date">MCGM IOD Date :</label>
-                            <input type="text" id="mcgm_iod_date" name="mcgm_iod_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('mcgm_iod_date') }}" required>
+                            <input readonly type="text" id="mcgm_iod_date" name="mcgm_iod_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('mcgm_iod_date') }}" required>
                             <span class="help-block">{{$errors->first('mcgm_iod_date')}}</span>
                         </div>
                     </div>
@@ -87,15 +87,15 @@
                             <span class="help-block">{{$errors->first('noc_no')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="noc_date">NOC for IOD Date :</label>
-                            <input type="text" id="noc_date" name="noc_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('noc_date') }}" required>
+                            <label  class="col-form-label" for="noc_date">NOC for IOD Date :</label>
+                            <input readonly type="text" id="noc_date" name="noc_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('noc_date') }}" required>
                             <span class="help-block">{{$errors->first('noc_date')}}</span>
                         </div>
                     </div>
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
                             <label class="col-form-label" for="tripartite_agreement_date">Tripartite Agreement Date :</label>
-                            <input type="text" id="tripartite_agreement_date" name="tripartite_agreement_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('tripartite_agreement_date') }}" required>
+                            <input readonly type="text" id="tripartite_agreement_date" name="tripartite_agreement_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('tripartite_agreement_date') }}" required>
                             <span class="help-block">{{$errors->first('tripartite_agreement_date')}}</span>
                         </div>
                         {{--<div class="col-sm-4 offset-sm-1 form-group"> <!-- offset-sm-1 -->--}}

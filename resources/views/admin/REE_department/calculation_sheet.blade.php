@@ -22,6 +22,9 @@
 @php $FSIOptions = ['3 FSI','2.5 FSI','Custom']; 
      $DCRrate = ['EWS / LIG','MIG','HIG'];   
 @endphp
+<input type="hidden" id="status" value="{{ (($status->status_id == config('commanConfig.applicationStatus.draft_offer_letter_generated') || $status->status_id == config('commanConfig.applicationStatus.offer_letter_approved') || $status->status_id == config('commanConfig.applicationStatus.offer_letter_generation')) ? 'true' : 'false') }}">
+
+<input type="hidden" id="draftedOfferLetter" value="{{ isset($ol_application->drafted_offer_letter) ? $ol_application->drafted_offer_letter : '' }}">
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="m-subheader px-0 m-subheader--top">
@@ -37,6 +40,7 @@
                 </div>
             </div>
         </div>
+
         <!-- display fsi options  -->
         @if($status->status_id != config('commanConfig.applicationStatus.forwarded') && session()->get('role_name') == config('commanConfig.ree_junior') && $exists == 1)
         <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
@@ -647,7 +651,7 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="3" align="right">
-                                                <input type="submit" name="submit" class="btn btn-primary btn-next subtn" value="Next" /> </td>
+                                                <input type="submit" name="submit" class="btn btn-primary btn-next subtn subt-btn" value="Next" /> </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -951,8 +955,7 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="3" align="right">
-                                                <input type="submit" name="submit" class="btn btn-primary btn-next
-                                                subtn" value="Next" /> </td>
+                                                <input type="submit" name="submit" class="btn btn-primary btn-next subtn subt-btn" value="Next" /> </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1148,7 +1151,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary btn-next subtn" value="Next" /> </td>
+                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary btn-next subtn subt-btn" value="Next" /> </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1222,7 +1225,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary btn-next subtn" value="Next" /> </td>
+                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary btn-next subtn subt-btn" value="Next" /> </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1927,6 +1930,16 @@
        // $("#payment_of_remaining_installment").attr('value',numberWithCommas(Math.ceil($("#non_profit_duty").val())));
 
 
+    });
+
+    $(".subt-btn").click(function(){
+        var exists = '<?php echo count($exists); ?>';
+        var status = $("#status").val();
+        var offerLetter = $("#draftedOfferLetter").val();
+
+        if (exists > 0 && status == 'true' && offerLetter != '') {
+            confirm("Are you sure you want to change calculation sheet. If you change calculation sheet then you have to re-generate offer letter.");
+        }
     });
 
 </script>

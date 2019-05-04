@@ -267,6 +267,11 @@ Breadcrumbs::for('society_noc_application_create', function ($trail, $id) {
     $trail->push('Application form for Redevelopment (NOC)', route('show_form_self_noc', $id));
 });
 
+Breadcrumbs::for('society_noc_cc_application_view', function ($trail, $id) {
+    $trail->parent('society_dashboard');
+    $trail->push('Application for NOC CC ', route('show_form_self_noc_cc', $id));
+});
+
 Breadcrumbs::for('society_noc_cc_application_create', function ($trail, $id) {
     $trail->parent('society_dashboard');
     $trail->push('Application form for Redevelopment (NOC for CC)', route('show_form_self_noc_cc', $id));

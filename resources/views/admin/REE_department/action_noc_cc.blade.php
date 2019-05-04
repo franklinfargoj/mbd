@@ -67,7 +67,7 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">REE Note</span>
             </a>
         </li>
-        @if((session()->get('role_name') == config('commanConfig.ree_junior') && $noc_application->noc_generation_status == 0) || $noc_application->noc_generation_status == config('commanConfig.applicationStatus.NOC_Generation'))
+        {{--@if((session()->get('role_name') == config('commanConfig.ree_junior') && $noc_application->noc_generation_status == 0) || $noc_application->noc_generation_status == config('commanConfig.applicationStatus.NOC_Generation'))--}}
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ree.generate_noc_cc')?'m-menu__item--active':''}}"
             aria-haspopup="true">
             <a class="m-menu__link m-menu__toggle" title="NOC" href="{{route('ree.generate_noc_cc',$noc_application->id)}}">
@@ -82,7 +82,7 @@ $route=\Request::route()->getName();
                     </span>
                 <span class="m-menu__link-text">NOC</span></a>
         </li>
-        @endif
+        {{--@endif--}}
 
         @if($noc_application->noc_generation_status ==
         config('commanConfig.applicationStatus.NOC_Issued') || $noc_application->noc_generation_status ==

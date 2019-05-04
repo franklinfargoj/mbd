@@ -16,6 +16,11 @@
 </div>
 @endif
 @php $FSIOptions = ['3 FSI','2.5 FSI','Custom']; @endphp
+
+<input type="hidden" id="status" value="{{ (($status->status_id == config('commanConfig.applicationStatus.draft_offer_letter_generated') || $status->status_id == config('commanConfig.applicationStatus.offer_letter_approved') || $status->status_id == config('commanConfig.applicationStatus.offer_letter_generation')) ? 'true' : 'false') }}">
+
+<input type="hidden" id="draftedOfferLetter" value="{{ isset($ol_application->drafted_offer_letter) ? $ol_application->drafted_offer_letter : '' }}">
+
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="m-subheader px-0 m-subheader--top">
@@ -172,7 +177,7 @@
                         @if($status->status_id != config('commanConfig.applicationStatus.forwarded'))
                         <div class="col-md-12 btn-list" style="padding-top: 13px;">
                             <input type="button" name="add_more" id="table1" class="btn btn-primary btn-next add-more" value="Add More.." />
-                            <input type="submit" name="submit" class="btn btn-primary btn-next"
+                            <input type="submit" name="submit" class="btn btn-primary btn-next subt-btn"
                             value="Next" style="float:right"/> 
                         </div> 
                         @endif
@@ -256,7 +261,7 @@
                     @if($status->status_id != config('commanConfig.applicationStatus.forwarded'))
                     <div class="col-md-12 btn-list" style="padding-top: 13px;">
                         <input type="button" name="add_more" id="table2" class="btn btn-primary btn-next add-more" value="Add More.." />
-                        <input type="submit" name="submit" class="btn btn-primary btn-next"
+                        <input type="submit" name="submit" class="btn btn-primary btn-next subt-btn"
                         value="Next" style="float:right"/> 
                     </div> 
                     @endif                                    
@@ -339,7 +344,7 @@
                     @if($status->status_id != config('commanConfig.applicationStatus.forwarded'))
                         <div class="col-md-12 btn-list" style="padding-top: 13px;">
                             <input type="button" name="add_more" id="table3" class="btn btn-primary btn-next add-more" value="Add More.." />
-                            <input type="submit" name="submit" class="btn btn-primary btn-next"
+                            <input type="submit" name="submit" class="btn btn-primary btn-next subt-btn"
                             value="Next" style="float:right"/> 
                         </div> 
                     @endif                                    
@@ -422,7 +427,7 @@
                     @if($status->status_id != config('commanConfig.applicationStatus.forwarded'))
                         <div class="col-md-12 btn-list" style="padding-top: 13px;">
                             <input type="button" name="add_more" id="table4" class="btn btn-primary btn-next add-more" value="Add More.." />
-                            <input type="submit" name="submit" class="btn btn-primary btn-next"
+                            <input type="submit" name="submit" class="btn btn-primary btn-next subt-btn"
                             value="Next" style="float:right"/> 
                         </div> 
                     @endif
@@ -534,8 +539,7 @@
                                         </tr>
                                         @if($status->status_id != config('commanConfig.applicationStatus.forwarded'))
                                             <tr>
-                                                <td colspan="3" align="right"><input type="submit" id="Printfive_btn" name="submit" class="btn btn-primary btn-next"
-                                                            value="Next" /> </td>
+                                                <td colspan="3" align="right"><input type="submit" id="Printfive_btn" name="submit" class="btn btn-primary btn-next subt-btn" value="Next" /> </td>
                                             </tr>
                                         @endif    
                                     </tbody>
@@ -708,6 +712,16 @@
             $('a[href=\'' + anchor + '\']').tab('show');
             window.scrollTo(0, 0);
         });
+    });
+
+    $(".subt-btn").click(function(){
+        var exists = '<?php echo count($exists); ?>';
+        var status = $("#status").val();
+        var offerLetter = $("#draftedOfferLetter").val();
+
+        if (exists > 0 && status == 'true' && offerLetter != '') {
+            confirm("Are you sure you want to change calculation sheet. If you change calculation sheet then you have to re-generate offer letter.");
+        }
     });    
 </script>
 
