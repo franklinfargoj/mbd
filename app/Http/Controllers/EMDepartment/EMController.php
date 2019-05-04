@@ -1524,7 +1524,7 @@ class EMController extends Controller
         }
 
         if(is_null($check) || $check == ''){
-
+            //dd($check);
             $tenants = MasterTenant::where('building_id',$request->building_id)->get();
             $request->monthly_bill = $request->monthly_bill / $request->no_of_tenant;
 
@@ -1591,11 +1591,14 @@ class EMController extends Controller
                                     'total_service_after_due' => $total_service_after_due,
                                     'late_fee_charge' => $total_after_due,
                                     'status' => 'Generated',
-                                    'balance_amount' => $total_bill,
+                                    'balance_amount' => $arrear_bill,
+                                    'created_at'=>date('Y-m-d H:i:s'),
+                                    'updated_at'=>date('Y-m-d H:i:s')
                                 ];
+                              // $dat[]=$data;
                         $bill[] = TransBillGenerate::insertGetId($data);
                 }
-                
+                //dd($dat);
                if(isset($bill)){
                     $ids = implode(",",$bill);
                     $lastBillGenerated = DB::table('building_tenant_bill_association')->orderBy('id','DESC')->first();

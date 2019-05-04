@@ -4,10 +4,10 @@
 
     @php 
         $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other; 
-
+        
         $total_service = $total_service * $number_of_tenants->tenant_count()->first()->count;
 
-        $total_after_due = $total_service * 0.02; 
+        $total_after_due = $total_service * 0.015; 
 
         $total_service_after_due = $total_service + $total_after_due;   
 
@@ -21,7 +21,7 @@
 
     @php
     // dd($total);
-    $total ='0';  
+    //$total ='0';  
         $tempBalance = $total;
         if($lastBill && count($lastBill)>0 ) {
             foreach($lastBill as $lastbil) {
@@ -123,7 +123,7 @@
                                 $balance += $lastbil->balance_amount;
                             }
                         }
-
+                        
                         if($lastBill && !empty($lastBill) && 0 < $balance) {
                             $totalTemp = $total+ $total_service + $balance;
                         }
@@ -177,7 +177,7 @@
                             <td>{{$total_service}}</td>
                         </tr>
                         <tr>
-                            <td><p class="pull-right">After Due date 2% interest</p></td>
+                            <td><p class="pull-right">After Due date 1.5% interest</p></td>
                             <td> {{$total_after_due}} </td>
                         </tr>
                         <tr>
