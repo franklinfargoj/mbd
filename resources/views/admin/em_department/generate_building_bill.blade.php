@@ -20,9 +20,10 @@
     @endif  
 
     @php
-    // dd($lastBill);
+    // dd($total);
+    $total ='0';  
         $tempBalance = $total;
-        if($lastBill && !empty($lastBill) ) {
+        if($lastBill && count($lastBill)>0 ) {
             foreach($lastBill as $lastbil) {
                 if( 0 < $lastbil->balance_amount ) {
                     $tempBalance += $lastbil->balance_amount;

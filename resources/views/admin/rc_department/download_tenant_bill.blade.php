@@ -201,7 +201,7 @@
         @if(!$arreasCalculation->isEmpty())
             @php $total ='0'; @endphp
 
-        <div style="border: 2px solid #000; padding: 5px; margin-top: 160px;"><h3 style="text-align: center;">Balance amount to be paid - Arrears</h3></div>
+        <div style="border: 2px solid #000; padding: 5px; margin-top: 20px;"><h3 style="text-align: center;">Balance amount to be paid - Arrears</h3></div>
         <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
             <thead>
                 <tr>

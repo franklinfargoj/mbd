@@ -434,6 +434,7 @@ class EMClerkController extends Controller
             if($request->ior_month <= 3 ) {
                 $request->ior_year = $request->ior_year - 1;
             }
+            //dd($request->ior_year." ".$request->ida_year);
             if($request->ior_year < $request->ida_year) {
                 $end_year = $request->ior_year;
             } else {
@@ -441,14 +442,25 @@ class EMClerkController extends Controller
             }
 
             $currentYear = date('Y');
-            if($request->start_month <= 3 && $request->start_year == $currentYear) {
-                $request->start_year = $request->start_year -1;
-            }
-
+            // dump($request->start_year);
+            // if($request->ida_month <= 3 && $request->start_year == $currentYear) {
+            //     $request->start_year = $request->start_year -1;
+            // }else
+            // {
+            //     $request->start_year = $request->start_year;
+            // }
+            // dump($request->ior_month);
+            // if($request->ior_month <= 3 && $request->start_year == $currentYear) {
+            //     $request->start_year = $request->start_year -1;
+            // }else
+            // {
+            //     $request->start_year = $request->start_year;
+            // }
+            //dd($end_year." ".$request->start_year);
             $isYearHaveCharges = true;
             for($i = $end_year; $i<= $request->start_year; $i++) {
                 $years[] = $i; 
-                $arrearCharges = ArrearsChargesRate::where('society_id',decrypt($request->society_id))->where('building_id',decrypt($request->building_id))->where('year',$i)->orderBy('id','DESC')->first();
+                $arrearCharges[] = ArrearsChargesRate::where('society_id',decrypt($request->society_id))->where('building_id',decrypt($request->building_id))->where('year',$i)->orderBy('id','DESC')->first();
                 if(!$arrearCharges) {
                     $isYearHaveCharges = false;
                 }
