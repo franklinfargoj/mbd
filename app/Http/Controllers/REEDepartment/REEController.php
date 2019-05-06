@@ -779,7 +779,6 @@ class REEController extends Controller
 
     public function sendForApproval(Request $request){
 
-        // dd($request->applicationId);
         $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
         $layout_ids = array_column($layout_id_array, 'layout_id');
         $co_id = Role::where('name', '=', config('commanConfig.co_engineer'))->first();
@@ -787,9 +786,11 @@ class REEController extends Controller
                             ->whereIn('lu.layout_id', $layout_ids)
                             ->where('role_id', $co_id->id)->first();   
 
+        $id = encrypt($request->applicationId);                    
+
         $this->CommonController->forwardApplicationToCoForOfferLetterGeneration($request,$get_forward_co);
 
-        return redirect()->back();                 
+        return redirect()->route('ree.generate_offer_letter',$id)->with('success','Application forwarded to CO successfully.');                 
         // $arco_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));        
     }
 
