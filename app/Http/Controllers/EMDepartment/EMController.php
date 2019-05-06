@@ -1317,7 +1317,7 @@ class EMController extends Controller
                                     ->orderBy('id','DESC')
                                     ->get();
 //                                     echo '<pre>';
-// print_r($data['lastBill']);exit;                                    
+//  print_r($data['lastBill']);exit;                                    
             return view('admin.em_department.generate_building_bill',$data);
 
         }
@@ -1472,8 +1472,9 @@ class EMController extends Controller
                                     ->where('bill_year', '=', $lastBillYear)
                                     ->orderBy('id','DESC')
                                     ->first();
-            if(!empty($lastBill)) {
-
+                
+            if($lastBill) {
+               // dd($lastBill);
                 if($lastBill->balance_amount > 0) {
                     $bill->total_bill_after_due_date = round($request->total_bill + $request->late_fee_charge +$lastBill->balance_amount,2);
                     $bill->balance_amount = round($lastBill->total_bill_after_due_date,2);
@@ -1491,7 +1492,9 @@ class EMController extends Controller
                     $bill->credit_amount = 0;
                 }
             } else {
-                $bill->balance_amount = round($request->total_bill,2);
+               // dd('not null');
+                $bill->balance_amount = 0;
+                //$bill->balance_amount = round($request->total_bill,2);
                 $bill->credit_amount = 0;    
             }
             // if(!empty($transPayment)) {
@@ -1521,7 +1524,7 @@ class EMController extends Controller
         }
 
         if(is_null($check) || $check == ''){
-
+            //dd($check);
             $tenants = MasterTenant::where('building_id',$request->building_id)->get();
             $request->monthly_bill = $request->monthly_bill / $request->no_of_tenant;
 
@@ -1588,11 +1591,14 @@ class EMController extends Controller
                                     'total_service_after_due' => $total_service_after_due,
                                     'late_fee_charge' => $total_after_due,
                                     'status' => 'Generated',
-                                    'balance_amount' => $total_bill,
+                                    'balance_amount' => $arrear_bill,
+                                    'created_at'=>date('Y-m-d H:i:s'),
+                                    'updated_at'=>date('Y-m-d H:i:s')
                                 ];
+                              // $dat[]=$data;
                         $bill[] = TransBillGenerate::insertGetId($data);
                 }
-                
+                //dd($dat);
                if(isset($bill)){
                     $ids = implode(",",$bill);
                     $lastBillGenerated = DB::table('building_tenant_bill_association')->orderBy('id','DESC')->first();

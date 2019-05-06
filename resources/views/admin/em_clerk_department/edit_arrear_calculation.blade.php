@@ -86,9 +86,9 @@
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout" required>
                                         <option value="" style="font-weight: normal;">Select revised rate</option>
                                         <option value="EWS" {{$tenant->tenanttype->name=='EWS'?'selected':''}} {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;">EWS</option>
-                                        <option value="LIG" {{$tenant->tenanttype->name=='EWS'?'selected':''}} {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;">LIG</option>
-                                        <option value="MIG" {{$tenant->tenanttype->name=='EWS'?'selected':''}} {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;">MIG</option>
-                                        <option value="HIG" {{$tenant->tenanttype->name=='EWS'?'selected':''}}{{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;">HIG</option>
+                                        <option value="LIG" {{$tenant->tenanttype->name=='LIG'?'selected':''}} {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;">LIG</option>
+                                        <option value="MIG" {{$tenant->tenanttype->name=='MIG'?'selected':''}} {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;">MIG</option>
+                                        <option value="HIG" {{$tenant->tenanttype->name=='HIG'?'selected':''}}{{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;">HIG</option>
                                     </select>
                                 </div>
                             </div>                        
@@ -439,7 +439,7 @@ function monthDiff(d1, d2) {
                             success: function(response){
                             var strResponse = $.parseJSON(response);
                             
-
+                                console.log(strResponse)
                             if (true == strResponse.result && null != strResponse.data ) {
                                 old_rate_old = [];
                                 old_rate_diff = [];
@@ -481,11 +481,12 @@ function monthDiff(d1, d2) {
                                         
 
                                         if(tempMonth > 3 ) {
-
+                                            //console.log('elm',old_ior[tempYear])
                                             old_ior_per = old_ior[tempYear] / 100;
 
                                             var temp = parseFloat(old_rate_old[tempYear] * old_ior_per ).toFixed(2);
-                                        } else if(tempMonth <3 ) {
+                                        } else if(tempMonth <=3 ) {
+                                            //console.log('elm',old_ior[tempYear])
                                             old_ior_per = old_ior[tempYear-1] / 100;
 
                                             var temp = parseFloat(old_rate_old[tempYear-1] * old_ior_per ).toFixed(2);
@@ -517,7 +518,7 @@ function monthDiff(d1, d2) {
                                             old_iod_per = old_iod[tempYear] / 100;
 
                                             var temp1 = parseFloat(old_rate_diff[tempYear] * old_iod_per).toFixed(2);
-                                        } else if(tempMonth <3 ) {
+                                        } else if(tempMonth <=3 ) {
                                             old_iod_per = old_iod[tempYear-1] / 100;
 
                                             var temp1 = parseFloat(old_rate_diff[tempYear-1] * old_iod_per).toFixed(2);

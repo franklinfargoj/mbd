@@ -431,10 +431,15 @@ class BillingDetailController extends Controller
                                 return $arreas_calculations->balance_amount;
                             }
                         } else {
+                            // if($arreas_calculations->total_bill == $arreas_calculations->balance_amount) {
+                            //     return $arreas_calculations->arrear_bill;
+                            // } else {
+                            //     return $arreas_calculations->balance_amount;
+                            // }
                             if($arreas_calculations->total_bill == $arreas_calculations->balance_amount) {
-                                return $arreas_calculations->arrear_bill;
+                                return $arreas_calculations->where('society_id',$arreas_calculations->society_id)->sum('arrear_bill');
                             } else {
-                                return $arreas_calculations->balance_amount;
+                                return $arreas_calculations->where('society_id',$arreas_calculations->society_id)->sum('balance_amount');
                             }
                         }
                         // if(isset($arreas_calculations->month) && isset($arreas_calculations->year)) {
@@ -481,13 +486,15 @@ class BillingDetailController extends Controller
                             }
 
                         } else {
-                            if($arreas_calculations->total_bill == $arreas_calculations->balance_amount) {
-                                $grand_total = ($arreas_calculations->other+$arreas_calculations->na_assessment+$arreas_calculations->lease_rent+$arreas_calculations->administrative_charge+$arreas_calculations->external_expender_charge+$arreas_calculations->pump_man_and_repair_charges+$arreas_calculations->electric_city_charge+$arreas_calculations->water_charges)*$building->tenant_count()->first()->count
-                                +($arreas_calculations->arrear_bill-($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount)) + ($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount);
-                            } else {
-                                $grand_total = ($arreas_calculations->other+$arreas_calculations->na_assessment+$arreas_calculations->lease_rent+$arreas_calculations->administrative_charge+$arreas_calculations->external_expender_charge+$arreas_calculations->pump_man_and_repair_charges+$arreas_calculations->electric_city_charge+$arreas_calculations->water_charges)*$building->tenant_count()->first()->count
-                                +($arreas_calculations->balance_amount-($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount)) + ($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount);
-                            }
+                            return $arreas_calculations->where('society_id',$arreas_calculations->society_id)->sum('total_bill');
+
+                            // if($arreas_calculations->total_bill == $arreas_calculations->balance_amount) {
+                            //     $grand_total = ($arreas_calculations->other+$arreas_calculations->na_assessment+$arreas_calculations->lease_rent+$arreas_calculations->administrative_charge+$arreas_calculations->external_expender_charge+$arreas_calculations->pump_man_and_repair_charges+$arreas_calculations->electric_city_charge+$arreas_calculations->water_charges)*$building->tenant_count()->first()->count
+                            //     +($arreas_calculations->arrear_bill-($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount)) + ($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount);
+                            // } else {
+                            //     $grand_total = ($arreas_calculations->other+$arreas_calculations->na_assessment+$arreas_calculations->lease_rent+$arreas_calculations->administrative_charge+$arreas_calculations->external_expender_charge+$arreas_calculations->pump_man_and_repair_charges+$arreas_calculations->electric_city_charge+$arreas_calculations->water_charges)*$building->tenant_count()->first()->count
+                            //     +($arreas_calculations->balance_amount-($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount)) + ($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount);
+                            // }
                         }
 
                         if( 0 < $grand_total ) {
