@@ -503,6 +503,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
         //Society user profile
         Route::get('/profile','Common\CommonController@profile')->name('society.profile');
+        Route::get('/society_profile','SocietyOfferLetterController@profile')->name('society.profile');
         Route::post('/update_profile','Common\CommonController@update_profile')->name('society.update_profile');
 
         //Society Offer Letter

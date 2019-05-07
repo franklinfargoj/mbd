@@ -2850,4 +2850,10 @@ class SocietyOfferLetterController extends Controller
         $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
         return redirect()->route('society_offer_letter_dashboard')->with('success','Application forwarded successfully.');
     }
+
+    public function profile(Request $request){
+        $users = auth::Id();
+        $data = SocietyOfferLetter::where('user_id',$users)->first();
+        return view('frontend.profile', compact('data'));
+    }
 }
