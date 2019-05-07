@@ -28,88 +28,87 @@
                 @csrf
                 <div class="m-portlet__body m-portlet__body--spaced">
                     <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-sm-3 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="name">Society Name:
                             </label>
                             <input type="text" id="name" name="name" class="form-control form-control--custom m-input" value="" readonly>
                             <span class="help-block">{{$errors->first('name')}}</span>
                         </div>
-                        <div class="col-sm-3 offset-sm-1 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="building_no">Society Building No:</label>
                             <textarea id="building_no" name="building_no" class="form-control form-control--custom form-control--fixed-height m-input" readonly></textarea>
                             <span class="help-block">{{$errors->first('address')}}</span>
                         </div>
-                        <div class="col-sm-3 offset-sm-1 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="society_wing_no">Society Wing No:</label>
                             <textarea id="society_wing_no" name="society_wing_no" class="form-control form-control--custom form-control--fixed-height m-input" readonly></textarea>
                             <span class="help-block">{{$errors->first('address')}}</span>
                         </div>
                     </div>
                     <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-sm-3 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="contact_no">Society Contact No:
                             </label>
                             <input type="text" id="contact_no" name="contact_no" class="form-control form-control--custom m-input" value="" readonly>
                             <span class="help-block">{{$errors->first('name')}}</span>
                         </div>
-                        <div class="col-sm-3 offset-sm-1 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="email">Society Email:</label>
                             <textarea id="email" name="email" class="form-control form-control--custom form-control--fixed-height m-input" readonly></textarea>
                             <span class="help-block">{{$errors->first('address')}}</span>
                         </div>
-                        <div class="col-sm-3 offset-sm-1 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="registration_no">Society Registration No:</label>
                             <textarea id="registration_no" name="registration_no" class="form-control form-control--custom form-control--fixed-height m-input" readonly></textarea>
                             <span class="help-block">{{$errors->first('address')}}</span>
                         </div>
                     </div>
                     <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-sm-7 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="address">Society Address:
                             </label>
                             <input type="text" id="address" name="address" class="form-control form-control--custom m-input" value="" readonly>
                             <span class="help-block">{{$errors->first('name')}}</span>
                         </div>
-                    </div>
-                    <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-sm-3 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="chairman_name">Chairman Name:
                             </label>
                             <input type="text" id="chairman_name" name="chairman_name" class="form-control form-control--custom m-input" value="" readonly>
                             <span class="help-block">{{$errors->first('name')}}</span>
                         </div>
-                        <div class="col-sm-3 offset-sm-1 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="secretary_name">Secretary Name:</label>
                             <textarea id="secretary_name" name="secretary_name" class="form-control form-control--custom form-control--fixed-height m-input" readonly></textarea>
                             <span class="help-block">{{$errors->first('address')}}</span>
                         </div>
-                        <div class="col-sm-3 offset-sm-1 form-group">
+                    </div>
+                    <div class="m-form__group row mhada-lease-margin">
+                        
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="name_of_architect">Architect/ Licence Surveyor Name:</label>
                             <textarea id="name_of_architect" name="name_of_architect" class="form-control form-control--custom form-control--fixed-height m-input" readonly></textarea>
                             <span class="help-block">{{$errors->first('address')}}</span>
                         </div>
-                    </div>
-                    <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-sm-3 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="architect_mobile_no">Architect Mobile Number:
                             </label>
                             <input type="text" id="architect_mobile_no" name="architect_mobile_no" class="form-control form-control--custom m-input" value="" readonly>
                             <span class="help-block">{{$errors->first('name')}}</span>
                         </div>
-                        <div class="col-sm-3 offset-sm-1 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="architect_address">Architect Address:</label>
                             <textarea id="architect_address" name="architect_address" class="form-control form-control--custom form-control--fixed-height m-input" readonly></textarea>
                             <span class="help-block">{{$errors->first('address')}}</span>
                         </div>
                     </div>
                     <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-sm-3 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="password">Password:
                             </label>
                             <input type="text" id="password" name="password" class="form-control form-control--custom m-input" value="" readonly>
                             <span class="help-block">{{$errors->first('name')}}</span>
                         </div>
-                        <div class="col-sm-3 offset-sm-1 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="confirm_psssword">Confirm Password:</label>
                             <textarea id="confirm_psssword" name="confirm_psssword" class="form-control form-control--custom form-control--fixed-height m-input" readonly></textarea>
                             <span class="help-block">{{$errors->first('address')}}</span>
