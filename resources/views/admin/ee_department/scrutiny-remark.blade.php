@@ -686,50 +686,50 @@ if($latest){
                                                         <tr>
                                                         <td>1</td>
                                                         <td>एकूण भूखंडाचे क्षेत्रफळ</td>
-                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom number" required="" value="{{ isset($landDetails->total_area) ? $landDetails->total_area : '' }}" name="land[total_area]" id="total_area" readonly placeholder="0.00"></td>
+                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom float" required="" value="{{ isset($landDetails->total_area) ? $landDetails->total_area : '' }}" name="land[total_area]" id="total_area" readonly placeholder="0.00"></td>
                                                         
                                                         </tr>
                                                         <td>1.a</td>
 
                                                         <td>भाडेपट्टा करारनामा नुसार क्षेत्रफळ <span class="star">*</span></td>
-                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom total_area number" required="" value="{{ isset($landDetails->lease_agreement_area) ? $landDetails->lease_agreement_area : '' }}" name="land[lease_agreement_area]" id="lease_agreement_area" placeholder=""></td>
+                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom total_area float" required="" value="{{ isset($landDetails->lease_agreement_area) ? $landDetails->lease_agreement_area : '' }}" name="land[lease_agreement_area]" id="lease_agreement_area" placeholder=""></td>
                                                     </tr> 
                                                                                    
                                                     <tr>
                                                          <td>1.b</td>    
                                                         <td>टिट बिट भूखंडाचे क्षेत्रफळ  <span class="star">*</span></td>
-                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom total_area number" required="" value="{{ isset($landDetails->tit_bit_area) ? $landDetails->tit_bit_area : '' }}" name="land[tit_bit_area]" id="tit_bit_area" placeholder=""></td>
+                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom total_area float" required="" value="{{ isset($landDetails->tit_bit_area) ? $landDetails->tit_bit_area : '' }}" name="land[tit_bit_area]" id="tit_bit_area" placeholder=""></td>
                                                     </tr>
                                                     <tr>
                                                          <td>1.c</td>    
                                                         <td>आर जी भूखंडाचे क्षेत्रफळ <span class="star">*</span></td>
-                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom total_area number" required="" value="{{ ($landDetails != '' && isset($landDetails->rg_plot_area)) ? $landDetails->rg_plot_area : '' }}" name="land[rg_plot_area]" id="rg_plot_area" placeholder=""></td>
+                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom total_area float" required="" value="{{ ($landDetails != '' && isset($landDetails->rg_plot_area)) ? $landDetails->rg_plot_area : '' }}" name="land[rg_plot_area]" id="rg_plot_area" placeholder=""></td>
                                                     </tr>
                                                     <tr>
                                                          <td>1.d</td>    
                                                         <td>पि जि भूखंडाचे क्षेत्रफळ <span class="star">*</span></td>
-                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom total_area number" required="" value="{{ ($landDetails != '' && isset($landDetails->pg_plot_area)) ? $landDetails->pg_plot_area : '' }}" name="land[pg_plot_area]" id="pg_plot_area" placeholder=""></td>
+                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom total_area float" required="" value="{{ ($landDetails != '' && isset($landDetails->pg_plot_area)) ? $landDetails->pg_plot_area : '' }}" name="land[pg_plot_area]" id="pg_plot_area" placeholder=""></td>
                                                     </tr>
                                                     <tr>
                                                          <td>1.e</td>    
                                                         <td>Road setback  area <span class="star">*</span></td>
-                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom total_area number" required="" value="{{ isset($landDetails->road_setback_area) ? $landDetails->road_setback_area : '' }}" name="land[road_setback_area]" id="road_setback_area" placeholder=""></td>
+                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom total_area float" required="" value="{{ isset($landDetails->road_setback_area) ? $landDetails->road_setback_area : '' }}" name="land[road_setback_area]" id="road_setback_area" placeholder=""></td>
                                                     </tr>
                                                     <tr>
                                                         <td>1.f</td>    
                                                         <td>Encroachment area <span class="star">*</span></td>
-                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom total_area number number" required="" value="{{ isset($landDetails->encroachment_area) ? $landDetails->encroachment_area : '' }}" name="land[encroachment_area]" id="encroachment_area" placeholder=""></td>
+                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom total_area float" required="" value="{{ isset($landDetails->encroachment_area) ? $landDetails->encroachment_area : '' }}" name="land[encroachment_area]" id="encroachment_area" placeholder=""></td>
                                                     </tr>
                                                     <tr>
                                                          <td>1.g</td>    
                                                         <td>इतर क्षेत्रफळ  <span class="star">*</span></td>
-                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom total_area number number" required="" value="{{ isset($landDetails->another_area) ? $landDetails->another_area : '' }}" name="land[another_area]" id="another_area" placeholder=""></td>
+                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom total_area float" required="" value="{{ isset($landDetails->another_area) ? $landDetails->another_area : '' }}" name="land[another_area]" id="another_area" placeholder=""></td>
 
                                                     </tr>
                                                        <tr>
                                                         <td>2.</td>
                                                         <td>अभिन्यासातील भूखंडाचे क्षेत्रफळ <span class="star">*</span></td>
-                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom number" required="" value="{{ isset($landDetails->stag_plot_area) ? $landDetails->stag_plot_area : '' }}" name="land[stag_plot_area]" 
+                                                        <td><input {{$readonly}} type="text" class="form-control form-control--custom float" required="" value="{{ isset($landDetails->stag_plot_area) ? $landDetails->stag_plot_area : '' }}" name="land[stag_plot_area]" 
                                                         id="stag_plot_area" placeholder=""></td>
                                                     </tr>  
                                                 </table>
@@ -1408,12 +1408,23 @@ if($latest){
             })        
     } 
 
-     $(".number").keypress(function(event){
+     $(".float").keypress(function(event){
 
-         if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57))
-            return false;
+        // if ((event.keyCode == 8 || event.keyCode == 46 || event.keyCode == 37 || event.keyCode == 39) && this.value.split('.').length < 2){
+        //     return true;
+        // }else{
+        //     return false;
+        // }
 
-         return true;
+        var key = window.event ? event.keyCode : event.which;
+          if ((event.keyCode == 8 || event.keyCode == 46
+              || event.keyCode == 37 || event.keyCode == 39) && this.value.split('.').length < 2) {
+                 return true;
+             }
+          else if ( key < 48 || key > 57 ) {
+             return false;
+          }
+          else return true;
 
      });
 
