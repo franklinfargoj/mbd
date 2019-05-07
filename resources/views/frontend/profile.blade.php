@@ -64,7 +64,7 @@
                         </div>
                     </div>
                     <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-sm-4 form-group">
+                        <div class="col-sm-8 form-group">
                             <label class="col-form-label" for="address">Society Address:
                             </label>
                             <input type="text" id="address" name="address" class="form-control form-control--custom m-input" value="" readonly>
@@ -76,14 +76,14 @@
                             <input type="text" id="chairman_name" name="chairman_name" class="form-control form-control--custom m-input" value="" readonly>
                             <span class="help-block">{{$errors->first('name')}}</span>
                         </div>
+                        
+                    </div>
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="secretary_name">Secretary Name:</label>
                             <textarea id="secretary_name" name="secretary_name" class="form-control form-control--custom form-control--fixed-height m-input" readonly></textarea>
                             <span class="help-block">{{$errors->first('address')}}</span>
                         </div>
-                    </div>
-                    <div class="m-form__group row mhada-lease-margin">
-                        
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="name_of_architect">Architect/ Licence Surveyor Name:</label>
                             <textarea id="name_of_architect" name="name_of_architect" class="form-control form-control--custom form-control--fixed-height m-input" readonly></textarea>
@@ -95,19 +95,23 @@
                             <input type="text" id="architect_mobile_no" name="architect_mobile_no" class="form-control form-control--custom m-input" value="" readonly>
                             <span class="help-block">{{$errors->first('name')}}</span>
                         </div>
-                        <div class="col-sm-4 form-group">
+                        
+                    </div>
+                    <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-sm-8 form-group">
                             <label class="col-form-label" for="architect_address">Architect Address:</label>
                             <textarea id="architect_address" name="architect_address" class="form-control form-control--custom form-control--fixed-height m-input" readonly></textarea>
                             <span class="help-block">{{$errors->first('address')}}</span>
                         </div>
-                    </div>
-                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="password">Password:
                             </label>
                             <input type="text" id="password" name="password" class="form-control form-control--custom m-input" value="" readonly>
                             <span class="help-block">{{$errors->first('name')}}</span>
                         </div>
+                        
+                    </div>
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="confirm_psssword">Confirm Password:</label>
                             <textarea id="confirm_psssword" name="confirm_psssword" class="form-control form-control--custom form-control--fixed-height m-input" readonly></textarea>
