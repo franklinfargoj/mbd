@@ -251,7 +251,7 @@ var SnippetLogin = function() {
                     rules:{
                         society_name:{
                             required:true,
-                            lettersonly: true,
+                            // lettersonly: true,
                         },
                         society_address:{
                             required:true

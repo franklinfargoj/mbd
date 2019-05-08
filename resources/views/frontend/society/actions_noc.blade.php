@@ -56,7 +56,6 @@ $status = isset($noc_applications->nocApplicationStatus[0]->status_id)?$noc_appl
 				<span class="m-menu__link-text">Upload Documents</span>
 			</a>
 		</li>
-		@endif
 		@if($check_upload_avail == 1)
 		<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='upload_noc_application')?'m-menu__item--active':''}}">
 			<a class="m-menu__link m-menu__toggle" title="Upload Signed Application for Offer Letter" href="{{ route('upload_noc_application',encrypt($noc_applications->id)) }}">
@@ -67,6 +66,7 @@ $status = isset($noc_applications->nocApplicationStatus[0]->status_id)?$noc_appl
 				<span class="m-menu__link-text">Upload Signed Application for Noc</span>
 			</a>
 		</li>
+		@endif
 		@endif
 		@endif
 		@if($status == '2' || $status == '7')

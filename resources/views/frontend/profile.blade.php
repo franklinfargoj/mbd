@@ -26,60 +26,104 @@
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
             <form id="update_profile" role="form" method="post" class="m-form m-form--rows m-form--label-align-right floating-labels-form" action=" @if(session()->all(['role_name']) == config('commanConfig.society_offer_letter')) {{ route('society.update_profile') }} @else {{ route('admin.update_profile') }} @endif " enctype="multipart/form-data">
                 @csrf
-
                 <div class="m-portlet__body m-portlet__body--spaced">
-                    @for($i=0; $i < count($field_names); $i++)
-                        @if($i != 0) @php $i++; @endphp @endif
-                        <div class="form-group m-form__group row mhada-lease-margin">
-                            @if(isset($field_names[$i]))
-                            @if($field_names[$i] == 'password' || $field_names[$i] == 'confirm_password') @php if($field_names[$i] == 'password'){ $field_names[$i] = 'new_password'; } $type = 'password'; $value = ''; @endphp @else @php $type = 'text'; @endphp @endif
-                                @if($field_names[$i] == 'id') @php $value = encrypt($users->id); $type = 'hidden'; @endphp @php echo $comm_func->form_fields($field_names[$i], $type, '', '', $value, '', 'required') @endphp @endif
-                                @if($field_names[$i] == 'name') @php $value = $users->name; @endphp @endif
-                                @if($field_names[$i] == 'email') @php $value = $users->email; @endphp @endif
-                                @if($field_names[$i] == 'mobile_no') @php $value = $users->mobile_no; @endphp @endif
-                                @if($type != 'hidden')
-                                    <div class="col-sm-4 form-group">
-                                        <label class="col-form-label" for="{{ $field_names[$i] }}">@php $labels = implode(' ', explode('_', $field_names[$i])); echo ucwords($labels); @endphp:</label>
-                                        @if($field_names[$i] == 'email')
-                                            @php  $readonly = 'readonly'; @endphp
-                                        @else
-                                            @php $readonly = ''; @endphp
-                                        @endif
-                                        @php echo $comm_func->form_fields($field_names[$i], $type, '', '', $value, $readonly) @endphp {{--@else @php echo $value; @endphp--}}
-                                        <span class="help-block" id="{{ $field_names[$i] }}-error">{{$errors->first($field_names[$i])}}</span>
-                                    </div>
-                                @endif
-                            @endif
-                            @if(isset($field_names[$i+1]))
-                                @if($field_names[$i+1] == 'password' || $field_names[$i+1] == 'confirm_password') @php if($field_names[$i+1] == 'password'){ $field_names[$i+1] = 'new_password'; } $type_1 = 'password'; $value_1 = ''; @endphp @else @php $type_1 = 'text'; @endphp @endif
-                                    @if($field_names[$i+1] == 'id') @php $value_1 = encrypt($users->id); $type_1 = 'hidden'; @endphp @php echo $comm_func->form_fields($field_names[$i+1], $type_1, '', '', $value_1, '', 'required') @endphp @endif
-                                    @if($field_names[$i+1] == 'name') @php $value_1 = $users->name; @endphp @endif
-                                    @if($field_names[$i+1] == 'email') @php $value_1 = $users->email; @endphp @endif
-                                    @if($field_names[$i+1] == 'mobile_no') @php $value_1 = $users->mobile_no; @endphp @endif
-                                    @if($type_1 != 'hidden')
-                                        <div class="col-sm-4 form-group">
-                                            <label class="col-form-label" for="{{ $field_names[$i+1] }}">@php $labels = implode(' ', explode('_', $field_names[$i+1])); echo ucwords($labels); @endphp:</label>
-                                            @if($field_names[$i+1] == 'email')
-                                                @php  $readonly = 'readonly'; @endphp
-                                            @else
-                                                @php $readonly = ''; @endphp
-                                            @endif
-                                            @php echo $comm_func->form_fields($field_names[$i+1], $type_1, '', '', $value_1, $readonly) @endphp {{--@else <p style=""> <b> @php echo $value_1; @endphp </b> </p>--}}
-                                            <input type="hidden" name="id" value="{{ encrypt($users->id) }}">
-                                            <span class="help-block" id="{{ $field_names[$i+1] }}-error">{{$errors->first($field_names[$i+1])}}</span>
-                                        </div>
-                                    @endif
-                            @endif
-                            @php $type = ''; @endphp
+                    <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="name">Society Name:
+                            </label>
+                            <input type="text" id="name" name="name" class="form-control form-control--custom m-input" value="" readonly>
+                            <span class="help-block">{{$errors->first('name')}}</span>
                         </div>
-                    @endfor
-
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="building_no">Society Building No:</label>
+                            <textarea id="building_no" name="building_no" class="form-control form-control--custom form-control--fixed-height m-input" readonly></textarea>
+                            <span class="help-block">{{$errors->first('address')}}</span>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="society_wing_no">Society Wing No:</label>
+                            <textarea id="society_wing_no" name="society_wing_no" class="form-control form-control--custom form-control--fixed-height m-input" readonly></textarea>
+                            <span class="help-block">{{$errors->first('address')}}</span>
+                        </div>
+                    </div>
+                    <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="contact_no">Society Contact No:
+                            </label>
+                            <input type="text" id="contact_no" name="contact_no" class="form-control form-control--custom m-input" value="" readonly>
+                            <span class="help-block">{{$errors->first('name')}}</span>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="email">Society Email:</label>
+                            <textarea id="email" name="email" class="form-control form-control--custom form-control--fixed-height m-input" readonly></textarea>
+                            <span class="help-block">{{$errors->first('address')}}</span>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="registration_no">Society Registration No:</label>
+                            <textarea id="registration_no" name="registration_no" class="form-control form-control--custom form-control--fixed-height m-input" readonly></textarea>
+                            <span class="help-block">{{$errors->first('address')}}</span>
+                        </div>
+                    </div>
+                    <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-sm-8 form-group">
+                            <label class="col-form-label" for="address">Society Address:
+                            </label>
+                            <input type="text" id="address" name="address" class="form-control form-control--custom m-input" value="" readonly>
+                            <span class="help-block">{{$errors->first('name')}}</span>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="chairman_name">Chairman Name:
+                            </label>
+                            <input type="text" id="chairman_name" name="chairman_name" class="form-control form-control--custom m-input" value="" readonly>
+                            <span class="help-block">{{$errors->first('name')}}</span>
+                        </div>
+                        
+                    </div>
+                    <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="secretary_name">Secretary Name:</label>
+                            <textarea id="secretary_name" name="secretary_name" class="form-control form-control--custom form-control--fixed-height m-input" readonly></textarea>
+                            <span class="help-block">{{$errors->first('address')}}</span>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="name_of_architect">Architect/ Licence Surveyor Name:</label>
+                            <textarea id="name_of_architect" name="name_of_architect" class="form-control form-control--custom form-control--fixed-height m-input" readonly></textarea>
+                            <span class="help-block">{{$errors->first('address')}}</span>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="architect_mobile_no">Architect Mobile Number:
+                            </label>
+                            <input type="text" id="architect_mobile_no" name="architect_mobile_no" class="form-control form-control--custom m-input" value="" readonly>
+                            <span class="help-block">{{$errors->first('name')}}</span>
+                        </div>
+                        
+                    </div>
+                    <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-sm-8 form-group">
+                            <label class="col-form-label" for="architect_address">Architect Address:</label>
+                            <textarea id="architect_address" name="architect_address" class="form-control form-control--custom form-control--fixed-height m-input" readonly></textarea>
+                            <span class="help-block">{{$errors->first('address')}}</span>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="password">Password:
+                            </label>
+                            <input type="text" id="password" name="password" class="form-control form-control--custom m-input" value="" readonly>
+                            <span class="help-block">{{$errors->first('name')}}</span>
+                        </div>
+                        
+                    </div>
+                    <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="confirm_psssword">Confirm Password:</label>
+                            <textarea id="confirm_psssword" name="confirm_psssword" class="form-control form-control--custom form-control--fixed-height m-input" readonly></textarea>
+                            <span class="help-block">{{$errors->first('address')}}</span>
+                        </div>
+                    </div>
                     <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                         <div class="m-form__actions px-0">
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="btn-list">
-                                        {{--<a href=" @if(session()->all()['role_name'] == config('commanConfig.society_offer_letter')) {{ route('society_offer_letter_dashboard') }} @else {{ route('society_offer_letter_dashboard') }} @endif " class="btn btn-secondary">Cancel</a>--}}
+                                        <a href="{{ route('society_offer_letter_dashboard') }}" class="btn btn-secondary">Cancel</a>
                                         <button type="submit"  class="btn btn-primary">Update</button>
                                     </div>
                                 </div>
