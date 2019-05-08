@@ -1960,17 +1960,17 @@ class REEController extends Controller
         $fileName = time().'draft_noc_cc_'.$id.'.pdf';
         $filePath = $folder_name."/".$fileName;
 
-        if (!(Storage::disk('ftp')->has($folder_name))) {            
+        if (!(Storage::disk('ftp')->has($folder_name))) {
             Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
-        } 
+        }
         Storage::disk('ftp')->put($filePath, $pdf->output($fileName,'S'));
 //        $file = $pdf->output();
 
         $folder_name1 = 'text_noc_cc';
 
-        if (!(Storage::disk('ftp')->has($folder_name1))) {            
+        if (!(Storage::disk('ftp')->has($folder_name1))) {
             Storage::disk('ftp')->makeDirectory($folder_name1, $mode = 0777, true, true);
-        }        
+        }
         $file_nm =  time()."text_noc_cc".$id.'.txt';
         $filePath1 = $folder_name1."/".$file_nm;
 
@@ -1978,8 +1978,13 @@ class REEController extends Controller
 
         NocCCApplication::where('id',$request->applicationId)->update(["draft_noc_path" => $filePath, "draft_noc_text_path" => $filePath1]);
 
-        \Session::flash('success_msg', 'Changes in Noc draft has been saved successfully..');
-    
+        if($noc_application->draft_noc_text_path == null){
+            \Session::flash('success', 'NOC CC draft has been saved successfully.');
+
+        }else{
+            \Session::flash('success', 'Changes in NOC CC draft has been saved successfully.');
+        }
+
         if((session()->get('role_name') == config('commanConfig.ree_junior')) && !empty($noc_application->final_draft_noc_path) && ($noc_application->noc_generation_status == config('commanConfig.applicationStatus.NOC_Issued')))
         {
             //dump('REE');
@@ -1999,12 +2004,19 @@ class REEController extends Controller
 
             if ($extension == "pdf") {
 
-                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('noc_letter'),$file_name);
+                $nocCCData = NocCCApplication::where('id',$applicationId)->first();
+                if($nocCCData->draft_noc_text_path != null){
+                    $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('noc_letter'),$file_name);
 
-                    $draftNocPath = $folder_name."/".$file_name; 
+                    $draftNocPath = $folder_name."/".$file_name;
                     NocCCApplication::where('id',$applicationId)->update(["final_draft_noc_path" => $draftNocPath]);
 
                     return redirect()->back()->with('success', 'Draft copy of Noc has been uploaded successfully.');
+                }
+                else{
+                    return redirect()->back()->with('error', 'Draft copy of Noc CC has not been generated.');
+                }
+
             } else {
                 return redirect()->back()->with('error', 'Invalid format. pdf file only.');
             }

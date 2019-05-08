@@ -131,80 +131,77 @@
                </div>
             </div>
          </div>
-         <div class="tab-content">
-            @php
-            $style = "display:none";
-            $style1 = "display:none";
-            $disabled='disabled';
-            @endphp
 
-            @php
-            if(isset($arrData['get_last_status']) && ($arrData['get_last_status']->status_id ==
-            config('commanConfig.applicationStatus.forwarded')))
-            $display = "display:none";
-            elseif (session()->get('role_name') != config('commanConfig.ree_junior'))
-            $display = "display:none";
-            else
-            $display = "";
-            @endphp
-            <div>
-               <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
-                  <div class="portlet-body">
-                     <div class="m-portlet__body m-portlet__body--table">
-                        <div class="m-subheader" style="padding: 0;">
-                           <div class="d-flex align-items-center justify-content-center">
-                              <h3 class="section-title">
-                                 Note
-                              </h3>
-                           </div>
-                        </div>
-                        <div class="m-section__content mb-0 table-responsive">
-                           <div class="container">
-                              <div class="row">
-                                 @if(isset($noc_application->ree_office_note_noc) && !empty($noc_application->ree_office_note_noc))
-                                 <div class="col-sm-6">
-                                    <div class="d-flex flex-column h-100 two-cols">
-                                       <h5>Download Note</h5>
-                                       <div class="mt-auto">
-                                          <a target="_blank" href="{{ config('commanConfig.storage_server').'/'.$noc_application->ree_office_note_noc}} ">
-                                          <button class="btn btn-primary">
-                                          Download</button>
-                                          </a>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 @else
-                                 <div class="col-sm-12" style="{{ $display }}">
-                                    <div class="d-flex flex-column h-100 two-cols">
-                                       <h5>Upload Note</h5>
-                                       <span class="hint-text">Click on 'Upload' to upload REE - Note</span>
-                                       <form action="{{ route('ree.upload_office-note-noc') }}" method="post"
-                                          enctype="multipart/form-data">
-                                          @csrf
-                                          <input type="hidden" name="application_id" value="{{ $noc_application->id }}">
-                                          <div class="custom-file">
-                                             <input class="custom-file-input" name="ree_office_note_noc" type="file"
-                                                id="test-upload" required="">
-                                             <label class="custom-file-label" for="test-upload">Choose
-                                             file...</label>
+          <div id="tabbed-content" class="">
+              <form action="{{ route('ree.upload_office-note-noc-cc') }}" method="post"
+                    enctype="multipart/form-data" style="margin-top: 2%;">
+                  @csrf
+                  <input type="hidden" name="application_id" value="{{(isset($noc_application->id) ? $noc_application->id : '')}}">
+                  <div>
+                      <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+                          <div class="portlet-body">
+                              <div class="m-portlet__body m-portlet__body--table">
+                                  <div class="" style="padding: 0;">
+                                      <div class="d-flex align-items-center">
+                                          <h3 class="section-title">
+                                              Ree Note
+                                          </h3>
+                                      </div>
+                                  </div>
+                                  <div class="m-section__content mb-0 table-responsive">
+                                      <div class="container">
+                                          <div class="row">
+                                              <div class="col-sm-6">
+                                                  <div class="d-flex flex-column h-100 two-cols">
+                                                      <h5>Download Ree Note</h5>
+                                                      <!-- <span class="hint-text">Download Note uploaded by CAP</span> -->
+                                                      <div class="mt-auto">
+                                                          @if(isset($noc_application->ree_office_note_noc) && !empty($noc_application->ree_office_note_noc))
+                                                              <a target="_blank" href="{{ config('commanConfig.storage_server').'/'.$noc_application->ree_office_note_noc}}">
+                                                                  <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                                                      Download </Button>
+                                                              </a>
+                                                          @else
+                                                              <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+*Note : Ree note is not available.</span>
+                                                          @endif
+
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                              @if(session()->get('role_name')==config('commanConfig.ree_junior') && ($noc_application->status->status_id == config('commanConfig.applicationStatus.in_process') ))
+                                                  <div class="col-sm-6 border-left">
+                                                      <div class="d-flex flex-column h-100 two-cols">
+                                                          <h5>Upload Ree Note</h5>
+                                                          <!-- <span class="hint-text">Click on 'Upload' to upload - Note -->
+
+                                                          <!-- Note</span> -->
+                                                          <!-- <form action="" method="post"> -->
+                                                          <div class="custom-file">
+                                                              <input class="custom-file-input ree_note" type="file" id="test-upload" name="ree_office_note_noc"
+                                                                     required="">
+                                                              <label class="custom-file-label" for="test-upload">Choose
+                                                                  file...</label>
+                                                          </div>
+                                                          <span class="text-danger" id="file_error"></span>
+                                                          <div class="mt-auto">
+                                                              <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                                          </div>
+                                                          <!-- </form> -->
+                                                      </div>
+                                                  </div>
+                                              @endif
                                           </div>
-                                          <span class="text-danger" id="file_error"></span>
-                                          <div class="mt-auto">
-                                             <button type="submit" style="{{ $style1 }}" class="btn btn-primary btn-custom upload_note"
-                                                id="uploadBtn">Upload</button>
-                                          </div>
-                                       </form>
-                                    </div>
-                                 </div>
-                                 @endif
+                                      </div>
+                                  </div>
                               </div>
-                           </div>
-                        </div>
-                     </div>
+                          </div>
+                      </div>
                   </div>
-               </div>
-            </div>
-         </div>
+              </form>
+
+          </div>
+          
       </div>
    </div>
 </div>
