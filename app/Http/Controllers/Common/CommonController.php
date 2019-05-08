@@ -1521,7 +1521,10 @@ class CommonController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function form_fields($name, $type, $select_arr = NULL, $selected_arr_key = NULL, $value = NULL, $readonly = NULL, $required = NULL){
-
+        if ($name == 'new_password'){
+            
+        // dd($value);
+        }
         if($type == 'select'){
             foreach($select_arr as $select_arr_key => $select_arr_value){
                 if($value == $select_arr_value->id){
@@ -4500,7 +4503,6 @@ class CommonController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update_profile(Request $request){
-        dd($request->all());
         $validated_fields = SocietyOfferLetter::validate($request);
         $errors = $validated_fields->errors();
         $id = decrypt($request->id);
