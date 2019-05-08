@@ -2095,10 +2095,12 @@ class REEController extends Controller
 
     public function sendForwardNocforCCApplication(Request $request){
 
+//        dd($request->all());
         $noc_application = $this->CommonController->getNocforCCApplication($request->applicationId);
 
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatusNocCC($request->applicationId);
 
+//dd($noc_application->noc_generation_status);
         if(session()->get('role_name') == config('commanConfig.ree_junior') && $noc_application->noc_generation_status == 0 && !empty($noc_application->final_draft_noc_path))
         {
             NocCCApplication::where('id',$request->applicationId)->update(["noc_generation_status" => config('commanConfig.applicationStatus.NOC_Generation')]);
@@ -2106,16 +2108,21 @@ class REEController extends Controller
             $noc_application = $this->CommonController->getNocforCCApplication($request->applicationId);
         }
 
-        if($noc_application->noc_generation_status == '0' && (session()->get('role_name') == config('commanConfig.ree_branch_head')) && empty($noc_application->final_draft_noc_path))
-        {
+//        if(($noc_application->noc_generation_status == '0' || $noc_application->noc_generation_status == '3') && (session()->get('role_name') == config('commanConfig.ree_branch_head')))
+//        {
+//            $this->CommonController->revertNocforCCApplicationToSociety($request);
+//        }
+        if($request->remarks_suggestion == 2){
             $this->CommonController->revertNocforCCApplicationToSociety($request);
         }
+
         elseif($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.NOC_Generation') || ($noc_application->noc_generation_status == config('commanConfig.applicationStatus.NOC_Generation') && session()->get('role_name') == config('commanConfig.ree_junior')))
         {
             $this->CommonController->generateNOCforCCREE($request);
         }
         elseif($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.NOC_Issued'))
         {
+            dd('here');
              $this->CommonController->forwardApprovedNocfoCCApplication($request);
         }
         else

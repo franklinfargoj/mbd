@@ -876,7 +876,6 @@ class CommonController extends Controller
         $parent = array_get($roles[0], 'parent');
         $arrData['parentData'] = array_get($parent, 'parentUser');
         $arrData['role_name'] = strtoupper(str_replace('_', ' ', $parent['name']));
-
         return $arrData;
     }
 
@@ -3954,7 +3953,41 @@ class CommonController extends Controller
 
     public function revertNocforCCApplicationToSociety($request)
     {
-        $society_details = NocCCApplicationStatus::where(['society_flag' => 1, 'application_id' => $request->applicationId])->orderBy('id', 'desc')->first();
+//dd($request->all());
+
+        $nocCCData = NocCCApplication::where('id', $request->applicationId)->first();
+
+        if($request->remarks_suggestion){
+            $society_details = NocCCApplicationStatus::where(['society_flag' => 1, 'application_id' => $request->applicationId])->orderBy('id', 'desc')->first();
+            $to_user_id =  $society_details->user_id;
+            $to_role_id = $society_details->role_id;
+            $society_flag = 1;
+            $from_society_flag = 0;
+            $status = config('commanConfig.applicationStatus.pending');
+            if($nocCCData->final_draft_noc_path != null) {
+                $phase = 1;
+
+            }else{
+                $phase = 0;
+            }
+
+        }else{
+
+            $to_role_id = $request->to_role_id;
+            $to_user_id = $request->to_child_id;
+            $society_flag = 0;
+            $from_society_flag = 0;
+            if($nocCCData->final_draft_noc_path != null){
+                $status = config('commanConfig.applicationStatus.NOC_Generation');
+                $phase = 1;
+            }else{
+                $status = config('commanConfig.applicationStatus.in_process');
+                $phase = 0;
+
+            }
+
+        }
+
 
         $revert_application = [
             [
@@ -3962,34 +3995,35 @@ class CommonController extends Controller
                 'user_id' => Auth::user()->id,
                 'role_id' => session()->get('role_id'),
                 'status_id' => config('commanConfig.applicationStatus.reverted'),
-                'to_user_id' => $society_details->user_id,
-                'society_flag' => 0,
-                'to_role_id' => $society_details->role_id,
+                'to_user_id' => $to_user_id,
+                'society_flag' => $from_society_flag,
+                'to_role_id' => $to_role_id,
                 'remark' => $request->remark,
                 'is_active' => 1,
-                'phase' => 3,
+                'phase' => $phase,
                 'created_at' => Carbon::now(),
             ],
 
             [
                 'application_id' => $request->applicationId,
-                'user_id' => $society_details->user_id,
-                'role_id' => $society_details->role_id,
-                'status_id' => config('commanConfig.applicationStatus.reverted'),
+                'user_id' => $to_user_id,
+                'role_id' => $to_role_id,
+                'status_id' => $status,
                 'to_user_id' => null,
-                'society_flag' => 1,
+                'society_flag' => $society_flag,
                 'to_role_id' => null,
                 'remark' => $request->remark,
                 'is_active' => 1,
-                'phase' => 3,
+                'phase' => $phase,
                 'created_at' => Carbon::now(),
             ],
         ];
 
+//        dd($revert_application);
         DB::beginTransaction();
         try {
             NocCCApplicationStatus::where('application_id',$request->applicationId)
-                ->whereIn('user_id', [Auth::user()->id,$society_details->user_id])
+                ->whereIn('user_id', [Auth::user()->id,$to_user_id])
                 ->update(array('is_active' => 0));
 
            NocCCApplicationStatus::insert($revert_application);

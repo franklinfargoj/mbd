@@ -910,7 +910,6 @@ class COController extends Controller
                 $arrData['get_current_status']->status_id = null;
             }
         }
-
         //remark and history
         $reeLogs  = $this->CommonController->getLogsOfREEDepartmentForNOC($applicationId);
         $coLogs   = $this->CommonController->getLogsOfCODepartmentForNOC($applicationId);
@@ -929,7 +928,12 @@ class COController extends Controller
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatusNocCC($applicationId);
         $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
         $layout_ids = array_column($layout_id_array, 'layout_id');
-        if(isset($arrData['get_current_status']->status_id) && $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.NOC_Generation'))
+
+        $parentData = $this->CommonController->getForwardApplicationParentData();
+        $arrData['parentData'] = $parentData['parentData'];
+        $arrData['role_name'] = $parentData['role_name'];
+
+        if(isset($arrData['get_current_status']->status_id) && ($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.NOC_Generation') || $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.NOC_Generation')))
         {
             $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
 
@@ -954,7 +958,7 @@ class COController extends Controller
         $reeLogs  = $this->CommonController->getLogsOfREEDepartmentForNOCforCC($applicationId);
         $coLogs   = $this->CommonController->getLogsOfCODepartmentForNOCforCC($applicationId);
 
-        return view('admin.co_department.forward_application_noc_cc',compact('applicationData', 'arrData','noc_application','reeLogs','coLogs'));
+        return view('admin.co_department.forward_application_noc_cc',compact('applicationData', 'parentData','arrData','noc_application','reeLogs','coLogs'));
     }
 
     public function sendForwardNocApplication(Request $request){
@@ -980,9 +984,23 @@ class COController extends Controller
             ->whereIn('lu.layout_id', $layout_ids)
             ->where('role_id', $ree_id->id)->first();
 
-        $this->CommonController->generateNOCforCCforwardToREE($request);
+        $noc_application = $this->CommonController->getNocforCCApplication($request->applicationId);
 
-        return redirect('/co_noc_applications')->with('success','Application send successfully.');
+        $arrData['get_current_status'] = $this->CommonController->getCurrentStatusNocCC($request->applicationId);
+
+//        dd($request->all());
+
+        if(($request->remarks_suggestion == 0) && (session()->get('role_name') == config('commanConfig.co_engineer')))
+        {
+            $this->CommonController->revertNocforCCApplicationToSociety($request);
+        }
+        else
+        {
+            $this->CommonController->generateNOCforCCforwardToREE($request,$ree);
+        }
+
+
+        return redirect('/co_noc_cc_applications')->with('success','Application send successfully.');
     }
 
 
