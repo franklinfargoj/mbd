@@ -23,8 +23,7 @@
                             <h3 class="block-title">Society Registration</h3>
                             <div class="m-portlet mb-0">
                                 <div class="d-block">
-                                    <form class='m-login__form m-form m-login__signup floating-labels-form' id='sign_up_form_society_offer_letter'
-                                        action="{{ route('society_offer_letter.store') }}" method="post">
+                                    <form class='m-login__form m-form m-login__signup floating-labels-form' id='sign_up_form_society_offer_letter' action="{{ route('society_offer_letter.store') }}" method="post">
                                         @csrf
 
                                         <div class="row">

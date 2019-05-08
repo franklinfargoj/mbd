@@ -2850,4 +2850,20 @@ class SocietyOfferLetterController extends Controller
         $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
         return redirect()->route('society_offer_letter_dashboard')->with('success','Application forwarded successfully.');
     }
+
+    // society profile page
+    public function profile(Request $request){
+        
+        $users = auth::Id();
+        $data = SocietyOfferLetter::where('user_id',$users)->first();
+        return view('frontend.profile', compact('data'));
+    }
+
+    // update society profile section
+    public function updateSocietyProfile(Request $request){
+        $data = $request->all();
+        unset($data['_token']);
+        $a = SocietyOfferLetter::updateOrCreate(['id' => $data['id']],$data);
+        return redirect()->back()->with('success','Profile updated successfully.');
+    }
 }
