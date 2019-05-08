@@ -67,8 +67,10 @@
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="address">Society Address:
                             </label>
-                            <input type="text" id="address" name="address" class="form-control form-control--custom m-input" value="" readonly>
-                            <span class="help-block">{{$errors->first('name')}}</span>
+                            <!-- <input type="text" id="address" name="address" class="form-control form-control--custom m-input" value="" readonly> -->
+                             <textarea id="secretary_name" name="secretary_name" class="form-control form-control--custom form-control--fixed-height m-input" readonly> sai shakti colony,nariya nagar, moregaon, nallasopatra (East)</textarea>
+                            <span class="help-block">{{$errors->first('address')}}</span>
+                            <!-- <span class="help-block">{{$errors->first('name')}}</span> -->
                         </div>
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="chairman_name">Chairman Name:
