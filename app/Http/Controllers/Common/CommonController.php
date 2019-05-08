@@ -4489,7 +4489,7 @@ class CommonController extends Controller
         $field_names = array_flip($field_names);
         $field_names = array_merge($field_names, $append_fields);
         $comm_func = $this;
-        return view('frontend.profile', compact('field_names', 'non_req_fields_arr', 'users', 'comm_func'));
+        return view('admin.profile', compact('field_names', 'non_req_fields_arr', 'users', 'comm_func'));
     }
 
 
@@ -4500,6 +4500,7 @@ class CommonController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update_profile(Request $request){
+        dd($request->all());
         $validated_fields = SocietyOfferLetter::validate($request);
         $errors = $validated_fields->errors();
         $id = decrypt($request->id);

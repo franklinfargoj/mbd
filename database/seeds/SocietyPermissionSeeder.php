@@ -688,6 +688,7 @@ class SocietyPermissionSeeder extends Seeder
                 'display_name' => 'submit offer letter application',
                 'description'  => 'submit offer letter application'
             ],
+            
         ];
         
         if(count($society)==0){
