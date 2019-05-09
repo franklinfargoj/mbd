@@ -53,6 +53,7 @@ class SocietyNocforCCController extends Controller
     }
 
     public function show_form_self_noc_cc($id){
+
         $ids = explode('_', $id);
         $id = $ids[0];
         $ol_application = OlApplicationMaster::with(['ol_application_type' => function($q){ $q->orderBy('id', 'desc'); }])->where('id', $id)->get();
@@ -67,8 +68,24 @@ class SocietyNocforCCController extends Controller
 
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $layouts = MasterLayout::all();
-        // dd($society_details);
-        return view('frontend.society.show_form_self_noc_cc', compact('society_details', 'id', 'dev_type', 'self_type', 'ids', 'layouts'));
+
+        $noc_cc_application_master_ids = config('commanConfig.noc_cc_master_ids');
+
+        $data = NocCCApplication::where('user_id', auth()->user()->id)
+            ->whereIn('application_master_id',$noc_cc_application_master_ids)
+            ->first();
+
+        if (isset($data)){
+            if($data->current_status_id != config('commanConfig.applicationStatus.reverted')){
+                return redirect()->route('society_noc_cc_preview');
+            }
+            else{
+                return redirect()->route('society_noc_cc_edit');
+            }
+        }else{
+            return view('frontend.society.show_form_self_noc_cc', compact('society_details', 'id', 'dev_type', 'self_type', 'ids', 'layouts'));
+        }
+        
     }
 
     public function save_noc_cc_application_self(Request $request){
@@ -861,6 +878,7 @@ class SocietyNocforCCController extends Controller
                 switch ( $status )
                 {
                     case config('commanConfig.applicationStatus.in_process'): $total_pending_application_with_me += 1; $application_pending_for_NOC_draft += 1; break;
+                    case config('commanConfig.applicationStatus.NOC_Generation'): $total_pending_application_with_me += 1; break;
                     case config('commanConfig.applicationStatus.forwarded'): $totalForwarded += 1; break;
                     case config('commanConfig.applicationStatus.reverted'): $application_sent_for_compliance += 1 ; break;
                     default:
