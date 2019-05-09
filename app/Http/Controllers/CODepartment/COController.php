@@ -60,7 +60,6 @@ class COController extends Controller
 
         $getData = $request->all();
         $columns = [
-            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
             ['data' => 'date','name' => 'date','title' => 'Date', 'class' => 'datatable-date'],
@@ -69,6 +68,8 @@ class COController extends Controller
             ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address', 'class' => 'datatable-address'],
             ['data' => 'model','name' => 'model','title' => 'Model'],
             ['data' => 'Status','name' => 'Status','title' => 'Status'],
+            ['data' => 'radio','name' => 'radio','title' => 'Action','searchable' => false],
+
             // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
@@ -79,10 +80,6 @@ class COController extends Controller
             return $datatables->of($co_application_data)
                 ->editColumn('rownum', function ($listArray) {
                     static $i = 0; $i++; return $i;
-                })
-                ->editColumn('radio', function ($co_application_data) {
-                    $url = route('co.view_application', encrypt($co_application_data->id));
-                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })
                 ->editColumn('eeApplicationSociety.name', function ($co_application_data) {
                     return $co_application_data->eeApplicationSociety->name;
@@ -118,6 +115,10 @@ class COController extends Controller
                         return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
                     }
 
+                })
+                ->editColumn('radio', function ($co_application_data) {
+                    $url = route('co.view_application', encrypt($co_application_data->id));
+                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })
                 ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date','actions','eeApplicationSociety.address'])
                 ->make(true);
@@ -280,7 +281,6 @@ class COController extends Controller
 
         $getData = $request->all();
         $columns = [
-            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
             ['data' => 'date','name' => 'date','title' => 'Date', 'class' => 'datatable-date'],
@@ -289,6 +289,8 @@ class COController extends Controller
             ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address', 'class' => 'datatable-address'],
             ['data' => 'Model','name' => 'Model','title' => 'Model'],
             ['data' => 'Status','name' => 'Status','title' => 'Status'],
+            ['data' => 'radio','name' => 'radio','title' => 'Action','searchable' => false],
+
             // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
@@ -300,10 +302,7 @@ class COController extends Controller
                 ->editColumn('rownum', function ($listArray) {
                     static $i = 0; $i++; return $i;
                 })
-                ->editColumn('radio', function ($co_application_data) {
-                    $url = route('co.view_noc_cc_application', $co_application_data->id);
-                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
-                })
+
                 ->editColumn('eeApplicationSociety.name', function ($co_application_data) {
                     return $co_application_data->eeApplicationSociety->name;
                 })
@@ -338,6 +337,12 @@ class COController extends Controller
                 })
                 ->editColumn('Model', function ($co_application_data) {
                     return $co_application_data->noc_application_master->model;
+                })
+                ->editColumn('radio', function ($co_application_data) {
+                    $url = route('co.view_noc_cc_application', $co_application_data->id);
+                    return '<div class="d-flex btn-icon-list"><a href="'.$url.'" onclick="geturl(this.value);" name="village_data_id" class="d-flex flex-column align-items-left"><span class="btn-icon btn-icon--view">
+                        <img src="'. asset("img/view-icon.svg").'">
+                    </span>View</span></a></div>';
                 })
                 ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date','actions','eeApplicationSociety.address'])
                 ->make(true);
@@ -427,7 +432,7 @@ class COController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"      => [1, "asc" ],
+            "order"      => [1, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }

@@ -861,6 +861,7 @@ class SocietyNocforCCController extends Controller
                 switch ( $status )
                 {
                     case config('commanConfig.applicationStatus.in_process'): $total_pending_application_with_me += 1; $application_pending_for_NOC_draft += 1; break;
+                    case config('commanConfig.applicationStatus.NOC_Generation'): $total_pending_application_with_me += 1; break;
                     case config('commanConfig.applicationStatus.forwarded'): $totalForwarded += 1; break;
                     case config('commanConfig.applicationStatus.reverted'): $application_sent_for_compliance += 1 ; break;
                     default:
