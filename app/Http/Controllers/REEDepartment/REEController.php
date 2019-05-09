@@ -1995,7 +1995,7 @@ class REEController extends Controller
     }
 
     public function uploadDraftNocforCC(Request $request,$applicationId){
-        
+
         if ($request->file('noc_letter')) {
             $file = $request->file('noc_letter');
             $extension = $file->getClientOriginalExtension();
@@ -2011,7 +2011,7 @@ class REEController extends Controller
                     $draftNocPath = $folder_name."/".$file_name;
                     NocCCApplication::where('id',$applicationId)->update(["final_draft_noc_path" => $draftNocPath]);
 
-                    return redirect()->back()->with('success', 'Draft copy of Noc has been uploaded successfully.');
+                    return redirect()->back()->with('success', 'Copy of NOC-CC has been uploaded successfully.');
                 }
                 else{
                     return redirect()->back()->with('error', 'Draft copy of Noc CC has not been generated.');
@@ -2134,7 +2134,6 @@ class REEController extends Controller
         }
         elseif($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.NOC_Issued'))
         {
-            dd('here');
              $this->CommonController->forwardApprovedNocfoCCApplication($request);
         }
         else

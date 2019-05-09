@@ -13,7 +13,7 @@
 </div>
 @endif
 @if(session()->has('error'))
-<div class="alert alert-success display_msg">
+<div class="alert alert-danger display_msg">
    {{ session()->get('error') }}
 </div>
 @endif
@@ -141,7 +141,7 @@
                         View NOC</a>
                         @endif
                         <p></p>
-                        @if($applicationData->ree_Jr_id && !empty($applicationData->final_draft_noc_path) && $applicationData->noc_generation_status == config('commanConfig.applicationStatus.NOC_Issued'))
+                        @if($applicationData->ree_Jr_id && !empty($applicationData->final_draft_noc_path) && $applicationData->noc_generation_status != config('commanConfig.applicationStatus.NOC_Issued'))
                         <hr>
                         <a href="{{route('ree.create_edit_noc_cc',$applicationData->id)}}" class="btn btn-primary">
                         Edit Draft NOC
@@ -149,7 +149,7 @@
                         <a target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->draft_noc_path}}" class="btn btn-primary">Download Draft NOC</a> 
                         @endif
                     </div>
-                    @if($applicationData->ree_Jr_id && !empty($applicationData->final_draft_noc_path) && $applicationData->noc_generation_status == config('commanConfig.applicationStatus.NOC_Issued'))
+                    @if($applicationData->ree_Jr_id && !empty($applicationData->final_draft_noc_path) && $applicationData->noc_generation_status != config('commanConfig.applicationStatus.NOC_Issued'))
                     <div class="col-sm-6 border-left">
                         <div class="d-flex flex-column h-100">
                             <h5>Upload Noc</h5>
