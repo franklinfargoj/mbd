@@ -20,7 +20,7 @@
     width :200px;
 </style>
 @php $FSIOptions = ['3 FSI','2.5 FSI','Custom']; 
-     $DCRrate = ['EWS / LIG','MIG','HIG'];   
+     $DCRrate = ['EWS/LIG','MIG','HIG'];   
 @endphp
 <input type="hidden" id="status" value="{{ (($status->status_id == config('commanConfig.applicationStatus.draft_offer_letter_generated') || $status->status_id == config('commanConfig.applicationStatus.offer_letter_approved') || $status->status_id == config('commanConfig.applicationStatus.offer_letter_generation')) ? 'true' : 'false') }}">
 
@@ -1632,7 +1632,7 @@
     function getDCRPercentage(lr_rc_range,dcr_rate){
 
         $per_rate = '';
-        if (dcr_rate == 'EWS'){
+        if (dcr_rate == 'EWS/LIG'){
             if (lr_rc_range == '0_to_2')
                 $per_rate = '40';            
             else if (lr_rc_range == '2_to_4')
