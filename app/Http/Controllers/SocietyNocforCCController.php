@@ -56,6 +56,9 @@ class SocietyNocforCCController extends Controller
         $ids = explode('_', $id);
         $id = $ids[0];
         $ol_application = OlApplicationMaster::with(['ol_application_type' => function($q){ $q->orderBy('id', 'desc'); }])->where('id', $id)->get();
+        $self_type = null;
+        $dev_type =null;
+
         if($ol_application[0]->ol_application_type[0]->route_name == null && strrchr($ol_application[0]->ol_application_type[0]->title, 'Self')){
             $self_type = 1;
         }else{

@@ -3,7 +3,20 @@
     <div class="col-md-12">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
-                <h3 class="m-subheader__title m-subheader__title--separator">Self Redevelopment</h3>
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    @php if($self_type == 1)
+                    {
+                    $title = 'Self Redevelopment';
+                    }
+                    elseif ($dev_type == 1){
+                        $title = 'Redevelopment Through Developer';
+                    }
+                    else{
+                        $title = 'Redevelopment';
+                    }
+                    @endphp
+                    {{$title}}
+                </h3>
                 {{ Breadcrumbs::render('society_noc_cc_application_create', $id) }}
 
             </div>

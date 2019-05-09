@@ -501,6 +501,11 @@ class CoPermissionSeeder extends Seeder
                 'display_name'=>'approve offer letter',
                 'description'=>'approve offer letter'
             ],
+            [
+                'name'=>'ree.upload_draft_noc_cc',
+                'display_name'=>'upload_draft_noc_cc',
+                'description'=>'upload_draft_noc_cc'
+            ],
         ];
         $ree_role_id = Role::where('name', 'ree_engineer')->value('id');
         if ($ree_role_id == null) {

@@ -9,7 +9,7 @@
 </div>
 @endif
 @if(session()->has('error'))
-<div class="alert alert-success display_msg">
+<div class="alert alert-danger display_msg">
    {{ session()->get('error') }}
 </div>
 @endif
@@ -136,9 +136,9 @@
          <div id="show-noc">
             <div class="m-portlet m-portlet--mobile m_panel">
                <div class="m-portlet__body" style="padding-right: 0;">
-                  @if($societyData->ree_Jr_id)
-                  <h3 class="section-title section-title--small mb-0">NOC (CC):</h3>
-                  <div class=" row-list">
+                   <h3 class="section-title">NOC (CC):</h3>
+               @if($societyData->ree_Jr_id)
+                  <div class="row-list m-section__content mb-0 table-responsive">
                      <div class="row">
                          <div class="col-md-12">
                              @if($applicationLog->status_id ==
@@ -161,14 +161,14 @@
                                  @endif
                              @else
                                  <div class="col-md-6 " style="display: block; float: left;">
-                                     <p class="font-weight-semi-bold">
+                                     {{--<p class="font-weight-semi-bold">--}}
                                          {{--@if(!empty($noc_application->draft_noc_path))--}}
                                          {{--Edit Draft Noc--}}
                                          {{--@else--}}
                                          {{--Generate Draft Noc--}}
                                          {{--@endif--}}
-                                     </p>
-                                     <p>Click to view generated Noc in PDF format</p>
+                                     {{--</p>--}}
+                                     <p>Click to generate Draft Noc</p>
                                      <a href="{{route('ree.create_edit_noc_cc',$societyData->id)}}" class="btn btn-primary">
                                          {{--@if(!empty($noc_application->draft_noc_path))--}}
                                          {{--Edit--}}
@@ -200,13 +200,16 @@
                      </div>
                   </div>
                   @endif
+
+{{--
                   @if(!empty($noc_application->draft_noc_path))
+--}}
                   <div class="w-100 row-list">
                      <div class="">
                         <div class="row">
                            <div class="col-sm-6">
-                              <div class="d-flex flex-column h-100">
-                                 <h5>Download Scanned and Signed NOC</h5>
+                              <div class="d-flex flex-column h-100" style="margin-left: 15px;">
+                                 <h5>Download NOC</h5>
                                 {{--@if(empty($noc_application->final_draft_noc_path))--}}
                                     {{--<a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->draft_noc_path}}"--}}
                                        {{--class="btn btn-primary">Download</a>--}}
@@ -215,13 +218,13 @@
                                        {{--class="btn btn-primary">Download</a>--}}
                                 {{--@endif--}}
                                      @if($noc_application->final_draft_noc_path)
-                                      <div class="mt-auto" style="margin-left: 15px;">
+                                      <div class="mt-auto" style="margin-left: 17px;">
 
                                       <a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->final_draft_noc_path}}"
                                         class="btn btn-primary">Download</a>
                                       </div>
                                      @else
-                                      <div class="mt-auto" style="margin-left: 15px;    margin-top: 10%!important;">
+                                      <div class="" {{--style="margin-left: 5px;    /*margin-top: 10%!important;*/"--}}>
 
                                       <span style="padding-bottom: 15px;color: #ce2323;" class="error">*Note: Scanned copy of NOC not available.</span>
                                       </div>
@@ -254,7 +257,6 @@
                         </div>
                      </div>
                   </div>
-                  @endif
                </div>
             </div>
          </div>
