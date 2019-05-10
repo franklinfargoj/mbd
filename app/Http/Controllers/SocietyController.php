@@ -109,11 +109,13 @@ class SocietyController extends Controller
             lm_society_detail.survey_number,
             lm_society_detail.cts_number,
             lm_society_detail.chairman,
+            lm_society_detail.chairman_email,
             lm_society_detail.society_address,
             lm_society_detail.area,
             lm_society_detail.society_reg_no,
             lm_society_detail.society_email_id,
             lm_society_detail.secretary,
+            lm_society_detail.secretary_email,
             lm_society_detail.secretary_mob_no,
             lm_society_detail.chairman_mob_no,
             lm_society_detail.society_conveyed,
@@ -137,8 +139,11 @@ class SocietyController extends Controller
                 $dataList['Survey Number'] = '';
                 $dataList['CTS Number'] = '';
                 $dataList['Name Of Chairman'] = '';
+                $dataList['Email Of Chairman'] = '';
                 $dataList['Mobile no. Of Chairman'] = '';
+                $dataList['Email Of Chairman'] = '';
                 $dataList['Name Of Secretary'] = '';
+                $dataList['Email Of Secretary'] = '';
                 $dataList['Mobile no. Of Secretary'] = '';
                 $dataList['Society Address'] = '';
                 $dataList['Society Email Id'] = '';
@@ -167,8 +172,10 @@ class SocietyController extends Controller
                     $dataList['Survey Number'] = $dataList_value['survey_number'];
                     $dataList['CTS Number'] = $dataList_value['cts_number'];
                     $dataList['Name Of Chairman'] = $dataList_value['chairman'] ?? NULL;
+                    $dataList['Email Of Chairman'] = $dataList_value['chairman_email'] ?? NULL;
                     $dataList['Mobile no. Of Chairman'] = $dataList_value['chairman_mob_no'] ?? NULL;
                     $dataList['Name Of Secretary'] = $dataList_value['secretary'] ?? NULL;
+                    $dataList['Email Of Secretary'] = $dataList_value['secretary_email'] ?? NULL;
                     $dataList['Mobile no. Of Secretary'] = $dataList_value['secretary_mob_no'] ?? NULL;
                     $dataList['Society Address'] = $dataList_value['society_address'];
                     $dataList['Society Email Id'] = $dataList_value['society_email_id'] ?? NULL;
@@ -274,11 +281,13 @@ class SocietyController extends Controller
             lm_society_detail.survey_number,
             lm_society_detail.cts_number,
             lm_society_detail.chairman,
+            lm_society_detail.chairman_email,
             lm_society_detail.society_address,
             lm_society_detail.area,
             lm_society_detail.society_reg_no,
             lm_society_detail.society_email_id,
             lm_society_detail.secretary,
+            lm_society_detail.secretary_email,
             lm_society_detail.secretary_mob_no,
             lm_society_detail.chairman_mob_no,
             lm_society_detail.society_conveyed,
@@ -303,8 +312,10 @@ class SocietyController extends Controller
                 $dataList['Survey Number'] = '';
                 $dataList['CTS Number'] = '';
                 $dataList['Name Of Chairman'] = '';
+                $dataList['Email Of Chairman'] = '';
                 $dataList['Mobile no. Of Chairman'] = '';
                 $dataList['Name Of Secretary'] = '';
+                $dataList['Email Of Secretary'] = '';
                 $dataList['Mobile no. Of Secretary'] = '';
                 $dataList['Society Address'] = '';
                 $dataList['Society Email Id'] = '';
@@ -336,8 +347,10 @@ class SocietyController extends Controller
                     $dataList['Survey Number'] = $dataList_value['survey_number'];
                     $dataList['CTS Number'] = $dataList_value['cts_number'];
                     $dataList['Name Of Chairman'] = $dataList_value['chairman'] ?? NULL;
+                    $dataList['Email Of Chairman'] = $dataList_value['chairman_email'] ?? NULL;
                     $dataList['Mobile no. Of Chairman'] = $dataList_value['chairman_mob_no'] ?? NULL;
                     $dataList['Name Of Secretary'] = $dataList_value['secretary'] ?? NULL;
+                    $dataList['Email Of Secretary'] = $dataList_value['secretary_email'] ?? NULL;
                     $dataList['Mobile no. Of Secretary'] = $dataList_value['secretary_mob_no'] ?? NULL;
                     $dataList['Society Address'] = $dataList_value['society_address'];
                     $dataList['Society Email Id'] = $dataList_value['society_email_id'] ?? NULL;
@@ -544,6 +557,8 @@ class SocietyController extends Controller
             'layout_id' => $request->layout,
             'society_conveyed' => $request->society_conveyed,
             'chairman' => $request->chairman,
+            'chairman_email' => $request->chairman_email,
+            'secretary_email' => $request->secretary_email,
             'chairman_mob_no' => $request->chairman_mob_no,
             'secretary' => $request->secretary,
             'secretary_mob_no' => $request->secretary_mob_no,
@@ -556,6 +571,7 @@ class SocietyController extends Controller
             ];
         }
 
+//        dd($society_data);
         $society_detail=SocietyDetail::create($society_data);
         $society_detail->Villages()->attach($request->villages);
 
@@ -639,6 +655,8 @@ class SocietyController extends Controller
             'cts_number' => $request->cts_number,
             'society_address' => $request->society_address,
             'area' => $request->area,
+            'chairman_email' => $request->chairman_email,
+            'secretary_email' => $request->secretary_email,
             'date_on_service_tax' => $request->date_on_service_tax,
             'surplus_charges' => $request->surplus_charges,
             'surplus_charges_last_date' => $request->surplus_charges_last_date,

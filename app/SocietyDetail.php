@@ -37,6 +37,8 @@ class SocietyDetail extends Model
         'village_id',
         'other_land_id',
         'chairman_mob_no',
+        'chairman_email',
+        'secretary_email',
         'secretary',
         'secretary_mob_no',
         'society_email_id',

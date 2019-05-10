@@ -123,6 +123,14 @@
                         <span class="help-block">{{$errors->first('chairman')}}</span>
                 </div>
 
+                <div class="col-sm-4 form-group">
+                    <label class="col-form-label" for="chairman_email">Chairman Email:</label>
+                    <div class="m-input-icon m-input-icon--right">
+                        <input disabled type="text" id="chairman_email" name="chairman_email" class="form-control form-control--custom m-input" value="{{ $arrData['society_data']->chairman_email }}">
+                        <span class="text-danger">{{$errors->first('chairman_email')}}</span>
+                    </div>
+                </div>
+
                 <div class="col-sm-4 form-group focused">
                     <label class="col-form-label" for="chairman_mob_no">Chairman's Mobile No:</label>
                         <input disabled type="text" id="chairman_mob_no" name="chairman_mob_no" class="form-control form-control--custom m-input"
@@ -134,6 +142,14 @@
                         <input disabled type="text" id="secretary" name="secretary" class="form-control form-control--custom m-input"
                                value="{{ $arrData['society_data']->secretary }}">
                         <span class="help-block">{{$errors->first('secretary')}}</span>
+                </div>
+
+                <div class="col-sm-4 form-group">
+                    <label class="col-form-label" for="secretary_email">Secretary Email:</label>
+                    <div class="m-input-icon m-input-icon--right">
+                        <input disabled type="text" id="secretary_email" name="secretary_email" class="form-control form-control--custom m-input" value="{{ $arrData['society_data']->secretary_email }}">
+                        <span class="text-danger">{{$errors->first('secretary_email')}}</span>
+                    </div>
                 </div>
 
                 <div class="col-sm-4 form-group focused">
