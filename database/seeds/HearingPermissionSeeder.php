@@ -321,7 +321,16 @@ class HearingPermissionSeeder extends Seeder
                 'display_name' => 'Shows hearing case logs',
                 'description' => 'Shows hearing case logs'
             ],
-
+            [
+                'name'=>'hearing.reports',
+                'display_name'=>'hearing reports',
+                'description'=>'hearing reports'
+            ],
+            [
+                'name'=>'hearing.reports.export',
+                'display_name'=>'hearing reports export',
+                'description'=>'hearing reports export'
+            ],
 
         ];
 
@@ -468,6 +477,16 @@ class HearingPermissionSeeder extends Seeder
                 'name'=>'estate_conveyance_pending_reports',
                 'display_name'=>'redevelopement_pending_reports',
                 'description'=>'redevelopement_pending_reports'
+            ],
+            [
+                'name'=>'hearing.reports',
+                'display_name'=>'hearing reports',
+                'description'=>'hearing reports'
+            ],
+            [
+                'name'=>'hearing.reports.export',
+                'display_name'=>'hearing reports export',
+                'description'=>'hearing reports export'
             ],
 
         ];

@@ -19,6 +19,7 @@ use DB;
 use App\Http\Requests\hearing\AddHearingRequest;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
+use Mpdf\Mpdf;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
@@ -860,4 +861,334 @@ class HearingController extends Controller
 
     }
 
+    /**
+     * Hearing export panel.
+     * Author : Prajakta Sisale.
+     * @return \Illuminate\Http\Response
+     */
+    public function hearingReports(){
+
+        $module_names = ['Closed', 'Open', 'Scheduled Hearing '];
+
+        return view('admin.reports.hearing.hearing_reports',compact('module_names'));
+
+    }
+
+    /**
+     * Generate the hearing report.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function hearingReportsExport(Request $request){
+
+//        dd($request->all());
+        $status = $request->status;
+
+        if($request->period != null)
+            $period = $this->period($request->period);
+        else
+            $period = $request->period;
+
+        $period_title = $this->periodTitle($request->period);
+
+        if($request->pdf == 'pdf'){
+            $report_format = $request->pdf;
+        }
+        else{
+            $report_format = $request->excel;
+        }
+
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
+
+        $hearing_data = $this->getHearingData($period,$department_id);
+
+        if($request->status == config('commanConfig.hearing_reports.Open')){
+
+            $hearing_case_data = $this->getPendingCaseData($hearing_data);
+
+            $result = $this->generateReport($hearing_case_data,$report_format,$period_title, 'Open Cases Details');
+            if(!$result){
+                return back()->with('error', 'No Record Found');
+            }
+        }
+        else if($request->status == config('commanConfig.hearing_reports.Scheduled')){
+
+            $hearing_case_data = $this->getScheduledCaseData($hearing_data);
+
+            $result = $this->generateReport($hearing_case_data,$report_format,$period_title, 'Open Cases Details');
+            if(!$result){
+                return back()->with('error', 'No Record Found');
+            }
+        }
+        else if($request->status == config('commanConfig.hearing_reports.Closed')){
+
+            $hearing_case_data = $this->getClosedCaseData($hearing_data);
+
+            $result = $this->generateReport($hearing_case_data,$report_format,$period_title, 'Open Cases Details');
+            if(!$result){
+                return back()->with('error', 'No Record Found');
+            }
+        }
+        else{
+            return back()->with('error', 'No Record Found');
+
+        }
+    }
+
+    /**
+     * Hearing report Data.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return $data
+     */
+    public function getHearingData($period,$department_id){
+        if($period == null){
+
+            $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q) use($department_id , $period) {
+                $q->where('department_id', $department_id);
+            }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
+                ->whereHas('hearingStatusLog' ,function($q) use($department_id){
+                    $q->where('department_id', $department_id);
+                })->get()->toArray();
+        }
+        else{
+            $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
+
+            $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q) use($department_id , $period) {
+                $q->where('department_id', $department_id)
+                    ->where(DB::raw('DATEDIFF(NOW(),hearing_status_log.created_at)'), '>=', $period[0])
+                    ->where(DB::raw('DATEDIFF(NOW(),hearing_status_log.created_at)'), '<=', $period[1]);
+            }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
+                ->whereHas('hearingStatusLog' ,function($q) use($department_id, $period){
+                    $q->where('department_id', $department_id)
+                        ->where(DB::raw('DATEDIFF(NOW(),hearing_status_log.created_at)'), '>=', $period[0])
+                        ->where(DB::raw('DATEDIFF(NOW(),hearing_status_log.created_at)'), '<=', $period[1]);;
+                })->get()->toArray();
+        }
+        return $hearing_data;
+    }
+
+    /**
+     * Period for generating report.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return $period
+     */
+    public function period($request_period){
+
+        $period = explode('-', $request_period);
+
+        return $period;
+    }
+
+    /**
+     * Period title for generating report.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return $period_title
+     */
+    public function periodTitle($request_period){
+        $period_title = isset(config('commanConfig.pendency_report_periods')[$request_period])?config('commanConfig.pendency_report_periods')[$request_period]:"";
+
+        return $period_title;
+    }
+
+    /**
+     * Hearing Pending Case report Data.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return $data
+     */
+    public function getPendingCaseData($hearing_data)
+    {
+
+        $hearing_case_data = array();
+        $open = 0;
+
+        foreach ($hearing_data as $hearing) {
+
+            $hearing_status = $hearing['hearing_status_log'][0]['hearing_status_id'];
+
+
+            switch ($hearing_status) {
+                case config('commanConfig.hearingStatus.case_under_judgement') :
+                    $open += 1;
+                    $hearing_case_data[] = $hearing;
+                    break;
+                case config('commanConfig.hearingStatus.pending') :
+                    $open += 1;
+                    $hearing_case_data[] = $hearing;
+                    break;
+                case config('commanConfig.hearingStatus.forwarded') :
+                    $open += 1;
+                    $hearing_case_data[] = $hearing;
+                    break;
+                default:
+                    ;
+                    break;
+            }
+        }
+
+        return $hearing_case_data;
+    }
+
+    /**
+     * Hearing Scheduled case report Data.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return $data
+     */
+    public function getScheduleCasedData($hearing_data)
+    {
+
+        $hearing_case_data = arrya();
+        $scheduled= 0;
+
+        foreach ($hearing_data as $hearing) {
+
+            $hearing_status = $hearing['hearing_status_log'][0]['hearing_status_id'];
+
+            switch ($hearing_status) {
+                case config('commanConfig.hearingStatus.scheduled_meeting') :
+                    $scheduled += 1;
+                    $hearing_case_data[] = $hearing;
+                    break;
+                default:
+                    ;
+                    break;
+            }
+        }
+
+        return $hearing_case_data;
+
+    }
+
+    /**
+     * Hearing Closed case report Data.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return $data
+     */
+    public function getClosedCaseData($hearing_data){
+
+        $hearing_case_data = array();
+        $closed = 0;
+        foreach ($hearing_data as $hearing){
+
+            $hearing_status =  $hearing['hearing_status_log'][0]['hearing_status_id'];
+
+            switch ($hearing_status){
+                case config('commanConfig.hearingStatus.case_closed') :
+                    $closed += 1;
+                    $hearing_case_data[] = $hearing;break;
+                default:
+                    ; break;
+            }
+        }
+
+        return $hearing_case_data;
+
+    }
+
+    /**
+     * Generate the Report in excel or pdf format.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function generateReport($data, $report_format, $period_title, $module_name){
+        $fileName = date('Y_m_d_H_i_s') . '_period_wise_hearing_report.pdf';
+
+        if (count($data) > 0) {
+
+            if($report_format == 'pdf')
+            {
+                $content = view('admin.reports.hearing._period_wise_hearing_report', compact('data', 'period_title','module_name'));
+                $header_file = '';
+                $footer_file = '';
+//                $header_file = view('admin.REE_department.offer_letter_header');
+//                $footer_file = view('admin.REE_department.offer_letter_footer');
+                //$pdf = \App::make('dompdf.wrapper');
+                $pdf = new Mpdf([
+                    'default_font_size' => 9,
+                    'default_font' => 'Times New Roman',
+                    'format' => 'A4-L',
+                    'orientation' => 'L'
+                ]);
+                $pdf->autoScriptToLang = true;
+                $pdf->autoLangToFont = true;
+                $pdf->setAutoBottomMargin = 'stretch';
+                $pdf->setAutoTopMargin = 'stretch';
+                $pdf->SetHTMLHeader($header_file);
+                $pdf->SetHTMLFooter($footer_file);
+                $pdf->WriteHTML($content);
+                $pdf->Output($fileName, 'D');
+            }
+            if($report_format == 'excel')
+            {
+                $dataListMaster = [];
+                $i=1;
+                foreach ($data as $datas) {
+
+                    $dataList = [];
+                    $dataList['id'] = $i;
+                    $dataList['Preceding Officer Name'] = $datas['preceding_officer_name'];
+                    $dataList['Case Year'] = $datas['case_year'];
+                    $dataList['Case Number'] = $datas['case_number'];
+                    $dataList['Role Id'] = $datas['role_id'];
+                    $dataList['Application Type Id'] = $datas['application_type_id'];
+                    $dataList['Applicant Name'] = $datas['applicant_name'];
+                    $dataList['Applicant Mobile No'] = $datas['applicant_mobile_no'];
+                    $dataList['Applicant Address'] = $datas['applicant_address'];
+                    $dataList['Respondent Name'] = $datas['respondent_name'];
+                    $dataList['Respondent Mobile No'] = $datas['respondent_mobile_no'];
+                    $dataList['Respondent Address'] = $datas['respondent_address'];
+                    $dataList['Case Type'] = $datas['case_type'];
+                    $dataList['Office Year'] = $datas['office_year'];
+                    $dataList['Office Number'] = $datas['office_number'];
+                    $dataList['Office Date'] = $datas['office_date'];
+                    $dataList['Office Tehsil'] = $datas['office_tehsil'];
+                    $dataList['Office Village'] = $datas['office_village'];
+                    $dataList['Office Remark'] = $datas['office_remark'];
+                    $dataList['Department Id'] = $datas['department_id'];
+                    $dataList['Board Id'] = $datas['board_id'];
+                    $dataList['Hearing Status Id'] = $datas['hearing_status_id'];
+//                    $dataList['Hearing Status Log'] = $datas[''];
+//                    $dataList['Hearing Schedule'] = $datas[''];
+//                    $dataList['Hearing Forward Case'] = $datas[''];
+//                    $dataList['Hearing Send Notice to Appellant'] = $datas[''];
+//                    $dataList['Hearing Upload Case Judgement'] = $datas[''];
+                    
+                    
+
+                    $dataListKeys = array_keys($dataList);
+                    $dataListMaster[]=$dataList;
+                    $i++;
+                }
+
+                $module_name = str_replace(' ','_',$module_name);
+                return Excel::create(date('Y_m_d_H_i_s') . '_Period_Wise_'.$module_name, function($excel) use($dataListMaster){
+
+                    $excel->sheet('mySheet', function($sheet) use($dataListMaster)
+                    {
+                        $sheet->fromArray($dataListMaster);
+                    });
+                })->download('csv');
+            }
+
+            return true;
+
+        } else {
+            return false;
+        }
+    }
 }
