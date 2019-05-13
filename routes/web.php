@@ -199,7 +199,15 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::resource('/hearing', 'HearingController');
     Route::post('loadDeleteReasonOfHearingUsingAjax', 'HearingController@loadDeleteReasonOfHearingUsingAjax')->name('loadDeleteReasonOfHearingUsingAjax');
-//Route::get('/hearing/delete/{id}', 'HearingController@destroy')->name('hearing.delete');
+
+    //Route::get('/hearing/delete/{id}', 'HearingController@destroy')->name('hearing.delete');
+
+    // Hearing Report
+    Route::get('hearing_reports', 'HearingController@hearingReports')->name('hearing.reports');
+    Route::get('hearing_reports_export', 'HearingController@hearingReportsExport')->name('hearing.reports.export');
+
+
+
 
     Route::resource('/schedule_hearing', 'ScheduleHearingController');
     Route::get('/schedule_hearing/create/{id}', 'ScheduleHearingController@create')->name('schedule_hearing.add');

@@ -170,7 +170,7 @@ $route=\Request::route()->getName();
                                     <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
                                         fill="#FFF" />
                                 </svg>
-                                <span class="m-menu__link-text">Land Detail</span></i></a>
+                                <span class="m-menu__link-text">Land Detail</span></a>
                         </li>
                         <li class="m-menu__item m-menu__item--submenu {{($route=='society_detail.index' || $route=='society_detail.show' || $route=='society_detail.edit')?'m-menu__item--active':''}}">
                             <a class="m-menu__link m-menu__toggle" href="{{route('society_detail.index')}}" class="m-menu__link m-menu__toggle">
@@ -179,7 +179,7 @@ $route=\Request::route()->getName();
                                     <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
                                         fill="#FFF" />
                                 </svg>
-                                <span class="m-menu__link-text">Society Detail</span></i></a>
+                                <span class="m-menu__link-text">Society Detail</span></a>
                         </li>
                         @if(\Illuminate\Support\Facades\Request::is('village_detail') ||
                         \Illuminate\Support\Facades\Request::is('village_detail/*'))

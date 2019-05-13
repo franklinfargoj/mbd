@@ -354,7 +354,6 @@ return [
     ],
 
 
-
     'hearingStatus' => [
         'pending' => 1,
         'scheduled_meeting' => 2,
@@ -524,6 +523,12 @@ return [
         'Consent for OC'=>'oc_master_ids',
         'Application for CC'=>'noc_cc_master_ids'
     ],
+
+    'hearing_reports'=>[
+        'Open' => 'Open',
+        'Closed' => 'Closed',
+        'Scheduled' => 'Scheduled'
+        ],
 
     // email and msg content
     'email_content'=>[

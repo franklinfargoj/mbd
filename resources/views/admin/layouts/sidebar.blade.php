@@ -383,6 +383,7 @@
                         </span>
                         </a>
                     </li>
+
                     @if(Auth::user()->name == 'Joint CO PA' || Auth::user()->name == 'CO PA')
                         <li class="m-menu__item {{($route=='hearing.create')?'m-menu__item--active':''}}">
                             <a href="{{route('hearing.create')}}" class="m-menu__link m-menu__toggle">
@@ -397,6 +398,19 @@
                             </a>
                         </li>
                     @endif
+
+                        {{--<li class="m-menu__item {{($route=='hearing.reports')?'m-menu__item--active':''}}">--}}
+                            {{--<a href="{{ route('hearing.reports') }}" class="m-menu__link m-menu__toggle">--}}
+                                {{--<i class="m-menu__link-icon flaticon-line-graph"></i>--}}
+                                {{--<span class="m-menu__link-title">--}}
+                            {{--<span class="m-menu__link-wrap">--}}
+                                {{--<span class="m-menu__link-text">--}}
+                                    {{--Hearing Reports--}}
+                                {{--</span>--}}
+                            {{--</span>--}}
+                        {{--</span>--}}
+                            {{--</a>--}}
+                        {{--</li>--}}
                 @endif
 
 
@@ -1280,7 +1294,10 @@
                                 session()->get('role_name')==config('commanConfig.land_manager') ||
                                 session()->get('role_name')==config('commanConfig.vp_engineer') ||
                                 session()->get('role_name')==config('commanConfig.cap_engineer') ||
-                                session()->get('role_name')==config('commanConfig.senior_architect_planner')
+                                session()->get('role_name')==config('commanConfig.senior_architect_planner') ||
+                                session()->get('role_name')==config('commanConfig.joint_co') ||
+                                session()->get('role_name')==config('commanConfig.joint_co_pa') ||
+                                session()->get('role_name')==config('commanConfig.co_pa')
 
                                 )
                 <li class="m-menu__item {{(($route=='redevelopement.period_wise_pendency_report')) ? '' : 'collapsed'}}"
@@ -1301,7 +1318,7 @@
 
 
                 <li id="pendency-report"
-                    class="collapse {{(($route=='redevelopement.period_wise_pendency_report') || ($route=='land.village_society_reports') || ($route=='estate-conveyance.period_wise_pendency_report') || ($route=='architect.period_wise_pendency_report')  ) ?'show':''}}">
+                    class="collapse {{(($route=='hearing.reports') || ($route=='redevelopement.period_wise_pendency_report') || ($route=='land.village_society_reports') || ($route=='estate-conveyance.period_wise_pendency_report') || ($route=='architect.period_wise_pendency_report')  ) ?'show':''}}">
                     <ul class="list-unstyled">
 
                         @if(session()->get('role_name')==config('commanConfig.co_engineer') ||session()->get('role_name')==config('commanConfig.ee_branch_head') || session()->get('role_name')==config('commanConfig.ree_branch_head') || session()->get('role_name')==config('commanConfig.dyce_branch_head'))
@@ -1374,6 +1391,27 @@
                                 </li>
                             @endif
 
+                            @if(session()->get('role_name')==config('commanConfig.joint_co') ||
+                                session()->get('role_name')==config('commanConfig.joint_co_pa') ||
+                                session()->get('role_name')==config('commanConfig.co_pa') ||
+                               session()->get('role_name')==config('commanConfig.co_engineer'))
+                            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='hearing.reports')?'m-menu__item--active':''}}"
+                                aria-haspopup="true">
+                                <a href="{{ route('hearing.reports') }}"
+                                   class="m-menu__link m-menu__toggle">
+                                    <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                    <span class="m-menu__link-title">
+                                            <span class="m-menu__link-wrap">
+                                                <span class="m-menu__link-text">
+                                                    Hearing Case Report
+                                                </span>
+                                            </span>
+                                        </span>
+                                </a>
+                            </li>
+                            @endif
+
+
                             @if(session()->get('role_name')==config('commanConfig.land_manager'))
                                 <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='land.village_society_reports')?'m-menu__item--active':''}}"
                                     aria-haspopup="true">
@@ -1390,6 +1428,8 @@
                                     </a>
                                 </li>
                             @endif
+
+
                     </ul>
                 </li>
 

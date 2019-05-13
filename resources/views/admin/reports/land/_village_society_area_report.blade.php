@@ -13,7 +13,7 @@
     <tbody>
     @foreach ($dataListMaster as $key => $data)
         <tr>
-            <td>{{$data['id']}}</td>
+            <td>{{$key+1}}</td>
             <td>{{$data['Village Name']}}</td>
             <td>{{$data['Village Total Area(m.sq.)']}}</td>
             <td>{{$data['Society Name']}}</td>
