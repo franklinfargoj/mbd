@@ -558,5 +558,9 @@ return [
         'user_approval_application' => 'Application is approved for <application type>',
         'revert_application' => 'Your application is reverted for <application type>',
         'reject_user_application' => 'Application is rejected for <application type>'
+    ],
+    'conveyanced_type'=>[
+        'half'=>'half',
+        'full'=>'full'
     ]
 ];

@@ -46,6 +46,8 @@ class SocietyDetail extends Model
         'society_conveyed',
         'date_of_conveyance',
         'area_of_conveyance',
+        'is_conveyanced',
+        'lease_and_na_charges_in_per'
     ];
 
     public function societyVillage()

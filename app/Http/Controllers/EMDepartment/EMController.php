@@ -987,13 +987,18 @@ class EMController extends Controller
         //dd($request->all());
         $temp = array(       
         'id' => 'required',
-        'soc_bill_level' => 'required' 
+        'soc_bill_level' => 'required',
+        'conveyanced_type' => 'required_with:is_conveyanced,on',
+        'lease_and_na_charges'=>'required_with:conveyanced_type,full'
         );
         // validate the Grievances form data.
         $this->validate($request, $temp);
 
         $society = SocietyDetail::find($request->input('id'));
         $society->society_bill_level = $request->input('soc_bill_level');
+        $society->is_conveyanced = $request->input('is_conveyanced')?1:0;
+        $society->conveyanced_type=$request->conveyanced_type;
+        $society->lease_and_na_charges_in_per = $request->input('lease_and_na_charges')!=""?$request->input('lease_and_na_charges'):0.00;
         $society->save();
 
         return redirect()->back()->with('success', 'Society billing level Updated Successfully.');

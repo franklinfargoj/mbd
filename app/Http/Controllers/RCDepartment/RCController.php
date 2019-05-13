@@ -352,7 +352,7 @@ class RCController extends Controller
             
            $Tenant_bill_id = DB::table('building_tenant_bill_association')->where('id', '=', $request->bill_no)->first();
            $bill_ids =  explode(',',$Tenant_bill_id->bill_id); 
-           
+           //dd($bill_ids[0]);
            $receipt = TransPayment::with('dd_details')->with('bill_details')->whereIn('bill_no', $bill_ids)->where('building_id', '=', $request->building_id)->where('society_id', '=', $request->society_id)->get();
             if(date('m',strtotime($request->from_date)) < 4 ) {
                 $year = date('Y',strtotime($request->from_date)) -1;
@@ -397,7 +397,7 @@ class RCController extends Controller
                 if( $amount_paid < $totalServiceCharge) {
                     return redirect()->back()->with('warning', 'You need to pay atleast basic service charges.');
                 }
-
+                
                 foreach ($bill as $key => $value) {
                    // dump( $value->tenant_id);
                     // if(in_array( $value->tenant_id, $request->except_tenaments) && $value->tenant_id!=null){
@@ -506,7 +506,12 @@ class RCController extends Controller
                 
                 // print_r($data);exit;
                 $bill = TransPayment::insert($data);
-
+                //dd($bill);
+                $bill_status = TransBillGenerate::find($bill_ids[0]);
+                $bill_status->status = 'paid';
+                $bill_status->balance_amount = $request->balance_amount;
+                $bill_status->credit_amount = $request->credit_amount;
+                $bill_status->save(); 
                 $receipt = TransPayment::with('dd_details')->with('bill_details')->whereIn('bill_no', $bill_ids)->where('building_id', '=', $request->building_id)->where('society_id', '=', $request->society_id)->get();
 
                 //dd($receipt);
