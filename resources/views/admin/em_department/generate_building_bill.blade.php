@@ -3,14 +3,14 @@
 @section('content')
 
     @php 
-        $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other; 
+        $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other +$serviceChargesRate->property_tax; 
         
         $total_service = $total_service * $number_of_tenants->tenant_count()->first()->count;
 
         $total_after_due = $total_service * 0.015; 
-
+    
         $total_service_after_due = $total_service + $total_after_due;   
-
+    
         $total ='0';           
     @endphp
     @if(!$arreasCalculation->isEmpty())  
@@ -161,6 +161,10 @@
                             <td>{{$serviceChargesRate->administrative_charge}} </td>
                         </tr>
                         <tr>
+                            <td>Property Tax</td>
+                            <td>{{$serviceChargesRate->property_tax}} </td>
+                        </tr>
+                        <tr>
                             <td>Lease Rent.   </td>
                             <td>{{$serviceChargesRate->lease_rent}}</td>
                         </tr>
@@ -201,9 +205,25 @@
                             <th class="text-center">Amount In Rs.</th>
                             <th class="text-center">Penalty in Rs</th>
                         </tr>
+                        @php
+                            $amont_in_rupees=0;
+                            $penalty_in_rupees=0;
+                            $calculation_month="";
+                            $calculation_year="";
+                            $arrear_ids=array();
+                        @endphp
                         @foreach($arreasCalculation as $calculation)
-                            @php $total = $total + $calculation->total_amount; @endphp
-                            <tr>
+                            @php 
+                            $total = $total + $calculation->total_amount; 
+                            $amont_in_rupees=$amont_in_rupees+($calculation->total_amount - $calculation->old_intrest_amount -
+                            $calculation->difference_intrest_amount);
+                            $penalty_in_rupees=$penalty_in_rupees+($calculation->old_intrest_amount +
+                            $calculation->difference_intrest_amount);
+                            $arrear_ids[]=$calculation->id;
+                            $calculation_month=$calculation->month;
+                            $calculation_year=$calculation->year;
+                            @endphp
+                            {{-- <tr>
                                 <td>{{$calculation->year}} <input name='arrear_id[]' type='text' value='{{$calculation->id}}'
                                         hidden> </td>
                                 <td>{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
@@ -211,8 +231,15 @@
                                     $calculation->difference_intrest_amount }}</td>
                                 <td>{{$calculation->old_intrest_amount +
                                     $calculation->difference_intrest_amount}}</td>
-                            </tr>
+                            </tr> --}}
                         @endforeach
+                        <tr>
+                            <td>{{$calculation_year}} <input name='arrear_id' type='text' value='{{json_encode($arrear_ids)}}'
+                                    hidden> </td>
+                            <td>{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
+                            <td>{{$amont_in_rupees }}</td>
+                            <td>{{$penalty_in_rupees}}</td>
+                        </tr>
                         <tr>
                             <td colspan="3"><p class="pull-right">Total</p></td><td>{{$total}}</td><td></td>
                         </tr>
@@ -244,17 +271,29 @@
                         @if(0 <$credit_amount)
                         <tr>
                             <td>Credit Amount</td>
-                            <td>{{$credit_amount}}</td>
+                            <td class="text-center">{{$credit_amount}}</td>
                         </tr>
                         @endif
                         @endif
+                        {{-- <tr>
+                            <td>Total arrear charges</td>
+                            <td class="text-center">{{$total}}</td>
+                        </tr>
                         <tr>
-                            <td>Current month Bill amount before due date</td>
+                            <td>Service Charges</td>
                             <td class="text-center">{{$total_service}}</td>
+                        </tr> --}}
+                        <tr>
+                            <td class="font-weight-bold">Bill Amount Before due date</td>
+                            <td class="text-center ont-weight-bold">{{$total_service+$total}}</td>
                         </tr>
                         <tr>
-                            <td><p class="pull-right">Total</p></td><td>{{$totalTemp}}</td>
+                            <td>Bill Amount After due date</td>
+                            <td class="text-center">{{$total_service_after_due+$total}}</td>
                         </tr>
+                        {{-- <tr>
+                            <td><p class="pull-right">Total</p></td><td>{{$totalTemp}}</td>
+                        </tr> --}}
                     </table>
                 </div>
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">

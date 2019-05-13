@@ -96,6 +96,14 @@
                         <span class="help-block error">{{$errors->first('na_assessment')}}</span>
                     </div>
                     <div class="col-sm-4 offset-sm-1 form-group">
+                        <label class="col-form-label" for="case_year">Property Tax:</label>
+                        <input type="text" id="property_tax" name="property_tax" class="form-control form-control--custom m-input"
+                            value="{{old('property_tax')}}" required>
+                        <span class="help-block error">{{$errors->first('property_tax')}}</span>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="case_year">Other:</label>
                         <input type="text" id="other" name="other" class="form-control form-control--custom m-input"
                             value="{{old('other')}}" required>

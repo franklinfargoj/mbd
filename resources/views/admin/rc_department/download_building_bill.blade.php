@@ -4,11 +4,18 @@
 
         $total_service = $total_service * $number_of_tenants->tenant_count()->first()->count;
 
-        $total_after_due = $total_service * 0.02; 
+        $total_after_due = $total_service * 0.015; 
 
         $total_service_after_due = $total_service + $total_after_due;   
 
-        $total ='0';           
+        $total ='0';    
+
+        $tempBalance = 0;
+        if($lastBill) {
+                if( 0 < $lastBill->total_bill_after_due_date ) {
+                    $tempBalance += $lastBill->balance;
+                }
+        }      
     @endphp
     @if(!$arreasCalculation->isEmpty())  
       @foreach($arreasCalculation as $calculation)
@@ -200,33 +207,53 @@
             @php $total ='0'; @endphp
 
         <div style="border: 2px solid #000; padding: 5px; margin-top: 160px;"><h3 style="text-align: center;">Balance amount to be paid - Arrears</h3></div>
-        <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
-            <thead>
+        <table class="display table table-responsive table-bordered" style="width:100%">
                 <tr>
                     <th valign="top" style="border: 1px solid #000; padding: 5px; width: 25%;">Year</th>
                     <th valign="top" style="border: 1px solid #000; padding: 5px; width: 25%;">Month</th>
-                    <th valign="top" style="border: 1px solid #000; padding: 5px; width: 25%;">Amount in Rs.</th>
-                    <th valign="top" style="border: 1px solid #000; padding: 5px; width: 25%;">Penalty in Rs.</th>
+                    <th valign="top" style="border: 1px solid #000; padding: 5px; width: 25%;">Amount In Rs.</th>
+                    <th valign="top" style="border: 1px solid #000; padding: 5px; width: 25%;">Penalty in Rs</th>
                 </tr>
-            </thead>
-            <tbody>
+                @php
+                    $amont_in_rupees=0;
+                    $penalty_in_rupees=0;
+                    $calculation_month="";
+                    $calculation_year="";
+                    $arrear_ids=array();
+                @endphp
                 @foreach($arreasCalculation as $calculation)
-                    @php $total = $total + $calculation->total_amount; @endphp
-                    <tr>
-                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$calculation->year}}</td>
-                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
-                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$calculation->total_amount- $calculation->old_intrest_amount - $calculation->difference_intrest_amount}}</td>
-                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$calculation->old_intrest_amount + $calculation->difference_intrest_amount}}</td>
-                    </tr>
+                    @php 
+                    $total = $total + $calculation->total_amount; 
+                    $amont_in_rupees=$amont_in_rupees+($calculation->total_amount - $calculation->old_intrest_amount -
+                    $calculation->difference_intrest_amount);
+                    $penalty_in_rupees=$penalty_in_rupees+($calculation->old_intrest_amount +
+                    $calculation->difference_intrest_amount);
+                    $arrear_ids[]=$calculation->id;
+                    $calculation_month=$calculation->month;
+                    $calculation_year=$calculation->year;
+                    @endphp
+                    {{-- <tr>
+                        <td>{{$calculation->year}} <input name='arrear_id[]' type='text' value='{{$calculation->id}}'
+                                hidden> </td>
+                        <td>{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
+                        <td>{{$calculation->total_amount - $calculation->old_intrest_amount -
+                            $calculation->difference_intrest_amount }}</td>
+                        <td>{{$calculation->old_intrest_amount +
+                            $calculation->difference_intrest_amount}}</td>
+                    </tr> --}}
                 @endforeach
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$calculation_year}} </td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$amont_in_rupees }}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$penalty_in_rupees}}</td>
+                </tr>
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;" colspan="2">Total</td>
                     <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;">{{$total}}</td>
                     <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;"></td>
                 </tr>
-               
-            </tbody>
-        </table>
+            </table>
         @endif
         <div style="border: 2px solid #000; padding: 5px; margin-top: 30px;"><h3 style="text-align: center;">Total amount to be paid</h3></div>
         <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
@@ -237,18 +264,42 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+            <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px;">Balance Amount</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$TransBillGenerate->balance_amount_temp}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;" class="text-center">{{($lastBill?$lastBill->balance_amount:0)+$TransBillGenerate->arrear_bill}}</td>
+                </tr>
+                @if($lastBill)
+                @php
+                    $credit_amount =0;
+                    $credit_amount += $lastBill->credit_amount;
+                @endphp
+                @if(0 <$credit_amount)
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">Credit Amount</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;" class="text-center">{{$credit_amount}}</td>
+                </tr>
+                @endif
+                @endif
+                {{-- <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">Total arrear charges</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;" class="text-center">{{$total}}</td>
                 </tr>
                 <tr>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px;">Current month Bill amount before due date</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$TransBillGenerate->monthly_bill_temp}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">Service Charges</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;" class="text-center">{{$total_service}}</td>
+                </tr> --}}
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">Bill Amount Before due date</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;" class="text-center">{{$total_service+$total}}</td>
                 </tr>
                 <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">Bill Amount After due date</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;" class="text-center">{{$total_service_after_due+$total}}</td>
+                </tr>
+                {{-- <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold;">Grand Total</td>
                     <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;">{{$TransBillGenerate->total_bill_temp}}</td>
-                </tr>
+                </tr> --}}
             </tbody>
         </table>
     </div>

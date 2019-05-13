@@ -14,6 +14,7 @@ use Validator,Excel,Input;
 class ImportController extends Controller
 {
     public function import(Request $request) {
+		dd(extension_loaded ('zip'));
     	ini_set('memory_limit', -1);
 	    ini_set('max_execution_time', 60);
 	    if ($request->method() == 'POST') {

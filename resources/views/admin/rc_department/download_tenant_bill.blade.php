@@ -9,7 +9,7 @@
 <body>
     @php 
         $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other; 
-        $total_after_due = $total_service * 0.02; 
+        $total_after_due = $total_service * 0.015; 
         $total_service_after_due = $total_service + $total_after_due;     
         $total ='0';           
     @endphp
@@ -241,21 +241,29 @@
             <tbody>
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px;">Balance Amount</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$TransBillGenerate->balance_amount}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{($lastBill?$lastBill->balance_amount:0)+$TransBillGenerate->arrear_bill}}</td>
                 </tr>
                  @if($TransBillGenerate && !empty($TransBillGenerate) && 0 < $TransBillGenerate->credit_amount)
                     <tr>
                         <td valign="top" style="border: 1px solid #000; padding: 5px;">Credit Amount</td>
                         <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$TransBillGenerate->credit_amount}}</td>
                     </tr>
-                    @endif
-                <tr>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px;">Current month Bill amount before due date</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$TransBillGenerate->monthly_bill}}</td>
+                @endif
+                {{-- <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">Total arrear charges</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$total}}</td>
                 </tr>
                 <tr>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: right; font-weight: bold;">Grand Total</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;">{{$TransBillGenerate->total_bill}}</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px;">Service Charges</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;">{{$total_service}}</td>
+                </tr> --}}
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: right; font-weight: bold;">Bill Amount Before due date</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;">{{$total_service+$total}}</td>
+                </tr>
+                <tr>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: right; font-weight: bold;">Bill Amount After due date</td>
+                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;">{{$total_service_after_due+$total}}</td>
                 </tr>
             </tbody>
         </table>

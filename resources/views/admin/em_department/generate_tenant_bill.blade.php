@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 @section('content')
     @php 
-        $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other; 
+        $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other+$serviceChargesRate->property_tax; 
         $total_after_due = $total_service * 0.015; 
         $total_service_after_due = $total_service + $total_after_due;     
         $total ='0';           
@@ -17,6 +17,15 @@
         if($lastBill && !empty($lastBill) && 0 < $lastBill->balance_amount) {
             $tempBalance = $lastBill->balance_amount;
         }
+
+        // $tempBalance = 0;
+        // if($lastBill && count($lastBill)>0 ) {
+        //     foreach($lastBill as $lastbil) {
+        //         if( 0 < $lastbil->total_bill_after_due_date ) {
+        //             $tempBalance += $lastbil->total_bill_after_due_date;
+        //         }
+        //     }
+        // }
     @endphp
 @if(session()->has('success'))
 <div class="alert alert-success display_msg">
@@ -151,6 +160,10 @@
                             <td>{{$serviceChargesRate->administrative_charge}} </td>
                         </tr>
                         <tr>
+                            <td>Property Tax</td>
+                            <td>{{$serviceChargesRate->property_tax==null?'0.00':$serviceChargesRate->property_tax}} </td>
+                        </tr>
+                        <tr>
                             <td>Lease Rent. </td>
                             <td>{{$serviceChargesRate->lease_rent}}</td>
                         </tr>
@@ -233,16 +246,28 @@
                         <td>{{$lastBill->credit_amount}}</td>
                     </tr>
                     @endif
-                    <tr>
-                        <td>Current month Bill amount before due date</td>
-                        <td>{{$total_service}} </td>
+                    {{-- <tr>
+                        <td>Total arrear charges</td>
+                        <td >{{$total}}</td>
                     </tr>
                     <tr>
+                        <td>Service Charges</td>
+                        <td>{{$total_service}} </td>
+                    </tr> --}}
+                    <tr>
+                        <td class="font-weight-bold">Bill Amount Before due date</td>
+                        <td class="font-weight-bold">{{$total_service+$total}}</td>
+                    </tr>
+                    <tr>
+                        <td>Bill Amount After due date</td>
+                        <td>{{$total_service_after_due+$total}}</td>
+                    </tr>
+                    {{-- <tr>
                         <td class="font-weight-bold">
                             Total
                         </td>
                         <td>{{$totalTemp}}</td>
-                    </tr>
+                    </tr> --}}
                 </table>
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions px-0">
