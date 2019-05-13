@@ -3,7 +3,7 @@
 @section('content')
 
     @php 
-        $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other; 
+        $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other +$serviceChargesRate->property_tax; 
         
         $total_service = $total_service * $number_of_tenants->tenant_count()->first()->count;
 
@@ -159,6 +159,10 @@
                         <tr>
                             <td>Administrative  Charge</td>
                             <td>{{$serviceChargesRate->administrative_charge}} </td>
+                        </tr>
+                        <tr>
+                            <td>Property Tax</td>
+                            <td>{{$serviceChargesRate->property_tax}} </td>
                         </tr>
                         <tr>
                             <td>Lease Rent.   </td>

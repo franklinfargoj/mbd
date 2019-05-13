@@ -96,12 +96,25 @@
                         <span class="help-block error">{{$errors->first('na_assessment')}}</span>
                     </div>
                     <div class="col-sm-4 offset-sm-1 form-group">
+                        <label class="col-form-label" for="case_year">Property Tax:</label>
+                        <input type="text" id="property_tax" name="property_tax" class="form-control form-control--custom m-input"
+                            value="{{old('property_tax',$service_charge->property_tax)}}" required>
+                        <span class="help-block error">{{$errors->first('property_tax')}}</span>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="case_year">Other:</label>
                         <input type="text" id="other" name="other" class="form-control form-control--custom m-input"
                             value="{{old('other', $service_charge->other)}}" required>
                         <span class="help-block error">{{$errors->first('other')}}</span>
                     </div>
                 </div>
+
+
+
+
+               
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions px-0">
                         <div class="row">

@@ -106,6 +106,7 @@ class ServiceChargesController extends Controller
             'administrative_charge' => 'required|numeric',
             'lease_rent' => 'required|numeric',
             'na_assessment' => 'required|numeric',
+            'property_tax'=> 'required|numeric',
     		'other' => 'required|numeric',
     	];
     	$messages = [
@@ -132,6 +133,7 @@ class ServiceChargesController extends Controller
         $service_charge->administrative_charge = $request->administrative_charge;
         $service_charge->lease_rent = $request->lease_rent;
         $service_charge->na_assessment = $request->na_assessment;
+        $service_charge->property_tax = $request->property_tax;
         $service_charge->other = $request->other;
         $service_charge->save();
 
@@ -162,6 +164,7 @@ class ServiceChargesController extends Controller
             'administrative_charge' => 'required|numeric',
             'lease_rent' => 'required|numeric',
             'na_assessment' => 'required|numeric',
+            'property_tax'=> 'required|numeric',
             'other' => 'required|numeric',
     	];
     	$messages = [
@@ -183,6 +186,7 @@ class ServiceChargesController extends Controller
         $service_charge->administrative_charge = $request->administrative_charge;
         $service_charge->lease_rent = $request->lease_rent;
         $service_charge->na_assessment = $request->na_assessment;
+        $service_charge->property_tax = $request->property_tax;
         $service_charge->other = $request->other;
         $service_charge->save();
 

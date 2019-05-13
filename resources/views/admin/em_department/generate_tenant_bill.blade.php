@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 @section('content')
     @php 
-        $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other; 
+        $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other+$serviceChargesRate->property_tax; 
         $total_after_due = $total_service * 0.015; 
         $total_service_after_due = $total_service + $total_after_due;     
         $total ='0';           
@@ -158,6 +158,10 @@
                         <tr>
                             <td>Administrative Charge</td>
                             <td>{{$serviceChargesRate->administrative_charge}} </td>
+                        </tr>
+                        <tr>
+                            <td>Property Tax</td>
+                            <td>{{$serviceChargesRate->property_tax==null?'0.00':$serviceChargesRate->property_tax}} </td>
                         </tr>
                         <tr>
                             <td>Lease Rent. </td>
