@@ -1215,7 +1215,7 @@ class EMController extends Controller
     }
 
     public function generateBuildingBill(Request $request) {
-
+        
         if($request->has('building_id') && '' != $request->building_id) {
 
             $request->building_id = decrypt($request->building_id);
@@ -1255,7 +1255,7 @@ class EMController extends Controller
             unset($months[count($months)-1]);
             
             $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('payment_status','0')->whereIn('year',$years)->whereIn('month',$months)->orderby('year','month')->get();
-
+            //dd($data['arreasCalculation']);
                 
             $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
              //dd($data['number_of_tenants']->tenant_count()->first());
@@ -1301,6 +1301,7 @@ class EMController extends Controller
                                 ->where('bill_month', '=', $data['month'])
                                 ->where('bill_year', '=',$data['bill_year'])
                                 ->first();
+            //dd($data['check']);
             $data['regenate'] = false;                    
             if($request->has('regenate') && true == $request->regenate) {
                 $data['regenate'] = true;
@@ -1352,6 +1353,7 @@ class EMController extends Controller
                 $realMonth = $realMonth - 1;
             }
             //dd($realMonth." ".$request->tenant_id);
+            //dd($realMonth);
             $data['arreasCalculation'] = ArrearCalculation::where('tenant_id',$request->tenant_id)->where('month',$realMonth)->where('payment_status','0')->get();
             //dd($data['arreasCalculation']);
             $currentMonth = date('m');
@@ -1386,7 +1388,7 @@ class EMController extends Controller
                                     ->where('bill_year', '=', $data['year'])
                                     ->orderBy('id','DESC')
                                     ->first();
-
+            
             if($request->has('regenate') && true == $request->regenate || !empty($data['check'])) {
 
                 $data['regenate'] = true;
@@ -1400,7 +1402,7 @@ class EMController extends Controller
     }
 
     public function create_tenant_bill(Request $request){
-
+       // dd($request->all());
             if($request->arrear_id && (count($request->arrear_id) > 0)){
                 $arrear_id = implode(",",$request->arrear_id);
                 //dd($arrear_id);
@@ -1408,7 +1410,7 @@ class EMController extends Controller
                 $arrear_id = '';
             }
             $check = '';
-            if($request->has('regenate')&& false == $request->regenate) {
+            if($request->has('regenate') && false == $request->regenate) {
 
                 $check = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
                                     ->where('bill_month', '=', $request->bill_month)
@@ -1493,8 +1495,8 @@ class EMController extends Controller
                 }
             } else {
                // dd('not null');
-                $bill->balance_amount = 0;
-                //$bill->balance_amount = round($request->total_bill,2);
+                //$bill->balance_amount = 0;
+                $bill->balance_amount = round($request->total_bill,2);
                 $bill->credit_amount = 0;    
             }
             // if(!empty($transPayment)) {
@@ -1514,34 +1516,41 @@ class EMController extends Controller
     }
 
     public function create_society_bill(Request $request){
+        //dump($request->all());
         $check = '';
-        if($request->has('regenate')&& false == $request->regenate) {
+        if($request->has('regenate') && $request->regenate) {
+           // dd('ok');
         $check = TransBillGenerate::where('building_id', '=', $request->building_id)
             ->where('society_id', '=', $request->society_id)
             ->where('bill_month', '=', $request->bill_month)
             ->where('bill_year', '=', $request->bill_year)
             ->first();
         }
-
+        //dump($request->bill_month." ".$request->bill_year);
+        
         if(is_null($check) || $check == ''){
-            //dd($check);
+            
             $tenants = MasterTenant::where('building_id',$request->building_id)->get();
-            $request->monthly_bill = $request->monthly_bill / $request->no_of_tenant;
-
+            //dump($tenants);
+            //$request->monthly_bill = $request->monthly_bill / $request->no_of_tenant;
+            $last_bill_balance=0;
             $currentMonth = date('m');
             if($currentMonth < 4) {
                 $year = date('Y') -1;
             } else {
                 $year = date('Y');
             }
+            //dump($currentMonth." ".$year);
             
             $start    = new \DateTime($year.'-4-01');
+            //dump($start);
             $start->modify('first day of this month');
             $end      = new \DateTime(date('Y').'-'.date('m').'-06');
+            //dump($end);
             $end->modify('first day of next month');
             $interval = \DateInterval::createFromDateString('1 month');
             $period   = new \DatePeriod($start, $interval, $end);
-
+            
             $months = [];
             $years = [];
             foreach ($period as $dt) {
@@ -1549,17 +1558,20 @@ class EMController extends Controller
                 $months[$dt->format("n")] = $dt->format("n");
                 // echo $dt->format("Y-m") . "<br>\n";
             }
+
             unset($months[count($months)-1]);
-
+           // dd($tenants);
             if($tenants){
-                foreach($tenants as $row => $key){
+               // foreach($tenants as $row => $key){
 
-                    $consumer_number = 'BL-'.substr(sprintf('%08d', $request->building_id),0,8).'|'.substr(sprintf('%08d', $key->id),0,8);
-                    $arreasCalculation = ArrearCalculation::where('tenant_id',$key->id)->where('payment_status','0')->whereIn('year',$years)->whereIn('month',$months)->get();
-
+                    //$consumer_number = 'BL-'.substr(sprintf('%08d', $request->building_id),0,8).'|'.substr(sprintf('%08d', $key->id),0,8);
+                    $consumer_number = 'BL-'.substr(sprintf('%08d', $request->building_id),0,8);                    
+                    $arreasCalculation = ArrearCalculation::where('building_id',$request->building_id)->where('payment_status','0')->whereIn('year',$years)->whereIn('month',$months)->get();
+                   // dd($arreasCalculation);
                     $arrear_bill = 0;
                     $total_bill = 0;
                     $arrear_id = '';
+                    $monthly_bill=0;
                     $arrearID = [];
                     if(!$arreasCalculation->isEmpty()){ 
                       foreach($arreasCalculation as $calculation){
@@ -1568,45 +1580,93 @@ class EMController extends Controller
                       }
                       $arrear_id = implode(",",$arrearID);                      
                     }  
-                    
-                    $total_bill  = $request->monthly_bill + $arrear_bill;
-                    $total_after_due = $total_bill * 0.02; 
+                   // dd($arrear_bill);
+                    $monthly_bill=$request->monthly_bill;
+                    $total_bill  = $monthly_bill + $arrear_bill;
+                    $total_after_due = $request->monthly_bill * 0.015; 
+                    //dd($total_after_due);
                     $total_service_after_due = $total_bill + $total_after_due; 
 
+                    $lastBillMonth = $request->bill_month;
+                    $lastBillYear = $request->bill_year;
+                    if($request->bill_month ==1) {
+                        $lastBillMonth = 12;
+                        $lastBillYear = $request->bill_year -1;
+                    } else {
+                        $lastBillMonth = $request->bill_month -1;
+                    }
+                    //dd($lastBillMonth."=>>>>".$lastBillYear);
+                    $lastBill = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+                                    ->where('bill_month', '=', $lastBillMonth)
+                                    ->where('bill_year', '=', $lastBillYear)
+                                    ->orderBy('id','DESC')
+                                    ->first();
+                    //dd($lastBill);
                         $data =  [
-                                    'tenant_id'  => $key->id,
-                                    'building_id'    => $key->building_id,
+                                    'tenant_id'  => NULL,
+                                    'building_id'    => $request->building_id,
                                     'society_id'     => $request->society_id,
                                     'bill_from'    => $request->bill_from,
                                     'bill_to'    => $request->bill_to,
                                     'bill_month' => $request->bill_month,
                                     'bill_year' => $request->bill_year,
-                                    'monthly_bill' => $request->monthly_bill,
+                                    'monthly_bill' => $monthly_bill,
                                     'arrear_bill' => $arrear_bill,
                                     'arrear_id' => $arrear_id,
                                     'total_bill' => $total_bill,
                                     'bill_date' => $request->bill_date,
                                     'due_date' => $request->due_date,
                                     'consumer_number' => $consumer_number,
-                                    'total_service_after_due' => $total_service_after_due,
+                                    'total_service_after_due' => $total_after_due,
                                     'late_fee_charge' => $total_after_due,
                                     'status' => 'Generated',
-                                    'balance_amount' => $arrear_bill,
+                                    'total_bill_after_due_date'=>round($total_service_after_due),
+                                    //'balance_amount' => $arrear_bill,
+                                    'balance_amount' => $last_bill_balance,
                                     'created_at'=>date('Y-m-d H:i:s'),
                                     'updated_at'=>date('Y-m-d H:i:s')
                                 ];
                               // $dat[]=$data;
+
+                        if($lastBill) {
+                        // dd($lastBill);
+                            if($lastBill->balance_amount > 0) {
+                                $data['total_bill_after_due_date'] = round($request->total_bill + $request->late_fee_charge +$lastBill->balance_amount,2);
+                                $data['balance_amount'] = round($lastBill->total_bill_after_due_date,2);
+                            }
+            
+                            if($lastBill->credit_amount > 0 && $lastBill->credit_amount > $request->total_bill) {
+                                $data['credit_amount'] = round($lastBill->credit_amount - $request->monthly_bill,2);
+                                $data['total_bill_after_due_date'] = 0;
+                                $data['status'] = 'paid';
+                            }
+            
+                            if($lastBill->credit_amount > 0 && $lastBill->credit_amount < $request->total_bill) {
+                                $data['total_bill'] = round($request->monthly_bill - $lastBill->credit_amount,2);
+                                $data['balance_amount'] = $data['total_bill_after_due_date'] = round($request->total_service_after_due - $lastBill->credit_amount,2);
+                                $data['credit_amount'] = 0;
+                            }
+                        } else {
+                        // dd('not null');
+                            //$bill->balance_amount = 0;
+                            $data['balance_amount'] = round($request->total_bill,2);
+                            $data['credit_amount']= 0;    
+                        }
+                        //dd($data);
                         $bill[] = TransBillGenerate::insertGetId($data);
-                }
+               // }
                 //dd($dat);
                if(isset($bill)){
                     $ids = implode(",",$bill);
+                    //dd($ids);
                     $lastBillGenerated = DB::table('building_tenant_bill_association')->orderBy('id','DESC')->first();
-
+                    
                     if(count($lastBillGenerated)) {
+                        //dd($lastBillGenerated);
                         $lastGeneratedNumber = substr($lastBillGenerated->bill_number,-7);
                         $increNumber = (int)$lastGeneratedNumber+1;
                         $bill_number = $request->building_id.str_pad($increNumber, 7, "0", STR_PAD_LEFT);
+                        TransBillGenerate::where(['id'=>$ids])->update(['bill_number'=>$bill_number]);
                     } else {
                         $bill_number = $request->building_id.'0000001';
                     }

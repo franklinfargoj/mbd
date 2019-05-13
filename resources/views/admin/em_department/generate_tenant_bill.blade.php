@@ -17,6 +17,15 @@
         if($lastBill && !empty($lastBill) && 0 < $lastBill->balance_amount) {
             $tempBalance = $lastBill->balance_amount;
         }
+
+        // $tempBalance = 0;
+        // if($lastBill && count($lastBill)>0 ) {
+        //     foreach($lastBill as $lastbil) {
+        //         if( 0 < $lastbil->total_bill_after_due_date ) {
+        //             $tempBalance += $lastbil->total_bill_after_due_date;
+        //         }
+        //     }
+        // }
     @endphp
 @if(session()->has('success'))
 <div class="alert alert-success display_msg">
@@ -233,16 +242,28 @@
                         <td>{{$lastBill->credit_amount}}</td>
                     </tr>
                     @endif
-                    <tr>
-                        <td>Current month Bill amount before due date</td>
-                        <td>{{$total_service}} </td>
+                    {{-- <tr>
+                        <td>Total arrear charges</td>
+                        <td >{{$total}}</td>
                     </tr>
                     <tr>
+                        <td>Service Charges</td>
+                        <td>{{$total_service}} </td>
+                    </tr> --}}
+                    <tr>
+                        <td class="font-weight-bold">Bill Amount Before due date</td>
+                        <td class="font-weight-bold">{{$total_service+$total}}</td>
+                    </tr>
+                    <tr>
+                        <td>Bill Amount After due date</td>
+                        <td>{{$total_service_after_due+$total}}</td>
+                    </tr>
+                    {{-- <tr>
                         <td class="font-weight-bold">
                             Total
                         </td>
                         <td>{{$totalTemp}}</td>
-                    </tr>
+                    </tr> --}}
                 </table>
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions px-0">

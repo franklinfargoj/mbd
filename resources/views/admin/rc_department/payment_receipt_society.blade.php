@@ -176,7 +176,7 @@
             </tr>
         </tbody>
     </table>
-    <div style="border: 2px solid #000; padding: 5px; margin-top: 160px;"><h3 style="text-align: center;">List of tenant for which receipt generated</h3></div>
+    {{-- <div style="border: 2px solid #000; padding: 5px; margin-top: 160px;"><h3 style="text-align: center;">List of tenant for which receipt generated</h3></div>
     <table style="width: 100%; border-collapse: collapse; margin-top: 40px;">
         <thead>
             <tr>
@@ -196,5 +196,5 @@
                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{$val->first_name}}&nbsp;{{$val->last_name}}</td>
             </tr>
             @endforeach
-    </table>
+    </table> --}}
 </div>

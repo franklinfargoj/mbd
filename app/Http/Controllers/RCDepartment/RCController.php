@@ -368,6 +368,7 @@ class RCController extends Controller
             if(count($receipt->toArray()) <= 0 ){
                 //dd($bill_ids);
             $bill = TransBillGenerate::where('status', '!=', 'paid')->findMany($bill_ids);
+            //dd($request->cash_amount);
                 if($request->payment_mode == 'dd' && $request->dd_no != ''){
                     $dd = DdDetails::where('bill_no', '=', $request->bill_no)
                           ->where('dd_no', '=', $request->dd_no)->first();
@@ -398,83 +399,85 @@ class RCController extends Controller
                 }
 
                 foreach ($bill as $key => $value) {
-                    if(in_array( $value->tenant_id, $request->except_tenaments)){
-                       // dd('in if loop');
-                      $Akey = array_search($value->tenant_id, $request->except_tenaments);
-                        $paid_amt = $request->tenant_credit_amt[$Akey];
-                        //dd($value->total_bill);
-                        // dd($paid_amt);
-                          //dd($value->arrear_id);
-                          if($value->arrear_id != ''){
-                          $ids = explode(',', $value->arrear_id);
-                            $tenant_arrear = ArrearCalculation::whereIn('id', $ids)->get();
-                            if(count($tenant_arrear) > 0){
-                              foreach ($tenant_arrear as $key => $value2) {
-                                if($value2->total_amount < $paid_amt){
-                                  $update = ArrearCalculation::whereIn('id', $ids)->update(['payment_status' => 1]);
-                                  $paid_amt -= $value2->total_amount;
-                                } else {                              
+                   // dump( $value->tenant_id);
+                    // if(in_array( $value->tenant_id, $request->except_tenaments) && $value->tenant_id!=null){
+                    //     dd('in if loop');
+                    //   $Akey = array_search($value->tenant_id, $request->except_tenaments);
+                    //     $paid_amt = $request->tenant_credit_amt[$Akey];
+                    //     //dd($value->total_bill);
+                    //     // dd($paid_amt);
+                    //       //dd($value->arrear_id);
+                    //       if($value->arrear_id != ''){
+                    //       $ids = explode(',', $value->arrear_id);
+                    //         $tenant_arrear = ArrearCalculation::whereIn('id', $ids)->get();
+                    //         if(count($tenant_arrear) > 0){
+                    //           foreach ($tenant_arrear as $key => $value2) {
+                    //             if($value2->total_amount < $paid_amt){
+                    //               $update = ArrearCalculation::whereIn('id', $ids)->update(['payment_status' => 1]);
+                    //               $paid_amt -= $value2->total_amount;
+                    //             } else {                              
 
-                                }
-                              }
-                            }
-                           // dd($tenant_arrear);
-                           // $update = ArrearCalculation::whereIn('id', $ids)->update(['payment_status' => 1]);
-                          }
+                    //             }
+                    //           }
+                    //         }
+                    //        // dd($tenant_arrear);
+                    //        // $update = ArrearCalculation::whereIn('id', $ids)->update(['payment_status' => 1]);
+                    //       }
 
-                          if($paid_amt > $value->total_bill){
-                            $credit_amt = $paid_amt - $value->total_bill;
-                            $balance = 0;
+                    //       if($paid_amt > $value->total_bill){
+                    //         $credit_amt = $paid_amt - $value->total_bill;
+                    //         $balance = 0;
 
-                            $credit = MasterTenant::where('id', $value->tenant_id)->first();                       
-                            if(is_null($credit->credit)){
-                              $credit->credit = $credit_amt;
-                            } else {
-                              $credit->credit = $credit->credit + $credit_amt;
-                            }   
-                            $credit->save(); 
+                    //         $credit = MasterTenant::where('id', $value->tenant_id)->first();                       
+                    //         if(is_null($credit->credit)){
+                    //           $credit->credit = $credit_amt;
+                    //         } else {
+                    //           $credit->credit = $credit->credit + $credit_amt;
+                    //         }   
+                    //         $credit->save(); 
 
-                            $bill_status = TransBillGenerate::find($value->id)->update(array('status' => 'Paid','credit_amount'=>$credit->credit)); 
-                            //dd($credit);
+                    //         $bill_status = TransBillGenerate::find($value->id)->update(array('status' => 'Paid','credit_amount'=>$credit->credit)); 
+                    //         //dd($credit);
 
-                          } else {
-                            $balance = 0;
-                            $credit_amt = 0;
-                            if($value->total_bill > $request->tenant_credit_amt[$Akey]) {
+                    //       } else {
+                    //         $balance = 0;
+                    //         $credit_amt = 0;
+                    //         if($value->total_bill > $request->tenant_credit_amt[$Akey]) {
                                 
-                                $balance = $value->total_bill - $request->tenant_credit_amt[$Akey];
-                                $value->balance_amount = $balance;
-                            } elseif($value->total_bill < $request->tenant_credit_amt[$Akey]) {
+                    //             $balance = $value->total_bill - $request->tenant_credit_amt[$Akey];
+                    //             $value->balance_amount = $balance;
+                    //         } elseif($value->total_bill < $request->tenant_credit_amt[$Akey]) {
                                 
-                                $credit_amt = $request->tenant_credit_amt[$Akey] - $value->total_bill ;    
-                                $value->credit_amount = $credit_amt;
-                            } else {
-                                $credit_amt = 0;
-                            }
-                            // $balance = $value->total_bill - $paid_amt;
-                          }
-                          $value->balance_amount = $balance;
-                          $value->save();
+                    //             $credit_amt = $request->tenant_credit_amt[$Akey] - $value->total_bill ;    
+                    //             $value->credit_amount = $credit_amt;
+                    //         } else {
+                    //             $credit_amt = 0;
+                    //         }
+                    //         // $balance = $value->total_bill - $paid_amt;
+                    //       }
+                    //       $value->balance_amount = $balance;
+                    //       $value->save();
 
-                        $data[] =  [
-                                'bill_no'    => $value->id,
-                                'tenant_id'  => $value->tenant_id,
-                                'building_id'    => $value->building_id,
-                                'society_id'     => $value->society_id,
-                                'paid_by'    => $request->amount_paid_by,
-                                'dd_id'    => $dd,
-                                'mode_of_payment' => $request->payment_mode,
-                                'bill_amount' => $value->total_bill,
-                                'amount_paid' => $request->tenant_credit_amt[$Akey],
-                                'from_date' => $request->from_date,
-                                'to_date' => $request->to_date,
-                                'balance_amount' => $balance,
-                                'credit_amount' => $credit_amt,
-                              ]; 
-                        //dd($data);
+                    //     $data[] =  [
+                    //             'bill_no'    => $value->id,
+                    //             'tenant_id'  => $value->tenant_id,
+                    //             'building_id'    => $value->building_id,
+                    //             'society_id'     => $value->society_id,
+                    //             'paid_by'    => $request->amount_paid_by,
+                    //             'dd_id'    => $dd,
+                    //             'mode_of_payment' => $request->payment_mode,
+                    //             'bill_amount' => $value->total_bill,
+                    //             'amount_paid' => $request->tenant_credit_amt[$Akey],
+                    //             'from_date' => $request->from_date,
+                    //             'to_date' => $request->to_date,
+                    //             'balance_amount' => $balance,
+                    //             'credit_amount' => $credit_amt,
+                    //           ]; 
+                    //     //dd($data);
 
-                    } else {
-                        //dd($amount_paid);
+                    // } else {
+                        //dd('in else loop');
+                        
                       $data[] =  [
                                 'bill_no'    => $value->id,
                                 'tenant_id'  => $value->tenant_id,
@@ -487,15 +490,18 @@ class RCController extends Controller
                                 'amount_paid' => $amount_paid,
                                 'from_date' => $request->from_date,
                                 'to_date' => $request->to_date,
-                                'balance_amount' => ($value->total_bill<$amount_paid?($value->total_bill-$amount_paid):0),
-                                'credit_amount' => $value->total_bill>$amount_paid?($amount_paid-$value->total_bill):0,
+                                'balance_amount' => $request->balance_amount,
+                                'credit_amount' => $request->credit_amount,
                                 'created_at'=>date('Y-m-d H:i:s'),
                                 'updated_at'=>date('Y-m-d H:i:s')  
                             ];   
-                              //dd($data);
-                      $bill_status = TransBillGenerate::find($value->id)->update(array('status' => 'Paid')); 
+                             
+                        $ids = explode(',', $value->arrear_id);
+                        //dd($data);
+                        $update = ArrearCalculation::whereIn('id', $ids)->update(['payment_status' => 1]);
+                        $bill_status = TransBillGenerate::find($value->id)->update(array('status' => 'Paid')); 
 
-                    }            
+                   // }            
                 }
                 
                 // print_r($data);exit;
@@ -578,7 +584,7 @@ class RCController extends Controller
 
     public function payment_receipt_tenant(Request $request){
         
-       // dd($request->all());
+     //dd($request->all());
         if($request->bill_no){
             
             $receipt = TransPayment::with('dd_details')->with('bill_details')->where('bill_no', '=', $request->bill_no)->first();
@@ -685,7 +691,7 @@ class RCController extends Controller
 
             $currentMonth = date('m');
             $bill_year = date('Y');
-
+            //dd($request->month);
             if($request->has('month') && '' != $request->month) {
                 $data['month'] = $request->month;
             }
@@ -717,15 +723,31 @@ class RCController extends Controller
                 return redirect()->back()->with('warning', 'Service charge Rates Not added into system.');
             }
             //dump($request->building_id." ".$data['year']." ".$data['month']);
-          //$data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('year',$bill_year)->where('payment_status','0')->get();
-          $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('payment_status','0')->where('year',$data['year'])->where('month',(int)$data['month'])->orderby('year','month')->get();
-            //dd($data['arreasCalculation']);
+            //$data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('year',$bill_year)->where('payment_status','0')->get();            //dd($data['arreasCalculation']);
+        
             $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
-         //dd($data['number_of_tenants']->tenant_count()->first());
+            //dd($data['number_of_tenants']->tenant_count()->first());
             if(!$data['number_of_tenants']->tenant_count()->first()) {
                 return redirect()->back()->with('warning', 'Number of Tenants Is zero.');
             }
-
+            
+            if($data['month'] != 1) {
+                $lastBillMonth = $data['month'] -1;
+            } else {
+                $lastBillMonth = $data['month'];
+            }
+            $data['lastBill'] = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+                                    ->where('bill_month', '=', $lastBillMonth)
+                                    ->where('bill_year', '=', $data['year'])
+                                    ->orderBy('id','DESC')
+                                    ->first();
+            $data['currentBill'] = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+                                    ->where('bill_month', '=',$data['month'])
+                                    ->where('bill_year', '=', $bill_year)
+                                    ->orderBy('id','DESC')
+                                    ->first();
+            //dd($data['currentBill']);
+            $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('payment_status','0')->where('year',$data['currentBill']->bill_year)->where('month',(int)$data['currentBill']->bill_month)->orderby('year','month')->get();
             $data['association'] = DB::table('building_tenant_bill_association')->where('building_id',$request->building_id)->where('bill_year',$bill_year)->where('bill_month',$data['month'])->first();
 
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
@@ -741,7 +763,7 @@ class RCController extends Controller
     }
 
      public function view_bill_tenant(Request $request,$is_download=false){
-
+            //dd('ok');
           if($request->has('building_id') && '' != $request->building_id && $request->has('tenant_id') && '' != $request->tenant_id) {
             $request->building_id = decrypt($request->building_id);
             $request->tenant_id = decrypt($request->tenant_id);
@@ -830,13 +852,14 @@ class RCController extends Controller
      }
 
      public function downloadBill(Request $request) {
+         //dd($request->all());
          if($request->has('building_id') && '' != $request->building_id) {
           
           $data['building'] = MasterBuilding::find(decrypt($request->building_id));
           $data['society'] = SocietyDetail::find($data['building']->society_id);
 
           if($request->has('tenant_id') && !empty($request->tenant_id)) {
-            
+
             $data['tenant'] = MasterTenant::where('building_id',$data['building']->id)->where('id',decrypt($request->tenant_id))->first();
             
             if($request->has('building_id') && '' != $request->building_id && $request->has('tenant_id') && '' != $request->tenant_id) {
@@ -866,6 +889,20 @@ class RCController extends Controller
                     $data['year'] = date('Y');
                 }
 
+                if($data['month'] == 1) {
+                    $lastBillMonth = 12;
+                    $lastBillYear=$data['year']-1;
+                } else {
+                    $lastBillMonth = $data['month']-1;
+                    $lastBillYear=$data['year'];
+                }
+               // dd($lastBillYear." ".$lastBillMonth);
+                $data['lastBill'] = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+                                    ->where('bill_month', '=', $lastBillMonth)
+                                    ->where('bill_year', '=', $lastBillYear)
+                                    ->orderBy('id','DESC')
+                                    ->first();
+                //dd($data['lastBill']);
                 $data['serviceChargesRate'] = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$request->building_id)->where('year',$data['year'])->first();
 
                 if(!$data['serviceChargesRate']){
@@ -882,7 +919,7 @@ class RCController extends Controller
             // $this->view_bill_tenant($request,true);
           } else {
             // $this->view_bill_building($request,true);
-
+            
                 if($request->has('building_id') && '' != $request->building_id) {
 
                     $data['month'] = date('m');
@@ -952,7 +989,39 @@ class RCController extends Controller
                         return redirect()->back()->with('warning', 'Number of Tenants Is zero.');
                     }
 
-                    
+                   // $data['TransBillGenerate'] = TransBillGenerate::find($request->id);
+
+                    if($request->has('year') && !empty($request->year)) {
+                    $data['year'] = $request->year;
+                    }
+
+                    if($request->has('month') && '' != $request->month) {
+                        
+                        $data['month'] = $request->month;
+                        if($request->month < 4 ) {
+                            $data['year'] = date('Y') -1;
+                        } else {
+                            $data['year'] = date('Y');
+                        }
+                    } else {
+                        $data['month'] = date('m');
+                        $data['year'] = date('Y');
+                    }
+
+                    if($data['month'] == 1) {
+                        $lastBillMonth = 12;
+                        $lastBillYear=$data['year']-1;
+                    } else {
+                        $lastBillMonth = $data['month']-1;
+                        $lastBillYear=$data['year'];
+                    }
+                // dd($lastBillYear." ".$lastBillMonth);
+                    $data['lastBill'] = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+                                        ->where('bill_month', '=', $lastBillMonth)
+                                        ->where('bill_year', '=', $lastBillYear)
+                                        ->orderBy('id','DESC')
+                                        ->first();
+                    //dd($data['lastBill']);
                     $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
                       
                     $pdf = PDF::loadView('admin.rc_department.download_building_bill', $data);
@@ -1000,6 +1069,7 @@ class RCController extends Controller
     }
 
      public function downloadReceipt(Request $request) {
+         //dd('ok');
         if($request->has('building_id') && '' != $request->building_id) {
           $request->building_id = decrypt($request->building_id);
           $request->bill_no = decrypt($request->bill_no);
@@ -1012,6 +1082,7 @@ class RCController extends Controller
                 $this->downloadReceiptTenant($request);
             }
           } else {
+             
              if($request->flag) {
                  $data = $this->downloadReceiptSociety($request);
                 return view('admin.rc_department.view_payment_receipt_tenant',$data);

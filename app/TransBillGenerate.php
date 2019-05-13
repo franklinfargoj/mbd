@@ -19,7 +19,7 @@ class TransBillGenerate extends Model
     // protected $guard = 'society';
 
 	protected $fillable = [
-         	'tenant_id', 'building_id', 'society_id',  'bill_date', 'due_date', 'bill_from', 'bill_to', 'bill_month', 'bill_year', 'monthly_bill', 'arrear_bill', 'total_bill', 'total_service_after_due', 'consumer_number', 'late_fee_charge', 'status','balance_amount','credit_amount'
+         	'tenant_id', 'building_id', 'society_id',  'bill_date', 'due_date', 'bill_from', 'bill_to', 'bill_month', 'bill_year', 'monthly_bill', 'arrear_bill', 'total_bill', 'total_service_after_due', 'consumer_number', 'late_fee_charge', 'status','balance_amount','credit_amount','created_at','updated_at'
     ];
 
     public function tenant_detail()

@@ -4,7 +4,7 @@
 @endif
     @php 
         $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other; 
-        $total_after_due = $total_service * 0.02; 
+        $total_after_due = $total_service * 0.015; 
         $total_service_after_due = $total_service + $total_after_due;     
         $total ='0';           
     @endphp
@@ -166,7 +166,7 @@
                             <td>{{$total_service}}</td>
                         </tr>
                         <tr>
-                            <td><p class="pull-right">After Due date 2% interest</p></td>
+                            <td><p class="pull-right">After Due date 1.5% interest</p></td>
                             <td>{{$total_after_due}}</td>
                         </tr>
                         <tr>
@@ -218,7 +218,7 @@
                         </tr>
                         <tr>
                             <td>Balance Amount</td>
-                            <td class="text-center">{{$tempBalance}}</td>
+                            <td class="text-center">{{($lastBill?$lastBill->balance_amount:0)+$currentBill->arrear_bill}}</td>
                         </tr>
                         @if($lastBill && !empty($lastBill) && 0 < $lastBill->credit_amount)
                         <tr>
@@ -226,14 +226,26 @@
                             <td class="text-center">{{$lastBill->credit_amount}}</td>
                         </tr>
                         @endif
+                        {{-- <tr>
+                            <td >Total arrear charges</td>
+                            <td class="text-center">{{$total}}</td>
+                        </tr>
+                        <tr>
+                            <td >Service Charges</td>
+                            <td class="text-center">{{$total_service}}</td>
+                        </tr> --}}
                         <tr>
                             <td>Current month Bill amount before due date</td>
-                            <td class="text-center">{{$total_service}} </td>
+                            <td class="text-center">{{$total_service+$total}} </td>
                         </tr>
                         <tr>
+                            <td>Current month Bill amount after due date</td>
+                            <td class="text-center">{{$total_service_after_due+$total}} </td>
+                        </tr>
+                        {{-- <tr>
                             <td><p class="pull-right">Total</p></td>
                             <td>{{$totalTemp}}</td>
-                        </tr>
+                        </tr> --}}
                     </table>
                 </div>
 
