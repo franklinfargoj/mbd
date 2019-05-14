@@ -38,7 +38,7 @@
                             <div class="col">
                                 <div class="form-group m-form__group">
                                     <div class="btn-list">
-                                        <input type="submit" class="btn mhada-custom-pdf" name="pdf" value="pdf">
+                                        {{--<input type="submit" class="btn mhada-custom-pdf" name="pdf" value="pdf">--}}
                                         <input type="submit" class="btn mhada-custom-excel" name="excel" value="excel">
                                     </div>
                                 </div>
