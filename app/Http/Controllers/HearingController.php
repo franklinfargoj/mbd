@@ -868,7 +868,7 @@ class HearingController extends Controller
      */
     public function hearingReports(){
 
-        $module_names = ['Closed', 'Open', 'Scheduled Hearing '];
+        $module_names = ['Closed', 'Open', 'Scheduled'];
 
         return view('admin.reports.hearing.hearing_reports',compact('module_names'));
 
@@ -899,7 +899,6 @@ class HearingController extends Controller
 //        else{
 //            $report_format = $request->excel;
 //        }
-
         $report_format = $request->excel;
 
         $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
@@ -917,7 +916,7 @@ class HearingController extends Controller
         }
         else if($request->status == config('commanConfig.hearing_reports.Scheduled')){
 
-            $hearing_case_data = $this->getScheduledCaseData($hearing_data);
+            $hearing_case_data = $this->getScheduleCasedData($hearing_data);
 
             $result = $this->generateReport($hearing_case_data,$report_format,$period_title, 'Open Cases Details');
             if(!$result){
@@ -1051,7 +1050,7 @@ class HearingController extends Controller
     public function getScheduleCasedData($hearing_data)
     {
 
-        $hearing_case_data = arrya();
+        $hearing_case_data = array();
         $scheduled= 0;
 
         foreach ($hearing_data as $hearing) {
