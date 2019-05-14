@@ -99,5 +99,8 @@ class Hearing extends Model
     public function hearingSchedule1()
     {
         return $this->hasMany('App\HearingSchedule', 'hearing_id', 'id')->orderBy('id', 'desc');
-    }    
+    }
+    public function userDetails(){
+        return $this->hasOne('App\User', 'id', 'user_id');
+    }
 }
