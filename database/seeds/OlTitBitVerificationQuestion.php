@@ -31,14 +31,22 @@ class OlTitBitVerificationQuestion extends Seeder
                 'question' => "सिमांकन नकाशानुसार फुटकळ भूखंड असल्यास ठराव क्र। ५९९८ मधील मुद्दा क्र। १० मध्ये नमुद केलेल्या कुठल्या प्रकारामध्ये सदर  भूखंड मोडतो.",
                 'is_compulsory' => 1,
                 'is_option' => 0,
-                'is_select' => 1
+                'is_select' => 1,
+                'hide' => 0,
+                'class' => 'tit_1',
+                'group' => 1,
+                'sort_by' => NULL
             ],                 
             [
                 'language_id'   => $languageId,
                 'question' => "फुटकळ भूखंडाचे एकूण क्षेत्रफळ किती ?",
                 'is_compulsory' => 1,
                 'is_option' => 0,
-                'is_select' => 0
+                'is_select' => 0,
+                'hide' => 0,
+                'class' => 'tit_2',
+                'group' => 2,
+                'sort_by' => NULL
             ],
             // [
             //     'language_id'   => $languageId,
@@ -50,35 +58,57 @@ class OlTitBitVerificationQuestion extends Seeder
                 'question' => "संस्थेच्या भाडेपट्यानुसार असलेल्या भूखंडाव्यतीरिक्त लगत भूखंड/जागा शिल्लक राहत आहे काय ?",
                 'is_compulsory' => 0,
                 'is_option' => 1,
-                'is_select' => 0
+                'is_select' => 0,
+                'hide' => 0,
+                'class' => 'tit_3',
+                'group' => 3,
+                'sort_by' => NULL
             ], 
             [                
             'language_id'   => $languageId,
-                'question' => "असल्यास अशी जागा स्वतंत्रपणे विकास करता येण्यासारखी आहे काय ?",
+                'question' => "अशी जागा स्वतंत्रपणे विकास करता येण्यासारखी आहे काय ?",
                 'is_compulsory' => 0,
                 'is_option' => 1,
-                'is_select' => 0
+                'is_select' => 0,
+                'hide' => 1,
+                'class' => 'tit_4',
+                'group' => 3,
+                'sort_by' => 1
+
             ], 
             [               
             'language_id'   => $languageId,
-                'question' => "नसल्यास सदर जागा फुटकळ भूखंडाच्या  परिभाषेनुसार असल्यास त्याचे क्षेत्रफळ व मोजमापे नमुद करावीत.",
-                'is_compulsory' => 1,
+                'question' => "सदर जागा फुटकळ भूखंडाच्या  परिभाषेनुसार असल्यास त्याचे क्षेत्रफळ व मोजमापे नमुद करावीत.",
+                'is_compulsory' => 0,
                 'is_option' => 1,
-                'is_select' => 0
+                'is_select' => 0,
+                'hide' => 1,
+                'class' => 'tit_5',
+                'group' => 3,
+                'sort_by' => 1
+
             ],
              [           
             'language_id'   => $languageId,
                 'question' => "सदर फुटकळ भूखंडालगतच्या इतर संस्थांची नावे नमुद करावीत.",
                 'is_compulsory' => 1,
-                'is_option' => 1,
-                'is_select' => 0
+                'is_option' => 0,
+                'is_select' => 0,
+                'hide' => 0,
+                'class' => 'tit_6',
+                'group' => 4,
+                'sort_by' => NULL
             ],                                 
             [
                 'language_id'   => $languageId,
                 'question' => "सदर फुटकळ भूखंडा पैकी काही भागालगत इतर संस्थांची सिमा असल्यास त्यानुसार समान विभागणी करून त्यानुसार सिमांकन नकाशात नमुद केले आहेत काय ?",
                 'is_compulsory' => 0,
                 'is_option' => 1,
-                'is_select' => 0
+                'is_select' => 0,
+                'hide' => 0,
+                'class' => 'tit_7',
+                'group' => 5,
+                'sort_by' => NULL
             ],                 
             // [
             //     'language_id'   => $languageId,
@@ -89,14 +119,22 @@ class OlTitBitVerificationQuestion extends Seeder
                 'question' => "संस्थेलगत म्हाडाचा मोकळा भूखंड असल्यास  त्यासोबत फुटकळ भूखंडाचे एकत्रिकरण करणे शक्य आहे काय ?",
                 'is_compulsory' => 0,
                 'is_option' => 1,
-                'is_select' => 0
+                'is_select' => 0,
+                'hide' => 0,
+                'class' => 'tit_8',
+                'group' => 6,
+                'sort_by' => NULL
             ], 
             [               
             'language_id'   => $languageId,
                 'question' => "फुटकळ भूखंड क्षेत्रफळाचे एकूण भूखंड क्षेत्रफळाच्या प्रमाणात टक्केवारी किती आहे ?",
                 'is_compulsory' => 1,
                 'is_option' => 0,
-                'is_select' => 0
+                'is_select' => 0,
+                'hide' => 0,
+                'class' => 'tit_9',
+                'group' => 7,
+                'sort_by' => NULL
             ]             
         ];
         if ($count == 0){

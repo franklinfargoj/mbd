@@ -13,6 +13,7 @@ class OlDemarcationVerificationQuestion extends Seeder
      */
     public function run()
     {
+        DB::table('ol_demarcation_question_master')->truncate();
         $parentId = '';
         $count = OlDemarcationVerificationQuestionMaster::where('parent',NULL)->count();
 
@@ -32,11 +33,12 @@ class OlDemarcationVerificationQuestion extends Seeder
                 'is_option' => 1,
                 'is_deleted' => 0,
                 'is_select' => 0,
-                'is_table' => 0
+                'is_table' => 0,
+                'is_textbox' => 0
             ],
             [
                 'language_id'   => $languageId,
-                'question' => "असल्यास अतिक्रमणाने बाधित जागेवरील बांधकामाचा तपशिल तसेच वापर याबाबत शेरा द्यावा.",
+                'question' => "अतिक्रमणाने बाधित जागेवरील बांधकामाचा तपशिल तसेच वापर याबाबत शेरा द्यावा.",
                 'is_compulsory' => 0,
                 'has_many' => 0,
                 'is_number' => 0,
@@ -47,7 +49,8 @@ class OlDemarcationVerificationQuestion extends Seeder
                 'is_option' => 0,
                 'is_deleted' => 0,
                 'is_select' => 0,
-                'is_table' => 0
+                'is_table' => 0,
+                'is_textbox' => 0
             ], 
             [
                 'language_id'   => $languageId,
@@ -62,11 +65,12 @@ class OlDemarcationVerificationQuestion extends Seeder
                 'is_option' => 1,
                 'is_deleted' => 0,
                 'is_select' => 0,
-                'is_table' => 0
+                'is_table' => 0,
+                'is_textbox' => 0
             ],
             [
                 'language_id'   => $languageId,
-                'question' => "असल्यास आरक्षणाचे स्वरूप नमुद करावेत.",
+                'question' => "आरक्षणाचे स्वरूप नमुद करावेत.",
                 'is_compulsory' => 0,
                 'has_many' => 0,
                 'is_number' => 0,
@@ -77,7 +81,8 @@ class OlDemarcationVerificationQuestion extends Seeder
                 'is_option' => 0,
                 'is_deleted' => 0,
                 'is_select' => 0,
-                'is_table' => 0
+                'is_table' => 0,
+                'is_textbox' => 0
             ],
             [
                 'language_id'   => $languageId,
@@ -92,7 +97,8 @@ class OlDemarcationVerificationQuestion extends Seeder
                 'is_option' => 1,
                 'is_deleted' => 0,
                 'is_select' => 0,
-                'is_table' => 0
+                'is_table' => 0,
+                'is_textbox' => 1
             ],                 
             [           
             'language_id'   => $languageId,
@@ -107,7 +113,8 @@ class OlDemarcationVerificationQuestion extends Seeder
                 'is_option' => 0,
                 'is_deleted' => 0,
                 'is_select' => 1,
-                'is_table' => 0 
+                'is_table' => 0,
+                'is_textbox' => 0
             ], 
             [           
             'language_id'   => $languageId,
@@ -122,7 +129,8 @@ class OlDemarcationVerificationQuestion extends Seeder
                 'is_option' => 0,
                 'is_deleted' => 0,
                 'is_select' => 0,
-                'is_table' => 1
+                'is_table' => 1,
+                'is_textbox' => 0
             ],
             [           
             'language_id'   => $languageId,
@@ -137,7 +145,8 @@ class OlDemarcationVerificationQuestion extends Seeder
                 'is_option' => 0,
                 'is_deleted' => 0,
                 'is_select' => 0,
-                'is_table' => 0
+                'is_table' => 0,
+                'is_textbox' => 0
             ],
             [           
             'language_id'   => $languageId,
@@ -152,7 +161,8 @@ class OlDemarcationVerificationQuestion extends Seeder
                 'is_option' => 0,
                 'is_deleted' => 0,
                 'is_select' => 0,
-                'is_table' => 0
+                'is_table' => 0,
+                'is_textbox' => 0
             ],
             [           
             'language_id'   => $languageId,
@@ -167,7 +177,8 @@ class OlDemarcationVerificationQuestion extends Seeder
                 'is_option' => 0,
                 'is_deleted' => 0,
                 'is_select' => 0,
-                'is_table' => 0
+                'is_table' => 0,
+                'is_textbox' => 0
             ],
             [           
             'language_id'   => $languageId,
@@ -182,7 +193,8 @@ class OlDemarcationVerificationQuestion extends Seeder
                 'is_option' => 0,
                 'is_deleted' => 0,
                 'is_select' => 0,
-                'is_table' => 0
+                'is_table' => 0,
+                'is_textbox' => 0
             ],
             [           
             'language_id'   => $languageId,
@@ -197,7 +209,8 @@ class OlDemarcationVerificationQuestion extends Seeder
                 'is_option' => 0,
                 'is_deleted' => 0,
                 'is_select' => 0,
-                'is_table' => 0
+                'is_table' => 0,
+                'is_textbox' => 0
             ]             
         ];
 

@@ -38,7 +38,7 @@ class AddParentInOlDemarcationQuestionMaster extends Migration
             if (!Schema::hasColumn('ol_demarcation_question_master', 'is_table')){
                 $table->tinyInteger('is_table')->after('is_select')->default(0);                
             } 
-        });
+        }); 
 
         // demarcation answer table
         Schema::table('ol_demarcation_details', function (Blueprint $table) {

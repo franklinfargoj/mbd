@@ -18,6 +18,7 @@ class OlDemarcationVerificationDetails extends Model
         'residential',
         'non-residential',
         'encrochment',
+        'crz_area',
     ];
 
     public function DemarkQuestions(){ 

@@ -348,13 +348,21 @@
                                                     <tbody>
                                                         <?php $i = 1; ?>
                                                         @foreach($eeScrutinyData->consentQuetions as $data)
-                                                        <tr>
+                                                        @php 
+                                                        if ($data->hide == 1){
+                                                            $con_style = 'display:none;';
+                                                        }else{
+                                                            $con_style = '';
+                                                        }
+                                                        @endphp
+                                                        <tr id="{{ $data->class }}" 
+                                                        style="{{$con_style}}">
                                                             <td>{{ $data->group }}. {{ $data->sort_by }}</td>
                                                             <td>{{$data->question}}</td>
                                                             <td>
                                                             @if($data->is_option == 1)
                                                                 <label class="m-radio m-radio--primary">
-                                                                    <input type="radio" class="radioBtn" name="con_radio_{{$i}}"
+                                                                    <input type="radio" class="radioBtn {{ $data->class }}" value="1" name="con_radio_{{$i}}"
                                                                         disabled
                                                                         {{ (isset($data->consentDetails->answer) && $data->consentDetails->answer == '1') ? 'checked' : ''}}>
                                                                     <span></span>
@@ -364,7 +372,7 @@
                                                             <td>
                                                             @if($data->is_option == 1)
                                                                 <label class="m-radio m-radio--primary">
-                                                                    <input type="radio" class="radioBtn" name="con_radio_{{$i}}"
+                                                                    <input type="radio" class="radioBtn {{ $data->class }}" value="0" name="con_radio_{{$i}}"
                                                                         disabled
                                                                         {{(isset($data->consentDetails->answer) && $data->consentDetails->answer == '0') ? 'checked' : ''}}>
                                                                     <span></span>
@@ -572,9 +580,10 @@
                                                             <td>
                                                             @if($data->is_option == 1)
                                                                 <label class="m-radio m-radio--primary">
-                                                                    <input type="radio" class="radioBtn" name="dem_radio_{{$i}}"
+                                                                    <input type="radio" class="radioBtn {{$data->class}}" name="dem_radio_{{$i}}" value="1" 
                                                                         disabled
-                                                                        {{(isset($data->demarkDetails) && $data->demarkDetails->answer == '1') ? 'checked' : ''}}>
+                                                                        {{(isset($data->demarkDetails) 
+                                                                        && $data->demarkDetails->answer == '1') ? 'checked' : ''}}>
                                                                     <span></span>
                                                                 </label>
                                                             @endif    
@@ -582,9 +591,10 @@
                                                             <td>
                                                             @if($data->is_option == 1)
                                                                 <label class="m-radio m-radio--primary">
-                                                                    <input type="radio" class="radioBtn" name="dem_radio_{{$i}}"
+                                                                    <input type="radio" class="radioBtn {{$data->class}}" name="dem_radio_{{$i}}" value="0"
                                                                         disabled
-                                                                        {{(isset($data->demarkDetails) && $data->demarkDetails->answer == '0') ? 'checked' : ''}}>
+                                                                        {{(isset($data->demarkDetails) 
+                                                                        && $data->demarkDetails->answer == '0') ? 'checked' : ''}}>
                                                                     <span></span>
                                                                 </label>
                                                             @endif
@@ -630,6 +640,22 @@
                                                             
                                                                 @else
                                                                 <textarea class="form-control form-control--custom form-control--textarea" style="border-top: none;resize: none;" disabled name="remark-one" id="remark-one">{{ isset($data->demarkDetails) ? $data->demarkDetails->remark : ""}}</textarea>
+
+                                                                     @if($data->is_textbox == 1)
+                                                                    <div class="col-sm-12 mt-3 crz_area" style="display: none">
+                                                                        <div class="form-group row">
+                                                                            <div class="col-sm-4 d-flex align-items-center">
+                                                                                <label for="crz_area">
+                                                                                CRZ Area:</label>
+                                                                            </div>
+                                                                            <div class="col-sm-8">
+                                                                                <input type="text" class="form-control form-control--custom"
+                                                                                     value="{{ isset($data->demarkDetails) ? $data->demarkDetails->crz_area : '' }}"
+                                                                                     id="crz_area" placeholder="" readonly>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    @endif
                                                                 @endif
                                                             </td>
                                                         </tr>
@@ -706,13 +732,20 @@
                                                     <tbody>
                                                         <?php $i = 1; ?>
                                                         @foreach($eeScrutinyData->TitBitQuetions as $data)
-                                                        <tr>
-                                                            <td>{{$i}}</td>
+                                                        @php
+                                                        if ($data->hide == 1){
+                                                            $tit_style = 'display:none;';
+                                                        }else{
+                                                            $tit_style = '';
+                                                        }
+                                                        @endphp
+                                                        <tr id="{{$data->class}}" style="{{$tit_style}}">
+                                                            <td>{{$data->group}}.{{$data->sort_by}}</td>
                                                             <td>{{$data->question}}</td>
                                                             <td>
                                                             @if($data->is_option == 1)
                                                                 <label class="m-radio m-radio--primary">
-                                                                    <input type="radio" name="tit_radio_{{$i}}"
+                                                                    <input type="radio" class="{{$data->class}}" value="1" name="tit_radio_{{$i}}"
                                                                         disabled
                                                                         {{(isset($data->titBitDetails) 
                                                                         && $data->titBitDetails->answer == '1' ? 'checked' : '')}}>
@@ -723,7 +756,7 @@
                                                             <td>
                                                             @if($data->is_option == 1)
                                                                 <label class="m-radio m-radio--primary">
-                                                                    <input type="radio" name="tit_radio_{{$i}}"
+                                                                    <input type="radio" class="{{$data->class}}" value="0" name="tit_radio_{{$i}}"
                                                                         disabled
                                                                         {{(isset($data->titBitDetails)
                                                                          && $data->titBitDetails->answer =='0' ? 'checked' : '')}}>
@@ -809,22 +842,7 @@
                                                         <tr>
                                                             <td>{{$i}}</td>
                                                             <td>{{($data->question)}}
-                                                            @if($data->is_option == 1)
-
-                                                                <label class="m-radio m-radio--primary">
-                                                                Scheme R.G
-                                                                    <input type="radio" name="schema[{{$i}}]"
-                                                                        value="Scheme R.G" {{$rg_check}} disabled>
-                                                                    <span></span>
-                                                                </label>
-
-                                                                <label class="m-radio m-radio--primary">
-                                                                D.P.R.G
-                                                                    <input type="radio" name="schema[{{$i}}]"
-                                                                        value="D.P.R.G" {{$dp_check}} disabled>
-                                                                    <span></span>
-                                                                </label>
-                                                                @endif
+                                                            
                                                                 </td>
                                                             <td>
                                                                 <label class="m-radio m-radio--primary">
@@ -840,7 +858,24 @@
                                                                     <span></span>
                                                                 </label></td>
                                                             <td>
+                                                            @if($data->is_option == 1)
+
+                                                                <label class="m-radio m-radio--primary">
+                                                                Scheme R.G
+                                                                    <input type="radio" name="schema[{{$i}}]"
+                                                                        value="Scheme R.G" {{$rg_check}} disabled>
+                                                                    <span></span>
+                                                                </label>
+
+                                                                <label class="m-radio m-radio--primary">
+                                                                D.P.R.G
+                                                                    <input type="radio" name="schema[{{$i}}]"
+                                                                        value="D.P.R.G" {{$dp_check}} disabled>
+                                                                    <span></span>
+                                                                </label>
+                                                                @else
                                                                 <textarea class="form-control form-control--custom form-control--textarea" style="border-top: none;resize: none;" disabled name="remark-one" id="remark-one">{{ isset($data->relocationDetails) ? $data->relocationDetails->remark : ''}}</textarea>
+                                                                @endif
                                                             </td>
                                                         </tr>
                                                         <?php $i++; ?>
@@ -1102,6 +1137,26 @@
         var selectedVal2 = $("input:radio.dem_4:checked").val();
         if (selectedVal2 == 1){
             $("#dem_4_hide").show('slow');
+        }
+        // demarcation 5 pt 
+        var selectedVal3 = $("input:radio.dem_5:checked").val();
+        if (selectedVal3 == 1){
+            $(".crz_area").show('slow');
+        }
+
+        // consent 3 pt 
+        var selectedVal4 = $("input:radio.con_3:checked").val();
+        console.log(selectedVal4);
+        if (selectedVal4 == 0){
+            $("#con_3_hide").show('slow');
+        }
+
+        // tit bit 3 pt 
+        var selectedVal5 = $("input:radio.tit_3:checked").val();
+        if (selectedVal5 == 1){
+            $("#tit_4").show('slow');
+        }else if(selectedVal5 == 0){
+            $("#tit_5").show('slow');
         }
     });    
 </script>
