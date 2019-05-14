@@ -1330,7 +1330,7 @@ if($latest){
                                                                 @endphp
 
                                                                 <div class="custom-file">
-                                                                @if(!isset($disabled) && $disabled != 'disabled')
+                                                                @if(isset($disabled) && $disabled != 'disabled')
                                                                      <input class="custom-file-input file-upload" name="no_due_cerificate" type="file"
                                                                         id="no_due_cerificate" data-index="{{$due_question->id}}">
                                                                      <label class="custom-file-label" for="no_due_cerificate">Choose

@@ -622,7 +622,7 @@
                                                                 <tbody>
                                                                   <tr>
                                                                     <td><input type="text" class="form-control form-control--custom" name="" id="residential" value="{{ isset($data->demarkDetails) ? $data->demarkDetails->residential : '' }}" disabled></td>
-                                                                    <td><input type="text" class="form-control form-control--custom" name="" id="non-residential" value="{{ isset($data->demarkDetails) ? $data->demarkDetails->residential : '' }}" disabled></td>
+                                                                    <td><input type="text" class="form-control form-control--custom" name="" id="non-residential" value="{{ isset($data->demarkDetails) ? $data->demarkDetails->non_residential : '' }}" disabled></td>
                                                                     <td><input type="text" class="form-control form-control--custom" name="" id="encrochment" value="{{ isset($data->demarkDetails) ? $data->demarkDetails->encrochment : '' }}" disabled></td>
                                                                   </tr>
                                                                   </tbody>
