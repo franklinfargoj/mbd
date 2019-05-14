@@ -893,12 +893,14 @@ class HearingController extends Controller
 
         $period_title = $this->periodTitle($request->period);
 
-        if($request->pdf == 'pdf'){
-            $report_format = $request->pdf;
-        }
-        else{
-            $report_format = $request->excel;
-        }
+//        if($request->pdf == 'pdf'){
+//            $report_format = $request->pdf;
+//        }
+//        else{
+//            $report_format = $request->excel;
+//        }
+
+        $report_format = $request->excel;
 
         $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
 
@@ -947,9 +949,9 @@ class HearingController extends Controller
     public function getHearingData($period,$department_id){
         if($period == null){
 
-            $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q) use($department_id , $period) {
+            $hearing_data = Hearing::with(['userDetails.roleDetails','hearingStatusLog.hearingStatus','hearingStatusLog' => function($q) use($department_id , $period) {
                 $q->where('department_id', $department_id);
-            }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
+            }, 'hearingSchedule.prePostSchedule','hearingSchedule.userDetails.roleDetails', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
                 ->whereHas('hearingStatusLog' ,function($q) use($department_id){
                     $q->where('department_id', $department_id);
                 })->get()->toArray();
@@ -957,17 +959,18 @@ class HearingController extends Controller
         else{
             $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
 
-            $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q) use($department_id , $period) {
+            $hearing_data = Hearing::with(['userDetails.roleDetails','hearingStatusLog.hearingStatus','hearingStatusLog' => function($q) use($department_id , $period) {
                 $q->where('department_id', $department_id)
                     ->where(DB::raw('DATEDIFF(NOW(),hearing_status_log.created_at)'), '>=', $period[0])
                     ->where(DB::raw('DATEDIFF(NOW(),hearing_status_log.created_at)'), '<=', $period[1]);
-            }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
+            }, 'hearingSchedule.prePostSchedule','hearingSchedule.userDetails.roleDetails', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
                 ->whereHas('hearingStatusLog' ,function($q) use($department_id, $period){
                     $q->where('department_id', $department_id)
                         ->where(DB::raw('DATEDIFF(NOW(),hearing_status_log.created_at)'), '>=', $period[0])
                         ->where(DB::raw('DATEDIFF(NOW(),hearing_status_log.created_at)'), '<=', $period[1]);;
                 })->get()->toArray();
         }
+//        dd($hearing_data);
         return $hearing_data;
     }
 
@@ -1108,31 +1111,34 @@ class HearingController extends Controller
     public function generateReport($data, $report_format, $period_title, $module_name){
         $fileName = date('Y_m_d_H_i_s') . '_period_wise_hearing_report.pdf';
 
+//        $application_types = ApplicationType::all();
+//        dd($application_types);
+
         if (count($data) > 0) {
 
-            if($report_format == 'pdf')
-            {
-                $content = view('admin.reports.hearing._period_wise_hearing_report', compact('data', 'period_title','module_name'));
-                $header_file = '';
-                $footer_file = '';
-//                $header_file = view('admin.REE_department.offer_letter_header');
-//                $footer_file = view('admin.REE_department.offer_letter_footer');
-                //$pdf = \App::make('dompdf.wrapper');
-                $pdf = new Mpdf([
-                    'default_font_size' => 9,
-                    'default_font' => 'Times New Roman',
-                    'format' => 'A4-L',
-                    'orientation' => 'L'
-                ]);
-                $pdf->autoScriptToLang = true;
-                $pdf->autoLangToFont = true;
-                $pdf->setAutoBottomMargin = 'stretch';
-                $pdf->setAutoTopMargin = 'stretch';
-                $pdf->SetHTMLHeader($header_file);
-                $pdf->SetHTMLFooter($footer_file);
-                $pdf->WriteHTML($content);
-                $pdf->Output($fileName, 'D');
-            }
+//            if($report_format == 'pdf')
+//            {
+//                $content = view('admin.reports.hearing._period_wise_hearing_report', compact('data', 'period_title','module_name'));
+//                $header_file = '';
+//                $footer_file = '';
+////                $header_file = view('admin.REE_department.offer_letter_header');
+////                $footer_file = view('admin.REE_department.offer_letter_footer');
+//                //$pdf = \App::make('dompdf.wrapper');
+//                $pdf = new Mpdf([
+//                    'default_font_size' => 9,
+//                    'default_font' => 'Times New Roman',
+//                    'format' => 'A4-L',
+//                    'orientation' => 'L'
+//                ]);
+//                $pdf->autoScriptToLang = true;
+//                $pdf->autoLangToFont = true;
+//                $pdf->setAutoBottomMargin = 'stretch';
+//                $pdf->setAutoTopMargin = 'stretch';
+//                $pdf->SetHTMLHeader($header_file);
+//                $pdf->SetHTMLFooter($footer_file);
+//                $pdf->WriteHTML($content);
+//                $pdf->Output($fileName, 'D');
+//            }
             if($report_format == 'excel')
             {
                 $dataListMaster = [];
@@ -1144,8 +1150,8 @@ class HearingController extends Controller
                     $dataList['Preceding Officer Name'] = $datas['preceding_officer_name'];
                     $dataList['Case Year'] = $datas['case_year'];
                     $dataList['Case Number'] = $datas['case_number'];
-                    $dataList['Role Id'] = $datas['role_id'];
-                    $dataList['Application Type Id'] = $datas['application_type_id'];
+                    $dataList['Role'] = $datas['user_details']['role_details']['name'];
+                    $dataList['Application Type Id'] = ApplicationType::where('id',$datas['application_type_id'])->value('application_type');
                     $dataList['Applicant Name'] = $datas['applicant_name'];
                     $dataList['Applicant Mobile No'] = $datas['applicant_mobile_no'];
                     $dataList['Applicant Address'] = $datas['applicant_address'];
@@ -1159,22 +1165,27 @@ class HearingController extends Controller
                     $dataList['Office Tehsil'] = $datas['office_tehsil'];
                     $dataList['Office Village'] = $datas['office_village'];
                     $dataList['Office Remark'] = $datas['office_remark'];
-                    $dataList['Department Id'] = $datas['department_id'];
-                    $dataList['Board Id'] = $datas['board_id'];
-                    $dataList['Hearing Status Id'] = $datas['hearing_status_id'];
+                    $dataList['Department Name'] = Department::where('id',$datas['department_id'])->value('department_name');
+                    $dataList['Board'] = 'Mumbai';
+                    $dataList['Hearing Status'] = $datas['hearing_status_log'][0]['hearing_status']['status_title'];
+                    $dataList['Current User for Case'] = $datas['hearing_schedule']['user_details']['name'] ?? $datas['user_details']['name']  ;
+                    $dataList['Current Role for Case'] = $datas['hearing_schedule']['user_details']['role_details']['name'] ?? $datas['user_details']['role_details']['name'];
+                    $dataList['Previous Case Department'] = isset($datas['hearing_status_log']) ? Department::where('id',$datas['hearing_status_log'][0]['department_id'])->value('department_name'):'';
+                    $dataList['Hearing Schedule Description'] = $datas['hearing_schedule']['description'] ?? '';
+                    $dataList['Hearing Case Judgement Description'] = $datas['hearing_upload_case_judgement'][0]['description'] ?? '';
+
 //                    $dataList['Hearing Status Log'] = $datas[''];
 //                    $dataList['Hearing Schedule'] = $datas[''];
 //                    $dataList['Hearing Forward Case'] = $datas[''];
 //                    $dataList['Hearing Send Notice to Appellant'] = $datas[''];
 //                    $dataList['Hearing Upload Case Judgement'] = $datas[''];
                     
-                    
+
 
                     $dataListKeys = array_keys($dataList);
                     $dataListMaster[]=$dataList;
                     $i++;
                 }
-
                 $module_name = str_replace(' ','_',$module_name);
                 return Excel::create(date('Y_m_d_H_i_s') . '_Period_Wise_'.$module_name, function($excel) use($dataListMaster){
 
