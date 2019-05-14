@@ -17,6 +17,8 @@ use App\OlSocietyDocumentsMaster;
 use App\OlSocietyDocumentsStatus;
 use App\OlTitBitVerificationDetails;
 use App\OlTitBitVerificationQuestionMaster;
+use App\OlNoDueCertificateQuestionMaster;
+use App\OlNoDueCertificateDetails;
 use App\OlDemarcationLandArea;
 use App\OcApplication;
 use App\OcApplicationStatusLog;
@@ -647,17 +649,16 @@ class EEController extends Controller
         // Consent Scrutiny
 
         $arrData['consent_verification_question'] = OlConsentVerificationQuestionMaster::all();
-        $arrData['consent_verification_checkist_data'] = OlChecklistScrutiny::where('application_id', $application_id)
-                                                                                ->where('verification_type', 'CONSENT VERIFICATION')
-                                                                                ->first();
+        $arrData['consent_verification_checkist_data'] = OlChecklistScrutiny::where('application_id', $application_id)->where('verification_type', 'CONSENT VERIFICATION')->first();
+
         $arrData['consent_verification_details_data'] = OlConsentVerificationDetails::where('application_id', $application_id)->get()->keyBy('question_id')->toArray();
 
         // Demarcation Scrutiny
 
         $arrData['demarcation_question'] = OlDemarcationVerificationQuestionMaster::all();
         $arrData['demarcation_checkist_data'] = OlChecklistScrutiny::where('application_id', $application_id)
-                                                                        ->where('verification_type', 'DEMARCATION')
-                                                                        ->first();
+        ->where('verification_type', 'DEMARCATION')->first();
+
         $arrData['demarcation_details_data'] = OlDemarcationVerificationDetails::where('application_id', $application_id)->get()->keyBy('question_id')->toArray();
 
         // Tit-Bit Scrutiny
@@ -671,11 +672,16 @@ class EEController extends Controller
 
         // R.G Relocation
 
-        $arrData['rg_question'] = OlRgRelocationVerificationQuestionMaster::all();
+        $arrData['rg_question'] = OlRgRelocationVerificationQuestionMaster::where('is_deleted',0)->get();
         $arrData['rg_checkist_data'] = OlChecklistScrutiny::where('application_id', $application_id)
-            ->where('verification_type', 'RG RELOCATION')
-            ->first();
+            ->where('verification_type', 'RG RELOCATION')->first();
+
         $arrData['rg_details_data'] = OlRelocationVerificationDetails::where('application_id', $application_id)->get()->keyBy('question_id')->toArray();
+
+        //NO due ceritificate questions  $application_id
+        $noDuesQuestions = OlNoDueCertificateQuestionMaster::with(['noDuesDetails' =>function($query) use($application_id){$query->where('application_id',$application_id);}])->get();
+
+        // dd($noDuesQuestions);
 
         // EE Note download
 
@@ -693,7 +699,7 @@ class EEController extends Controller
         $latest = OlChecklistScrutiny::where('application_id',$application_id)
         ->orderBy('id','desc')->first();
 
-        return view('admin.ee_department.scrutiny-remark', compact('arrData','ol_application','societyComments','societyDocument','landDetails','latest'));
+        return view('admin.ee_department.scrutiny-remark', compact('arrData','ol_application','societyComments','societyDocument','landDetails','latest','noDuesQuestions'));
     }
 
     public function addDocumentScrutiny(Request $request)
@@ -856,18 +862,24 @@ class EEController extends Controller
         ];
 
         OlChecklistScrutiny::insert($ee_checklist_scrutiny);
-
+        // dd($request->number);
         foreach($request->question_id as $key => $consent_data) {
             $ee_demarcation[] = [
                 'application_id' => $request->application_id,
                 'user_id' => Auth::user()->id,
                 'question_id' => isset($request->question_id[$key]) ? $request->question_id[$key] : NULL,
                 'answer' => isset($request->answer[$key]) ? $request->answer[$key] : NULL,
-                'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL
+                'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL,
+                'floor' => isset($request->floor[$key]) ? $request->floor[$key] : NULL,
+                'number' => isset($request->number[$key]) ? $request->number[$key] : NULL,
+                'residential' => isset($request->residential[$key]) ? $request->residential[$key] : NULL,
+                'non_residential'=>isset($request->non_residential[$key]) ? $request->non_residential[$key] : NULL,
+                'encrochment' => isset($request->encrochment[$key]) ? $request->encrochment[$key] : NULL,
             ];
         }
 
         $landArr = $request->land;
+        // dd($ee_demarcation);
         OlDemarcationLandArea::updateOrCreate(['application_id'=>$request->application_id],$landArr);
 
         OlDemarcationVerificationDetails::insert($ee_demarcation);
@@ -934,7 +946,8 @@ class EEController extends Controller
                 'user_id' => Auth::user()->id,
                 'question_id' => isset($request->question_id[$key]) ? $request->question_id[$key] : NULL,
                 'answer' => isset($request->answer[$key]) ? $request->answer[$key] : NULL,
-                'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL
+                'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL,
+                'schema' => isset($request->schema[$key]) ? $request->schema[$key] : NULL
             ];
         }
 
@@ -1076,7 +1089,24 @@ class EEController extends Controller
         }
         // dd($report);
         $landDetails = OlDemarcationLandArea::where('application_id',$id)->first();
-        $view =  view('admin.ee_department.variation_report', compact('report','validReport','landDetails')); 
+
+        //no due certificate
+
+        $dueDetails = OlNoDueCertificateQuestionMaster::with(['noDuesDetails' => function($q)use($id){
+            $q->where('application_id',$id);
+        }])->whereHas('noDuesDetails', function($q)use($id){
+            $q->where('application_id',$id);
+        })->where('hide',0)->first();
+
+        $que = 'सदर भूखंड CRZ ने बाधित आहे काय ?';
+        $demQuestion = OlDemarcationVerificationQuestionMaster::where('question',$que)
+        ->with(['demarkDetails' => function($q)use($id){
+            $q->where('application_id',$id);
+        }])->whereHas('demarkDetails', function($q)use($id){
+            $q->where('application_id',$id);
+        })->first();
+
+        $view =  view('admin.ee_department.variation_report', compact('report','validReport','landDetails','dueDetails','demQuestion')); 
 
         $header_file = view('admin.REE_department.offer_letter_header');        
         $footer_file = view('admin.REE_department.offer_letter_footer');
@@ -1161,5 +1191,59 @@ class EEController extends Controller
 
         $pdf->WriteHTML($header_file.$view.$footer_file);  
         $pdf->Output('variation_report.pdf', 'D');
+    }
+
+    // upload no due cerificate by EE
+    public function uploadEENoDueCertificate(Request $request){
+        $document = '';
+        $file = $request->file('file');
+        $applicationId = $request->application_id;
+        if ($file->getClientMimeType() == 'application/pdf') {
+
+            $extension = $request->file('file')->getClientOriginalExtension();
+            $folderName = 'Ol_EE_No_Due_Certificate';
+            $fileName = time().'_no_due_cerificate_'.$applicationId.'.'.$extension;
+            $path = $folderName.'/'.$fileName;
+
+            $this->comman->ftpFileUpload($folderName,$file,$fileName);
+
+            $data = ['application_id' => $applicationId, 'user_id' => Auth::id(), 'question_id' => $request->question_id, 'no_due_certificate' => $path];
+
+            OlNoDueCertificateDetails::updateOrCreate(['application_id' => $data['application_id'], 'question_id' => $data['question_id']],$data);
+
+            $status = 'success';  
+            $msg = 'No Due Certificate uploaded successfully.';
+            $document =  config('commanConfig.storage_server').'/'.$path;
+        }else{
+             $status = 'error'; 
+             $msg = 'Something went wrong.';  
+        }
+        $response['status'] = $status;
+        $response['msg'] = $msg;
+        $response['document'] = $document;
+        return response(json_encode($response), 200);
+    }
+
+    // save no due cerificate details
+    public function saveNoDueCerificateDetails(Request $request){
+        $data = $request->due;
+        $data['user_id'] = Auth::Id();
+        // dd($data);
+        OlChecklistScrutiny::where('application_id', $request->application_id)
+                                ->where('verification_type', 'No_Dues_Certificate')
+                                ->delete();
+
+        $ee_checklist_scrutiny = [
+            'application_id' => $request->application_id,
+            'user_id' => Auth::user()->id,
+            'verification_type' => 'No_Dues_Certificate',
+            'layout' => $request->layout,
+            'details_of_notice' => $request->details_of_notice,
+        ];
+
+        OlChecklistScrutiny::insert($ee_checklist_scrutiny);
+        
+        OlNoDueCertificateDetails::updateOrCreate(['application_id' => $data['application_id'], 'question_id' => $data['question_id']],$data);
+        return redirect()->back();
     }
 }

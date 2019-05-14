@@ -11,8 +11,9 @@ class OlRgRelocationVerificationQuestion extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run() 
     {
+        DB::table('ol_rg_relocation_question_master')->truncate();
         $count = OlRgRelocationVerificationQuestionMaster::select('id')->count();
         if ($count == 0){
            $languageId = LanguageMaster::where(['language'=>'marathi'])
@@ -20,21 +21,35 @@ class OlRgRelocationVerificationQuestion extends Seeder
     		$questionArr = [
                 [
                     'language_id'   => $languageId,
-                    'question' => "सिमांकन नकाशानुसार R.G चे एकूण क्षेत्रफळ किती आहे ?"
+                    'question' => "सिमांकन नकाशानुसार R.G चे एकूण क्षेत्रफळ किती आहे ?",
+                    'is_option' => 0,
+                    'is_deleted' => 0
                 ],
                 [
                     'language_id'   => $languageId,
-                    'question' => "अभिन्यासानुसार सदर करमणूकीचे मैदान Scheme R.G. आहे कि D.P. R.G. आहे याबाबत नमुद करावे."
-                ],                 [
+                    'question' => "अभिन्यासानुसार सदर करमणूकीचे मैदान Scheme R.G. आहे कि D.P. R.G. आहे याबाबत नमुद करावे.",
+                    'is_option' => 1,
+                    'is_deleted' => 0
+                ],                 
+                [
                     'language_id'   => $languageId,
-                    'question' => "करमणूकीच्या मैदानाच्या प्रस्तावित स्थलांतरणाबाबत लगतच्या संस्थांची संमती घेतलेली आहे काय ?"
-                ],                 [
+                    'question' => "करमणूकीच्या मैदानाच्या प्रस्तावित स्थलांतरणाबाबत लगतच्या संस्थांची संमती घेतलेली आहे काय ?",
+                    'is_option' => 0,
+                    'is_deleted' => 1
+                ],  
+                [
                     'language_id'   => $languageId,
-                    'question' => "प्रस्तावित स्थलांतरणामुळे सदर करमणूकीचे मैदान अभिन्यासातील सर्व गाळेधारकांकरीता खुले राहील याची खातरजमा केली आहे काय ?"
-                ],                 [
+                    'question' => "एकूण करमणूकीच्या मैदानाच्या क्षेत्रफळापैकी सर्पू्ण भूखंडाचे /भागशः भूखंडाचे स्थलांतरण प्रस्तावित  आहे किंवा कसे याबाबत नमुद करावे.",
+                    'is_option' => 0,
+                    'is_deleted' => 0
+                ],                
+                [
                     'language_id'   => $languageId,
-                    'question' => "एकूण करमणूकीच्या मैदानाच्या क्षेत्रफळापैकी सर्पू्ण भूखंडाचे /भागशः भूखंडाचे स्थलांतरण प्रस्तावित  आहे किंवा कसे याबाबत नमुद करावे."
-                ]             
+                    'question' => "प्रस्तावित स्थलांतरणामुळे सदर करमणूकीचे मैदान अभिन्यासातील सर्व गाळेधारकांकरीता खुले राहील याची खातरजमा केली आहे काय ?",
+                    'is_option' => 0,
+                    'is_deleted' => 0
+                ],                 
+
             ];
             OlRgRelocationVerificationQuestionMaster::insert($questionArr);
         }

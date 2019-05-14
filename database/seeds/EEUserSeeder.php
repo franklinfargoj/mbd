@@ -418,6 +418,16 @@ class EEUserSeeder extends Seeder
                 'display_name'=>'oc ee variation report',
                 'description'=>'oc ee variation report'
             ],
+            [
+                'name'=>'ee.upload_ee_no_due_certificate',
+                'display_name'=>'upload ee no due certificate',
+                'description'=>'upload ee no due certificate'
+            ],
+            [
+                'name'=>'ee.save_no_due_cerificate_details',
+                'display_name'=>'save no due cerificate details',
+                'description'=>'save no due cerificate details'
+            ] 
 
         ];
 
