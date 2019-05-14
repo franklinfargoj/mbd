@@ -277,7 +277,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('/ee-tit-bit', 'EEDepartment\EEController@titBit')->name('ee-tit-bit');
     Route::post('/ee-rg-relocation', 'EEDepartment\EEController@rgRelocation')->name('ee-rg-relocation'); 
      Route::post('/delete_ee_note', 'EEDepartment\EEController@deleteEENote')->name('delete_ee_note');    
-     Route::get('/ee_variation_report/{id}', 'EEDepartment\EEController@generateEEVariationReport')->name('ee_variation_report');    
+     Route::get('/ee_variation_report/{id}', 'EEDepartment\EEController@generateEEVariationReport')->name('ee_variation_report');
+     Route::post('/upload_ee_no_due_certificate', 'EEDepartment\EEController@uploadEENoDueCertificate')->name('ee.upload_ee_no_due_certificate');
+     Route::post('/save_no_due_cerificate_details', 'EEDepartment\EEController@saveNoDueCerificateDetails')->name('ee.save_no_due_cerificate_details');    
 
 
    // EM Department Routes

@@ -69,6 +69,8 @@ use App\OlConsentVerificationDetails;
 use App\OlSocietyDocumentsComment;
 use App\mailMsgSentDetails;
 use App\Http\Controllers\EmailMsg\EmailMsgConfigration;
+use App\OlNoDueCertificateQuestionMaster;
+use App\OlNoDueCertificateDetails;
 
 class CommonController extends Controller
 {
@@ -137,6 +139,8 @@ class CommonController extends Controller
         $eeScrutinyData->TitBit_checklist = OlChecklistScrutiny::where('application_id', $applicationId)->where('verification_type', 'TIT BIT')->first();
 
         $eeScrutinyData->Relocation_checklist = OlChecklistScrutiny::where('application_id', $applicationId)->where('verification_type', 'RG RELOCATION')->first();
+
+        $eeScrutinyData->no_due = OlChecklistScrutiny::where('application_id', $applicationId)->where('verification_type', 'No_Dues_Certificate')->first();
 
     }
 
@@ -4487,9 +4491,11 @@ class CommonController extends Controller
         $consentCount = OlConsentVerificationDetails::where('application_id',$applicationId)->count();
         $landDetails = OlDemarcationLandArea::where('application_id',$applicationId)->first();
         $societyDocument = $this->getSocietyEEDocuments($applicationId);
-        $societyComments = $this->getSocietyDocumentComments($applicationId); 
+        $societyComments = $this->getSocietyDocumentComments($applicationId);
+        //NO due ceritificate questions  $application_id
+        $noDuesQuestions = OlNoDueCertificateQuestionMaster::with(['noDuesDetails' =>function($query) use($applicationId){$query->where('application_id',$applicationId);}])->get(); 
        
-        return view('admin.common.view_ee_scrutiny_remark',compact('eeScrutinyData','ol_application','folder','consentCount','landDetails','societyDocument','societyComments'));
+        return view('admin.common.view_ee_scrutiny_remark',compact('eeScrutinyData','ol_application','folder','consentCount','landDetails','societyDocument','societyComments','noDuesQuestions'));
     }
 
     // DyCE Scrutiny & Remark page

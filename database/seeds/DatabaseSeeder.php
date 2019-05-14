@@ -94,5 +94,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call(NatureOfBuildingSeeder::class);
         $this->call(ServiceChargeTableSeeder::class);
+        $this->call(OlNoDueCertificateQuestion::class);
     }
 }

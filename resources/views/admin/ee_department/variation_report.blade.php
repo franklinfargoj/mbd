@@ -6,22 +6,22 @@
 
 @if($report)
   <tr>
-    <th style="width:8%;">Sr.no</th>
-    <th style="width:40%;font-size: 15px">मुद्दा / तपशील</th> 
-    <th style="width:20%;font-size: 15px">होय / नाही</th>
-    <th style="width:40%;font-size: 15px">शेरा</th>
+    <th style="width:8%;font-size: 14px">Sr.no</th>
+    <th style="width:40%;font-size: 14px">मुद्दा / तपशील</th> 
+    <th style="width:20%;font-size: 14px">होय / नाही</th>
+    <th style="width:40%;font-size: 14px">शेरा</th>
   </tr>
   @php $i=1; @endphp
 	@foreach($report as $data)
 	
 	  <tr>
-	    <td style="padding-left: 10px">{{$i}}</td>
-	    <td style="font-size: 15px;padding-left: 10px">
+	    <td style="padding-left: 10px;font-size: 14px">{{$i}}</td>
+	    <td style="font-size: 20px;padding-left: 10px;font-size: 14px">
 	    {{ isset($data->consentQuestions->question) ? $data->consentQuestions->question : '' }}</td> 
-	    <td style="padding-left: 10px">
+	    <td style="padding-left: 10px;font-size: 14px">
 		   		<span>नाही</span>
 	    </td>
-	    <td style="font-size: 15px;padding-left: 10px;padding-right: 10px">
+	    <td style="font-size: 20px;padding-left: 10px;padding-right: 10px;font-size: 14px">
 	    {{ isset($data->remark) ? $data->remark : '' }}</td>
 	  </tr>
 	  @php $i++; @endphp
@@ -121,14 +121,46 @@
                 <td style="padding-left: 10px">3.</td>
                 <td style="padding-left: 10px:font-size:16px;"><b>Variation Area</b></td>
                 <td style="padding-left: 10px">
-                	@php 
-                	$area = $landDetails->total_area - $landDetails->stag_plot_area;
-                	@endphp
+                    @php 
+                    $area = $landDetails->total_area - $landDetails->stag_plot_area;
+                    @endphp
 
-                	<b> {{isset($area) ? $area : '' }} </b>
+                    <b> {{isset($area) ? $area : '' }} </b>
                </td>
             </tr>  
+            @if(isset($demQuestion) && $demQuestion->demarkDetails->answer == 1)
+            <tr>
+                <td style="padding-left: 10px">4.</td>
+                <td style="padding-left: 10px">{{$demQuestion->question}}</td>
+                <td style="padding-left: 10px">{{$demQuestion->demarkDetails->remark}}
+               </td>
+            </tr> 
+            @endif 
         </table>
     </div>
+@endif
+
+@if(isset($dueDetails) && $dueDetails->noDuesDetails->answer == 0)
+    <div class="" style="margin-top: 60px">
+        <h3> Variation in No Due Certificate :</h3>
+        <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;width:100%">
+          <tr>
+            <th style="width:8%;">Sr.no</th>
+            <th style="width:40%;font-size: 15px">मुद्दा / तपशील</th> 
+            <th style="width:20%;font-size: 15px">होय / नाही</th>
+            <th style="width:40%;font-size: 15px">शेरा</th>
+          </tr>
+          <tr>
+            <td style="padding-left: 10px">1</td>
+            <td style="font-size: 15px;padding-left: 10px">
+            {{ isset($dueDetails->question) ? $dueDetails->question : '' }}</td> 
+            <td style="padding-left: 10px">
+                    <span>नाही</span>
+            </td>
+            <td style="font-size: 15px;padding-left: 10px;padding-right: 10px">
+            {{ isset($data->remark) ? $data->remark : '' }}</td>
+          </tr>
+        </table>
+    </div>    
 @endif
 </html>

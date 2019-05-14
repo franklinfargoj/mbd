@@ -22,28 +22,66 @@ class OlConsentVerificationQuestion extends Seeder
             [
                 'language_id'   => $languageId,
                 'question' => "५१ % सभासदांनी पुनर्विकासास सहमती दर्शविली आहे काय ?",
-                'expected_answer'   => 1
+                'expected_answer'   => 1,
+                'is_option'   => 1,
+                'group' => 1,
+                'sort_by' => NULL,
+            ],
+            [
+                'language_id'   => $languageId,
+                'question' => "एकूण सभासदांची संख्या",
+                'expected_answer'   => 1,
+                'is_option'   => 0,
+                'group' => 2,
+                'sort_by' => 1,
+            ],
+            [
+                'language_id'   => $languageId,
+                'question' => "मान्यता प्राप्त सभासदांची संख्या",
+                'expected_answer'   => 1,
+                'is_option'   => 0,
+                'group' => 2,
+                'sort_by' => 2,
             ],
             [
                 'language_id'   => $languageId,
                 'question' => "या सभासदांनी पुनर्विकासास सहमती दर्शविली आहे ते त्या सोसायटीचे अधिकृत मान्यता प्राप्त सदस्य आहेत काय ?",
                 'expected_answer'   => 1,
-            ],                 [
+                'is_option'   => 1,
+                'group' => 3,
+                'sort_by' => NULL,
+            ],                 
+            [
                 'language_id'   => $languageId,
                 'question' => "नसल्यास एकूण मान्यता प्राप्त ५१ % सभासदांची पुनर्विकासास सहमती आहे काय ?",
                 'expected_answer'   => 1,
-            ],                 [
+                'is_option'   => 1,
+                'group' => 4,
+                'sort_by' => NULL,
+            ],                 
+            [
                 'language_id'   => $languageId,
                 'question' => "सर्व मान्यता प्राप्त सभासदांनी ओळखपत्र, भागधारक प्रमाणपत्र इत्यादी कागदपत्रे सादर केलेले आहेत काय ?",
                 'expected_answer'   => 1,
-            ],                 [
+                'is_option'   => 1,
+                'group' => 5,
+                'sort_by' => NULL,
+            ],                 
+            [
                 'language_id'   => $languageId,
                 'question' => "संस्थेने वास्तुशास्त्रज्ञ नेमणूकीबाबत ठराव केला आहे काय ?",
                 'expected_answer'   => 1,
-            ],                 [
+                'is_option'   => 1,
+                'group' => 6,
+                'sort_by' => NULL,
+            ],                 
+            [
                 'language_id'   => $languageId,
                 'question' => "संस्थेने विकासक नेमणूकीबाबत ठराव केला आहे काय ?",
                 'expected_answer'   => 1,
+                'is_option'   => 1,
+                'group' => 7,
+                'sort_by' => NULL,
             ]             
         ];
         if (count($data) == 0){
