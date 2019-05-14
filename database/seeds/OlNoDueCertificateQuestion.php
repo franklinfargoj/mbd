@@ -26,7 +26,7 @@ class OlNoDueCertificateQuestion extends Seeder
                 ],
                 [
                     'language_id'   => $languageId,
-                    'question' => "If No.",
+                    'question' => "Upload undertaking for submission of No Due Ceritificate",
                     'is_option' => 0,
                     'is_compulsory' => 0,
                     'hide' => 1,
