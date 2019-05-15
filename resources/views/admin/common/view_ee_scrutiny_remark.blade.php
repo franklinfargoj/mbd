@@ -766,13 +766,21 @@
                                                             </td>
                                                             <td>
                                                             @if($data->is_select == 1)
-                                                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" name="" id="" disabled>
-                                                                @if(isset($floorOption))
-                                                                    @foreach($floorOption as $value)
-                                                                       <option value="{{ $value }}" > {{$value}} </option>
-                                                                    @endforeach
+                                                                @if(isset($data->titBitDetails) && isset($data->titBitDetails->simulation_map))
+                                                                
+                                                                    @if(isset($simulationValues))
+                                                                        @foreach($simulationValues as $value)
+                                                                        @if($data->titBitDetails->simulation_map == $value->id)
+                                                                        
+                                                                            <textarea disabled class="form-control form-control--custom form-control--textarea">
+                                                                                    {{$value->group}} {{$value->values}}
+                                                                                </textarea>
+                                                                        @endif        
+                                                                        @endforeach
+                                                                    @endif
+                                                                @else
+                                                                     <textarea disabled class="form-control form-control--custom form-control--textarea">Nothing Selected </textarea>   
                                                                 @endif        
-                                                            </select>
                                                             @else    
                                                                 <textarea class="form-control form-control--custom form-control--textarea" style="border-top: none;resize: none;" disabled name="remark-one" id="remark-one">{{(isset($data->titBitDetails)) ? $data->titBitDetails->remark : ""}}</textarea>
                                                             @endif 

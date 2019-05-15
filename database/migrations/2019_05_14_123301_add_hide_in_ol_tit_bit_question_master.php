@@ -31,6 +31,12 @@ class AddHideInOlTitBitQuestionMaster extends Migration
                 $table->Integer('sort_by')->after('group')->nullable();                
             }
         });
+
+        Schema::table('ol_tit_bit_details', function (Blueprint $table) {
+            if (!Schema::hasColumn('ol_tit_bit_details', 'simulation_map')){
+                $table->Integer('simulation_map')->after('remark')->nullable();                
+            }
+        });
     }
 
     /**
@@ -56,6 +62,12 @@ class AddHideInOlTitBitQuestionMaster extends Migration
             }
             if (Schema::hasColumn('ol_tit_bit_question_master', 'sort_by')){
                 $table->dropColumn('sort_by');                
+            }
+        });
+
+        Schema::table('ol_tit_bit_details', function (Blueprint $table) {
+            if (Schema::hasColumn('ol_tit_bit_details', 'simulation_map')){
+                $table->dropColumn('simulation_map'); 
             }
         });
     }
