@@ -28,17 +28,17 @@
         </div>
         <table style="width: 720px;border-collapse: collapse;">
             <tr>
-                <td style="width: 300px;">
+                <td>
                     <table>
                         <tr>
                             <td>
-                                <img src="{{ public_path().'/img/logo-big.png' }}">
+                                <img src="{{ public_path().'/img/logo-big.png' }}" style="width: 80%;">
                             </td>
                         </tr>
                     </table> 
                 </td>
                 <td style="width: 360px;">
-                    <table style="font-size: 16px;">
+                    <table style="font-size: 19px;">
                         <tr>
                             <td style="line-height: 20px;">Consumer No: BL-{{$consumer_number}}</td>
                         </tr>
