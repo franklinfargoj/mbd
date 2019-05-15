@@ -28,11 +28,11 @@
         </div>
         <table style="width: 720px;border-collapse: collapse;">
             <tr>
-                <td style="width: 300px;">
+                <td style="width: 200px;">
                     <table>
                         <tr>
                             <td>
-                                <img src="{{ public_path().'/img/logo-big.png' }}">
+                                <img src="{{ public_path().'/img/logo-big.png' }}" style="width: 80%;">
                             </td>
                         </tr>
                     </table> 
@@ -274,30 +274,30 @@
                 @endphp
                 @if(0 <$credit_amount)
                 <tr>
-                    <td valign="top" style="background-color: #f1f3f4; padding: 5px;">Credit Amount</td>
-                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center;" class="text-center">{{$credit_amount}}</td>
+                    <td valign="top" style="background-color: #f1f3f4;  padding: 5px;">Credit Amount</td>
+                    <td valign="top" style="background-color: #f1f3f4;  padding: 5px; text-align: center;" class="text-center">{{$credit_amount}}</td>
                 </tr>
                 @endif
                 @endif
                 {{-- <tr>
-                    <td valign="top" style="background-color: #f1f3f4; padding: 5px;">Total arrear charges</td>
-                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center;" class="text-center">{{$total}}</td>
+                    <td valign="top" style="background-color: #f1f3f4;  padding: 5px;">Total arrear charges</td>
+                    <td valign="top" style="background-color: #f1f3f4;  padding: 5px; text-align: center;" class="text-center">{{$total}}</td>
                 </tr>
                 <tr>
-                    <td valign="top" style="background-color: #f1f3f4; padding: 5px;">Service Charges</td>
-                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center;" class="text-center">{{$total_service}}</td>
+                    <td valign="top" style="background-color: #f1f3f4;  padding: 5px;">Service Charges</td>
+                    <td valign="top" style="background-color: #f1f3f4;  padding: 5px; text-align: center;" class="text-center">{{$total_service}}</td>
                 </tr> --}}
                 <tr>
-                    <td valign="top" style="background-color: #f1f3f4; padding: 5px;">Bill Amount Before due date</td>
-                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center;" class="text-center">{{$total_service+$total}}</td>
+                    <td valign="top" style="background-color: #f1f3f4;  padding: 5px;">Bill Amount Before due date</td>
+                    <td valign="top" style="background-color: #f1f3f4;  padding: 5px; text-align: center;" class="text-center">{{$total_service+$total}}</td>
                 </tr>
                 <tr>
-                    <td valign="top" style="background-color: #f1f3f4; padding: 5px;">Bill Amount After due date</td>
-                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center;" class="text-center">{{$total_service_after_due+$total}}</td>
+                    <td valign="top" style="background-color: #f1f3f4;  padding: 5px;">Bill Amount After due date</td>
+                    <td valign="top" style="background-color: #f1f3f4;  padding: 5px; text-align: center;" class="text-center">{{$total_service_after_due+$total}}</td>
                 </tr>
                 {{-- <tr>
-                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; font-weight: bold;">Grand Total</td>
-                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center; font-weight: bold;">{{$TransBillGenerate->total_bill_temp}}</td>
+                    <td valign="top" style="background-color: #f1f3f4;  padding: 5px; font-weight: bold;">Grand Total</td>
+                    <td valign="top" style="background-color: #f1f3f4;  padding: 5px; text-align: center; font-weight: bold;">{{$TransBillGenerate->total_bill_temp}}</td>
                 </tr> --}}
             </tbody>
         </table>
