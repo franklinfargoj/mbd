@@ -163,10 +163,10 @@ class DYCEController extends Controller
             foreach ($request->file('document') as $file){
 
                 $extension = $file->getClientOriginalExtension();
-                $file_name = time()."_".$file->getClientoriginalName();
 
                 if($extension == "pdf" || $extension == "png" || $extension == "jpeg" || $extension == "jpg"){
 
+                    $file_name = time()."_dyce.".$extension;
                     $path = $folder_name."/".$file_name;  
                     $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name);      
 

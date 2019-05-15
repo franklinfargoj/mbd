@@ -217,15 +217,26 @@
                             <?php $i=2;?>
                             @if(isset($applicationData->visitDocuments))
                                 @foreach($applicationData->visitDocuments as $documents)
+                                    @php $fileName = explode('/',$documents->document_path)[1];
+                                         $imgIcon = explode('.',$fileName);
+                                    @endphp 
                                  
                                 <div class="col-md-12 row align-items-center mb-5 upload_doc_{{$i}}">
                                     <div class="col-md-3">
                                         <label class="site-visit-label">Upload Site Photos: </label>
                                     </div>    
-                                    <div class="col-md-6 custom-file custom-file--fixed mb-0 position-relative">
-                                        <input type="file" class="file custom-file-input file_ext upload_file_{{$i}}" name="document[]" id="test-upload_{{$i}}">
-                                        <label class="custom-file-label" for="test-upload_{{$i}}" id="file_label_{{$i}}">{{isset(explode('/',$documents->document_path)[1]) ? explode('/',$documents->document_path)[1] : ''}}</label>
-                                        <span id="file_error_{{$i}}" class="text-danger"></span>
+                                    <div class="col-md-3 custom-file custom-file--fixed mb-0 position-relative">
+                                    <a href="{{config('commanConfig.storage_server').'/'.$documents->document_path}}" target="_blank">
+                                        @if($imgIcon == 'pdf')
+                                         <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}">
+                                        
+                                        @else
+                                        <i class="pdf-icon fa fa-file-image-o" aria-hidden="true" style="color: #862727;font-size: 19px;"></i>  
+                                        @endif
+                                        <span class="field-value" style="padding-left: 15px;">{{ (isset(explode('/',$documents->document_path)[1]) ? explode('/',$documents->document_path)[1]: '') }}</span></a>
+                                        <!-- <input type="file" class="file custom-file-input file_ext upload_file_{{$i}}" name="document[]" id="test-upload_{{$i}}"> -->
+                                        <!-- <label class="custom-file-label" for="test-upload_{{$i}}" id="file_label_{{$i}}">{{isset(explode('/',$documents->document_path)[1]) ? explode('/',$documents->document_path)[1] : ''}}</label> -->
+                                        <!-- <span id="file_error_{{$i}}" class="text-danger"></span> -->
 										<input type="hidden" class="upload_doc_{{$i}}" id="documentId" name="documentId[]"
                                         value="{{$documents->id}}" readonly>
 										<i class="fa fa-close doc2 close-icon" id="document_{{$i}}" onclick="removeDocuments(this.id)"></i>

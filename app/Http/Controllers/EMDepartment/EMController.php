@@ -1601,7 +1601,7 @@ class EMController extends Controller
                         $lastBillMonth = $request->bill_month -1;
                     }
                     //dd($lastBillMonth."=>>>>".$lastBillYear);
-                    $lastBill = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+                    $lastBill = TransBillGenerate::where('building_id', '=', $request->building_id)
                                     ->where('bill_month', '=', $lastBillMonth)
                                     ->where('bill_year', '=', $lastBillYear)
                                     ->orderBy('id','DESC')
@@ -1622,41 +1622,99 @@ class EMController extends Controller
                                     'bill_date' => $request->bill_date,
                                     'due_date' => $request->due_date,
                                     'consumer_number' => $consumer_number,
-                                    'total_service_after_due' => $total_after_due,
-                                    'late_fee_charge' => $total_after_due,
+                                    'total_bill_after_due_date'=>ceil($total_service_after_due),
+                                    'total_service_after_due' => ceil($total_after_due+$monthly_bill),
+                                    'late_fee_charge' => ceil($total_after_due),
                                     'status' => 'Generated',
-                                    'total_bill_after_due_date'=>round($total_service_after_due),
                                     //'balance_amount' => $arrear_bill,
-                                    'balance_amount' => $last_bill_balance,
+                                    'balance_amount' => $total_bill,
+                                    'arrear_balance'=>$monthly_bill,
+                                    'service_charge_balance'=>$arrear_bill,
                                     'created_at'=>date('Y-m-d H:i:s'),
                                     'updated_at'=>date('Y-m-d H:i:s')
                                 ];
                               // $dat[]=$data;
-
-                        if($lastBill) {
-                        // dd($lastBill);
-                            if($lastBill->balance_amount > 0) {
-                                $data['total_bill_after_due_date'] = round($request->total_bill + $request->late_fee_charge +$lastBill->balance_amount,2);
-                                $data['balance_amount'] = round($lastBill->total_bill_after_due_date,2);
-                            }
+                              if($lastBill)
+                              {
+                                  if($lastBill->credit_amount>0)
+                                  {
+                                      $data['prev_credit']=$lastBill->credit_amount;
+                                      if($lastBill->credit_amount>=$monthly_bill)
+                                      {
+                                          $lastBill->credit_amount=$lastBill->credit_amount-$monthly_bill;
+                                          $data['service_charge_balance'] = 0;
+                                          if($lastBill->credit_amount>0)
+                                          {
+                                              if($lastBill->credit_amount>=$arrear_bill)
+                                              {
+                                                  $lastBill->credit_amount= $lastBill->credit_amount-$arrear_bill;
+                                                  $data['arrear_balance']=0;
+                                              }else
+                                              {
+                                                  $data['arrear_balance']=$data['arrear_balance']-$lastBill->credit_amount;
+                                              }
+                                          }
+                                      }else
+                                      {
+                                          $data['service_charge_balance']=$data['service_charge_balance']-$lastBill->credit_amount;
+                                          $data['credit_amount']= 0;
+                                      }
+                                      $data['balance_amount']=$data['arrear_balance']+$data['service_charge_balance'];
+                                  }else
+                                  {
+                                      $data['credit_amount']= 0;
+                                  }
+                                  if($lastBill->balance_amount>0)
+                                  {
+                                      $data['prev_service_charge_balance']=0;
+                                      $data['prev_arrear_balance']=0;
+                                      if($lastBill->service_charge_balance>0)
+                                      {
+                                          $lastBill->service_charge_balance=$lastBill->service_charge_balance+($lastBill->service_charge_balance*0.015);
+                                          $data['prev_service_charge_balance']=$lastBill->service_charge_balance;
+                                      }
+                                      
+                                      $data['service_charge_balance']=$data['service_charge_balance']+$lastBill->service_charge_balance;
+                                      if($lastBill->arrear_balance>0)
+                                      {
+                                          $lastBill->arrear_balance=$lastBill->arrear_balance+($lastBill->arrear_balance*0.015);
+                                          $data['prev_arrear_balance']=$lastBill->arrear_balance;
+                                      }
+                                      $data['arrear_balance']=$data['arrear_balance']+$lastBill->arrear_balance;
+                                      $data['service_charge_balance']=$data['service_charge_balance']+$lastBill->service_charge_balance;
+                                      $data['arrear_balance']=$data['arrear_balance']+$lastBill->arrear_balance;
+                                      
+                                  }
+                                  $data['balance_amount']=$data['arrear_balance']+$data['service_charge_balance'];
+                              }else
+                              {
+                                  $data['balance_amount'] = round($total_bill,2);
+                                  $data['credit_amount']= 0;    
+                              }
+                        // if($lastBill) {
+                        // // dd($lastBill);
+                        //     if($lastBill->balance_amount > 0) {
+                        //         $data['total_bill_after_due_date'] = round($request->total_bill + $request->late_fee_charge +$lastBill->balance_amount,2);
+                        //         $data['balance_amount'] = round($lastBill->total_bill_after_due_date,2);
+                        //     }
             
-                            if($lastBill->credit_amount > 0 && $lastBill->credit_amount > $request->total_bill) {
-                                $data['credit_amount'] = round($lastBill->credit_amount - $request->monthly_bill,2);
-                                $data['total_bill_after_due_date'] = 0;
-                                $data['status'] = 'paid';
-                            }
+                        //     if($lastBill->credit_amount > 0 && $lastBill->credit_amount > $request->total_bill) {
+                        //         $data['credit_amount'] = round($lastBill->credit_amount - $request->monthly_bill,2);
+                        //         $data['total_bill_after_due_date'] = 0;
+                        //         $data['status'] = 'paid';
+                        //     }
             
-                            if($lastBill->credit_amount > 0 && $lastBill->credit_amount < $request->total_bill) {
-                                $data['total_bill'] = round($request->monthly_bill - $lastBill->credit_amount,2);
-                                $data['balance_amount'] = $data['total_bill_after_due_date'] = round($request->total_service_after_due - $lastBill->credit_amount,2);
-                                $data['credit_amount'] = 0;
-                            }
-                        } else {
-                        // dd('not null');
-                            //$bill->balance_amount = 0;
-                            $data['balance_amount'] = round($request->total_bill,2);
-                            $data['credit_amount']= 0;    
-                        }
+                        //     if($lastBill->credit_amount > 0 && $lastBill->credit_amount < $request->total_bill) {
+                        //         $data['total_bill'] = round($request->monthly_bill - $lastBill->credit_amount,2);
+                        //         $data['balance_amount'] = $data['total_bill_after_due_date'] = round($request->total_service_after_due - $lastBill->credit_amount,2);
+                        //         $data['credit_amount'] = 0;
+                        //     }
+                        // } else {
+                        // // dd('not null');
+                        //     //$bill->balance_amount = 0;
+                        //     $data['balance_amount'] = round($request->total_bill,2);
+                        //     $data['credit_amount']= 0;    
+                        // }
                         //dd($data);
                         $bill[] = TransBillGenerate::insertGetId($data);
                // }
@@ -1671,10 +1729,11 @@ class EMController extends Controller
                         $lastGeneratedNumber = substr($lastBillGenerated->bill_number,-7);
                         $increNumber = (int)$lastGeneratedNumber+1;
                         $bill_number = $request->building_id.str_pad($increNumber, 7, "0", STR_PAD_LEFT);
-                        TransBillGenerate::where(['id'=>$ids])->update(['bill_number'=>$bill_number]);
+                        
                     } else {
                         $bill_number = $request->building_id.'0000001';
                     }
+                    TransBillGenerate::where(['id'=>$ids])->update(['bill_number'=>$bill_number]);
                     $association = DB::table('building_tenant_bill_association')->insert(['building_id' => $request->building_id, 'bill_id' => $ids, 'bill_month' => $request->bill_month, 'bill_year' => $request->bill_year,'bill_number'=>$bill_number]);
                 } else { 
                                    
