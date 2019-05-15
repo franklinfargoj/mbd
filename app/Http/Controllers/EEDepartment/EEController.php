@@ -42,6 +42,7 @@ use File;
 use Storage;
 use Mpdf\Mpdf;
 use App\LayoutUser;
+use App\OlTitBitSimulationValuesMaster;
 
 class EEController extends Controller
 {
@@ -702,7 +703,10 @@ class EEController extends Controller
         $latest = OlChecklistScrutiny::where('application_id',$application_id)
         ->orderBy('id','desc')->first();
 
-        return view('admin.ee_department.scrutiny-remark', compact('arrData','ol_application','societyComments','societyDocument','landDetails','latest','noDuesQuestions'));
+        // get simulation maps values tit-bit pt 1 options
+        $simulationValues = OlTitBitSimulationValuesMaster::where('is_deleted',0)->get();
+
+        return view('admin.ee_department.scrutiny-remark', compact('arrData','ol_application','societyComments','societyDocument','landDetails','latest','noDuesQuestions','simulationValues'));
     }
 
     public function addDocumentScrutiny(Request $request)
@@ -916,7 +920,8 @@ class EEController extends Controller
                 'user_id' => Auth::user()->id,
                 'question_id' => isset($request->question_id[$key]) ? $request->question_id[$key] : NULL,
                 'answer' => isset($request->answer[$key]) ? $request->answer[$key] : NULL,
-                'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL
+                'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL,
+                'simulation_map' => isset($request->simulation_map[$key]) ? $request->simulation_map[$key] : NULL
             ];
         }
 

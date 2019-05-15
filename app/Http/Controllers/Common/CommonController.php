@@ -71,6 +71,7 @@ use App\mailMsgSentDetails;
 use App\Http\Controllers\EmailMsg\EmailMsgConfigration;
 use App\OlNoDueCertificateQuestionMaster;
 use App\OlNoDueCertificateDetails;
+use App\OlTitBitSimulationValuesMaster;
 
 class CommonController extends Controller
 {
@@ -4494,8 +4495,11 @@ class CommonController extends Controller
         $societyComments = $this->getSocietyDocumentComments($applicationId);
         //NO due ceritificate questions  $application_id
         $noDuesQuestions = OlNoDueCertificateQuestionMaster::with(['noDuesDetails' =>function($query) use($applicationId){$query->where('application_id',$applicationId);}])->get(); 
+
+        // get simulation maps values tit-bit pt 1 options
+        $simulationValues = OlTitBitSimulationValuesMaster::where('is_deleted',0)->get();
        
-        return view('admin.common.view_ee_scrutiny_remark',compact('eeScrutinyData','ol_application','folder','consentCount','landDetails','societyDocument','societyComments','noDuesQuestions'));
+        return view('admin.common.view_ee_scrutiny_remark',compact('eeScrutinyData','ol_application','folder','consentCount','landDetails','societyDocument','societyComments','noDuesQuestions','simulationValues'));
     }
 
     // DyCE Scrutiny & Remark page

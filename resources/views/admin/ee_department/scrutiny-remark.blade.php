@@ -8,6 +8,7 @@
 <link href="{{asset('/frontend/css/dyce_scrutiny.css')}}" rel="stylesheet" type="text/css" />
 
 <style>
+    .dropdown-toggle { width: 250px !important; }
     .loader {
     position: fixed;
     left: 0px;
@@ -1055,15 +1056,37 @@ if($latest){
                                                                 </label>
                                                                 </td>
                                                             @endif    
-                                                            <td>
+                                                            <td style="width:50px">
                                                             @if($tit_bit->is_select == 1)
-                                                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" name="" id="" {{$disabled}}>
-                                                                @if(isset($floorOption))
-                                                                    @foreach($floorOption as $value)
-                                                                       <option value="{{ $value }}" > {{$value}} </option>
+                                                            @if($disabled == 'disabled')
+                                                                @if(isset($simulationValues))
+                                                                        
+                                                                    @foreach($simulationValues as $value)
+                                                                    
+                                                                        @if(isset($arrData['tit_bit_details_data'][$tit_bit->id]) && $arrData['tit_bit_details_data'][$tit_bit->id]['simulation_map'] == $value->id)
+                                                                            <textarea disabled class="form-control form-control--custom form-control--textarea">
+                                                                                {{$value->group}} {{$value->values}}
+                                                                            </textarea>
+                                                                        @endif
                                                                     @endforeach
-                                                                @endif        
-                                                            </select>
+                                                                @endif   
+                                                            @else
+                                                                <div class="col-md-12">
+                                                                <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" name="simulation_map[{{ $i }}]" id="">
+                                                                    @if(isset($simulationValues))
+                                                                        
+                                                                        @foreach($simulationValues as $value)
+                                                                        
+                                                                            @if(isset($arrData['tit_bit_details_data'][$tit_bit->id]) && $arrData['tit_bit_details_data'][$tit_bit->id]['simulation_map'] == $value->id)
+                                                                                <option value="{{ $value->id }}" selected>{{$value->group}} {{$value->values}} </option>
+                                                                            @else
+                                                                               <option value="{{ $value->id }}" >{{$value->group}} {{$value->values}} </option>
+                                                                            @endif   
+                                                                        @endforeach
+                                                                    @endif        
+                                                                </select>
+                                                                </div>
+                                                            @endif
                                                             @elseif($tit_bit->question == 'फुटकळ भूखंडाचे एकूण क्षेत्रफळ किती ?')
                                                                 <textarea {{$disabled}} class="form-control form-control--custom form-control--textarea"
                                                                     name="remark[{{ $i }}]" style="border-top: none;resize: none;" id="remark-one" {{ $required }}>{{ isset($arrData['tit_bit_details_data'][$tit_bit->id]) ? $arrData['tit_bit_details_data'][$tit_bit->id]['remark'] : ($landDetails!="" ? $landDetails->tit_bit_area : '') }}</textarea>
