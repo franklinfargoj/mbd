@@ -278,7 +278,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="proratata_area total_permissible form-control form-control--custom txtbox"
-                                                        name="total_house" id="total_house" value="<?php if(isset($calculationSheetDetails[0]->total_house)) { echo $calculationSheetDetails[0]->total_house; } ?>" />
+                                                        name="total_house" id="total_house" value="{{isset($calculationSheetDetails[0]->total_house) ? $calculationSheetDetails[0]->total_house : $totalHouse }}"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -1740,9 +1740,18 @@
     $(document).on("keyup", ".proratata_area", function () {
 
         var sqm_area_per_slot = (!cleanNumber($("#sqm_area_per_slot").val()) || isNaN(cleanNumber($("#sqm_area_per_slot").val()))) ? 0 : cleanNumber($("#sqm_area_per_slot").val());
+
         var total_house = (!cleanNumber($("#total_house").val()) || isNaN(cleanNumber($("#total_house").val()))) ? 0 : cleanNumber($("#total_house").val());
 
         $("#permissible_proratata_area").attr('value',numberWithCommas((sqm_area_per_slot * total_house).toFixed(2)));
+
+        //value of pt 7.1
+        var prorata = (sqm_area_per_slot * 85)/100;
+        $("#per_sq_km_proyerta_construction_area").val(prorata);
+
+        var vpcota = (sqm_area_per_slot * total_house * 10)/100;
+        $("#area_in_reserved_seats_for_vp_pio").val(vpcota);
+        console.log(vpcota);
     });
 
     $(document).on("keyup", "#per_sq_km_proyerta_construction_area", function () {

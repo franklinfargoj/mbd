@@ -156,7 +156,8 @@ class DYCEController extends Controller
             'date_of_site_visit'               => date('Y-m-d',strtotime($request->visit_date)),
             'site_visit_officers'              => implode(",",array_filter($request->officer_name)),
             'is_encrochment'                   => $request->encrochment,
-            'encrochment_verification_comment' => $request->encrochment_comments
+            'encrochment_verification_comment' => $request->encrochment_comments,
+            'other_remark'                      => $request->other_remark
             ]);
 
         if ($request->file('document')){
