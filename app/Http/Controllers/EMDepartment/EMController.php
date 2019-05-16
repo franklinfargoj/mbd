@@ -23,6 +23,7 @@ use App\OcSrutinyQuestionMaster;
 use App\OcEEScrutinyAnswer;
 use App\Role;
 use App\SocietyOfferLetter;
+use App\TenantsLogDetails;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -563,7 +564,7 @@ class EMController extends Controller
             ->editColumn('actions', function ($buildings){
                 return "<div class='d-flex btn-icon-list'>
                 <a href='".route('get_tenants', [encrypt($buildings->id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-icon.svg')."'></span>Tenant Details</a>
-            
+              
                 <a href='".route('edit_building', [encrypt($buildings->id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>Edit</a>
 
             </div>";
@@ -632,7 +633,8 @@ class EMController extends Controller
             return $datatables->of($buildings)
                 ->editColumn('actions', function ($buildings){
                     return "<div class='d-flex btn-icon-list'>
-                    <a href='".route('edit_tenant', [encrypt($buildings->id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-icon.svg')."'></span>Edit</a>
+                    <a href='".route('change_tenants', [encrypt($buildings->id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-icon.svg')."'></span>Change Tenant</a>
+                    <a href='".route('edit_tenant', [encrypt($buildings->id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--view'><img src='".asset('/img/edit-icon.svg')."'></span>Edit</a>
                     <a href='".route('delete_tenant', [encrypt($buildings->id)])."' class='d-flex flex-column align-items-center' onclick='return confirm(".'"'.'Are you sure?'.'"'.")' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--delete'><img src='".asset('/img/delete-icon.svg')."'></span>Delete</a>
 
                 </div>";
@@ -1163,6 +1165,84 @@ class EMController extends Controller
         //return redirect()->back()->with('success', 'Tenant Added Successfully.');
         return redirect()->route('get_tenants', [encrypt($tenant->building_id)])->with('success', 'Tenant Updated Successfully.');
     }
+
+    /*
+     * Edit Tenant
+     * @ param    => Request id.
+     * @ Response => Return view with tenant details.
+     */
+    public function changeTenants($id){
+        $tenant = MasterTenant::where('id', '=', decrypt($id))->first();
+        $tenament = DB::table('master_tenant_type')->get();
+
+        $tenant_log = TenantsLogDetails::with('MasterBuilding','tenanttype')->where('tenant_primary_id',decrypt($id))->get()->toArray();
+
+        return view('admin.em_department.change_tenant')->with('tenant', $tenant)->with('tenament',$tenament)->with('tenant_log',$tenant_log);
+    }
+
+    /*
+    * Update Tenant
+    * @ param    => Request Data.
+    * @ Response => Return view with Success Message.
+    */
+    public function save_changed_tenants(Request $request){
+        // return $request->all();
+        $temp1 = array(
+            'id' => 'required',
+            'tenant_primary_id' => 'required',
+            'tenant_building_id' => 'required',
+            'tenant_flat_no' => 'required',
+            'tenant_salutation' => 'required|alpha',
+            'tenant_first_name' => 'required|alpha',
+            'tenant_middle_name' => 'required|alpha',
+            'tenant_last_name' => 'required|alpha',
+            'tenant_mobile' => 'required|numeric|digits:10',
+            'tenant_email_id' => 'required|email',
+            'tenant_use' => 'required',
+            'tenant_carpet_area' => 'required',
+            'tenant_tenant_type' => 'required'
+        );
+        // validate the Grievances form data.
+        $this->validate($request, $temp1);
+
+        $tenantLog = new TenantsLogDetails();
+
+        if($request->input('tenant_primary_id') != $request->input('id') ||
+            ($request->input('tenant_building_id') != $request->input('building_id')) ||
+            ($request->input('tenant_flat_no') != $request->input('flat_no')) ||
+            ($request->input('tenant_salutation') != $request->input('salutation')) ||
+            ($request->input('tenant_first_name') != $request->input('first_name')) ||
+            ($request->input('tenant_middle_name') != $request->input('middle_name')) ||
+            ($request->input('tenant_last_name') != $request->input('last_name')) ||
+            ($request->input('tenant_mobile') != $request->input('mobile')) ||
+            ($request->input('tenant_email_id') != $request->input('email_id')) ||
+            ($request->input('tenant_use') != $request->input('use')) ||
+            ($request->input('tenant_carpet_area') != $request->input('carpet_area')) ||
+            ($request->input('tenant_tenant_type') != $request->input('tenant_type')) )
+        {
+            $tenantLog->tenant_primary_id = $request->input('tenant_primary_id');
+            $tenantLog->building_id = $request->input('tenant_building_id');
+            $tenantLog->flat_no = $request->input('tenant_flat_no');
+            $tenantLog->salutation = $request->input('tenant_salutation');
+            $tenantLog->first_name = $request->input('tenant_first_name');
+            $tenantLog->middle_name = $request->input('tenant_middle_name');
+            $tenantLog->last_name = $request->input('tenant_last_name');
+            $tenantLog->mobile = $request->input('tenant_mobile');
+            $tenantLog->email_id = $request->input('tenant_email_id');
+            $tenantLog->use = $request->input('tenant_use');
+            $tenantLog->carpet_area = $request->input('tenant_carpet_area');
+            $tenantLog->tenant_type = $request->input('tenant_tenant_type');
+            $tenantLog->save();
+        }
+
+        $result = $this->update_tenant($request);
+
+        if($result){
+            return redirect()->route('get_tenants', [encrypt($request->input('building_id'))])->with('success', 'Tenant Updated Successfully.');
+        }
+    }
+
+
 
     public function delete_tenant($id){
         $tenant = MasterTenant::find(decrypt($id));
