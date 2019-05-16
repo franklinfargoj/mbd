@@ -288,6 +288,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('get_societies', 'EMDepartment\EMController@getsocieties')->name('get_societies');
     Route::get('get_buildings/{id}', 'EMDepartment\EMController@getbuildings')->name('get_buildings');
     Route::get('get_tenants/{id}', 'EMDepartment\EMController@gettenants')->name('get_tenants');
+    Route::get('change_tenants/{id}', 'EMDepartment\EMController@changeTenants')->name('change_tenants');
+
     Route::get('soc_bill_level/{id}', 'EMDepartment\EMController@soc_bill_level')->name('soc_bill_level');
     Route::post('update_soc_bill_level', 'EMDepartment\EMController@update_soc_bill_level')->name('update_soc_bill_level');
     Route::get('soc_ward_colony/{id}', 'EMDepartment\EMController@soc_ward_colony')->name('soc_ward_colony');
@@ -312,6 +314,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('add_tenant/{id}', 'EMDepartment\EMController@add_tenant')->name('add_tenant');
     Route::get('edit_tenant/{id}', 'EMDepartment\EMController@edit_tenant')->name('edit_tenant');
+    Route::post('save_changed_tenants', 'EMDepartment\EMController@save_changed_tenants')->name('save_changed_tenants');
     Route::post('create_tenant', 'EMDepartment\EMController@create_tenant')->name('create_tenant');
     Route::post('update_tenant', 'EMDepartment\EMController@update_tenant')->name('update_tenant');
     Route::get('delete_tenant/{id}', 'EMDepartment\EMController@delete_tenant')->name('delete_tenant');

@@ -49,7 +49,6 @@ class conveyanceCommonController extends Controller
         $data = $this->listApplicationData($request);
         $typeId = scApplicationType::where('application_type','=','Conveyance')->value('id');
         $columns = [
-            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
             ['data' => 'date','name' => 'date','title' => 'Date', 'class' => 'datatable-date'],
@@ -57,6 +56,7 @@ class conveyanceCommonController extends Controller
             ['data' => 'societyApplication.building_no','name' => 'societyApplication.building_no','title' => 'building No'],
             ['data' => 'societyApplication.address','name' => 'societyApplication.address','title' => 'Address', 'class' => 'datatable-address'],
             ['data' => 'Status','name' => 'Status','title' => 'Status'],
+            ['data' => 'radio','name' => 'radio','title' => 'Action','searchable' => false],
         ];
 
 
@@ -69,8 +69,10 @@ class conveyanceCommonController extends Controller
 
                 ->editColumn('radio', function ($data) {
                     $url = route('conveyance.view_application', encrypt($data->id));
-                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" name="application_id" onclick="geturl(this.value);" value="'.$url.'" ><span></span></label>';
-                })                              
+                    return '<div class="d-flex btn-icon-list"><a href="'.$url.'" onclick="geturl(this.value);" name="village_data_id" class="d-flex flex-column align-items-left"><span class="btn-icon btn-icon--view">
+                        <img src="'. asset("img/view-icon.svg").'">
+                    </span>View</span></a></div>';
+                })
                 ->editColumn('societyApplication.name', function ($data) {
 
                     return $data->societyApplication->name;
@@ -123,7 +125,7 @@ class conveyanceCommonController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"      => [1, "asc" ],
+            "order"      => [0, "asc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }
