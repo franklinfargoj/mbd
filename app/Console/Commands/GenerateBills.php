@@ -49,7 +49,7 @@ class GenerateBills extends Command
      */
     public function handle()
     {
-        $this->generateSocityLevelBills();
+        //$this->generateSocityLevelBills();
         $this->generateTenantLevelBills();
     }
 

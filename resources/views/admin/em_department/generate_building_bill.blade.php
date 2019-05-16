@@ -5,7 +5,7 @@
     @php 
         $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other +$serviceChargesRate->property_tax; 
         
-        $total_service = $total_service * $number_of_tenants->tenant_count()->first()->count;
+        $total_service = $total_service;
 
         $total_after_due = $total_service * 0.015; 
     
@@ -13,22 +13,43 @@
     
         $total ='0';           
     @endphp
-    @if(!$arreasCalculation->isEmpty())  
-      @foreach($arreasCalculation as $calculation)
-            @php $total = $total + $calculation->total_amount; @endphp
-      @endforeach
-    @endif  
-
+    @if(count($lastBill)<=0)
+        @if(!$arreasCalculation->isEmpty())  
+        @foreach($arreasCalculation as $calculation)
+                @php $total = $total + $calculation->total_amount; @endphp
+        @endforeach
+        @endif  
+    @endif
     @php
     // dd($total);
     //$total ='0';  
         $tempBalance = $total;
-        if($lastBill && count($lastBill)>0 ) {
-            foreach($lastBill as $lastbil) {
-                if( 0 < $lastbil->balance_amount ) {
-                    $tempBalance += $lastbil->balance_amount;
+        // if($lastBill && count($lastBill)>0 ) {
+        //     foreach($lastBill as $lastbil) {
+        //         if( 0 < $lastbil->balance_amount ) {
+        //             $tempBalance += $lastbil->balance_amount;
+        //         }
+        //     }
+        // }
+
+        $arrear_interest=0;
+        if(count($lastBill)>0)
+        {
+            //dd($lastBill);
+            if($lastBill[0]->arrear_balance>0)
+            {
+                //dd($arrear_data);
+                if($arrear_data)
+                {
+                    $arrear_interest=($arrear_data->old_rate*($arrear_data->interest_on_old_rate/100))+(($arrear_data->revise_rate-$arrear_data->old_rate)*($arrear_data->interest_on_differance/100));
                 }
+            $tempBalance=$tempBalance+($lastBill[0]->arrear_balance+$arrear_interest);
             }
+            if($lastBill[0]->service_charge_balance>0)
+            {
+            $tempBalance=$tempBalance+($lastBill[0]->service_charge_balance+($lastBill[0]->service_charge_balance*0.015));
+            }
+            
         }
     @endphp
 
@@ -190,6 +211,7 @@
                         </tr>
                     </table>
                 </div>
+                @if(count($lastBill)<=0)
                 @if(!$arreasCalculation->isEmpty())
                 @php $total ='0'; @endphp
                 <div class="form-group m-form__group row">
@@ -246,6 +268,7 @@
                     </table>
                 </div>
                 @endif
+                @endif
                 <div class="form-group m-form__group row">
                     <div class="col-sm-12 form-group">
                         <p class="text-center">Total Amount to be paid</p>
@@ -278,18 +301,18 @@
                         {{-- <tr>
                             <td>Total arrear charges</td>
                             <td class="text-center">{{$total}}</td>
-                        </tr>
+                        </tr> --}}
                         <tr>
                             <td>Service Charges</td>
                             <td class="text-center">{{$total_service}}</td>
-                        </tr> --}}
+                        </tr>
                         <tr>
                             <td class="font-weight-bold">Bill Amount Before due date</td>
-                            <td class="text-center ont-weight-bold">{{$total_service+$total}}</td>
+                            <td class="text-center ont-weight-bold">{{$total_service+$tempBalance}}</td>
                         </tr>
                         <tr>
                             <td>Bill Amount After due date</td>
-                            <td class="text-center">{{$total_service_after_due+$total}}</td>
+                            <td class="text-center">{{$total_service_after_due+$tempBalance}}</td>
                         </tr>
                         {{-- <tr>
                             <td><p class="pull-right">Total</p></td><td>{{$totalTemp}}</td>
