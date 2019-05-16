@@ -338,12 +338,50 @@
 							<textarea rows="5" cols="30" class="form-control form-control--custom" id="encrochment_comments" name="encrochment_comments" {{(!($is_view) ? 'readonly' : '' )}}>{{(isset($applicationData->encrochment_verification_comment) ? $applicationData->encrochment_verification_comment : '')}}</textarea>
 							<span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">This field is required.</span>
 						</div>
-						<div class="mt-3">
+						<!-- <div class="mt-3">
                         @if($is_view && ($ol_application->log->status_id == config('commanConfig.applicationStatus.in_process')))
 							<button type="button" class="s_btn btn btn-primary hide-print" id="submitBtn" name="">Submit</button>
                         @endif    
 
-						</div>				
+						</div>	 -->			
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Other remark -->
+        <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
+            <div class="portlet-body">
+                <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
+                    <div class="">
+                        <h3 class="section-title section-title--small">
+                            Other Remark:
+                        </h3>
+                    </div>
+                    <div class="m-form__group form-group">
+                        <!-- <div class="m-radio-inline">
+                            <span class="mr-3">Is there any encroachment ?</span>
+                            <label class="m-radio m-radio--primary">
+                                <input type="radio" class="radioBtn" name="encrochment" value="1" checked
+                                    {{(isset($applicationData->demarkation_verification_comment) && $applicationData->is_encrochment == '1' ? 'checked' : '')}} {{(!($is_view) ? 'disabled' : '' )}}>Yes
+                                    <span></span>
+                            </label>
+                            <label class="m-radio m-radio--primary">
+                                <input type="radio" class="radioBtn" name="encrochment" value="0"
+                                    {{(isset($applicationData->demarkation_verification_comment) && $applicationData->is_encrochment == '0' ? 'checked' : '')}} {{(!($is_view) ? 'disabled' : '' )}}>No
+                                <span></span>
+                            </label>
+                        </div> -->
+                        <div class="mt-3 table--box-input">
+                            <!-- <label class="e_comments" for="encrochment_comments">If Yes, Comments: <span class="star">*</span></label> -->
+                            <textarea rows="5" cols="30" class="form-control form-control--custom" id="other_remark" name="other_remark" {{(!($is_view) ? 'readonly' : '' )}}>{{(isset($applicationData->other_remark) ? $applicationData->other_remark : '')}}</textarea>
+                        </div>
+                        <div class="mt-3">
+                        @if($is_view && ($ol_application->log->status_id == config('commanConfig.applicationStatus.in_process')))
+                            <button type="button" class="s_btn btn btn-primary hide-print" id="submitBtn" name="">Submit</button>
+                        @endif    
+
+                        </div>              
                     </div>
                 </div>
             </div>

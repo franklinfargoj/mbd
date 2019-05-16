@@ -573,7 +573,7 @@ if($latest){
                                                             @if($consent_question->is_option == 1)
                                                                 <label class="m-radio m-radio--primary">
                                                                     <input {{$disabled}} type="radio" name="answer[{{$i}}]"
-                                                                        value="1" class="{{ $consent_question->class }}" required
+                                                                        value="1" class="{{ $consent_question->class }}" 
                                                                         {{ (isset($arrData['consent_verification_details_data'][$consent_question->id]) && $arrData['consent_verification_details_data'][$consent_question->id]['answer'] == 1) ? 'checked' : '' }}>
                                                                     <span></span>
                                                                 </label>
@@ -800,7 +800,7 @@ if($latest){
                                                             <td>
                                                             @if($demarcation_question->is_option == 1)
                                                                 <label class="m-radio m-radio--primary">
-                                                                    <input {{$disabled}} type="radio" class="{{$demarcation_question->class}}" name="answer[{{ $i }}]" value="1" required
+                                                                    <input {{$disabled}} type="radio" class="{{$demarcation_question->class}}" name="answer[{{ $i }}]" value="1" 
                                                                         {{ (isset($arrData['demarcation_details_data'][$demarcation_question->id]) && $arrData['demarcation_details_data'][$demarcation_question->id]['answer'] == 1) ? 'checked' : '' }}>
                                                                     <span></span>
                                                                 </label>
@@ -886,7 +886,7 @@ if($latest){
                                                                         </div>
                                                                         <div class="col-sm-8">
                                                                             <input type="text" class="form-control form-control--custom"
-                                                                                required value="{{ isset($arrData['demarcation_details_data'][$demarcation_question->id]) ? $arrData['demarcation_details_data'][$demarcation_question->id]['crz_area'] : '' }}"
+                                                                                 value="{{ isset($arrData['demarcation_details_data'][$demarcation_question->id]) ? $arrData['demarcation_details_data'][$demarcation_question->id]['crz_area'] : '' }}"
                                                                                 name="crz_area[{{ $i }}]" id="crz_area" placeholder="">
                                                                         </div>
                                                                     </div>
@@ -1028,7 +1028,7 @@ if($latest){
                                                             <td>
                                                             @if($tit_bit->is_option == 1)
                                                                 <label class="m-radio m-radio--primary">
-                                                                    <input {{$disabled}} type="radio" name="answer[{{ $i }}]" class="{{$tit_bit->class}}" value="1" required
+                                                                    <input {{$disabled}} type="radio" name="answer[{{ $i }}]" class="{{$tit_bit->class}}" value="1" 
                                                                         {{ (isset($arrData['tit_bit_details_data'][$tit_bit->id]) 
                                                                         && $arrData['tit_bit_details_data'][$tit_bit->id]['answer'] == 1) ? 'checked' : '' }}>
                                                                     <span></span>
@@ -1200,7 +1200,22 @@ if($latest){
                                                         <tr>
                                                             <td>{{ $i }}.</td>
                                                             <td>{{ $rg_question->question }}
-                                                                
+                                                                @if($rg_question->is_option == 1)
+
+                                                                <label class="m-radio m-radio--primary">
+                                                                Scheme R.G
+                                                                    <input type="radio" name="schema[{{$i}}]"
+                                                                        value="Scheme R.G" {{$rg_check}} {{$disabled}}>
+                                                                    <span></span>
+                                                                </label>
+
+                                                                <label class="m-radio m-radio--primary">
+                                                                D.P.R.G
+                                                                    <input type="radio" name="schema[{{$i}}]"
+                                                                        value="D.P.R.G" {{$dp_check}} {{$disabled}}>
+                                                                    <span></span>
+                                                                </label>
+                                                                @endif
                                                             </td>
                                                             <!-- <td>
                                                                 <label class="m-radio m-radio--primary">
@@ -1228,22 +1243,8 @@ if($latest){
                                                                     <span></span>
                                                                 </label></td> -->
                                                             <td>
-                                                            @if($rg_question->is_option == 1)
-
-                                                                <label class="m-radio m-radio--primary">
-                                                                Scheme R.G
-                                                                    <input type="radio" name="schema[{{$i}}]"
-                                                                        value="Scheme R.G" {{$rg_check}} {{$disabled}}>
-                                                                    <span></span>
-                                                                </label>
-
-                                                                <label class="m-radio m-radio--primary">
-                                                                D.P.R.G
-                                                                    <input type="radio" name="schema[{{$i}}]"
-                                                                        value="D.P.R.G" {{$dp_check}} {{$disabled}}>
-                                                                    <span></span>
-                                                                </label>
-                                                            @elseif($rg_question->question == 'सिमांकन नकाशानुसार R.G चे एकूण क्षेत्रफळ किती आहे ?')
+                                                            
+                                                            @if($rg_question->question == 'सिमांकन नकाशानुसार R.G चे एकूण क्षेत्रफळ किती आहे ?')
                                                                 <textarea {{$readonly}} class="form-control form-control--custom form-control--textarea"
                                                                     name="remark[{{ $i }}]" style="border-top: none;resize: none;" id="remark-one" {{ $required }}>{{ isset($arrData['rg_details_data'][$rg_question->id]) ? $arrData['rg_details_data'][$rg_question->id]['remark'] : ($landDetails!="" ? $landDetails->rg_plot_area : '') }}</textarea>
                                                             @else
