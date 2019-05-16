@@ -220,7 +220,6 @@ class ResolutionController extends Controller
             })->download('csv');
         }
         $columns = [
-            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'board','name' => 'board.board_name','title' => 'Board Name'],
             ['data' => 'department','name' => 'department.department_name','title' => 'Department Name'],
@@ -228,6 +227,8 @@ class ResolutionController extends Controller
             ['data' => 'title', 'name' => 'title', 'title' => 'Title/Subject'],
             ['data' => 'resolution_code','name' => 'resolution_code','title' => 'Resolution Code'],
             ['data' => 'published_date','name' => 'published_date','title' => 'Published Date','searchable' => false],
+            ['data' => 'radio','name' => 'radio','title' => 'Action','searchable' => false],
+
             // ['data' => 'file','name' => 'file','title' => 'File','searchable' => false, 'orderable'=>false],
             // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
@@ -271,7 +272,9 @@ class ResolutionController extends Controller
                 })
                 ->editColumn('radio', function ($resolutions) {
                     $url = route('resolution.view', [$resolutions->id]);
-                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                    return '<div class="d-flex btn-icon-list"><a href="'.$url.'" onclick="geturl(this.value);" name="village_data_id" class="d-flex flex-column align-items-left"><span class="btn-icon btn-icon--view">
+                        <img src="'. asset("img/view-icon.svg").'">
+                    </span>View</span></a></div>';
                 })
                 ->editColumn('board', function ($resolutions) {
                     return $resolutions->board->board_name;
@@ -306,7 +309,7 @@ class ResolutionController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [5, "desc" ],
+            "order"=> [0, "asc" ],
             "pageLength" => $this->list_num_of_records_per_page,
             // 'fixedHeader' => [
             //     'header' => true,

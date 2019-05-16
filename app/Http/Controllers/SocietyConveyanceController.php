@@ -56,12 +56,13 @@ class SocietyConveyanceController extends Controller
     public function index(DataTables $datatables, Request $request)
     {
         $columns = [
-            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application No.'],
             ['data' => 'application_master_id','name' => 'application_master_id','title' => 'Application Type'],
             ['data' => 'created_at','name' => 'created_at','title' => 'Submission Date', 'class' => 'datatable-date'],
             ['data' => 'status','name' => 'status','title' => 'Status'],
+            ['data' => 'radio','name' => 'radio','title' => 'Action','searchable' => false],
+
         ];
         $getRequest = $request->all();
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
@@ -87,7 +88,9 @@ class SocietyConveyanceController extends Controller
             return $datatables->of($sc_applications)
                 ->editColumn('radio', function ($sc_applications) {
                     $url = route('society_conveyance.show', encrypt($sc_applications->id));
-                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="sc_applications_id"><span></span></label>';
+                    return '<div class="d-flex btn-icon-list"><a href="'.$url.'" onclick="geturl(this.value);" name="village_data_id" class="d-flex flex-column align-items-left"><span class="btn-icon btn-icon--view">
+                        <img src="'. asset("img/view-icon.svg").'">
+                    </span>View</span></a></div>';
                 })
                 ->editColumn('rownum', function ($sc_applications) {
                     static $i = 0;
@@ -135,7 +138,7 @@ class SocietyConveyanceController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-//            "order"=> [4, "desc" ],
+            "order"=> [0, "asc" ],
             "pageLength" => $this->list_num_of_records_per_page,
             // 'fixedHeader' => [
             //     'header' => true,

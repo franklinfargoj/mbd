@@ -80,7 +80,7 @@ class REEController extends Controller
             ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address','class' => 'datatable-address', 'searchable' => false],
             ['data' => 'model','name' => 'model','title' => 'Model'],
             ['data' => 'Status','name' => 'Status','title' => 'Status'],
-            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
+            ['data' => 'radio','name' => 'radio','title' => 'Action','searchable' => false],
 
             // ['data' => 'Model','name' => 'Model','title' => 'Model'],
             // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
@@ -1374,7 +1374,6 @@ class REEController extends Controller
     {
         $getData = $request->all();
         $columns = [
-            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
             ['data' => 'date','name' => 'date','title' => 'Date', 'class' => 'datatable-date'],
@@ -1383,6 +1382,8 @@ class REEController extends Controller
             ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address','class' => 'datatable-address', 'searchable' => false],
             ['data' => 'Model','name' => 'Model','title' => 'Model'],
             ['data' => 'Status','name' => 'Status','title' => 'Status'],
+            ['data' => 'radio','name' => 'radio','title' => 'Action','searchable' => false],
+
         ];
         if ($datatables->getRequest()->ajax()) {
             $noc_application_data = $this->CommonController->listApplicationDataNoc($request);
@@ -2689,7 +2690,6 @@ class REEController extends Controller
     {
         $getData = $request->all();
         $columns = [
-            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
             ['data' => 'date','name' => 'date','title' => 'Date', 'class' => 'datatable-date'],
@@ -2698,6 +2698,8 @@ class REEController extends Controller
             ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address','class' => 'datatable-address', 'searchable' => false],
             ['data' => 'Model','name' => 'Model','title' => 'Model'],
             ['data' => 'Status','name' => 'Status','title' => 'Status'],
+            ['data' => 'radio','name' => 'radio','title' => 'Action','searchable' => false],
+
         ];
 
         if ($datatables->getRequest()->ajax()) {

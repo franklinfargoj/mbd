@@ -37,7 +37,6 @@ class CAPController extends Controller
 
 		$getData = $request->all();
         $columns = [
-            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
             ['data' => 'date','name' => 'date','title' => 'Date', 'class' => 'datatable-date'],
@@ -46,6 +45,8 @@ class CAPController extends Controller
             ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address', 'class' => 'datatable-address'],
             ['data' => 'model','name' => 'model','title' => 'Model'],
              ['data' => 'Status','name' => 'Status','title' => 'Status'],
+            ['data' => 'radio','name' => 'radio','title' => 'Action','searchable' => false],
+
             // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
@@ -60,7 +61,9 @@ class CAPController extends Controller
                 ->editColumn('radio', function ($cap_application_data) {
 
                     $url = route('cap.view_application', encrypt($cap_application_data->id));
-                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                    return '<div class="d-flex btn-icon-list"><a href="'.$url.'" onclick="geturl(this.value);" name="village_data_id" class="d-flex flex-column align-items-left"><span class="btn-icon btn-icon--view">
+                        <img src="'. asset("img/view-icon.svg").'">
+                    </span>View</span></a></div>';
                 })
                 ->editColumn('eeApplicationSociety.name', function ($cap_application_data) {
                     return $cap_application_data->eeApplicationSociety->name;
@@ -109,7 +112,6 @@ class CAPController extends Controller
     public function revalidationApplicationList(Request $request, Datatables $datatables){
         $getData = $request->all();
         $columns = [
-            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
             ['data' => 'date','name' => 'date','title' => 'Date', 'class' => 'datatable-date'],
@@ -118,6 +120,8 @@ class CAPController extends Controller
             ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address','class' => 'datatable-address', 'searchable' => false],
             // ['data' => 'model','name' => 'model','title' => 'Model'],
             ['data' => 'Status','name' => 'Status','title' => 'Status'],
+            ['data' => 'radio','name' => 'radio','title' => 'Action','searchable' => false],
+
             // ['data' => 'Model','name' => 'Model','title' => 'Model'],
             // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
@@ -134,7 +138,9 @@ class CAPController extends Controller
                 })
                 ->editColumn('radio', function ($ree_application_data) {
                     $url = route('cap.view_reval_application', $ree_application_data->id);
-                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                    return '<div class="d-flex btn-icon-list"><a href="'.$url.'" onclick="geturl(this.value);" name="village_data_id" class="d-flex flex-column align-items-left"><span class="btn-icon btn-icon--view">
+                        <img src="'. asset("img/view-icon.svg").'">
+                    </span>View</span></a></div>';
                 })
                 ->editColumn('eeApplicationSociety.name', function ($ree_application_data) {
                     return $ree_application_data->eeApplicationSociety->name;
@@ -184,7 +190,7 @@ class CAPController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"      => [1, "asc" ],
+            "order"      => [0, "asc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     } 

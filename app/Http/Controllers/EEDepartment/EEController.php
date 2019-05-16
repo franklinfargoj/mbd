@@ -140,7 +140,6 @@ class EEController extends Controller
         $getData = $request->all();
 
         $columns = [
-            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
             ['data' => 'submitted_at','name' => 'submitted_at','title' => 'Date', 'class' => 'datatable-date'],
@@ -149,6 +148,7 @@ class EEController extends Controller
             ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address','class' => 'datatable-address'],
             ['data' => 'Model','name' => 'Model','title' => 'Model'],
             ['data' => 'Status','name' => 'current_status_id','title' => 'Status'],
+            ['data' => 'radio','name' => 'radio','title' => 'Action','searchable' => false],
             // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
