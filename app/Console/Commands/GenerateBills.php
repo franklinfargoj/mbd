@@ -150,27 +150,6 @@ class GenerateBills extends Command
                         $bill = [];
                         if($tenants){
                             //foreach($tenants as $row => $key){
-
-                                //$consumer_number = 'BL-'.substr(sprintf('%08d', $building->id),0,8).'|'.substr(sprintf('%08d', $key->id),0,8);
-                                $consumer_number = 'BL-'.substr(sprintf('%08d', $building->id),0,8);
-                                $arreasCalculation = ArrearCalculation::where('building_id',$building->id)->where('payment_status','0')->whereIn('year',$years)->whereIn('month',$months)->get();
-                                $arrear_bill = 0;
-                                $total_bill = 0;
-                                $arrear_id = '';
-                                $arrearID = [];
-                                if(!$arreasCalculation->isEmpty()){ 
-                                    foreach($arreasCalculation as $calculation){
-                                        $arrear_bill = $arrear_bill + $calculation->total_amount;
-                                        $arrearID[] = $calculation->id; 
-                                    }
-                                    $arrear_id = implode(",",$arrearID);                      
-                                }  
-                                
-                                $total_bill  = $monthly_bill + $arrear_bill;
-                                $total_after_due = $total_bill * 0.015; 
-                                $total_service_after_due = $total_bill + $total_after_due; 
-
-
                                 $lastBillMonth =$currentMonth;
                                 $lastBillYear = $year;
                                 if($currentMonth ==1) {
@@ -185,6 +164,27 @@ class GenerateBills extends Command
                                     ->where('bill_year', '=', $lastBillYear)
                                     ->orderBy('id','DESC')
                                     ->first();
+                                //$consumer_number = 'BL-'.substr(sprintf('%08d', $building->id),0,8).'|'.substr(sprintf('%08d', $key->id),0,8);
+                                $consumer_number = 'BL-'.substr(sprintf('%08d', $building->id),0,8);
+                                $arreasCalculation = ArrearCalculation::where('building_id',$building->id)->where('payment_status','0')->whereIn('year',$years)->whereIn('month',$months)->get();
+                                $arrear_bill = 0;
+                                $total_bill = 0;
+                                $arrear_id = '';
+                                $arrearID = [];
+                                if($lastBill==null)
+                                {
+                                    if(!$arreasCalculation->isEmpty()){ 
+                                        foreach($arreasCalculation as $calculation){
+                                            $arrear_bill = $arrear_bill + $calculation->total_amount;
+                                            $arrearID[] = $calculation->id; 
+                                        }
+                                        $arrear_id = implode(",",$arrearID);                      
+                                    }  
+                                }
+                                
+                                $total_bill  = $monthly_bill + $arrear_bill;
+                                $total_after_due = $total_bill * 0.015; 
+                                $total_service_after_due = $total_bill + $total_after_due; 
 
                                 $data =  [
                                     'tenant_id'       => null,
@@ -208,11 +208,12 @@ class GenerateBills extends Command
                                     'total_service_after_due' => ceil($total_after_due+$monthly_bill),
                                     'created_at'=>date('Y-m-d H:i:s'),
                                     'updated_at'=>date('Y-m-d H:i:s'),
-                                    'arrear_balance'=>$monthly_bill,
-                                    'service_charge_balance'=>$arrear_bill
+                                    'arrear_balance'=>$arrear_bill,
+                                    'service_charge_balance'=>$monthly_bill
                                 ];
                                 if($lastBill)
                                 {
+                                    //for credit amount
                                     if($lastBill->credit_amount>0)
                                     {
                                         $data['prev_credit']=$lastBill->credit_amount;
@@ -226,6 +227,7 @@ class GenerateBills extends Command
                                                 {
                                                     $lastBill->credit_amount= $lastBill->credit_amount-$arrear_bill;
                                                     $data['arrear_balance']=0;
+                                                    $data['credit_amount']=$lastBill->credit_amount;
                                                 }else
                                                 {
                                                     $data['arrear_balance']=$data['arrear_balance']-$lastBill->credit_amount;
@@ -241,6 +243,8 @@ class GenerateBills extends Command
                                     {
                                         $data['credit_amount']= 0;
                                     }
+
+                                    //for balance amount
                                     if($lastBill->balance_amount>0)
                                     {
                                         $data['prev_service_charge_balance']=0;
@@ -249,25 +253,95 @@ class GenerateBills extends Command
                                         {
                                             $lastBill->service_charge_balance=$lastBill->service_charge_balance+($lastBill->service_charge_balance*0.015);
                                             $data['prev_service_charge_balance']=$lastBill->service_charge_balance;
+                                            
                                         }
                                         
                                         $data['service_charge_balance']=$data['service_charge_balance']+$lastBill->service_charge_balance;
+                                        
                                         if($lastBill->arrear_balance>0)
                                         {
-                                            $lastBill->arrear_balance=$lastBill->arrear_balance+($lastBill->arrear_balance*0.015);
+                                            //dd($lastBill);
+                                            $arrear_interest=0;
+                                            $arrear_data=ArrearsChargesRate::where(['society_id'=>$lastBill->society_id,'building_id'=>$lastBill->building_id])->first();
+                                            //dd($arrer_data);
+                                            if($arrear_data)
+                                                {
+                                                    $arrear_interest=($arrear_data->old_rate*($arrear_data->interest_on_old_rate/100))+(($arrear_data->revise_rate-$arrear_data->old_rate)*($arrear_data->interest_on_differance/100));
+                                                }
+                                            $lastBill->arrear_balance=$lastBill->arrear_balance+$arrear_interest;
+                                            //dd($lastBill->arrear_balance);
                                             $data['prev_arrear_balance']=$lastBill->arrear_balance;
+                                            
                                         }
                                         $data['arrear_balance']=$data['arrear_balance']+$lastBill->arrear_balance;
-                                        $data['service_charge_balance']=$data['service_charge_balance']+$lastBill->service_charge_balance;
-                                        $data['arrear_balance']=$data['arrear_balance']+$lastBill->arrear_balance;
-                                        
                                     }
-                                    $data['balance_amount']=$data['arrear_balance']+$data['service_charge_balance'];
+                                    
+                                    $data['balance_amount']=ceil($data['arrear_balance']+$data['service_charge_balance']);
+                                    
+                                    $data['total_bill']=ceil($data['arrear_balance']+$data['service_charge_balance']);
+                                    
                                 }else
                                 {
-                                    $data['balance_amount'] = round($total_bill,2);
+                                    $data['balance_amount'] = ceil($total_bill,2);
                                     $data['credit_amount']= 0;    
                                 }
+                                // if($lastBill)
+                                // {
+                                //     if($lastBill->credit_amount>0)
+                                //     {
+                                //         $data['prev_credit']=$lastBill->credit_amount;
+                                //         if($lastBill->credit_amount>=$monthly_bill)
+                                //         {
+                                //             $lastBill->credit_amount=$lastBill->credit_amount-$monthly_bill;
+                                //             $data['service_charge_balance'] = 0;
+                                //             if($lastBill->credit_amount>0)
+                                //             {
+                                //                 if($lastBill->credit_amount>=$arrear_bill)
+                                //                 {
+                                //                     $lastBill->credit_amount= $lastBill->credit_amount-$arrear_bill;
+                                //                     $data['arrear_balance']=0;
+                                //                 }else
+                                //                 {
+                                //                     $data['arrear_balance']=$data['arrear_balance']-$lastBill->credit_amount;
+                                //                 }
+                                //             }
+                                //         }else
+                                //         {
+                                //             $data['service_charge_balance']=$data['service_charge_balance']-$lastBill->credit_amount;
+                                //             $data['credit_amount']= 0;
+                                //         }
+                                //         $data['balance_amount']=$data['arrear_balance']+$data['service_charge_balance'];
+                                //     }else
+                                //     {
+                                //         $data['credit_amount']= 0;
+                                //     }
+                                //     if($lastBill->balance_amount>0)
+                                //     {
+                                //         $data['prev_service_charge_balance']=0;
+                                //         $data['prev_arrear_balance']=0;
+                                //         if($lastBill->service_charge_balance>0)
+                                //         {
+                                //             $lastBill->service_charge_balance=$lastBill->service_charge_balance+($lastBill->service_charge_balance*0.015);
+                                //             $data['prev_service_charge_balance']=$lastBill->service_charge_balance;
+                                //         }
+                                        
+                                //         $data['service_charge_balance']=$data['service_charge_balance']+$lastBill->service_charge_balance;
+                                //         if($lastBill->arrear_balance>0)
+                                //         {
+                                //             $lastBill->arrear_balance=$lastBill->arrear_balance+($lastBill->arrear_balance*0.015);
+                                //             $data['prev_arrear_balance']=$lastBill->arrear_balance;
+                                //         }
+                                //         $data['arrear_balance']=$data['arrear_balance']+$lastBill->arrear_balance;
+                                //         $data['service_charge_balance']=$data['service_charge_balance']+$lastBill->service_charge_balance;
+                                //         $data['arrear_balance']=$data['arrear_balance']+$lastBill->arrear_balance;
+                                        
+                                //     }
+                                //     $data['balance_amount']=$data['arrear_balance']+$data['service_charge_balance'];
+                                // }else
+                                // {
+                                //     $data['balance_amount'] = round($total_bill,2);
+                                //     $data['credit_amount']= 0;    
+                                // }
                                 
                                 $bill[] = TransBillGenerate::insertGetId($data);
                            // }
@@ -359,13 +433,6 @@ class GenerateBills extends Command
                     $arrear_id  = '';
 
                     $total ='0';
-                    if(!$arreasCalculation->isEmpty())  {
-                        foreach($arreasCalculation as $calculation) {
-                            $total = $total + $calculation->total_amount;
-                            $arrear_ids[] = $calculation->id;
-                        }
-                        $arrear_id = implode(",",$arrear_ids);
-                    }
 
                     $bill_from = date('1-m-Y', strtotime('-1 month'));
                     $bill_to   = date('1-m-Y');
@@ -373,11 +440,35 @@ class GenerateBills extends Command
                     $bill_date = date('d-m-Y');
                     $due_date  = date('d-m-Y', strtotime(date('Y-m-d'). ' + 5 days'));
 
+                    $lastBillMonth = $bill_month;
+                    $lastBillYear = $bill_year;
+
+                    if($bill_month ==1) {
+                        $lastBillMonth = 12;
+                        $lastBillYear = $bill_year -1;
+                    } else {
+                        $lastBillMonth = $bill_month -1;
+                    }
+                    $lastBill = TransBillGenerate::where('tenant_id', '=', $tenant->id)
+                    ->where('bill_month', '=', $lastBillMonth)
+                    ->where('bill_year', '=', $lastBillYear)
+                    ->orderBy('id','DESC')
+                    ->first();
                     $check = TransBillGenerate::where('tenant_id', '=', $tenant->id)
                                     ->where('bill_month', '=', $bill_month)
                                     ->where('bill_year', '=', $bill_year)
                                     ->orderBy('id','DESC')
                                     ->first();
+                    if($lastBill==null)
+                    {
+                        if(!$arreasCalculation->isEmpty())  {
+                            foreach($arreasCalculation as $calculation) {
+                                $total = $total + $calculation->total_amount;
+                                $arrear_ids[] = $calculation->id;
+                            }
+                            $arrear_id = implode(",",$arrear_ids);
+                        }
+                    }
 
                     if(is_null($check) || $check == ''){
                         $bill = new TransBillGenerate;
@@ -418,15 +509,7 @@ class GenerateBills extends Command
                         $bill->late_fee_charge = $total_after_due;
                         $bill->total_bill_after_due_date = round($total_bill + $total_after_due,2);
 
-                        $lastBillMonth = $bill_month;
-                        $lastBillYear = $bill_year;
-
-                        if($bill_month ==1) {
-                            $lastBillMonth = 12;
-                            $lastBillYear = $bill_year -1;
-                        } else {
-                            $lastBillMonth = $bill_month -1;
-                        }
+                        
 
                         $lastBillGenerated = TransBillGenerate::orderBy('id','DESC')->first();
                         $lastGeneratedNumber = '0';
@@ -442,13 +525,10 @@ class GenerateBills extends Command
                         }
                         $bill->status = 'Generated';
 
-                        $lastBill = TransBillGenerate::where('tenant_id', '=', $tenant->id)
-                                                ->where('bill_month', '=', $lastBillMonth)
-                                                ->where('bill_year', '=', $lastBillYear)
-                                                ->orderBy('id','DESC')
-                                                ->first();
+                        
                         if($lastBill)
                         {
+                            //for credit amount
                             if($lastBill->credit_amount>0)
                             {
                                 $bill->prev_credit=$lastBill->credit_amount;
@@ -462,24 +542,24 @@ class GenerateBills extends Command
                                         {
                                             $lastBill->credit_amount= $lastBill->credit_amount-$bill->arrear_bill;
                                             $bill->arrear_balance=0;
+                                            $bill->credit_amount=$lastBill->credit_amount;
                                         }else
                                         {
                                             $bill->arrear_balance=$bill->arrear_balance-$lastBill->credit_amount;
                                         }
-                                    }else
-                                    {
-                                        $bill->credit_amount=0;
                                     }
                                 }else
                                 {
                                     $bill->service_charge_balance=$bill->service_charge_balance-$lastBill->credit_amount;
-                                    $bill->credit_amount=0;
+                                    $bill->credit_amount= 0;
                                 }
                                 $bill->balance_amount=$bill->arrear_balance+$bill->service_charge_balance;
                             }else
                             {
-                                $bill->credit_amount=0;
+                                $bill->credit_amount= 0;
                             }
+            
+                            //for balance amounty
                             if($lastBill->balance_amount>0)
                             {
                                 $bill->prev_service_charge_balance=0;
@@ -488,23 +568,96 @@ class GenerateBills extends Command
                                 {
                                     $lastBill->service_charge_balance=$lastBill->service_charge_balance+($lastBill->service_charge_balance*0.015);
                                     $bill->prev_service_charge_balance=$lastBill->service_charge_balance;
+                                    
                                 }
                                 
                                 $bill->service_charge_balance=$bill->service_charge_balance+$lastBill->service_charge_balance;
+                                
                                 if($lastBill->arrear_balance>0)
                                 {
-                                    $lastBill->arrear_balance=$lastBill->arrear_balance+($lastBill->arrear_balance*0.015);
+                                    //dd($lastBill);
+                                    $arrear_interest=0;
+                                    $arrear_data=ArrearsChargesRate::where(['society_id'=>$lastBill->society_id,'building_id'=>$lastBill->building_id])->first();
+                                    //dd($arrer_data);
+                                    if($arrear_data)
+                                        {
+                                            $arrear_interest=($arrear_data->old_rate*($arrear_data->interest_on_old_rate/100))+(($arrear_data->revise_rate-$arrear_data->old_rate)*($arrear_data->interest_on_differance/100));
+                                        }
+                                    $lastBill->arrear_balance=$lastBill->arrear_balance+$arrear_interest;
+                                    //dd($lastBill->arrear_balance);
                                     $bill->prev_arrear_balance=$lastBill->arrear_balance;
+                                    
                                 }
                                 $bill->arrear_balance=$bill->arrear_balance+$lastBill->arrear_balance;
                             }
-                            $bill->balance_amount=$bill->arrear_balance+$bill->service_charge_balance;
-                            $bill->total_bill=$bill->balance_amount;
+                            
+                            $bill->balance_amount=ceil($bill->arrear_balance+$bill->service_charge_balance);
+                            
+                            $bill->total_bill=ceil($bill->arrear_balance+$bill->service_charge_balance);
+                            
                         }else
                         {
-                            $bill->balance_amount = round($total_bill,2);
+                            $bill->balance_amount = round($bill->total_bill,2);
                             $bill->credit_amount= 0;    
                         }
+                        // if($lastBill)
+                        // {
+                        //     if($lastBill->credit_amount>0)
+                        //     {
+                        //         $bill->prev_credit=$lastBill->credit_amount;
+                        //         if($lastBill->credit_amount>=$bill->monthly_bill)
+                        //         {
+                        //             $lastBill->credit_amount=$lastBill->credit_amount-$bill->monthly_bill;
+                        //             $bill->service_charge_balance = 0;
+                        //             if($lastBill->credit_amount>0)
+                        //             {
+                        //                 if($lastBill->credit_amount>=$bill->arrear_bill)
+                        //                 {
+                        //                     $lastBill->credit_amount= $lastBill->credit_amount-$bill->arrear_bill;
+                        //                     $bill->arrear_balance=0;
+                        //                 }else
+                        //                 {
+                        //                     $bill->arrear_balance=$bill->arrear_balance-$lastBill->credit_amount;
+                        //                 }
+                        //             }else
+                        //             {
+                        //                 $bill->credit_amount=0;
+                        //             }
+                        //         }else
+                        //         {
+                        //             $bill->service_charge_balance=$bill->service_charge_balance-$lastBill->credit_amount;
+                        //             $bill->credit_amount=0;
+                        //         }
+                        //         $bill->balance_amount=$bill->arrear_balance+$bill->service_charge_balance;
+                        //     }else
+                        //     {
+                        //         $bill->credit_amount=0;
+                        //     }
+                        //     if($lastBill->balance_amount>0)
+                        //     {
+                        //         $bill->prev_service_charge_balance=0;
+                        //         $bill->prev_arrear_balance=0;
+                        //         if($lastBill->service_charge_balance>0)
+                        //         {
+                        //             $lastBill->service_charge_balance=$lastBill->service_charge_balance+($lastBill->service_charge_balance*0.015);
+                        //             $bill->prev_service_charge_balance=$lastBill->service_charge_balance;
+                        //         }
+                                
+                        //         $bill->service_charge_balance=$bill->service_charge_balance+$lastBill->service_charge_balance;
+                        //         if($lastBill->arrear_balance>0)
+                        //         {
+                        //             $lastBill->arrear_balance=$lastBill->arrear_balance+($lastBill->arrear_balance*0.015);
+                        //             $bill->prev_arrear_balance=$lastBill->arrear_balance;
+                        //         }
+                        //         $bill->arrear_balance=$bill->arrear_balance+$lastBill->arrear_balance;
+                        //     }
+                        //     $bill->balance_amount=$bill->arrear_balance+$bill->service_charge_balance;
+                        //     $bill->total_bill=$bill->balance_amount;
+                        // }else
+                        // {
+                        //     $bill->balance_amount = round($total_bill,2);
+                        //     $bill->credit_amount= 0;    
+                        // }
                         // if(!empty($lastBill)) {
                         //     if($lastBill->balance_amount >= 0) {
                         //         $bill->total_bill_after_due_date = round($total_bill + $total_after_due,2);

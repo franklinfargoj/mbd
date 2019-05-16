@@ -1499,6 +1499,7 @@ class EMController extends Controller
                             {
                                 $lastBill->credit_amount= $lastBill->credit_amount-$bill->arrear_bill;
                                 $bill->arrear_balance=0;
+                                $bill->credit_amount=$lastBill->credit_amount;
                             }else
                             {
                                 $bill->arrear_balance=$bill->arrear_balance-$lastBill->credit_amount;
@@ -1764,6 +1765,7 @@ class EMController extends Controller
                                               {
                                                   $lastBill->credit_amount= $lastBill->credit_amount-$arrear_bill;
                                                   $data['arrear_balance']=0;
+                                                  $data['credit_amount']=$lastBill->credit_amount;
                                               }else
                                               {
                                                   $data['arrear_balance']=$data['arrear_balance']-$lastBill->credit_amount;
@@ -1818,7 +1820,7 @@ class EMController extends Controller
                                   
                               }else
                               {
-                                  $data['balance_amount'] = round($total_bill,2);
+                                  $data['balance_amount'] = ceil($total_bill,2);
                                   $data['credit_amount']= 0;    
                               }
                         // if($lastBill) {
