@@ -27,6 +27,7 @@ class OlApplication extends Model
         'date_of_site_visit',
         'site_visit_officers',
         'is_offer_letter_uploaded',
+        'other_remark',
     ];
 
     public function eeApplicationSociety()

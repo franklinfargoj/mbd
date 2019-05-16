@@ -42,6 +42,7 @@ use File;
 use Storage;
 use Mpdf\Mpdf;
 use App\LayoutUser;
+use App\OlTitBitSimulationValuesMaster;
 
 class EEController extends Controller
 {
@@ -686,6 +687,9 @@ class EEController extends Controller
         //NO due ceritificate questions  $application_id
         $noDuesQuestions = OlNoDueCertificateQuestionMaster::with(['noDuesDetails' =>function($query) use($application_id){$query->where('application_id',$application_id);}])->get();
 
+        $arrData['no_due'] = OlChecklistScrutiny::where('application_id', $application_id)
+            ->where('verification_type', 'No_Dues_Certificate')->first();
+
         // dd($noDuesQuestions);
 
         // EE Note download
@@ -704,7 +708,10 @@ class EEController extends Controller
         $latest = OlChecklistScrutiny::where('application_id',$application_id)
         ->orderBy('id','desc')->first();
 
-        return view('admin.ee_department.scrutiny-remark', compact('arrData','ol_application','societyComments','societyDocument','landDetails','latest','noDuesQuestions'));
+        // get simulation maps values tit-bit pt 1 options
+        $simulationValues = OlTitBitSimulationValuesMaster::where('is_deleted',0)->get();
+
+        return view('admin.ee_department.scrutiny-remark', compact('arrData','ol_application','societyComments','societyDocument','landDetails','latest','noDuesQuestions','simulationValues'));
     }
 
     public function addDocumentScrutiny(Request $request)
@@ -867,7 +874,7 @@ class EEController extends Controller
         ];
 
         OlChecklistScrutiny::insert($ee_checklist_scrutiny);
-        // dd($request->number);
+        // dd($request->all());
         foreach($request->question_id as $key => $consent_data) {
             $ee_demarcation[] = [
                 'application_id' => $request->application_id,
@@ -876,10 +883,11 @@ class EEController extends Controller
                 'answer' => isset($request->answer[$key]) ? $request->answer[$key] : NULL,
                 'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL,
                 'floor' => isset($request->floor[$key]) ? $request->floor[$key] : NULL,
-                'number' => isset($request->number[$key]) ? $request->number[$key] : NULL,
-                'residential' => isset($request->residential[$key]) ? $request->residential[$key] : NULL,
+                'number' => isset($request->select_number[$key]) ? $request->select_number[$key] : NULL,
+                'residential'=>isset($request->residential[$key]) ? $request->residential[$key] : NULL,
                 'non_residential'=>isset($request->non_residential[$key]) ? $request->non_residential[$key] : NULL,
-                'encrochment' => isset($request->encrochment[$key]) ? $request->encrochment[$key] : NULL,
+                'encrochment'=>isset($request->encrochment[$key]) ? $request->encrochment[$key] : NULL,
+                'crz_area'=>isset($request->crz_area[$key]) ? $request->crz_area[$key] : NULL,
             ];
         }
 
@@ -917,7 +925,8 @@ class EEController extends Controller
                 'user_id' => Auth::user()->id,
                 'question_id' => isset($request->question_id[$key]) ? $request->question_id[$key] : NULL,
                 'answer' => isset($request->answer[$key]) ? $request->answer[$key] : NULL,
-                'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL
+                'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL,
+                'simulation_map' => isset($request->simulation_map[$key]) ? $request->simulation_map[$key] : NULL
             ];
         }
 

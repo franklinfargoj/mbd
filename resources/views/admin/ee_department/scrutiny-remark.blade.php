@@ -8,6 +8,7 @@
 <link href="{{asset('/frontend/css/dyce_scrutiny.css')}}" rel="stylesheet" type="text/css" />
 
 <style>
+    .dropdown-toggle { width: 250px !important; }
     .loader {
     position: fixed;
     left: 0px;
@@ -528,7 +529,7 @@ if($latest){
                                                         <label for="m_datepicker">तपासणी दिनांक: <span class="star">*</span></label>
                                                     </div>
                                                     <div class="col-sm-8">
-                                                        <input {{$disabled}} type="text" class="form-control form-control--custom m_datepicker" value="{{isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->date_of_investigation : $investDate }}"
+                                                        <input {{$disabled}} type="text" class="form-control form-control--custom m_datepicker" value="{{isset($arrData['consent_verification_checkist_data']) ? date(config('commanConfig.dateFormat'), strtotime($arrData['consent_verification_checkist_data']->date_of_investigation)) : date(config('commanConfig.dateFormat'), strtotime($investDate)) }}"
                                                             name="date_of_investigation" required readonly>
                                                     </div>
                                                 </div>
@@ -548,13 +549,22 @@ if($latest){
                                                     <tbody>
                                                         @php
                                                         $i = 1;
-                                                        @endphp
+                                                        @endphp 
 
                                                         <input type="hidden" name="application_id" value="{{ $arrData['society_detail']->id }}">
                                                         @foreach($arrData['consent_verification_question'] as
                                                         $consent_question)
+
+                                                        @php 
+                                                        if ($consent_question->hide == 1){
+                                                            $con_style = 'display:none;';
+                                                        }else{
+                                                            $con_style = '';
+                                                        }
+                                                        @endphp
                                                         <input type="hidden" name="question_id[{{$i}}]" value="{{ $consent_question->id }}">
-                                                        <tr>
+                                                        <tr id="{{ $consent_question->class }}" 
+                                                        style="{{$con_style}}" >
                                                             <td>{{ $consent_question->group }}. {{ $consent_question->sort_by }}
                                                             </td>
 
@@ -563,7 +573,7 @@ if($latest){
                                                             @if($consent_question->is_option == 1)
                                                                 <label class="m-radio m-radio--primary">
                                                                     <input {{$disabled}} type="radio" name="answer[{{$i}}]"
-                                                                        value="1" required
+                                                                        value="1" class="{{ $consent_question->class }}" 
                                                                         {{ (isset($arrData['consent_verification_details_data'][$consent_question->id]) && $arrData['consent_verification_details_data'][$consent_question->id]['answer'] == 1) ? 'checked' : '' }}>
                                                                     <span></span>
                                                                 </label>
@@ -584,7 +594,7 @@ if($latest){
                                                             <td>
                                                             @if($consent_question->is_option == 1)
                                                                 <label class="m-radio m-radio--primary">
-                                                                    <input {{$disabled}} type="radio" name="answer[{{$i}}]"
+                                                                    <input {{$disabled}} type="radio" name="answer[{{$i}}]" class="{{ $consent_question->class }}"
                                                                         value="0" {{ $checked }}>
                                                                     <span></span>
                                                                 </label>
@@ -679,7 +689,7 @@ if($latest){
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom m_datepicker"
-                                                            required value="{{isset($arrData['demarcation_checkist_data']) ? $arrData['demarcation_checkist_data']->date_of_investigation : $investDate }}"
+                                                            required value="{{isset($arrData['demarcation_checkist_data']) ? date(config('commanConfig.dateFormat'), strtotime($arrData['demarcation_checkist_data']->date_of_investigation)) : date(config('commanConfig.dateFormat'), strtotime($investDate)) }}"
                                                             name="date_of_investigation" id="demarcation_date" readonly>
                                                     </div>
                                                 </div>
@@ -790,7 +800,7 @@ if($latest){
                                                             <td>
                                                             @if($demarcation_question->is_option == 1)
                                                                 <label class="m-radio m-radio--primary">
-                                                                    <input {{$disabled}} type="radio" class="{{$demarcation_question->class}}" name="answer[{{ $i }}]" value="1" required
+                                                                    <input {{$disabled}} type="radio" class="{{$demarcation_question->class}}" name="answer[{{ $i }}]" value="1" 
                                                                         {{ (isset($arrData['demarcation_details_data'][$demarcation_question->id]) && $arrData['demarcation_details_data'][$demarcation_question->id]['answer'] == 1) ? 'checked' : '' }}>
                                                                     <span></span>
                                                                 </label>
@@ -836,12 +846,12 @@ if($latest){
                                                             </div>
                                                            
                                                             <div class="col-sm-12 form-group m-form__group row parent-data" id="select_dropdown">
-                                                                <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" name="asdf[{{ $i }}]" id="number" value="" {{$disabled}}>
+                                                                <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" name="select_number[{{ $i }}]" id="number" value="" {{$disabled}}>
                                                                 @for($a=1;$a<=100;$a++)
                                                                     @if(isset($arrData['demarcation_details_data'][$demarcation_question->id]) && $arrData['demarcation_details_data'][$demarcation_question->id]['number'] == $a)
-                                                                    <option value="{{$i}}" selected>{{$a}} </option>
+                                                                    <option value="{{$a}}" selected>{{$a}} </option>
                                                                     @else
-                                                                    <option value="{{$i}}">{{$a}} </option>
+                                                                    <option value="{{$a}}">{{$a}} </option>
                                                                     @endif 
                                                                 @endfor     
                                                                 </select>
@@ -866,6 +876,22 @@ if($latest){
                                                             @else
                                                                 <textarea class="form-control form-control--custom form-control--textarea"
                                                                     name="remark[{{ $i }}]" style="border-top: none;resize: none;" {{$disabled}} id="remark-one" {{$required}}>{{ isset($arrData['demarcation_details_data'][$demarcation_question->id]) ? $arrData['demarcation_details_data'][$demarcation_question->id]['remark'] : '' }}</textarea>
+
+                                                                @if($demarcation_question->is_textbox == 1)
+                                                                <div class="col-sm-12 mt-3 crz_area" style="display: none">
+                                                                    <div class="form-group row">
+                                                                        <div class="col-sm-4 d-flex align-items-center">
+                                                                            <label for="crz_area">
+                                                                            CRZ Area:</label>
+                                                                        </div>
+                                                                        <div class="col-sm-8">
+                                                                            <input type="text" class="form-control form-control--custom"
+                                                                                 value="{{ isset($arrData['demarcation_details_data'][$demarcation_question->id]) ? $arrData['demarcation_details_data'][$demarcation_question->id]['crz_area'] : '' }}"
+                                                                                name="crz_area[{{ $i }}]" id="crz_area" placeholder="">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                @endif    
                                                             @endif        
                                                             </td>
                                                         </tr>
@@ -954,7 +980,7 @@ if($latest){
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <input {{$disabled}} type="text" class="form-control form-control--custom m_datepicker"
-                                                            required value="{{isset($arrData['tit_bit_checkist_data']) ? $arrData['tit_bit_checkist_data']->date_of_investigation : $investDate }}"
+                                                            required value="{{isset($arrData['tit_bit_checkist_data']) ? date(config('commanConfig.dateFormat'), strtotime($arrData['tit_bit_checkist_data']->date_of_investigation)) : date(config('commanConfig.dateFormat'), strtotime($investDate)) }}"
                                                             name="date_of_investigation" id="tit_bit_date" readonly>
                                                     </div>
                                                 </div>
@@ -987,17 +1013,24 @@ if($latest){
                                                         else{
                                                             $required = '';
                                                         }
+
+                                                        if ($tit_bit->hide == 1){
+                                                            $tit_style = 'display:none;';
+                                                        }else{
+                                                            $tit_style = '';
+                                                        }
                                                         @endphp                                                    
 
                                                         <input type="hidden" name="question_id[{{$i}}]" value="{{ $tit_bit->id }}">
-                                                        <tr>
-                                                            <td>{{ $i }}.</td>
+                                                        <tr id="{{$tit_bit->class}}" style="{{$tit_style}}">
+                                                            <td>{{ $tit_bit->group }}.{{ $tit_bit->sort_by }}</td>
                                                             <td>{{ $tit_bit->question }}</td>
                                                             <td>
                                                             @if($tit_bit->is_option == 1)
                                                                 <label class="m-radio m-radio--primary">
-                                                                    <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="1" required
-                                                                        {{ (isset($arrData['tit_bit_details_data'][$tit_bit->id]) && $arrData['tit_bit_details_data'][$tit_bit->id]['answer'] == 1) ? 'checked' : '' }}>
+                                                                    <input {{$disabled}} type="radio" name="answer[{{ $i }}]" class="{{$tit_bit->class}}" value="1" 
+                                                                        {{ (isset($arrData['tit_bit_details_data'][$tit_bit->id]) 
+                                                                        && $arrData['tit_bit_details_data'][$tit_bit->id]['answer'] == 1) ? 'checked' : '' }}>
                                                                     <span></span>
                                                                 </label>
                                                             @endif   
@@ -1017,21 +1050,43 @@ if($latest){
                                                             <td>
                                                             @if($tit_bit->is_option == 1)
                                                                 <label class="m-radio m-radio--primary">
-                                                                    <input {{$disabled}} type="radio" name="answer[{{ $i }}]"
+                                                                    <input {{$disabled}} type="radio" class="{{$tit_bit->class}}" name="answer[{{ $i }}]"
                                                                         value="0" {{ $checked_tit_bit }}>
                                                                     <span></span>
                                                                 </label>
                                                                 </td>
                                                             @endif    
-                                                            <td>
+                                                            <td style="width:50px">
                                                             @if($tit_bit->is_select == 1)
-                                                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" name="" id="" {{$disabled}}>
-                                                                @if(isset($floorOption))
-                                                                    @foreach($floorOption as $value)
-                                                                       <option value="{{ $value }}" > {{$value}} </option>
+                                                            @if($disabled == 'disabled')
+                                                                @if(isset($simulationValues))
+                                                                        
+                                                                    @foreach($simulationValues as $value)
+                                                                    
+                                                                        @if(isset($arrData['tit_bit_details_data'][$tit_bit->id]) && $arrData['tit_bit_details_data'][$tit_bit->id]['simulation_map'] == $value->id)
+                                                                            <textarea disabled class="form-control form-control--custom form-control--textarea">
+                                                                                {{$value->group}} {{$value->values}}
+                                                                            </textarea>
+                                                                        @endif
                                                                     @endforeach
-                                                                @endif        
-                                                            </select>
+                                                                @endif   
+                                                            @else
+                                                                <div class="col-md-12">
+                                                                <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" name="simulation_map[{{ $i }}]" id="">
+                                                                    @if(isset($simulationValues))
+                                                                        
+                                                                        @foreach($simulationValues as $value)
+                                                                        
+                                                                            @if(isset($arrData['tit_bit_details_data'][$tit_bit->id]) && $arrData['tit_bit_details_data'][$tit_bit->id]['simulation_map'] == $value->id)
+                                                                                <option value="{{ $value->id }}" selected>{{$value->group}} {{$value->values}} </option>
+                                                                            @else
+                                                                               <option value="{{ $value->id }}" >{{$value->group}} {{$value->values}} </option>
+                                                                            @endif   
+                                                                        @endforeach
+                                                                    @endif        
+                                                                </select>
+                                                                </div>
+                                                            @endif
                                                             @elseif($tit_bit->question == 'फुटकळ भूखंडाचे एकूण क्षेत्रफळ किती ?')
                                                                 <textarea {{$disabled}} class="form-control form-control--custom form-control--textarea"
                                                                     name="remark[{{ $i }}]" style="border-top: none;resize: none;" id="remark-one" {{ $required }}>{{ isset($arrData['tit_bit_details_data'][$tit_bit->id]) ? $arrData['tit_bit_details_data'][$tit_bit->id]['remark'] : ($landDetails!="" ? $landDetails->tit_bit_area : '') }}</textarea>
@@ -1103,7 +1158,7 @@ if($latest){
                                                     <div class="col-sm-8">
                                                         <input {{$readonly}} type="text" class="form-control form-control--custom"
                                                             name="details_of_notice" id="building-no" placeholder=""
-                                                            required value="{{ isset($arrData['rg_checkist_data']) ? $arrData['rg_checkist_data']->details_of_notice : $noticeDetails }}" readonly>
+                                                            required value="{{ isset($arrData['rg_checkist_data']) ? $arrData['rg_checkist_data']->details_of_notice : $noticeDetails }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1188,6 +1243,7 @@ if($latest){
                                                                     <span></span>
                                                                 </label></td> -->
                                                             <td>
+                                                            
                                                             @if($rg_question->question == 'सिमांकन नकाशानुसार R.G चे एकूण क्षेत्रफळ किती आहे ?')
                                                                 <textarea {{$readonly}} class="form-control form-control--custom form-control--textarea"
                                                                     name="remark[{{ $i }}]" style="border-top: none;resize: none;" id="remark-one" {{ $required }}>{{ isset($arrData['rg_details_data'][$rg_question->id]) ? $arrData['rg_details_data'][$rg_question->id]['remark'] : ($landDetails!="" ? $landDetails->rg_plot_area : '') }}</textarea>
@@ -1261,7 +1317,7 @@ if($latest){
                                                     <div class="col-sm-8">
                                                         <input {{$readonly}} type="text" class="form-control form-control--custom"
                                                             name="details_of_notice" id="building-no" placeholder=""
-                                                            required value="{{ isset($arrData['rg_checkist_data']) ? $arrData['rg_checkist_data']->details_of_notice : $noticeDetails }}" readonly>
+                                                            required value="{{ isset($arrData['no_due']) ? $arrData['no_due']->details_of_notice : $noticeDetails }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1617,6 +1673,26 @@ if($latest){
         if (selectedVal2 == 1){
             $("#dem_4_hide").show('slow');
         }
+
+        // demarcation 5 pt 
+        var selectedVal3 = $("input:radio.dem_5:checked").val();
+        if (selectedVal3 == 1){
+            $(".crz_area").show('slow');
+        }
+
+        // consent 3 pt 
+        var selectedVal4 = $("input:radio.con_3:checked").val();
+        if (selectedVal4 == 0){
+            $("#con_3_hide").show('slow');
+        }
+
+        // tit bit 3 pt 
+        var selectedVal5 = $("input:radio.tit_3:checked").val();
+        if (selectedVal5 == 1){
+            $("#tit_4").show('slow');
+        }else if(selectedVal5 == 0){
+            $("#tit_5").show('slow');
+        }
     });
 
     $(".ee_tabs").on('click', function () {
@@ -1724,6 +1800,8 @@ if($latest){
     }); 
 
     // class will be assign to element by seeder
+
+    // demarcation pt 3 show hide
     $(".dem_3").click(function(){
         var value = this.value;
         if (value == 1){
@@ -1732,6 +1810,8 @@ if($latest){
             $("#dem_3_hide").hide('slow');
         }
     }); 
+
+    // demarcation pt 4show hide
     $(".dem_4").click(function(){
         var value = this.value;
         if (value == 1){
@@ -1741,12 +1821,45 @@ if($latest){
         }
     });
 
+    // no due pt 1 show hide
     $(".deu_1").click(function(){
         var value = this.value;
         if (value == 0){
             $("#deu_1_hide").show('slow');
         }else{
             $("#deu_1_hide").hide('slow');
+        }
+    });
+
+    // consent pt 3show hide
+    $(".con_3").click(function(){
+        var value = this.value;
+        if (value == 0){
+            $("#con_3_hide").show('slow');
+        }else{
+            $("#con_3_hide").hide('slow');
+        }
+    }); 
+
+    // demarcation 5pt textbox show hide
+    $(".dem_5").click(function(){
+        var value = this.value;
+        if (value == 1){
+            $(".crz_area").show('slow');
+        }else{
+            $(".crz_area").hide('slow');
+        }
+    }); 
+
+    // tit bit 3 pt textbox show hide
+    $(".tit_3").click(function(){
+        var value = this.value;
+        if (value == 1){
+            $("#tit_4").show('slow');
+            $("#tit_5").hide('slow');
+        }else{
+            $("#tit_5").show('slow');
+            $("#tit_4").hide('slow');
         }
     });
 

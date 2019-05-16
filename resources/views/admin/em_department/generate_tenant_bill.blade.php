@@ -6,16 +6,33 @@
         $total_service_after_due = $total_service + $total_after_due;     
         $total ='0';           
     @endphp
+    @if(count($lastBill)<=0)
     @if(!$arreasCalculation->isEmpty())  
       @foreach($arreasCalculation as $calculation)
             @php $total = $total + $calculation->total_amount; @endphp
       @endforeach
     @endif 
+    @endif
 
     @php
         $tempBalance = $total;
-        if($lastBill && !empty($lastBill) && 0 < $lastBill->balance_amount) {
-            $tempBalance = $lastBill->balance_amount;
+        // if($lastBill && !empty($lastBill) && 0 < $lastBill->balance_amount) {
+        //     $tempBalance = $lastBill->balance_amount;
+        // }
+        //dd($arrear_data);
+        $arrear_interest=0;
+        if($lastBill)
+        {
+            if($lastBill->arrear_balance>0)
+            {
+                if($arrear_data)
+                {
+                    $arrear_interest=($arrear_data->old_rate*($arrear_data->interest_on_old_rate/100))+(($arrear_data->revise_rate-$arrear_data->old_rate)*($arrear_data->interest_on_differance/100));
+                }
+            $tempBalance=$tempBalance+($lastBill->arrear_balance+$arrear_interest);
+            }
+            $tempBalance=$tempBalance+($lastBill->service_charge_balance+($lastBill->service_charge_balance*0.015));
+            
         }
 
         // $tempBalance = 0;
@@ -197,7 +214,7 @@
                         </tr>
                     </tbody>
                 </table>
-
+                @if(count($lastBill)<=0)
                 @if(!$arreasCalculation->isEmpty())
                 <p class="text-center">Balance amount to be paid - Arrears</p>
                 <table class="display table table-responsive table-bordered" style="width:100%">
@@ -228,6 +245,7 @@
                     </tbody>
                 </table>
                 @endif
+                @endif
                 <p class="text-center">Total Amount to be paid</p>
                 <table class="display table table-responsive table-bordered" style="width:100%">
                     <thead class="thead-default">
@@ -249,18 +267,18 @@
                     {{-- <tr>
                         <td>Total arrear charges</td>
                         <td >{{$total}}</td>
-                    </tr>
+                    </tr>--}}
                     <tr>
-                        <td>Service Charges</td>
+                        <td>Total Service Charges</td>
                         <td>{{$total_service}} </td>
-                    </tr> --}}
+                    </tr> 
                     <tr>
                         <td class="font-weight-bold">Bill Amount Before due date</td>
-                        <td class="font-weight-bold">{{$total_service+$total}}</td>
+                        <td class="font-weight-bold">{{$total_service+$tempBalance}}</td>
                     </tr>
                     <tr>
                         <td>Bill Amount After due date</td>
-                        <td>{{$total_service_after_due+$total}}</td>
+                        <td>{{$total_service_after_due+$tempBalance}}</td>
                     </tr>
                     {{-- <tr>
                         <td class="font-weight-bold">
