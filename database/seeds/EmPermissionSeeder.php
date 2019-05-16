@@ -518,7 +518,16 @@ class EmPermissionSeeder extends Seeder
                 'display_name'=>'scrutiny_report_by_em',
                 'description'=>'scrutiny_report_by_em'
             ],
-            
+            [
+                'name' => 'change_tenants',
+                'display_name' => 'Change Tenant',
+                'description' => 'Change Tenant'
+            ],
+            [
+                'name' => 'save_changed_tenants',
+                'display_name' => 'Save Changed Tenant',
+                'description' => 'Save Changed Tenant'
+            ],
         ];
 
         $permission_role = [];

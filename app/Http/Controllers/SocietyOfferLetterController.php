@@ -277,7 +277,7 @@ class SocietyOfferLetterController extends Controller
             ['data' => 'application_no','name' => 'application_no','title' => 'Application No.'],
             ['data' => 'application_type','name' => 'application_type','title' => 'Application Type'],
             ['data' => 'application_master_id','name' => 'application_master_id','title' => 'Model'],
-            ['data' => 'created_at','name' => 'created_date','title' => 'Submission Date', 'class' => 'datatable-date'],
+            ['data' => 'created_at','name' => 'created_at','title' => 'Submission Date', 'class' => 'datatable-date'],
             ['data' => 'status','name' => 'status','title' => 'Status'],
             ['data' => 'radio','name' => 'radio','title' => 'Action','searchable' => false],
 
@@ -550,7 +550,7 @@ class SocietyOfferLetterController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [1, "asc" ],
+            "order"=> [0, "asc" ],
             "pageLength" => $this->list_num_of_records_per_page,
             // 'fixedHeader' => [
             //     'header' => true,

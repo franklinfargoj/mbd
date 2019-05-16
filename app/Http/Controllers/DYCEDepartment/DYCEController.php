@@ -39,7 +39,6 @@ class DYCEController extends Controller
         $getData = $request->all();
 
         $columns = [
-            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
             ['data' => 'date','name' => 'date','title' => 'Date', 'class' => 'datatable-date'],
@@ -48,18 +47,20 @@ class DYCEController extends Controller
             ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address', 'class' => 'datatable-address'],
             ['data' => 'model','name' => 'model','title' => 'Model'],
              ['data' => 'Status','name' => 'Status','title' => 'Status'],
-            // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+            ['data' => 'radio','name' => 'radio','title' => 'Action','searchable' => false],
         ];
         if ($datatables->getRequest()->ajax()) {
  
             return $datatables->of($dyce_application_data)
+                ->editColumn('radio', function ($dyce_application_data) {
+                    $url = route('dyce.view_application', encrypt($dyce_application_data->id));
+                    return '<div class="d-flex btn-icon-list"><a href="'.$url.'" onclick="geturl(this.value);" name="village_data_id" class="d-flex flex-column align-items-left"><span class="btn-icon btn-icon--view">
+                        <img src="'. asset("img/view-icon.svg").'">
+                    </span>View</span></a></div>';
+                })
                 ->editColumn('rownum', function ($listArray) {
                     static $i = 0; $i++; return $i;
                 })
-                ->editColumn('radio', function ($dyce_application_data) {
-                    $url = route('dyce.view_application', encrypt($dyce_application_data->id));
-                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
-                })                
                 ->editColumn('eeApplicationSociety.name', function ($dyce_application_data) {
                     return $dyce_application_data->eeApplicationSociety->name;
                 })
@@ -95,6 +96,7 @@ class DYCEController extends Controller
                     }
 
                 })
+
                 ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date','eeApplicationSociety.address'])
                 ->make(true);
         }                                    
@@ -108,7 +110,7 @@ class DYCEController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"      => [1, "asc" ],
+            "order"=> [0, "asc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     } 
