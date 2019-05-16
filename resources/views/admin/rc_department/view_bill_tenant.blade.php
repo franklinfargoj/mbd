@@ -229,11 +229,11 @@
                         {{-- <tr>
                             <td >Total arrear charges</td>
                             <td class="text-center">{{$total}}</td>
-                        </tr>
+                        </tr> --}}
                         <tr>
                             <td >Service Charges</td>
                             <td class="text-center">{{$total_service}}</td>
-                        </tr> --}}
+                        </tr>
                         <tr>
                             <td>Current month Bill amount before due date</td>
                             <td class="text-center">{{$total_service+$total}} </td>

@@ -546,8 +546,8 @@ function monthDiff(d1, d2) {
                                 $('#dia').html(intrest_on_difference);
                                 $('#difference_intrest_amount').val(intrest_on_difference);
                             
-                                 $('#total_amount').html(total);
-                                 $('#total_amount_val').val(total);
+                                 $('#total_amount').html(Math.ceil(total));
+                                 $('#total_amount_val').val(Math.ceil(total));
                             } else {
                                 old_intrest_amount = 0;
                                 intrest_on_difference = 0;
@@ -561,8 +561,8 @@ function monthDiff(d1, d2) {
                                 $('#dia').html(intrest_on_difference);
                                 $('#difference_intrest_amount').val(intrest_on_difference);
                             
-                                $('#total_amount').html(total);
-                                $('#total_amount_val').val(total);
+                                $('#total_amount').html(Math.ceil(total));
+                                $('#total_amount_val').val(Math.ceil(total));
                             }
                         }
                     });
@@ -721,8 +721,8 @@ function monthDiff(d1, d2) {
                 $('#dia').html(intrest_on_difference);
                 $('#difference_intrest_amount').val(intrest_on_difference);
             
-                 $('#total_amount').html(total);
-                 $('#total_amount_val').val(total);
+                 $('#total_amount').html(Math.ceil(total));
+                 $('#total_amount_val').val(Math.ceil(total));
 
     }
 

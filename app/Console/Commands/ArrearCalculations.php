@@ -102,7 +102,7 @@ class ArrearCalculations extends Command
 
                 $arrear_calculation = ArrearCalculation::where('tenant_id',$tenant->id)->where('building_id',$building->id)->where('society_id',$society->id)->where('month',$ior_month)->where('year',$bill_year)->first();
 
-                if(empty($arrear_calculation)) {
+                if($arrear_calculation==null) {
                     $arrear_calculation = new ArrearCalculation;
                 } 
                 
@@ -116,7 +116,7 @@ class ArrearCalculations extends Command
                 $arrear_calculation->ida_year        = $ida_year;
                 $arrear_calculation->ida_month       = $ida_month;
                 $arrear_calculation->payment_status  = '0';
-                $arrear_calculation->total_amount    = $total;
+                $arrear_calculation->total_amount    = ceil($total);
                 $arrear_calculation->difference_amount         = $rate_diff;
                 $arrear_calculation->old_intrest_amount        = $old_intrest_amount;
                 $arrear_calculation->difference_intrest_amount = $intrest_on_difference;

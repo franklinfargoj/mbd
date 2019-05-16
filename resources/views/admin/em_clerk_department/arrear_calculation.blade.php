@@ -636,7 +636,7 @@
                 $('#dia').html(intrest_on_difference);
                 $('#difference_intrest_amount').val(intrest_on_difference);
             
-                 $('#total_amount').html(total);
+                 $('#total_amount').html(Math.ceil(total));
                  $('#total_amount_val').val(total);
 
     }
