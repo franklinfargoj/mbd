@@ -16,6 +16,15 @@
 @section('content')
 
 @php $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
+
+<style>
+.txtbox {
+    width :200px;}
+span.label {
+    display: inline-block;
+    margin-right: 10px;
+}
+</style>
   
 <div class="custom-wrapper">
     <div class="col-md-12">
@@ -234,8 +243,7 @@
                                             <tr>
                                                 <td style = "border-style: ridge;">6.</td>
                                                 <td style = "border-style: ridge;">
-                                                    म.न.पा .कडून ल. ओ. आय. पत्रानुसार अनुज्ञेय प्रोरेटा
-                                                    क्षेत्रफळ
+                                                    म न पा कडून प्राप्त LOI नुसार / मंजूर अभिन्यासानुसार / अनुज्ञेय प्रोरेटा क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
 
@@ -279,7 +287,7 @@
                                             <tr>
                                                 <td style = "border-style: ridge;">7.</td>
                                                 <td style = "border-style: ridge;">
-                                                    अनुज्ञेय प्रोरेटा बांधकाम क्षेत्रफळ (85% पर्यंत सीमित )
+                                                    वितरणाकरीता प्रस्तावित केलेले प्रोरेटा बांधकाम क्षेत्रफळ (85% पर्यंत सीमित )
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
 
@@ -349,7 +357,7 @@
                                             <tr>
                                                 <td style = "border-style: ridge;">11.</td>
                                                 <td style = "border-style: ridge;">
-                                                    उर्वरित क्षेत्रफळ (अ.क्र 9. - अ.क्र.10 )
+                                                    उर्वरित बांधकाम क्षेत्रफळ (अ.क्र 9. - अ.क्र.10 )
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly class="form-control form-control--custom"
@@ -360,11 +368,7 @@
                                             <tr>
                                                 <td style = "border-style: ridge;">12.</td>
                                                 <td style = "border-style: ridge;">
-                                                    रेडीरेकनर २०१८ - १९ , न. भू. क्र. ३५१ (पै), व्हिलेज-
-                                                    हरियाली ,
-                                                    टागोरनगर झोन क्रमांक. ११२/५३५, दर रुपये रु. ५५,९०० /-
-                                                    (पृष्ठ
-                                                    क्रमांक सी - ६०५ ते सी -६०७ )
+                                                    रेडीरेकनर २०१८ - १९ दर रुपये
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" class="redirekner_val form-control form-control--custom"
@@ -398,28 +402,7 @@
                                             <tr>
                                                 <td style = "border-style: ridge;">15.</td>
                                                 <td style = "border-style: ridge;">
-                                                    उर्वरितचटईक्षेत्राचे अधिमूल्य
-                                                </td>
-                                                <td class="text-center" style = "border-style: ridge;">
-
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style = "border-style: ridge;"></td>
-                                                <td style = "border-style: ridge;">
-                                                    1. उर्वरित च.क्षे.रहिवासी वापर क्षेत्र
-                                                </td>
-                                                <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" readonly class="form-control form-control--custom"
-                                                        name="remaining_residential_area" id="remaining_residential_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->remaining_residential_area) ? $calculationSheetDetails[0]->remaining_residential_area : 0 }}" />
-
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style = "border-style: ridge;"></td>
-                                                <td style = "border-style: ridge;">
-                                                    2. दर
+                                                    वि नि प्रो नियमावली नुसार २०३४ table C1 नुसारचा दर
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <div class="col-sm-12" style="margin-bottom: 12px;padding: 0px">
@@ -438,21 +421,101 @@
                                                             @endforeach
                                                             @endif
                                                         </select>  
-                                                    </div>                                                      
-                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
-                                                           name="calculated_dcr_rate_val" id="calculated_dcr_rate_val"
-                                                           value="<?php if(isset($calculationSheetDetails[0]->calculated_dcr_rate_val)) { echo $calculationSheetDetails[0]->calculated_dcr_rate_val; } ?>" />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;">16.</td>
+                                                <td style = "border-style: ridge;">
+                                                    उर्वरितचटईक्षेत्राचे अधिमूल्य
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;">1.1</td>
+                                                <td style = "border-style: ridge;">
+                                                <span class="label">
+                                                 उर्वरित च.क्षे.रहिवासी वापर क्षेत्र </span>
+                                                <input style="border: none;display: inline-block;" type="text" readonly class="form-control form-control--custom txtbox"
+                                                    name="remaining_residential_area" id="remaining_residential_area"
+                                                    value="{{ isset($calculationSheetDetails[0]->remaining_residential_area) ? $calculationSheetDetails[0]->remaining_residential_area : 0 }}" />
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;">1.2</td>
+                                                <td style = "border-style: ridge;">
+                                                <span class="label">
+                                                     दर </span>
+                                                <input style="border: none;display: inline-block;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
+                                                       name="calculated_dcr_rate_val" id="calculated_dcr_rate_val"
+                                                       value="<?php if(isset($calculationSheetDetails[0]->calculated_dcr_rate_val)) { echo $calculationSheetDetails[0]->calculated_dcr_rate_val; } ?>" />
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td style = "border-style: ridge;"></td>
                                                 <td style = "border-style: ridge;">
-                                                    अधिमूल्य
+                                                <span class="label">
+                                                    अधिमूल्य </span>
+                                                <input style="border: none;display: inline-block;" type="text" readonly class="total_amount form-control form-control--custom txtbox"
+                                                    name="balance_of_remaining_area" id="balance_of_remaining_area"
+                                                    value="{{ isset($calculationSheetDetails[0]->balance_of_remaining_area) ? $calculationSheetDetails[0]->balance_of_remaining_area : 0 }}" />
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" readonly class="total_amount form-control form-control--custom"
-                                                        name="balance_of_remaining_area" id="balance_of_remaining_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->balance_of_remaining_area) ? $calculationSheetDetails[0]->balance_of_remaining_area : 0 }}" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;">2.1</td>
+                                                <td style = "border-style: ridge;">
+                                                <span class="label">
+                                                    उर्वरित च.क्षे.रहिवासी वापर क्षेत्र </span>
+                                                    <input style="border: none;display: inline-block;" type="text" placeholder="0" class="form-control form-control--custom txtbox"
+                                                        name="remaining_commercial_area" id="remaining_commercial_area"
+                                                        value="{{ isset($calculationSheetDetails[0]->calculated_commercial_dcr_rate) ? $calculationSheetDetails[0]->calculated_commercial_dcr_rate : '' }}"/>
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;">2.2</td>
+                                                <td style = "border-style: ridge;">
+                                                <span class="label"> दर </span>
+                                                    <input style="border: none;display: inline-block;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
+                                                           name="calculated_commercial_dcr_rate" id="calculated_commercial_dcr_rate"
+                                                           value="{{ isset($calculationSheetDetails[0]->remaining_commercial_area) ? $calculationSheetDetails[0]->remaining_commercial_area : '' }}" />
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;"></td>
+                                                <td style = "border-style: ridge;">
+                                                <span class="label"> अधिमूल्य </span>
+                                                    <input style="border: none;display: inline-block;" type="text" readonly placeholder="0" class=" form-control form-control--custom txtbox"
+                                                        name="balance_of_commercial_remaining_area" id="balance_of_commercial_remaining_area"
+                                                        value="{{ isset($calculationSheetDetails[0]->balance_of_commercial_remaining_area) ? $calculationSheetDetails[0]->balance_of_commercial_remaining_area : '' }}"/>
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style = "border-style: ridge;"></td>
+                                                <td style = "border-style: ridge;">
+                                                    Total
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox total_amount"
+                                                        name="total_premium_amount" id="total_premium_amount"
+                                                        value="{{ isset($calculationSheetDetails[0]->total_premium_amount) ? $calculationSheetDetails[0]->total_premium_amount : '' }}"/>
 
                                                 </td>
                                             </tr>

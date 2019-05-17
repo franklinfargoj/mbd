@@ -51,8 +51,7 @@ class OlConsentVerificationQuestion extends Seeder
             ],
             [
                 'language_id'   => $languageId,
-                'question' => "नसल्यास मान्यता प्राप्त सभासदाांपैकी ५१% सभासदाांची
-सहमती आहे काय?",
+                'question' => "या सभासदांनी पुनर्विकासास सहमती दर्शविली आहे ते त्या सोसायटीचे अधिकृत मान्यता प्राप्त सदस्य आहेत काय ?",
                 'expected_answer'   => 1,
                 'is_option'   => 1,
                 'group' => 3,
