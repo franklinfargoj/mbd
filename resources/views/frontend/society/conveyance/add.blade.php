@@ -50,7 +50,7 @@
                                                 @php echo $comm_func->form_fields($field_names[$i], 'select', $master_tenant_type, 'name', old($field_names[$i]), '', 'required') @endphp
                                             @elseif($field_names[$i] == 'nature_of_building')
                                                 @php echo $comm_func->form_fields($field_names[$i], 'select', $building_nature, 'name', old($field_names[$i]), '', 'required') @endphp
-                                            @elseif($field_names[$i] == 'service_charge')
+                                            @elseif($field_names[$i] == 'service_charge_type')
                                                 @php echo $comm_func->form_fields($field_names[$i], 'select', $service_charge_names, 'name', old($field_names[$i]), '', 'required') @endphp
                                             @else
                                                 @php echo $comm_func->form_fields($field_names[$i], 'text', '', '', old($field_names[$i]), '', 'required') @endphp
@@ -79,7 +79,7 @@
                                                 @php echo $comm_func->form_fields($field_names[$i+1], 'select', $master_tenant_type, 'name', old($field_names[$i+1]), '', 'required') @endphp
                                             @elseif($field_names[$i+1] == 'nature_of_building')
                                                 @php echo $comm_func->form_fields($field_names[$i+1], 'select', $building_nature, 'name', old($field_names[$i+1]), '', 'required') @endphp
-                                            @elseif($field_names[$i+1] == 'service_charge')
+                                            @elseif($field_names[$i+1] == 'service_charge_type')
                                                 @php echo $comm_func->form_fields($field_names[$i+1], 'select', $service_charge_names, 'name', old($field_names[$i+1]), '', 'required') @endphp
                                             @else
                                                 @php echo $comm_func->form_fields($field_names[$i+1], 'text', '', '', old($field_names[$i+1]), '', 'required') @endphp

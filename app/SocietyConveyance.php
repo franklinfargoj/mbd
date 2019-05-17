@@ -28,6 +28,7 @@ class SocietyConveyance extends Model
         'prev_lease_agreement_no',
         'nature_of_building',
         'tax_paid_to_MHADA_or_BMC',
+        'service_charge_type',
         'service_charge'
     ];
 
