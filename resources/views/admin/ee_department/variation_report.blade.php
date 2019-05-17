@@ -107,6 +107,12 @@
             </tr>
             <tr>
                  <td style="padding-left: 10px">1.g</td>    
+                <td style="padding-left: 10px">O.B Building area </td>
+                <td style="padding-left: 10px">{{ isset($landDetails->ob_building_area) ? $landDetails->ob_building_area : '' }}</td>
+
+            </tr>
+            <tr>
+                 <td style="padding-left: 10px">1.h</td>    
                 <td style="padding-left: 10px">इतर क्षेत्रफळ </td>
                 <td style="padding-left: 10px">{{ isset($landDetails->another_area) ? $landDetails->another_area : '' }}</td>
 
@@ -132,7 +138,7 @@
             <tr>
                 <td style="padding-left: 10px">4.</td>
                 <td style="padding-left: 10px">{{$demQuestion->question}}</td>
-                <td style="padding-left: 10px">{{$demQuestion->demarkDetails->remark}}
+                <td style="padding-left: 10px">{{$demQuestion->demarkDetails->crz_area}}
                </td>
             </tr> 
             @endif 
@@ -158,7 +164,7 @@
                     <span>नाही</span>
             </td>
             <td style="font-size: 15px;padding-left: 10px;padding-right: 10px">
-            {{ isset($data->remark) ? $data->remark : '' }}</td>
+            {{ isset($dueDetails->noDuesDetails) ? $dueDetails->noDuesDetails->remark : '' }}</td>
           </tr>
         </table>
     </div>    

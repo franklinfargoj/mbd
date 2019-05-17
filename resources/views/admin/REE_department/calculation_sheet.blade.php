@@ -17,11 +17,16 @@
 
 <style>
 .txtbox {
-    width :200px;
+    width :200px;}
+span.label {
+    display: inline-block;
+    margin-right: 10px;
+}
 </style>
 @php $FSIOptions = ['3 FSI','2.5 FSI','Custom']; 
      $DCRrate = ['EWS/LIG','MIG','HIG'];   
 @endphp
+
 <input type="hidden" id="status" value="{{ (($status->status_id == config('commanConfig.applicationStatus.draft_offer_letter_generated') || $status->status_id == config('commanConfig.applicationStatus.offer_letter_approved') || $status->status_id == config('commanConfig.applicationStatus.offer_letter_generation')) ? 'true' : 'false') }}">
 
 <input type="hidden" id="draftedOfferLetter" value="{{ isset($ol_application->drafted_offer_letter) ? $ol_application->drafted_offer_letter : '' }}">
@@ -164,7 +169,8 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" class="total_area form-control form-control--custom txtbox" placeholder="0"
                                                         name="area_as_per_lease_agreement" id="area_as_per_lease_agreement"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->area_as_per_lease_agreement)) { echo $calculationSheetDetails[0]->area_as_per_lease_agreement; } ?>" />
+                                                        value="{{ isset($calculationSheetDetails[0]->area_as_per_lease_agreement) ? $calculationSheetDetails[0]->area_as_per_lease_agreement : (isset($landArea) ? $landArea->lease_agreement_area : '')  }}"
+                                                        />
                                                 </td>
                                                 </td>
                                             </tr>
@@ -175,7 +181,8 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" class="total_area form-control form-control--custom txtbox" placeholder="0"
-                                                        name="area_of_tit_bit_plot" id="area_of_tit_bit_plot" value="<?php  if(isset($calculationSheetDetails[0]->area_of_tit_bit_plot)) { echo $calculationSheetDetails[0]->area_of_tit_bit_plot; } ?>" />
+                                                        name="area_of_tit_bit_plot" id="area_of_tit_bit_plot" value="{{ isset($calculationSheetDetails[0]->area_of_tit_bit_plot) ? $calculationSheetDetails[0]->area_of_tit_bit_plot : (isset($landArea) ? $landArea->tit_bit_area : '')  }}" 
+                                                        />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -185,7 +192,8 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" class="total_area form-control form-control--custom txtbox" placeholder="0"
-                                                        name="area_of_rg_plot" id="area_of_rg_plot" value="<?php if(isset($calculationSheetDetails[0]->area_of_rg_plot)) { echo $calculationSheetDetails[0]->area_of_rg_plot; } ?>" />
+                                                        name="area_of_rg_plot" id="area_of_rg_plot" value="{{ isset($calculationSheetDetails[0]->area_of_rg_plot) ? $calculationSheetDetails[0]->area_of_rg_plot : (isset($landArea) ? $landArea->rg_plot_area : '')  }}"
+                                                        />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -214,7 +222,8 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="min_val_for_calculation form-control form-control--custom txtbox" name="area_as_per_introduction"
-                                                        id="area_as_per_introduction" value="<?php if(isset($calculationSheetDetails[0]->area_as_per_introduction)) { echo $calculationSheetDetails[0]->area_as_per_introduction; } ?>" />
+                                                        id="area_as_per_introduction" value="{{ isset($calculationSheetDetails[0]->area_as_per_introduction) ? $calculationSheetDetails[0]->area_as_per_introduction : (isset($landArea) ? $landArea->stag_plot_area : '')  }}" 
+                                                        />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -236,7 +245,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="permissible_area total_permissible form-control form-control--custom txtbox"
                                                         name="permissible_carpet_area_coordinates" id="permissible_carpet_area_coordinates"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->permissible_carpet_area_coordinates)) { echo $calculationSheetDetails[0]->permissible_carpet_area_coordinates; } ?>" />
+                                                        value="{{isset($calculationSheetDetails[0]->permissible_carpet_area_coordinates) ? $calculationSheetDetails[0]->permissible_carpet_area_coordinates : (int)$FSI}}" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -254,8 +263,7 @@
                                             <tr>
                                                 <td style = "border-style: ridge;">6.</td>
                                                 <td style = "border-style: ridge;">
-                                                    म.न.पा .कडून ल. ओ. आय. पत्रानुसार अनुज्ञेय प्रोरेटा
-                                                    क्षेत्रफळ
+                                                    म न पा कडून प्राप्त LOI नुसार / मंजूर अभिन्यासानुसार / अनुज्ञेय प्रोरेटा क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
 
@@ -296,7 +304,7 @@
                                             <tr>
                                                 <td style = "border-style: ridge;">7.</td>
                                                 <td style = "border-style: ridge;">
-                                                    अनुज्ञेय प्रोरेटा बांधकाम क्षेत्रफळ (85% पर्यंत सीमित )
+                                                    वितरणाकरीता प्रस्तावित केलेले प्रोरेटा बांधकाम क्षेत्रफळ (85% पर्यंत सीमित )
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
 
@@ -363,7 +371,7 @@
                                             <tr>
                                                 <td style = "border-style: ridge;">11.</td>
                                                 <td style = "border-style: ridge;">
-                                                    उर्वरित क्षेत्रफळ (अ.क्र 9. - अ.क्र.10 )
+                                                    उर्वरित बांधकाम क्षेत्रफळ (अ.क्र 9. - अ.क्र.10 )
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" readonly class="form-control form-control--custom txtbox"
@@ -374,11 +382,7 @@
                                             <tr>
                                                 <td style = "border-style: ridge;">12.</td>
                                                 <td style = "border-style: ridge;">
-                                                    रेडीरेकनर २०१८ - १९ , न. भू. क्र. ३५१ (पै), व्हिलेज-
-                                                    हरियाली ,
-                                                    टागोरनगर झोन क्रमांक. ११२/५३५, दर रुपये रु. ५५,९०० /-
-                                                    (पृष्ठ
-                                                    क्रमांक सी - ६०५ ते सी -६०७ )
+                                                    रेडीरेकनर २०१८ - १९  दर रुपये
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="redirekner_val form-control form-control--custom txtbox"
@@ -410,33 +414,10 @@
                                             <tr>
                                                 <td style = "border-style: ridge;">15.</td>
                                                 <td style = "border-style: ridge;">
-                                                    उर्वरितचटईक्षेत्राचे अधिमूल्य
+                                                    वि नि प्रो नियमावली नुसार २०३४ table C1 नुसारचा दर
+
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style = "border-style: ridge;"></td>
-                                                <td style = "border-style: ridge;">
-                                                    1. उर्वरित च.क्षे.रहिवासी वापर क्षेत्र
-                                                </td>
-                                                <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" placeholder="0" readonly class="form-control form-control--custom txtbox"
-                                                        name="remaining_residential_area" id="remaining_residential_area"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->remaining_residential_area)) { echo $calculationSheetDetails[0]->remaining_residential_area; } ?>" />
-
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style = "border-style: ridge;"></td>
-                                                <td style = "border-style: ridge;">
-                                                    2. दर
-                                                </td>
-                                                <td class="text-center" style = "border-style: ridge;">
-
-                                                    <!-- <span style="cursor: pointer" class="subtn" data-toggle="modal" data-target="#select-from-dcr">Select from DCR</span> -->
-
                                                     <div class="col-sm-12" style="margin-bottom: 12px;padding: 0px">
                                                         <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input subtn" name="dcr_rate" id="dcr_rate">
 
@@ -452,31 +433,106 @@
                                                                 @endif
                                                             @endforeach
                                                             @endif
-                                                            <!-- <option value="" selected disabled>Select</option> -->
-                                                            
-                                                            <!-- <option value="MIG" {{ isset($calculationSheetDetails->dcr_rate) && $calculationSheetDetails->dcr_rate == 'MIG' ? 'selected' : '' }}>MIG</option>
-                                                            <option value="HIG" {{ isset($calculationSheetDetails->dcr_rate) && $calculationSheetDetails->dcr_rate == 'HIG' ? 'selected' : '' }}>HIG</option>  -->
                                                         </select>  
-                                                    </div>                                                      
-                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style = "border-style: ridge;">16.</td>
+                                                <td style = "border-style: ridge;">
+                                                    उर्वरितचटईक्षेत्राचे अधिमूल्य
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;">1.1</td>
+                                                <td style = "border-style: ridge;">
+                                                <span class="label">
+                                                    उर्वरित च.क्षे.रहिवासी वापर क्षेत्र
+                                                </span>
+                                                    <input style="border: none;display: inline-block;" type="text" placeholder="0" class="form-control form-control--custom txtbox"
+                                                        name="remaining_residential_area" id="remaining_residential_area"
+                                                        value="<?php if(isset($calculationSheetDetails[0]->remaining_residential_area)) { echo $calculationSheetDetails[0]->remaining_residential_area; } ?>" />
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;">1.2</td>
+                                                <td style = "border-style: ridge;">
+                                                <span class="label">दर </span>
+                                                    <input style="border: none;display: inline-block;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
                                                            name="calculated_dcr_rate_val" id="calculated_dcr_rate_val"
                                                            value="<?php if(isset($calculationSheetDetails[0]->calculated_dcr_rate_val)) { echo $calculationSheetDetails[0]->calculated_dcr_rate_val; } ?>" />
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td style = "border-style: ridge;"></td>
                                                 <td style = "border-style: ridge;">
-                                                    अधिमूल्य
-                                                </td>
-                                                <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
+                                                <span class="label"> अधिमूल्य </span>
+                                                    <input style="border: none;display: inline-block;" type="text" readonly placeholder="0" class=" form-control form-control--custom txtbox"
                                                         name="balance_of_remaining_area" id="balance_of_remaining_area"
                                                         value="<?php if(isset($calculationSheetDetails[0]->balance_of_remaining_area)) { echo $calculationSheetDetails[0]->balance_of_remaining_area; } ?>" />
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
 
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">16.</td>
+                                                <td style = "border-style: ridge;">2.1</td>
+                                                <td style = "border-style: ridge;">
+                                                <span class="label">
+                                                    उर्वरित च.क्षे.रहिवासी वापर क्षेत्र </span>
+                                                    <input style="border: none;display: inline-block;" type="text" placeholder="0" class="form-control form-control--custom txtbox"
+                                                        name="remaining_commercial_area" id="remaining_commercial_area"
+                                                        value="{{ isset($calculationSheetDetails[0]->calculated_commercial_dcr_rate) ? $calculationSheetDetails[0]->calculated_commercial_dcr_rate : '' }}"/>
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;">2.2</td>
+                                                <td style = "border-style: ridge;">
+                                                <span class="label"> दर </span>
+                                                    <input style="border: none;display: inline-block;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
+                                                           name="calculated_commercial_dcr_rate" id="calculated_commercial_dcr_rate"
+                                                           value="{{ isset($calculationSheetDetails[0]->remaining_commercial_area) ? $calculationSheetDetails[0]->remaining_commercial_area : '' }}" />
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;"></td>
+                                                <td style = "border-style: ridge;">
+                                                <span class="label"> अधिमूल्य </span>
+                                                    <input style="border: none;display: inline-block;" type="text" readonly placeholder="0" class=" form-control form-control--custom txtbox"
+                                                        name="balance_of_commercial_remaining_area" id="balance_of_commercial_remaining_area"
+                                                        value="{{ isset($calculationSheetDetails[0]->balance_of_commercial_remaining_area) ? $calculationSheetDetails[0]->balance_of_commercial_remaining_area : '' }}"/>
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style = "border-style: ridge;"></td>
+                                                <td style = "border-style: ridge;">
+                                                    Total
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox total_amount"
+                                                        name="total_premium_amount" id="total_premium_amount"
+                                                        value="{{ isset($calculationSheetDetails[0]->total_premium_amount) ? $calculationSheetDetails[0]->total_premium_amount : '' }}"/>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;">17.</td>
                                                 <td style = "border-style: ridge;">
                                                     दि.०८.१०.२०१३ च्या अधिसूचनेमधील अनु.क्र.५ ए ,नुसार ७ % ऑफ
                                                     इन्फ्रास्टक्चर शुल्क रक्कम
@@ -487,9 +543,8 @@
                                                         value="<?php if(isset($calculationSheetDetails[0]->infrastructure_fee_amount)) { echo $calculationSheetDetails[0]->infrastructure_fee_amount; } ?>" />
 
                                                 </td>
-                                            </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">17.</td>
+                                                <td style = "border-style: ridge;">18.</td>
                                                 <td style = "border-style: ridge;">
                                                     उपरोक्त ऑफ साईट इन्फ्रास्ट्रक्चर शुल्क रकमेपैकी म.न.पा.स
                                                     भरवायची ५/७ रक्कम (५/७ X अनु.क्र.१६)
@@ -502,7 +557,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">18.</td>
+                                                <td style = "border-style: ridge;">19.</td>
                                                 <td style = "border-style: ridge;">
                                                     म्हाडाकडे भरवायची ऑफ साईट इन्फ्रास्ट्रक्चर शुल्क रक्कम (२/७
                                                     *
@@ -516,18 +571,18 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">19.</td>
+                                                <td style = "border-style: ridge;">20.</td>
                                                 <td style = "border-style: ridge;">
                                                     छाननी शुल्क रु.६०००/- [for 1 building]
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" placeholder="0" class="total_amount form-control form-control--custom txtbox"
                                                         name="scrutiny_fee" id="scrutiny_fee" value="<?php if(isset($calculationSheetDetails[0]->scrutiny_fee)) { echo $calculationSheetDetails[0]->scrutiny_fee; } ?>" />
 
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">20.</td>
+                                                <td style = "border-style: ridge;">21.</td>
                                                 <td style = "border-style: ridge;">
                                                     अभिन्यास मंजुरी शुल्क रु,१०००/ - प्रति गाळा
                                                 </td>
@@ -538,7 +593,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">21.</td>
+                                                <td style = "border-style: ridge;">22.</td>
                                                 <td style = "border-style: ridge;">
                                                     डेब्रिज रिमूव्हल शुल्क रु.६६००/- [for 1 building]
                                                 </td>
@@ -549,7 +604,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">22.</td>
+                                                <td style = "border-style: ridge;">23.</td>
                                                 <td style = "border-style: ridge;">
                                                     पाणी वापर शुल्क (रु.१,००,०००/- ) [for 1 building]
                                                 </td>
@@ -560,9 +615,9 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">23.</td>
+                                                <td style = "border-style: ridge;">24.</td>
                                                 <td style = "border-style: ridge;">
-                                                    प्रा. ठराव क्र ६२६० दि. ०४.०६.२००७ व ठराव क्र. ६३४९ दि. २५.११.२००८ अन्वये आर. जी. स्थलांतरणाकरिता दर रु. ५,५३०/- (१० टक्के रे. रे. सन २०१७-१८ रु. ५५३००/- प्रति चौ. मी. ) (१५८४. ४१ चौ. मी. X ५५३०)
+                                                    प्रा. ठराव क्र ६२६० दि. ०४.०६.२००७ व ठराव क्र. ६३४९ दि. २५.११.२००८ अन्वये आर. जी. स्थलांतरणाकरिता दर रु (१० टक्के रे. रे. सन २०१७-१८ रु.)
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
 
@@ -592,7 +647,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">24.</td>
+                                                <td style = "border-style: ridge;">25.</td>
                                                 <td style = "border-style: ridge;">
                                                     भुईभाड्याचे भांडवलीकरणे वार्षिक २.५ टक्के
                                                 </td>
@@ -603,7 +658,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">25.</td>
+                                                <td style = "border-style: ridge;">26.</td>
                                                 <td style = "border-style: ridge;">
                                                     आगाऊ भुईभाडे (प्रति वर्ष ८ टक्के दराने)
                                                 </td>
@@ -614,7 +669,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">26.</td>
+                                                <td style = "border-style: ridge;">27.</td>
                                                 <td style = "border-style: ridge;">
                                                     नाममात्र भुईभाडे (Rs. 1 per year)
                                                 </td>
@@ -625,9 +680,9 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">27.</td>
+                                                <td style = "border-style: ridge;">28.</td>
                                                 <td style = "border-style: ridge;">
-                                                    एकूण रक्कम रुपये (अ .क्र.१५+१८+१९+२०+२१+२२)
+                                                    एकूण रक्कम रुपये (अ .क्र.16(total)+19+20+21+22+23+24(total)+25+26+27)
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
@@ -636,7 +691,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">28.</td>
+                                                <td style = "border-style: ridge;">29.</td>
                                                 <td style = "border-style: ridge;">
                                                     बृहनमुंबई महानगर पालिकेकडे ऑफ साईट इन्फ्रास्ट्रक्चर शुल्क
                                                     रक्कमपैकी भरणा करावयाची ५/७ रक्कम
@@ -651,7 +706,7 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="3" align="right">
-                                                <input type="submit" name="submit" class="btn btn-primary btn-next subtn subt-btn" value="Next" /> </td>
+                                                <input type="submit" name="submit" class="btn btn-primary btn-next subtn subt-btn subBtn1" value="Next" /> </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1035,7 +1090,7 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input type="text" style="border: none;" readonly class="first_installment  form-control form-control--custom txtbox" placeholder="0"
-                                                        name="scrutiny_fee" id="scrutiny_fee" value="<?php if(isset($calculationSheetDetails[0]->scrutiny_fee)) { echo $calculationSheetDetails[0]->scrutiny_fee; } ?>"
+                                                        name="scrutiny_fee1" id="scrutiny_fee1" value="<?php if(isset($calculationSheetDetails[0]->scrutiny_fee)) { echo $calculationSheetDetails[0]->scrutiny_fee; } ?>"
 
                                                 </td>
                                             </tr>
@@ -1538,8 +1593,8 @@
 
             var total_amount_val = cleanNumber($(this).val());
             
-            console.log(total_amount_val);
             var amountVal = (!total_amount_val || isNaN(total_amount_val)) ? 0 : total_amount_val;
+            console.log(amountVal);
 
             total_amount += +parseFloat(amountVal);
         });
@@ -1571,6 +1626,7 @@
         }         
 
         $("#area_of_subsistence_to_calculate").attr('value', numberWithCommas(lowest));
+        permissibleConstructionArea();
     }
 
     function permissibleConstructionArea()
@@ -1579,6 +1635,8 @@
         var permissible_carpet_area_coordinates = (!cleanNumber($("#permissible_carpet_area_coordinates").val()) || isNaN(cleanNumber($("#permissible_carpet_area_coordinates").val()))) ? 0 : cleanNumber($("#permissible_carpet_area_coordinates").val());
 
         $("#permissible_construction_area").attr('value',numberWithCommas((area_of_subsistence_to_calculate * permissible_carpet_area_coordinates).toFixed(2)));
+
+        calculateTotalPermissableArea();
     }
 
     function proratataConstructionArea()
@@ -1587,6 +1645,8 @@
         var total_house = (!cleanNumber($("#total_house").val()) || isNaN(cleanNumber($("#total_house").val()))) ? 0 : cleanNumber($("#total_house").val());
 
         $("#proratata_construction_area").attr('value',numberWithCommas((per_sq_km_proyerta_construction_area * total_house).toFixed(2)));
+
+        calculateTotalPermissableArea();
     }
 
     function calculatedDcrBalanceOfRemainingArea()
@@ -1594,17 +1654,10 @@
         var dcr_rate = $("#dcr_rate").val();
         var lr_rc_range = getLRRCRange();
         var dcr_rate_in_percentage = getDCRPercentage(lr_rc_range,dcr_rate);  
-        // console.log(dcr_rate);
-        // console.log(lr_rc_range);
-        // console.log(dcr_rate_in_percentage);
-
         var redirekner_value = (!cleanNumber($("#redirekner_value").val()) || isNaN(cleanNumber($("#redirekner_value").val()))) ? 0 : cleanNumber($("#redirekner_value").val());
         // var dcr_rate_in_percentage = (!$("input[type=radio][name=dcr_rate_in_percentage]:checked").val() || isNaN($("input[type=radio][name=dcr_rate_in_percentage]:checked").val())) ? 0 : $("input[type=radio][name=dcr_rate_in_percentage]:checked").val();
 
-        // console.log(redirekner_value);
-
         var calculated_dcr = redirekner_value * (dcr_rate_in_percentage / 100);
-        // console.log(calculated_dcr);
         $("#calculated_dcr_rate_val").attr('value',numberWithCommas(calculated_dcr.toFixed(2)));
 
         var remaining_residential_area = (!cleanNumber($("#remaining_residential_area").val()) || isNaN(cleanNumber($("#remaining_residential_area").val()))) ? 0 : cleanNumber($("#remaining_residential_area").val());
@@ -1612,6 +1665,29 @@
         var balance = remaining_residential_area * calculated_dcr.toFixed(2);
 
         $("#balance_of_remaining_area").attr('value',numberWithCommas(balance.toFixed(2)));
+    }
+
+    // calculate commercial rate and adimuly
+    function calculationCommercial(){
+
+        var redirekner_value=(!cleanNumber($("#calculated_dcr_rate_val").val()) || isNaN(cleanNumber($("#calculated_dcr_rate_val").val()))) ? 0 : cleanNumber($("#calculated_dcr_rate_val").val());
+
+        var commercial=(!cleanNumber($("#remaining_commercial_area").val()) || isNaN(cleanNumber($("#remaining_commercial_area").val()))) ? 0 : cleanNumber($("#remaining_commercial_area").val());
+
+        var rate = (redirekner_value * 50)/100;
+        var area = commercial * rate;
+        $("#calculated_commercial_dcr_rate").attr('value',numberWithCommas(rate.toFixed(2)));
+        $("#balance_of_commercial_remaining_area").attr('value',numberWithCommas(area.toFixed(2)));
+    }
+
+    function calculateTotalPremium(){
+        var value=(!cleanNumber($("#balance_of_remaining_area").val()) || isNaN(cleanNumber($("#balance_of_remaining_area").val()))) ? 0 : cleanNumber($("#balance_of_remaining_area").val());
+
+        var commercial=(!cleanNumber($("#balance_of_commercial_remaining_area").val()) || isNaN(cleanNumber($("#balance_of_commercial_remaining_area").val()))) ? 0 : cleanNumber($("#balance_of_commercial_remaining_area").val());
+
+        console.log(commercial);
+        var total = parseFloat(value) + parseFloat(commercial);
+        $("#total_premium_amount").attr('value',numberWithCommas(total.toFixed(2)));
     }
 
     function getLRRCRange(){
@@ -1715,6 +1791,7 @@
         $("#scrutiny_fee").attr('value',numberWithCommas(6000 * total_no_of_buildings));
 
         totalAmountInRs();
+        calculateLayoutApproval();
     });
 
     $(document).on("keyup", ".total_area", function () {
@@ -1751,7 +1828,9 @@
 
         var vpcota = (sqm_area_per_slot * total_house * 10)/100;
         $("#area_in_reserved_seats_for_vp_pio").val(vpcota);
-        console.log(vpcota);
+
+        proratataConstructionArea();
+        calculateTotalPermissableArea();
     });
 
     $(document).on("keyup", "#per_sq_km_proyerta_construction_area", function () {
@@ -1762,17 +1841,26 @@
     $(document).on("keyup", "#total_house", function () {
 
         proratataConstructionArea();
+        totalAmountInRs();
+        calculateLayoutApproval();
+    });
 
+    // calculate 21 pt
+    function calculateLayoutApproval(){
+        
         var total_house = (!cleanNumber($("#total_house").val()) || isNaN(cleanNumber($("#total_house").val()))) ? 0 : cleanNumber($("#total_house").val());
 
         $("#layout_approval_fee").attr('value',numberWithCommas(1000 * total_house));
-
-        totalAmountInRs();
-    });
+    }
 
 
     $(document).on("keyup", ".total_permissible", function () {
+        calculateTotalPermissableArea();
+    });
 
+    // calculate pt 9
+    function calculateTotalPermissableArea(){
+        
         var permissible_construction_area = (!cleanNumber($("#permissible_construction_area").val()) || isNaN(cleanNumber($("#permissible_construction_area").val()))) ? 0 : cleanNumber($("#permissible_construction_area").val());
         var proratata_construction_area = (!cleanNumber($("#proratata_construction_area").val()) || isNaN(cleanNumber($("#proratata_construction_area").val()))) ? 0 : cleanNumber($("#proratata_construction_area").val());
         var area_in_reserved_seats_for_vp_pio = (!cleanNumber($("#area_in_reserved_seats_for_vp_pio").val()) || isNaN(cleanNumber($("#area_in_reserved_seats_for_vp_pio").val()))) ? 0 : cleanNumber($("#area_in_reserved_seats_for_vp_pio").val());
@@ -1781,7 +1869,7 @@
         var total = (parseFloat(permissible_construction_area) + parseFloat(proratata_construction_area) + parseFloat(area_in_reserved_seats_for_vp_pio)).toFixed(2);
 
         $("#total_permissible_construction_area").attr('value',numberWithCommas(total));
-    });
+    }
 
     $(document).on("keyup", ".remaining_area", function () {
 
@@ -1824,13 +1912,10 @@
 
 
    $("#dcr_rate").change(function() {
-
-
         calculatedDcrBalanceOfRemainingArea();
-
-
+        calculationCommercial();
         totalAmountInRs();
-
+        calculateTotalPremium();
     });
 
 
@@ -1924,9 +2009,9 @@
     $(document).ready(function () {
         $(".display_msg").delay(5000).slideUp(300);
 
-
+        areaOfTotalPlot();
         calculateAmountForMhadaMuncipal();
-
+        calculateLayoutApproval();
         nonProfitDuty();
 
         var first_installment = 0;
@@ -1948,6 +2033,41 @@
 
         if (exists > 0 && status == 'true' && offerLetter != '') {
             confirm("Are you sure you want to change calculation sheet. If you change calculation sheet then you have to re-generate offer letter.");
+        }
+    });
+
+    $("#remaining_residential_area").keyup(function(){
+        calculatedDcrBalanceOfRemainingArea();
+        calculateTotalPremium();
+        checkTotalRemainingArea();
+    }); 
+    $("#remaining_commercial_area").keyup(function(){
+        calculationCommercial();
+        calculateTotalPremium();
+        checkTotalRemainingArea();
+    });
+
+    // res+com area = total of rem area pt 11 = pt 16(1.1) + pt 16(2.1)
+    function checkTotalRemainingArea(){
+        
+        var res_area = (!cleanNumber($("#remaining_residential_area").val()) || isNaN(cleanNumber($("#remaining_residential_area").val()))) ? 0 : cleanNumber($("#remaining_residential_area").val());
+
+        var com_area = (!cleanNumber($("#remaining_commercial_area").val()) || isNaN(cleanNumber($("#remaining_commercial_area").val()))) ? 0 : cleanNumber($("#remaining_commercial_area").val());
+
+        var rem_area = (!cleanNumber($("#remaining_area").val()) || isNaN(cleanNumber($("#remaining_area").val()))) ? 0 : cleanNumber($("#remaining_area").val());
+
+        var area = parseFloat(res_area) + parseFloat(com_area);
+        if (area != rem_area){
+            alert("Remaining area should be equal to residential and commerical area");
+            return false;
+        }
+    }
+
+    $(".subBtn1").click(function(e){
+        var a = checkTotalRemainingArea();
+        if (a == false){
+           return false; 
+           e.preventDefault();
         }
     });
 
