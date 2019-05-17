@@ -12,6 +12,7 @@ class ServiceChargeTableSeeder extends Seeder
      */
     public function run()
     {
+        ServiceCharge::truncate();
         $names = [
             [
                 'name' => 'Per tenant'
