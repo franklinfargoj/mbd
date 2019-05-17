@@ -45,7 +45,7 @@ class SocietyConveyance extends Model
 
     public function service_charges()
     {
-        return $this->hasOne('App\ServiceCharge', 'id','service_charge');
+        return $this->hasOne('App\ServiceCharge', 'id','service_charge_type');
     }
 
 }
