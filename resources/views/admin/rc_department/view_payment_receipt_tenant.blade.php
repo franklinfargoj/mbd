@@ -1,6 +1,7 @@
 @extends('admin.layouts.app')
 @section('content')
 <div>
+    <h1>hadsahdchbasjdcbhasjgb</h1>
     <div>
         <h3>Bill for {{date('F', mktime(0, 0, 0, $bill->bill_details->bill_month, 10))}}, {{$bill->bill_details->bill_year}}</h3>
         <h3 style="text-decoration: underline; text-align: center;">Receipt for {{date('F', mktime(0, 0, 0, $bill->bill_details->bill_month, 10))}}, {{$bill->bill_details->bill_year}}</h3>

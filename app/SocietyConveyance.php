@@ -28,6 +28,7 @@ class SocietyConveyance extends Model
         'prev_lease_agreement_no',
         'nature_of_building',
         'tax_paid_to_MHADA_or_BMC',
+        'service_charge_type',
         'service_charge'
     ];
 
@@ -44,7 +45,7 @@ class SocietyConveyance extends Model
 
     public function service_charges()
     {
-        return $this->hasOne('App\ServiceCharge', 'id','service_charge');
+        return $this->hasOne('App\ServiceCharge', 'id','service_charge_type');
     }
 
 }

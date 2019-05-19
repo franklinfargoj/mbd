@@ -4,9 +4,11 @@ namespace App\Http\Controllers\REEDepartment;
 
 use App\OlApplicationCalculationSheetDetails;
 use App\Http\Controllers\Common\CommonController;
+use App\OlDemarcationVerificationDetails;
 use App\Http\Controllers\Controller;
 use App\OlCustomCalculationSheet;
 use App\OlFsiCalculationSheet;
+use App\OlDemarcationLandArea;
 use App\OlDcrRateMaster;
 use App\OlApplication;
 use App\OlApplicationMaster;
@@ -97,14 +99,20 @@ class OlApplicationCalculationSheetDetailsController extends Controller
 
         $custom = OlCustomCalculationSheet::where('application_id',$applicationId)->first();
         $premium = OlApplicationCalculationSheetDetails::where('application_id',$applicationId)->first(); 
-        $fsiCalculation = OlFsiCalculationSheet::where('application_id',$applicationId)->first(); 
+        $fsiCalculation = OlFsiCalculationSheet::where('application_id',$applicationId)->first();
 
         $exists = 0;
         if (isset($custom) || isset($premium) || isset($fsiCalculation)){
             $exists = 1;
         }
         $FSI = '3 FSI';
-        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','folder','master','action','folder1','status','FSI','exists'));
+        //get total house (6.2) from EE scrutiny demarcation 
+        $totalHouse = OlDemarcationVerificationDetails::where('application_id',$applicationId)
+        ->whereNotNull('residential')->whereNotNull('non_residential')->select(DB::raw('sum(residential + non_residential) as total'))->value('total');
+
+        $landArea = OlDemarcationLandArea::where('application_id',$applicationId)->first();
+
+        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','folder','master','action','folder1','status','FSI','exists','totalHouse','fsiVal','landArea'));
     }
  
 

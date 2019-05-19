@@ -65,5 +65,9 @@ class OlFsiCalculationSheet extends Model
         'non_profit_duty_installment',
         'non_profit_duty_val',
         'society_id',
+        'calculated_commercial_dcr_rate',
+        'remaining_commercial_area',
+        'balance_of_commercial_remaining_area',
+        'total_premium_amount',
     ];    
 }

@@ -19,7 +19,6 @@ use App\NocCCApplication;
 use App\SocietyOfferLetter;
 use App\OlSocietyDocumentsStatus;
 use App\OlConsentVerificationDetails;
-use App\OlDemarcationVerificationDetails;
 use App\OlTitBitVerificationDetails;
 use App\OlRelocationVerificationDetails;
 use App\OlApplicationCalculationSheetDetails;
@@ -41,6 +40,8 @@ use App\NOCBuildupArea;
 use App\OlApplicationMaster;
 use App\Http\Controllers\SocietyNocController;
 use App\Http\Controllers\SocietyNocforCCController;
+use App\OlDemarcationVerificationDetails;
+use App\OlDemarcationLandArea;
 use App\OlDcrRateMaster;
 use App\OCEENote;
 use App\User;
@@ -903,6 +904,7 @@ class REEController extends Controller
 
     // get calculation sheet as per selected FSI
     public function getCalculationSheet(Request $request){
+
         $exists = 0;
         $applicationId = $request->applicationId;
         $selectedFSI = $request->fsi;
@@ -954,7 +956,12 @@ class REEController extends Controller
             $FSI = 'Custom';
         }
 
-        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','summary','status','reeNote','folder','buldingNumber','action','FSI','folder1','master','exists'));
+        //get total house (6.2) from EE scrutiny demarcation 
+        $totalHouse = OlDemarcationVerificationDetails::where('application_id',$applicationId)->select(DB::raw('sum(residential + non_residential) as total'))->value('total');
+
+        $landArea = OlDemarcationLandArea::where('application_id',$applicationId)->first();
+
+        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','summary','status','reeNote','folder','buldingNumber','action','FSI','folder1','master','exists','totalHouse','landArea'));
     }
 
     public function showRevalCalculationSheet($id)

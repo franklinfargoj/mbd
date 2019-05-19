@@ -59,6 +59,10 @@ class OlApplicationCalculationSheetDetails extends Model
         'remaining_area',
         'redirekner_val',
         'dcr_rate',
-        'scrutiny_fee'
+        'scrutiny_fee',
+        'calculated_commercial_dcr_rate',
+        'remaining_commercial_area',
+        'balance_of_commercial_remaining_area',
+        'total_premium_amount'
     ];
 }

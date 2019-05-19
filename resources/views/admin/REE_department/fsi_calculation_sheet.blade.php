@@ -18,11 +18,14 @@
 
 <style>
 .txtbox {
-    width :200px;
+    width :200px;}
+span.label {
+    display: inline-block;
+    margin-right: 10px;
+}    
 </style> 
 @php $FSIOptions = ['3 FSI','2.5 FSI','Custom']; 
-$DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
-
+$DCRrate = ['EWS/LIG','MIG','HIG']; @endphp
 <input type="hidden" id="status" value="{{ (($status->status_id == config('commanConfig.applicationStatus.draft_offer_letter_generated') || $status->status_id == config('commanConfig.applicationStatus.offer_letter_approved') || $status->status_id == config('commanConfig.applicationStatus.offer_letter_generation')) ? 'true' : 'false') }}">
 
 <input type="hidden" id="draftedOfferLetter" value="{{ isset($ol_application->drafted_offer_letter) ? $ol_application->drafted_offer_letter : '' }}">
@@ -164,7 +167,7 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" class="total_area form-control form-control--custom txtbox" placeholder="0"
                                                         name="area_as_per_lease_agreement" id="area_as_per_lease_agreement"
-                                                        value="<?php if(isset($calculationSheetDetails->area_as_per_lease_agreement)) { echo $calculationSheetDetails->area_as_per_lease_agreement; } ?>" />
+                                                        value="{{ isset($calculationSheetDetails->area_as_per_lease_agreement) ? $calculationSheetDetails->area_as_per_lease_agreement : (isset($landArea) ? $landArea->lease_agreement_area : '')  }}" />
                                                 </td>
                                                 </td>
                                             </tr>
@@ -175,7 +178,8 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" class="total_area form-control form-control--custom txtbox" placeholder="0"
-                                                        name="area_of_tit_bit_plot" id="area_of_tit_bit_plot" value="<?php  if(isset($calculationSheetDetails->area_of_tit_bit_plot)) { echo $calculationSheetDetails->area_of_tit_bit_plot; } ?>" />
+                                                        name="area_of_tit_bit_plot" id="area_of_tit_bit_plot" 
+                                                        value="{{ isset($calculationSheetDetails->area_of_tit_bit_plot) ? $calculationSheetDetails->area_of_tit_bit_plot : (isset($landArea) ? $landArea->tit_bit_area : '')  }}"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -185,7 +189,8 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" class="total_area form-control form-control--custom txtbox" placeholder="0"
-                                                        name="area_of_rg_plot" id="area_of_rg_plot" value="<?php if(isset($calculationSheetDetails->area_of_rg_plot)) { echo $calculationSheetDetails->area_of_rg_plot; } ?>" />
+                                                        name="area_of_rg_plot" id="area_of_rg_plot"  
+                                                        value="{{ isset($calculationSheetDetails->area_of_rg_plot) ? $calculationSheetDetails->area_of_rg_plot : (isset($landArea) ? $landArea->rg_plot_area : '')  }}"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -214,7 +219,8 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="min_val_for_calculation form-control form-control--custom txtbox" name="area_as_per_introduction"
-                                                        id="area_as_per_introduction" value="<?php if(isset($calculationSheetDetails->area_as_per_introduction)) { echo $calculationSheetDetails->area_as_per_introduction; } ?>" />
+                                                        id="area_as_per_introduction" value="{{ isset($calculationSheetDetails->area_as_per_introduction) ? $calculationSheetDetails->area_as_per_introduction : (isset($landArea) ? $landArea->stag_plot_area : '')  }}" >
+
                                                 </td>
                                             </tr>
                                             <tr>
@@ -236,7 +242,7 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="permissible_area total_permissible form-control form-control--custom txtbox"
                                                         name="permissible_carpet_area_coordinates" id="permissible_carpet_area_coordinates"
-                                                        value="<?php if(isset($calculationSheetDetails->permissible_carpet_area_coordinates)) { echo $calculationSheetDetails->permissible_carpet_area_coordinates; } ?>" />
+                                                        value="{{ isset($calculationSheetDetails->permissible_carpet_area_coordinates) ? $calculationSheetDetails->permissible_carpet_area_coordinates : (float)$FSI }}" /> 
                                                 </td>
                                             </tr>
                                             <tr>
@@ -254,8 +260,7 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
                                             <tr>
                                                 <td style = "border-style: ridge;">6.</td>
                                                 <td style = "border-style: ridge;">
-                                                    म.न.पा .कडून ल. ओ. आय. पत्रानुसार अनुज्ञेय प्रोरेटा
-                                                    क्षेत्रफळ
+                                                    म न पा कडून प्राप्त LOI नुसार / मंजूर अभिन्यासानुसार / अनुज्ञेय प्रोरेटा क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
 
@@ -274,11 +279,11 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
                                             <tr>
                                                 <td style = "border-style: ridge;"></td>
                                                 <td style = "border-style: ridge;">
-                                                    2. एकूण सदनिका
+                                                    2. एकूण सदनिका 
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="proratata_area total_permissible form-control form-control--custom txtbox"
-                                                        name="total_house" id="total_house" value="<?php if(isset($calculationSheetDetails->total_house)) { echo $calculationSheetDetails->total_house; } ?>" />
+                                                        name="total_house" id="total_house" value="{{ isset($calculationSheetDetails->total_house) ? $calculationSheetDetails->total_house : $totalHouse }}" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -296,7 +301,7 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
                                             <tr>
                                                 <td style = "border-style: ridge;">7.</td>
                                                 <td style = "border-style: ridge;">
-                                                    अनुज्ञेय प्रोरेटा बांधकाम क्षेत्रफळ (85% पर्यंत सीमित )
+                                                    वितरणाकरीता प्रस्तावित केलेले प्रोरेटा बांधकाम क्षेत्रफळ (85% पर्यंत सीमित )
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
 
@@ -363,7 +368,7 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
                                             <tr>
                                                 <td style = "border-style: ridge;">11.</td>
                                                 <td style = "border-style: ridge;">
-                                                    उर्वरित क्षेत्रफळ (अ.क्र 9. - अ.क्र.10 )
+                                                    उर्वरित बांधकाम क्षेत्रफळ  (अ.क्र 9. - अ.क्र.10 )
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" readonly class="form-control form-control--custom txtbox"
@@ -406,29 +411,8 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
                                             <tr>
                                                 <td style = "border-style: ridge;">15.</td>
                                                 <td style = "border-style: ridge;">
-                                                    उर्वरितचटईक्षेत्राचे अधिमूल्य
-                                                </td>
-                                                <td class="text-center" style = "border-style: ridge;">
+                                                    वि नि प्रो नियमावली नुसार २०३४ table C1 नुसारचा दर
 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style = "border-style: ridge;"></td>
-                                                <td style = "border-style: ridge;">
-                                                    1. उर्वरित च.क्षे.रहिवासी वापर क्षेत्र
-                                                </td>
-                                                <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" placeholder="0" readonly class="form-control form-control--custom txtbox"
-                                                        name="remaining_residential_area" id="remaining_residential_area"
-                                                        value="<?php if(isset($calculationSheetDetails->remaining_residential_area)) { echo $calculationSheetDetails->remaining_residential_area; } ?>" />
-
-                                                </td>
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td style = "border-style: ridge;"></td>
-                                                <td style = "border-style: ridge;">
-                                                    2. दर
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <div class="col-sm-12" style="margin-bottom: 12px;padding: 0px">
@@ -446,32 +430,102 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
                                                             @endif
                                                         @endforeach
                                                         @endif
-
-                                                           <!--  <option value="" selected disabled>Select</option>
-                                                            <option value="EWS" {{ isset($calculationSheetDetails->dcr_rate) && $calculationSheetDetails->dcr_rate == 'EWS' ? 'selected' : '' }}> EWS / LIG</option>
-                                                            <option value="MIG" {{ isset($calculationSheetDetails->dcr_rate) && $calculationSheetDetails->dcr_rate == 'MIG' ? 'selected' : '' }}>MIG</option>
-                                                            <option value="HIG" {{ isset($calculationSheetDetails->dcr_rate) && $calculationSheetDetails->dcr_rate == 'HIG' ? 'selected' : '' }}>HIG</option>  -->
                                                         </select>
                                                     </div>
-                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
-                                                           name="calculated_dcr_rate_val" id="calculated_dcr_rate_val"
-                                                           value="<?php if(isset($calculationSheetDetails->calculated_dcr_rate_val)) { echo $calculationSheetDetails->calculated_dcr_rate_val; } ?>" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;">16.</td>
+                                                <td style = "border-style: ridge;">
+                                                    उर्वरितचटईक्षेत्राचे अधिमूल्य
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
 
-                                                    <!-- </div>                                                                                                                        -->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;">1.1</td>
+                                                <td style = "border-style: ridge;">
+                                                <span class="label">
+                                                     उर्वरित च.क्षे.रहिवासी वापर क्षेत्र </span>
+                                                    <input style="border: none;display: inline-block;" type="text" placeholder="0" class="form-control form-control--custom txtbox"
+                                                        name="remaining_residential_area" id="remaining_residential_area"
+                                                        value="<?php if(isset($calculationSheetDetails->remaining_residential_area)) { echo $calculationSheetDetails->remaining_residential_area; } ?>" />
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
 
-                                                    <!-- <span style="cursor: pointer" class="subtn" data-toggle="modal" data-target="#select-from-dcr">Select
-                                                        from DCR</span> -->
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td style = "border-style: ridge;">1.2</td>
+                                                <td style = "border-style: ridge;">
+                                                <span class="label"> दर </span>
+                                                <input style="border: none;display: inline-block;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
+                                                       name="calculated_dcr_rate_val" id="calculated_dcr_rate_val"
+                                                       value="<?php if(isset($calculationSheetDetails->calculated_dcr_rate_val)) { echo $calculationSheetDetails->calculated_dcr_rate_val; } ?>" />
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td style = "border-style: ridge;"></td>
                                                 <td style = "border-style: ridge;">
-                                                    अधिमूल्य
+                                                <span class="label">अधिमूल्य </span>
+                                                <input type="text" style="display: inline-block;" placeholder="0" readonly class="form-control form-control--custom txtbox infrastructure_charges"
+                                                    name="balance_of_remaining_area" id="balance_of_remaining_area" 
+                                                    value="<?php if(isset($calculationSheetDetails->balance_of_remaining_area)) { echo $calculationSheetDetails->balance_of_remaining_area; } ?>" />
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input type="text" readonly placeholder="0" class="form-control form-control--custom txtbox infrastructure_charges"
-                                                        name="balance_of_remaining_area" id="balance_of_remaining_area" 
-                                                        value="<?php if(isset($calculationSheetDetails->balance_of_remaining_area)) { echo $calculationSheetDetails->balance_of_remaining_area; } ?>" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;">2.1</td>
+                                                <td style = "border-style: ridge;">
+                                                <span class="label">
+                                                    उर्वरित च.क्षे.रहिवासी वापर क्षेत्र </span>
+                                                    <input style="border: none;display: inline-block;" type="text" placeholder="0" class="form-control form-control--custom txtbox"
+                                                        name="remaining_commercial_area" id="remaining_commercial_area"
+                                                        value="{{ isset($calculationSheetDetails->calculated_commercial_dcr_rate) ? $calculationSheetDetails->calculated_commercial_dcr_rate : '' }}"/>
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;">2.2</td>
+                                                <td style = "border-style: ridge;">
+                                                <span class="label"> दर </span>
+                                                    <input style="border: none;display: inline-block;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
+                                                           name="calculated_commercial_dcr_rate" id="calculated_commercial_dcr_rate"
+                                                           value="{{ isset($calculationSheetDetails->remaining_commercial_area) ? $calculationSheetDetails->remaining_commercial_area : '' }}" />
+                                                </td> 
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;"></td>
+                                                <td style = "border-style: ridge;">
+                                                <span class="label"> अधिमूल्य </span>
+                                                    <input style="border: none;display: inline-block;" type="text" readonly placeholder="0" class=" form-control form-control--custom txtbox"
+                                                        name="balance_of_commercial_remaining_area" id="balance_of_commercial_remaining_area"
+                                                        value="{{ isset($calculationSheetDetails->balance_of_commercial_remaining_area) ? $calculationSheetDetails->balance_of_commercial_remaining_area : '' }}"/>
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style = "border-style: ridge;"></td>
+                                                <td style = "border-style: ridge;">
+                                                    Total
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox total_amount"
+                                                        name="total_premium_amount" id="total_premium_amount"
+                                                        value="{{ isset($calculationSheetDetails->total_premium_amount) ? $calculationSheetDetails->total_premium_amount : '' }}"/>
 
                                                 </td>
                                             </tr>
@@ -518,7 +572,7 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
                                                     छाननी शुल्क रु.६०००/- [for 1 building]
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
+                                                    <input style="border: none;" type="text" placeholder="0" class="total_amount form-control form-control--custom txtbox"
                                                         name="scrutiny_fee" id="scrutiny_fee" value="<?php if(isset($calculationSheetDetails->scrutiny_fee)) { echo $calculationSheetDetails->scrutiny_fee; } ?>" />
 
                                                 </td>
@@ -599,7 +653,7 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
                                             <tr>
                                                 <td style = "border-style: ridge;">24.</td>
                                                 <td style = "border-style: ridge;">
-                                                    प्रा. ठराव क्र ६२६० दि. ०४.०६.२००७ व ठराव क्र. ६३४९ दि. २५.११.२००८ अन्वये आर. जी. स्थलांतरणाकरिता दर रु. ५,५३०/- (१० टक्के रे. रे. सन २०१७-१८ रु. ५५३००/- प्रति चौ. मी. ) (१५८४. ४१ चौ. मी. X ५५३०)
+                                                    प्रा. ठराव क्र ६२६० दि. ०४.०६.२००७ व ठराव क्र. ६३४९ दि. २५.११.२००८ अन्वये आर. जी. स्थलांतरणाकरिता दर रु.  (१० टक्के रे. रे. सन २०१७-१८)
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
 
@@ -674,7 +728,7 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
                                             </tr>
                                             <tr>
                                                 <td colspan="3" align="right">
-                                                <input type="submit" name="submit" class="btn btn-primary btn-next subtn subt-btn" value="Next" /> </td>
+                                                <input type="submit" name="submit" class="btn btn-primary btn-next subtn subt-btn subBtn1" value="Next" /> </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -752,7 +806,8 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
                                                                             <label class="m-radio m-radio--box-label">
                                                                                 <input type="radio" name="dcr_rate_in_percentage"
                                                                                     id="dcr_rate_in_percentage" value="65"
-                                                                                    {{ isset($calculationSheetDetails->dcr_rate_in_percentage) && $calculationSheetDetails->dcr_rate_in_percentage == '65' ? 'checked' : '' }}>
+                                                                                    {{ isset($calculationSheetDetails->dcr_rate_in_percentage) 
+                                                                                    && $calculationSheetDetails->dcr_rate_in_percentage == '65' ? 'checked' : '' }}>
                                                                                 <span class="m-radio--box-span"><span>65%</span></span>
                                                                             </label>
                                                                         </div>
@@ -1598,6 +1653,7 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
         } 
 
         $("#area_of_subsistence_to_calculate").attr('value', numberWithCommas(lowest));
+        permissibleConstructionArea();
     }
 
     function permissibleConstructionArea()
@@ -1606,6 +1662,8 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
         var permissible_carpet_area_coordinates = (!cleanNumber($("#permissible_carpet_area_coordinates").val()) || isNaN(cleanNumber($("#permissible_carpet_area_coordinates").val()))) ? 0 : cleanNumber($("#permissible_carpet_area_coordinates").val());
 
         $("#permissible_construction_area").attr('value',numberWithCommas((area_of_subsistence_to_calculate * permissible_carpet_area_coordinates).toFixed(2)));
+
+        calculateTotalPermissableArea();
     }
 
     function proratataConstructionArea()
@@ -1614,6 +1672,8 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
         var total_house = (!cleanNumber($("#total_house").val()) || isNaN(cleanNumber($("#total_house").val()))) ? 0 : cleanNumber($("#total_house").val());
 
         $("#proratata_construction_area").attr('value',numberWithCommas((per_sq_km_proyerta_construction_area * total_house).toFixed(2)));
+
+        calculateTotalPermissableArea();
     }
 
     function calculatedDcrBalanceOfRemainingArea()
@@ -1654,7 +1714,7 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
     function getDCRPercentage(lr_rc_range,dcr_rate){
 
         $per_rate = '';
-        if (dcr_rate == 'EWS'){
+        if (dcr_rate == 'EWS/LIG'){
             if (lr_rc_range == '0_to_2')
                 $per_rate = '40';            
             else if (lr_rc_range == '2_to_4')
@@ -1772,6 +1832,16 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
         var total_house = (!cleanNumber($("#total_house").val()) || isNaN(cleanNumber($("#total_house").val()))) ? 0 : cleanNumber($("#total_house").val());
 
         $("#permissible_proratata_area").attr('value',numberWithCommas((sqm_area_per_slot * total_house).toFixed(2)));
+
+        //value of pt 7.1
+        var prorata = (sqm_area_per_slot * 85)/100;
+        $("#per_sq_km_proyerta_construction_area").val(prorata);
+
+        var vpcota = (sqm_area_per_slot * total_house * 10)/100;
+        $("#area_in_reserved_seats_for_vp_pio").val(vpcota);
+
+        proratataConstructionArea();
+        calculateTotalPermissableArea();
     });
 
     $(document).on("keyup", "#per_sq_km_proyerta_construction_area", function () {
@@ -1790,6 +1860,13 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
         totalAmountInRs();
     });
 
+    // calculate 21 pt
+    function calculateLayoutApproval(){
+        
+        var total_house = (!cleanNumber($("#total_house").val()) || isNaN(cleanNumber($("#total_house").val()))) ? 0 : cleanNumber($("#total_house").val());
+
+        $("#layout_approval_fee").attr('value',numberWithCommas(1000 * total_house));
+    }
 
     $(document).on("keyup", ".total_permissible", function () {
 
@@ -1853,6 +1930,8 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
 
         calculatedDcrBalanceOfRemainingArea();
         totalAmountInRs();
+        calculationCommercial();
+        calculateTotalPremium();
 
         // pt 17 value
         var balance = (!cleanNumber($("#balance_of_remaining_area").val()) || isNaN(cleanNumber($("#balance_of_remaining_area").val()))) ? 0 : cleanNumber($("#balance_of_remaining_area").val());
@@ -1959,8 +2038,9 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
     $(document).ready(function () {
         $(".display_msg").delay(5000).slideUp(300);
 
-
+        areaOfTotalPlot();
         calculateAmountForMhadaMuncipal();
+        calculateLayoutApproval();
 
         nonProfitDuty();
 
@@ -2008,6 +2088,77 @@ $DCRrate = ['EWS / LIG','MIG','HIG']; @endphp
         if (exists > 0 && status == 'true' && offerLetter != '') {
             confirm("Are you sure you want to change calculation sheet. If you change calculation sheet then you have to re-generate offer letter.");
         }
+    });
+
+    // calculate pt 9
+    function calculateTotalPermissableArea(){
+        
+        var permissible_construction_area = (!cleanNumber($("#permissible_construction_area").val()) || isNaN(cleanNumber($("#permissible_construction_area").val()))) ? 0 : cleanNumber($("#permissible_construction_area").val());
+        var proratata_construction_area = (!cleanNumber($("#proratata_construction_area").val()) || isNaN(cleanNumber($("#proratata_construction_area").val()))) ? 0 : cleanNumber($("#proratata_construction_area").val());
+        var area_in_reserved_seats_for_vp_pio = (!cleanNumber($("#area_in_reserved_seats_for_vp_pio").val()) || isNaN(cleanNumber($("#area_in_reserved_seats_for_vp_pio").val()))) ? 0 : cleanNumber($("#area_in_reserved_seats_for_vp_pio").val());
+
+
+        var total = (parseFloat(permissible_construction_area) + parseFloat(proratata_construction_area) + parseFloat(area_in_reserved_seats_for_vp_pio)).toFixed(2);
+
+        $("#total_permissible_construction_area").attr('value',numberWithCommas(total));
+    }
+
+    // calculate commercial rate and adimuly
+    function calculationCommercial(){
+
+        var redirekner_value=(!cleanNumber($("#calculated_dcr_rate_val").val()) || isNaN(cleanNumber($("#calculated_dcr_rate_val").val()))) ? 0 : cleanNumber($("#calculated_dcr_rate_val").val());
+
+        var commercial=(!cleanNumber($("#remaining_commercial_area").val()) || isNaN(cleanNumber($("#remaining_commercial_area").val()))) ? 0 : cleanNumber($("#remaining_commercial_area").val());
+
+        var rate = (redirekner_value * 50)/100;
+        var area = commercial * rate;
+        $("#calculated_commercial_dcr_rate").attr('value',numberWithCommas(rate.toFixed(2)));
+        $("#balance_of_commercial_remaining_area").attr('value',numberWithCommas(area.toFixed(2)));
+    }
+
+    function calculateTotalPremium(){
+        var value=(!cleanNumber($("#balance_of_remaining_area").val()) || isNaN(cleanNumber($("#balance_of_remaining_area").val()))) ? 0 : cleanNumber($("#balance_of_remaining_area").val());
+
+        var commercial=(!cleanNumber($("#balance_of_commercial_remaining_area").val()) || isNaN(cleanNumber($("#balance_of_commercial_remaining_area").val()))) ? 0 : cleanNumber($("#balance_of_commercial_remaining_area").val());
+
+        console.log(commercial);
+        var total = parseFloat(value) + parseFloat(commercial);
+        $("#total_premium_amount").attr('value',numberWithCommas(total.toFixed(2)));
+    }
+
+    $(".subBtn1").click(function(e){
+        var a = checkTotalRemainingArea();
+        if (a == false){
+           return false; 
+           e.preventDefault();
+        }
+    });
+
+     // res+com area = total of rem area pt 11 = pt 16(1.1) + pt 16(2.1)
+    function checkTotalRemainingArea(){
+        
+        var res_area = (!cleanNumber($("#remaining_residential_area").val()) || isNaN(cleanNumber($("#remaining_residential_area").val()))) ? 0 : cleanNumber($("#remaining_residential_area").val());
+
+        var com_area = (!cleanNumber($("#remaining_commercial_area").val()) || isNaN(cleanNumber($("#remaining_commercial_area").val()))) ? 0 : cleanNumber($("#remaining_commercial_area").val());
+
+        var rem_area = (!cleanNumber($("#remaining_area").val()) || isNaN(cleanNumber($("#remaining_area").val()))) ? 0 : cleanNumber($("#remaining_area").val());
+
+        var area = parseFloat(res_area) + parseFloat(com_area);
+        if (area != rem_area){
+            alert("Remaining area should be equal to residential and commerical area");
+            return false;
+        }
+    }
+
+    $("#remaining_residential_area").keyup(function(){
+        calculatedDcrBalanceOfRemainingArea();
+        calculateTotalPremium();
+        checkTotalRemainingArea();
+    }); 
+    $("#remaining_commercial_area").keyup(function(){
+        calculationCommercial();
+        calculateTotalPremium();
+        checkTotalRemainingArea();
     });
 </script>
 @endsection
