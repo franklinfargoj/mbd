@@ -242,6 +242,7 @@ class RCController extends Controller
     }
 
     public function generate_receipt_society(Request $request){
+        //dd($request->all());
         $request->building_id = decrypt($request->building_id);
         $request->society_id = decrypt($request->society_id);
         
@@ -266,9 +267,9 @@ class RCController extends Controller
         }
 
         $bill_ids =  explode(',',$Tenant_bill_id->bill_id);                          
-        
+        //dd($bill_ids);
         $bill = TransBillGenerate::findMany($bill_ids);
-        // dd($bill);
+         //dd($bill);
         if(!empty($bill)){
         $data = array('monthly_bill' => 0,'arrear_bill' => 0 , 'total_bill' => 0, 'total_service_after_due' => 0, 'late_fee_charge' => 0, 'arrear_id' => '', 'bill_year' => $bill[0]->bill_year, 'bill_month' => $bill[0]->bill_month, 'building_id' => $bill[0]->building_id, 'society_id' => $bill[0]->society_id, 'bill_date' => $bill[0]->bill_date, 'due_date' => $bill[0]->due_date, 'bill_from' => $bill[0]->bill_from, 'bill_to' => $bill[0]->bill_to, 'consumer_number' => $bill[0]->consumer_number);    
         } else {
@@ -311,7 +312,7 @@ class RCController extends Controller
        
        $request->tenant_id = decrypt($request->tenant_id);
        $request->building_id = decrypt($request->building_id);
-
+        
        $currentMonth = date('m');
         if($currentMonth < 4) {
             if($currentMonth == 1) {
@@ -325,17 +326,17 @@ class RCController extends Controller
             $data['month'] = date('m');
             $data['year'] = date('Y');
         }
-
+       // dd($request->tenant_id." ". $request->building_id);
         $bill = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
                                    ->where('building_id', '=', $request->building_id)
-                                   ->where('bill_month', '=',  $data['month'])
-                                   ->where('bill_year', '=', $data['year'])
+                                //    ->where('bill_month', '=',  $data['month'])
+                                //    ->where('bill_year', '=', $data['year'])
                                    ->with('tenant_detail')
                                    ->with('building_detail')
                                    ->with('society_detail')
                                    ->orderBy('id','DESC')
                                    ->first();
-
+        
          if(empty($bill) || is_null($bill)){
            return redirect()->back()->with('warning', 'Receipt Generation is not done for user.');
         }
@@ -508,6 +509,42 @@ class RCController extends Controller
                 $bill = TransPayment::insert($data);
                 //dd($bill);
                 $bill_status = TransBillGenerate::find($bill_ids[0]);
+                if($bill_status->service_charge_balance<=$amount_paid)
+                {
+                    
+                    $amount_paid=$amount_paid-ceil($bill_status->service_charge_balance);
+                    $bill_status->service_charge_balance=0;
+                    if($amount_paid>0)
+                    {   
+                        if($amount_paid>=ceil($bill_status->arrear_balance))
+                        {
+                            
+                            $amount_paid=$amount_paid-ceil($bill_status->arrear_balance);
+                            $bill_status->arrear_balance=0;
+                            if($amount_paid>$bill_status->arrear_interest_balance)
+                            {
+                                $amount_paid=$amount_paid-ceil($bill_status->arrear_interest_balance);
+                                $bill_status->arrear_interest_balance=0;
+                            }else
+                            {
+                                $bill_status->arrear_interest_balance=ceil($bill_status->arrear_interest_balance)-$amount_paid;
+                                $amount_paid=0;
+                            }
+                        }else
+                        {
+                            $bill_status->arrear_balance=$amount_paid-ceil($bill_status->arrear_balance);
+                            $amount_paid=0;
+                        }
+                    }else
+                    {
+                        $bill_status->arrear_balance=ceil($bill_status->arrear_balance)-$amount_paid;
+                        $amount_paid=0;
+                    }
+                }else
+                {
+                    $bill_status->service_charge_balance=ceil($bill_status->service_charge_balance)-$amount_paid;
+                    $amount_paid=0;
+                }
                 $bill_status->status = 'paid';
                 $bill_status->balance_amount = $request->balance_amount;
                 $bill_status->credit_amount = $request->credit_amount;
@@ -627,6 +664,8 @@ class RCController extends Controller
                 } else {
                     $amount_paid = 0;
                 }
+
+                $bill_status = TransBillGenerate::find($request->bill_no);
                 
                 if( $amount_paid < $totalServiceCharge) {
                     return redirect()->back()->with('warning', 'You need to pay atleast basic service charges.');
@@ -649,6 +688,42 @@ class RCController extends Controller
                 $bill->save();
 
                     $bill_status = TransBillGenerate::find($request->bill_no);
+                    if($bill_status->service_charge_balance<=$amount_paid)
+                    {
+                        
+                        $amount_paid=$amount_paid-ceil($bill_status->service_charge_balance);
+                        $bill_status->service_charge_balance=0;
+                        if($amount_paid>0)
+                        {   
+                            if($amount_paid>=ceil($bill_status->arrear_balance))
+                            {
+                                
+                                $amount_paid=$amount_paid-ceil($bill_status->arrear_balance);
+                                $bill_status->arrear_balance=0;
+                                if($amount_paid>$bill_status->arrear_interest_balance)
+                                {
+                                    $amount_paid=$amount_paid-ceil($bill_status->arrear_interest_balance);
+                                    $bill_status->arrear_interest_balance=0;
+                                }else
+                                {
+                                    $bill_status->arrear_interest_balance=ceil($bill_status->arrear_interest_balance)-$amount_paid;
+                                    $amount_paid=0;
+                                }
+                            }else
+                            {
+                                $bill_status->arrear_balance=$amount_paid-ceil($bill_status->arrear_balance);
+                                $amount_paid=0;
+                            }
+                        }else
+                        {
+                            $bill_status->arrear_balance=ceil($bill_status->arrear_balance)-$amount_paid;
+                            $amount_paid=0;
+                        }
+                    }else
+                    {
+                        $bill_status->service_charge_balance=ceil($bill_status->service_charge_balance)-$amount_paid;
+                        $amount_paid=0;
+                    }
                     $bill_status->status = 'paid';
                     $bill_status->balance_amount = $request->balance_amount;
                     $bill_status->credit_amount = $request->credit_amount;

@@ -2,7 +2,7 @@
     @php 
         $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other; 
 
-        $total_service = $total_service * $number_of_tenants->tenant_count()->first()->count;
+        $total_service = $total_service;
 
         $total_after_due = $total_service * 0.015; 
 
@@ -11,11 +11,11 @@
         $total ='0';    
 
         $tempBalance = 0;
-        if($lastBill) {
-                if( 0 < $lastBill->total_bill_after_due_date ) {
-                    $tempBalance += $lastBill->balance;
-                }
-        }      
+        // if($lastBill) {
+        //         if( 0 < $lastBill->total_bill_after_due_date ) {
+        //             $tempBalance += $lastBill->balance;
+        //         }
+        // }      
     @endphp
     @if(!$arreasCalculation->isEmpty())  
       @foreach($arreasCalculation as $calculation)
@@ -282,11 +282,11 @@
                 {{-- <tr>
                     <td valign="top" style="background-color: #f1f3f4;  padding: 5px;">Total arrear charges</td>
                     <td valign="top" style="background-color: #f1f3f4;  padding: 5px; text-align: center;" class="text-center">{{$total}}</td>
-                </tr>
+                </tr> --}}
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4;  padding: 5px;">Service Charges</td>
                     <td valign="top" style="background-color: #f1f3f4;  padding: 5px; text-align: center;" class="text-center">{{$total_service}}</td>
-                </tr> --}}
+                </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4;  padding: 5px;">Bill Amount Before due date</td>
                     <td valign="top" style="background-color: #f1f3f4;  padding: 5px; text-align: center;" class="text-center">{{$total_service+$total}}</td>
