@@ -1312,7 +1312,7 @@ class EMController extends Controller
 
             $request->building_id = decrypt($request->building_id);
             $request->society_id  = decrypt($request->society_id);            
-
+            //dd($request->building_id." ".$request->society_id);
             $data['building'] = MasterBuilding::find($request->building_id);
             $data['society'] = SocietyDetail::find($data['building']->society_id);
 
@@ -1346,7 +1346,8 @@ class EMController extends Controller
             }
             unset($months[count($months)-1]);
             $data['arrear_data']=ArrearsChargesRate::where(['society_id'=>$data['building']->society_id,'building_id'=>$request->building_id])->first();
-            $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('payment_status','0')->whereIn('year',$years)->whereIn('month',$months)->orderby('year','month')->get();
+            //$data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('payment_status','0')->whereIn('year',$years)->whereIn('month',$months)->orderby('year','month')->get();
+            $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('payment_status','0')->orderby('year','month')->get();            
             //dd($data['arreasCalculation']);
                 
             $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
@@ -1446,7 +1447,8 @@ class EMController extends Controller
             }
             //dd($realMonth." ".$request->tenant_id);
             //dd($realMonth);
-            $data['arreasCalculation'] = ArrearCalculation::where('tenant_id',$request->tenant_id)->where('month',$realMonth)->where('payment_status','0')->get();
+            //$data['arreasCalculation'] = ArrearCalculation::where('tenant_id',$request->tenant_id)->where('month',$realMonth)->where('payment_status','0')->get();
+            $data['arreasCalculation'] = ArrearCalculation::where('tenant_id',$request->tenant_id)->where('payment_status','0')->get();
             //dd($data['arreasCalculation']);
             $currentMonth = date('m');
             if($currentMonth < 4) {
@@ -1512,6 +1514,20 @@ class EMController extends Controller
                                     ->first();
             }
             //dd($check);
+
+            $arreasCalculations = ArrearCalculation::where('tenant_id',$request->tenant_id)->where('payment_status','0')->get();
+            $arrear_balance=$arrear_interest_balance=0;
+            if(count($arreasCalculations)>0)
+            {
+                foreach($arreasCalculations as $arreasCalculation)
+                {
+                    $arrear_balance+=($arreasCalculation->total_amount - $arreasCalculation->old_intrest_amount -
+                                $arreasCalculation->difference_intrest_amount);
+                    $arrear_interest_balance+=($arreasCalculation->old_intrest_amount +
+                        $arreasCalculation->difference_intrest_amount);
+                }
+            }
+           // dd($arrear_balance." ".$arrear_interest_balance);
         if(is_null($check) || $check == ''){
            // dd('ok');
             $bill = new TransBillGenerate;
@@ -1529,7 +1545,8 @@ class EMController extends Controller
                 $bill->monthly_bill = $request->monthly_bill;
             }
             $bill->service_charge_balance=$request->monthly_bill;
-            $bill->arrear_balance=$request->arrear_bill;
+            $bill->arrear_balance=$arrear_balance;
+            $bill->arrear_interest_balance=$arrear_interest_balance;
             $bill->arrear_bill = $request->arrear_bill;
             $bill->arrear_id = $arrear_id;
             $bill->total_bill = $request->total_bill;
@@ -1538,7 +1555,7 @@ class EMController extends Controller
             $bill->consumer_number = $request->consumer_number;
             $bill->total_service_after_due = $request->total_service_after_due;
             $bill->late_fee_charge = $request->late_fee_charge;
-            $bill->total_bill_after_due_date = round($request->total_bill + $request->late_fee_charge,2);
+            $bill->total_bill_after_due_date = ceil($request->total_bill + $request->late_fee_charge);
 
             
             // $transPayment = TransPayment::where('bill_no',$check->id)->where('tenant_id',$request->tenant_id)->where('building_id',$request->building_id)->where('society_id',$request->society_id)->orderBy('id','DESC')->first();
@@ -1571,7 +1588,8 @@ class EMController extends Controller
             
             if($lastBill)
             {
-                //for credit amount
+                $bill->arrear_balance=$lastBill->arrear_balance;
+                $bill->arrear_interest_balance=$lastBill->arrear_interest_balance;
                 if($lastBill->credit_amount>0)
                 {
                     $bill->prev_credit=$lastBill->credit_amount;
@@ -1581,14 +1599,24 @@ class EMController extends Controller
                         $bill->service_charge_balance = 0;
                         if($lastBill->credit_amount>0)
                         {
-                            if($lastBill->credit_amount>=$bill->arrear_bill)
+                            if($lastBill->credit_amount>=$bill->arrear_balance)
                             {
-                                $lastBill->credit_amount= $lastBill->credit_amount-$bill->arrear_bill;
+                                $lastBill->credit_amount= $lastBill->credit_amount-$bill->arrear_balance;
                                 $bill->arrear_balance=0;
-                                $bill->credit_amount=$lastBill->credit_amount;
+                                if($lastBill->credit_amount>=$lastBill->arrear_interest_balance)
+                                {
+                                    $lastBill->credit_amount= $lastBill->credit_amount-$bill->arrear_interest_balance;
+                                    $bill->credit_amount=$lastBill->credit_amount;
+                                }else
+                                {
+                                    $bill->arrear_interest_balance=$bill->arrear_interest_balance-$lastBill->credit_amount;
+                                    $bill->credit_amount=0;
+                                }
+                               
                             }else
                             {
                                 $bill->arrear_balance=$bill->arrear_balance-$lastBill->credit_amount;
+                                $bill->credit_amount=0;
                             }
                         }
                     }else
@@ -1607,6 +1635,7 @@ class EMController extends Controller
                 {
                     $bill->prev_service_charge_balance=0;
                     $bill->prev_arrear_balance=0;
+                    $bill->prev_arrear_interest_balance=0;
                     if($lastBill->service_charge_balance>0)
                     {
                         $lastBill->service_charge_balance=$lastBill->service_charge_balance+($lastBill->service_charge_balance*0.015);
@@ -1626,21 +1655,24 @@ class EMController extends Controller
                             {
                                 $arrear_interest=($arrear_data->old_rate*($arrear_data->interest_on_old_rate/100))+(($arrear_data->revise_rate-$arrear_data->old_rate)*($arrear_data->interest_on_differance/100));
                             }
-                        $lastBill->arrear_balance=$lastBill->arrear_balance+$arrear_interest;
+                        $lastBill->arrear_balance=$lastBill->arrear_balance;
+                        $lastBill->arrear_interest_balance=$lastBill->arrear_interest_balance+$arrear_interest;
                         //dd($lastBill->arrear_balance);
                         $bill->prev_arrear_balance=$lastBill->arrear_balance;
-                        
+                        $bill->prev_arrear_interest_balance=$lastBill->arrear_interest_balance;
                     }
-                    $bill->arrear_balance=$bill->arrear_balance+$lastBill->arrear_balance;
+                    $bill->arrear_balance=$lastBill->arrear_balance;
+                    $bill->arrear_interest_balance=$lastBill->arrear_interest_balance;
+                    
                 }
                 
-                $bill->balance_amount=ceil($bill->arrear_balance+$bill->service_charge_balance);
+                $bill->balance_amount=ceil($bill->arrear_balance+$bill->arrear_interest_balance+$bill->service_charge_balance);
                 
-                $bill->total_bill=ceil($bill->arrear_balance+$bill->service_charge_balance);
+                $bill->total_bill=ceil($bill->arrear_balance+$bill->arrear_interest_balance+$bill->service_charge_balance);
                 
             }else
             {
-                $bill->balance_amount = round($bill->total_bill,2);
+                $bill->balance_amount = ceil($bill->total_bill);
                 $bill->credit_amount= 0;    
             }
             // if($lastBill)
@@ -1705,7 +1737,7 @@ class EMController extends Controller
                 
             //     $bill->balance_amount = $transPayment->balance_amount + $request->total_bill;    
             // }
-            
+            //dd($bill);
             $bill->save();
 
             return redirect()->back()->with('success', 'Bill Generated Successfully.')->with('regenate',false);
@@ -1733,7 +1765,7 @@ class EMController extends Controller
             $tenants = MasterTenant::where('building_id',$request->building_id)->get();
             //dump($tenants);
             //$request->monthly_bill = $request->monthly_bill / $request->no_of_tenant;
-            $last_bill_balance=0;
+            //$last_bill_balance=0;
             $currentMonth = date('m');
             if($currentMonth < 4) {
                 $year = date('Y') -1;
@@ -1783,10 +1815,12 @@ class EMController extends Controller
                     $total_bill = 0;
                     $arrear_id = '';
                     $monthly_bill=0;
-                    $arrearID = [];                
+                    $arrearID = [];
+                    $arrear_balance=$arrear_interest_balance=0;                
                     if($lastBill==null)
                     {
-                        $arreasCalculation = ArrearCalculation::where('building_id',$request->building_id)->where('payment_status','0')->whereIn('year',$years)->whereIn('month',$months)->get();
+                        //$arreasCalculation = ArrearCalculation::where('building_id',$request->building_id)->where('payment_status','0')->whereIn('year',$years)->whereIn('month',$months)->get();
+                        $arreasCalculation = ArrearCalculation::where('building_id',$request->building_id)->where('payment_status','0')->get();                        
                         if(!$arreasCalculation->isEmpty()){ 
                             foreach($arreasCalculation as $calculation){
                             $arrear_bill = $arrear_bill + $calculation->total_amount;
@@ -1794,11 +1828,23 @@ class EMController extends Controller
                             }
                             $arrear_id = implode(",",$arrearID);                      
                         }
+                        if(!$arreasCalculation->isEmpty())
+                        {
+                            foreach($arreasCalculation as $arreasCalculations)
+                            {
+                                $arrear_balance+=($arreasCalculations->total_amount - $arreasCalculations->old_intrest_amount -
+                                            $arreasCalculations->difference_intrest_amount);
+                                $arrear_interest_balance+=($arreasCalculations->old_intrest_amount +
+                                    $arreasCalculations->difference_intrest_amount);
+                            }
+                        }
                     }
                     //dd($arreasCalculation);
                    
-                      
-                   // dd($arrear_bill);
+                    
+                    
+
+                    //dd($arrear_balance);
                     $monthly_bill=$request->monthly_bill;
                     $total_bill  = $monthly_bill + $arrear_bill;
                     $total_after_due = $request->monthly_bill * 0.015; 
@@ -1828,15 +1874,18 @@ class EMController extends Controller
                                     'status' => 'Generated',
                                     //'balance_amount' => $arrear_bill,
                                     'balance_amount' => $total_bill,
-                                    'arrear_balance'=>$arrear_bill,
+                                    'arrear_balance'=>$arrear_balance,
+                                    'arrear_interest_balance'=>$arrear_interest_balance,
                                     'service_charge_balance'=>$monthly_bill,
                                     'created_at'=>date('Y-m-d H:i:s'),
                                     'updated_at'=>date('Y-m-d H:i:s')
                                 ];
-                                //dd($data);
+                                
                               // $dat[]=$data;
                               if($lastBill)
                               {
+                                $data['arrear_balance']=$lastBill->arrear_balance;
+                                $data['arrear_interest_balance']=$lastBill->arrear_interest_balance;
                                   //for credit amount
                                   if($lastBill->credit_amount>0)
                                   {
@@ -1847,14 +1896,23 @@ class EMController extends Controller
                                           $data['service_charge_balance'] = 0;
                                           if($lastBill->credit_amount>0)
                                           {
-                                              if($lastBill->credit_amount>=$arrear_bill)
+                                              if($lastBill->credit_amount>=$data['arrear_balance'])
                                               {
-                                                  $lastBill->credit_amount= $lastBill->credit_amount-$arrear_bill;
-                                                  $data['arrear_balance']=0;
-                                                  $data['credit_amount']=$lastBill->credit_amount;
+                                                  $lastBill->credit_amount= $lastBill->credit_amount-$data['arrear_balance'];
+                                                $data['arrear_balance']=0;
+                                                if($lastBill->credit_amount>=$lastBill->arrear_interest_balance)
+                                                {
+                                                    $lastBill->credit_amount= $lastBill->credit_amount-$data['arrear_interest_balance'];
+                                                    $data['credit_amount']=$lastBill->credit_amount;
+                                                }else
+                                                {
+                                                    $data['arrear_interest_balance']=$data['arrear_interest_balance']-$lastBill->credit_amount;
+                                                    $data['credit_amount']=0;
+                                                }
                                               }else
                                               {
                                                   $data['arrear_balance']=$data['arrear_balance']-$lastBill->credit_amount;
+                                                  $data['credit_amount']=0;
                                               }
                                           }
                                       }else
@@ -1873,6 +1931,7 @@ class EMController extends Controller
                                   {
                                       $data['prev_service_charge_balance']=0;
                                       $data['prev_arrear_balance']=0;
+                                      $data['prev_arrear_interest_balance']=0;
                                       if($lastBill->service_charge_balance>0)
                                       {
                                           $lastBill->service_charge_balance=$lastBill->service_charge_balance+($lastBill->service_charge_balance*0.015);
@@ -1892,21 +1951,24 @@ class EMController extends Controller
                                             {
                                                 $arrear_interest=($arrear_data->old_rate*($arrear_data->interest_on_old_rate/100))+(($arrear_data->revise_rate-$arrear_data->old_rate)*($arrear_data->interest_on_differance/100));
                                             }
-                                          $lastBill->arrear_balance=$lastBill->arrear_balance+$arrear_interest;
+                                          //$lastBill->arrear_balance=$lastBill->arrear_balance+$arrear_interest;
+                                          $lastBill->arrear_balance=$lastBill->arrear_balance;
+                                          $lastBill->arrear_interest_balance=$lastBill->arrear_interest_balance+$arrear_interest;
                                           //dd($lastBill->arrear_balance);
                                           $data['prev_arrear_balance']=$lastBill->arrear_balance;
-                                          
+                                          $data['prev_arrear_interest_balance']=$lastBill->arrear_interest_balance;
                                       }
-                                      $data['arrear_balance']=$data['arrear_balance']+$lastBill->arrear_balance;
+                                      $data['arrear_balance']+$lastBill->arrear_balance;
+                                      $data['arrear_interest_balance']=$lastBill->arrear_interest_balance;
                                   }
                                   
-                                  $data['balance_amount']=ceil($data['arrear_balance']+$data['service_charge_balance']);
+                                  $data['balance_amount']=ceil($data['arrear_balance']+$data['arrear_interest_balance']+$data['service_charge_balance']);
                                   
-                                  $data['total_bill']=ceil($data['arrear_balance']+$data['service_charge_balance']);
+                                  $data['total_bill']=ceil($data['arrear_balance']+$data['arrear_interest_balance']+$data['service_charge_balance']);
                                   
                               }else
                               {
-                                  $data['balance_amount'] = ceil($total_bill,2);
+                                  $data['balance_amount'] = ceil($total_bill);
                                   $data['credit_amount']= 0;    
                               }
                         // if($lastBill) {

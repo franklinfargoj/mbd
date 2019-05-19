@@ -915,8 +915,19 @@ class RCController extends Controller
                     return redirect()->back()->with('warning', 'Service charge Rates Not added into system.');
                 }
 
-                $data['arreasCalculation'] = ArrearCalculation::where('id',$data['TransBillGenerate']->arrear_id)->get();
-                
+                $data['arreasCalculation'] = ArrearCalculation::where('tenant_id',$request->tenant_id)->get();
+                $arrear_balance=$arrear_interest_balance=0;
+                if(count($data['arreasCalculation'])>0)
+                {
+                    foreach($data['arreasCalculation'] as $arreasCalculation)
+                    {
+                        $arrear_balance+=($arreasCalculation->total_amount - $arreasCalculation->old_intrest_amount -
+                                    $arreasCalculation->difference_intrest_amount);
+                        $arrear_interest_balance+=($arreasCalculation->old_intrest_amount +
+                            $arreasCalculation->difference_intrest_amount);
+                    }
+                }
+                //dd($data['arreasCalculation']);
                 $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
                 $pdf = PDF::loadView('admin.rc_department.download_tenant_bill', $data);
                 return $pdf->download('bill_'.$data['building']->name.'_'.$data['building']->building_no.'.pdf');

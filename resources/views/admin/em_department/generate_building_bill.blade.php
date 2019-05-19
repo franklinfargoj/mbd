@@ -43,7 +43,7 @@
                 {
                     $arrear_interest=($arrear_data->old_rate*($arrear_data->interest_on_old_rate/100))+(($arrear_data->revise_rate-$arrear_data->old_rate)*($arrear_data->interest_on_differance/100));
                 }
-            $tempBalance=$tempBalance+($lastBill[0]->arrear_balance+$arrear_interest);
+            $tempBalance=$tempBalance+($lastBill[0]->arrear_balance+$lastBill[0]->arrear_interest_balance+$arrear_interest);
             }
             if($lastBill[0]->service_charge_balance>0)
             {
@@ -203,11 +203,11 @@
                         </tr>
                         <tr>
                             <td><p class="pull-right">After Due date 1.5% interest</p></td>
-                            <td> {{$total_after_due}} </td>
+                            <td> {{ceil($total_after_due)}} </td>
                         </tr>
                         <tr>
                             <td><p class="pull-right">After Due date Amount payable</p></td>
-                            <td> {{$total_service_after_due}} </td>
+                            <td> {{ceil($total_service_after_due)}} </td>
                         </tr>
                     </table>
                 </div>
@@ -268,6 +268,35 @@
                     </table>
                 </div>
                 @endif
+                @else
+                <div class="form-group m-form__group row">
+                    <div class="col-sm-12 form-group">
+                        <p class="text-center">Balance amount to be paid - Arrears</p>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    @php 
+                        $total=0;
+                        $total=$lastBill[0]->arrear_balance+$lastBill[0]->arrear_interest_balance+$arrear_interest;
+                    @endphp
+                    <table class="display table table-responsive table-bordered" style="width:100%">
+                        <tr>
+                            <th class="text-center">Year</th>
+                            <th class="text-center">Month</th>
+                            <th class="text-center">Amount In Rs.</th>
+                            <th class="text-center">Penalty in Rs</th>
+                        </tr>
+                        <tr>
+                            <td>{{$lastBill[0]->bill_year}}</td>
+                            <td>{{date("M", strtotime("2001-" . $lastBill[0]->bill_month . "-01"))}}</td>
+                            <td>{{$lastBill[0]->arrear_balance }}</td>
+                            <td>{{$lastBill[0]->arrear_interest_balance+$arrear_interest }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><p class="pull-right">Total</p></td><td>{{$total}}</td><td></td>
+                        </tr>
+                    </table>
+                </div>
                 @endif
                 <div class="form-group m-form__group row">
                     <div class="col-sm-12 form-group">
@@ -285,18 +314,18 @@
                             <td class="text-center">{{$tempBalance}}</td>
                         </tr>
                         @if($lastBill && !empty($lastBill))
-                        @php
-                            $credit_amount =0;
-                            foreach($lastBill as $lastbil) {
-                                $credit_amount += $lastbil->credit_amount;
-                            }
-                        @endphp
-                        @if(0 <$credit_amount)
-                        <tr>
-                            <td>Credit Amount</td>
-                            <td class="text-center">{{$credit_amount}}</td>
-                        </tr>
-                        @endif
+                            @php
+                                $credit_amount =0;
+                                foreach($lastBill as $lastbil) {
+                                    $credit_amount += $lastbil->credit_amount;
+                                }
+                            @endphp
+                            @if(0 <$credit_amount)
+                            <tr>
+                                <td>Credit Amount</td>
+                                <td class="text-center">{{$credit_amount}}</td>
+                            </tr>
+                            @endif
                         @endif
                         {{-- <tr>
                             <td>Total arrear charges</td>
@@ -304,15 +333,15 @@
                         </tr> --}}
                         <tr>
                             <td>Service Charges</td>
-                            <td class="text-center">{{$total_service}}</td>
+                            <td class="text-center">{{ceil($total_service)}}</td>
                         </tr>
                         <tr>
                             <td class="font-weight-bold">Bill Amount Before due date</td>
-                            <td class="text-center ont-weight-bold">{{$total_service+$tempBalance}}</td>
+                            <td class="text-center ont-weight-bold">{{ceil($total_service+$tempBalance)}}</td>
                         </tr>
                         <tr>
                             <td>Bill Amount After due date</td>
-                            <td class="text-center">{{$total_service_after_due+$tempBalance}}</td>
+                            <td class="text-center">{{ceil($total_service_after_due+$tempBalance)}}</td>
                         </tr>
                         {{-- <tr>
                             <td><p class="pull-right">Total</p></td><td>{{$totalTemp}}</td>

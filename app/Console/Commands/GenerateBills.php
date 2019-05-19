@@ -83,7 +83,8 @@ class GenerateBills extends Command
                 } else {
 
                     $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other+$serviceChargesRate->property_tax; 
-                    $monthly_bill = $total_service = $total_service * $number_of_tenants->tenant_count()->first()->count;
+                    //$monthly_bill = $total_service = $total_service * $number_of_tenants->tenant_count()->first()->count;
+                    $monthly_bill = $total_service;
 
                     $currentMonth = date('m');
                     if($currentMonth < 4) {
@@ -166,20 +167,33 @@ class GenerateBills extends Command
                                     ->first();
                                 //$consumer_number = 'BL-'.substr(sprintf('%08d', $building->id),0,8).'|'.substr(sprintf('%08d', $key->id),0,8);
                                 $consumer_number = 'BL-'.substr(sprintf('%08d', $building->id),0,8);
-                                $arreasCalculation = ArrearCalculation::where('building_id',$building->id)->where('payment_status','0')->whereIn('year',$years)->whereIn('month',$months)->get();
                                 $arrear_bill = 0;
                                 $total_bill = 0;
                                 $arrear_id = '';
                                 $arrearID = [];
+                                $arrear_balance=$arrear_interest_balance=0;
                                 if($lastBill==null)
                                 {
-                                    if(!$arreasCalculation->isEmpty()){ 
+//                                $arreasCalculation = ArrearCalculation::where('building_id',$building->id)->where('payment_status','0')->whereIn('year',$years)->whereIn('month',$months)->get();
+                                  $arreasCalculation = ArrearCalculation::where('building_id',$building->id)->where('payment_status','0')->get();
+                                
+                                if(!$arreasCalculation->isEmpty()){ 
                                         foreach($arreasCalculation as $calculation){
                                             $arrear_bill = $arrear_bill + $calculation->total_amount;
                                             $arrearID[] = $calculation->id; 
                                         }
                                         $arrear_id = implode(",",$arrearID);                      
                                     }  
+                                    if(!$arreasCalculation->isEmpty())
+                                    {
+                                        foreach($arreasCalculation as $arreasCalculations)
+                                        {
+                                            $arrear_balance+=($arreasCalculations->total_amount - $arreasCalculations->old_intrest_amount -
+                                                        $arreasCalculations->difference_intrest_amount);
+                                            $arrear_interest_balance+=($arreasCalculations->old_intrest_amount +
+                                                $arreasCalculations->difference_intrest_amount);
+                                        }
+                                    }
                                 }
                                 
                                 $total_bill  = $monthly_bill + $arrear_bill;
@@ -209,82 +223,98 @@ class GenerateBills extends Command
                                     'created_at'=>date('Y-m-d H:i:s'),
                                     'updated_at'=>date('Y-m-d H:i:s'),
                                     'arrear_balance'=>$arrear_bill,
+                                    'arrear_interest_balance'=>$arrear_interest_balance,
                                     'service_charge_balance'=>$monthly_bill
                                 ];
                                 if($lastBill)
-                                {
-                                    //for credit amount
-                                    if($lastBill->credit_amount>0)
-                                    {
-                                        $data['prev_credit']=$lastBill->credit_amount;
-                                        if($lastBill->credit_amount>=$monthly_bill)
-                                        {
-                                            $lastBill->credit_amount=$lastBill->credit_amount-$monthly_bill;
-                                            $data['service_charge_balance'] = 0;
-                                            if($lastBill->credit_amount>0)
-                                            {
-                                                if($lastBill->credit_amount>=$arrear_bill)
+                              {
+                                $data['arrear_balance']=$lastBill->arrear_balance;
+                                $data['arrear_interest_balance']=$lastBill->arrear_interest_balance;
+                                  //for credit amount
+                                  if($lastBill->credit_amount>0)
+                                  {
+                                      $data['prev_credit']=$lastBill->credit_amount;
+                                      if($lastBill->credit_amount>=$monthly_bill)
+                                      {
+                                          $lastBill->credit_amount=$lastBill->credit_amount-$monthly_bill;
+                                          $data['service_charge_balance'] = 0;
+                                          if($lastBill->credit_amount>0)
+                                          {
+                                              if($lastBill->credit_amount>=$data['arrear_balance'])
+                                              {
+                                                  $lastBill->credit_amount= $lastBill->credit_amount-$data['arrear_balance'];
+                                                $data['arrear_balance']=0;
+                                                if($lastBill->credit_amount>=$lastBill->arrear_interest_balance)
                                                 {
-                                                    $lastBill->credit_amount= $lastBill->credit_amount-$arrear_bill;
-                                                    $data['arrear_balance']=0;
+                                                    $lastBill->credit_amount= $lastBill->credit_amount-$data['arrear_interest_balance'];
                                                     $data['credit_amount']=$lastBill->credit_amount;
                                                 }else
                                                 {
-                                                    $data['arrear_balance']=$data['arrear_balance']-$lastBill->credit_amount;
+                                                    $data['arrear_interest_balance']=$data['arrear_interest_balance']-$lastBill->credit_amount;
+                                                    $data['credit_amount']=0;
                                                 }
-                                            }
-                                        }else
-                                        {
-                                            $data['service_charge_balance']=$data['service_charge_balance']-$lastBill->credit_amount;
-                                            $data['credit_amount']= 0;
-                                        }
-                                        $data['balance_amount']=$data['arrear_balance']+$data['service_charge_balance'];
-                                    }else
-                                    {
-                                        $data['credit_amount']= 0;
-                                    }
+                                              }else
+                                              {
+                                                  $data['arrear_balance']=$data['arrear_balance']-$lastBill->credit_amount;
+                                                  $data['credit_amount']=0;
+                                              }
+                                          }
+                                      }else
+                                      {
+                                          $data['service_charge_balance']=$data['service_charge_balance']-$lastBill->credit_amount;
+                                          $data['credit_amount']= 0;
+                                      }
+                                      $data['balance_amount']=$data['arrear_balance']+$data['service_charge_balance'];
+                                  }else
+                                  {
+                                      $data['credit_amount']= 0;
+                                  }
 
-                                    //for balance amount
-                                    if($lastBill->balance_amount>0)
-                                    {
-                                        $data['prev_service_charge_balance']=0;
-                                        $data['prev_arrear_balance']=0;
-                                        if($lastBill->service_charge_balance>0)
-                                        {
-                                            $lastBill->service_charge_balance=$lastBill->service_charge_balance+($lastBill->service_charge_balance*0.015);
-                                            $data['prev_service_charge_balance']=$lastBill->service_charge_balance;
-                                            
-                                        }
-                                        
-                                        $data['service_charge_balance']=$data['service_charge_balance']+$lastBill->service_charge_balance;
-                                        
-                                        if($lastBill->arrear_balance>0)
-                                        {
-                                            //dd($lastBill);
-                                            $arrear_interest=0;
-                                            $arrear_data=ArrearsChargesRate::where(['society_id'=>$lastBill->society_id,'building_id'=>$lastBill->building_id])->first();
-                                            //dd($arrer_data);
-                                            if($arrear_data)
-                                                {
-                                                    $arrear_interest=($arrear_data->old_rate*($arrear_data->interest_on_old_rate/100))+(($arrear_data->revise_rate-$arrear_data->old_rate)*($arrear_data->interest_on_differance/100));
-                                                }
-                                            $lastBill->arrear_balance=$lastBill->arrear_balance+$arrear_interest;
-                                            //dd($lastBill->arrear_balance);
-                                            $data['prev_arrear_balance']=$lastBill->arrear_balance;
-                                            
-                                        }
-                                        $data['arrear_balance']=$data['arrear_balance']+$lastBill->arrear_balance;
-                                    }
-                                    
-                                    $data['balance_amount']=ceil($data['arrear_balance']+$data['service_charge_balance']);
-                                    
-                                    $data['total_bill']=ceil($data['arrear_balance']+$data['service_charge_balance']);
-                                    
-                                }else
-                                {
-                                    $data['balance_amount'] = ceil($total_bill,2);
-                                    $data['credit_amount']= 0;    
-                                }
+                                  //for balance amounty
+                                  if($lastBill->balance_amount>0)
+                                  {
+                                      $data['prev_service_charge_balance']=0;
+                                      $data['prev_arrear_balance']=0;
+                                      $data['prev_arrear_interest_balance']=0;
+                                      if($lastBill->service_charge_balance>0)
+                                      {
+                                          $lastBill->service_charge_balance=$lastBill->service_charge_balance+($lastBill->service_charge_balance*0.015);
+                                          $data['prev_service_charge_balance']=$lastBill->service_charge_balance;
+                                          
+                                      }
+                                      
+                                      $data['service_charge_balance']=$data['service_charge_balance']+$lastBill->service_charge_balance;
+                                      
+                                      if($lastBill->arrear_balance>0)
+                                      {
+                                          //dd($lastBill);
+                                          $arrear_interest=0;
+                                          $arrear_data=ArrearsChargesRate::where(['society_id'=>$lastBill->society_id,'building_id'=>$lastBill->building_id])->first();
+                                          //dd($arrer_data);
+                                          if($arrear_data)
+                                            {
+                                                $arrear_interest=($arrear_data->old_rate*($arrear_data->interest_on_old_rate/100))+(($arrear_data->revise_rate-$arrear_data->old_rate)*($arrear_data->interest_on_differance/100));
+                                            }
+                                          //$lastBill->arrear_balance=$lastBill->arrear_balance+$arrear_interest;
+                                          $lastBill->arrear_balance=$lastBill->arrear_balance;
+                                          $lastBill->arrear_interest_balance=$lastBill->arrear_interest_balance+$arrear_interest;
+                                          //dd($lastBill->arrear_balance);
+                                          $data['prev_arrear_balance']=$lastBill->arrear_balance;
+                                          $data['prev_arrear_interest_balance']=$lastBill->arrear_interest_balance;
+                                      }
+                                      $data['arrear_balance']+$lastBill->arrear_balance;
+                                      $data['arrear_interest_balance']=$lastBill->arrear_interest_balance;
+                                  }
+                                  
+                                  $data['balance_amount']=ceil($data['arrear_balance']+$data['arrear_interest_balance']+$data['service_charge_balance']);
+                                  
+                                  $data['total_bill']=ceil($data['arrear_balance']+$data['arrear_interest_balance']+$data['service_charge_balance']);
+                                  
+                              }else
+                              {
+                                  $data['balance_amount'] = ceil($total_bill);
+                                  $data['credit_amount']= 0;    
+                              }
                                 // if($lastBill)
                                 // {
                                 //     if($lastBill->credit_amount>0)
@@ -428,7 +458,9 @@ class GenerateBills extends Command
                         $realMonth = $realMonth - 1;
                     }
 
-                    $arreasCalculation = ArrearCalculation::where('tenant_id',$tenant->id)->where('month',$realMonth)->where('payment_status','0')->get();
+                    $arreasCalculation = ArrearCalculation::where('tenant_id',$tenant->id)->where('payment_status','0')->get();
+//                    $arreasCalculation = ArrearCalculation::where('tenant_id',$tenant->id)->where('month',$realMonth)->where('payment_status','0')->get();
+                    
                     $arrear_ids = [];
                     $arrear_id  = '';
 
@@ -459,6 +491,17 @@ class GenerateBills extends Command
                                     ->where('bill_year', '=', $bill_year)
                                     ->orderBy('id','DESC')
                                     ->first();
+                    $arrear_balance=$arrear_interest_balance=0;
+                    if(count($arreasCalculation)>0)
+                    {
+                        foreach($arreasCalculation as $arreasCalculations)
+                        {
+                            $arrear_balance+=($arreasCalculations->total_amount - $arreasCalculations->old_intrest_amount -
+                                        $arreasCalculations->difference_intrest_amount);
+                            $arrear_interest_balance+=($arreasCalculations->old_intrest_amount +
+                                $arreasCalculations->difference_intrest_amount);
+                        }
+                    }
                     if($lastBill==null)
                     {
                         if(!$arreasCalculation->isEmpty())  {
@@ -479,7 +522,8 @@ class GenerateBills extends Command
                         $bill->bill_to     = $bill_to;
                         $bill->bill_month  = $bill_month;
                         $bill->bill_year   = $bill_year;
-                        $bill->arrear_balance=$total;
+                        $bill->arrear_balance=$arrear_balance;
+                        $bill->arrear_interest_balance=$arrear_interest_balance;
                         
 
                         $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other+$serviceChargesRate->property_tax; 
@@ -507,7 +551,7 @@ class GenerateBills extends Command
                         $bill->consumer_number = 'TN-'.substr(sprintf('%08d', $tenant->building_id),0,8).'|'.substr(sprintf('%08d', $tenant->id),0,8);
                         $bill->total_service_after_due = $total_service_after_due;
                         $bill->late_fee_charge = $total_after_due;
-                        $bill->total_bill_after_due_date = round($total_bill + $total_after_due,2);
+                        $bill->total_bill_after_due_date = ceil($total_bill + $total_after_due);
 
                         
 
@@ -528,7 +572,8 @@ class GenerateBills extends Command
                         
                         if($lastBill)
                         {
-                            //for credit amount
+                            $bill->arrear_balance=$lastBill->arrear_balance;
+                            $bill->arrear_interest_balance=$lastBill->arrear_interest_balance;
                             if($lastBill->credit_amount>0)
                             {
                                 $bill->prev_credit=$lastBill->credit_amount;
@@ -538,14 +583,24 @@ class GenerateBills extends Command
                                     $bill->service_charge_balance = 0;
                                     if($lastBill->credit_amount>0)
                                     {
-                                        if($lastBill->credit_amount>=$bill->arrear_bill)
+                                        if($lastBill->credit_amount>=$bill->arrear_balance)
                                         {
-                                            $lastBill->credit_amount= $lastBill->credit_amount-$bill->arrear_bill;
+                                            $lastBill->credit_amount= $lastBill->credit_amount-$bill->arrear_balance;
                                             $bill->arrear_balance=0;
-                                            $bill->credit_amount=$lastBill->credit_amount;
+                                            if($lastBill->credit_amount>=$lastBill->arrear_interest_balance)
+                                            {
+                                                $lastBill->credit_amount= $lastBill->credit_amount-$bill->arrear_interest_balance;
+                                                $bill->credit_amount=$lastBill->credit_amount;
+                                            }else
+                                            {
+                                                $bill->arrear_interest_balance=$bill->arrear_interest_balance-$lastBill->credit_amount;
+                                                $bill->credit_amount=0;
+                                            }
+                                           
                                         }else
                                         {
                                             $bill->arrear_balance=$bill->arrear_balance-$lastBill->credit_amount;
+                                            $bill->credit_amount=0;
                                         }
                                     }
                                 }else
@@ -564,6 +619,7 @@ class GenerateBills extends Command
                             {
                                 $bill->prev_service_charge_balance=0;
                                 $bill->prev_arrear_balance=0;
+                                $bill->prev_arrear_interest_balance=0;
                                 if($lastBill->service_charge_balance>0)
                                 {
                                     $lastBill->service_charge_balance=$lastBill->service_charge_balance+($lastBill->service_charge_balance*0.015);
@@ -583,21 +639,24 @@ class GenerateBills extends Command
                                         {
                                             $arrear_interest=($arrear_data->old_rate*($arrear_data->interest_on_old_rate/100))+(($arrear_data->revise_rate-$arrear_data->old_rate)*($arrear_data->interest_on_differance/100));
                                         }
-                                    $lastBill->arrear_balance=$lastBill->arrear_balance+$arrear_interest;
+                                    $lastBill->arrear_balance=$lastBill->arrear_balance;
+                                    $lastBill->arrear_interest_balance=$lastBill->arrear_interest_balance+$arrear_interest;
                                     //dd($lastBill->arrear_balance);
                                     $bill->prev_arrear_balance=$lastBill->arrear_balance;
-                                    
+                                    $bill->prev_arrear_interest_balance=$lastBill->arrear_interest_balance;
                                 }
-                                $bill->arrear_balance=$bill->arrear_balance+$lastBill->arrear_balance;
+                                $bill->arrear_balance=$lastBill->arrear_balance;
+                                $bill->arrear_interest_balance=$lastBill->arrear_interest_balance;
+                                
                             }
                             
-                            $bill->balance_amount=ceil($bill->arrear_balance+$bill->service_charge_balance);
+                            $bill->balance_amount=ceil($bill->arrear_balance+$bill->arrear_interest_balance+$bill->service_charge_balance);
                             
-                            $bill->total_bill=ceil($bill->arrear_balance+$bill->service_charge_balance);
+                            $bill->total_bill=ceil($bill->arrear_balance+$bill->arrear_interest_balance+$bill->service_charge_balance);
                             
                         }else
                         {
-                            $bill->balance_amount = round($bill->total_bill,2);
+                            $bill->balance_amount = ceil($bill->total_bill);
                             $bill->credit_amount= 0;    
                         }
                         // if($lastBill)

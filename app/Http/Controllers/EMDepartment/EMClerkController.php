@@ -286,8 +286,8 @@ class EMClerkController extends Controller
                     ->where('arrears_charges_rates.year', '=', $year);
             })
             ->where('tenant_id', '=', $tenant->id)
-            ->whereIn('arrear_calculation.month', $months)
-            ->whereIn('arrear_calculation.year', $years)
+            // ->whereIn('arrear_calculation.month', $months)
+            // ->whereIn('arrear_calculation.year', $years)
             ->groupBy('arrear_calculation.id')
             ->selectRaw('@rownum  := @rownum  + 1 AS rownum,arrears_charges_rates.*,arrear_calculation.payment_status as payment_status,arrear_calculation.total_amount as total_amount,arrear_calculation.tenant_id as tenant_id,arrear_calculation.id as ar_id,arrear_calculation.year as ac_year,arrear_calculation.month as ac_month');
             //dd($arrear->get()->toArray());
