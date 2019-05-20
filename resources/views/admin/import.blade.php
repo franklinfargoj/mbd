@@ -22,5 +22,10 @@
                 </div>
             </div>
         </form>
+        <ol>
+            @foreach ($layouts as $item)
+                <li>{{$item->layout_name}}</li>
+            @endforeach
+        </ol>
     </div>
 </div>

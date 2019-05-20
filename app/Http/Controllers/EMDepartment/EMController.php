@@ -1445,10 +1445,16 @@ class EMController extends Controller
             } else {
                 $realMonth = $realMonth - 1;
             }
+            //dd($request->tenant_id);
             //dd($realMonth." ".$request->tenant_id);
             //dd($realMonth);
             //$data['arreasCalculation'] = ArrearCalculation::where('tenant_id',$request->tenant_id)->where('month',$realMonth)->where('payment_status','0')->get();
-            $data['arreasCalculation'] = ArrearCalculation::where('tenant_id',$request->tenant_id)->where('payment_status','0')->get();
+            $data['arreasCalculation'] = ArrearCalculation::where('tenant_id',$request->tenant_id)
+            ->where(function($q){
+                $q->where('payment_status', 0)
+                  ->orWhere('payment_status', NULL);
+            })->get();
+            //->where('payment_status','0')->get();
             //dd($data['arreasCalculation']);
             $currentMonth = date('m');
             if($currentMonth < 4) {

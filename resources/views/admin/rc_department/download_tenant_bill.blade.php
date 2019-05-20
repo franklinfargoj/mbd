@@ -296,11 +296,11 @@
                 </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: right; font-weight: bold;">Bill Amount Before due date</td>
-                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center; font-weight: bold;">{{$total_service+$total}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center; font-weight: bold;">{{ceil($total_service+$total)}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: right; font-weight: bold;">Bill Amount After due date</td>
-                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center; font-weight: bold;">{{$total_service_after_due+$total}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center; font-weight: bold;">{{ceil($total_service_after_due+$total)}}</td>
                 </tr>
             </tbody>
         </table>

@@ -9,10 +9,34 @@ use App\MasterColony;
 use App\SocietyDetail;
 use App\MasterBuilding;
 use App\MasterTenant;
-use Validator,Excel,Input;
+use App\MasterTenantType;
+use Validator,Input;
+use Excel;
+use App\ArrearsChargesRate;
+use App\ArrearCalculation;
 
 class ImportController extends Controller
 {
+
+
+	public function monthsBetween($startDate, $endDate) {
+		$retval = "";
+	
+		// Assume YYYY-mm-dd - as is common MYSQL format
+		$splitStart = explode('-', $startDate);
+		$splitEnd = explode('-', $endDate);
+	
+		if (is_array($splitStart) && is_array($splitEnd)) {
+			$difYears = $splitEnd[0] - $splitStart[0];
+			$difMonths = $splitEnd[1] - $splitStart[1];
+			$difDays = $splitEnd[2] - $splitStart[2];
+	
+			$retval = ($difDays > 0) ? $difMonths : $difMonths - 1;
+			$retval += $difYears * 12;
+		}
+		return $retval;
+	}
+
     public function import(Request $request) {
 		//dd(extension_loaded ('zip'));
     	ini_set('memory_limit', -1);
@@ -24,19 +48,23 @@ class ImportController extends Controller
 	        if (empty($validator->messages()->toArray())) {
 	            if ($request->hasFile('file') && $request->file('file')->isValid()) {
 	                
-	                $path = Input::file('file')->getRealPath();
+					$path = Input::file('file')->getRealPath();
+					$from_year='';
 	                $data = Excel::load($path, function ($reader) {
 	                })->get();
-
+					//dd($data);
 	                if (!empty($data) && $data->count()) {
 	                    foreach ($data as $pKey => $row1) {
 	                        foreach ($row1 as $pKey => $row) {
-	                            // print_r($row1);
-	                            if(!empty($row['2'])&&!empty($row['7'])) {
-
-	                                // DB::beginTransaction();
-	                                $layout_id = MasterLayout::where('layout_name','Pant Nagar (Part A &C) Ghatkopar')->value('id');
-
+	                        	 //print_r($row);
+	                            if(!empty($row['2']) && !empty($row['7'])) {
+									if(is_numeric($row['29']))
+									{
+										$from_year=($from_year=="")?(int)$row['29']:$from_year;
+									}
+	                            //     // DB::beginTransaction();
+	                                 $layout_id = MasterLayout::where('layout_name',$row[1])->value('id');
+									// print_r($layout_id);
 	                                $ward = MasterWard::where('name',$row['2'])->first();
 	                                if(empty($ward)) {
 	                                    $ward  = new MasterWard;
@@ -74,22 +102,135 @@ class ImportController extends Controller
 	                                    $building->description = $row['7'];
 	                                    $building->save();
 	                                }
+									$tenant_type=MasterTenantType::where(['name'=>$row['11']])->first();
+									if($tenant_type)
+									{
+										if(!empty($society) && !empty($building)) {
+										$tenant=MasterTenant::where(['building_id'=>$building->id,'flat_no'=>$row['12']])->first();
+											if($tenant==null)
+											{
+												$tenant = new MasterTenant;
+												$tenant->building_id = $building->id;
+												$tenant->flat_no = $row['12'];
+												$tenant->salutation = $row['13'];
+												$tenant->first_name = $row['14'];
+												$tenant->middle_name = $row['15'];
+												$tenant->last_name = $row['16'];
+												$tenant->mobile = $row['17'];
+												$tenant->email_id = $row['18'];
+												$tenant->use = $row['19'];
+												$tenant->carpet_area = $row['20'];
+												$tenant->tenant_type = $tenant_type->id;
+												$tenant->save();
+											}
+										}
+									}else
+									{
+										//dump($row['11']);
+									}	
 
-	                                if(!empty($society) && !empty($building)) {
-	                                    $tenant = new MasterTenant;
-	                                    $tenant->building_id = $building->id;
-	                                    $tenant->flat_no = 101;
-	                                    $tenant->salutation = 'Shri';
-	                                    $tenant->first_name = $row['7'];
-	                                    $tenant->email_id = 'test@gmail.com';
-	                                    $tenant->use = 'residential';
-	                                    $tenant->carpet_area = 370;
-	                                    $tenant->tenant_type = 1;
-	                                    $tenant->save();
-	                                }
+									if($from_year!="")
+									{
+										$end_year=explode('-',$row['21']);
+										for($j=$from_year;$j<=(int)$end_year[1];$j++)
+										{
+											$arrear_rate=ArrearsChargesRate::where([
+												'society_id'=>$society->id,
+												'building_id'=>$building->id,
+												'year'=>$j,
+												'tenant_type'=>$tenant_type->id
+											])->first();
+											if($arrear_rate==null)
+											{
+												$arrear_rate=new ArrearsChargesRate;
+												$arrear_rate->society_id=$society->id;
+												$arrear_rate->building_id=$building->id;
+												$arrear_rate->year=$j;
+												$arrear_rate->tenant_type=$tenant_type->id;
+												$arrear_rate->old_rate=$row['22'];
+												$arrear_rate->revise_rate=$row['24'];
+												$arrear_rate->interest_on_old_rate=$row['23'];
+												$arrear_rate->interest_on_differance=$row['25'];
+												$arrear_rate->save();						
+											}
+										}
+									}
+									// dump($row['26']);
+									if(1 == preg_match('/(0[1-9]|1[0-2])\/\d{4}/',$row['26']))
+									{
+											$year_from=explode('/',$row['26']);
+											$year_to=explode('/',$row['27']);
+											
+
+											$date1 = strtotime($year_from[1].'-'.$year_from[0]);
+											$date2 = strtotime($year_to[1].'-'.$year_to[0]);
+
+											
+
+											// $date1 = strtotime('2000-01-25');
+											// $date2 = strtotime('2010-02-20');
+											$months = 0;
+
+											while (($date1 = strtotime('+1 MONTH', $date1)) <= $date2)
+												$months++;
+
+											$months=$months+1;
+
+											$ior      = $row['23'];
+											$old_rate = $row['22'];
+											
+											$iod       = $row['25'];
+											$rate_diff = $row['24'] - $row['22'];
+											//dump($ior." ".$iod." ".$months);
+											$ior_per = $ior / 100;
+											$iod_per = $iod / 100;
+							
+											$old_intrest_amount = round(($old_rate * $ior_per)*$months,2);
+											//dump($old_intrest_amount);
+											$intrest_on_difference = round(($rate_diff * $iod_per)*$months,2);
+											//dump($intrest_on_difference);
+											$total = ($old_rate*$months) + $old_intrest_amount + ($rate_diff*$months) + $intrest_on_difference;
+
+											$arrear_calculation=ArrearCalculation::where([
+												'society_id'=>$society->id,
+												'building_id'=>$building->id,
+												'tenant_id'=>$tenant->id,
+												'month'=>(int)$year_to[0],
+												'year'=>(int)$year_to[1],
+												'oir_year'=>(int)$year_from[1],
+												'oir_month'=>(int)$year_from[0],
+												'ida_year'=>(int)$year_from[1],
+												'ida_month'=>(int)$year_from[0]
+											])->first();
+											if($arrear_calculation==null)
+											{
+												$arrear_calculation=new ArrearCalculation;
+												$arrear_calculation->society_id=$society->id;
+												$arrear_calculation->building_id=$building->id;
+												$arrear_calculation->tenant_id=$tenant->id;
+												$arrear_calculation->month=(int)$year_to[0];
+												$arrear_calculation->year=(int)$year_to[1];
+												$arrear_calculation->oir_year=(int)$year_from[1];
+												$arrear_calculation->oir_month=(int)$year_from[0];
+												$arrear_calculation->ida_year=(int)$year_from[1];
+												$arrear_calculation->ida_month=(int)$year_from[0];
+												$arrear_calculation->total_amount    = ceil($total);
+												$arrear_calculation->payment_status  = '0';
+												$arrear_calculation->difference_amount         = $rate_diff;
+												$arrear_calculation->old_intrest_amount        = $old_intrest_amount;
+												$arrear_calculation->difference_intrest_amount = $intrest_on_difference;
+												//dump($arrear_calculation);
+												$arrear_calculation->save();
+											}
+										
+									}
+									
+									
 	                            }
-	                        }
-	                    }
+							}
+							
+						}
+						dd('ok');
 	                }
 	            }
 	        } else {

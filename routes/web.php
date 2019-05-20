@@ -1445,7 +1445,8 @@ Route::post('/getTalukaByAjax','VillageDetailController@getTalukaByAjax')->name(
 //import the societies.
 
 Route::get('import',function() {
-    return view('admin.import');
+    $layouts=App\MasterLayout::all();
+    return view('admin.import',compact('layouts'));
 });
 
 Route::post('importSociety','ImportController@import');
