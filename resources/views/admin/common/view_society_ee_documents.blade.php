@@ -8,7 +8,7 @@
 
 <!-- </style> -->
 @endsection
-@section('content') 
+@section('content')
 
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
@@ -77,6 +77,10 @@
                                         @if(isset($document->documents_uploaded[0]->society_document_path))
                                         <a href="{{ config('commanConfig.storage_server').'/'.$document->documents_uploaded[0]->society_document_path }}" target="_blank">
                                             <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
+                                        @else
+                                            <h2 class="m--font-danger">
+                                                <i class="fa fa-remove"></i>
+                                            </h2>   
                                         @endif
                                     @endif
                                 </td>

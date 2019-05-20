@@ -244,6 +244,25 @@
                 </div>
             </div>
         </div>
+
+         <!-- Other remark -->
+        <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
+            <div class="portlet-body">
+                <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
+                    <div class="">
+                        <h3 class="section-title section-title--small">
+                            Other Remark:
+                        </h3>
+                    </div>
+                    <div class="m-form__group form-group">
+                        <div class="mt-3 table--box-input">
+                            <textarea rows="5" cols="30" class="form-control form-control--custom" id="other_remark" name="other_remark" disabled>{{(isset($applicationData->other_remark) ? $applicationData->other_remark : '')}}
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
 </div>
 @endsection

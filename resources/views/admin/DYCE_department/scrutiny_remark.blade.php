@@ -5,6 +5,14 @@
 @section('css')
 <!-- <style> -->
 <link href="{{asset('/frontend/css/dyce_scrutiny.css')}}" rel="stylesheet" type="text/css" />
+<style type="text/css">
+    
+.d-icon{
+ font-size: 15px;
+    color: #a51f1f !important;
+    cursor: pointer;   
+}
+</style>
 
 @endsection
 @section('content')
@@ -165,14 +173,14 @@
                                         @endif
                                         <?php $i++;?>
                                     @endforeach
-                                @else
+                                @else 
                                 <div class="officer_name_0">
 									<div class="d-flex align-items-center mb-5">
 										<label class="site-visit-label">Name of Officer: <span class="star">*</span></label>
 										<div class="position-relative" >
 											<input type="text" class="txtbox form-control form-control--custom m_input" name="officer_name[]" id="officer_name" >
                                             
-                                            <i class="fa fa-close icon d-icon close-icon hide-print" id="icon_0" onclick="removeOfficerName(this.id)" style="visibility: hidden"></i>
+                                            <!-- <i class="fa fa-close icon d-icon close-icon hide-print" id="icon_0" onclick="removeOfficerName(this.id)" style="visibility: hidden"></i> -->
 										</div>									
 									</div>
                                 </div> 
@@ -263,7 +271,7 @@
                                     <span class="file_required text-danger"></span> 
                                     <p>
 									<a class="btn-link" id="add_more_1" onclick="addMoreDocuments(this);" style="margin-top: 12px;cursor: pointer;">add more</a></p>
-									<i class="fa fa-close doc close-icon" id="document_1" onclick="removeDocuments(this.id)"></i>
+									<!-- <i class="fa fa-close doc close-icon" id="document_1" onclick="removeDocuments(this.id)"></i> -->
                                 </div>
                             </div>
                         @else
@@ -359,21 +367,7 @@
                         </h3>
                     </div>
                     <div class="m-form__group form-group">
-                        <!-- <div class="m-radio-inline">
-                            <span class="mr-3">Is there any encroachment ?</span>
-                            <label class="m-radio m-radio--primary">
-                                <input type="radio" class="radioBtn" name="encrochment" value="1" checked
-                                    {{(isset($applicationData->demarkation_verification_comment) && $applicationData->is_encrochment == '1' ? 'checked' : '')}} {{(!($is_view) ? 'disabled' : '' )}}>Yes
-                                    <span></span>
-                            </label>
-                            <label class="m-radio m-radio--primary">
-                                <input type="radio" class="radioBtn" name="encrochment" value="0"
-                                    {{(isset($applicationData->demarkation_verification_comment) && $applicationData->is_encrochment == '0' ? 'checked' : '')}} {{(!($is_view) ? 'disabled' : '' )}}>No
-                                <span></span>
-                            </label>
-                        </div> -->
                         <div class="mt-3 table--box-input">
-                            <!-- <label class="e_comments" for="encrochment_comments">If Yes, Comments: <span class="star">*</span></label> -->
                             <textarea rows="5" cols="30" class="form-control form-control--custom" id="other_remark" name="other_remark" {{(!($is_view) ? 'readonly' : '' )}}>{{(isset($applicationData->other_remark) ? $applicationData->other_remark : '')}}</textarea>
                         </div>
                         <div class="mt-3">
@@ -437,7 +431,7 @@ var isError = 0;
         if(id1 < 3){
         $('.d-icon').css("visibility", "visible");
             $("<div class='officer_name_" + id +
-                "'><div class='d-flex align-items-center mb-5'><label class='site-visit-label'>Name of Officer:</label><div class='position-relative'><input type='text' class='txtbox form-control form-control--custom m_input' name='officer_name[]' id='officer_name'><i class='fa fa-close icon d-icon close-icon' id='icon_" +
+                "'><div class='d-flex align-items-center mb-5'><label class='site-visit-label'>Name of Officer:</label><div class='position-relative'><input type='text' class='txtbox form-control form-control--custom m_input' name='officer_name[]' id='officer_name'><i class='fa fa-close d-icon close-icon' id='icon_" +
                 id + "' onclick='removeOfficerName(this.id)'></i></div></div></div>").insertBefore('.add_more_div');
             
             id1++;
