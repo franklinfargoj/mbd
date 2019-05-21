@@ -41,6 +41,7 @@ use App\OlApplicationMaster;
 use App\Http\Controllers\SocietyNocController;
 use App\Http\Controllers\SocietyNocforCCController;
 use App\OlDemarcationVerificationDetails;
+use App\OlApplicationConcessionSheetDetails;
 use App\OlDemarcationLandArea;
 use App\OlDcrRateMaster;
 use App\OCEENote;
@@ -898,7 +899,9 @@ class REEController extends Controller
         $buldingNumber = OlCustomCalculationSheet::where('application_id',$applicationId)
             ->where('title','total_no_of_buildings')->value('amount');
 
-        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','summary','status','reeNote','folder','buldingNumber','action','FSI','folder1','master','exists'));
+        $concessionData = $this->getConcessionDetails($applicationId);    
+        
+        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','summary','status','reeNote','folder','buldingNumber','action','FSI','folder1','master','exists','concessionData'));
 
     }
 
@@ -956,12 +959,13 @@ class REEController extends Controller
             $FSI = 'Custom';
         }
 
+        $concessionData = $this->getConcessionDetails($applicationId);
         //get total house (6.2) from EE scrutiny demarcation 
         $totalHouse = OlDemarcationVerificationDetails::where('application_id',$applicationId)->select(DB::raw('sum(residential + non_residential) as total'))->value('total');
 
         $landArea = OlDemarcationLandArea::where('application_id',$applicationId)->first();
 
-        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','summary','status','reeNote','folder','buldingNumber','action','FSI','folder1','master','exists','totalHouse','landArea'));
+        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','summary','status','reeNote','folder','buldingNumber','action','FSI','folder1','master','exists','totalHouse','landArea','concessionData'));
     }
 
     public function showRevalCalculationSheet($id)
@@ -1213,9 +1217,9 @@ class REEController extends Controller
             $folder1 = 'REE_department.reval_action';
             $action = '.reval_action';
         }
-
+        $concessionData = $this->getConcessionDetails($applicationId);
         $folder = $this->getCurrentRoleFolderName();
-        return view($route,compact('ol_application','user','summary','status','reeNote','buldingNumber','folder1','folder','master','action','exists','applicationId','FSI')); 
+        return view($route,compact('ol_application','user','summary','status','reeNote','buldingNumber','folder1','folder','master','action','exists','applicationId','FSI','concessionData')); 
     }
 
     public function getCustomCalculationData($data,$applicationId){
@@ -3129,7 +3133,13 @@ class REEController extends Controller
             $folder1 = 'REE_department.reval_action';
             $action = '.reval_action';
         } 
-        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','folder','folder1','master','action','status','FSI','exists'));                    
+
+        $totalHouse = OlDemarcationVerificationDetails::where('application_id',$applicationId)
+        ->whereNotNull('residential')->whereNotNull('non_residential')->select(DB::raw('sum(residential + non_residential) as total'))->value('total');
+
+        $concessionData = $this->getConcessionDetails($applicationId);
+
+        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','folder','folder1','master','action','status','FSI','exists','totalHouse','concessionData'));                    
     }
 
     public function saveFsiCalculationData(Request $request){
@@ -3226,5 +3236,24 @@ class REEController extends Controller
             ->orderBy('id', 'desc')->first();
         return $status;    
     } 
+
+    // save concession sheet details in REE
+    public function saveConcessionDetails(Request $request){
+        $data = $request->all();
+        $route = $request->redirect_route;
+        unset($data['_token']);
+        unset($data['redirect_tab']);
+        $data['user_id'] = Auth::Id();
+        $applicationId = $request->application_id;
+        OlApplicationConcessionSheetDetails::updateOrCreate(['application_id' => $applicationId],$data);
+        $id = encrypt($applicationId);
+        return redirect($route.$id."#".$request->get('redirect_tab'));
+    }
+
+    // get concession sheet details
+    public function getConcessionDetails($applicationId){
+        $data = OlApplicationConcessionSheetDetails::where('application_id',$applicationId)->first();
+        return $data;   
+    }
 }
  

@@ -31,7 +31,7 @@
                     <table>
                         <tr>
                             <td>
-                                <img src="{{ public_path().'/img/logo-big.png' }}" style="width: 80%;">
+                                <img src="{{ public_path().'/img/logo-big.png' }}" style="width: 70%;">
                             </td>
                         </tr>
                     </table> 
@@ -211,30 +211,30 @@
         @if(!$arreasCalculation->isEmpty())
             @php $total ='0'; @endphp
 
-        <div style="border: 2px solid #000; padding: 5px; margin-top: 20px;"><h3 style="text-align: center;">Balance amount to be paid - Arrears</h3></div>
+        <div style="border: 1px solid #000; padding: 5px; margin-top: 20px;background-color: lightblue;"><h3 style="text-align: center;">Balance amount to be paid - Arrears</h3></div>
         <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
             <thead>
                 <tr>
-                    <th valign="top" style="border: 1px solid #000; padding: 5px; width: 25%;">Year</th>
-                    <th valign="top" style="border: 1px solid #000; padding: 5px; width: 25%;">Month</th>
-                    <th valign="top" style="border: 1px solid #000; padding: 5px; width: 25%;">Amount in Rs.</th>
-                    <th valign="top" style="border: 1px solid #000; padding: 5px; width: 25%;">Penalty in Rs.</th>
+                    <th valign="top" style="background-color:lightblue; padding: 5px; width: 25%;">Year</th>
+                    <th valign="top" style="background-color:lightblue; padding: 5px; width: 25%;">Month</th>
+                    <th valign="top" style="background-color:lightblue; padding: 5px; width: 25%;">Amount in Rs.</th>
+                    <th valign="top" style="background-color:lightblue; padding: 5px; width: 25%;">Penalty in Rs.</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($arreasCalculation as $calculation)
                     @php $total = $total + $calculation->total_amount; @endphp
                     <tr>
-                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{$calculation->year}}</td>
-                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
-                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{$calculation->total_amount- $calculation->old_intrest_amount - $calculation->difference_intrest_amount}}</td>
-                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{$calculation->old_intrest_amount + $calculation->difference_intrest_amount}}</td>
+                        <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$calculation->year}}</td>
+                        <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
+                        <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$calculation->total_amount- $calculation->old_intrest_amount - $calculation->difference_intrest_amount}}</td>
+                        <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$calculation->old_intrest_amount + $calculation->difference_intrest_amount}}</td>
                     </tr>
                 @endforeach
                 <tr>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: right; font-weight: bold;" colspan="2">Total</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center; font-weight: bold;">{{$total}}</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center; font-weight: bold;"></td>
+                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: right; font-weight: bold;" colspan="2">Total</td>
+                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center; font-weight: bold;">{{$total}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center; font-weight: bold;"></td>
                 </tr>
                
             </tbody>
@@ -245,10 +245,10 @@
         <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
             <thead>
                 <tr>
-                    <th valign="top" style="border: 1px solid #000; padding: 5px; width: 25%;">Year</th>
-                    <th valign="top" style="border: 1px solid #000; padding: 5px; width: 25%;">Month</th>
-                    <th valign="top" style="border: 1px solid #000; padding: 5px; width: 25%;">Amount in Rs.</th>
-                    <th valign="top" style="border: 1px solid #000; padding: 5px; width: 25%;">Penalty in Rs.</th>
+                    <th valign="top" style="background-color: lightblue; padding: 5px; width: 25%;">Year</th>
+                    <th valign="top" style="background-color: lightblue; padding: 5px; width: 25%;">Month</th>
+                    <th valign="top" style="background-color: lightblue; padding: 5px; width: 25%;">Amount in Rs.</th>
+                    <th valign="top" style="background-color: lightblue; padding: 5px; width: 25%;">Penalty in Rs.</th>
                 </tr>
             </thead>
             <tbody>
@@ -257,21 +257,25 @@
                     $total=$TransBillGenerate->prev_arrear_balance+$TransBillGenerate->prev_arrear_interest_balance;
                 @endphp
                     <tr>
+                        <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$lastBill->bill_year}}</td>
+                        <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{date("M", strtotime("2001-" . $lastBill->bill_month . "-01"))}}</td>
+                        <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$lastBill->arrear_balance }}</td>
+                        <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$lastBill->arrear_interest_balance }}</td>
                         <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{$lastBill->bill_year}}</td>
                         <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{date("M", strtotime("2001-" . $lastBill->bill_month . "-01"))}}</td>
                         <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{$TransBillGenerate->prev_arrear_balance }}</td>
                         <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{$TransBillGenerate->prev_arrear_interest_balance }}</td>
                     </tr>
                 <tr>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: right; font-weight: bold;" colspan="2">Total</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center; font-weight: bold;">{{$total}}</td>
-                    <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center; font-weight: bold;"></td>
+                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: right; font-weight: bold;" colspan="2">Total</td>
+                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center; font-weight: bold;">{{$total}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center; font-weight: bold;"></td>
                 </tr>
                
             </tbody>
         </table>
         @endif
-        <div style="border: 1px solid #000; padding: 5px; margin-top: 30px;background-color: lightblue;"><h3 style="text-align: center;">Total amount to be paid</h3></div>
+        <div style="border: 1px solid #000; padding: 5px; margin-top: 35px;background-color: lightblue;"><h3 style="text-align: center;">Total amount to be paid</h3></div>
         <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
             <thead>
                 <tr>
