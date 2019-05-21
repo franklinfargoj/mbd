@@ -170,7 +170,7 @@
                     <td valign="top" style=" padding: 5px;text-align: center; background-color: #f1f3f4;">{{$serviceChargesRate->pump_man_and_repair_charges}}</td>
                 </tr>
                 <tr>
-                    <td valign="top" style=" padding: 5px; background-color: #f1f3f4;">External Expenture Charge</td>
+                    <td valign="top" style=" padding: 5px; background-color: #f1f3f4;">External Expenditure Charge</td>
                     <td valign="top" style=" padding: 5px;text-align: center; background-color: #f1f3f4;">{{$serviceChargesRate->external_expender_charge}}</td>
                 </tr>
                 <tr>
@@ -254,13 +254,17 @@
             <tbody>
                 @php 
                     $total=0;
-                    $total=$lastBill->arrear_balance+$lastBill->arrear_interest_balance;
+                    $total=$TransBillGenerate->prev_arrear_balance+$TransBillGenerate->prev_arrear_interest_balance;
                 @endphp
                     <tr>
                         <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$lastBill->bill_year}}</td>
                         <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{date("M", strtotime("2001-" . $lastBill->bill_month . "-01"))}}</td>
                         <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$lastBill->arrear_balance }}</td>
                         <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$lastBill->arrear_interest_balance }}</td>
+                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{$lastBill->bill_year}}</td>
+                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{date("M", strtotime("2001-" . $lastBill->bill_month . "-01"))}}</td>
+                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{$TransBillGenerate->prev_arrear_balance }}</td>
+                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{$TransBillGenerate->prev_arrear_interest_balance }}</td>
                     </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: right; font-weight: bold;" colspan="2">Total</td>
