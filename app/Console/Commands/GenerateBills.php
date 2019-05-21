@@ -544,7 +544,7 @@ class GenerateBills extends Command
                         
                         $bill->arrear_id = $arrear_id;
 
-                        $total_bill = $bill->arrear_balance+$total_service;
+                        $total_bill = $bill->arrear_balance+$total_service+$bill->arrear_interest_balance;
                         $bill->total_bill = $total_bill;
                         $bill->bill_date  = $bill_date;
                         $bill->due_date   = $due_date;
