@@ -8,7 +8,7 @@
 </head>
 <body>
     @php 
-        $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other; 
+        $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge +$serviceChargesRate->property_tax+ $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other; 
         $total_after_due = $total_service * 0.015; 
         $total_service_after_due = $total_service + $total_after_due;     
         $total ='0';           
@@ -186,6 +186,10 @@
                     <td valign="top" style=" padding: 5px;text-align: center; background-color: #f1f3f4;">{{$serviceChargesRate->na_assessment}}</td>
                 </tr>
                 <tr>
+                    <td valign="top" style=" padding: 5px; background-color: #f1f3f4;">Property Tax</td>
+                    <td valign="top" style=" padding: 5px;text-align: center; background-color: #f1f3f4;">{{$serviceChargesRate->property_tax==null?'0.00':$serviceChargesRate->property_tax}}</td>
+                </tr>
+                <tr>
                     <td valign="top" style=" padding: 5px; background-color: #f1f3f4;">Other</td>
                     <td valign="top" style=" padding: 5px;text-align: center; background-color: #f1f3f4;">{{$serviceChargesRate->other}}</td>
                 </tr>
@@ -194,7 +198,7 @@
                     <td valign="top" style=" padding: 5px; font-weight: bold;text-align: center; background-color: #f1f3f4;">{{$total_service}}</td>
                 </tr>
                 <tr>
-                    <td valign="top" style=" padding: 5px; font-weight: bold; text-align: right; background-color: #f1f3f4;">After Due date x% interest</td>
+                    <td valign="top" style=" padding: 5px; font-weight: bold; text-align: right; background-color: #f1f3f4;">After Due date 1.5% interest</td>
                     <td valign="top" style=" padding: 5px; font-weight: bold;text-align: center; background-color: #f1f3f4;">{{$total_after_due}}</td>
                 </tr>
                 <tr>
@@ -277,12 +281,12 @@
             </thead>
             <tbody>
                 <tr>
-                    <td valign="top" style="background-color: #f1f3f4; padding: 5px;">Balance Amount</td>
+                    <td valign="top" style="background-color: #f1f3f4; padding: 5px;text-align: right;">Balance Amount</td>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center;">{{($lastBill?$lastBill->balance_amount:0)+$TransBillGenerate->arrear_bill}}</td>
                 </tr>
                  @if($TransBillGenerate && !empty($TransBillGenerate) && 0 < $TransBillGenerate->credit_amount)
                     <tr>
-                        <td valign="top" style="background-color: #f1f3f4; padding: 5px;">Credit Amount</td>
+                        <td valign="top" style="background-color: #f1f3f4; padding: 5px;text-align: right;">Credit Amount</td>
                         <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center;">{{$TransBillGenerate->credit_amount}}</td>
                     </tr>
                 @endif
@@ -291,7 +295,7 @@
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center;">{{$total}}</td>
                 </tr> --}}
                 <tr>
-                    <td valign="top" style="background-color: #f1f3f4; padding: 5px;">Service Charges</td>
+                    <td valign="top" style="background-color: #f1f3f4; padding: 5px;text-align: right;">Service Charges</td>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center;">{{$total_service}}</td>
                 </tr>
                 <tr>
