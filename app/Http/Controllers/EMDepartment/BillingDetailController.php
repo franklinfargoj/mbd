@@ -128,6 +128,7 @@ class BillingDetailController extends Controller
                 ['data' => 'administrative_charge','name' => 'administrative_charge','title' => 'Administrative Charge','orderable'=>false],
                 ['data' => 'lease_rent','name' => 'lease_rent','title' => 'Lease rent','orderable'=>false],
                 ['data' => 'na_assessment','name' => 'na_assessment','title' => 'N. A. Assessment','orderable'=>false],
+                ['data' => 'property_tax','name' => 'property_tax','title' => 'Property Tax','orderable'=>false],
                 ['data' => 'other','name' => 'other','title' => 'Other Charges','orderable'=>false],
                 ['data' => 'total_service_charges','name' => 'total_service_charges','title' => 'Total','orderable'=>false],
                 ['data' => 'balance_amount','name' => 'balance_amount','title' => 'Balance amount'],
@@ -396,6 +397,15 @@ class BillingDetailController extends Controller
                             } else{
                                 return $arreas_calculations->na_assessment*$building->tenant_count()->first()->count;
                             }
+                        }
+                    })
+                    ->editColumn('property_tax', function ($arreas_calculations) use($building,$request){
+                        if(isset($arreas_calculations)) {
+                            if($request->has('tenant_id')&& !empty($arreas_calculations)) {
+                                return $arreas_calculations->property_tax==null?'0.00':$arreas_calculations->property_tax;
+                            } else {
+                                return $arreas_calculations->property_tax*$building->tenant_count()->first()->count;
+                            } 
                         }
                     })
                     ->editColumn('other', function ($arreas_calculations) use($building,$request){
