@@ -76,8 +76,9 @@ class OlSharingCalculationSheetDetailsController extends Controller
         }  
         $REEController = new REEController();                         
         $ol_application->folder = $REEController->getCurrentRoleFolderName();
+        $concessionData = $REEController->getConcessionDetails($applicationId);
         
-        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));
+        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','concessionData'));
 
     }
 
