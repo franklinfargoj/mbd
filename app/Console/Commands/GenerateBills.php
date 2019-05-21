@@ -49,8 +49,8 @@ class GenerateBills extends Command
      */
     public function handle()
     {
-        //$this->generateSocityLevelBills();
-        $this->generateTenantLevelBills();
+        $this->generateSocityLevelBills();
+        //$this->generateTenantLevelBills();
     }
 
     public function generateSocityLevelBills() {

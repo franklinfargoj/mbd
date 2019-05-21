@@ -157,42 +157,46 @@
             <tbody>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px;">Water Charges:</td>
-                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->water_charges}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->water_charges==null?'0.00':$serviceChargesRate->water_charges}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px;">Electric City Charge:</td>
-                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->electric_city_charge}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->electric_city_charge==null?'0.00':$serviceChargesRate->electric_city_charge}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px;">Pump Man & Repair Charges:</td>
-                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->pump_man_and_repair_charges}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->pump_man_and_repair_charges==null?'0.00':$serviceChargesRate->pump_man_and_repair_charges}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px;">External Expenditure Charge:</td>
-                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->external_expender_charge}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->external_expender_charge==null?'0.00':$serviceChargesRate->external_expender_charge}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px;">Administrative Charge:</td>
-                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->administrative_charge}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->administrative_charge==null?'0.00':$serviceChargesRate->administrative_charge}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px;">Lease Rent:</td>
-                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->lease_rent}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->lease_rent==null?'0.00':$serviceChargesRate->lease_rent}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px;">N.A.Assessment:</td>
-                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->na_assessment}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->na_assessment==null?'0.00':$serviceChargesRate->na_assessment}}</td>
+                </tr>
+                <tr>
+                    <td valign="top" style="background-color: #f1f3f4; padding: 5px;">Property Tax:</td>
+                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->property_tax==null?'0.00':$serviceChargesRate->property_tax}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px;">Other:</td>
-                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->other}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->other==null?'0.00':$serviceChargesRate->other}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px; font-weight: bold; text-align: right;">Total:</td>
                     <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; font-weight: bold; text-align: center;">{{$total_service}}</td>
                 </tr>
                 <tr>
-                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; font-weight: bold; text-align: right;">After Due date x% interest:</td>
+                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; font-weight: bold; text-align: right;">After Due date 1.5% interest:</td>
                     <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; font-weight: bold; text-align: center;">{{$total_after_due}}</td>
                 </tr>
                 <tr>

@@ -244,14 +244,14 @@ class BillingDetailController extends Controller
                         $join->on('arrears_charges_rates.society_id','=', 'trans_bill_generate.society_id');
                         $join->on('arrears_charges_rates.year','=', 'trans_bill_generate.bill_year');
                     })
-                    ->where(DB::raw('trans_bill_generate.id'),'=',function($q) use($request){
-                        $q->from('trans_bill_generate')
-                        ->select('id')
-                        ->where('bill_month','=',DB::raw('trans_bill_generate.bill_month'))
-                        //->where('tenant_id', '=', $request->tenant_id)
-                        ->limit(1)
-                        ->orderBy('id', 'desc');
-                    })
+                    // ->where(DB::raw('trans_bill_generate.id'),'=',function($q) use($request){
+                    //     $q->from('trans_bill_generate')
+                    //     ->select('id')
+                    //     ->where('bill_month','=',DB::raw('trans_bill_generate.bill_month'))
+                    //     //->where('tenant_id', '=', $request->tenant_id)
+                    //     ->limit(1)
+                    //     ->orderBy('id', 'desc');
+                    // })
                     ->selectRaw('trans_bill_generate.*,service_charges_rates.water_charges,service_charges_rates.electric_city_charge,service_charges_rates.pump_man_and_repair_charges,service_charges_rates.external_expender_charge,service_charges_rates.administrative_charge,service_charges_rates.lease_rent,service_charges_rates.na_assessment,service_charges_rates.other,arrear_calculation.old_intrest_amount,arrear_calculation.difference_intrest_amount,arrear_calculation.year as ac_year,arrear_calculation.month as ac_month,arrear_calculation.oir_year,arrear_calculation.oir_month,arrears_charges_rates.old_rate')->whereIn('bill_year',$select_year)->orderBy('trans_bill_generate.created_at','desc')->groupBy('trans_bill_generate.tenant_id');
                
                     // $arreas_calculations = DB::select('select 
@@ -326,7 +326,7 @@ class BillingDetailController extends Controller
                     //         ) l');
                 }
                  // $arreas_calculations = $arreas_calculations->toSql();   
-
+                
                 // echo '<pre>';
                 // print_r($arreas_calculations);exit;
                 // $service_charges = '';
@@ -590,7 +590,8 @@ class BillingDetailController extends Controller
                                 $button.= "<a href='".$url."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Download Receipt</a></div>";
                             }
                         } else {
-                            if(!empty($arreas_calculations->water_charges)) {
+                            //if(!empty($arreas_calculations->water_charges)) {
+                                
                                 $url = route('downloadBill', ['building_id'=>encrypt($building->id),
                                             'society_id'=>encrypt($society->id),'month'=> $arreas_calculations->bill_month,'year'=> $arreas_calculations->bill_year,'id'=>$arreas_calculations->id]);
                                 $button = "<div class='d-flex btn-icon-list'>
@@ -601,7 +602,7 @@ class BillingDetailController extends Controller
 
                                     $button.= "<a href='".$url."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Download Receipt</a></div>";
                                 }
-                            }
+                           // }
                         }
 
                         return $button;

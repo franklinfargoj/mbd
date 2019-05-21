@@ -60,7 +60,7 @@ class ImportController extends Controller
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $pKey => $row1) {
                             foreach ($row1 as $pKey => $row) {
-
+								
                                 if (!empty($row['2']) && !empty($row['7'])) {
                                     if (is_numeric($row['29'])) {
                                         $from_year = ($from_year == "") ? (int) $row['29'] : $from_year;
@@ -97,7 +97,7 @@ class ImportController extends Controller
                                             $society->save();
                                         }
 
-                                        $building = MasterBuilding::where('society_id', $society->id)->where('name', $row['7'])->first();
+                                        $building = MasterBuilding::where('society_id', $society->id)->where('name', $row['7'])->where('building_no', $row['6'])->first();
                                         if (empty($building)) {
                                             $building = new MasterBuilding;
                                             $building->society_id = $society->id;
@@ -106,7 +106,7 @@ class ImportController extends Controller
                                             $building->description = $row['7'];
                                             $building->save();
                                         }
-                                        $tenant_type = MasterTenantType::where(['name' => $row['11']])->first();
+										$tenant_type = MasterTenantType::where(['name' => trim($row['11'])])->first();
                                         if ($tenant_type) {
                                             if (!empty($society) && !empty($building)) {
                                                 $tenant = MasterTenant::where(['building_id' => $building->id, 'flat_no' => $row['12']])->first();
@@ -127,7 +127,6 @@ class ImportController extends Controller
                                                 }
                                             }
                                         } else {
-
                                         }
 
                                         if ($from_year != "") {
