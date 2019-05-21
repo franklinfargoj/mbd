@@ -103,7 +103,12 @@ $DCRrate = ['EWS/LIG','MIG','HIG']; @endphp
                 </a>
             </li>
             <li class="nav-item m-tabs__item">
-                <a class="nav-link m-tabs__link" data-toggle="tab" href="#six" role="tab" aria-selected="true">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#six" role="tab" aria-selected="false">
+                    <i class="la la-briefcase"></i>Concession Sheet
+                </a>
+            </li>
+            <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#seven" role="tab" aria-selected="true">
                     <i class="la la-bell-o"></i>REE - Note
                 </a>
             </li>
@@ -485,10 +490,10 @@ $DCRrate = ['EWS/LIG','MIG','HIG']; @endphp
                                                 <td style = "border-style: ridge;">2.1</td>
                                                 <td style = "border-style: ridge;">
                                                 <span class="label">
-                                                    उर्वरित च.क्षे.रहिवासी वापर क्षेत्र </span>
+                                                    वाणिज्य वापर क्षेत्र चौ मी</span>
                                                     <input style="border: none;display: inline-block;" type="text" placeholder="0" class="form-control form-control--custom txtbox"
                                                         name="remaining_commercial_area" id="remaining_commercial_area"
-                                                        value="{{ isset($calculationSheetDetails->calculated_commercial_dcr_rate) ? $calculationSheetDetails->calculated_commercial_dcr_rate : '' }}"/>
+                                                        value="{{ isset($calculationSheetDetails->remaining_commercial_area) ? $calculationSheetDetails->remaining_commercial_area : '' }}"/>
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                 </td>
@@ -497,9 +502,9 @@ $DCRrate = ['EWS/LIG','MIG','HIG']; @endphp
                                                 <td style = "border-style: ridge;">2.2</td>
                                                 <td style = "border-style: ridge;">
                                                 <span class="label"> दर </span>
-                                                    <input style="border: none;display: inline-block;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
+                                                    <input style="border: none;display: inline-block;" type="text" placeholder="0" class="form-control form-control--custom txtbox"
                                                            name="calculated_commercial_dcr_rate" id="calculated_commercial_dcr_rate"
-                                                           value="{{ isset($calculationSheetDetails->remaining_commercial_area) ? $calculationSheetDetails->remaining_commercial_area : '' }}" />
+                                                           value="{{ isset($calculationSheetDetails->calculated_commercial_dcr_rate) ? $calculationSheetDetails->calculated_commercial_dcr_rate : '' }}" />
                                                 </td> 
                                                 <td class="text-center" style = "border-style: ridge;">
                                                 </td>
@@ -1318,6 +1323,8 @@ $DCRrate = ['EWS/LIG','MIG','HIG']; @endphp
                     </div>
                 </div>
             </div>
+
+            <!-- summary -->
             <div class="tab-pane" id="five" role="tabpanel">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                     <div class="portlet-body">
@@ -1429,8 +1436,129 @@ $DCRrate = ['EWS/LIG','MIG','HIG']; @endphp
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> 
+
+            <!-- consseion sheet -->
             <div class="tab-pane" id="six" role="tabpanel">
+                <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+                    <div class="portlet-body">
+                        <div class="m-portlet__body m-portlet__body--table">
+                            <div class="m-subheader">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <h3 class="section-title">
+                                        अधिमूल्य रकमेचा चार सामान हफ्त्यांत भरणा करण्याबाबतचा प्रस्ताव
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="m-section__content mb-0 table-responsive">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto">
+                                    <img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("five");' style="max-width: 22px" class="printBtn"></a>
+                                </div>
+                                 <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_concession_sheet_details') }}">
+                                 @csrf
+                                 <input name="application_id" type="hidden" value="{{ $applicationId }}" />
+                                 <input name="redirect_tab" type="hidden" value="seven" />
+                                 <input name="redirect_route" type="hidden" value="fsi_calculation_application/" />
+                                <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
+                                    <thead class="thead-default">
+                                        <tr>
+                                            <th class="table-data--xs" style = "border-style: ridge;">
+                                                Sr.no
+                                            </th>
+                                            <th style = "border-style: ridge;width:50%">
+                                                तपशील
+                                            </th>
+                                            <th class="table-data--md" style = "border-style: ridge;width:50%">
+                                                रक्कम रु
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style = "border-style: ridge;">1.</td>
+                                            <td>
+                                                Change of tenement
+                                            </td>
+                                            <td class="text-center">
+                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-top: none;resize: none;" name="tenement_charges" id="tenement_charges"> {{ isset($concessionData) ? $concessionData->tenement_charges : '' }}</textarea>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style = "border-style: ridge;">2.</td>
+                                            <td style = "border-style: ridge;">
+                                               R.G shiffting
+                                            </td>
+                                            <td class="text-center" style = "border-style: ridge;">
+                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-top: none;resize: none;" name="r_g_shiffting" id="r_g_shiffting">{{ isset($concessionData) ? $concessionData->r_g_shiffting : '' }}</textarea>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+
+                                            <td style = "border-style: ridge;">3.</td>
+                                            <td style = "border-style: ridge;">
+                                               OB/Other plot
+                                            </td>
+                                            <td class="text-center" style = "border-style: ridge;">
+                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-top: none;resize: none;" name="ob_other_plot" id="ob_other_plot">{{ isset($concessionData) ? $concessionData->ob_other_plot : '' }}</textarea>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style = "border-style: ridge;">4.</td>
+                                            <td style = "border-style: ridge;">
+                                                VP cota
+                                            </td>
+                                            <td class="text-center" style = "border-style: ridge;">
+                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-top: none;resize: none;" name="vp_cota" id="vp_cota">{{ isset($concessionData) ? $concessionData->vp_cota : '' }}</textarea>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style = "border-style: ridge;">5.</td>
+                                            <td style = "border-style: ridge;">
+                                                Encroachment on plot
+                                            </td>
+                                            <td class="text-center" style = "border-style: ridge;">
+                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-top: none;resize: none;" name="encroachment_plot" id="encroachment_plot">{{ isset($concessionData) ? $concessionData->encroachment_plot : '' }}</textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style = "border-style: ridge;">6.</td>
+                                            <td style = "border-style: ridge;">
+                                                Premium charges
+                                            </td>
+                                            <td class="text-center" style = "border-style: ridge;">
+                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-top: none;resize: none;" name="premium_charges" id="premium_charges">{{ isset($concessionData) ? $concessionData->premium_charges : '' }}</textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style = "border-style: ridge;">7.</td>
+                                            <td style = "border-style: ridge;">
+                                                Tit Bit land
+                                            </td>
+                                            <td class="text-center" style = "border-style: ridge;">
+                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-top: none;resize: none;" name="tit_bit_land" id="tit_bit_land">{{ isset($concessionData) ? $concessionData->tit_bit_land : '' }}</textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" align="right">
+                                            <input type="submit" class="btn btn-primary btn-next subtn subt-btn" value="Next" /> </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <!-- REE note -->
+            <div class="tab-pane" id="seven" role="tabpanel">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                     <div class="portlet-body">
                         <div class="m-portlet__body m-portlet__body--table">
@@ -2041,7 +2169,8 @@ $DCRrate = ['EWS/LIG','MIG','HIG']; @endphp
         areaOfTotalPlot();
         calculateAmountForMhadaMuncipal();
         calculateLayoutApproval();
-
+        permissibleConstructionArea();
+        areaOfSubsistenceToCalculate();
         nonProfitDuty();
 
         var first_installment = 0;
@@ -2153,12 +2282,29 @@ $DCRrate = ['EWS/LIG','MIG','HIG']; @endphp
     $("#remaining_residential_area").keyup(function(){
         calculatedDcrBalanceOfRemainingArea();
         calculateTotalPremium();
-        checkTotalRemainingArea();
     }); 
     $("#remaining_commercial_area").keyup(function(){
         calculationCommercial();
         calculateTotalPremium();
+    });
+
+    // calculate commerical adhimulay
+    $("#calculated_commercial_dcr_rate").keyup(function(){
+        var commercia_rate = (!cleanNumber($("#calculated_commercial_dcr_rate").val()) || isNaN(cleanNumber($("#calculated_commercial_dcr_rate").val()))) ? 0 : cleanNumber($("#calculated_commercial_dcr_rate").val());
+
+        var commercial=(!cleanNumber($("#remaining_commercial_area").val()) || isNaN(cleanNumber($("#remaining_commercial_area").val()))) ? 0 : cleanNumber($("#remaining_commercial_area").val());
+
+        var area = commercial * commercia_rate;
+        $("#balance_of_commercial_remaining_area").attr('value',numberWithCommas(area.toFixed(2)));
+        calculateTotalPremium();
+    });
+
+    $("#remaining_residential_area").focusout(function(){
         checkTotalRemainingArea();
     });
+
+    $("#remaining_commercial_area").focusout(function(){
+        checkTotalRemainingArea();
+     });
 </script>
 @endsection

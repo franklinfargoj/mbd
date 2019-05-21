@@ -544,6 +544,11 @@ class ReePermissionSeeder extends Seeder
                 'display_name'=>'get calculation sheet',
                 'description'=>'get calculation sheet'
             ],
+            [
+                'name'=>'ree.save_concession_sheet_details',
+                'display_name'=>'save concession sheet details',
+                'description'=>'save concession sheet details'
+            ],
         ];
 
         // Role

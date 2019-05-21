@@ -111,8 +111,9 @@ class OlApplicationCalculationSheetDetailsController extends Controller
         ->whereNotNull('residential')->whereNotNull('non_residential')->select(DB::raw('sum(residential + non_residential) as total'))->value('total');
 
         $landArea = OlDemarcationLandArea::where('application_id',$applicationId)->first();
+        $concessionData = $REEController->getConcessionDetails($applicationId);
 
-        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','folder','master','action','folder1','status','FSI','exists','totalHouse','fsiVal','landArea'));
+        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','folder','master','action','folder1','status','FSI','exists','totalHouse','fsiVal','landArea','concessionData'));
     }
  
 

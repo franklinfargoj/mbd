@@ -81,7 +81,12 @@ span.label {
                 </a>
             </li>
             <li class="nav-item m-tabs__item">
-                <a class="nav-link m-tabs__link" data-toggle="tab" href="#six" role="tab" aria-selected="true">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#six" role="tab" aria-selected="false">
+                    <i class="la la-briefcase"></i>Concession Sheet
+                </a>
+            </li>
+            <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#seven" role="tab" aria-selected="true">
                     <i class="la la-bell-o"></i>REE - Note
                 </a>
             </li>
@@ -1192,7 +1197,117 @@ span.label {
                     </div>
                 </div>
             </div>
+
+             <!-- consseion sheet -->
             <div class="tab-pane" id="six" role="tabpanel">
+                <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+                    <div class="portlet-body">
+                        <div class="m-portlet__body m-portlet__body--table">
+                            <div class="m-subheader">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <h3 class="section-title">
+                                        अधिमूल्य रकमेचा चार सामान हफ्त्यांत भरणा करण्याबाबतचा प्रस्ताव
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="m-section__content mb-0 table-responsive">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto">
+                                    <img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("six");' style="max-width: 22px" class="printBtn"></a>
+                                </div>
+                                <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
+                                    <thead class="thead-default">
+                                        <tr>
+                                            <th class="table-data--xs" style = "border-style: ridge;">
+                                                Sr.no
+                                            </th>
+                                            <th style = "border-style: ridge;width:50%">
+                                                तपशील
+                                            </th>
+                                            <th class="table-data--md" style = "border-style: ridge;width:50%">
+                                                Remark
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style = "border-style: ridge;">1.</td>
+                                            <td>
+                                                Change of tenement
+                                            </td>
+                                            <td class="text-left">
+                                                {{ isset($concessionData) ? $concessionData->tenement_charges : '' }}
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style = "border-style: ridge;">2.</td>
+                                            <td style = "border-style: ridge;">
+                                               R.G shiffting
+                                            </td>
+                                            <td class="text-left" style = "border-style: ridge;">
+                                                {{ isset($concessionData) ? $concessionData->r_g_shiffting : '' }}
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+
+                                            <td style = "border-style: ridge;">3.</td>
+                                            <td style = "border-style: ridge;">
+                                               OB/Other plot
+                                            </td>
+                                            <td class="text-left" style = "border-style: ridge;">
+                                                {{ isset($concessionData) ? $concessionData->ob_other_plot : '' }}
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style = "border-style: ridge;">4.</td>
+                                            <td style = "border-style: ridge;">
+                                                VP cota
+                                            </td>
+                                            <td class="text-left" style = "border-style: ridge;">
+                                                {{ isset($concessionData) ? $concessionData->vp_cota : '' }}
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style = "border-style: ridge;">5.</td>
+                                            <td style = "border-style: ridge;">
+                                                Encroachment on plot
+                                            </td>
+                                            <td class="text-left" style = "border-style: ridge;">
+                                                {{ isset($concessionData) ? $concessionData->encroachment_plot : '' }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style = "border-style: ridge;">6.</td>
+                                            <td style = "border-style: ridge;">
+                                                Premium charges
+                                            </td>
+                                            <td class="text-left" style = "border-style: ridge;">
+                                                {{ isset($concessionData) ? $concessionData->premium_charges : '' }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style = "border-style: ridge;">7.</td>
+                                            <td style = "border-style: ridge;">
+                                                Tit Bit land
+                                            </td>
+                                            <td class="text-left" style = "border-style: ridge;">
+                                                {{ isset($concessionData) ? $concessionData->tit_bit_land : '' }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REE note -->
+            <div class="tab-pane" id="seven" role="tabpanel">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                     <div class="portlet-body">
                         <div class="m-portlet__body m-portlet__body--table">

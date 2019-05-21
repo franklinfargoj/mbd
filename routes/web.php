@@ -417,6 +417,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::post('save_custom_calculation_data','REEDepartment\REEController@saveCustomCalculationData')->name('ree.save_custom_calculation_data');
 
+    Route::post('save_concession_sheet_details','REEDepartment\REEController@saveConcessionDetails')->name('ree.save_concession_sheet_details');
+
     // Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
     Route::post('ol_calculation_sheet/save_details','REEDepartment\OlApplicationCalculationSheetDetailsController@saveCalculationDetails')->name('save_calculation_details');
     Route::post('ol_reval_calculation_sheet/save_details','REEDepartment\OlApplicationCalculationSheetDetailsController@saveRevalCalculationDetails')->name('save_reval_calculation_details');
