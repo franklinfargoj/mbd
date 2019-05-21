@@ -1206,7 +1206,7 @@ span.label {
                             <div class="m-subheader">
                                 <div class="d-flex align-items-center justify-content-center">
                                     <h3 class="section-title">
-                                        अधिमूल्य रकमेचा चार सामान हफ्त्यांत भरणा करण्याबाबतचा प्रस्ताव
+                                        Concession Sheet
                                     </h3>
                                 </div>
                             </div>
