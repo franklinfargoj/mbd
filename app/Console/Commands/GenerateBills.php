@@ -225,6 +225,8 @@ class GenerateBills extends Command
                                     'updated_at'=>date('Y-m-d H:i:s'),
                                     'arrear_balance'=>$arrear_bill,
                                     'arrear_interest_balance'=>$arrear_interest_balance,
+                                    'prev_arrear_balance'=>$arrear_bill,
+                                    'prev_arrear_interest_balance'=>$arrear_interest_balance,
                                     'service_charge_balance'=>$monthly_bill
                                 ];
                                 if($lastBill)
@@ -526,6 +528,8 @@ class GenerateBills extends Command
                         $bill->bill_year   = $bill_year;
                         $bill->arrear_balance=$arrear_balance;
                         $bill->arrear_interest_balance=$arrear_interest_balance;
+                        $bill->prev_arrear_balance=$arrear_balance;
+                        $bill->prev_arrear_interest_balance=$arrear_interest_balance;
                         
 
                         $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other+$serviceChargesRate->property_tax; 
