@@ -462,14 +462,14 @@
                                     total = old_total + old_total_intrest_on_difference;
                                 }
 
-                                $('#oia').html(old_intrest_amount);
-                                $('#old_intrest_amount').val(old_intrest_amount);
+                                $('#oia').html(Math.ceil(old_intrest_amount));
+                                $('#old_intrest_amount').val(Math.ceil(old_intrest_amount));
 
-                                $('#dia').html(intrest_on_difference);
-                                $('#difference_intrest_amount').val(intrest_on_difference);
+                                $('#dia').html(Math.ceil(intrest_on_difference));
+                                $('#difference_intrest_amount').val(Math.ceil(intrest_on_difference));
                             
-                                 $('#total_amount').html(total);
-                                 $('#total_amount_val').val(total);
+                                 $('#total_amount').html(Math.ceil(total));
+                                 $('#total_amount_val').val(Math.ceil(total));
                             } else {
                                 old_intrest_amount = 0;
                                 intrest_on_difference = 0;
@@ -477,14 +477,14 @@
                                 $('#ior_error').html('');
                                 $('#ida_error').html('Arrear charges not defined for selected year.');
 
-                                $('#oia').html(old_intrest_amount);
-                                $('#old_intrest_amount').val(old_intrest_amount);
+                                $('#oia').html(Math.ceil(old_intrest_amount));
+                                $('#old_intrest_amount').val(Math.ceil(old_intrest_amount));
 
-                                $('#dia').html(intrest_on_difference);
-                                $('#difference_intrest_amount').val(intrest_on_difference);
+                                $('#dia').html(Math.ceil(intrest_on_difference));
+                                $('#difference_intrest_amount').val(Math.ceil(intrest_on_difference));
                             
-                                $('#total_amount').html(total);
-                                $('#total_amount_val').val(total);
+                                $('#total_amount').html(Math.ceil(total));
+                                $('#total_amount_val').val(Math.ceil(total));
                             }
                         }
                     });
@@ -637,14 +637,14 @@
                 }
                 
                 
-                $('#oia').html(old_intrest_amount);
-                $('#old_intrest_amount').val(old_intrest_amount);
+                $('#oia').html(Math.ceil(old_intrest_amount));
+                $('#old_intrest_amount').val(Math.ceil(old_intrest_amount));
 
-                $('#dia').html(intrest_on_difference);
-                $('#difference_intrest_amount').val(intrest_on_difference);
+                $('#dia').html(Math.ceil(intrest_on_difference));
+                $('#difference_intrest_amount').val(Math.ceil(intrest_on_difference));
             
                  $('#total_amount').html(Math.ceil(total));
-                 $('#total_amount_val').val(total);
+                 $('#total_amount_val').val(Math.ceil(total));
 
     }
 
