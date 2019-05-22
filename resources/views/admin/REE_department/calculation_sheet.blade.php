@@ -1452,7 +1452,7 @@ span.label {
                                                 Change of tenement
                                             </td>
                                             <td class="text-center">
-                                                <textarea class="form-control form-control--custom form-control--textarea" style="border: none;resize: none;" name="tenement_charges" id="tenement_charges"> {{ isset($concessionData) ? $concessionData->tenement_charges : '' }}</textarea>
+                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-right: none;resize: none;" name="tenement_charges" id="tenement_charges"> {{ isset($concessionData) ? $concessionData->tenement_charges : '' }}</textarea>
 
                                             </td>
                                         </tr>
@@ -1462,7 +1462,7 @@ span.label {
                                                R.G shiffting
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
-                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-top: none;resize: none;" name="r_g_shiffting" id="r_g_shiffting">{{ isset($concessionData) ? $concessionData->r_g_shiffting : '' }}</textarea>
+                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-right: none;border-top: none;resize: none;" name="r_g_shiffting" id="r_g_shiffting">{{ isset($concessionData) ? $concessionData->r_g_shiffting : '' }}</textarea>
 
                                             </td>
                                         </tr>
@@ -1473,7 +1473,7 @@ span.label {
                                                OB/Other plot
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
-                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-top: none;resize: none;" name="ob_other_plot" id="ob_other_plot">{{ isset($concessionData) ? $concessionData->ob_other_plot : '' }}</textarea>
+                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-right: none;border-top: none;resize: none;" name="ob_other_plot" id="ob_other_plot">{{ isset($concessionData) ? $concessionData->ob_other_plot : '' }}</textarea>
 
                                             </td>
                                         </tr>
@@ -1483,7 +1483,7 @@ span.label {
                                                 VP cota
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
-                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-top: none;resize: none;" name="vp_cota" id="vp_cota">{{ isset($concessionData) ? $concessionData->vp_cota : '' }}</textarea>
+                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-right: none;border-top: none;resize: none;" name="vp_cota" id="vp_cota">{{ isset($concessionData) ? $concessionData->vp_cota : '' }}</textarea>
 
                                             </td>
                                         </tr>
@@ -1493,7 +1493,7 @@ span.label {
                                                 Encroachment on plot
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
-                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-top: none;resize: none;" name="encroachment_plot" id="encroachment_plot">{{ isset($concessionData) ? $concessionData->encroachment_plot : '' }}</textarea>
+                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-right: none;border-top: none;resize: none;" name="encroachment_plot" id="encroachment_plot">{{ isset($concessionData) ? $concessionData->encroachment_plot : '' }}</textarea>
                                             </td>
                                         </tr>
                                         <tr>
@@ -1502,7 +1502,7 @@ span.label {
                                                 Premium charges
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
-                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-top: none;resize: none;" name="premium_charges" id="premium_charges">{{ isset($concessionData) ? $concessionData->premium_charges : '' }}</textarea>
+                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-right: none;border-top: none;resize: none;" name="premium_charges" id="premium_charges">{{ isset($concessionData) ? $concessionData->premium_charges : '' }}</textarea>
                                             </td>
                                         </tr>
                                         <tr>
@@ -1511,7 +1511,7 @@ span.label {
                                                 Tit Bit land
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
-                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-top: none;resize: none;" name="tit_bit_land" id="tit_bit_land">{{ isset($concessionData) ? $concessionData->tit_bit_land : '' }}</textarea>
+                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-right: none;border-top: none;resize: none;" name="tit_bit_land" id="tit_bit_land">{{ isset($concessionData) ? $concessionData->tit_bit_land : '' }}</textarea>
                                             </td>
                                         </tr>
                                         <tr>

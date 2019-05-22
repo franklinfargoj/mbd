@@ -9,6 +9,7 @@ use App\conveyance\SocietyConveyanceDocumentMaster;
 use App\Http\Controllers\Common\CommonController;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
 use App\Http\Requests\conveyence\SfApplicationRequest;
+use App\Http\Controllers\EmailMsg\EmailMsgConfigration;
 use App\LayoutUser;
 use App\MasterLayout;
 use App\Role;
@@ -362,19 +363,35 @@ class SocietyFormationController extends Controller
             return back()->with(['doc_errors'=>$doc_validation]);
         }
         
-        $role_id = Role::where('name', config('commanConfig.dycdo_engineer'))->first();
-        $user_ids = RoleUser::where('role_id', $role_id->id)->get();
-        $layout_user_ids = LayoutUser::where('layout_id', $sf_application->layout_id)->whereIn('user_id', $user_ids)->get();
+        $role_id = Role::where('name', config('commanConfig.dycdo_engineer'))->value('id');
+        $users = User::where('role_id',$role_id)->with(['LayoutUser' => function($query)use($sf_application){
+            $query->where('layout_id',$sf_application->layout_id);
+            }])->whereHas('LayoutUser', function($query)use($sf_application){
+                $query->where('layout_id',$sf_application->layout_id);
+            })->get();
 
-        foreach ($layout_user_ids as $key => $value) {
-            $select_user_ids[] = $value['user_id'];
-        }
+        // $user_ids = RoleUser::where('role_id', $role_id->id)->get();
+        // $layout_user_ids = LayoutUser::where('layout_id', $sf_application->layout_id)->whereIn('user_id', $user_ids)->get();
 
-        $users = User::whereIn('id', $select_user_ids)->get();
+        // foreach ($layout_user_ids as $key => $value) {
+        //     $select_user_ids[] = $value['user_id'];
+        // }
+
+        // $users = User::whereIn('id', $select_user_ids)->get();
         if (count($users) > 0) {
             $insert_arr = array(
                 'users' => $users,
             );
+            //send application submission mail and msg to society and respective department
+            $data = $society;
+            $data['users'] = $users;
+            $data['application_no'] = $sf_application->application_no;
+            $data['layout_id'] = $sf_application->layout_id;
+            $data['application_type'] = $sf_application->scApplicationType->application_type;
+
+            $EmailMsgConfigration = new EmailMsgConfigration();
+            $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
+                    
          $this->CommonController->sf_application_status_society($insert_arr, config('commanConfig.formation_status.forwarded'), $sf_application);
         }
         return redirect()->route('society_formation.index');
