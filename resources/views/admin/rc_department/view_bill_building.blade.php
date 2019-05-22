@@ -3,9 +3,9 @@
 @section('content')
     
     @php 
-        $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other; 
+        $total_service = $currentBill->service_charges->water_charges + $currentBill->service_charges->electric_city_charge + $currentBill->service_charges->pump_man_and_repair_charges + $currentBill->service_charges->external_expender_charge + $currentBill->service_charges->administrative_charge + $currentBill->service_charges->lease_rent + $currentBill->service_charges->na_assessment + $currentBill->service_charges->other; 
 
-        $total_service = $total_service * $number_of_tenants->tenant_count()->first()->count;
+        $total_service = $total_service;
 
         $total_after_due = $total_service * 0.015; 
 
@@ -14,11 +14,11 @@
         $total ='0';     
 
         $tempBalance = 0;
-        if($lastBill) {
-                if( 0 < $lastBill->total_bill_after_due_date ) {
-                    $tempBalance += $lastBill->balance;
-                }
-        }      
+        // if($lastBill) {
+        //         if( 0 < $lastBill->total_bill_after_due_date ) {
+        //             $tempBalance += $lastBill->balance;
+        //         }
+        // }      
     @endphp
     @if(!$arreasCalculation->isEmpty())  
       @foreach($arreasCalculation as $calculation)
@@ -120,35 +120,35 @@
                         <tbody>
                             <tr>
                                 <td>Water Charges </td>
-                                <td class="text-center">{{$serviceChargesRate->water_charges}}</td>
+                                <td class="text-center">{{$currentBill->service_charges->water_charges}}</td>
                             </tr>
                             <tr>
                                 <td>Electric City Charge </td>
-                                <td class="text-center">{{$serviceChargesRate->electric_city_charge}} </td>
+                                <td class="text-center">{{$currentBill->service_charges->electric_city_charge}} </td>
                             </tr>
                             <tr>
                                 <td>Pump Man & Repair Charges</td>
-                                <td class="text-center">{{$serviceChargesRate->pump_man_and_repair_charges}}</td>
+                                <td class="text-center">{{$currentBill->service_charges->pump_man_and_repair_charges}}</td>
                             </tr>
                             <tr>
                                 <td>External  Expenture  Charge  </td>
-                                <td class="text-center">{{$serviceChargesRate->external_expender_charge}} </td>
+                                <td class="text-center">{{$currentBill->service_charges->external_expender_charge}} </td>
                             </tr>
                             <tr>
                                 <td>Administrative  Charge</td>
-                                <td class="text-center">{{$serviceChargesRate->administrative_charge}} </td>
+                                <td class="text-center">{{$currentBill->service_charges->administrative_charge}} </td>
                             </tr>
                             <tr>
                                 <td>Lease Rent.   </td>
-                                <td class="text-center">{{$serviceChargesRate->lease_rent}}</td>
+                                <td class="text-center">{{$currentBill->service_charges->lease_rent}}</td>
                             </tr>
                             <tr>
                                 <td>N.A.Assessment</td>
-                                <td class="text-center">{{$serviceChargesRate->na_assessment}} </td>
+                                <td class="text-center">{{$currentBill->service_charges->na_assessment}} </td>
                             </tr>
                             <tr>
                                 <td>Other</td>
-                                <td class="text-center">{{$serviceChargesRate->other}}</td>
+                                <td class="text-center">{{$currentBill->service_charges->other}}</td>
                             </tr>
                             <tr>
                                 <td class="font-weight-bold">Total</td>
@@ -165,6 +165,7 @@
                         </tbody>
                     </table>
                 </div>
+                @if($lastBill==null)
                 @if(!$arreasCalculation->isEmpty())
                 @php $total ='0'; @endphp
                 <p class="text-center">Balance amount to be paid - Arrears</p>
@@ -217,6 +218,41 @@
                             </tr>
                         </table>
                 </div>
+                @endif
+                @else 
+                <div style="border: 2px solid #000; padding: 5px; margin-top: 20px;"><h3 style="text-align: center;">Balance amount to be paid - Arrears</h3></div>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
+                    <thead>
+                        <tr>
+                            <th valign="top" style="background-color: lightblue; padding: 5px; width: 25%;">Year</th>
+                            <th valign="top" style="background-color: lightblue; padding: 5px; width: 25%;">Month</th>
+                            <th valign="top" style="background-color: lightblue; padding: 5px; width: 25%;">Amount in Rs.</th>
+                            <th valign="top" style="background-color: lightblue; padding: 5px; width: 25%;">Penalty in Rs.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php 
+                            $total=0;
+                            $total=$currentBill->prev_arrear_balance+$currentBill->prev_arrear_interest_balance;
+                        @endphp
+                            <tr>
+                                <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$lastBill->bill_year}}</td>
+                                <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{date("M", strtotime("2001-" . $lastBill->bill_month . "-01"))}}</td>
+                                <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$lastBill->prev_arrear_balance }}</td>
+                                <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$lastBill->prev_arrear_interest_balance }}</td>
+                                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{$lastBill->bill_year}}</td>
+                                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{date("M", strtotime("2001-" . $lastBill->bill_month . "-01"))}}</td>
+                                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{$currentBill->prev_arrear_balance }}</td>
+                                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{$currentBill->prev_arrear_interest_balance }}</td>
+                            </tr>
+                        <tr>
+                            <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: right; font-weight: bold;" colspan="2">Total</td>
+                            <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center; font-weight: bold;">{{$total}}</td>
+                            <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center; font-weight: bold;"></td>
+                        </tr>
+                       
+                    </tbody>
+                </table>
                 @endif
                 <p class="text-center">Total Amount to be paid</p>
                 <div>

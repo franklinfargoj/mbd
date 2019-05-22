@@ -816,12 +816,13 @@ class RCController extends Controller
             } else {
                 $lastBillMonth = $data['month'];
             }
-            $data['lastBill'] = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+            $data['lastBill'] = TransBillGenerate::where('building_id', '=', $request->building_id)
+                                    //->where('society_id', '=', $request->building_id)
                                     ->where('bill_month', '=', $lastBillMonth)
                                     ->where('bill_year', '=', $data['year'])
                                     ->orderBy('id','DESC')
                                     ->first();
-            $data['currentBill'] = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+            $data['currentBill'] = TransBillGenerate::with(['service_charges'])->where('building_id', '=', $request->building_id)
                                     ->where('bill_month', '=',$data['month'])
                                     ->where('bill_year', '=', $bill_year)
                                     ->orderBy('id','DESC')

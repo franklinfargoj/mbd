@@ -132,7 +132,7 @@ class BillingDetailController extends Controller
                 ['data' => 'other','name' => 'other','title' => 'Other Charges','orderable'=>false],
                 ['data' => 'total_service_charges','name' => 'total_service_charges','title' => 'Total','orderable'=>false],
                 ['data' => 'balance_amount','name' => 'balance_amount','title' => 'Balance amount'],
-                ['data' => 'interest_amount','name' => 'interest_amount','title' => 'Interest amount'],
+             //   ['data' => 'interest_amount','name' => 'interest_amount','title' => 'Interest amount'],
                 ['data' => 'grand_total','name' => 'grand_total','title' => 'Grand Total'],
                 ['data' => 'amount_paid','name' => 'amount_paid','title' => 'Amount paid'],
                 ['data' => 'action','name' => 'action','title' => 'Files (bill & receipt)','orderable'=>false]
@@ -193,57 +193,60 @@ class BillingDetailController extends Controller
                     $arreas_calculations = TransBillGenerate::with(['trans_payment','service_charges'])
                     ->where('trans_bill_generate.society_id',$request->society_id)
                     ->where('trans_bill_generate.building_id',$request->building_id)
-                    ->leftjoin('service_charges_rates', function($join)
-                    {
-                        $join->on('service_charges_rates.building_id', '=', 'trans_bill_generate.building_id');
-                        $join->on('service_charges_rates.society_id','=', 'trans_bill_generate.society_id');
-                        $join->on('service_charges_rates.year','=', 'trans_bill_generate.bill_year');
-                    })
-                    ->leftjoin('arrear_calculation', function($join)
-                    {
-                        $join->on('arrear_calculation.building_id', '=', 'trans_bill_generate.building_id');
-                        $join->on('arrear_calculation.society_id','=', 'trans_bill_generate.society_id');
-                        $join->on('arrear_calculation.year','=', 'trans_bill_generate.bill_year');
-                        $join->on('arrear_calculation.month','=', 'trans_bill_generate.bill_month');
-                    })
-                    ->leftjoin('arrears_charges_rates', function($join)
-                    {
-                        $join->on('arrears_charges_rates.building_id', '=', 'trans_bill_generate.building_id');
-                        $join->on('arrears_charges_rates.society_id','=', 'trans_bill_generate.society_id');
-                        $join->on('arrears_charges_rates.year','=', 'trans_bill_generate.bill_year');
-                    })
-                    ->where(DB::raw('trans_bill_generate.id'),'=',function($q) use($request){
-                        $q->from('trans_bill_generate')
-                        ->select('id')
-                        ->where('bill_month','=',DB::raw('trans_bill_generate.bill_month'))
-                        ->where('tenant_id', '=', $request->tenant_id)
-                        ->limit(1)
-                        ->orderBy('id', 'desc');
-                    })
-                    ->selectRaw('trans_bill_generate.*,service_charges_rates.water_charges,service_charges_rates.electric_city_charge,service_charges_rates.pump_man_and_repair_charges,service_charges_rates.external_expender_charge,service_charges_rates.administrative_charge,service_charges_rates.lease_rent,service_charges_rates.na_assessment,service_charges_rates.other,arrear_calculation.old_intrest_amount,arrear_calculation.difference_intrest_amount,arrear_calculation.year as ac_year,arrear_calculation.month as ac_month,arrear_calculation.oir_year,arrear_calculation.oir_month,arrears_charges_rates.old_rate')->whereIn('bill_year',$select_year)->where('trans_bill_generate.tenant_id', $request->tenant_id)->orderBy('trans_bill_generate.created_at','desc')->groupBy('trans_bill_generate.tenant_id');
+                    ->whereIn('bill_year',$select_year)->where('trans_bill_generate.tenant_id', $request->tenant_id)->orderBy('trans_bill_generate.created_at','desc')->groupBy('trans_bill_generate.tenant_id');
+                    // ->leftjoin('service_charges_rates', function($join)
+                    // {
+                    //     $join->on('service_charges_rates.building_id', '=', 'trans_bill_generate.building_id');
+                    //     $join->on('service_charges_rates.society_id','=', 'trans_bill_generate.society_id');
+                    //     $join->on('service_charges_rates.year','=', 'trans_bill_generate.bill_year');
+                    // })
+                    // ->leftjoin('arrear_calculation', function($join)
+                    // {
+                    //     $join->on('arrear_calculation.building_id', '=', 'trans_bill_generate.building_id');
+                    //     $join->on('arrear_calculation.society_id','=', 'trans_bill_generate.society_id');
+                    //     $join->on('arrear_calculation.year','=', 'trans_bill_generate.bill_year');
+                    //     $join->on('arrear_calculation.month','=', 'trans_bill_generate.bill_month');
+                    // })
+                    // ->leftjoin('arrears_charges_rates', function($join)
+                    // {
+                    //     $join->on('arrears_charges_rates.building_id', '=', 'trans_bill_generate.building_id');
+                    //     $join->on('arrears_charges_rates.society_id','=', 'trans_bill_generate.society_id');
+                    //     $join->on('arrears_charges_rates.year','=', 'trans_bill_generate.bill_year');
+                    // })
+                    // ->where(DB::raw('trans_bill_generate.id'),'=',function($q) use($request){
+                    //     $q->from('trans_bill_generate')
+                    //     ->select('id')
+                    //     ->where('bill_month','=',DB::raw('trans_bill_generate.bill_month'))
+                    //     ->where('tenant_id', '=', $request->tenant_id)
+                    //     ->limit(1)
+                    //     ->orderBy('id', 'desc');
+                    // })
+                    // ->selectRaw('trans_bill_generate.*,service_charges_rates.water_charges,service_charges_rates.electric_city_charge,service_charges_rates.pump_man_and_repair_charges,service_charges_rates.external_expender_charge,service_charges_rates.administrative_charge,service_charges_rates.lease_rent,service_charges_rates.na_assessment,service_charges_rates.other,arrear_calculation.old_intrest_amount,arrear_calculation.difference_intrest_amount,arrear_calculation.year as ac_year,arrear_calculation.month as ac_month,arrear_calculation.oir_year,arrear_calculation.oir_month,arrears_charges_rates.old_rate')->whereIn('bill_year',$select_year)->where('trans_bill_generate.tenant_id', $request->tenant_id)->orderBy('trans_bill_generate.created_at','desc')->groupBy('trans_bill_generate.tenant_id');
+                
                 } else {
                     $arreas_calculations = TransBillGenerate::with(['trans_payment','service_charges'])
                     ->where('trans_bill_generate.society_id',$request->society_id)
                     ->where('trans_bill_generate.building_id',$request->building_id)
-                    ->leftjoin('service_charges_rates', function($join)
-                    {
-                        $join->on('service_charges_rates.building_id', '=', 'trans_bill_generate.building_id');
-                        $join->on('service_charges_rates.society_id','=', 'trans_bill_generate.society_id');
-                        $join->on('service_charges_rates.year','=', 'trans_bill_generate.bill_year');
-                    })
-                    ->leftjoin('arrear_calculation', function($join)
-                    {
-                        $join->on('arrear_calculation.building_id', '=', 'trans_bill_generate.building_id');
-                        $join->on('arrear_calculation.society_id','=', 'trans_bill_generate.society_id');
-                        $join->on('arrear_calculation.year','=', 'trans_bill_generate.bill_year');
-                        $join->on('arrear_calculation.month','=', 'trans_bill_generate.bill_month');
-                    })
-                    ->leftjoin('arrears_charges_rates', function($join)
-                    {
-                        $join->on('arrears_charges_rates.building_id', '=', 'trans_bill_generate.building_id');
-                        $join->on('arrears_charges_rates.society_id','=', 'trans_bill_generate.society_id');
-                        $join->on('arrears_charges_rates.year','=', 'trans_bill_generate.bill_year');
-                    })
+                   ->whereIn('bill_year',$select_year)->orderBy('trans_bill_generate.created_at','desc')->groupBy('trans_bill_generate.tenant_id');
+                    //->leftjoin('service_charges_rates', function($join)
+                    // {
+                    //     $join->on('service_charges_rates.building_id', '=', 'trans_bill_generate.building_id');
+                    //     $join->on('service_charges_rates.society_id','=', 'trans_bill_generate.society_id');
+                    //     $join->on('service_charges_rates.year','=', 'trans_bill_generate.bill_year');
+                    // })
+                    // ->leftjoin('arrear_calculation', function($join)
+                    // {
+                    //     $join->on('arrear_calculation.building_id', '=', 'trans_bill_generate.building_id');
+                    //     $join->on('arrear_calculation.society_id','=', 'trans_bill_generate.society_id');
+                    //     $join->on('arrear_calculation.year','=', 'trans_bill_generate.bill_year');
+                    //     $join->on('arrear_calculation.month','=', 'trans_bill_generate.bill_month');
+                    // })
+                    // ->leftjoin('arrears_charges_rates', function($join)
+                    // {
+                    //     $join->on('arrears_charges_rates.building_id', '=', 'trans_bill_generate.building_id');
+                    //     $join->on('arrears_charges_rates.society_id','=', 'trans_bill_generate.society_id');
+                    //     $join->on('arrears_charges_rates.year','=', 'trans_bill_generate.bill_year');
+                    // })
                     // ->where(DB::raw('trans_bill_generate.id'),'=',function($q) use($request){
                     //     $q->from('trans_bill_generate')
                     //     ->select('id')
@@ -252,8 +255,7 @@ class BillingDetailController extends Controller
                     //     ->limit(1)
                     //     ->orderBy('id', 'desc');
                     // })
-                    ->selectRaw('trans_bill_generate.*,service_charges_rates.water_charges,service_charges_rates.electric_city_charge,service_charges_rates.pump_man_and_repair_charges,service_charges_rates.external_expender_charge,service_charges_rates.administrative_charge,service_charges_rates.lease_rent,service_charges_rates.na_assessment,service_charges_rates.other,arrear_calculation.old_intrest_amount,arrear_calculation.difference_intrest_amount,arrear_calculation.year as ac_year,arrear_calculation.month as ac_month,arrear_calculation.oir_year,arrear_calculation.oir_month,arrears_charges_rates.old_rate')->whereIn('bill_year',$select_year)->orderBy('trans_bill_generate.created_at','desc')->groupBy('trans_bill_generate.tenant_id');
-               
+                   // ->selectRaw('trans_bill_generate.*,service_charges_rates.water_charges,service_charges_rates.electric_city_charge,service_charges_rates.pump_man_and_repair_charges,service_charges_rates.external_expender_charge,service_charges_rates.administrative_charge,service_charges_rates.lease_rent,service_charges_rates.na_assessment,service_charges_rates.other,arrear_calculation.old_intrest_amount,arrear_calculation.difference_intrest_amount,arrear_calculation.year as ac_year,arrear_calculation.month as ac_month,arrear_calculation.oir_year,arrear_calculation.oir_month,arrears_charges_rates.old_rate')->whereIn('bill_year',$select_year)->orderBy('trans_bill_generate.created_at','desc')->groupBy('trans_bill_generate.tenant_id');
                     // $arreas_calculations = DB::select('select 
                     //         sum(balance_amount) as balance_amount,
                     //         sum(amount_paid) as amount_paid,
@@ -339,119 +341,132 @@ class BillingDetailController extends Controller
                     ->editColumn('water_charges', function ($arreas_calculations) use($building,$request){
                         if(isset($arreas_calculations)) {
                             if($request->has('tenant_id') && !empty($arreas_calculations)) {
-                                return $arreas_calculations->water_charges;
+                                return $arreas_calculations->service_charges->water_charges;
                             } else {
-                                return $arreas_calculations->water_charges*$building->tenant_count()->first()->count;
+                                //return $arreas_calculations->service_charges->water_charges*$building->tenant_count()->first()->count;
+                                return $arreas_calculations->service_charges->water_charges;
                             }  
                         }
                     })
                     ->editColumn('electric_city_charge', function ($arreas_calculations) use($service_charges,$building,$request){
                         if(isset($arreas_calculations)) {
                             if($request->has('tenant_id')&& !empty($arreas_calculations)) {
-                                return $arreas_calculations->electric_city_charge;
+                                return $arreas_calculations->service_charges->electric_city_charge;
                             } else {
-                                return $arreas_calculations->electric_city_charge*$building->tenant_count()->first()->count;
+                                //return $arreas_calculations->service_charges->electric_city_charge*$building->tenant_count()->first()->count;
+                                return $arreas_calculations->service_charges->electric_city_charge;
                             }  
                         }
                     })
                     ->editColumn('pump_man_and_repair_charges', function ($arreas_calculations) use($building,$request){
                         if(isset($arreas_calculations)) {
                             if($request->has('tenant_id')&& !empty($arreas_calculations)) {
-                                return $arreas_calculations->pump_man_and_repair_charges;
+                                return $arreas_calculations->service_charges->pump_man_and_repair_charges;
                             } else {
-                                return $arreas_calculations->pump_man_and_repair_charges*$building->tenant_count()->first()->count;
+                                //return $arreas_calculations->service_charges->pump_man_and_repair_charges*$building->tenant_count()->first()->count;
+                                return $arreas_calculations->service_charges->pump_man_and_repair_charges;
                             }
                         }  
                     })
                     ->editColumn('external_expender_charge', function ($arreas_calculations) use($building,$request){
                         if(isset($arreas_calculations)) {
                             if($request->has('tenant_id')&& !empty($arreas_calculations)) {
-                                return $arreas_calculations->external_expender_charge;
+                                return $arreas_calculations->service_charges->external_expender_charge;
                             } else {
-                                return $arreas_calculations->external_expender_charge*$building->tenant_count()->first()->count;
+                               // return $arreas_calculations->service_charges->external_expender_charge*$building->tenant_count()->first()->count;
+                                return $arreas_calculations->service_charges->external_expender_charge;
                             }
                         }  
                     })
                     ->editColumn('administrative_charge', function ($arreas_calculations) use($building,$request){
                         if(isset($arreas_calculations)) {
                             if($request->has('tenant_id')&& !empty($arreas_calculations)) {
-                                return $arreas_calculations->administrative_charge;
+                                return $arreas_calculations->service_charges->administrative_charge;
                             } else {
-                                return $arreas_calculations->administrative_charge*$building->tenant_count()->first()->count;
+                                //return $arreas_calculations->service_charges->administrative_charge*$building->tenant_count()->first()->count;
+                                return $arreas_calculations->service_charges->administrative_charge;
                             }
                         }
                     })
                     ->editColumn('lease_rent', function ($arreas_calculations) use($building,$request){
                         if(isset($arreas_calculations)) {
                             if($request->has('tenant_id')&& !empty($arreas_calculations)) {
-                                return $arreas_calculations->lease_rent;
+                                return $arreas_calculations->service_charges->lease_rent;
                             } else {
-                                return $arreas_calculations->lease_rent*$building->tenant_count()->first()->count;
+                                //return $arreas_calculations->service_charges->lease_rent*$building->tenant_count()->first()->count;
+                                return $arreas_calculations->service_charges->lease_rent;
                             }
                         }  
                     })
                     ->editColumn('na_assessment', function ($arreas_calculations) use($building,$request){
                         if(isset($arreas_calculations)) {
                             if($request->has('tenant_id')&& !empty($arreas_calculations)) {
-                                return $arreas_calculations->na_assessment;
+                                return $arreas_calculations->service_charges->na_assessment;
                             } else{
-                                return $arreas_calculations->na_assessment*$building->tenant_count()->first()->count;
+                               // return $arreas_calculations->service_charges->na_assessment*$building->tenant_count()->first()->count;
+                                return $arreas_calculations->service_charges->na_assessment;                                
                             }
                         }
                     })
                     ->editColumn('property_tax', function ($arreas_calculations) use($building,$request){
                         if(isset($arreas_calculations)) {
                             if($request->has('tenant_id')&& !empty($arreas_calculations)) {
-                                return $arreas_calculations->property_tax==null?'0.00':$arreas_calculations->property_tax;
+                                return $arreas_calculations->service_charges->property_tax==null?'0.00':$arreas_calculations->property_tax;
                             } else {
-                                return $arreas_calculations->property_tax*$building->tenant_count()->first()->count;
+                                //return $arreas_calculations->service_charges->property_tax*$building->tenant_count()->first()->count;
+                                return $arreas_calculations->service_charges->property_tax;
                             } 
                         }
                     })
                     ->editColumn('other', function ($arreas_calculations) use($building,$request){
                         if(isset($arreas_calculations)) {
                             if($request->has('tenant_id')&& !empty($arreas_calculations)) {
-                                return $arreas_calculations->other;
+                                return $arreas_calculations->service_charges->other;
                             } else {
-                                return $arreas_calculations->other*$building->tenant_count()->first()->count;
+                                //return $arreas_calculations->service_charges->other*$building->tenant_count()->first()->count;
+                                return $arreas_calculations->service_charges->other;
                             } 
                         }
                     })
                     ->editColumn('total_service_charges', function ($arreas_calculations) use($building,$request){
-                        $total_service_charges = '';
-                        if(isset($arreas_calculations)) {
-                            if($request->has('tenant_id')&& !empty($arreas_calculations)) {
-                                $total_service_charges = $arreas_calculations->other+$arreas_calculations->na_assessment+$arreas_calculations->lease_rent+$arreas_calculations->administrative_charge+$arreas_calculations->external_expender_charge+$arreas_calculations->pump_man_and_repair_charges+$arreas_calculations->electric_city_charge+$arreas_calculations->water_charges;
-                            } else {
-                                $total_service_charges = ($arreas_calculations->other+$arreas_calculations->na_assessment+$arreas_calculations->lease_rent+$arreas_calculations->administrative_charge+$arreas_calculations->external_expender_charge+$arreas_calculations->pump_man_and_repair_charges+$arreas_calculations->electric_city_charge+$arreas_calculations->water_charges)*$building->tenant_count()->first()->count;
-                            }  
-                        }
-                        if($total_service_charges > 0 ) {
-                            return $total_service_charges;
-                        } else {
-                            return NULL;
-                        }
+                        return $arreas_calculations->monthly_bill;
+                        // $total_service_charges = '';
+                        // if(isset($arreas_calculations)) {
+                        //     if($request->has('tenant_id')&& !empty($arreas_calculations)) {
+                        //         $total_service_charges = $arreas_calculations->service_charges->other+$arreas_calculations->service_charges->na_assessment+$arreas_calculations->service_charges->lease_rent+$arreas_calculations->service_charges->administrative_charge+$arreas_calculations->service_charges->external_expender_charge+$arreas_calculations->service_charges->pump_man_and_repair_charges+$arreas_calculations->service_charges->electric_city_charge+$arreas_calculations->service_charges->water_charges+$arreas_calculations->service_charges->property_tax;
+                        //     } else {
+                        //         //$total_service_charges = ($arreas_calculations->service_charges->other+$arreas_calculations->service_charges->na_assessment+$arreas_calculations->service_charges->lease_rent+$arreas_calculations->service_charges->administrative_charge+$arreas_calculations->service_charges->external_expender_charge+$arreas_calculations->service_charges->pump_man_and_repair_charges+$arreas_calculations->service_charges->electric_city_charge+$arreas_calculations->service_charges->water_charges)*$building->tenant_count()->first()->count;
+                        //         $total_service_charges = ($arreas_calculations->service_charges->other+$arreas_calculations->service_charges->na_assessment+$arreas_calculations->service_charges->lease_rent+$arreas_calculations->service_charges->administrative_charge+$arreas_calculations->service_charges->external_expender_charge+$arreas_calculations->service_charges->pump_man_and_repair_charges+$arreas_calculations->service_charges->electric_city_charge+$arreas_calculations->service_charges->water_charges+$arreas_calculations->service_charges->property_tax);
+                        //     }  
+                        // }
+                        // if($total_service_charges > 0 ) {
+                        //     return $total_service_charges;
+                        // } else {
+                        //     return NULL;
+                        // }
                     })
                     ->editColumn('balance_amount', function ($arreas_calculations) use($building,$request){
-                        if($request->has('tenant_id') && !empty($request->tenant_id)) {
 
-                            if(!count($arreas_calculations->trans_payment)) {
-                                return $arreas_calculations->arrear_bill-($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount);
-                            } elseif(count($arreas_calculations->trans_payment)) {
-                                return $arreas_calculations->balance_amount;
-                            }
-                        } else {
-                            // if($arreas_calculations->total_bill == $arreas_calculations->balance_amount) {
-                            //     return $arreas_calculations->arrear_bill;
-                            // } else {
-                            //     return $arreas_calculations->balance_amount;
-                            // }
-                            if($arreas_calculations->total_bill == $arreas_calculations->balance_amount) {
-                                return $arreas_calculations->where('society_id',$arreas_calculations->society_id)->sum('arrear_bill');
-                            } else {
-                                return $arreas_calculations->where('society_id',$arreas_calculations->society_id)->sum('balance_amount');
-                            }
-                        }
+                        return $arreas_calculations->prev_arrear_balance+$arreas_calculations->prev_arrear_interest_balance-$arreas_calculations->prev_credit;
+                        // if($request->has('tenant_id') && !empty($request->tenant_id)) {
+
+                        //     if(!count($arreas_calculations->trans_payment)) {
+                        //         return $arreas_calculations->arrear_bill-($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount);
+                        //     } elseif(count($arreas_calculations->trans_payment)) {
+                        //         return $arreas_calculations->balance_amount;
+                        //     }
+                        // } else {
+                        //     // if($arreas_calculations->total_bill == $arreas_calculations->balance_amount) {
+                        //     //     return $arreas_calculations->arrear_bill;
+                        //     // } else {
+                        //     //     return $arreas_calculations->balance_amount;
+                        //     // }
+                        //     if($arreas_calculations->total_bill == $arreas_calculations->balance_amount) {
+                        //         return $arreas_calculations->where('society_id',$arreas_calculations->society_id)->sum('arrear_bill');
+                        //     } else {
+                        //         return $arreas_calculations->where('society_id',$arreas_calculations->society_id)->sum('balance_amount');
+                        //     }
+                        // }
                         // if(isset($arreas_calculations->month) && isset($arreas_calculations->year)) {
                          //    $date1 = new \DateTime($arreas_calculations->year.'-'.$arreas_calculations->month.'-1');
                          //    $date2 = new \DateTime($arreas_calculations->oir_year.'-'.$arreas_calculations->oir_month.'-1');
@@ -475,43 +490,44 @@ class BillingDetailController extends Controller
                          //    }
                          // }
                     })
-                    ->editColumn('interest_amount', function ($arreas_calculations) use($building,$request){
-                        if(isset($arreas_calculations->old_intrest_amount) && isset($arreas_calculations->difference_intrest_amount)) {
-                            if($request->has('tenant_id') && !empty($request->tenant_id)) {
-                                return ($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount);
-                            } else {
-                                return $arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount;
-                            }
-                        }
-                    })
+                    // ->editColumn('interest_amount', function ($arreas_calculations) use($building,$request){
+                    //     if(isset($arreas_calculations->old_intrest_amount) && isset($arreas_calculations->difference_intrest_amount)) {
+                    //         if($request->has('tenant_id') && !empty($request->tenant_id)) {
+                    //             return ($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount);
+                    //         } else {
+                    //             return $arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount;
+                    //         }
+                    //     }
+                    // })
                     ->editColumn('grand_total', function ($arreas_calculations) use($building,$request) {
-                        $grand_total = '';
-                        if($request->has('tenant_id') && !empty($request->tenant_id)) {
-                            if(!count($arreas_calculations->trans_payment)) {
-                                $grand_total = ($arreas_calculations->other+$arreas_calculations->na_assessment+$arreas_calculations->lease_rent+$arreas_calculations->administrative_charge+$arreas_calculations->external_expender_charge+$arreas_calculations->pump_man_and_repair_charges+$arreas_calculations->electric_city_charge+$arreas_calculations->water_charges)
-                                +($arreas_calculations->arrear_bill-($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount)) + ($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount);
-                            } else {
-                                $grand_total = ($arreas_calculations->other+$arreas_calculations->na_assessment+$arreas_calculations->lease_rent+$arreas_calculations->administrative_charge+$arreas_calculations->external_expender_charge+$arreas_calculations->pump_man_and_repair_charges+$arreas_calculations->electric_city_charge+$arreas_calculations->water_charges)
-                                +($arreas_calculations->balance_amount-($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount)) + ($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount);
-                            }
+                        return $arreas_calculations->total_bill;
+                        // $grand_total = '';
+                        // if($request->has('tenant_id') && !empty($request->tenant_id)) {
+                        //     if(!count($arreas_calculations->trans_payment)) {
+                        //         $grand_total = ($arreas_calculations->other+$arreas_calculations->na_assessment+$arreas_calculations->lease_rent+$arreas_calculations->administrative_charge+$arreas_calculations->external_expender_charge+$arreas_calculations->pump_man_and_repair_charges+$arreas_calculations->electric_city_charge+$arreas_calculations->water_charges)
+                        //         +($arreas_calculations->arrear_bill-($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount)) + ($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount);
+                        //     } else {
+                        //         $grand_total = ($arreas_calculations->other+$arreas_calculations->na_assessment+$arreas_calculations->lease_rent+$arreas_calculations->administrative_charge+$arreas_calculations->external_expender_charge+$arreas_calculations->pump_man_and_repair_charges+$arreas_calculations->electric_city_charge+$arreas_calculations->water_charges)
+                        //         +($arreas_calculations->balance_amount-($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount)) + ($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount);
+                        //     }
 
-                        } else {
-                            return $arreas_calculations->where('society_id',$arreas_calculations->society_id)->sum('total_bill');
+                        // } else {
+                        //     return $arreas_calculations->where('society_id',$arreas_calculations->society_id)->sum('total_bill');
 
-                            // if($arreas_calculations->total_bill == $arreas_calculations->balance_amount) {
-                            //     $grand_total = ($arreas_calculations->other+$arreas_calculations->na_assessment+$arreas_calculations->lease_rent+$arreas_calculations->administrative_charge+$arreas_calculations->external_expender_charge+$arreas_calculations->pump_man_and_repair_charges+$arreas_calculations->electric_city_charge+$arreas_calculations->water_charges)*$building->tenant_count()->first()->count
-                            //     +($arreas_calculations->arrear_bill-($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount)) + ($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount);
-                            // } else {
-                            //     $grand_total = ($arreas_calculations->other+$arreas_calculations->na_assessment+$arreas_calculations->lease_rent+$arreas_calculations->administrative_charge+$arreas_calculations->external_expender_charge+$arreas_calculations->pump_man_and_repair_charges+$arreas_calculations->electric_city_charge+$arreas_calculations->water_charges)*$building->tenant_count()->first()->count
-                            //     +($arreas_calculations->balance_amount-($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount)) + ($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount);
-                            // }
-                        }
+                        //     // if($arreas_calculations->total_bill == $arreas_calculations->balance_amount) {
+                        //     //     $grand_total = ($arreas_calculations->other+$arreas_calculations->na_assessment+$arreas_calculations->lease_rent+$arreas_calculations->administrative_charge+$arreas_calculations->external_expender_charge+$arreas_calculations->pump_man_and_repair_charges+$arreas_calculations->electric_city_charge+$arreas_calculations->water_charges)*$building->tenant_count()->first()->count
+                        //     //     +($arreas_calculations->arrear_bill-($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount)) + ($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount);
+                        //     // } else {
+                        //     //     $grand_total = ($arreas_calculations->other+$arreas_calculations->na_assessment+$arreas_calculations->lease_rent+$arreas_calculations->administrative_charge+$arreas_calculations->external_expender_charge+$arreas_calculations->pump_man_and_repair_charges+$arreas_calculations->electric_city_charge+$arreas_calculations->water_charges)*$building->tenant_count()->first()->count
+                        //     //     +($arreas_calculations->balance_amount-($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount)) + ($arreas_calculations->old_intrest_amount+ $arreas_calculations->difference_intrest_amount);
+                        //     // }
+                        // }
 
-                        if( 0 < $grand_total ) {
-                            return $grand_total;
-                        } else {
-                            return '';
-                        }
+                        // if( 0 < $grand_total ) {
+                        //     return $grand_total;
+                        // } else {
+                        //     return '';
+                        // }
 
                         // if(!count($arreas_calculations->trans_payment)) {
                         //     if(!empty($tenant)) {
