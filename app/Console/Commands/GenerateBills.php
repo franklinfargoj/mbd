@@ -15,6 +15,7 @@ use App\ArrearCalculation;
 use App\ServiceChargesRate;
 use App\TransBillGenerate;
 use DB,File;
+use App\TransBillServiceCharge;
 
 class GenerateBills extends Command
 {
@@ -50,7 +51,7 @@ class GenerateBills extends Command
     public function handle()
     {
         $this->generateSocityLevelBills();
-        //$this->generateTenantLevelBills();
+        $this->generateTenantLevelBills();
     }
 
     public function generateSocityLevelBills() {
@@ -395,6 +396,7 @@ class GenerateBills extends Command
                                 $bill_number = $building->id.'0000001';
                             }
                             TransBillGenerate::where(['id'=>$ids])->update(['bill_number'=>$bill_number]);
+                            $this->insertServiceChrargeForBill($ids,$serviceChargesRate);
                             $ids = implode(",",$bill);
                             $association = DB::table('building_tenant_bill_association')->insert(['building_id' => $building->id, 'bill_id' => $ids, 'bill_month' => $bill_month, 'bill_year' => $bill_year,'bill_number'=>$bill_number]);
                         }   
@@ -740,6 +742,11 @@ class GenerateBills extends Command
                         // }
                         //dd($bill);
                         $bill->save();
+                        if($bill)
+                        {
+                            $this->insertServiceChrargeForBill($bill->id,$serviceChargesRate);
+                        }
+                        
                         $strTxnData .= 'Bill generated for tenant name => '.$tenant->first_name.' tenant id => '.$tenant->id.' Form building => '.$building->name.' For society => '.$society->society_name."\n";
 
                         $this->info('Bill Generated Successfully');
@@ -755,5 +762,27 @@ class GenerateBills extends Command
             if (!is_dir($destinationPath)) {  mkdir($destinationPath,0777,true);  }
             File::put($destinationPath.'/'.$file,$strTxnData);
         }
+    }
+
+    //Enter service charges against bill
+    public function insertServiceChrargeForBill($bill_id,$serviceChargesRate)
+    {
+        $TransBillServiceCharge=TransBillServiceCharge::where(['trans_bill_generate_id'=>$bill_id])->first();
+        if($TransBillServiceCharge==null)
+        {
+            $TransBillServiceCharge=new TransBillServiceCharge;
+        }
+        $TransBillServiceCharge->trans_bill_generate_id=$bill_id;
+        $TransBillServiceCharge->water_charges=$serviceChargesRate->water_charges!=null?$serviceChargesRate->water_charges:0.00;
+        $TransBillServiceCharge->electric_city_charge=$serviceChargesRate->electric_city_charge!=null?$serviceChargesRate->electric_city_charge:0.00;
+        $TransBillServiceCharge->pump_man_and_repair_charges=$serviceChargesRate->pump_man_and_repair_charges!=null?$serviceChargesRate->pump_man_and_repair_charges:0.00;
+        $TransBillServiceCharge->external_expender_charge=$serviceChargesRate->external_expender_charge!=null?$serviceChargesRate->external_expender_charge:0.00;
+        $TransBillServiceCharge->administrative_charge=$serviceChargesRate->administrative_charge!=null?$serviceChargesRate->administrative_charge:0.00;
+        $TransBillServiceCharge->lease_rent=$serviceChargesRate->lease_rent!=null?$serviceChargesRate->lease_rent:0.00;
+        $TransBillServiceCharge->na_assessment=$serviceChargesRate->na_assessment!=null?$serviceChargesRate->na_assessment:0.00;
+        $TransBillServiceCharge->property_tax=$serviceChargesRate->property_tax!=null?$serviceChargesRate->property_tax:0.00;
+        $TransBillServiceCharge->other=$serviceChargesRate->other!=null?$serviceChargesRate->other:0.00;
+        $TransBillServiceCharge->save();
+        return $TransBillServiceCharge;
     }
 }

@@ -190,7 +190,7 @@ class BillingDetailController extends Controller
             //     dd('ok');
             if ($datatables->getRequest()->ajax()) {
                 if($request->has('tenant_id') && !empty($request->tenant_id)) {
-                    $arreas_calculations = TransBillGenerate::with('trans_payment')
+                    $arreas_calculations = TransBillGenerate::with(['trans_payment','service_charges'])
                     ->where('trans_bill_generate.society_id',$request->society_id)
                     ->where('trans_bill_generate.building_id',$request->building_id)
                     ->leftjoin('service_charges_rates', function($join)
@@ -222,7 +222,7 @@ class BillingDetailController extends Controller
                     })
                     ->selectRaw('trans_bill_generate.*,service_charges_rates.water_charges,service_charges_rates.electric_city_charge,service_charges_rates.pump_man_and_repair_charges,service_charges_rates.external_expender_charge,service_charges_rates.administrative_charge,service_charges_rates.lease_rent,service_charges_rates.na_assessment,service_charges_rates.other,arrear_calculation.old_intrest_amount,arrear_calculation.difference_intrest_amount,arrear_calculation.year as ac_year,arrear_calculation.month as ac_month,arrear_calculation.oir_year,arrear_calculation.oir_month,arrears_charges_rates.old_rate')->whereIn('bill_year',$select_year)->where('trans_bill_generate.tenant_id', $request->tenant_id)->orderBy('trans_bill_generate.created_at','desc')->groupBy('trans_bill_generate.tenant_id');
                 } else {
-                    $arreas_calculations = TransBillGenerate::with('trans_payment')
+                    $arreas_calculations = TransBillGenerate::with(['trans_payment','service_charges'])
                     ->where('trans_bill_generate.society_id',$request->society_id)
                     ->where('trans_bill_generate.building_id',$request->building_id)
                     ->leftjoin('service_charges_rates', function($join)

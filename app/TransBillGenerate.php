@@ -40,4 +40,9 @@ class TransBillGenerate extends Model
     public function trans_payment() {
         return $this->hasMany('App\TransPayment','bill_no');
     }
+
+    public function service_charges()
+    {
+        return $this->hasOne(\App\TransBillServiceCharge::class,'trans_bill_generate_id','id');
+    }
 }

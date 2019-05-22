@@ -47,6 +47,7 @@ use App\TransBillGenerate;
 use App\TransPayment;
 use App\LayoutUser;
 use App\ArrearsChargesRate;
+use App\TransBillServiceCharge;
 
 class EMController extends Controller
 {
@@ -1520,7 +1521,7 @@ class EMController extends Controller
                                     ->first();
             }
             //dd($check);
-
+            $serviceChargesRate = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment,sum(property_tax) as property_tax, sum(other) as other')->where('building_id',$request->building_id)->where('year',$request->bill_year)->first();
             $arreasCalculations = ArrearCalculation::where('tenant_id',$request->tenant_id)->where('payment_status','0')->get();
             $arrear_balance=$arrear_interest_balance=0;
             if(count($arreasCalculations)>0)
@@ -1745,6 +1746,10 @@ class EMController extends Controller
             // }
             //dd($bill);
             $bill->save();
+            if($bill)
+            {
+                $this->insertServiceChrargeForBill($bill->id,$serviceChargesRate);
+            }
 
             return redirect()->back()->with('success', 'Bill Generated Successfully.')->with('regenate',false);
         } else {
@@ -1810,6 +1815,7 @@ class EMController extends Controller
                         $lastBillMonth = $request->bill_month -1;
                     }
                     //dd($lastBillMonth."=>>>>".$lastBillYear);
+                    $serviceChargesRate = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment,sum(property_tax) as property_tax, sum(other) as other')->where('building_id',$request->building_id)->where('year',$request->bill_year)->first();
                     $lastBill = TransBillGenerate::where('building_id', '=', $request->building_id)
                                     ->where('bill_month', '=', $lastBillMonth)
                                     ->where('bill_year', '=', $lastBillYear)
@@ -2019,6 +2025,10 @@ class EMController extends Controller
                     } else {
                         $bill_number = $request->building_id.'0000001';
                     }
+                    if($lastBillGenerated)
+                    {
+                        $this->insertServiceChrargeForBill($lastBillGenerated->bill_id,$serviceChargesRate);
+                    }
                     TransBillGenerate::where(['id'=>$ids])->update(['bill_number'=>$bill_number]);
                     $association = DB::table('building_tenant_bill_association')->insert(['building_id' => $request->building_id, 'bill_id' => $ids, 'bill_month' => $request->bill_month, 'bill_year' => $request->bill_year,'bill_number'=>$bill_number]);
                 } else { 
@@ -2107,5 +2117,27 @@ class EMController extends Controller
         }
 
         return back()->with('success',$result);
+    }
+
+    //Enter service charges against bill
+    public function insertServiceChrargeForBill($bill_id,$serviceChargesRate)
+    {
+        $TransBillServiceCharge=TransBillServiceCharge::where(['trans_bill_generate_id'=>$bill_id])->first();
+        if($TransBillServiceCharge==null)
+        {
+            $TransBillServiceCharge=new TransBillServiceCharge;
+            $TransBillServiceCharge->trans_bill_generate_id=$bill_id;
+            $TransBillServiceCharge->water_charges=$serviceChargesRate->water_charges!=null?$serviceChargesRate->water_charges:0.00;
+            $TransBillServiceCharge->electric_city_charge=$serviceChargesRate->electric_city_charge!=null?$serviceChargesRate->electric_city_charge:0.00;
+            $TransBillServiceCharge->pump_man_and_repair_charges=$serviceChargesRate->pump_man_and_repair_charges!=null?$serviceChargesRate->pump_man_and_repair_charges:0.00;
+            $TransBillServiceCharge->external_expender_charge=$serviceChargesRate->external_expender_charge!=null?$serviceChargesRate->external_expender_charge:0.00;
+            $TransBillServiceCharge->administrative_charge=$serviceChargesRate->administrative_charge!=null?$serviceChargesRate->administrative_charge:0.00;
+            $TransBillServiceCharge->lease_rent=$serviceChargesRate->lease_rent!=null?$serviceChargesRate->lease_rent:0.00;
+            $TransBillServiceCharge->na_assessment=$serviceChargesRate->na_assessment!=null?$serviceChargesRate->na_assessment:0.00;
+            $TransBillServiceCharge->property_tax=$serviceChargesRate->property_tax!=null?$serviceChargesRate->property_tax:0.00;
+            $TransBillServiceCharge->other=$serviceChargesRate->other!=null?$serviceChargesRate->other:0.00;
+            $TransBillServiceCharge->save();
+        }
+        return $TransBillServiceCharge;
     }
 }
