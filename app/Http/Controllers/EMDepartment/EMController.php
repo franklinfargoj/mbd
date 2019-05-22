@@ -1554,6 +1554,8 @@ class EMController extends Controller
             $bill->service_charge_balance=$request->monthly_bill;
             $bill->arrear_balance=$arrear_balance;
             $bill->arrear_interest_balance=$arrear_interest_balance;
+            $bill->prev_arrear_balance=$arrear_balance;
+            $bill->prev_arrear_interest_balance=$arrear_interest_balance;
             $bill->arrear_bill = $request->arrear_bill;
             $bill->arrear_id = $arrear_id;
             $bill->total_bill = $request->total_bill;
@@ -1888,6 +1890,8 @@ class EMController extends Controller
                                     'balance_amount' => $total_bill,
                                     'arrear_balance'=>$arrear_balance,
                                     'arrear_interest_balance'=>$arrear_interest_balance,
+                                    'prev_arrear_balance'=>$arrear_balance,
+                                    'prev_arrear_interest_balance'=>$arrear_interest_balance,
                                     'service_charge_balance'=>$monthly_bill,
                                     'created_at'=>date('Y-m-d H:i:s'),
                                     'updated_at'=>date('Y-m-d H:i:s')
