@@ -1,6 +1,6 @@
 <body>
     @php 
-        $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other; 
+        $total_service = $TransBillGenerate->service_charges->water_charges + $TransBillGenerate->service_charges->electric_city_charge + $TransBillGenerate->service_charges->pump_man_and_repair_charges + $TransBillGenerate->service_charges->external_expender_charge + $TransBillGenerate->service_charges->administrative_charge + $TransBillGenerate->service_charges->lease_rent + $TransBillGenerate->service_charges->na_assessment + $TransBillGenerate->service_charges->other; 
 
         $total_service = $total_service;
 
@@ -157,39 +157,39 @@
             <tbody>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px;">Water Charges:</td>
-                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->water_charges==null?'0.00':$serviceChargesRate->water_charges}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$TransBillGenerate->service_charges->water_charges==null?'0.00':$TransBillGenerate->service_charges->water_charges}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px;">Electric City Charge:</td>
-                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->electric_city_charge==null?'0.00':$serviceChargesRate->electric_city_charge}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$TransBillGenerate->service_charges->electric_city_charge==null?'0.00':$TransBillGenerate->service_charges->electric_city_charge}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px;">Pump Man & Repair Charges:</td>
-                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->pump_man_and_repair_charges==null?'0.00':$serviceChargesRate->pump_man_and_repair_charges}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$TransBillGenerate->service_charges->pump_man_and_repair_charges==null?'0.00':$TransBillGenerate->service_charges->pump_man_and_repair_charges}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px;">External Expenditure Charge:</td>
-                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->external_expender_charge==null?'0.00':$serviceChargesRate->external_expender_charge}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$TransBillGenerate->service_charges->external_expender_charge==null?'0.00':$TransBillGenerate->service_charges->external_expender_charge}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px;">Administrative Charge:</td>
-                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->administrative_charge==null?'0.00':$serviceChargesRate->administrative_charge}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$TransBillGenerate->service_charges->administrative_charge==null?'0.00':$TransBillGenerate->service_charges->administrative_charge}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px;">Lease Rent:</td>
-                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->lease_rent==null?'0.00':$serviceChargesRate->lease_rent}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$TransBillGenerate->service_charges->lease_rent==null?'0.00':$TransBillGenerate->service_charges->lease_rent}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px;">N.A.Assessment:</td>
-                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->na_assessment==null?'0.00':$serviceChargesRate->na_assessment}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$TransBillGenerate->service_charges->na_assessment==null?'0.00':$TransBillGenerate->service_charges->na_assessment}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px;">Property Tax:</td>
-                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->property_tax==null?'0.00':$serviceChargesRate->property_tax}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$TransBillGenerate->service_charges->property_tax==null?'0.00':$TransBillGenerate->service_charges->property_tax}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px;">Other:</td>
-                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$serviceChargesRate->other==null?'0.00':$serviceChargesRate->other}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; text-align: center; padding: 5px; text-align: center;">{{$TransBillGenerate->service_charges->other==null?'0.00':$TransBillGenerate->service_charges->other}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px; font-weight: bold; text-align: right;">Total:</td>
