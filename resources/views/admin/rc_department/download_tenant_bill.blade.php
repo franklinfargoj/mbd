@@ -25,6 +25,7 @@
         <div>
             <h3>Bill for {{date("M", strtotime("2001-" . $month . "-01"))}}, {{$year}}</h3>
         </div>
+        
         <table style="width: 720px;border-collapse: collapse;">
             <tr>
                 <td>
