@@ -2824,31 +2824,33 @@ class SocietyOfferLetterController extends Controller
                 $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d H-i-s');
                 $i++;
             }
+            //Code added by Prajakta >>start
+            DB::beginTransaction();
+            try {
+                OlApplicationStatus::where('application_id',$application->id)->update(array('is_active' => 0,'phase' => 0));
+
+                OlApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+            }
+            //Code added by Prajakta >>end
+
+             //send application submission mail and msg to society and respective department
+            $data = $society;
+            $data['users'] = $users;
+            $data['application_no'] = $application->application_no;
+            $data['layout_id'] = $application->layout_id;
+            $data['application_type'] = $application->ol_application_master->title."(".$application->ol_application_master->model.")";
+
+            $EmailMsgConfigration = new EmailMsgConfigration();
+            $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
+
+            return redirect()->route('society_offer_letter_dashboard')->with('success','Application forwarded successfully.');
+        }else{
+            return back()->with('error','Something went wrong,Please contact to Admin.');
         }
-
-        //Code added by Prajakta >>start
-        DB::beginTransaction();
-        try {
-            OlApplicationStatus::where('application_id',$application->id)->update(array('is_active' => 0,'phase' => 0));
-
-            OlApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
-
-            DB::commit();
-        } catch (\Exception $ex) {
-            DB::rollback();
-        }
-        //Code added by Prajakta >>end
-
-         //send application submission mail and msg to society and respective department
-        $data = $society;
-        $data['users'] = $users;
-        $data['application_no'] = $application->application_no;
-        $data['layout_id'] = $application->layout_id;
-        $data['application_type'] = $application->ol_application_master->title."(".$application->ol_application_master->model.")";
-
-        $EmailMsgConfigration = new EmailMsgConfigration();
-        $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
-        return redirect()->route('society_offer_letter_dashboard')->with('success','Application forwarded successfully.');
     }
 
     // society profile page

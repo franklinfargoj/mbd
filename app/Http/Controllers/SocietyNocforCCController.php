@@ -34,6 +34,7 @@ use Auth;
 use Hash;
 use Session;
 use App\Mail\SocietyOfferLetterForgotPassword;
+use App\Http\Controllers\EmailMsg\EmailMsgConfigration;
 use Storage;
 
 class SocietyNocforCCController extends Controller
@@ -522,7 +523,7 @@ class SocietyNocforCCController extends Controller
 
     public function uploadNocAfterSign(Request $request){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $application_name = NocCCApplication::where('society_id', $society->id)->with('noc_application_master')->get();
+        // $application_name = NocCCApplication::where('society_id', $society->id)->with('noc_application_master')->get();
         $society_remark = NocCCSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id', 'desc')->first();
         if($request->file('noc_application_form'))
         {
@@ -541,16 +542,22 @@ class SocietyNocforCCController extends Controller
                     'noc_generation_status' => 0
                 );
                 NocCCApplication::where('society_id', $society->id)->where('id', $request->input('id'))->update($input);
-                $role_id = Role::where('name', 'REE Junior Engineer')->first();
-                $application = NocCCApplication::where('society_id', $society->id)->where('id', $request->input('id'))->first();
-//                dd($application);
-                $user_ids = RoleUser::where('role_id', $role_id->id)->get();
-                // dd($user_ids);
-                $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
-                foreach ($layout_user_ids as $key => $value) {
-                    $select_user_ids[] = $value['user_id'];
-                }
-                $users = User::whereIn('id', $select_user_ids)->get();
+                $application = NocCCApplication::where('society_id', $society->id)->where('id', $request->input('id'))->with('noc_application_master')->first();
+                $role_id = Role::where('name', config('commanConfig.ree_junior'))->value('id');
+                
+                // $user_ids = RoleUser::where('role_id', $role_id->id)->get();
+                // $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
+                // foreach ($layout_user_ids as $key => $value) {
+                //     $select_user_ids[] = $value['user_id'];
+                // }
+                // $users = User::whereIn('id', $select_user_ids)->get();
+
+                // optimize above code with below query for get users (BHAVANA) 
+                $users = User::where('role_id',$role_id)->with(['LayoutUser' => function($query)use($application){
+                    $query->where('layout_id',$application->layout_id);
+                }])->whereHas('LayoutUser', function($query)use($application){
+                    $query->where('layout_id',$application->layout_id);
+                })->get();
 
                 if(count($users) > 0) {
                     foreach ($users as $key => $user) {
@@ -587,6 +594,16 @@ class SocietyNocforCCController extends Controller
                     try {
 
                         NocCCApplicationStatus::where('application_id',$application->id)->update(array('is_active' => 0,'phase' => 0));
+
+                        //send application submission mail and msg to society and respective department
+                        $data = $society;
+                        $data['users'] = $users;
+                        $data['application_no'] = $application->application_no;
+                        $data['layout_id'] = $application->layout_id;
+                        $data['application_type'] = $application->noc_application_master->title."(".$application->noc_application_master->model.")";
+
+                    $EmailMsgConfigration = new EmailMsgConfigration();
+                    $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
 
 
                         NocCCApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
