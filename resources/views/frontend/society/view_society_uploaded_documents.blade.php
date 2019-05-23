@@ -99,8 +99,7 @@
                 <div class="mt-3">
                     <!-- <label for="society_documents_comment">Additional Information:</label> -->
                 </div>
-                <p>{{ ($documents_comment->society_documents_comment != 'N.A.') ?
-                    $documents_comment->society_documents_comment : '-' }}</p>
+                <p>{{ isset($documents_comment) && ($documents_comment->society_documents_comment != 'N.A.') ? $documents_comment->society_documents_comment : '-' }}</p>
             </div>
         </div>
     </div>
