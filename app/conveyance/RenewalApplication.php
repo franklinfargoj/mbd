@@ -60,4 +60,12 @@ class RenewalApplication extends Model
         return $this->hasOne('App\conveyance\scApplicationType', 'id','application_master_id');
     }
 
+    public function ol_application_master(){
+        return $this->hasOne('App\conveyance\scApplicationType', 'id','application_master_id'); 
+    }
+
+    public function olApplicationStatus(){
+        return $this->hasOne('App\conveyance\RenewalApplicationLog', 'application_id','id'); 
+    }
+
 }
