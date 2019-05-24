@@ -524,6 +524,11 @@ return [
         'Application for CC'=>'noc_cc_master_ids'
     ],
 
+    'e_billing_type'=>[
+        'Society Level Billing' => '1',
+        'Tenant Level Billing' => '2'
+    ],
+
     'hearing_reports'=>[
         'Open' => 'Open',
         'Closed' => 'Closed',
