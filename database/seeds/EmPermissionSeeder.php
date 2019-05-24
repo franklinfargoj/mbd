@@ -528,6 +528,16 @@ class EmPermissionSeeder extends Seeder
                 'display_name' => 'Save Changed Tenant',
                 'description' => 'Save Changed Tenant'
             ],
+            [
+                'name' => 'e-billing.period_wise_pendency_report',
+                'display_name' => 'e-billing_period_wise_pendency_report',
+                'description' => 'e-billing_period_wise_pendency_report'
+            ],[
+                'name' => 'ebilling_pending_reports',
+                'display_name' => 'ebilling_pending_reports',
+                'description' => 'ebilling_pending_reports'
+            ],
+
         ];
 
         $permission_role = [];

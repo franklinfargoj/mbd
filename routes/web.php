@@ -150,6 +150,10 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('village_society_layout_area_reports','Reports\LandController@village_society_layout_area_reports')->name('village_society_layout_area_reports');
 
+    Route::get('/e_billing_period_wise_pendency_report','Reports\EMController@period_wise_pendency')->name('e-billing.period_wise_pendency_report');
+    Route::get('ebilling_pending_reports','Reports\EMController@ebilling_pending_reports')->name('ebilling_pending_reports');
+
+
 
 
 
