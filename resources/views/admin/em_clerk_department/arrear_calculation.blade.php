@@ -104,9 +104,9 @@
                     </div>
 
                     <div class="row align-items-center" style="margin-bottom: 1rem;">
-                        Old  Intrest Rate : {{$rate_card->interest_on_old_rate}} % 
+                        Old  Intrest Rate : {{$rate_card->interest_on_old_rate}} % &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; No of Months : <span class="no_of_months"></span>
                     </div>
-
+                    
                     <div class="row align-items-center" style="margin-bottom: 1rem;">                            
                             <div class="col-md-4">
                                 <div class="form-group m-form__group">
@@ -378,15 +378,14 @@
                                 // bill_month = bill_month - 1;
                                 var start_date = new Date(ior_year,ior_month,01);
                                 var end_date = new Date(bill_year,bill_month,01);
-                                console.log('date')
+                                bill_month++;
                                 var dates = dateRange(ior_year+'-'+ior_month+'-'+01,bill_year+'-'+bill_month+'-'+01);                    
-                                console.log(dates)
                                 var start_date_int = new Date(ida_year, ida_month, 01);
                                 var end_date_int = new Date(bill_year, bill_month, 01);
                                 
                                 var datesint = dateRange(ida_year+'-'+ida_month+'-'+01,bill_year+'-'+bill_month+'-'+01);                    
 
-                                console.log(dates);
+                                console.log(datesint);
 
                                 if(null != dates ) {
                                     var old_intrest_amount_temp = 0;
@@ -424,8 +423,8 @@
                                         old_intrest_amount_temp += parseFloat(temp) || 0;
                                         
                                     }
-                                    
-
+                                    //console.log('no of months:-'+(datesint.length+1))
+                                    $('.no_of_months').html(datesint.length+1)
                                     for(i=0; i < datesint.length;i++) {
                                         var monthlyDate = datesint[i];
                                         
