@@ -424,10 +424,23 @@ class SocietyOfferLetterController extends Controller
             $noc_cc_applications = $noc_cc_applications->get();
 
             $ol_applications = $ol_applications->toBase()->merge($noc_cc_applications);
-
+            
+            $sc_applications = scApplication::where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+                 $q->where('society_flag', '1')->orderBy('id', 'desc');
+             } ])->orderBy('id', 'desc');
+            // dd($sc_applications->get());
+            $sc_applications = $sc_applications->get();
+            $ol_applications = $ol_applications->toBase()->merge($sc_applications);
+            
+            $sr_applications = RenewalApplication::where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+                $q->where('society_flag', '1')->orderBy('id', 'desc');
+            } ])->orderBy('id', 'desc');
+            
+            $sr_applications = $sr_applications->get();
+            $ol_applications = $ol_applications->toBase()->merge($sr_applications);
+            
             //NOC changed added by <--Sayan Pal--> << End
 
-//             dd($ol_applications);
             $reval_master_ids_arr = config('commanConfig.revalidation_master_ids');
 
 
@@ -467,16 +480,33 @@ class SocietyOfferLetterController extends Controller
                     return $ol_applications->application_no;
                 })
                 ->editColumn('application_type', function ($ol_applications) {
-                    return $ol_applications->ol_application_master->title;
+                    if(isset($ol_applications->ol_application_master->title)){
+                        return $ol_applications->ol_application_master->title;
+                    }elseif(isset($ol_applications->ol_application_master->application_type)){
+                        return $ol_applications->ol_application_master->application_type;
+                    }
                 })
                 ->editColumn('application_master_id', function ($ol_applications) {
-                    return $ol_applications->ol_application_master->model;
+                    if(isset($ol_applications->ol_application_master->model)){
+                        return $ol_applications->ol_application_master->model;
+                    }else{
+                        return '<center>-</center>';
+                    }
                 })
                 ->editColumn('created_at', function ($ol_applications) {
-                    return date(config('commanConfig.dateFormat'), strtotime($ol_applications->created_at));
+                    if(isset($ol_applications->created_at)){
+                        return date(config('commanConfig.dateFormat'), strtotime($ol_applications->created_at));
+                    }
                 })
                 ->editColumn('status', function ($ol_applications) {
-                    $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $ol_applications->olApplicationStatus[0]->status_id)[0]);
+                    if(isset($ol_applications->ol_application_master->application_type) && $ol_applications->ol_application_master->application_type == config('commanConfig.applicationType.Conveyance')){
+                        $status_arr = config('commanConfig.conveyance_status');
+                    }elseif(isset($ol_applications->ol_application_master->application_type) && $ol_applications->ol_application_master->application_type == config('commanConfig.applicationType.Renewal')){
+                        $status_arr = config('commanConfig.renewal_status');
+                    }else{
+                        $status_arr = config('commanConfig.applicationStatus');
+                    }
+                    $status = explode('_', array_keys($status_arr, $ol_applications->olApplicationStatus[0]->status_id)[0]);   
                     $status_display = '';
                     foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
                     $status_color = '';
@@ -484,7 +514,7 @@ class SocietyOfferLetterController extends Controller
                         $status_display = 'Approved';
                     }
 
-                    if($status_display == 'Pending ' && $ol_applications->is_approve_offer_letter){
+                    if($status_display == 'Pending ' && isset($ol_applications->is_approve_offer_letter) && $ol_applications->is_approve_offer_letter){
                         $status_display = 'Approved';
                     }
 
@@ -501,6 +531,8 @@ class SocietyOfferLetterController extends Controller
                     $url_noc = route('society_noc_preview',encrypt($ol_applications->id));
                     $url_noc_cc = route('society_noc_cc_preview');
                     $url_tripartite = route('tripartite_application_form_preview', encrypt($ol_applications->id));
+                    $url_sc = route('society_conveyance.show', encrypt($ol_applications->id));
+                    $url_sr = route('society_renewal.show', encrypt($ol_applications->id));
 //                    dd($ol_applications->ol_application_master);
 
                     if(isset($ol_applications->is_noc_application))
@@ -528,6 +560,18 @@ class SocietyOfferLetterController extends Controller
                     elseif(in_array($ol_applications->application_master_id,config('commanConfig.tripartite_master_ids')))
                     {
                         return '<div class="d-flex btn-icon-list align-items-left"><a  href="'.$url_tripartite.'" onclick="geturl(this.value);" name="ol_applications_id" class="d-flex flex-column"><span class="btn-icon btn-icon--view">
+                        <img src="'. asset("img/view-icon.svg").'">
+                    </span>View</span></a></div>';
+                    }
+                    elseif($ol_applications->ol_application_master->application_type == config('commanConfig.applicationType.Conveyance'))
+                    {
+                        return '<div class="d-flex btn-icon-list align-items-left"><a  href="'.$url_sc.'" onclick="geturl(this.value);" name="ol_applications_id" class="d-flex flex-column"><span class="btn-icon btn-icon--view">
+                        <img src="'. asset("img/view-icon.svg").'">
+                    </span>View</span></a></div>';
+                    }
+                    elseif($ol_applications->ol_application_master->application_type == config('commanConfig.applicationType.Renewal'))
+                    {
+                        return '<div class="d-flex btn-icon-list align-items-left"><a  href="'.$url_sr.'" onclick="geturl(this.value);" name="ol_applications_id" class="d-flex flex-column"><span class="btn-icon btn-icon--view">
                         <img src="'. asset("img/view-icon.svg").'">
                     </span>View</span></a></div>';
                     }
@@ -2824,31 +2868,33 @@ class SocietyOfferLetterController extends Controller
                 $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d H-i-s');
                 $i++;
             }
+            //Code added by Prajakta >>start
+            DB::beginTransaction();
+            try {
+                OlApplicationStatus::where('application_id',$application->id)->update(array('is_active' => 0,'phase' => 0));
+
+                OlApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+            }
+            //Code added by Prajakta >>end
+
+             //send application submission mail and msg to society and respective department
+            $data = $society;
+            $data['users'] = $users;
+            $data['application_no'] = $application->application_no;
+            $data['layout_id'] = $application->layout_id;
+            $data['application_type'] = $application->ol_application_master->title."(".$application->ol_application_master->model.")";
+
+            $EmailMsgConfigration = new EmailMsgConfigration();
+            $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
+
+            return redirect()->route('society_offer_letter_dashboard')->with('success','Application forwarded successfully.');
+        }else{
+            return back()->with('error','Something went wrong,Please contact to Admin.');
         }
-
-        //Code added by Prajakta >>start
-        DB::beginTransaction();
-        try {
-            OlApplicationStatus::where('application_id',$application->id)->update(array('is_active' => 0,'phase' => 0));
-
-            OlApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
-
-            DB::commit();
-        } catch (\Exception $ex) {
-            DB::rollback();
-        }
-        //Code added by Prajakta >>end
-
-         //send application submission mail and msg to society and respective department
-        $data = $society;
-        $data['users'] = $users;
-        $data['application_no'] = $application->application_no;
-        $data['layout_id'] = $application->layout_id;
-        $data['application_type'] = $application->ol_application_master->title."(".$application->ol_application_master->model.")";
-
-        $EmailMsgConfigration = new EmailMsgConfigration();
-        $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
-        return redirect()->route('society_offer_letter_dashboard')->with('success','Application forwarded successfully.');
     }
 
     // society profile page

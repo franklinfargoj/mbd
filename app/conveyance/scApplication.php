@@ -68,4 +68,12 @@ class scApplication extends Model
         return $this->hasOne('App\conveyance\scApplicationType', 'id','sc_application_master_id');
     }
 
+    public function ol_application_master(){
+        return $this->hasOne('App\conveyance\scApplicationType', 'id','sc_application_master_id'); 
+    }
+
+    public function olApplicationStatus(){
+        return $this->hasMany('App\conveyance\scApplicationLog', 'application_id','id'); 
+    }
+
 }

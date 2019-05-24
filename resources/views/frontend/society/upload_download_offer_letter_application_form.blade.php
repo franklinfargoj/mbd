@@ -8,6 +8,11 @@
     {{ session()->get('success') }}
 </div>
 @endif
+@if(session()->has('error'))
+<div class="alert alert-danger display_msg">
+    {{ session()->get('error') }}
+</div>
+@endif
 
 <div class="panel" id="ee-note">
     <!-- upload offer letter block -->

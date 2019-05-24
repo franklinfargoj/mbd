@@ -10,6 +10,7 @@ use App\SocietyOfferLetter;
 use App\MasterLayout;
 use App\OlRequestForm;
 use App\Http\Controllers\Common\CommonController;
+use App\Http\Controllers\EmailMsg\EmailMsgConfigration;
 use App\Role;
 use App\RoleUser;
 use App\LayoutUser;
@@ -600,7 +601,8 @@ class SocietyTripatiteController extends Controller
      */
     public function uploadTripartiteAfterSign(Request $request){
         $society = SocietyOfferLetter::where('user_id', auth()->user()->id)->first();
-        $application_name = OlApplication::where('society_id', $society->id)->with('ol_application_master')->get();
+        // $application_name = OlApplication::where('society_id', $society->id)->with('ol_application_master')->get();
+        $ol_applications = OlApplication::where('society_id', $society->id)->where('id', $request->input('id'))->with('ol_application_master')->first();
         $society_remark = OlSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id', 'desc')->first();
 
         if($request->file('application_path'))
@@ -619,22 +621,37 @@ class SocietyTripatiteController extends Controller
                     'submitted_at' => date('Y-m-d H-i-s')
                 );
                 OlApplication::where('society_id', $society->id)->where('id', $request->input('id'))->update($input);
-                $role_id = Role::where('name', config('commanConfig.ree_junior'))->first();
-                $ol_applications = OlApplication::where('society_id', $society->id)->where('id', $request->input('id'))->first();
+                
+                $role_id = Role::where('name', config('commanConfig.ree_junior'))->value('id');
+                $users = User::where('role_id',$role_id)->with(['LayoutUser' => function($query)use($ol_applications){
+                    $query->where('layout_id',$ol_applications->layout_id);
+                }])->whereHas('LayoutUser', function($query)use($ol_applications){
+                    $query->where('layout_id',$ol_applications->layout_id);
+                })->get();
 
+                // $user_ids = RoleUser::where('role_id', $role_id->id)->pluck('user_id')->toArray();
+                // $layout_user_ids = LayoutUser::where('layout_id', $ol_applications->layout_id)->whereIn('user_id', $user_ids)->get();
 
-                $user_ids = RoleUser::where('role_id', $role_id->id)->pluck('user_id')->toArray();
-                $layout_user_ids = LayoutUser::where('layout_id', $ol_applications->layout_id)->whereIn('user_id', $user_ids)->get();
-
-                foreach ($layout_user_ids as $key => $value) {
-                    $select_user_ids[] = $value['user_id'];
-                }
-                $users = User::whereIn('id', $select_user_ids)->get();
+                // foreach ($layout_user_ids as $key => $value) {
+                //     $select_user_ids[] = $value['user_id'];
+                // }
+                // $users = User::whereIn('id', $select_user_ids)->get();
 
                 if(count($users) > 0) {
                     $insert_arr = array(
                         'users' => $users
                     );
+
+                    //send application submission mail and msg to society and respective department
+                    $data = $society;
+                    $data['users'] = $users;
+                    $data['application_no'] = $ol_applications->application_no;
+                    $data['layout_id'] = $ol_applications->layout_id;
+                    $data['application_type'] = $ol_applications->ol_application_master->title."(".$ol_applications->ol_application_master->model.")";
+
+                    $EmailMsgConfigration = new EmailMsgConfigration();
+                    $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
+
                     $this->CommonController->tripartite_application_status_society($insert_arr, config('commanConfig.applicationStatus.forwarded'), $ol_applications);
                 }
             }else{
