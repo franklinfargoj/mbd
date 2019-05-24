@@ -389,7 +389,7 @@ class GenerateBills extends Command
                             $increNumber = '';
                             $bill_number = '';
 
-                            if(count($lastBillGenerated) > 0) {
+                            if($lastBillGenerated) {
                                 $lastGeneratedNumber = substr($lastBillGenerated->bill_number,-7);
                                 $increNumber = $lastGeneratedNumber + 1;
                                 $bill_number = $building->id.str_pad($increNumber, 7, "0", STR_PAD_LEFT);
@@ -564,7 +564,7 @@ class GenerateBills extends Command
                         $lastBillGenerated = TransBillGenerate::orderBy('id','DESC')->first();
                         $lastGeneratedNumber = '0';
                         $increNumber = '0';
-                        if(count($lastBillGenerated) > 0 && !empty($lastBillGenerated->bill_number) ) {
+                        if(($lastBillGenerated != null) && !empty($lastBillGenerated->bill_number) ) {
                             $lastGeneratedNumber = substr($lastBillGenerated->bill_number,-7);
                             
                             $increNumber = $lastGeneratedNumber + 1;
