@@ -1391,6 +1391,24 @@
                                 </li>
                             @endif
 
+                            @if(session()->get('role_name') == config('commanConfig.estate_manager'))
+                                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='e-billing.period_wise_pendency_report')?'m-menu__item--active':''}}"
+                                    aria-haspopup="true">
+                                    <a href="{{ route('e-billing.period_wise_pendency_report') }}"
+                                       class="m-menu__link m-menu__toggle">
+                                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                        <span class="m-menu__link-title">
+                                            <span class="m-menu__link-wrap">
+                                                <span class="m-menu__link-text">
+                                                    Period wise E Billing Report
+                                                </span>
+                                            </span>
+                                        </span>
+                                    </a>
+                                </li>
+                            @endif
+
+
                             @if(session()->get('role_name')==config('commanConfig.joint_co') ||
                                 session()->get('role_name')==config('commanConfig.joint_co_pa') ||
                                 session()->get('role_name')==config('commanConfig.co_pa') ||
