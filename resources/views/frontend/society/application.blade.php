@@ -86,12 +86,33 @@
                     {{--@endif--}}
                     
                     <p>
-                    @if($applicationCount > 0 && $application->title == 'New - Offer Letter')
-                    {{ $application->title }} (Application sent)
+                    @if($application->title == 'New - Offer Letter')
+                            @if($applicationCount > 0 && $application->title == 'New - Offer Letter')
+                                <a style="color: grey;" href="javascript:void(0)">
+                                    {{ $application->title }} (Application sent)</a>
+                            @else
+                                <a href="{{ route($application->route_name, $application->id.'_'.$ids[1]) }}">
+                                    {{ $application->title }}</a>
+                            @endif
+                    @elseif($application->title == 'Tripartite Agreement')
+                            @if($tripartite_applications > 0 && $application->title == 'Tripartite Agreement')
+                                <a style="color: grey;" href="javascript:void(0)">
+                                    {{ $application->title }} (Application sent)</a>
+                            @else
+                                <a href="{{ route($application->route_name, $application->id.'_'.$ids[1]) }}">
+                                    {{ $application->title }}</a>
+                            @endif
                     @else
-                      <a href="{{ route($application->route_name, $application->id.'_'.$ids[1]) }}">
-                    {{ $application->title }}</a>
+                            <a href="{{ route($application->route_name, $application->id.'_'.$ids[1]) }}">
+                                {{ $application->title }}</a>
                     @endif</p>
+
+
+                    {{--@if($applicationCount > 0 && $application->title == 'New - Offer Letter')--}}
+                    {{--{{ $application->title }} (Application sent)--}}
+                    {{--@elseif($tripartite_applications > 0 && $application->title == 'Tripartite Agreement')--}}
+                            {{--{{ $application->title }} (Application sent)--}}
+
                 @endforeach
             </div>
         </div>

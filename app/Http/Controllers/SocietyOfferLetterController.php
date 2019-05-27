@@ -647,11 +647,16 @@ class SocietyOfferLetterController extends Controller
     public function ViewApplications($id){
 
         $masterIds = OlApplicationMaster::where('title','New - Offer Letter')->pluck('id')->toArray();
+
         $applicationCount = $this->getForwardedApplication();
         $ids = explode('_', $id);
         $data = OlApplicationMaster::with('ol_application_type', 'ol_application_id' , 'noc_application_ref' , 'noc_cc_application_ref')->where('model', ucfirst($ids[1]))->where('parent_id', $ids[0])->get();
 
-        return view('frontend.society.application', compact('ids', 'data','applicationCount'));
+        $masterIdsTripartite = config('commanConfig.tripartite_master_ids');
+
+        $tripartite_applications = OlApplication::where('user_id',Auth::id())->whereIn('application_master_id',$masterIdsTripartite)->where('current_phase','>',0)->get()->count();
+
+        return view('frontend.society.application', compact('tripartite_applications','ids', 'data','applicationCount','redevelopment_applications'));
     }
 
     /**
@@ -2683,7 +2688,7 @@ class SocietyOfferLetterController extends Controller
     public function getForwardedApplication(){
 
         $forward = config('commanConfig.applicationStatus.forwarded');
-        $masterIds = OlApplicationMaster::where('title','New - Offer Letter')->pluck('id')->toArray();
+        $masterIds = OlApplicationMaster::whereIN('title',['New - Offer Letter'])->pluck('id')->toArray();
         $count = OlApplication::where('user_id', Auth::user()->id)
         ->whereIn('application_master_id',$masterIds)->with(['olApplicationStatus' => function($q) use($forward){
                 $q->where('status_id',$forward)->orderBy('id','desc');
