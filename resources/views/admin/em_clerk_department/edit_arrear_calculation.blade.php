@@ -511,7 +511,7 @@ function monthDiff(d1, d2) {
                                         
                                     }
                                     
-                                    $('.no_of_months').html(datesint.length+1)
+                                    $('.no_of_months').html(datesint.length)
                                     for(i=0; i < datesint.length;i++) {
                                         var monthlyDate = datesint[i];
                                         

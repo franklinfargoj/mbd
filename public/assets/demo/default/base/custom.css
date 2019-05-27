@@ -3929,3 +3929,14 @@ label.site-visit-label {
         width: 115px;
     }
     
+
+.mhada-multiple .mhada-multiple-label{
+    opacity: 1;
+    top: -19px;
+    color: #f0971b;
+    background: #fff;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-weight: 500;
+    font-size: 11px;
+}
