@@ -65,7 +65,15 @@ class RenewalApplication extends Model
     }
 
     public function olApplicationStatus(){
-        return $this->hasOne('App\conveyance\RenewalApplicationLog', 'application_id','id'); 
+        return $this->hasOne('App\conveyance\RenewalApplicationLog', 'application_id','id');
     }
+
+    // Only for listing
+    public function olApplicationStatus1()
+    {
+        return $this->hasMany('App\conveyance\RenewalApplicationLog', 'application_id', 'id');
+    }
+
+
 
 }

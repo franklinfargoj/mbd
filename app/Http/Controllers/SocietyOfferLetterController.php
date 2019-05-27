@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\conveyance\SfApplication;
 use App\OcApplications;
 use App\OcApplicationStatusLog;
 use App\OcSocietyDocumentStatus;
@@ -432,18 +433,35 @@ class SocietyOfferLetterController extends Controller
             $sc_applications = $sc_applications->get();
             $ol_applications = $ol_applications->toBase()->merge($sc_applications);
             
-            $sr_applications = RenewalApplication::where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+            $sr_applications = RenewalApplication::where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus1' => function($q){
                 $q->where('society_flag', '1')->orderBy('id', 'desc');
             } ])->orderBy('id', 'desc');
-            
             $sr_applications = $sr_applications->get();
             $ol_applications = $ol_applications->toBase()->merge($sr_applications);
-            
+
+            $sf_applications = SfApplication::where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+                $q->where('society_flag', '1')->orderBy('id', 'desc');
+            } ])->orderBy('id', 'desc');
+
+            $sf_applications = $sf_applications->get();
+            $ol_applications = $ol_applications->toBase()->merge($sf_applications);
+
+//            dd($sf_applications);
+//            $sf_applications = SfApplication::where('society_id', $society_details->id)->with(['scApplicationType' => function ($q) {
+//                $q->where('application_type', config('commanConfig.applicationType.Formation'))->first();
+//            }, 'sfApplicationLog' => function ($q) {
+//                $q->where('user_id', Auth::user()->id)
+//                    ->where('role_id', session()->get('role_id'))->orderBy('id', 'desc')->first();
+//                //$q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+//            }])->orderBy('id', 'desc');
+
+
+
             //NOC changed added by <--Sayan Pal--> << End
 
             $reval_master_ids_arr = config('commanConfig.revalidation_master_ids');
 
-
+//            dd($ol_applications);
             return $datatables->of($ol_applications)
 
                 ->editColumn('rownum', function ($ol_applications) {
@@ -501,12 +519,21 @@ class SocietyOfferLetterController extends Controller
                 ->editColumn('status', function ($ol_applications) {
                     if(isset($ol_applications->ol_application_master->application_type) && $ol_applications->ol_application_master->application_type == config('commanConfig.applicationType.Conveyance')){
                         $status_arr = config('commanConfig.conveyance_status');
+                        $status = explode('_', array_keys($status_arr, $ol_applications->olApplicationStatus[0]->status_id)[0]);
+
                     }elseif(isset($ol_applications->ol_application_master->application_type) && $ol_applications->ol_application_master->application_type == config('commanConfig.applicationType.Renewal')){
                         $status_arr = config('commanConfig.renewal_status');
+                        $status = explode('_', array_keys($status_arr, $ol_applications->olApplicationStatus1[0]->status_id)[0]);
+
+                    }elseif(isset($ol_applications->ol_application_master->application_type) && $ol_applications->ol_application_master->application_type == config('commanConfig.applicationType.Formation')){
+                        $status_arr = config('commanConfig.formation_status');
+                        $status = explode('_', array_keys($status_arr, $ol_applications->olApplicationStatus[0]->status_id)[0]);
+
                     }else{
                         $status_arr = config('commanConfig.applicationStatus');
+                        $status = explode('_', array_keys($status_arr, $ol_applications->olApplicationStatus[0]->status_id)[0]);
+
                     }
-                    $status = explode('_', array_keys($status_arr, $ol_applications->olApplicationStatus[0]->status_id)[0]);   
                     $status_display = '';
                     foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
                     $status_color = '';
@@ -518,7 +545,20 @@ class SocietyOfferLetterController extends Controller
                         $status_display = 'Approved';
                     }
 
-                    return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$ol_applications->olApplicationStatus[0]->status_id) .' m-badge--wide">'.$status_display.'</span>';
+                    if(isset($ol_applications->ol_application_master->application_type) && $ol_applications->ol_application_master->application_type == config('commanConfig.applicationType.Conveyance')){
+                        return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$ol_applications->olApplicationStatus[0]->status_id) .' m-badge--wide">'.$status_display.'</span>';
+
+                    }elseif(isset($ol_applications->ol_application_master->application_type) && $ol_applications->ol_application_master->application_type == config('commanConfig.applicationType.Renewal')){
+                        return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$ol_applications->olApplicationStatus1[0]->status_id) .' m-badge--wide">'.$status_display.'</span>';
+
+                    }elseif(isset($ol_applications->ol_application_master->application_type) && $ol_applications->ol_application_master->application_type == config('commanConfig.applicationType.Formation')){
+                        return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$ol_applications->olApplicationStatus[0]->status_id) .' m-badge--wide">'.$status_display.'</span>';
+                    }else{
+                        return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$ol_applications->olApplicationStatus[0]->status_id) .' m-badge--wide">'.$status_display.'</span>';
+
+                    }
+
+
                 })
                 ->editColumn('model', function ($ol_applications) {
                     return view('frontend.society.actions', compact('ol_applications', 'status_display'))->render();
@@ -533,6 +573,8 @@ class SocietyOfferLetterController extends Controller
                     $url_tripartite = route('tripartite_application_form_preview', encrypt($ol_applications->id));
                     $url_sc = route('society_conveyance.show', encrypt($ol_applications->id));
                     $url_sr = route('society_renewal.show', encrypt($ol_applications->id));
+                    $url_sf = route('society_formation.view_application', encrypt($ol_applications->id));
+
 //                    dd($ol_applications->ol_application_master);
 
                     if(isset($ol_applications->is_noc_application))
@@ -572,6 +614,12 @@ class SocietyOfferLetterController extends Controller
                     elseif($ol_applications->ol_application_master->application_type == config('commanConfig.applicationType.Renewal'))
                     {
                         return '<div class="d-flex btn-icon-list align-items-left"><a  href="'.$url_sr.'" onclick="geturl(this.value);" name="ol_applications_id" class="d-flex flex-column"><span class="btn-icon btn-icon--view">
+                        <img src="'. asset("img/view-icon.svg").'">
+                    </span>View</span></a></div>';
+                    }
+                    elseif($ol_applications->ol_application_master->application_type == config('commanConfig.applicationType.Formation'))
+                    {
+                        return '<div class="d-flex btn-icon-list align-items-left"><a  href="'.$url_sf.'" onclick="geturl(this.value);" name="ol_applications_id" class="d-flex flex-column"><span class="btn-icon btn-icon--view">
                         <img src="'. asset("img/view-icon.svg").'">
                     </span>View</span></a></div>';
                     }
