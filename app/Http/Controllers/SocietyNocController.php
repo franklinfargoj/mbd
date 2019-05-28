@@ -124,7 +124,7 @@ class SocietyNocController extends Controller
         $last_inserted_id = NocRequestForm::create($input);
 
         $application_master_id_spec = $request->input('application_master_id');
-
+        $applicationNo = $this->generateApplicationNumber($request->applicationId);
         $insert_application = array(
             'user_id' => Auth::user()->id,
             'language_id' => '1',
@@ -132,7 +132,7 @@ class SocietyNocController extends Controller
             'layout_id' => $request->input('layout_id'),
             'request_form_id' => $last_inserted_id->id,
             'application_master_id' => $application_master_id_spec,
-            'application_no' => mt_rand(10,100).time(),
+            'application_no' => $applicationNo,
             'application_path' => 'test',
             'submitted_at' => date('Y-m-d'),
             'current_status_id' => '1',
@@ -993,5 +993,19 @@ class SocietyNocController extends Controller
         }else{
             return back()->with('error','Something went wrong,Please contact to Admin.');
         }
+    }
+
+    //generate application Number
+    public function generateApplicationNumber($applicationId){
+
+        if (isset($applicationId)){
+            $applicationId = NocApplication::where('id',$applicationId)->value('application_no');
+        }else{
+            $id1 = NocApplication::orderBy('id','desc')->value('id');
+            $id1++;
+            $id = str_pad($id1,6, '0', STR_PAD_LEFT);
+            $applicationId = 'Offer-'.$id;
+        }
+        return $applicationId;
     }
 }
