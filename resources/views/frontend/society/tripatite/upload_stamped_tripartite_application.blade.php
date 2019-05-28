@@ -3,6 +3,16 @@
     @include('frontend.society.tripatite.actions',compact('ol_applications'))
 @endsection
 @section('content')
+    @if(session()->has('success'))
+        <div class="alert alert-success display_msg">
+            {{ session()->get('success') }}
+        </div>
+    @endif
+    @if(session()->has('error'))
+        <div class="alert alert-danger display_msg">
+            {{ session()->get('error') }}
+        </div>
+    @endif
     <div class="panel" id="ee-note">
         <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
             <div class="portlet-body">
@@ -40,14 +50,14 @@
                                                         file...</label>
                                                     <span class="help-block">
                                                     @if(session('error_uploaded_file'))
-                                                            {{session('error_uploaded_file')}}
+                                                            <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">{{session('error_uploaded_file')}}</span>
                                                         @endif
                                                 </span>
                                                     <input type="hidden" name="id" value="{{ $ol_applications->id }}">
                                                 </div>
-                                                <div class="mt-auto" style="float:right">
+                                                <div class="mt-auto" {{--style="float:right"--}}>
                                                     <button type="submit" class="btn btn-primary btn-custom"
-                                                            id="uploadBtn">Upload & Submit</button>
+                                                            id="uploadBtn">Upload</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -57,6 +67,32 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- submit application block -->
+    <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+        <div class="portlet-body">
+            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
+                <div class="">
+                    <h3 class="section-title section-title--small">Submit Application</h3>
+                    <span class="hint-text">click on 'submit' to submit application</span>
+                </div>
+                <form action="{{ route('submit_society_tripartite') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="applicationId" value="{{ $ol_applications->id }}">
+                    <div class="remarks-suggestions table--box-input">
+                        <div class="mt-3 btn-list">
+                            <button class="btn btn-primary" type="submit" id="submitas" onclick="return confirm('Are you sure you want to submit the application.');" {{ ($ol_applications->application_path == '') ? 'disabled' : '' }}>Submit</button>
+
+                            @if($ol_applications->application_path == "")
+                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                 * Note : Please upload signed tripartite application. </span>
+                            @endif
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

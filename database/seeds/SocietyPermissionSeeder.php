@@ -599,6 +599,11 @@ class SocietyPermissionSeeder extends Seeder
                 'description'  => 'Uploads Stamped Tripartite Application'
             ],
             [
+                'name'         => 'submit_society_tripartite',
+                'display_name' => 'Submit Stamped Tripartite Application',
+                'description'  => 'Submit Stamped Tripartite Application'
+            ],
+            [
                 'name'         => 'society_tripartite_application_download',
                 'display_name' => 'Shows Application form in pdf format',
                 'description'  => 'Shows Application form in pdf format'
