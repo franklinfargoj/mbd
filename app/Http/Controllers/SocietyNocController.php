@@ -138,48 +138,27 @@ class SocietyNocController extends Controller
             'current_status_id' => '1',
         );
         $last_id = NocApplication::create($insert_application);
-        $role_id = Role::where('name', 'REE Junior Engineer')->first();
         
-        $user_ids = RoleUser::where('role_id', $role_id->id)->get();
-        $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
-        
-        foreach ($layout_user_ids as $key => $value) {
-            $select_user_ids[] = $value['user_id'];
-        }
+        $insert_application_log_pending['application_id'] = $last_id->id;
+        $insert_application_log_pending['society_flag'] = 1;
+        $insert_application_log_pending['user_id'] = Auth::user()->id;
+        $insert_application_log_pending['role_id'] = Auth::user()->role_id;
+        $insert_application_log_pending['status_id'] = config('commanConfig.applicationStatus.pending');
+        $insert_application_log_pending['to_user_id'] = null;
+        $insert_application_log_pending['to_role_id'] = null;
+        $insert_application_log_pending['remark'] = '';
+        $insert_application_log_pending['created_at'] = date('Y-m-d H-i-s');
+        $insert_application_log_pending['updated_at'] = date('Y-m-d H-i-s');
 
-        if(isset($select_user_ids))
-        {
-            $users = User::whereIn('id', $select_user_ids)->get();
-            
-            if(count($users) > 0){
-                foreach($users as $key => $user){
-                    $i = 0;
-                    $insert_application_log_pending[$key]['application_id'] = $last_id->id;
-                    $insert_application_log_pending[$key]['society_flag'] = 1;
-                    $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
-                    $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
-                    $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
-                    $insert_application_log_pending[$key]['to_user_id'] = $user->id;
-                    $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
-                    $insert_application_log_pending[$key]['remark'] = '';
-                    $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
-                    $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
-                    $i++;
-                }
-            }
-            
-            NocApplicationStatus::insert($insert_application_log_pending);
-            $last_society_flag_id = NocApplicationStatus::where('society_flag', '1')->orderBy('id', 'desc')->first();
-            $id = NocApplicationStatus::find($last_society_flag_id->id);
-            NocApplication::where('user_id', Auth::user()->id)->update([
-                    'current_status_id' => $id->id
-                ]);   
-                $id = encrypt($last_id->id); 
-            return redirect()->route('society_noc_preview',$id);
-        }
-        else{
-            return redirect()->route('show_form_self_noc',['id' => $application_master_id_spec])->with('error','No data found for this application type.Please change the same and retry.');
-        }
+        NocApplicationStatus::insert($insert_application_log_pending);
+        $last_society_flag_id = NocApplicationStatus::where('society_flag', '1')->orderBy('id', 'desc')->first();
+        $id = NocApplicationStatus::find($last_society_flag_id->id);
+        NocApplication::where('user_id', Auth::user()->id)->update([
+                'current_status_id' => $id->id
+            ]);   
+        
+        $id = encrypt($last_id->id); 
+        return redirect()->route('society_noc_preview',$id);
     }
 
     public function showNocApplication($applicationId){
@@ -517,6 +496,8 @@ class SocietyNocController extends Controller
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
 
+        $comment = NocSocietyDocumentsComment::where('application_id',$applicationId)->value('society_documents_comment');
+
         $noc_application = NocApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->with(['request_form', 'applicationMasterLayout'])->first();
         $layouts = MasterLayout::all(); 
         $id = $noc_application->application_master_id;
@@ -525,7 +506,8 @@ class SocietyNocController extends Controller
         $mpdf = new Mpdf();
         $mpdf->autoScriptToLang = true;
         $mpdf->autoLangToFont = true;
-        $contents = view('frontend.society.display_noc_application', compact('society_details', 'noc_application', 'layouts', 'id','ntw'));
+
+        $contents = view('frontend.society.display_noc_application', compact('society_details', 'noc_application', 'layouts', 'id','ntw','comment'));
         $mpdf->WriteHTML($contents);
         $mpdf->Output($fileName,'I');
 
@@ -540,11 +522,12 @@ class SocietyNocController extends Controller
         if($request->file('noc_application_form'))
         {
             $file = $request->file('noc_application_form');
-            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
-            $extension = $request->file('noc_application_form')->getClientOriginalExtension();
+            $extension = $file->getClientOriginalExtension();
+            $file_name = time().$file->getFileName().'.'.$extension;
             if ($extension == "pdf") {
                 $time = time();
                 $name = File::name($request->file('noc_application_form')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+
                 $folder_name = "society_noc_documents";
                 $path = config('commanConfig.storage_server').'/'.$folder_name.'/'.$name;
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('noc_application_form'),$name);
@@ -554,77 +537,12 @@ class SocietyNocController extends Controller
                     'noc_generation_status' => 0
                 );
                 NocApplication::where('id',$applicationId)->where('society_id', $society->id)->where('id', $request->input('id'))->update($input);
-                $role_id = Role::where('name', 'REE Junior Engineer')->first();
-                $application = NocApplication::where('id',$applicationId)->where('society_id', $society->id)->where('id', $request->input('id'))->first();
-//                dd($application);
-                $user_ids = RoleUser::where('role_id', $role_id->id)->get();
-                // dd($user_ids);
-                $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
-                foreach ($layout_user_ids as $key => $value) {
-                    $select_user_ids[] = $value['user_id'];
-                }
-                $users = User::whereIn('id', $select_user_ids)->get();
 
-                if(count($users) > 0) {
-                    foreach ($users as $key => $user) {
-                        $i = 0;
-                        $insert_application_log_forwarded[$key]['application_id'] = $application->id;
-                        $insert_application_log_forwarded[$key]['society_flag'] = 1;
-                        $insert_application_log_forwarded[$key]['user_id'] = Auth::user()->id;
-                        $insert_application_log_forwarded[$key]['role_id'] = Auth::user()->role_id;
-                        $insert_application_log_forwarded[$key]['status_id'] = config('commanConfig.applicationStatus.forwarded');
-                        $insert_application_log_forwarded[$key]['to_user_id'] = $user->id;
-                        $insert_application_log_forwarded[$key]['to_role_id'] = $user->role_id;
-                        $insert_application_log_forwarded[$key]['remark'] = isset($society_remark->society_documents_comment) ? $society_remark->society_documents_comment : '' ;
-                        $insert_application_log_forwarded[$key]['is_active'] = 1;
-                        $insert_application_log_forwarded[$key]['created_at'] = date('Y-m-d H-i-s');
-                        $insert_application_log_forwarded[$key]['updated_at'] = date('Y-m-d H-i-s');
-
-                        $insert_application_log_in_process[$key]['application_id'] = $application->id;
-                        $insert_application_log_in_process[$key]['society_flag'] = 0;
-                        $insert_application_log_in_process[$key]['user_id'] = $user->id;
-                        $insert_application_log_in_process[$key]['role_id'] = $user->role_id;
-                        $insert_application_log_in_process[$key]['status_id'] = config('commanConfig.applicationStatus.in_process');
-                        $insert_application_log_in_process[$key]['to_user_id'] = null;
-                        $insert_application_log_in_process[$key]['to_role_id'] = null;
-                        $insert_application_log_in_process[$key]['remark'] = isset($society_remark->society_documents_comment) ? $society_remark->society_documents_comment : '' ;
-                        $insert_application_log_in_process[$key]['is_active'] = 1;
-                        $insert_application_log_in_process[$key]['created_at'] = date('Y-m-d H-i-s');
-                        $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d H-i-s');
-                        $i++;
-                    }
-                }
-
-                DB::beginTransaction();
-                try {
-
-                    NocApplicationStatus::where('application_id',$application->id)->update(array('is_active' => 0,'phase' => 0));
-
-
-                    NocApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
-
-                    DB::commit();
-                } catch (\Exception $ex) {
-                    DB::rollback();
-                }
-
-                //send application submission mail and msg to society and respective department
-                $data = $society;
-                $data['users'] = $users;
-                $data['application_no'] = $application_name->application_no;
-                $data['layout_id'] = $application_name->layout_id;
-                $data['application_type'] = $application_name->noc_application_master->title."(".$application_name->noc_application_master->model.")";
-
-                $EmailMsgConfigration = new EmailMsgConfigration();
-                $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
-
-
-/*                    NocApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));*/
             }else{
                 return redirect()->back()->with('error_uploaded_file', 'Invalid type of file uploaded (only pdf allowed)');
             }
         }
-        return redirect()->route('society_offer_letter_dashboard');
+        return redirect()->back()->with('success','Application uploaded successfully.');
     }
 
     public function viewSocietyDocuments($applicationId){
@@ -956,6 +874,7 @@ class SocietyNocController extends Controller
         return $optional_docs;
     }
 
+    // get forward application count
     public function getForwardedApplication(){
 
         $forward = config('commanConfig.applicationStatus.forwarded');
@@ -1003,5 +922,76 @@ class SocietyNocController extends Controller
         }
         $applicationCount = $this->getForwardedApplication();
         return view('frontend.society.show_signed_noc_application', compact('noc_applications', 'noc_application', 'id' , 'check_upload_avail','applicationCount'));
+    }
+
+    // submit noc application 
+    public function submitNocApplication(Request $request){
+
+        $applicationId = $request->applicationId;
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $application = NocApplication::where('id',$applicationId)->where('society_id', $society->id)->first();
+        $application_name = NocApplication::where('id',$applicationId)->where('society_id', $society->id)->with('noc_application_master')->first();
+        $society_remark = NocSocietyDocumentsComment::where('application_id',$applicationId)->where('society_id', $society->id)->orderBy('id', 'desc')->first();
+
+        $role_id = Role::where('name', config('commanConfig.ree_junior'))->value('id');
+        $users = User::where('role_id',$role_id)->with(['LayoutUser' => function($query)use($application){
+            $query->where('layout_id',$application->layout_id);
+        }])->whereHas('LayoutUser', function($query)use($application){
+            $query->where('layout_id',$application->layout_id);
+        })->get();
+
+        if(count($users) > 0) {
+            foreach ($users as $key => $user) {
+                $i = 0;
+                $insert_application_log_forwarded[$key]['application_id'] = $application->id;
+                $insert_application_log_forwarded[$key]['society_flag'] = 1;
+                $insert_application_log_forwarded[$key]['user_id'] = Auth::user()->id;
+                $insert_application_log_forwarded[$key]['role_id'] = Auth::user()->role_id;
+                $insert_application_log_forwarded[$key]['status_id'] = config('commanConfig.applicationStatus.forwarded');
+                $insert_application_log_forwarded[$key]['to_user_id'] = $user->id;
+                $insert_application_log_forwarded[$key]['to_role_id'] = $user->role_id;
+                $insert_application_log_forwarded[$key]['remark'] = isset($society_remark->society_documents_comment) ? $society_remark->society_documents_comment : '' ;
+                $insert_application_log_forwarded[$key]['is_active'] = 1;
+                $insert_application_log_forwarded[$key]['created_at'] = date('Y-m-d H-i-s');
+                $insert_application_log_forwarded[$key]['updated_at'] = date('Y-m-d H-i-s');
+
+                $insert_application_log_in_process[$key]['application_id'] = $application->id;
+                $insert_application_log_in_process[$key]['society_flag'] = 0;
+                $insert_application_log_in_process[$key]['user_id'] = $user->id;
+                $insert_application_log_in_process[$key]['role_id'] = $user->role_id;
+                $insert_application_log_in_process[$key]['status_id'] = config('commanConfig.applicationStatus.in_process');
+                $insert_application_log_in_process[$key]['to_user_id'] = null;
+                $insert_application_log_in_process[$key]['to_role_id'] = null;
+                $insert_application_log_in_process[$key]['remark'] = isset($society_remark->society_documents_comment) ? $society_remark->society_documents_comment : '' ;
+                $insert_application_log_in_process[$key]['is_active'] = 1;
+                $insert_application_log_in_process[$key]['created_at'] = date('Y-m-d H-i-s');
+                $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d H-i-s');
+                $i++;
+            }
+            DB::beginTransaction();
+            try {
+                NocApplicationStatus::where('application_id',$application->id)->update(array('is_active' => 0,'phase' => 0));
+
+                NocApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+            }
+
+            //send application submission mail and msg to society and respective department
+            $data = $society;
+            $data['users'] = $users;
+            $data['application_no'] = $application_name->application_no;
+            $data['layout_id'] = $application_name->layout_id;
+            $data['application_type'] = $application_name->noc_application_master->title."(".$application_name->noc_application_master->model.")";
+
+            $EmailMsgConfigration = new EmailMsgConfigration();
+            $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data); 
+
+            return redirect()->route('society_offer_letter_dashboard')->with('success','Application forwarded successfully.');  
+        }else{
+            return back()->with('error','Something went wrong,Please contact to Admin.');
+        }
     }
 }

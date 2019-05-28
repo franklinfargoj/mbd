@@ -1107,7 +1107,7 @@ $("a[href$='#scrutiny-history-tab']").on('click',function(){
     $('#forward-application-tab').removeClass('active')
 })
 
-
+// validation for number
 $(".number").keypress(function(){
     var key = window.event ? event.keyCode : event.which;
   if (event.keyCode == 8 || event.keyCode == 45
@@ -1119,4 +1119,6 @@ $(".number").keypress(function(){
   }
   else return true;
 });
+
+
 

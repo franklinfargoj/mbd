@@ -1297,6 +1297,7 @@ Route::get('society_noc_application_download/{id}','SocietyNocController@downloa
 Route::post('upload_society_noc','SocietyNocController@uploadNocAfterSign')->name('upload_society_noc');
 Route::get('documents_uploaded_noc/{id}','SocietyNocController@viewSocietyDocuments')->name('documents_uploaded_noc');
 Route::post('resubmit_noc_application','SocietyNocController@resubmitNocApplication')->name('resubmit_noc_application');
+Route::post('submit_noc_application','SocietyNocController@submitNocApplication')->name('submit_noc_application');
 
 //NOC --REE Department Routes
 

@@ -4,6 +4,7 @@
 @endsection
 @section('content')
 @php $ntw = new \NTWIndia\NTWIndia(); @endphp
+
     <div class="col-md-12">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">

@@ -21,7 +21,11 @@
                             <label class="col-form-label" for="application_type_id">Select layout: <span class="star">*</span></label>
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layouts" data-live-search="true" name="layout_id" required>
                                 @foreach($layouts as $layout)
-                                    <option value="{{ $layout['id'] }}">{{ $layout['layout_name'] }}</option>
+                                    @if(isset($noc_application) && $noc_application->layout_id == $layout['id'])
+                                        <option value="{{ $layout['id'] }}" selected>{{ $layout['layout_name'] }}</option>
+                                    @else
+                                        <option value="{{ $layout['id'] }}">{{ $layout['layout_name'] }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                             <span class="help-block">{{$errors->first('application_type_id')}}</span>

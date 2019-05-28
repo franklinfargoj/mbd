@@ -1746,14 +1746,11 @@ class REEController extends Controller
                                 ->where('role_id', $co_id->id)->groupBy('users.id')->get();
             $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
         }
-         
-
         //remark and history
-        $reeLogs  = $this->CommonController->getLogsOfREEDepartmentForNOC($applicationId); 
-        $coLogs   = $this->CommonController->getLogsOfCODepartmentForNOC($applicationId); 
-
-          // dd($ol_application->offer_letter_document_path);
-        return view('admin.REE_department.forward_application_noc',compact('applicationData','arrData','noc_application','reeLogs','coLogs'));  
+        // $reeLogs  = $this->CommonController->getLogsOfREEDepartmentForNOC($applicationId); 
+        // $coLogs   = $this->CommonController->getLogsOfCODepartmentForNOC($applicationId); 
+        $remarkHistory= $this->CommonController->getNOCRemarkHistory($applicationId); 
+        return view('admin.REE_department.forward_application_noc',compact('applicationData','arrData','noc_application','reeLogs','coLogs','remarkHistory'));  
     }
 
     public function sendForwardNocApplication(Request $request){

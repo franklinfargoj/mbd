@@ -8,7 +8,6 @@
     <title>NOC</title>
 </head>
 <body>
-
     <div class="m_portlet">
         <form id="OfferLetterFRM" action="{{ route('ree.save_draft_noc')}}" method="post">
             @csrf
@@ -242,7 +241,7 @@
                             </tr>
                         </tbody>
                     </table> 
-                    <table style="width: 720px; text-align: center; border-collapse: collapse;" border="1">
+                    <table style="width: 720px; border-collapse: collapse;" border="1">
                     <tbody>
                         <tr valign="top">
                             <td >
@@ -252,9 +251,9 @@
                                 </ol>
                             </td>
                             <td >
-                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                    No additional F.S.I. should be utilized other than mentioned above and carpet area for existing members / tenements should be retained as per Govt. G.R. शासन निर्णय क्र।बैठक ११०९/प्र।क्र।३६/गृनिभ। मंत्रालय dated 26/08/2009.
-                                </p>
+                            <p style="padding-left: 15px; padding-right: 5px;" lang="en-US" align="justify">
+                                No additional F.S.I. should be utilized other than mentioned above and carpet area for existing members / tenements should be retained as per Govt. G.R. शासन निर्णय क्र।बैठक ११०९/प्र।क्र।३६/गृनिभ। मंत्रालय dated 26/08/2009.
+                            </p>
                             </td>
                         </tr>
                         <tr valign="top">

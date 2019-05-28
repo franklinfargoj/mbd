@@ -1,7 +1,8 @@
+<div style="margin-top: 50px">
 <hr>  
 <div class="m_portlet">
     <div style="" id="">
-        <div style="font-size: 14px; margin-top: -10px">
+        <div style="font-size: 14px">
         <div class="heading" id="header_start">
             <div style="width: 49%; float: left;">
                 <div style="margin-bottom: 0px;">गृहनिर्माण भवन, कलानगर, वांद्रे पूर्व ,मुंबई -४०००५१ </div>
@@ -18,4 +19,5 @@
         </div>
         </div>
     </div> 
+</div>
 </div>

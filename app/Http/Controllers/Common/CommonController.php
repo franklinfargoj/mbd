@@ -2736,7 +2736,6 @@ class CommonController extends Controller
             ->where('user_id', Auth::user()->id)
             ->where('role_id', session()->get('role_id'))
             ->orderBy('id', 'desc')->first();
-
         return $current_status;
     }
 
@@ -2790,7 +2789,7 @@ class CommonController extends Controller
     public function getCurrentLoggedInChildNoc($application_id)
     {
         $child_role_id = Role::where('id', session()->get('role_id'))->get(['child_id']);
-        $result []= json_decode($child_role_id[0]->child_id);
+        $result = json_decode($child_role_id[0]->child_id);
         $status_user = NocApplicationStatus::where(['application_id' => $application_id, 'society_flag' => 0])->pluck('user_id')->toArray();
 
         $final_child = User::with('roles')->whereIn('id', array_unique($status_user))->whereIn('role_id', $result)->get();
@@ -4727,4 +4726,14 @@ class CommonController extends Controller
 
         return $layouts;
     }
+
+    // get all remark and history
+    public function getNOCRemarkHistory($applicationId)
+    {
+        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+
+        $data = NocApplicationStatus::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->whereIn('status_id', $status)->orderBy('id','DESC')->get();
+
+        return $data;
+    }  
 }

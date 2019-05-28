@@ -927,10 +927,8 @@ class COController extends Controller
             }
         }
         //remark and history
-        $reeLogs  = $this->CommonController->getLogsOfREEDepartmentForNOC($applicationId);
-        $coLogs   = $this->CommonController->getLogsOfCODepartmentForNOC($applicationId);
-
-        return view('admin.co_department.forward_application_noc',compact('applicationData', 'arrData','noc_application','reeLogs','coLogs'));
+        $remarkHistory= $this->CommonController->getNOCRemarkHistory($applicationId);
+        return view('admin.co_department.forward_application_noc',compact('applicationData', 'arrData','noc_application','reeLogs','coLogs','remarkHistory'));
     }
 
     public function forwardNOCforCCApplication(Request $request, $applicationId){
