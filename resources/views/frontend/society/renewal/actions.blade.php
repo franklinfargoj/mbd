@@ -4,7 +4,7 @@ $route=\Request::route()->getName();
 $status = $sc_application->srApplicationLog->status_id;
 @endphp
 <li class="m-menu__item">
-    <a class="m-menu__link m-menu__toggle" title="List of Applications" href="{{ route('society_renewal.index') }}">
+    <a class="m-menu__link m-menu__toggle" title="List of Applications" href="{{ route('society_offer_letter_dashboard') }}">
         <i class="m-menu__link-icon flaticon-line-graph"></i>
         <span class="m-menu__link-text">List of Applications</span>
     </a>
