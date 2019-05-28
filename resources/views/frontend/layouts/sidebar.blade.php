@@ -539,7 +539,7 @@ $route=\Request::route()->getName();
 
 
                                                 <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route == 'society_formation.view_application') ? 'm-menu__item--active':''}} {{ ($route == 'society_formation.list' || $route == 'society_formation.create')? '':'collapsed' }}"
-                                                    {{$formation_app_id ? '' : 'data-toggle="collapse" data-target="#formation"'}}>
+                                                    {{$formation_app_id ? '' : 'data-toggle=collapse data-target=#formation'}}>
                                                     <a href="{{ route('society_formation.view_application',encrypt($formation_app_id)) }}" class="m-menu__link m-menu__toggle">
                                                         <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
                                                              height="16" viewBox="0 0 510 510">
@@ -601,7 +601,7 @@ $route=\Request::route()->getName();
                                                 @endphp
 
                                             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route == 'society_conveyance.index' || $route == 'society_conveyance.create')? '':'collapsed' }}"
-                                                {{ $conveyance_app_id ? '' : 'data-toggle="collapse" data-target="#conveyance"' }}>
+                                                {{ $conveyance_app_id ? '' : 'data-toggle=collapse data-target=#conveyance' }}>
                                                 <a href="{{ route('society_conveyance.show',encrypt($conveyance_app_id)) }}" class="m-menu__link m-menu__toggle">
                                                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
                                                         height="16" viewBox="0 0 510 510">
@@ -665,7 +665,7 @@ $route=\Request::route()->getName();
                                             @endphp
 
                                             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route == 'society_renewal.index' || $route == 'society_renewal.create')? '':'collapsed' }}"
-                                                {{ $renewal_app_id ? '': 'data-toggle="collapse" data-target="#renewal"'}} >
+                                                {{ $renewal_app_id ? '': 'data-toggle=collapse data-target=#renewal'}} >
                                                 <a href="{{ route('society_renewal.show',encrypt($renewal_app_id)) }}" class="m-menu__link m-menu__toggle">
                                                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
                                                         height="16" viewBox="0 0 510 510">
