@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\mailMsgSentDetails;
 use App\Events\SmsHitEvent;
+use App\NocApplication;
 use App\OlApplication;
 use Config;
 use App\User;
@@ -37,9 +38,9 @@ class EmailMsgConfigration extends Controller
             $mailResponse = $this->sendEmail($email,$emailContent,$emailSubject);
 
             $societyDetails['msg_content'] = $content;
-            $societyDetails['mail_content'] = $email;
+            $societyDetails['mail_content'] = $emailContent;
             $societyDetails['mobile_no'] = $mobile;
-            $societyDetails['email'] = $emailContent;
+            $societyDetails['email'] = $email;
             $mailResponse = $this->saveMailMsgSentDetails($societyDetails);     
         }
 	}
@@ -197,12 +198,23 @@ class EmailMsgConfigration extends Controller
         return response(json_encode($response), 200);
     }
 
+    // get society and offer letter application data
     public function OlSocietyDetails($applicationId) {
         $applicationData = OlApplication::where('id',$applicationId)->with('ol_application_master','eeApplicationSociety')->first();
 
         $data = $applicationData->eeApplicationSociety;
         $data['application_no'] = $applicationData->application_no;
         $data['application_type'] = $applicationData->ol_application_master->title."(".$applicationData->ol_application_master->model.")";
+        return $data;
+    }
+
+        // get society and NOC application data
+    public function nocSocietyDetails($applicationId) {
+        $applicationData = NocApplication::where('id',$applicationId)->with('noc_application_master','eeApplicationSociety')->first();
+
+        $data = $applicationData->eeApplicationSociety;
+        $data['application_no'] = $applicationData->application_no;
+        $data['application_type'] = $applicationData->noc_application_master->title."(".$applicationData->noc_application_master->model.")";
         return $data;
     }
 
@@ -264,11 +276,14 @@ class EmailMsgConfigration extends Controller
     }
 
         // send mail and msg to society on reject offer letter application
-    public function sendOfferLetterApprovalNotification($applicationId){
+    public function approvalNotificationToSociety($applicationId,$type){
         
         try{
-            $data = $this->OlSocietyDetails($applicationId);
-
+            if ($type == 'offer_letter'){
+                $data = $this->OlSocietyDetails($applicationId);
+            }else if ($type == 'noc'){
+               $data = $this->nocSocietyDetails($applicationId); 
+            }
             $emailSubject = config('commanConfig.email_subject.society_approval_application');
             $emailSubject = str_replace("<application type>",$data->application_type,$emailSubject);
 

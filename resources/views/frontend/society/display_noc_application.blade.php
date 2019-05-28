@@ -41,11 +41,11 @@
                 @if(isset($comment))
                     <p>Society Comments : {{ $comment }}</p>
                 @endif    
-                <p>Thanking you,</p>
-                <p>Yours Truly</p>
             </div>
-            <div style="margin-top: -10px;">
+            <div style="margin-top: 70px;">
                 <div style="float: left; text-align: left;">
+                    <p>Thanking you,</p>
+                    <p>Yours Truly</p>
                     <p style="margin-top: 0; margin-bottom: 5px;font-weight:bold;">From {{$society_details->name}}</p>
                         <p style="display: block; margin-top: 5px; margin-bottom: 5px;">Chairman /Secretary / Treasurer</p>
                         <p style="display: block; margin-top: 5px; margin-bottom: 5px;">Encl:- Payment receipt, Undertakings & Indemnity bonds ,No dues certificate</p>

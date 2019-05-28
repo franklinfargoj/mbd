@@ -819,7 +819,8 @@ class CommonController extends Controller
         ];
         // send offer letter approval mail to society
         $EmailMsgConfigration = new EmailMsgConfigration();
-        $response = $EmailMsgConfigration->sendOfferLetterApprovalNotification($request->applicationId);
+        $type = 'offer_letter';
+        $response = $EmailMsgConfigration->approvalNotificationToSociety($request->applicationId,$type);
 
         //Code added by Prajakta >>start
         DB::beginTransaction();
@@ -3780,6 +3781,11 @@ class CommonController extends Controller
                 'created_at' => Carbon::now(),
             ],
         ];
+
+        // send NOC approval mail msg notification to society
+        $EmailMsgConfigration = new EmailMsgConfigration();
+        $type = 'noc';
+        $response = $EmailMsgConfigration->approvalNotificationToSociety($request->applicationId,$type);
 
         DB::beginTransaction();
         try {
