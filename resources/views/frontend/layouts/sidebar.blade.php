@@ -511,11 +511,12 @@ $route=\Request::route()->getName();
                                     </li>
 
                          @php
-                                 if((Session::get('sf_application_count') != 0))
-                                 {
-                                     $society_details = \App\SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-                                     $formation_app_id = \App\conveyance\SfApplication::where('society_id', $society_details->id)->value('id');
-                                 }
+                             $formation_app_id = '';
+                                     if((Session::get('sf_application_count') != 0))
+                                     {
+                                         $society_details = \App\SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+                                         $formation_app_id = \App\conveyance\SfApplication::where('society_id', $society_details->id)->value('id');
+                                     }
                          @endphp
 
                                     <li id="estate_conveyance" class="collapse {{ ($route == 'society_conveyance.index' || $route == 'society_conveyance.create' || $route=='society_formation.index' || $route == 'society_formation.view_application' || $route=='society_formation.list' || $route=='society_renewal.create' || $route=='society_renewal.index' || $route == 'society_formation.create')? 'show':'' }}">
@@ -591,11 +592,12 @@ $route=\Request::route()->getName();
                                             @endif
 
                                                 @php
-                                                    if(Session::get('sc_application_count') != 0)
-                                                    {
-                                                        $society_details = \App\SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-                                                        $conveyance_app_id = \App\conveyance\scApplication::where('society_id', $society_details->id)->value('id');
-                                                    }
+                                                    $conveyance_app_id = '';
+                                                        if(Session::get('sc_application_count') != 0)
+                                                        {
+                                                            $society_details = \App\SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+                                                            $conveyance_app_id = \App\conveyance\scApplication::where('society_id', $society_details->id)->value('id');
+                                                        }
                                                 @endphp
 
                                             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route == 'society_conveyance.index' || $route == 'society_conveyance.create')? '':'collapsed' }}"
@@ -654,11 +656,12 @@ $route=\Request::route()->getName();
                                             </li>
 
                                             @php
-                                                if(Session::has('sr_application_count') && Session::get('sr_application_count') != 0)
-                                                {
-                                                    $society_details = \App\SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-                                                    $renewal_app_id = \App\conveyance\RenewalApplication::where('society_id', $society_details->id)->value('id');
-                                                }
+                                                $renewal_app_id = '';
+                                                    if(Session::has('sr_application_count') && Session::get('sr_application_count') != 0)
+                                                    {
+                                                        $society_details = \App\SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+                                                        $renewal_app_id = \App\conveyance\RenewalApplication::where('society_id', $society_details->id)->value('id');
+                                                    }
                                             @endphp
 
                                             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route == 'society_renewal.index' || $route == 'society_renewal.create')? '':'collapsed' }}"
