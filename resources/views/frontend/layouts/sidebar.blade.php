@@ -537,7 +537,7 @@ $route=\Request::route()->getName();
 
 
 
-                                                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ (route('society_formation.view_application',encrypt($formation_app_id))) ? 'm-menu__item--active':''}} {{ ($route == 'society_formation.list' || $route == 'society_formation.create')? '':'collapsed' }}"
+                                                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route == 'society_formation.view_application') ? 'm-menu__item--active':''}} {{ ($route == 'society_formation.list' || $route == 'society_formation.create')? '':'collapsed' }}"
                                                     {{$formation_app_id ? '' : 'data-toggle="collapse" data-target="#formation"'}}>
                                                     <a href="{{ route('society_formation.view_application',encrypt($formation_app_id)) }}" class="m-menu__link m-menu__toggle">
                                                         <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
