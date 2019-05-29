@@ -1049,7 +1049,7 @@ class TripartiteController extends Controller
         $is_reverted_to_society = 0;
         $is_approved_agreement = 0;
         $sc_application = OlApplication::where('id', $request->applicationId)->first();
-
+        $is_rejected = 0;
         if ($request->check_status == 1) {
             if ($request->to_role_id == $this->get_society_role_from_user_id($request->to_user_id)) {
                 $society_flag = 1;
@@ -1087,6 +1087,7 @@ class TripartiteController extends Controller
             $status = config('commanConfig.applicationStatus.Rejected');
             $Tostatus = config('commanConfig.applicationStatus.Rejected');
             $society_flag = 1;
+            $is_rejected = 1;
         }
         else {
             if ($request->to_role_id == $this->get_society_role_from_user_id($request->to_user_id)) {
@@ -1154,7 +1155,7 @@ class TripartiteController extends Controller
             $to_role_id = null;
         }
 
-        \DB::transaction(function () use ($is_reverted_to_society, $request, $application, $is_approved_agreement, $to_role_id,$status) {
+        \DB::transaction(function () use ($is_reverted_to_society, $request, $application, $is_approved_agreement, $to_role_id,$status,$is_rejected) {
 
             $tripartite_application = OlApplication::findOrFail($request->applicationId);
 
@@ -1163,6 +1164,9 @@ class TripartiteController extends Controller
                 $tripartite_application->save();
             }
 
+            if($is_rejected == 1){
+                OlApplication::where('id', $request->applicationId)->update(['current_status_id' => $status]);
+            }
             if ($is_reverted_to_society == 1) {
                 OlApplication::where('id', $request->applicationId)->update(['is_reverted_to_society' => $is_reverted_to_society]);
             }

@@ -275,6 +275,7 @@
                                             @endif
 
                                             {{--@php dd($data); @endphp--}}
+                                            @if($tripartite_agrement['drafted_tripartite_agreement'] == null)
                                                 <div class="form-group m-form__group row mt-3 reject-data" style="display: none">
                                                     <label class="col-form-label col-lg-2 col-sm-12">
                                                         Reject & Send To:
@@ -288,6 +289,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
+                                            @endif
 
 
                                             <div class="mt-3 table--box-input">
