@@ -615,7 +615,7 @@ class SocietyTripatiteController extends Controller
                 $name = File::name($request->file('application_path')->getClientOriginalName()) . '_' . $time . '.' . $extension;
                 $folder_name = "society_offer_letter_documents";
                 $path = $folder_name.'/'.$name;
-//                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('application_path'),$name);
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('application_path'),$name);
                 $input = array(
                     'application_path' => $path,
                     'submitted_at' => date('Y-m-d H-i-s')
