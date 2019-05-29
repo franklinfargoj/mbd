@@ -436,23 +436,23 @@ if($latest){
                     <div class="panel section-2" id="checklist-scrunity">
                         <ul id="scrunity-tabs" class="nav nav-pills nav-justified hide-print" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active show nested_t" data-toggle="pill" href="#verification" id="nested_tab_1" next_tab = "nested_tab_2" data-tab="Consent Verification">
+                                <a class="nav-link active show nested_t consent" data-toggle="pill" href="#verification" id="nested_tab_1" data-index="consent" next_tab = "nested_tab_2" data-tab="Consent Verification">
                                     Consent Verification</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link nested_t" data-toggle="pill" href="#demarcation" id="nested_tab_2" next_tab = "nested_tab_3" data-tab="Demarcation">
+                                <a class="nav-link nested_t demark" data-toggle="pill" href="#demarcation" id="nested_tab_2" data-index="demark" next_tab = "nested_tab_3" data-tab="Demarcation">
                                     Demarcation</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link nested_t" data-toggle="pill" href="#tit-bit" id="nested_tab_3" next_tab = "nested_tab_4" data-tab="Tit-Bit">
+                                <a class="nav-link nested_t tit_bit" data-toggle="pill" href="#tit-bit" id="nested_tab_3" data-index="tit_bit" next_tab = "nested_tab_4" data-tab="Tit-Bit">
                                     Tit-Bit</a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link nested_t" data-toggle="pill" href="#relocation" id="nested_tab_4" next_tab = "nested_tab_5" data-tab="R.G. Relocation">
+                                <a class="nav-link nested_t r_g_loc" data-toggle="pill" href="#relocation" id="nested_tab_4" data-index="r_g_loc" next_tab = "nested_tab_5" data-tab="R.G. Relocation">
                                     R.G. Relocation</a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link nested_t" data-toggle="pill" href="#no_due_certificate" id="nested_tab_5" next_tab = "nested_tab_1" data-tab="no_due_certificate">
+                                <a class="nav-link nested_t no_due" data-index="no_due" data-toggle="pill" href="#no_due_certificate" id="nested_tab_5" next_tab = "nested_tab_1" data-tab="no_due_certificate">
                                     No Due Certificate</a>
                             </li>
                         </ul>
@@ -1420,6 +1420,32 @@ if($latest){
                                     </form>
                                 </div>
                             </div>
+
+                            @if(session()->get('role_name') != config('commanConfig.ee_junior_engineer') || $arrData['get_last_status']->status_id == config('commanConfig.applicationStatus.forwarded'))
+
+                                <ul id="scrunity-tabs" class="nav nav-pills nav-justified hide-print" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active show nested_t consent" data-toggle="pill" href="#verification" data-index="consent" data-tab="Consent Verification">
+                                            Consent Verification</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link nested_t demark" data-index="demark" data-toggle="pill" href="#demarcation" data-tab="Demarcation">
+                                            Demarcation</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link nested_t tit_bit" data-index="tit_bit" data-toggle="pill" href="#tit-bit" data-tab="Tit-Bit">
+                                            Tit-Bit</a>
+                                    </li>
+                                    <li class="nav-item ">
+                                        <a class="nav-link nested_t r_g_loc" data-index="r_g_loc" data-toggle="pill" href="#relocation" data-tab="R.G. Relocation">
+                                            R.G. Relocation</a>
+                                    </li>
+                                    <li class="nav-item ">
+                                        <a class="nav-link nested_t no_due" data-index="no_due" data-toggle="pill" href="#no_due_certificate" id="nested_tab_5" next_tab = "nested_tab_1" data-tab="no_due_certificate">
+                                            No Due Certificate</a>
+                                    </li>
+                                </ul>
+                            @endif
                         </div>
                     </div>
 
@@ -1736,6 +1762,12 @@ if($latest){
 
     $(".nested_t").click(function(){
         var selected_tab = $(this).attr('data-tab');
+        var selectedClass = $(this).attr('data-index');
+        var subTab = $(this).attr('href');
+        $(".nested_t").removeClass('active');
+        $(".tab-pane").removeClass('active');
+        $("."+selectedClass).addClass("active");
+        $(subTab).addClass("active");
         $("#selected_tab").html(selected_tab);
     });
 
