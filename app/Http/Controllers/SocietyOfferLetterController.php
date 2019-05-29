@@ -704,7 +704,13 @@ class SocietyOfferLetterController extends Controller
 
         $masterIdsTripartite = config('commanConfig.tripartite_master_ids');
 
-        $tripartite_applications = OlApplication::where('user_id',Auth::id())->whereIn('application_master_id',$masterIdsTripartite)->where('current_phase','>',0)->get()->count();
+//        dd($masterIdsTripartite);
+        $tripartite_applications = OlApplication::where('user_id',Auth::id())
+            ->whereIn('application_master_id',$masterIdsTripartite)
+            ->where('current_phase','>',0)
+            ->Where('current_status_id','!=',config('commanConfig.applicationStatus.Rejected'))
+            ->get();
+//            ->count();
 
         return view('frontend.society.application', compact('tripartite_applications','ids', 'data','applicationCount','redevelopment_applications'));
     }

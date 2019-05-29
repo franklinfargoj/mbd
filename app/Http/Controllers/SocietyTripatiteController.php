@@ -63,12 +63,18 @@ class SocietyTripatiteController extends Controller
             ->first();
 
         if (isset($data)){
-            if($data->current_phase > 0){
-                return redirect()->route('tripartite_application_form_preview',encrypt($data->id));
+            if($data->current_status_id == config('commanConfig.applicationStatus.Rejected')){
+                return view('frontend.society.tripatite.show_tripatite_self', compact('society_details', 'id', 'ids', 'layouts', 'form_fields', 'layouts', 'comm_func'));
+            }else{
+
+                if($data->current_phase > 0){
+                    return redirect()->route('tripartite_application_form_preview',encrypt($data->id));
+                }
+                else{
+                    return redirect()->route('tripartite_application_form_edit',encrypt($data->id));
+                }
             }
-            else{
-                return redirect()->route('tripartite_application_form_edit',encrypt($data->id));
-            }
+
         }else{
             return view('frontend.society.tripatite.show_tripatite_self', compact('society_details', 'id', 'ids', 'layouts', 'form_fields', 'layouts', 'comm_func'));   
         }        
@@ -246,14 +252,18 @@ class SocietyTripatiteController extends Controller
             ->with(['request_form', 'ol_application_master', 'applicationMasterLayout'])
             ->orderBy('id','desc')->first();
 
-
         if (isset($data)){
-            if($data->current_phase > 0){
-                return redirect()->route('tripartite_application_form_preview',encrypt($data->id));
+            if($data->current_status_id == config('commanConfig.applicationStatus.Rejected')){
+                return view('frontend.society.tripatite.show_tripatite_dev', compact('society_details', 'id', 'ids', 'layouts', 'form_fields', 'layouts', 'comm_func'));
+            }else{
+                if($data->current_phase > 0){
+                    return redirect()->route('tripartite_application_form_preview',encrypt($data->id));
+                }
+                else{
+                    return redirect()->route('tripartite_application_form_edit',encrypt($data->id));
+                }
             }
-            else{
-                return redirect()->route('tripartite_application_form_edit',encrypt($data->id));
-            }
+
         }else{
             return view('frontend.society.tripatite.show_tripatite_dev', compact('society_details', 'id', 'ids', 'layouts', 'form_fields', 'layouts', 'comm_func'));
         }        
@@ -351,12 +361,17 @@ class SocietyTripatiteController extends Controller
         $ol_applications = OlApplication::where('id', $id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->first();
-        $documents = OlSocietyDocumentsMaster::where('application_id', $ol_applications->application_master_id)->where('is_admin', 0)->with(['documents_uploaded' => function($q) use ($society){
-            $q->where('society_id', $society->id)->get();
+        $documents = OlSocietyDocumentsMaster::where('application_id', $ol_applications->application_master_id)->where('is_admin', 0)->with(['documents_uploaded' => function($q) use ($society,$ol_applications){
+            $q->where('society_id', $society->id)
+                ->where('application_id',$ol_applications->id)->get();
         }])->get();
 
+//        dd($ol_applications);
         $document_ids = array_pluck($documents, 'id');
-        $documents_uploaded = OlSocietyDocumentsStatus::with('document_name')->where('society_id', $society->id)->whereIn('document_id', $document_ids)->get();
+        $documents_uploaded = OlSocietyDocumentsStatus::with('document_name')->where('society_id', $society->id)
+            ->where('application_id',$ol_applications->id)
+            ->whereIn('document_id', $document_ids)->get();
+
         $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->where('application_id', $ol_applications->id)->first();
         $documents_complusory = [];
         foreach ($documents as $key => $value) {
@@ -407,7 +422,7 @@ class SocietyTripatiteController extends Controller
                 }
             }
         }
-//        dd($documents_uploaded_complusory);
+//        dd($documents);
         return view('frontend.society.tripatite.show_society_documents', compact('ol_applications', 'documents', 'documents_uploaded', 'documents_comment', 'id', 'society', 'society_details', 'show_comment_tab', 'documents_uploaded_complusory', 'documents_complusory'));
 
     }

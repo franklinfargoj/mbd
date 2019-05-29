@@ -86,6 +86,7 @@
                     {{--@endif--}}
                     
                     <p>
+{{--                    @php dd($tripartite_applications); @endphp--}}
                     @if($application->title == 'New - Offer Letter')
                             @if($applicationCount > 0 && $application->title == 'New - Offer Letter')
                                 <a style="color: grey;" href="javascript:void(0)">
@@ -95,12 +96,17 @@
                                     {{ $application->title }}</a>
                             @endif
                     @elseif($application->title == 'Tripartite Agreement')
-                            @if($tripartite_applications > 0 && $application->title == 'Tripartite Agreement')
+                            @if(count($tripartite_applications) > 0 && $application->title == 'Tripartite Agreement')
                                 <a style="color: grey;" href="javascript:void(0)">
                                     {{ $application->title }} (Application sent)</a>
                             @else
-                                <a href="{{ route($application->route_name, $application->id.'_'.$ids[1]) }}">
-                                    {{ $application->title }}</a>
+                                @if(count($tripartite_applications) == 0)
+                                    <a href="{{ route($application->route_name, $application->id.'_'.$ids[1]) }}">
+                                        {{ $application->title }}</a>
+                                @else
+                                    <a href="{{ route($application->route_name, $application->id.'_'.$ids[1]) }}">
+                                        {{ $application->title }}</a>
+                                @endif
                             @endif
                     @else
                             <a href="{{ route($application->route_name, $application->id.'_'.$ids[1]) }}">

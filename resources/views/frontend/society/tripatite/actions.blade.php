@@ -23,10 +23,9 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
         </span>
     </a>
 </li>
-
 <li id="ree-actions" class="collapse show">
     <ul class="list-unstyled">
-        @if($status == config('commanConfig.applicationStatus.pending') || $status == config('commanConfig.applicationStatus.reverted') || $status == config('commanConfig.applicationStatus.approved_tripartite_agreement'))
+        @if($status == config('commanConfig.applicationStatus.pending') || $status == config('commanConfig.applicationStatus.reverted') || $status == config('commanConfig.applicationStatus.approved_tripartite_agreement') || $status == config('commanConfig.applicationStatus.Rejected'))
             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='tripartite_application_form_preview')?'m-menu__item--active':''}}">
                 <a class="m-menu__link m-menu__toggle" title="View Application"
                    href="{{ route('tripartite_application_form_preview', encrypt($ol_applications->id)) }}">
@@ -98,7 +97,7 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
                     </li>
                 @endif
             @else
-                @if($ol_applications->current_status_id != config('commanConfig.applicationStatus.draft_tripartite_agreement') && $ol_applications->current_status_id != config('commanConfig.applicationStatus.approved_tripartite_agreement'))
+                @if($ol_applications->current_status_id != config('commanConfig.applicationStatus.draft_tripartite_agreement') && $ol_applications->current_status_id != config('commanConfig.applicationStatus.approved_tripartite_agreement') && $status != config('commanConfig.applicationStatus.Rejected'))
                     <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='tripartite_application_form_edit')?'m-menu__item--active':''}}">
                         <a class="m-menu__link m-menu__toggle" title="Edit Application"
                            href="{{ route('tripartite_application_form_edit', encrypt($ol_applications->id)) }}">
@@ -135,7 +134,7 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
                 {{--</li>--}}
                 @if(isset($documents_complusory ))
                     @if($documents_complusory == $documents_uploaded_complusory)
-                        @if(($ol_applications->current_status_id != config('commanConfig.applicationStatus.draft_tripartite_agreement') && $ol_applications->current_status_id != config('commanConfig.applicationStatus.approved_tripartite_agreement')) && $ol_applications->olApplicationStatus[0]->status_id != config('commanConfig.applicationStatus.forwarded'))
+                        @if(($ol_applications->current_status_id != config('commanConfig.applicationStatus.draft_tripartite_agreement') && $ol_applications->current_status_id != config('commanConfig.applicationStatus.approved_tripartite_agreement')) && $ol_applications->olApplicationStatus[0]->status_id != config('commanConfig.applicationStatus.forwarded') && $ol_applications->olApplicationStatus[0]->status_id != config('commanConfig.applicationStatus.forwarded') && ($status != config('commanConfig.applicationStatus.Rejected')))
                             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='upload_society_tripartite_application')?'m-menu__item--active':''}}">
                                 <a class="m-menu__link m-menu__toggle"
                                    title="Upload Signed Application for Tripartite Agreement"
@@ -151,7 +150,7 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
                         @endif
                     @endif
                 @endif
-                @if(($ol_applications->current_status_id == config('commanConfig.applicationStatus.draft_tripartite_agreement') || $ol_applications->current_status_id == config('commanConfig.applicationStatus.approved_tripartite_agreement')) || $ol_applications->olApplicationStatus[0]->status_id == config('commanConfig.applicationStatus.forwarded'))
+                @if(($status == config('commanConfig.applicationStatus.Rejected')) || ($ol_applications->current_status_id == config('commanConfig.applicationStatus.draft_tripartite_agreement') || $ol_applications->current_status_id == config('commanConfig.applicationStatus.approved_tripartite_agreement')) || $ol_applications->olApplicationStatus[0]->status_id == config('commanConfig.applicationStatus.forwarded'))
                     <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='society_tripartite_application_download')?'m-menu__item--active':''}}">
                         <a class="m-menu__link m-menu__toggle" title="Signed Application for Tripartite Agreement"
                            href="{{ route('society_tripartite_application_download', encrypt($ol_applications->id)) }}"

@@ -51,7 +51,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @php $i=1; @endphp
+                            @php $i=1;@endphp
                             @foreach($documents as $document)
                                 <tr>
                                     <td>{{ $i }}</td>
