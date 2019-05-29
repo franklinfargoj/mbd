@@ -229,27 +229,28 @@
                     </div>
                 </div>
 
-                <center><u><p style="font-size:18px;font-weight:500px;display:none;" class="show-print" id="selected_tab">Consent Verification</p></u></center>
+                <center>
+                <u><p style="font-size:18px;font-weight:500px;display:none;" class="show-print" id="selected_tab">Consent Verification</p></u></center>
                 <div class="panel" id="checklist-scrunity">
                     <ul id="scrunity-tabs" class="nav nav-pills nav-justified hide-print" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active show nested_t" data-toggle="pill" href="#verification" data-tab="Consent Verification">
+                            <a class="nav-link active show nested_t consent" data-toggle="pill" href="#verification" data-index="consent" data-tab="Consent Verification">
                                 Consent Verification</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link nested_t" data-toggle="pill" href="#demarcation" data-tab="Demarcation">
+                            <a class="nav-link nested_t demark" data-index="demark" data-toggle="pill" href="#demarcation" data-tab="Demarcation">
                                 Demarcation</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link nested_t" data-toggle="pill" href="#tit-bit" data-tab="Tit-Bit">
+                            <a class="nav-link nested_t tit_bit" data-index="tit_bit" data-toggle="pill" href="#tit-bit" data-tab="Tit-Bit">
                                 Tit-Bit</a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link nested_t" data-toggle="pill" href="#relocation" data-tab="R.G. Relocation">
+                            <a class="nav-link nested_t r_g_loc" data-index="r_g_loc" data-toggle="pill" href="#relocation" data-tab="R.G. Relocation">
                                 R.G. Relocation</a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link nested_t" data-toggle="pill" href="#no_due_certificate" id="nested_tab_5" next_tab = "nested_tab_1" data-tab="no_due_certificate">
+                            <a class="nav-link nested_t no_due" data-index="no_due" data-toggle="pill" href="#no_due_certificate" id="nested_tab_5" next_tab = "nested_tab_1" data-tab="no_due_certificate">
                                 No Due Certificate</a>
                         </li>
                     </ul>
@@ -1037,14 +1038,29 @@
                             </form>
 
                         </div>
+                    <ul id="scrunity-tabs" class="nav nav-pills nav-justified hide-print" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active show nested_t consent" data-toggle="pill" href="#verification" data-index="consent" data-tab="Consent Verification">
+                                Consent Verification</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nested_t demark" data-index="demark" data-toggle="pill" href="#demarcation" data-tab="Demarcation">
+                                Demarcation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nested_t tit_bit" data-index="tit_bit" data-toggle="pill" href="#tit-bit" data-tab="Tit-Bit">
+                                Tit-Bit</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link nested_t r_g_loc" data-index="r_g_loc" data-toggle="pill" href="#relocation" data-tab="R.G. Relocation">
+                                R.G. Relocation</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link nested_t no_due" data-index="no_due" data-toggle="pill" href="#no_due_certificate" id="nested_tab_5" next_tab = "nested_tab_1" data-tab="no_due_certificate">
+                                No Due Certificate</a>
+                        </li>
+                    </ul>
                     </div>
-
-                    <!-- <div class="tab-pane" id="three" aria-expanded="false">
-                                three
-                            </div> -->
-
-
-
                 </div>
             </div>
             <div class="panel" id="ee-note">
@@ -1109,7 +1125,7 @@
     function test() {
         window.print();
         document.title ='';
-    }
+    } 
 
     $('.printBtn').on('click', test);
 
@@ -1125,6 +1141,12 @@
 
     $(".nested_t").click(function(){
         var selected_tab = $(this).attr('data-tab');
+        var selectedClass = $(this).attr('data-index');
+        var subTab = $(this).attr('href');
+        $(".nested_t").removeClass('active');
+        $(".tab-pane").removeClass('active');
+        $("."+selectedClass).addClass("active");
+        $(subTab).addClass("active");
         $("#selected_tab").html(selected_tab);
     });
     
