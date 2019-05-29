@@ -906,7 +906,7 @@ class TripartiteController extends Controller
     public function getForwardApplicationData($applicationId)
     {
         // dd($applicationId);
-        $data = OlApplication::with('eeApplicationSociety')
+        $data = OlApplication::with('userDetails.roleDetails','eeApplicationSociety')
             ->where('id', $applicationId)->first();
 
         $society_id = $data->society_id;
@@ -1004,6 +1004,9 @@ class TripartiteController extends Controller
         $applicationId = decrypt($applicationId);
         $ol_application = $this->comman->getOlApplication($applicationId);
         $tripartite_application = OlApplication::with('eeApplicationSociety')->where('id', $applicationId)->first();
+
+        $tripartite_agrement['drafted_tripartite_agreement'] = $this->get_tripartite_agreements($applicationId, config('commanConfig.tripartite_agreements.drafted'));
+
         $data = $this->getForwardApplicationData($applicationId);
         $societyLogs = $this->getLogsOfSociety($applicationId);
         //dd($societyLogs);
@@ -1017,7 +1020,7 @@ class TripartiteController extends Controller
         $society_role_id = Role::where('name', 'society')->value('id');
 
 
-        return view('admin.tripartite.forward_application', compact('co_role_id','society_role_id','master_log', 'ol_application', 'applicationId', 'tripartite_application', 'data', 'societyLogs', 'ReeLogs', 'CoLogs', 'LaLogs'));
+        return view('admin.tripartite.forward_application', compact('tripartite_agrement','co_role_id','society_role_id','master_log', 'ol_application', 'applicationId', 'tripartite_application', 'data', 'societyLogs', 'ReeLogs', 'CoLogs', 'LaLogs'));
     }
 
 
@@ -1042,7 +1045,6 @@ class TripartiteController extends Controller
     // forward and revert application
     public function forwardApplication(Request $request)
     {
-
         $society_flag = 0;
         $is_reverted_to_society = 0;
         $is_approved_agreement = 0;
@@ -1080,7 +1082,13 @@ class TripartiteController extends Controller
                 $Tostatus = config('commanConfig.applicationStatus.in_process');
             }
 
-        } else {
+        }
+        else if($request->check_status == 2){
+            $status = config('commanConfig.applicationStatus.Rejected');
+            $Tostatus = config('commanConfig.applicationStatus.Rejected');
+            $society_flag = 1;
+        }
+        else {
             if ($request->to_role_id == $this->get_society_role_from_user_id($request->to_user_id)) {
                 $is_reverted_to_society = 1;
                 $society_flag = 1;

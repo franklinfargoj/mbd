@@ -3,7 +3,6 @@
 @include('admin.tripartite.actions',compact('ol_application'))
 @endsection
 @section('content')
-    
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="d-flex">
@@ -196,6 +195,17 @@
                                                     <span></span>
                                                 </label>
                                                 @endif
+                                                @if((session()->get('role_name')
+                                    ==
+                                    config('commanConfig.ree_branch_head')) && ($tripartite_agrement['drafted_tripartite_agreement'] == null))
+                                                    <label class="m-radio m-radio--primary">
+                                                        <input type="radio" class="forward-application"
+                                                               name="remarks_suggestion"
+                                                               id="sent_to_society"
+                                                               value="2"> Reject Application
+                                                        <span></span>
+                                                    </label>
+                                                @endif
                                             </div>
 
                                             <div class="form-group m-form__group row mt-3 parent-data" id="select_dropdown">
@@ -263,6 +273,23 @@
                                                 </div>
                                             </div>
                                             @endif
+
+                                            {{--@php dd($data); @endphp--}}
+                                                <div class="form-group m-form__group row mt-3 reject-data" style="display: none">
+                                                    <label class="col-form-label col-lg-2 col-sm-12">
+                                                        Reject & Send To:
+                                                    </label>
+                                                    <div class="col-lg-4 col-md-9 col-sm-12">
+                                                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
+                                                                id="to_reject_id">
+                                                             <option value="{{ $data->userDetails->id }}" data-society="1"
+                                                                        data-role="{{ $data->userDetails->role_id }}" selected>{{ $data->userDetails->name }} ({{
+                                                            $data->userDetails->roleDetails->display_name }}) </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+
                                             <div class="mt-3 table--box-input">
                                                 <label for="remark">Remark:</label>
                                                 <textarea class="form-control form-control--custom" name="remark" id="remark"
@@ -321,13 +348,23 @@
     $(document).ready(function () {
         $(".forward-application").change(function () {
             var data = $(this).val();
-
             if (data == 1) {
                 $(".parent-data").show();
                 $(".child-data").hide();
+                $(".reject-data").hide();
+
                 $(".check_status").val(1)
-            } else {
+            }
+            else if(data == 2){
                 $(".parent-data").hide();
+                $(".child-data").hide();
+                $(".reject-data").show();
+
+                $(".check_status").val(2);
+            }
+            else {
+                $(".parent-data").hide();
+                $(".reject-data").hide();
                 $(".child-data").show();
                 $(".check_status").val(0);
             }
@@ -338,7 +375,12 @@
             if (data == 1) {
                 var id = $("#to_user").find('option:selected').attr("data-role");
                 var user_id = $("#to_user").find('option:selected').attr("value");
-            } else {
+            }
+            else if(data == 2){
+                var id = $("#to_reject_id").find('option:selected').attr("data-role");
+                var user_id = $("#to_reject_id").find('option:selected').attr("value");
+            }
+            else {
                 var id = $("#to_child_id").find('option:selected').attr("data-role");
                 var user_id = $("#to_child_id").find('option:selected').attr("value");
             }
