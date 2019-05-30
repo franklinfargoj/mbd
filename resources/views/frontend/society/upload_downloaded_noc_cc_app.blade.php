@@ -3,6 +3,16 @@
     @include('frontend.society.actions_noc_cc',compact('noc_applications'))
 @endsection
 @section('content')
+    @if(session()->has('success'))
+        <div class="alert alert-success display_msg">
+            {{ session()->get('success') }}
+        </div>
+    @endif
+    @if(session()->has('error'))
+        <div class="alert alert-danger display_msg">
+            {{ session()->get('error') }}
+        </div>
+    @endif
 <style>
 .help-block{
     color:red;
@@ -47,7 +57,7 @@
                                             @endif
                                             <span class="help-block">
                                                 @if(session('error_uploaded_file'))
-                                                {{session('error_uploaded_file')}}
+                                                    <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">{{session('error_uploaded_file')}}</span>
                                                 @endif
                                             </span>
                                             <input type="hidden" name="id" value="{{ $application_details->id }}">

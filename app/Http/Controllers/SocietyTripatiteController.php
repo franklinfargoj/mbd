@@ -656,7 +656,7 @@ class SocietyTripatiteController extends Controller
                 return redirect()->back()->with('error_uploaded_file', 'Invalid type of file uploaded (only pdf allowed)');
             }
         }
-        return redirect()->route('society_offer_letter_dashboard');
+//        return redirect()->route('society_offer_letter_dashboard');
     }
 
 
