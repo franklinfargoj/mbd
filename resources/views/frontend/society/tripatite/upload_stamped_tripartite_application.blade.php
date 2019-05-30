@@ -48,6 +48,9 @@
                                                            id="test-upload" required="">
                                                     <label class="custom-file-label" for="test-upload">Choose
                                                         file...</label>
+                                                    @if($ol_applications->application_path != "")
+                                                        <a href="{{ $ol_applications->application_path }}" class="btn-link" target="_blank"> Download </a>
+                                                    @endif
                                                     <span class="help-block">
                                                     @if(session('error_uploaded_file'))
                                                             <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">{{session('error_uploaded_file')}}</span>
