@@ -609,6 +609,16 @@ class SocietyPermissionSeeder extends Seeder
                 'description'  => 'Submit NOC CC Application'
             ],
             [
+                'name'         => 'submit_society_oc',
+                'display_name' => 'Submit OC Application',
+                'description'  => 'Submit OC Application'
+            ],
+            [
+                'name'         => 'submit_society_reval_offer_letter',
+                'display_name' => 'Submit reval Application',
+                'description'  => 'Submit reval Application'
+            ],
+            [
                 'name'         => 'society_tripartite_application_download',
                 'display_name' => 'Shows Application form in pdf format',
                 'description'  => 'Shows Application form in pdf format'

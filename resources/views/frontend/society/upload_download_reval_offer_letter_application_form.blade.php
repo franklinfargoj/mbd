@@ -47,14 +47,14 @@
                                                 id="test-upload" required="">
                                             <label class="custom-file-label" for="test-upload">Choose
                                                 file...</label>
-                                            @if(isset($application_details->application_path) && $application_details->application_path != 'test')
-                                                <a href="{{ $application_details->application_path }}" class="btn-link" target="_blank"> Download </a>
-                                            @endif
                                             <span class="help-block">
-                                                @if(session('error_uploaded_file'))
+                                            @if(session('error_uploaded_file'))
                                                     <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">{{session('error_uploaded_file')}}</span>
                                                 @endif
                                             </span>
+                                            @if(isset($application_details->application_path) && $application_details->application_path != 'test')
+                                                <a href="{{ $application_details->application_path }}" class="btn-link" target="_blank"> Download </a>
+                                            @endif
                                             <input type="hidden" name="id" value="{{ $application_details->id }}">
                                         </div>
                                         <div class="mt-auto">

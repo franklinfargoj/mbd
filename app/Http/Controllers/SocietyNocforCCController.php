@@ -561,10 +561,10 @@ class SocietyNocforCCController extends Controller
 
 
     // submit NOC CC application
-    public function submitNocAfterSign(Request $request){
+    public function submitNocccAfterSign(Request $request){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $society_remark = NocCCSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id', 'desc')->first();
-        $application = NocCCApplication::where('society_id', $society->id)->where('id', $request->input('applicationId'))
+        $application = NocCCApplication::where('society_id', $society->id)->where('id', $request->input('id'))
             ->with('noc_application_master')->first();
         $role_id = Role::where('name', config('commanConfig.ree_junior'))->value('id');
 

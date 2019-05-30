@@ -696,6 +696,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('upload_society_oc_application/{id}','SocietyOfferLetterController@showuploadOcAfterSign')->name('upload_society_oc_application');
     Route::post('upload_society_oc','SocietyOfferLetterController@uploadOcAfterSign')->name('upload_society_oc');
     Route::get('society_oc_application_download/{id}','SocietyOfferLetterController@generate_oc_pdf')->name('society_oc_application_download');
+    Route::post('submit_society_oc','SocietyOfferLetterController@submitOCApplication')->name('submit_society_oc');
+
 
 
 
@@ -1357,7 +1359,7 @@ Route::get('society_noc_cc_application_download','SocietyNocforCCController@down
 Route::post('upload_society_noc_cc','SocietyNocforCCController@uploadNocAfterSign')->name('upload_society_noc_cc');
 Route::get('documents_uploaded_noc_cc','SocietyNocforCCController@viewSocietyDocuments')->name('documents_uploaded_noc_cc');
 Route::post('resubmit_noc_application_cc','SocietyNocforCCController@resubmitNocApplication')->name('resubmit_noc_application_cc');
-Route::post('sunmit_society_noc_cc','SocietyNocforCCController@submitNocAfterSign')->name('submit_society_noc_cc');
+Route::post('submit_society_noc_cc','SocietyNocforCCController@submitNocccAfterSign')->name('submit_society_noc_cc');
 
 
 

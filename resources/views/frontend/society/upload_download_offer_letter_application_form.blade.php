@@ -51,7 +51,7 @@
                                                 file...</label>
                                             <span class="help-block text-danger">
                                                 @if(session('error_uploaded_file'))
-                                                {{session('error_uploaded_file')}}
+                                                    <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">{{session('error_uploaded_file')}}</span>
                                                 @endif
                                             </span>
                                             @if(isset($application_details->application_path) && $application_details->application_path != 'test')

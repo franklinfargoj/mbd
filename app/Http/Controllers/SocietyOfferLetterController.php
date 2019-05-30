@@ -2205,8 +2205,6 @@ class SocietyOfferLetterController extends Controller
     public function uploadRevalOfferLetterAfterSign(Request $request){
 
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $application_name = OlApplication::where('id',$request->id)->with('ol_application_master')->first();
-        $society_remark = OlSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id', 'desc')->first();
         if($request->file('reval_offer_letter_application_form'))
         {
             $file = $request->file('reval_offer_letter_application_form');
@@ -2234,6 +2232,8 @@ class SocietyOfferLetterController extends Controller
     //submit re-validation application
     public function submitRevalApplication(Request $request){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $application_name = OlApplication::where('id',$request->id)->with('ol_application_master')->first();
+        $society_remark = OlSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id', 'desc')->first();
         $application = OlApplication::where('society_id', $society->id)->where('id', $request->id)->first();
         $role_id = Role::where('name','like', 'ree_junior_engineer')->first();
 
@@ -2280,44 +2280,46 @@ class SocietyOfferLetterController extends Controller
                 $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d H-i-s');
                 $i++;
             }
-        }
 
-        //send application submission mail and msg to society and respective department
-
-        $data = $society;
-        $data['users'] = $users;
-        $data['application_no'] = $application_name->application_no;
-        $data['layout_id'] = $application_name->layout_id;
-        $data['application_type'] = $application_name->ol_application_master->title."(".$application_name->ol_application_master->model.")";
-        $EmailMsgConfigration = new EmailMsgConfigration();
-        $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
 
 //                OlApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
 
-        //Code added by Prajakta >>start
-        DB::beginTransaction();
-        try {
+            //Code added by Prajakta >>start
+            DB::beginTransaction();
+            try {
 
-            OlApplicationStatus::where('application_id',$application->id)->update(array('is_active' => 0,'phase' => 0));
+                OlApplicationStatus::where('application_id',$application->id)->update(array('is_active' => 0,'phase' => 0));
 
 
-            OlApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
+                OlApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
 
-            DB::commit();
-        } catch (\Exception $ex) {
-            DB::rollback();
+                //send application submission mail and msg to society and respective department
+
+                $data = $society;
+                $data['users'] = $users;
+                $data['application_no'] = $application_name->application_no;
+                $data['layout_id'] = $application_name->layout_id;
+                $data['application_type'] = $application_name->ol_application_master->title."(".$application_name->ol_application_master->model.")";
+                $EmailMsgConfigration = new EmailMsgConfigration();
+                $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
 //                return response()->json(['error' => $ex->getMessage()], 500);
+            }
+            //Code added by Prajakta >>end
+            return redirect()->route('society_offer_letter_dashboard');
+
         }
-        //Code added by Prajakta >>end
-
-
+        else{
+            return back()->with('error','Something went wrong,Please contact to Admin.');
+        }
     }
 
 
     public function uploadOcAfterSign(Request $request){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $application_name = OcApplication::where('id',$request->applicationId)->where('society_id', $society->id)->with('oc_application_master')->first();
-        $society_remark = OcSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id', 'desc')->first();
+
         if($request->file('oc_application_form'))
         {
             $file = $request->file('oc_application_form');
@@ -2335,69 +2337,85 @@ class SocietyOfferLetterController extends Controller
                 );
                 OcApplication::where('id',$request->applicationId)->where('society_id', $society->id)->where('id', $request->input('id'))->update($input);
 
+                return redirect()->back()->with('success','Application Uploaded Successfully.');
 
-
-                $role_ids = Role::where('name','like', 'ee_junior_engineer')->orWhere('name','like', 'EM')->pluck('id')->toArray();
-                $application = OcApplication::where('society_id', $society->id)->where('id', $request->input('id'))->first();
-
-                $user_ids = RoleUser::whereIn('role_id', $role_ids)->get()->toArray();
-                $user_ids = array_column($user_ids, 'user_id');
-                $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
-
-                foreach ($layout_user_ids as $key => $value) {
-                    $select_user_ids[] = $value['user_id'];
-                }
-                $users = User::whereIn('id', $select_user_ids)->get();
-
-
-                if(count($users) > 0) {
-                    foreach ($users as $key => $user) {
-                        $i = 0;
-                        $insert_application_log_forwarded[$key]['application_id'] = $application->id;
-                        $insert_application_log_forwarded[$key]['society_flag'] = 1;
-                        $insert_application_log_forwarded[$key]['user_id'] = Auth::user()->id;
-                        $insert_application_log_forwarded[$key]['role_id'] = Auth::user()->role_id;
-                        $insert_application_log_forwarded[$key]['status_id'] = config('commanConfig.applicationStatus.forwarded');
-                        $insert_application_log_forwarded[$key]['to_user_id'] = $user->id;
-                        $insert_application_log_forwarded[$key]['to_role_id'] = $user->role_id;
-                        $insert_application_log_forwarded[$key]['remark'] = isset($society_remark->society_documents_comment) ? $society_remark->society_documents_comment : '' ;
-                        $insert_application_log_forwarded[$key]['is_active'] = 1;
-                        $insert_application_log_forwarded[$key]['created_at'] = date('Y-m-d H-i-s');
-                        $insert_application_log_forwarded[$key]['updated_at'] = date('Y-m-d H-i-s');
-
-                        $insert_application_log_in_process[$key]['application_id'] = $application->id;
-                        $insert_application_log_in_process[$key]['society_flag'] = 0;
-                        $insert_application_log_in_process[$key]['user_id'] = $user->id;
-                        $insert_application_log_in_process[$key]['role_id'] = $user->role_id;
-                        $insert_application_log_in_process[$key]['status_id'] = config('commanConfig.applicationStatus.in_process');
-                        $insert_application_log_in_process[$key]['to_user_id'] = null;
-                        $insert_application_log_in_process[$key]['to_role_id'] = null;
-                        $insert_application_log_in_process[$key]['remark'] = isset($society_remark->society_documents_comment) ? $society_remark->society_documents_comment : '' ;
-                        $insert_application_log_in_process[$key]['is_active'] = 1;
-                        $insert_application_log_in_process[$key]['created_at'] = date('Y-m-d H-i-s');
-                        $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d H-i-s');
-                        $i++;
-                    }
-                }
-                //send application submission mail and msg to society and respective department
-
-                $data = $society;
-                $data['users'] = $users;
-                $data['application_no'] = $application_name->application_no;
-                $data['layout_id'] = $application_name->layout_id;
-                $data['application_type'] = $application_name->oc_application_master->title."(".$application_name->oc_application_master->model.")";
-
-                $EmailMsgConfigration = new EmailMsgConfigration();
-                $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
-
-                OcApplicationStatusLog::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
             }else{
                 return redirect()->back()->with('error_uploaded_file', 'Invalid type of file uploaded (only pdf allowed)');
             }
         }
-        return redirect()->route('society_offer_letter_dashboard');
     }
 
+
+    //Submit OC Application
+    public function submitOCApplication(Request $request){
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $application_name = OcApplication::where('id',$request->applicationId)->where('society_id', $society->id)->with('oc_application_master')->first();
+        $society_remark = OcSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id', 'desc')->first();
+        $role_ids = Role::where('name','like', 'ee_junior_engineer')->orWhere('name','like', 'EM')->pluck('id')->toArray();
+        $application = OcApplication::where('society_id', $society->id)->where('id', $request->input('applicationId'))->first();
+
+//        $user_ids = RoleUser::whereIn('role_id', $role_ids)->get()->toArray();
+//        $user_ids = array_column($user_ids, 'user_id');
+//        $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
+//
+//        foreach ($layout_user_ids as $key => $value) {
+//            $select_user_ids[] = $value['user_id'];
+//        }
+//        $users = User::whereIn('id', $select_user_ids)->get();
+        $users = User::whereIn('role_id',$role_ids)->with(['LayoutUser' => function($query)use($application){
+            $query->where('layout_id',$application->layout_id);
+        }])->whereHas('LayoutUser', function($query)use($application){
+            $query->where('layout_id',$application->layout_id);
+        })->get();
+        if(count($users) > 0) {
+            foreach ($users as $key => $user) {
+                $i = 0;
+                $insert_application_log_forwarded[$key]['application_id'] = $application->id;
+                $insert_application_log_forwarded[$key]['society_flag'] = 1;
+                $insert_application_log_forwarded[$key]['user_id'] = Auth::user()->id;
+                $insert_application_log_forwarded[$key]['role_id'] = Auth::user()->role_id;
+                $insert_application_log_forwarded[$key]['status_id'] = config('commanConfig.applicationStatus.forwarded');
+                $insert_application_log_forwarded[$key]['to_user_id'] = $user->id;
+                $insert_application_log_forwarded[$key]['to_role_id'] = $user->role_id;
+                $insert_application_log_forwarded[$key]['remark'] = isset($society_remark->society_documents_comment) ? $society_remark->society_documents_comment : '' ;
+                $insert_application_log_forwarded[$key]['is_active'] = 1;
+                $insert_application_log_forwarded[$key]['created_at'] = date('Y-m-d H-i-s');
+                $insert_application_log_forwarded[$key]['updated_at'] = date('Y-m-d H-i-s');
+
+                $insert_application_log_in_process[$key]['application_id'] = $application->id;
+                $insert_application_log_in_process[$key]['society_flag'] = 0;
+                $insert_application_log_in_process[$key]['user_id'] = $user->id;
+                $insert_application_log_in_process[$key]['role_id'] = $user->role_id;
+                $insert_application_log_in_process[$key]['status_id'] = config('commanConfig.applicationStatus.in_process');
+                $insert_application_log_in_process[$key]['to_user_id'] = null;
+                $insert_application_log_in_process[$key]['to_role_id'] = null;
+                $insert_application_log_in_process[$key]['remark'] = isset($society_remark->society_documents_comment) ? $society_remark->society_documents_comment : '' ;
+                $insert_application_log_in_process[$key]['is_active'] = 1;
+                $insert_application_log_in_process[$key]['created_at'] = date('Y-m-d H-i-s');
+                $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d H-i-s');
+                $i++;
+            }
+
+            //send application submission mail and msg to society and respective department
+
+            $data = $society;
+            $data['users'] = $users;
+            $data['application_no'] = $application_name->application_no;
+            $data['layout_id'] = $application_name->layout_id;
+            $data['application_type'] = $application_name->oc_application_master->title."(".$application_name->oc_application_master->model.")";
+
+            $EmailMsgConfigration = new EmailMsgConfigration();
+            $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
+
+            OcApplicationStatusLog::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
+            return redirect()->route('society_offer_letter_dashboard');
+
+        }
+        else{
+            return back()->with('error','Something went wrong,Please contact to Admin.');
+        }
+
+    }
 
     public function society_applications(DataTables $datatables, Request $request){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();

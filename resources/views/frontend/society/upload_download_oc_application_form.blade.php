@@ -40,14 +40,17 @@
                                                 file...</label>
                                             <span class="help-block">
                                                 @if(session('error_uploaded_file'))
-                                                {{session('error_uploaded_file')}}
+                                                    <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">{{session('error_uploaded_file')}}</span>
                                                 @endif
                                             </span>
+                                            @if(isset($application_details->application_path) && $application_details->application_path != 'test')
+                                                <a href="{{ $application_details->application_path }}" class="btn-link" target="_blank"> Download </a>
+                                            @endif
                                             <input type="hidden" name="id" value="{{ $application_details->id }}">
                                         </div>
                                         <div class="mt-auto">
                                             <button type="submit" class="btn btn-primary btn-custom"
-                                                id="uploadBtn">Upload and Submit</button>
+                                                id="uploadBtn">Upload</button>
                                         </div>
                                     </form>
                                 </div>
@@ -55,6 +58,31 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- submit application block -->
+    <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+        <div class="portlet-body">
+            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
+                <div class="">
+                    <h3 class="section-title section-title--small">Submit Application</h3>
+                    <span class="hint-text">click on 'submit' to submit application</span>
+                </div>
+                <form action="{{ route('submit_society_oc') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="applicationId" value="{{ $application_details->id }}">
+                    <div class="remarks-suggestions table--box-input">
+                        <div class="mt-3 btn-list">
+                            <button class="btn btn-primary" type="submit" id="submitas" onclick="return confirm('Are you sure you want to submit the application.');" {{ ($application_details->application_path == 'test') ? 'disabled' : '' }}>Submit</button>
+
+                            @if(isset($application_details->application_path) && $application_details->application_path == 'test')
+                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                 * Note : Please upload signed Consent for OC application. </span>
+                            @endif
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
