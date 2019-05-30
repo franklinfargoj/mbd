@@ -2300,13 +2300,7 @@ class SocietyOfferLetterController extends Controller
         $role_id = Role::where('name','like', 'ree_junior_engineer')->value('id');
 
 
-//                $user_ids = RoleUser::where('role_id', $role_id->id)->get()->toArray();
-//                $user_ids = array_column($user_ids, 'user_id');
-//                $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
-//                foreach ($layout_user_ids as $key => $value) {
-//                    $select_user_ids[] = $value['user_id'];
-//                }
-//                $users = User::whereIn('id', $select_user_ids)->get();
+
 
         $users = User::where('role_id',$role_id)->with(['LayoutUser' => function($query)use($application){
             $query->where('layout_id',$application->layout_id);
