@@ -564,7 +564,7 @@ class SocietyNocforCCController extends Controller
     public function submitNocccAfterSign(Request $request){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $society_remark = NocCCSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id', 'desc')->first();
-        $application = NocCCApplication::where('society_id', $society->id)->where('id', $request->input('id'))
+        $application = NocCCApplication::where('society_id', $society->id)->where('id', $request->input('applicationId'))
             ->with('noc_application_master')->first();
         $role_id = Role::where('name', config('commanConfig.ree_junior'))->value('id');
 
@@ -573,7 +573,6 @@ class SocietyNocforCCController extends Controller
         }])->whereHas('LayoutUser', function($query)use($application){
             $query->where('layout_id',$application->layout_id);
         })->get();
-
         if(count($users) > 0) {
             foreach ($users as $key => $user) {
                 $i = 0;

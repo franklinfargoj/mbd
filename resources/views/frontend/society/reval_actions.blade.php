@@ -55,7 +55,10 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
 				<span class="m-menu__link-text">Upload Documents</span>
 			</a>
 		</li>
-		
+
+
+
+        @if($docs_uploaded_count == $docs_count)
 		<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='upload_society_reval_offer_letter_application')?'m-menu__item--active':''}}">
 			<a class="m-menu__link m-menu__toggle" title="Upload Signed Application for Offer Letter" href="{{ route('upload_society_reval_offer_letter_application',encrypt($ol_applications->id)) }}">
 				<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -65,6 +68,7 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
 				<span class="m-menu__link-text">Upload Signed Application for Offer Letter</span>
 			</a>
 		</li>
+        @endif
 		@endif
 		@endif
 		@if($status == '2' || $status== '7')
