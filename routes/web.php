@@ -1355,6 +1355,9 @@ Route::get('society_noc_cc_application_download','SocietyNocforCCController@down
 Route::post('upload_society_noc_cc','SocietyNocforCCController@uploadNocAfterSign')->name('upload_society_noc_cc');
 Route::get('documents_uploaded_noc_cc','SocietyNocforCCController@viewSocietyDocuments')->name('documents_uploaded_noc_cc');
 Route::post('resubmit_noc_application_cc','SocietyNocforCCController@resubmitNocApplication')->name('resubmit_noc_application_cc');
+Route::post('sunmit_society_noc_cc','SocietyNocforCCController@submitNocAfterSign')->name('submit_society_noc_cc');
+
+
 
 // NOC for CC -- REE Department routes
 

@@ -542,8 +542,7 @@ class SocietyNocforCCController extends Controller
                     'noc_generation_status' => 0
                 );
                 NocCCApplication::where('society_id', $society->id)->where('id', $request->input('id'))->update($input);
-                $application = NocCCApplication::where('society_id', $society->id)->where('id', $request->input('id'))->with('noc_application_master')->first();
-                $role_id = Role::where('name', config('commanConfig.ree_junior'))->value('id');
+
                 
                 // $user_ids = RoleUser::where('role_id', $role_id->id)->get();
                 // $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
@@ -552,72 +551,85 @@ class SocietyNocforCCController extends Controller
                 // }
                 // $users = User::whereIn('id', $select_user_ids)->get();
 
-                // optimize above code with below query for get users (BHAVANA) 
-                $users = User::where('role_id',$role_id)->with(['LayoutUser' => function($query)use($application){
-                    $query->where('layout_id',$application->layout_id);
-                }])->whereHas('LayoutUser', function($query)use($application){
-                    $query->where('layout_id',$application->layout_id);
-                })->get();
+                return redirect()->back()->with('success','Application Uploaded Successfully.');
 
-                if(count($users) > 0) {
-                    foreach ($users as $key => $user) {
-                        $i = 0;
-                        $insert_application_log_forwarded[$key]['application_id'] = $application->id;
-                        $insert_application_log_forwarded[$key]['society_flag'] = 1;
-                        $insert_application_log_forwarded[$key]['user_id'] = Auth::user()->id;
-                        $insert_application_log_forwarded[$key]['role_id'] = Auth::user()->role_id;
-                        $insert_application_log_forwarded[$key]['status_id'] = config('commanConfig.applicationStatus.forwarded');
-                        $insert_application_log_forwarded[$key]['to_user_id'] = $user->id;
-                        $insert_application_log_forwarded[$key]['to_role_id'] = $user->role_id;
-                        $insert_application_log_forwarded[$key]['remark'] = isset($society_remark->society_documents_comment) ? $society_remark->society_documents_comment : '' ;
-                        $insert_application_log_forwarded[$key]['is_active'] = 1;
-                        $insert_application_log_forwarded[$key]['created_at'] = date('Y-m-d H-i-s');
-                        $insert_application_log_forwarded[$key]['updated_at'] = date('Y-m-d H-i-s');
-
-                        $insert_application_log_in_process[$key]['application_id'] = $application->id;
-                        $insert_application_log_in_process[$key]['society_flag'] = 0;
-                        $insert_application_log_in_process[$key]['user_id'] = $user->id;
-                        $insert_application_log_in_process[$key]['role_id'] = $user->role_id;
-                        $insert_application_log_in_process[$key]['status_id'] = config('commanConfig.applicationStatus.in_process');
-                        $insert_application_log_in_process[$key]['to_user_id'] = null;
-                        $insert_application_log_in_process[$key]['to_role_id'] = null;
-                        $insert_application_log_in_process[$key]['remark'] = isset($society_remark->society_documents_comment) ? $society_remark->society_documents_comment : '' ;
-                        $insert_application_log_in_process[$key]['is_active'] = 1;
-                        $insert_application_log_in_process[$key]['created_at'] = date('Y-m-d H-i-s');
-                        $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d H-i-s');
-                        $i++;
-                    }
-                }
-
-
-                    DB::beginTransaction();
-                    try {
-
-                        NocCCApplicationStatus::where('application_id',$application->id)->update(array('is_active' => 0,'phase' => 0));
-
-                        //send application submission mail and msg to society and respective department
-                        $data = $society;
-                        $data['users'] = $users;
-                        $data['application_no'] = $application->application_no;
-                        $data['layout_id'] = $application->layout_id;
-                        $data['application_type'] = $application->noc_application_master->title."(".$application->noc_application_master->model.")";
-
-                    $EmailMsgConfigration = new EmailMsgConfigration();
-                    $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
-
-
-                        NocCCApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
-
-                        DB::commit();
-                    } catch (\Exception $ex) {
-                        DB::rollback();
-                    }
             }else{
                 return redirect()->back()->with('error_uploaded_file', 'Invalid type of file uploaded (only pdf allowed)');
             }
         }
-        return redirect()->route('society_offer_letter_dashboard');
     }
+
+
+    // submit NOC CC application
+    public function submitNocAfterSign(Request $request){
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $society_remark = NocCCSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id', 'desc')->first();
+        $application = NocCCApplication::where('society_id', $society->id)->where('id', $request->input('applicationId'))
+            ->with('noc_application_master')->first();
+        $role_id = Role::where('name', config('commanConfig.ree_junior'))->value('id');
+
+        $users = User::where('role_id',$role_id)->with(['LayoutUser' => function($query)use($application){
+            $query->where('layout_id',$application->layout_id);
+        }])->whereHas('LayoutUser', function($query)use($application){
+            $query->where('layout_id',$application->layout_id);
+        })->get();
+
+        if(count($users) > 0) {
+            foreach ($users as $key => $user) {
+                $i = 0;
+                $insert_application_log_forwarded[$key]['application_id'] = $application->id;
+                $insert_application_log_forwarded[$key]['society_flag'] = 1;
+                $insert_application_log_forwarded[$key]['user_id'] = Auth::user()->id;
+                $insert_application_log_forwarded[$key]['role_id'] = Auth::user()->role_id;
+                $insert_application_log_forwarded[$key]['status_id'] = config('commanConfig.applicationStatus.forwarded');
+                $insert_application_log_forwarded[$key]['to_user_id'] = $user->id;
+                $insert_application_log_forwarded[$key]['to_role_id'] = $user->role_id;
+                $insert_application_log_forwarded[$key]['remark'] = isset($society_remark->society_documents_comment) ? $society_remark->society_documents_comment : '' ;
+                $insert_application_log_forwarded[$key]['is_active'] = 1;
+                $insert_application_log_forwarded[$key]['created_at'] = date('Y-m-d H-i-s');
+                $insert_application_log_forwarded[$key]['updated_at'] = date('Y-m-d H-i-s');
+
+                $insert_application_log_in_process[$key]['application_id'] = $application->id;
+                $insert_application_log_in_process[$key]['society_flag'] = 0;
+                $insert_application_log_in_process[$key]['user_id'] = $user->id;
+                $insert_application_log_in_process[$key]['role_id'] = $user->role_id;
+                $insert_application_log_in_process[$key]['status_id'] = config('commanConfig.applicationStatus.in_process');
+                $insert_application_log_in_process[$key]['to_user_id'] = null;
+                $insert_application_log_in_process[$key]['to_role_id'] = null;
+                $insert_application_log_in_process[$key]['remark'] = isset($society_remark->society_documents_comment) ? $society_remark->society_documents_comment : '' ;
+                $insert_application_log_in_process[$key]['is_active'] = 1;
+                $insert_application_log_in_process[$key]['created_at'] = date('Y-m-d H-i-s');
+                $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d H-i-s');
+                $i++;
+            }
+            DB::beginTransaction();
+            try {
+
+                NocCCApplicationStatus::where('application_id',$application->id)->update(array('is_active' => 0,'phase' => 0));
+
+                //send application submission mail and msg to society and respective department
+                $data = $society;
+                $data['users'] = $users;
+                $data['application_no'] = $application->application_no;
+                $data['layout_id'] = $application->layout_id;
+                $data['application_type'] = $application->noc_application_master->title."(".$application->noc_application_master->model.")";
+
+                $EmailMsgConfigration = new EmailMsgConfigration();
+                $EmailMsgConfigration->ApplicationSubmissionEmailMsg($data);
+
+                NocCCApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+            }
+            return redirect()->route('society_offer_letter_dashboard')->with('success','Application forwarded successfully.');
+        }
+        else{
+            return back()->with('error','Something went wrong,Please contact to Admin.');
+        }
+    }
+
 
    	public function viewSocietyDocuments(){
 

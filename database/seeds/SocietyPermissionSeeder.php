@@ -604,6 +604,11 @@ class SocietyPermissionSeeder extends Seeder
                 'description'  => 'Submit Stamped Tripartite Application'
             ],
             [
+                'name'         => 'submit_society_noc_cc',
+                'display_name' => 'Submit NOC CC Application',
+                'description'  => 'Submit NOC CC Application'
+            ],
+            [
                 'name'         => 'society_tripartite_application_download',
                 'display_name' => 'Shows Application form in pdf format',
                 'description'  => 'Shows Application form in pdf format'
