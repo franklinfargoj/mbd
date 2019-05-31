@@ -509,7 +509,13 @@
                                                         <td>अभिन्यासातील भूखंडाचे क्षेत्रफळ <span class="star">*</span></td>
                                                         <td><input type="text" class="form-control form-control--custom number" required="" value="{{ isset($landDetails->stag_plot_area) ? $landDetails->stag_plot_area : '' }}" name="land[stag_plot_area]" 
                                                         id="stag_plot_area" placeholder="" readonly></td>
-                                                    </tr>  
+                                                    </tr> 
+                                                    tr>
+                                                        <td>3.</td>
+                                                        <td>अस्तित्वातील बांधकाम क्षेत्रफळ <span class="star">*</span></td>
+                                                        <td><input readonly type="text" class="form-control form-control--custom float" required="" value="{{ isset($landDetails->existing_construction_area) ? $landDetails->existing_construction_area : '' }}" 
+                                                        id="existing_construction_area" placeholder=""></td>
+                                                    </tr> 
                                                 </table>
 
                                                 <table class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">

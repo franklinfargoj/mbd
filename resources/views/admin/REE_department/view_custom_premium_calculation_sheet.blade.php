@@ -61,11 +61,11 @@ $route_name=\Request::route()->getName();
                     <i class="la la-cog"></i> परिगणनेचा तक्ता - अ
                 </a>
             </li>
-            <li class="nav-item m-tabs__item">
+            <!-- <li class="nav-item m-tabs__item">
                 <a class="nav-link m-tabs__link" data-toggle="tab" href="#two" role="tab" aria-selected="false">
                     <i class="la la-briefcase"></i> Part payment
                 </a>
-            </li>
+            </li> -->
             <li class="nav-item m-tabs__item">
                 <a class="nav-link m-tabs__link" data-toggle="tab" href="#three" role="tab" aria-selected="true">
                     <i class="la la-bell-o"></i>1st installment
@@ -154,7 +154,7 @@ $route_name=\Request::route()->getName();
                     </div>
                 </div>
             </div>
-            <div class="tab-pane" id="two" role="tabpanel">
+            <!-- <div class="tab-pane" id="two" role="tabpanel">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                     <div class="portlet-body">
                         <div class="m-portlet__body m-portlet__body--table">
@@ -192,8 +192,6 @@ $route_name=\Request::route()->getName();
                                                     <td style="width:70%">
                                                     <input type="hidden" name="table2[{{$i}}][hiddenId]" value="{{ isset($data['id']) ? $data['id'] : '' }}">
 
-          <!--                                               <input type="text" class="form-control form-control--custom" name="table2[{{$i}}][title]" value="{{ isset($data['title'])? $data['title'] : '' }}" readonly> -->
-
                                                     <textarea name="table2[{{$i}}][title]" class="form-control form-control--custom" 
                                                     style="width:100%; height:50px; resize: none;" readonly>{{ isset($data['title'])? $data['title'] : '' }}</textarea>
                                                         
@@ -211,7 +209,7 @@ $route_name=\Request::route()->getName();
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="tab-pane" id="three" role="tabpanel">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                     <div class="portlet-body">
@@ -336,7 +334,7 @@ $route_name=\Request::route()->getName();
                             <div class="m-subheader">
                                 <div class="d-flex align-items-center justify-content-center">
                                     <h3 class="section-title">
-                                        अधिमूल्य रकमेचा चार सामान हफ्त्यांत भरणा करण्याबाबतचा प्रस्ताव
+                                        अधिमूल्य रकमेचा चार समान हफ्त्यांत भरणा करण्याबाबतचा प्रस्ताव
                                     </h3>
                                 </div>
                             </div>
@@ -348,7 +346,7 @@ $route_name=\Request::route()->getName();
                                     <thead class="thead-default">
                                         <tr>
                                             <th class="table-data--xs">
-                                                #
+                                                Sr.no
                                             </th>
                                             <th>
                                                 तपशील
@@ -378,7 +376,7 @@ $route_name=\Request::route()->getName();
                                                 मंडळाकडे पहिले देकारपत्र जारी केल्याच्या दिनांकापासून एक
                                                 वर्षाच्या आत, भरणा करावयाची दुसऱ्या हफ्त्याची रक्कम तसेच
                                                 प्रत्यक्ष भरेपर्यंत प्रथम देकारपात्राच्या दिनांकापासून १२%
-                                                (दार तिमाहीला परिगणनीय दराने) अधिक रकमेचा भरणा करावा लागेल
+                                                (दर तिमाहीला परिगणनीय दराने) अधिक रकमेचा भरणा करावा लागेल
                                                 <input type="hidden" class="form-control form-control--custom" name="table5[2][title]" value="within_1year">
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
@@ -466,18 +464,18 @@ $route_name=\Request::route()->getName();
                                     <tbody>
                                         <tr>
                                             <td style = "border-style: ridge;">1.</td>
-                                            <td>
-                                                Change of tenement
+                                            <td style = "border-style: ridge;">
+                                                Tit Bit land
                                             </td>
-                                            <td class="text-left">
-                                                {{ isset($concessionData) ? $concessionData->tenement_charges : '' }}
-
+                                            <td class="text-left" style = "border-style: ridge;">
+                                                {{ isset($concessionData) ? $concessionData->tit_bit_land : '' }}
                                             </td>
                                         </tr>
+                                        
                                         <tr>
                                             <td style = "border-style: ridge;">2.</td>
                                             <td style = "border-style: ridge;">
-                                               R.G shiffting
+                                               R.G relocation
                                             </td>
                                             <td class="text-left" style = "border-style: ridge;">
                                                 {{ isset($concessionData) ? $concessionData->r_g_shiffting : '' }}
@@ -488,7 +486,7 @@ $route_name=\Request::route()->getName();
 
                                             <td style = "border-style: ridge;">3.</td>
                                             <td style = "border-style: ridge;">
-                                               OB/Other plot
+                                               Allotment of office building/ other plot if any.
                                             </td>
                                             <td class="text-left" style = "border-style: ridge;">
                                                 {{ isset($concessionData) ? $concessionData->ob_other_plot : '' }}
@@ -498,7 +496,7 @@ $route_name=\Request::route()->getName();
                                         <tr>
                                             <td style = "border-style: ridge;">4.</td>
                                             <td style = "border-style: ridge;">
-                                                VP cota
+                                                VP quota
                                             </td>
                                             <td class="text-left" style = "border-style: ridge;">
                                                 {{ isset($concessionData) ? $concessionData->vp_cota : '' }}
@@ -516,22 +514,24 @@ $route_name=\Request::route()->getName();
                                         </tr>
                                         <tr>
                                             <td style = "border-style: ridge;">6.</td>
+                                            <td>
+                                                Change of users
+                                            </td>
+                                            <td class="text-left">
+                                                {{ isset($concessionData) ? $concessionData->tenement_charges : '' }}
+
+                                            </td>
+                                        </tr>
+                                        <!-- <tr>
+                                            <td style = "border-style: ridge;">6.</td>
                                             <td style = "border-style: ridge;">
                                                 Premium charges
                                             </td>
                                             <td class="text-left" style = "border-style: ridge;">
                                                 {{ isset($concessionData) ? $concessionData->premium_charges : '' }}
                                             </td>
-                                        </tr>
-                                        <tr>
-                                            <td style = "border-style: ridge;">7.</td>
-                                            <td style = "border-style: ridge;">
-                                                Tit Bit land
-                                            </td>
-                                            <td class="text-left" style = "border-style: ridge;">
-                                                {{ isset($concessionData) ? $concessionData->tit_bit_land : '' }}
-                                            </td>
-                                        </tr>
+                                        </tr> -->
+                                        
                                     </tbody>
                                 </table>
                             </div>

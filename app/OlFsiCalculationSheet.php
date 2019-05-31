@@ -68,6 +68,6 @@ class OlFsiCalculationSheet extends Model
         'calculated_commercial_dcr_rate',
         'remaining_commercial_area',
         'balance_of_commercial_remaining_area',
-        'total_premium_amount',
+        'total_premium_amount','extra_construction_area','premier_construction_area','total_distributed_area','road_setback_area','encroachment_area','stag_lease_area','stag_tit_bit_area','stag_rg_plot','stag_road_setback_area','stag_encroachment_area','stag_ob_area','ob_area'
     ];    
 }
