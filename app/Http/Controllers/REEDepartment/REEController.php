@@ -3135,8 +3135,9 @@ class REEController extends Controller
         ->whereNotNull('residential')->whereNotNull('non_residential')->select(DB::raw('sum(residential + non_residential) as total'))->value('total');
 
         $concessionData = $this->getConcessionDetails($applicationId);
+        $landArea = OlDemarcationLandArea::where('application_id',$applicationId)->first();
 
-        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','folder','folder1','master','action','status','FSI','exists','totalHouse','concessionData'));                    
+        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','folder','folder1','master','action','status','FSI','exists','totalHouse','concessionData','landArea'));                    
     }
 
     public function saveFsiCalculationData(Request $request){

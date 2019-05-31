@@ -73,33 +73,33 @@
                     <i class="la la-cog"></i> परिगणनेचा तक्ता - अ
                 </a>
             </li>
-            <li class="nav-item m-tabs__item">
+            <!-- <li class="nav-item m-tabs__item">
                 <a class="nav-link m-tabs__link" data-toggle="tab" href="#two" role="tab" aria-selected="false">
                     <i class="la la-briefcase"></i> Part payment
                 </a>
-            </li>
+            </li> -->
             <li class="nav-item m-tabs__item">
-                <a class="nav-link m-tabs__link" data-toggle="tab" href="#three" role="tab" aria-selected="true">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#two" role="tab" aria-selected="true">
                     <i class="la la-bell-o"></i>1st installment
                 </a>
             </li>
             <li class="nav-item m-tabs__item">
-                <a class="nav-link m-tabs__link" data-toggle="tab" href="#four" role="tab" aria-selected="false">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#three" role="tab" aria-selected="false">
                     <i class="la la-cog"></i> 2nd, 3rd & 4th installment
                 </a>
             </li>
             <li class="nav-item m-tabs__item">
-                <a class="nav-link m-tabs__link" data-toggle="tab" href="#five" role="tab" aria-selected="false">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#four" role="tab" aria-selected="false">
                     <i class="la la-briefcase"></i>Summary
                 </a>
             </li>
             <li class="nav-item m-tabs__item">
-                <a class="nav-link m-tabs__link" data-toggle="tab" href="#six" role="tab" aria-selected="false">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#five" role="tab" aria-selected="false">
                     <i class="la la-briefcase"></i>Concession Sheet
                 </a>
             </li>
             <li class="nav-item m-tabs__item">
-                <a class="nav-link m-tabs__link" data-toggle="tab" href="#seven" role="tab" aria-selected="true">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#six" role="tab" aria-selected="true">
                     <i class="la la-bell-o"></i>REE - Note
                 </a>
             </li>
@@ -191,7 +191,7 @@
                    </form>                       
                 </div>
             </div>
-            <div class="tab-pane" id="two" role="tabpanel">
+            <!-- <div class="tab-pane" id="two" role="tabpanel">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                     <div class="m-section__content mb-0 table-responsive">
                         <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_custom_calculation_data') }}">
@@ -237,8 +237,7 @@
                                                     <input type="hidden" name="table2[{{$i}}][hiddenId]" value="{{ isset($data['id']) ? $data['id'] : '' }}">
 
                                                     <textarea name="table2[{{$i}}][title]" class="form-control form-control--custom" style="width:100%; max-height:100px; min-height:50px; resize: none;" required>{{ isset($data['title'])? $data['title'] : '' }}</textarea>
-
-                                                   <!--      <input type="text" class="form-control form-control--custom" name="table2[{{$i}}][title]" value="{{ isset($data['title'])? $data['title'] : '' }}" required> -->
+                                                   
                                                     </td>
                                                     <td class="text-center" style="width:30%"> 
                                                         <input type="text" class="form-control form-control--custom" name="table2[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" required style="height:50px;width:100%;">
@@ -274,8 +273,8 @@
                     <input type="hidden" name="table2_deletedIds" id="table2_deletedIds" value="">                                        
                 </form>
                 </div>
-            </div>
-            <div class="tab-pane" id="three" role="tabpanel">
+            </div> -->
+            <div class="tab-pane" id="two" role="tabpanel">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                     <div class="m-section__content mb-0 table-responsive">
                         <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_custom_calculation_data') }}">
@@ -290,7 +289,7 @@
                                 </div>
                             </div>
                                     <input name="application_id" type="hidden" value="{{ $ol_application->id }}" />
-                                    <input name="redirect_tab" type="hidden" value="four" />
+                                    <input name="redirect_tab" type="hidden" value="three" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
                                                 src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("Printthree");'
@@ -358,7 +357,7 @@
                 </form>
                 </div>
             </div>
-            <div class="tab-pane" id="four" role="tabpanel">
+            <div class="tab-pane" id="three" role="tabpanel">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                     <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_custom_calculation_data') }}">
                     @csrf
@@ -373,7 +372,7 @@
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
                                     <input name="application_id" type="hidden" value="{{ $ol_application->id }}" />
-                                    <input name="redirect_tab" type="hidden" value="five" />
+                                    <input name="redirect_tab" type="hidden" value="four" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
                                                 src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("Printfour");'
@@ -443,7 +442,7 @@
             </div>
             
             <!-- summary -->
-            <div class="tab-pane" id="five" role="tabpanel">
+            <div class="tab-pane" id="four" role="tabpanel">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                     <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_custom_calculation_data') }}">
                     @csrf    
@@ -452,12 +451,12 @@
                             <div class="m-subheader">
                                 <div class="d-flex align-items-center justify-content-center">
                                     <h3 class="section-title">
-                                        अधिमूल्य रकमेचा चार सामान हफ्त्यांत भरणा करण्याबाबतचा प्रस्ताव
+                                        अधिमूल्य रकमेचा चार समान हफ्त्यांत भरणा करण्याबाबतचा प्रस्ताव
                                     </h3>
                                 </div>
                             </div>
                         <input name="application_id" type="hidden" value="{{ $ol_application->id }}" />
-                        <input name="redirect_tab" type="hidden" value="six" />
+                        <input name="redirect_tab" type="hidden" value="five" />
                             <div class="m-section__content mb-0 table-responsive">
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
@@ -467,12 +466,12 @@
                                     <thead class="thead-default">
                                         <tr>
                                             <th class="table-data--xs" >
-                                                #
+                                                Sr.no
                                             </th>
-                                            <th >
+                                            <th style="width:60%">
                                                 तपशील
                                             </th>
-                                            <th class="table-data--md" >
+                                            <th class="table-data--md" style="width:40%">
                                                 रक्कम रु
                                             </th>
                                         </tr>
@@ -497,7 +496,7 @@
                                                 मंडळाकडे पहिले देकारपत्र जारी केल्याच्या दिनांकापासून एक
                                                 वर्षाच्या आत, भरणा करावयाची दुसऱ्या हफ्त्याची रक्कम तसेच
                                                 प्रत्यक्ष भरेपर्यंत प्रथम देकारपात्राच्या दिनांकापासून १२%
-                                                (दार तिमाहीला परिगणनीय दराने) अधिक रकमेचा भरणा करावा लागेल
+                                                (दर तिमाहीला परिगणनीय दराने) अधिक रकमेचा भरणा करावा लागेल
                                                 <input type="hidden" class="form-control form-control--custom" name="table5[2][title]" value="within_1year">
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
@@ -563,7 +562,7 @@
             </div>
 
             <!-- consseion sheet -->
-            <div class="tab-pane" id="six" role="tabpanel">
+            <div class="tab-pane" id="five" role="tabpanel">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                     <div class="portlet-body">
                         <div class="m-portlet__body m-portlet__body--table">
@@ -577,7 +576,7 @@
                             <div class="m-section__content mb-0 table-responsive">
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto">
-                                    <img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("six");' style="max-width: 22px" class="printBtn"></a>
+                                    <img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("five");' style="max-width: 22px" class="printBtn"></a>
                                 </div>
                                  <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_concession_sheet_details') }}">
                                  @csrf
@@ -601,18 +600,18 @@
                                     <tbody>
                                         <tr>
                                             <td style = "border-style: ridge;">1.</td>
-                                            <td>
-                                                Change of tenement
+                                            <td style = "border-style: ridge;">
+                                                Tit Bit land
                                             </td>
-                                            <td class="text-center">
-                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-right: none;resize: none;" name="tenement_charges" id="tenement_charges"> {{ isset($concessionData) ? $concessionData->tenement_charges : '' }}</textarea>
-
+                                            <td class="text-center" style = "border-style: ridge;">
+                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-right: none;border-top: none;resize: none;" name="tit_bit_land" id="tit_bit_land">{{ isset($concessionData) ? $concessionData->tit_bit_land : '' }}</textarea>
                                             </td>
                                         </tr>
+                                        
                                         <tr>
                                             <td style = "border-style: ridge;">2.</td>
                                             <td style = "border-style: ridge;">
-                                               R.G shiffting
+                                               R.G relocation
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
                                                 <textarea class="form-control form-control--custom form-control--textarea" style="border-right: none;border-top: none;resize: none;" name="r_g_shiffting" id="r_g_shiffting">{{ isset($concessionData) ? $concessionData->r_g_shiffting : '' }}</textarea>
@@ -623,7 +622,7 @@
 
                                             <td style = "border-style: ridge;">3.</td>
                                             <td style = "border-style: ridge;">
-                                               OB/Other plot
+                                              Allotment of office building/ other plot if any.
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
                                                 <textarea class="form-control form-control--custom form-control--textarea" style="border-right: none;border-top: none;resize: none;" name="ob_other_plot" id="ob_other_plot">{{ isset($concessionData) ? $concessionData->ob_other_plot : '' }}</textarea>
@@ -633,7 +632,7 @@
                                         <tr>
                                             <td style = "border-style: ridge;">4.</td>
                                             <td style = "border-style: ridge;">
-                                                VP cota
+                                                VP quota
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
                                                 <textarea class="form-control form-control--custom form-control--textarea" style="border-right: none;border-top: none;resize: none;" name="vp_cota" id="vp_cota">{{ isset($concessionData) ? $concessionData->vp_cota : '' }}</textarea>
@@ -649,7 +648,7 @@
                                                 <textarea class="form-control form-control--custom form-control--textarea" style="border-right: none;border-top: none;resize: none;" name="encroachment_plot" id="encroachment_plot">{{ isset($concessionData) ? $concessionData->encroachment_plot : '' }}</textarea>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <!-- <tr>
                                             <td style = "border-style: ridge;">6.</td>
                                             <td style = "border-style: ridge;">
                                                 Premium charges
@@ -657,14 +656,15 @@
                                             <td class="text-center" style = "border-style: ridge;">
                                                 <textarea class="form-control form-control--custom form-control--textarea" style="border-right: none;border-top: none;resize: none;" name="premium_charges" id="premium_charges">{{ isset($concessionData) ? $concessionData->premium_charges : '' }}</textarea>
                                             </td>
-                                        </tr>
+                                        </tr> -->
                                         <tr>
-                                            <td style = "border-style: ridge;">7.</td>
-                                            <td style = "border-style: ridge;">
-                                                Tit Bit land
+                                            <td style = "border-style: ridge;">6.</td>
+                                            <td>
+                                                Change of users
                                             </td>
-                                            <td class="text-center" style = "border-style: ridge;">
-                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-right: none;border-top: none;resize: none;" name="tit_bit_land" id="tit_bit_land">{{ isset($concessionData) ? $concessionData->tit_bit_land : '' }}</textarea>
+                                            <td class="text-center">
+                                                <textarea class="form-control form-control--custom form-control--textarea" style="border-right: none;resize: none;" name="tenement_charges" id="tenement_charges"> {{ isset($concessionData) ? $concessionData->tenement_charges : '' }}</textarea>
+
                                             </td>
                                         </tr>
                                         <tr>
@@ -681,7 +681,7 @@
             </div>
 
             <!-- REE note -->
-            <div class="tab-pane" id="seven" role="tabpanel">
+            <div class="tab-pane" id="six" role="tabpanel">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                     <div class="portlet-body">
                         <div class="m-portlet__body m-portlet__body--table">

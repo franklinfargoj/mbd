@@ -61,11 +61,11 @@
                     <i class="la la-cog"></i> परिगणनेचा तक्ता - अ
                 </a>
             </li>
-            <li class="nav-item m-tabs__item">
+            <!-- <li class="nav-item m-tabs__item">
                 <a class="nav-link m-tabs__link" data-toggle="tab" href="#two" role="tab" aria-selected="false">
                     <i class="la la-briefcase"></i> Part payment
                 </a>
-            </li>
+            </li> -->
             <li class="nav-item m-tabs__item">
                 <a class="nav-link m-tabs__link" data-toggle="tab" href="#three" role="tab" aria-selected="true">
                     <i class="la la-bell-o"></i>1st installment
@@ -118,7 +118,7 @@
                                         <thead class="thead-default">
                                             <tr>
                                                 <th class="table-data--xs" style = "border-style: ridge;">
-                                                    #
+                                                    Sr.no
                                                 </th>
                                                 <th style = "border-style: ridge;">
                                                     तपशील
@@ -174,13 +174,42 @@
                                             <tr>
                                                 <td style = "border-style: ridge;"></td>
                                                 <td style = "border-style: ridge;">
+                                                    4. Road setback
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                    <input style="border: none;" type="text" class="total_area form-control form-control--custom txtbox" placeholder="0" name="road_setback_area" id="road_setback_area" value="{{ isset($calculationSheetDetails->road_setback_area) ? $calculationSheetDetails->road_setback_area : (isset($landArea) ? $landArea->road_setback_area : '')  }}" readonly />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;"></td>
+                                                <td style = "border-style: ridge;">
+                                                    5. Encrochment
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                    <input style="border: none;" type="text" class="total_area form-control form-control--custom txtbox" placeholder="0" name="encroachment_area" id="encroachment_area" value="{{ isset($calculationSheetDetails->encroachment_area) ? $calculationSheetDetails->encroachment_area : ''  }}"
+                                                        readonly/>
+                                                </td>
+                                            </tr> 
+                                            <tr>
+                                                <td style = "border-style: ridge;"></td>
+                                                <td style = "border-style: ridge;">
+                                                    6. अनुलग्न कार्यालयीन इमारत असल्यास तिचे क्षेत्रफळ
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                    <input style="border: none;" type="text" class="total_area form-control form-control--custom txtbox" placeholder="0" name="ob_area" id="ob_area" value="{{ isset($calculationSheetDetails->ob_area) ? $calculationSheetDetails->ob_area : '' }}"
+                                                        readonly/>
+                                                </td>
+                                            </tr>
+                                            <!-- <tr>
+                                                <td style = "border-style: ridge;"></td>
+                                                <td style = "border-style: ridge;">
                                                     4. NTBNIB भूखंडाचे क्षेत्र
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" class="total_area form-control form-control--custom txtbox" placeholder="0"
                                                         name="area_of_ntbnib_plot" id="area_of_ntbnib_plot" value="<?php if(isset($calculationSheetDetails->area_of_ntbnib_plot)) { echo $calculationSheetDetails->area_of_ntbnib_plot;} ?>" readonly/>
                                                 </td>
-                                            </tr>
+                                            </tr> -->
                                             <tr>
                                                 <td style = "border-style: ridge;"></td>
                                                 <td class="font-weight-bold" style = "border-style: ridge;">
@@ -188,7 +217,8 @@
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" class="min_val_for_calculation form-control form-control--custom txtbox" readonly type="text" placeholder="0"
-                                                        name="area_of_total_plot" id="area_of_total_plot" value="<?php if(isset($calculationSheetDetails->area_of_total_plot)) { echo $calculationSheetDetails->area_of_total_plot; } ?>" readonly/></td>
+                                                        name="area_of_total_plot" id="area_of_total_plot" value="<?php if(isset($calculationSheetDetails->area_of_total_plot)) { echo $calculationSheetDetails->area_of_total_plot; } ?>" readonly/>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td style = "border-style: ridge;">2.</td>
@@ -196,8 +226,77 @@
                                                     अभिन्यासानुसार भूखंडाचे क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" placeholder="0" class="min_val_for_calculation form-control form-control--custom txtbox" name="area_as_per_introduction"
-                                                        id="area_as_per_introduction" value="<?php if(isset($calculationSheetDetails->area_as_per_introduction)) { echo $calculationSheetDetails->area_as_per_introduction; } ?>" readonly/>
+                                                    <!-- <input style="border: none;" type="text" placeholder="0" class="min_val_for_calculation form-control form-control--custom txtbox" name="area_as_per_introduction"
+                                                        id="area_as_per_introduction" value="<?php if(isset($calculationSheetDetails->area_as_per_introduction)) { echo $calculationSheetDetails->area_as_per_introduction; } ?>" readonly/> -->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;"></td>
+                                                <td style = "border-style: ridge;">
+                                                    1. भाडेपट्टा करारनाम्यानुसार क्षेत्रफळ
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                    <input style="border: none;" type="text" class="total_stag_area form-control form-control--custom txtbox" placeholder="0" name="stag_lease_area" id="stag_lease_area" value="{{ isset($calculationSheetDetails->stag_lease_area) ? $calculationSheetDetails->stag_lease_area : '' }}"
+                                                        readonly/>
+                                                </td>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;"></td>
+                                                <td style = "border-style: ridge;">
+                                                    2. टिट बिट भूखंडाचे क्षेत्र
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                    <input style="border: none;" type="text" class="total_stag_area form-control form-control--custom txtbox" placeholder="0" name="stag_tit_bit_area" id="stag_tit_bit_area" value="{{ isset($calculationSheetDetails->stag_tit_bit_area) ? $calculationSheetDetails->stag_tit_bit_area : '' }}" readonly/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;"></td>
+                                                <td style = "border-style: ridge;">
+                                                    3. आर जी भूखंडाचे क्षेत्र
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                    <input style="border: none;" type="text" class="total_stag_area form-control form-control--custom txtbox" placeholder="0" name="stag_rg_plot" id="stag_rg_plot" value="{{ isset($calculationSheetDetails->stag_rg_plot) ? $calculationSheetDetails->stag_rg_plot : '' }}"
+                                                        readonly/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;"></td>
+                                                <td style = "border-style: ridge;">
+                                                    4. Road setback
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                    <input style="border: none;" type="text" class="total_stag_area form-control form-control--custom txtbox" placeholder="0" name="stag_road_setback_area" id="stag_road_setback_area" value="{{ isset($calculationSheetDetails->stag_road_setback_area) ? $calculationSheetDetails->stag_road_setback_area : '' }}"
+                                                        readonly/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;"></td>
+                                                <td style = "border-style: ridge;">
+                                                    5. Encroachment
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                    <input style="border: none;" type="text" class="total_stag_area form-control form-control--custom txtbox" placeholder="0" name="stag_encroachment_area" id="stag_encroachment_area" value="{{ isset($calculationSheetDetails->stag_encroachment_area) ? $calculationSheetDetails->stag_encroachment_area : '' }}"
+                                                        readonly/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;"></td>
+                                                <td style = "border-style: ridge;">
+                                                    6. अनुलग्न कार्यालयीन इमारत असल्यास तिचे क्षेत्रफळ
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                    <input style="border: none;" type="text" class="total_stag_area form-control form-control--custom txtbox" placeholder="0" name="stag_ob_area" id="stag_ob_area" value="{{ isset($calculationSheetDetails->stag_ob_area) ? $calculationSheetDetails->stag_ob_area : '' }}" readonly/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;"></td>
+                                                <td class="font-weight-bold" style = "border-style: ridge;">
+                                                    Total अभिन्यासानुसार भूखंडाचे क्षेत्रफळ
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                    <<input style="border: none;" type="text" placeholder="0" class="min_val_for_calculation form-control form-control--custom txtbox" name="area_as_per_introduction"
+                                                        id="area_as_per_introduction" value="{{ isset($calculationSheetDetails->area_as_per_introduction) ? $calculationSheetDetails->area_as_per_introduction : ''  }}" readonly>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -334,12 +433,54 @@
                                             <tr>
                                                 <td style = "border-style: ridge;">10.</td>
                                                 <td style = "border-style: ridge;">
-                                                    अस्तित्वातील बांधकाम क्षेत्रफळ (सी - ५७)
+                                                    यापूर्वी वितरण करण्यात आलेले बांधकाम क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" placeholder="0" class="remaining_area form-control form-control--custom txtbox"
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;"></td>
+                                                <td style = "border-style: ridge;">
+                                                    1.अस्तित्वातील बांधकाम क्षेत्रफळ
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                    <input style="border: none;" type="text" placeholder="0" class="con_area form-control form-control--custom txtbox remaining_area"
                                                         name="existing_construction_area" id="existing_construction_area"
-                                                        value="<?php if(isset($calculationSheetDetails->existing_construction_area)) { echo $calculationSheetDetails->existing_construction_area; } ?>" readonly/>
+
+                                                        value="{{ isset($calculationSheetDetails->existing_construction_area) ? $calculationSheetDetails->existing_construction_area : '' }}" readonly/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;"></td>
+                                                <td style = "border-style: ridge;">
+                                                    2.अतिरिक्त बांधकाम क्षेत्रफळ
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                    <input style="border: none;" type="text" placeholder="0" class="con_area form-control form-control--custom txtbox remaining_area"
+                                                        name="extra_construction_area" id="extra_construction_area"
+                                                       value="<?php if(isset($calculationSheetDetails->extra_construction_area)) { echo $calculationSheetDetails->extra_construction_area; } ?>" readonly/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;"></td>
+                                                <td style = "border-style: ridge;">
+                                                    3.अभिन्यासातील प्रोरेटा बांधकाम क्षेत्रफळ
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                    <input style="border: none;" type="text" placeholder="0" class="con_area form-control form-control--custom txtbox remaining_area"
+                                                        name="premier_construction_area" id="premier_construction_area"
+                                                        value="<?php if(isset($calculationSheetDetails->premier_construction_area)) { echo $calculationSheetDetails->premier_construction_area; } ?>" readonly/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style = "border-style: ridge;"></td>
+                                                <td class="font-weight-bold" style = "border-style: ridge;">
+                                                    Total
+                                                </td>
+                                                <td class="text-center" style = "border-style: ridge;">
+                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox" name="total_distributed_area" id="total_distributed_area"
+                                                        value="<?php if(isset($calculationSheetDetails->total_distributed_area)) { echo $calculationSheetDetails->total_distributed_area; } ?>" />
+
                                                 </td>
                                             </tr>
                                             <tr>
@@ -356,7 +497,7 @@
                                             <tr>
                                                 <td style = "border-style: ridge;">12.</td>
                                                 <td style = "border-style: ridge;">
-                                                    रेडीरेकनर २०१८ - १९ 
+                                                    रेडीरेकनर 2019-20 
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" placeholder="0" class="redirekner_val form-control form-control--custom txtbox"
@@ -403,7 +544,7 @@
                                                 </td>
                                             </tr>    
                                             <tr>
-                                                <td style = "border-style: ridge;">15.</td>
+                                                <td style = "border-style: ridge;">16.</td>
                                                 <td style = "border-style: ridge;">
                                                     उर्वरितचटईक्षेत्राचे अधिमूल्य
                                                 </td>
@@ -498,10 +639,9 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">16.</td>
+                                                <td style = "border-style: ridge;">17.</td>
                                                 <td style = "border-style: ridge;">
-                                                    दि.०८.१०.२०१३ च्या अधिसूचनेमधील अनु.क्र.५ ए ,नुसार ७ % ऑफ
-                                                    इन्फ्रास्टक्चर शुल्क रक्कम
+                                                    मुंबई विकास नियंत्रण व प्रोत्साहन नियमावली २०३४ अन्वये वि नि नि ३३(५) मधील अनु क्र ५ए , नुसार ७% विकास उपकर (डेव्हलोपमेंट सेस)
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
@@ -511,7 +651,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">17.</td>
+                                                <td style = "border-style: ridge;">18.</td>
                                                 <td style = "border-style: ridge;">
                                                     वजा - सुधारित वि. नि. नि. ३३(५)(२) अंतर्गत मु. मं. न. पा. कडे भारावयाची  इन्फ्रास्ट्रुक्चर शुल्क (उर्वरित चटईक्षेत्राचे अधिमूल्य * १२.५%)
                                                 </td>
@@ -523,7 +663,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">18.</td>
+                                                <td style = "border-style: ridge;">19.</td>
                                                 <td style = "border-style: ridge;">
                                                     उर्वरित चटईक्षेत्राचे देय रक्कम
                                                 </td>
@@ -535,7 +675,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">19.</td>
+                                                <td style = "border-style: ridge;">20.</td>
                                                 <td style = "border-style: ridge;">
                                                     छाननी शुल्क रु.६०००/- [for 1 building]
                                                 </td>
@@ -546,7 +686,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">20.</td>
+                                                <td style = "border-style: ridge;">21.</td>
                                                 <td style = "border-style: ridge;">
                                                     अभिन्यास मंजुरी शुल्क रु,१०००/ - प्रति गाळा
                                                 </td>
@@ -558,7 +698,7 @@
                                             </tr>
                                             
                                             <tr>
-                                                <td style = "border-style: ridge;">21.</td>
+                                                <td style = "border-style: ridge;">22.</td>
                                                 <td style = "border-style: ridge;">
                                                     डेब्रिज रिमूव्हल शुल्क रु.६६००/- [for 1 building]
                                                 </td>
@@ -585,7 +725,7 @@
                                             </tr> 
                                           
                                             <tr>
-                                                <td style = "border-style: ridge;">22.</td>
+                                                <td style = "border-style: ridge;">23.</td>
                                                 <td style = "border-style: ridge;">
                                                     पाणी वापर शुल्क (रु.१,००,०००/- ) [for 1 building]
                                                 </td>
@@ -606,7 +746,7 @@
                                                 </td>
                                             </tr>                                            
                                             <tr>
-                                                <td style = "border-style: ridge;">23.</td>
+                                                <td style = "border-style: ridge;">24.</td>
                                                 <td style = "border-style: ridge;">
                                                     मु. मं. ठराव क्रमांक २५४/२८१३ दि. २३/०४/२०१० अन्वये पायाभूत सुविधांशुल्काची रक्कम (प्रति चौ. मी. रुपये १०७६.४० म्हणजेच रुपये १००/- प्रति चौ. फूट)
                                                 </td>
@@ -617,7 +757,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">24.</td>
+                                                <td style = "border-style: ridge;">25.</td>
                                                 <td style = "border-style: ridge;">
                                                     प्रा. ठराव क्र ६२६० दि. ०४.०६.२००७ व ठराव क्र. ६३४९ दि. २५.११.२००८ अन्वये आर. जी. स्थलांतरणाकरिता दर रु. ५,५३०/- (१० टक्के रे. रे. सन २०१७-१८ रु. ५५३००/- प्रति चौ. मी. ) (१५८४. ४१ चौ. मी. X ५५३०)
                                                 </td>
@@ -649,7 +789,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">25.</td>
+                                                <td style = "border-style: ridge;">26.</td>
                                                 <td style = "border-style: ridge;">
                                                     भुईभाड्याचे भांडवलीकरणे वार्षिक २.५ टक्के
                                                 </td>
@@ -660,7 +800,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">26.</td>
+                                                <td style = "border-style: ridge;">27.</td>
                                                 <td style = "border-style: ridge;">
                                                     आगाऊ भुईभाडे (प्रति वर्ष ८ टक्के दराने)
                                                 </td>
@@ -671,7 +811,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">27.</td>
+                                                <td style = "border-style: ridge;">28.</td>
                                                 <td style = "border-style: ridge;">
                                                     नाममात्र भुईभाडे (Rs. 1 per year)
                                                 </td>
@@ -682,7 +822,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style = "border-style: ridge;">28.</td>
+                                                <td style = "border-style: ridge;">29.</td>
                                                 <td style = "border-style: ridge;">
                                                     एकूण रक्कम रुपये (अ .क्र. 18+19+20+21+22+23+24(total)+25+26+27)
                                                 </td>
@@ -700,7 +840,7 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane" id="two" role="tabpanel">
+           <!--  <div class="tab-pane" id="two" role="tabpanel">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                     <div class="portlet-body">
                         <div class="m-portlet__body m-portlet__body--table">
@@ -828,7 +968,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="tab-pane" id="three" role="tabpanel">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                     <div class="portlet-body">
@@ -851,7 +991,7 @@
                                     <thead class="thead-default">
                                         <tr>
                                             <th class="table-data--xs" style = "border-style: ridge;">
-                                                #
+                                                Sr.no
                                             </th>
                                             <th style = "border-style: ridge;">
                                                 तपशील
@@ -1101,7 +1241,7 @@
                             <div class="m-subheader">
                                 <div class="d-flex align-items-center justify-content-center">
                                     <h3 class="section-title">
-                                        अधिमूल्य रकमेचा चार सामान हफ्त्यांत भरणा करण्याबाबतचा प्रस्ताव
+                                        अधिमूल्य रकमेचा चार समान हफ्त्यांत भरणा करण्याबाबतचा प्रस्ताव
                                     </h3>
                                 </div>
                             </div>
@@ -1114,7 +1254,7 @@
                                     <thead class="thead-default">
                                         <tr>
                                             <th class="table-data--xs" style = "border-style: ridge;">
-                                                #
+                                                Sr.no
                                             </th>
                                             <th style = "border-style: ridge;">
                                                 तपशील
@@ -1143,7 +1283,7 @@
                                                 मंडळाकडे पहिले देकारपत्र जारी केल्याच्या दिनांकापासून एक
                                                 वर्षाच्या आत, भरणा करावयाची दुसऱ्या हफ्त्याची रक्कम तसेच
                                                 प्रत्यक्ष भरेपर्यंत प्रथम देकारपात्राच्या दिनांकापासून १२%
-                                                (दार तिमाहीला परिगणनीय दराने) अधिक रकमेचा भरणा करावा लागेल
+                                                (दर तिमाहीला परिगणनीय दराने) अधिक रकमेचा भरणा करावा लागेल
                                             </td>
                                             <td class="text-center" style = "border-style: ridge;">
                                                 {{ isset($calculationSheetDetails->payment_of_remaining_installment)
@@ -1240,18 +1380,18 @@
                                     <tbody>
                                         <tr>
                                             <td style = "border-style: ridge;">1.</td>
-                                            <td>
-                                                Change of tenement
+                                            <td style = "border-style: ridge;">
+                                                Tit Bit land
                                             </td>
-                                            <td class="text-left">
-                                                {{ isset($concessionData) ? $concessionData->tenement_charges : '' }}
-
+                                            <td class="text-left" style = "border-style: ridge;">
+                                                {{ isset($concessionData) ? $concessionData->tit_bit_land : '' }}
                                             </td>
                                         </tr>
+                                        
                                         <tr>
                                             <td style = "border-style: ridge;">2.</td>
                                             <td style = "border-style: ridge;">
-                                               R.G shiffting
+                                               R.G relocation
                                             </td>
                                             <td class="text-left" style = "border-style: ridge;">
                                                 {{ isset($concessionData) ? $concessionData->r_g_shiffting : '' }}
@@ -1262,7 +1402,7 @@
 
                                             <td style = "border-style: ridge;">3.</td>
                                             <td style = "border-style: ridge;">
-                                               OB/Other plot
+                                               Allotment of office building/ other plot if any.
                                             </td>
                                             <td class="text-left" style = "border-style: ridge;">
                                                 {{ isset($concessionData) ? $concessionData->ob_other_plot : '' }}
@@ -1272,7 +1412,7 @@
                                         <tr>
                                             <td style = "border-style: ridge;">4.</td>
                                             <td style = "border-style: ridge;">
-                                                VP cota
+                                                VP quota
                                             </td>
                                             <td class="text-left" style = "border-style: ridge;">
                                                 {{ isset($concessionData) ? $concessionData->vp_cota : '' }}
@@ -1288,7 +1428,7 @@
                                                 {{ isset($concessionData) ? $concessionData->encroachment_plot : '' }}
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <!-- <tr>
                                             <td style = "border-style: ridge;">6.</td>
                                             <td style = "border-style: ridge;">
                                                 Premium charges
@@ -1296,14 +1436,15 @@
                                             <td class="text-left" style = "border-style: ridge;">
                                                 {{ isset($concessionData) ? $concessionData->premium_charges : '' }}
                                             </td>
-                                        </tr>
+                                        </tr> -->
                                         <tr>
-                                            <td style = "border-style: ridge;">7.</td>
-                                            <td style = "border-style: ridge;">
-                                                Tit Bit land
+                                            <td style = "border-style: ridge;">6.</td>
+                                            <td>
+                                                Change of users
                                             </td>
-                                            <td class="text-left" style = "border-style: ridge;">
-                                                {{ isset($concessionData) ? $concessionData->tit_bit_land : '' }}
+                                            <td class="text-left">
+                                                {{ isset($concessionData) ? $concessionData->tenement_charges : '' }}
+
                                             </td>
                                         </tr>
                                     </tbody>
