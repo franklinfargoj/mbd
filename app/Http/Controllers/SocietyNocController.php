@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\NocCCApplicationStatus;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Auth\SessionGuard;
 use App\SocietyOfferLetter;
@@ -744,21 +745,40 @@ class SocietyNocController extends Controller
 //            }
 
 
-            if(in_array($status,array(config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.NOC_Generation'))))
-            {
-                $total_allover_pending_application++;
-            }
-
-            if(in_array($status,array(config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.NOC_Generation'))) && in_array($role_id, $ree_roles))
-            {
-                $total_pending_application_at_ree++;
-            }
-
-            if(in_array($status,array(config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.NOC_Generation'))) && $role_id == $role_ref)
-            {
-                $total_pending_application_at_co++;
-            }
+//            if(in_array($status,array(config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.NOC_Generation'))))
+//            {
+//                $total_allover_pending_application++;
+//            }
+//
+//            if(in_array($status,array(config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.NOC_Generation'))) && in_array($role_id, $ree_roles))
+//            {
+//                $total_pending_application_at_ree++;
+//            }
+//
+//            if(in_array($status,array(config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.NOC_Generation'))) && $role_id == $role_ref)
+//            {
+//                $total_pending_application_at_co++;
+//            }
         }
+
+        $co_role = Role::where('name',config('commanConfig.co_engineer'))->value('id');
+        $noc_master_ids = config('commanConfig.noc_master_ids');
+
+        $total_pending_application_at_ree = NocApplicationStatus::whereHas('NOCApplication', function($q) use ($noc_master_ids){
+            $q->whereIn('application_master_id', $noc_master_ids);
+        })->where('is_active',1)
+            ->whereIn('status_id',[config('commanConfig.applicationStatus.NOC_Generation'),config('commanConfig.applicationStatus.in_process')])
+            ->whereIn('role_id',$ree_roles)
+            ->get()->count();
+
+        $total_pending_application_at_co = NocApplicationStatus::whereHas('NOCApplication', function($q) use ($noc_master_ids){
+            $q->whereIn('application_master_id', $noc_master_ids);
+        })->where('is_active',1)
+            ->where('status_id',config('commanConfig.applicationStatus.NOC_Generation'))
+            ->where('role_id',$co_role)
+            ->get()->count();
+
+        $total_allover_pending_application = $total_pending_application_at_ree + $total_pending_application_at_co;
 
         return array(
             'app_data' => array(
@@ -821,6 +841,9 @@ class SocietyNocController extends Controller
         $ree_roles = $this->getREERoles();
 
         $co_role = Role::where('name',config('commanConfig.co_engineer'))->value('id');
+
+        $society_role_id = Role::where('name','society')->value('id');
+
         foreach ($applicationData as $count_application => $application){
             $status = $application['noc_application_status'][0]['status_id'];
             $role_id = $application['noc_application_status'][0]['role_id'];
@@ -833,7 +856,15 @@ class SocietyNocController extends Controller
                 {
                     case config('commanConfig.applicationStatus.in_process'): $total_pending_application_with_me += 1; break;
                     case config('commanConfig.applicationStatus.forwarded'): $total_application_forward += 1; break;
-                    case config('commanConfig.applicationStatus.reverted'): $total_application_revert += 1 ; break;
+                    case config('commanConfig.applicationStatus.reverted'):
+                        if($application['noc_generation_status'] == config('commanConfig.applicationStatus.reverted')
+                            && ($application['noc_application_status'][0]['to_role_id'] == $society_role_id))
+                        {
+                            $application_sent_for_compliance++;
+                        }else{
+                            $total_application_revert += 1 ;
+                        }
+                        break;
                     default:
                         ; break;
                 }
@@ -871,10 +902,7 @@ class SocietyNocController extends Controller
             }
 
 
-            if($application['noc_generation_status'] == config('commanConfig.applicationStatus.reverted') && ($application['society_flag'] == 1))
-            {
-                $application_sent_for_compliance++;
-            }
+
 
 
 //            if($application['noc_generation_status'] == config('commanConfig.applicationStatus.NOC_Issued') && $application['is_issued_to_society'] == 0)
@@ -886,22 +914,39 @@ class SocietyNocController extends Controller
 //                $approved_and_issued_noc++;
 //            }
 
-            if(in_array($status,array(config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.NOC_Generation'))))
-            {
-                $total_allover_pending_application++;
-            }
-
-            if(in_array($status,array(config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.NOC_Generation'))) && in_array($role_id, $ree_roles))
-            {
-                $total_pending_application_at_ree++;
-            }
-
-            if(in_array($status,array(config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.NOC_Generation'))) && $role_id == $co_role)
-            {
-                $total_pending_application_at_co++;
-            }
         }
 
+        $noc_master_ids = config('commanConfig.noc_master_ids');
+
+        $total_pending_application_at_ree = NocApplicationStatus::whereHas('NOCApplication', function($q) use ($noc_master_ids){
+            $q->whereIn('application_master_id', $noc_master_ids);
+        })->where('is_active',1)
+            ->whereIn('status_id',[config('commanConfig.applicationStatus.NOC_Generation'),config('commanConfig.applicationStatus.in_process')])
+            ->whereIn('role_id',$ree_roles)
+            ->get()->count();
+
+        $total_pending_application_at_co = NocApplicationStatus::whereHas('NOCApplication', function($q) use ($noc_master_ids){
+            $q->whereIn('application_master_id', $noc_master_ids);
+        })->where('is_active',1)
+            ->where('status_id',config('commanConfig.applicationStatus.NOC_Generation'))
+            ->where('role_id',$co_role)
+            ->get()->count();
+
+        $total_allover_pending_application = $total_pending_application_at_ree + $total_pending_application_at_co;
+
+//        if(in_array($status,array(config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.NOC_Generation'))))
+//        {
+//            $total_allover_pending_application++;
+//        }
+//        if(in_array($status,array(config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.NOC_Generation'))) && in_array($role_id, $ree_roles))
+//        {
+//            $total_pending_application_at_ree++;
+//        }
+//
+//        if(in_array($status,array(config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.NOC_Generation'))) && $role_id == $co_role)
+//        {
+//            $total_pending_application_at_co++;
+//        }
 
 
         return array(

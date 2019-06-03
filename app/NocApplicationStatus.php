@@ -28,4 +28,8 @@ class NocApplicationStatus extends Model
         return $this->hasOne('App\Role', 'id','role_id');
     }
 
+    public function NOCApplication()
+    {
+        return $this->belongsTo('App\NocApplication', 'application_id','id');
+    }
 }
