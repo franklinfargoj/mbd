@@ -300,7 +300,7 @@
             <tbody>
             <tr>
                     <td valign="top" style=" padding:10px 5px;">Balance Amount</td>
-                    <td valign="top" style=" padding:10px 5px; text-align: center;" class="text-center">{{($lastBill?$lastBill->balance_amount:0)+$TransBillGenerate->arrear_bill}}</td>
+                    <td valign="top" style=" padding:10px 5px; text-align: center;" class="text-center">{{ceil($TransBillGenerate->prev_service_charge_balance+$TransBillGenerate->prev_arrear_balance+$TransBillGenerate->prev_arrear_interest_balance-$TransBillGenerate->prev_credit)}}</td>
                 </tr>
                 @if($lastBill)
                 @php
@@ -324,11 +324,11 @@
                 </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4;  padding: 5px;">Bill Amount Before due date</td>
-                    <td valign="top" style="background-color: #f1f3f4;  padding: 5px; text-align: center;" class="text-center">{{$total_service+$total}}</td>
+                    <td valign="top" style="background-color: #f1f3f4;  padding: 5px; text-align: center;" class="text-center">{{ceil($TransBillGenerate->monthly_bill+$TransBillGenerate->prev_service_charge_balance+$TransBillGenerate->prev_arrear_balance+$TransBillGenerate->prev_arrear_interest_balance-$TransBillGenerate->prev_credit)}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4;  padding: 5px;">Bill Amount After due date</td>
-                    <td valign="top" style="background-color: #f1f3f4;  padding: 5px; text-align: center;" class="text-center">{{$total_service_after_due+$total}}</td>
+                    <td valign="top" style="background-color: #f1f3f4;  padding: 5px; text-align: center;" class="text-center">{{ceil($TransBillGenerate->total_service_after_due+$TransBillGenerate->prev_service_charge_balance+$TransBillGenerate->prev_arrear_balance+$TransBillGenerate->prev_arrear_interest_balance-$TransBillGenerate->prev_credit)}}</td>
                 </tr>
                 {{-- <tr>
                     <td valign="top" style="background-color: #f1f3f4;  padding: 5px; font-weight: bold;">Grand Total</td>

@@ -95,9 +95,9 @@
                                 @if(isset($society_name))
                                 <option value="{{encrypt($society_id)}}" selected>{{$society_name}}</option>
                                 @endif
-                                @foreach($societies_data as $key => $value)
+                                {{-- @foreach($societies_data as $key => $value)
                                 <option value="{{ encrypt($value->id) }}">{{ $value->society_name }}</option>
-                                @endforeach
+                                @endforeach --}}
                             </select>
                         </div>
                     </div>

@@ -200,11 +200,11 @@
                 </tr>
                 <tr>
                     <td valign="top" style=" padding: 5px; font-weight: bold; text-align: right; background-color: #f1f3f4;">After Due date 1.5% interest</td>
-                    <td valign="top" style=" padding: 5px; font-weight: bold;text-align: center; background-color: #f1f3f4;">{{$total_after_due}}</td>
+                    <td valign="top" style=" padding: 5px; font-weight: bold;text-align: center; background-color: #f1f3f4;">{{ceil($total_after_due)}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style=" padding: 5px; font-weight: bold; text-align: right; background-color: #f1f3f4;">After Due date Amount payable</td>
-                    <td valign="top" style=" padding: 5px; font-weight: bold;text-align: center; background-color: #f1f3f4;">{{$total_service_after_due}}</td>
+                    <td valign="top" style=" padding: 5px; font-weight: bold;text-align: center; background-color: #f1f3f4;">{{ceil($total_service_after_due)}}</td>
                 </tr>
             </tbody>
         </table>
@@ -242,6 +242,7 @@
         </table>
         @endif
         @else
+        
         <div style="border: 2px solid #000; padding: 5px; margin-top: 20px;"><h3 style="text-align: center;">Balance amount to be paid - Arrears</h3></div>
         <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
             <thead>
@@ -258,14 +259,14 @@
                     $total=$TransBillGenerate->prev_arrear_balance+$TransBillGenerate->prev_arrear_interest_balance;
                 @endphp
                     <tr>
-                        <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$lastBill->bill_year}}</td>
+                        {{-- <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$lastBill->bill_year}}</td>
                         <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{date("M", strtotime("2001-" . $lastBill->bill_month . "-01"))}}</td>
                         <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$lastBill->arrear_balance }}</td>
-                        <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$lastBill->arrear_interest_balance }}</td>
-                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{$lastBill->bill_year}}</td>
-                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{date("M", strtotime("2001-" . $lastBill->bill_month . "-01"))}}</td>
-                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{$TransBillGenerate->prev_arrear_balance }}</td>
-                        <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{$TransBillGenerate->prev_arrear_interest_balance }}</td>
+                        <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$lastBill->arrear_interest_balance }}</td> --}}
+                        <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$lastBill->bill_year}}</td>
+                        <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{date("M", strtotime("2001-" . $lastBill->bill_month . "-01"))}}</td>
+                        <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$TransBillGenerate->prev_arrear_balance }}</td>
+                        <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$TransBillGenerate->prev_arrear_interest_balance }}</td>
                     </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: right; font-weight: bold;" colspan="2">Total</td>
@@ -287,7 +288,7 @@
             <tbody>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px;text-align: right;">Balance Amount</td>
-                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center;">{{($lastBill?$lastBill->balance_amount:0)+$TransBillGenerate->arrear_bill}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center;">{{ceil($TransBillGenerate->prev_service_charge_balance+$TransBillGenerate->prev_arrear_balance+$TransBillGenerate->prev_arrear_interest_balance-$TransBillGenerate->prev_credit)}}</td>
                 </tr>
                  @if($TransBillGenerate && !empty($TransBillGenerate) && 0 < $TransBillGenerate->credit_amount)
                     <tr>
@@ -305,11 +306,11 @@
                 </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: right; font-weight: bold;">Bill Amount Before due date</td>
-                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center; font-weight: bold;">{{ceil($total_service+$total)}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center; font-weight: bold;">{{ceil($TransBillGenerate->monthly_bill+$TransBillGenerate->prev_service_charge_balance+$TransBillGenerate->prev_arrear_balance+$TransBillGenerate->prev_arrear_interest_balance-$TransBillGenerate->prev_credit)}}</td>
                 </tr>
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: right; font-weight: bold;">Bill Amount After due date</td>
-                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center; font-weight: bold;">{{ceil($total_service_after_due+$total)}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center; font-weight: bold;">{{ceil($TransBillGenerate->total_service_after_due+$TransBillGenerate->prev_service_charge_balance+$TransBillGenerate->prev_arrear_balance+$TransBillGenerate->prev_arrear_interest_balance-$TransBillGenerate->prev_credit)}}</td>
                 </tr>
             </tbody>
         </table>

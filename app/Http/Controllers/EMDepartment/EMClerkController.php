@@ -385,7 +385,7 @@ class EMClerkController extends Controller
         
         //return $request->all();
 
-        return redirect()->back()->with('success', 'Arreaer Calculation Submitted Successfully.');
+        return redirect()->back()->with('success', 'Arrear Calculation Submitted Successfully.');
        
 
     }

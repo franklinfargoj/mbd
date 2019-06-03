@@ -88,13 +88,13 @@
                                     @if(isset($society_name)) 
                                     <option value="{{encrypt($society_id)}}" selected>{{$society_name}}</option>
                                     @endif
-                                    @foreach($societies_data as $key => $value)
+                                    {{-- @foreach($societies_data as $key => $value)
                                         @if($society_id == $value->id)
                                         <option value="{{ encrypt($value->id) }}" selected>{{ $value->society_name }}</option>
                                         @else
                                         <option value="{{ encrypt($value->id) }}" >{{ $value->society_name }}</option>
                                         @endif
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                             </div>
                         </div>                             
