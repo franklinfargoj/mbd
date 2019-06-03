@@ -537,7 +537,8 @@ class SocietyOfferLetterController extends Controller
 
                     }
                     $status_display = '';
-                    foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
+                    foreach($status as $status_value){
+                        $status_display .= ucwords($status_value). ' ';}
                     $status_color = '';
                     if($status_display == 'Sent To Society '){
                         $status_display = 'Approved';

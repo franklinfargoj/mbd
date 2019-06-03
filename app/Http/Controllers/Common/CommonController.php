@@ -3585,6 +3585,7 @@ class CommonController extends Controller
 
     public function generateNOCforwardToREE($request, $ree)
     {
+
         $forward_application = [[
             'application_id' => $request->applicationId,
             'user_id' => Auth::user()->id,
@@ -3614,7 +3615,9 @@ class CommonController extends Controller
 
         DB::beginTransaction();
         try {
-            NocApplicationStatus::where('application_id',$request->applicationId)->update(array('is_active' => 0));
+            NocApplicationStatus::where('application_id',$request->applicationId)
+                ->whereIn('user_id',[Auth::user()->id,$ree->user_id])
+                ->update(array('is_active' => 0));
 
             NocApplicationStatus::insert($forward_application);
             NocApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.NOC_Issued')]);
@@ -3803,7 +3806,9 @@ class CommonController extends Controller
 
         DB::beginTransaction();
         try {
-            NocApplicationStatus::where('application_id',$request->applicationId)->update(array('is_active' => 0));
+            NocApplicationStatus::where('application_id',$request->applicationId)
+            ->whereIn('user_id',[Auth::user()->id,$society_details->user_id])
+            ->update(array('is_active' => 0));
 
             NocApplicationStatus::insert($forward_application);
             NocApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.sent_to_society') , 'is_issued_to_society' => 1]);

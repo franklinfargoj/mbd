@@ -664,15 +664,19 @@ class SocietyNocController extends Controller
 
     public function getStatusDashboard($applicationData){
 
+//        dd('co dashboard here');
         $role_ref   = session()->get('role_id');
 
         $total_number_of_application = count($applicationData);
         $total_pending_application_with_me = 0;
+        $total_application_forward = 0;
+        $total_application_revert = 0;
+
         $application_sent_for_compliance = 0;
         $draft_noc_generated_and_pending_with_ree = 0;
         $approved_noc_but_not_issued_to_society = 0;
         $approved_and_issued_noc = 0;
-
+        $total_application_approved = 0;
         $total_allover_pending_application = 0;
         $total_pending_application_at_ree = 0;
         $total_pending_application_at_co = 0;
@@ -682,27 +686,56 @@ class SocietyNocController extends Controller
         foreach ($applicationData as $count_application => $application){
             $status = $application['noc_application_status'][0]['status_id'];
             $role_id = $application['noc_application_status'][0]['role_id'];
+            $phase = $application['noc_application_status'][0]['phase'];
 
-            if(in_array($status,array(config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.NOC_Generation'))) && $role_id == $role_ref)
-            {
-                $total_pending_application_with_me++;
+            if($phase == 1){
+                switch ( $status )
+                {
+                    case config('commanConfig.applicationStatus.NOC_Generation'): $total_pending_application_with_me += 1; break;
+                    case (config('commanConfig.applicationStatus.NOC_Approved')): $total_application_approved += 1; break;
+                    case config('commanConfig.applicationStatus.reverted'): $total_application_revert += 1 ; break;
+                    default:
+                        ; break;
+                }
             }
-            if($application['noc_generation_status'] == config('commanConfig.applicationStatus.reverted'))
-            {
-                $application_sent_for_compliance++;
+
+            if($phase == 2){
+                switch ( $status )
+                {
+                    case (config('commanConfig.applicationStatus.forwarded')):
+                        if($application['noc_generation_status'] == config('commanConfig.applicationStatus.sent_to_society') && $application['is_issued_to_society'] == 1)
+                        {
+                            $approved_and_issued_noc += 1;
+                        }else{
+
+                            $total_application_forward += 1;
+                        }
+
+                        break;
+                }
             }
-            if(($application['noc_generation_status'] == config('commanConfig.applicationStatus.NOC_Generation') || !empty($application['final_draft_noc_path'])) && in_array($role_id, $ree_roles) && $application['noc_generation_status'] != config('commanConfig.applicationStatus.NOC_Issued'))
-            {
-                $draft_noc_generated_and_pending_with_ree++;
-            }
-            if($application['noc_generation_status'] == config('commanConfig.applicationStatus.NOC_Issued') && $application['is_issued_to_society'] == 0)
-            {
-                $approved_noc_but_not_issued_to_society++;
-            }
-            if($application['noc_generation_status'] == config('commanConfig.applicationStatus.sent_to_society') && $application['is_issued_to_society'] == 1)
-            {
-                $approved_and_issued_noc++;
-            }
+
+
+
+
+
+//            if(in_array($status,array(config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.NOC_Generation'))) && $role_id == $role_ref)
+//            {
+//                $total_pending_application_with_me++;
+//            }
+//            if($application['noc_generation_status'] == config('commanConfig.applicationStatus.reverted'))
+//            {
+//                $application_sent_for_compliance++;
+//            }
+//            if(($application['noc_generation_status'] == config('commanConfig.applicationStatus.NOC_Generation') || !empty($application['final_draft_noc_path'])) && in_array($role_id, $ree_roles) && $application['noc_generation_status'] != config('commanConfig.applicationStatus.NOC_Issued'))
+//            {
+//                $draft_noc_generated_and_pending_with_ree++;
+//            }
+//            if($application['noc_generation_status'] == config('commanConfig.applicationStatus.NOC_Issued') && $application['is_issued_to_society'] == 0)
+//            {
+//                $approved_noc_but_not_issued_to_society++;
+//            }
+
 
             if(in_array($status,array(config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.NOC_Generation'))))
             {
@@ -730,21 +763,21 @@ class SocietyNocController extends Controller
                     $total_pending_application_with_me,
                     'co_noc_applications?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.NOC_Generation')
                 ),
-                'Application Sent for Compliance to Society' => array(
+                /*'Application Sent for Compliance to Society' => array(
                     $application_sent_for_compliance,
                     'co_noc_applications?dashboard_redicted=1&submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted')
-                ),
-                'Draft NOC Generated and pending with REE' => array(
+                ),*/
+                /*'Draft NOC Generated and pending with REE' => array(
                     $draft_noc_generated_and_pending_with_ree,
                     'co_noc_applications?dashboard_redicted=1&submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process')
-                ),
-                'Approved NOC but not issued to society' => array(
-                    $approved_noc_but_not_issued_to_society,
-                    'co_noc_applications?dashboard_redicted=1&submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.NOC_Issued')
+                ),*/
+                'Approved NOC sent for issuing to society' => array(
+                    $total_application_forward,
+                    'co_noc_applications?dashboard_redicted=1&submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded')
                 ),
                 'Approved NOC and issued to society' => array(
                     $approved_and_issued_noc,
-                    'co_noc_applications?dashboard_redicted=1&submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.sent_to_society')
+                    'co_noc_applications?dashboard_redicted=1&submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded')
                 ),
             ),
             'pending_data' => array(
@@ -765,7 +798,7 @@ class SocietyNocController extends Controller
         $nocGeneration = 0;
         $total_application_forward = 0;
         $total_application_revert = 0;
-
+        $total_application_forward_for_issuing_to_society = 0;
         $application_sent_for_compliance = 0;
         $proposal_sent_for_approval_to_co = 0;
 
@@ -804,42 +837,47 @@ class SocietyNocController extends Controller
                 switch ( $status )
                 {
                     case config('commanConfig.applicationStatus.NOC_Generation'): $total_pending_application_with_me += 1; break;
-                    case (config('commanConfig.applicationStatus.forwarded')): $total_application_forward += 1; break;
+                    case (config('commanConfig.applicationStatus.forwarded')):
+                        if(config('commanConfig.applicationStatus.NOC_Generation') && ($application->final_draft_noc_path != null))
+                        {
+                            $proposal_sent_for_approval_to_co++;
+                        }
+                        else{
+                            $total_application_forward += 1;
+                        }
+                        break;
                     case config('commanConfig.applicationStatus.reverted'): $total_application_revert += 1 ; break;
                     default:
                         ; break;
                 }
             }
-//            if($phase == 2){
-//                switch ( $status )
-//                {
-//
-//                    case config('commanConfig.applicationStatus.forwarded'): $offerLetterForwardedForIssueingToSociety += 1; break;
-//                    case config('commanConfig.applicationStatus.offer_letter_approved'): $offerLetterApprovedNotIssuedToSociety += 1; break;
-//                    case config('commanConfig.applicationStatus.sent_to_society'): $offerLetterIssuedToSociety += 1; break;
-//                    default:
-//                        ; break;
-//                }
-//            }
+            if($phase == 2){
+                switch ( $status )
+                {
+
+                    case config('commanConfig.applicationStatus.forwarded'): $total_application_forward_for_issuing_to_society += 1; break;
+                    case config('commanConfig.applicationStatus.NOC_Issued'): $approved_noc_but_not_issued_to_society += 1; break;
+                    case config('commanConfig.applicationStatus.sent_to_society'): $approved_and_issued_noc += 1; break;
+                    default:
+                        ; break;
+                }
+            }
 
 
-            if($application['noc_generation_status'] == config('commanConfig.applicationStatus.reverted'))
+            if($application['noc_generation_status'] == config('commanConfig.applicationStatus.reverted') && ($application['society_flag'] == 1))
             {
                 $application_sent_for_compliance++;
             }
 
-            if(in_array($status,array(config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.NOC_Generation'))) && $role_id == $co_role)
-            {
-                $proposal_sent_for_approval_to_co++;
-            }
-            if($application['noc_generation_status'] == config('commanConfig.applicationStatus.NOC_Issued') && $application['is_issued_to_society'] == 0)
-            {
-                $approved_noc_but_not_issued_to_society++;
-            }
-            if($application['noc_generation_status'] == config('commanConfig.applicationStatus.sent_to_society') && $application['is_issued_to_society'] == 1)
-            {
-                $approved_and_issued_noc++;
-            }
+
+//            if($application['noc_generation_status'] == config('commanConfig.applicationStatus.NOC_Issued') && $application['is_issued_to_society'] == 0)
+//            {
+//                $approved_noc_but_not_issued_to_society++;
+//            }
+//            if($application['noc_generation_status'] == config('commanConfig.applicationStatus.sent_to_society') && $application['is_issued_to_society'] == 1)
+//            {
+//                $approved_and_issued_noc++;
+//            }
 
             if(in_array($status,array(config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.NOC_Generation'))))
             {
@@ -867,7 +905,7 @@ class SocietyNocController extends Controller
                 ),
                 'Application Pending' => array(
                     $total_pending_application_with_me,
-                    'ree_noc_applications?submitted_at_from=&submitted_at_to=&update_status='.$pending_url_status,
+                    'ree_noc_applications?submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.in_process'),
                 ),
                 'Application Forwarded' => array(
                     $total_application_forward,
@@ -881,13 +919,17 @@ class SocietyNocController extends Controller
                     $application_sent_for_compliance,
                     'ree_noc_applications?dashboard_redicted=1&submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.reverted')
                 ),
-                'Proposal sent for Approval to CO' => array(
+                'Draft NOC sent for Approval to CO' => array(
                     $proposal_sent_for_approval_to_co,
-                    'ree_noc_applications?dashboard_redicted=1&submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.NOC_Generation')
+                    'ree_noc_applications?dashboard_redicted=1&submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded')
                 ),
                 'Approved NOC but not issued to society' => array(
                     $approved_noc_but_not_issued_to_society,
                     'ree_noc_applications?dashboard_redicted=1&submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.NOC_Issued')
+                ),
+                'Approved NOC sent for issuing to society' => array(
+                    $total_application_forward_for_issuing_to_society,
+                    'ree_noc_applications?dashboard_redicted=1&submitted_at_from=&submitted_at_to=&update_status='.config('commanConfig.applicationStatus.forwarded')
                 ),
                 'Approved NOC and issued to society' => array(
                     $approved_and_issued_noc,
