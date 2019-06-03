@@ -36,7 +36,7 @@
 
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <h4 class="m-subheader__title--hint mb-4" style="margin-left: 0;">Ward & Coloney for
+                        <h4 class="m-subheader__title--hint mb-4" style="margin-left: 0;">Ward & Colony for
                             {{$society[0]->society_name}}</h4>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                     <div class="col-sm-6 mt-4">
                         <div class="btn-list mt-3">
                             <input type="submit" class="btn btn-primary mhada-btn-pill" name="submit" value="Submit">
-                            <a class="btn btn-secondary mhada-btn-pill" href="http://127.0.0.1:8000/get_societies">Cancel</a>
+                        <a class="btn btn-secondary mhada-btn-pill" href="{{route('get_societies')}}">Cancel</a>
                         </div>        
                     </div>
                 </div>

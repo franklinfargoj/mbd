@@ -193,7 +193,7 @@ class BillingDetailController extends Controller
                     $arreas_calculations = TransBillGenerate::with(['trans_payment','service_charges'])
                     ->where('trans_bill_generate.society_id',$request->society_id)
                     ->where('trans_bill_generate.building_id',$request->building_id)
-                    ->whereIn('bill_year',$select_year)->where('trans_bill_generate.tenant_id', $request->tenant_id)->orderBy('trans_bill_generate.created_at','desc')->groupBy('trans_bill_generate.tenant_id');
+                    ->whereIn('bill_year',$select_year)->where('trans_bill_generate.tenant_id', $request->tenant_id)->orderBy('trans_bill_generate.created_at','desc');
                     // ->leftjoin('service_charges_rates', function($join)
                     // {
                     //     $join->on('service_charges_rates.building_id', '=', 'trans_bill_generate.building_id');
@@ -227,7 +227,8 @@ class BillingDetailController extends Controller
                     $arreas_calculations = TransBillGenerate::with(['trans_payment','service_charges'])
                     ->where('trans_bill_generate.society_id',$request->society_id)
                     ->where('trans_bill_generate.building_id',$request->building_id)
-                   ->whereIn('bill_year',$select_year)->orderBy('trans_bill_generate.created_at','desc')->groupBy('trans_bill_generate.tenant_id');
+                    ->whereIn('bill_year',$select_year)->orderBy('trans_bill_generate.created_at','desc');
+                   //->whereIn('bill_year',$select_year)->orderBy('trans_bill_generate.created_at','desc')->groupBy('trans_bill_generate.tenant_id');
                     //->leftjoin('service_charges_rates', function($join)
                     // {
                     //     $join->on('service_charges_rates.building_id', '=', 'trans_bill_generate.building_id');

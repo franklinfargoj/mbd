@@ -157,6 +157,10 @@
                             <td>{{$currentBill->service_charges->na_assessment}} </td>
                         </tr>
                         <tr>
+                            <td>Property Tax</td>
+                            <td>{{$currentBill->service_charges->property_tax}} </td>
+                        </tr>
+                        <tr>
                             <td>Other</td>
                             <td>{{$currentBill->service_charges->other}}</td>
                         </tr>
@@ -167,12 +171,12 @@
                         </tr>
                         <tr>
                             <td><p class="pull-right">After Due date 1.5% interest</p></td>
-                            <td>{{$total_after_due}}</td>
+                            <td>{{ceil($total_after_due)}}</td>
                         </tr>
                         <tr>
                             <td><p class="pull-right">After Due date Amount payable</p></td>
 
-                            <td>{{ $total_service_after_due }} </td>
+                            <td>{{ ceil($total_service_after_due) }} </td>
                         </tr>
                     </table>
                 </div>
@@ -210,10 +214,10 @@
                 <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
                     <thead>
                         <tr>
-                            <th valign="top" style="background-color: lightblue; padding: 5px; width: 25%;">Year</th>
-                            <th valign="top" style="background-color: lightblue; padding: 5px; width: 25%;">Month</th>
-                            <th valign="top" style="background-color: lightblue; padding: 5px; width: 25%;">Amount in Rs.</th>
-                            <th valign="top" style="background-color: lightblue; padding: 5px; width: 25%;">Penalty in Rs.</th>
+                            <th valign="top" style="padding: 5px; width: 25%;">Year</th>
+                            <th valign="top" style="padding: 5px; width: 25%;">Month</th>
+                            <th valign="top" style="padding: 5px; width: 25%;">Amount in Rs.</th>
+                            <th valign="top" style="padding: 5px; width: 25%;">Penalty in Rs.</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -222,24 +226,25 @@
                             $total=$currentBill->prev_arrear_balance+$currentBill->prev_arrear_interest_balance;
                         @endphp
                             <tr>
-                                <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$lastBill->bill_year}}</td>
-                                <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{date("M", strtotime("2001-" . $lastBill->bill_month . "-01"))}}</td>
-                                <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$lastBill->prev_arrear_balance }}</td>
-                                <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$lastBill->prev_arrear_interest_balance }}</td>
+                                {{-- <td valign="top" style="text-align:center;">{{$lastBill->bill_year}}</td>
+                                <td valign="top" style="text-align:center;">{{date("M", strtotime("2001-" . $lastBill->bill_month . "-01"))}}</td>
+                                <td valign="top" style="text-align:center;">{{$lastBill->prev_arrear_balance }}</td>
+                                <td valign="top" style="text-align:center;">{{$lastBill->prev_arrear_interest_balance }}</td> --}}
                                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{$lastBill->bill_year}}</td>
                                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{date("M", strtotime("2001-" . $lastBill->bill_month . "-01"))}}</td>
                                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{$currentBill->prev_arrear_balance }}</td>
                                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{$currentBill->prev_arrear_interest_balance }}</td>
                             </tr>
                         <tr>
-                            <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: right; font-weight: bold;" colspan="2">Total</td>
-                            <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center; font-weight: bold;">{{$total}}</td>
-                            <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center; font-weight: bold;"></td>
+                            <td valign="top" style="text-align: right; font-weight: bold;" colspan="2">Total</td>
+                            <td valign="top" style="text-align:center; font-weight: bold;">{{$total}}</td>
+                            <td valign="top" style="text-align:center; font-weight: bold;"></td>
                         </tr>
                        
                     </tbody>
                 </table>
                 @endif
+                
                 <div class="form-group m-form__group row">
                     <div class="col-sm-12 form-group">
                         <p class="text-center">Total Amount to be paid</p>
@@ -253,7 +258,7 @@
                         </tr>
                         <tr>
                             <td>Balance Amount</td>
-                            <td class="text-center">{{($lastBill?$lastBill->balance_amount:0)+$currentBill->arrear_bill}}</td>
+                            <td class="text-center">{{ceil($currentBill->prev_service_charge_balance+$currentBill->prev_arrear_balance+$currentBill->prev_arrear_interest_balance-$currentBill->prev_credit)}}</td>
                         </tr>
                         @if($lastBill && !empty($lastBill) && 0 < $lastBill->credit_amount)
                         <tr>
@@ -271,11 +276,11 @@
                         </tr>
                         <tr>
                             <td>Current month Bill amount before due date</td>
-                            <td class="text-center">{{$total_service+$total}} </td>
+                            <td class="text-center">{{ceil($currentBill->monthly_bill+$currentBill->prev_service_charge_balance+$currentBill->prev_arrear_balance+$currentBill->prev_arrear_interest_balance-$currentBill->prev_credit)}} </td>
                         </tr>
                         <tr>
                             <td>Current month Bill amount after due date</td>
-                            <td class="text-center">{{ceil($total_service_after_due+$total)}} </td>
+                            <td class="text-center">{{ceil($currentBill->total_service_after_due+$currentBill->prev_service_charge_balance+$currentBill->prev_arrear_balance+$currentBill->prev_arrear_interest_balance-$currentBill->prev_credit)}} </td>
                         </tr>
                         {{-- <tr>
                             <td><p class="pull-right">Total</p></td>

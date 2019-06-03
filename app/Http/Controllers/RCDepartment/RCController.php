@@ -1003,6 +1003,7 @@ class RCController extends Controller
                             $arreasCalculation->difference_intrest_amount);
                     }
                 }
+                
                 //dd($data['arreasCalculation']);
                 $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
                 $pdf = PDF::loadView('admin.rc_department.download_tenant_bill', $data);

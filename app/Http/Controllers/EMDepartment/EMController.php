@@ -425,10 +425,10 @@ class EMController extends Controller
       //dd($request->id);
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
-            ['data' => 'society_name','name' => 'society_name','title' => 'Society Name'],
-            ['data' => 'ward_name','name' => 'ward_name','title' => 'Ward','searchable' => false],
-            ['data' => 'col_name','name' => 'col_name','title' => 'Colony','searchable' => false],
-            ['data' => 'billname','name' => 'billname','title' => 'Bill type','searchable' => false],
+            ['data' => 'society_name','name' => 'lm_society_detail.society_name','title' => 'Society Name','searchable' => true],
+            ['data' => 'ward_name','name' => 'master_wards.name','title' => 'Ward','searchable' => true],
+            ['data' => 'col_name','name' => 'master_colonies.name','title' => 'Colony','searchable' => true],
+            ['data' => 'billname','name' => 'master_society_bill_level.name','title' => 'Bill type','searchable' => true],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
@@ -465,6 +465,15 @@ class EMController extends Controller
                      ->leftjoin('master_society_bill_level','master_society_bill_level.id','=','lm_society_detail.society_bill_level')
                      ->leftjoin('master_colonies','master_colonies.id','=','lm_society_detail.colony_id');
             }
+            if($request->search['value']!="")
+           {
+            $societies=$societies->where('master_colonies.name','like','%'.$request->search['value'].'%')
+            ->orWhere('master_wards.name','like','%'.$request->search['value'].'%')
+            ->orWhere('lm_society_detail.society_name','like','%'.$request->search['value'].'%')
+            ->orWhere('master_society_bill_level.name','like','%'.$request->search['value'].'%');
+            //$societies=$societies;
+            //dd($societies->toSql());
+           }
 
             return $datatables->of($societies)
                 ->editColumn('actions', function ($societies){
