@@ -1129,6 +1129,12 @@ class SocietyNocController extends Controller
             $query->where('layout_id',$application->layout_id);
         })->get();
 
+        if(($application->final_draft_noc_path == null) || $application->draft_noc_path == null){
+            $phase = 0 ;
+        }else{
+            $phase = 1;
+        }
+
         if(count($users) > 0) {
             foreach ($users as $key => $user) {
                 $i = 0;
@@ -1143,6 +1149,7 @@ class SocietyNocController extends Controller
                 $insert_application_log_forwarded[$key]['is_active'] = 1;
                 $insert_application_log_forwarded[$key]['created_at'] = date('Y-m-d H-i-s');
                 $insert_application_log_forwarded[$key]['updated_at'] = date('Y-m-d H-i-s');
+                $insert_application_log_forwarded[$key]['phase'] = $phase;
 
                 $insert_application_log_in_process[$key]['application_id'] = $application->id;
                 $insert_application_log_in_process[$key]['society_flag'] = 0;
@@ -1155,6 +1162,7 @@ class SocietyNocController extends Controller
                 $insert_application_log_in_process[$key]['is_active'] = 1;
                 $insert_application_log_in_process[$key]['created_at'] = date('Y-m-d H-i-s');
                 $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d H-i-s');
+                $insert_application_log_in_process[$key]['phase'] = $phase;
                 $i++;
             }
 
@@ -1163,7 +1171,8 @@ class SocietyNocController extends Controller
                 NocApplicationStatus::where('application_id',$application->id)
                     ->whereIn('user_id',[Auth::user()->id,$user->id])
                     ->update(array('is_active' => 0,'phase' => 0));
-
+                
+                NocApplication::where('id',$application->id)->update(['noc_generation_status' => 0]);
                 NocApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
 
                 DB::commit();
