@@ -1955,7 +1955,7 @@ span.label {
 
         var intro = parseFloat(area1) - parseFloat(road_area);
         var lowest = Math.min(area, intro);
-        $("#area_of_subsistence_to_calculate").attr('value', numberWithCommas(lowest));
+        $("#area_of_subsistence_to_calculate").attr('value', numberWithCommas(lowest).toFixed(2));
         permissibleConstructionArea();
     }
 

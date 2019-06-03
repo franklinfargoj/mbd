@@ -565,15 +565,22 @@ class SocietyNocController extends Controller
         $docs_uploaded_count = 0;
         $docs_count = 0;
         foreach($documents as $documents_key => $documents_val){
-                if($documents_val->is_optional == 0 && count($documents_val->documents_uploaded) > 0){
-                    $docs_uploaded_count++;
-                }
+            if($documents_val->is_optional == 0 && count($documents_val->documents_uploaded) > 0){
+                $docs_uploaded_count++;
+            }
         }
+
+        $check_upload_avail = 0;
+        if($docs_uploaded_count >= $docs_count)
+        {
+            $check_upload_avail = 1;
+        }
+
         $noc_applications = $application;
         $documents_uploaded = NocSocietyDocumentsStatus::where('application_id',$applicationId)->where('society_id', $society->id)->whereIn('document_id', $document_ids)->get();
         $documents_comment = NocSocietyDocumentsComment::where('application_id',$applicationId)->where('society_id', $society->id)->first();
         
-        return view('frontend.society.view_society_uploaded_documents_noc', compact('documents', 'optional_docs', 'docs_uploaded_count','docs_count', 'noc_applications','documents_uploaded', 'documents_comment', 'society'));
+        return view('frontend.society.view_society_uploaded_documents_noc', compact('documents', 'optional_docs', 'docs_uploaded_count','docs_count', 'noc_applications','documents_uploaded', 'documents_comment', 'society','check_upload_avail'));
     }
 
     public function resubmitNocApplication(Request $request){
