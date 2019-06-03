@@ -2506,12 +2506,17 @@ class CommonController extends Controller
     {
         if(isset($request['dashboard_redicted']) && $request['dashboard_redicted'] == 1)
         {
-            $applicationData = NocApplication::with(['applicationLayoutUser', 'noc_application_master', 'eeApplicationSociety', 'nocApplicationStatusForLoginListing' => function ($q) {
-                $q->where('society_flag', 0)
+            $applicationData = NocApplication::with(['applicationLayoutUser', 'noc_application_master', 'eeApplicationSociety',
+                'nocApplicationStatusForLoginListing' => function ($q) {
+                $q->where('user_id', Auth::user()->id)
+                    ->where('role_id', session()->get('role_id'))
+                    ->where('society_flag', 0)
                 ->orderBy('id', 'desc');
             }])
             ->whereHas('nocApplicationStatusForLoginListing', function ($q) {
-                $q->where('society_flag', 0)
+                $q->where('user_id', Auth::user()->id)
+                    ->where('role_id', session()->get('role_id'))
+                    ->where('society_flag', 0)
                     ->orderBy('id', 'desc');
             });
 
@@ -2964,6 +2969,7 @@ class CommonController extends Controller
             ];
 
             NocApplicationStatus::where('application_id',$request->applicationId)
+                ->whereIn('user_id',[Auth::user()->id,$request->to_user_id])
                 ->update(array('is_active' => 0));
 
             NocApplicationStatus::insert($forward_application);
@@ -2998,6 +3004,7 @@ class CommonController extends Controller
             ];
 
             NocApplicationStatus::where('application_id',$request->applicationId)
+                ->whereIn('user_id',[Auth::user()->id,$request->to_child_id])
                 ->update(array('is_active' => 0));
 
             NocApplicationStatus::insert($revert_application);
@@ -3192,7 +3199,9 @@ class CommonController extends Controller
 
             DB::beginTransaction();
             try {
-                NocApplicationStatus::where('application_id',$request->applicationId)->update(array('is_active' => 0));
+                NocApplicationStatus::where('application_id',$request->applicationId)
+                    ->whereIn('user_id',[Auth::user()->id,$request->to_user_id])
+                    ->update(array('is_active' => 0));
 
                 NocApplicationStatus::insert($forward_application);
                 NocApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.NOC_Issued')]);
@@ -3313,6 +3322,7 @@ class CommonController extends Controller
 
     public function forwardNocApplicationForm($request)
     {
+
         if ($request->check_status == 1) {
             $forward_application = [[
                 'application_id' => $request->applicationId,
@@ -3341,7 +3351,9 @@ class CommonController extends Controller
 
             DB::beginTransaction();
             try {
-                NocApplicationStatus::where('application_id',$request->applicationId)->update(array('is_active' => 0));
+                NocApplicationStatus::where('application_id',$request->applicationId)
+                    ->whereIn('user_id', [Auth::user()->id,$request->to_user_id ])
+                    ->update(array('is_active' => 0));
 
                 NocApplicationStatus::insert($forward_application);
 
@@ -3381,7 +3393,9 @@ class CommonController extends Controller
 
             DB::beginTransaction();
             try {
-                NocApplicationStatus::where('application_id',$request->applicationId)->update(array('is_active' => 0));
+                NocApplicationStatus::where('application_id',$request->applicationId)
+                    ->whereIn('user_id', [Auth::user()->id,$request->to_child_id ])
+                    ->update(array('is_active' => 0));
 
                 NocApplicationStatus::insert($revert_application);
 
@@ -3915,6 +3929,15 @@ class CommonController extends Controller
     {
         $society_details = NocApplicationStatus::where(['society_flag' => 1, 'application_id' => $request->applicationId])->orderBy('id', 'desc')->first();
 
+        $nocData = NocApplication::where('id',$request->applicationId)->orderBy('id', 'desc')->first();
+        
+        if($nocData->final_draft_noc_path != null){
+            $phase = 1;
+
+        }else{
+            $phase = 0;
+        }
+
         $revert_application = [
             [
                 'application_id' => $request->applicationId,
@@ -3926,7 +3949,7 @@ class CommonController extends Controller
                 'to_role_id' => $society_details->role_id,
                 'remark' => $request->remark,
                 'is_active' => 1,
-                'phase' => 3,
+                'phase' => $phase,
                 'created_at' => Carbon::now(),
             ],
 
@@ -3934,20 +3957,22 @@ class CommonController extends Controller
                 'application_id' => $request->applicationId,
                 'user_id' => $society_details->user_id,
                 'role_id' => $society_details->role_id,
-                'status_id' => config('commanConfig.applicationStatus.reverted'),
+                'status_id' => config('commanConfig.applicationStatus.pending'),
                 'to_user_id' => null,
                 'society_flag' => 1,
                 'to_role_id' => null,
                 'remark' => $request->remark,
                 'is_active' => 1,
-                'phase' => 3,
+                'phase' => $phase,
                 'created_at' => Carbon::now(),
             ],
         ];
 
         DB::beginTransaction();
         try {
-            NocApplicationStatus::where('application_id',$request->applicationId)->update(array('is_active' => 0));
+            NocApplicationStatus::where('application_id',$request->applicationId)
+                ->whereIn('user_id',[Auth::user()->id,$society_details->user_id])
+                ->update(array('is_active' => 0));
 
            NocApplicationStatus::insert($revert_application);
            NocApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.reverted')]);
