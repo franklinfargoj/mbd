@@ -1760,6 +1760,7 @@ class REEController extends Controller
 
         if(session()->get('role_name') == config('commanConfig.ree_junior') && $noc_application->noc_generation_status == 0 && !empty($noc_application->final_draft_noc_path))
         {
+//            dd('1');
             NocApplication::where('id',$request->applicationId)->update(["noc_generation_status" => config('commanConfig.applicationStatus.NOC_Generation')]);
 
             $noc_application = $this->CommonController->getNocApplication($request->applicationId);
@@ -1767,18 +1768,22 @@ class REEController extends Controller
 
         if($noc_application->noc_generation_status == '0' && (session()->get('role_name') == config('commanConfig.ree_branch_head')) && empty($noc_application->final_draft_noc_path))
         {
+//            dd('2');
             $this->CommonController->revertNocApplicationToSociety($request);
         }
         elseif($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.NOC_Generation') || ($noc_application->noc_generation_status == config('commanConfig.applicationStatus.NOC_Generation') && session()->get('role_name') == config('commanConfig.ree_junior')))
         {
+//            dd('3');
             $this->CommonController->generateNOCREE($request);
         }
         elseif($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.NOC_Issued'))
         {
+//            dd('4');
              $this->CommonController->forwardApprovedNocApplication($request);
         }
         else
         {
+//            dd('5');
             $this->CommonController->forwardNocApplicationForm($request);
         }
 
