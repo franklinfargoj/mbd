@@ -1160,7 +1160,9 @@ class SocietyNocController extends Controller
 
             DB::beginTransaction();
             try {
-                NocApplicationStatus::where('application_id',$application->id)->update(array('is_active' => 0,'phase' => 0));
+                NocApplicationStatus::where('application_id',$application->id)
+                    ->whereIn('user_id',[Auth::user()->id,$user->id])
+                    ->update(array('is_active' => 0,'phase' => 0));
 
                 NocApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
 
