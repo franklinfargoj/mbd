@@ -592,7 +592,61 @@ span.label {
 
                                                 </td>
                                             </tr>
+                                    <tr>
+                                    <td></td>
+                                    <td>
+                                    <table id="one" class="table mb-0 table--box-input" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse; border-spacing: 0;">
+                                        <thead class="thead-default">
                                             <tr>
+                                                <th class="table-data--xs" style = "border-style: ridge;">क्षेत्र </th>
+                                                <th class="table-data--xs" style = "border-style: ridge;">दर </th>
+                                                <th class="table-data--xs" style = "border-style: ridge;">अधिमूल्य </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                 <p>उर्वरित च.क्षे.रहिवासी वापर क्षेत्र</p>
+                                                 <p> <input style="border: none;display: inline-block;" type="text" placeholder="0" class="form-control form-control--custom txtbox"
+                                                        name="remaining_residential_area" id="remaining_residential_area"
+                                                        value="<?php if(isset($calculationSheetDetails[0]->remaining_residential_area)) { echo $calculationSheetDetails[0]->remaining_residential_area; } ?>" />
+                                                    </p>    
+                                            </td>
+                                            <td>
+                                                 <input style="border: none;display: inline-block;width: 150px;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
+                                                           name="calculated_dcr_rate_val" id="calculated_dcr_rate_val"
+                                                           value="<?php if(isset($calculationSheetDetails[0]->calculated_dcr_rate_val)) { echo $calculationSheetDetails[0]->calculated_dcr_rate_val; } ?>" />
+                                            </td>
+                                            <td>
+                                                <input style="border: none;display: inline-block;    width: 200px;" type="text" readonly placeholder="0" class=" form-control form-control--custom txtbox"
+                                                        name="balance_of_remaining_area" id="balance_of_remaining_area"
+                                                        value="<?php if(isset($calculationSheetDetails[0]->balance_of_remaining_area)) { echo $calculationSheetDetails[0]->balance_of_remaining_area; } ?>" />
+                                            </td>               
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>वाणिज्य वापर क्षेत्र चौ मी</p>
+                                                <p><input style="border: none;display: inline-block;" type="text" placeholder="0" class="form-control form-control--custom txtbox"
+                                                        name="remaining_commercial_area" id="remaining_commercial_area"
+                                                        value="{{ isset($calculationSheetDetails[0]->remaining_commercial_area) ? $calculationSheetDetails[0]->remaining_commercial_area : '' }}"/></p>
+                                            </td>
+                                            <td>
+                                            <input style="border: none;display: inline-block;width: 150px;" type="text" placeholder="0" class="form-control form-control--custom txtbox"
+                                                           name="calculated_commercial_dcr_rate" id="calculated_commercial_dcr_rate"
+                                                           value="{{ isset($calculationSheetDetails[0]->calculated_commercial_dcr_rate) ? $calculationSheetDetails[0]->calculated_commercial_dcr_rate : '' }}" />
+                                            </td> 
+                                            <td>
+                                            <input style="border: none;display: inline-block;width: 200px;" type="text" readonly placeholder="0" class=" form-control form-control--custom txtbox"
+                                                        name="balance_of_commercial_remaining_area" id="balance_of_commercial_remaining_area"
+                                                        value="{{ isset($calculationSheetDetails[0]->balance_of_commercial_remaining_area) ? $calculationSheetDetails[0]->balance_of_commercial_remaining_area : '' }}"/>
+                                            </td>                          
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    </td>
+                                    </tr>
+                                        
+                                   <!--          <tr>
                                                 <td style = "border-style: ridge;">1.1</td>
                                                 <td style = "border-style: ridge;">
                                                 <span class="label">
@@ -650,8 +704,8 @@ span.label {
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                 </td>
-                                            </tr>
-                                            <tr>
+                                            </tr> -->
+                                            <!-- <tr>
                                                 <td style = "border-style: ridge;"></td>
                                                 <td style = "border-style: ridge;">
                                                 <span class="label"> अधिमूल्य </span>
@@ -662,12 +716,12 @@ span.label {
                                                 <td class="text-center" style = "border-style: ridge;">
 
                                                 </td>
-                                            </tr>
+                                            </tr> -->
 
                                             <tr>
                                                 <td style = "border-style: ridge;"></td>
                                                 <td style = "border-style: ridge;">
-                                                    Total
+                                                    Total अधिमूल्य
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox total_amount"
