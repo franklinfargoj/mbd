@@ -66,7 +66,7 @@
                         
                     </div>
                     <div class="col-sm-3 form-group lease_and_na_charges_box">
-                            <label class="col-form-label">% on lease and NA chanrges(monthly)</label>
+                            <label class="col-form-label">% on lease and NA charges(monthly)</label>
                     <input class="form-control form-control--custom m-input" type="text" id="lease_and_na_charges" name="lease_and_na_charges" value="{{old('lease_and_na_charges',$society[0]->lease_and_na_charges_in_per)}}">
                     @if ($errors->has('lease_and_na_charges'))
                         <div class="error">{{ $errors->first('lease_and_na_charges') }}</div>

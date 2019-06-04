@@ -106,7 +106,7 @@
                 <div class="row align-items-center mb-0">
                     <div class="col-md-4">
                         <div class="form-group m-form__group  building_selected">
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
+                            <select required class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                 id="building" name="building" required>
                                 <option value="{{encrypt($buildingId)}}" selected>{{$building_name}}</option>
                             </select>

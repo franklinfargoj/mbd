@@ -1149,7 +1149,7 @@ class RCController extends Controller
                 $building = MasterBuilding::where('society_id', '=', decrypt($request->input('id')))->get();
                 $html = '<div class="form-group m-form__group ">Billing Level : Tenant Level Biiling</div>
                         <div class="row align-items-center"><div class="col-md-4"><div class="form-group m-form__group">
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" style="opacity:1" id="building" name="building">';
+                            <select required class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" style="opacity:1" id="building" name="building">';
                             $html .= '<option value="" style="font-weight: normal;">Select Building</option>';
                                 foreach($building as $key => $value){
                                     $html .= '<option value="'.encrypt($value->id).'">'.$value->name.'</option>';

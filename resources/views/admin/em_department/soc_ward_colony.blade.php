@@ -22,7 +22,7 @@
             <h3 class="m-subheader__title m-subheader__title--separator">Ward & Colony Details</h3>
             {{ Breadcrumbs::render('em') }}
             <div class="ml-auto btn-list">
-                <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left"
+                <a href="{{ route('get_societies') }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left"
                         style="padding-right: 8px;"></i>Back</a>
             </div>
         </div>
