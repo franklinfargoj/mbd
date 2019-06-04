@@ -1078,7 +1078,7 @@
                             class="collapse {{($route=='society.billing_level'|| $route == 'society.society_details' || $route == 'arrears_charges' || $route == 'arrears_charges.edit' || $route == 'arrears_charges.create' || $route == 'service_charges' || $route == 'service_charges.edit' || $route == 'service_charges.create')?'show':''}}">
                             <ul class="list-unstyled">
                                 <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='society.billing_level' || $route == 'society.society_details' || $route == 'arrears_charges' || $route == 'arrears_charges.create' || $route == 'arrears_charges.edit' || $route == 'service_charges' || $route == 'service_charges.edit' || $route == 'service_charges.create')?'m-menu__item--active':''}}">
-                                    <a class="m-menu__link m-menu__toggle" title="view_Application"
+                                    <a class="m-menu__link m-menu__toggle" title="Society Master"
                                        href="{{ route('society.billing_level') }}">
                                         <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
                                              height="16"
@@ -1167,7 +1167,7 @@
                     class="collapse {{($route=='generate_tenant_bill' || $route=='get_societies' || $route == 'get_buildings' || $route == 'get_tenants' || $route == 'edit_tenant' || $route == 'add_tenant' || $route == 'edit_building' || $route == 'add_building' || $route == 'soc_bill_level' || $route == 'soc_ward_colony' || $route == 'billing_calculations' || $route == 'generateTenantBill' || $route == 'arrears_calculations' || $route == 'generateBuildingBill'|| $route == 'get_tenant_ajax')?'show':''}}">
                     <ul class="list-unstyled">
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='get_societies' || $route == 'get_buildings' || $route == 'get_tenants' || $route == 'edit_tenant' || $route == 'add_tenant' || $route == 'edit_building' || $route == 'add_building' || $route == 'soc_bill_level' || $route == 'soc_ward_colony')?'m-menu__item--active':''}}">
-                            <a class="m-menu__link m-menu__toggle" title="view_Application"
+                            <a class="m-menu__link m-menu__toggle" title="Manage Societies"
                                href="{{ route('get_societies') }}">
                                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                      viewBox="0 0 510 510">
@@ -1201,7 +1201,7 @@
             @if(Session::all()['role_name'] == 'em_clerk')
 
                 <li class="m-menu__item m-menu__item--submenu {{($route=='em_clerk.index' || $route == 'tenant_payment_list' || $route == 'tenant_arrear_calculation') ?'m-menu__item--active':''}}">
-                    <a class="m-menu__link m-menu__toggle" title="view_Application"
+                    <a class="m-menu__link m-menu__toggle" title="Manage Societies"
                        href="{{ route('em_clerk.index') }}">
                         <i class="m-menu__link-icon flaticon-line-graph"></i>
                         <span class="m-menu__link-title">
@@ -1249,7 +1249,7 @@
                         </li>-->
 
                 <li class="m-menu__item m-menu__item--submenu {{($route=='bill_collection_tenant')?'m-menu__item--active':''}}">
-                    <a class="m-menu__link m-menu__toggle" title="view_Application"
+                    <a class="m-menu__link m-menu__toggle" title="Collect Bill"
                        href="{{ route('bill_collection_tenant') }}">
 
                         <i class="m-menu__link-icon flaticon-line-graph"></i>
