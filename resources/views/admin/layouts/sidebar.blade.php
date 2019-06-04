@@ -1248,7 +1248,7 @@
                             </a>
                         </li>-->
 
-                <li class="m-menu__item m-menu__item--submenu {{($route=='bill_collection_tenant')?'m-menu__item--active':''}}">
+                <li class="m-menu__item  {{($route=='bill_collection_tenant')?'m-menu__item--active':''}}">
                     <a class="m-menu__link m-menu__toggle" title="view_Application"
                        href="{{ route('bill_collection_tenant') }}">
 
@@ -1257,6 +1257,20 @@
                         <span class="m-menu__link-wrap">
                             <span class="m-menu__link-text">
                                 Collect Bill
+                            </span>
+                        </span>
+                    </span>
+                    </a>
+                </li>
+                <li class="m-menu__item  {{($route=='bill_payment_report')?'m-menu__item--active':''}}">
+                    <a class="m-menu__link m-menu__toggle" title="view_Application"
+                       href="{{ route('bill_payment_report') }}">
+
+                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                        <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">
+                                Payment Report
                             </span>
                         </span>
                     </span>

@@ -128,7 +128,18 @@ class RCUserSeeder extends Seeder
                 'name' => 'downloadReceipt',
                 'display_name' => 'Download Receipt',
                 'description' => 'Download Receipt',
-            ]
+            ],
+            [
+                'name' => 'bill_payment_report',
+                'display_name' => 'Bill Payment Report',
+                'description' => 'Bill Payment Report',
+            ],
+            [
+                'name' => 'billing_report',
+                'display_name' => 'Billing Report',
+                'description' => 'Billing Report',
+            ],
+
         ];
         //RC
         $rc_collector = Role::where('name', '=', 'rc_collector')->first();
