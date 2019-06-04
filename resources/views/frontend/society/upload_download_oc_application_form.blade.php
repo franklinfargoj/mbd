@@ -3,6 +3,22 @@
     @include('frontend.society.oc_actions',compact('oc_applications'))
 @endsection
 @section('content')
+    @if(session()->has('success'))
+        <div class="alert alert-success display_msg">
+            {{ session()->get('success') }}
+        </div>
+    @endif
+    @if(session()->has('error'))
+        <div class="alert alert-danger display_msg">
+            {{ session()->get('error') }}
+        </div>
+    @endif
+    <style>
+        .help-block{
+            color:red;
+        }
+    </style>
+
 <div class="panel" id="ee-note">
     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
         <div class="portlet-body">

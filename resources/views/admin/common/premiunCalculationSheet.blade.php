@@ -135,7 +135,7 @@ span.label {
                                             <tr>
                                                 <td style = "border-style: ridge;">1.</td>
                                                 <td style = "border-style: ridge;">
-                                                    कार्यकारी अभियंता /कुर्ला विभाग यांचे सिमांकन नकाशानुसार
+                                                    कार्यकारी अभियंता यांचे सिमांकन नकाशानुसार
                                                     भूखंडाचे क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
@@ -1412,7 +1412,7 @@ span.label {
                                                 तपशील
                                             </th>
                                             <th class="table-data--md" style = "border-style: ridge;width:50%">
-                                                Remark
+                                                शेरा
                                             </th>
                                         </tr>
                                     </thead>
