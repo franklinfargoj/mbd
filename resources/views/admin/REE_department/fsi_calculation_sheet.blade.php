@@ -157,7 +157,7 @@ $DCRrate = ['EWS/LIG','MIG','HIG']; @endphp
                                             <tr>
                                                 <td style = "border-style: ridge;">1.</td>
                                                 <td style = "border-style: ridge;">
-                                                    कार्यकारी अभियंता  यांचे सिमांकन नकाशानुसार
+                                                    कार्यकारी अभियंता यांचे सिमांकन नकाशानुसार
                                                     भूखंडाचे क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
@@ -1968,7 +1968,7 @@ $DCRrate = ['EWS/LIG','MIG','HIG']; @endphp
 
         var intro = parseFloat(area1) - parseFloat(road_area);
         var lowest = Math.min(area, intro);
-        $("#area_of_subsistence_to_calculate").attr('value', numberWithCommas(lowest));
+        $("#area_of_subsistence_to_calculate").attr('value', numberWithCommas(lowest.toFixed(2)));
 
         permissibleConstructionArea();
     }
