@@ -1412,7 +1412,7 @@ span.label {
                                                 तपशील
                                             </th>
                                             <th class="table-data--md" style = "border-style: ridge;width:50%">
-                                                Remark
+                                                शेरा
                                             </th>
                                         </tr>
                                     </thead>
