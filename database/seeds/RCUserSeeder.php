@@ -139,6 +139,15 @@ class RCUserSeeder extends Seeder
                 'display_name' => 'Billing Report',
                 'description' => 'Billing Report',
             ],
+            [
+                'name' => 'e-billing.period_wise_pendency_report',
+                'display_name' => 'e-billing_period_wise_pendency_report',
+                'description' => 'e-billing_period_wise_pendency_report'
+            ],[
+                'name' => 'ebilling_pending_reports',
+                'display_name' => 'ebilling_pending_reports',
+                'description' => 'ebilling_pending_reports'
+            ],
 
         ];
         //RC
