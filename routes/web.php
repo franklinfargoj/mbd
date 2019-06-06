@@ -257,6 +257,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('/lease_detail/edit-lease/{id}/{society_id}', 'LeaseDetailController@showLatestLease')->name('edit-lease.edit');
     Route::post('/lease_detail/update-edit-lease/{id}', 'LeaseDetailController@updateLatestLease')->name('update-lease.update');
     Route::get('/lease_detail/view-lease/{id}/{society_id}', 'LeaseDetailController@viewLease')->name('view-lease.view');
+    Route::get('payment_details/{id}', 'LeaseDetailController@paymentDetails')->name('payment_details');
+    Route::post('loadDDDetailsUsingAjax', 'LeaseDetailController@loadDDDetailsUsingAjax')->name('loadDDDetailsUsingAjax');
 
     // EE Department Routes
 

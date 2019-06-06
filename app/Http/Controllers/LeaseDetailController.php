@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\DdDetails;
 use App\Http\Requests\lease_detail\LeaseDetailRequest;
 use App\LeaseDetail;
 use App\SocietyDetail;
 use App\MasterMonth;
+use App\TransPayment;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Config;
@@ -662,4 +664,113 @@ class LeaseDetailController extends Controller
         return $lease_count;
 
     }
+
+    /**
+     * Display the payment details of specific society.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function paymentDetails(Datatables $datatables,$id){
+        $id = decrypt($id);
+
+
+        $columns = [
+            // ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
+            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
+            ['data' => 'bill_no','name' => 'bill_no','title' => 'Bill No.'],
+//            ['data' => 'tenant_name','name' => 'tenant_name','title' => 'Tenant Name'],
+            ['data' => 'bill_amount','name' => 'bill_amount','title' => 'Bill Amount'],
+            ['data' => 'paid_by', 'name' => 'paid_by', 'title' => 'Amount Paid By'],
+            ['data' => 'amount_paid','name' => 'amount_paid','title' => 'Paid Amount'],
+            ['data' => 'date','name' => 'date','title' => 'Payment Date'],
+//            ['data' => 'from_date','name' => 'from_date','title' => 'From Date'],
+//            ['data' => 'to_date','name' => 'to_date','title' => 'To Date'],
+//            ['data' => 'balance','name' => 'balance','title' => 'Balance Amount'],
+//            ['data' => 'credit_amount','name' => 'credit_amount','title' => 'Credit Amount'],
+//            ['data' => 'mode_of_payment','name' => 'mode_of_payment','title' => 'Mode Of Payment'],
+//            ['data' => 'dd_details','name' => 'dd_details','title' => 'DD Details'],
+        ];
+
+
+        if ($datatables->getRequest()->ajax()) {
+
+            $payment_data = TransPayment::with('dd_details','building','society_details','tenants')
+                ->where('society_id',$id)
+                ->get();
+
+            return $datatables->of($payment_data)
+
+                ->editColumn('rownum', function () {
+                    static $i = 0;
+                    $i++;
+                    return $i;
+                })
+                ->editColumn('bill_no', function ($payment_data) {
+                    return $payment_data->bill_no;
+                })
+//                ->editColumn('tenant_name', function ($payment_data) {
+//                    return $payment_data->tenants[0]->first_name.' '.$payment_data->tenants[0]->middle_name.' '.$payment_data->tenants[0]->last_name ?? '';
+//                })
+                ->editColumn('bill_amount', function ($payment_data) {
+                    return $payment_data->bill_amount ?? 0;
+                })
+                ->editColumn('paid_by', function ($payment_data) {
+                    return $payment_data->paid_by ?? '';
+                })
+                ->editColumn('amount_paid', function ($payment_data) {
+                    return $payment_data->amount_paid ?? '';;
+                })
+                ->editColumn('date', function ($payment_data) {
+                    return $payment_data->created_at ?? '';;
+                })
+//                ->editColumn('from_date', function ($payment_data) {
+//                    return $payment_data->from_date ?? '';;
+//                })
+//                ->editColumn('to_date', function ($payment_data) {
+//                    return $payment_data->to_date ?? '';;
+//                })
+//                ->editColumn('balance', function ($payment_data) {
+//                    return $payment_data->balance_amount ?? '';;
+//                })
+//                ->editColumn('credit_amount', function ($payment_data) {
+//                    return $payment_data->credit_amount ?? '';;
+//                })
+//                ->editColumn('mode_of_payment', function ($payment_data) {
+//                    return $payment_data->mode_of_payment?? '';;
+//                })
+//                ->editColumn('dd_details', function ($payment_data) {
+//                    if($payment_data->dd_id){
+//                        return '<a class="d-flex flex-column align-items-center dd_details"
+//                                    data-id="'.$payment_data->dd_id.'" title="View DD Details" href="Javascript:void(0);">
+//                            <span class="btn-icon btn-icon--delete">
+//                            <img src="'. asset("img/view-icon.svg").'">
+//                            </span>DD Details
+//                            </a>';
+//                    }
+//                    else{
+//                        return 'No DD Details';
+//                    }
+//                })
+                ->rawColumns(['bill_no', 'tenant_name', 'bill_amount', 'paid_by','amount_paid','from_date','to_date','balance'
+                ,'credit_amount','mode_of_payment','dd_details'
+                ])
+                ->make(true);
+        }
+
+        $society_name = SocietyDetail::where('id',$id)->value('society_name');
+
+
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        return view('admin.lease_detail.payment_details', compact('society_name','html','header_data'));
+
+    }
+
+    public function loadDDDetailsUsingAjax(Request $request){
+        $id = $request->id;
+        $dd_details = DdDetails::where('id',$id)->get()->toArray();
+
+        return view('admin.lease_detail.dd_details', compact('dd_details'))->render();
+    }
+
 }
