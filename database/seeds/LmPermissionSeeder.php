@@ -264,6 +264,17 @@ class LmPermissionSeeder extends Seeder
                 'display_name'=>'village_society_layout_area_reports',
                 'description'=>'village_society_layout_area_reports'
             ],
+            [
+                'name'=>'payment_details',
+                'display_name'=>'Payment details of society',
+                'description'=>'Payment details of society'
+            ],
+            [
+                'name'=>'loadDDDetailsUsingAjax',
+                'display_name'=>'DD details of society payment',
+                'description'=>'DD details of society payment'
+            ],
+
 
         ];
 

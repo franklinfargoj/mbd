@@ -88,6 +88,25 @@ class AccountPermissionSeeder extends Seeder
                 'display_name' => 'View Receipt Details',
                 'description' => 'View Receipt Details'
             ],
+            [
+                'name' => 'e-billing.period_wise_pendency_report',
+                'display_name' => 'e-billing_period_wise_pendency_report',
+                'description' => 'e-billing_period_wise_pendency_report'
+            ],[
+                'name' => 'ebilling_pending_reports',
+                'display_name' => 'ebilling_pending_reports',
+                'description' => 'ebilling_pending_reports'
+            ],
+            [
+                'name' => 'bill_payment_report',
+                'display_name' => 'Bill Payment Report',
+                'description' => 'Bill Payment Report',
+            ],
+            [
+                'name' => 'billing_report',
+                'display_name' => 'Billing Report',
+                'description' => 'Billing Report',
+            ],
         ];
 
         $permission_role = [];
