@@ -683,11 +683,12 @@ class LeaseDetailController extends Controller
             ['data' => 'bill_amount','name' => 'bill_amount','title' => 'Bill Amount'],
             ['data' => 'paid_by', 'name' => 'paid_by', 'title' => 'Amount Paid By'],
             ['data' => 'amount_paid','name' => 'amount_paid','title' => 'Paid Amount'],
-            ['data' => 'date','name' => 'date','title' => 'Payment Date'],
 //            ['data' => 'from_date','name' => 'from_date','title' => 'From Date'],
 //            ['data' => 'to_date','name' => 'to_date','title' => 'To Date'],
-//            ['data' => 'balance','name' => 'balance','title' => 'Balance Amount'],
-//            ['data' => 'credit_amount','name' => 'credit_amount','title' => 'Credit Amount'],
+            ['data' => 'balance','name' => 'balance','title' => 'Balance Amount'],
+            ['data' => 'credit_amount','name' => 'credit_amount','title' => 'Credit Amount'],
+            ['data' => 'date','name' => 'date','title' => 'Payment Date'],
+
 //            ['data' => 'mode_of_payment','name' => 'mode_of_payment','title' => 'Mode Of Payment'],
 //            ['data' => 'dd_details','name' => 'dd_details','title' => 'DD Details'],
         ];
@@ -730,12 +731,12 @@ class LeaseDetailController extends Controller
 //                ->editColumn('to_date', function ($payment_data) {
 //                    return $payment_data->to_date ?? '';;
 //                })
-//                ->editColumn('balance', function ($payment_data) {
-//                    return $payment_data->balance_amount ?? '';;
-//                })
-//                ->editColumn('credit_amount', function ($payment_data) {
-//                    return $payment_data->credit_amount ?? '';;
-//                })
+                ->editColumn('balance', function ($payment_data) {
+                    return $payment_data->balance_amount ?? '';;
+                })
+                ->editColumn('credit_amount', function ($payment_data) {
+                    return $payment_data->credit_amount ?? '';;
+                })
 //                ->editColumn('mode_of_payment', function ($payment_data) {
 //                    return $payment_data->mode_of_payment?? '';;
 //                })
