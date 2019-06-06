@@ -28,7 +28,7 @@
         </div>
         <table style="width: 720px;border-collapse: collapse;">
             <tr>
-                <td>
+                <td style="text-align:center;">
                     <table>
                         <tr>
                             <td>
@@ -36,6 +36,7 @@
                             </td>
                         </tr>
                     </table> 
+                    <span style="font-size: 19px;">MUMBAI BOARD</span>
                 </td>
                 <td style="width: 360px;">
                     <table style="font-size: 19px;">
