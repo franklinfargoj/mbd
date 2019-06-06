@@ -5,7 +5,7 @@
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title m-subheader__title--separator">Payment Details : {{$society_name}}</h3>
-                {{ Breadcrumbs::render('village_detail') }}
+{{--                {{ Breadcrumbs::render('lease_detail') }}--}}
                 {{--<div class="btn-list text-right ml-auto">--}}
                     {{--<a href="{{route('village_detail.index',['excel'=>'excel'])}}" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></a>--}}
                     {{--<a target="_blank" href="{{route('village_detail.print')}}" class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>--}}
