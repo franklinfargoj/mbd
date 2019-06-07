@@ -81,7 +81,8 @@
 			@endif
 		@endif
 
-		@if($status == config('commanConfig.applicationStatus.forwarded') || $status == config('commanConfig.applicationStatus.sent_to_society') || $status == config('commanConfig.applicationStatus.Rejected') || ($status == config('commanConfig.applicationStatus.pending') && isset($documents_arr) && $documents_arr['docs_count'] == $documents_arr['docs_uploaded_count']))
+		@if($status == config('commanConfig.applicationStatus.forwarded') || $status == config('commanConfig.applicationStatus.sent_to_society') || $status == config('commanConfig.applicationStatus.Rejected') || ($status == config('commanConfig.applicationStatus.pending') && isset($documents_arr) && $documents_arr['docs_count'] == $documents_arr['docs_uploaded_count']) && isset($applicationCount) && $applicationCount >= 0)
+
 			<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='documents_uploaded')?'m-menu__item--active':''}}">
 				<a class="m-menu__link m-menu__toggle" title="View Documents" href="{{ route('documents_uploaded',encrypt($ol_applications->id)) }}">
 					<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
