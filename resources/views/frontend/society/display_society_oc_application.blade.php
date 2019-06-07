@@ -6,19 +6,19 @@
             </div>
             <div>
                 <p>
-                    <p style="display: block; font-weight: bold; line-height: 0; margin-top: 5px; margin-bottom: 5px;">प्रति,</p>
+                    <p style="display: block; font-weight: bold; line-height: 0; margin-top: 5px; margin-bottom: 5px;">To,</p>
                     <table style="margin-left: -5px; margin-top: 5px; margin-bottom: 5px;">
                         <tbody>
                             <tr>
-                                <td style="font-size: 18px;">कार्यकारी अभियंता,</td>
-                                <td style="border-bottom: 1px solid #000; font-size: 18px;">REE</td>
-                                <td style="font-size: 18px;">विभाग,</td>
+                                <td style="font-size: 18px;">Executive Engineer / Estate Manager</td>
+                               <!--  <td style="border-bottom: 1px solid #000; font-size: 18px;">REE</td> -->
+                                <!-- <td style="font-size: 18px;">विभाग,</td> -->
                             </tr>
                         </tbody>
                     </table>
-                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">मुंबई गृहनिर्माण व क्षेत्रविकास मंडळ,</p>
-                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">गृहनिर्माण भवन, वांद्रे (पुर्व),</p>
-                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">मुंबई - ४०००५१.</p>
+                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">Mumbai Housing and Area Development Board, </p>
+                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">2nd floor, Griha Nirman Bhavan</p>
+                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">Bnadra (E) Mumbai - 400051.</p>
                 </p>
             </div>
         </div>
@@ -48,16 +48,16 @@
                 <p>
                     Thanking you,
                 </p>
-                <p>
+                <!-- <p>
                     Yours faithfully,
-                </p>
+                </p> -->
 
 
 
             </div>
             <div style="margin-top: 30px;">
                 <div style="float: right; text-align: right;">
-                    <p style="margin-top: 0; margin-bottom: 60px;">आपला विश्वासू</p>
+                    <p style="margin-top: 0; margin-bottom: 60px;">Yours faithfully,</p>
                         <p style="display: block; margin-top: 5px; margin-bottom: 5px;">अध्यक्ष / सचिव / खजिनदार</p>
                         <p style="display: block; margin-top: 5px; margin-bottom: 5px;">------- स.गृ.नि. संस्था मर्या.</p>
                 </div>
