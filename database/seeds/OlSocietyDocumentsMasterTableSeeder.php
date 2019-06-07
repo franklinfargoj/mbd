@@ -175,6 +175,14 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'name' => "AGM Attendance Letter",
                     'group' => 1,
                     'sort_by' => 6
+                ],
+                [
+                    'application_id'   => $selfPremium,
+                    'language_id'   => $Englang,
+                    'name' => "Other Document",
+                    'group' => 9,
+                    'is_optional' => 1,
+                    'is_other' => 1
                 ]
             ];
 
@@ -318,6 +326,14 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'name' => "AGM Attendance Letter",
                     'group' => 1,
                     'sort_by' => 5
+                ],
+                [
+                    'application_id'   => $selfSharing,
+                    'language_id'   => $Englang,
+                    'name' => "Other Document",
+                    'group' => 7,
+                    'is_optional' => 1,
+                    'is_other' => 1
                 ]
             ];
 
@@ -482,6 +498,14 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'name' => "AGM Attendance Letter",
                     'group' => 1,
                     'sort_by' => 6
+                ],
+                [
+                    'application_id'   => $redevPrem,
+                    'language_id'   => $Englang,
+                    'name' => "Other Document",
+                    'group' => 9,
+                    'is_optional' => 1,
+                    'is_other' => 1
                 ]
             ];
 
@@ -626,6 +650,14 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'name' => "AGM Attendance Letter",
                     'group' => 1,
                     'sort_by' => 5
+                ],
+                [
+                    'application_id'   => $redevSharing,
+                    'language_id'   => $Englang,
+                    'name' => "Other Document",
+                    'group' => 7,
+                    'is_optional' => 1,
+                    'is_other' => 1
                 ]
             ];
 

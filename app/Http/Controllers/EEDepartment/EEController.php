@@ -43,6 +43,7 @@ use Storage;
 use Mpdf\Mpdf;
 use App\LayoutUser;
 use App\OlTitBitSimulationValuesMaster;
+use App\Http\Controllers\EmailMsg\EmailMsgConfigration;
 
 class EEController extends Controller
 {
@@ -504,137 +505,83 @@ class EEController extends Controller
 
     public function forwardApplication(Request $request)
     {
-        if($request->check_status == 1) {
-            $forward_application = [[
-                'application_id' => $request->application_id,
-                'user_id' => Auth::user()->id,
-                'role_id' => session()->get('role_id'),
-                'status_id' => config('commanConfig.applicationStatus.forwarded'),
-                'to_user_id' => $request->to_user_id,
-                'to_role_id' => $request->to_role_id,
-                'remark' => $request->remark,
-                'is_active' => 1,
-                'created_at' => Carbon::now()
-            ],
+        $to_user_id = $society_flag = $to_society_flag = $user_status = $to_user_status = 0;
 
-            [
-                'application_id' => $request->application_id,
-                'user_id' => $request->to_user_id,
-                'role_id' => $request->to_role_id,
-                'status_id' => config('commanConfig.applicationStatus.in_process'),
-                'to_user_id' => NULL,
-                'to_role_id' => NULL,
-                'remark' => $request->remark,
-                'is_active' => 1,
-                'created_at' => Carbon::now()
-            ]
-            ];
+        if ($request->check_status == 1) { 
+            $to_user_id = $request->to_user_id;
+            $to_society_flag = 0;
+            $user_status = config('commanConfig.applicationStatus.forwarded');
+            $to_user_status = config('commanConfig.applicationStatus.in_process');
 
-            //Code added by Prajakta
-            DB::beginTransaction();
-            try {
-                OlApplicationStatus::where('application_id',$request->application_id)
-                    ->whereIn('user_id', [Auth::user()->id,$request->to_user_id ])
-                    ->update(array('is_active' => 0));
+        } else if ($request->check_status == 0){
 
-                OlApplicationStatus::insert($forward_application);
+            $to_user_id = $request->to_child_id;
+            $to_society_flag = 0;
+            $user_status = config('commanConfig.applicationStatus.reverted');
+            $to_user_status = config('commanConfig.applicationStatus.in_process');
 
-                DB::commit();
-            } catch (\Exception $ex) {
-                DB::rollback();
-//                return response()->json(['error' => $ex->getMessage()], 500);
+            if($request->society_flag == 1) {
+                $to_user_id = $request->to_child_id;
+                $to_society_flag = 1;
+                $user_status = config('commanConfig.applicationStatus.reverted');
+                $to_user_status = config('commanConfig.applicationStatus.pending');
             }
-           //EOC
-        }
-        else{
-            /*if(session()->get('role_name') == config('commanConfig.ee_junior_engineer'))
-            {
-                $society_user_data = OlApplicationStatus::where('application_id', $request->application_id)
-                                                        ->where('society_flag', 1)
-                                                        ->orderBy('id', 'desc')->get();                                     
-                $revert_application = [
-                    [
-                        'application_id' => $request->application_id,
-                        'society_flag' => 0,
-                        'user_id' => Auth::user()->id,
-                        'role_id' => session()->get('role_id'),
-                        'status_id' => config('commanConfig.applicationStatus.reverted'),
-                        'to_user_id' => $society_user_data[0]->user_id,
-                        'to_role_id' => $society_user_data[0]->role_id,
-                        'remark' => $request->remark,
-                        'created_at' => Carbon::now()
-                    ],
-
-                    [
-                        'application_id' => $request->application_id,
-                        'society_flag' => 1,
-                        'user_id' => $society_user_data[0]->user_id,
-                        'role_id' => $society_user_data[0]->role_id,
-                        'status_id' => config('commanConfig.applicationStatus.reverted'),
-                        'to_user_id' => NULL,
-                        'to_role_id' => NULL,
-                        'remark' => $request->remark,
-                        'created_at' => Carbon::now()
-                    ]
-                ];
-            }
-            else
-            {*/
-                if($request->society_flag == 1){
-                    $status_id = config('commanConfig.applicationStatus.reverted');
-                }else{
-                    $status_id = config('commanConfig.applicationStatus.in_process');
-                }
-                $revert_application = [
-                    [
-                        'application_id' => $request->application_id,
-                        'user_id' => Auth::user()->id,
-                        'role_id' => session()->get('role_id'),
-                        'society_flag' => 0,
-                        'status_id' => config('commanConfig.applicationStatus.reverted'),
-                        'to_user_id' => $request->to_child_id,
-                        'to_role_id' => $request->to_role_id,
-                        'remark' => $request->remark,
-                        'is_active' => 1,
-                        'created_at' => Carbon::now()
-                    ],
-
-                    [
-                        'application_id' => $request->application_id,
-                        'user_id' => $request->to_child_id,
-                        'role_id' => $request->to_role_id,
-                        'society_flag' => $request->society_flag,
-                         'status_id' => $status_id,                         
-                        'to_user_id' => NULL,
-                        'to_role_id' => NULL,
-                        'remark' => $request->remark,
-                        'is_active' => 1,
-                        'created_at' => Carbon::now()
-                    ]
-                ];
-//            }
-
-            //Code added by Prajakta
-            DB::beginTransaction();
-            try {
-                OlApplicationStatus::where('application_id',$request->application_id)
-                    ->whereIn('user_id', [Auth::user()->id,$request->to_child_id ])
-                    ->update(array('is_active' => 0));
-
-                OlApplicationStatus::insert($revert_application);
-
-                DB::commit();
-            } catch (\Exception $ex) {
-                DB::rollback();
-//                return response()->json(['error' => $ex->getMessage()], 500);
-            }
-            //EOC
         }
 
-        return redirect('/ee')->with('success','Application send successfully.');
+        $forward_application = [[
+            'application_id' => $request->application_id,
+            'user_id' => Auth::user()->id,
+            'role_id' => session()->get('role_id'),
+            'status_id' => $user_status,
+            'to_user_id' => $to_user_id,
+            'to_role_id' => $request->to_role_id,
+            'remark' => $request->remark,
+            'is_active' => 1,
+            'society_flag' => 0,
+            'created_at' => Carbon::now()
+        ],
 
-        // insert into ol_application_status_log table
+        [
+            'application_id' => $request->application_id,
+            'user_id' => $to_user_id,
+            'role_id' => $request->to_role_id,
+            'status_id' => $to_user_status,
+            'to_user_id' => NULL,
+            'to_role_id' => NULL,
+            'remark' => $request->remark,
+            'is_active' => 1,
+            'society_flag' => $to_society_flag,
+            'created_at' => Carbon::now()
+        ]
+        ];
+
+        DB::beginTransaction();
+        try {
+            //send revert mail and msg notification to society
+            if ($to_society_flag == 1){
+                $EmailMsgConfigration = new EmailMsgConfigration();
+                $type = 'offer_letter';
+                $response = $EmailMsgConfigration->RejectApplicationMailMsg($request->application_id,$type);
+            }
+
+            OlApplicationStatus::where('application_id',$request->application_id)
+                ->whereIn('user_id', [Auth::user()->id,$request->to_user_id ])
+                ->update(array('is_active' => 0));
+
+            OlApplicationStatus::insert($forward_application);
+            DB::commit();
+            $status = 'success';
+            $msg = 'Application send successfully';
+        } catch (\Exception $ex) {
+            DB::rollback();
+            $status = 'error';
+            $msg = 'Something went wrong, please contact to Admin';
+        }
+
+        return redirect('/ee')->with($status,$msg);
     }
+
+
 
     public function scrutinyRemarkByEE($application_id, $society_id)
     {

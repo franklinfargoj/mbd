@@ -708,6 +708,11 @@ class SocietyPermissionSeeder extends Seeder
                 'display_name' => 'submit offer letter application',
                 'description'  => 'submit offer letter application'
             ],
+            [
+                'name'         => 'upload_other_documents',
+                'display_name' => 'upload other documents',
+                'description'  => 'upload other documents'
+            ],
             
         ];
         

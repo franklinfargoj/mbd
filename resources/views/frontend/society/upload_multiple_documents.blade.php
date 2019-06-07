@@ -17,7 +17,6 @@
 </style>
 @endsection
 @section('content')
-
 <div class="loader" style="display:none;"></div>
 <div class="col-md-12"> 
     <!-- BEGIN: Subheader -->
@@ -43,8 +42,11 @@
                     <div class="col-sm-10" >
                         <div class="form-group row">
                             <div class="col-sm-4 d-flex align-items-center">
-                                <label for="name">Name of Member:</label>
-                            </div>
+                                <label for="name">
+                                    @if(isset($type) && $type == 'other') 
+                                        Name of Document
+                                    @else Name of Member @endif :</label>
+                                </div>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control form-control--custom" name="memberName" id="memberName" value="" required>
                             </div>
@@ -90,7 +92,13 @@
                             @foreach($documents as $document)
                             <tr>
                                 <td>{{ $i }}</td>
-                                <td> {{ isset($document->member_name) ? $document->member_name : '' }} </td>
+                                <td> 
+                                @if(isset($type) && $type == 'other')
+                                    {{ isset($document->document_name) ? $document->document_name : '' }}
+                                @else
+                                    {{ isset($document->member_name) ? $document->member_name : '' }} 
+                                @endif
+                                </td>
                                 <td class=""> 
                                     <a class="btn-link" href="{{ config('commanConfig.storage_server').'/'.$document->society_document_path }}" download target="_blank"> Download </a> 
                                 </td>
@@ -124,6 +132,7 @@
             var documentId = '<?php echo $documentId; ?>';
             var societyId = '<?php echo $ol_applications->society_id; ?>';
             var applicationId = '<?php echo $ol_applications->id; ?>';               
+            var type = '<?php echo $type; ?>';               
             
             var form_data = new FormData();
             form_data.append('file', fileData);   
@@ -131,6 +140,7 @@
             form_data.append('applicationId', applicationId);  
             form_data.append('documentId', documentId);  
             form_data.append('memberName', memberName);  
+            form_data.append('type', type);  
             form_data.append('_token', document.getElementsByName("_token")[0].value);
       
             $.ajax({
@@ -143,12 +153,18 @@
                 processData: false,
                 success: function(response) { 
                     if (response.status == 'success'){
+                        $.notify("Document uploaded successfully", 'success');
+                        setTimeout(function() {
                         location.reload();
                         $(".loader").hide();
+                        }, 1000);
                     }else{
-                        alert('Something went wrong, Please contact Admin.');
+                        $.notify("Something went wrong, Please contact Admin");
                     }
-                }
+                },
+                error: function() {
+                $.notify("Something went wrong, Please contact Admin");
+            },
             });                
         }
     });
