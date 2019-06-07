@@ -7,6 +7,6 @@
                         class="btn-icon btn-icon--edit"><img src="{{ asset('/img/edit-icon.svg')}}"></span>Edit</a>
         @endif
     @endif
-    <a class="d-flex flex-column align-items-center" title="Payments" href="javascript:void(0);"><span
+    <a target="_blank" class="d-flex flex-column align-items-center" title="Payments" href="{{ route('payment_details',encrypt($lease_data->society_id)) }}"><span
             class="btn-icon btn-icon--delete"><img src="{{ asset('/img/payment-icon.svg')}}"></span>Payment Details</a>
 </div>

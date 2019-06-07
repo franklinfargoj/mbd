@@ -38,6 +38,9 @@ return [
     'senior_architect' => 'senior_architect',
     'architect' => 'architect',
 
+    'rc_collector' => 'rc_collector',
+    'Account' => 'Account',
+
     'land_manager'=>'LM',
 
     'legal_advisor'=>'la_engineer',

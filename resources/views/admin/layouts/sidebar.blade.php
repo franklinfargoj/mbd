@@ -1167,7 +1167,7 @@
                     class="collapse {{($route=='generate_tenant_bill' || $route=='get_societies' || $route == 'get_buildings' || $route == 'get_tenants' || $route == 'edit_tenant' || $route == 'add_tenant' || $route == 'edit_building' || $route == 'add_building' || $route == 'soc_bill_level' || $route == 'soc_ward_colony' || $route == 'billing_calculations' || $route == 'generateTenantBill' || $route == 'arrears_calculations' || $route == 'generateBuildingBill'|| $route == 'get_tenant_ajax')?'show':''}}">
                     <ul class="list-unstyled">
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='get_societies' || $route == 'get_buildings' || $route == 'get_tenants' || $route == 'edit_tenant' || $route == 'add_tenant' || $route == 'edit_building' || $route == 'add_building' || $route == 'soc_bill_level' || $route == 'soc_ward_colony')?'m-menu__item--active':''}}">
-                            <a class="m-menu__link m-menu__toggle" title="view_Application"
+                            <a class="m-menu__link m-menu__toggle" title="Manage Societies"
                                href="{{ route('get_societies') }}">
                                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                      viewBox="0 0 510 510">
@@ -1201,7 +1201,7 @@
             @if(Session::all()['role_name'] == 'em_clerk')
 
                 <li class="m-menu__item m-menu__item--submenu {{($route=='em_clerk.index' || $route == 'tenant_payment_list' || $route == 'tenant_arrear_calculation') ?'m-menu__item--active':''}}">
-                    <a class="m-menu__link m-menu__toggle" title="view_Application"
+                    <a class="m-menu__link m-menu__toggle" title="Manage Societies"
                        href="{{ route('em_clerk.index') }}">
                         <i class="m-menu__link-icon flaticon-line-graph"></i>
                         <span class="m-menu__link-title">
@@ -1219,7 +1219,7 @@
             @if(Session::all()['role_name'] == 'Account')
 
                 <li class="m-menu__item m-menu__item--submenu m-menu__item--active">
-                    <a class="m-menu__link m-menu__toggle" title="view_Application"
+                    <a class="m-menu__link m-menu__toggle" title="List Of Society/Search Accounts"
                        href="{{ route('search_accounts') }}">
                         <i class="m-menu__link-icon flaticon-line-graph"></i>
                         <span class="m-menu__link-title">
@@ -1248,8 +1248,8 @@
                             </a>
                         </li>-->
 
-                <li class="m-menu__item m-menu__item--submenu {{($route=='bill_collection_tenant')?'m-menu__item--active':''}}">
-                    <a class="m-menu__link m-menu__toggle" title="view_Application"
+                <li class="m-menu__item  {{($route=='bill_collection_tenant')?'m-menu__item--active':''}}">
+                    <a class="m-menu__link m-menu__toggle" title="Collect Bill"
                        href="{{ route('bill_collection_tenant') }}">
 
                         <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -1297,7 +1297,9 @@
                                 session()->get('role_name')==config('commanConfig.senior_architect_planner') ||
                                 session()->get('role_name')==config('commanConfig.joint_co') ||
                                 session()->get('role_name')==config('commanConfig.joint_co_pa') ||
-                                session()->get('role_name')==config('commanConfig.co_pa')
+                                session()->get('role_name')==config('commanConfig.co_pa')||
+                            session()->get('role_name') == config('commanConfig.rc_collector') ||
+                            session()->get('role_name') == config('commanConfig.Account')
 
                                 )
                 <li class="m-menu__item {{(($route=='redevelopement.period_wise_pendency_report')) ? '' : 'collapsed'}}"
@@ -1318,7 +1320,7 @@
 
 
                 <li id="pendency-report"
-                    class="collapse {{(($route=='hearing.reports') || ($route=='redevelopement.period_wise_pendency_report') || ($route=='land.village_society_reports') || ($route=='estate-conveyance.period_wise_pendency_report') || ($route=='architect.period_wise_pendency_report')  ) ?'show':''}}">
+                    class="collapse {{(($route=='hearing.reports') || ($route=='redevelopement.period_wise_pendency_report') || ($route=='land.village_society_reports') || ($route=='estate-conveyance.period_wise_pendency_report') || ($route=='architect.period_wise_pendency_report' ||($route=='e-billing.period_wise_pendency_report')||($route=='bill_payment_report'))  ) ?'show':''}}">
                     <ul class="list-unstyled">
 
                         @if(session()->get('role_name')==config('commanConfig.co_engineer') ||session()->get('role_name')==config('commanConfig.ee_branch_head') || session()->get('role_name')==config('commanConfig.ree_branch_head') || session()->get('role_name')==config('commanConfig.dyce_branch_head'))
@@ -1391,7 +1393,9 @@
                                 </li>
                             @endif
 
-                            @if(session()->get('role_name') == config('commanConfig.estate_manager'))
+                            @if(session()->get('role_name') == config('commanConfig.estate_manager') ||
+                            session()->get('role_name') == config('commanConfig.rc_collector') ||
+                            session()->get('role_name') == config('commanConfig.Account') )
                                 <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='e-billing.period_wise_pendency_report')?'m-menu__item--active':''}}"
                                     aria-haspopup="true">
                                     <a href="{{ route('e-billing.period_wise_pendency_report') }}"
@@ -1406,7 +1410,24 @@
                                         </span>
                                     </a>
                                 </li>
+
+                                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='bill_payment_report')?'m-menu__item--active':''}}"
+                                    aria-haspopup="true">
+                                    <a href="{{ route('bill_payment_report') }}"
+                                       class="m-menu__link m-menu__toggle">
+                                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                        <span class="m-menu__link-title">
+                                            <span class="m-menu__link-wrap">
+                                                <span class="m-menu__link-text">
+                                                    Payment Report
+                                                </span>
+                                            </span>
+                                        </span>
+                                    </a>
+                                </li>
                             @endif
+
+
 
 
                             @if(session()->get('role_name')==config('commanConfig.joint_co') ||

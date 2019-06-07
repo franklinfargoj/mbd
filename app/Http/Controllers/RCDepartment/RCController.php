@@ -25,6 +25,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 use Config;
 use DB;
@@ -122,6 +123,146 @@ class RCController extends Controller
         return view('admin.rc_department.collect_bill_tenant', compact('society_id','wardId','colonyId','layoutId','html','layout_data', 'wards_data', 'colonies_data','societies_data', 'building_data','buildingId'));
 
     }
+
+    public function bill_payment_report(){
+
+        return view('admin.rc_department.bill_payment_report');
+    }
+
+    public function billing_report(Request $request){
+
+//        dd($request->all());
+        if($request->period != null)
+            $period = $this->period($request->period);
+        else
+            $period = $request->period;
+
+        $period_title = $this->periodTitle($request->period);
+
+        $report_format = $request->excel;
+
+        $payment_data = $this->getPaymentData($period);
+
+        if(count($payment_data) > 0){
+            $result = $this->generateReport($payment_data,$report_format,$period_title,'Payment Details');
+            if(!$result){
+                return back()->with('error', 'No Record Found');
+            }
+        }else{
+            return back()->with('error', 'No Record Found');
+        }
+    }
+    /**
+     * Period for generating report.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return $period
+     */
+    public function period($request_period){
+
+        $period = explode('-', $request_period);
+
+        return $period;
+    }
+
+    /**
+     * Period title for generating report.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return $period_title
+     */
+    public function periodTitle($request_period){
+        $period_title = isset(config('commanConfig.pendency_report_periods')[$request_period])?config('commanConfig.pendency_report_periods')[$request_period]:"";
+
+        return $period_title;
+    }
+
+    /**
+     * Payment report Data.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return $data
+     */
+    public function getPaymentData($period){
+        if($period == null){
+
+            $payment_data = $payment_data = TransPayment::with('dd_details')->get();
+        }
+        else{
+
+            $payment_data = TransPayment::with('dd_details','building','society_details','tenants')->where(DB::raw('DATEDIFF(NOW(),created_at)'), '>=', $period[0])
+            ->where(DB::raw('DATEDIFF(NOW(),created_at)'), '<=', $period[1])
+                ->get();
+
+        }
+        return $payment_data;
+    }
+
+    /**
+     * Generate the Report in excel format.
+     *
+     * Author: Prajakta Sisale.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function generateReport($data, $report_format, $period_title, $module_name){
+
+//        $application_types = ApplicationType::all();
+        if (count($data) > 0) {
+            if($report_format == 'excel')
+            {
+                $dataListMaster = [];
+                $i=1;
+                foreach ($data as $datas) {
+
+
+                    $dataList = [];
+                    $dataList['Sr. No.'] = $i;
+                    $dataList['Bill No'] = $datas['bill_no'] ?? '';
+                    $dataList['Building Name'] = $datas->building[0]->name ?? '';
+                    $dataList['Tenant Name'] = $datas->tenants[0]->first_name.' '.$datas->tenants[0]->middle_name.' '.$datas->tenants[0]->last_name ?? '';
+                    $dataList['Society Name'] = $datas->society_details['society_name'] ?? '';
+                    $dataList['Paid By'] = $datas['paid_by'] ?? '';
+                    $dataList['Mode of Payment'] = $datas['mode_of_payment'] ?? '';
+                    $dataList['Bill amount'] = $datas['bill_amount'] ?? '';
+                    $dataList['Amount Paid'] = $datas['amount_paid'] ?? '';
+                    $dataList['From Date'] = $datas['from_date'] ?? '';
+                    $dataList['To date'] = $datas['to_date'] ?? '';
+                    $dataList['Balance Amount'] = $datas['balance_amount'] ?? '';
+                    $dataList['Credit Amount'] = $datas['credit_amount'] ?? '';
+                    if(($datas->dd_id)){
+                        $dataList['DD No.'] = $datas->dd_details['dd_no'] ?? '';
+                        $dataList['Bank Name'] = $datas->dd_details['bank_name'] ?? '';
+                        $dataList['DD Amount'] = $datas->dd_details['dd_amount'] ?? '';
+                        $dataList['DD Status'] = $datas->dd_details['status'] ?? '';
+                    }
+//                    $dataList['except_id'] = $datas['except_id'];
+
+                    $dataListKeys = array_keys($dataList);
+                    $dataListMaster[]=$dataList;
+                    $i++;
+                }
+                $module_name = str_replace(' ','_',$module_name);
+                $period_title = str_replace(' ','_',$period_title);
+                return Excel::create(date('Y_m_d_H_i_s') . '_Period_'.$period_title.$module_name, function($excel) use($dataListMaster){
+
+                    $excel->sheet('mySheet', function($sheet) use($dataListMaster)
+                    {
+                        $sheet->fromArray($dataListMaster);
+                    });
+                })->download('csv');
+            }
+
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+
 
      public function get_building_bill_collection(Request $request, Datatables $datatables){
         //print_r($request->all());exit;
@@ -1149,7 +1290,7 @@ class RCController extends Controller
                 $building = MasterBuilding::where('society_id', '=', decrypt($request->input('id')))->get();
                 $html = '<div class="form-group m-form__group ">Billing Level : Tenant Level Biiling</div>
                         <div class="row align-items-center"><div class="col-md-4"><div class="form-group m-form__group">
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" style="opacity:1" id="building" name="building">';
+                            <select required class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" style="opacity:1" id="building" name="building">';
                             $html .= '<option value="" style="font-weight: normal;">Select Building</option>';
                                 foreach($building as $key => $value){
                                     $html .= '<option value="'.encrypt($value->id).'">'.$value->name.'</option>';

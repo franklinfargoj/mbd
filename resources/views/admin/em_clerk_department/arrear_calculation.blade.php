@@ -82,7 +82,7 @@
                            <div class="col-md-4">
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout" required>
-                                        <option value="" style="font-weight: normal;">Select old rate</option>
+                                        <option value="" style="font-weight: normal;">Select old rate type</option>
                                         <option value="EWS" style="font-weight: normal;" >EWS</option>
                                         <option value="LIG" style="font-weight: normal;" >LIG</option>
                                         <option value="MIG" style="font-weight: normal;" >MIG</option>
@@ -93,7 +93,7 @@
                             <div class="col-md-4">
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout" required>
-                                        <option value="" style="font-weight: normal;">Select revised rate</option>
+                                        <option value="" style="font-weight: normal;">Select revised rate type</option>
                                         <option value="EWS" style="font-weight: normal;">EWS</option>
                                         <option value="LIG" style="font-weight: normal;">LIG</option>
                                         <option value="MIG" style="font-weight: normal;">MIG</option>

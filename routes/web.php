@@ -257,6 +257,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('/lease_detail/edit-lease/{id}/{society_id}', 'LeaseDetailController@showLatestLease')->name('edit-lease.edit');
     Route::post('/lease_detail/update-edit-lease/{id}', 'LeaseDetailController@updateLatestLease')->name('update-lease.update');
     Route::get('/lease_detail/view-lease/{id}/{society_id}', 'LeaseDetailController@viewLease')->name('view-lease.view');
+    Route::get('payment_details/{id}', 'LeaseDetailController@paymentDetails')->name('payment_details');
+    Route::post('loadDDDetailsUsingAjax', 'LeaseDetailController@loadDDDetailsUsingAjax')->name('loadDDDetailsUsingAjax');
 
     // EE Department Routes
 
@@ -351,6 +353,10 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::resource('rc', 'RCDepartment\RCController');
     Route::get('bill_collection_society', 'RCDepartment\RCController@bill_collection_society')->name('bill_collection_society');
     Route::get('bill_collection_tenant', 'RCDepartment\RCController@bill_collection_tenant')->name('bill_collection_tenant');
+
+    Route::get('bill_payment_report', 'RCDepartment\RCController@bill_payment_report')->name('bill_payment_report');
+    Route::get('billing_report', 'RCDepartment\RCController@billing_report')->name('billing_report');
+
     Route::get('generate_receipt_society', 'RCDepartment\RCController@generate_receipt_society')->name('generate_receipt_society');
     Route::get('generate_receipt_tenant', 'RCDepartment\RCController@generate_receipt_tenant')->name('generate_receipt_tenant');
     Route::post('payment_receipt_society', 'RCDepartment\RCController@payment_receipt_society')->name('payment_receipt_society');

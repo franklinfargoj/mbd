@@ -56,13 +56,13 @@
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                 id="wards" name="wards" required>
                                 <option value="" style="font-weight: normal;">Select Ward</option>
-                                @foreach($wards_data as $key => $value)
+                                {{-- @foreach($wards_data as $key => $value)
                                 @if($wardId == $value->id)
                                 <option value="{{ encrypt($value->id) }}" selected>{{ $value->name }}</option>
                                 @else
                                 <option value="{{ encrypt($value->id) }}">{{ $value->name }}</option>
                                 @endif
-                                @endforeach
+                                @endforeach --}}
                             </select>
                         </div>
                     </div>
@@ -74,13 +74,13 @@
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                 id="colony" name="colony" required>
                                 <option value="" style="font-weight: normal;">Select Colony</option>
-                                @foreach($colonies_data as $key => $value)
+                                {{-- @foreach($colonies_data as $key => $value)
                                 @if($colonyId == $value->id)
                                 <option value="{{ encrypt($value->id) }}" selected>{{ $value->name }}</option>
                                 @else
                                 <option value="{{ encrypt($value->id) }}">{{ $value->name }}</option>
                                 @endif
-                                @endforeach
+                                @endforeach --}}
                             </select>
                         </div>
                     </div>
@@ -106,7 +106,7 @@
                 <div class="row align-items-center mb-0">
                     <div class="col-md-4">
                         <div class="form-group m-form__group  building_selected">
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
+                            <select required class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                 id="building" name="building" required>
                                 <option value="{{encrypt($buildingId)}}" selected>{{$building_name}}</option>
                             </select>

@@ -293,6 +293,9 @@ class EMClerkController extends Controller
             //dd($arrear->get()->toArray());
                                     // print_r(DB::getQueryLog());exit;
             return $datatables->of($arrear)
+            ->editColumn('rownum', function ($arrear) {
+                static $i = 0; $i++; return $i;
+            })
             ->editColumn('ac_month', function ($arrear){
                 return date('M', mktime(0, 0, 0, $arrear->ac_month, 10));
             })

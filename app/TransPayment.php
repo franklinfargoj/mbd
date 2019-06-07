@@ -32,4 +32,16 @@ class TransPayment extends Model
         return $this->belongsTo('App\DdDetails', 'dd_id');
     }
 
+    public function society_details(){
+        return $this->belongsTo('App\SocietyDetail','society_id');
+    }
+
+    public function building()
+    {
+        return $this->hasMany('App\MasterBuilding','id','building_id');
+    }
+    public function tenants()
+    {
+        return $this->hasMany('App\MasterTenant','id','tenant_id');
+    }
 }
