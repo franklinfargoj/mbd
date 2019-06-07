@@ -61,6 +61,10 @@
                                                         value="{{ isset($document->id) ? $document->id : '' }}"> 
                                                         <a href="{{ route('upload_multiple_documents',[encrypt($ol_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px;">
                                                         click to upload documents</a>
+
+                                                    @elseif($document->is_other == 1) 
+                                                        <a href="{{ route('upload_other_documents',[encrypt($ol_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px">
+                                                        upload other documents</a>    
                                                     @else 
                                                         @foreach($document->documents_uploaded as $document_uploaded)
                                                             <span>
@@ -86,7 +90,7 @@
                                                         <input type="hidden" name="documentId" id="documentId"
                                                         value="{{ isset($document->id) ? $document->id : '' }}">
                                                         <a href="{{ route('upload_multiple_documents',[encrypt($ol_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px;">
-                                                        click to upload documents</a>
+                                                        click to upload documents</a> 
 
                                                     @elseif($document->is_other == 1) 
                                                         <a href="{{ route('upload_other_documents',[encrypt($ol_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px">

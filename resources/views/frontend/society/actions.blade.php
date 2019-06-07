@@ -33,7 +33,6 @@
 </li>
 <li id="ree-actions" class="collapse show">
 	<ul class="list-unstyled">
-		@if(isset($ol_applications) && $ol_applications->application_path == 'test')
 		<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='society_offer_letter_preview')?'m-menu__item--active':''}}">
 			<a class="m-menu__link m-menu__toggle" title="View Application" href="{{ route('society_offer_letter_preview',encrypt($ol_applications->id)) }}">
 				<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -43,7 +42,6 @@
 				<span class="m-menu__link-text">View Application</span>
 			</a>
 		</li>
-		@endif
 
 		<!-- display signed application once it is uploaded by society -->
 		@if(isset($ol_applications) && $ol_applications->application_path != 'test')
@@ -81,7 +79,7 @@
 			@endif
 		@endif
 
-		@if($status == config('commanConfig.applicationStatus.forwarded') || $status == config('commanConfig.applicationStatus.sent_to_society') || $status == config('commanConfig.applicationStatus.Rejected') || ($status == config('commanConfig.applicationStatus.pending') && isset($documents_arr) && $documents_arr['docs_count'] == $documents_arr['docs_uploaded_count']) && isset($applicationCount) && $applicationCount >= 0)
+		@if($status == config('commanConfig.applicationStatus.forwarded') || $status == config('commanConfig.applicationStatus.sent_to_society') || $status == config('commanConfig.applicationStatus.Rejected') || ($status == config('commanConfig.applicationStatus.pending') && isset($documents_arr) && $documents_arr['docs_count'] == $documents_arr['docs_uploaded_count']) && isset($applicationCount) && $applicationCount != 0)
 
 			<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='documents_uploaded')?'m-menu__item--active':''}}">
 				<a class="m-menu__link m-menu__toggle" title="View Documents" href="{{ route('documents_uploaded',encrypt($ol_applications->id)) }}">
