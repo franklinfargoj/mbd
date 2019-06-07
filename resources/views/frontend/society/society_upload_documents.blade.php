@@ -74,7 +74,7 @@
                                                         @endforeach
                                                     @endif    
                                                 </td>    
-                                            @else
+                                            @else 
                                                 <td class="text-center">
                                                     <h2 class="m--font-danger">
                                                         <i class="fa fa-remove"></i>
@@ -87,6 +87,10 @@
                                                         value="{{ isset($document->id) ? $document->id : '' }}">
                                                         <a href="{{ route('upload_multiple_documents',[encrypt($ol_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px;">
                                                         click to upload documents</a>
+
+                                                    @elseif($document->is_other == 1) 
+                                                        <a href="{{ route('upload_other_documents',[encrypt($ol_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px">
+                                                        upload other documents</a>     
                                                     @else
                                                         <form action="{{ route('uploaded_documents') }}" method="post" enctype='multipart/form-data' id="upload_documents_form_{{ $document->id }}">
                                                         @csrf

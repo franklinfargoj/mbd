@@ -1495,8 +1495,9 @@ class SocietyOfferLetterController extends Controller
         $ol_applications = $application;
         $documents_uploaded = OlSocietyDocumentsStatus::where('application_id',$applicationId)->where('society_id', $society->id)->whereIn('document_id', $document_ids)->with(['documents_uploaded'])->get();
         $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->where('application_id', $application->id)->first();
+        $applicationCount = $this->getForwardedApplication();
 
-        return view('frontend.society.view_society_uploaded_documents', compact('documents', 'optional_docs', 'docs_uploaded_count','docs_count', 'ol_applications','documents_uploaded', 'documents_comment', 'society','documentsList'));
+        return view('frontend.society.view_society_uploaded_documents', compact('documents', 'optional_docs', 'docs_uploaded_count','docs_count', 'ol_applications','documents_uploaded', 'documents_comment', 'society','documentsList','applicationCount'));
     }
 
 
@@ -2773,7 +2774,7 @@ class SocietyOfferLetterController extends Controller
                 $Documents->document_id = $documentId;
                 $Documents->application_id = $applicationId;
                 if ($request->type == 'other'){
-                    $Documents->document_name = $request->memberName;
+                    $Documents->name_of_document = $request->memberName;
                 }else{
                     $Documents->member_name = $request->memberName;   
                 }

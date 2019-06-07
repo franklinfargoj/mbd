@@ -94,7 +94,7 @@
                                 <td>{{ $i }}</td>
                                 <td> 
                                 @if(isset($type) && $type == 'other')
-                                    {{ isset($document->document_name) ? $document->document_name : '' }}
+                                    {{ isset($document->name_of_document) ? $document->name_of_document : '' }}
                                 @else
                                     {{ isset($document->member_name) ? $document->member_name : '' }} 
                                 @endif
