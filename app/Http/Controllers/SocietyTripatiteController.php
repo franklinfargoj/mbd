@@ -372,7 +372,7 @@ class SocietyTripatiteController extends Controller
 
 //        dd($ol_applications);
         $document_ids = array_pluck($documents, 'id');
-        $documents_uploaded = OlSocietyDocumentsStatus::with('document_name')->where('society_id', $society->id)
+        $documents_uploaded = OlSocietyDocumentsStatus::with('Document')->where('society_id', $society->id)
             ->where('application_id',$id)
             ->whereIn('document_id', $document_ids)->get();
 
@@ -386,8 +386,9 @@ class SocietyTripatiteController extends Controller
         }
 
         $documents_uploaded_complusory = [];
-        foreach ($documents_uploaded as $key => $value) {
-            if($value->document_name->is_optional == 0){
+        foreach ($documents_uploaded as $value) {
+
+            if($value->Document->is_optional == 0){
                 $documents_uploaded_complusory[] = $value;
             }
         }
