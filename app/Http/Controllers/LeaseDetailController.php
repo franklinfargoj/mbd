@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DdDetails;
 use App\Http\Requests\lease_detail\LeaseDetailRequest;
 use App\LeaseDetail;
+use App\MasterBuilding;
 use App\SocietyDetail;
 use App\MasterMonth;
 use App\TransPayment;
@@ -673,23 +674,24 @@ class LeaseDetailController extends Controller
      */
     public function paymentDetails(Datatables $datatables,$id){
         $id = decrypt($id);
-
+//dd($id);
 
         $columns = [
             // ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'bill_no','name' => 'bill_no','title' => 'Bill No.'],
-//            ['data' => 'tenant_name','name' => 'tenant_name','title' => 'Tenant Name'],
+            ['data' => 'tenant_name','name' => 'tenant_name','title' => 'Tenant Name'],
+            ['data' => 'society_name','name' => 'tenant_name','title' => 'Society Name'],
+            ['data' => 'building_name','name' => 'tenant_name','title' => 'Building Name'],
             ['data' => 'bill_amount','name' => 'bill_amount','title' => 'Bill Amount'],
             ['data' => 'paid_by', 'name' => 'paid_by', 'title' => 'Amount Paid By'],
             ['data' => 'amount_paid','name' => 'amount_paid','title' => 'Paid Amount'],
-//            ['data' => 'from_date','name' => 'from_date','title' => 'From Date'],
-//            ['data' => 'to_date','name' => 'to_date','title' => 'To Date'],
+            ['data' => 'from_date','name' => 'from_date','title' => 'From Date'],
+            ['data' => 'to_date','name' => 'to_date','title' => 'To Date'],
             ['data' => 'balance','name' => 'balance','title' => 'Balance Amount'],
             ['data' => 'credit_amount','name' => 'credit_amount','title' => 'Credit Amount'],
             ['data' => 'date','name' => 'date','title' => 'Payment Date'],
-
-//            ['data' => 'mode_of_payment','name' => 'mode_of_payment','title' => 'Mode Of Payment'],
+            ['data' => 'mode_of_payment','name' => 'mode_of_payment','title' => 'Mode Of Payment'],
 //            ['data' => 'dd_details','name' => 'dd_details','title' => 'DD Details'],
         ];
 
@@ -710,9 +712,15 @@ class LeaseDetailController extends Controller
                 ->editColumn('bill_no', function ($payment_data) {
                     return $payment_data->bill_no;
                 })
-//                ->editColumn('tenant_name', function ($payment_data) {
-//                    return $payment_data->tenants[0]->first_name.' '.$payment_data->tenants[0]->middle_name.' '.$payment_data->tenants[0]->last_name ?? '';
-//                })
+                ->editColumn('tenant_name', function ($payment_data) {
+                    return $payment_data->tenants[0]->first_name.' '.$payment_data->tenants[0]->middle_name.' '.$payment_data->tenants[0]->last_name ?? '';
+                })
+                ->editColumn('society_name', function ($payment_data) {
+                    return $payment_data->society_details['society_name'] ?? '';
+                })
+                ->editColumn('building_name', function ($payment_data) {
+                    return $payment_data->building[0]->name ?? '';
+                })
                 ->editColumn('bill_amount', function ($payment_data) {
                     return $payment_data->bill_amount ?? 0;
                 })
@@ -725,21 +733,21 @@ class LeaseDetailController extends Controller
                 ->editColumn('date', function ($payment_data) {
                     return $payment_data->created_at ?? '';;
                 })
-//                ->editColumn('from_date', function ($payment_data) {
-//                    return $payment_data->from_date ?? '';;
-//                })
-//                ->editColumn('to_date', function ($payment_data) {
-//                    return $payment_data->to_date ?? '';;
-//                })
+                ->editColumn('from_date', function ($payment_data) {
+                    return $payment_data->from_date ?? '';;
+                })
+                ->editColumn('to_date', function ($payment_data) {
+                    return $payment_data->to_date ?? '';;
+                })
                 ->editColumn('balance', function ($payment_data) {
                     return $payment_data->balance_amount ?? '';;
                 })
                 ->editColumn('credit_amount', function ($payment_data) {
                     return $payment_data->credit_amount ?? '';;
                 })
-//                ->editColumn('mode_of_payment', function ($payment_data) {
-//                    return $payment_data->mode_of_payment?? '';;
-//                })
+                ->editColumn('mode_of_payment', function ($payment_data) {
+                    return $payment_data->mode_of_payment?? '';;
+                })
 //                ->editColumn('dd_details', function ($payment_data) {
 //                    if($payment_data->dd_id){
 //                        return '<a class="d-flex flex-column align-items-center dd_details"
@@ -759,11 +767,14 @@ class LeaseDetailController extends Controller
                 ->make(true);
         }
 
-        $society_name = SocietyDetail::where('id',$id)->value('society_name');
+        $society = SocietyDetail::where('id',$id)->get()->toArray();
 
+        $buldings = MasterBuilding::where('society_id',$society[0]['id'])->get();
+
+//dd($buldings);
 
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
-        return view('admin.lease_detail.payment_details', compact('society_name','html','header_data'));
+        return view('admin.lease_detail.payment_details', compact('society','html','header_data','buldings'));
 
     }
 

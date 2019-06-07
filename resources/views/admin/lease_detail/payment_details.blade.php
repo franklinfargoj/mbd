@@ -4,7 +4,7 @@
         <!-- BEGIN: Subheader -->
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
-                <h3 class="m-subheader__title m-subheader__title--separator">Payment Details : {{$society_name}}</h3>
+                <h3 class="m-subheader__title m-subheader__title--separator">Payment Details : {{$society[0]['society_name']}}</h3>
 {{--                {{ Breadcrumbs::render('lease_detail') }}--}}
                 {{--<div class="btn-list text-right ml-auto">--}}
                     {{--<a href="{{route('village_detail.index',['excel'=>'excel'])}}" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></a>--}}
@@ -19,7 +19,42 @@
                 </div>
             @endif
         <!-- END: Subheader -->
+
+            <div class="m-portlet m-portlet--compact filter-wrap">
+                <div class="row align-items-center row--filter">
+                    <div class="col-md-12">
+                        <form role="form" id="paymentsDetailsForm" class="floating-labels-form" method="get" action="{{route('payment_details',encrypt($society[0]['id']))}}">
+                            <div class="row align-items-center mb-0">
+                                <div class="col-md-3 p-m-0">
+                                    <div class="form-group m-form__group focused">
+                                        <label for="building_name" class="col-form-label mhada-multiple-label">Building Name:</label>
+                                        <select title="Select Building" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
+                                                id="building_name" name="building_name">
+                                            @foreach($buldings as $bulding)
+                                                <option value="{{$building->id}}"  {{ isset($getData['villageLandSource'])? (($getData['villageLandSource'] == $bulding->id) ? 'selected' : '') : '' }}>{{$bulding->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="form-group m-form__group">
+                                        <div class="btn-list">
+                                            <button type="submit" class="btn m-btn--pill m-btn--custom btn-primary">Search</button>
+                                            <button type="reset" onclick="window.location.href='{{ route("payment_details",encrypt($society[0]['id'])) }}'"
+                                                    class="btn m-btn--pill m-btn--custom btn-metal">Reset</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         <div class="m-portlet m-portlet--compact m-portlet--mobile">
+
+
+
 
             <div class="m-portlet__body data-table--custom data-table--icons data-table--actions">
                 <!--begin: Datatable -->
