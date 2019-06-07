@@ -14,7 +14,8 @@ class OlSocietyDocumentsStatus extends Model
         'society_document_path',
         'EE_document_path',
         'comment_by_EE',
-        'deleted_comment_by_EE'
+        'deleted_comment_by_EE',
+        'document_name'
     ];
 
     public function documents_uploaded(){

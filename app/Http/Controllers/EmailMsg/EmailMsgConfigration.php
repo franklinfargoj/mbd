@@ -219,18 +219,19 @@ class EmailMsgConfigration extends Controller
     }
 
     // send mail and msg to society on reject offer letter application
-    public function RejectApplicationMailMsg($applicationId){
+    public function RejectApplicationMailMsg($applicationId,$type){
         
         try{
-            $data = $this->OlSocietyDetails($applicationId);
-            
+            if ($type == 'offer_letter'){
+                $data = $this->OlSocietyDetails($applicationId);
+            }
             $emailSubject = config('commanConfig.email_subject.reject_society_application');
-            $emailSubject = str_replace("<application type>",$data->application_type,$emailSubject);
+            $emailSubject=str_replace("<application type>",$data->application_type,$emailSubject);
 
             $emailContent = config('commanConfig.email_content.reject_society_application');
-            $emailContent = str_replace("<application type>",$data->application_type,$emailContent);
+            $emailContent=str_replace("<application type>",$data->application_type,$emailContent);
             $emailContent = str_replace("<Society name>",$data->name,$emailContent);
-            $emailContent = str_replace("<application Number>",$data->application_no,$emailContent);
+            $emailContent=str_replace("<application Number>",$data->application_no,$emailContent);
 
             $msgContent = config('commanConfig.msg_content.reject_society_application');
             $msgContent = str_replace("<application type>",$data->application_type,$msgContent);

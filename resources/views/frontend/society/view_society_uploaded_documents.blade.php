@@ -61,12 +61,16 @@
                                                 @if($document->is_multiple == 1)
                                                     <a href="{{ route('upload_multiple_documents',[encrypt($ol_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px">
                                                         view documents</a>
+
+                                                @elseif($document->is_other == 1) 
+                                                    <a href="{{ route('upload_other_documents',[encrypt($ol_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px">
+                                                        upload other documents</a> 
                                                 @else 
                                                     @foreach($document->documents_uploaded as $doc)
                                                     <span>
                                                         <a href="{{ config('commanConfig.storage_server').$doc->society_document_path }}" data-value='{{ $document->id }}' class="btn btn-primary btn-custom" download target="_blank" rel="noopener"> Download</a>
                                                     </span>
-                                                    @endforeach        
+                                                    @endforeach 
                                                 @endif        
                                                 </td>
                                             @else
@@ -75,7 +79,14 @@
                                                         <i class="fa fa-remove"></i>
                                                     </h2>
                                                 </td>
-                                                <td></td>
+                                                @if($document->is_other == 1) 
+                                                    <td>
+                                                        <a href="{{ route('upload_other_documents',[encrypt($ol_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px">
+                                                        upload other documents</a>
+                                                    </td>    
+                                                @else        
+                                                    <td></td>
+                                                @endif    
                                             @endif
                                         </tr>
                                     @php $i++; @endphp

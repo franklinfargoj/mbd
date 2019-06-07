@@ -2734,6 +2734,7 @@ class SocietyOfferLetterController extends Controller
         }
     }
 
+    // upload multiple documents for soc document page
     public function uploadMultipleDocuments(Request $request,$applicationId,$documentId){
 
         $documentId = decrypt($documentId);
@@ -3063,5 +3064,23 @@ class SocietyOfferLetterController extends Controller
         unset($data['_token']);
         $a = SocietyOfferLetter::updateOrCreate(['id' => $data['id']],$data);
         return redirect()->back()->with('success','Profile updated successfully.');
+    }
+
+    // upload multiple other document upload page
+    public function uploadOtherDocuments(Request $request,$applicationId,$documentId){
+        $documentId = decrypt($documentId);
+        $applicationId = decrypt($applicationId);
+
+        $ol_applications = OlApplication::where('user_id', Auth::user()->id)->where('id',
+            $applicationId)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){$q->where('society_flag', '1')->orderBy('id', 'desc');
+        }])->first();
+
+        $documents = OlSocietyDocumentsStatus::where('document_id',$documentId)
+        ->where('application_id', $applicationId)->orderBy('id','desc')->get();
+
+        $ol_applications->status = $this->getSocietyStatusLog($ol_applications->id);
+        $applicationCount = $this->getForwardedApplication();
+
+        return view('frontend.society.upload_multiple_documents',compact('ol_applications','documentId','documents','applicationCount'));
     }
 }

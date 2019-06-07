@@ -763,7 +763,8 @@ class CommonController extends Controller
         ];
         if ($request->check_status == 2){
             $EmailMsgConfigration = new EmailMsgConfigration();
-            $response = $EmailMsgConfigration->RejectApplicationMailMsg($request->applicationId);
+            $type = 'offer_letter';
+            $response = $EmailMsgConfigration->RejectApplicationMailMsg($request->applicationId,$type);
         }
 
             //Code added by Prajakta >>start
@@ -1054,7 +1055,8 @@ class CommonController extends Controller
         
         if ($request->check_status == 2){
             $EmailMsgConfigration = new EmailMsgConfigration();
-            $response = $EmailMsgConfigration->RejectApplicationMailMsg($request->applicationId);
+            $type = 'offer_letter';
+            $response = $EmailMsgConfigration->RejectApplicationMailMsg($request->applicationId,$type);
         }
 
         //Code added by Prajakta >>start
