@@ -25,7 +25,6 @@ $status = isset($noc_applications->nocApplicationStatus[0]->status_id)?$noc_appl
 </li>
 <li id="ree-actions" class="collapse show">
 	<ul class="list-unstyled">
-		@if(isset($noc_applications) && $noc_applications->application_path == "test")
 			<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='society_noc_preview')?'m-menu__item--active':''}}">
 				<a class="m-menu__link m-menu__toggle" title="View Application" href="{{ route('society_noc_preview',encrypt($noc_applications->id)) }}">
 					<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -35,7 +34,6 @@ $status = isset($noc_applications->nocApplicationStatus[0]->status_id)?$noc_appl
 					<span class="m-menu__link-text">View Application</span>
 				</a>
 			</li>
-		@endif
 
 		@if(isset($noc_applications) && $noc_applications->application_path != "test")
 		<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='show_noc_sign_application')?'m-menu__item--active':''}}">
