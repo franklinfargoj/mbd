@@ -29,7 +29,4 @@ class OlSocietyDocumentsStatus extends Model
     public function document_name(){
         return $this->hasOne('App\OlSocietyDocumentsMaster','id','document_id');
     }
-    public function Document(){
-        return $this->hasOne('App\OlSocietyDocumentsMaster','id','document_id');
-    }
 }
