@@ -2750,13 +2750,11 @@ class SocietyOfferLetterController extends Controller
 
         $ol_applications->status = $this->getSocietyStatusLog($ol_applications->id);
         $applicationCount = $this->getForwardedApplication();
-
-        return view('frontend.society.upload_multiple_documents',compact('ol_applications','documentId','documents','applicationCount'));
+        $type = 'multiple';
+        return view('frontend.society.upload_multiple_documents',compact('ol_applications','documentId','documents','applicationCount','type'));
     }
 
     public function saveDocuments(Request $request){
-
-
         $file = $request->file('file');
         $societyId = $request->societyId;
         $documentId = $request->documentId;
@@ -2769,11 +2767,16 @@ class SocietyOfferLetterController extends Controller
                 $fileName = time().'_member_'.$societyId.'.'.$extension;
                 $this->CommonController->ftpFileUpload($folderName,$file,$fileName);
 
+
                 $Documents = new OlSocietyDocumentsStatus();
                 $Documents->society_id = $societyId;
                 $Documents->document_id = $documentId;
                 $Documents->application_id = $applicationId;
-                $Documents->member_name = $request->memberName;
+                if ($request->type == 'other'){
+                    $Documents->document_name = $request->memberName;
+                }else{
+                    $Documents->member_name = $request->memberName;   
+                }
                 $Documents->society_document_path = $folderName.'/'.$fileName;
                 // dd($Documents);
                 $Documents->save();
@@ -3080,7 +3083,7 @@ class SocietyOfferLetterController extends Controller
 
         $ol_applications->status = $this->getSocietyStatusLog($ol_applications->id);
         $applicationCount = $this->getForwardedApplication();
-
-        return view('frontend.society.upload_multiple_documents',compact('ol_applications','documentId','documents','applicationCount'));
+        $type = 'other';
+        return view('frontend.society.upload_multiple_documents',compact('ol_applications','documentId','documents','applicationCount','type'));
     }
 }

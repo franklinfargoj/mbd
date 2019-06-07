@@ -486,11 +486,45 @@ class SocietyNocController extends Controller
         }])->first();
 
         $noc_applications = $application_details;
-        $check_upload_avail = 1;
+        $check_upload_avail = $this->getCheckUploadAvail($applicationId);
         $applicationCount = $this->getForwardedApplication();
         return view('frontend.society.upload_downloaded_noc_app', compact('noc_applications', 'application_details','check_upload_avail','applicationCount'));
     }
 
+    // check all documents upload by society or not
+    public function getCheckUploadAvail($applicationId){
+
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $noc_application = NocApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->with(['request_form', 'noc_application_master', 'applicationMasterLayout'])->first();
+
+        $documents = NocSocietyDocumentsMaster::where('application_id', $noc_application->application_master_id)->with(['documents_uploaded' => function($q) use ($society,$applicationId){
+            $q->where('society_id', $society->id)->where('application_id',$applicationId)->get();
+        }])->get();
+        $layouts = MasterLayout::all();
+        $id = $noc_application->application_master_id;
+        $noc_applications = $noc_application;
+
+        $optional_docs = $this->getOptionalDocument($noc_application->application_master_id);
+         $docs_count = NocSocietyDocumentsMaster::where('application_id', $noc_application->application_master_id)->where('is_optional',0)->count();
+         $applicationCount = $this->getForwardedApplication();
+
+        $docs_uploaded_count = 0;
+
+        foreach($documents as $documents_key => $documents_val){
+                if($documents_val->is_optional == 0 && count($documents_val->documents_uploaded) > 0){
+                    $docs_uploaded_count++;
+                }
+        }
+
+        $check_upload_avail = 0;
+        if($docs_uploaded_count >= $docs_count)
+        {
+            $check_upload_avail = 1;
+        }
+
+        return $check_upload_avail;
+
+    }
     public function download_noc_application($applicationId){
 
         $applicationId = decrypt($applicationId);
