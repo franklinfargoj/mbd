@@ -1,5 +1,4 @@
 @extends('frontend.layouts.sidebarAction')
-@extends('frontend.layouts.sidebarAction')
 @section('actions')
     @include('frontend.society.tripatite.actions',compact('ol_applications'))
 @endsection
