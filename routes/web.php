@@ -1465,6 +1465,11 @@ Route::post('save_forward_oc_Application','CODepartment\COController@sendForward
 //get taluka on selection of district
 Route::post('/getTalukaByAjax','VillageDetailController@getTalukaByAjax')->name('getTalukaByAjax');
 
+//get tenants on selection of building
+Route::post('/getTenantsByAjax','LeaseDetailController@getTenantsByAjax')->name('getTenantsByAjax');
+
+
+
 //import the societies.
 
 Route::get('import',function() {

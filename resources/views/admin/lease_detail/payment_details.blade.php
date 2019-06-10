@@ -27,15 +27,59 @@
                             <div class="row align-items-center mb-0">
                                 <div class="col-md-3 p-m-0">
                                     <div class="form-group m-form__group focused">
-                                        <label for="building_name" class="col-form-label mhada-multiple-label">Building Name:</label>
+                                        <label for="building_id" class="col-form-label mhada-multiple-label">Building Name:</label>
                                         <select title="Select Building" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
-                                                id="building_name" name="building_name">
-                                            @foreach($buldings as $bulding)
-                                                <option value="{{$building->id}}"  {{ isset($getData['villageLandSource'])? (($getData['villageLandSource'] == $bulding->id) ? 'selected' : '') : '' }}>{{$bulding->name}}</option>
+                                             data-id="{{$society[0]['id']}}"   id="building_id" name="building_id">
+                                            @foreach($buildings as $building)
+                                                <option value="{{$building->id}}"  {{ isset($getData['building_id'])? (($getData['building_id'] == $building->id) ? 'selected' : '') : '' }}>{{$building->name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
+
+
+                                @if($getData)
+                                    @if(isset($getData['tenant_id']))
+                                    <div id="tenants_list" class="col-md-3 p-m-0">
+                                        <div class="form-group m-form__group focused">
+                                            <label for="tenant_id" class="col-form-label mhada-multiple-label">Tenant Name:</label>
+                                            <div class="tenants">
+                                                <select title="Select Tenant" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
+                                                        id="tenant_id" name="tenant_id">
+                                                    @foreach($tenants as $tenant)
+                                                        <option value="{{$tenant->id}}"  {{ isset($getData['tenant_id'])? (($getData['tenant_id'] == $tenant->id) ? 'selected' : '') : '' }}>{{$tenant->first_name.' '.$tenant->middle_name.' '.$tenant->last_name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @else
+                                        @if($society[0]['society_bill_level'] == 2)
+                                            <div id="tenants_list" class="col-md-3 p-m-0" style="display: none;">
+                                                <div class="form-group m-form__group focused">
+                                                    <label for="tenant_id" class="col-form-label mhada-multiple-label">Tenant Name:</label>
+                                                    <div class="tenants">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endif
+
+                                @else
+{{--                                    @php dd($society[0]['society_bill_level']); @endphp--}}
+                                    @if($society[0]['society_bill_level'] == 2)
+                                    <div id="tenants_list" class="col-md-3 p-m-0" style="display: none;">
+                                        <div class="form-group m-form__group focused">
+                                            <label for="tenant_id" class="col-form-label mhada-multiple-label">Tenant Name:</label>
+                                            <div class="tenants">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                     @endif
+                                @endif
+
 
                                 <div class="col">
                                     <div class="form-group m-form__group">
@@ -53,9 +97,6 @@
             </div>
         <div class="m-portlet m-portlet--compact m-portlet--mobile">
 
-
-
-
             <div class="m-portlet__body data-table--custom data-table--icons data-table--actions">
                 <!--begin: Datatable -->
             {!! $html->table() !!}
@@ -70,8 +111,8 @@
         </div>
         <!-- END EXAMPLE TABLE PORTLET-->
     </div>
+    </div>
 @endsection
-<?php //dd($html->scripts()); ?>
 @section('datatablejs')
 {!! $html->scripts() !!}
 <script>
@@ -97,4 +138,33 @@
     });
 
 </script>
+        <script>
+            $(document).on('change', '#building_id', function(){
+                var building_id = $(this).val();
+                var society_id = $(this).data('id');
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url:"{{URL::route('getTenantsByAjax')}}",
+                    type: 'POST',
+                    data: {building_id: building_id,society_id : society_id},
+                    success: function(response){
+//console.log(response);
+                        $('.tenants').html(response);
+                        $('#tenants_list').show();
+                        $('.m_selectpicker').selectpicker();
+
+                    }
+                });
+
+
+            });
+
+
+        </script>
+
+
+
+
 @endsection

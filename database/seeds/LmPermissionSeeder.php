@@ -274,6 +274,11 @@ class LmPermissionSeeder extends Seeder
                 'display_name'=>'DD details of society payment',
                 'description'=>'DD details of society payment'
             ],
+            [
+                'name'=>'getTenantsByAjax',
+                'display_name'=>'Tenants',
+                'description'=>'Tenants'
+            ],
 
 
         ];
