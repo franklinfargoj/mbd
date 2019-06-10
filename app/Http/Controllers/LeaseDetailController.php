@@ -727,7 +727,13 @@ class LeaseDetailController extends Controller
                     return $payment_data->bill_no;
                 })
                 ->editColumn('tenant_name', function ($payment_data) {
-                    return $payment_data->tenants[0]->first_name.' '.$payment_data->tenants[0]->middle_name.' '.$payment_data->tenants[0]->last_name ?? '';
+                    $first_name = $payment_data->tenants[0]->first_name ?? '';
+                    $middle_name = $payment_data->tenants[0]->middle_name ?? '';
+                    $last_name = $payment_data->tenants[0]->last_name ?? '';
+
+                    $name = $first_name.' '.$middle_name.' '.$last_name;
+
+                    return $name ?? '';
                 })
                 ->editColumn('society_name', function ($payment_data) {
                     return $payment_data->society_details['society_name'] ?? '';

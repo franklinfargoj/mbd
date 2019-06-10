@@ -23,7 +23,7 @@
             <div class="m-portlet m-portlet--compact filter-wrap">
                 <div class="row align-items-center row--filter">
                     <div class="col-md-12">
-                        <form role="form" id="paymentsDetailsForm" class="floating-labels-form" method="get" action="{{route('payment_details',encrypt($society[0]['id']))}}">
+                        <form role="form" id="paymentsDetailsForm" class="floating-labels-form" method="get" action="{{route('payment_details.lease',encrypt($society[0]['id']))}}">
                             <div class="row align-items-center mb-0">
                                 <div class="col-md-3 p-m-0">
                                     <div class="form-group m-form__group focused">
