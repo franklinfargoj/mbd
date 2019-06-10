@@ -118,6 +118,11 @@ class SocietyNocController extends Controller
             'water_charges_amount' => $request->input('water_charges_amount'),
             'water_charges_receipt_number' => $request->input('water_charges_receipt_number'),
             'water_charges_date' => $request->input('water_charges_date'),
+            
+            'full_bua' => $request->input('full_bua'),
+            'existing_bua' => $request->input('existing_bua'),
+            'percent_bua' => $request->input('percent_bua'),
+            'total_bua' => $request->input('total_bua'),
 
             'created_at' => date('Y-m-d H-i-s'),
             'updated_at' => null
@@ -253,6 +258,11 @@ class SocietyNocController extends Controller
             'water_charges_amount' => $request->water_charges_amount,
             'water_charges_receipt_number' => $request->water_charges_receipt_number,
             'water_charges_date' => $request->water_charges_date,
+            
+            'full_bua' => $request->full_bua,
+            'existing_bua' => $request->existing_bua,
+            'percent_bua' => $request->percent_bua,
+            'total_bua' => $request->total_bua,
         );
         // dd($update_input);
         NocRequestForm::where('society_id', $society->id)->where('id', $request->request_form_id)->update($update_input);
@@ -533,7 +543,7 @@ class SocietyNocController extends Controller
 
         $comment = NocSocietyDocumentsComment::where('application_id',$applicationId)->value('society_documents_comment');
 
-        $noc_application = NocApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->with(['request_form', 'applicationMasterLayout'])->first();
+        $noc_application = NocApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->with(['request_form', 'applicationMasterLayout','noc_application_master'])->first();
         $layouts = MasterLayout::all(); 
         $id = $noc_application->application_master_id;
         $ntw = new \NTWIndia\NTWIndia();

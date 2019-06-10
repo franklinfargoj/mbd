@@ -135,6 +135,30 @@
                              <input type="text" id="water_charges_date" name="water_charges_date" class="form-control form-control--custom m-input m_datepicker" data-date-end-date="+0d" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->water_charges_date)) }}" required readonly="readonly">
                             <span class="help-block">{{$errors->first('water_charges_date')}}</span>
                         </div>
+                        <div class="col-xl-5 offset-xl-1 col-lg-6 form-group">
+                            <label class="col-form-label" for="full_bua">Full BUA : <span class="star">*</span></label>
+                            <input type="text" id="full_bua" name="full_bua" class="form-control form-control--custom form-control--fixed-height m-input number total_bua" value="{{ $noc_application->request_form->full_bua }}" required>
+                            <span class="help-block">{{$errors->first('full_bua')}}</span>
+                        </div>
+                    </div>
+                    <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-xl-5 col-lg-6 form-group"> 
+                            <label class="col-form-label" for="existing_bua">Exisitng BUA : <span class="star">*</span></label>
+                            <input type="text" id="existing_bua" name="existing_bua" class="form-control form-control--custom form-control--fixed-height m-input number total_bua" value="{{ $noc_application->request_form->existing_bua }}" required>
+                            <span class="help-block">{{$errors->first('existing_bua')}}</span>
+                        </div>
+                        <div class="col-xl-5 offset-xl-1 col-lg-6 form-group"> 
+                            <label class="col-form-label" for="full_bua">25 % BUA : <span class="star">*</span></label>
+                            <input type="text" id="percent_bua" name="percent_bua" class="form-control form-control--custom form-control--fixed-height m-input number total_bua" value="{{ $noc_application->request_form->percent_bua }}" required>
+                            <span class="help-block">{{$errors->first('percent_bua')}}</span>
+                        </div>
+                    </div>
+                    <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-xl-5 col-lg-6 form-group t_bua"> 
+                            <label class="col-form-label" for="existing_bua">Total BUA : <span class="star">*</span></label>
+                            <input type="text" id="total_bua" name="total_bua" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ $noc_application->request_form->total_bua }}" required>
+                            <span class="help-block">{{$errors->first('total_bua')}}</span>
+                        </div>
                     </div>
 
                     <!-- show feilds at sharing application -->
@@ -190,6 +214,7 @@
                             <input type="text" id="water_charges_receipt_number" name="water_charges_receipt_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->water_charges_receipt_number }}" required>
                             <span class="help-block">{{$errors->first('water_charges_receipt_number')}}</span>
                         </div>
+                        
                     </div>
                     @endif
 
@@ -209,4 +234,17 @@
             </form>
         </div>
     </div>
+@endsection
+@section('actions_js')
+<script type="text/javascript">
+    $(".total_bua").keyup(function(){
+        var sum = 0;
+        var full_bua = $("#full_bua").val() || 0;
+        var existing_bua = $("#existing_bua").val() || 0;
+        var percent_bua = $("#percent_bua").val() || 0;
+        sum = parseFloat(full_bua) + parseFloat(existing_bua) + parseFloat(percent_bua);
+        $(".t_bua").addClass('focused');
+        $("#total_bua").attr('value',sum.toFixed(2));
+    });
+</script>
 @endsection

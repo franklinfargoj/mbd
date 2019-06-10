@@ -20,6 +20,7 @@ class NocRequestForm extends Model
         'offsite_infra_charges_receipt_date',
         'water_charges_amount',
         'water_charges_receipt_number',
-        'water_charges_date'
+        'water_charges_date',
+        'full_bua','existing_bua','percent_bua','total_bua'
     ];
 }
