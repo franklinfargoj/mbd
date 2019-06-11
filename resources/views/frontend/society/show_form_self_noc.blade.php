@@ -142,7 +142,7 @@
                     </div>
 
                     <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-xl-5 offset-xl-1 col-lg-6 form-group"> 
+                        <div class="col-xl-5 col-lg-6 form-group"> 
                             <label class="col-form-label" for="existing_bua">Exisitng BUA : <span class="star">*</span></label>
                             <input type="text" id="existing_bua" name="existing_bua" class="form-control form-control--custom form-control--fixed-height m-input number total_bua" value="{{ old('existing_bua') }}" required>
                             <span class="help-block">{{$errors->first('existing_bua')}}</span>
@@ -154,7 +154,7 @@
                         </div>
                     </div>
                     <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-xl-5 offset-xl-1 col-lg-6 form-group t_bua"> 
+                        <div class="col-xl-5 col-lg-6 form-group t_bua"> 
                             <label class="col-form-label" for="total_bua">Total BUA : <span class="star">*</span></label>
                             <input type="text" id="total_bua" name="total_bua" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ old('total_bua') }}" required>
                             <span class="help-block">{{$errors->first('total_bua')}}</span>
