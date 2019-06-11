@@ -51,13 +51,19 @@
                                 <div class="form-group m-form__group society_list">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="society" name="society" required>
                                         <option value="" style="font-weight: normal;">Select Society</option>
-                                        @foreach($societies_data as $key => $value)
-                                            @if($society && $society->society_name == $value->society_name )
-                                            <option value="{{ encrypt($value->id) }}" selected>{{ $value->society_name }}</option>
+                                        {{--@foreach($societies_data as $key => $value)--}}
+                                            {{--@if($society && $society->society_name == $value->society_name )--}}
+                                            {{--<option value="{{ encrypt($value->id) }}" selected>{{ $value->society_name }}</option>--}}
                                             {{--@else--}}
                                             {{--<option value="{{ encrypt($value->id) }}">{{ $value->society_name }}</option>--}}
-                                            @endif
-                                        @endforeach
+                                            {{--@endif--}}
+                                        {{--@endforeach--}}
+                                        @if(isset($society_list ))
+                                            @foreach($society_list as $key => $value)
+                                                <option value="{{ encrypt($value->id) }}" {{ ($society_id== $value->id ) ? 'selected':'' }}>{{ $value->society_name }}</option>
+                                            @endforeach
+                                        @endif
+
                                     </select>
                                     <span class="help-block error">{{$errors->first('society')}}</span>
                                 </div>
@@ -69,13 +75,18 @@
                                 <div class="form-group m-form__group building_list">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="building" name="building" required>
                                         <option value="" style="font-weight: normal;">Select Building</option>
-                                        @foreach($building_data as $key => $value)
-                                            @if($building && $building->name == $value->name )
-                                            <option value="{{ encrypt($value->id) }}" selected>{{ $value->name }}</option>
+                                        {{--@foreach($building_data as $key => $value)--}}
+                                            {{--@if($building && $building->name == $value->name )--}}
+                                            {{--<option value="{{ encrypt($value->id) }}" selected>{{ $value->name }}</option>--}}
                                             {{--@else--}}
                                             {{--<option value="{{ encrypt($value->id) }}">{{ $value->name }}</option>--}}
-                                            @endif
-                                        @endforeach
+                                            {{--@endif--}}
+                                        {{--@endforeach--}}
+                                        @if(isset($building_list ))
+                                            @foreach($building_list as $key => $value)
+                                                <option value="{{ encrypt($value->id) }}" {{ ($building_id == $value->id ) ? 'selected':'' }}>{{ $value->name }}</option>
+                                            @endforeach
+                                        @endif
                                     </select>
                                     <span class="help-block error">{{$errors->first('building')}}</span>
                                 </div>
@@ -130,6 +141,12 @@
 
     $(document).ready(function () {
         $(".display_msg").delay(5000).slideUp(300);
+
+        if((($('#layout').val() != '') && ($('#society').val() != '') && ($('#building').val() != '')) ){
+
+            $('.submit-button').prop('disabled',false);
+
+        }
     });
 
     $(document).on('change', '#layout', function(){
@@ -143,6 +160,11 @@
                         console.log(response);
                         $('.society_list').html(response);
                         $('#society').selectpicker('refresh');
+                            if((($('#layout').val() == '') || ($('#society').val() == '') || ($('#building').val() == '')) ){
+
+                                $('.submit-button').prop('disabled',false);
+
+                            }
                     }
                   });    
                 }            
@@ -160,6 +182,11 @@
                         //console.log(response);
                         $('.building_list').html(response);
                         $('#building').selectpicker('refresh');
+                            if((($('#layout').val() == '') || ($('#society').val() == '') || ($('#building').val() == '')) ){
+
+                                $('.submit-button').prop('disabled',false);
+
+                            }
                     }
                   });    
                 }            
