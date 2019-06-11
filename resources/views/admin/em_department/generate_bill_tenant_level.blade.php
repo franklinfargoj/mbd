@@ -173,7 +173,7 @@
         $(".display_msg").delay(5000).slideUp(300);
 
 
-if((($('#layout').val() != '') && ($('#wards').val() != '')
+        if((($('#layout').val() != '') && ($('#wards').val() != '')
             && ($('#colony').val() != '') && ($('#society').val() != '') && ($('#building').val() != '')) ){
 
             $('.submit-button').prop('disabled',false);

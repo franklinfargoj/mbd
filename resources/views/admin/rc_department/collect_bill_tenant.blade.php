@@ -56,13 +56,13 @@
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                 id="wards" name="wards" required>
                                 <option value="" style="font-weight: normal;">Select Ward</option>
-                                {{-- @foreach($wards_data as $key => $value)
+                                 @foreach($wards_data as $key => $value)
                                 @if($wardId == $value->id)
                                 <option value="{{ encrypt($value->id) }}" selected>{{ $value->name }}</option>
-                                @else
-                                <option value="{{ encrypt($value->id) }}">{{ $value->name }}</option>
+                                {{--@else--}}
+                                {{--<option value="{{ encrypt($value->id) }}">{{ $value->name }}</option>--}}
                                 @endif
-                                @endforeach --}}
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -74,13 +74,13 @@
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                 id="colony" name="colony" required>
                                 <option value="" style="font-weight: normal;">Select Colony</option>
-                                {{-- @foreach($colonies_data as $key => $value)
+                                 @foreach($colonies_data as $key => $value)
                                 @if($colonyId == $value->id)
                                 <option value="{{ encrypt($value->id) }}" selected>{{ $value->name }}</option>
-                                @else
-                                <option value="{{ encrypt($value->id) }}">{{ $value->name }}</option>
+                                {{--@else--}}
+                                {{--<option value="{{ encrypt($value->id) }}">{{ $value->name }}</option>--}}
                                 @endif
-                                @endforeach --}}
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -159,6 +159,16 @@
 
     $(document).ready(function () {
         $(".display_msg").delay(5000).slideUp(300);
+
+
+        if((($('#layout').val() != '') && ($('#wards').val() != '')
+                && ($('#colony').val() != '') && ($('#society').val() != '') && ($('#building').val() != '')) ){
+
+            $('.submit-button').prop('disabled',false);
+
+        }
+
+
     });
 
     $(document).on('change', '#layout', function () {
