@@ -813,7 +813,23 @@ class EMController extends Controller
          $wardId=decrypt($request->input('wards'));
          $colonyId=decrypt($request->input('colony'));
          $society_id = decrypt($request->input('society'));
+         if(isset($colonyId)){
+             $society_list = SocietyDetail::where('colony_id', $colonyId)->get();
+         }
+        if(isset($wardId)){
+            $colony_list = MasterColony::where('ward_id', $wardId)->get();
+        }
+        if(isset($layoutId)){
+            $ward_list = MasterWard::where('layout_id', $layoutId)->get();
+        }
+        if(isset($society_id)){
+            $building_list = MasterBuilding::where('society_id', $society_id)->get();
+        }
+
+
+
          $society_name = SocietyDetail::where('id', $society_id)->first()->society_name;
+//        dd($society_id);
          if($request->input('building')) {
             $tenament = DB::table('master_tenant_type')->get();
             $buildingId=decrypt($request->input('building'));
@@ -897,7 +913,8 @@ class EMController extends Controller
             }
             $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
                     // return $buildings;
-            return view('admin.em_department.generate_bill_tenant_level', compact('building_data','building_name','buildingId','layoutId','wardId','colonyId','layout_data','wards_data','colonies_data','societies_data','tenament','html', 'building_id', 'society_id'));
+            return view('admin.em_department.generate_bill_tenant_level',
+                compact('building_list','ward_list','colony_list','society_list','building_data','building_name','buildingId','layoutId','wardId','colonyId','layout_data','wards_data','colonies_data','societies_data','tenament','html', 'building_id', 'society_id'));
         } else {
             $columns = [
                 ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -980,8 +997,12 @@ class EMController extends Controller
                 ->rawColumns(['actions'])
                 ->make(true);           
             }
+
             $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
-            return view('admin.em_department.generate_bill_tenant_level', compact('building_data','layoutId','wardId','colonyId','layout_data','wards_data','colonies_data','societies_data','tenament','html', 'society_id','society_name','buildingId'));
+            return view('admin.em_department.generate_bill_tenant_level',
+                compact('building_list','ward_list','colony_list','society_list','building_data','layoutId','wardId','colonyId',
+                    'layout_data','wards_data','colonies_data','societies_data',
+                    'tenament','html', 'society_id','society_name','buildingId'));
         }
     }
 
@@ -1302,7 +1323,7 @@ class EMController extends Controller
 
         //dd($colonies);
         $societies = SocietyDetail::whereIn('colony_id', $colonies)->pluck('id');
-        $societies_data = SocietyDetail::where('society_bill_level', '=', '2')->whereIn('colony_id', $colonies)->get();
+        $societies_data = SocietyDetail::/*where('society_bill_level', '=', '2')->*/whereIn('colony_id', $colonies)->get();
 
         $building_data = MasterBuilding::whereIn('society_id', $societies)->get();
         $html='';

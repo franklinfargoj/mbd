@@ -53,14 +53,15 @@
                                     <label class="col-form-label">Select Ward</label>
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="wards" name="wards" required>
                                         <option value="" style="font-weight: normal;">Select Ward</option>
-
-                                        @foreach($wards_data as $key => $value)
-                                            @if($wardId == $value->id)
-                                                <option value="{{ encrypt($value->id) }}" selected>{{ $value->name }}</option>
+                                        @if(isset($ward_list))
+                                        @foreach($ward_list as $key => $value)
+{{--                                            @if($wardId == $value->id)--}}
+                                                <option value="{{ encrypt($value->id) }}" {{($value->id == $wardId) ? 'selected':''  }}>{{ $value->name }}</option>
                                             {{--@else--}}
                                                 {{--<option value="{{ encrypt($value->id) }}">{{ $value->name }}</option>--}}
-                                            @endif
+                                            {{--@endif--}}
                                         @endforeach
+                                        @endif
                                     </select>
                                 </div>
                             </div>                        
@@ -71,13 +72,24 @@
                                 <label class="col-form-label">Select Colony</label>
                                 <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="colony" name="colony" required>
                                     <option value="" style="font-weight: normal;">Select Colony</option>
-                                    @foreach($colonies_data as $key => $value)
-                                        @if($colonyId == $value->id)
-                                        <option value="{{ encrypt($value->id) }}" selected>{{ $value->name }}</option>
-                                        {{--@else--}}
-                                        {{--<option value="{{ encrypt($value->id) }}">{{ $value->name }}</option>--}}
-                                        @endif
-                                    @endforeach
+                                    @if(isset($colony_list))
+                                        @foreach($colony_list as $key => $value)
+                                            {{--@if($colonyId == $value->id)--}}
+                                                <option value="{{ encrypt($value->id) }}" {{($colonyId == $value->id) ? 'selected' : ''}}>{{ $value->name }}</option>
+                                            {{--@else--}}
+                                                {{--<option value="{{ encrypt($value->id) }}">{{ $value->name }}</option>--}}
+                                            {{--@endif--}}
+                                        @endforeach
+
+                                    {{--@else--}}
+                                        {{--@foreach($colonies_data as $key => $value)--}}
+                                            {{--@if($colonyId == $value->id)--}}
+                                                {{--<option value="{{ encrypt($value->id) }}" selected>{{ $value->name }}</option>--}}
+                                                {{--@else--}}
+                                                {{--<option value="{{ encrypt($value->id) }}">{{ $value->name }}</option>--}}
+                                            {{--@endif--}}
+                                        {{--@endforeach--}}
+                                    @endif
                                 </select>
                             </div>
                         </div> 
@@ -85,17 +97,27 @@
                             <div class="form-group m-form__group society_select">
                                 <label class="col-form-label">Select Societies</label>
                                 <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="society" name="society" required>
-                                    <option value="" style="font-weight: normal;" selected>Select Societies</option>
-                                    @if(isset($society_name)) 
-                                    <option value="{{encrypt($society_id)}}" selected>{{$society_name}}</option>
-                                    @endif
-                                     @foreach($societies_data as $key => $value)
-                                        @if($society_id == $value->id)
-                                        <option value="{{ encrypt($value->id) }}" selected>{{ $value->society_name }}</option>
+                                    <option value="" style="font-weight: normal;" {{$html == ''? 'selected':'' }}>Select Societies</option>
+                                    @if(isset($society_list))
+                                        @foreach($society_list as $key => $value)
+                                            {{--@if(isset($society_name))--}}
+                                                {{--<option value="{{encrypt($value->id)}}" {{ ($value->society_name == $society_name) ? 'selected' :'' }}>{{$value->society_name}}</option>--}}
+                                            {{--@elseif($society_id == $value->id)--}}
+                                            <option value="{{ encrypt($value->id) }}" {{ ($value->id == $society_id) ? 'selected' :'' }}>{{ $value->society_name }}</option>
+                                            {{--@else--}}
+                                                {{--<option value="{{ encrypt($value->id) }}">{{ $value->society_name }}</option>--}}
+                                            {{--@endif--}}
+                                        @endforeach
+                                    {{--@else--}}
+                                     {{--@foreach($societies_data as $key => $value)--}}
+                                        {{--@if($society_id == $value->id)--}}
+                                        {{--<option value="{{ encrypt($value->id) }}" selected>{{ $value->society_name }}</option>--}}
                                         {{--@else--}}
                                         {{--<option value="{{ encrypt($value->id) }}" >{{ $value->society_name }}</option>--}}
-                                        @endif
-                                    @endforeach
+                                        {{--@endif--}}
+                                    {{--@endforeach--}}
+                                    @endif
+
                                 </select>
                             </div>
                         </div>                             
@@ -114,7 +136,9 @@
                             <div class="col-md-4">
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="building" name="building" required>
-                                        <option value="{{encrypt($buildingId)}}" selected>{{$building_name}}</option>
+                                        @foreach($building_list as $building)
+                                        <option value="{{encrypt($building->id)}}" {{ ($building->id == $buildingId) ? 'selected' :'' }}>{{$building->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>                          
@@ -213,6 +237,14 @@
                         //console.log(response);
                         $('.ward-div').html(response);
                         $('#wards').selectpicker('refresh');
+
+                            if((($('#layout').val() == '') || ($('#wards').val() == '')
+                                    || ($('#colony').val() == '') || ($('#society').val() == '') || ($('#building').val() == '')) ){
+
+                                $('.submit-button').prop('disabled',true);
+
+                            }
+
                     }
                 });             
     });
@@ -229,6 +261,12 @@
                         //console.log(response);
                         $('.colony_select').html(response);
                         $('#colony').selectpicker('refresh');
+                            if((($('#layout').val() == '') || ($('#wards').val() == '')
+                                    || ($('#colony').val() == '') || ($('#society').val() == '') || ($('#building').val() == '')) ){
+
+                                $('.submit-button').prop('disabled',true);
+
+                            }
                     }
                 });             
     });
@@ -243,8 +281,17 @@
                     data: {id: id},
                         success: function(response){
                         //console.log(response);
-                        $('.society_select').html(response);
+                            $('#society').selectpicker('refresh');
+
+                            $('.society_select').html(response);
                         $('#society').selectpicker('refresh');
+                            if((($('#layout').val() == '') || ($('#wards').val() == '')
+                                    || ($('#colony').val() == '') || ($('#society').val() == '') || ($('#building').val() == '')) ){
+
+                                $('.submit-button').prop('disabled',true);
+
+                            }
+
                     }
                 });             
     });
@@ -264,7 +311,14 @@
                         $('.building_select').html(response);
                         $('.tenant-list').html('');
                         $('#building').selectpicker('refresh');
+
                         $('.building_list').remove();
+                            if((($('#layout').val() == '') || ($('#wards').val() == '')
+                                    || ($('#colony').val() == '') || ($('#society').val() == '') || ($('#building').val() == '')) ){
+
+                                $('.submit-button').prop('disabled',true);
+
+                            }
                     }
                 });             
     });
