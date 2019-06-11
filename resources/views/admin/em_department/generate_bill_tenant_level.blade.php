@@ -213,6 +213,14 @@
                         //console.log(response);
                         $('.ward-div').html(response);
                         $('#wards').selectpicker('refresh');
+
+                            if((($('#layout').val() == '') || ($('#wards').val() == '')
+                                    || ($('#colony').val() == '') || ($('#society').val() == '') || ($('#building').val() == '')) ){
+
+                                $('.submit-button').prop('disabled',true);
+
+                            }
+
                     }
                 });             
     });
@@ -243,7 +251,9 @@
                     data: {id: id},
                         success: function(response){
                         //console.log(response);
-                        $('.society_select').html(response);
+                            $('#society').selectpicker('refresh');
+
+                            $('.society_select').html(response);
                         $('#society').selectpicker('refresh');
                     }
                 });             
