@@ -54,8 +54,8 @@
                                         @foreach($societies_data as $key => $value)
                                             @if($society && $society->society_name == $value->society_name )
                                             <option value="{{ encrypt($value->id) }}" selected>{{ $value->society_name }}</option>
-                                            @else
-                                            <option value="{{ encrypt($value->id) }}">{{ $value->society_name }}</option>
+                                            {{--@else--}}
+                                            {{--<option value="{{ encrypt($value->id) }}">{{ $value->society_name }}</option>--}}
                                             @endif
                                         @endforeach
                                     </select>
@@ -72,8 +72,8 @@
                                         @foreach($building_data as $key => $value)
                                             @if($building && $building->name == $value->name )
                                             <option value="{{ encrypt($value->id) }}" selected>{{ $value->name }}</option>
-                                            @else
-                                            <option value="{{ encrypt($value->id) }}">{{ $value->name }}</option>
+                                            {{--@else--}}
+                                            {{--<option value="{{ encrypt($value->id) }}">{{ $value->name }}</option>--}}
                                             @endif
                                         @endforeach
                                     </select>
