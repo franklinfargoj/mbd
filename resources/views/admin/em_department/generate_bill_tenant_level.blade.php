@@ -136,7 +136,7 @@
                             <div class="col-md-4">
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="building" name="building" required>
-                                        @foreach($building_data as $building)
+                                        @foreach($building_list as $building)
                                         <option value="{{encrypt($building->id)}}" {{ ($building->id == $buildingId) ? 'selected' :'' }}>{{$building->name}}</option>
                                         @endforeach
                                     </select>

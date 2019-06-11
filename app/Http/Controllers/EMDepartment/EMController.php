@@ -822,6 +822,12 @@ class EMController extends Controller
         if(isset($layoutId)){
             $ward_list = MasterWard::where('layout_id', $layoutId)->get();
         }
+        if(isset($society_id)){
+            $building_list = MasterBuilding::where('society_id', $society_id)->get();
+        }
+
+
+
          $society_name = SocietyDetail::where('id', $society_id)->first()->society_name;
 //        dd($society_id);
          if($request->input('building')) {
@@ -908,7 +914,7 @@ class EMController extends Controller
             $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
                     // return $buildings;
             return view('admin.em_department.generate_bill_tenant_level',
-                compact('ward_list','colony_list','society_list','building_data','building_name','buildingId','layoutId','wardId','colonyId','layout_data','wards_data','colonies_data','societies_data','tenament','html', 'building_id', 'society_id'));
+                compact('building_list','ward_list','colony_list','society_list','building_data','building_name','buildingId','layoutId','wardId','colonyId','layout_data','wards_data','colonies_data','societies_data','tenament','html', 'building_id', 'society_id'));
         } else {
             $columns = [
                 ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -994,7 +1000,7 @@ class EMController extends Controller
 
             $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
             return view('admin.em_department.generate_bill_tenant_level',
-                compact('ward_list','colony_list','society_list','building_data','layoutId','wardId','colonyId',
+                compact('building_list','ward_list','colony_list','society_list','building_data','layoutId','wardId','colonyId',
                     'layout_data','wards_data','colonies_data','societies_data',
                     'tenament','html', 'society_id','society_name','buildingId'));
         }
