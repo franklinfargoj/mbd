@@ -103,7 +103,7 @@
                                             {{--@if(isset($society_name))--}}
                                                 {{--<option value="{{encrypt($value->id)}}" {{ ($value->society_name == $society_name) ? 'selected' :'' }}>{{$value->society_name}}</option>--}}
                                             {{--@elseif($society_id == $value->id)--}}
-                                            <option value="{{ encrypt($value->id) }}" {{ ($value->society_name == $society_name) ? 'selected' :'' }}>{{ $value->society_name }}</option>
+                                            <option value="{{ encrypt($value->id) }}" {{ ($value->id == $society_id) ? 'selected' :'' }}>{{ $value->society_name }}</option>
                                             {{--@else--}}
                                                 {{--<option value="{{ encrypt($value->id) }}">{{ $value->society_name }}</option>--}}
                                             {{--@endif--}}
@@ -137,7 +137,7 @@
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="building" name="building" required>
                                         @foreach($building_data as $building)
-                                        <option value="{{encrypt($buildingId)}}" {{ ($building->name == $building_name) ? 'selected' :'' }}>{{$building->name}}</option>
+                                        <option value="{{encrypt($building->id)}}" {{ ($building->id == $buildingId) ? 'selected' :'' }}>{{$building->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
