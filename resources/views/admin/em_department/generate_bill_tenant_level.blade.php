@@ -53,11 +53,12 @@
                                     <label class="col-form-label">Select Ward</label>
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="wards" name="wards" required>
                                         <option value="" style="font-weight: normal;">Select Ward</option>
+
                                         @foreach($wards_data as $key => $value)
                                             @if($wardId == $value->id)
                                                 <option value="{{ encrypt($value->id) }}" selected>{{ $value->name }}</option>
-                                            @else
-                                                <option value="{{ encrypt($value->id) }}">{{ $value->name }}</option>
+                                            {{--@else--}}
+                                                {{--<option value="{{ encrypt($value->id) }}">{{ $value->name }}</option>--}}
                                             @endif
                                         @endforeach
                                     </select>
@@ -73,8 +74,8 @@
                                     @foreach($colonies_data as $key => $value)
                                         @if($colonyId == $value->id)
                                         <option value="{{ encrypt($value->id) }}" selected>{{ $value->name }}</option>
-                                        @else
-                                        <option value="{{ encrypt($value->id) }}">{{ $value->name }}</option>
+                                        {{--@else--}}
+                                        {{--<option value="{{ encrypt($value->id) }}">{{ $value->name }}</option>--}}
                                         @endif
                                     @endforeach
                                 </select>
@@ -88,13 +89,13 @@
                                     @if(isset($society_name)) 
                                     <option value="{{encrypt($society_id)}}" selected>{{$society_name}}</option>
                                     @endif
-                                    {{-- @foreach($societies_data as $key => $value)
+                                     @foreach($societies_data as $key => $value)
                                         @if($society_id == $value->id)
                                         <option value="{{ encrypt($value->id) }}" selected>{{ $value->society_name }}</option>
-                                        @else
-                                        <option value="{{ encrypt($value->id) }}" >{{ $value->society_name }}</option>
+                                        {{--@else--}}
+                                        {{--<option value="{{ encrypt($value->id) }}" >{{ $value->society_name }}</option>--}}
                                         @endif
-                                    @endforeach --}}
+                                    @endforeach
                                 </select>
                             </div>
                         </div>                             
@@ -170,7 +171,35 @@
 
     $(document).ready(function () {
         $(".display_msg").delay(5000).slideUp(300);
+
+
+if((($('#layout').val() != '') && ($('#wards').val() != '')
+            && ($('#colony').val() != '') && ($('#society').val() != '') && ($('#building').val() != '')) ){
+
+            $('.submit-button').prop('disabled',false);
+
+        }
+
     });
+
+
+
+//
+//    $(document).on('change', '#layout', function() {
+//        var id = $(this).val();
+//
+//        alert(id);
+//
+//    });
+//
+//
+
+
+
+
+
+
+
 
     $(document).on('change', '#layout', function(){
                 var id = $(this).val();
@@ -242,6 +271,10 @@
 
     $(document).on('change', '#building', function(){
                 var id = $(this).val();
+        if($(this).text() != 'Select Building') {
+            $('.submit-button').prop('disabled',false);
+        }
+
                 // console.log(id);
                 //return false;
                 // $.ajax({
