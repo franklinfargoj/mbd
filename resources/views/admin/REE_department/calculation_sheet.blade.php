@@ -1915,10 +1915,11 @@ span.label {
             var total_amount_val = cleanNumber($(this).val());
             
             var amountVal = (!total_amount_val || isNaN(total_amount_val)) ? 0 : total_amount_val;
-            console.log(amountVal);
-
             total_amount += +parseFloat(amountVal);
+            console.log(amountVal);
         });
+
+        // console.log(total_amount);
         $("#total_amount_in_rs").attr('value',numberWithCommas(Math.ceil(total_amount)));
     }
 
@@ -2219,8 +2220,6 @@ span.label {
         var total_permissible_construction_area = (!cleanNumber($("#total_permissible_construction_area").val()) || isNaN(cleanNumber($("#total_permissible_construction_area").val()))) ? 0 : cleanNumber($("#total_permissible_construction_area").val());
         var existing_construction_area = (!cleanNumber($("#total_distributed_area").val()) || isNaN(cleanNumber($("#total_distributed_area").val()))) ? 0 : cleanNumber($("#total_distributed_area").val());
 
-        console.log(total_permissible_construction_area);
-        console.log(existing_construction_area);
         var sub = (parseFloat(total_permissible_construction_area) - parseFloat(existing_construction_area)).toFixed(2);
 
         $("#remaining_area").attr('value',numberWithCommas(sub));
@@ -2252,8 +2251,8 @@ span.label {
    $("#dcr_rate").change(function() {
         calculatedDcrBalanceOfRemainingArea();
         calculationCommercial();
-        totalAmountInRs();
         calculateTotalPremium();
+        totalAmountInRs();
     });
 
 
@@ -2387,11 +2386,11 @@ span.label {
     });
 
     $("#remaining_residential_area").focusout(function(){
-        checkTotalRemainingArea();
+        // checkTotalRemainingArea();
     });
 
     $("#remaining_commercial_area").focusout(function(){
-        checkTotalRemainingArea();
+        // checkTotalRemainingArea();
      });   
 
     // res+com area = total of rem area pt 11 = pt 16(1.1) + pt 16(2.1)
@@ -2404,10 +2403,14 @@ span.label {
         var rem_area = (!cleanNumber($("#remaining_area").val()) || isNaN(cleanNumber($("#remaining_area").val()))) ? 0 : cleanNumber($("#remaining_area").val());
 
         var area = parseFloat(res_area) + parseFloat(com_area);
+        var result = '';
         if (area != rem_area){
-            // alert("Remaining area should be equal to residential and commerical area");
-            return false;
+            alert("Remaining area should be equal to residential and commerical area");
+            result = false;
+        }else{
+            result = true;
         }
+        return result;
     }
 
     $(".subBtn1").click(function(e){
@@ -2442,6 +2445,10 @@ span.label {
         });
         $("#total_distributed_area").attr('value',numberWithCommas(sum.toFixed(2)));
     }
+
+    $("#area_of_rg_to_be_relocated").keyup(function(){
+        totalAmountInRs();
+    });
 
 
 </script>

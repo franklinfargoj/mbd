@@ -45,7 +45,6 @@ $DCRrate = ['EWS/LIG','MIG','HIG']; @endphp
                 </div>
             </div>
         </div>
-
         <!-- display fsi options  -->
         @if($status->status_id != config('commanConfig.applicationStatus.forwarded') && session()->get('role_name') == config('commanConfig.ree_junior') && $exists == 1)
         <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
@@ -640,222 +639,148 @@ $DCRrate = ['EWS/LIG','MIG','HIG']; @endphp
                                     </table>
                                     </td>
                                     </tr>
-                                           <!--  <tr>
-                                                <td style = "border-style: ridge;">1.1</td>
-                                                <td style = "border-style: ridge;">
-                                                <span class="label">
-                                                     उर्वरित च.क्षे.रहिवासी वापर क्षेत्र </span>
-                                                    <input style="border: none;display: inline-block;" type="text" placeholder="0" class="form-control form-control--custom txtbox"
-                                                        name="remaining_residential_area" id="remaining_residential_area"
-                                                        value="<?php if(isset($calculationSheetDetails->remaining_residential_area)) { echo $calculationSheetDetails->remaining_residential_area; } ?>" />
-                                                </td>
-                                                <td class="text-center" style = "border-style: ridge;">
+                                    <tr>
+                                        <td style = "border-style: ridge;"></td>
+                                        <td style = "border-style: ridge;">
+                                            Total
+                                        </td>
+                                        <td class="text-center" style = "border-style: ridge;">
+                                            <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox total_amount"
+                                                name="total_premium_amount" id="total_premium_amount"
+                                                value="{{ isset($calculationSheetDetails->total_premium_amount) ? $calculationSheetDetails->total_premium_amount : '' }}"/>
 
-                                                </td>
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td style = "border-style: ridge;">1.2</td>
-                                                <td style = "border-style: ridge;">
-                                                <span class="label"> दर </span>
-                                                <input style="border: none;display: inline-block;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
-                                                       name="calculated_dcr_rate_val" id="calculated_dcr_rate_val"
-                                                       value="<?php if(isset($calculationSheetDetails->calculated_dcr_rate_val)) { echo $calculationSheetDetails->calculated_dcr_rate_val; } ?>" />
-                                                </td>
-                                                <td class="text-center" style = "border-style: ridge;">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style = "border-style: ridge;">16.</td>
+                                        <td style = "border-style: ridge;">
+                                            दि.०८.१०.२०१३ च्या अधिसूचनेमधील अनु.क्र.५ ए ,नुसार ७ % ऑफ
+                                            इन्फ्रास्टक्चर शुल्क रक्कम
+                                        </td>
+                                        <td class="text-center" style = "border-style: ridge;">
+                                            <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
+                                                name="infrastructure_fee_amount" id="infrastructure_fee_amount"
+                                                value="<?php if(isset($calculationSheetDetails->infrastructure_fee_amount)) { echo $calculationSheetDetails->infrastructure_fee_amount; } ?>" />
 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style = "border-style: ridge;"></td>
-                                                <td style = "border-style: ridge;">
-                                                <span class="label">अधिमूल्य </span>
-                                                <input type="text" style="display: inline-block;" placeholder="0" readonly class="form-control form-control--custom txtbox infrastructure_charges"
-                                                    name="balance_of_remaining_area" id="balance_of_remaining_area" 
-                                                    value="<?php if(isset($calculationSheetDetails->balance_of_remaining_area)) { echo $calculationSheetDetails->balance_of_remaining_area; } ?>" />
-                                                </td>
-                                                <td class="text-center" style = "border-style: ridge;">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style = "border-style: ridge;">17.</td>
+                                        <td style = "border-style: ridge;">
+                                            मुंबई विकास नियंत्रण व प्रोत्साहन नियमावली २०३४ अन्वये वि नि नि ३३(५) मधील अनु क्र ५ए , नुसार ७% विकास उपकर (डेव्हलोपमेंट सेस)
+                                        </td>
+                                        <td class="text-center" style = "border-style: ridge;">
+                                            <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
+                                                name="infrastructure_charges" class="infrastructure_charges" id="infrastructure_charges"
+                                                value="<?php if(isset($calculationSheetDetails->infrastructure_charges)) { echo $calculationSheetDetails->infrastructure_charges; } ?>" />
 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style = "border-style: ridge;">2.1</td>
-                                                <td style = "border-style: ridge;">
-                                                <span class="label">
-                                                    वाणिज्य वापर क्षेत्र चौ मी</span>
-                                                    <input style="border: none;display: inline-block;" type="text" placeholder="0" class="form-control form-control--custom txtbox"
-                                                        name="remaining_commercial_area" id="remaining_commercial_area"
-                                                        value="{{ isset($calculationSheetDetails->remaining_commercial_area) ? $calculationSheetDetails->remaining_commercial_area : '' }}"/>
-                                                </td>
-                                                <td class="text-center" style = "border-style: ridge;">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style = "border-style: ridge;">2.2</td>
-                                                <td style = "border-style: ridge;">
-                                                <span class="label"> दर </span>
-                                                    <input style="border: none;display: inline-block;" type="text" placeholder="0" class="form-control form-control--custom txtbox"
-                                                           name="calculated_commercial_dcr_rate" id="calculated_commercial_dcr_rate"
-                                                           value="{{ isset($calculationSheetDetails->calculated_commercial_dcr_rate) ? $calculationSheetDetails->calculated_commercial_dcr_rate : '' }}" />
-                                                </td> 
-                                                <td class="text-center" style = "border-style: ridge;">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style = "border-style: ridge;"></td>
-                                                <td style = "border-style: ridge;">
-                                                <span class="label"> अधिमूल्य </span>
-                                                    <input style="border: none;display: inline-block;" type="text" readonly placeholder="0" class=" form-control form-control--custom txtbox"
-                                                        name="balance_of_commercial_remaining_area" id="balance_of_commercial_remaining_area"
-                                                        value="{{ isset($calculationSheetDetails->balance_of_commercial_remaining_area) ? $calculationSheetDetails->balance_of_commercial_remaining_area : '' }}"/>
-                                                </td>
-                                                <td class="text-center" style = "border-style: ridge;">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style = "border-style: ridge;">18.</td>
+                                        <td style = "border-style: ridge;">
+                                            उर्वरित चटईक्षेत्राचे देय रक्कम
+                                        </td>
+                                        <td class="text-center" style = "border-style: ridge;">
+                                            <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
+                                                name="remaining_mat_area" id="remaining_mat_area"
+                                                value="<?php if(isset($calculationSheetDetails->remaining_mat_area)) { echo $calculationSheetDetails->remaining_mat_area; } ?>" />
 
-                                                </td>
-                                            </tr> -->
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style = "border-style: ridge;">19.</td>
+                                        <td style = "border-style: ridge;">
+                                            छाननी शुल्क रु.६०००/- [for 1 building]
+                                        </td>
+                                        <td class="text-center" style = "border-style: ridge;">
+                                            <input style="border: none;" type="text" placeholder="0" class="total_amount form-control form-control--custom txtbox"
+                                                name="scrutiny_fee" id="scrutiny_fee" value="<?php if(isset($calculationSheetDetails->scrutiny_fee)) { echo $calculationSheetDetails->scrutiny_fee; } ?>" />
 
-                                            <tr>
-                                                <td style = "border-style: ridge;"></td>
-                                                <td style = "border-style: ridge;">
-                                                    Total
-                                                </td>
-                                                <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox total_amount"
-                                                        name="total_premium_amount" id="total_premium_amount"
-                                                        value="{{ isset($calculationSheetDetails->total_premium_amount) ? $calculationSheetDetails->total_premium_amount : '' }}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style = "border-style: ridge;">20.</td>
+                                        <td style = "border-style: ridge;">
+                                            अभिन्यास मंजुरी शुल्क रु,१०००/ - प्रति गाळा
+                                        </td>
+                                        <td class="text-center" style = "border-style: ridge;">
+                                            <input style="border: none;" type="text" placeholder="0" class="total_amount form-control form-control--custom txtbox"
+                                                name="layout_approval_fee" id="layout_approval_fee" value="<?php if(isset($calculationSheetDetails->layout_approval_fee)) { echo $calculationSheetDetails->layout_approval_fee; } ?>" />
 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style = "border-style: ridge;">16.</td>
-                                                <td style = "border-style: ridge;">
-                                                    दि.०८.१०.२०१३ च्या अधिसूचनेमधील अनु.क्र.५ ए ,नुसार ७ % ऑफ
-                                                    इन्फ्रास्टक्चर शुल्क रक्कम
-                                                </td>
-                                                <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
-                                                        name="infrastructure_fee_amount" id="infrastructure_fee_amount"
-                                                        value="<?php if(isset($calculationSheetDetails->infrastructure_fee_amount)) { echo $calculationSheetDetails->infrastructure_fee_amount; } ?>" />
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td style = "border-style: ridge;">21.</td>
+                                        <td style = "border-style: ridge;">
+                                            डेब्रिज रिमूव्हल शुल्क रु.६६००/- [for 1 building]
+                                        </td>
+                                        <td class="text-center" style = "border-style: ridge;">
+                                        <div>
+                                            <div class="m-radio-inline subtn">
+                                                <!-- <span class="mr-3">Is there any encroachment ?</span> -->
+                                                <label class="m-radio m-radio--primary">
+                                                    <input type="radio" class="radioBtn debrajRadioBtn" name="is_debraj_fee_paid" value="1" 
+                                                    {{isset($calculationSheetDetails->is_debraj_fee_paid) &&  $calculationSheetDetails->is_debraj_fee_paid == 1 ? 'checked' : '' }}>Yes
+                                                        <span></span>
+                                                </label>
+                                                <label class="m-radio m-radio--primary">
+                                                    <input type="radio" class="radioBtn debrajRadioBtn" name="is_debraj_fee_paid" value="0"  {{isset($calculationSheetDetails->is_debraj_fee_paid) &&  $calculationSheetDetails->is_debraj_fee_paid == 0 ? 'checked' : '' }} > No
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                        </div>     
+                                        <div> 
+                                        <input style="border: none;" type="text" readonly placeholder="" class="total_amount form-control form-control--custom txtbox debraj_fee"
+                                            name="debraj_removal_fee" id="debraj_removal_fee" value="{{ isset($calculationSheetDetails->debraj_removal_fee) ? $calculationSheetDetails->debraj_removal_fee : '' }}" />
+                                        </div>    
 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style = "border-style: ridge;">17.</td>
-                                                <td style = "border-style: ridge;">
-                                                    मुंबई विकास नियंत्रण व प्रोत्साहन नियमावली २०३४ अन्वये वि नि नि ३३(५) मधील अनु क्र ५ए , नुसार ७% विकास उपकर (डेव्हलोपमेंट सेस)
-                                                </td>
-                                                <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
-                                                        name="infrastructure_charges" class="infrastructure_charges" id="infrastructure_charges"
-                                                        value="<?php if(isset($calculationSheetDetails->infrastructure_charges)) { echo $calculationSheetDetails->infrastructure_charges; } ?>" />
+                                        </td>
+                                    </tr> 
+                                  
+                                    <tr>
+                                        <td style = "border-style: ridge;">22.</td>
+                                        <td style = "border-style: ridge;">
+                                            पाणी वापर शुल्क (रु.१,००,०००/- ) [for 1 building]
+                                        </td>
+                                        <td class="text-center" style = "border-style: ridge;">
+                                            <div class="m-radio-inline subtn">
+                                                <!-- <span class="mr-3">Is there any encroachment ?</span> -->
+                                                <label class="m-radio m-radio--primary">
+                                                    <input type="radio" class="radioBtn WaterRadioBtn" name="is_water_charges_paid" value="1" {{isset($calculationSheetDetails->is_water_charges_paid) &&  $calculationSheetDetails->is_water_charges_paid == 1 ? 'checked' : '' }}>Yes
+                                                        <span></span>
+                                                </label>
+                                                <label class="m-radio m-radio--primary">
+                                                    <input type="radio" class="radioBtn WaterRadioBtn" name="is_water_charges_paid" value="0"  {{isset($calculationSheetDetails->is_water_charges_paid) &&  $calculationSheetDetails->is_water_charges_paid == 0 ? 'checked' : '' }}> No
+                                                    <span></span>
+                                                </label>
+                                            </div>                                                
+                                            <input style="border: none;" type="text" readonly placeholder="0" class="form-control total_amount form-control--custom txtbox WaterCharge"
+                                                name="water_usage_charges" id="water_usage_charges" value="{{ isset($calculationSheetDetails->water_usage_charges) ? $calculationSheetDetails->water_usage_charges : '' }}" />
 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style = "border-style: ridge;">18.</td>
-                                                <td style = "border-style: ridge;">
-                                                    उर्वरित चटईक्षेत्राचे देय रक्कम
-                                                </td>
-                                                <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" readonly placeholder="0" class="total_amount form-control form-control--custom txtbox"
-                                                        name="remaining_mat_area" id="remaining_mat_area"
-                                                        value="<?php if(isset($calculationSheetDetails->remaining_mat_area)) { echo $calculationSheetDetails->remaining_mat_area; } ?>" />
+                                        </td>
+                                    </tr>                                            
+                                    <tr>
+                                        <td style = "border-style: ridge;">23.</td>
+                                        <td style = "border-style: ridge;">
+                                            मु. मं. ठराव क्रमांक २५४/२८१३ दि. २३/०४/२०१० अन्वये पायाभूत सुविधांशुल्काची रक्कम (प्रति चौ. मी. रुपये १०७६.४० म्हणजेच रुपये १००/- प्रति चौ. फूट)
+                                        </td>
+                                        <td class="text-center" style = "border-style: ridge;">
+                                            <input style="border: none;" type="text" readonly placeholder="0" class="form-control total_amount form-control--custom txtbox"
+                                                name="basic_infrastructure_amount" id="basic_infrastructure_amount" value="<?php if(isset($calculationSheetDetails->basic_infrastructure_amount)) { echo $calculationSheetDetails->basic_infrastructure_amount; } ?>" />
 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style = "border-style: ridge;">19.</td>
-                                                <td style = "border-style: ridge;">
-                                                    छाननी शुल्क रु.६०००/- [for 1 building]
-                                                </td>
-                                                <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" placeholder="0" class="total_amount form-control form-control--custom txtbox"
-                                                        name="scrutiny_fee" id="scrutiny_fee" value="<?php if(isset($calculationSheetDetails->scrutiny_fee)) { echo $calculationSheetDetails->scrutiny_fee; } ?>" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style = "border-style: ridge;">24.</td>
+                                        <td style = "border-style: ridge;">
+                                            प्रा. ठराव क्र ६२६० दि. ०४.०६.२००७ व ठराव क्र. ६३४९ दि. २५.११.२००८ अन्वये आर. जी. स्थलांतरणाकरिता दर रु.  (१० टक्के रे. रे. सन २०१७-१८)
+                                        </td>
+                                        <td class="text-center" style = "border-style: ridge;">
 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style = "border-style: ridge;">20.</td>
-                                                <td style = "border-style: ridge;">
-                                                    अभिन्यास मंजुरी शुल्क रु,१०००/ - प्रति गाळा
-                                                </td>
-                                                <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" placeholder="0" class="total_amount form-control form-control--custom txtbox"
-                                                        name="layout_approval_fee" id="layout_approval_fee" value="<?php if(isset($calculationSheetDetails->layout_approval_fee)) { echo $calculationSheetDetails->layout_approval_fee; } ?>" />
-
-                                                </td>
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td style = "border-style: ridge;">21.</td>
-                                                <td style = "border-style: ridge;">
-                                                    डेब्रिज रिमूव्हल शुल्क रु.६६००/- [for 1 building]
-                                                </td>
-                                                <td class="text-center" style = "border-style: ridge;">
-                                                <div>
-                                                    <div class="m-radio-inline subtn">
-                                                        <!-- <span class="mr-3">Is there any encroachment ?</span> -->
-                                                        <label class="m-radio m-radio--primary">
-                                                            <input type="radio" class="radioBtn debrajRadioBtn" name="is_debraj_fee_paid" value="1" 
-                                                            {{isset($calculationSheetDetails->is_debraj_fee_paid) &&  $calculationSheetDetails->is_debraj_fee_paid == 1 ? 'checked' : '' }}>Yes
-                                                                <span></span>
-                                                        </label>
-                                                        <label class="m-radio m-radio--primary">
-                                                            <input type="radio" class="radioBtn debrajRadioBtn" name="is_debraj_fee_paid" value="0"  {{isset($calculationSheetDetails->is_debraj_fee_paid) &&  $calculationSheetDetails->is_debraj_fee_paid == 0 ? 'checked' : '' }} > No
-                                                            <span></span>
-                                                        </label>
-                                                    </div>
-                                                </div>     
-                                                <div> 
-                                                <input style="border: none;" type="text" readonly placeholder="" class="total_amount form-control form-control--custom txtbox debraj_fee"
-                                                    name="debraj_removal_fee" id="debraj_removal_fee" value="{{ isset($calculationSheetDetails->debraj_removal_fee) ? $calculationSheetDetails->debraj_removal_fee : '' }}" />
-                                                </div>    
-
-                                                </td>
-                                            </tr> 
-                                          
-                                            <tr>
-                                                <td style = "border-style: ridge;">22.</td>
-                                                <td style = "border-style: ridge;">
-                                                    पाणी वापर शुल्क (रु.१,००,०००/- ) [for 1 building]
-                                                </td>
-                                                <td class="text-center" style = "border-style: ridge;">
-                                                    <div class="m-radio-inline subtn">
-                                                        <!-- <span class="mr-3">Is there any encroachment ?</span> -->
-                                                        <label class="m-radio m-radio--primary">
-                                                            <input type="radio" class="radioBtn WaterRadioBtn" name="is_water_charges_paid" value="1" {{isset($calculationSheetDetails->is_water_charges_paid) &&  $calculationSheetDetails->is_water_charges_paid == 1 ? 'checked' : '' }}>Yes
-                                                                <span></span>
-                                                        </label>
-                                                        <label class="m-radio m-radio--primary">
-                                                            <input type="radio" class="radioBtn WaterRadioBtn" name="is_water_charges_paid" value="0"  {{isset($calculationSheetDetails->is_water_charges_paid) &&  $calculationSheetDetails->is_water_charges_paid == 0 ? 'checked' : '' }}> No
-                                                            <span></span>
-                                                        </label>
-                                                    </div>                                                
-                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control total_amount form-control--custom txtbox WaterCharge"
-                                                        name="water_usage_charges" id="water_usage_charges" value="{{ isset($calculationSheetDetails->water_usage_charges) ? $calculationSheetDetails->water_usage_charges : '' }}" />
-
-                                                </td>
-                                            </tr>                                            
-                                            <tr>
-                                                <td style = "border-style: ridge;">23.</td>
-                                                <td style = "border-style: ridge;">
-                                                    मु. मं. ठराव क्रमांक २५४/२८१३ दि. २३/०४/२०१० अन्वये पायाभूत सुविधांशुल्काची रक्कम (प्रति चौ. मी. रुपये १०७६.४० म्हणजेच रुपये १००/- प्रति चौ. फूट)
-                                                </td>
-                                                <td class="text-center" style = "border-style: ridge;">
-                                                    <input style="border: none;" type="text" readonly placeholder="0" class="form-control total_amount form-control--custom txtbox"
-                                                        name="basic_infrastructure_amount" id="basic_infrastructure_amount" value="<?php if(isset($calculationSheetDetails->basic_infrastructure_amount)) { echo $calculationSheetDetails->basic_infrastructure_amount; } ?>" />
-
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style = "border-style: ridge;">24.</td>
-                                                <td style = "border-style: ridge;">
-                                                    प्रा. ठराव क्र ६२६० दि. ०४.०६.२००७ व ठराव क्र. ६३४९ दि. २५.११.२००८ अन्वये आर. जी. स्थलांतरणाकरिता दर रु.  (१० टक्के रे. रे. सन २०१७-१८)
-                                                </td>
-                                                <td class="text-center" style = "border-style: ridge;">
-
-                                                </td>
-                                            </tr>
+                                        </td>
+                                    </tr>
                                             <tr>
                                                 <td style = "border-style: ridge;"></td>
                                                 <td style = "border-style: ridge;">
@@ -915,7 +840,7 @@ $DCRrate = ['EWS/LIG','MIG','HIG']; @endphp
                                             <tr>
                                                 <td style = "border-style: ridge;">28.</td>
                                                 <td style = "border-style: ridge;">
-                                                    एकूण रक्कम रुपये (अ .क्र. 18+19+20+21+22+23+24(total)+25+26+27)
+                                                    एकूण रक्कम रुपये (अ .क्र.16(total)+ 18+19+20+21+22+23+24(total)+25+26+27)
                                                 </td>
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" type="text" readonly placeholder="0" class="form-control form-control--custom txtbox"
@@ -1943,6 +1868,7 @@ $DCRrate = ['EWS/LIG','MIG','HIG']; @endphp
             var total_amount_val = cleanNumber($(this).val());
             var amountVal = (!total_amount_val || isNaN(total_amount_val)) ? 0 : total_amount_val;
             total_amount += +parseFloat(amountVal);
+            console.log(amountVal);
         });
 
         $("#total_amount_in_rs").attr('value',numberWithCommas(Math.ceil(total_amount)));
@@ -2247,7 +2173,6 @@ $DCRrate = ['EWS/LIG','MIG','HIG']; @endphp
     $("#dcr_rate").change(function(){
 
         calculatedDcrBalanceOfRemainingArea();
-        totalAmountInRs();
         calculationCommercial();
         calculateTotalPremium();
 
@@ -2262,8 +2187,9 @@ $DCRrate = ['EWS/LIG','MIG','HIG']; @endphp
         var charges = (!cleanNumber($("#infrastructure_charges").val()) || isNaN(cleanNumber($("#infrastructure_charges").val()))) ? 0 : cleanNumber($("#infrastructure_charges").val());
 
         var mat_area = (parseFloat(area) - parseFloat(charges)).toFixed(2);
-        $("#remaining_mat_area").val(numberWithCommas(mat_area));        
-        
+        $("#remaining_mat_area").val(numberWithCommas(mat_area)); 
+
+        totalAmountInRs();        
     });
 
     $(document).on("keyup", "#redirekner_value", function () {
@@ -2466,10 +2392,14 @@ $DCRrate = ['EWS/LIG','MIG','HIG']; @endphp
         var rem_area = (!cleanNumber($("#remaining_area").val()) || isNaN(cleanNumber($("#remaining_area").val()))) ? 0 : cleanNumber($("#remaining_area").val());
 
         var area = parseFloat(res_area) + parseFloat(com_area);
+        var result = '';
         if (area != rem_area){
             alert("Remaining area should be equal to residential and commerical area");
-            return false;
+            result = false;
+        }else{
+            result = true;
         }
+        return result;
     }
 
     $("#remaining_residential_area").keyup(function(){
@@ -2531,5 +2461,9 @@ $DCRrate = ['EWS/LIG','MIG','HIG']; @endphp
         });
         $("#total_distributed_area").attr('value',numberWithCommas(sum.toFixed(2)));
     }
+
+    $("#area_of_rg_to_be_relocated").keyup(function(){
+        totalAmountInRs();
+    });
 </script>
 @endsection

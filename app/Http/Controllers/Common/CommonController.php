@@ -4669,12 +4669,11 @@ class CommonController extends Controller
 
     // view multiple documents in society and EE document page
     public function viewMultipleDocuments(Request $request,$applicationId,$documentId){
-        
         $documentId = decrypt($documentId);
         $applicationId = decrypt($applicationId);
         $ol_application = $this->getOlApplication($applicationId); 
         $documents = OlSocietyDocumentsStatus::where('document_id',$documentId)
-        ->where('society_id',$ol_application->society_id)->orderBy('id','desc')->get();
+        ->where('application_id',$applicationId)->orderBy('id','desc')->get();
         $folder = $this->getCurrentRoleFolderName();
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         

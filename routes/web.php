@@ -551,9 +551,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         Route::post('add_uploaded_documents_remark', 'SocietyOfferLetterController@addSocietyDocumentsRemark')->name('add_uploaded_documents_remark');
         Route::get('documents_uploaded/{id}', 'SocietyOfferLetterController@viewSocietyDocuments')->name('documents_uploaded');
         Route::post('uploaded_documents', 'SocietyOfferLetterController@uploadSocietyDocuments')->name('uploaded_documents');
-        Route::get('/upload_multiple_documents/{societyId}/{documentId}', 'SocietyOfferLetterController@uploadMultipleDocuments')->name('upload_multiple_documents');
+        Route::get('/upload_multiple_documents/{applicationId}/{documentId}', 'SocietyOfferLetterController@uploadMultipleDocuments')->name('upload_multiple_documents');
 
-        Route::get('/upload_other_documents/{societyId}/{documentId}', 'SocietyOfferLetterController@uploadOtherDocuments')->name('upload_other_documents');
+        Route::get('/upload_other_documents/{applicationId}/{documentId}', 'SocietyOfferLetterController@uploadOtherDocuments')->name('upload_other_documents');
 
         Route::post('/save_documents', 'SocietyOfferLetterController@saveDocuments')->name('save_documents'); 
         Route::post('/delete_documents', 'SocietyOfferLetterController@deleteDocuments')->name('delete_documents'); 
@@ -1316,6 +1316,11 @@ Route::get('documents_uploaded_noc/{id}','SocietyNocController@viewSocietyDocume
 Route::post('resubmit_noc_application','SocietyNocController@resubmitNocApplication')->name('resubmit_noc_application');
 Route::post('submit_noc_application','SocietyNocController@submitNocApplication')->name('submit_noc_application');
 
+Route::post('save_noc_other_documents','SocietyNocController@saveNocOtherDocuments')->name('save_noc_other_documents');
+
+Route::post('delete_noc_other_documents','SocietyNocController@deleteNocOtherDocuments')->name('delete_noc_other_documents');
+
+Route::get('/upload_noc_other_documents/{applicationId}/{documentId}', 'SocietyNocController@uploadNOCOtherDocuments')->name('upload_noc_other_documents');
 //NOC --REE Department Routes
 
 Route::get('ree_noc_applications','REEDepartment\REEController@nocApplicationList')->name('ree_applications.noc');
