@@ -13,24 +13,7 @@
             @if (session()->get('role_name') == config('commanConfig.ee_junior_engineer') || session()->get('role_name') == config('commanConfig.ee_branch_head') || session()->get('role_name') == config('commanConfig.ee_deputy_engineer'))
                 {{ Breadcrumbs::render('document-submitted',$ol_application->id) }}
 
-            @elseif(session()->get('role_name') == config('commanConfig.dyce_jr_user') || session()->get('role_name') == config('commanConfig.dyce_branch_head') || session()->get('role_name') == config('commanConfig.dyce_deputy_engineer'))    
-
-                {{ Breadcrumbs::render('society_EE_documents',$ol_application->id) }}
-
-            @elseif (session()->get('role_name') == config('commanConfig.ree_junior') || session()->get('role_name') == config('commanConfig.ree_deputy_engineer') || session()->get('role_name') == config('commanConfig.ree_assistant_engineer') || session()->get('role_name') == config('commanConfig.ree_branch_head')) 
-
-                {{ Breadcrumbs::render('society_EE_documents_ree',$ol_application->id) }}
-
-            @elseif(session()->get('role_name') == config('commanConfig.co_engineer'))    
-                {{ Breadcrumbs::render('society_EE_documents_co',$ol_application->id) }}
-
-            @elseif(session()->get('role_name') == config('commanConfig.cap_engineer'))
-
-            {{ Breadcrumbs::render('society_EE_documents_cap',$ol_application->id) }} 
-
-            @elseif(session()->get('role_name') == config('commanConfig.vp_engineer')) 
-
-            {{ Breadcrumbs::render('society_EE_documents_vp',$ol_application->id) }}   
+   
             @endif
             <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
         </div>

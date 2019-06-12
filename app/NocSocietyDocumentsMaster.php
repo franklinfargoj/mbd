@@ -11,4 +11,8 @@ class NocSocietyDocumentsMaster extends Model
     public function documents_uploaded(){
     	return $this->hasMany(NocSocietyDocumentsStatus::class, 'document_id', 'id');
     }
+
+    public function uploadedDocuments(){
+    	return $this->hasOne(NocSocietyDocumentsStatus::class, 'document_id', 'id');
+    }
 }

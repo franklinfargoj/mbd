@@ -900,8 +900,10 @@ class REEController extends Controller
             ->where('title','total_no_of_buildings')->value('amount');
 
         $concessionData = $this->getConcessionDetails($applicationId);    
+        //get total house (6.2) from EE scrutiny demarcation 
+        $totalHouse = OlDemarcationVerificationDetails::where('application_id',$applicationId)->select(DB::raw('sum(residential + non_residential) as total'))->value('total');
         
-        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','summary','status','reeNote','folder','buldingNumber','action','FSI','folder1','master','exists','concessionData'));
+        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','summary','status','reeNote','folder','buldingNumber','action','FSI','folder1','master','exists','concessionData','totalHouse'));
 
     }
 

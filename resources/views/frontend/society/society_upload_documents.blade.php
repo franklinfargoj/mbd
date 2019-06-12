@@ -30,7 +30,6 @@
                         <tbody>
                         
                             @php $i=1; @endphp
-                            
                             @if(count($documentsList) > 0)
                                 @foreach($documentsList as $value)
                                     @foreach($value as $document)

@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 <div class="col-md-12">
-    <!-- BEGIN: Subheader -->
+    <!-- BEGIN: Subheader --> 
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">View Uploaded Documents </h3>
@@ -25,68 +25,51 @@
                     <table class="table mb-0">
                         <thead class="thead-default">
                             <tr>
-                                <th>
-                                    Sr.No
-                                </th>
-                                <th>
-                                    Document Name
-                                </th>
-                                <th>
-                                    Status
-                                </th>
-                                <th>
-                                    Actions
-                                </th>
+                                <th>Sr.No </th>
+                                <th> Document Name </th>
+                                <th> Status </th>
+                                <th> Actions </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @php $i=1; @endphp
                             @foreach($documents as $document)
-                            <tr>
-                                <td>{{$document->group }}.{{($document->sort_by != 0) ? $document->sort_by : ''}}</td>
-                                <td>
-                                    {{ $document->name }}
-                                    @if($document->is_optional == 0)
-                                        <span class="compulsory-text">
-                                        <small>(Compulsory Document)</small></span>
-                                        
-                                        @else
-                                        <span class="compulsory-text"> <small>
-                                        <span style="color: green;">
-                                        (Optional Document)</small> </span>
-                                    @endif
-                                </td>
-                                <td class="text-center">
-                                    <h2 class="m--font-danger">
-                                        @if(count($document->documents_uploaded) > 0 )
-                                        @foreach($document->documents_uploaded as $document_uploaded)
-                                        @if($document_uploaded['society_id'] == $society->id)
-                                        <i class="fa fa-check"></i>
-                                        @else
-                                        <i class="fa fa-remove"></i>
+                                <tr>
+                                    <td>{{$document->group }}.{{($document->sort_by != 0) ? $document->sort_by : ''}}</td>
+                                    <td>
+                                        {{ $document->name }}
+                                        @if($document->is_optional == 0)
+                                            <span class="compulsory-text">
+                                            <small>(Compulsory Document)</small></span>
+                                            
+                                            @else
+                                            <span class="compulsory-text"> <small>
+                                            <span style="color: green;">
+                                            (Optional Document)</small> </span>
                                         @endif
-                                        @endforeach
-                                        @else
-                                        <i class="fa fa-remove"></i>
+                                    </td>
+                                    <td class="text-center">
+                                        <h2 class="m--font-danger">
+                                            @if(isset($document->uploadedDocuments) && count($document->uploadedDocuments) > 0 )
+                                                <i class="fa fa-check"></i>
+                                            @else
+                                                <i class="fa fa-remove"></i>
+                                            @endif
+                                        </h2>
+                                    </td>
+                                    <td>
+                                        @if(isset($document->uploadedDocuments) && count($document->uploadedDocuments) > 0 )
+                                            @if($document->is_other == 1) 
+                                                <a href="{{ route('upload_noc_other_documents',[encrypt($noc_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px">
+                                                upload other documents</a> 
+                                            @else    
+                                                <span>
+                                                    <a href="{{ asset($document->uploadedDocuments->society_document_path) }}" class="btn btn-primary btn-custom" download target="_blank" rel="noopener">
+                                                            Download</a>
+                                                </span>
+                                            @endif
                                         @endif
-                                    </h2>
-                                </td>
-                                <td>
-                                    @if(count($document->documents_uploaded) > 0 )
-                                    @foreach($document->documents_uploaded as $document_uploaded)
-                                    @if($document_uploaded['society_id'] == $society->id)
-                                    <span>
-                                        <a href="{{ asset($document_uploaded['society_document_path']) }}" data-value='{{ $document->id }}'
-                                            class="btn btn-primary btn-custom" download target="_blank" rel="noopener">
-                                                Download</a>
-                                    </span>
-                                    @endif
-                                    @endforeach
-                                    @else
-
-                                    @endif
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -94,7 +77,6 @@
             </div>
         </div>
     </div>
-    @if($docs_count == $docs_uploaded_count)
     <div class="m-portlet m-portlet--bordered-semi mb-0">
         <div class="">
             <h3 class="section-title section-title--small">Submit Application:</h3>
@@ -110,5 +92,4 @@
         </div>
     </div>
 </div>
-@endif
 @endsection

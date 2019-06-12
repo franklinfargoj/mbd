@@ -14,22 +14,7 @@
         </div>
     </div>
     <!-- END: Subheader -->
-    <div class="m-portlet m-portlet--creative m-portlet--first m-portlet--bordered-semi mb-0">
-        <!-- <div class="m-portlet__head main-sub-title">
-            <div class="m-portlet__head-caption">
-                <div class="m-portlet__head-title">
-                    <span class="m-portlet__head-icon m--hide">
-                        <i class="flaticon-statistics"></i>
-                    </span>
-                    <h2 class="m-portlet__head-label m-portlet__head-label--custom">
-                        <span>
-                            Upload Attachments
-                        </span>
-                    </h2>
-                </div>
-            </div>
-        </div> -->
-        
+    <div class="m-portlet m-portlet--creative m-portlet--first m-portlet--bordered-semi mb-0">        
         <div class="m-portlet__body m-portlet__body--table">
             <div class="m-section mb-0">
                 <div class="m-section__content mb-0 table-responsive">
@@ -47,13 +32,13 @@
                             </tr>
                         </thead>
                         <tbody>
+                        
                             @php $i=1; @endphp
                             @foreach($documents as $document)
                                 <tr>
                                     <td>{{$document->group }}.{{($document->sort_by != 0) ? $document->sort_by : ''}}
                                     </td>
-                                    <td> 
-                                        {{ $document->name }}
+                                    <td>{{ $document->name }}
                                         @if($document->is_optional == 0)
                                             <span class="compulsory-text">
                                             <small>(Compulsory Document)</small></span>
@@ -66,75 +51,55 @@
                                     </td>
                                     <td class="text-center">
                                         <h2 class="m--font-danger">
-                                            @if(count($document->documents_uploaded) > 0 )
-                                            @foreach($document->documents_uploaded as $document_uploaded)
-                                            @if($document_uploaded['society_id'] == $society->id)
-                                            <i class="fa fa-check"></i>
+                                            @if(isset($document->uploadedDocuments) && count($document->uploadedDocuments) > 0 )
+                                                <i class="fa fa-check"></i>
                                             @else
-                                            <i class="fa fa-remove"></i>
-                                            @endif
-                                            @endforeach
-                                            @else
-                                            <i class="fa fa-remove"></i>
+                                                <i class="fa fa-remove"></i>
                                             @endif
                                         </h2>
                                     </td>
                                     
                                     <td>
-                                        @if(count($document->documents_uploaded) > 0 )
-                                        @foreach($document->documents_uploaded as $document_uploaded)
-                                        @if($document_uploaded['society_id'] == $society->id)
-                                        <span>
-                                            <a href="{{ asset($document_uploaded['society_document_path']) }}" data-value='{{ $document->id }}'
-                                                class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
-                                                    Download</button></a>
-                                            <a onclick="return confirm('Are you sure you want to delete this document?');" href="{{ url('/delete_uploaded_documents_noc',([encrypt($noc_applications->id), encrypt($document->id)])) }}" data-value='{{ $document->id }}'
-                                                class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
-                                                    <i class="fa fa-trash"></i></button></a>
-                                        </span>
+                                        @if(isset($document->uploadedDocuments) && count($document->uploadedDocuments) > 0 )
+                                            @if($document->is_other == 1) 
+                                                <a href="{{ route('upload_noc_other_documents',[encrypt($noc_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px">
+                                                upload other documents</a> 
+                                            @else    
+                                            <span>
+                                                <a href="{{ asset($document->uploadedDocuments->society_document_path) }}" data-value='{{ $document->id }}'
+                                                    class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
+                                                        Download</button></a>
+                                                <a onclick="return confirm('Are you sure you want to delete this document?');" href="{{ url('/delete_uploaded_documents_noc',([encrypt($noc_applications->id), encrypt($document->id)])) }}" data-value='{{ $document->id }}'
+                                                    class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
+                                                        <i class="fa fa-trash"></i></button></a>
+                                            </span>
+                                            @endif
                                         @else
-                                        <form action="{{ route('uploaded_documents_noc') }}" method="post" enctype='multipart/form-data'
-                                            id="upload_documents_form_{{ $document->id }}">
-                                            @csrf
-                                            <input type="hidden" name="applicationId" value="{{ isset($noc_applications->id) ? $noc_applications->id : '' }}">
-                                            <div class="custom-file">
-                                                <input class="custom-file-input" name="document_name" type="file" class=""
-                                                    id="test-upload_{{ $document->id }}" required>
-                                                <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
-                                                <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
-                                                    file ...</label>
-                                                <span class="help-block">
-                                                    @if(session('error_'.$document->id))
-                                                    session('error_'.$document->id)
-                                                    @endif
-                                                </span>
-                                            </div>
-                                            <br>
-                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                        </form>
-                                        @endif
-                                        @endforeach
-                                        @else
-                                        <form action="{{ route('uploaded_documents_noc') }}" method="post" enctype='multipart/form-data'
-                                            id="upload_documents_form_{{ $document->id }}">
-                                            @csrf
-                                             <input type="hidden" name="applicationId" value="{{ isset($noc_applications->id) ? $noc_applications->id : '' }}">
-                                            <div class="custom-file @if(session('error_'.$document->id)) has-error @endif">
-                                                <input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}"
-                                                    required>
-                                                <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
-                                                <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
-                                                    file ...</label>
-                                                <span class="help-block text-danger">
-                                                    @if(session('error_'.$document->id))
-                                                    {{session('error_'.$document->id)}}
-                                                    @endif
-                                                </span>
-                                            </div>
-                                            <br>
-                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn_{{ $document->id }}">Upload</button>
-                                        </form>
-                                        @endif
+                                            @if($document->is_other == 1) 
+                                                <a href="{{ route('upload_noc_other_documents',[encrypt($noc_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px">
+                                                upload other documents</a>
+                                            @else    
+                                                <form action="{{ route('uploaded_documents_noc') }}" method="post" enctype='multipart/form-data'
+                                                    id="upload_documents_form_{{ $document->id }}">
+                                                    @csrf
+                                                    <input type="hidden" name="applicationId" value="{{ isset($noc_applications->id) ? $noc_applications->id : '' }}">
+                                                    <div class="custom-file">
+                                                        <input class="custom-file-input" name="document_name" type="file" class=""
+                                                            id="test-upload_{{ $document->id }}" required>
+                                                        <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
+                                                        <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
+                                                            file ...</label>
+                                                        <span class="help-block">
+                                                            @if(session('error_'.$document->id))
+                                                            session('error_'.$document->id)
+                                                            @endif
+                                                        </span>
+                                                    </div>
+                                                    <br>
+                                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                                </form>
+                                            @endif    
+                                        @endif    
                                     </td>
                                 </tr>
                             @endforeach
@@ -197,21 +162,6 @@
                 </div>
             </div>
             @else
-            <!--               <div class="m-portlet__head main-sub-title">
-                   <div class="m-portlet__head-caption">
-                      <div class="m-portlet__head-title">
-                         <span class="m-portlet__head-icon m--hide">
-                         <i class="flaticon-statistics"></i>
-                         </span>
-                         <h2 class="m-portlet__head-label m-portlet__head-label--custom">
-                            <span>
-                            Submit Application
-                            </span>
-                         </h2>
-                      </div>
-                   </div>
-                </div> -->
-
             <div>
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
@@ -234,7 +184,6 @@
                                     <a href="{{route('society_offer_letter_dashboard')}}" class="btn btn-secondary">Cancel</a>
                                 </div>
                             </div>
-                            <!-- <a href="{{ route('society_offer_letter_dashboard') }}" class="btn btn-primary btn-custom" id="">Cancel</a> -->
                         </form>
                     </div>
                 </div>
