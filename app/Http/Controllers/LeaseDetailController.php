@@ -6,6 +6,7 @@ use App\DdDetails;
 use App\Http\Requests\lease_detail\LeaseDetailRequest;
 use App\LeaseDetail;
 use App\MasterBuilding;
+use App\MasterTenant;
 use App\SocietyDetail;
 use App\MasterMonth;
 use App\TransPayment;
@@ -672,10 +673,11 @@ class LeaseDetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function paymentDetails(Datatables $datatables,$id){
-        $id = decrypt($id);
-//dd($id);
+    public function paymentDetails(Datatables $datatables,$id,Request $request){
 
+        $id = decrypt($id);
+        $getData = $request->all();
+//        dd($getData);
         $columns = [
             // ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -695,12 +697,24 @@ class LeaseDetailController extends Controller
 //            ['data' => 'dd_details','name' => 'dd_details','title' => 'DD Details'],
         ];
 
-
         if ($datatables->getRequest()->ajax()) {
 
             $payment_data = TransPayment::with('dd_details','building','society_details','tenants')
-                ->where('society_id',$id)
-                ->get();
+                ->where('society_id',$id);
+
+            if($request->building_id){
+                //code for building
+                    $payment_data = $payment_data->where('building_id', $request->building_id);
+
+            }
+            if($request->tenant_id){
+                //code for building
+                    $payment_data = $payment_data->where('tenant_id', $request->tenant_id);
+
+//                dd('=='.$show);
+            }
+
+            $payment_data = $payment_data->get() ;
 
             return $datatables->of($payment_data)
 
@@ -713,7 +727,13 @@ class LeaseDetailController extends Controller
                     return $payment_data->bill_no;
                 })
                 ->editColumn('tenant_name', function ($payment_data) {
-                    return $payment_data->tenants[0]->first_name.' '.$payment_data->tenants[0]->middle_name.' '.$payment_data->tenants[0]->last_name ?? '';
+                    $first_name = $payment_data->tenants[0]->first_name ?? '';
+                    $middle_name = $payment_data->tenants[0]->middle_name ?? '';
+                    $last_name = $payment_data->tenants[0]->last_name ?? '';
+
+                    $name = $first_name.' '.$middle_name.' '.$last_name;
+
+                    return $name ?? '';
                 })
                 ->editColumn('society_name', function ($payment_data) {
                     return $payment_data->society_details['society_name'] ?? '';
@@ -768,13 +788,12 @@ class LeaseDetailController extends Controller
         }
 
         $society = SocietyDetail::where('id',$id)->get()->toArray();
+        $buildings = MasterBuilding::where('society_id',$society[0]['id'])->get();
 
-        $buldings = MasterBuilding::where('society_id',$society[0]['id'])->get();
-
-//dd($buldings);
+        $tenants = MasterTenant::with('MasterBuilding')->where('building_id',$request['building_id'])->get();
 
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
-        return view('admin.lease_detail.payment_details', compact('society','html','header_data','buldings'));
+        return view('admin.lease_detail.payment_details', compact('tenants','society','html','header_data','buildings','getData'));
 
     }
 
@@ -785,4 +804,28 @@ class LeaseDetailController extends Controller
         return view('admin.lease_detail.dd_details', compact('dd_details'))->render();
     }
 
+    public function getTenantsByAjax(Request $request){
+        if($request->ajax()){
+
+            $society_level = SocietyDetail::where('id',$request->society_id)->value('society_bill_level');
+            if($society_level == 2){
+                $tenants = MasterTenant::where('building_id',$request->building_id)->get();
+//            dd($tenants);
+                $html = '<select title="Select Tenant" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
+                                                id="tenant_id" name="tenant_id">';
+
+                foreach($tenants as $key => $value){
+                    $html .= '<option value="'.$value->id.'"'.(($request->tenant_id == $value->id) ? 'selected' : "").">".$value->first_name.' '.$value->middle_name.' '.$value->last_name.'</option>';
+                }
+                $html .= '</select>';
+
+                return $html;
+            }else{
+                return $html = '';
+            }
+
+
+
+        }
+    }
 }

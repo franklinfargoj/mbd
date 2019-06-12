@@ -104,7 +104,7 @@
                     </div>
 
                     <div class="row align-items-center" style="margin-bottom: 1rem;">
-                        Old  Intrest Rate : {{$rate_card->interest_on_old_rate}} % &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; No of Months : <span class="no_of_months"></span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Old  Intrest Rate : {{$rate_card->interest_on_old_rate}} % &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; No of Months : <span class="no_of_months"></span>
                     </div>
                     
                     <div class="row align-items-center" style="margin-bottom: 1rem;">                            
@@ -165,7 +165,7 @@
                     </div>
 
                     <div class="row align-items-center" style="margin-bottom: 1rem;">
-                       Interest on Diffrence Amount : {{$rate_card->interest_on_differance}}  %    
+                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Interest on Diffrence Amount : {{$rate_card->interest_on_differance}}  %    
                     </div>
 
                     <div class="row align-items-center" style="margin-bottom: 1rem;">                          

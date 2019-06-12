@@ -3101,6 +3101,7 @@ label.site-visit-label {
     padding-right: 10px;
     font-weight: 500;
     font-size: 11px;
+    left: 20px;
 }
 
 .floating-labels-form--disabled .form-group.focused .col-form-label {

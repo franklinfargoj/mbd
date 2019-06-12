@@ -286,6 +286,21 @@ class RCController extends Controller
         $layoutId = decrypt($request->input('layout'));
         $wardId=decrypt($request->input('wards'));
         $colonyId=decrypt($request->input('colony'));
+
+         if(isset($colonyId)){
+             $society_list = SocietyDetail::where('colony_id', $colonyId)->get();
+         }
+         if(isset($wardId)){
+             $colony_list = MasterColony::where('ward_id', $wardId)->get();
+         }
+         if(isset($layoutId)){
+             $ward_list = MasterWard::where('layout_id', $layoutId)->get();
+         }
+         if(isset($society_id)){
+             $building_list = MasterBuilding::where('society_id', $society_id)->get();
+         }
+
+
         if(!$request->input('building')) {
         $columns = [
                 ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -329,7 +344,13 @@ class RCController extends Controller
             //return $buildings;
             $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
             // return  Redirect::route('get_building_bill_collection')->with(array('html'=>$html));
-            return view('admin.rc_department.collect_bill_tenant')->with(['html'=>$html,'layout_data'=>$layout_data,'layoutId'=>$layoutId,'wards_data'=>$wards_data,'wardId'=>$wardId,'colonies_data'=>$colonies_data,'societies_data'=>$societies_data,'colonyId'=>$colonyId,'society_id'=>$society_id,'society_name'=>$society_name]);
+            return view('admin.rc_department.collect_bill_tenant')
+                ->with([
+                    'society_list'=>$society_list ,
+                    'colony_list'=>$colony_list,
+                    'ward_list'=>$ward_list,
+                    'building_list'=>$building_list,
+                    'html'=>$html,'layout_data'=>$layout_data,'layoutId'=>$layoutId,'wards_data'=>$wards_data,'wardId'=>$wardId,'colonies_data'=>$colonies_data,'societies_data'=>$societies_data,'colonyId'=>$colonyId,'society_id'=>$society_id,'society_name'=>$society_name]);
     
         } else {
 
@@ -377,7 +398,10 @@ class RCController extends Controller
       
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
         // return $buildings;
-        return view('admin.rc_department.collect_bill_tenant', compact('layout_data','societies_data','wards_data','colonies_data','tenament','html', 'society_id','layoutId','wardId','colonyId','society_Id','society_name','buildingId','building_name','society_name'));
+        return view('admin.rc_department.collect_bill_tenant', compact( 'society_list',
+                    'colony_list',
+                    'ward_list',
+                    'building_list','layout_data','societies_data','wards_data','colonies_data','tenament','html', 'society_id','layoutId','wardId','colonyId','society_Id','society_name','buildingId','building_name','society_name'));
     }
 
     }
