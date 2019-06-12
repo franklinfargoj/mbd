@@ -4772,5 +4772,29 @@ class CommonController extends Controller
         $data = NocApplicationStatus::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->whereIn('status_id', $status)->orderBy('id','DESC')->get();
 
         return $data;
+    }
+
+    // view NOC other documents on document view page
+    public function viewNocOtherDocument(Request $request,$applicationId,$documentId){
+
+        $documentId = decrypt($documentId);
+        $applicationId = decrypt($applicationId);
+        $documents = NocSocietyDocumentsStatus::where('document_id',$documentId)
+        ->where('application_id',$applicationId)->orderBy('id','desc')->get();
+
+        $noc_application = $this->downloadNoc($applicationId);
+        
+        if (session()->get('role_name') == config('commanConfig.ree_branch_head') || session()->get('role_name') == config('commanConfig.ree_junior') || session()->get('role_name') == config('commanConfig.ree_assistant_engineer') || session()->get('role_name') == config('commanConfig.ree_deputy_engineer')){
+
+                $noc_application->folder = 'REE_department';
+                
+        }elseif(session()->get('role_name') == config('commanConfig.co_engineer')){
+            $noc_application->folder = 'co_department';
+        }
+
+        $noc_application->model = NocApplication::with(['noc_application_master'])->where('id',$applicationId)->first();
+        
+        return view('admin.common.view_noc_other_documents',compact('documents','noc_application'));
+
     }  
 }
