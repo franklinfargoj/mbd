@@ -33,9 +33,8 @@
                 <tbody>
                     <?php $i=1; ?>
                    
-                    @if($societyDocuments)
+                    @if($societyDocuments) 
                     @foreach($societyDocuments as $data)
-                    
                     <tr>
                         <td>{{$data->group }}.{{($data->sort_by != 0) ? $data->sort_by : ''}}</td>
                         <td>{{($data->name)}}
@@ -48,10 +47,19 @@
 
                         </td>
                         <td class="text-center">
-                            @if(isset($data->documents_uploaded[0]->society_document_path))
+                        @if(isset($data->documents_uploaded[0]->society_document_path))
+                            @if($data->is_other == 1) 
+                                <a href="{{ route('view_noc_other_document',[encrypt($noc_application->id),encrypt($data->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px">View</a>
+
+                            @else
                             <a target="_blank" href="{{ asset($data->documents_uploaded[0]->society_document_path) }}">
                                 <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                             @endif
+                        @else
+                            <h2 class="m--font-danger">
+                                <i class="fa fa-remove"></i>
+                            </h2>     
+                        @endif    
                         </td>
                     </tr>
                     @endforeach

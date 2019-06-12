@@ -2,7 +2,6 @@
 $route="";
 $route=\Request::route()->getName();
 @endphp
-
 <li class="m-menu__item" >
     <a href="{{route('ree_applications.noc')}}" class="m-menu__link m-menu__toggle">
         <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -44,7 +43,7 @@ $route=\Request::route()->getName();
             </a>
         </li>
 
-        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ree.society_noc_documents')?'m-menu__item--active':''}}"
+        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ree.society_noc_documents' || $route == 'view_noc_other_document')?'m-menu__item--active':''}}"
             aria-haspopup="true">
             <a class="m-menu__link m-menu__toggle" title="Society Documents" href="{{route('ree.society_noc_documents',$noc_application->id)}}">
                <span class="sidebar-icon sidebar-menu-icon--level-1">

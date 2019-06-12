@@ -1341,6 +1341,8 @@ Route::post('ree_forward_noc_application_data','REEDepartment\REEController@send
 Route::get('approved_noc_letter/{id}','REEDepartment\REEController@approvedNOCletter')->name('ree.approved_noc_letter');
 Route::post('send_noc_issued_society','REEDepartment\REEController@sendissuedNOCToSociety')->name('ree.send_noc_issued_society');
 
+Route::get('view_noc_other_document/{applicationId}/{documentId}','Common\CommonController@viewNocOtherDocument')->name('view_noc_other_document');
+
 //NOC --CO Department routes
 
 Route::get('co_noc_applications','CODepartment\COController@nocApplicationList')->name('co_applications.noc');

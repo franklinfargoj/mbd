@@ -196,7 +196,7 @@
                             <span class="help-block">{{$errors->first('offsite_infra_receipt')}}</span>
                         </div>
                         <div class="col-xl-5 offset-xl-1 col-lg-6 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="offsite_infra_charges_receipt_date">Offsite Infrastructure planning authority charges receipt date : <span class="star">*</span></label>
+                            <label class="col-form-label" for="offsite_infra_charges_receipt_date">Offsite Infrastructure planning authority receipt date : <span class="star">*</span></label>
                              <input type="text" id="m_datepicker" name="offsite_infra_charges_receipt_date" class="form-control form-control--custom m-input m_datepicker" data-date-end-date="+0d" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->offsite_infra_charges_receipt_date)) }}" required
                             readonly="readonly">
                             <span class="help-block">{{$errors->first('offsite_infra_charges_receipt_date')}}</span>

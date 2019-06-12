@@ -1,6 +1,6 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-    @include('admin.'.$folder.'.action',compact('ol_application'))
+    @include('admin.'.$noc_application->folder.'.action_noc',compact('noc_application'))
 @endsection
 
 @section('content')
@@ -10,10 +10,12 @@
         <div class="d-flex align-items-center"> 
         
             <h3 class="m-subheader__title m-subheader__title--separator">Document Submitted By Society</h3>
-            @if (session()->get('role_name') == config('commanConfig.ee_junior_engineer') || session()->get('role_name') == config('commanConfig.ee_branch_head') || session()->get('role_name') == config('commanConfig.ee_deputy_engineer'))
-                {{ Breadcrumbs::render('document-submitted',$ol_application->id) }}
+            @if (session()->get('role_name') == config('commanConfig.ree_branch_head') || session()->get('role_name') == config('commanConfig.ree_junior') || session()->get('role_name') == config('commanConfig.ree_assistant_engineer') || session()->get('role_name') == config('commanConfig.ree_deputy_engineer'))
+                
+                {{ Breadcrumbs::render('society_noc_documents_ree',$noc_application->id) }}
 
-   
+            @elseif(session()->get('role_name') == config('commanConfig.co_engineer')) 
+                {{ Breadcrumbs::render('society_noc_documents_co',$noc_application->id) }}   
             @endif
             <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
         </div>
@@ -36,7 +38,7 @@
                                 @foreach($documents as $document)
                                 <tr>
                                     <td>{{ $i }}</td>
-                                    <td> {{ isset($document->member_name) ? $document->member_name : '' }} </td>
+                                    <td> {{ isset($document->name_of_document) ? $document->name_of_document : '' }} </td>
                                     <td class=""> 
                                         <a class="btn-link" href="{{ config('commanConfig.storage_server').'/'.$document->society_document_path }}" download target="_blank"> Download </a> 
                                     </td> 

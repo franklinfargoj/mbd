@@ -40,7 +40,7 @@ $route=\Request::route()->getName();
             <span class="m-menu__link-text">View Applications</span>
          </a>
       </li>
-      <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='co.society_noc_documents')?'m-menu__item--active':''}}">
+      <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='co.society_noc_documents' || $route == 'view_noc_other_document')?'m-menu__item--active':''}}">
          <a class="m-menu__link" title="Society  Documents" href="{{route('co.society_noc_documents',$noc_application->id)}}">
            <span class="sidebar-icon sidebar-menu-icon--level-1">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 470">
