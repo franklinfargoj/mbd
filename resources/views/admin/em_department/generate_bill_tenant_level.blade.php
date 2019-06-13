@@ -47,7 +47,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>   
+                        </div>
                         <div class="col-sm-4 offset-sm-1">
                                 <div class="form-group m-form__group ward-div">
                                     <label class="col-form-label">Select Ward</label>
@@ -64,7 +64,9 @@
                                         @endif
                                     </select>
                                 </div>
-                            </div>                        
+                            </div>
+
+
                     </div>
                     <div class="row align-items-center mb-3">                            
                         <div class="col-sm-4">
@@ -123,6 +125,11 @@
                         </div>                             
                     </div>
 
+                @php $search_year = ''; @endphp
+                @php $search_month = ''; @endphp
+
+
+                </div>
                     @if(isset($buildingId) && isset($building_name) && $buildingId !=0) 
                         <div class="row align-items-center mb-3 building">                            
                             <div class="col-md-12">
@@ -158,16 +165,18 @@
                             <div class="col-sm-4">
                                 <div class="btn-list">
                                     <input type="submit" class="submit-button btn m-btn--pill m-btn--custom btn-primary mhada-btn-pill" name="search" value="Search" disabled>
+                                    <input type="submit" class="submit-button btn m-btn--pill m-btn--custom btn-primary mhada-btn-pill" name="download" value="Download" disabled>
+{{--                                    <a href="{{ url('generate_tenant_bill') }}" class="submit-button btn m-btn--pill m-btn--custom btn-primary mhada-btn-pill">Download Bills</a>--}}
+
                                     <a href="{{ url('generate_tenant_bill') }}" class="btn btn-secondary mhada-btn-pill">Cancel</a>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    </div>
                 </div>
-        
-                </div>
-            </div>
          </form>
+
          @if($html)
                 <div class="m-portlet m-portlet--compact">{!! $html->table() !!}</div>
          @endif             
@@ -180,6 +189,7 @@
     <div id="myModal" class="modal fade" role="dialog">
              
     </div>
+
     <!-- END EXAMPLE TABLE PORTLET-->
 </div>
 @endsection
