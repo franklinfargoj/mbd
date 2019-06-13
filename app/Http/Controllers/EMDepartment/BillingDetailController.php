@@ -405,7 +405,7 @@ class BillingDetailController extends Controller
                                 return $arreas_calculations->service_charges->na_assessment;
                             } else{
                                // return $arreas_calculations->service_charges->na_assessment*$building->tenant_count()->first()->count;
-                                return $arreas_calculations->service_charges->na_assessment;                                
+                                return $arreas_calculations->service_charges->na_assessment;
                             }
                         }
                     })
