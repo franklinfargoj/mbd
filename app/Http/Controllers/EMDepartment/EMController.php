@@ -1613,6 +1613,36 @@ class EMController extends Controller
 
     }
 
+    public function generate_tenant_bill_download(Request $request){
+        // return $id;
+        $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
+        $layout_data = MasterLayout::whereIn('id', $layouts)->get();
+        // dd($layout_data);
+        $wards = MasterWard::whereIn('layout_id', $layouts)->pluck('id');
+        $wards_data = MasterWard::whereIn('layout_id', $layouts)->get();
+
+        //dd($wards);
+        $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
+
+        $colonies_data = MasterColony::whereIn('ward_id', $wards)->get();
+
+        //dd($colonies);
+        $societies = SocietyDetail::whereIn('colony_id', $colonies)->pluck('id');
+        $societies_data = SocietyDetail::/*where('society_bill_level', '=', '2')->*/whereIn('colony_id', $colonies)->get();
+
+        $building_data = MasterBuilding::whereIn('society_id', $societies)->get();
+        $html='';
+        $society_id = 0;
+        $layoutId = 0;
+        $wardId= 0;
+        $colonyId=0;
+        $buildingId=0;
+        //return $rate_card;generate_bill_tenent_level_download
+        return view('admin.em_department.generate_bill_tenent_level_download', compact('buildingId','colonyId','wardId','layoutId','society_id','html','layout_data', 'wards_data', 'colonies_data','societies_data', 'building_data'));
+
+    }
+
+
     public function generateBuildingBill(Request $request) {
         
         if($request->has('building_id') && '' != $request->building_id) {

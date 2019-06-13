@@ -68,7 +68,7 @@
 
 
                     </div>
-                    <div class="row align-items-center mb-3">                            
+                    <div class="row align-items-center mb-3">
                         <div class="col-sm-4">
                             <div class="form-group m-form__group colony_select">
                                 <label class="col-form-label">Select Colony</label>
@@ -94,7 +94,7 @@
                                     @endif
                                 </select>
                             </div>
-                        </div> 
+                        </div>
                         <div class="col-sm-4 offset-sm-1">
                             <div class="form-group m-form__group society_select">
                                 <label class="col-form-label">Select Societies</label>
@@ -122,52 +122,11 @@
 
                                 </select>
                             </div>
-                        </div>                             
+                        </div>
                     </div>
 
 @php $search_year = date('Y'); @endphp
 
-                <div class="row align-items-center mb-3">
-                    <div class="col-sm-4">
-                        <div class="form-group m-form__group">
-                            <label class="col-form-label">Year</label>
-                            <select id="year" name="year" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
-                                    placeholder="Select Year" required>
-                                <option value="">Select Year</option>
-                                <option value="<?php echo date('Y');?>" @if($search_year == date('Y')) selected @endif><?php echo date('Y'); ?></option>
-                                <option value="<?php echo date("Y",strtotime("-1 year")); ?>" @if($search_year == date("Y",strtotime("-1 year"))) selected @endif ><?php echo date("Y",strtotime("-1 year")); ?></option>
-                                <option value="<?php echo date("Y",strtotime("-2 year")); ?>" @if($search_year == date("Y",strtotime("-2 year"))) selected @endif><?php echo date("Y",strtotime("-2 year")); ?></option>
-                                <option value="<?php echo date("Y",strtotime("-3 year")); ?>" @if($search_year == date("Y",strtotime("-3 year"))) selected @endif><?php echo date("Y",strtotime("-3 year")); ?></option>
-                                <option value="<?php echo date("Y",strtotime("-4 year")); ?>" @if($search_year == date("Y",strtotime("-4 year"))) selected @endif><?php echo date("Y",strtotime("-4 year")); ?></option>
-                                <option value="<?php echo date("Y",strtotime("-5 year")); ?>" @if($search_year == date("Y",strtotime("-5 year"))) selected @endif ><?php echo date("Y",strtotime("-5 year")); ?></option>
-                                <option value="<?php echo date("Y",strtotime("-6 year")); ?>" @if($search_year == date("Y",strtotime("-6 year"))) selected @endif><?php echo date("Y",strtotime("-6 year")); ?></option>
-                                <option value="<?php echo date("Y",strtotime("-7 year")); ?>" @if($search_year == date("Y",strtotime("-7 year"))) selected @endif><?php echo date("Y",strtotime("-7 year")); ?></option>
-                                <option value="<?php echo date("Y",strtotime("-8 year")); ?>" @if($search_year == date("Y",strtotime("-8 year"))) selected @endif><?php echo date("Y",strtotime("-8 year")); ?></option>
-                                <option value="<?php echo date("Y",strtotime("-9 year")); ?>" @if($search_year == date("Y",strtotime("-9 year"))) selected @endif><?php echo date("Y",strtotime("-9 year")); ?></option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 offset-sm-1">
-                        <div class="form-group m-form__group">
-                            <label class="col-form-label">Month</label>
-                            <select id="month" name="month" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
-                                    placeholder="Select month" required>
-                                <option value="">Select month</option>
-                                <option value='01'>Janaury</option>
-                                <option value='02'>February</option>
-                                <option value='03'>March</option>
-                                <option value='04'>April</option>
-                                <option value='05'>May</option>
-                                <option value='06'>June</option>
-                                <option value='07'>July</option>
-                                <option value='08'>August</option>
-                                <option value='09'>September</option>
-                                <option value='10'>October</option>
-                                <option value='11'>November</option>
-                                <option value='12'>December</option></select>
-                        </div>
-                    </div>
-                </div>
 
                 @php $search_year = ''; @endphp
                 @php $search_month = ''; @endphp
@@ -209,7 +168,6 @@
                             <div class="col-sm-4">
                                 <div class="btn-list">
                                     <input type="submit" class="submit-button btn m-btn--pill m-btn--custom btn-primary mhada-btn-pill" name="search" value="Search" disabled>
-                                    <input type="submit" class="submit-button btn m-btn--pill m-btn--custom btn-primary mhada-btn-pill" name="download" value="Download" disabled>
 {{--                                    <a href="{{ url('generate_tenant_bill') }}" class="submit-button btn m-btn--pill m-btn--custom btn-primary mhada-btn-pill">Download Bills</a>--}}
 
                                     <a href="{{ url('generate_tenant_bill') }}" class="btn btn-secondary mhada-btn-pill">Cancel</a>
@@ -218,8 +176,8 @@
                         </div>
                     </div>
                     </div>
-                </div>
          </form>
+
 
          @if($html)
                 <div class="m-portlet m-portlet--compact">{!! $html->table() !!}</div>

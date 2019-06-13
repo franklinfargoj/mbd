@@ -289,6 +289,12 @@ class EmPermissionSeeder extends Seeder
                 'description' => 'Generate Tenant Bill'
             ],
             [
+                'name' => 'generate_tenant_bill.download',
+                'display_name' => 'Generate Tenant Bill Download',
+                'description' => 'Generate Tenant Bill Download'
+            ],
+
+            [
                 'name' => 'arrears_calculations',
                 'display_name' => 'Arrears Calculations',
                 'description' => 'Arrears Calculationst'

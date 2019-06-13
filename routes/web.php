@@ -326,6 +326,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('delete_tenant/{id}', 'EMDepartment\EMController@delete_tenant')->name('delete_tenant');
     Route::get('generate_soc_bill', 'EMDepartment\EMController@generate_soc_bill')->name('generate_soc_bill');
     Route::get('generate_tenant_bill', 'EMDepartment\EMController@generate_tenant_bill')->name('generate_tenant_bill');
+    Route::get('generate_tenant_bill_download', 'EMDepartment\EMController@generate_tenant_bill_download')->name('generate_tenant_bill.download');
 
     Route::get('arrears_calculations','EMDepartment\ArrearsCalculationController@index')->name('arrears_calculations');
     Route::get('billing_calculations','EMDepartment\BillingDetailController@index')->name('billing_calculations');
