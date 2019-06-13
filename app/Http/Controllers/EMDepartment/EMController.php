@@ -30,6 +30,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use Mpdf\Mpdf;
 use Yajra\DataTables\DataTables;
 use Config;
 use DB;
@@ -48,6 +49,8 @@ use App\TransPayment;
 use App\LayoutUser;
 use App\ArrearsChargesRate;
 use App\TransBillServiceCharge;
+use PDF;
+
 
 class EMController extends Controller
 {
@@ -792,7 +795,7 @@ class EMController extends Controller
     }
 
     public function get_tenant_ajax(Request $request, Datatables $datatables){
-         //print_r($request->all());exit;
+//         print_r($request->download);exit;
          $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
          $layout_data = MasterLayout::whereIn('id', $layouts)->get();
          
@@ -913,9 +916,20 @@ class EMController extends Controller
             }
             $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
                     // return $buildings;
-            return view('admin.em_department.generate_bill_tenant_level',
-                compact('building_list','ward_list','colony_list','society_list','building_data','building_name','buildingId','layoutId','wardId','colonyId','layout_data','wards_data','colonies_data','societies_data','tenament','html', 'building_id', 'society_id'));
-        } else {
+
+
+             if(isset($request->search)){
+                 return view('admin.em_department.generate_bill_tenant_level',
+                     compact('building_list','ward_list','colony_list','society_list','building_data','building_name','buildingId','layoutId','wardId','colonyId','layout_data','wards_data','colonies_data','societies_data','tenament','html', 'building_id', 'society_id'));
+
+
+             }else{
+
+                 $data = $request->all();
+                 $this->downloadTenantBills($data);
+             }
+
+            } else {
             $columns = [
                 ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
                 ['data' => 'building_no','name' => 'building_no','title' => 'Building / Chawl Number'],
@@ -999,10 +1013,314 @@ class EMController extends Controller
             }
 
             $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
-            return view('admin.em_department.generate_bill_tenant_level',
-                compact('building_list','ward_list','colony_list','society_list','building_data','layoutId','wardId','colonyId',
-                    'layout_data','wards_data','colonies_data','societies_data',
-                    'tenament','html', 'society_id','society_name','buildingId'));
+
+//            dd(isset($request->download));
+            if(isset($request->search)){
+                return view('admin.em_department.generate_bill_tenant_level',
+                    compact('building_list','ward_list','colony_list','society_list','building_data','layoutId','wardId','colonyId',
+                        'layout_data','wards_data','colonies_data','societies_data',
+                        'tenament','html', 'society_id','society_name','buildingId'));
+
+
+            }else{
+                $data = $request->all();
+                $this->downloadbuildingBills($data);
+            }
+            }
+    }
+
+    /*
+       * All Tenant Bill Generation
+       * @ param    => $data_request.
+       * @ Response => Downloads pdf.
+       * Author: Prajakta Sisale
+       */
+    public function downloadTenantBills($data_request){
+
+        $year = 2019;
+        $month = 05;
+// t 228 b 211 s 209
+
+        $building_id = decrypt($data_request['building']);
+        $society_id = decrypt($data_request['society']);
+
+        $pdf_data =array();
+
+        $trans_bill_generate_data = TransBillGenerate::with(['tenant_detail','trans_payment', 'service_charges'])
+            ->where('trans_bill_generate.society_id', $society_id)
+            ->where('trans_bill_generate.building_id', $building_id)
+            ->where('trans_bill_generate.bill_year', $year)
+            ->where('trans_bill_generate.bill_month', $month)
+            ->get()->toArray();
+
+
+        foreach ($trans_bill_generate_data as $bill_data){
+
+                $data['tenant'] = MasterTenant::where('building_id',$bill_data['building_id'])->where('id',$bill_data['tenant_id'])->first();
+
+                if($bill_data['building_id'] != '' && '' != $bill_data['tenant_id']) {
+
+                    $data['building'] = MasterBuilding::find($bill_data['building_id']);
+                    $data['society'] = SocietyDetail::find($data['building']->society_id);
+                    $data['tenant'] = MasterTenant::where('building_id',$bill_data['building_id'])->where('id',$bill_data['tenant_id'])->first();
+
+
+                    $data['TransBillGenerate'] = TransBillGenerate::find($bill_data['id']);
+
+                    $data['year'] = $year;
+
+                    $data['month'] = $month;
+                    if($month < 4 ) {
+                        $data['year'] = date('Y') -1;
+                    } else {
+                        $data['year'] = date('Y');
+                    }
+
+                    if($data['month'] == 1) {
+                        $lastBillMonth = 12;
+                        $lastBillYear=$data['year']-1;
+                    } else {
+                        $lastBillMonth = $data['month']-1;
+                        $lastBillYear=$data['year'];
+                    }
+
+                    $data['lastBill'] = TransBillGenerate::where('tenant_id', '=', $bill_data['tenant_id'])
+                        ->where('bill_month', '=', $lastBillMonth)
+                        ->where('bill_year', '=', $lastBillYear)
+                        ->orderBy('id','DESC')
+                        ->first();
+
+                    $data['serviceChargesRate'] = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,
+                                    sum(electric_city_charge) as electric_city_charge,
+                                    sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,
+                                    sum(external_expender_charge) as external_expender_charge,
+                                    sum(administrative_charge) as administrative_charge, 
+                                    sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, 
+                                    sum(other) as other')
+                                ->where('building_id',$bill_data['building_id'])
+                                ->where('year',$data['year'])->first();
+
+                    if(!$data['serviceChargesRate']){
+
+                        return redirect()->back()->with('warning', 'Service charge Rates Not added into system.');
+                    }
+
+                    $data['arreasCalculation'] = ArrearCalculation::where('tenant_id',$bill_data['tenant_id'])->get();
+                    $arrear_balance=$arrear_interest_balance=0;
+                    if(count($data['arreasCalculation'])>0)
+                    {
+                        foreach($data['arreasCalculation'] as $arreasCalculation)
+                        {
+                            $arrear_balance+=($arreasCalculation->total_amount - $arreasCalculation->old_intrest_amount -
+                                $arreasCalculation->difference_intrest_amount);
+                            $arrear_interest_balance+=($arreasCalculation->old_intrest_amount +
+                                $arreasCalculation->difference_intrest_amount);
+                        }
+                    }
+
+                    $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
+
+                    $pdf_data[] = $data;
+
+                }
+            }
+
+        $fileName = 'tenants_bill.pdf';
+
+        $mpdf = new Mpdf();
+        $mpdf->autoScriptToLang = true;
+        $mpdf->autoLangToFont = true;
+        $contents = view('admin.em_department.download_all_tenant_bills', compact('pdf_data'));
+        $mpdf->WriteHTML($contents);
+        $mpdf->Output($fileName,'D');
+    }
+
+    public function downloadbuildingBills(){
+
+        dd('mi ethe aalo aahe');
+        if($request->has('tenant_id') && !empty($request->tenant_id)) {
+
+            $data['tenant'] = MasterTenant::where('building_id',$data['building']->id)->where('id',decrypt($request->tenant_id))->first();
+
+            if($request->has('building_id') && '' != $request->building_id && $request->has('tenant_id') && '' != $request->tenant_id) {
+                $request->building_id = decrypt($request->building_id);
+                $request->tenant_id = decrypt($request->tenant_id);
+
+                $data['building'] = MasterBuilding::find($request->building_id);
+                $data['society'] = SocietyDetail::find($data['building']->society_id);
+                $data['tenant'] = MasterTenant::where('building_id',$data['building']->id)->where('id',$request->tenant_id)->first();
+
+                $data['TransBillGenerate'] = TransBillGenerate::find($request->id);
+
+                if($request->has('year') && !empty($request->year)) {
+                    $data['year'] = $request->year;
+                }
+
+                if($request->has('month') && '' != $request->month) {
+
+                    $data['month'] = $request->month;
+                    if($request->month < 4 ) {
+                        $data['year'] = date('Y') -1;
+                    } else {
+                        $data['year'] = date('Y');
+                    }
+                } else {
+                    $data['month'] = date('m');
+                    $data['year'] = date('Y');
+                }
+
+                if($data['month'] == 1) {
+                    $lastBillMonth = 12;
+                    $lastBillYear=$data['year']-1;
+                } else {
+                    $lastBillMonth = $data['month']-1;
+                    $lastBillYear=$data['year'];
+                }
+                // dd($lastBillYear." ".$lastBillMonth);
+                $data['lastBill'] = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+                    ->where('bill_month', '=', $lastBillMonth)
+                    ->where('bill_year', '=', $lastBillYear)
+                    ->orderBy('id','DESC')
+                    ->first();
+                //dd($data['lastBill']);
+                $data['serviceChargesRate'] = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$request->building_id)->where('year',$data['year'])->first();
+
+                if(!$data['serviceChargesRate']){
+                    //dd($data);
+                    return redirect()->back()->with('warning', 'Service charge Rates Not added into system.');
+                }
+
+                $data['arreasCalculation'] = ArrearCalculation::where('tenant_id',$request->tenant_id)->get();
+                $arrear_balance=$arrear_interest_balance=0;
+                if(count($data['arreasCalculation'])>0)
+                {
+                    foreach($data['arreasCalculation'] as $arreasCalculation)
+                    {
+                        $arrear_balance+=($arreasCalculation->total_amount - $arreasCalculation->old_intrest_amount -
+                            $arreasCalculation->difference_intrest_amount);
+                        $arrear_interest_balance+=($arreasCalculation->old_intrest_amount +
+                            $arreasCalculation->difference_intrest_amount);
+                    }
+                }
+
+                //dd($data['arreasCalculation']);
+                $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
+                $pdf = PDF::loadView('admin.rc_department.download_tenant_bill', $data);
+                return $pdf->download('bill_'.$data['building']->name.'_'.$data['building']->building_no.'.pdf');
+            }
+            // $this->view_bill_tenant($request,true);
+        }
+        else {
+            // $this->view_bill_building($request,true);
+
+            if($request->has('building_id') && '' != $request->building_id) {
+
+                $data['month'] = date('m');
+                $data['year'] = date('Y');
+
+                if($request->has('year') && !empty($request->year)) {
+                    $data['year'] = $request->year;
+                }
+
+                $bill_year = date('Y');
+                if($request->has('month') && '' != $request->month) {
+
+                    $data['month'] = $request->month;
+                    if($request->month < 4 ) {
+                        $data['year'] = date('Y') -1;
+                    } else {
+                        $data['year'] = date('Y');
+                    }
+                } else {
+                    $data['month'] = date('m');
+                    $data['year'] = date('Y');
+                }
+
+
+                $request->building_id = decrypt($request->building_id);
+                $data['building'] = MasterBuilding::find($request->building_id);
+                $data['society'] = SocietyDetail::find($data['building']->society_id);
+                $data['serviceChargesRate'] = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$request->building_id)->where('year',$data['year'])->first();
+
+                //  dd($data['serviceChargesRate']);
+                if(!$data['serviceChargesRate']){
+                    return redirect()->back()->with('warning', 'Service charge Rates Not added into system.');
+                }
+
+                $data['Tenant_bill_id'] = DB::table('building_tenant_bill_association')->where('building_id', '=', $request->building_id)->where('bill_month', '=',  $data['month'])->where('bill_year', '=', $bill_year)->orderBy('id','DESC')->first();
+
+                $bill_ids = '';
+                if($data['Tenant_bill_id']) {
+                    $bill_ids = $data['Tenant_bill_id']->bill_id;
+                }
+                $data['TransBillGenerate'] = TransBillGenerate::selectRaw('sum(total_bill)as total_bill_temp,sum(arrear_bill) as arrear_bill_temp,sum(`total_service_after_due`) as `total_service_after_due_temp`,sum(`late_fee_charge`) as `late_fee_charge_temp`, sum(`total_bill_after_due_date`) as `total_bill_after_due_date_temp`, sum(`balance_amount`) as `balance_amount_temp`, sum(credit_amount) as credit_amount_temp,sum(monthly_bill) as monthly_bill_temp,trans_bill_generate.*')->whereIn('id',explode(',',$bill_ids))->first();
+
+                //  echo '<pre>';
+                // print_r($data['TransBillGenerate']);exit;
+
+                $data['arrear_ids'] = TransBillGenerate::whereIn('id',explode(',', $bill_ids))->pluck('arrear_id')->toArray();
+
+
+                $data['arrear_ids_temp'] = [];
+                if($data['arrear_ids']) {
+                    foreach($data['arrear_ids'] as $arrear_id) {
+                        if (strpos($arrear_id, ',') !== false) {
+                            $explode_ids = explode(',', $arrear_id);
+                            foreach($explode_ids as $id) {
+                                $data['arrear_ids_temp'][] = $id;
+                            }
+                        } else {
+                            $data['arrear_ids_temp'][] = $arrear_id;
+                        }
+                    }
+                }
+                $data['arreasCalculation'] = ArrearCalculation::whereIn('id',$data['arrear_ids_temp'])->get();
+
+                $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
+                //dd($data['number_of_tenants']->tenant_count()->first());
+                if(!$data['number_of_tenants']->tenant_count()->first()) {
+                    return redirect()->back()->with('warning', 'Number of Tenants Is zero.');
+                }
+
+                // $data['TransBillGenerate'] = TransBillGenerate::find($request->id);
+
+                if($request->has('year') && !empty($request->year)) {
+                    $data['year'] = $request->year;
+                }
+
+                if($request->has('month') && '' != $request->month) {
+
+                    $data['month'] = $request->month;
+                    if($request->month < 4 ) {
+                        $data['year'] = date('Y') -1;
+                    } else {
+                        $data['year'] = date('Y');
+                    }
+                } else {
+                    $data['month'] = date('m');
+                    $data['year'] = date('Y');
+                }
+
+                if($data['month'] == 1) {
+                    $lastBillMonth = 12;
+                    $lastBillYear=$data['year']-1;
+                } else {
+                    $lastBillMonth = $data['month']-1;
+                    $lastBillYear=$data['year'];
+                }
+                // dd($lastBillYear." ".$lastBillMonth);
+                $data['lastBill'] = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+                    ->where('bill_month', '=', $lastBillMonth)
+                    ->where('bill_year', '=', $lastBillYear)
+                    ->orderBy('id','DESC')
+                    ->first();
+                //dd($data['lastBill']);
+                $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
+
+                $pdf = PDF::loadView('admin.rc_department.download_building_bill', $data);
+
+                return $pdf->download('bill_'.$data['building']->name.'_'.$data['building']->building_no.'.pdf');
+            }
         }
     }
 
