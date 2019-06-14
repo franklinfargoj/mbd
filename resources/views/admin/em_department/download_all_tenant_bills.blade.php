@@ -304,7 +304,7 @@
                 </tr>
             @endif
              <tr>
-                <td valign="top" style="background-color: #f1f3f4; padding: 5px;">Total arrear charges</td>
+                <td valign="top" style="background-color: #f1f3f4; padding: 5px;text-align: right;">Total arrear charges</td>
                 <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center;">{{$total}}</td>
             </tr>
             <tr>
