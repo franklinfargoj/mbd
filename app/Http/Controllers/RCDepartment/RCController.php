@@ -1171,8 +1171,19 @@ class RCController extends Controller
                 
                 //dd($data['arreasCalculation']);
                 $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
-                $pdf = PDF::loadView('admin.rc_department.download_tenant_bill', $data);
-                return $pdf->download('bill_'.$data['building']->name.'_'.$data['building']->building_no.'.pdf');
+//                $pdf = PDF::loadView('admin.rc_department.download_tenant_bill', $data);
+//                return $pdf->download('bill_'.$data['building']->name.'_'.$data['building']->building_no.'.pdf');
+                
+                $fileName = 'bill_'.$data['building']->name.'_'.$data['building']->building_no.'.pdf';
+
+                $mpdf = new Mpdf();
+                $mpdf->autoScriptToLang = true;
+                $mpdf->autoLangToFont = true;
+                $contents = view('admin.rc_department.download_tenant_bill', compact('data'));
+                $mpdf->WriteHTML($contents);
+                $mpdf->Output($fileName,'D');
+            
+            
             }
             // $this->view_bill_tenant($request,true);
           } else {
@@ -1282,9 +1293,21 @@ class RCController extends Controller
                     //dd($data['lastBill']);
                     $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
                       
-                    $pdf = PDF::loadView('admin.rc_department.download_building_bill', $data);
-                      
-                    return $pdf->download('bill_'.$data['building']->name.'_'.$data['building']->building_no.'.pdf');
+//                    $pdf = PDF::loadView('admin.rc_department.download_building_bill', $data);
+//
+//                    return $pdf->download('bill_'.$data['building']->name.'_'.$data['building']->building_no.'.pdf');
+
+                    $fileName = 'bill_'.$data['building']->name.'_'.$data['building']->building_no.'.pdf';
+
+                    $mpdf = new Mpdf();
+                    $mpdf->autoScriptToLang = true;
+                    $mpdf->autoLangToFont = true;
+                    $contents = view('admin.rc_department.download_building_bill', compact('data'));
+                    $mpdf->WriteHTML($contents);
+                    $mpdf->Output($fileName,'D');
+
+
+
                 }
           }
         }
