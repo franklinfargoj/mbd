@@ -28,10 +28,9 @@
     @endif
 
     <div>
-        <div>
-            <h3>Bill for {{date("M", strtotime("2001-" . $bill_data['month'] . "-01"))}}, {{$bill_data['year']}}</h3>
-        </div>
-
+        {{--<div>--}}
+            <h4>Bill for {{date("M", strtotime("2001-" . $bill_data['month'] . "-01"))}}, {{$bill_data['year']}}</h4>
+        {{--</div>--}}
         <table style="width: 720px;border-collapse: collapse;">
             <tr>
                 <td style="text-align:center;">
@@ -61,7 +60,7 @@
             </tr>
         </table>
 
-        <table style="width: 720px; border-collapse: collapse; margin-top: 30px;">
+        <table style="width: 720px; border-collapse: collapse; margin-top: 15px;">
             <tbody>
             <tr>
                 <td valign="top" style="background-color: #FFEFD5; padding: 5px;">
@@ -156,8 +155,8 @@
             </tr>
             </tbody>
         </table>
-        <div style="border: 1px solid #000; padding: 5px; margin-top: 30px;background-color: lightblue;"><h3 style="text-align: center;">Bill Summary - {{date("M", strtotime("2001-" . $bill_data['month'] . "-01"))}}, {{$bill_data['year']}}</h3></div>
-        <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
+        {{--<div style="border: 1px solid #000; padding: 5px; margin-top: 30px;background-color: lightblue;"><h3 style="text-align: center;">Bill Summary - {{date("M", strtotime("2001-" . $bill_data['month'] . "-01"))}}, {{$bill_data['year']}}</h3></div>--}}
+        <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
             <thead>
             <tr>
                 <th valign="top" style=" padding: 10px 5px; width: 40%;background-color: lightblue;">Bill Title - {{date("M", strtotime("2001-" . $bill_data['month'] . "-01"))}}</th>
@@ -219,8 +218,8 @@
             @if(!$bill_data['arreasCalculation']->isEmpty())
                 @php $total ='0'; @endphp
 
-                <div style="border: 1px solid #000; padding: 5px; margin-top: 20px;background-color: lightblue;"><h3 style="text-align: center;">Balance amount to be paid - Arrears</h3></div>
-                <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
+                <div style="border: 1px solid #000;background-color: lightblue;"><h4 style="text-align: center;">Balance amount to be paid - Arrears</h4></div>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
                     <thead>
                     <tr>
                         <th valign="top" style="background-color:lightblue; padding: 5px; width: 25%;">Year</th>
@@ -250,8 +249,8 @@
             @endif
         @else
 
-            <div style="border: 2px solid #000; padding: 5px; margin-top: 20px;"><h3 style="text-align: center;">Balance amount to be paid - Arrears</h3></div>
-            <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
+            <div style="border: 1px solid #000; background-color: lightblue;"><h4 style="text-align: center;">Balance amount to be paid - Arrears</h4></div>
+            <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
                 <thead>
                 <tr>
                     <th valign="top" style="background-color: lightblue; padding: 5px; width: 25%;">Year</th>
@@ -284,8 +283,9 @@
                 </tbody>
             </table>
         @endif
-        <div style="border: 1px solid #000; padding: 5px; margin-top: 35px;background-color: lightblue;"><h3 style="text-align: center;">Total amount to be paid</h3></div>
-        <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
+        <span style="background-color: #f1f3f4; padding: 5px; text-align: left; font-weight: bold;">Total amount to be paid :</span>
+        {{--<div style="border: 1px solid #000; margin-top: 2px;background-color: lightblue;"><h4 style="text-align: center;">Total amount to be paid</h4></div>--}}
+        <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
             <thead>
             <tr>
                 <th valign="top" style=" padding: 10px 5px; width: 50%;background-color: lightblue;">Particulars</th>
