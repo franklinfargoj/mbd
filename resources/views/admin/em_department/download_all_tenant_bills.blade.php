@@ -266,10 +266,10 @@
                     $total=$bill_data['TransBillGenerate']->prev_arrear_balance+$bill_data['TransBillGenerate']->prev_arrear_interest_balance;
                 @endphp
                 <tr>
-                     <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$bill_data['lastBill']->bill_year}}</td>
+                     {{-- <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$bill_data['lastBill']->bill_year}}</td>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{date("M", strtotime("2001-" . $bill_data['lastBill']->bill_month . "-01"))}}</td>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$bill_data['lastBill']->arrear_balance }}</td>
-                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$bill_data['lastBill']->arrear_interest_balance }}</td>
+                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$bill_data['lastBill']->arrear_interest_balance }}</td> --}}
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$bill_data['lastBill']->bill_year}}</td>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{date("M", strtotime("2001-" . $bill_data['lastBill']->bill_month . "-01"))}}</td>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$bill_data['TransBillGenerate']->prev_arrear_balance }}</td>
