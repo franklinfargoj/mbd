@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-@foreach($pdf_data as $bill_data)
+{{--@foreach($pdf_data as $bill_data)--}}
     @php
         $total_service = $bill_data['TransBillGenerate']->service_charges->water_charges + $bill_data['TransBillGenerate']->service_charges->electric_city_charge + $bill_data['TransBillGenerate']->service_charges->pump_man_and_repair_charges + $bill_data['TransBillGenerate']->service_charges->external_expender_charge + $bill_data['TransBillGenerate']->service_charges->administrative_charge + $bill_data['TransBillGenerate']->service_charges->lease_rent + $bill_data['TransBillGenerate']->service_charges->na_assessment + $bill_data['TransBillGenerate']->service_charges->other;
 
@@ -348,10 +348,10 @@
         </table>
     </div>
     </div>
-    <hr/>
-    <pagebreak />
+    {{--<hr/>--}}
+    {{--<pagebreak />--}}
 
-@endforeach
+{{--@endforeach--}}
 
 
 
