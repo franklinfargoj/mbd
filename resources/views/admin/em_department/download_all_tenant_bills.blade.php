@@ -13,7 +13,7 @@
 {{--$mpdf = new \Mpdf\Mpdf();--}}
 {{--@endphp--}}
 
-@foreach($pdf_data as $bill_data)
+{{--@foreach($pdf_data as $bill_data)--}}
     @php
         $total_service = $bill_data['TransBillGenerate']->service_charges->water_charges + $bill_data['TransBillGenerate']->service_charges->electric_city_charge + $bill_data['TransBillGenerate']->service_charges->pump_man_and_repair_charges + $bill_data['TransBillGenerate']->service_charges->external_expender_charge + $bill_data['TransBillGenerate']->service_charges->administrative_charge +$bill_data['TransBillGenerate']->service_charges->property_tax+ $bill_data['TransBillGenerate']->service_charges->lease_rent + $bill_data['TransBillGenerate']->service_charges->na_assessment + $bill_data['TransBillGenerate']->service_charges->other;
         $total_after_due = $total_service * 0.015;
@@ -323,10 +323,10 @@
         </table>
     </div>
     {{--@php   $mpdf->AddPage();   @endphp--}}
-    <hr>
-    <pagebreak />
+    {{--<hr>--}}
+    {{--<pagebreak />--}}
 
 
-@endforeach
+{{--@endforeach--}}
 </body>
 </html>

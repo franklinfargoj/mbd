@@ -212,7 +212,7 @@
                                     <input type="submit" class="submit-button btn m-btn--pill m-btn--custom btn-primary mhada-btn-pill" name="download" value="Download" disabled>
                                     {{--                                    <a href="{{ url('generate_tenant_bill') }}" class="submit-button btn m-btn--pill m-btn--custom btn-primary mhada-btn-pill">Download Bills</a>--}}
 
-                                    <a href="{{ url('generate_tenant_bill.download') }}" class="btn btn-secondary mhada-btn-pill">Cancel</a>
+                                    <a href="{{ route('generate_tenant_bill.download') }}" class="btn btn-secondary mhada-btn-pill">Cancel</a>
                                 </div>
                             </div>
                         </div>
