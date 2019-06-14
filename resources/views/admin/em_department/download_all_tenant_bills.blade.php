@@ -222,7 +222,7 @@
                 <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
                     <thead>
                     <tr>
-                        <th valign="top" style=" padding: 10px 5px; width: 50%;background-color: #94b8c4;" colspan="4" >Balance amount to be paid - Arrears</th>
+                        <th valign="top" style=" padding: 5px; width: 50%;background-color: #94b8c4;" colspan="4" >Balance amount to be paid - Arrears</th>
                     </tr>
                     <tr>
                         <th valign="top" style="background-color:lightblue; padding: 5px; width: 25%;">Year</th>
@@ -256,7 +256,7 @@
             <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
                 <thead>
                 <tr>
-                    <th valign="top" style=" padding: 10px 5px; width: 50%;background-color: #94b8c4;" colspan="4" >Balance amount to be paid - Arrears</th>
+                    <th valign="top" style=" padding: 5px; width: 50%;background-color: #94b8c4;" colspan="4" >Balance amount to be paid - Arrears</th>
                 </tr>
                 <tr>
                     <th valign="top" style="background-color: lightblue; padding: 5px; width: 25%;">Year</th>
