@@ -7,9 +7,9 @@
             <div>
                 <p>
                     <p style="display: block;line-height: 0; margin-top: 5px; margin-bottom: 5px;">To</p>
-                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">Chief Officer,M.H. & A.D Board,</p>
-                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">Grihaniman Bhavan,Kalanagar,,</p>
-                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">Bandra (East),Mumbai - 400051,</p>
+                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">Resident Executive Engineer,</p>
+                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">M.H. & A.D Board, Grihaniman Bhavan</p>
+                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">Kalanagar, Bandra (East),Mumbai - 400051,</p>
                 </p>
             </div>
         </div>
@@ -42,7 +42,7 @@
                          <span style="width: 50px; border-bottom: 1px solid #000;">{{ isset($noc_application->request_form) ? $noc_application->request_form->offsite_infra_receipt : '' }} </span>
                            Dtd <span style="width: 50px; border-bottom: 1px solid #000;">{{ isset($noc_application->request_form) ? date('j F Y',strtotime($noc_application->request_form->offsite_infra_charges_receipt_date)) : '' }}</span>
                     </p>
-                    <p>Whereas, vide our letter under ref no .2 we have already submitted the Indemnity bond and Undertakings. Now, we are submitting here with the No Dues Certificate along with the payment receipts. Therefore, we here by request you to issue the NOC for IOD for full BUA i.e <span style="width: 50px; border-bottom: 1px solid #000;">{{$noc_application->request_form->full_bua}}</span> m2 and NOC for CC for Existing BUA <span style="width: 50px; border-bottom: 1px solid #000;">{{$noc_application->request_form->existing_bua}}</span></p>m2  + 25 % BUA <span style="width: 50px; border-bottom: 1px solid #000;">({{$noc_application->request_form->percent_bua}})</span> m2 i.e Total <span style="width: 50px; border-bottom: 1px solid #000;">{{$noc_application->request_form->total_bua}}</span>m2, for which we have made the payment to MHADA.</p>
+                    <p>Whereas, vide our letter under ref no .2 we have already submitted the Indemnity bond and Undertakings. Now, we are submitting here with the No Dues Certificate along with the payment receipts. Therefore, we here by request you to issue the NOC for IOD for full BUA i.e <span style="width: 50px; border-bottom: 1px solid #000;">{{$noc_application->request_form->full_bua}}</span> m2 and NOC for CC for Existing BUA <span style="width: 50px; border-bottom: 1px solid #000;">{{$noc_application->request_form->existing_bua}}</span></p>m2  + <span style="width: 50px; border-bottom: 1px solid #000;">{{$noc_application->request_form->selected_bua}}</span> % BUA <span style="width: 50px; border-bottom: 1px solid #000;">({{$noc_application->request_form->percent_bua}})</span> m2 i.e Total <span style="width: 50px; border-bottom: 1px solid #000;">{{$noc_application->request_form->total_bua}}</span>m2, for which we have made the payment to MHADA.</p>
                 @endif
 
                 <p>Hence we request you to grant us the No Objection Certificate at the earliest.</p>
