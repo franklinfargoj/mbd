@@ -35,9 +35,9 @@
                     <div class="letter-form-header-content">
                         <p>
                             <span class="d-block font-weight-semi-bold">To,</span>
-                            <span class="d-block">Chief Officer,M.H. & A.D Board</span>
-                            <span class="d-block">Grihaniman Bhavan,Kalanagar,</span>
-                            <span class="d-block">Bandra (East),Mumbai - 400051</span>
+                            <span class="d-block">Resident Executive Engineer,</span>
+                            <span class="d-block">M.H. & A.D Board, Grihaniman Bhavan,</span>
+                            <span class="d-block">Kalanagar, Bandra (East),Mumbai - 400051</span>
                         </p>
                     </div> 
                 </div>
@@ -56,7 +56,7 @@
                              <input class="letter-form-input" type="text" value="{{ isset($noc_applications->request_form) ? $noc_applications->request_form->offsite_infra_charges : '' }}" readonly> <b> ({{ $ntw->numToWord((($noc_applications->request_form) != '' && ($noc_applications->request_form->offsite_infra_charges) != '') ? $noc_applications->request_form->offsite_infra_charges : 0 ) }}) </b> being offsite infrastructure charges is deposited with Accounts Officer Building Permission MHADA vide receipt No . <input class="letter-form-input" type="text" value="{{ isset($noc_applications->request_form) ? $noc_applications->request_form->offsite_infra_receipt : '' }}" readonly>  Dtd <input class="letter-form-input" type="text" value="{{ isset($noc_applications->request_form) ? date('j F Y',strtotime($noc_applications->request_form->offsite_infra_charges_receipt_date)) : '' }}" readonly> .
                         </p>
                         <p>
-                            Whereas, vide our letter under ref no .2 we have already submitted the Indemnity bond and Undertakings. Now, we are submitting here with the No Dues Certificate along with the payment receipts. Therefore, we here by request you to issue the NOC for IOD for full BUA i.e <input class="letter-form-input" type="text" value="{{$noc_application->request_form->full_bua}}"> m2 and NOC for CC for Existing BUA <input class="letter-form-input" type="text" value="{{$noc_application->request_form->existing_bua}}"> m2  + 25 % BUA <input class="letter-form-input" type="text" value="{{$noc_application->request_form->percent_bua}}">m2 i.e Total <input class="letter-form-input" type="text" value="{{$noc_application->request_form->total_bua}}">m2, for which we have made the payment to MHADA.
+                            Whereas, vide our letter under ref no .2 we have already submitted the Indemnity bond and Undertakings. Now, we are submitting here with the No Dues Certificate along with the payment receipts. Therefore, we here by request you to issue the NOC for IOD for full BUA i.e <input class="letter-form-input" type="text" value="{{$noc_application->request_form->full_bua}}"> m2 and NOC for CC for Existing BUA <input class="letter-form-input" type="text" value="{{$noc_application->request_form->existing_bua}}"> m2  + <input class="letter-form-input" type="text" value="{{$noc_application->request_form->selected_bua}}"> % BUA <input class="letter-form-input" type="text" value="{{$noc_application->request_form->percent_bua}}">m2 i.e Total <input class="letter-form-input" type="text" value="{{$noc_application->request_form->total_bua}}">m2, for which we have made the payment to MHADA.
                         </p>
                         @elseif(isset($noc_applications->model) && $noc_applications->model == 'Sharing')
                         <p>

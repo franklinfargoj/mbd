@@ -928,6 +928,13 @@ class EMController extends Controller
                  $data = $request->all();
                  $result = $this->downloadTenantBills($data);
                     if(!$result){
+//                        return view('admin.em_department.generate_bill_tenent_level_download',
+//                            compact('building_list','ward_list','colony_list','society_list','building_data',
+//                                'building_name','buildingId','layoutId','wardId','colonyId','layout_data',
+//                                'wards_data','colonies_data','societies_data','tenament','html', 'building_id',
+//                                'society_id'))->with('warning', 'No Billing Data is Available.');
+
+
                         return redirect()->back()->with('warning', 'No Billing Data is Available.');
 
                     }
@@ -1133,13 +1140,27 @@ class EMController extends Controller
                 }
             }
 
+//            $fileName = 'tenants_bill.pdf';
+//
+//            $mpdf = new Mpdf();
+//            $mpdf->autoScriptToLang = true;
+//            $mpdf->autoLangToFont = true;
+//            $contents = view('admin.em_department.download_all_tenant_bills', compact('pdf_data'));
+//            $mpdf->WriteHTML($contents);
+//            $mpdf->Output($fileName,'D');
+
             $fileName = 'tenants_bill.pdf';
 
             $mpdf = new Mpdf();
             $mpdf->autoScriptToLang = true;
             $mpdf->autoLangToFont = true;
-            $contents = view('admin.em_department.download_all_tenant_bills', compact('pdf_data'));
-            $mpdf->WriteHTML($contents);
+
+            foreach ($pdf_data as $key => $bill_data) {
+                $contents = view('admin.em_department.download_all_tenant_bills', compact('bill_data'));
+                $mpdf->WriteHTML($contents);
+                $mpdf->WriteHTML('<pagebreak>');
+            }
+
             $mpdf->Output($fileName,'D');
 
         }else{
@@ -1268,13 +1289,27 @@ class EMController extends Controller
 
             }
 
+//            $fileName = 'building_bills.pdf';
+//
+//            $mpdf = new Mpdf();
+//            $mpdf->autoScriptToLang = true;
+//            $mpdf->autoLangToFont = true;
+//            $contents = view('admin.em_department.download_all_building_bills', compact('pdf_data'));
+//            $mpdf->WriteHTML($contents);
+//            $mpdf->Output($fileName,'D');
+
             $fileName = 'building_bills.pdf';
 
             $mpdf = new Mpdf();
             $mpdf->autoScriptToLang = true;
             $mpdf->autoLangToFont = true;
-            $contents = view('admin.em_department.download_all_building_bills', compact('pdf_data'));
-            $mpdf->WriteHTML($contents);
+
+            foreach ($pdf_data as $key => $bill_data) {
+                $contents = view('admin.em_department.download_all_building_bills', compact('bill_data'));
+                $mpdf->WriteHTML($contents);
+                $mpdf->WriteHTML('<pagebreak>');
+            }
+
             $mpdf->Output($fileName,'D');
 
         }else{

@@ -123,6 +123,7 @@ class SocietyNocController extends Controller
             'existing_bua' => $request->input('existing_bua'),
             'percent_bua' => $request->input('percent_bua'),
             'total_bua' => $request->input('total_bua'),
+            'selected_bua' => $request->input('selected_bua'),
 
             'created_at' => date('Y-m-d H-i-s'),
             'updated_at' => null
@@ -800,8 +801,8 @@ class SocietyNocController extends Controller
             $phase = $application['noc_application_status'][0]['phase'];
 
             if($phase == 0){
-
                 $pending_url_status = config('commanConfig.applicationStatus.in_process');
+                
                 switch ( $status )
                 {
                     case config('commanConfig.applicationStatus.in_process'): $total_pending_application_with_me += 1; break;
@@ -826,7 +827,7 @@ class SocietyNocController extends Controller
                 {
                     case config('commanConfig.applicationStatus.NOC_Generation'): $total_pending_application_with_me += 1; break;
                     case (config('commanConfig.applicationStatus.forwarded')):
-                        if(config('commanConfig.applicationStatus.NOC_Generation') && ($application->final_draft_noc_path != null))
+                        if(config('commanConfig.applicationStatus.NOC_Generation') && ($application['final_draft_noc_path'] != null))
                         {
                             $proposal_sent_for_approval_to_co++;
                         }

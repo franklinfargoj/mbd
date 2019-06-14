@@ -259,7 +259,7 @@
 
                                          <td>1</td>
                                          <td><p>Plot Area as per demarcation </p>
-                                             <p> i) Area as per Lead Deed <input type="text" id="lease_deed_area" name="area[lease_deed_area]" class="number plot_area form-control--custom text-box" value="{{ isset($data) ? $data->lease_deed_area : '' }}" {{$disabled}}></p>
+                                             <p> i) Area as per Lease Deed <input type="text" id="lease_deed_area" name="area[lease_deed_area]" class="number plot_area form-control--custom text-box" value="{{ isset($data) ? $data->lease_deed_area : '' }}" {{$disabled}}></p>
                                              <p> ii) Additional land <input type="text" id="land_area" 
                                              name="area[land_area]" class="plot_area number form-control--custom text-box" value="{{ isset($data) ? $data->land_area : '' }}" {{$disabled}}></p>
                                          </td>
@@ -267,37 +267,37 @@
                                       </tr>
                                       <tr>
                                          <td>2</td>
-                                         <td>Build up Area permissible <input type="text" id="plot_area1" class="form-control--custom text-box" readonly value="{{ isset($data) ? $data->plot_area : '' }}"> * <input type="text" name="area[fsi]" class="number form-control--custom text-box" id="fsi" value="{{ isset($data) ? $data->fsi : '' }}" {{$disabled}}> FSI</td>
+                                         <td>Built up Area permissible <input type="text" id="plot_area1" class="form-control--custom text-box" readonly value="{{ isset($data) ? $data->plot_area : '' }}"> * <input type="text" name="area[fsi]" class="number form-control--custom text-box" id="fsi" value="{{ isset($data) ? $data->fsi : '' }}" {{$disabled}}> FSI</td>
                                          <td><input type="text" name="area[buildup_area]" class="form-control--custom text-box" id="buildup_area" value="{{ isset($data) ? $data->buildup_area : '' }}" readonly></td>
                                       </tr>
                                       <tr>
                                          <td>3</td>
                                          <td>
-                                            <p> i)No of tenement <input type="text" id="tenement_no" 
+                                            <p> i)Prorata per tenement <input type="text" id="tenement_no" 
                                             name="area[tenement_no]" class="tenement_area form-control--custom text-box number" value="{{ isset($data) ? $data->tenement_no : '' }}" {{$disabled}}></p>
-                                            <p> i)Area as per tenement <input type="text" id="tenement_area" name="area[tenement_area]" class="tenement_area form-control--custom text-box number" value="{{ isset($data) ? $data->tenement_area : '' }}" {{$disabled}}></p>
+                                            <p> ii)Area as per tenement <input type="text" id="tenement_area" name="area[tenement_area]" class="tenement_area form-control--custom text-box number" value="{{ isset($data) ? $data->tenement_area : '' }}" {{$disabled}}></p>
                                          </td>
                                          <td><input type="text" name="area[total_tenement_area]" id="total_tenement_area" value="{{ isset($data) ? $data->total_tenement_area : '' }}" class="form-control--custom text-box" readonly></td>
                                       </tr>
                                       <tr>
                                          <td>4</td>
-                                         <td>From discretionary 10% quota of HOD, VP/A from balance built up area of layout</td>
+                                         <td>From discretionary 10% quota of HON, VP/A from balance built up area of layout</td>
                                          <td><input type="text" class="form-control--custom text-box number" name="area[balance_buildup_area]" id="balance_buildup_area" value="{{ isset($data) ? $data->balance_buildup_area : '' }}" onkeyup="calculateTotalBUA()" {{$disabled}}> </td>
                                       </tr>
                                       <tr>
                                          <td>5</td>
-                                         <td>Total BUA permissable (sr 2+3+4)</td>
+                                         <td>Total BUA permissible (sr 2+3+4)</td>
                                          <td><input type="text" name="area[total_permissable_bua]" id="total_permissable_bua" class="form-control--custom text-box number" readonly value="{{ isset($data) ? $data->total_permissable_bua : '' }}"></td>
                                       </tr>
                                       <tr>
                                          <td>6</td>
-                                         <td> Total build up area permitted for obtaining I.O.D /I.O.A</td>
+                                         <td><b> Total built up area permitted for obtaining I.O.D /I.O.A </b></td>
                                          <td><input type="text" name="area[total_buildup_area]" class="form-control--custom text-box number" value="{{ isset($data) ? $data->total_buildup_area : '' }}" {{$disabled}}> </td>
                                       </tr>
                                       <tr>
                                          <td>7</td>
                                          <td>
-                                             <p>i) Existing build up area <input type="text" 
+                                             <p>i) Existing built up area <input type="text" 
                                              name="area[existing_buildup_area]" id="existing_buildup_area" class="noc_area form-control--custom text-box number" value="{{ isset($data) ? $data->existing_buildup_area : '' }}" {{$disabled}}>
                                              </p>
                                              <p>ii)BUA already allotted vide as lease,

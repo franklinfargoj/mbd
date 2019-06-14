@@ -21,6 +21,6 @@ class NocRequestForm extends Model
         'water_charges_amount',
         'water_charges_receipt_number',
         'water_charges_date',
-        'full_bua','existing_bua','percent_bua','total_bua'
+        'full_bua','existing_bua','percent_bua','total_bua','selected_bua'
     ];
 }
