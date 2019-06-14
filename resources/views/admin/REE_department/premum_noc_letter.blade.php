@@ -111,7 +111,7 @@
                                     </td>
                                     <td style="width: 670px;">
                                         <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            The work of redevelopment should be carried out as per plans submitted to this office along with detailed proposal, as per prior approval of EE,BP Cell, Greater Mumbai / MHADA.
+                                            The work of redevelopment should be carried out as per plans submitted to this office along with detailed proposal, as per prior approval of EE, BP Cell, Greater Mumbai / MHADA.
                                         </p>
                                     </td>
                                 </tr>
@@ -124,7 +124,7 @@
                                     </td>
                                     <td>
                                         <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                            Necessary Approvals to the plans from EE,BP Cell, Greater Mumbai / MHADA should be obtained before starting of work.
+                                            Necessary Approvals to the plans from EE, BP Cell, Greater Mumbai / MHADA should be obtained before starting of work.
                                         </p>
                                     </td>
                                 </tr>
@@ -184,28 +184,28 @@
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">1.</td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">
                                     <p>Plot area as per demarcation</p>
-                                    <p>i. Area as per Lease Deed <b> {{ isset($data) ? $data->lease_deed_area  : '' }} m<sup>2</sup> </b></p>
-                                    <p>ii. Additional Land <b> {{ isset($data) ? $data->land_area  : '' }} m<sup>2</sup> </b></p>
+                                    <p>i. Area as per Lease Deed <b> {{ isset($data) ? round($data->lease_deed_area,2)  : '' }} m<sup>2</sup> </b></p>
+                                    <p>ii. Additional Land <b> {{ isset($data) ? round($data->land_area,2)  : '' }} m<sup>2</sup> </b></p>
                                 </td>
                                 <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">
-                                <b> {{ isset($data) ? $data->plot_area  : '' }} </b></td>
+                                <b> {{ isset($data) ? round($data->plot_area,2)  : '' }} </b></td>
                             </tr>
                             <tr>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">2.</td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">
-                                    <p>Built up Area permissible  <b> {{ isset($data) ? $data->plot_area  : '' }} m<sup>2</sup> </b> * <b> {{ isset($data) ? $data->fsi  : '' }} FSI </b></p>
+                                    <p>Built up Area permissible  <b> {{ isset($data) ? round($data->plot_area,2)  : '' }} m<sup>2</sup> </b> * <b> {{ isset($data) ? $data->fsi  : '' }} FSI </b></p>
                                 </td>
                                 <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">
-                                <b> {{ isset($data) ? $data->buildup_area  : '' }} </b></span></td>
+                                <b> {{ isset($data) ? round($data->buildup_area,2)  : '' }} </b></span></td>
                             </tr>
                             <tr>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">3.</td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">
-                                    <p>i)No of tenement <b> {{ isset($data) ? $data->tenement_no  : '' }} </b></p>
-                                    <p>iI)Area as per tenement <b> {{ isset($data) ? $data->tenement_area  : '' }} m<sup>2</sup></b></p>
+                                    <p>i)Prorata per tenement <b> {{ isset($data) ? round($data->tenement_no,2)  : '' }} </b></p>
+                                    <p>ii)Area as per tenement <b> {{ isset($data) ? round($data->tenement_area,2)  : '' }} m<sup>2</sup></b></p>
                                 </td>
                                 <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">
-                                <b> {{ isset($data) ? $data->total_tenement_area  : '' }} </b></span></td>
+                                <b> {{ isset($data) ? round($data->total_tenement_area,2)  : '' }} </b></span></td>
                             </tr>
                             <tr>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">4.</td>
@@ -213,21 +213,25 @@
                                     <p>From discretionary 10% quota of HOD, VP/A from balance built up area of layout</p>
                                 </td>
                                 <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">
-                                {{ isset($data) ? $data->balance_buildup_area  : '' }}</td>
+                                {{ isset($data) ? round($data->balance_buildup_area,2)  : '' }}</td>
                             </tr>
                             <tr>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">5.</td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">
                                     <p>Total BUA permissable (sr 2+3+4)</p>
                                 </td>
-                                <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">{{ isset($data) ? $data->total_permissable_bua  : '' }}</span></td>
+                                <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">{{ isset($data) ? round($data->total_permissable_bua,2)  : '' }}</span></td>
                             </tr>
                             <tr>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">6.</td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">
-                                    <p>Total build up area permitted for obtaining I.O.D /I.O.A</p>
+                                    <p><b>Total build up area permitted for obtaining I.O.D /I.O.A</b></p>
+
+                                    <p> i) {{ isset($data) ? round($data->residential_use,2) : '' }} sq.mt for residential use</p>
+
+                                       <p> ii) round({{ isset($data) ? round($data->commercial_use,2) : '' }} sq.mt for commercial use</p>
                                 </td>
-                                <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">{{ isset($data) ? $data->total_buildup_area  : '' }}</span></td>
+                                <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">{{ isset($data) ? round($data->total_buildup_area,2) : '' }}</span></td>
                             </tr>
                             <tr>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">7.</td>
@@ -265,7 +269,7 @@
                             </td>
                             <td >
                                 <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                    The work should be carried out within the land underneath &amp; appurtenant to the society / society's building or plot leased by the Board / as per approved subdivision.
+                                    The work should be carried out within the land underneath & appurtenant to the society / society's building or plot leased by the Board / as per approved subdivision.
                                 </p>
                             </td>
                         </tr>
@@ -304,7 +308,7 @@
                             </td>
                             <td >
                                 <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                    Barbed wire fencing/ chain link Compound wall along boundary line is permitted after getting demarcation fixed from the Executive Engineer Kurla  Division, Mumbai Board.
+                                    Barbed wire fencing/ chain link Compound wall along boundary line is permitted after getting demarcation fixed from the Executive Engineer Kurla  Division, Mumbai Board
                                 </p>
                             </td>
                         </tr>
@@ -317,7 +321,7 @@
                             </td>
                             <td >
                                 <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                    The Society shall have to construct and maintain separate underground water tank, pump house and overhead water tank to meet requirement of the proposed and existing development and obtain separate water meter &amp; water connection.
+                                    The Society shall have to construct and maintain separate underground water tank, pump house and overhead water tank to meet requirement of the proposed and existing development and obtain separate water meter & water connection.
                                 </p>
                             </td>
                         </tr>
@@ -369,7 +373,7 @@
                             </td>
                             <td >
                                 <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                    All the terms and conditions mentioned in earlier Offer letter, NOC letter &amp; the accompanying list (Annexure-I ) appended to this letter will be applicable to the society.
+                                    All the terms and conditions mentioned in earlier Offer letter, NOC letters will be applicable to the society.
                                 </p>
                             </td>
                         </tr>
@@ -434,7 +438,7 @@
                             </td>
                             <td >
                                 <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                    The reconstruction of new building for the rehabilitation of old occupiers shall be completed within a period of 30 months from the date of issue of this NOC. In case NOC holder fails to do so, extension to the above time limit may be granted depending on the merits of the case and on payment of an extension fee as may be decided by the office from time to time.
+                                    The reconstruction of new building for the rehabilitation of old occupiers shall be completed within a period of 30 months from the date of issue of this NOC.  In case NOC holder fails to do so, extension to the above time limit may be granted depending on the merits of the case and on payment of an extension fee as may be decided by the office from time to time.
                                 </p>
                             </td>
                         </tr>
@@ -447,7 +451,7 @@
                             </td>
                             <td >
                                 <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                    The road widening that may be proposed in the revised layout will be binding on the society &amp; the society should handover the affected area of road widening to the MCGM at their own cost.
+                                    The road widening that may be proposed in the revised layout will be binding on the society & the society should handover the affected area of road widening to the MCGM at their own cost.
                                 </p>
                             </td>
                         </tr>
@@ -460,7 +464,7 @@
                             </td>
                             <td >
                                 <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                    All terms &amp; conditions of lease deed and sale deed are binding on the society.
+                                    All terms & conditions of lease deed and sale deed are binding on the society.
                                 </p>
                             </td>
                         </tr>
@@ -473,7 +477,7 @@
                             </td>
                             <td >
                                 <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                    After issue of NOC, during course of demolition of old buildings &amp; during course of redevelopment work if any mishap / collapse occur, the entire responsibility of the same will lie with NOC holder. However all the necessary precautionary measures shall be taken to avoid mishap / collapse and the work of demolition &amp; redevelopment shall be carried out under strict supervision of Architect and R.C.C. Consultant.
+                                    After issue of NOC, during course of demolition of old buildings & during course of redevelopment work if any mishap / collapse occur, the entire responsibility of the same will lie with NOC holder.  However all the necessary precautionary measures shall be taken to avoid mishap / collapse and the work of demolition & redevelopment shall be carried out under strict supervision of Architect and R.C.C. Consultant.
                                 </p>
                             </td>
                         </tr>
@@ -498,7 +502,7 @@
                             </td>
                             <td >
                                 <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                    Copy of approved plan along-with copy of IOD &amp; C.C. from EE,BP Cell, Greater Mumbai / MHADA. The name of the occupiers against concerned tenements proposed to be allotted in new building should be clearly shown in the plan along-with carpet area to be given. Matching statement i.e. Name of occupant, Room No., existing area and proposed allotted area.
+                                    Copy of approved plan along-with copy of IOD & C.C. from EE,BP Cell, Greater Mumbai / MHADA. The name of the occupiers against concerned tenements proposed to be allotted in new building should be clearly shown in the plan along-with carpet area to be given.  Matching statement i.e. Name of occupant, Room No., existing area and proposed allotted area.
                                 </p>
                             </td>
                         </tr>
@@ -510,7 +514,7 @@
                             </td>
                             <td >
                                 <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                    The concerned Architect &amp; NOC Holder / Developer should give certificate that the newly constructed building is in accordance with the plans approved by EE,BP Cell, Greater Mumbai / MHADA &amp; the tenements constructed for rehabilitation of the occupiers of building are as per the areas and amenities as prescribed in the agreement executed with the occupiers.
+                                    The concerned Architect & NOC Holder / Developer should give certificate that the newly constructed building is in accordance with the plans approved by EE,BP Cell, Greater Mumbai / MHADA & the tenements constructed for rehabilitation of the occupiers of building are as per the areas and amenities as prescribed in the agreement executed with the occupiers.
                                 </p>
                             </td>
                         </tr>
@@ -535,7 +539,7 @@
                             </td>
                             <td >
                                 <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                    If it is subsequently found that the documents / information submitted with your application for NOC are incorrect or forged, mis-leading then this NOC will be cancelled and NOC holder will be held responsible for the consequences / losses, if any thereof if arises in future.
+                                    If it is subsequently found that the documents / information submitted with your application for NOC are incorrect or forged,  mis-leading then this NOC will be cancelled and NOC holder will be held responsible for the consequences / losses, if any thereof if arises in future.
                                 </p>
                             </td>
                         </tr>
@@ -548,7 +552,7 @@
                             </td>
                             <td >
                                 <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                    Necessary trial pits / trial bores shall be taken at the captioned property to ascertain the bearing capacity of the soil and foundation shall be designed accordingly. R.C.C. design of the new proposed building shall be prepared taking into account the aspect of Mumbai Seismic Zone and same should be got approved from R.C.C. Consultant / Structural Engineer, registered with MCGM.
+                                    Necessary trial pits / trial bores shall be taken at the captioned property to ascertain the bearing capacity of the soil and foundation shall be designed accordingly.  R.C.C. design of the new proposed building shall be prepared taking into account the aspect of Mumbai Seismic Zone and same should be got approved from R.C.C. Consultant / Structural Engineer, registered with MCGM.
                                 </p>
                             </td>
                         </tr>
@@ -561,7 +565,7 @@
                             </td>
                             <td >
                                 <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                    MHADA reserve its right to withdraw, change, alter, amend their offer letter and conditions mentioned therein in future at any point of time without giving any reason to do so.
+                                    By this letter you are requested not to issue Occupation Certificate unless consent letter duly signed by Chief Officer / Mumbai Board is obtained and submitted to your Department by the applicant.
                                 </p>
                             </td>
                         </tr>
@@ -574,7 +578,7 @@
                             </td>
                             <td >
                                 <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                    On approval to revised layout plan by EE,BP Cell, Greater Mumbai / MHADA, all terms &amp; conditions laid down therein shall be binding on the society.
+                                    After approval of layout with 3.00 FSI from Architect Layout Cell, Greater Mumbai / MHADA society will be entitled to additional Pro-rata share of FSI as per approved layout. Further society's allotted Pro-rata share as  per this NOC will be adjusted against it's allotted pro-rata share as an when layout is approved by the Architect Layout Cell, Greater Mumbai / MHADA with 3.00 FSI.
                                 </p>
                             </td>
                         </tr>
@@ -587,13 +591,26 @@
                             </td>
                             <td >
                                 <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                    By this letter you are requested not to issue Occupation Certificate unless consent letter duly signed by Chief Officer / Mumbai Board is obtained and submitted to your Department by the applicant.
+                                    Allotment of the layout pro-rata B.U.A. in this case will not create any imbalance of F.S.I. / B.U.A. in the layout though the same is not yet approved as per FSI 3.00 as per D.C.R. 33(5) dated 08/10/2013 Government notification.
                                 </p>
                             </td>
                         </tr>
                         <tr valign="top">
                             <td >
                                 <ol start="30">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    All the dues should be cleared by Society before issue of Occupation Certificate.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td >
+                                <ol start="31">
                                     <li>
                                     </li>
                                 </ol>
@@ -607,19 +624,6 @@
                         </tr>
                         <tr valign="top">
                             <td>
-                                <ol start="31">
-                                    <li>
-                                    </li>
-                                </ol>
-                            </td>
-                            <td >
-                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                    After approval of layout with 3.00 FSI from Architect Layout Cell, Greater Mumbai / MHADA society will be entitled to additional Pro-rata share of FSI as per approved layout. Further society's allotted Pro-rata share as per this NOC will be adjusted against it's allotted pro-rata share as an when layout is approved by the Architect Layout Cell, Greater Mumbai / MHADA with 3.00 FSI.
-                                </p>
-                            </td>
-                        </tr>
-                        <tr valign="top">
-                            <td>
                                 <ol start="32">
                                     <li>
                                     </li>
@@ -627,7 +631,7 @@
                             </td>
                             <td >
                                 <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                    Allotment of the layout pro-rata B.U.A. in this case will not create any imbalance of F.S.I. / B.U.A. in the layout though the same is not yet approved as per FSI 3.00 as per D.C.R. 33(5) dated 08/10/2013 Government notification.
+                                    All the terms and conditions mentioned in the Layout which was processed to E.E./BP Cell / MHADA shall be applicable to the society.
                                 </p>
                             </td>
                         </tr>
@@ -640,7 +644,7 @@
                             </td>
                             <td >
                                 <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                    Society has to ensure that Contractors / Sub-Contractors appointed by the society or Developer of the Society, who are in charge of construction work; shall be registered with MBOCWW Board &amp; are required to fulfill the obligations as contemplated in Building and other construction workers (Regulation of Employment and condition of service) Act,1996. And further these Contractors / Sub-Contractors are required to fulfill all the conditions stipulated in the above Act, for the benefits of workers.
+                                    The set of plans approved by E.E./BP Cell / MHADA duly certified by the Architect should be submitted to this office before commencement of work.
                                 </p>
                             </td>
                         </tr>
@@ -653,12 +657,167 @@
                             </td>
                             <td >
                                 <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                                    All the dues should be cleared by Society before issue of Occupation Certificate.
+                                    The society will have to submit stability of the existing structure / proposed work through Registered Licensed Structural Engineer by E.E./BP Cell / MHADA
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td>
+                                <ol start="35">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The society will have to obtain separate P. R. card as per the approved sub division / plot leased out by the board duly signed by S. L. R. before asking for Occupation Permission from E.E./BP Cell / MHADA.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td>
+                                <ol start="36">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The society will have to obtain approval for amended plans as and when the Society amends the plans.
+                                </p>
+                            </td>
+                        </tr><tr valign="top">
+                            <td>
+                                <ol start="37">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The society should submit undertaking on Rs. 250/- Stamp paper for not having any objection if the newly developable plots are either developed by the Board or by the allotted of the Board in Kannamwar Nagar, Vikhroli layout.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td>
+                                <ol start="38">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The Society will have to hand over the set back area free of cost to MCGM & proof of the same will have to be submitted to this office. The society will have to inform about form encroachment to E.E./BP Cell / MHADA at their own cost and M.H.A.D. Board shall not be held responsible
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td>
+                                <ol start="39">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The pro-rata charges towards construction of D. P. as implemented by MCGM will be paid from the premium received from the society for the purchase of additional BUA for which receipts shall be submitted by the society from E.E./BP Cell / MHADA in favor of Chief Accounts Officer / MHAD Board.
+                                </p>
+                            </td>
+                        </tr><tr valign="top">
+                            <td>
+                                <ol start="39">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The pro-rata charges towards construction of D. P. as implemented by MCGM will be paid from the premium received from the society for the purchase of additional BUA for which receipts shall be submitted by the society from E.E./BP Cell / MHADA in favor of Chief Accounts Officer / MHAD Board.
+                                </p>
+                            </td>
+                        </tr><tr valign="top">
+                            <td>
+                                <ol start="39">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The pro-rata charges towards construction of D. P. as implemented by MCGM will be paid from the premium received from the society for the purchase of additional BUA for which receipts shall be submitted by the society from E.E./BP Cell / MHADA in favor of Chief Accounts Officer / MHAD Board.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td>
+                                <ol start="40">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The Society will have to submit Undertaking on Rs. 250/- stamp paper agreeing to pay the difference in premium if any as and when MHADA reviews the policy for allotment of F.S.I. / T.D.R. (Form V).
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td>
+                                <ol start="41">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    Before issuing the NOC for Occupation Tanker Water or Extra Water charges payment clearance should be produced by the Society
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td>
+                                <ol start="42">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The redevelopment Proposal should be approved adhering to the Development Plan reservation, Building regulations and any other rules applicable to Building construction by the Building Proposal Dept. in Planning Authority, MHADA.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td>
+                                <ol start="43">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The charges as may be levied by MCGM, from time to time (apart from FSI charges), for e.g. Pro-rata charges for Roads, shall be paid by the society to MCGM directly, on demand from MCGM.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td>
+                                <ol start="44">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The society shall indemnify MHADA against any legal action regarding payment of stamp duty for a) Transfer of built tenements to beneficiaries and b) Purchase of balance FSI /T. D. R. etc. as may be required under provisions of Stamp Duty Act.
                                 </p>
                             </td>
                         </tr>              
                         </tbody>
                     </table>
+
+
                 </center>
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
                         It is, therefore, directed that the proposed work should be carried out strictly adhering to the terms and conditions as mentioned above. In case of any breach to above condition &amp; other terms and conditions annexed herewith, the NOC will stand cancelled.
