@@ -36,7 +36,7 @@
                         <div class="col-sm-4">
                             <div class="form-group m-form__group">
                                 <label class="col-form-label">Select Layout</label>
-                                <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout" required>
+                                <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout" required>
                                     <option value="" style="font-weight: normal;">Select Layout</option>
                                     @foreach($layout_data as $key => $value)
                                         @if($layoutId == $value->id)

@@ -35,7 +35,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-4">
                         <div class="form-group m-form__group">
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
+                            <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                 id="layout" name="layout" required>
                                 <option value="" style="font-weight: normal;">Select Layout</option>
                                 @foreach($layout_data as $key => $value)
