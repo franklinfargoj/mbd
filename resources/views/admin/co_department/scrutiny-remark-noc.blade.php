@@ -258,31 +258,31 @@
                                       <tr>
 
                                          <td>1</td>
-                                         <td><p>Plot Area as per demarcation </p>
-                                             <p> i) Area as per Lease Deed <input type="text" id="lease_deed_area" name="area[lease_deed_area]" class="number plot_area form-control--custom text-box" value="{{ isset($data) ? $data->lease_deed_area : '' }}" {{$disabled}}></p>
+                                         <td ><p>Plot Area as per demarcation </p>
+                                             <p> i) Area as per Lease Deed <input type="text" id="lease_deed_area" name="area[lease_deed_area]" class="number plot_area form-control--custom text-box" value="{{ isset($data) ? $data->lease_deed_area : '' }}" readonly></p>
                                              <p> ii) Additional land <input type="text" id="land_area" 
-                                             name="area[land_area]" class="plot_area number form-control--custom text-box" value="{{ isset($data) ? $data->land_area : '' }}" {{$disabled}}></p>
+                                             name="area[land_area]" class="plot_area number form-control--custom text-box" value="{{ isset($data) ? $data->land_area : '' }}" readonly></p>
                                          </td>
                                          <td><input type="text" id="plot_area" name="area[plot_area]" value="{{ isset($data) ? $data->plot_area : '' }}" class="form-control--custom text-box number" readonly></td>
                                       </tr>
                                       <tr>
                                          <td>2</td>
-                                         <td>Built up Area permissible <input type="text" id="plot_area1" class="form-control--custom text-box" readonly value="{{ isset($data) ? $data->plot_area : '' }}"> * <input type="text" name="area[fsi]" class="number form-control--custom text-box" id="fsi" value="{{ isset($data) ? $data->fsi : '' }}" {{$disabled}}> FSI</td>
+                                         <td>Built up Area permissible <input type="text" id="plot_area1" class="form-control--custom text-box" readonly value="{{ isset($data) ? $data->plot_area : '' }}"> * <input type="text" name="area[fsi]" class="number form-control--custom text-box" id="fsi" value="{{ isset($data) ? $data->fsi : '' }}" readonly> FSI</td>
                                          <td><input type="text" name="area[buildup_area]" class="form-control--custom text-box" id="buildup_area" value="{{ isset($data) ? $data->buildup_area : '' }}" readonly></td>
                                       </tr>
                                       <tr>
                                          <td>3</td>
                                          <td>
                                             <p> i)Prorata per tenement <input type="text" id="tenement_no" 
-                                            name="area[tenement_no]" class="tenement_area form-control--custom text-box number" value="{{ isset($data) ? $data->tenement_no : '' }}" {{$disabled}}></p>
-                                            <p> ii)Area as per tenement <input type="text" id="tenement_area" name="area[tenement_area]" class="tenement_area form-control--custom text-box number" value="{{ isset($data) ? $data->tenement_area : '' }}" {{$disabled}}></p>
+                                            name="area[tenement_no]" class="tenement_area form-control--custom text-box number" value="{{ isset($data) ? $data->tenement_no : '' }}" readonly></p>
+                                            <p> ii)Area as per tenement <input type="text" id="tenement_area" name="area[tenement_area]" class="tenement_area form-control--custom text-box number" value="{{ isset($data) ? $data->tenement_area : '' }}" readonly></p>
                                          </td>
                                          <td><input type="text" name="area[total_tenement_area]" id="total_tenement_area" value="{{ isset($data) ? $data->total_tenement_area : '' }}" class="form-control--custom text-box" readonly></td>
                                       </tr>
                                       <tr>
                                          <td>4</td>
                                          <td>From discretionary 10% quota of HON, VP/A from balance built up area of layout</td>
-                                         <td><input type="text" class="form-control--custom text-box number" name="area[balance_buildup_area]" id="balance_buildup_area" value="{{ isset($data) ? $data->balance_buildup_area : '' }}" onkeyup="calculateTotalBUA()" {{$disabled}}> </td>
+                                         <td><input type="text" class="form-control--custom text-box number" name="area[balance_buildup_area]" id="balance_buildup_area" value="{{ isset($data) ? $data->balance_buildup_area : '' }}" onkeyup="calculateTotalBUA()" readonly> </td>
                                       </tr>
                                       <tr>
                                          <td>5</td>
@@ -292,12 +292,28 @@
                                       <tr>
                                          <td>6</td>
                                          <td><b> Total built up area permitted for obtaining I.O.D /I.O.A </b></td>
-                                         <td><input type="text" name="area[total_buildup_area]" class="form-control--custom text-box number" value="{{ isset($data) ? $data->total_buildup_area : '' }}" {{$disabled}}> </td>
+                                         <td><input type="text" name="area[total_buildup_area]" class="form-control--custom text-box number" value="{{ isset($data) ? $data->total_buildup_area : '' }}" readonly> </td>
                                       </tr>
                                       <tr>
                                          <td>7</td>
-                                         <td>
-                                             <p>i) Existing built up area <input type="text" 
+                                         <td style="line-height: 3.5;">
+                                          <input type="text" id="" class="form-control--custom text-box float total_existing" readonly value="{{ isset($data) ? $data->total_existing_permitted_area : '' }}" > m<sup>2</sup> 
+                                                [i.e <input type="text" id="existing_residential_use" name="area[existing_residential_use]" class="form-control--custom text-box float noc_area" value="{{ isset($data) ? $data->existing_residential_use : '' }}" readonly> m<sup>2</sup> for residential use + 
+
+                                                <input type="text" id="existing_commercial_use" name="area[existing_commercial_use]" class="form-control--custom text-box float" value="{{ isset($data) ? $data->existing_commercial_use : '' }}" {{$disabled}}> m<sup>2</sup> for commercial use) permited through this NOC. (Proportinate to the first installment paid by the society as per other letter under reference no. 1) and 
+
+                                                <input type="text" 
+                                                name="area[existing_buildup_area]" id="existing_buildup_area" class="noc_area form-control--custom text-box float" value="{{ isset($data) ? $data->existing_buildup_area : '' }}" readonly> m<sup>2</sup> 
+
+                                                (i.e <input type="text" id="existing_bua" name="area[existing_bua]" class="form-control--custom text-box float" value="{{ isset($data) ? $data->existing_bua : '' }}" readonly> m<sup>2</sup> existing BUA + 
+
+                                                <input type="text" id="additional_area" name="area[additional_area]" class="form-control--custom text-box float noc_area" value="{{ isset($data) ? $data->additional_area : '' }}" readonly> m<sup>2</sup> 
+
+                                                additional BUA ( <input type="text" id="additional_residential_bua" name="area[additional_residential_bua]" class="form-control--custom text-box float" value="{{ isset($data) ? $data->additional_residential_bua : '' }}" readonly> m<sup>2</sup> for residential use +
+
+                                                <input type="text" id="additional_commercial_bua" name="area[additional_commercial_bua]" class="form-control--custom text-box float" value="{{ isset($data) ? $data->additional_commercial_bua : '' }}" readonly> m<sup>2</sup> for commercial use))]
+                                             
+                                             <!-- <p>i) Existing built up area <input type="text" 
                                              name="area[existing_buildup_area]" id="existing_buildup_area" class="noc_area form-control--custom text-box number" value="{{ isset($data) ? $data->existing_buildup_area : '' }}" {{$disabled}}>
                                              </p>
                                              <p>ii)BUA already allotted vide as lease,
@@ -308,7 +324,7 @@
                                                 </div> 
                                                  if any <input type="text" name="area[noc_vide_lease]" id="noc_vide_lease" class="noc_area form-control--custom text-box number" value="{{ isset($data) ? $data->noc_vide_lease : '' }}" {{$disabled}}></p>
 
-                                             <p>iii)BUA permitted through this NOC <input type="text" name="area[noc_permitted_area]" id="noc_permitted_area" class="noc_area form-control--custom text-box number" value="{{ isset($data) ? $data->noc_permitted_area : '' }}" {{$disabled}}></p>
+                                             <p>iii)BUA permitted through this NOC <input type="text" name="area[noc_permitted_area]" id="noc_permitted_area" class="noc_area form-control--custom text-box number" value="{{ isset($data) ? $data->noc_permitted_area : '' }}" {{$disabled}}></p> -->
                                          </td>
                                          <td><input type="text" name="area[total_existing_permitted_area]" id="total_existing_permitted_area" class="form-control--custom text-box number" readonly value="{{ isset($data) ? $data->total_existing_permitted_area : '' }}"></td>
                                       </tr>

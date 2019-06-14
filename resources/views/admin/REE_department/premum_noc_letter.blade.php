@@ -236,9 +236,23 @@
                             <tr>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">7.</td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">
-                                    <p>i)Existing build up area  <b> {{ isset($data) ? $data->existing_buildup_area  : '' }} m<sup>2</sup> </b></p>
+                                    <p>
+                                    <span style="font-weight: bold"> <b> {{ isset($data) ? $data->total_existing_permitted_area  : '' }} </b></span>m<sup>2</sup> 
+
+                                    [i.e <span style="font-weight: bold"> <b> {{ isset($data) ? $data->existing_residential_use  : '' }} m<sup>2</sup> </b></span> 
+
+                                    for residential use + <span style="font-weight: bold">
+                                <b> {{ isset($data) ? $data->existing_commercial_use  : '' }} m<sup>2</sup></b></span> 
+
+                                for commercial use) permited through this NOC. (Proportinate to the first installment paid by the society as per other letter under reference no. 1) and <span style="font-weight: bold">
+                                <b> {{ isset($data) ? $data->existing_buildup_area  : '' }} </b></span> m<sup>2</sup> (i.e <span style="font-weight: bold">
+                                <b> {{ isset($data) ? $data->existing_bua  : '' }} </b></span> m<sup>2</sup> existing BUA + <span style="font-weight: bold">
+                                <b> {{ isset($data) ? $data->additional_area  : '' }} m<sup>2</sup></b></span> additional BUA ( <span style="font-weight: bold">
+                                <b> {{ isset($data) ? $data->additional_residential_bua  : '' }} m<sup>2</sup></b></span> for residential use + <span style="font-weight: bold">
+                                <b> {{ isset($data) ? $data->additional_commercial_bua  : '' }} m<sup>2</sup></b></span> ))]</p>
+                                    <!-- <p>i)Existing build up area  <b> {{ isset($data) ? $data->existing_buildup_area  : '' }} m<sup>2</sup> </b></p>
                                     <p>ii)BUA already allotted vide as lease, NOC date: <b> {{ isset($data) ? $data->noc_date  : '' }} </b> if any <b> {{ isset($data) ? $data->noc_vide_lease  : '' }} </b>  </p>
-                                    <p>iii)BUA permitted through this NOC  <b> {{ isset($data) ? $data->noc_permitted_area  : '' }} m<sup>2</sup> </b></p>
+                                    <p>iii)BUA permitted through this NOC  <b> {{ isset($data) ? $data->noc_permitted_area  : '' }} m<sup>2</sup> </b></p> -->
                                 </td>
                                 <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">
                                 <b> {{ isset($data) ? $data->total_existing_permitted_area  : '' }} </b></span></td>
@@ -813,6 +827,71 @@
                                     The society shall indemnify MHADA against any legal action regarding payment of stamp duty for a) Transfer of built tenements to beneficiaries and b) Purchase of balance FSI /T. D. R. etc. as may be required under provisions of Stamp Duty Act.
                                 </p>
                             </td>
+                        </tr> 
+                        <tr valign="top">
+                            <td>
+                                <ol start="45">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    This allotment is subject to payment of Stamp duty if / as and when may be imposed by the Govt. of Maharashtra (Under the relevance provisions of Maharashtra Stamp Duty Act. The allottee will have to submit an Undertaking to this effect on Stamp paper worth Rs.100/-) 
+                                </p>
+                            </td>
+                        </tr> 
+                        <tr valign="top">
+                            <td>
+                                <ol start="46">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    MCGM has incurred expenditure for on site infrastructure prior to modification in DCR 33 (5) and after modification in DCR 33 (5).  The Pro-rata premium shall be payable by the society as and when competent authority communicates to you. 
+                                </p>
+                            </td>
+                        </tr> 
+                        <tr valign="top">
+                            <td>
+                                <ol start="47">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    The Pro-rata premium for approval of revised layout under DCR 33 (5) with 3.0 FSI shall also be payable by society as and when communicated to you.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td>
+                                <ol start="48">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    Society has to ensure that Contractors / Sub-Contractors appointed by the society or  Developer of the Society, who are in charge of construction work; shall be registered with MBOCWW Board & are required to fulfill the obligations as contemplated in Building and other construction workers (Regulation of Employment and condition of service) Act,1996. And further these Contractors / Sub-Contractors are required to fulfill all the conditions stipulated in the above Act, for the benefits of workers.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td>
+                                <ol start="49">
+                                    <li>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td >
+                                <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                                    MHADA reserve it's right to withdraw, change, alter, amend their offer letter and conditions mentioned therein in future at any point of time without giving any reason to do so.
+                                </p>
+                            </td>
                         </tr>              
                         </tbody>
                     </table>
@@ -820,27 +899,27 @@
 
                 </center>
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                        It is, therefore, directed that the proposed work should be carried out strictly adhering to the terms and conditions as mentioned above. In case of any breach to above condition &amp; other terms and conditions annexed herewith, the NOC will stand cancelled.
+                        It is, therefore, directed that the proposed work should be carried out strictly adhering to the terms and conditions as mentioned above. In case of any breach to above terms and condition, the NOC will stand cancelled.
                     </p>
-                    <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                    <!-- <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
                         Now, MHADA is considering the proposal for amendment of the layout for 3.00 FSI and also all the directives given in the Govt. Resolution of U.D.D. vide No. TPB /4308 /74 /C.N0.11 /2008 /UD-11, dated 6/12/2008 shall be applicable to the applicant.
-                    </p>
-                    <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
+                    </p> -->
+                    <!-- <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
                         <strong>Encl.: Annexure-I.</strong>
-                    </p>
+                    </p> -->
                     <!-- <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
                         <strong>(Draft approved by CO/MB) </strong>
                     </p>
                      -->
-                    <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="left">
+                    <!-- <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="left">
                         <strong>\</strong>
-                    </p>
+                    </p> -->
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
                         <strong>Copy to:</strong> The Secretary, The Secretary, Building No.<strong>{{($model->eeApplicationSociety->building_no ? $model->eeApplicationSociety->building_no : '')}} </strong>, known {{($model->eeApplicationSociety->name ? $model->eeApplicationSociety->name : '')}} ( {{($model->eeApplicationSociety->address ? $model->eeApplicationSociety->address : '')}} ). ENCL.- ANNEXURE – I.
                     </p>
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                        <strong>Copy to </strong>
-                        <strong>Licensed Surveyor</strong> : {{ isset($model->eeApplicationSociety) ? $model->eeApplicationSociety->name_of_architect : '' }} , {{ isset($model->eeApplicationSociety) ? $model->eeApplicationSociety->architect_address: '' }} .
+                        <strong>Copy to Architect for information : </strong>
+                        {{ isset($model->eeApplicationSociety) ? $model->eeApplicationSociety->name_of_architect : '' }} , {{ isset($model->eeApplicationSociety) ? $model->eeApplicationSociety->architect_address: '' }} .
                     </p>
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
                         Copy forwarded to information and necessary action in the matter to the: -
@@ -849,13 +928,13 @@
                         1. Executive Engineer, Housing ___________ Division.
                     </p>
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                        i) He is directed to take necessary action as per demarcation &amp; as per prevailing policy of MHADA.
+                        i) He is directed to take necessary action as per demarcation & as per prevailing policy of MHADA.
                     </p>
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                        ii) He is directed to recover all the dues from the society concerned to Estate Department &amp; intimate the same to this office.
+                        ii) He is directed to recover all the dues from the society concerned to Estate Department & intimate the same to this office
                     </p>
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
-                        iii) He is directed to recover any dues, land revenue, audit remarks concerned to Land Department if any pending with the society &amp; intimate the same to this office. 
+                        iii) He is directed to recover any dues, land revenue, audit remarks concerned to Land Department if any pending with the society & intimate the same to this office. 
                     </p>
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="justify">
                         2. Copy to Architect / Layout cell / M.B.
@@ -864,7 +943,7 @@
                         3. Copy to Sr.Clerk for MIS record.
                     </p>
                     
-                    <p style="padding-left: 5px; padding-right: 5px;margin-top: 200px" lang="en-US" align="center">
+<!--                     <p style="padding-left: 5px; padding-right: 5px;margin-top: 200px" lang="en-US" align="center">
                         <em><u>ANNEXURE –I</u></em>
                     </p>
                     <p style="padding-left: 5px; padding-right: 5px;" lang="en-US" align="left">
@@ -879,8 +958,8 @@
                     <p lang="en-GB">
                         The additional buildable area is granted as per policy laid down by MHADA vide NOC mentioned above as per resolution no.5998 dated:09/01/2004 and amended A.R.No.6041, dt.29/7/2004, A.R.No. 6260 Dt. 04/06/2007 , A. R. 6349 dated 25/11/2008, A. R. No. 6383 dated 24/02/2009 ,A.R. No. 6397 dated 5/05/2009 &amp; A.R. No. 6422 dated 07.08.2009 are subject to following terms and conditions.
                     </p>
-                    <center>
-                    <table style="width: 720px; border: 1px solid #000; border-collapse: collapse;">
+                    <center> -->
+                    <!-- <table style="width: 720px; border: 1px solid #000; border-collapse: collapse;">
                         <tbody>
                             <tr valign="top">
                                 <td style="border: 1px solid #000;">
@@ -1143,8 +1222,8 @@
                                 </td>
                             </tr>
                         </tbody>
-                    </table>
-                    </center>
+                    </table> -->
+                    <!-- </center> -->
                     @endif
 
             </textarea>
