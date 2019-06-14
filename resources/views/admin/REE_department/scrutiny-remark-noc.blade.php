@@ -364,8 +364,24 @@
                                          </tr>
                                          <tr>
                                             <td>7</td>
-                                            <td>
-                                                <p>i) Existing built up area <input type="text" 
+                                            <td style="line-height: 3.5;">
+                                                <input type="text" id="" class="form-control--custom text-box float total_existing" readonly value="{{ isset($data) ? $data->total_existing_permitted_area : '' }}" > m<sup>2</sup> 
+                                                [i.e <input type="text" id="existing_residential_use" name="area[existing_residential_use]" class="form-control--custom text-box float noc_area" value="{{ isset($data) ? $data->existing_residential_use : '' }}" {{$disabled}}> m<sup>2</sup> for residential use + 
+
+                                                <input type="text" id="existing_commercial_use" name="area[existing_commercial_use]" class="form-control--custom text-box float" value="{{ isset($data) ? $data->existing_commercial_use : '' }}" {{$disabled}}> m<sup>2</sup> for commercial use) permited through this NOC. (Proportinate to the first installment paid by the society as per other letter under reference no. 1) and 
+
+                                                <input type="text" 
+                                                name="area[existing_buildup_area]" id="existing_buildup_area" class="noc_area form-control--custom text-box float" value="{{ isset($data) ? $data->existing_buildup_area : '' }}" {{$disabled}}> m<sup>2</sup> 
+
+                                                (i.e <input type="text" id="existing_bua" name="area[existing_bua]" class="form-control--custom text-box float" value="{{ isset($data) ? $data->existing_bua : '' }}" {{$disabled}}> m<sup>2</sup> existing BUA + 
+
+                                                <input type="text" id="additional_area" name="area[additional_area]" class="form-control--custom text-box float noc_area" value="{{ isset($data) ? $data->additional_area : '' }}" {{$disabled}}> m<sup>2</sup> 
+
+                                                additional BUA ( <input type="text" id="additional_residential_bua" name="area[additional_residential_bua]" class="form-control--custom text-box float" value="{{ isset($data) ? $data->additional_residential_bua : '' }}" {{$disabled}}> m<sup>2</sup> for residential use +
+
+                                                <input type="text" id="additional_commercial_bua" name="area[additional_commercial_bua]" class="form-control--custom text-box float" value="{{ isset($data) ? $data->additional_commercial_bua : '' }}" {{$disabled}}> m<sup>2</sup> for commercial use))]
+
+                                                <!-- <p>i) Existing built up area <input type="text" 
                                                 name="area[existing_buildup_area]" id="existing_buildup_area" class="noc_area form-control--custom text-box float" value="{{ isset($data) ? $data->existing_buildup_area : '' }}" {{$disabled}}>
                                                 </p>
                                                 <p>ii)BUA already allotted vide as lease,
@@ -376,7 +392,7 @@
                                                 </div> 
                                                  if any <input type="text" name="area[noc_vide_lease]" id="noc_vide_lease" class="noc_area form-control--custom text-box float" value="{{ isset($data) ? $data->noc_vide_lease : '' }}" {{$disabled}}></p>
 
-                                                <p>iii)BUA permitted through this NOC <input type="text" name="area[noc_permitted_area]" id="noc_permitted_area" class="noc_area form-control--custom text-box float" value="{{ isset($data) ? $data->noc_permitted_area : '' }}" {{$disabled}}></p>
+                                                <p>iii)BUA permitted through this NOC <input type="text" name="area[noc_permitted_area]" id="noc_permitted_area" class="noc_area form-control--custom text-box float" value="{{ isset($data) ? $data->noc_permitted_area : '' }}" {{$disabled}}></p> -->
                                             </td>
                                             <td><input type="text" name="area[total_existing_permitted_area]" id="total_existing_permitted_area" class="form-control--custom text-box float" readonly value="{{ isset($data) ? $data->total_existing_permitted_area : '' }}"></td>
                                          </tr>
@@ -613,13 +629,15 @@
    }
 
    $(".noc_area").keyup(function(){
-      var nocPermitted = $("#noc_permitted_area").val() || 0;
+      var nocPermitted = $("#existing_residential_use").val() || 0;
       var area = $("#existing_buildup_area").val() || 0;
-      var videLease = $("#noc_vide_lease").val() || 0;
+      var videLease = $("#additional_area").val() || 0;
 
       var total = (parseFloat(nocPermitted) + parseFloat(area) + parseFloat(videLease));
       if (!isNaN(total)){
+         console.log(total);
          $("#total_existing_permitted_area").val(total.toFixed(2));
+         $(".total_existing").val(total.toFixed(2));
       }
    });
 
