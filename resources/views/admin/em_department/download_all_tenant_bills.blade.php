@@ -218,9 +218,12 @@
             @if(!$bill_data['arreasCalculation']->isEmpty())
                 @php $total ='0'; @endphp
 
-                <div style="border: 1px solid #000;background-color: lightblue;"><h4 style="text-align: center;">Balance amount to be paid - Arrears</h4></div>
+                {{--<div style="border: 1px solid #000;background-color: lightblue;"><h4 style="text-align: center;">Balance amount to be paid - Arrears</h4></div>--}}
                 <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
                     <thead>
+                    <tr>
+                        <th valign="top" style=" padding: 10px 5px; width: 50%;background-color: #94b8c4;" colspan="4" >Balance amount to be paid - Arrears</th>
+                    </tr>
                     <tr>
                         <th valign="top" style="background-color:lightblue; padding: 5px; width: 25%;">Year</th>
                         <th valign="top" style="background-color:lightblue; padding: 5px; width: 25%;">Month</th>
@@ -249,9 +252,12 @@
             @endif
         @else
 
-            <div style="border: 1px solid #000; background-color: lightblue;"><h4 style="text-align: center;">Balance amount to be paid - Arrears</h4></div>
+            {{--<div style="border: 1px solid #000; background-color: lightblue;"><h4 style="text-align: center;">Balance amount to be paid - Arrears</h4></div>--}}
             <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
                 <thead>
+                <tr>
+                    <th valign="top" style=" padding: 10px 5px; width: 50%;background-color: #94b8c4;" colspan="4" >Balance amount to be paid - Arrears</th>
+                </tr>
                 <tr>
                     <th valign="top" style="background-color: lightblue; padding: 5px; width: 25%;">Year</th>
                     <th valign="top" style="background-color: lightblue; padding: 5px; width: 25%;">Month</th>
@@ -283,10 +289,13 @@
                 </tbody>
             </table>
         @endif
-        <span style="background-color: #f1f3f4; padding: 5px; text-align: left; font-weight: bold;">Total amount to be paid :</span>
+        {{--<span style="background-color: #f1f3f4; padding: 5px; text-align: left; font-weight: bold;">Total amount to be paid :</span>--}}
         {{--<div style="border: 1px solid #000; margin-top: 2px;background-color: lightblue;"><h4 style="text-align: center;">Total amount to be paid</h4></div>--}}
         <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
             <thead>
+            <tr>
+                <th valign="top" style=" padding: 10px 5px; width: 50%;background-color:  #94b8c4;" colspan="2" >Total amount to be paid</th>
+            </tr>
             <tr>
                 <th valign="top" style=" padding: 10px 5px; width: 50%;background-color: lightblue;">Particulars</th>
                 <th valign="top" style=" padding: 10px 5px; width: 50%;background-color: lightblue;">Amount in Rs.</th>
