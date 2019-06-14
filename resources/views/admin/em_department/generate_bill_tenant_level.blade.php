@@ -154,11 +154,8 @@
                             </div>                          
                         </div>
                     @endif
-                    
-               
-                    <div class="row align-items-center mb-3">   
+             <div class="row align-items-center mb-3">
                         <div class=" col-md-12 building_select">
-                            
                         </div>
                     </div>
                     
@@ -168,8 +165,6 @@
                             <div class="col-sm-4">
                                 <div class="btn-list">
                                     <input type="submit" class="submit-button btn m-btn--pill m-btn--custom btn-primary mhada-btn-pill" name="search" value="Search" disabled>
-{{--                                    <a href="{{ url('generate_tenant_bill') }}" class="submit-button btn m-btn--pill m-btn--custom btn-primary mhada-btn-pill">Download Bills</a>--}}
-
                                     <a href="{{ url('generate_tenant_bill') }}" class="btn btn-secondary mhada-btn-pill">Cancel</a>
                                 </div>
                             </div>
@@ -178,7 +173,7 @@
                     </div>
          </form>
 
-
+<br/>
          @if($html)
                 <div class="m-portlet m-portlet--compact">{!! $html->table() !!}</div>
          @endif             
