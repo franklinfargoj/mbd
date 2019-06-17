@@ -125,6 +125,33 @@
                         </div>
                     </div>
 
+                @if(isset($buildingId) && isset($building_name) && $buildingId !=0)
+                    <div class="row align-items-center mb-3 building">
+                        <div class="col-md-12">
+                            <div class="form-group m-form__group ">
+                                Billing Level : Tenant level Billing.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mb-3 building">
+                        <div class="col-md-4">
+                            <div class="form-group m-form__group">
+                                <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="building" name="building" required>
+                                    @foreach($building_list as $building)
+                                        <option value="{{encrypt($building->id)}}" {{ ($building->id == $buildingId) ? 'selected' :'' }}>{{$building->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+                <div class="row align-items-center mb-3">
+                    <div class=" col-md-12 building_select">
+                    </div>
+                </div>
+
+
 @php $search_year = date('Y'); @endphp
 
 
@@ -133,31 +160,7 @@
 
 
                 </div>
-                    @if(isset($buildingId) && isset($building_name) && $buildingId !=0) 
-                        <div class="row align-items-center mb-3 building">                            
-                            <div class="col-md-12">
-                                <div class="form-group m-form__group ">
-                                    Billing Level : Tenant level Billing.
-                                </div>
-                            </div>                          
-                        </div>
 
-                        <div class="row align-items-center mb-3 building">                      
-                            <div class="col-md-4">
-                                <div class="form-group m-form__group">
-                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="building" name="building" required>
-                                        @foreach($building_list as $building)
-                                        <option value="{{encrypt($building->id)}}" {{ ($building->id == $buildingId) ? 'selected' :'' }}>{{$building->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>                          
-                        </div>
-                    @endif
-             <div class="row align-items-center mb-3">
-                        <div class=" col-md-12 building_select">
-                        </div>
-                    </div>
                     
                     <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions px-0">
