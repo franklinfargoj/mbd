@@ -157,7 +157,7 @@
                     </div>
 
                     <div class="row align-items-center" style="margin-bottom: 1rem;">
-                         <div class="col-md-4">Diffrence: {{$rate_card->revise_rate - $rate_card->old_rate}} /-</div>
+                         <div class="col-md-4">Difference: {{$rate_card->revise_rate - $rate_card->old_rate}} /-</div>
 
                         <input type="text" id="difference_amount" name="difference_amount" value="<?php echo $rate_card->revise_rate - $rate_card->old_rate; ?>" hidden required>
 
@@ -165,7 +165,7 @@
                     </div>
 
                     <div class="row align-items-center" style="margin-bottom: 1rem;">
-                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Interest on Diffrence Amount : {{$rate_card->interest_on_differance}}  %    
+                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Interest on Difference Amount : {{$rate_card->interest_on_differance}}  %    
                     </div>
 
                     <div class="row align-items-center" style="margin-bottom: 1rem;">                          
@@ -207,7 +207,7 @@
                             </div>    
                               <div class="col-md-4">
                                 <div class="form-group m-form__group">
-                                    <label>Diffrence Interest Amount : <span id="dia">0.00</span> /-</label>
+                                    <label>Difference Interest Amount : <span id="dia">0.00</span> /-</label>
                                     <input type="text" id="difference_intrest_amount" name="difference_intrest_amount" hidden required>
                                 </div>
                             </div>                  
