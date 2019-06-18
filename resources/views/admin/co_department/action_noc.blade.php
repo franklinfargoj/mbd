@@ -60,6 +60,21 @@ $route=\Request::route()->getName();
             <span class="m-menu__link-text">REE Scrutiny</span>
          </a>
       </li>
+
+      @if(isset($noc_application->noc_application_master) && $noc_application->noc_application_master->model == 'Sharing')
+        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ree.noc_sharing_calculation_sheet')?'m-menu__item--active':''}}">
+            <a class="m-menu__link m-menu__toggle" title="REE Scrutiny" href="{{route('ree.noc_sharing_calculation_sheet',$noc_application->id)}}">
+                <span class="sidebar-icon sidebar-menu-icon--level-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path fill="#fff" d="M81 0v469.702L121.607 512h268.786L431 469.702V0H81zm320 457.632L377.607 482H134.393L111 457.632V192.334h290v265.298zM180.503 162.334V95.875h150.994v66.459H180.503zm220.497 0h-39.503V65.875H150.503v96.459H111V30h290v132.334z"/>
+                        <path fill="#fff" d="M151.33 287.78h30v30h-30zM211.11 228h30v30h-30zM211.11 287.78h30v30h-30zM270.89 228h30v30h-30zM270.89 287.78h30v30h-30zM330.67 228h30v30h-30zM151.33 228h30v30h-30zM151.33 347.56h30v30h-30zM151.33 407.33h30v30h-30zM330.67 287.78h30v30h-30zM211.11 347.56h30v30h-30zM270.89 347.56h30v30h-30zM211.11 407.33h30v30h-30zM270.89 407.33h30v30h-30zM330.67 347.56h30v89.78h-30z"/>
+                    </svg>
+                </span>
+                <span class="m-menu__link-text">NOC Calculation Sheet</span>
+            </a>
+        </li>      
+        @endif
+        
       @if(isset($noc_application->final_draft_noc_path) && ($noc_application->noc_generation_status == config('commanConfig.applicationStatus.NOC_Generation') || $noc_application->noc_generation_status == config('commanConfig.applicationStatus.NOC_Issued')))
       <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='co.approve_noc')?'m-menu__item--active':''}}">
          <a class="m-menu__link m-menu__toggle" title="Approve Noc" href="{{route('co.approve_noc',$noc_application->id)}}">

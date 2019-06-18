@@ -196,9 +196,49 @@ class NocSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => 8,
                     'language_id'   => 1,
+                    'name' => "Indemnity bond / Undertaking",
+                    'is_optional' => 0,
+                    'group' => 8,
+                    'is_other' => 0
+                ],
+                [
+                    'application_id'   => 8,
+                    'language_id'   => 1,
+                    'name' => "Undertaking first time duty (form 7)",
+                    'is_optional' => 0,
+                    'group' => 9,
+                    'is_other' => 0
+                ],
+                [
+                    'application_id'   => 8,
+                    'language_id'   => 1,
+                    'name' => "Indemnity bond for legal proceding (form 5)",
+                    'is_optional' => 0,
+                    'group' => 10,
+                    'is_other' => 0
+                ],
+                [
+                    'application_id'   => 8,
+                    'language_id'   => 1,
+                    'name' => "No due cerificate",
+                    'is_optional' => 0,
+                    'group' => 11,
+                    'is_other' => 0
+                ],
+                [
+                    'application_id'   => 8,
+                    'language_id'   => 1,
+                    'name' => "Proposed building plan showing MHADA share on it",
+                    'is_optional' => 0,
+                    'group' => 12,
+                    'is_other' => 0
+                ],
+                [
+                    'application_id'   => 8,
+                    'language_id'   => 1,
                     'name' => "Other",
                     'is_optional' => 1,
-                    'group' => 8,
+                    'group' => 13,
                     'is_other' => 1
                 ],
              ];
@@ -388,9 +428,49 @@ class NocSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => 19,
                     'language_id'   => 1,
+                    'name' => "Indemnity bond / Undertaking",
+                    'is_optional' => 0,
+                    'group' => 8,
+                    'is_other' => 0
+                ],
+                [
+                    'application_id'   => 19,
+                    'language_id'   => 1,
+                    'name' => "Undertaking first time duty (form 7)",
+                    'is_optional' => 0,
+                    'group' => 9,
+                    'is_other' => 0
+                ],
+                [
+                    'application_id'   => 19,
+                    'language_id'   => 1,
+                    'name' => "Indemnity bond for legal proceding (form 5)",
+                    'is_optional' => 0,
+                    'group' => 10,
+                    'is_other' => 0
+                ],
+                [
+                    'application_id'   => 19,
+                    'language_id'   => 1,
+                    'name' => "No due cerificate",
+                    'is_optional' => 0,
+                    'group' => 11,
+                    'is_other' => 0
+                ],
+                [
+                    'application_id'   => 19,
+                    'language_id'   => 1,
+                    'name' => "Proposed building plan showing MHADA share on it",
+                    'is_optional' => 0,
+                    'group' => 12,
+                    'is_other' => 0
+                ],
+                [
+                    'application_id'   => 19,
+                    'language_id'   => 1,
                     'name' => "Other",
                     'is_optional' => 1,
-                    'group' => 8,
+                    'group' => 13,
                     'is_other' => 1
                 ],
              ];

@@ -1333,6 +1333,10 @@ Route::post('save_draft_noc', 'REEDepartment\REEController@saveDraftNoc')->name(
 Route::post('upload_draft_noc/{id}', 'REEDepartment\REEController@uploadDraftNoc')->name('ree.upload_draft_noc');
 Route::get('/scrutiny-remark-noc/{application_id}', 'REEDepartment\REEController@scrutinyRemarkNocByREE')->name('ree.scrutiny-remark-noc');
 
+Route::get('noc_sharing_calculation_sheet/{application_id}', 'REEDepartment\REEController@NOCSharingCalculationSheet')->name('ree.noc_sharing_calculation_sheet');
+
+Route::post('save_noc_sharing_calculation_details', 'REEDepartment\REEController@saveNOCSharingCalculationDetails')->name('save_noc_sharing_calculation_details');
+
 Route::get('/noc_variation_report/{application_id}', 'REEDepartment\REEController@nocVariationReport')->name('ree.noc_variation_report');
 Route::post('/noc-scrutiny-verfication', 'REEDepartment\REEController@nocScrutinyVerification')->name('ree.scrutiny_verification');
 Route::post('/save_noc_scrutiny', 'REEDepartment\REEController@SaveNOCScrutiny')->name('ree.save_noc_scrutiny');
