@@ -45,7 +45,7 @@ class DYCEController extends Controller
             ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
             ['data' => 'eeApplicationSociety.building_no','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
             ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address', 'class' => 'datatable-address'],
-            ['data' => 'model','name' => 'model','title' => 'Model'],
+            ['data' => 'model','name' => 'model','title' => 'Application Type'],
              ['data' => 'Status','name' => 'Status','title' => 'Status'],
             ['data' => 'radio','name' => 'radio','title' => 'Action','searchable' => false],
         ];
@@ -77,7 +77,19 @@ class DYCEController extends Controller
                 //    return view('admin.DYCE_department.action', compact('dyce_application_data','request'))->render();
                 // })
                 ->editColumn('model', function ($listArray) {
-                    return $listArray->ol_application_master->model;
+                    $application_type = '';
+                    $type = $listArray->ol_application_master->ol_application_type[0]->title;
+                    if (strpos($type, 'Self') !== false) {
+                        $application_type = 'Self';
+                    }elseif(strpos($type, 'Developer') !== false){
+                        $application_type = 'Through Developer';
+                    }else{
+                        $application_type = '-';
+                    }
+
+                    return $application_type."\n".'('.$listArray->ol_application_master->model.')' ;
+
+//                    return $listArray->ol_application_master->model;
                 })                
                 ->editColumn('Status', function ($listArray) use ($request) {
                     $status = $listArray->olApplicationStatusForLoginListing[0]->status_id;
