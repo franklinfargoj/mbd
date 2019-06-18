@@ -42,6 +42,7 @@ use App\Http\Controllers\SocietyNocController;
 use App\Http\Controllers\SocietyNocforCCController;
 use App\OlDemarcationVerificationDetails;
 use App\OlApplicationConcessionSheetDetails;
+use App\NOCSharingCalculationSheet;
 use App\OlDemarcationLandArea;
 use App\OlDcrRateMaster;
 use App\OCEENote;
@@ -3259,6 +3260,59 @@ class REEController extends Controller
     public function getConcessionDetails($applicationId){
         $data = OlApplicationConcessionSheetDetails::where('application_id',$applicationId)->first();
         return $data;   
+    }
+
+    //display noc sharing calculation sheet
+    public function NOCSharingCalculationSheet($applicationId){
+
+        $noc_application = $this->CommonController->getNocApplication($applicationId);
+        
+        $calculation=NOCSharingCalculationSheet::where('application_id',$applicationId)->first();
+        $user = Auth::user();
+        $status = $this->CommonController->getCurrentStatusNoc($applicationId);
+        $readonly = $visible = '';
+        if (session()->get('role_name') == config('commanConfig.ree_junior') && $status->status_id == config('commanConfig.applicationStatus.in_process')) {
+            $readonly = '';
+            $visible = true;
+        }else{
+            $readonly = 'readonly';
+            $visible = false;
+        }
+        if (session()->get('role_name') == config('commanConfig.co_engineer')) {
+            $folder = 'co_department';
+        }else{
+           $folder = 'REE_department'; 
+        }
+        return view('admin.REE_department.noc_sharing_calculation_sheet',compact('noc_application','calculation','user','readonly','visible','folder'));
+    }
+
+    // save NOC sharing calculation sheet details
+    public function saveNOCSharingCalculationDetails(Request $request){
+        $applicationId = $request->application_id;
+        $data = $request->all();
+
+        if ($request->file('ree_note')){
+
+            $file = $request->file('ree_note');
+            $extension = $file->getClientOriginalExtension();
+            $file_name = time().'ree_note.'.$extension;
+            $folder_name = "ree_note";
+            $path = $folder_name."/".$file_name;
+
+            if($extension == "pdf") {
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('ree_note'),$file_name);
+
+                    $data['ree_note'] = $path;
+            }
+            else
+            {
+                return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
+            }
+        }
+    
+        NOCSharingCalculationSheet::updateOrCreate(['application_id'=> $applicationId],$data);
+        $id = $request->get('application_id');
+        return redirect("noc_sharing_calculation_sheet/" . $id."#".$request->get('redirect_tab'));
     }
 }
  
