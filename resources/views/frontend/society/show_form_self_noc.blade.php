@@ -74,75 +74,80 @@
 
                     <!-- show feilds at premium application -->
                     @if(isset($model) && $model == 'Premium')
-                    <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-xl-5 col-lg-6 form-group"> <!--  -->
+                    <div class="fieldset">
+                        <h5>Premium</h5>
+                        <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-xl-4 col-lg-4 form-group"> <!--  -->
                             <label class="col-form-label" for="demand_draft_amount">
                             Premium pay order amount (Rs.): <span class="star">*</span></label>
                             <input type="text" id="demand_draft_amount" name="demand_draft_amount" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ old('demand_draft_amount') }}" required>
                             <span class="help-block">{{$errors->first('demand_draft_amount')}}</span>
                         </div>
-                        <div class="col-xl-5 offset-xl-1 col-lg-6 form-group"> <!--  -->
+                        <div class="col-xl-4 col-lg-4 form-group"> <!--  -->
                             <label class="col-form-label" for="demand_draft_number">Premium receipt number : <span class="star">*</span></label>
                             <input type="text" id="demand_draft_number" name="demand_draft_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('demand_draft_number') }}" required>
                             <span class="help-block">{{$errors->first('demand_draft_number')}}</span>
                         </div>
-                    </div>
-
-                    <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-xl-5 col-lg-6 form-group"> <!--  -->
+                        <div class="col-xl-4 col-lg-4 form-group"> <!--  -->
                             <label class="col-form-label" for="receipt-date">Premium receipt date : <span class="star">*</span></label>
                             <input type="text" id="receipt-date" data-date-end-date="+0d" name="demand_draft_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('demand_draft_date') }}" readonly="readonly" required>
                             <span class="help-block">{{$errors->first('demand_draft_date')}}</span>
                         </div>
-                        <div class="col-xl-5 offset-xl-1 col-lg-6 form-group"> 
+                    </div>
+                    </div>
+
+                    <div class="fieldset">
+                        <h5>Offsite</h5>
+                        <div class="m-form__group row mhada-lease-margin">
+                        
+                        <div class="col-xl-4 col-lg-4 form-group"> 
                             <label class="col-form-label" for="offsite_infra_charges">5/7 Offsite Infrastructure charges amount(Rs.) : <span class="star">*</span></label>
                             <input type="text" id="offsite_infra_charges" name="offsite_infra_charges" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ old('offsite_infra_charges') }}" required>
                             <span class="help-block">{{$errors->first('offsite_infra_charges')}}</span>
                         </div>
-                    </div> 
-
-                    <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-xl-5 col-lg-6 form-group"> <!--  -->
+                        <div class="col-xl-4 col-lg-4 form-group"> <!--  -->
                             <label class="col-form-label" for="offsite_infra_receipt">5/7 Offsite Infrastructure receipt number : <span class="star">*</span></label>
                             <input type="text" id="offsite_infra_receipt" name="offsite_infra_receipt" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('offsite_infra_receipt') }}" required>
                             <span class="help-block">{{$errors->first('offsite_infra_receipt')}}</span>
                         </div>
-                        <div class="col-xl-5 offset-xl-1 col-lg-6 form-group"> <!--  -->
+                        <div class="col-xl-4 col-lg-4 form-group"> <!--  -->
                             <label class="col-form-label" for="offsite_infra_charges_receipt_date">5/7 Offsite Infrastructure charges receipt date : <span class="star">*</span></label>
                              <input type="text" id="offsite_infra_charges_receipt_date" name="offsite_infra_charges_receipt_date" class="form-control form-control--custom m-input m_datepicker" data-date-end-date="+0d" value="{{ old('offsite_infra_charges_receipt_date') }}" required
                             readonly="readonly">
                             <span class="help-block">{{$errors->first('offsite_infra_charges_receipt_date')}}</span>
                         </div>
+                    </div> 
                     </div>
 
-                    <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-xl-5 col-lg-6 form-group"> <!--  -->
+                    <div class="fieldset">
+                        <h5>Water</h5>
+                        <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-xl-4 col-lg-4 form-group"> <!--  -->
                             <label class="col-form-label" for="water_charges_amount">Water charges amount(Rs.) : <span class="star">*</span></label>
                             <input type="text" id="water_charges_amount" name="water_charges_amount" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ old('water_charges_amount') }}" required>
                             <span class="help-block">{{$errors->first('water_charges_amount')}}</span>
                         </div>
-                        <div class="col-xl-5 offset-xl-1 col-lg-6 form-group"> <!--  -->
+                        <div class="col-xl-4 col-lg-4 form-group"> <!--  -->
                             <label class="col-form-label" for="water_charges_receipt_number">Water charges receipt number : <span class="star">*</span></label>
                             <input type="text" id="water_charges_receipt_number" name="water_charges_receipt_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('water_charges_receipt_number') }}" required>
                             <span class="help-block">{{$errors->first('water_charges_receipt_number')}}</span>
                         </div>
-                    </div>
-                    <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-xl-5 col-lg-6 form-group"> <!--  -->
+                        <div class="col-xl-4 col-lg-4 form-group"> <!--  -->
                             <label class="col-form-label" for="water_charges_date">
                             Water charges date : <span class="star">*</span></label>
                              <input type="text" id="water_charges_date" name="water_charges_date" class="form-control form-control--custom m-input m_datepicker" data-date-end-date="+0d" value="{{ old('water_charges_date') }}" required readonly="readonly">
                             <span class="help-block">{{$errors->first('water_charges_date')}}</span>
                         </div>
-                        <div class="col-xl-5 offset-xl-1 col-lg-6 form-group">
+                    </div>
+                    </div>
+                    <div class="m-form__group row mhada-lease-margin">
+                        
+                        <div class="col-xl-5 col-lg-6 form-group">
                             <label class="col-form-label" for="full_bua">Full BUA : <span class="star">*</span></label>
                             <input type="text" id="full_bua" name="full_bua" class="form-control form-control--custom form-control--fixed-height m-input number total_bua" value="{{ old('full_bua') }}" required>
                             <span class="help-block">{{$errors->first('full_bua')}}</span>
                         </div>
-                    </div>
-
-                    <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-xl-5 col-lg-6 form-group">
+                        <div class="col-xl-5 offset-xl-1 col-lg-6 form-group">
                             <label class="col-form-label mhada-multiple-label" for="selected_bua">
                             Select BUA: <span class="star">*</span></label>
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" data-live-search="true" id="selected_bua" name="selected_bua" required>
@@ -154,18 +159,23 @@
                             </select>
                             <span class="help-block">{{$errors->first('selected_bua')}}</span>
                         </div>
-                        <div class="col-xl-5 offset-xl-1 col-lg-6 form-group"> 
+                    </div>
+
+                    <div class="m-form__group row mhada-lease-margin">
+                        
+                        <div class="col-xl-5 col-lg-6 form-group"> 
                             <label class="col-form-label" for="percent_bua"> % BUA : <span class="star">*</span></label>
                             <input type="text" id="percent_bua" name="percent_bua" class="form-control form-control--custom form-control--fixed-height m-input number total_bua" value="{{ old('percent_bua') }}" required>
                             <span class="help-block">{{$errors->first('percent_bua')}}</span>
                         </div>
-                    </div>
-                    <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-xl-5 col-lg-6 form-group"> 
+                        <div class="col-xl-5 offset-xl-1 col-lg-6 form-group"> 
                             <label class="col-form-label" for="existing_bua">Exisitng BUA : <span class="star">*</span></label>
                             <input type="text" id="existing_bua" name="existing_bua" class="form-control form-control--custom form-control--fixed-height m-input number total_bua" value="{{ old('existing_bua') }}" required>
                             <span class="help-block">{{$errors->first('existing_bua')}}</span>
                         </div>
+                    </div>
+                    <div class="m-form__group row mhada-lease-margin">
+                        
                         <div class="col-xl-5 col-lg-6 form-group t_bua"> 
                             <label class="col-form-label" for="total_bua">Total BUA : <span class="star">*</span></label>
                             <input type="text" id="total_bua" name="total_bua" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ old('total_bua') }}" required>

@@ -3941,3 +3941,18 @@ label.site-visit-label {
     font-weight: 500;
     font-size: 11px;
 }
+
+.fieldset{
+    border: 1px solid #ced4da;
+    padding: 15px 15px 27px 15px;
+    margin: 20px 0 0 0;
+    position: relative;
+}
+
+.fieldset h5{
+    margin-bottom: 0;
+    position: absolute;
+    top: -9px;
+    background: #fff;
+    padding: 0 15px;
+}
