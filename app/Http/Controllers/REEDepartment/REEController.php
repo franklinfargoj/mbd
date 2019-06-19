@@ -1533,7 +1533,7 @@ class REEController extends Controller
             }
         }elseif($model->noc_application_master->model == 'Sharing'){
             $blade =  "sharing_iod_noc_letter";
-            $calculationData = OlSharingCalculationSheetDetail::where('society_id',$model->society_id)->first();
+            $calculationData = NOCSharingCalculationSheet::where('application_id',$applicatonId)->first();
         }
 
         if($model->draft_noc_text_path){
@@ -3323,6 +3323,9 @@ class REEController extends Controller
     
         NOCSharingCalculationSheet::updateOrCreate(['application_id'=> $applicationId],$data);
         $id = $request->get('application_id');
+
+        NocApplication::where('id',$applicationId)->update(['draft_noc_path' => NULL, 
+            'draft_noc_text_path' => NULL]);
         return redirect("noc_sharing_calculation_sheet/" . $id."#".$request->get('redirect_tab'));
     }
 }

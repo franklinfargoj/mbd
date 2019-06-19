@@ -1030,7 +1030,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" class="total_amount_in_rs form-control form-control--custom txtbox" placeholder="0"
                                                         readonly type="text" name="scrutiny_fee" id="scrutiny_fee"
-                                                        value="{{ isset($calculation) ? $calculation->scrutiny_fee : ''  }}" />
+                                                        value="{{ isset($calculation->scrutiny_fee) ? $calculation->scrutiny_fee : '6000'  }}" />
 
                                                 </td>
                                             </tr>
@@ -1042,7 +1042,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" class="total_amount_in_rs form-control form-control--custom txtbox" placeholder="0"
                                                         readonly type="text" name="debraj_removal_fee" id="debraj_removal_fee"
-                                                        value="{{ isset($calculation) ? $calculation->debraj_removal_fee : ''  }}"/>
+                                                        value="{{ isset($calculation->debraj_removal_fee) ? $calculation->debraj_removal_fee : '6600'  }}"/>
 
 
                                                 </td>
@@ -1067,7 +1067,7 @@
                                                 <td class="text-center" style = "border-style: ridge;">
                                                     <input style="border: none;" class="total_amount_in_rs form-control form-control--custom txtbox" placeholder="0"
                                                         readonly type="text" name="water_usage_charges" id="water_usage_charges"
-                                                        value="{{ isset($calculation) ? $calculation->water_usage_charges : ''  }}" />
+                                                        value="{{ isset($calculation->water_usage_charges) ? $calculation->water_usage_charges : '100000'  }}" />
 
                                                 </td>
                                             </tr>
