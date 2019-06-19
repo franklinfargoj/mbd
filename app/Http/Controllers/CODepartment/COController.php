@@ -402,7 +402,7 @@ class COController extends Controller
             ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
             ['data' => 'eeApplicationSociety.building_no','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
             ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address', 'class' => 'datatable-address'],
-             ['data' => 'Model','name' => 'Model','title' => 'Model'],
+             ['data' => 'Model','name' => 'Model','title' => 'Application Type'],
              ['data' => 'Status','name' => 'Status','title' => 'Status'],
             ['data' => 'radio','name' => 'radio','title' => 'Action','searchable' => false],
 
@@ -456,7 +456,18 @@ class COController extends Controller
 
                 })
                 ->editColumn('Model', function ($co_application_data) {
-                    return $co_application_data->oc_application_master->model;
+                    $application_type = '';
+                    $type = $co_application_data->oc_application_master->ol_application_type[0]->title;
+                    if (strpos($type, 'Self') !== false) {
+                        $application_type = 'Self';
+                    }elseif(strpos($type, 'Developer') !== false){
+                        $application_type = 'Through Developer';
+                    }else{
+                        $application_type = '-';
+                    }
+                    return $application_type."\n".'('.$co_application_data->oc_application_master->model.')' ;
+
+//                    return $co_application_data->oc_application_master->model;
                 })
                 ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date','actions','eeApplicationSociety.address'])
                 ->make(true);
