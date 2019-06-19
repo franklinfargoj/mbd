@@ -69,6 +69,7 @@
             {{--</div>--}}
           {{--</div>--}}
         {{--@endif--}}
+          {{--@php dd($data); @endphp--}}
         <div class="col-xs-12" id="">
             <span class="App_head"> List of Applications for Redevelopment - {{ $data[0]->ol_application_type[0]->title }}</span>
             <div class="options">
@@ -88,13 +89,25 @@
                     <p>
 {{--                    @php dd($tripartite_applications); @endphp--}}
                     @if($application->title == 'New - Offer Letter')
-                            @if($applicationCount > 0 && $application->title == 'New - Offer Letter')
+                            @if(count($offerLetterApplications) > 0 && $application->title == 'New - Offer Letter')
                                 <a style="color: grey;" href="javascript:void(0)">
                                     {{ $application->title }} (Application sent)</a>
                             @else
-                                <a href="{{ route($application->route_name, $application->id.'_'.$ids[1]) }}">
-                                    {{ $application->title }}</a>
+                                @if(count($offerLetterApplications) == 0)
+                                    <a href="{{ route($application->route_name, $application->id.'_'.$ids[1]) }}">
+                                        {{ $application->title }}</a>
+                                @else
+                                    <a href="{{ route($application->route_name, $application->id.'_'.$ids[1]) }}">
+                                        {{ $application->title }}</a>
+                                @endif
                             @endif
+                            {{--@if($applicationCount > 0 && $application->title == 'New - Offer Letter')--}}
+                                {{--<a style="color: grey;" href="javascript:void(0)">--}}
+                                    {{--{{ $application->title }} (Application sent)</a>--}}
+                            {{--@else--}}
+                                {{--<a href="{{ route($application->route_name, $application->id.'_'.$ids[1]) }}">--}}
+                                    {{--{{ $application->title }}</a>--}}
+                            {{--@endif--}}
                     @elseif($application->title == 'Tripartite Agreement')
                             @if(count($tripartite_applications) > 0 && $application->title == 'Tripartite Agreement')
                                 <a style="color: grey;" href="javascript:void(0)">
