@@ -57,7 +57,7 @@
 		@endif
 
 		@if($status == config('commanConfig.applicationStatus.pending'))
-			@if(isset($applicationCount) && $applicationCount <= 0)
+			@if((isset($applicationCount) && $applicationCount <= 0) || $route=='society_offer_letter_preview' || $route=='documents_uploaded' || ($route=='society_offer_letter_edit') || $route=='documents_upload' ||$route=='upload_multiple_documents')
 				<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='society_offer_letter_edit')?'m-menu__item--active':''}}">
 					<a class="m-menu__link m-menu__toggle" title="Edit Application" href="{{ route('society_offer_letter_edit',encrypt($ol_applications->id)) }}">
 						<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -92,7 +92,8 @@
 			</li>
 		@endif
 
-        @if($status == config('commanConfig.applicationStatus.pending') && isset($documents_arr) && $documents_arr['docs_count'] == $documents_arr['docs_uploaded_count'])
+        @if(($status == config('commanConfig.applicationStatus.pending')
+        && isset($documents_arr) && $documents_arr['docs_count'] == $documents_arr['docs_uploaded_count']))
             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='upload_society_offer_letter_application')?'m-menu__item--active':''}}">
                 <a class="m-menu__link m-menu__toggle" title="Upload Signed Application for Offer Letter" href="{{ route('upload_society_offer_letter_application',encrypt($ol_applications->id)) }}">
                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">

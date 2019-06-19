@@ -277,7 +277,7 @@ class SocietyOfferLetterController extends Controller
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application No.'],
             ['data' => 'application_type','name' => 'application_type','title' => 'Application Type'],
-            ['data' => 'application_master_id','name' => 'application_master_id','title' => 'Model'],
+            ['data' => 'application_master_id','name' => 'application_master_id','title' => 'Application Type'],
             ['data' => 'created_at','name' => 'created_at','title' => 'Submission Date', 'class' => 'datatable-date'],
             ['data' => 'status','name' => 'status','title' => 'Status'],
             ['data' => 'radio','name' => 'radio','title' => 'Action','searchable' => false],
@@ -701,7 +701,10 @@ class SocietyOfferLetterController extends Controller
 
         $applicationCount = $this->getForwardedApplication();
         $ids = explode('_', $id);
-        $data = OlApplicationMaster::with('ol_application_type', 'ol_application_id' , 'noc_application_ref' , 'noc_cc_application_ref')->where('model', ucfirst($ids[1]))->where('parent_id', $ids[0])->get();
+        $data = OlApplicationMaster::with('ol_application_type', 'ol_application_id' , 'noc_application_ref' , 'noc_cc_application_ref')
+            ->where('model', ucfirst($ids[1]))
+            ->where('parent_id', $ids[0])
+            ->get();
 
         $masterIdsTripartite = config('commanConfig.tripartite_master_ids');
 
@@ -713,7 +716,25 @@ class SocietyOfferLetterController extends Controller
             ->get();
 //            ->count();
 
-        return view('frontend.society.application', compact('tripartite_applications','ids', 'data','applicationCount','redevelopment_applications'));
+        $offerLetterApplications = OlApplication::where('user_id', Auth::user()->id)
+            ->whereIn('application_master_id',$masterIds)->with(['olApplicationStatus' => function($q){
+                $q->where('status_id',config('commanConfig.applicationStatus.forwarded'))->orderBy('id','desc');
+            }])->whereHas('olApplicationStatus', function($q){
+                $q->where('status_id',config('commanConfig.applicationStatus.forwarded'))->orderBy('id','desc');
+            })->Where('status_offer_letter','!=',config('commanConfig.applicationStatus.Rejected'))
+            ->get();
+
+
+
+//            OlApplication::where('user_id',Auth::id())
+//            ->whereIn('application_master_id',$masterIds)
+////            ->where('current_phase','>',0)
+//            ->Where('status_offer_letter','!=',config('commanConfig.applicationStatus.Rejected'))
+//            ->get();
+////            ->count();
+//            dd(count($offerLetterApplications));
+
+        return view('frontend.society.application', compact('offerLetterApplications','tripartite_applications','ids', 'data','applicationCount','redevelopment_applications'));
     }
 
     /**
@@ -726,18 +747,36 @@ class SocietyOfferLetterController extends Controller
 
         $ids = explode('_', $id);
         $id = $ids[0];
-        $data = OlApplication::where('user_id', Auth::user()->id)->where('application_master_id',$id)
-        ->with(['request_form', 'applicationMasterLayout'])->first();
+
+        $ol_application_master_ids = config('commanConfig.new_offer_letter_master_ids');
+
+        $data = OlApplication::where('user_id', Auth::user()->id)
+            ->whereIn('application_master_id',$ol_application_master_ids)
+            ->with(['request_form', 'applicationMasterLayout'])
+            ->orderBy('id','desc')
+            ->first();
         $layouts = MasterLayout::all();
 
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $layouts = MasterLayout::all();
-
         if (isset($data)){
-            return redirect()->route('society_offer_letter_edit',encrypt($data->id));
+            if($data->status_offer_letter == config('commanConfig.applicationStatus.Rejected')){
+                return view('frontend.society.show_form_self', compact('society_details', 'id', 'ids', 'layouts', 'form_fields', 'layouts', 'comm_func'));
+            }
+            else{
+                if(($data->status_offer_letter == 0) || ($data->is_reverted_to_society == 1)){
+                    return redirect()->route('society_offer_letter_edit',encrypt($data->id));
+                }
+                else{
+
+                    return redirect()->route('society_offer_letter_preview',encrypt($data->id));
+
+                }
+            }
         }else{
-           return view('frontend.society.show_form_self', compact('society_details', 'id', 'ids', 'layouts','data'));
+            return view('frontend.society.show_form_self', compact('society_details', 'id', 'ids', 'layouts','data'));
         }
+
 
         // return view('frontend.society.show_form_self', compact('society_details', 'id', 'ids', 'layouts','data'));
     }
@@ -963,15 +1002,41 @@ class SocietyOfferLetterController extends Controller
         $id = $ids[0];
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $layouts = MasterLayout::all();
-        $data = OlApplication::where('user_id', Auth::user()->id)->where('application_master_id',$id)
-        ->with(['request_form', 'applicationMasterLayout'])->first();
+        $ol_application_master_ids = config('commanConfig.new_offer_letter_master_ids');
+
+
+        $data = OlApplication::where('user_id', Auth::user()->id)
+            ->whereIn('application_master_id',$ol_application_master_ids)
+            ->with(['request_form', 'applicationMasterLayout'])
+            ->orderBy('id','desc')
+            ->first();
         $layouts = MasterLayout::all();
 
+//        dd($data);
         if (isset($data)){
-            return redirect()->route('society_offer_letter_edit',encrypt($data->id));
+            if($data->status_offer_letter == config('commanConfig.applicationStatus.Rejected')){
+                return view('frontend.society.show_form_dev', compact('society_details', 'id', 'ids', 'layouts', 'form_fields', 'layouts', 'comm_func'));
+            }
+            else{
+                if(($data->status_offer_letter == 0) || ($data->is_reverted_to_society == 1)){
+                    return redirect()->route('society_offer_letter_edit',encrypt($data->id));
+                }
+                else{
+//                    return redirect()->route('society_offer_letter_edit',encrypt($data->id));
+
+                    return redirect()->route('society_offer_letter_preview',encrypt($data->id));
+
+                }
+            }
         }else{
-           return view('frontend.society.show_form_dev', compact('society_details', 'id', 'ids', 'layouts','data'));
-       }
+            return view('frontend.society.show_form_dev', compact('society_details', 'id', 'ids', 'layouts','data'));
+        }
+
+//        if (isset($data)){
+//            return redirect()->route('society_offer_letter_edit',encrypt($data->id));
+//        }else{
+//           return view('frontend.society.show_form_dev', compact('society_details', 'id', 'ids', 'layouts','data'));
+//       }
     }
 
     public function show_reval_dev($id){

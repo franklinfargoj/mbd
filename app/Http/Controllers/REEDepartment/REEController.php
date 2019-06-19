@@ -257,6 +257,7 @@ class REEController extends Controller
     public function sendForwardApplication(Request $request){
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($request->applicationId);
 
+//        dd($arrData['get_current_status']);
         // Added OR Condition by Prajakta Sisale
         if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation')
         || $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.draft_offer_letter_generated')
