@@ -106,12 +106,12 @@ class GenerateBills extends Command
                             $data['year'] = $year_for_bill -1;
                             $bill_year = $year_for_bill -1;
                         } else {
-                            $data['month'] = $month_for_bill -1;
+                            $data['month'] = $month_for_bill - 1;
                             $data['year'] = $year_for_bill -1;
                             $bill_year = $year_for_bill;
                         }
                     } else {
-                        $data['month'] = $month_for_bill -1;
+                        $data['month'] = $month_for_bill - 1;
                         $data['year'] = $year_for_bill;
                         $bill_year = $year_for_bill;
                     }
@@ -177,11 +177,11 @@ class GenerateBills extends Command
                             //foreach($tenants as $row => $key){
                                 $lastBillMonth =$currentMonth;
                                 $lastBillYear = $year;
-                                if($currentMonth ==1) {
+                                if($data['month'] ==1) {
                                     $lastBillMonth = 12;
                                     $lastBillYear = $year -1;
                                 } else {
-                                    $lastBillMonth = $currentMonth -1;
+                                    $lastBillMonth = $data['month'] -1;
                                 }
 //                                dd($lastBillMonth." ".$lastBillYear);
                                 $lastBill = TransBillGenerate::where('building_id', '=', $building->id)
