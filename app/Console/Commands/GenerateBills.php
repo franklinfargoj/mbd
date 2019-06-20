@@ -24,8 +24,7 @@ class GenerateBills extends Command
      *
      * @var string
      */
-    protected $signature = 'generate:bills';
-
+    protected $signature = 'generate:bills {year?} {month?} ';
     /**
      * The console command description.
      *
@@ -50,12 +49,25 @@ class GenerateBills extends Command
      */
     public function handle()
     {
-        $this->generateSocityLevelBills();
-        $this->generateTenantLevelBills();
+        $year = $this->argument('year');
+        $month = $this->argument('month');
+        $this->generateSocityLevelBills($year, $month);
+        $this->generateTenantLevelBills($year, $month);
     }
 
-    public function generateSocityLevelBills() {
-        
+    public function generateSocityLevelBills($year, $month) {
+        if($year != null){
+            $year_for_bill = $year;
+        }else{
+            $year_for_bill = date('Y') ;
+        }
+        if($month != null){
+            $month_for_bill = $month;
+        }else{
+            $month_for_bill = date('m');
+        }
+
+
         $societies = SocietyDetail::where('society_bill_level', '=', '1')->pluck('id')->toArray();
         $buildings = MasterBuilding::whereIn('society_id',$societies)->get();
         $strTxnData = '';
@@ -70,11 +82,11 @@ class GenerateBills extends Command
                     $this->info('Number of Tenants Is zero.');
                 }
 
-                $currentMonth = date('m');
+                $currentMonth = $month_for_bill;
                 if($currentMonth < 4) {
-                    $year = date('Y') -1;
+                    $year = $year_for_bill -1;
                 } else {
-                    $year = date('Y');
+                    $year = $year_for_bill;
                 }
 
                 $serviceChargesRate = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent, sum(property_tax) as property_tax,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$building->id)->where('year',$year)->first();
@@ -87,21 +99,21 @@ class GenerateBills extends Command
                     //$monthly_bill = $total_service = $total_service * $number_of_tenants->tenant_count()->first()->count;
                     $monthly_bill = $total_service;
 
-                    $currentMonth = date('m');
+                    $currentMonth = $month_for_bill;
                     if($currentMonth < 4) {
                         if($currentMonth == 1) {
                             $data['month'] = 12;
-                            $data['year'] = date('Y') -1;
-                            $bill_year = date('Y') -1;
+                            $data['year'] = $year_for_bill -1;
+                            $bill_year = $year_for_bill -1;
                         } else {
-                            $data['month'] = date('m') -1;
-                            $data['year'] = date('Y') -1;
-                            $bill_year = date('Y');
+                            $data['month'] = $month_for_bill -1;
+                            $data['year'] = $year_for_bill -1;
+                            $bill_year = $year_for_bill;
                         }
                     } else {
-                        $data['month'] = date('m');
-                        $data['year'] = date('Y');
-                        $bill_year = date('Y');
+                        $data['month'] = $month_for_bill -1;
+                        $data['year'] = $year_for_bill;
+                        $bill_year = $year_for_bill;
                     }
 
                     if($data['month'] == 1) {
@@ -110,8 +122,19 @@ class GenerateBills extends Command
                         $lastBillMonth = $data['month']-1;
                     }
 
-                    $bill_from  = date('1-m-Y', strtotime('-1 month'));
-                    $bill_to    = date('1-m-Y');
+                    if($year != null && $month != null){
+
+                        $dateObj   = \DateTime::createFromFormat('!m', $data['month']);
+                        $month_name = $dateObj->format('F');
+                        $timestamp    = strtotime($month_name.' '.$bill_year );
+                        $bill_from = date('m-01-Y', $timestamp);
+                        $bill_to  = date('m-t-Y', $timestamp);
+
+                    }else{
+                        $bill_from  = date('1-m-Y', strtotime('-1 month'));
+                        $bill_to    = date('t-m-Y', strtotime('-1 month'));
+                    }
+
                     $bill_month = $data['month'];
                     $no_of_tenant = $number_of_tenants->tenant_count()->first()->count;
                     $bill_date = date('d-m-Y');
@@ -128,16 +151,16 @@ class GenerateBills extends Command
                         //$monthly_bill = $monthly_bill / $no_of_tenant;
                         $monthly_bill = $monthly_bill;
 
-                        $currentMonth = date('m');
+                        $currentMonth = $month_for_bill;
                         if($currentMonth < 4) {
-                            $year = date('Y') -1;
+                            $year = $year_for_bill -1;
                         } else {
-                            $year = date('Y');
+                            $year = $year_for_bill;
                         }
                         
                         $start    = new \DateTime($year.'-4-01');
                         $start->modify('first day of this month');
-                        $end      = new \DateTime(date('Y').'-'.date('m').'-06');
+                        $end      = new \DateTime($year_for_bill.'-'.$month_for_bill.'-06');
                         $end->modify('first day of next month');
                         $interval = \DateInterval::createFromDateString('1 month');
                         $period   = new \DatePeriod($start, $interval, $end);
@@ -160,7 +183,7 @@ class GenerateBills extends Command
                                 } else {
                                     $lastBillMonth = $currentMonth -1;
                                 }
-                                //dd($lastBillMonth." ".$lastBillYear);
+//                                dd($lastBillMonth." ".$lastBillYear);
                                 $lastBill = TransBillGenerate::where('building_id', '=', $building->id)
                                     ->where('bill_month', '=', $lastBillMonth)
                                     ->where('bill_year', '=', $lastBillYear)
@@ -416,26 +439,38 @@ class GenerateBills extends Command
         }    
     }
     
-    public function generateTenantLevelBills() {
+    public function generateTenantLevelBills($year, $month) {
+        if($year != null){
+            $year_for_bill = $year;
+        }else{
+            $year_for_bill = date('Y') ;
+        }
+        if($month != null){
+            $month_for_bill = $month;
+        }else{
+            $month_for_bill = date('m');
+        }
+
+
         $societies = SocietyDetail::where('society_bill_level', '=', '2')->pluck('id');
         $buildings = MasterBuilding::whereIn('society_id',$societies)->pluck('id');
         $tenants   = MasterTenant::whereIn('building_id',$buildings)->get();
         
-        $currentMonth = date('m');
+        $currentMonth = $month_for_bill;
         if($currentMonth < 4) {
             if($currentMonth == 1) {
                 $data['month'] = 12;
-                $data['year'] = date('Y') -1;
-                $bill_year = date('Y');
+                $data['year'] = $year_for_bill -1;
+                $bill_year = $year_for_bill;
             } else {
-                $data['month'] = date('m') -1;
-                $data['year'] = date('Y') -1;
-                $bill_year = date('Y');
+                $data['month'] = $month_for_bill -1;
+                $data['year'] = $year_for_bill -1;
+                $bill_year = $year_for_bill;
             }
         } else {
-            $data['month'] = date('m');
-            $data['year'] = date('Y');
-            $bill_year = date('Y');
+            $data['month'] = $month_for_bill - 1;
+            $data['year'] = $year_for_bill;
+            $bill_year = $year_for_bill;
         }
 
         $strTxnData = '';
@@ -444,18 +479,18 @@ class GenerateBills extends Command
                 // echo 'tenant id'.$tenant->id;
                 $building = MasterBuilding::find($tenant->building_id);
                 $society = SocietyDetail::find($building->society_id);
-                $currentMonth = date('m');
+                $currentMonth = $month_for_bill;
                 if($currentMonth < 4) {
-                    $year = date('Y') -1;
+                    $year = $year_for_bill -1;
                 } else {
-                    $year = date('Y');
+                    $year = $year_for_bill;
                 }
                 $serviceChargesRate = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment,sum(property_tax) as property_tax, sum(other) as other')->where('building_id',$tenant->building_id)->where('year',$year )->first();
 
                 if(!$serviceChargesRate){
                     $this->info('Service charge Rates Not added into system.');
                 } else {
-                    $realMonth = date('m');
+                    $realMonth = $month_for_bill;
                     if($realMonth == 1) {
                         $realMonth = 12;
                     } else {
@@ -470,9 +505,23 @@ class GenerateBills extends Command
 
                     $total ='0';
 
-                    $bill_from = date('1-m-Y', strtotime('-1 month'));
-                    $bill_to   = date('1-m-Y');
-                    $bill_month= $data['month'];
+                    if($year != null && $month != null){
+
+                        $dateObj   = \DateTime::createFromFormat('!m', $data['month']);
+                        $month_name = $dateObj->format('F');
+                        $timestamp    = strtotime($month_name.' '.$bill_year );
+                        $bill_from = date('m-01-Y', $timestamp);
+                        $bill_to  = date('m-t-Y', $timestamp);
+
+                    }else{
+                        $bill_from  = date('1-m-Y', strtotime('-1 month'));
+                        $bill_to    = date('t-m-Y', strtotime('-1 month'));
+                    }
+
+//                    $bill_from = date('1-m-Y', strtotime('-1 month'));
+//                    $bill_to   = date('1-m-Y');
+//                    $bill_month= $data['month'];
+                    $bill_month = $data['month'];
                     $bill_date = date('d-m-Y');
                     $due_date  = date('d-m-Y', strtotime(date('Y-m-d'). ' + 5 days'));
 
