@@ -137,7 +137,7 @@ class GenerateBills extends Command
 
                     $bill_month = $data['month'];
                     $no_of_tenant = $number_of_tenants->tenant_count()->first()->count;
-                    $bill_date = date('d-m-Y');
+                    $bill_date = '04-'.$month_for_bill.$year_for_bill;
                     $due_date = date('d-m-Y', strtotime(date('Y-m-d'). ' + 5 days'));
 
                     $check = TransBillGenerate::where('building_id', '=', $building->id)
