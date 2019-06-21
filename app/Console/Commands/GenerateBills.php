@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Requests\GenerateBillRequest;
 use Illuminate\Console\Command;
 use App\MasterLayout;
 use App\MasterWard;
@@ -51,8 +52,29 @@ class GenerateBills extends Command
     {
         $year = $this->argument('year');
         $month = $this->argument('month');
-        $this->generateSocityLevelBills($year, $month);
-        $this->generateTenantLevelBills($year, $month);
+
+        $data = array(
+            'year' => $year,
+            'month'  => $month
+        );
+
+        $rules = array(
+            'year' => 'digits:4|numeric',
+            'month' => 'digits_between:1,2|numeric',
+        );
+
+        $validator = \Validator::make($data, $rules);
+
+        if ($validator->fails()) {
+            $messages = $validator->messages();
+            $this->info($this->error($messages));
+        }else{
+
+            $this->generateSocityLevelBills($year, $month);
+            $this->generateTenantLevelBills($year, $month);
+
+        }
+
     }
 
     public function generateSocityLevelBills($year, $month) {
