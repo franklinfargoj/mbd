@@ -1945,7 +1945,7 @@ class EMController extends Controller
             $bill->arrear_bill = $request->arrear_bill;
             $bill->arrear_id = $arrear_id;
             $bill->total_bill = $request->total_bill;
-            $bill->bill_date = $request->bill_date;
+            $bill->bill_date = date('04-m-Y');
             $bill->due_date = $request->due_date;
             $bill->consumer_number = $request->consumer_number;
             $bill->total_service_after_due = $request->total_service_after_due;
@@ -1965,7 +1965,7 @@ class EMController extends Controller
                 $lastBillMonth = $request->bill_month -1;
             }
             $lastBillGenerated = TransBillGenerate::orderBy('id','DESC')->first();
-            if(count($lastBillGenerated) && !empty($lastBillGenerated->bill_number)) {
+            if($lastBillGenerated && !empty($lastBillGenerated->bill_number)) {
                 $lastGeneratedNumber = substr($lastBillGenerated->bill_number,-7);
                 $increNumber = (int)$lastGeneratedNumber+1;
                 $bill->bill_number = $request->tenant_id.str_pad($increNumber, 7, "0", STR_PAD_LEFT);
