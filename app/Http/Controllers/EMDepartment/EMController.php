@@ -1767,7 +1767,7 @@ class EMController extends Controller
                     $data['bill_year'] = date('Y');
                 }
             } else {
-                $data['month'] = date('m');
+                $data['month'] = date('m') - 1;
                 $data['year'] = date('Y');
                 $data['bill_year'] = date('Y');
             }
@@ -1851,7 +1851,7 @@ class EMController extends Controller
                     $data['year'] = date('Y') -1;
                 }
             } else {
-                $data['month'] = date('m');
+                $data['month'] = date('m') - 1;//changed by prajakta
                 $data['year'] = date('Y');
             }
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
