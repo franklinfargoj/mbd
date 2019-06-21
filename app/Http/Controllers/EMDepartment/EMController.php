@@ -889,7 +889,7 @@ class EMController extends Controller
                         $bill_year = date('Y');
                     }
                 } else {
-                    $data['month'] = date('m');
+                    $data['month'] = date('m') - 1;
                     $data['year'] = date('Y');
                     $bill_year = date('Y');
                 }
@@ -989,7 +989,7 @@ class EMController extends Controller
                         $bill_year = date('Y');
                     }
                 } else {
-                    $data['month'] = date('m');
+                    $data['month'] = date('m') - 1;
                     $data['year'] = date('Y');
                     $bill_year = date('Y');
                 }
