@@ -6,7 +6,7 @@
         $total_service_after_due = $total_service + $total_after_due;     
         $total ='0';           
     @endphp
-    @if(count($lastBill)<=0)
+    @if($lastBill == NULL)
     @if(!$arreasCalculation->isEmpty())  
       @foreach($arreasCalculation as $calculation)
             @php $total = $total + $calculation->total_amount; @endphp
@@ -78,7 +78,7 @@
                 $time = strtotime(date('1-'.$month.'-'.$year)); 
             @endphp
             <input type="text" name="bill_from" value="{{date('1-m-Y', strtotime('-1 month'))}}" hidden>
-            <input type="text" name="bill_to" value="{{ date('1-m-Y')}}" hidden>
+            <input type="text" name="bill_to" value="{{date('t-m-Y', strtotime('-1 month'))}}" hidden>
             <input type="text" name="bill_month" value="{{$month}}" hidden>
             <input type="text" name="bill_year" value="{{date('Y')}}" hidden>
             <input type="text" name="monthly_bill" value="{{$total_service}}" hidden>
@@ -214,7 +214,7 @@
                         </tr>
                     </tbody>
                 </table>
-                @if(count($lastBill)<=0)
+                @if($lastBill == null)
                 @if(!$arreasCalculation->isEmpty())
                 <p class="text-center">Balance amount to be paid - Arrears</p>
                 <table class="display table table-responsive table-bordered" style="width:100%">

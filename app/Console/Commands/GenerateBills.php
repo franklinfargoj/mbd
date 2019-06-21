@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Requests\GenerateBillRequest;
 use Illuminate\Console\Command;
 use App\MasterLayout;
 use App\MasterWard;
@@ -51,8 +52,29 @@ class GenerateBills extends Command
     {
         $year = $this->argument('year');
         $month = $this->argument('month');
-        $this->generateSocityLevelBills($year, $month);
-        $this->generateTenantLevelBills($year, $month);
+
+        $data = array(
+            'year' => $year,
+            'month'  => $month
+        );
+
+        $rules = array(
+            'year' => 'digits:4|numeric',
+            'month' => 'digits_between:1,2|numeric',
+        );
+
+        $validator = \Validator::make($data, $rules);
+
+        if ($validator->fails()) {
+            $messages = $validator->messages();
+            $this->info($this->error($messages));
+        }else{
+
+            $this->generateSocityLevelBills($year, $month);
+            $this->generateTenantLevelBills($year, $month);
+
+        }
+
     }
 
     public function generateSocityLevelBills($year, $month) {
@@ -137,7 +159,7 @@ class GenerateBills extends Command
 
                     $bill_month = $data['month'];
                     $no_of_tenant = $number_of_tenants->tenant_count()->first()->count;
-                    $bill_date = '04-0'.$month_for_bill.'-'.$year_for_bill;
+                    $bill_date = date('04-m-Y');
                     $due_date = date('d-m-Y', strtotime(date('Y-m-d'). ' + 5 days'));
 
                     $check = TransBillGenerate::where('building_id', '=', $building->id)
@@ -522,7 +544,7 @@ class GenerateBills extends Command
 //                    $bill_to   = date('1-m-Y');
 //                    $bill_month= $data['month'];
                     $bill_month = $data['month'];
-                    $bill_date = date('d-m-Y');
+                    $bill_date = date('04-m-Y');
                     $due_date  = date('d-m-Y', strtotime(date('Y-m-d'). ' + 5 days'));
 
                     $lastBillMonth = $bill_month;
