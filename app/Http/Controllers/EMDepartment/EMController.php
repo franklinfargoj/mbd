@@ -50,6 +50,8 @@ use App\LayoutUser;
 use App\ArrearsChargesRate;
 use App\TransBillServiceCharge;
 use PDF;
+use Yajra\DataTables\Html\Editor\Date;
+use Yajra\DataTables\Html\Editor\DateTime;
 
 
 class EMController extends Controller
@@ -889,7 +891,7 @@ class EMController extends Controller
                         $bill_year = date('Y');
                     }
                 } else {
-                    $data['month'] = date('m');
+                    $data['month'] = date('m') - 1;
                     $data['year'] = date('Y');
                     $bill_year = date('Y');
                 }
@@ -989,7 +991,7 @@ class EMController extends Controller
                         $bill_year = date('Y');
                     }
                 } else {
-                    $data['month'] = date('m');
+                    $data['month'] = date('m') - 1;
                     $data['year'] = date('Y');
                     $bill_year = date('Y');
                 }
@@ -1767,7 +1769,7 @@ class EMController extends Controller
                     $data['bill_year'] = date('Y');
                 }
             } else {
-                $data['month'] = date('m');
+                $data['month'] = date('m') - 1;
                 $data['year'] = date('Y');
                 $data['bill_year'] = date('Y');
             }
@@ -1851,7 +1853,7 @@ class EMController extends Controller
                     $data['year'] = date('Y') -1;
                 }
             } else {
-                $data['month'] = date('m');
+                $data['month'] = date('m') - 1;//changed by prajakta
                 $data['year'] = date('Y');
             }
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
@@ -1943,7 +1945,7 @@ class EMController extends Controller
             $bill->arrear_bill = $request->arrear_bill;
             $bill->arrear_id = $arrear_id;
             $bill->total_bill = $request->total_bill;
-            $bill->bill_date = $request->bill_date;
+            $bill->bill_date = date('04-m-Y');
             $bill->due_date = $request->due_date;
             $bill->consumer_number = $request->consumer_number;
             $bill->total_service_after_due = $request->total_service_after_due;
@@ -1963,7 +1965,7 @@ class EMController extends Controller
                 $lastBillMonth = $request->bill_month -1;
             }
             $lastBillGenerated = TransBillGenerate::orderBy('id','DESC')->first();
-            if(count($lastBillGenerated) && !empty($lastBillGenerated->bill_number)) {
+            if($lastBillGenerated && !empty($lastBillGenerated->bill_number)) {
                 $lastGeneratedNumber = substr($lastBillGenerated->bill_number,-7);
                 $increNumber = (int)$lastGeneratedNumber+1;
                 $bill->bill_number = $request->tenant_id.str_pad($increNumber, 7, "0", STR_PAD_LEFT);
@@ -2145,7 +2147,7 @@ class EMController extends Controller
     }
 
     public function create_society_bill(Request $request){
-        //dump($request->all());
+//        dd($request->all());
         $check = '';
         if($request->has('regenate') && $request->regenate) {
            // dd('ok');
@@ -2247,10 +2249,11 @@ class EMController extends Controller
                     $total_bill  = $monthly_bill + $arrear_bill;
                     $total_after_due = $request->monthly_bill * 0.015; 
                     //dd($total_after_due);
-                    $total_service_after_due = $total_bill + $total_after_due; 
-                    
-                   
-                    //dd($lastBill);
+                    $total_service_after_due = $total_bill + $total_after_due;
+
+//                $date = date('Y-m-04');
+//
+//                dd($date);
                         $data =  [
                                     'tenant_id'  => NULL,
                                     'building_id'    => $request->building_id,
@@ -2258,12 +2261,12 @@ class EMController extends Controller
                                     'bill_from'    => $request->bill_from,
                                     'bill_to'    => $request->bill_to,
                                     'bill_month' => $request->bill_month,
-                                    'bill_year' => $request->bill_year,
+                                    'bill_year' => $year,
                                     'monthly_bill' => $monthly_bill,
                                     'arrear_bill' => $arrear_bill,
                                     'arrear_id' => $arrear_id,
                                     'total_bill' => $total_bill,
-                                    'bill_date' => $request->bill_date,
+                                    'bill_date' => date('04-m-Y'),
                                     'due_date' => $request->due_date,
                                     'consumer_number' => $consumer_number,
                                     'total_bill_after_due_date'=>ceil($total_service_after_due),
@@ -2404,7 +2407,7 @@ class EMController extends Controller
                     //dd($ids);
                     $lastBillGenerated = DB::table('building_tenant_bill_association')->orderBy('id','DESC')->first();
                     
-                    if(count($lastBillGenerated)) {
+                    if($lastBillGenerated) {
                         //dd($lastBillGenerated);
                         $lastGeneratedNumber = substr($lastBillGenerated->bill_number,-7);
                         $increNumber = (int)$lastGeneratedNumber+1;

@@ -82,7 +82,7 @@
             <input type="text" name="building_id" value="{{$building->id}}" hidden>
             <input type="text" name="society_id" value="{{$society->id}}" hidden>
             <input type="text" name="bill_from" value="{{date('1-m-Y', strtotime('-1 month'))}}" hidden>
-            <input type="text" name="bill_to" value="{{date('1-m-Y')}}" hidden>
+            <input type="text" name="bill_to" value="{{date('t-m-Y', strtotime('-1 month'))}}" hidden>
             <input type="text" name="bill_month" value="{{$month}}" hidden>
             <input type="text" name="bill_year" value="{{$bill_year}}" hidden>
             <input type="text" name="monthly_bill" value="{{$total_service}}" hidden>
