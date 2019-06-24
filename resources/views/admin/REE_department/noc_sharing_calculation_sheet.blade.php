@@ -392,8 +392,7 @@
                                             @if($visible == true)
                                             <tr>
                                                 <td colspan="3" align="right">
-                                                <input type="submit" name="submit" class="btn btn-primary subtn"
-                                                        value="Next" /> </td>
+                                                <input type="submit" name="submit" class="btn btn-primary subtn subt-btn" value="Next" /> </td>
                                             </tr>
                                             @endif
                                         </tbody>
@@ -602,8 +601,7 @@
                                                 </tr>
                                                 @if($visible == true)
                                                 <tr>
-                                                    <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary subtn"
-                                                            value="Next" /> </td>
+                                                    <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary subtn subt-btn" value="Next" /> </td>
                                                 </tr>
                                                 @endif
 
@@ -830,8 +828,7 @@
                                             @if($visible == true)
                                             <tr>
                                                 <td colspan="3" align="right">
-                                                <input type="submit" name="submit" class="btn btn-primary subtn"
-                                                        value="Next" /> </td>
+                                                <input type="submit" name="submit" class="btn btn-primary subtn subt-btn" value="Next" /> </td>
                                             </tr>
                                             @endif
                                         </tbody>
@@ -1097,7 +1094,7 @@
                                             </tr>
                                             @if($visible == true)
                                             <tr>
-                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary subtn"
+                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary subtn subt-btn"
                                                         value="Next" /> </td>
                                             </tr>
                                             @endif
@@ -1220,7 +1217,7 @@
                                         @if($visible == true)
                                         <tr>
                                             <td colspan="3" align="right">
-                                            <input type="submit" class="btn btn-primary btn-next subtn subt-btn" value="Next" /> </td>
+                                            <input type="submit" class="btn btn-primary btn-next subtn subt-btn subt-btn" value="Next" /> </td>
                                         </tr>
                                         @endif
                                     </tbody>
@@ -1296,6 +1293,7 @@
         </div>
     </div>
 </div>
+<input type="hidden" id="draftNOC" value="{{ isset($noc_application->draft_noc_path) ? $noc_application->draft_noc_path : '' }}">
 @endsection
 
 
@@ -1861,6 +1859,15 @@
         $('.table-c-modal tr').removeClass("active");
         if (".table-c-modal tr:has(input[checked='true'])") {
             $(this).closest("tr").addClass("active");
+        }
+    });
+
+    //check NOC draft agreement generated or not
+    $(".subt-btn").click(function(){
+        var draft = $("#draftNOC").val();
+
+        if (draft != '') {
+            confirm("Are you sure you want to change calculation sheet. If you change calculation sheet then you have to re-generate NOC Agreement.");
         }
     });
 

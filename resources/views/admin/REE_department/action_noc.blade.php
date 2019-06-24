@@ -80,7 +80,7 @@ $route=\Request::route()->getName();
             </a>
         </li>      
         @endif
-        
+
         @if((session()->get('role_name') == config('commanConfig.ree_junior') && $noc_application->noc_generation_status == 0) || $noc_application->noc_generation_status == config('commanConfig.applicationStatus.NOC_Generation'))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ree.generate_noc')?'m-menu__item--active':''}}"
             aria-haspopup="true">
