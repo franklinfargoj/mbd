@@ -713,6 +713,21 @@ class SocietyPermissionSeeder extends Seeder
                 'display_name' => 'upload other documents',
                 'description'  => 'upload other documents'
             ],
+            [
+                'name'         => 'reval_other_documents',
+                'display_name' => 'revalidation upload other documents',
+                'description'  => 'revalidation upload other documents'
+            ],
+            [
+                'name'         => 'save_reval_other_documents',
+                'display_name' => 'revalidation save other documents',
+                'description'  => 'revalidation save other documents'
+            ],
+            [
+                'name'         => 'delete_reval_other_documents',
+                'display_name' => 'revalidation delete other documents',
+                'description'  => 'revalidation delete other documents'
+            ],
             
         ];
         

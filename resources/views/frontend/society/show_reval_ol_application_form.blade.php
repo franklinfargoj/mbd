@@ -26,7 +26,7 @@
             </div>
             <div class="text-center">
                 <h3 class="m-subheader__title ">
-                    <label for="layouts">Layouts</label>
+                    <!-- <label for="layouts">Layouts</label> -->
                     <p>{{ $ol_application->applicationMasterLayout[0]->layout_name }}</p>
                 </h3>
             </div>
@@ -44,7 +44,7 @@
         <div class="m-content letter-form-content">
             <div class="letter-form-subject">
 
-                <p><span class="font-weight-semi-bold"> Subject - </span>Proposed redevelopment to the existing Building No. <input type="hidden" name="application_master_id" value="{{ $id }}" readonly><input class="letter-form-input" type="text" id="" name="building_no" value="{{ $society_details->building_no }}" readonly>(address )<input class="letter-form-input" type="text" id="" name="address" value="{{ $society_details->address }}" readonly> For (society name) <input class="letter-form-input" type="text" id="" name="name" value="{{ $society_details->name }}" readonly>
+                <p><span class="font-weight-semi-bold"> Subject - </span>Proposed redevelopment to the existing Building No. <input type="hidden" name="application_master_id" value="{{ $id }}" readonly><input class="letter-form-input" type="text" id="" name="building_no" value="{{ $society_details->building_no }}" readonly><input class="letter-form-input" type="text" id="" name="address" value="{{ $society_details->address }}" readonly> For <input class="letter-form-input" type="text" id="" name="name" value="{{ $society_details->name }}" readonly>
 
                 <p class="font-weight-semi-bold">Ref: Society's request letter submitted on {{ date(config('commanConfig.dateFormat'), strtotime($old_ol_application->submitted_at )) }}</p>
 
@@ -68,7 +68,7 @@
 
             </div>
         </div>
-         @if((isset($applicationCount) && $applicationCount <= 0) && ($ol_application->olApplicationStatus[0]->status_id == '3' || $ol_application->olApplicationStatus[0]->status_id == '4'))
+         @if((isset($applicationCount) && $applicationCount <= 0) && ($ol_application->olApplicationStatus[0]->status_id == config('commanConfig.applicationStatus.reverted') || $ol_application->olApplicationStatus[0]->status_id == config('commanConfig.applicationStatus.pending')))
    
             <div class="m-login__form-action mt-4 mb-4">
                     <a href="{{ route('society_reval_offer_letter_edit',encrypt($ol_application->id)) }}" class="btn btn-primary">

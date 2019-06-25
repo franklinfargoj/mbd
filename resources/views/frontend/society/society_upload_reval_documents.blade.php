@@ -13,140 +13,103 @@
             <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
         </div>
     </div>
-    <!-- END: Subheader -->
+    <!-- display nd upload documents section-->
     <div class="m-portlet m-portlet--creative m-portlet--first m-portlet--bordered-semi mb-0">
-        <!-- <div class="m-portlet__head main-sub-title">
-            <div class="m-portlet__head-caption">
-                <div class="m-portlet__head-title">
-                    <span class="m-portlet__head-icon m--hide">
-                        <i class="flaticon-statistics"></i>
-                    </span>
-                    <h2 class="m-portlet__head-label m-portlet__head-label--custom">
-                        <span>
-                            Upload Attachments
-                        </span>
-                    </h2>
-                </div>
-            </div>
-        </div> -->
-           
         <div class="m-portlet__body m-portlet__body--table">
             <div class="m-section mb-0">
                 <div class="m-section__content mb-0 table-responsive">
                     <table class="table mb-0">
                         <thead class="thead-default">
                             <tr>
-                                <th>
-                                    Sr. No
-                                </th>
-                                <th>
-                                    Document Name
-                                </th>
-                                <th>
-                                    Status
-                                </th>
-                                <th>
-                                    Actions
-                                </th>
+                                <th>Sr. No</th>
+                                <th> Document Name </th>
+                                <th> Status </th>
+                                <th> Actions </th>
                             </tr>
                         </thead>
                         <tbody>
                             @php $i=1; @endphp
                             @foreach($documents as $document)
-                            <tr>
-                                <td>{{ $i }}</td>
-                                <td>
-                                    {{ $document->name }}<span class="compulsory-text">@if(in_array($document->id, $optional_docs))<small><span style="color: green;">(Optional
-                                            Document)</span></small> @else <small>(Compulsory Document)</small> @endif</span>
-                                </td>
-                                <td class="text-center">
-                                    <h2 class="m--font-danger">
-                                        @if(count($document->reval_documents_uploaded) > 0 )
-                                        @foreach($document->reval_documents_uploaded as $document_uploaded)
-                                        @if($document_uploaded['society_id'] == $society->id)
-                                        <i class="fa fa-check"></i>
+                                <tr>
+                                    <td>{{ $i }}</td>
+                                    <td>
+                                        {{ $document->name }}
+                                        @if($document->is_optional == 0)
+                                            <span class="compulsory-text">
+                                            <small>(Compulsory Document)</small></span>
                                         @else
-                                        <i class="fa fa-remove"></i>
+                                            <span class="compulsory-text"> <small>
+                                            <span style="color: green;">
+                                            (Optional Document)</small> </span>
                                         @endif
-                                        @endforeach
-                                        @else
-                                        <i class="fa fa-remove"></i>
-                                        @endif
-                                    </h2>
-                                </td>
-                                <td>
-                                    @if(count($document->reval_documents_uploaded) > 0 )
-                                    @foreach($document->reval_documents_uploaded as $document_uploaded)
-                                    @if($document_uploaded['society_id'] == $society->id)
-                                    <span>
-                                        <a href="{{ asset($document_uploaded['society_document_path']) }}" data-value='{{ $document->id }}'
-                                            class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
-                                                Download</button></a>
-                                        <a href="{{ url('/delete_uploaded_reval_documents/'.$document->id) }}" data-value='{{ $document->id }}'
-                                            class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
-                                                <i class="fa fa-trash"></i></button></a>
-                                    </span>
-                                    @else
-                                    <form action="{{ route('uploaded_reval_documents') }}" method="post" enctype='multipart/form-data'
-                                        id="upload_documents_form_{{ $document->id }}">
-                                        @csrf
-                                        <input type="hidden" name="applicationId" value="{{ isset($ol_applications->id) ? $ol_applications->id : '' }}">
-                                        <div class="custom-file">
-                                            <input class="custom-file-input" name="document_name" type="file" class=""
-                                                id="test-upload_{{ $document->id }}" required>
-                                            <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
-                                            <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
-                                                file ...</label>
-                                            <span class="help-block">
-                                                @if(session('error_'.$document->id))
-                                                session('error_'.$document->id)
-                                                @endif
+                                    </td>
+                                    @if(count($document->reval_documents) > 0 )
+                                        <td class="text-center">
+                                            <h2 class="m--font-danger">
+                                                 <i class="fa fa-check"></i>
+                                            </h2>
+                                        </td>
+                                        <td>
+                                        @if($document->is_other == 1) 
+                                            <a href="{{ route('reval_other_documents',[encrypt($ol_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px">
+                                            upload other documents</a>    
+                                        @else 
+                                            <span>
+                                            <a href="{{ asset($document->reval_documents->society_document_path) }}" data-value='{{ $document->id }}' class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom"> Download</button></a>
+                                            <a href="{{ url('/delete_uploaded_reval_documents/'.$document->id) }}" data-value='{{ $document->id }}'
+                                                class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
+                                                    <i class="fa fa-trash"></i></button></a>
                                             </span>
-                                        </div>
-                                        <br>
-                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                    </form>
+                                        @endif    
+                                        </td>
+                                    @else 
+                                        <td class="text-center">
+                                            <h2 class="m--font-danger">
+                                                <i class="fa fa-remove"></i>
+                                            </h2>
+                                        </td>
+                                        <td>
+                                        @if($document->is_other == 1) 
+                                            <a href="{{ route('reval_other_documents',[encrypt($ol_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px">
+                                            upload other documents</a>    
+                                        @else 
+                                            <form action="{{ route('uploaded_reval_documents') }}" method="post" enctype='multipart/form-data'
+                                            id="upload_documents_form_{{ $document->id }}">
+                                            @csrf
+                                            <input type="hidden" name="applicationId" value="{{ isset($ol_applications->id) ? $ol_applications->id : '' }}">
+                                            <div class="custom-file">
+                                                <input class="custom-file-input" name="document_name" type="file" class=""
+                                                    id="test-upload_{{ $document->id }}" required>
+                                                <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
+                                                <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
+                                                    file ...</label>
+                                                <span class="help-block">
+                                                    @if(session('error_'.$document->id))
+                                                    session('error_'.$document->id)
+                                                    @endif
+                                                </span>
+                                            </div>
+                                            <br>
+                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                            </form>
+                                        @endif    
+                                        </td>
                                     @endif
-                                    @endforeach
-                                    @else
-                                    <form action="{{ route('uploaded_reval_documents') }}" method="post" enctype='multipart/form-data'
-                                        id="upload_documents_form_{{ $document->id }}">
-                                        @csrf
-                                         <input type="hidden" name="applicationId" value="{{ isset($ol_applications->id) ? $ol_applications->id : '' }}">
-
-                                        <div class="custom-file @if(session('error_'.$document->id)) has-error @endif">
-                                            <input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}"
-                                                required>
-                                            <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
-                                            <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
-                                                file ...</label>
-                                            <span class="help-block text-danger">
-                                                @if(session('error_'.$document->id))
-                                                {{session('error_'.$document->id)}}
-                                                @endif
-                                            </span>
-                                        </div>
-                                        <br>
-                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn_{{ $document->id }}">Upload</button>
-                                    </form>
-                                    @endif
-                                </td>
-                            </tr>
-                            @php $i++; @endphp
-                            @endforeach
+                                </tr>    
+                                @php $i++; @endphp
+                            @endforeach    
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-    @if(!empty($docs_count) && !empty($docs_uploaded_count))
+
+    <!-- remark section -->
     @if($docs_count == $docs_uploaded_count)
-    <div class="m-portlet">
-        <div>
-            @if($application->olApplicationStatus[0]->status_id == 3)
+        <div class="m-portlet">
             <div>
-                <div>
+                @if($application->olApplicationStatus[0]->status_id == config('commanConfig.applicationStatus.reverted'))
                     <div class="portlet-body">
                         <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                             <div class="border-bottom pb-2">
@@ -191,56 +154,31 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            @else
-            <!--               <div class="m-portlet__head main-sub-title">
-                   <div class="m-portlet__head-caption">
-                      <div class="m-portlet__head-title">
-                         <span class="m-portlet__head-icon m--hide">
-                         <i class="flaticon-statistics"></i>
-                         </span>
-                         <h2 class="m-portlet__head-label m-portlet__head-label--custom">
-                            <span>
-                            Submit Application
-                            </span>
-                         </h2>
-                      </div>
-                   </div>
-                </div> -->
-
-            <div>
-                <div class="portlet-body">
-                    <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
-                        <div class="">
-                            <h3 class="section-title section-title--small">Submit Application:</h3>
-                        </div>
-                        <form action="{{ route('add_reval_documents_comment') }}" method="post" enctype='multipart/form-data'>
-                            @csrf
-                            <input type="hidden" name="applicationId" value="{{ isset($ol_applications->id) ? $ol_applications->id : '' }}">
-                            <div class="remarks-suggestions table--box-input">
-                                <div class="mt-3">
-                                    <label for="society_documents_comment">Additional Information:</label>
-                                    <div class="@if($errors->has('society_documents_comment')) has-error @endif">
-                                        <textarea name="society_documents_comment" rows="5" cols="30" id="society_documents_comment" class="form-control form-control--custom">{{old('society_documents_comment')}}</textarea>
-                                        <span class="help-block">{{$errors->first('society_documents_comment')}}</span>
+                @else
+                    <div class="portlet-body">
+                        <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
+                            <div class="">
+                                <h3 class="section-title section-title--small">Submit Application:</h3>
+                            </div>
+                            <form action="{{ route('add_reval_documents_comment') }}" method="post" enctype='multipart/form-data'>
+                                @csrf
+                                <input type="hidden" name="applicationId" value="{{ isset($ol_applications->id) ? $ol_applications->id : '' }}">
+                                <div class="remarks-suggestions table--box-input">
+                                    <div class="mt-3">
+                                        <label for="society_documents_comment">Additional Information:</label>
+                                        <textarea name="society_documents_comment" rows="5" cols="30" id="society_documents_comment" class="form-control form-control--custom"> {{ isset($documents_comment) ? $documents_comment->society_documents_comment : '' }}</textarea>
                                     </div>
                                 </div>
                                 <div class="mt-3 btn-list">
                                     <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
                                     <a href="{{route('society_offer_letter_dashboard')}}" class="btn btn-secondary">Cancel</a>
                                 </div>
-                            </div>
-                            <!-- <a href="{{ route('society_offer_letter_dashboard') }}" class="btn btn-primary btn-custom" id="">Cancel</a> -->
-                        </form>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
-
         </div>
-    </div>
+    @endif
 </div>
-@endif
-@endif
-@endif
 @endsection

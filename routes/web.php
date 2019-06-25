@@ -549,6 +549,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         Route::post('/save_offer_letter_application_form_dev', 'SocietyOfferLetterController@save_offer_letter_application_dev')->name('save_offer_letter_application_dev');
 
         Route::get('documents_upload/{id}', 'SocietyOfferLetterController@displaySocietyDocuments')->name('documents_upload');
+
+        Route::get('reval_other_documents/{applicationId}/{documentId}', 'SocietyOfferLetterController@revalOtherDocuments')->name('reval_other_documents');
+
         Route::post('add_uploaded_documents_remark', 'SocietyOfferLetterController@addSocietyDocumentsRemark')->name('add_uploaded_documents_remark');
         Route::get('documents_uploaded/{id}', 'SocietyOfferLetterController@viewSocietyDocuments')->name('documents_uploaded');
         Route::post('uploaded_documents', 'SocietyOfferLetterController@uploadSocietyDocuments')->name('uploaded_documents');
@@ -672,6 +675,11 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('society_reval_offer_letter_update','SocietyOfferLetterController@updateRevalOfferLetterApplication')->name('society_reval_offer_letter_update');
 
     Route::get('reval_documents_upload/{id}','SocietyOfferLetterController@displaySocietyRevalDocuments')->name('reval_documents_upload');
+
+    Route::post('save_reval_other_documents','SocietyOfferLetterController@saveRevalOtherDocuments')->name('save_reval_other_documents');
+
+    Route::post('delete_reval_other_documents','SocietyOfferLetterController@deleteRevalOtherDocuments')->name('delete_reval_other_documents');
+
     Route::post('add_uploaded_reval_documents_remark','SocietyOfferLetterController@addSocietyRevalDocumentsRemark')->name('add_uploaded_reval_documents_remark');
     Route::get('reval_documents_uploaded/{id}','SocietyOfferLetterController@viewSocietyRevalDocuments')->name('reval_documents_uploaded');
     Route::post('uploaded_reval_documents','SocietyOfferLetterController@uploadSocietyRevalDocuments')->name('uploaded_reval_documents');

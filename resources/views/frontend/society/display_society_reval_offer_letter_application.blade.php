@@ -2,23 +2,13 @@
     <div style="font-size: 18px;">
         <div>
             <div style="text-align: center;">
-                <!-- <h3 style="font-weight: bold; margin-top: 5px; margin-bottom: 5px;">अर्जाचा नमुना</h3> -->
             </div>
             <div>
                 <p>
-                    <p style="display: block; font-weight: bold; line-height: 0; margin-top: 5px; margin-bottom: 5px;">प्रति,</p>
-                    <table style="margin-left: -5px; margin-top: 5px; margin-bottom: 5px;">
-                        <tbody>
-                            <tr>
-                                <td style="font-size: 18px;">कार्यकारी अभियंता,</td>
-                                <td style="border-bottom: 1px solid #000; font-size: 18px;">REE</td>
-                                <td style="font-size: 18px;">विभाग,</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">मुंबई गृहनिर्माण व क्षेत्रविकास मंडळ,</p>
-                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">गृहनिर्माण भवन, वांद्रे (पुर्व),</p>
-                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">मुंबई - ४०००५१.</p>
+                    <p style="display: block;line-height: 0; margin-top: 5px; margin-bottom: 5px;">To</p>
+                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">Resident Executive Engineer,</p>
+                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">M.H. & A.D Board, Grihaniman Bhavan</p>
+                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">Kalanagar, Bandra (East),Mumbai - 400051,</p>
                 </p>
             </div>
         </div>
@@ -47,8 +37,9 @@
 
                     Thinking you in kind anticipation.
                 </p>
-
-
+                @if(isset($comments))
+                    <p> <span> Society Comments : </span><span>{{ $comments->society_documents_comment }}</span></p>
+                @endif
             </div>
             <div style="margin-top: 30px;">
                 <div style="float: right; text-align: right;">

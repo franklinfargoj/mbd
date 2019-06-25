@@ -1305,7 +1305,6 @@ class SocietyOfferLetterController extends Controller
         return view('frontend.society.society_upload_documents', compact('documents','ol_applications',  'optional_docs', 'docs_count', 'docs_uploaded_count', 'documents_uploaded', 'society', 'application', 'documents_comment', 'documents_arr','documentsList','applicationCount'));
     }
 
-
     public function displaySocietyRevalDocuments($applicationId){
 
         $applicationId = decrypt($applicationId);
@@ -1313,32 +1312,25 @@ class SocietyOfferLetterController extends Controller
         $application = OlApplication::where('id',$applicationId)->where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         } ])->orderBy('id', 'desc')->first();
+
         $ol_applications = $application;
+
         $documents = OlSocietyDocumentsMaster::where('application_id',
-            $application->application_master_id)->with(['reval_documents_uploaded' => function($q) use ($society,$application){
-            $q->where('society_id', $society->id)->where('application_id',$application->id)->get();
+            $application->application_master_id)->with(['reval_documents' => function($q) use ($society,$application){
+            $q->where('application_id',$application->id)->where('society_id', $society->id);
         }])->get();
-        foreach ($documents as $key => $value) {
-            $document_ids[] = $value->id;
-        }
-        $documents_uploaded = RevalOlSocietyDocumentStatus::where('application_id',$application->id)
-        ->where('society_id', $society->id)->whereIn('document_id', $document_ids)->with(['documents_uploaded'])->get();
 
-        $documents_comment = OlSocietyDocumentsComment::where('application_id',$application->id)->where('society_id', $society->id)->orderBy('id','desc')->first();
+        // get society documents details
+        $arr=$this->getRevalDocumentDetails($application->application_master_id,$application->id);
 
-        $optional_docs = $this->getOptionalDocument($application->application_master_id);
-        $docs_uploaded_count = 0;
-        $docs_count = 0;
-        foreach($documents as $documents_key => $documents_val){
-            if(in_array($documents_val->id, $optional_docs) == false){
-                $docs_count++;
-                if(count($documents_val->reval_documents_uploaded) > 0){
-                    $docs_uploaded_count++;
-                }
-            }
-        }
+        $documents = $arr['documents'];
+        $docs_count = $arr['docs_count'];
+        $docs_uploaded_count = $arr['docs_uploaded_count'];
+        $optional_docs = $arr['optional_docs'];
+        $documents_comment = $arr['documents_comment'];
+
         $applicationCount = $this->getForwardedRevalApplication();
-        return view('frontend.society.society_upload_reval_documents', compact('documents','ol_applications',  'optional_docs', 'docs_count', 'docs_uploaded_count', 'documents_uploaded', 'society', 'application', 'documents_comment','applicationCount'));
+        return view('frontend.society.society_upload_reval_documents', compact('documents','ol_applications',  'optional_docs', 'docs_count', 'docs_uploaded_count', 'society', 'application', 'documents_comment','applicationCount'));
     }
 
 
@@ -1393,6 +1385,7 @@ class SocietyOfferLetterController extends Controller
 
     public function addSocietyRevalDocumentsComment(Request $request){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $applicationId = $request->applicationId;
         $comments = '';
         if(!empty($request->input('society_documents_comment'))){
             $comments = $request->input('society_documents_comment');
@@ -1400,13 +1393,12 @@ class SocietyOfferLetterController extends Controller
             $comments = 'N.A.';
         }
         $input = array(
-            'society_id' => $society->id,
-            'application_id' => $request->applicationId,
+            'society_id'                => $society->id,
+            'application_id'            => $applicationId,
             'society_documents_comment' => $comments,
         );
-
-        OlSocietyDocumentsComment::where('society_id', $society->id)->update($input);
-        $id = encrypt($request->applicationId);
+        OlSocietyDocumentsComment::updateOrCreate(['application_id' => $applicationId],$input);
+        $id = encrypt($applicationId);
         return redirect()->route('upload_society_reval_offer_letter_application',$id);
     }
 
@@ -1574,29 +1566,16 @@ class SocietyOfferLetterController extends Controller
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->orderBy('id', 'desc')->first();
 
-        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['reval_documents_uploaded' => function($q) use ($society,$applicationId){
-            $q->where('society_id', $society->id)->where('application_id',$applicationId)->get();
-        }])->get();
-
-        foreach ($documents as $key => $value) {
-            $document_ids[] = $value->id;
-        }
-
-        $optional_docs = $this->getOptionalDocument($application->application_master_id);
-        $docs_uploaded_count = 0;
-        $docs_count = 0;
-        foreach($documents as $documents_key => $documents_val) {
-            if (in_array($documents_key + 1, $optional_docs) == false) {
-                $docs_count++;
-                if (count($documents_val->reval_documents_uploaded) > 0) {
-                    $docs_uploaded_count++;
-                }
-            }
-        }
-
         $ol_applications = $application;
-        $documents_uploaded = RevalOlSocietyDocumentStatus::where('application_id',$applicationId)->where('society_id', $society->id)->whereIn('document_id', $document_ids)->get();
-        $documents_comment = OlSocietyDocumentsComment::where('application_id',$applicationId)->where('society_id', $society->id)->orderBy('id','desc')->first();
+
+        // get society documents details
+        $arr=$this->getRevalDocumentDetails($application->application_master_id,$application->id);
+
+        $documents = $arr['documents'];
+        $docs_count = $arr['docs_count'];
+        $docs_uploaded_count = $arr['docs_uploaded_count'];
+        $optional_docs = $arr['optional_docs'];
+        $documents_comment = $arr['documents_comment'];
 
         return view('frontend.society.view_society_uploaded_reval_documents', compact('documents', 'optional_docs', 'docs_uploaded_count','docs_count', 'ol_applications','documents_uploaded', 'documents_comment', 'society'));
     }
@@ -1708,66 +1687,6 @@ class SocietyOfferLetterController extends Controller
             'society_document_path' => $path,
         );
         RevalOlSocietyDocumentStatus::create($input);
-
-        //-----useless code
-        // $documents_master = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['reval_documents_uploaded' => function($q) use ($society){
-        //     $q->where('society_id', $society->id)->get();
-        // }])->get();
-
-        // if($application->application_master_id == '3' || $application->application_master_id == '14'){
-        //     $optional_docs = config('commanConfig.optional_docs_premium_reval');
-        // }
-        // if($application->application_master_id == '7' || $application->application_master_id == '18 '){
-        //     $optional_docs = config('commanConfig.optional_docs_sharing_reval');
-        // }
-        // $docs_uploaded_count = 0;
-        // $docs_count = 0;
-        // foreach($documents_master as $documents_key => $documents_val) {
-        //     if (in_array($documents_key + 1, $optional_docs) == false) {
-        //         $docs_count++;
-        //         if (count($documents_val->documents_uploaded) > 0) {
-        //             $documents_uploaded[] = $documents_val->documents_uploaded;
-        //             $docs_uploaded_count++;
-        //         }
-        //     }
-        // }
-
-        // if($docs_count == $docs_uploaded_count){
-        //     $role_id = Role::where('name','like', 'ree_junior_engineer')->first();
-
-        //     $user_ids = RoleUser::where('role_id', $role_id->id)->get()->toArray();
-        //     $user_ids = array_column($user_ids, 'user_id');
-        //     $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
-        //     foreach ($layout_user_ids as $key => $value) {
-        //         $select_user_ids[] = $value['user_id'];
-        //     }
-        //     $users = User::whereIn('id', $select_user_ids)->get();
-
-        //     if(count($users) > 0){
-
-        //         foreach($users as $key => $user){
-        //             $i = 0;
-        //             $insert_application_log_pending[$key]['application_id'] = $application->id;
-        //             $insert_application_log_pending[$key]['society_flag'] = 1;
-        //             $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
-        //             $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
-        //             $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
-        //             $insert_application_log_pending[$key]['to_user_id'] = $user->id;
-        //             $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
-        //             $insert_application_log_pending[$key]['remark'] = '';
-        //             $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
-        //             $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
-        //             $i++;
-        //         }
-        //         OlApplicationStatus::insert($insert_application_log_pending);
-        //         $add_comment = array(
-        //             'society_id' => $society->id,
-        //             'society_documents_comment' => 'N.A.',
-        //         );
-        //         OlSocietyDocumentsComment::create($add_comment);
-        //     }
-        // }
-         //-----useless code-------
         $id = encrypt($application->id);
         return redirect()->route('reval_documents_upload',$id);
     }
@@ -1840,57 +1759,6 @@ class SocietyOfferLetterController extends Controller
     public function deleteSocietyRevalDocuments($id){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $application = OlApplication::where('society_id', $society->id)->orderBy('id','desc')->first();
-
-        // $documents_master = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['reval_documents_uploaded' => function($q) use ($society){
-        //     $q->where('society_id', $society->id)->get();
-        // }])->get();
-
-        // if($application->application_master_id == '3' || $application->application_master_id == '14'){
-        //     $optional_docs = config('commanConfig.optional_docs_premium_reval');
-        // }
-        // if($application->application_master_id == '7' || $application->application_master_id == '18'){
-        //     $optional_docs = config('commanConfig.optional_docs_sharing_reval');
-        // }
-        // $docs_uploaded_count = 0;
-        // $docs_count = 0;
-        // foreach($documents_master as $documents_key => $documents_val) {
-        //     if (in_array($documents_key + 1, $optional_docs) == false) {
-        //         $docs_count++;
-        //         if (count($documents_val->documents_uploaded) > 0) {
-        //             $documents_uploaded[] = $documents_val->documents_uploaded;
-        //             $docs_uploaded_count++;
-        //         }
-        //     }
-        // }
-
-        // if($docs_count == $docs_uploaded_count){
-        //     $role_id = Role::where('name','like', 'ree_junior_engineer')->first();
-        //     $user_ids = RoleUser::where('role_id', $role_id->id)->get()->toArray();
-        //     $user_ids = array_column($user_ids, 'user_id');
-        //     $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
-        //     foreach ($layout_user_ids as $key => $value) {
-        //         $select_user_ids[] = $value['user_id'];
-        //     }
-        //     $users = User::whereIn('id', $select_user_ids)->get();
-
-        //     if(count($users) > 0){
-        //         foreach($users as $key => $user){
-        //             $i = 0;
-        //             $insert_application_log_pending[$key]['application_id'] = $application->id;
-        //             $insert_application_log_pending[$key]['society_flag'] = 1;
-        //             $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
-        //             $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
-        //             $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
-        //             $insert_application_log_pending[$key]['to_user_id'] = $user->id;
-        //             $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
-        //             $insert_application_log_pending[$key]['remark'] = '';
-        //             $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
-        //             $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
-        //             $i++;
-        //         }
-        //     }
-        //     OlApplicationStatus::insert($insert_application_log_pending);
-        // }
 
         $delete_document_details = RevalOlSocietyDocumentStatus::where('society_id', $society->id)->where('document_id', $id)->get();
         $stored_filepath = explode('/', $delete_document_details[0]->society_document_path);
@@ -1970,40 +1838,24 @@ class SocietyOfferLetterController extends Controller
         $applicationId = decrypt($applicationId);
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
-        $ol_application = OlApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->where('society_id', $society->id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
-            $q->where('society_flag', '1')->orderBy('id', 'desc');
-        }])->orderBy('id', 'desc')->first();
-
-        $old_ol_application = OlApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->where('society_id', $society->id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
-            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        
+        $ol_application = OlApplication::where('id',$applicationId)->where('society_id', $society->id)->with(['request_form','applicationMasterLayout','olApplicationStatus' => function($q) use($applicationId){
+            $q->where('application_id',$applicationId)->where('society_flag', '1')
+            ->orderBy('id', 'desc');
         }])->first();
 
-        $layouts = MasterLayout::all();
+        $old_ol_application = OlApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->where('society_id', $society->id)->first();
+
         $id = $ol_application->application_master_id;
         $ol_applications = $ol_application;
         $applicationCount = $this->getForwardedRevalApplication();
 
-        $documents = OlSocietyDocumentsMaster::where('application_id', $ol_applications->application_master_id)->with(['reval_documents_uploaded' => function($q) use ($society,$applicationId){
-            $q->where('society_id', $society->id)->where('application_id',$applicationId)->get();
-        }])->get();
+        // get society documents details
+        $arr=$this->getRevalDocumentDetails($ol_application->application_master_id,$ol_application->id);
+        $docs_count = $arr['docs_count'];
+        $docs_uploaded_count = $arr['docs_uploaded_count'];
 
-        foreach ($documents as $key => $value) {
-            $document_ids[] = $value->id;
-        }
-
-        $optional_docs = $this->getOptionalDocument($ol_applications->application_master_id);
-        $docs_uploaded_count = 0;
-        $docs_count = 0;
-        foreach($documents as $documents_key => $documents_val) {
-            if (in_array($documents_key + 1, $optional_docs) == false) {
-                $docs_count++;
-                if (count($documents_val->reval_documents_uploaded) > 0) {
-                    $docs_uploaded_count++;
-                }
-            }
-        }
-
-        return view('frontend.society.show_reval_ol_application_form', compact('docs_count','docs_uploaded_count','society_details', 'ol_applications', 'ol_application', 'layouts', 'id','old_ol_application','applicationCount'));
+        return view('frontend.society.show_reval_ol_application_form', compact('docs_count','docs_uploaded_count','society_details', 'ol_applications', 'ol_application','id','old_ol_application','applicationCount'));
     }
 
     public function showOcApplication($applicationId){
@@ -2049,33 +1901,16 @@ class SocietyOfferLetterController extends Controller
         $applicationId = decrypt($applicationId);
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
-        $ol_application = OlApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->with(['request_form', 'ol_application_master', 'applicationMasterLayout'])->orderBy('id','desc')->first();
+        $ol_application = OlApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->with(['request_form', 'ol_application_master'])->orderBy('id','desc')->first();
         $layouts = MasterLayout::all();
         $id = $ol_application->application_master_id;
         $ol_applications = $ol_application;
         $applicationCount = $this->getForwardedRevalApplication();
 
-
-        $documents = OlSocietyDocumentsMaster::where('application_id', $ol_applications->application_master_id)->with(['reval_documents_uploaded' => function($q) use ($society,$applicationId){
-            $q->where('society_id', $society->id)->where('application_id',$applicationId)->get();
-        }])->get();
-
-        foreach ($documents as $key => $value) {
-            $document_ids[] = $value->id;
-        }
-
-        $optional_docs = $this->getOptionalDocument($ol_applications->application_master_id);
-        $docs_uploaded_count = 0;
-        $docs_count = 0;
-        foreach($documents as $documents_key => $documents_val) {
-            if (in_array($documents_key + 1, $optional_docs) == false) {
-                $docs_count++;
-                if (count($documents_val->reval_documents_uploaded) > 0) {
-                    $docs_uploaded_count++;
-                }
-            }
-        }
-
+        // get society documents details
+        $arr=$this->getRevalDocumentDetails($ol_application->application_master_id,$ol_application->id);
+        $docs_count = $arr['docs_count'];
+        $docs_uploaded_count = $arr['docs_uploaded_count'];
 
         return view('frontend.society.edit_reval_form', compact('docs_count','docs_uploaded_count','society_details', 'ol_applications', 'ol_application', 'layouts', 'id','applicationCount'));
     }
@@ -2191,21 +2026,18 @@ class SocietyOfferLetterController extends Controller
         $applicationId = decrypt($applicationId);
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
-        $ol_application = OlApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->with(['request_form', 'applicationMasterLayout'])->orderBy('id','desc')->first();
-        $layouts = MasterLayout::all();
+        $ol_application=OlApplication::where('id',$applicationId)->with(['request_form', 'applicationMasterLayout'])->orderBy('id','desc')->first();
         $id = $ol_application->application_master_id;
+        $comments = OlSocietyDocumentsComment::where('application_id',$applicationId)->orderBy('id','desc')->first();
 
-        $old_ol_application = OlApplication::where('id',$applicationId)->where('user_id', Auth::user()->id)->where('society_id', $society->id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
-            $q->where('society_flag', '1')->orderBy('id', 'desc');
-        }])->first();
+        $old_ol_application = OlApplication::where('id',$applicationId)->where('society_id', $society->id)->first();
         $fileName = 'Reval_'.$ol_application->application_no.'.pdf';
         $mpdf = new Mpdf();
         $mpdf->autoScriptToLang = true;
         $mpdf->autoLangToFont = true;
-        $contents = view('frontend.society.display_society_reval_offer_letter_application', compact('society_details', 'ol_application', 'layouts', 'id','old_ol_application'));
+        $contents = view('frontend.society.display_society_reval_offer_letter_application', compact('society_details', 'ol_application','id','old_ol_application','comments'));
         $mpdf->WriteHTML($contents);
         $mpdf->Output($fileName,'I');
-
     }
 
 
@@ -2258,25 +2090,10 @@ class SocietyOfferLetterController extends Controller
         $ol_applications = $application_details;
         $applicationCount = $this->getForwardedRevalApplication();
 
-        $documents = OlSocietyDocumentsMaster::where('application_id', $ol_applications->application_master_id)->with(['reval_documents_uploaded' => function($q) use ($society,$applicationId){
-            $q->where('society_id', $society->id)->where('application_id',$applicationId)->get();
-        }])->get();
-
-        foreach ($documents as $key => $value) {
-            $document_ids[] = $value->id;
-        }
-
-        $optional_docs = $this->getOptionalDocument($ol_applications->application_master_id);
-        $docs_uploaded_count = 0;
-        $docs_count = 0;
-        foreach($documents as $documents_key => $documents_val) {
-            if (in_array($documents_key + 1, $optional_docs) == false) {
-                $docs_count++;
-                if (count($documents_val->reval_documents_uploaded) > 0) {
-                    $docs_uploaded_count++;
-                }
-            }
-        }
+        // get society documents details
+        $arr=$this->getRevalDocumentDetails($ol_applications->application_master_id,$ol_applications->id);
+        $docs_count = $arr['docs_count'];
+        $docs_uploaded_count = $arr['docs_uploaded_count'];
 
         return view('frontend.society.upload_download_reval_offer_letter_application_form', compact('docs_count','docs_uploaded_count','ol_applications', 'application_details','applicationCount'));
     }
@@ -2366,9 +2183,6 @@ class SocietyOfferLetterController extends Controller
         $application = OlApplication::where('society_id', $society->id)->where('id', $request->applicationId)->first();
         $role_id = Role::where('name','like', 'ree_junior_engineer')->value('id');
 
-
-
-
         $users = User::where('role_id',$role_id)->with(['LayoutUser' => function($query)use($application){
             $query->where('layout_id',$application->layout_id);
         }])->whereHas('LayoutUser', function($query)use($application){
@@ -2404,9 +2218,6 @@ class SocietyOfferLetterController extends Controller
                 $i++;
             }
 
-
-//                OlApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
-
             //Code added by Prajakta >>start
             DB::beginTransaction();
             try {
@@ -2428,11 +2239,9 @@ class SocietyOfferLetterController extends Controller
                 DB::commit();
             } catch (\Exception $ex) {
                 DB::rollback();
-//                return response()->json(['error' => $ex->getMessage()], 500);
             }
             //Code added by Prajakta >>end
             return redirect()->route('society_offer_letter_dashboard');
-
         }
         else{
             return back()->with('error','Something went wrong,Please contact to Admin.');
@@ -3151,5 +2960,99 @@ class SocietyOfferLetterController extends Controller
         $applicationCount = $this->getForwardedApplication();
         $type = 'other';
         return view('frontend.society.upload_multiple_documents',compact('ol_applications','documentId','documents','applicationCount','type'));
+    }
+
+    // get documents, uploaded doc count, doc count, optional docs etc for Reval module 
+    public function getRevalDocumentDetails($masterId,$applicationId){
+
+        $arr['documents'] = OlSocietyDocumentsMaster::where('application_id',
+            $masterId)->with(['reval_documents' => function($q) use ($applicationId){ 
+                $q->where('application_id',$applicationId);
+        }])->get();
+
+        $arr['docs_count'] = OlSocietyDocumentsMaster::where('application_id', $masterId)->where('is_deleted',0)->where('is_optional',0)->count();    
+
+        $arr['docs_uploaded_count'] = OlSocietyDocumentsMaster::where('application_id',$masterId)->where('is_optional',0)->with(['reval_documents' => function($q) use ($applicationId){
+            $q->where('application_id',$applicationId);
+        }])->whereHas('reval_documents', function($q) use ($applicationId){
+            $q->where('application_id',$applicationId);
+        })->count(); 
+
+        $arr['optional_docs'] = $this->getOptionalDocument($masterId);
+
+        $arr['documents_comment']=OlSocietyDocumentsComment::where('application_id',$applicationId)->orderBy('id','desc')->first();
+
+        return $arr; 
+    }
+
+    // upload other documents in reval module
+    public function revalOtherDocuments($applicationId,$documentId){
+        $documentId = decrypt($documentId);
+        $applicationId = decrypt($applicationId);
+
+        $ol_applications = OlApplication::where('id',$applicationId)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+        } ])->orderBy('id', 'desc')->first();
+
+        $documents = RevalOlSocietyDocumentStatus::where('document_id',$documentId)
+        ->where('application_id', $applicationId)->orderBy('id','desc')->get();
+
+        $ol_applications->status = $this->getSocietyStatusLog($ol_applications->id);
+        $applicationCount = $this->getForwardedApplication();
+        $arr=$this->getRevalDocumentDetails($ol_applications->application_master_id,$ol_applications->id);
+
+        $docs_count = $arr['docs_count'];
+        $docs_uploaded_count = $arr['docs_uploaded_count'];
+
+        return view('frontend.society.reval_upload_other_documents',compact('ol_applications','documentId','documents','applicationCount','docs_count','docs_uploaded_count'));
+    }
+
+    // save reval other documents
+    public function saveRevalOtherDocuments(Request $request){
+        $file = $request->file('file');
+        $societyId = $request->societyId;
+        $documentId = $request->documentId;
+        $applicationId = $request->applicationId;
+        $folderName = "Revalidation"; 
+
+        try{
+            if ($file->getClientMimeType() == 'application/pdf') {
+
+                $extension = $request->file('file')->getClientOriginalExtension();
+                $fileName = time().'_member_'.$societyId.'.'.$extension;
+                $this->CommonController->ftpFileUpload($folderName,$file,$fileName);
+
+                $Documents = new RevalOlSocietyDocumentStatus();
+                $Documents->society_id = $societyId;
+                $Documents->document_id = $documentId;
+                $Documents->application_id = $applicationId;
+                $Documents->name_of_document = $request->memberName;
+                $Documents->society_document_path = $folderName.'/'.$fileName;
+                $Documents->save();
+                $response['status'] = 'success';
+            }else{
+                $response['status'] = 'error';
+            }
+        }catch(Exception $e){
+            $response['status'] = 'error';
+        }
+
+        return response(json_encode($response), 200);
+    }
+
+    // delete other document from reval module
+    public function deleteRevalOtherDocuments(Request $request){
+        try{
+            if (isset($request->oldFile) && isset($request->id)){
+                Storage::disk('ftp')->delete($request->oldFile);
+                RevalOlSocietyDocumentStatus::where('id',$request->id)->delete();
+                $response['status'] = 'success';
+            }else{
+                $response['status'] = 'error';
+            }
+        }catch(Exception $e){
+            $response['status'] = 'error';
+        }
+        return response(json_encode($response), 200);
     }
 }

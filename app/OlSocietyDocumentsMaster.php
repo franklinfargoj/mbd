@@ -16,6 +16,10 @@ class OlSocietyDocumentsMaster extends Model
         return $this->hasMany(RevalOlSocietyDocumentStatus::class, 'document_id', 'id');
     }
 
+    public function reval_documents(){
+        return $this->hasOne(RevalOlSocietyDocumentStatus::class, 'document_id', 'id');
+    }
+
     public function oc_documents_uploaded(){
         return $this->hasMany(OcSocietyDocumentStatus::class, 'document_id', 'id');
     }

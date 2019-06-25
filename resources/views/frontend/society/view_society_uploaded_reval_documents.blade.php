@@ -45,39 +45,33 @@
                             <tr>
                                 <td>{{ $i }}</td>
                                 <td>
-                                    {{ $document->name }}<span class="compulsory-text">@if(in_array($document->id, $optional_docs))<small><span style="color: green;">(Optional
-                                            Document)</span></small> @else <small>(Compulsory Document)</small> @endif</span>
-                                </td>
-                                <td class="text-center">
-                                    <h2 class="m--font-danger">
-                                        @if(count($document->reval_documents_uploaded) > 0 )
-                                        @foreach($document->reval_documents_uploaded as $document_uploaded)
-                                        @if($document_uploaded['society_id'] == $society->id)
-                                        <i class="fa fa-check"></i>
-                                        @else
-                                        <i class="fa fa-remove"></i>
-                                        @endif
-                                        @endforeach
-                                        @else
-                                        <i class="fa fa-remove"></i>
-                                        @endif
-                                    </h2>
-                                </td>
-                                <td>
-                                    @if(count($document->reval_documents_uploaded) > 0 )
-                                    @foreach($document->reval_documents_uploaded as $document_uploaded)
-                                    @if($document_uploaded['society_id'] == $society->id)
-                                    <span>
-                                        <a href="{{ asset($document_uploaded['society_document_path']) }}" data-value='{{ $document->id }}'
-                                            class="btn btn-primary btn-custom" download target="_blank" rel="noopener">
-                                                Download</a>
-                                    </span>
-                                    @endif
-                                    @endforeach
+                                    {{ $document->name }}
+                                    @if($document->is_optional == 0)
+                                        <span class="compulsory-text">
+                                        <small>(Compulsory Document)</small></span>
                                     @else
-
+                                        <span class="compulsory-text"> <small>
+                                        <span style="color: green;">
+                                        (Optional Document)</small> </span>
                                     @endif
                                 </td>
+                                @if(count($document->reval_documents) > 0 )
+                                    <td class="text-center">
+                                        <h2 class="m--font-danger">
+                                             <i class="fa fa-check"></i>
+                                        </h2>
+                                    </td>
+                                    <td>
+                                        @if($document->is_other == 1) 
+                                            <a href="{{ route('reval_other_documents',[encrypt($ol_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px">
+                                            upload other documents</a>    
+                                        @else 
+                                        <span>
+                                            <a href="{{ asset($document->reval_documents->society_document_path) }}" data-value='{{ $document->id }}' class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom"> Download</button></a>
+                                        </span>
+                                        @endif
+                                    </td>
+                                @endif        
                             </tr>
                             @php $i++; @endphp
                             @endforeach
@@ -87,7 +81,7 @@
             </div>
         </div>
     </div>
-    @if($docs_count == $docs_uploaded_count)
+    @if(isset($documents_comment))
     <div class="m-portlet m-portlet--bordered-semi mb-0">
         <div class="">
             <h3 class="section-title section-title--small">Submit Application:</h3>
@@ -95,7 +89,7 @@
         <div class="m-portlet__body m-portlet__body--table">
             <div class="remarks-suggestions">
                 <div class="mt-3">
-                    <label for="society_documents_comment">Additional Information:</label>
+                    <!-- <label for="society_documents_comment">Additional Information:</label> -->
                 </div>
                 <p>
                     @if(isset($documents_comment->society_documents_comment) && ($documents_comment->society_documents_comment != 'N.A.'))
