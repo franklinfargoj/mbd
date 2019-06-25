@@ -44,7 +44,7 @@
             </a>
         </li>
 
-        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='vp.society_reval_documents')?'m-menu__item--active':''}}"
+        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='vp.society_reval_documents' || $route == 'view_reval_other_document')?'m-menu__item--active':''}}"
             aria-haspopup="true">
             <a class="m-menu__link m-menu__toggle" title="Society Documents" href="{{route('vp.society_reval_documents',$ol_application->id)}}">
                 <span class="sidebar-icon sidebar-menu-icon--level-1">
@@ -65,49 +65,8 @@
                         <path fill="#fff" d="M151.33 287.78h30v30h-30zM211.11 228h30v30h-30zM211.11 287.78h30v30h-30zM270.89 228h30v30h-30zM270.89 287.78h30v30h-30zM330.67 228h30v30h-30zM151.33 228h30v30h-30zM151.33 347.56h30v30h-30zM151.33 407.33h30v30h-30zM330.67 287.78h30v30h-30zM211.11 347.56h30v30h-30zM270.89 347.56h30v30h-30zM211.11 407.33h30v30h-30zM270.89 407.33h30v30h-30zM330.67 347.56h30v89.78h-30z"/>
                     </svg>
                 </span>
-                <span class="m-menu__link-text">View Calculation Sheet</span></a>
+                <span class="m-menu__link-text">Calculation Sheet</span></a>
         </li>
-
-    <!--
-        @if($ol_application->status_offer_letter ==
-        config('commanConfig.applicationStatus.offer_letter_generation'))
-            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='ree.generate_offer_letter')?'m-menu__item--active':''}}"
-                aria-haspopup="true">
-                <a class="m-menu__link m-menu__toggle" title="Offer Letter" href="{{route('ree.generate_offer_letter',$ol_application->id)}}">
-                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
-                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                              fill="#FFF" />
-                    </svg>
-                    <span class="m-menu__link-text">Offer Letter</span></a>
-            </li>
-
-        @elseif($ol_application->status_offer_letter ==
-        config('commanConfig.applicationStatus.offer_letter_approved') || $ol_application->status_offer_letter ==
-        config('commanConfig.applicationStatus.sent_to_society'))
-            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='ree.approved_offer_letter')?'m-menu__item--active':''}}"
-                aria-haspopup="true">
-                <a class="m-menu__link m-menu__toggle" title="Offer Letter" href="{{route('ree.approved_offer_letter',$ol_application->id)}}">
-                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
-                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                              fill="#FFF" />
-                    </svg>
-                    <span class="m-menu__link-text">Approved Offer Letter</span></a>
-            </li>
-        @endif
-
-       @if($ol_application->vp_notes!="")
-
-            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='ree.download_vp_note')?'m-menu__item--active':''}}"
-                aria-haspopup="true">
-                <a class="m-menu__link m-menu__toggle " title="CAP Notes" href="{{route('ree.download_vp_note',$ol_application->id)}}">
-                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
-                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                              fill="#FFF" />
-                    </svg>
-                    <span class="m-menu__link-text">CAP Notes</span>
-                </a>
-            </li>
-        @endif -->
 
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2      {{($route=='vp.forward_reval_application')?'m-menu__item--active':''}}"
             aria-haspopup="true">

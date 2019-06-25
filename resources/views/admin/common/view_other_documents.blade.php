@@ -1,6 +1,10 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-    @include('admin.'.$noc_application->folder.'.action_noc',compact('noc_application'))
+    @if(isset($module) && $module == 'noc')
+        @include('admin.'.$folder.'.action_noc',compact('noc_application'))
+    @elseif(isset($module) && $module == 'reval')   
+        @include('admin.'.$folder.'.reval_action',compact('ol_application')) 
+    @endif    
 @endsection
 
 @section('content')
@@ -11,12 +15,27 @@
         
             <h3 class="m-subheader__title m-subheader__title--separator">Document Submitted By Society</h3>
             @if (session()->get('role_name') == config('commanConfig.ree_branch_head') || session()->get('role_name') == config('commanConfig.ree_junior') || session()->get('role_name') == config('commanConfig.ree_assistant_engineer') || session()->get('role_name') == config('commanConfig.ree_deputy_engineer'))
-                
-                {{ Breadcrumbs::render('society_noc_documents_ree',$noc_application->id) }}
+                @if(isset($module) && $module == 'noc')
+                    {{ Breadcrumbs::render('society_noc_documents_ree',$noc_application->id) }}
+                @elseif(isset($module) && $module == 'reval') 
+                    {{ Breadcrumbs::render('society_reval_documents_ree',$ol_application->id) }}    
+                @endif    
 
             @elseif(session()->get('role_name') == config('commanConfig.co_engineer')) 
-                {{ Breadcrumbs::render('society_noc_documents_co',$noc_application->id) }}   
+                @if(isset($module) && $module == 'noc')
+                    {{ Breadcrumbs::render('society_noc_documents_co',$noc_application->id) }} 
+                @elseif(isset($module) && $module == 'reval')
+                    {{ Breadcrumbs::render('society_reval_documents_co',$ol_application->id) }}    
+                @endif
+
+            @elseif(session()->get('role_name') == config('commanConfig.cap_engineer'))
+                {{ Breadcrumbs::render('society_reval_documents_cap',$ol_application->id) }}    
+            
+            @elseif(session()->get('role_name') == config('commanConfig.vp_engineer'))    
+                {{ Breadcrumbs::render('society_reval_documents_vp',$ol_application->id) }}          
             @endif
+
+
             <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
         </div>
     </div> 

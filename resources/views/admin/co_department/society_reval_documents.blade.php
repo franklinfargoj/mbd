@@ -22,29 +22,29 @@
                             <table class="table mb-0">
                                 <thead class="thead-default">
                                 <tr>
-                                    <th width="10%">
-                                        क्रमांक
-                                    </th>
-                                    <th width="90%">
-                                        तपशील
-                                    </th>
-                                    <th>
-                                        दस्तावेज
-                                    </th>
+                                    <th width="10%"> क्रमांक </th>
+                                    <th width="90%"> तपशील </th>
+                                    <th> दस्तावेज </th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php $i=0; ?>
-                                @foreach($societyDocument[0]->societyRevalDocuments as $data)
+                                @foreach($societyDocument as $data)
                                     <tr>
                                         <td>{{ $i+1}}.</td>
-                                        <td>{{(isset($data->documents_Name[0]->name) ? $data->documents_Name[0]->name : '')}}
-
-                                        </td>
+                                        <td>{{(isset($data->name) ? $data->name : '')}} </td>
                                         <td class="text-center">
-                                            @if(isset($data->society_document_path))
-                                                <a href="{{ asset($data->society_document_path) }}">
+                                            @if(isset($data->reval_documents->society_document_path)) 
+                                                @if($data->is_other == 1) 
+                                                    <a href="{{ route('view_reval_other_document',[encrypt($ol_application->id),encrypt($data->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px">View</a>
+                                                @else
+                                                <a href="{{ asset($data->reval_documents->society_document_path) }}" target="_blank">
                                                     <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
+                                                @endif
+                                            @else
+                                                <h2 class="m--font-danger">
+                                                    <i class="fa fa-remove"></i>
+                                                </h2>    
                                             @endif
                                         </td>
                                     </tr>

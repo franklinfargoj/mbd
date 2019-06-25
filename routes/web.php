@@ -1356,6 +1356,8 @@ Route::post('send_noc_issued_society','REEDepartment\REEController@sendissuedNOC
 
 Route::get('view_noc_other_document/{applicationId}/{documentId}','Common\CommonController@viewNocOtherDocument')->name('view_noc_other_document');
 
+Route::get('view_reval_other_document/{applicationId}/{documentId}','Common\CommonController@viewRevalOtherDocument')->name('view_reval_other_document');
+
 //NOC --CO Department routes
 
 Route::get('co_noc_applications','CODepartment\COController@nocApplicationList')->name('co_applications.noc');

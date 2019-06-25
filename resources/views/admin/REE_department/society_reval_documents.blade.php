@@ -35,9 +35,9 @@
                                         <td>{{(isset($data->name) ? $data->name : '')}}
                                         </td>
                                         <td class="text-center">
-                                            @if(isset($data->reval_documents->society_document_path))
+                                            @if(isset($data->reval_documents->society_document_path)) 
                                                 @if($data->is_other == 1) 
-                                                    <a href="" class="app-card__details mb-0 btn-link" style="font-size: 14px">View</a>
+                                                    <a href="{{ route('view_reval_other_document',[encrypt($ol_application->id),encrypt($data->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px">View</a>
                                                 @else
                                                 <a href="{{ asset($data->reval_documents->society_document_path) }}" target="_blank">
                                                     <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
@@ -49,10 +49,7 @@
                                             @endif
                                         </td>
                                     </tr>
-
-                                    @php
-                                        $i++;
-                                    @endphp
+                                    @php $i++; @endphp
                                 @endforeach
                                 </tbody>
                             </table>

@@ -72,6 +72,7 @@ use App\Http\Controllers\EmailMsg\EmailMsgConfigration;
 use App\OlNoDueCertificateQuestionMaster;
 use App\OlNoDueCertificateDetails;
 use App\OlTitBitSimulationValuesMaster;
+use App\RevalOlSocietyDocumentStatus;
 
 class CommonController extends Controller
 {
@@ -4784,15 +4785,46 @@ class CommonController extends Controller
         
         if (session()->get('role_name') == config('commanConfig.ree_branch_head') || session()->get('role_name') == config('commanConfig.ree_junior') || session()->get('role_name') == config('commanConfig.ree_assistant_engineer') || session()->get('role_name') == config('commanConfig.ree_deputy_engineer')){
 
-                $noc_application->folder = 'REE_department';
+                $folder = 'REE_department';
                 
         }elseif(session()->get('role_name') == config('commanConfig.co_engineer')){
-            $noc_application->folder = 'co_department';
+            $folder = 'co_department';
         }
 
         $noc_application->model = NocApplication::with(['noc_application_master'])->where('id',$applicationId)->first();
-        
-        return view('admin.common.view_noc_other_documents',compact('documents','noc_application'));
 
-    }  
+        $module = 'noc';
+        
+        return view('admin.common.view_other_documents',compact('documents','noc_application','folder','module'));
+
+    } 
+
+    // view Revalidation other documents on document view page
+    public function viewRevalOtherDocument($applicationId,$documentId){
+
+        $documentId = decrypt($documentId);
+        $applicationId = decrypt($applicationId);
+        $documents = RevalOlSocietyDocumentStatus::where('document_id',$documentId)
+        ->where('application_id',$applicationId)->orderBy('id','desc')->get();
+        $ol_application = $this->getOlApplication($applicationId);
+
+        if (session()->get('role_name') == config('commanConfig.ree_branch_head') || session()->get('role_name') == config('commanConfig.ree_junior') || session()->get('role_name') == config('commanConfig.ree_assistant_engineer') || session()->get('role_name') == config('commanConfig.ree_deputy_engineer')){
+
+                $folder = 'REE_department';
+                
+        }elseif(session()->get('role_name') == config('commanConfig.co_engineer')){
+            $folder = 'co_department';
+        }
+        elseif(session()->get('role_name') == config('commanConfig.cap_engineer')){
+            $folder = 'cap_department';
+        }
+        elseif(session()->get('role_name') == config('commanConfig.vp_engineer')){
+            $folder = 'vp_department';
+        }
+
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+        $module = 'reval';
+        
+        return view('admin.common.view_other_documents',compact('documents','ol_application','folder','module'));
+    } 
 }
