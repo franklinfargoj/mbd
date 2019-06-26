@@ -1175,7 +1175,7 @@ class conveyanceCommonController extends Controller
 
     public function getConveyanceRoles(){
 
-        $is_view = array(config('commanConfig.dycdo_engineer'),config('commanConfig.dyco_engineer'),config('commanConfig.ee_junior_engineer'),config('commanConfig.ee_branch_head'),config('commanConfig.ee_deputy_engineer'),config('commanConfig.estate_manager'),config('commanConfig.co_engineer'),config('commanConfig.joint_co'),config('commanConfig.legal_advisor'),config('commanConfig.junior_architect'),config('commanConfig.senior_architect'),config('commanConfig.architect'));
+        $is_view = array(config('commanConfig.dycdo_engineer'),config('commanConfig.dyco_engineer'),config('commanConfig.ee_junior_engineer'),config('commanConfig.ee_branch_head'),config('commanConfig.ee_deputy_engineer'),config('commanConfig.estate_manager'),config('commanConfig.co_engineer'),config('commanConfig.joint_co'),config('commanConfig.legal_advisor'),config('commanConfig.junior_architect'),config('commanConfig.senior_architect'),config('commanConfig.architect'),config('commanConfig.cdo_engineer'));
 
         return $is_view;
 
